@@ -175,6 +175,105 @@ result = agent.invoke({"input": "Identify diabetic patients overdue for HbA1c wi
 
 ---
 
+## Pattern 6: Spanish/Portuguese Ambient Documentation (LATAM)
+
+**Problem**: Latin American health systems need clinical documentation AI — no good open source solution for Spanish/Portuguese exists.
+
+**Stack**:
+- **Speech-to-text**: [openai/whisper](https://github.com/openai/whisper) (Apache-2.0) — multilingual, runs on-premise, GPU optional
+- **Clinical NLP**: [medspacy/medspacy](https://github.com/medspacy/medspacy) (MIT) — extracts diagnoses, medications, symptoms
+- **LLM structuring**: Claude API (`claude-sonnet-4-6` or `claude-haiku-4-5` for cost) — generates structured SOAP note
+- **EHR integration**: [healthchainai/HealthChain](https://github.com/healthchainai/HealthChain) (Apache-2.0) — writes back to OpenEMR/FHIR
+- **On-prem AI (optional)**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0) — for clients who can't use cloud LLMs
+
+```python
+import whisper
+import medspacy
+import anthropic
+from healthchain.pipeline import Pipeline
+
+# 1. Transcribe encounter audio (Spanish)
+model = whisper.load_model("medium")  # multilingual
+transcript = model.transcribe(audio_file, language="es")["text"]
+
+# 2. Extract clinical entities from Spanish transcript
+nlp = medspacy.load()
+doc = nlp(transcript)
+entities = [(ent.text, ent.label_) for ent in doc.ents]  # Dx, Rx, symptoms
+
+# 3. Generate structured SOAP note in Spanish via Claude
+client = anthropic.Anthropic()
+response = client.messages.create(
+    model="claude-sonnet-4-6",
+    max_tokens=1024,
+    messages=[{
+        "role": "user",
+        "content": f"Genera una nota SOAP en español usando: {entities}\n\nTranscripción: {transcript}"
+    }]
+)
+soap_note = response.content[0].text
+
+# 4. Write to EHR via FHIR
+pipeline = Pipeline.from_engine("openemr")
+pipeline.add_note(patient_id, soap_note, note_type="progress")
+```
+
+**Timeline**: 6–10 weeks MVP (2 engineers)
+**Differentiator**: Spanish/Portuguese first; on-premise option for HIPAA/LGPD (Brazil) compliance
+
+---
+
+## Pattern 7: Wearable + Conversational Health Coach (Chronic Disease)
+
+**Problem**: Chronic disease management (diabetes, hypertension, obesity) requires continuous engagement at scale — traditional care can't provide it.
+
+**Stack**:
+- **Wearable data**: [the-momentum/open-wearables](https://github.com/the-momentum/open-wearables) (MIT) — unified API across Oura, Garmin, Whoop, Apple HealthKit
+- **Longitudinal agent**: [Institute4FutureHealth/CHA](https://github.com/Institute4FutureHealth/CHA) (MIT) — multi-session memory + external data integration
+- **Clinical context**: [medplum/medplum](https://github.com/medplum/medplum) (Apache-2.0) — patient record + care plan as FHIR resources
+- **AI backbone**: Claude API (`claude-haiku-4-5` for cost-efficient daily check-ins)
+- **Delivery**: WhatsApp Business API — meet LATAM patients where they are
+
+```python
+from cha import ConversationalHealthAgent
+import anthropic
+
+# Pull yesterday's wearable data
+wearable_data = open_wearables_client.get_daily_summary(
+    user_id=patient.id,
+    metrics=["steps", "sleep_score", "heart_rate_variability", "resting_hr"]
+)
+
+# Get care plan from FHIR
+care_plan = medplum_client.get_care_plan(patient_id)
+
+# Initialize agent with longitudinal memory
+agent = ConversationalHealthAgent(
+    patient_id=patient.id,
+    external_data_sources=["wearables", "fhir"],
+    memory_backend="postgresql"
+)
+
+# Generate personalized daily check-in
+response = agent.run(
+    context={
+        "wearable_summary": wearable_data,
+        "care_plan_goals": care_plan.goals,
+        "last_conversation": agent.get_session_history(days=7)
+    },
+    task="Genera un mensaje de seguimiento diario en español. "
+         "Referencia los datos de ayer. Pregunta sobre adherencia. Sé cálido, no clínico."
+)
+
+# Deliver via WhatsApp
+whatsapp_client.send_message(patient.phone, response.message)
+```
+
+**Timeline**: 12–16 weeks MVP (3 engineers + 1 clinical advisor)
+**Differentiator**: Spanish-first; WhatsApp delivery; longitudinal memory across sessions
+
+---
+
 ## Cross-Pattern Infrastructure Notes
 
 | Component | Recommended OSS | License | Notes |
