@@ -1,4 +1,14 @@
-# Trending Repositories — Gaming (2026-07-02)
+# Trending Repositories — Gaming (2026-07-02, updated)
+
+## 🔥 Breaking — 1 July 2026
+
+### Carbon Engine — EVE Online's Engine Goes Open Source
+**Repo:** [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon)
+**License:** MIT (majority of 20+ modules); Apache-2.0 and PSF for 2 specific sub-modules only
+**What's new:** Fenris Creations (formerly CCP Games' engine division) published the source code for Carbon on July 1, 2026 — the cross-platform engine powering EVE Online for 20+ years and the upcoming EVE Frontier. More than two dozen modular components are now public. This is the most significant AAA engine open-source release in history.
+**Globant angle:** First-mover opportunity to define "Carbon + AI NPC" patterns. The ecosystem is empty right now — no plugins, no community patterns yet. Publish a reference architecture with Claude API + Nakama and own this space before consultancies catch on.
+
+---
 
 ## Engine-Level
 

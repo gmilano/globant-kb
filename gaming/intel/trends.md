@@ -1,4 +1,12 @@
-# Industry Trends — AI in Gaming (2026)
+# Industry Trends — AI in Gaming (2026, updated 2026-07-02)
+
+## 🔥 Breaking Trend: AAA Engine Open-Source Wave
+
+**Signal (1 Jul 2026):** Fenris Creations open-sourced Carbon Engine (EVE Online, 20+ year production history) under MIT. Combined with NVIDIA's Godot path-tracing fork (GDC 2026, MIT) and COCOS 4 going fully MIT, three major engine releases hit open source in H1 2026.
+
+**Implication for Globant:** The "which engine" question now has a fourth serious answer beyond Godot/Unity/Unreal. Carbon's modular architecture and battle-tested AAA scale are unmatched in open source. Studio engagements can now propose Carbon as a differentiated foundation — especially for EVE-adjacent genres (space, sci-fi, MMO, simulation). First consultancy to publish a Carbon AI integration wins the mindshare.
+
+**Key tech:** [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon) (MIT), [godotengine/godot](https://github.com/godotengine/godot) (MIT), [o3de/o3de](https://github.com/o3de/o3de) (Apache-2.0).
 
 ## Trend 1: Generative AI as Standard in Asset Pipelines
 
