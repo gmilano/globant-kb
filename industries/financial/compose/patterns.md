@@ -144,3 +144,116 @@ Custom OpenBB plugins          ← proprietary data sources
 5. QuantLib prices any derivatives positions in the portfolio
 
 **Cost:** $0 licensing vs $24K+/year Bloomberg; add data vendor costs only for premium feeds
+
+---
+
+## Pattern 7: TradingAgents — Full Trading Firm as Software (2026 Reference Architecture)
+
+**Use case:** Proprietary trading desk, hedge fund, or fintech wanting a turnkey multi-agent trading system
+
+**Stack:**
+```
+TauricResearch/TradingAgents    ← multi-agent orchestration (LangGraph, Apache-2.0)
+OpenBB-finance/OpenBB           ← financial data via MCP server (live market data)
+hummingbot/hummingbot           ← trade execution layer (50+ CEX/DEX)
+ccxt/ccxt                       ← exchange connectivity (100+ exchanges)
+stefan-jansen/zipline-reloaded  ← historical backtesting before live deployment
+```
+
+**Wiring:**
+```python
+from tradingagents import TradingAgentsFramework
+
+# 1. Configure specialist agents (model per role for cost/quality tradeoff)
+framework = TradingAgentsFramework(
+    fundamental_analyst_llm="claude-sonnet-5",
+    sentiment_analyst_llm="claude-haiku-4-5",    # cheap + fast for high-frequency tasks
+    risk_manager_llm="claude-opus-4-8",           # most capable for risk decisions
+    trader_llm="claude-sonnet-5",
+    data_provider="openbb_mcp"                    # native tool call via MCP
+)
+
+# 2. OpenBB MCP server provides live data — no custom API wrappers needed
+# $ openbb mcp start --port 3001
+
+# 3. Backtest before going live
+from zipline import run_algorithm
+results = run_algorithm(
+    start=pd.Timestamp("2025-01-01"),
+    end=pd.Timestamp("2026-01-01"),
+    initialize=framework.zipline_initialize,
+    capital_base=100_000
+)
+
+# 4. Connect execution layer
+from hummingbot import HummingbotConnector
+executor = HummingbotConnector(
+    exchange="binance",  # or any CCXT exchange
+    paper_trading=True   # flip to False for live
+)
+```
+
+**Architecture flow:**
+```
+OpenBB MCP (live data)
+        ↓
+[Fundamental Analyst] [Sentiment Analyst] [Technical Analyst]
+        ↓                    ↓                    ↓
+    [Bull Agent] ←————→ [Bear Agent]  (structured debate)
+                    ↓
+            [Risk Manager]
+                    ↓
+         [Portfolio Manager → Decision]
+                    ↓
+    Hummingbot (execution) → CCXT (exchange)
+```
+
+**Estimated build time:** 4–6 weeks for paper-trading MVP; 8–12 weeks for live with monitoring
+**Client fit:** Proprietary trading desks, crypto trading firms, hedge funds
+**License:** Entire stack is Apache-2.0 / MIT — clean for client commercial products
+
+---
+
+## Pattern 8: AI Invoice & Receipt Extraction (SMB Bookkeeper)
+
+**Use case:** Banks or accounting firms offering AI-powered SMB bookkeeping as a service
+
+**Stack:**
+```
+akaunting/akaunting or odoo/odoo  ← accounting platform (webhook triggers)
+Claude claude-sonnet-5 (vision)   ← invoice/receipt extraction from image
+LangGraph                         ← orchestration for categorization + review
+Chroma                            ← historical vendor embeddings for dedup
+```
+
+**Wiring:**
+```python
+from anthropic import Anthropic
+import base64
+
+client = Anthropic()
+
+# Called via Akaunting webhook on document upload
+def extract_invoice(image_bytes: bytes) -> dict:
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": [
+                {"type": "image", "source": {"type": "base64",
+                 "media_type": "image/jpeg",
+                 "data": base64.b64encode(image_bytes).decode()}},
+                {"type": "text", "text": "Extract: vendor name, date, line items, "
+                 "total, tax, currency. Return JSON."}
+            ]
+        }]
+    )
+    return json.loads(response.content[0].text)
+
+# Post back to Akaunting REST API
+requests.post(f"{AKAUNTING_URL}/api/bills", json=invoice_data, headers=auth_headers)
+```
+
+**Estimated build time:** 3–4 weeks for invoice AI + basic chat interface
+**Client fit:** Banks offering SMB services, accounting firms, LATAM SMB platforms

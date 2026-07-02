@@ -58,7 +58,33 @@ Financial services embedded in non-financial products, powered by AI:
 - Insurance underwriting via real-time data agents
 - Credit scoring using alternative data (social, behavioral)
 
-## Market Size
-- AI in financial services: $38.36B (2024) → $190.33B (2030)
-- VC into AI fintech: $2.1B in Q1 2026 alone
-- AI-driven automation could reduce operating costs by 20% for institutions that fully operationalize it
+## Trend 8: MCP as the Financial Data Bus (New in 2026)
+
+OpenBB now exposes its entire data layer as an **MCP (Model Context Protocol) server**. Any Claude, GPT, or open model can call live market data, fundamentals, and economic indicators as **native tool calls** — no custom API wrappers. This makes building financial AI agents dramatically simpler.
+
+Expected to spread: financial data providers (Bloomberg API, Refinitiv) will likely expose MCP endpoints in 2026-2027. This becomes the universal data connectivity layer for financial agents.
+
+## Trend 9: Multi-Agent Debate as the Standard Trading Architecture
+
+TradingAgents (90k★) and ai-hedge-fund (60k★) independently converged on the same model in 2026:
+```
+Specialist analysts (fundamental / sentiment / technical) → 
+Bull ←→ Bear structured debate →
+Risk Manager review →
+Final trading decision
+```
+This pattern is now the *de facto* reference architecture. Commercial trading platforms are adopting it.
+
+## Market Size & Key Numbers (2026)
+| Metric | Value |
+|--------|-------|
+| AI in financial services (2024) | $38.36B |
+| AI in financial services (2030 projected) | $190.33B |
+| AI agents in financial services market (2026) | $1.96B |
+| AI agents in financial services market (2035 projected) | $6.53B |
+| VC into AI fintech (Q1 2026) | $2.1B |
+| Finance teams adopting agentic AI in 2026 | 44% |
+| PE firms with agentic AI plans | 95% |
+| Estimated cost savings from agentic AI | ~25% |
+| TradingAgents GitHub stars | 90.4k |
+| ai-hedge-fund GitHub stars | 60.7k |
