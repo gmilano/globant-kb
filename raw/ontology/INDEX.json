@@ -1,0 +1,65 @@
+{
+  "concepts": [
+    "Globant Intelligence",
+    "estrategia",
+    "competidores",
+    "clientes",
+    "productos",
+    "posicionamiento de mercado"
+  ],
+  "entities": [
+    {
+      "name": "Globant",
+      "type": "org",
+      "description": "Empresa de tecnología que ofrece servicios de desarrollo de software."
+    },
+    {
+      "name": "Gastón Milano",
+      "type": "person",
+      "description": "Mantenedor de la Knowledge Base."
+    },
+    {
+      "name": "Wany AI",
+      "type": "org",
+      "description": "Organización que colabora en la gestión de la Knowledge Base."
+    }
+  ],
+  "relations": [
+    {
+      "from": "Globant Intelligence",
+      "relation": "enables",
+      "to": "estrategia"
+    },
+    {
+      "from": "Globant Intelligence",
+      "relation": "enables",
+      "to": "competidores"
+    },
+    {
+      "from": "Globant Intelligence",
+      "relation": "enables",
+      "to": "clientes"
+    },
+    {
+      "from": "Globant Intelligence",
+      "relation": "enables",
+      "to": "productos"
+    },
+    {
+      "from": "Globant Intelligence",
+      "relation": "enables",
+      "to": "posicionamiento de mercado"
+    }
+  ],
+  "domain": "enterprise",
+  "maturity": "stable",
+  "tags": [
+    "inteligencia",
+    "estrategia",
+    "competencia",
+    "productos"
+  ],
+  "method": "llm",
+  "source": "wiki/INDEX.md",
+  "updated": "2026-07-03T17:05:05.295387"
+}
