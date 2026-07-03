@@ -1,70 +1,77 @@
-# Market Intelligence — Technology Industry AI
+# 🗺️ Market Map — Technology Industry AI
 
-> Key players, market map, and competitive landscape as of 2026-07-02
+> Key players, market size, opportunities. Focus: LATAM + global.
+> Last updated: 2026-07-03
 
 ## Market Size
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| Global AI agent market (2025) | $7.84 billion | Industry reports |
-| Projected AI agent market (2030) | $52.62 billion | CAGR 46.3% |
-| AI in software development market | $30B+ by 2028 | Gartner |
-| % of enterprise code written by AI (Google/Microsoft) | 25–30% | Company disclosures |
-| Developer tools AI adoption (2026) | 65%+ of dev teams using AI coding tools | Surveys |
-| Enterprises with AI coding assistant mandate | 40% | Gartner 2026 |
+| AI Coding Agents market size (2026) | $12.8B | Multiple analyst reports |
+| Projected market size (2032) | $30.1B | 27% CAGR |
+| AI Code Tools market alt estimate | $9.35B (2026) → $29.96B (2031) | Mordor Intelligence, 26.23% CAGR |
+| Enterprise AI Coding Agents (annualized) | ~$9.8B–$11B (Apr 2026) | Gartner |
+| YoY market growth 2025→2026 | 65% | Industry reports |
+| AI Agents market (broader, all industries) | $7.84B (2025) → $52.62B (2030) | MarketsAndMarkets, 46.3% CAGR |
+| AI-related repos on GitHub | 4.3 million (178% YoY jump in LLM repos) | GitHub Octoverse 2025 |
 
-## Key Players Map
+## Developer Adoption Statistics
 
-### Closed/Commercial AI Coding Agents
+| Metric | Value |
+|--------|-------|
+| Developers using AI coding tools | 85% |
+| Using AI tools regularly (daily/weekly) | 73% |
+| Professional devs using AI daily | 51% |
+| Average time saved per developer/week | 3.6 hours |
+| Productivity lift (common coding tasks) | 20–55% |
+| Enterprise productivity gain (net avg) | 19.3% (Gartner) |
+| Engineering leaders reporting improvements | 90% |
+| Gartner prediction: devs using AI coding agents by 2028 | 75% (up from <10% in 2023) |
+| Enterprise apps with task-specific AI agents by end 2026 | 40% (Gartner) |
 
-| Vendor | Product | Model | Position |
-|--------|---------|-------|----------|
-| Anthropic | **Claude Code** | Claude 3.5+ | CLI coding agent; ranked #1 on SWE-bench verified; preferred by professional engineers |
-| OpenAI | **Codex / o3** | GPT-4o, o3 | Codex API for enterprise; GitHub Copilot backend |
-| GitHub/Microsoft | **GitHub Copilot** | GPT-4o + Claude | 1.8M+ paid users; IDE integration dominant |
-| Google | **Gemini Code Assist** | Gemini 2.0 | Enterprise GCP focus; ADK integration |
-| Cursor | **Cursor** | Multi-model | $400M ARR by 2026; fastest-growing dev tool startup |
-| Cognition AI | **Devin** | Proprietary | First "AI software engineer" product; SWE-bench benchmark setter |
+## Global Players
 
-### Open Source Alternatives (Globant's Opportunity)
+| Company | Type | Strength | Weakness | Open Source? |
+|---------|------|----------|----------|--------------|
+| GitHub Copilot (Microsoft) | Commercial | VSCode integration, 2M+ paid users, Copilot Workspace (multi-file) | Proprietary, per-seat cost, vendor lock-in | No |
+| Cursor | Commercial | Best AI IDE experience, strong developer NPS | Proprietary, closed, expensive at scale | No |
+| OpenHands (All Hands AI) | Open Source | Best open-source autonomous agent, SWE-bench leader, $18.8M Series A | Requires infra to run, GPU-hungry for best models | Yes (MIT) |
+| LangChain/LangGraph | Open Source | Largest agent framework ecosystem, enterprise adoption | Complexity, rapid API churn in early versions | Yes (MIT) |
+| CrewAI | Open Source + Commercial | Easiest multi-agent setup, 5.2M monthly downloads | Less production-battle-tested than LangGraph | Yes (MIT) |
+| Microsoft AutoGen | Open Source | Enterprise backing, strong async multi-agent | Microsoft ecosystem bias, complex setup | Yes (MIT) |
+| Google ADK | Open Source | A2A protocol leadership, Vertex AI integration | Google ecosystem bias | Yes (Apache-2.0) |
+| HuggingFace | Open Source | Model hub, smolagents, open-weight LLMs | Framework less mature than LangChain | Yes (Apache-2.0) |
+| Dify | Open Source + Commercial | Most complete LLMOps platform, massive community | Self-hosting complexity at scale | Yes (Apache-2.0) |
+| Anthropic (Claude Code) | Commercial | Leading agentic coding (30% faster at TELUS, 500k+ hours saved) | Proprietary API cost | Partial (Claude Code CLI MIT) |
 
-| Open Source | Competes With | License | Differentiator |
-|-------------|--------------|---------|----------------|
-| OpenHands | Devin | MIT | Self-hostable; pluggable models; Docker sandbox |
-| Aider | GitHub Copilot (agent mode) | Apache 2.0 | Git-native; 100+ LLM backends; SWE-bench leader among OSS |
-| Cline | Cursor | Apache 2.0 | VS Code extension; model-agnostic; client-side control |
-| Tabby | GitHub Copilot Business | Apache 2.0 | Self-hosted; enterprise SSO; private codebase RAG |
-| CrewAI | OpenAI Swarms | MIT | 52k stars; 5M downloads; most deployed multi-agent framework |
+## LATAM Opportunities
 
-## Funding & Investment Landscape (2026)
+### Where Globant Can Win
 
-| Company | Funding | Valuation | What It Signals |
-|---------|---------|-----------|-----------------|
-| Cursor | $900M+ | $9B+ | Developer tools AI is a $10B+ market |
-| Cognition (Devin) | $175M | $2B | Enterprise appetite for autonomous coding agents |
-| CrewAI Inc. | $18M Series A | N/A | Multi-agent frameworks attracting VC |
-| Dify | $40M Series A | N/A | LLMOps platform becoming enterprise standard |
-| Cohere | $500M+ | $5B | Enterprise LLM inference market consolidating |
+1. **Nearshore AI Development Teams**: LATAM software firms facing AI disruption. Help them augment (not replace) with AI coding agents. Build on OpenHands + LangGraph.
 
-## Globant Competitive Position
+2. **Enterprise Platform Modernization**: Large LATAM enterprises (banking, retail, government) running legacy ERP/CRM. Layer AI agents over Odoo/SAP data. Argentina, Brazil, Colombia markets.
 
-**Where Globant wins vs. product companies:**
-- Custom AI-native SDLC toolchains integrated into client dev teams
-- Enterprise-specific fine-tuning and RAG over proprietary codebases
-- Multi-agent systems that span dev + QA + DevOps (not just coding)
-- On-prem / private cloud deployments where SaaS tools are excluded
+3. **Internal Developer Platforms (IDPs)**: LATAM tech companies scaling dev teams. Build Backstage-based portals with AI assistants in Spanish/Portuguese. 
 
-**Where Globant should partner (not build):**
-- Base LLM inference (Anthropic, OpenAI, Google APIs)
-- IDE plugins (extend Continue or Cline rather than building from scratch)
-- Vector databases (Qdrant, Pinecone — infrastructure layer)
+4. **Open Source First Mandates**: Several LATAM governments now mandate open source for public sector software. Gitea + OpenHands + Dify stack satisfies procurement requirements.
 
-## Client Segments
+5. **AI Testing & QA Automation**: 20-40% of software projects in LATAM still manual QA. SWE-agent + OpenHands for automated test generation = high-value low-risk entry.
 
-| Segment | AI Maturity | Primary Need | Globant Entry Point |
-|---------|-------------|--------------|---------------------|
-| Tech startups | High | Ship faster with fewer engineers | OpenHands + CrewAI for autonomous feature dev |
-| Enterprise ISVs | Medium | AI features in existing products | LangChain integration + Langfuse observability |
-| SaaS companies | High | AI-native product redesign | LangGraph agentic flows + MCP server exposure |
-| Non-tech enterprises (IT dept) | Low | Internal productivity | Tabby (self-hosted coding assistant) + Dify (no-code AI) |
-| Platform teams | Medium | AI DevOps + AIOps | OpenHands PR agent + Drone CI + Netdata anomaly detection |
+### Key LATAM Markets
+
+| Country | Opportunity | Stack Fit |
+|---------|-------------|-----------|
+| Brazil | Largest tech market, fintech hub, AI adoption highest in region | Full stack — LangGraph + OpenHands + Langfuse |
+| Argentina | Strong developer talent, cost-sensitive (prefer open source over SaaS) | Ollama + local vLLM + OpenHands (avoid per-token costs) |
+| Colombia | Growing tech export sector, government digitization mandates | Backstage IDP + Gitea + open source stack |
+| Mexico | Nearshore hub for US clients, enterprise software demand | Dify + CrewAI for rapid client POC delivery |
+| Chile | Mature enterprise IT, financial sector AI readiness | LangGraph + Langfuse for auditability |
+
+## Globant Positioning
+
+- **Strength**: Can build and deliver full AI augmentation stacks using all open source components
+- **Differentiator**: Combine Globant domain expertise (gaming, media, retail) with AI coding agents — build faster than any competitor
+- **Price point**: Open source stack means no per-seat tool licensing — pass savings to client, margin to Globant
+- **Entry wedge**: Start with AI code review and test generation (SWE-agent + GitHub Actions) — low risk, measurable ROI in week 1
+- **Scale play**: Extend to full autonomous dev teams (OpenHands multi-agent) — 10x output per engineer

@@ -1,25 +1,51 @@
-# Foundational Repos — Technology Industry
+# 🏗️ Foundation Repos — Technology Industry
 
-> The bedrock open-source projects every technology AI initiative should know
+> The bedrock open source projects to build AI solutions on top of.
+> All MIT, Apache-2.0, or MPL — commercially safe for Globant engagements.
+> Last updated: 2026-07-03
 
-| # | Repo | License | Stars | Role |
-|---|------|---------|-------|------|
-| 1 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 12k+ | Graph-based stateful agent orchestration; the production standard for building multi-step AI pipelines with retries, human-in-the-loop checkpointing, and streaming; used across all technology verticals |
-| 2 | [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 95k+ | Core LLM framework; provides the tool ecosystem, prompt templates, memory backends, and vector store integrations that power most AI applications; 95k GitHub stars makes it the most starred AI framework |
-| 3 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52k+ | Multi-agent crew orchestration; define specialist agents with roles and let them collaborate on tasks; 5.2M monthly downloads — the dominant multi-agent framework as of 2026 |
-| 4 | [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 42k+ | Microsoft's conversational multi-agent framework; agents communicate through structured dialogue to solve complex programming and reasoning tasks; production-ready with Studio UI |
-| 5 | [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | 68k+ | Autonomous coding agent platform with sandboxed runtime; executes terminal commands, edits files, browses the web, and runs tests inside Docker; the open-source Devin replacement |
-| 6 | [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | Apache 2.0 | 41k+ | CLI git-integrated coding agent; maps repo structure, edits files, auto-commits; top SWE-bench scores; supports 100+ LLMs including local models via Ollama |
-| 7 | [ollama/ollama](https://github.com/ollama/ollama) | MIT | 165k+ | Local LLM server; run Llama 3, Qwen 2.5, DeepSeek, Mistral, and 100+ models locally with a simple API; the foundation for all local/private AI deployment |
-| 8 | [TabbyML/tabby](https://github.com/TabbyML/tabby) | Apache 2.0 | 33k+ | Self-hosted AI coding assistant server; enterprise-grade with SSO, RBAC, telemetry, and RAG over internal codebase via code graph indexing |
-| 9 | [continuedev/continue](https://github.com/continuedev/continue) | Apache 2.0 | 31k+ | Open-source AI code assistant for VS Code and JetBrains; configurable LLM backend, slash commands, inline completions, and codebase context |
-| 10 | [geekan/MetaGPT](https://github.com/geekan/MetaGPT) | MIT | 50k+ | Multi-agent software company framework; Product Manager + Architect + Engineer + QA agents collaborate to produce working code from a plain-English spec |
+## Agent Frameworks & Orchestration
 
-## Selection Rationale
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | ~100k | Core LLM application framework. Chains, tools, memory, retrievers. The lingua franca of LLM development. | Any LLM app, RAG systems, tool-calling agents |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~12.8k | Graph-based stateful agent orchestration. Production standard for complex multi-step agents. | Enterprise agents needing audit trails and rollback |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~52k | Role-based multi-agent framework. Define agent roles, goals, backstory; wire into crews. | Multi-agent teams, role-based automation |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~42k | Conversational multi-agent framework. Agents talk to each other to solve tasks. | Human-in-the-loop workflows, agentic conversations |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27.7k | Code-first agents — LLM writes Python to complete tasks. Sandboxed execution. | Open-weight model agents, research workflows |
 
-- **Agent orchestration**: LangGraph (complex stateful flows with cycles and retries) or CrewAI (role-based crews for parallel tasks) — both MIT, both production-proven.
-- **Local-first LLM runtime**: Ollama (MIT, 165k stars) is the undisputed standard for private local inference; any enterprise requiring data residency should start here.
-- **Coding agents**: OpenHands for autonomous multi-step feature implementation; Aider for CLI/git-integrated pair programming; Tabby for the always-on self-hosted assistant.
-- **Framework breadth**: LangChain (95k stars, MIT) provides the widest ecosystem of tools, memory backends, and integrations — still the default for RAG and tool-calling applications.
-- **Multi-agent simulations**: MetaGPT (MIT, 50k stars) is the only framework that simulates a full software team — use for greenfield prototype generation from requirements.
-- **License posture**: All 10 are MIT or Apache 2.0, making them commercially safe for Globant client deliverables without copyleft restrictions.
+## LLM Infrastructure & Serving
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [vllm-project/vllm](https://github.com/vllm-project/vllm) | Apache-2.0 | ~45k | High-throughput memory-efficient LLM serving engine. PagedAttention for ~24x throughput vs HuggingFace. | On-premise/private LLM serving, batch inference |
+| [BerriAI/litellm](https://github.com/BerriAI/litellm) | MIT | ~22k | Universal LLM gateway — 100+ providers (OpenAI, Anthropic, Bedrock, Azure, local) in one API. Cost tracking, load balancing, guardrails. | Multi-provider LLM routing, enterprise cost control |
+| [ollama/ollama](https://github.com/ollama/ollama) | MIT | ~120k | Run LLMs locally in one command. macOS, Linux, Windows. REST API + CLI. | Local dev, air-gapped deployments, demos |
+| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~28k | Memory layer for AI agents. Persistent, intelligent memory across sessions. User/agent/session scopes. | Any stateful AI agent needing memory between interactions |
+
+## LLMOps & Observability
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | ~28k | LLM observability platform. Traces, evals, prompt versioning, datasets. Self-hostable. The open source LangSmith. | All production AI apps — monitoring, debugging, eval |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | Full-stack LLMOps platform: visual builder + RAG + agents + monitoring. 50+ LLM providers, 10k+ app templates. | Rapid prototyping, no/low-code AI apps for clients |
+
+## Autonomous Coding Agents
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | ~78.5k | Autonomous coding agent. Edits files, runs commands, browses web in sandboxed env. SWE-bench leading OSS score. | Software development automation, CI self-healing |
+| [SWE-agent/SWE-agent](https://github.com/SWE-agent/SWE-agent) | MIT | ~15k | Automated software engineer from Princeton. ACI (Agent-Computer Interface) standardizes agent-tool interaction. | Bug fixing automation, code review, SWE-bench evals |
+| [Aider-AI/aider](https://github.com/Aider-AI/aider) | Apache-2.0 | ~26k | Git-aware AI pair programmer. Terminal-based, any LLM. Auto-commits with descriptive messages. | Developer productivity augmentation, code editing agents |
+
+## DevOps & Platform Engineering
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~29k | Developer portal framework (Spotify). Centralize services, APIs, docs, runbooks. Plugin ecosystem with AI add-ons. | Internal Developer Platforms (IDPs) with AI layer |
+| [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | ~24k | Open source Terraform fork (Linux Foundation). Full Terraform HCL compatibility. IaC for any cloud. | Cloud infra provisioning when Terraform BSL is a concern |
+| [crossplane/crossplane](https://github.com/crossplane/crossplane) | Apache-2.0 | ~9.8k | Kubernetes-native infrastructure provisioning. CNCF Graduated (Nov 2025). Multi-cloud control plane. | Platform engineering teams offering self-service infra |
+| [argoproj/argo-cd](https://github.com/argoproj/argo-cd) | Apache-2.0 | ~18k | GitOps continuous delivery for Kubernetes. Declarative, auditable, rollback-capable. | Kubernetes CD pipelines, agent-driven deployment automation |
+
+---
+*See also: `verticals/solutions.md` for full vertical platforms.*

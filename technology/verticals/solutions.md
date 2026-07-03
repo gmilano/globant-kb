@@ -1,42 +1,46 @@
-# Vertical Solutions — Technology Industry
+# 🏭 Vertical Solutions — Technology Industry
 
-> Real platforms with open-source cores that Globant can build AI on top of
+> Full vertical platforms that can be customized with AI layers on top.
+> Model: start with something functional, add agentic intelligence above it.
+> Last updated: 2026-07-03
 
-## Developer Tooling & DevOps Platforms
+## Recommended Platforms
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Gitea** | [go-gitea/gitea](https://github.com/go-gitea/gitea) | MIT | Self-hosted GitHub alternative; full Git hosting, PR reviews, CI integration, issue tracking | AI code review agent on every PR (connect Aider/OpenHands to Gitea webhooks); automated issue triage agent; AI-generated release notes |
-| **Drone CI** | [harness/drone](https://github.com/harness/drone) | Apache 2.0 | Lightweight CI/CD for containerized pipelines; YAML-first configuration | AI pipeline optimizer that rewrites CI YAML for speed; failed-build diagnosis agent that reads logs and proposes fixes; LLM-generated pipeline from `package.json` |
-| **Netdata** | [netdata/netdata](https://github.com/netdata/netdata) | GPL-3.0 | Real-time infrastructure monitoring with 3k+ metrics collected per node | AI anomaly detection agent on top of Netdata streaming API; LLM-powered incident narrative generation from metric spikes |
-| **Casdoor** | [casdoor/casdoor](https://github.com/casdoor/casdoor) | Apache 2.0 | Open-source SSO/OAuth identity platform | AI-assisted role mapping from org chart; anomalous login detection agent; automated access review agent |
+| Platform | License | Repo | Stack | Use Case | AI Extension Point |
+|----------|---------|------|-------|----------|--------------------|
+| [Backstage](https://backstage.io) | Apache-2.0 | [backstage/backstage](https://github.com/backstage/backstage) | TypeScript, React, Node | Internal Developer Portal — service catalog, API docs, runbooks | Add AI assistant plugin: NL queries over service catalog, AI-generated runbooks, incident root cause analysis |
+| [Gitea](https://gitea.io) | MIT | [go-gitea/gitea](https://github.com/go-gitea/gitea) | Go | Self-hosted Git service (GitHub alternative). Lightweight, fast, 40k+ stars. | Add AI code review agent (OpenHands/SWE-agent) as Gitea webhook handler. Auto-triage issues. |
+| [n8n](https://n8n.io) | Source-available ELv2 | [n8n-io/n8n](https://github.com/n8n-io/n8n) | TypeScript, Vue | Workflow automation — 400+ integrations, visual builder | Native AI nodes: LLM calls, AI agents, vector stores. Build agentic automation on existing n8n flows. |
+| [Grafana](https://grafana.com) | AGPL-3.0 | [grafana/grafana](https://github.com/grafana/grafana) | Go, TypeScript | Observability dashboards. Metrics, logs, traces. Industry standard. | AI anomaly detection plugin, NL query interface ("show me errors from the auth service last hour"), alert summarization |
+| [Supabase](https://supabase.com) | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | TypeScript, Go, Postgres | Open source Firebase — database, auth, storage, realtime, edge functions | Native pgvector support: RAG, semantic search. AI-ready backend for any app. 80k+ stars. |
+| [Dify](https://dify.ai) | Apache-2.0 | [langgenius/dify](https://github.com/langgenius/dify) | Python, TypeScript | LLMOps platform — RAG + agents + monitoring | Starting point for any client AI app. Customize workflows, add domain tools, white-label UI. |
+| [Gitpod](https://gitpod.io) | AGPL-3.0 | [gitpod-io/gitpod](https://github.com/gitpod-io/gitpod) | TypeScript, Go | Cloud development environments. Browser-based VSCode with workspace automation. | Add AI coding agent (Aider/OpenHands) to workspace init. Pre-warm AI context with codebase docs. |
+| [Harbor](https://goharbor.io) | Apache-2.0 | [goharbor/harbor](https://github.com/goharbor/harbor) | Go | Enterprise container registry — security scanning, RBAC, replication | AI-driven vulnerability triage agent: scan reports → priority ranking → automated ticket creation |
+| [Twenty CRM](https://twenty.com) | AGPL-3.0 | [twentyhq/twenty](https://github.com/twentyhq/twenty) | TypeScript, React | Modern open source CRM, Salesforce alternative. Metadata-driven, API-first. | AI sales agent: auto-enrich contacts, draft emails, predict churn, summarize deal history. 45k+ stars. |
+| [Odoo](https://odoo.com) | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python, JavaScript | Full ERP + CRM suite. Modules for HR, accounting, inventory, sales. 40k+ stars. | AI procurement agent, AI HR assistant, document AI for invoices. Use Odoo as data backbone, layer agents on top. |
 
-## Developer Platforms / Internal Tools
+## How to Add AI to These Platforms
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Appsmith** | [appsmithorg/appsmith](https://github.com/appsmithorg/appsmith) | Apache 2.0 | Low-code internal tool builder; drag-and-drop UI over any API/DB | AI widget that embeds LangChain queries into Appsmith dashboards; natural language query UI widget backed by Text2SQL agent |
-| **Tooljet** | [ToolJet/ToolJet](https://github.com/ToolJet/ToolJet) | AGPL-3.0 | Low-code internal app builder; 50+ data source connectors | AI form autofill agent using company data; LLM-powered data transformation component |
-| **Twenty (CRM)** | [twentyhq/twenty](https://github.com/twentyhq/twenty) | MIT | Modern open-source CRM with native MCP server; AI-agent-ready data layer | AI sales agent (Claude/GPT via MCP) that reads deal pipeline, drafts follow-ups, qualifies leads; 45.5k stars in 2026 |
-| **Plane** | [makeplane/plane](https://github.com/makeplane/plane) | AGPL-3.0 | Open-source Linear/Jira alternative; project management | AI issue description generator; sprint planning agent that estimates story points from codebase analysis; automated dependency detection |
+### Pattern A: Webhook Agent
+1. Platform emits event (PR opened, alert triggered, ticket created)
+2. Webhook hits your AI orchestrator (LangGraph/CrewAI)
+3. Agent analyzes context, takes action (comments, patches, escalates)
+4. Result written back via platform API
 
-## LLM Infrastructure & MLOps
+### Pattern B: AI Plugin/Extension
+1. Build platform-native plugin (Backstage plugin, Grafana plugin, Gitea webhook)
+2. Plugin calls LLM API or local vLLM endpoint
+3. Results rendered in platform native UI
+4. Zero friction for developers — AI inside the tool they already use
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Ollama** | [ollama/ollama](https://github.com/ollama/ollama) | MIT | Self-hosted local LLM server; the foundation of all private AI deployments | Deploy Ollama as the inference backend for all client-facing AI features; combine with Tabby for private coding assistant; wrap in OpenAI-compatible API for drop-in replacement |
-| **LiteLLM** | [BerriAI/litellm](https://github.com/BerriAI/litellm) | MIT | Universal LLM proxy with OpenAI-compatible API; routes to 100+ providers | Model gateway for multi-vendor AI deployments; A/B testing different models; cost tracking and rate limiting across the team |
-| **Langfuse** | [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | Open-source LLM observability, tracing, and evaluation platform | Monitor all AI agent calls in production; detect prompt injection, measure latency, track cost per feature; self-hostable for enterprise |
-| **Qdrant** | [qdrant/qdrant](https://github.com/qdrant/qdrant) | Apache 2.0 | High-performance vector database for embedding search | RAG knowledge bases for coding assistants (codebase search, documentation Q&A); semantic search over internal wikis and runbooks |
-| **Dify** | [langgenius/dify](https://github.com/langgenius/dify) | Apache 2.0 | LLMOps platform: RAG pipeline + agent builder + workflow + monitoring | One-stop AI app platform for teams without ML expertise; 144k stars — the most-starred LLMOps platform |
+### Pattern C: LLMOps Wrapper (Dify)
+1. Deploy Dify with platform data sources (Gitea API, Grafana metrics, Supabase DB)
+2. Configure RAG over platform docs/runbooks
+3. Expose conversational interface to developers
+4. Log everything in Langfuse for continuous improvement
 
-## Platform Selection Guide
-
-| Scenario | Recommended Stack |
-|----------|------------------|
-| Enterprise client wants internal coding assistant | Tabby (self-hosted) + Continue (VS Code) + Qdrant (codebase RAG) + Langfuse (observability) |
-| Client needs AI-powered DevOps | Gitea (hosting) + Drone CI + OpenHands (PR agent) + LangGraph (pipeline orchestration) |
-| Build internal tool with AI features | Appsmith or Twenty + LiteLLM gateway + LangChain agent + Langfuse tracing |
-| Client wants private ChatGPT | Lobe-chat (self-hosted UI) + Ollama (local models) + Qdrant (document RAG) |
-| Greenfield AI-native app | Dify (full LLMOps) + CrewAI (multi-agent logic) + Langfuse (monitoring) |
-| Tech startup needs CRM + AI | Twenty (MIT CRM with MCP server) + Claude/GPT via MCP + LangGraph for complex workflows |
+### Pattern D: SDK Integration (OpenHands SDK)
+1. Integrate OpenHands software-agent-sdk into CI/CD pipeline
+2. On test failure: agent reads logs, identifies root cause, proposes fix
+3. Human approves → auto-commit and re-run
+4. Full audit trail in Langfuse

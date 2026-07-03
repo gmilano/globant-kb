@@ -1,75 +1,94 @@
-# Industry Trends — Technology AI
+# 📡 Trends — Technology Industry AI (2026-07-03)
 
-> Current signals and strategic direction as of 2026-07-02
+> What's shaping software development, DevOps, and platform engineering in mid-2026.
 
-## Top Trends
+## Macro Trend: The Agentic Coding Shift
 
-### 1. Agentic AI Is the New SDLC
-2026 is the inflection year for AI in software development. AI has moved beyond autocomplete (GitHub Copilot v1) to autonomous coding agents that plan, implement, test, and deploy features. Google and Microsoft report 25–30% of production code now originates from AI. Gartner predicts 40% of enterprise apps will feature task-specific AI agents by end of 2026.
+The defining shift of 2026 in software development is the move from **AI pair programming** (Copilot, Cursor — prompt → single response) to **autonomous AI agents** that run for minutes or hours, plan multi-step tasks, edit multiple files, run tests, fix failures, and loop until done.
 
-**Implication for Globant**: Positioning as "AI-first delivery" is no longer marketing — clients expect AI in the SDLC. Proof: Cursor ($9B valuation) grew from zero to $400M ARR purely on developer AI tooling.
+**The numbers**: Engineers using agentic tools report the same time per task but 10x the output volume. At TELUS, Claude Code shipped engineering code **30% faster** while saving **500,000+ hours**, averaging 40 minutes saved per AI interaction. Gartner: 40% of enterprise apps will feature task-specific AI agents by end of 2026.
 
-### 2. "Vibe Engineering" and Intent-to-Code
-AI engineering has evolved to "vibe engineering" — developers describe intent in high-level natural language and agents produce engineering-grade outputs (analysis → plan → tests → code → docs). This is distinct from code generation: the agent handles the full development lifecycle artifact set.
+---
 
-**Key tools**: MetaGPT (full lifecycle from spec), Plandex (plan-first multi-file changes), OpenHands (autonomous execution), Claude Code (highest SWE-bench scores).
+## Trend 1: Multi-Agent Software Teams
+**What**: Instead of one AI assistant, teams are deploying specialized agent crews:
+`Planner → Architect → Implementer → Tester → Reviewer`
 
-### 3. Multi-Agent Control Planes Are Becoming Real
-The shift from single-agent assistants to coordinated multi-agent systems is underway. In 2026, teams deploy agent meshes: specialized agents for code review, testing, dependency updates, security scanning, and documentation — all coordinated by an orchestrator.
+Each agent has a role, tools, and context. They hand off work via structured outputs.
 
-**Protocols**: MCP (Model Context Protocol) and A2A (Agent-to-Agent, Google) are emerging as the interoperability standards for multi-agent systems. Companies exposing their platforms via MCP servers (Twenty CRM, Gitea, Jira connectors) gain an integration advantage.
+**Why it matters**: Matches how human teams already work. Decomposing tasks by role means each agent can be independently optimized (different models for planning vs. coding vs. testing).
 
-**Key frameworks**: LangGraph (stateful orchestration), CrewAI (role-based crews), AutoGen (conversational multi-agent), Google ADK (cloud-native).
+**Key repos**: [CrewAI](https://github.com/crewAIInc/crewAI), [AutoGen](https://github.com/microsoft/autogen), [LangGraph](https://github.com/langchain-ai/langgraph)
 
-### 4. Local-First AI Infrastructure Winning Enterprise
-Privacy, cost, and latency concerns are driving enterprise adoption of local/private LLM deployments:
-- **Ollama** (MIT, 165k stars) is the de facto standard for local model serving
-- **Tabby** (Apache 2.0, 33k stars) for self-hosted coding assistants with enterprise auth
-- **LiteLLM** for model routing — letting orgs switch between local and cloud models seamlessly
-- Meta Llama 3 70B and Qwen 2.5-72B now match GPT-4-level coding performance locally
+**Globant action**: Define Globant's canonical "AI Dev Squad" crew — parameterized templates per client stack (React, Java Spring, Python/FastAPI) deliverable in 2 weeks.
 
-**Key stat**: 65% of enterprise tech teams require on-prem or VPC deployment for AI coding tools.
+---
 
-### 5. SWE-Bench as the Universal Evaluation Standard
-SWE-bench (MIT, Princeton) has become the industry-standard benchmark for autonomous code editing. Any serious coding agent claims a SWE-bench score. Current leaders (verified, full repo):
-- Claude Code (Anthropic): 72%+
-- Aider (Apache 2.0): 45%+ on verified subset
-- OpenHands: 40%+ on full SWE-bench
+## Trend 2: MCP (Model Context Protocol) Becomes the Standard
+**What**: Anthropic's Model Context Protocol is becoming the de-facto standard for connecting AI agents to tools, APIs, and data sources. Think: USB-C for AI integrations.
 
-**Implication**: Client proposals for AI coding agents should cite SWE-bench scores as the credibility proof.
+**Why it matters**: Write an MCP server once → any MCP-compatible AI client (Claude Desktop, Cursor, custom agents) can use it. Ecosystem accelerating: Slack, GitHub, Jira, Postgres, Kubernetes all have MCP servers now.
 
-### 6. AI Engineers as the Most Sought-After Role
-The most in-demand role in tech in 2026 is "AI Engineer" — developers who integrate LLMs into products, optimize prompts, build RAG pipelines, and design agent architectures. Traditional software engineers who cannot work with LLM APIs are facing displacement.
+**Security note**: Bumblebee (Perplexity AI) is a new MCP supply chain scanner — audit MCP servers before installing in production pipelines.
 
-**Upskilling priority for Globant studios**: LangChain/LangGraph, prompt engineering, RAG architecture, LLM observability (Langfuse), and agent framework selection.
+**Key repos**: [anthropics/anthropic-mcp-sdk](https://github.com/anthropics/anthropic-mcp-sdk), [langchain-ai/langchain-mcp-adapters](https://github.com/langchain-ai/langchain-mcp-adapters)
 
-### 7. Testing and Quality Automation via AI
-AI-driven testing tools reduce test creation time by 50%+. Patterns emerging in 2026:
-- AI agents that auto-generate unit tests from code diffs (Aider + pytest)
-- Automated PR regression testing via OpenHands
-- LLM-based test case generation from natural language user stories
-- AI mutation testing to identify test coverage gaps
+---
 
-### 8. LLMOps Maturing: Observability and Cost Control
-As AI moves from prototype to production, LLMOps tooling is becoming mandatory:
-- **Langfuse** (MIT): tracing, evaluation, prompt versioning — the leading open-source LLMOps platform
-- **LiteLLM** (MIT): cost tracking, rate limiting, model fallbacks
-- **Helicone** (Apache 2.0): request logging and caching for cost reduction
+## Trend 3: Visual Agent Builders Mainstream
+**What**: Low-code/no-code platforms for building AI agents now dominate GitHub stars. Top 3: Langflow (146k), Dify (144k), Flowise (51k).
 
-**Enterprise concern**: AI tool costs are cited by 15% of enterprises as the primary adoption barrier.
+**Why it matters**: Business users and non-AI engineers can now build production agents without Python. Dramatically lowers the barrier to AI adoption at client organizations.
 
-## Strategic Horizon (2026–2028)
+**Caveat**: Visual builders trade flexibility for speed. Suitable for 80% of use cases; complex stateful workflows still need LangGraph/code-based approach.
 
-| Horizon | What Changes |
-|---------|-------------|
-| **Now (2026)** | AI coding agents in every dev team; multi-agent orchestration; local LLM production deployments |
-| **2027** | Agent control planes: centralized orchestration of 10+ specialized agents per project; agents that autonomously handle on-call and incident response |
-| **2028** | Majority of enterprise software features written by AI agents; human engineers shift fully to architecture, requirements, and oversight |
-| **Risk** | Commoditization of code generation — competitive advantage shifts to who has the best training data, domain knowledge, and agent orchestration expertise |
+**Globant action**: Use Dify for rapid client POC delivery (1-3 days). Graduate to LangGraph for production after validating the use case.
 
-## What This Means for Globant Engagements
+---
 
-1. **Propose AI-augmented delivery on every tech engagement** — AI coding agents are not "nice to have"; clients who aren't using them are falling behind.
-2. **Build the LLMOps stack first** — Langfuse + LiteLLM + Qdrant as the observability/infrastructure layer on every engagement.
-3. **Lead with self-hosted options for enterprise** — Tabby + Ollama + Continue = the enterprise-safe private coding assistant stack.
-4. **MetaGPT for greenfield** — when a client needs a prototype quickly, MetaGPT can generate a working multi-file application from a spec document.
+## Trend 4: A2A Protocol — Agent Interoperability
+**What**: Google's Agent-to-Agent (A2A) protocol allows agents built with different frameworks to discover and call each other via standardized task interfaces.
+
+**Why it matters**: Enterprises have multiple AI vendors. A2A means a LangGraph agent can call a CrewAI agent or a Google ADK agent without custom integration code. Multi-vendor, framework-agnostic architecture.
+
+**Status**: Early but fast-moving. Google ADK has native A2A support. LangGraph adding support. Will be table stakes by 2027.
+
+---
+
+## Trend 5: LLM Observability as a Production Requirement
+**What**: Every serious AI app in production now requires tracing, eval, and cost attribution. The "instrument first" mindset is replacing "ship and pray."
+
+**Why it matters**: Without observability you can't debug agent failures, attribute token costs, or improve prompts systematically. Clients increasingly asking for this upfront.
+
+**Standard stack**: [Langfuse](https://github.com/langfuse/langfuse) (MIT, self-hosted) for all agent traces + evals + cost. Integrates with LangChain, CrewAI, smolagents, OpenHands, OpenAI SDK.
+
+**Globant action**: Include Langfuse in every AI engagement as standard. It's the one component that makes the difference between a demo and a production system.
+
+---
+
+## Trend 6: Local/On-Premise LLM Deployment Growing
+**What**: Enterprises moving sensitive workloads from cloud LLM APIs to self-hosted models (Llama 3.3, Qwen3, Mistral) on private GPU infra.
+
+**Why it matters**: Data sovereignty (LATAM banking, government), compliance (GDPR, LGPD in Brazil), and cost predictability at scale. Ollama for dev, vLLM for production.
+
+**Numbers**: Ollama at 120k+ GitHub stars, vLLM at 45k+ — both accelerating. Enterprise GPU cluster purchasing up 40% in 2025.
+
+**Globant action**: Offer "private AI" engagements — deploy vLLM cluster + open-weight models at client data center. Especially valuable for Argentine/Brazilian financial clients.
+
+---
+
+## Trend 7: Internal Developer Platforms (IDPs) with AI Native
+**What**: Platform engineering teams are rebuilding internal developer portals (Backstage-based) with AI embedded from day one: AI chat for runbooks, AI-generated deployment summaries, NL infra provisioning.
+
+**Why it matters**: IDPs are the control plane for developer productivity. AI in the IDP = AI at every deployment, every incident, every onboarding.
+
+**Key repos**: [backstage/backstage](https://github.com/backstage/backstage), [crossplane/crossplane](https://github.com/crossplane/crossplane), [argoproj/argo-cd](https://github.com/argoproj/argo-cd)
+
+---
+
+## Trend 8: Supply Chain & Security AI
+**What**: AI-powered security is shifting left into the development pipeline. Automated vulnerability scanning, SBOM analysis, dependency auditing — all AI-augmented.
+
+**Key repos**: Bumblebee (MCP scanner), [Kyverno](https://github.com/kyverno/kyverno) (K8s policy engine), [trivy](https://github.com/aquasecurity/trivy) (container scanner)
+
+**Globant action**: Add AI triage to security scan pipelines — Trivy scans → AI agent ranks CVEs by real impact → JIRA ticket with fix suggestion.

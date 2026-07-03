@@ -1,57 +1,54 @@
-# Trending AI Agents — Technology Industry
+# 📈 Trending AI Agents — Technology (Week of 2026-07-03)
 
-> What's new and gaining momentum as of 2026-07-02
+> What's moving fast this week in AI for software development and DevOps.
 
-## Breakout This Week / Month
+## 🔥 Hot This Week
 
-### OpenClaw (Nous Research)
-- **Repo**: [NousResearch/hermes-function-calling](https://github.com/NousResearch/hermes-function-calling) (Hermes/OpenClaw family)
-- **License**: MIT
-- **Stars**: 280k+ (fastest-growing OS project in GitHub history in early 2026)
-- **What it does**: Personal AI assistant running entirely on local devices; acts as a local gateway connecting AI models to 50+ integrations (WhatsApp, Telegram, Slack, Discord, Signal, iMessage); exploded from 9k to 210k+ stars in days after going viral
-- **Why it matters for Globant**: The "AI integration hub" pattern it pioneered is what enterprise clients want — a local agent that connects internal tools without data leaving the network
-
-### Goose (Block)
-- **Repo**: [block/goose](https://github.com/block/goose)
-- **License**: Apache 2.0
-- **Stars**: 32k+
-- **What it does**: Terminal-native autonomous coding agent from Block (formerly Square); installs extensions, runs commands, edits files; designed as a generalist dev agent for day-to-day engineering tasks
-- **Why it matters**: Strong enterprise pedigree from Block's engineering team; Apache 2.0 means clean Globant IP posture
-
-### OpenHands Software Agent SDK
+### 1. OpenHands Software Agent SDK
 - **Repo**: [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk)
 - **License**: MIT
-- **Stars**: 5k+ (launched 2026)
-- **What it does**: Clean, modular SDK for building AI agents with OpenHands V1; designed for embedding OpenHands capabilities into custom applications — the "embed the coding agent" pattern
-- **Why it matters**: Enables Globant to ship branded coding agent products on top of the OpenHands runtime
+- **Why trending**: OpenHands V1 launched a clean, modular SDK for building production agents. The ACI (Agent-Computer Interface) is now a public API. Major companies integrating: AMD, Apple, Google.
+- **Globant angle**: Fork and extend for client software engineering automation. Replace junior-task automation in CI pipelines.
 
-### Google Agent Dev Kit (ADK)
+### 2. Langfuse v3.x — Tracing for Multi-Agent Systems
+- **Repo**: [langfuse/langfuse](https://github.com/langfuse/langfuse)
+- **License**: MIT
+- **Why trending**: New release adds multi-agent trace trees, cost attribution per agent, and LLM-as-judge eval templates. First observability platform with native A2A trace support.
+- **Globant angle**: Mandatory for any production AI app delivery. Bill clients by actual token cost per workflow.
+
+### 3. smolagents — HuggingFace Code Agents
+- **Repo**: [huggingface/smolagents](https://github.com/huggingface/smolagents)
+- **License**: Apache-2.0
+- **Why trending**: Fastest-growing agent framework of 2026 (0 → 27.7k stars in 15 months). New release adds MCP tool integration and multi-agent support.
+- **Globant angle**: Best framework when clients want to run open-weight models (Llama, Mistral) instead of paying per-token to OpenAI/Anthropic.
+
+### 4. Google ADK — A2A Protocol Adoption
 - **Repo**: [google/adk-python](https://github.com/google/adk-python)
-- **License**: Apache 2.0
-- **Stars**: 20k+ (launched April 2025, grew rapidly)
-- **What it does**: Google's official agent framework; integrates natively with Gemini, Vertex AI, and Google Cloud services; A2A (Agent-to-Agent) protocol support for multi-agent mesh architectures
-- **Why it matters**: Clients on Google Cloud should use ADK for native Vertex AI integration; A2A protocol is becoming the interoperability standard for enterprise agent mesh
+- **License**: Apache-2.0
+- **Why trending**: A2A (Agent-to-Agent) protocol allows cross-framework agent interoperability. An ADK agent can now call a CrewAI or LangGraph agent via standardized task interface.
+- **Globant angle**: Build once with ADK, expose via A2A for clients using different stacks. Future-proof multi-vendor architectures.
 
-### Mastra
-- **Repo**: [mastra-ai/mastra](https://github.com/mastra-ai/mastra)
-- **License**: Apache 2.0
-- **Stars**: 15k+
-- **What it does**: TypeScript-native agent framework with built-in workflow engine, vector memory, and tool registry; first-class support for deploying agents to Vercel/Cloudflare Edge
-- **Why it matters**: Best choice for TypeScript-first teams building agent APIs; fills the gap LangChain left for JS/TS developers
+### 5. LangGraph — Production Enterprise Adoption Surge
+- **Repo**: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
+- **License**: MIT
+- **Why trending**: Surpassed CrewAI in enterprise GitHub stars in early 2026. New features: parallel node execution, sub-graphs, streaming token output. Adopted as the production standard at Fortune 500 AI teams.
+- **Globant angle**: Use for stateful, auditable agent workflows where clients need checkpointing and rollback — compliance-heavy industries (finance, healthcare).
 
-## Momentum Chart
+## 📊 Signals from GitHub This Week
 
-| Agent/Framework | Stars Δ (30d) | Direction | Momentum Driver |
-|----------------|---------------|-----------|-----------------|
-| OpenClaw | +180k | 🚀 Viral | Personal AI hub + local-first angle |
-| Google ADK | +5k | ↑ Steady | Enterprise Google Cloud adoption |
-| Mastra | +4k | ↑ Rising | TypeScript community + Vercel/Edge deploy |
-| Goose | +3k | ↑ Rising | Block open-source credibility |
-| OpenHands SDK | +3k | ↑ Rising | Embedded coding agent use case |
-| CrewAI | +2k | → Stable | Largest community, production deployments |
-| Cline | +2k | → Stable | VS Code dominance maintained |
+- **4.3 million** AI-related repos on GitHub — 178% YoY jump in LLM-focused projects
+- **Visual builders** dominating stars: Langflow (146k), Dify (144k), Flowise (51k)
+- **n8n** crossed 182k stars — enterprise workflow automation is the 2026 breakout
+- **MCP adoption accelerating**: Bumblebee (supply chain MCP scanner, 2.6k stars) signals security tooling catching up
+- **Platform engineering + AI**: Backstage plugin ecosystem exploding with AI-native plugins
 
-## Declining / Consolidating
+## 🆕 New Repos to Watch
 
-- **LangChain (raw)**: Usage shifting to LangGraph (stateful) and Mastra (TypeScript) — still relevant but no longer the first choice for new builds
-- **Flowise**: Visual builder use cases consolidating around Langflow and Dify which have larger ecosystems
+| Repo | Stars | Signal |
+|------|-------|--------|
+| [Bumblebee (Perplexity)](https://github.com/perplexity-ai/bumblebee) | ~2.6k | MCP supply chain security scanner — audit MCP servers before installing |
+| [OpenChoreo](https://github.com/openchoreo/openchoreo) | Rising | AI agents + GitOps on Kubernetes developer platforms (v1.0 Apr 2026) |
+| [KubriX](https://github.com/kubrix/kubrix) | New | Ready-to-use IDP: Argo CD + Backstage + Kyverno + AI layer (Aug 2025 launch) |
+
+---
+*Pipeline automático — se actualiza cada hora.*
