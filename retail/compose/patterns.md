@@ -1,6 +1,7 @@
 # Compose Patterns — Retail AI
 
 > Concrete recipes: specific repos + agents + wiring instructions
+> Last updated: 2026-07-04
 
 ---
 
@@ -36,7 +37,8 @@
 5. A/B test: Gorse native ranking vs LLM re-ranked via Gorse experiment API
 ```
 
-**Expected outcome:** 15-25% CTR improvement vs random/bestseller baseline; <50ms p99 recommendation latency with Redis cache.
+**Timeline:** 3–4 weeks to production
+**Expected outcome:** 15–25% CTR improvement vs random/bestseller baseline; 60–80% cost reduction vs SaaS personalization; <50ms p99 recommendation latency with Redis cache.
 
 ---
 
@@ -78,7 +80,8 @@
    - ERPNext: PATCH status=Submitted for auto-approved POs
 ```
 
-**Expected outcome:** 20-35% reduction in stockout events; 15% reduction in overstock carrying costs.
+**Timeline:** 5–7 weeks to production
+**Expected outcome:** 20–35% reduction in stockout events; 15% reduction in overstock carrying costs.
 
 ---
 
@@ -87,7 +90,7 @@
 **Use case:** Customer-facing chatbot handling natural-language queries, image-based search, personalized recommendations, and cart management — all from one agent surface.
 
 **Components:**
-- **[NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant)** (Apache 2.0) — base LangGraph blueprint
+- **[NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant)** — base LangGraph blueprint
 - **[saleor/saleor](https://github.com/saleor/saleor)** (BSD-3) — GraphQL commerce API
 - **[gorse-io/gorse](https://github.com/gorse-io/gorse)** (Apache 2.0) — personalized recommendations
 
@@ -117,7 +120,8 @@
 5. Observability: LangSmith traces for QA and prompt optimization
 ```
 
-**Expected outcome:** 40% reduction in support ticket volume; 12-18% uplift in average order value from recommendation-driven cross-sell.
+**Timeline:** 6–8 weeks to production
+**Expected outcome:** 40% reduction in support ticket volume; 12–18% uplift in average order value from recommendation-driven cross-sell.
 
 ---
 
@@ -126,15 +130,17 @@
 **Use case:** Continuously monitor competitor prices and demand signals, optimize retail prices within business rules (minimum margin, MAP compliance), and sync to storefront automatically.
 
 **Components:**
-- **[samhaldia/retail-pricing-agent-ai](https://github.com/samhaldia/retail-pricing-agent-ai)** (MIT) — pricing agent core
+- **[ikatsov/tensor-house](https://github.com/ikatsov/tensor-house)** (Apache 2.0) — DQN pricing patterns + elasticity models
 - **[medusajs/medusa](https://github.com/medusajs/medusa)** (MIT) — price lists API
 - **[Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast)** (Apache 2.0) — demand elasticity modeling
+- **[crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** (MIT) — agent orchestration
 
 **Wiring:**
 ```
-1. Configure retail-pricing-agent-ai:
+1. Configure data sources:
    - Competitor data: Rainforest API (Amazon) or Keepa (historical + real-time)
    - Internal data: Medusa GET /admin/products → current prices + margin data
+   - TensorHouse: use pricing/price-optimization-using-dqn-reinforcement-learning.ipynb as base
 
 2. Demand Elasticity Agent (runs daily):
    - NeuralForecast: train price-demand model per SKU (historical price changes + units sold)
@@ -163,7 +169,8 @@
    - Human approval required if SKU revenue > $100k/month
 ```
 
-**Expected outcome:** 3-8% gross margin improvement; elimination of systematic under/overpricing vs. competitors.
+**Timeline:** 4–6 weeks to production
+**Expected outcome:** 3–8% gross margin improvement; elimination of systematic under/overpricing vs. competitors.
 
 ---
 
@@ -211,4 +218,111 @@ crew = Crew(agents=[
 Monitor → Anomaly (parallel) → Replenishment → Liaison (if lead_time > 5d) → Report
 ```
 
+**Timeline:** 4–6 weeks to production
 **Expected outcome:** 30-minute mean time to detect stockout (vs. 24-hour human-driven cycle); 40% reduction in emergency replenishment orders at premium freight cost.
+
+---
+
+## Pattern 6: AI Catalog Enrichment Pipeline (Agentic Commerce Readiness)
+
+**Use case:** Transform a sparse product catalog (basic images, minimal text) into richly structured, agent-discoverable catalog data — titles, descriptions, attributes, SEO tags — at scale, ahead of agentic commerce adoption.
+
+**Components:**
+- **[NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment)** (Apache 2.0) — VLM catalog enrichment pipeline
+- **[saleor/saleor](https://github.com/saleor/saleor)** (BSD-3) or **[medusajs/medusa](https://github.com/medusajs/medusa)** (MIT) — catalog API target
+- **[milvus-io/milvus](https://github.com/milvus-io/milvus)** (Apache 2.0) — vector search for enriched catalog
+- **[langchain-ai/langchain](https://github.com/langchain-ai/langchain)** (MIT) — orchestration + LLM enrichment layer
+
+**Wiring:**
+```
+1. Catalog audit (Day 1):
+   - Extract all products from Saleor/Medusa catalog API
+   - Score data quality per product: title length, description word count, attribute count, image count
+   - Segment: rich (≥4 attrs, ≥100 word desc), thin (1-3 attrs), bare (image only)
+
+2. Image → catalog data enrichment (NVIDIA Retail-Catalog-Enrichment):
+   - Deploy blueprint on GPU-enabled instance (A10/L40 recommended)
+   - Input: product image URLs from catalog
+   - Output per product:
+     - Generated title (brand-consistent, keyword-rich)
+     - Long-form description (200-500 words)
+     - Structured attributes (color, material, dimensions, care, compatibility)
+     - SEO tags (LSI keywords for product category)
+     - JSON-LD schema markup (Product + Offer types — critical for AI agent discoverability)
+
+3. LangChain quality review agent:
+   - Check each enriched entry against brand guidelines (tone, prohibited terms, competitor references)
+   - Score 0-100; auto-approve if score ≥ 80; flag < 80 for human review
+   - Batch publish approved entries: Saleor GraphQL mutation productUpdate / Medusa PATCH /admin/products/{id}
+
+4. Vector indexing for semantic search (Milvus):
+   - Embed enriched descriptions with CLIP (text tower) + product image (image tower)
+   - Store in Milvus collection: {product_id, text_embedding, image_embedding, metadata}
+   - Enable: text query → semantic product search; image upload → visual similarity search
+
+5. Agent-discoverability validation:
+   - Simulate agentic commerce queries against enriched catalog:
+     "Find me a waterproof hiking boot under $150 in size 10"
+   - Measure: retrieval precision@10 before vs. after enrichment
+   - Target: precision improvement ≥ 40% for thin→rich catalog items
+
+6. Ongoing enrichment (continuous):
+   - Webhook trigger: Saleor/Medusa product.created → auto-enrich new products within 30 min
+   - Weekly re-enrichment for seasonal or promotion-adjusted products
+```
+
+**Timeline:** 2–3 weeks for initial batch enrichment; 1 additional week to integrate ongoing pipeline
+**Expected outcome:** 80%+ reduction in catalog ops labor for new product onboarding; 40%+ improvement in AI agent discoverability; reduced bounce rate on product pages from better search relevance.
+
+---
+
+## Pattern 7: On-Prem Retail Customer Service Chatbot (LGPD/GDPR-Compliant)
+
+**Use case:** Deploy a retail customer service chatbot that handles order status, returns, product Q&A, and store locator — fully on-premises for data residency compliance (Brazil LGPD, EU GDPR, EU AI Act).
+
+**Components:**
+- **[RasaHQ/rasa](https://github.com/RasaHQ/rasa)** (Apache 2.0) — CALM conversational AI engine
+- **[frappe/erpnext](https://github.com/frappe/erpnext)** (GPL-3.0) or **[medusajs/medusa](https://github.com/medusajs/medusa)** (MIT) — order/product data
+- **[milvus-io/milvus](https://github.com/milvus-io/milvus)** (Apache 2.0) — product knowledge vector store
+- Local LLM (Ollama + Llama 3.1 or Mistral 7B) — on-prem inference, no data leaves premises
+
+**Wiring:**
+```
+1. Deploy Rasa CALM stack (Docker Compose):
+   - rasa-server, rasa-actions-server, rasa-webchat widget
+   - Connect to on-prem LLM via Ollama endpoint (localhost:11434)
+
+2. Define flows (CALM YAML):
+   order_status_flow:
+     - action: ask_order_id
+     - action: lookup_order_erpnext  # custom action: GET /api/resource/Sales Order/{id}
+     - action: respond_order_status
+   
+   return_initiation_flow:
+     - action: ask_order_and_reason
+     - action: validate_return_eligibility  # within 30 days, not digital goods
+     - action: create_return_erpnext  # POST /api/resource/Sales Return
+     - action: send_return_label_email
+
+   product_qa_flow:
+     - action: extract_product_query
+     - action: retrieve_from_milvus  # semantic search over enriched product catalog
+     - action: generate_answer_with_local_llm  # Ollama Llama 3.1
+
+3. Milvus knowledge base (product catalog RAG):
+   - Embed all enriched product descriptions (from Pattern 6) with local embedding model
+   - Store: {product_id, chunk, embedding, metadata}
+   - Custom Rasa action: embed query → Milvus search → top-3 chunks → LLM answer generation
+
+4. EU AI Act disclosure (August 2026 requirement):
+   - Rasa channel: inject "You are chatting with an AI assistant" banner on session start
+   - Log all conversations with user consent (LGPD/GDPR compliant consent flow)
+   - Human escalation path: connect to live agent queue if confidence < 0.6
+
+5. Integration:
+   - Embed rasa-webchat on Medusa/Saleor storefront via JS snippet
+   - Optional: WhatsApp Business API for LATAM mobile-first markets
+```
+
+**Timeline:** 4–6 weeks to production
+**Expected outcome:** 60–70% of tier-1 queries resolved without human agent; full data residency compliance; EU AI Act transparent AI disclosure; LGPD-compliant for Brazil deployments.
