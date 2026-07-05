@@ -1,17 +1,10 @@
 {
-  "next": 8,
+  "next": 9,
   "last_updated": "2026-07-05",
-  "last_industry": "technology",
+  "last_industry": "education",
   "last_status": "completed",
-  "note": "TECHNOLOGY KB updated 2026-07-05. All 7 files written to globant-kb/technology/. TOP AGENTS: LangGraph (110k MIT), CrewAI (52k MIT), OpenHands (78k MIT), Cline (58k Apache), Aider (41k Apache), Goose (32k Apache), Tabby (33k Apache), Dify (130k Apache), Langflow (146k MIT), Ollama (115k MIT) + Smolagents, AutoGen, Google ADK, Mastra, CopilotKit, Semantic Kernel. NEW this run: Cline+Continue+Goose+Tabby added as coding agent layer; Goose MCP Marketplace; LangGraph 0.4 HITL; MCP 500+ servers milestone; Pattern 7 Self-Hosted Copilot Alt (Tabby+Continue+Ollama, break-even at 20 devs). MARKET: Enterprise AI $64-115B (2026), GenAI $127B +59% YoY, MSFT $37B AI run rate +123%, Google Cloud $20B +63%, AWS Bedrock +170% QoQ, IBM-Google Cloud partnership Jun 4. Next: education (index 8).",
+  "note": "EDUCATION KB updated 2026-07-05. All 8 files written to globant-kb/education/. TOP AGENTS: DeepTutor (23.7k Apache-2.0, agent-native tutoring, EduHub skill registry), EduAgent (MIT, LangGraph+RAG), Open TutorAI CE (MIT, avatar+text), OATutor (MIT, Bayesian KT), EduGPT (MIT, LangChain instructor), EduAdapt AI (MIT, RL adaptive paths), Automated Essay Grader (MIT, GPT-4+LangChain), obsidian-quiz-generator, jupyterquiz, awesome-ai-llm4education. PLATFORMS: Open edX (7.2k Apache-2.0), Moodle (6.1k GPL-3.0), Frappe LMS (3k MIT), OpenEduCat/Odoo, Sakai (Apache-2.0). MARKET: AI-in-Education $12.3B 2026 to $32.7B 2028 to $136.79B 2035, 36% CAGR; 86% GenAI adoption (highest any industry); Khanmigo 700k users 17x YoY; Duolingo Max 116.7M MAU; Coursera 197M learners; VC EdTech AI $4.2B 2025. PATTERNS: 6 recipes (Open edX+LangGraph tutor; Moodle+Essay Grader; Frappe LMS+EduAdapt corporate upskilling; OATutor BKT K-12; Dify RAG Q&A; dropout prediction analytics). Next: automotive (index 9).",
   "previous_industries": {
-    "gaming": "completed - content in globant-kb/gaming/",
-    "legal": "completed - content in globant-kb/legal/",
-    "financial": "completed - content in globant-kb/financial/",
-    "healthcare": "completed - content in globant-kb/healthcare/",
-    "media": "completed - content in globant-kb/media/",
-    "retail": "completed - content in globant-kb/retail/",
-    "travel": "completed 2026-07-05 - 8 files updated in globant-kb/travel/ - added osmmcp+Dida-hotel-MCP+routing infrastructure+MCP pattern6",
-    "technology": "completed 2026-07-05 - 7 files in globant-kb/technology/ - added Cline+Continue+Goose+Tabby+CopilotKit+Mastra; Goose MCP Marketplace; LangGraph 0.4; MCP 500+ servers; GenAI $127B market data; Pattern 7 self-hosted Copilot alt"
+    "education": "completed 2026-07-05 - 8 files in globant-kb/education/ - DeepTutor 23.7k+9 more agents; Open edX+Moodle+Frappe LMS verticals; $12.3B market; 6 compose patterns incl. BKT tutor + dropout prediction"
   }
 }

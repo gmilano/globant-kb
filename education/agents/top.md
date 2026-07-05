@@ -1,27 +1,31 @@
-# Top AI Agents & Tools — Education Industry
+# 🎯 Agentes AI — Education
 
-> Last updated: 2026-07-02 | Focus: MIT / Apache 2.0 licenses Globant can build on
+> Agentes y herramientas AI open source para la industria. Foco: MIT / Apache 2.0.
+> Última actualización: 2026-07-05
 
-## AI Agents Table
+## Agentes y herramientas destacadas
 
-| # | Name | GitHub | License | Stars | Description |
-|---|------|--------|---------|-------|-------------|
-| 1 | **DeepTutor** | [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache 2.0 | 23k+ | Agent-native personalized tutoring workspace from HKU's Data Intelligence Lab; multi-agent system with persistent memory, proactive engagement, problem solving, quiz generation, research, and mastery practice; supports 30+ LLM providers (OpenAI, Anthropic, DeepSeek, Ollama) |
-| 2 | **OATutor** | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | 800+ | Open-source Adaptive Tutoring System from UC Berkeley; uses Bayesian Knowledge Tracing (BKT) to model student mastery; built in ReactJS with optional Firebase logging; production-proven in mathematics courses |
-| 3 | **AnythingLLM** | [mintplex-labs/anything-llm](https://github.com/mintplex-labs/anything-llm) | MIT | 54k+ | All-in-one document-chat + RAG agent platform; multi-user, hyper-configurable, runs fully local; ideal for building private course material Q&A bots, student support agents, and institutional knowledge bases with zero cloud egress |
-| 4 | **EduGPT** | [hqanhh/EduGPT](https://github.com/hqanhh/EduGPT) | MIT | 600+ | CAMEL-inspired dual-agent AI instructor using LangChain; two role-playing agents discuss and co-design a syllabus from learning outcomes, then one agent teaches the student step-by-step; pure Python, easily extended |
-| 5 | **AI_Tutor** | [098765d/AI_Tutor](https://github.com/098765d/AI_Tutor) | MIT | 400+ | LLM + RAG-enhanced tutoring agent for university courses; ingests lecture slides and reading materials into a vector store, answers student questions with source citations; designed for offline / self-hosted deployments |
-| 6 | **Automated-Essay-Grader** | [Hasif50/Automated-Essay-Grader](https://github.com/Hasif50/Automated-Essay-Grader) | MIT | 500+ | GPT-4 + LangChain AI essay grading tool; multi-criteria scoring (content, grammar, coherence, originality), real-time feedback, integrated plagiarism detection, and PDF report export; Streamlit UI; supports OpenAI, Azure AI, and Cohere backends |
-| 7 | **openedx-ai-extensions** | [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions) | Apache 2.0 | 300+ | Official Open edX plugin housing AI tools and helpers — content summarization, question generation, and learner feedback; integrates with the Open edX course platform used by 70M+ learners worldwide; actively maintained by the Open edX core team |
-| 8 | **LocalAI** | [mudler/LocalAI](https://github.com/mudler/LocalAI) | MIT | 29k+ | Open-source AI engine that runs LLMs, vision, voice, and video models on any hardware with no GPU required; privacy-first (data never leaves infrastructure); ideal for K-12 and universities with strict data residency requirements |
-| 9 | **GenMentor** | [GenMentor/GenMentor](https://github.com/HKU-MedAI/GenMentor) | Apache 2.0 | 250+ | Multi-agent framework for goal-oriented learning in Intelligent Tutoring Systems (ITS); accepted WWW 2025 Industry Track (Oral); decomposes learning goals, assigns sub-agents per concept, tracks mastery, and adapts difficulty dynamically |
-| 10 | **CrewAI** | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52k+ | Role-based multi-agent orchestration used to compose education automation pipelines — curriculum design crews, assessment generation, student support routing; 5M+ monthly downloads; fastest-growing agent framework in production |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Agent-native personalized tutoring: dual-loop reasoning, RAG, web search, code execution, quiz/flashcard generation. Ships with EduHub skill registry (Socratic tutors, essay feedback, exam blueprints). | 23.7k |
+| [EduAgent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | LangGraph multi-agent + RAG converts static course docs into adaptive tutoring: study plans, quizzes, flashcards, semantic mind maps, active recall loops. | 320 |
+| [Open TutorAI CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | MIT | Open-source personalized AI tutoring platform: captures learner goals, configures learner-specific LLM assistant, text + avatar interfaces, curriculum-aligned. | 890 |
+| [OATutor](https://github.com/CAHLR/OATutor) | MIT | Open-source Intelligent Tutoring System with Bayesian Knowledge Tracing for skill mastery estimation. React JS + Firebase, real problem-step hints. | 410 |
+| [EduGPT](https://github.com/hqanhh/EduGPT) | MIT | AI Instructor via LangChain: role-playing agents design syllabi based on learning outcomes, one agent acts as instructor, another as curriculum designer. | 180 |
+| [EduAdapt AI](https://github.com/mwasifanwar/eduadapt-ai) | MIT | Adaptive learning system using reinforcement learning for optimal learning path recommendation based on student performance, learning style, engagement metrics. | 95 |
+| [Automated Essay Grader](https://github.com/Hasif50/Automated-Essay-Grader) | MIT | GPT-4 + LangChain multi-criteria essay grading: real-time feedback, plagiarism detection, PDF reports, Azure AI support. Streamlit UI. | 210 |
+| [obsidian-quiz-generator](https://github.com/ECuiDev/obsidian-quiz-generator) | MIT | Generate interactive flashcards and quizzes from Obsidian notes using OpenAI/Ollama. Spaced repetition ready. | 285 |
+| [jupyterquiz](https://github.com/jmshea/jupyterquiz) | MIT | Interactive quiz generator for Jupyter Notebooks and Jupyter Book. Supports multiple question types, ideal for STEM courses. | 310 |
+| [awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | Curated collection of AI and LLM papers for education: tutoring, assessment, knowledge tracing, feedback generation. Essential research index. | 1.2k |
 
-## Notes
+## Agentes de infraestructura general útiles para Education
 
-- **Tutoring agents are the breakout category**: DeepTutor's explosive growth (0 → 23k stars in months) signals that AI tutoring agents are the #1 funded and adopted edu-AI category in 2026. Lead client proposals here.
-- **RAG is the default architecture**: AnythingLLM, AI_Tutor, EduGPT all use RAG over course materials — this is now the standard pattern for education AI, not fine-tuning.
-- **Offline-first matters**: K-12 and underserved markets require offline capability. LocalAI + OATutor can run with no internet connection — critical differentiator for global Globant clients.
-- **Assessment is underserved**: Automated-Essay-Grader is one of few open-source tools in this space; strong opportunity for Globant to build proprietary value on top.
-- **LMS integration is table stakes**: Any client with an existing LMS (Moodle, Open edX) expects AI agents to integrate via plugin, not replace the platform — use openedx-ai-extensions and Moodle AI connector as the integration layer.
-- **License note**: Open edX platform is AGPLv3 (not commercially ideal) but its plugins (openedx-ai-extensions) are Apache 2.0. Moodle is GPL-3.0 — plugins inherit GPL. Check with Globant legal when distributing Moodle plugins.
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | Stateful multi-agent orchestration with human-in-the-loop, checkpointing. Base for building tutoring agent pipelines. | 14k |
+| [LangChain](https://github.com/langchain-ai/langchain) | MIT | Agent engineering platform with RAG, tool use, memory. Ideal for document-based course Q&A. | 105k |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | Low-code AI workflow platform with built-in RAG, LLM routing, monitoring. For rapid EdTech prototyping. | 130k |
+| [Ollama](https://github.com/ollama/ollama) | MIT | Run LLMs locally for privacy-first educational deployments (student data stays on-prem). | 115k |
+
+---
+*Actualizado automáticamente por el pipeline de ingest.*

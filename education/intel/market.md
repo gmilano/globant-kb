@@ -1,95 +1,75 @@
-# Market Map — Education AI Industry
+# 🗺️ Mapa de mercado — Education
 
-> Key players, market structure, competitive dynamics — 2026 snapshot
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-05
 
----
+## Tamaño de mercado
 
-## Market Size
+| Métrica | Valor | Fuente |
+|---------|-------|--------|
+| AI in Education market 2026 | $12.3B globales | HolonIQ, 2026 |
+| Crecimiento CAGR 2022-2026 | 36% | DemandSage |
+| Proyección 2028 | $32.7B | Mordor Intelligence |
+| Proyección 2035 | $136.79B | Multiple analysts |
+| VC EdTech AI 2025 | $4.2B invertidos | FE International |
+| Adopción GenAI en educación | 86% de organizaciones | Programs.com |
+| Adopción por estudiantes | 86% usan AI promedio | Engageli |
+| Instituciones con AI Teaching Asst (plan 2026) | 83% | X-Pilot |
+| AI video tools: reducción tiempo producción cursos | 80h → <5h | X-Pilot |
+| Ahorro horario docentes con AI | 10+ h/semana en 67% | TeachBetter.ai |
 
-| Metric | Value |
-|--------|-------|
-| Global AI in Education market (2025) | $7.57B USD |
-| Projected market size (2034) | $112B USD |
-| CAGR | ~35% |
-| Generative AI adoption in education orgs | 86% (highest of any industry) |
-| Students using AI tools | 86% of enrolled students |
-| Teachers reporting AI improved their methods | 69% |
+## Players globales
 
----
+| Empresa | Tipo | AI Product | Escala | Open Source |
+|---------|------|-----------|--------|-------------|
+| **Khan Academy** | NonProfit | Khanmigo (tutor AI) | 189.6M usuarios registrados; 700k Khanmigo (17x YoY) | No (pero GPLv3 bases) |
+| **Duolingo** | EdTech público | Duolingo Max | 116.7M MAU Q4 2024; $748M revenue 2024 | No |
+| **Coursera** | EdTech público | AI Mentor (piloto) | 197M learners; $757M revenue FY2025 | No |
+| **Google** | Big Tech | LearnLM, NotebookLM | 3B+ usuarios products educación | Parcial |
+| **Microsoft** | Big Tech | Copilot for Education | 150M+ Azure EDU users | Parcial (VS Code, etc.) |
+| **Chegg** | EdTech | AI Tutor (ene 2026) | 4M suscriptores | No |
+| **Udemy** | EdTech | Udemy AI | $786.6M revenue 2024 | No |
+| **2U/edX** | EdTech | Embedded AI tools | 45M+ learners | No |
+| **Carnegie Learning** | EdTech | MATHia AI | K-12 foco, EE.UU. | No |
+| **Anthology (Blackboard)** | Enterprise LMS | Ally + AI | Grandes universidades | No |
 
-## Key Players
+## Líderes open source
 
-### Commercial AI Education Platforms
+| Proyecto | Org | Escala | Licencia |
+|----------|-----|--------|----------|
+| Moodle | Moodle HQ | 150k sitios, 400M usuarios | GPL v3 |
+| Open edX | Axim / 2U | 150M learners | Apache 2.0 |
+| Frappe LMS | Frappe Technologies | Creciendo rápido | MIT |
+| DeepTutor | HKUDS (HKU) | 23.7k stars, viral 2026 | Apache 2.0 |
+| OATutor | CAHLR (Berkeley) | Académico, validado | MIT |
 
-| Company | Product | What They Do |
-|---------|---------|--------------|
-| **Khan Academy** | Khanmigo | AI tutor + teaching assistant built on GPT-4/Azure OpenAI; free for US educators via Microsoft partnership; the benchmark all edu AI products are measured against |
-| **Chegg** | CheggMate | AI study assistant; struggled post-ChatGPT but pivoting to agentic tutoring |
-| **Duolingo** | Duolingo Max | AI conversation practice + explanation (GPT-4 powered); 40M+ DAU; proof that AI personalization scales |
-| **Carnegie Learning** | MATHia | Cognitive tutoring platform with 30+ years of research; leading AI math tutor in K-12 |
-| **Coursera** | Coach AI | GPT-4-powered course coaching; integrated into 7,000+ courses on the Coursera platform |
-| **Pearson** | Pearson AI | AI-powered textbook companion, practice, and grading across higher ed |
-| **Quizlet** | Q-Chat | AI tutoring through conversation; 60M+ users |
+## Oportunidades AI en LATAM
 
-### Open Source Ecosystem Leaders
+### Brechas del mercado
 
-| Project | Org | Role |
-|---------|-----|------|
-| Moodle | Moodle HQ | Dominant open-source LMS; 300M users; plugin ecosystem of 2,000+ |
-| Open edX | Axim Collaborative | MOOC platform; backed by MIT, Harvard, Microsoft |
-| BigBlueButton | BBB Foundation | Open-source virtual classroom; Zoom alternative for education |
-| Kolibri | Learning Equality | Offline education; UNESCO/Gates backed |
-| DeepTutor | HKUDS (HKU) | Breakout open-source tutoring agent of 2026 |
+- **Universidades medianas**: Moodle + GPT/Claude para tutoring → mínima inversión, máximo impacto. Países: México, Colombia, Brasil, Argentina.
+- **Upskilling corporativo**: Frappe LMS + AI grading + reporting → HR tech en empresas industriales y financieras LATAM.
+- **K-12 con idiomas locales**: Español, Portugués. Duolingo no llega a contenido curricular nacional; gap enorme.
+- **Certificaciones técnicas**: Bootcamps + OATutor para coding, datos, cloud → competencia directa con Platzi / Henry.
+- **Instituciones con datos privados (menores)**: Moodle + Ollama on-prem = compliant LGPD/LSPDP.
 
-### Infrastructure / AI Layer
+### Vectores de entrada LATAM
 
-| Company | Product | Role |
-|---------|---------|------|
-| **OpenAI** | GPT-4o / GPT-4 Turbo | Powers most commercial edu AI products |
-| **Anthropic** | Claude | Strong at educational explanations; Khanmigo v2 integration |
-| **Microsoft** | Azure OpenAI + Copilot | Khan Academy partnership; GitHub Copilot for Students |
-| **Google** | Gemini for Education | Google Classroom AI features; Gemini Pro in Workspace |
-| **Hugging Face** | Hub + Inference | Model hosting for open-source edu AI |
-| **Ollama** | Ollama | Local LLM inference; enabling privacy-first school deployments |
+1. **Alianzas universitarias**: Open edX ya usado en UBA, UNAM, USP. Capa AI por encima = conversación natural.
+2. **Ministerios de Educación**: Acceso institucional → plataforma nacional con AI tutoring.
+3. **Empresas de formación**: BPO, outsourcing, manufactura → upskilling a escala con Frappe LMS.
 
----
+## Posicionamiento Globant
 
-## Competitive Dynamics
+| Capacidad | Ventaja Globant |
+|-----------|-----------------|
+| Open source customization | Experiencia modificando Moodle, Open edX para enterprise |
+| AI/LLM integration | LangChain, LangGraph, RAG pipelines over course content |
+| LATAM presence | Relaciones con universidades, gobiernos y empresas regionales |
+| Data privacy | Despliegues on-prem con Ollama para instituciones K-12 |
+| Multilingual | Agentes en español y portugués; localización de content |
+| Mobile | Moodle App / React Native para acceso móvil en zonas rurales |
 
-### Where Incumbents Are Vulnerable
-1. **LMS ossification**: Moodle and Canvas are PHP/Ruby monoliths from the 2000s. No AI-native architecture. Strong opportunity to win with modern API-first platforms (Frappe LMS, ClassroomIO) that AI can deeply integrate with.
-2. **Data privacy**: FERPA (US), GDPR (EU), LGPD (Brazil) create demand for self-hosted AI that incumbents can't easily serve from cloud-only products.
-3. **Developing markets**: Duolingo, Coursera, Chegg require internet. 1.5B students lack reliable connectivity — this is a massive underserved market.
-4. **Assessment still manual**: Essay grading, oral assessment, project evaluation are still largely manual. No dominant open-source tool exists here.
+### Propuesta de valor diferenciada
 
-### Where Globant Can Win
-1. **AI-augmented LMS** for mid-size universities: Extend Frappe LMS or ClassroomIO with DeepTutor + AnythingLLM + assessment agents. Full AI-native LMS that incumbents can't match.
-2. **Corporate L&D AI transformation**: Fortune 500 companies have massive internal training needs, often on aging LMS. AI personalization layer on top of existing content libraries.
-3. **Offline AI tutor for NGOs/government**: Kolibri + LocalAI + Phi-3 on Raspberry Pi cluster — serve the "last mile" learner. High social impact, USAID/UNESCO contract opportunities.
-4. **Assessment automation**: Build on Automated-Essay-Grader + OATutor + Perseus to create the missing open-source assessment platform. Strong demand, minimal competition.
-
----
-
-## Standards & Compliance to Know
-
-| Standard | What It Covers | Relevant When |
-|----------|---------------|---------------|
-| **FERPA** | US student data privacy | Any US K-12 or university client |
-| **COPPA** | US children's online privacy (under 13) | K-12 deployments |
-| **GDPR** | EU data protection | European education clients |
-| **WCAG 2.1 AA** | Accessibility | All educational software (legal requirement in most markets) |
-| **IMS Global / xAPI** | Learning data interoperability | Enterprise LMS integrations |
-| **xAPI (Tin Can)** | Learning analytics standard | Tracking AI agent interactions as learning records |
-| **QTI (IMS Global)** | Question/assessment format | Assessment tools that need to import/export quizzes |
-
----
-
-## Globant Opportunity Sizing
-
-| Segment | TAM (2026 est.) | Entry Point |
-|---------|----------------|------------|
-| AI tutoring agents (K-12 / university) | $2.1B | DeepTutor-based custom solution |
-| Corporate L&D AI | $1.8B | LMS AI plugin + personalization layer |
-| AI assessment / grading | $0.9B | Automated-Essay-Grader extension |
-| Offline/emerging market edtech | $0.7B | Kolibri + LocalAI deployment |
-| LMS modernization (AI-native rebuild) | $1.4B | Frappe LMS + AI stack |
+> "Tomamos tu LMS existente (Moodle/Open edX/Frappe) y le añadimos una capa agéntica: tutor personalizado, grading automático, analytics predictivo de deserción y paths de aprendizaje adaptativo — en 8 semanas, sin migrar datos."

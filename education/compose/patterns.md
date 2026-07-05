@@ -1,439 +1,181 @@
-# Compose Patterns — Education AI
+# 🧩 Patrones de composición — Education
 
-> Concrete recipes: specific repos + agents + wiring instructions for education client engagements
+> Recetas concretas para construir soluciones usando repos reales + agentes + AI.
+> Última actualización: 2026-07-05
+
+## Arquitectura base
+
+```
+[Plataforma vertical base (Moodle / Open edX / Frappe LMS)]
+          ↓
+[Capa RAG: contenido de cursos → embeddings → vector DB]
+          ↓
+[Agentes LangGraph: assess → explain → quiz → remediate loop]
+          ↓
+[UI conversacional / API para el cliente]
+```
 
 ---
 
-## Pattern 1: AI Teaching Assistant on Open edX
+## Patrón 1: AI Tutor sobre Open edX (Universidad)
 
-**Use case**: A university running Open edX wants an AI teaching assistant that answers student questions 24/7, generates quiz questions from lecture slides, and provides per-student learning summaries to instructors.
+**Objetivo**: Añadir tutoring conversacional a una instalación Open edX existente sin migrar datos.
 
-**Components:**
-- **[openedx/openedx-platform](https://github.com/openedx/openedx-platform)** (AGPLv3) — LMS backbone
-- **[openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions)** (Apache 2.0) — official AI plugin
-- **[mintplex-labs/anything-llm](https://github.com/mintplex-labs/anything-llm)** (MIT) — course material RAG backend
-- **[langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** (MIT) — agent orchestration
-- **[mudler/LocalAI](https://github.com/mudler/LocalAI)** (MIT) — self-hosted LLM inference (FERPA-safe)
+**Stack**:
+- [openedx/openedx-platform](https://github.com/openedx/openedx-platform) — LMS base
+- [openedx/XBlock](https://github.com/openedx/XBlock) — insertar el tutor dentro de unidades de curso
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — loop assess→teach→quiz→remediate
+- [langgenius/dify](https://github.com/langgenius/dify) — RAG pipeline sobre PDFs del curso + monitoring
+- [ollama/ollama](https://github.com/ollama/ollama) — LLM local si datos sensibles (estudiantes menores)
 
-**Architecture:**
+**Flujo**:
 ```
-Student question
-      │
-      ▼
-Open edX Discussion Forum Webhook
-      │
-      ▼
-LangGraph Agent Router
-      ├── Course FAQ? → AnythingLLM RAG (course materials)
-      ├── Concept explanation? → LocalAI (Claude/Llama via openai-compat API)
-      └── Quiz request? → Quiz Generation Agent (LangGraph)
-      │
-      ▼
-Response posted back to edX forum thread
-      +
-Instructor dashboard (weekly digest via email)
+Estudiante abre unidad → XBlock AI tutor activa LangGraph agent
+  → Agent lee progreso del estudiante (Open edX API)
+  → RAG query sobre material del curso (Dify + Qdrant)
+  → Genera explicación adaptada al nivel del estudiante
+  → Propone quiz (DeepTutor style: 3 preguntas escaladas)
+  → Si falla: remediation path → nodo LangGraph alternativo
+  → Registra progreso → Open edX gradebook API
 ```
 
-**Wiring:**
-```python
-from langgraph.graph import StateGraph, END
-from langchain_openai import ChatOpenAI
-import httpx
-
-# LocalAI provides OpenAI-compatible API — swap base_url to self-hosted endpoint
-llm = ChatOpenAI(
-    model="llama-3.1-8b",  # or phi-3-medium for lighter hardware
-    base_url="http://localai:8080/v1",
-    api_key="not-needed"
-)
-
-def route_question(state: dict) -> str:
-    """Route to the right sub-agent based on question type."""
-    question = state["question"]
-    if any(word in question.lower() for word in ["quiz", "test", "practice"]):
-        return "quiz_agent"
-    return "rag_agent"
-
-def rag_agent(state: dict) -> dict:
-    """Query AnythingLLM workspace for course material answers."""
-    resp = httpx.post(
-        "http://anythingllm:3001/api/v1/workspace/course-materials/chat",
-        json={"message": state["question"], "mode": "query"},
-        headers={"Authorization": f"Bearer {ANYTHINGLLM_KEY}"}
-    )
-    return {**state, "answer": resp.json()["textResponse"]}
-
-def quiz_agent(state: dict) -> dict:
-    """Generate quiz questions from course context."""
-    prompt = f"""You are a university professor. Generate 3 multiple-choice questions 
-    on the topic: {state['question']}. 
-    Format: Q: ... A) ... B) ... C) ... D) ... Answer: ...
-    Base questions on course learning objectives."""
-    result = llm.invoke(prompt)
-    return {**state, "answer": result.content}
-
-def post_to_forum(state: dict) -> dict:
-    """Post answer back to Open edX discussion forum."""
-    httpx.post(
-        f"{OPENEDX_BASE}/api/discussion/v1/comments/",
-        json={"thread_id": state["thread_id"], "raw_body": state["answer"]},
-        headers={"Authorization": f"JWT {OPENEDX_JWT}"}
-    )
-    return state
-
-workflow = StateGraph(dict)
-workflow.add_node("rag_agent", rag_agent)
-workflow.add_node("quiz_agent", quiz_agent)
-workflow.add_node("post", post_to_forum)
-workflow.set_conditional_entry_point(route_question, {
-    "rag_agent": "rag_agent",
-    "quiz_agent": "quiz_agent"
-})
-workflow.add_edge("rag_agent", "post")
-workflow.add_edge("quiz_agent", "post")
-workflow.add_edge("post", END)
-ta_agent = workflow.compile()
-```
-
-**Estimated impact**: 70% reduction in TA office hours; 24/7 student support; instructors report higher forum engagement.
+**Tiempo estimado**: 4-6 semanas (1 XBlock + LangGraph pipeline + RAG ingest)
+**Licencias**: Apache 2.0 + MIT → Globant puede deployar y customizar sin restricciones
 
 ---
 
-## Pattern 2: Personalized AI Tutor (DeepTutor + Moodle Integration)
+## Patrón 2: Essay Grader Automático sobre Moodle
 
-**Use case**: A school deploys a personalized AI tutor that tracks each student's knowledge state, adapts lesson difficulty, and generates targeted practice problems — integrated into existing Moodle courses.
+**Objetivo**: Feedback inmediato y grading multi-criteria para assignments de texto.
 
-**Components:**
-- **[moodle/moodle](https://github.com/moodle/moodle)** (GPL-3.0) — existing LMS
-- **[HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor)** (Apache 2.0) — agent-native tutoring engine
-- **[CAHLR/OATutor](https://github.com/CAHLR/OATutor)** (MIT) — BKT mastery model for skill tracking
-- **[mudler/LocalAI](https://github.com/mudler/LocalAI)** (MIT) — local LLM inference
-- **[qdrant/qdrant](https://github.com/qdrant/qdrant)** (Apache 2.0) — student knowledge state vector store
+**Stack**:
+- [moodle/moodle](https://github.com/moodle/moodle) — LMS base
+- [Hasif50/Automated-Essay-Grader](https://github.com/Hasif50/Automated-Essay-Grader) — core grading engine
+- [langchain-ai/langchain](https://github.com/langchain-ai/langchain) — orquestación prompts + rubrics
+- Claude API (claude-sonnet-5) o GPT-4 — modelo de lenguaje para grading
+- Moodle Webhook → trigger al submit del assignment
 
-**docker-compose.yml:**
-```yaml
-version: "3.8"
-services:
-  localai:
-    image: localai/localai:latest
-    ports: ["8080:8080"]
-    volumes: [./models:/models]
-    environment:
-      - MODELS_PATH=/models
-      - PRELOAD_MODELS=phi-3-medium  # Math-strong, runs on CPU
-
-  qdrant:
-    image: qdrant/qdrant:latest
-    ports: ["6333:6333"]
-    volumes: [qdrant_data:/qdrant/storage]
-
-  deeptutor:
-    image: hkuds/deeptutor:latest
-    ports: ["3000:3000"]
-    environment:
-      - LLM_PROVIDER=localai
-      - LLM_BASE_URL=http://localai:8080/v1
-      - VECTOR_DB_URL=http://qdrant:6333
-    depends_on: [localai, qdrant]
-
-  moodle-ai-bridge:
-    build: ./moodle-bridge  # Custom FastAPI service
-    ports: ["8000:8000"]
-    environment:
-      - MOODLE_URL=http://moodle
-      - DEEPTUTOR_URL=http://deeptutor:3000
-      - MOODLE_TOKEN=${MOODLE_WEBSERVICE_TOKEN}
-
-volumes:
-  qdrant_data:
+**Flujo**:
+```
+Estudiante sube ensayo → Moodle webhook → Grader microservice
+  → LangChain: extrae rubrica del assignment (desde descripción Moodle)
+  → Automated Essay Grader: evalúa por criterio (tesis, argumentación, gramática, sources)
+  → Genera feedback rubric-aligned en el idioma del curso
+  → Detección de plagio (similitud vs. corpus)
+  → Push resultado a Moodle Gradebook API
+  → Notificación al estudiante con feedback detallado
 ```
 
-**Moodle → DeepTutor bridge (moodle-bridge/main.py):**
-```python
-from fastapi import FastAPI
-import httpx
-
-app = FastAPI()
-
-@app.post("/student-session")
-async def start_tutor_session(student_id: str, course_id: str, topic: str):
-    # Fetch student's Moodle activity logs to prime knowledge state
-    moodle_resp = httpx.get(
-        f"{MOODLE_URL}/webservice/rest/server.php",
-        params={
-            "wsfunction": "core_completion_get_activities_completion_status",
-            "courseid": course_id,
-            "userid": student_id,
-            "wstoken": MOODLE_TOKEN,
-            "moodlewsrestformat": "json"
-        }
-    )
-    completion_data = moodle_resp.json()
-    
-    # Start DeepTutor session with pre-loaded knowledge context
-    tutor_resp = httpx.post(
-        f"{DEEPTUTOR_URL}/api/sessions",
-        json={
-            "student_id": student_id,
-            "topic": topic,
-            "prior_knowledge": completion_data,
-            "mode": "adaptive_tutoring"
-        }
-    )
-    return {"session_url": tutor_resp.json()["session_url"]}
-```
-
-**Result**: Each student gets a tutor that knows their Moodle history and adapts in real time. BKT tracks mastery per skill. Sessions persist across logins.
+**Tiempo estimado**: 2-3 semanas
+**Modelo recomendado**: claude-sonnet-5 (mejor ratio quality/cost para feedback educativo largo)
+**Licencias**: GPL 3.0 (Moodle) + MIT (Grader) → distribución restringida, ideal para cliente que deployea internamente
 
 ---
 
-## Pattern 3: Offline AI Tutor Device (Kolibri + LocalAI)
+## Patrón 3: Adaptive Corporate Upskilling (Frappe LMS + ERPNext)
 
-**Use case**: Deploy AI tutoring to schools with no reliable internet in rural/emerging-market settings. Each school gets a Raspberry Pi 5 cluster acting as a local AI education server.
+**Objetivo**: Plataforma corporativa donde el LMS está conectado a HR — cursos recomendados por gap de skills, progreso vinculado a performance review.
 
-**Components:**
-- **[learningequality/kolibri](https://github.com/learningequality/kolibri)** (MIT) — offline LMS + Khan Academy content
-- **[mudler/LocalAI](https://github.com/mudler/LocalAI)** (MIT) — runs Phi-3-mini on CPU
-- **[Khan/perseus](https://github.com/Khan/perseus)** (MIT) — interactive exercise rendering
+**Stack**:
+- [frappe/lms](https://github.com/frappe/lms) — LMS base (MIT)
+- ERPNext / Frappe HR — HR y performance management (mismo stack)
+- [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) — adaptive learning paths
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — orquestación del learning agent
+- [jmshea/jupyterquiz](https://github.com/jmshea/jupyterquiz) — evaluaciones técnicas para roles data/dev
 
-**Hardware**: Raspberry Pi 5 (8GB RAM) cluster, 1 per 30 students; ~$150/device
-
-**Setup script:**
-```bash
-#!/bin/bash
-# Install Kolibri
-pip install kolibri
-kolibri start
-
-# Install LocalAI with Phi-3-mini (3.8B, runs on 4GB RAM)
-docker run -d \
-  --name localai \
-  -p 8080:8080 \
-  -v ./models:/models \
-  localai/localai:latest \
-  phi-3-mini-4k-instruct.gguf
-
-# Configure Kolibri to proxy AI requests
-# Kolibri plugin: kolibri_ai_tutor (custom)
-kolibri plugin enable kolibri_ai_tutor
-
-# Pre-download content channels
-kolibri manage importchannel --channel-id=513f5c4d11ea4d3b87c51ff6e0dfbce8  # Khan Academy Math
-kolibri manage importchannel --channel-id=7db8b43a2e5a4f7fb60c3f8b26b53d9e  # Khan Academy Science
+**Flujo**:
+```
+HR crea job role con skills requeridos → Frappe HR
+  → EduAdapt AI: analiza gap entre skills del empleado y rol target
+  → LangGraph: genera learning path personalizado (cursos Frappe LMS + recursos externos)
+  → Empleado completa cursos → quizzes automáticos vía jupyterquiz (para roles técnicos)
+  → Manager dashboard: progreso + predicción de tiempo para alcanzar competencia
+  → Performance review Frappe HR ingesta resultados LMS → evalúa cumplimiento learning goals
 ```
 
-**Custom Kolibri AI plugin (exercises/ai_hint.py):**
-```python
-from kolibri.core.content.api import ContentNodeViewset
-import httpx
-
-class AIHintViewset(ContentNodeViewset):
-    def get_ai_hint(self, request, pk=None):
-        node = self.get_object()
-        student_attempt = request.data.get("attempt", "")
-        
-        # Call LocalAI (Phi-3 is strong at math step-by-step explanation)
-        resp = httpx.post(
-            "http://localhost:8080/v1/chat/completions",
-            json={
-                "model": "phi-3-mini",
-                "messages": [
-                    {"role": "system", "content": "You are a patient math tutor. Give a hint, not the answer. Be encouraging."},
-                    {"role": "user", "content": f"Exercise: {node.description}\nMy attempt: {student_attempt}\nGive me a hint."}
-                ]
-            }
-        )
-        return Response({"hint": resp.json()["choices"][0]["message"]["content"]})
-```
-
-**Impact**: Offline AI tutoring at $150/device; no internet required; math hints + explanations in local language (Phi-3 supports 50+ languages).
+**Tiempo estimado**: 6-8 semanas
+**Licencias**: MIT (Frappe LMS, EduAdapt AI) → ideal para Globant, deployable sin fricción legal
 
 ---
 
-## Pattern 4: AI Curriculum Generation Crew (CrewAI)
+## Patrón 4: Knowledge Tracing Tutor (K-12 / STEM)
 
-**Use case**: A corporate L&D team needs to create a training curriculum for a new product launch. Currently takes 3 weeks and $50k with instructional designers. AI crew generates a draft in 4 hours.
+**Objetivo**: Tutor de matemáticas/ciencias con estimación científica de dominio por skill usando Bayesian Knowledge Tracing.
 
-**Components:**
-- **[crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** (MIT) — multi-agent curriculum design crew
-- **[frappe/lms](https://github.com/frappe/lms)** (MIT) — publishes the generated curriculum
-- **[mintplex-labs/anything-llm](https://github.com/mintplex-labs/anything-llm)** (MIT) — ingests product documentation as source material
+**Stack**:
+- [CAHLR/OATutor](https://github.com/CAHLR/OATutor) — ITS base con BKT (MIT)
+- [langchain-ai/langchain](https://github.com/langchain-ai/langchain) — generación de explicaciones naturales
+- [ollama/ollama](https://github.com/ollama/ollama) — LLM local (privacidad menores)
+- [moodle/moodle](https://github.com/moodle/moodle) — LMS institucional donde se integra
 
-**Wiring:**
-```python
-from crewai import Agent, Task, Crew, Process
-from langchain_anthropic import ChatAnthropic
-
-llm = ChatAnthropic(model="claude-sonnet-5")
-
-# Define the instructional design crew
-learning_designer = Agent(
-    role="Instructional Designer",
-    goal="Design a complete, pedagogically sound curriculum outline",
-    backstory="Expert in adult learning principles (ADDIE, Bloom's Taxonomy). Creates curricula that drive measurable behavior change.",
-    llm=llm
-)
-
-content_writer = Agent(
-    role="Content Writer",
-    goal="Write engaging, clear lesson content for each module",
-    backstory="Technical writer who excels at making complex topics accessible. Writes for adult learners in corporate settings.",
-    llm=llm
-)
-
-assessment_designer = Agent(
-    role="Assessment Designer",
-    goal="Create valid, reliable assessments that measure learning objectives",
-    backstory="Assessment expert who designs scenario-based questions that test application, not just recall.",
-    llm=llm
-)
-
-quality_reviewer = Agent(
-    role="Quality Reviewer",
-    goal="Review curriculum for accuracy, completeness, and pedagogical soundness",
-    backstory="Senior L&D professional who spots gaps, inconsistencies, and content that won't transfer to the job.",
-    llm=llm
-)
-
-# Define tasks with source material context
-design_task = Task(
-    description="""Analyze the product documentation provided and design a 5-module curriculum.
-    Each module should have: learning objectives (Bloom's levels), content outline, 
-    estimated duration, and delivery method (video/reading/activity).
-    Source material: {product_docs}""",
-    agent=learning_designer,
-    expected_output="Structured 5-module curriculum outline in JSON"
-)
-
-write_task = Task(
-    description="Write full lesson content for each of the 5 modules. Include examples, scenarios, and summaries.",
-    agent=content_writer,
-    expected_output="Complete lesson text for all 5 modules"
-)
-
-assess_task = Task(
-    description="Create 5 quiz questions per module (25 total) that test the learning objectives at application level.",
-    agent=assessment_designer,
-    expected_output="Quiz bank in QTI-compatible JSON format"
-)
-
-review_task = Task(
-    description="Review the complete curriculum for gaps, accuracy, and L&D best practices. Flag issues and suggest improvements.",
-    agent=quality_reviewer,
-    expected_output="Quality review report with specific recommendations"
-)
-
-curriculum_crew = Crew(
-    agents=[learning_designer, content_writer, assessment_designer, quality_reviewer],
-    tasks=[design_task, write_task, assess_task, review_task],
-    process=Process.sequential
-)
-
-# Run the crew with product documentation
-result = curriculum_crew.kickoff(inputs={"product_docs": open("product_docs.txt").read()})
-
-# Push to Frappe LMS via REST API
-import httpx
-httpx.post(
-    "https://lms.company.com/api/resource/Course",
-    json={"course_name": "Product Training", "content": result},
-    headers={"Authorization": f"token {FRAPPE_API_KEY}:{FRAPPE_API_SECRET}"}
-)
+**Flujo**:
+```
+Estudiante intenta problema → OATutor evalúa respuesta
+  → BKT actualiza probabilidad de dominio por skill (ej. "fracciones: 0.72")
+  → Si P(dominio) < 0.8: LangChain genera hint Socrático (no da respuesta, guía)
+  → Si falla 3 veces: LangChain genera explicación completa con ejemplos
+  → OATutor selecciona siguiente problema: más fácil si P<0.5, más difícil si P>0.8
+  → Dashboard docente: mapa de calor P(dominio) por skill × estudiante
+  → Export a Moodle gradebook
 ```
 
-**Timeline**: 4 hours end-to-end vs. 3 weeks manual. Human review + refinement takes another 2 hours. **Total: 6 hours vs. 3 weeks.**
-**Cost**: ~$12 in LLM API calls vs. $50k instructional designer fees.
+**Tiempo estimado**: 3-5 semanas
+**Diferencial**: BKT es científicamente validado (Carnegie Mellon); no es "AI que adivina", es modelo probabilístico.
 
 ---
 
-## Pattern 5: Student At-Risk Early Warning System
+## Patrón 5: RAG Course Q&A (Cualquier LMS)
 
-**Use case**: A university wants to identify at-risk students before they fail — using AI to analyze engagement patterns, grade trajectories, and forum activity, then automatically alert advisors.
+**Objetivo**: Chatbot que responde preguntas de estudiantes sobre el material del curso 24/7, reduciendo carga docente.
 
-**Components:**
-- **[openedx/openedx-platform](https://github.com/openedx/openedx-platform)** (AGPLv3) — source of learning analytics data
-- **[langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** (MIT) — monitoring agent graph
-- **[langfuse/langfuse](https://github.com/langfuse/langfuse)** (MIT) — audit trail for all AI recommendations
+**Stack**:
+- Cualquier LMS (Moodle / Open edX / Frappe) como source de contenido
+- [langgenius/dify](https://github.com/langgenius/dify) — RAG pipeline + UI chatbot + monitoring
+- [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) — orchestration LangGraph + RAG
+- Vector DB: Qdrant (MIT) o Chroma (Apache 2.0)
+- Claude API o Ollama para respuestas
 
-**Wiring:**
-```python
-from langgraph.graph import StateGraph, END
-from langchain_anthropic import ChatAnthropic
-from langfuse.callback import CallbackHandler
-import httpx, json
-from datetime import datetime, timedelta
-
-llm = ChatAnthropic(model="claude-haiku-4-5-20251001")  # cheap model for batch analysis
-langfuse_handler = CallbackHandler()
-
-def fetch_student_data(state: dict) -> dict:
-    """Pull last 14 days of activity from Open edX Analytics API."""
-    resp = httpx.get(
-        f"{OPENEDX_BASE}/api/analytics/v0/users/{state['student_id']}/engagement/",
-        headers={"Authorization": f"JWT {OPENEDX_JWT}"},
-        params={"start_date": (datetime.now() - timedelta(days=14)).isoformat()}
-    )
-    data = resp.json()
-    return {**state, "engagement": data}
-
-def analyze_risk(state: dict) -> dict:
-    """LLM analyzes engagement pattern and assigns risk score."""
-    prompt = f"""Analyze this student's 14-day engagement data and assess dropout risk.
-    
-    Data: {json.dumps(state['engagement'], indent=2)}
-    
-    Consider:
-    - Login frequency trend (decreasing = risk signal)
-    - Assignment submission rate and timing (late = risk signal)
-    - Video completion rate (dropping = risk signal)
-    - Forum participation (zero = isolation risk)
-    - Grade trajectory (declining = academic risk)
-    
-    Return JSON: {{"risk_score": 0-10, "risk_factors": [...], "recommended_action": "..."}}"""
-    
-    result = llm.invoke(prompt, config={"callbacks": [langfuse_handler]})
-    risk_data = json.loads(result.content)
-    return {**state, "risk": risk_data}
-
-def alert_advisor(state: dict) -> dict:
-    """Send alert if risk score >= 7."""
-    if state["risk"]["risk_score"] >= 7:
-        httpx.post(
-            f"{ADVISOR_WEBHOOK_URL}",
-            json={
-                "student_id": state["student_id"],
-                "risk_score": state["risk"]["risk_score"],
-                "risk_factors": state["risk"]["risk_factors"],
-                "recommended_action": state["risk"]["recommended_action"],
-                "timestamp": datetime.now().isoformat()
-            }
-        )
-        # Also send personalized outreach to student
-        httpx.post(
-            f"{OPENEDX_BASE}/api/user/v1/users/{state['student_id']}/messages/",
-            json={"subject": "Checking in on your progress", 
-                  "body": f"Hi! We noticed you might benefit from some support. {state['risk']['recommended_action']}"},
-            headers={"Authorization": f"JWT {OPENEDX_JWT}"}
-        )
-    return state
-
-# Build monitoring pipeline
-workflow = StateGraph(dict)
-workflow.add_node("fetch", fetch_student_data)
-workflow.add_node("analyze", analyze_risk)
-workflow.add_node("alert", alert_advisor)
-workflow.set_entry_point("fetch")
-workflow.add_edge("fetch", "analyze")
-workflow.add_edge("analyze", "alert")
-workflow.add_edge("alert", END)
-risk_agent = workflow.compile()
-
-# Run nightly via cron for all enrolled students
-# cron: 0 2 * * * python run_risk_monitor.py
-def run_for_all_students(course_id: str):
-    students = get_enrolled_students(course_id)  # edX API
-    for student_id in students:
-        risk_agent.invoke({"student_id": student_id})
+**Flujo**:
+```
+Docente sube PDFs/PPTs/videos del curso → Dify ingest pipeline
+  → Chunking + embeddings → Qdrant
+  → Estudiante pregunta en chat widget del LMS
+  → EduAgent: RAG query → retrieve top-k chunks relevantes
+  → LLM genera respuesta con citations al material del curso
+  → Si fuera del scope del curso: responde "esto no está en el material; consulta al docente"
+  → Dify monitoring: preguntas frecuentes → dashboard para el docente
 ```
 
-**Impact**: Early identification of at-risk students. Universities using similar systems report 15–20% reduction in dropout rates. Langfuse audit trail satisfies FERPA accountability requirements.
+**Tiempo estimado**: 1-2 semanas (el más rápido de implementar)
+**KPI**: Reducción de emails al docente, satisfacción del estudiante, preguntas resueltas fuera de horario
+
+---
+
+## Patrón 6: AI para Predicción de Deserción (Analytics)
+
+**Objetivo**: Alertar proactivamente sobre estudiantes en riesgo de abandonar el curso.
+
+**Stack**:
+- [openedx/openedx-platform](https://github.com/openedx/openedx-platform) — fuente de datos de engagement
+- Open edX Analytics (Aspects) — pipeline de datos
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — agente de análisis + alertas
+- [langgenius/dify](https://github.com/langgenius/dify) — dashboard + notificaciones
+
+**Señales de riesgo**:
+- Días sin login > umbral configurable
+- % completitud < peers similares
+- Notas en quizzes decrecientes
+- Foros: 0 posts en últimas 2 semanas
+
+**Flujo**:
+```
+Cron diario → LangGraph analytics agent
+  → Extrae métricas de Open edX Analytics API
+  → Scoring model: asigna riesgo 0-1 por estudiante
+  → Si riesgo > 0.7: genera mensaje personalizado para el estudiante
+  → Notifica al docente/advisor con contexto: "Ana tiene 12 días sin ingresar, últimas 2 notas <50%"
+  → Opcional: trigger email personalizado al estudiante con recurso de ayuda
+```
+
+**Tiempo estimado**: 3-4 semanas
+**Impacto**: Retención +15-25% reportada en implementaciones similares
