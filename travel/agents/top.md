@@ -1,6 +1,6 @@
 # Top AI Agents & Tools — Travel Industry
 
-> Last updated: 2026-07-02 | Focus: MIT / Apache 2.0 licenses Globant can build on
+> Last updated: 2026-07-05 | Focus: MIT / Apache 2.0 licenses Globant can build on
 
 ## AI Agents Table
 
@@ -16,6 +16,8 @@
 | 8 | open-agent-platform | [langchain-ai/open-agent-platform](https://github.com/langchain-ai/open-agent-platform) | MIT | 5k+ | No-code LangGraph agent builder with visual editor; deploy travel concierge agents without writing orchestration code |
 | 9 | raunaqness/ai-travel-agent | [raunaqness/ai-travel-agent](https://github.com/raunaqness/ai-travel-agent) | MIT | 400+ | LangGraph travel agent with real GDS API calls; demonstrates Amadeus API integration for live flight and hotel data |
 | 10 | ai-travel-planner (zinedkaloc) | [zinedkaloc/ai-travel-planner](https://github.com/zinedkaloc/ai-travel-planner) | MIT | 250+ | OpenAI Chat Completion-based itinerary generator; minimal footprint, easily extended with booking tool calls and streaming UI |
+| 11 | osmmcp | [NERVsystems/osmmcp](https://github.com/NERVsystems/osmmcp) | MIT | 300+ | OpenStreetMap as an MCP server; exposes geocoding (Nominatim), routing (OSRM), nearby places, neighborhood analysis, and EV charging stations to any LLM agent via Model Context Protocol |
+| 12 | Dida-hotel-MCP | [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | 50+ | Hotel booking MCP server backed by 2M+ properties; real-time inventory, rate plans, and cancellation policies; search by location/dates/rating via MCP — agents book without custom SDK |
 
 ## Notes
 
@@ -23,4 +25,5 @@
 - **Local-first option**: AI-Travel-Planner (item 5) runs Llama 4 fully locally — critical for enterprise clients or markets with data-residency requirements.
 - **Framework vs. application**: CrewAI and Smolagents are agent frameworks; items 1-5, 9-10 are ready-to-fork reference applications targeting travel specifically.
 - **GDS connectivity**: item 9 (raunaqness) is the only reference project with live Amadeus API wiring — start here when a production flight search is required.
+- **MCP-native tools (NEW Jul 2026)**: items 11-12 represent the new MCP paradigm — wrap travel infrastructure (OSM, hotel inventory) as MCP servers so any LLM agent can use them natively without custom SDK code. This is the direction the industry is moving.
 - **Agentic trend**: 61% of travel businesses are experimenting with or scaling agentic AI (Phocuswright 2026); MCP and A2A interoperability standards are being adopted by major hotel groups (Marriott, IHG) to expose inventory to autonomous agents.

@@ -330,3 +330,81 @@ for tour in tour_catalog:
 ```
 
 **Expected outcome:** 500 tours × 10 languages = 5,000 pieces of content generated in < 2 hours; consistent tone; replaces 3-month manual localization project.
+
+---
+
+## Pattern 6: MCP-Native Geo-Aware Travel Agent (NEW Jul 2026)
+
+**Use case:** Travel agent with native geographic intelligence — "what restaurants are within walking distance of Hotel X?" — without Google Maps API costs, using fully open-source OSM infrastructure.
+
+**Components:**
+- **[NERVsystems/osmmcp](https://github.com/NERVsystems/osmmcp)** (MIT) — OSM as MCP server (geocoding + routing + POI)
+- **[DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN)** (MIT) — Hotel search+booking via MCP
+- **[langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** (MIT) — Stateful agent orchestration
+- **[langgenius/dify](https://github.com/langgenius/dify)** (Apache 2.0) — Chat UI + RAG destination guides
+
+**Architecture:**
+```
+User message → Dify chat UI
+                    ↓
+            LangGraph agent (Claude/GPT backbone)
+                    ↓ tool calls via MCP
+    ┌──────────────────────────────────────┐
+    │  osmmcp MCP server (self-hosted)      │
+    │  - geocode("Hotel Alvear, Buenos Aires") │
+    │  - nearby_places(lat, lon, "restaurant", 500m) │
+    │  - route(hotel_coords, restaurant_coords) │
+    │  - isochrone(hotel_coords, walk=15min) │
+    └──────────────────────────────────────┘
+    ┌──────────────────────────────────────┐
+    │  Dida hotel MCP server               │
+    │  - search_hotels(city, dates, guests) │
+    │  - get_hotel_details(hotel_id)        │
+    │  - check_availability(hotel_id, dates)│
+    └──────────────────────────────────────┘
+```
+
+**Wiring (MCP client config):**
+```json
+{
+  "mcpServers": {
+    "osmmcp": {
+      "command": "uvx",
+      "args": ["osmmcp"]
+    },
+    "dida-hotel": {
+      "command": "npx",
+      "args": ["-y", "dida-hotel-mcp"],
+      "env": { "DIDA_API_KEY": "${DIDA_API_KEY}" }
+    }
+  }
+}
+```
+
+**LangGraph integration:**
+```python
+from langgraph.prebuilt import create_react_agent
+from langchain_mcp_adapters.client import MultiServerMCPClient
+
+async with MultiServerMCPClient({
+    "osmmcp": {"command": "uvx", "args": ["osmmcp"]},
+    "dida-hotel": {"command": "npx", "args": ["-y", "dida-hotel-mcp"]}
+}) as mcp_client:
+    tools = await mcp_client.get_tools()  # all MCP tools auto-loaded
+    agent = create_react_agent(claude_model, tools)
+    
+    result = await agent.ainvoke({"messages": [
+        ("user", "Find me a hotel in Buenos Aires for next weekend with good restaurants walking distance")
+    ]})
+    # Agent: 1) geocode Buenos Aires → 2) search Dida hotels → 3) pick top option
+    #        → 4) osmmcp nearby restaurants within 500m → 5) format response
+```
+
+**Expected outcome:** Full geo + hotel agent with zero API key dependencies (OSM is free); self-hosted routing eliminates Google Maps costs (~$1K+/mo at scale); MCP wiring takes < 1 day vs. weeks for custom SDK integration; LATAM-ready (full OSM coverage for BR/MX/AR/CO/CL).
+
+**Cost structure:**
+- osmmcp: free (OSM data, self-hosted)
+- Dida hotel search: free tier (no call limits for prototyping)
+- OSRM/Nominatim: self-hosted, ~$50/mo for 2-core server
+- LLM: Claude claude-sonnet-5 ~$3/M tokens
+- Total infra: ~$100-200/mo for production (vs. $1K+ with Google Maps + proprietary hotel API)

@@ -1,6 +1,6 @@
 # Industry Trends — Travel AI
 
-> Current signals and strategic direction as of 2026-07-02
+> Current signals and strategic direction as of 2026-07-05
 
 ## Top Trends
 
@@ -46,6 +46,20 @@ Tour operators and OTAs use LLM agents to:
 - Generate property descriptions from structured data (500-word SEO copy in seconds)
 - Translate content into 20+ languages automatically
 - Create personalized destination guides tailored to traveler profile
+
+### 9. Open Geo Infrastructure for Travel Agents (NEW Jul 2026)
+The MCP protocol is unlocking OpenStreetMap data for LLM agents without proprietary API keys:
+- `osmmcp` (NERVsystems): geocoding, routing, POI search, neighborhood analysis, EV stations — all via MCP
+- Routing engines (OSRM, Valhalla, GraphHopper) can be self-hosted and exposed as agent tools
+- Result: travel agents gain real geo intelligence ("5-minute walk from hotel to Eiffel Tower") without Google Maps costs
+- **LATAM fit**: Full OSM coverage for Brazil, Mexico, Argentina, Colombia, Chile — no regional gaps
+
+### 10. WhatsApp as the LATAM Booking Channel (NEW Jul 2026)
+With 80%+ WhatsApp penetration in LATAM, travel AI agents are going where the users are:
+- n8n + Twilio/360dialog enabling AI booking flows entirely within WhatsApp conversations
+- Conversion rates 3-5x higher vs. email for travel confirmations in Brazil and Mexico
+- CVC Brasil and Decolar running WhatsApp-native booking pilots in H1 2026
+- **Opportunity**: Globant can deliver WhatsApp-native travel agents for mid-size LATAM OTAs and tour operators
 
 ## Strategic Horizon (2026–2028)
 

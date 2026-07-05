@@ -1,6 +1,6 @@
 # Market Intelligence — Travel Industry
 
-> Key players, competitive map, and partnership landscape as of 2026-07-02
+> Key players, competitive map, and partnership landscape as of 2026-07-05
 
 ## Key Players
 
@@ -34,6 +34,24 @@
 | **Amadeus4Dev** | Official GDS SDKs (Python, Node, Java, Android) | MIT |
 | **OpenTravel Alliance** | Schema standards for interoperability | Apache 2.0 |
 | **LangChain** | Agent framework dominant in travel AI builds | MIT |
+| **NERVsystems/osmmcp** | OSM as MCP server — first geo layer for LLM agents | MIT |
+| **DIDA-AI/Dida-hotel-MCP** | First hotel booking MCP server (2M+ hotels) | MIT |
+| **Project-OSRM** | High-performance routing engine (BSD-2-Clause, 7.7k★) | BSD-2-Clause |
+| **Valhalla** | Multi-modal routing engine (MIT, 5.6k★) | MIT |
+
+## Market Size & Growth
+
+| Segment | 2024 | 2030 | CAGR |
+|---------|------|------|------|
+| AI in Tourism (global) | $2.95B | $13.38B | 28.7% |
+| Global travel tech total | $12B | $22B | ~8% |
+| LATAM travel tech | $1.8B | $4.5B | ~12% |
+| Agentic AI in travel | nascent | Significant | 40%+ |
+
+**Key prediction (IDC 2026)**: 30% of travel bookings executed by AI agents by 2030.
+**Phocuswright (2026)**: 61% of travel businesses experimenting with or scaling agentic AI.
+**Consumer trust gap**: Only 2% of US consumers willing to fully delegate booking to AI — massive UX opportunity.
+**Amadeus**: $50M AI fund launched for travel tech partners (2025).
 
 ## Market Map
 

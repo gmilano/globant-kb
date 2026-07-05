@@ -1,6 +1,7 @@
 # Vertical Solutions — Travel Industry
 
 > Real platforms with open-source cores that Globant can build AI on top of
+> Last updated: 2026-07-05
 
 ## Hotel & Property Management
 
@@ -31,6 +32,16 @@
 | **OpenTravel Alliance** | [opentravel.org](https://opentravel.org) | Apache 2.0 | Any travel system needing standardized data schemas (OTA XML/JSON) | Use OTA schemas to normalize supplier feeds into a unified vector store for RAG-powered travel Q&A agents |
 | **A2A Travel Interoperability** | Emerging standard (2026) | Open | AI agents from different vendors interoperating on booking tasks | Wire hotel and flight provider MCP servers to LangGraph booking agents; Marriott and IHG already implementing |
 
+## Geo & Routing Infrastructure (NEW Jul 2026)
+
+| Platform | Repo | License | Best For | AI Opportunity |
+|----------|------|---------|----------|----------------|
+| **OSRM** | [Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend) | BSD-2-Clause | High-performance route calculation on OSM data; sub-ms queries | Expose as LangChain tool: agent asks "fastest route from hotel to airport" → OSRM responds in <1ms |
+| **Valhalla** | [valhalla/valhalla](https://github.com/valhalla/valhalla) | MIT | Multi-modal routing (car/bike/walk/transit); isochrones; time matrices | Agent calculates walking time between itinerary stops; fleet routing for transfer services |
+| **GraphHopper** | [graphhopper/graphhopper](https://github.com/graphhopper/graphhopper) | Apache 2.0 | Java stack routing; custom vehicle profiles; REST API | Embed in Java-based PMS or booking platform for route-aware scheduling |
+| **OpenTripPlanner** | [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) | LGPL-3.0 | Multi-modal trip planning with GTFS transit data; GraphQL API | LATAM public transit routing (São Paulo SPTrans, Buenos Aires GCBA, CDMX Metro) |
+| **osmmcp** | [NERVsystems/osmmcp](https://github.com/NERVsystems/osmmcp) | MIT | OSM as MCP server; geocoding, routing, POI, neighborhood analysis for LLMs | Wire to any LangGraph/CrewAI agent — no custom SDK, just MCP tool calls for all geo needs |
+
 ## Platform Selection Guide
 
 | Scenario | Recommended Stack |
@@ -40,3 +51,6 @@
 | Enterprise tour operator | Apache OFBiz (ERP) + LangChain agents (order Q&A, cost estimation) + NeuralForecast (demand) |
 | Existing Odoo agency client | Odoo Hotel Module + LangChain over Odoo REST API + Amadeus Python SDK for live rates |
 | Corporate travel management | ERPNext (travel module) + CrewAI corporate travel crew + Amadeus SDK for policy compliance |
+| Geo-aware itinerary agent | osmmcp (all geo needs via MCP) + OpenTripPlanner (transit) + OSRM (driving) + LangGraph (orchestration) |
+| LATAM sustainable transit | OpenTripPlanner + GTFS (SPTrans/GCBA/CDMX) + Valhalla (bike/walk legs) + Dify (chat UI) |
+| Airport/hotel kiosk (offline) | Llama 4 local (Ollama) + osmmcp (OSM, self-hosted) + OSRM (self-hosted) + QloApps |
