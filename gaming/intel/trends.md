@@ -1,61 +1,100 @@
-# Industry Trends — AI in Gaming (2026, updated 2026-07-02)
+# Tendencias — Gaming AI 2026
 
-## 🔥 Breaking Trend: AAA Engine Open-Source Wave
+> Investigación curada con datos verificados. Última actualización: 2026-07-05
 
-**Signal (1 Jul 2026):** Fenris Creations open-sourced Carbon Engine (EVE Online, 20+ year production history) under MIT. Combined with NVIDIA's Godot path-tracing fork (GDC 2026, MIT) and COCOS 4 going fully MIT, three major engine releases hit open source in H1 2026.
+## Tendencias confirmadas (alta confianza)
 
-**Implication for Globant:** The "which engine" question now has a fourth serious answer beyond Godot/Unity/Unreal. Carbon's modular architecture and battle-tested AAA scale are unmatched in open source. Studio engagements can now propose Carbon as a differentiated foundation — especially for EVE-adjacent genres (space, sci-fi, MMO, simulation). First consultancy to publish a Carbon AI integration wins the mindshare.
+### 1. Ecosistema Godot como plataforma AI-first
+Godot (MIT, **114k stars**) emergió como el engine open source con el ecosistema AI más rico:
+- **LimboAI** (MIT, 2.8k stars): BTs + Hierarchical State Machines. Stack NPC AI maduro.
+- **Beehave** (MIT, 3.2k stars): behavior trees componibles en el scene tree de Godot.
+- **godot-ai** (MIT, 805 stars, abr 2026): MCP server, 120+ operaciones, conecta Claude/Codex al editor en vivo.
+- **godot_rl_agents** (MIT, 900+ stars): wrappers para 4 frameworks RL (SB3, Sample Factory, RLLib, CleanRL).
+- **NobodyWho** (EUPL, ver licencia): NPCs con LLM local, instalación 1-click en Godot AssetLib (jun 2026).
+- **NVIDIA fork Godot** con path tracing (MIT) lanzado en GDC 2026.
 
-**Key tech:** [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon) (MIT), [godotengine/godot](https://github.com/godotengine/godot) (MIT), [o3de/o3de](https://github.com/o3de/o3de) (Apache-2.0).
+**Oportunidad Globant**: "Godot + AI" como alternativa open source a Unity sin controversias de pricing.
 
-## Trend 1: Generative AI as Standard in Asset Pipelines
+### 2. LLM NPCs — de demo a producción
+En 2026, NPCs con LLMs pasaron a producción en títulos comerciales:
+- Segmento NPCs + Digital Humans: **28.6% del mercado total AI gaming** (mayor segmento).
+- **62% de los nuevos juegos RPG/aventura tienen AI NPCs** (2026 vs **8% en 2024**) — crecimiento explosivo.
+- Impacto medido: +40% immersion scores, +28% session time en RPGs.
+- Arquitectura ganadora: BT (estructura reactiva) + LLM (diálogo generativo) + Vector Store (memoria).
+- **Inworld AI** (cerrado) + **NVIDIA ACE**: stack propietario dominante en AAA.
+- Alternativa OSS: Interactive LLM NPCs (MIT, 716 stars) + LimboAI + Ollama.
+- **LLMUnity** (Apache-2.0, 1.7k stars): LLMs locales o cloud directamente en Unity.
 
-**Signal:** Stable Diffusion and FLUX.1 now power 68% of indie studio asset pipelines (Unity developer survey 2026), with production time cut 45%.
+### 3. GameCoder LLMs especializados
+- **OpenGame / GameCoder-27B** (Apache-2.0, abr 2026): primer LLM open source entrenado en código de juegos via RL orientado a ejecución. Genera juegos web end-to-end.
+- **Roblox CUBE 3D** (1.8B params, mar 2025): genera objetos 3D desde texto on-platform.
+- Tendencia: modelos especializados en game dev superan a modelos generales en tareas de código de juego.
 
-**Implication for Globant:** Every new gaming engagement should include an AI asset pipeline audit/setup phase. ComfyUI + InvokeAI workflows can be templated and delivered as a Globant accelerator.
+### 4. RL para testing automatizado y balance
+- **godot_rl_agents** activo con 4 frameworks RL.
+- Agentes RL entrenados para exploración de nivel → detectan bugs edge-case que QA manual no encuentra.
+- Balance detection: agentes que encuentran estrategias dominantes (exploits) antes del launch.
+- **GameStudio Subagents**: equipo de agentes multi-rol (dev, QA, artist) en terminal.
+- Reducción estimada de QA manual: 60-70% en proyectos con RL QA implementado.
 
-**Key tech:** SDXL Turbo (4-step inference for real-time PCG), FLUX.1 Kontext for character consistency, ControlNet for game-specific constraints.
+### 5. Nakama como backend universal para proyectos OSS
+- 12.8k stars, Apache-2.0, SDK oficial Godot, Unreal, Unity.
+- 500k devs, 1B+ players en producción.
+- Adoptado como backend por defecto en proyectos Godot+AI.
+- Extensible: hooks en Go/TypeScript/Lua para añadir AI server-side.
+- Nakama vs Managed (2026): mayoría de proyectos mid-size prefieren self-host para control de datos.
 
-## Trend 2: Local LLM NPCs Going Mainstream
+### 6. AI asistido en el desarrollo (tooling)
+- **Unity AI** (v6.2, mid-2025): suite integrada en editor. Assistant (docs/code), Generators (texturas/sprites), Inference Engine (on-device).
+- **Godot + godot-ai**: Claude Code/Cursor conectados al editor via MCP. 120+ operaciones: build scenes, edit scripts, wire signals.
+- **Unreal — Aura** (Ramen VR, ene 2026): agente editor + coding. Caso: *Zombonks* lanzado en 5 meses (mitad del tiempo).
+- Adopción: 87% de estudios ya usa AI agents en workflows (Google Cloud survey, jun-jul 2025).
 
-**Signal:** NobodyWho, godot-llm, and local-llm-npc all gained significant traction in H1 2026. Studios are rejecting cloud NPC SaaS due to cost predictability and latency concerns.
+### 7. Analytics predictivo — churn y LTV
+- GNNs (Graph Neural Networks) sobre comportamiento + red social: 75.83 AUROC vs 62.44 LightGBM flat-table.
+- Predicción de churn 14 días en adelante.
+- Señales más fuertes: amigos que se van, difficulty walls, session lengths declining.
+- F2P mobile dominante en LATAM → retención es crítica → oportunidad.
+- Herramientas: PyTorch Geometric (PyG) para GNNs, PostHog (MIT, 23k stars) para events, Grafana (Apache-2.0) para dashboards.
 
-**Implication for Globant:** Build and offer a "Private NPC" solution: quantized Llama 3.2 / Gemma 3n + godot-llm + NobodyWho, deployable on device (PC/console) with no cloud dependency. Major competitive differentiator.
+### 8. Anti-cheat con ML conductual
+- Shift de detección por firmas (binarios) a detección por comportamiento (server-side ML).
+- Ventaja: no se puede bypassear con ofuscación; detecta cheaters nuevos sin actualizar reglas.
+- **OACS** (MIT): framework Python para anomaly detection server-side.
+- **UltimateAntiCheat** (AGPL-3.0): referencia educativa C++ client-side.
+- GNNs para detectar redes coordinadas (boosting, account sharing, fraud en iGaming).
+- Driver LATAM: regulación iGaming Brasil 2025 exige sistemas anti-fraud activos.
 
-**Key tech:** GGUF quantized models, llama.cpp, Godot 4.7.
+### 9. VLM gaming agents como benchmark estándar (NUEVO — Jul 2026)
+**GamingAgent** ([lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent), MIT, 947★) publicado en **ICLR 2026** establece el paradigma:
+- Evalúa LLMs/VLMs jugando videojuegos reales sin infraestructura extra
+- Soporta: Tetris, Sokoban, 2048, Pokémon Red, Super Mario Bros, Candy Crush, Ace Attorney
+- Multi-provider: OpenAI, Anthropic, Gemini, xAI, DeepSeek, Qwen
+- **Impacto**: el gaming se convierte en benchmark de razonamiento espacial y secuencial para modelos
+- Usos en studio: evaluar qué LLM es mejor para tareas de game AI específicas antes de integrarlo
 
-## Trend 3: RL-Based Playtesting & QA Automation
+### 10. Open sourcing de motores AAA (NUEVO — Jul 2026)
+Semana del 1-5 julio 2026: dos releases de motores open source de alto impacto:
+- **Carbon Engine** (Fenris/CCP Games): motor de EVE Online liberado **MIT el 1-julio-2026**. C++ cross-platform, 20+ años en producción MMO. Sub-módulos Apache-2.0 y PSF. URL: [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon)
+- **COCOS 4** (ya MIT desde inicio de 2026): motor cross-platform popular en Asia, era propietario.
 
-**Signal:** Unity ML-Agents and Godot RL Agents are being repurposed as automated QA playtesting bots that find bugs and balance issues faster than human testers.
+Tendencia de fondo: estudios AAA comienzan a monetizar su IP tecnológica via OSS (reducción de costos de mantenimiento + comunidad → contrataciones + reputación). Esto abre oportunidades para Globant de customizar motores battle-tested para clientes.
 
-**Implication for Globant:** AI QA service offering: deploy RL bots trained on existing gameplay; report on unreachable areas, balance failures, exploit paths. Sells into both new and existing game clients.
+---
 
-**Key tech:** Unity ML-Agents, Godot RL Agents, ART (reinforcement training), custom reward functions.
+## En el radar (emergente, 2026-2027)
 
-## Trend 4: Micro-Studio Explosion
+| Tendencia | Señal | ETA |
+|-----------|-------|-----|
+| **AI-native games** (world models) | Yuan-ManX/AI-Native-Game tracker activo. Genie 2 (Google). | 2026-2027 |
+| **Gemma 3n on-device NPCs** | Demostrado en Godot sin API. Offline-first gaming. | Ya disponible en beta |
+| **Villanos adaptativos** | Aivill (SKYHUBDev): villanos que aprenden del jugador. | Concepto emergente |
+| **AI game masters** | VirtualGameMaster (MIT, 300 stars): GM automático para RPGs. | En adopción indie |
+| **PCG con diffusion models** | Generación de assets (texturas, música, diálogos) in-pipeline. AI reduce asset time 70-90%. | Parcialmente productivo ya |
+| **StableGen / Dream Textures** | OSS Blender addons para texturizar 3D con GenAI (TRELLIS.2 + SDXL). | Workflow productivo ya |
+| **Supabase para game backends** | Alternativa PostgreSQL a Firebase/Nakama para juegos asíncronos. | Adopción creciente 2026 |
+| **Carbon Engine fork projects** | MMO open source sobre Carbon (EVE engine). | Proyectos surgirán en Q3 2026 |
+| **52% devs contra GenAI** (GDC 2026) | Sentiment negativo en aumento — resistencia a AI player-facing pero uso detrás del escenario. | Tendencia establecida 2026 |
 
-**Signal:** AI tools now allow 3–5 person teams to produce AAA-quality games. GDC 2026 State of the Industry report confirms this trend accelerating.
-
-**Implication for Globant:** New client archetype: micro-studios needing AI infrastructure support they can't build in-house. Offer managed AI pipeline services (asset gen, NPC, backend) as monthly retainers.
-
-## Trend 5: Adaptive Difficulty & Personalization via ML
-
-**Signal:** Player engagement and retention rising at studios using ML-driven dynamic difficulty adjustment (DDA) and personalized content delivery.
-
-**Implication for Globant:** Add ML-driven DDA module to Nakama or custom backend integrations. Player stats feed a small classifier that adjusts enemy parameters, spawn rates, and level generation in real-time.
-
-## Trend 6: Godot Displacing Unity in Open-Source Projects
-
-**Signal:** Post-Unity Runtime Fee controversy (2023), Godot adoption surged. Godot 4.7 (June 2026) + NVIDIA path-tracing fork make it viable even for AAA visuals.
-
-**Implication for Globant:** Build Godot competency as a flagship capability. All internal gaming accelerators/demos should target Godot-first.
-
-## Key Numbers (2026)
-
-| Metric | Value |
-|--------|-------|
-| AI profit opportunity for gaming (Morgan Stanley) | $22B |
-| Generative AI adoption in game companies | 80%+ |
-| Agentic AI adoption (autonomous NPCs etc.) | <20% |
-| Indie studio asset pipeline AI adoption | 68% |
-| Dev timeline compression from AI tooling | 30–50% |
+---
+*Fuentes: GitHub (verificado 2026-07-05), blog.imseankim.com (GDC 2026), aivexify.com, opensourceforu.com (Carbon Engine), grandviewresearch.com, solidaitech.com*

@@ -1,35 +1,186 @@
-# Vertical Platforms & Solutions — Gaming
+# Verticales de partida — Gaming AI
 
-> Real systems that can be customized with AI on top. Focus on permissive licenses.
+> Plataformas verticales open source customizables con AI.
+> Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
+> Última actualización: 2026-07-05
 
-## Game Backend Platforms
+## Stack recomendado: Godot + Nakama
 
-| Platform | Repo | License | Description | AI Integration Potential |
-|----------|------|---------|-------------|-------------------------|
-| **Nakama** | [heroiclabs/nakama](https://github.com/heroiclabs/nakama) | Apache 2.0 | Complete game server: auth, matchmaking, leaderboards, real-time sockets, economy, social graph | Add ML-based matchmaking, anti-cheat AI, personalized leaderboards, AI chat moderation |
-| **Talo** | [TaloDev/backend](https://github.com/TaloDev/backend) | MIT | Self-hostable backend: leaderboards, player stats, save data, events; Godot + Unity SDKs | Plug in AI difficulty adjustment using player stats; personalize event triggers |
-| **Open Match** | [googleforgames/open-match](https://github.com/googleforgames/open-match) | Apache 2.0 | Kubernetes-native matchmaking orchestration from Google; pluggable match functions | Replace default match function with trained ML model for skill-adaptive matching |
+La combinación más potente disponible en open source hoy para juegos online:
 
-## Game Engines (as Platforms)
+```
+Godot (MIT) — motor del juego
+    + LimboAI / Beehave — NPC behavior trees
+    + godot_rl_agents — entrenamiento RL de agentes
+    + godot-ai — MCP server para AI-assisted dev
+    ↕ nakama-godot SDK (Apache-2.0)
+Nakama (Apache-2.0) — backend multiplayer
+    + TypeScript/Go hooks — lógica server-side con AI
+    + Open Match (Apache-2.0) — matchmaking enchufable
+    + PostHog (MIT) — analytics de jugador
+```
 
-| Platform | Repo | License | Description | AI Integration Potential |
-|----------|------|---------|-------------|-------------------------|
-| **Godot 4** | [godotengine/godot](https://github.com/godotengine/godot) | MIT | Full 2D/3D engine; scripting via GDScript/C#; large asset marketplace | godot-llm, Godot RL Agents, NobodyWho plugins; NVIDIA path-tracing fork |
-| **O3DE** | [o3de/o3de](https://github.com/o3de/o3de) | Apache 2.0 | AAA multi-platform engine from Linux Foundation; Gem (module) system | Integrate ML-Agents-style RL; custom AI Gems for procedural content |
-| **OGRE** | [OGRECave/ogre](https://github.com/OGRECave/ogre) | MIT | C++ rendering engine; used for custom engines in serious games & simulation | Embed AI inference (ONNX Runtime) directly into custom engine built on OGRE |
+---
 
-## AI NPC & Dialogue Platforms
+## Plataformas base completas
 
-| Platform | Repo | License | Description | Notes |
-|----------|------|---------|-------------|-------|
-| **NobodyWho** | [nobodywho-ooo/nobodywho](https://github.com/nobodywho-ooo/nobodywho) | MIT | Godot plugin: fully offline LLM NPC dialogue, no cloud dependency | Ships in-game binary; supports quantized models (GGUF) |
-| **godot-llm** | [Adriankhl/godot-llm](https://github.com/Adriankhl/godot-llm) | MIT | Godot nodes: GdLlama, GdEmbedding, GdLlava; wraps llama.cpp | Multimodal: text + image understanding for game world interactions |
-| **Player2 Godot Plugin** | [elefant-ai/player2-ai-npc-godot](https://github.com/elefant-ai/player2-ai-npc-godot) | MIT | Cloud-connected AI NPC with persistent memory and voice | Cloud-based; best for online games needing persistent NPC world state |
+| Plataforma | Licencia | URL | Stars | Stack | Caso de uso |
+|------------|----------|-----|-------|-------|-------------|
+| **Godot Engine** | MIT | [godotengine/godot](https://github.com/godotengine/godot) | 114k | C++/GDScript/C# | Engine 2D/3D completo. Base para integrar NPCs AI, PCG, diálogo. Ecosistema AI más rico open source. |
+| **Open 3D Engine** | Apache-2.0 | [o3de/o3de](https://github.com/o3de/o3de) | 9.5k | C++ | Engine AAA. Sponsors AWS/Epic/Intel (Linux Foundation). Para proyectos enterprise con AWS Bedrock. |
+| **Carbon Engine (Fenris)** | **MIT** | [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon) | NUEVO | C++ | **Motor de EVE Online liberado MIT el 1-julio-2026.** Framework cross-platform probado en producción AAA durante 20+ años. Sub-módulos Apache-2.0 y PSF. |
+| **COCOS 4** | **MIT** | [cocos2d/cocos-engine](https://github.com/cocos2d/cocos-engine) | 8k | C++/JS/TS | Motor cross-platform popular en Asia, **liberado MIT en 2026** (era propietario). Ligero para mobile e in-app games. |
+| **Nakama** | Apache-2.0 | [heroiclabs/nakama](https://github.com/heroiclabs/nakama) | 12.8k | Go + SDKs | Backend de juego completo. Matchmaking, leaderboards, chat, social. 500k devs. |
+| **Colyseus** | MIT | [colyseus/colyseus](https://github.com/colyseus/colyseus) | 6.2k | Node.js/TypeScript | Servidor multiplayer web. Ideal para browser games y webapps. |
+| **MonoGame** | MIT | [MonoGame/MonoGame](https://github.com/MonoGame/MonoGame) | 11k | C# | Framework C# cross-platform. Para devs .NET que quieren añadir AI. |
+| **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. pgvector para RAG. |
 
-## Asset Pipeline Platforms
+---
 
-| Platform | Repo | License | Description | Notes |
-|----------|------|---------|-------------|-------|
-| **Stable Diffusion WebUI** | [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) | AGPL-3.0 | Most-used SD interface; REST API for pipeline integration | 68% of indie studios use SD for assets (Unity survey 2026) |
-| **ComfyUI** | [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI) | GPL-3.0 | Node-graph SD pipeline; automatable for batch asset generation | Best for style-consistent sprite sheets, UI elements, concept art batches |
-| **InvokeAI** | [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache 2.0 | Professional Stable Diffusion interface with workflow automation | Apache 2.0 makes it the cleanest license for Globant client deliverables |
+## Juegos open source para fork + AI
+
+Proyectos completos que pueden usarse como base con fork:
+
+| Juego | Licencia | Repo | Stars | Por qué útil |
+|-------|----------|------|-------|---------------|
+| **Luanti (Minetest)** | LGPL-2.1 | [minetest/minetest](https://github.com/minetest/minetest) | 10.5k | Voxel world completo. Base ideal para añadir PCG con AI y NPCs agenticos. |
+| **0 A.D.** | GPL-2.0 | [0ad/0ad](https://github.com/0ad/0ad) | 2.5k | RTS completo. AI de unidades mejorable con ML. |
+| **SuperTuxKart** | GPL-3.0 | [supertuxkart/stk-code](https://github.com/supertuxkart/stk-code) | 5k | Juego de carreras completo. AI de oponentes mejorable con RL. |
+
+---
+
+## Cómo customizar cada plataforma con AI
+
+### Godot + AI (stack recomendado para la mayoría de proyectos)
+
+**Opción A — NPC local sin API externa (indie/privacy-first)**
+```
+Godot Engine (MIT)
+    ↓ plugin via Asset Library
+local-llm-npc / NobodyWho (Godot AssetLib)
+    ↓ HTTP local
+Ollama con Gemma 3n / Llama 3.1 8B
+    ↓
+NPC con diálogo dinámico, sin latencia de red, sin costo de API
+```
+Repos: [code-forge-temple/local-llm-npc](https://github.com/code-forge-temple/local-llm-npc) (MIT)
+
+**Opción B — RAG sobre lore del juego (narrativa coherente)**
+```
+Godot Engine (MIT)
+    ↓ llamada HTTP a FastAPI
+LlamaIndex (MIT) + ChromaDB (Apache-2.0)
+    ↓ retrieval de lore, quests, personajes
+Claude Haiku / GPT-4o-mini (API)
+    ↓
+NPC que "conoce" el universo del juego y no inventa lore
+```
+
+**Opción C — RL training + MCP dev tooling (studio workflow)**
+```
+Godot Engine (MIT)
+    ├── godot_rl_agents → entrenar agentes / QA bots
+    └── godot-ai (MCP) → Claude Code conectado al editor
+```
+
+---
+
+### Nakama + AI (backend inteligente)
+
+Nakama expone hooks server-side en Go, TypeScript y Lua. Interceptar eventos y llamar a modelos:
+
+```
+Nakama server (Apache-2.0)
+    ├── Hook: after_match_create
+    │   └── ONNX model (PyTorch exportado) → matchmaking scoring
+    ├── Hook: after_authenticate
+    │   └── Clasificador ML → detectar cuenta nueva vs botfarm
+    ├── Hook: stream de eventos en partida
+    │   └── Anomaly detection → anti-cheat conductual
+    └── Cron job Nakama
+        └── Churn prediction model → trigger re-engagement notification
+```
+
+Módulos AI a añadir:
+- **Matchmaking predictivo**: modelo que predice balance de partida (skill + latencia + historial)
+- **Anti-cheat conductual**: z-score en velocidad, puntería, recursos → flag automático
+- **Churn prevention**: score diario por jugador → notificación personalizada si en riesgo
+
+---
+
+### Carbon Engine (EVE Online, MIT — NUEVO Jul 2026)
+
+Primer motor AAA de este nivel open source. Oportunidades:
+
+```
+Carbon Engine (MIT)
+    + AI NPC layer
+    │   ↓
+    │   LLMs (Claude / local Llama)   ← diálogos de NPCs en MMO
+    │   + memoria persistente Qdrant  ← recuerdan relaciones con jugador
+    ├── COCOS 4 (MIT) para UI/HUD     ← interfaces móviles del juego
+    └── Nakama (Apache-2.0)           ← backend multiplayer MMO
+```
+
+**Use case principal**: proyectos de MMO o juego de escala similar a EVE que quieran base de motor probada en producción sin royalties. El motor tiene 20+ años de hardening.
+
+---
+
+### Supabase para juegos asíncronos/persistentes
+
+Ideal para: RPGs, idle games, juegos de turnos, social games, UGC platforms.
+
+```
+Supabase (PostgreSQL + realtime + auth + storage + pgvector)
+    ├── Edge Functions (Deno/TypeScript)
+    │   └── Trigger en evento de juego → llama LLM API
+    ├── pgvector extension
+    │   └── Embeddings del lore/personajes → RAG sin ChromaDB externo
+    └── Realtime subscriptions
+        └── Live updates de estado de juego
+
+Casos de uso:
+    ├── Recomendación de siguiente misión (LLM sobre historial del jugador)
+    ├── Descripción generativa de ítems de inventario (LLM)
+    ├── Soporte in-game via chatbot (RAG sobre pgvector + LLM)
+    └── Detección de cheating en juegos asíncronos (SQL analytics + ML)
+```
+
+Ventajas vs Firebase para gaming: SQL nativo (queries complejas), pgvector (RAG sin servicio externo), open source self-hosteable, Row Level Security.
+
+---
+
+### O3DE + AWS AI (proyectos enterprise/AAA)
+
+```
+Open 3D Engine (Apache-2.0)
+    ↓ AWS Gem (plugin nativo)
+AWS Bedrock (Claude / Llama on AWS)    ← LLM para NPCs y PCG
+AWS GameLift                           ← multiplayer servers managed
+AWS Comprehend                         ← análisis de toxicidad en chat
+AWS Rekognition                        ← moderación de contenido UGC
+```
+
+Perfil: estudio mid-size/AAA que quiere escalar con AWS sin royalties de engine. Sin lock-in: O3DE es Apache 2.0, puede migrar a otro cloud.
+
+---
+
+## Tabla fit por caso de uso
+
+| Caso de uso | Plataforma base | Capa AI | Esfuerzo |
+|-------------|----------------|---------|----------|
+| NPC con LLM local | Godot | LimboAI + Ollama | 2-3 semanas |
+| NPC con memoria persistente | Godot | Generative Agents pattern + Claude API | 3-4 semanas |
+| Multiplayer backend inteligente | Nakama | ONNX hooks + PostHog | 3-4 semanas |
+| Backend social/persistente + AI | Supabase | Edge Functions + pgvector + LLM | 2-3 semanas |
+| RL training / QA automatizado | Godot + godot_rl_agents | SB3 + PPO | 2-4 semanas |
+| AI-assisted game dev | Godot + godot-ai | Claude Code / Cursor via MCP | 1 día setup |
+| Juego AAA con AI cloud | O3DE | AWS Bedrock / GameLift | Meses (enterprise) |
+| RPG con PCG y narrativa generativa | Luanti fork + Godot | Concordia + LlamaIndex + LLM | 6-10 semanas |
+| MMO con NPCs masivos | Carbon Engine (MIT) | LLM + Nakama | Proyecto grande (6m+) |
+| Browser game / web game AI | COCOS 4 (MIT) + Colyseus | LLM API | 3-6 semanas |
+| Asset creation AI-assisted | Blender + StableGen | TRELLIS.2 + SDXL | Workflow inmediato |
+
+---
+*Fuentes: heroiclabs.com, supabase.com/blog, godotengine.org, o3de.org, opensourceforu.com, GitHub (verificado 2026-07-05)*
+*Carbon Engine y COCOS 4 MIT añadidos 2026-07-05 — noticias de esta semana.*

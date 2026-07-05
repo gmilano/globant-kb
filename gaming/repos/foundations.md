@@ -1,36 +1,57 @@
-# Foundational Repositories — Gaming
+# 🏗️ Repos fundacionales — Gaming
 
-> These are the open-source bedrock that Globant gaming engagements should be built on or integrate with.
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-05 | Verificado con deep-research
 
 ## Game Engines
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [godotengine/godot](https://github.com/godotengine/godot) | MIT | 90k+ | Full-featured 2D/3D game engine; v4.7 (June 2026) adds HDR, area lights, drawable textures. Primary open-source engine for AI prototyping. |
-| [o3de/o3de](https://github.com/o3de/o3de) | Apache 2.0 | 7k+ | Open 3D Engine (Linux Foundation); AAA-capable multi-platform engine, supports Lumberyard workflows; strong for simulation and serious games. |
-| [OGRECave/ogre](https://github.com/OGRECave/ogre) | MIT | 4k+ | OGRE — premier modular C++ rendering engine since 2001; used in industrial, robotics, and specialized game backends. |
-| [SFML/SFML](https://github.com/SFML/SFML) | zlib | 10k+ | Simple and Fast Multimedia Library — C++ foundation for 2D games; commonly used for game engine education and custom engines. |
-| [raysan5/raylib](https://github.com/raysan5/raylib) | zlib | 22k+ | Simple C game programming library; widely used for game jams, prototyping, and teaching. |
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [godotengine/godot](https://github.com/godotengine/godot) | MIT | Motor completo 2D/3D. Ecosistema AI más rico: LimboAI, Beehave, godot_rl_agents, godot-ai | 114k |
+| [o3de/o3de](https://github.com/o3de/o3de) | Apache-2.0 | Open 3D Engine (ex-Amazon Lumberyard). AAA-grade. Linux Foundation. Opción enterprise | 9.5k |
+| [MonoGame/MonoGame](https://github.com/MonoGame/MonoGame) | MIT | Framework C# cross-platform. Para devs .NET añadiendo AI | 11k |
+| [stride3d/stride](https://github.com/stride3d/stride) | MIT | Engine C# cross-platform (ex-Xenko). Alternativa a Unity para devs .NET | 7.7k |
+| [love2d/love](https://github.com/love2d/love) | ZLIB | LÖVE 2D — Lua, ligero, ideal para prototipos rápidos con AI | 4.5k |
+| [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon) | **MIT** | **Motor de EVE Online** (CCP Games) liberado open source el 1 julio 2026. C++ cross-platform. Décadas de producción AAA. Sub-módulos: Apache-2.0 y PSF. | NUEVO Jul 2026 |
+| [cocos2d/cocos-engine](https://github.com/cocos2d/cocos-engine) | **MIT** | COCOS 4 — motor cross-platform popular en Asia. Fue propietario, **liberado MIT en 2026** (adquisición por SUD por $72M en nov 2025). Ligero para mobile. | 8k |
 
-## Game Backend & Infrastructure
+## Multiplayer Backends
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [heroiclabs/nakama](https://github.com/heroiclabs/nakama) | Apache 2.0 | 8k+ | Scalable open-source game server: authentication, matchmaking, real-time networking, leaderboards, social features, in-game economy. |
-| [googleforgames/open-match](https://github.com/googleforgames/open-match) | Apache 2.0 | 1.5k+ | Flexible extensible matchmaking framework from Google; pluggable matching logic, Kubernetes-native. |
-| [TaloDev/backend](https://github.com/TaloDev/backend) | MIT | 500+ | Talo: self-hostable game backend with leaderboards, stats, saves; Godot plugin + Unity package included. |
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [heroiclabs/nakama](https://github.com/heroiclabs/nakama) | Apache-2.0 | Backend más completo open source. SDK oficial Godot. Extensible en Lua/TS/Go. Social, matchmaking, leaderboards | 12.8k |
+| [googleforgames/open-match](https://github.com/googleforgames/open-match) | Apache-2.0 | Framework matchmaking de Google. Plug-in para algoritmos custom con AI | — |
+| [colyseus/colyseus](https://github.com/colyseus/colyseus) | MIT | Server multijugador en Node.js/TypeScript. Ideal para web games + AI | 6.2k |
 
-## AI / ML for Games
+## Pathfinding
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [Unity-Technologies/ml-agents](https://github.com/Unity-Technologies/ml-agents) | Apache 2.0 | 17k+ | Unity ML-Agents: train NPCs with RL and imitation learning; environments usable for research and game AI training. |
-| [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) | MIT | 2k+ | Godot RL Agents: Python-side RL training loop for Godot 4 environments; supports PPO, SAC via Stable-Baselines3. |
-| [Adriankhl/godot-llm](https://github.com/Adriankhl/godot-llm) | MIT | 1k+ | godot-llm: run llama.cpp LLMs natively inside Godot for NPC dialogue, world gen, quest text. |
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [recastnavigation/recastnavigation](https://github.com/recastnavigation/recastnavigation) | Zlib | Estándar de industria navmesh. Ya en Godot, Unity, UE. Combinable con RL agents | 7.8k |
+| [Mugen87/yuka](https://github.com/Mugen87/yuka) | MIT | Game AI primitives JS: steering behaviors, pathfinding, FSM | 1.4k |
 
-## Asset & Content Generation
+## Physics
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) | AGPL-3.0 | 140k+ | Most widely used Stable Diffusion interface; powers asset pipelines in 68% of indie studios (Unity survey 2026). |
-| [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI) | GPL-3.0 | 65k+ | Node-based SD pipeline; used for batch game asset generation, style-consistent sprite sheets, UI elements. |
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [erincatto/box2d](https://github.com/erincatto/box2d) | MIT | Box2D v3 — motor de física 2D estándar de la industria. Reescrito en C. 2024. | 8k |
+| [jrouwe/JoltPhysics](https://github.com/jrouwe/JoltPhysics) | MIT | Motor de física 3D de alta performance. Usado en Horizon Forbidden West. | 7k |
+
+## Analytics y Observability
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [grafana/grafana](https://github.com/grafana/grafana) | Apache-2.0 | Dashboards player analytics en tiempo real | 67k |
+| [PostHog/posthog](https://github.com/PostHog/posthog) | MIT | Product analytics self-hosted. Player behavior analysis | 23k |
+
+## ML / RL Frameworks (base científica)
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) | MIT | PPO, SAC, A2C, DQN en PyTorch. El estándar para RL en game dev | 13.5k |
+| [Farama-Foundation/Gymnasium](https://github.com/Farama-Foundation/Gymnasium) | MIT | API estándar de entornos RL. Sucesor de OpenAI Gym | 12.1k |
+| [google-deepmind/open_spiel](https://github.com/google-deepmind/open_spiel) | Apache-2.0 | Framework para investigación RL + teoría de juegos. 70+ juegos (C++ + Python) | 5.3k |
+
+---
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*Carbon Engine (Fenris) añadido 2026-07-05 — liberado MIT el 1 julio 2026, muy fresco.*
