@@ -209,6 +209,41 @@ Slack: "Latency spike started 14:23 UTC, correlates with deploy #1234. auth-serv
 
 ---
 
+---
+
+## Recipe 7: Self-Hosted Copilot Alternative (Tabby + Continue + Ollama)
+
+**Goal**: Replace GitHub Copilot Enterprise ($39/user/month) with a self-hosted stack that keeps all code on-prem.
+
+**Stack**:
+- **Completion server**: [Tabby](https://github.com/TabbyML/tabby) (Apache-2.0, ~33k stars) — LSP-compatible server
+- **IDE plugin**: [Continue](https://github.com/continuedev/continue) (Apache-2.0) — VS Code + JetBrains integration
+- **LLM inference**: [Ollama](https://github.com/ollama/ollama) (MIT, ~120k stars) — runs Codestral / Qwen2.5-Coder locally
+- **Model**: Codestral (Mistral) or DeepSeek Coder V2 — best open-weight code models as of mid-2026
+
+**Wire-up**:
+```
+Developer in VS Code → Continue plugin:
+  Inline completion → Tabby (LSP) → Ollama (Codestral model, GPU server)
+  Chat sidebar → Continue → Ollama (Qwen2.5-Coder-32B)
+  Codebase Q&A → Continue → Tabby repo index → Gitea API
+
+Tabby admin (one-time):
+  - Point Tabby at Gitea repos for context indexing
+  - Enable enterprise auth (SSO via OIDC)
+  - View team analytics dashboard for adoption metrics
+```
+
+**Cost breakdown (20-dev team)**:
+- GitHub Copilot Enterprise: 20 × $39 = $780/month
+- Self-hosted: 1× RTX 4090 GPU server ~$600/month cloud, all OSS software = $0
+- Break-even: **~20 developers**; profitable above that
+- **Bonus**: Code never leaves client infrastructure — satisfies data sovereignty requirements
+
+**Build timeline**: 1–2 weeks (infra) + 1 week (IDE rollout)
+
+---
+
 ## Quick-Start Matrix
 
 | Client need | Start here | Timeline | Complexity |
@@ -220,3 +255,4 @@ Slack: "Latency spike started 14:23 UTC, correlates with deploy #1234. auth-serv
 | Self-healing CI | OpenHands + LangGraph | 4 weeks | Medium |
 | DevOps Slack assistant | n8n + Claude + MCP | 2 weeks | Low |
 | Private LLM deployment | vLLM + Ollama + LiteLLM | 2 weeks | Medium |
+| On-prem Copilot replacement | Tabby + Continue + Ollama | 2 weeks | Low-Medium |

@@ -1,6 +1,7 @@
 # 📡 Trends — Technology Industry AI (2026-07-03)
 
 > What's shaping software development, DevOps, and platform engineering in mid-2026.
+> Last updated: 2026-07-05
 
 ## Macro Trend: The Agentic Coding Shift
 
@@ -83,6 +84,28 @@ Each agent has a role, tools, and context. They hand off work via structured out
 **Why it matters**: IDPs are the control plane for developer productivity. AI in the IDP = AI at every deployment, every incident, every onboarding.
 
 **Key repos**: [backstage/backstage](https://github.com/backstage/backstage), [crossplane/crossplane](https://github.com/crossplane/crossplane), [argoproj/argo-cd](https://github.com/argoproj/argo-cd)
+
+---
+
+## Trend 9: Governance, Cost Attribution, and HITL Are the New Table Stakes
+**What**: Enterprise AI buyers no longer just ask "does it work?" — they ask "can I audit it, roll it back, and know what it costs?"
+
+**Why it matters**: 67% of CIOs cite governance as the top barrier to production AI agent deployment (Gartner 2026 Hype Cycle). Compliance teams are demanding HITL (Human-in-the-Loop) approval gates for any agent that modifies production systems.
+
+**Stack answer**: LangGraph checkpoints (audit trail + rollback), Langfuse (cost attribution per agent node), CopilotKit (HITL UI components). These three together make the governance case.
+
+**Globant action**: Include a "governance layer" slide in every AI proposal. This is now a procurement requirement, not a differentiator — but most competitors don't have it ready.
+
+---
+
+## Trend 10: The "Boring Work" ROI Signal Is the Best Sales Tool
+**What**: The highest-ROI enterprise AI deployments in 2025-2026 were document processing, data reconciliation, compliance checks, and invoice handling — not glamorous AI use cases.
+
+**Why it matters**: These workflows are high-volume, well-defined, low-risk to automate, and have clear before/after metrics. Easy to prove ROI in week 1.
+
+**Number**: At $150/hr developer rate, even 1 auto-resolved CI failure per night pays for the agent infrastructure in 30 days.
+
+**Globant action**: Lead sales with the "boring work first" narrative. The big vision (autonomous dev teams) comes after the client sees ROI on something unglamorous. Stack: n8n + Dify + LangGraph for document automation pipelines.
 
 ---
 

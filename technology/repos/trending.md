@@ -1,4 +1,4 @@
-# 📈 Trending Repos — Technology (2026-07-03)
+# 📈 Trending Repos — Technology (2026-07-05)
 
 > GitHub's fastest-moving repos in the technology/software development space this week.
 
@@ -14,6 +14,11 @@
 | [twenty-crm/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | ~45.5k | Next-gen open source CRM. Up from 20k to 45k stars in 12 months. Metadata-driven, extensible, AI-ready. |
 | [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | ~24k | Open source Terraform alternative. Growing fast since Hashicorp BSL switch. Full HCL compatibility. Linux Foundation project. |
 | [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~29k | Spotify's IDP framework. New AI plugins: Kubernetes workload ingestion, Crossplane claims, AI chatbot for runbooks. |
+| [cline/cline](https://github.com/cline/cline) | Apache-2.0 | ~58k | VS Code autonomous coding agent. Playwright browser control, streaming tool-calls. Most-starred VS Code AI extension. +1.4k stars this week. |
+| [block/goose](https://github.com/block/goose) | Apache-2.0 | ~32k | Block's MCP-native dev agent. Launched MCP Extension Marketplace. +2.1k stars this week on viral blog post. |
+| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | ~78k | v1 Software Agent SDK release. SWE-bench 53%+ with Claude 4.5. +3.2k stars this week. |
+| [CopilotKit/CopilotKit](https://github.com/CopilotKit/CopilotKit) | MIT | ~18k | Frontend SDK for AI agents. v2.0 with MCP support and design system. The missing UI layer for agent stacks. |
+| [mastraai/mastra](https://github.com/mastraai/mastra) | Apache-2.0 | ~12k | TypeScript-first agent framework. Surging with Node.js community. Built-in workflows, memory, and RAG. |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Updated 2026-07-05. Stars approximate. Sources: OSSInsight, ByteByteGo Top AI Repos 2026, GitHub Trending, community feeds.*

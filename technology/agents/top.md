@@ -2,7 +2,7 @@
 
 > Open source AI agents and tools for software development, DevOps, and platform engineering.
 > Focus: MIT / Apache 2.0 licenses — safe for Globant to build on commercially.
-> Last updated: 2026-07-03
+> Last updated: 2026-07-05
 
 ## Top AI Agents & Tools
 
@@ -19,13 +19,24 @@
 | [SWE-agent](https://github.com/SWE-agent/SWE-agent) | MIT | SWE-agent/SWE-agent | ~15k | Automated software engineering agent from Princeton. Pioneered the Agent-Computer Interface (ACI) concept — standardized shell/editor/test-runner interface. Foundation for all serious coding agents. |
 | [Google ADK](https://github.com/google/adk-python) | Apache-2.0 | google/adk-python | ~20k | Google's Agent Development Kit. Framework-agnostic agent builder with Gemini, Vertex AI integration. A2A protocol support for interoperability with LangGraph/CrewAI agents. 3.3M monthly downloads. |
 
+## Coding Agents — Comprehensive View
+
+| Name | License | Repo | Stars | Description |
+|------|---------|------|-------|-------------|
+| [Cline](https://github.com/cline/cline) | Apache-2.0 | cline/cline | ~58k | Most-starred VS Code AI coding extension. Autonomous file editing, terminal access, Playwright browser control. Supports all major LLMs. 200+ community configs. |
+| [Continue](https://github.com/continuedev/continue) | Apache-2.0 | continuedev/continue | ~31k | Open-source IDE autopilot for VS Code and JetBrains. Configurable to any LLM, any codebase indexer. 200+ integrations. Best for teams wanting IDE AI without vendor lock-in. |
+| [Goose](https://github.com/block/goose) | Apache-2.0 | block/goose | ~32k | Block's MCP-native developer agent. Extensible via MCP extensions (Jira, GitHub, Slack integrations). Runs tasks autonomously in terminal without constant supervision. |
+| [Tabby](https://github.com/TabbyML/tabby) | Apache-2.0 | TabbyML/tabby | ~33k | Self-hosted AI code completion server. Drop-in Copilot replacement via LSP. Supports VSCode, JetBrains, Neovim. Fine-tune on client codebase. Enterprise auth + team analytics. |
+
 ## Honorable Mentions
 
 | Name | License | Repo | Description |
 |------|---------|------|-------------|
 | [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) | MIT | openai/openai-agents-python | Official OpenAI framework for building agents. Handoff between agents, guardrails, streaming. |
-| [Mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | mastra-ai/mastra | TypeScript agent framework with workflows, RAG, memory, integrations. Best for JS/TS shops. |
+| [Mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | mastra-ai/mastra | TypeScript agent framework with workflows, RAG, memory, integrations. Best for JS/TS shops. 12k stars. |
 | [OpenHands SDK](https://github.com/OpenHands/software-agent-sdk) | MIT | OpenHands/software-agent-sdk | Clean, modular SDK for building agents with OpenHands V1 — composable and extensible for production. |
+| [CopilotKit](https://github.com/CopilotKit/CopilotKit) | MIT | CopilotKit/CopilotKit | Frontend stack for AI agents: chat components, HITL hooks, persistent threads, inspector. The missing UI layer. 18k stars. v2.0 adds MCP support. |
+| [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | microsoft/semantic-kernel | Microsoft enterprise agent SDK. C#/Python/Java. Deep Azure/M365 integration. 24k stars. |
 
 ---
 *Updated automatically by the ingest pipeline.*

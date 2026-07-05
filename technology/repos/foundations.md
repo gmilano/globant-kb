@@ -2,7 +2,7 @@
 
 > The bedrock open source projects to build AI solutions on top of.
 > All MIT, Apache-2.0, or MPL — commercially safe for Globant engagements.
-> Last updated: 2026-07-03
+> Last updated: 2026-07-05
 
 ## Agent Frameworks & Orchestration
 
@@ -34,9 +34,13 @@
 
 | Repo | License | Stars | Description | Build On For |
 |------|---------|-------|-------------|--------------|
-| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | ~78.5k | Autonomous coding agent. Edits files, runs commands, browses web in sandboxed env. SWE-bench leading OSS score. | Software development automation, CI self-healing |
-| [SWE-agent/SWE-agent](https://github.com/SWE-agent/SWE-agent) | MIT | ~15k | Automated software engineer from Princeton. ACI (Agent-Computer Interface) standardizes agent-tool interaction. | Bug fixing automation, code review, SWE-bench evals |
-| [Aider-AI/aider](https://github.com/Aider-AI/aider) | Apache-2.0 | ~26k | Git-aware AI pair programmer. Terminal-based, any LLM. Auto-commits with descriptive messages. | Developer productivity augmentation, code editing agents |
+| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | ~78k | Autonomous coding agent. Edits files, runs commands, browses web in sandboxed env. SWE-bench 53%+ with Claude. $18.8M Series A. | Software development automation, CI self-healing |
+| [SWE-agent/SWE-agent](https://github.com/SWE-agent/SWE-agent) | MIT | ~15k | Automated software engineer from Princeton. ACI (Agent-Computer Interface) standardizes agent-tool interaction. Mini-SWE-Agent: 74% on SWE-bench Verified. | Bug fixing automation, code review, SWE-bench evals |
+| [Aider-AI/aider](https://github.com/Aider-AI/aider) | Apache-2.0 | ~41k | Git-aware AI pair programmer. Terminal-based, any LLM. Auto-commits with descriptive messages. New architect/editor model split for efficiency. | Developer productivity augmentation, code editing agents |
+| [cline/cline](https://github.com/cline/cline) | Apache-2.0 | ~58k | VS Code autonomous coding agent. File system + terminal + Playwright browser access. 200+ community configs. Most-starred VS Code AI extension. | IDE-embedded agent for developer teams |
+| [continuedev/continue](https://github.com/continuedev/continue) | Apache-2.0 | ~31k | Open-source IDE autopilot for VS Code and JetBrains. Configurable to any LLM, 200+ integrations. Best for IDE AI without vendor lock-in. | Code completion + chat for any IDE |
+| [block/goose](https://github.com/block/goose) | Apache-2.0 | ~32k | Block's MCP-native developer agent. Extensible via marketplace of MCP extensions. Runs tasks autonomously in terminal. | Tool-augmented developer automation, MCP extension development |
+| [TabbyML/tabby](https://github.com/TabbyML/tabby) | Apache-2.0 | ~33k | Self-hosted AI code completion server. Drop-in Copilot replacement via LSP. Fine-tune on client codebase. Enterprise auth + team analytics. | On-prem Copilot alternative for privacy-sensitive clients |
 
 ## DevOps & Platform Engineering
 

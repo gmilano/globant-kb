@@ -1,19 +1,30 @@
 # 🗺️ Market Map — Technology Industry AI
 
 > Key players, market size, opportunities. Focus: LATAM + global.
-> Last updated: 2026-07-03
+> Last updated: 2026-07-05
 
 ## Market Size
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| AI Coding Agents market size (2026) | $12.8B | Multiple analyst reports |
-| Projected market size (2032) | $30.1B | 27% CAGR |
-| AI Code Tools market alt estimate | $9.35B (2026) → $29.96B (2031) | Mordor Intelligence, 26.23% CAGR |
-| Enterprise AI Coding Agents (annualized) | ~$9.8B–$11B (Apr 2026) | Gartner |
-| YoY market growth 2025→2026 | 65% | Industry reports |
-| AI Agents market (broader, all industries) | $7.84B (2025) → $52.62B (2030) | MarketsAndMarkets, 46.3% CAGR |
+| Enterprise AI market size (2026) | $64.38B–$114.87B | Mordor Intelligence / Research Nester |
+| GenAI spending (2026) | $127B (+59% YoY) | Gartner |
+| AI Coding Agents market (2026) | $12.8B | Multiple analyst reports |
+| AI Code Tools (2026→2031) | $9.35B → $29.96B, CAGR 26.23% | Mordor Intelligence |
+| AI Agents market (all industries 2025→2030) | $7.84B → $52.62B, CAGR 46.3% | MarketsAndMarkets |
+| Average enterprise AI spend per company | $7M/year in 2026 | MedhaCloud survey |
+| Enterprise apps with AI agents by end 2026 | 40% (up from <5% in 2025) | Gartner |
+| Enterprise apps shipped with ≥1 AI agent (Q1 2026) | 80% | Databricks |
 | AI-related repos on GitHub | 4.3 million (178% YoY jump in LLM repos) | GitHub Octoverse 2025 |
+
+## Cloud Hyperscaler AI Performance (Q1 2026)
+
+| Company | AI Revenue / Growth | Key AI Signal |
+|---------|--------------------|--------------------|
+| **Microsoft** | $37B AI annual run rate (+123% YoY) | Azure +40% YoY; 40% Fortune 500 on Copilot M365 |
+| **Google Cloud** | $20.03B revenue (+63% YoY) | Vertex AI / Gemini; IBM partnership Jun 4 2026 |
+| **AWS** | $37.6B (+28% YoY) | Bedrock agent spending +170% QoQ |
+| **IBM** | ~$16B total revenue; consulting 1/3 | IBM-Google Cloud agentic AI platform (Jun 4 2026) |
 
 ## Developer Adoption Statistics
 
