@@ -1,9 +1,9 @@
 {
-  "next": 7,
+  "next": 8,
   "last_updated": "2026-07-05",
-  "last_industry": "travel",
+  "last_industry": "technology",
   "last_status": "completed",
-  "note": "TRAVEL KB updated 2026-07-05. All 8 files written to globant-kb/travel/ (in-scope repo — committed and pushed successfully). TOP AGENTS (12): LangGraph travel agent (MIT 500+★), LangGraph Planner Assistant (MIT 300+★), MultiAgents LangGraph (MIT 200+★), Travel-Assistant OpenAI SDK (MIT 150+★), AI-Travel-Planner Llama4 (MIT 200+★), CrewAI (MIT 52k+★), Smolagents (Apache 27k+★), open-agent-platform (MIT 5k+★), raunaqness/ai-travel-agent (MIT 400+★), ai-travel-planner zinedkaloc (MIT 250+★), osmmcp NEW (MIT 300+★ OSM MCP server), Dida-hotel-MCP NEW (MIT 50+★ 2M+ hotel booking MCP). FOUNDATIONS (15 repos, 5 tiers). TRENDING: osmmcp+Dida-hotel-MCP new MCP tools. VERTICALS: QloApps, ExcursioX, ERPNext, OFBiz, Amadeus SDKs, OSRM, Valhalla, GraphHopper, OTP, osmmcp. MARKET: AI in Tourism $2.95B→$13.38B by 2030 CAGR 28.7%; 30% bookings by AI agents by 2030 (IDC); 61% travel businesses scaling agentic AI (Phocuswright 2026). TRENDS: 10 trends incl. MCP hotel API layer, open geo infrastructure, WhatsApp LATAM channel. COMPOSE PATTERNS: 6 patterns incl. NEW Pattern6 MCP-native geo-aware travel agent (osmmcp+Dida-hotel-MCP+LangGraph, $100-200/mo). Next: technology (index 7).",
+  "note": "TECHNOLOGY KB updated 2026-07-05. All 7 files written to globant-kb/technology/. TOP AGENTS: LangGraph (110k MIT), CrewAI (52k MIT), OpenHands (78k MIT), Cline (58k Apache), Aider (41k Apache), Goose (32k Apache), Tabby (33k Apache), Dify (130k Apache), Langflow (146k MIT), Ollama (115k MIT) + Smolagents, AutoGen, Google ADK, Mastra, CopilotKit, Semantic Kernel. NEW this run: Cline+Continue+Goose+Tabby added as coding agent layer; Goose MCP Marketplace; LangGraph 0.4 HITL; MCP 500+ servers milestone; Pattern 7 Self-Hosted Copilot Alt (Tabby+Continue+Ollama, break-even at 20 devs). MARKET: Enterprise AI $64-115B (2026), GenAI $127B +59% YoY, MSFT $37B AI run rate +123%, Google Cloud $20B +63%, AWS Bedrock +170% QoQ, IBM-Google Cloud partnership Jun 4. Next: education (index 8).",
   "previous_industries": {
     "gaming": "completed - content in globant-kb/gaming/",
     "legal": "completed - content in globant-kb/legal/",
@@ -11,6 +11,7 @@
     "healthcare": "completed - content in globant-kb/healthcare/",
     "media": "completed - content in globant-kb/media/",
     "retail": "completed - content in globant-kb/retail/",
-    "travel": "completed 2026-07-05 - 8 files updated in globant-kb/travel/ - added osmmcp+Dida-hotel-MCP+routing infrastructure+MCP pattern6"
+    "travel": "completed 2026-07-05 - 8 files updated in globant-kb/travel/ - added osmmcp+Dida-hotel-MCP+routing infrastructure+MCP pattern6",
+    "technology": "completed 2026-07-05 - 7 files in globant-kb/technology/ - added Cline+Continue+Goose+Tabby+CopilotKit+Mastra; Goose MCP Marketplace; LangGraph 0.4; MCP 500+ servers; GenAI $127B market data; Pattern 7 self-hosted Copilot alt"
   }
 }
