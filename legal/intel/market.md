@@ -1,57 +1,85 @@
-# Market Map — Legal AI
+# 🗺️ Mapa de mercado — Legal Services AI
 
-> Key players, segments, and positioning as of 2026-07-02
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-05
 
-## Market Size & Adoption
+## Tamaño de mercado
 
-- 79% of legal professionals use AI in some capacity (Clio 2026 survey)
-- 31% of lawyers personally use generative AI at work; firm-wide adoption ~21%
-- 60%+ of firms actively exploring multi-agent AI solutions for workflow automation
-- Contract review: AI cutting review time by up to 80% while improving accuracy
-- Small and mid-market firms adopting faster than BigLaw as of mid-2026
-- Legal AI market growing rapidly; 20+ hyper-specialized products now competing
+| Métrica | Valor | Fuente |
+|---------|-------|--------|
+| Mercado global Legal AI 2025 | USD 2.48B | Straits Research |
+| Mercado global Legal AI 2026 | USD 2.75B | Straits Research |
+| Mercado global Legal AI 2034 (proyección) | USD 6.3B | Straits Research |
+| CAGR 2026-2034 | 10.91% | Straits Research |
+| Proyección alternativa 2026 | USD 3.7B | ResearchAndMarkets |
+| CAGR alternativa (2025-2026) | 31.4% | ResearchAndMarkets |
+| Firmas usando GenAI 2026 | 41% | Thomson Reuters |
+| Departamentos legales corporativos usando GenAI 2026 | 47% | Thomson Reuters |
+| Profesionales legales con al menos 1 herramienta AI | 92% | Wolters Kluwer |
 
-## Commercial Players (Closed Source)
+---
 
-| Player | Segment | Differentiator |
-|--------|---------|----------------|
-| Harvey AI | Enterprise legal AI platform | Purpose-built on frontier models; $100M+ funding; published LAB open benchmark May 2026 |
-| Clio | Practice management + AI | 150k+ law firms; embedding AI into matter management workflows and client intake |
-| Ironclad | Contract lifecycle management | AI-native CLM with clause extraction, approval workflows, and obligation tracking |
-| Spellbook (Rally) | AI contract review | Deep Microsoft Word integration; M&A + commercial contracts focus |
-| CoCounsel (Thomson Reuters) | Legal research + drafting | Acquired Casetext; integrated into Westlaw; strongest legal research AI |
-| Lexis+ AI | Legal research | Strong competitor to CoCounsel; covers Lexis corpus + AI summaries + citations |
-| Relativity | eDiscovery | AI document review at massive scale; dominant in large litigation matters |
-| Filevine | Case management | AI-native case management for litigation firms; fast-growing mid-market |
+## Players globales
 
-## Open Source vs. Commercial Positioning
+| Empresa | Tipo | Fortaleza | Debilidad |
+|---------|------|-----------|----------|
+| Thomson Reuters (Westlaw AI) | Propietario | Datos legales más amplios del mundo; Casetext adquirida | Lock-in, precio muy alto |
+| LexisNexis | Propietario | Jurisprudencia global, integración con flujos de firma | Lento en adopción de LLMs abiertos |
+| Harvey AI | Propietario | Modelo especializado en razonamiento legal; Allen & Overy partnership | SaaS cloud-only, confidencialidad cuestionable |
+| Luminance | Propietario | Líder en due diligence automática; muy adoptado en M&A | Caro, integración compleja |
+| Kira Systems (Litera) | Propietario | Contract analysis maduro; 400+ tipos de cláusulas | Adquirido, roadmap incierto |
+| Ironclad | Propietario | CLM líder en startups tech | Enfocado en contratos comerciales, no litigación |
+| Clio | Propietario | SaaS líder para firmas pequeñas/medianas en Norteamérica | No open source; sin verticales LATAM |
+| LexPredict / Elevate | Híbrido | LexNLP Apache-2.0; consultoría + software | Poco conocido en LATAM |
 
-| Layer | Open Source Option | Commercial Alternative |
-|-------|-------------------|----------------------|
-| Document intelligence | OpenContracts (MIT) | Ironclad, Kira, Luminance |
-| NLP / extraction | LexNLP (Apache 2.0) | Thomson Reuters Clause Intelligence |
-| Contract review agents | Lavern (Apache 2.0) | Harvey, Spellbook, Lexion |
-| Document management | Mayan EDMS (Apache 2.0) | NetDocuments, iManage |
-| Case management | ArkCase (LGPL-3.0) | Clio, Filevine, MyCase |
-| CRM | SuiteCRM (AGPL-3.0) | Salesforce + Legal Cloud |
-| Benchmarking | CUAD (MIT) | Harvey LAB |
+---
 
-## Key Sub-Verticals
+## Ecosistema open source
 
-| Sub-vertical | Primary Pain Points | AI Opportunity | Best Open-Source Stack |
-|-------------|--------------------|-|------------------------|
-| Corporate / M&A | Due diligence at volume and speed | Contract review agents | Lavern + CUAD + LexNLP |
-| Litigation | eDiscovery, doc review, memo drafting | RAG research pipeline | RAGFlow + OpenContracts + smolagents |
-| Compliance & Regulatory | Monitoring changing regulations | Obligation monitoring agents | LexNLP + scheduled scan + alerts |
-| Legal Aid / Access to Justice | Cost and capacity constraints | Open LLMs for affordable assistance | OpenContracts + Ollama + InLegalBERT |
-| IP / Patent | Prior art search, claims analysis | Specialized RAG on patent corpus | RAGFlow + OpenContracts + smolagents |
-| Employment Law | Policy analysis, contract standardization | Lavern + ContraxSuite classification | Lavern + LexNLP |
+| Capa | Herramienta | Licencia | Rol |
+|------|-------------|----------|-----|
+| Datos | CUAD, LegalBench, ECtHR | MIT | Benchmarks y fine-tuning |
+| NLP | LexNLP, Blackstone | Apache-2.0 | Extracción de cláusulas y entidades |
+| LLM base | Qwen3-235B, DeepSeek-R1 | Apache-2.0 | Motores de razonamiento open |
+| Plataforma | OpenContracts, docassemble | MIT | DMS y entrevistas guiadas |
+| Agente orquestador | LangGraph, lavern, dd-agents | MIT/Apache | Pipelines multi-agente |
+| MCP | OpenContracts MCP, uspto_fpd_mcp | MIT | Exposición de APIs legales a agentes |
 
-## Regulatory Landscape
+---
 
-| Regulation | Status | Impact on Legal AI |
-|-----------|--------|-------------------|
-| EU AI Act | Full applicability August 2026 | Legal AI tools in EU require auditability, explainability, and documentation of training data |
-| ABA Model Rules (US) | Competence requirement | Lawyers must maintain competence in AI tools used — driving demand for explainable AI |
-| GDPR / CCPA | Ongoing enforcement | Attorney-client privilege + data privacy make on-premises or EU-hosted AI mandatory for many firms |
-| UK AI regulation | Principles-based (2026) | Less prescriptive than EU Act; UK law firms have more flexibility but face growing client due-diligence |
+## Oportunidades AI en LATAM
+
+| Oportunidad | Mercado | Por qué ahora |
+|-------------|---------|---------------|
+| Revisión automática de contratos en español/portugués | Brasil, México, Argentina, Colombia | Escasez de abogados + crecimiento de PYMES |
+| Acceso a justicia digital | México, Brasil, Perú | Ministerios de justicia digitalizando formularios |
+| Compliance tributario IA | Toda LATAM | Reforma tributária brasileña 2026; cambios IVA México |
+| Due diligence M&A | Chile, Colombia, Brasil | Record de M&A en 2026 en sector tech y energía |
+| Legal Ops para multinacionales | Filiales de empresas US/EU | EU AI Act requiere auditorías en todas las jurisdicciones |
+| Automatización de escrituras / notariado | México, Perú | Digitalización de registros públicos |
+
+---
+
+## Consolidación M&A 2026
+
+| Adquisición | Impacto |
+|-------------|---------|
+| Thomson Reuters + Casetext | TR añade capacidades de drafting y análisis transaccional LLM |
+| Litera + Kira Systems | Litera consolida suite de gestión de documentos legales |
+| Harvey AI (ronda $100M+) | Empresa más valorada de legal AI; modelo propietario especializado |
+| Intapp (cotizada) | Plataforma para firmas grandes; adquiriendo herramientas AI de compliance |
+
+---
+
+## Posicionamiento Globant
+
+| Fortaleza | Aplicación en Legal |
+|-----------|---------------------|
+| Engineering en LATAM con inglés fluido | Implementaciones para firmas US/EU con equipos en LATAM |
+| Experiencia en LLM y agentes | Pipelines de due diligence y contract review sobre plataformas OSS |
+| Clientes enterprise regulados | Extensión natural a legal ops de corporativos (energía, finanzas, salud) |
+| Capacidad de customización de OSS | Fork + customizar OpenContracts / docassemble + AI encima |
+| EU AI Act como habilitador | Globant puede posicionarse como integrador certificado para compliance AI Act en legal |
+
+---
+*Ver también: `intel/trends.md` para tendencias técnicas y regulatorias.*

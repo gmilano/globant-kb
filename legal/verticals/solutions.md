@@ -1,49 +1,70 @@
-# Vertical Platforms — Legal
+# 🏭 Verticales de partida — Legal Services
 
-> Open-source and open-core platforms Globant can deploy and customize with AI on top. Focus: permissive licenses for production use.
+> Plataformas verticales existentes customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica arriba.
+> Última actualización: 2026-07-05
 
-## Case Management
+## Plataformas recomendadas
 
-| Platform | GitHub | License | Description |
-|----------|--------|---------|-------------|
-| ArkCase | [arkcase/ArkCase](https://github.com/arkcase/ArkCase) | LGPL-3.0 | Comprehensive case management: document management, workflow automation, collaboration, audit trails. Used in government legal organizations and private law firms. AI-ready via REST APIs. |
-| CiviCRM | [civicrm/civicrm-core](https://github.com/civicrm/civicrm-core) | AGPL-3.0 | CRM + case management for legal aid organizations and nonprofit law firms; strong community; integrates with Drupal, WordPress, Joomla. |
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| docassemble | MIT | [github.com/jhpyle/docassemble](https://github.com/jhpyle/docassemble) | Python/Flask | Entrevistas guiadas, formularios de corte, acceso a justicia, generación de documentos legales |
+| OpenContracts | MIT | [github.com/Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Django/React/Postgres | DMS legal con anotación humana, agentes AI integrados, MCP server, vector search |
+| EspoCRM | MIT | [github.com/espocrm/espocrm](https://github.com/espocrm/espocrm) | PHP/JS | CRM para firmas legales: gestión de clientes, casos, actividades, documentos |
+| SuiteCRM | AGPL-3.0 | [github.com/salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | PHP/SugarCRM | CRM relacional para firmas: seguimiento de clientes, pipeline de asuntos, compliance |
+| ClinicCases | GPL-3.0 | [github.com/ClinicCases/ClinicCases](https://github.com/ClinicCases/ClinicCases) | PHP/MySQL | Gestión de casos para clínicas jurídicas universitarias: time tracking, calendar, export |
+| Dolibarr | GPL-3.0 | [github.com/Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | ERP/CRM web para despachos: facturación, cotizaciones, agenda, contactos, contabilidad |
+| OpenLaw | Apache-2.0 | [github.com/openlawteam/openlaw-core](https://github.com/openlawteam/openlaw-core) | Scala/JVM | Acuerdos legales digitales con lógica programable; base para contratos inteligentes |
+| Portabilis i-diario | MIT | [github.com/portabilis/i-diario](https://github.com/portabilis/i-diario) | Ruby on Rails | Gestión de registros legales LATAM (Brasil); adaptable para registro y expedientes |
 
-## Contract Lifecycle Management (CLM)
+---
 
-| Platform | GitHub | License | Description |
-|----------|--------|---------|-------------|
-| OpenContracts | [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Document intelligence + annotation platform. MCP server, vector search, GraphQL/REST API. The open-source CLM foundation for AI-first teams — annotate, query, and run agents against contract corpora. |
-| ContraxSuite | [LexPredict/lexpredict-contraxsuite](https://github.com/LexPredict/lexpredict-contraxsuite) | AGPL-3.0* | Full contract analytics: clause classification, obligation extraction, contract comparison, compliance monitoring. Built on LexNLP. *SaaS deployment needs commercial license. |
+## Cómo customizar con AI
 
-## CRM for Law Firms
+### Paso 1 — Fork + setup local
+```bash
+git clone https://github.com/Open-Source-Legal/OpenContracts
+docker-compose up -d
+```
 
-| Platform | GitHub | License | Description |
-|----------|--------|---------|-------------|
-| SuiteCRM | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | Full-featured CRM with case management modules: tasks, documents, reporting, workflows. Widely used by law firms as the open-source Salesforce alternative. |
-| EspoCRM | [espocrm/espocrm](https://github.com/espocrm/espocrm) | GPL-3.0 | Lightweight CRM with clean REST API; frequently customized for law firm client intake, relationship management, and matter tracking workflows. |
+### Paso 2 — Añadir endpoint AI
+```python
+# settings.py / .env
+ANTHROPIC_API_KEY = "..."
+OPENAI_API_KEY = "..."       # alternativa
+OLLAMA_BASE_URL = "http://localhost:11434"  # opción local/privada
+```
 
-## Document Management
+### Paso 3 — Wrappear flujos existentes con agentes
+```python
+# Ejemplo: agente de extracción de cláusulas sobre OpenContracts
+from opencontracts import DocumentAgent
+from lexnlp.extract.en import clauses
 
-| Platform | GitHub | License | Description |
-|----------|--------|---------|-------------|
-| Mayan EDMS | [mayan-edms/mayan-edms](https://github.com/mayan-edms/mayan-edms) | Apache 2.0 | Enterprise document management: tagging, versioning, OCR, full-text search, granular access control. Foundation layer for legal document repositories needing compliance-grade audit trails. |
-| OpenKM | [openkm/document-management-system](https://github.com/openkm/document-management-system) | GPL-2.0 | Document management with workflow, metadata extraction, and full-text search; widely used in law firms for compliance document control. |
+agent = DocumentAgent(
+    model="claude-sonnet-5-20251101",
+    extractors=[clauses.get_clauses],
+    annotation_schema="contract_clauses_v2"
+)
+result = agent.analyze(document_id="doc-123")
+```
 
-## Billing & Practice Management
+### Paso 4 — UI conversacional
+- Exponer resultados vía MCP server (OpenContracts ya incluye uno)
+- Conectar Claude Desktop o cualquier cliente MCP al endpoint
+- Configurar herramientas: `search_contracts`, `get_clause`, `compare_versions`
 
-| Platform | GitHub | License | Description |
-|----------|--------|---------|-------------|
-| InvoiceNinja | [invoiceninja/invoiceninja](https://github.com/invoiceninja/invoiceninja) | Elastic-2.0 | Time tracking, invoicing, and billing for professional services; common in solo attorney and small law firm deployments. |
+---
 
-## AI Augmentation Layer
+## Selección por tamaño de cliente
 
-For each platform above, the standard Globant AI layer adds:
+| Perfil | Plataforma recomendada | Razón |
+|--------|----------------------|-------|
+| Clínica jurídica / pro-bono | docassemble | Portales de autoservicio para ciudadanos |
+| Firma mediana (20-100 abogados) | EspoCRM + OpenContracts | CRM + DMS agéntico integrado |
+| Firma grande / corporate legal | OpenContracts + lavern | Análisis masivo de contratos con pipeline multi-agente |
+| Legal Ops / GC office | agentcounsel + OpenContracts | Skills AI sobre flujos existentes |
+| Cortes / sector público | docassemble + ClinicCases | Acceso a justicia + gestión de casos |
 
-| Capability | Components |
-|-----------|------------|
-| Document intake agent | RAGFlow (parse) → LexNLP (extract entities) → OpenContracts (store + index) |
-| Contract review | OpenContracts + CUAD risk signals → Lavern debate protocol → human gate |
-| Legal research | smolagents + OpenContracts MCP server → citation-linked memos |
-| Compliance monitor | LexNLP obligation extraction → scheduled scan → Lavern alert system |
-| Client intake | RAGFlow + InLegalBERT classifier → ArkCase/SuiteCRM API → matter creation |
+---
+*Ver también: `repos/foundations.md` para librerías NLP y `compose/patterns.md` para recetas.*

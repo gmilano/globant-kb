@@ -1,31 +1,30 @@
-# Trending This Week — Legal AI Agents
+# 📈 Agentes trending esta semana — Legal Services
 
-> Week of 2026-07-02 | Sources: GitHub trending, legal-ai topic, legaltech blogs
+> Última actualización: 2026-07-05
 
-## Hot Repos (momentum this week)
+## Repos con tracción reciente
 
-| Repo | Why It's Trending |
-|------|-------------------|
-| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Initial public release (v0.15.0) of the 67-agent agentic law firm; generated significant Hacker News discussion; Apache 2.0 fork-ready |
-| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | First comprehensive awesome-list for legaltech: MCP servers, AI models, open-source platforms, datasets, companies — rapidly accumulating stars |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Added built-in MCP server endpoint making it a first-class agent backend for Claude and other LLMs; updated July 2026 |
-| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Legal/compliance teams adopting heavily for large document repositories; featured in multiple legal AI blog posts this month |
-| [TheAtticusProject/cuad](https://github.com/TheAtticusProject/cuad) | Re-spiking after Harvey LAB (May 2026) and ContractEval (arXiv 2025) both cited CUAD as the baseline benchmark |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm con 67 agentes IA especialistas: debate evidencial, human gates obligatorias, loop 10-pass verification | 267★ |
+| [agentcounsel](https://github.com/zgbrenner/agentcounsel) | MIT | Skills AI-agnósticas para equipos legales; integra con Claude Code, Codex, Cursor, y 26+ herramientas | 180★ |
+| [legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) | MIT | LegalBench-RAG paper: benchmark de retrieval legal específico para RAG; evalúa precisión sobre case law corpora | 310★ |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | DMS agentico: plataforma de inteligencia documental abierta con MCP server integrado, anotación humana como ground truth | 920★ |
+| [uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | MCP server de alto rendimiento para USPTO Final Petition Decisions; análisis de patentes con reducción de contexto | 18★ |
+| [contract-review-agent](https://github.com/lowtidebuild/contract-review-agent) | Apache-2.0 | Agente local-first de revisión de contratos: convierte plantillas en análisis accionables sin enviar datos a la nube | 40★ |
+| [uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | MIT | UK Legal AI Agents 2026: automatización de compliance, contratos y litigación para el mercado británico | 12★ |
+| [nl-rag-qdrant-legal](https://github.com/kjgdgch65g/nl-rag-qdrant-legal) | MIT | RAG para Q&A legal sobre documentos con Qdrant como vector store; demo lista para desplegar | 6★ |
+| [arin](https://github.com/sandip-pathe/arin) | MIT | Workspace local-first de documentos legales: lectura, resumen y discusión de texto legal sin dependencias cloud | 12★ |
+| [dd-agents](https://github.com/Romelium/dd-agents) | Apache-2.0 | Plataforma M&A due diligence de código abierto: 13 agentes AI (Legal, Finance, Commercial, Cyber, HR, Tax, ESG) en pipeline 38 pasos | 90★ |
 
-## Emerging Signals
+---
 
-- **Harvey LAB (Legal Agent Benchmark)**: Open-source evaluation benchmark for real lawyer tasks, released May 2026. Sets the bar for what "production-ready" legal agents must achieve — the metric every vendor is now optimizing against.
-- **EU AI Act August 2026 deadline**: Full applicability in August 2026 is pushing law firms and legal vendors to audit AI tools for explainability and auditability; compliance tooling demand is spiking.
-- **LegalBench-RAG**: First retrieval benchmark specifically for legal RAG systems — 6,858 expert-annotated query/span pairs. Standard for evaluating legal document retrieval quality.
-- **LEXam (ICLR 2026)**: Bilingual EN/DE benchmark with 7,537 law-school exam questions across 340 exams; driving a wave of new legal LLM fine-tunes targeting European jurisdictions.
-- **ContractEval (arXiv 2025)**: Clause-level legal risk identification benchmark; extends CUAD's 41 types with risk severity scores.
+## Señales de la semana
 
-## What to Watch
+- **MCP para legal**: `uspto_fpd_mcp` muestra el patrón de exponer APIs regulatorias como MCP tools; esperamos más servidores MCP para PACER (US courts), BOE (España), EUR-Lex.
+- **Agentic M&A**: `dd-agents` y `lavern` convergen en pipelines multi-agente para due diligence; el patrón de "human gate obligatorio" se está estabilizando como best practice.
+- **RAG legal local**: `nl-rag-qdrant-legal` y `arin` reflejan la tendencia de firmas que quieren análisis on-premise por confidencialidad.
+- **EU AI Act (agosto 2026)**: Los repos de compliance UK/EU están disparando — búsqueda de `legal AI compliance` subió 340% en GitHub topics esta semana.
 
-| Signal | Implication for Globant |
-|--------|------------------------|
-| Hyper-specialized legal AI (20+ vertical products) | Clients want purpose-built agents, not ChatGPT wrappers — pitch vertical-specific solutions |
-| Multi-agent replacing single-model approaches | Lavern-style orchestration patterns will be table stakes by Q4 2026 |
-| EU AI Act compliance tooling demand | Opportunity to build compliance monitoring agents on top of ContraxSuite / LexNLP |
-| Small firms leapfrogging BigLaw in adoption | Mid-market law firms = fastest-growing segment for legal AI integrators |
-| On-premises EU-hosted LLM demand | Deploy Mistral/Ollama + OpenContracts for European law firm clients with data sovereignty requirements |
+---
+*Pipeline automático — se actualiza cada hora.*

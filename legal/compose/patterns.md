@@ -1,142 +1,252 @@
-# Compose Patterns — Legal AI
+# 🧩 Patrones de composición — Legal Services AI
 
-> Concrete recipes using the repos and tools in this KB. Each pattern names specific components and explains how to wire them together.
+> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Última actualización: 2026-07-05
+
+## Arquitectura base
+
+```
+[Plataforma vertical OSS]          docassemble / OpenContracts / EspoCRM
+          ↓
+[Capa NLP / extracción]            LexNLP / Blackstone → cláusulas, partes, fechas
+          ↓
+[Motor de razonamiento LLM]        Claude Sonnet 5 / Qwen3-235B / DeepSeek-R1
+          ↓
+[Orquestador de agentes]           LangGraph / lavern / dd-agents
+          ↓
+[Interfaz / API]                   MCP server / REST API / UI conversacional
+```
 
 ---
 
-## Pattern 1: Contract Review Pipeline
+## Receta 1: Agente de Revisión de Contratos (2–3 semanas)
 
-**Use case**: Automated first-pass review of commercial contracts with clause-level risk flagging.
+**Objetivo**: Revisar contratos en español/inglés, detectar cláusulas de riesgo, generar redlines.
 
 **Stack**:
-- **Ingestion**: [RAGFlow](https://github.com/infiniflow/ragflow) — layout-aware PDF parsing, table extraction, section-preserving chunking
-- **Entity extraction**: [LexNLP](https://github.com/LexPredict/lexpredict-lexnlp) — pull parties, dates, amounts, governing law, termination clauses
-- **Risk classification**: [CUAD](https://github.com/TheAtticusProject/cuad) — 41-type clause taxonomy; use DeBERTa-xlarge baseline or fine-tune on client's contracts
-- **Agent orchestration**: [Lavern](https://github.com/AnttiHero/lavern) — debate protocol: senior lawyer agent + specialist agents per clause type → 10-pass verification → human gate before verdict
-- **Output**: Structured JSON risk report + redline suggestions + lawyer-review queue
+- `OpenContracts` (MIT) — repositorio de documentos + anotación
+- `LexNLP` (Apache-2.0) — extracción determinística de cláusulas, fechas, partes
+- `claude-legal-skill` (MIT) — skill de revisión con CUAD risk detection
+- `Claude Sonnet 5` — razonamiento y redacción de redlines
 
-**Wire-up**:
-```
-PDF → RAGFlow (parse + chunk with layout preservation)
-    → LexNLP (entity extraction → parties, dates, amounts, jurisdiction)
-    → CUAD DeBERTa model (clause classification → 41-type risk labels)
-    → Lavern orchestrator (debate + 10-pass verification → draft report)
-    → Human gate (lawyer approval via Lavern dashboard)
-    → Final risk report + redlines delivered
+**Wiring**:
+```python
+from lexnlp.extract.en import clauses, dates, parties
+from anthropic import Anthropic
+
+# 1. Extraer entidades con LexNLP (determinístico, rápido)
+entities = {
+    "clauses": list(clauses.get_clauses(contract_text)),
+    "dates": list(dates.get_dates(contract_text)),
+    "parties": list(parties.get_parties(contract_text)),
+}
+
+# 2. Razonamiento sobre riesgo con Claude
+client = Anthropic()
+response = client.messages.create(
+    model="claude-sonnet-5-20251101",
+    max_tokens=4096,
+    system="You are a contract review specialist. Identify high-risk clauses and suggest redlines.",
+    messages=[{
+        "role": "user",
+        "content": f"Contract entities extracted:\n{entities}\n\nFull contract:\n{contract_text}"
+    }]
+)
+
+# 3. Almacenar en OpenContracts con anotaciones
+opencontracts.create_annotation(
+    document_id=doc_id,
+    label="risk_analysis",
+    content=response.content[0].text,
+    entities=entities
+)
 ```
 
-**Timeline**: 2–3 weeks MVP with CUAD defaults; 6–8 weeks production with client-specific fine-tuning.
+**Tiempo estimado**: 2–3 semanas  
+**Para qué cliente**: Firmas medianas 20-100 abogados, departamentos de compras con contratos de proveedores
 
 ---
 
-## Pattern 2: Legal Research Agent
+## Receta 2: Pipeline de Due Diligence M&A Multi-Agente (3–5 semanas)
 
-**Use case**: Answer complex legal questions with source-cited memos drawn from a document corpus (case law, statutes, regulations, precedents).
+**Objetivo**: Análisis automatizado de data room para M&A: legal, financiero, compliance, cyber, HR.
 
 **Stack**:
-- **Document store**: [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — corpus management, annotation graph, vector search, built-in MCP server
-- **Agent framework**: [smolagents](https://github.com/huggingface/smolagents) — tool-using agent that queries OpenContracts via MCP endpoint
-- **LLM**: Claude via MCP (default) or Mistral via Ollama (on-premises EU deployment)
-- **Output**: Citation-linked memo with source paragraph pointers stored back in the annotation graph
+- `lavern` (Apache-2.0) — 67 agentes especialistas con human gates
+- `dd-agents` (Apache-2.0) — pipeline 38-step: Legal + Finance + Commercial + Cyber + HR + Tax + ESG
+- `OpenContracts` (MIT) — ingesta y almacenamiento del data room
+- `LangGraph` (MIT) — orquestación del grafo de agentes
+- `DeepSeek-R1` o `Claude Sonnet 5` — razonamiento de alto nivel
 
-**Wire-up**:
+**Arquitectura**:
 ```
-Lawyer question → smolagents orchestrator
-               → OpenContracts MCP server (vector search → candidate paragraphs with citation metadata)
-               → smolagents + LLM (synthesize answer with inline citations)
-               → OpenContracts (store memo as new annotation linked to sources)
-               → Output: formatted memo with clickable source links
+Data Room (PDFs/DOCX)
+    ↓ OpenContracts ingesta y vectoriza
+    ↓ LangGraph coordina pipeline
+    ├─ Agente Legal → clausulas, litigios, IP
+    ├─ Agente Finance → estados financieros, deuda
+    ├─ Agente Commercial → contratos clientes/proveedores
+    ├─ Agente Cyber → contratos SLA, incidentes
+    ├─ Agente HR → contratos clave, no-compete
+    ├─ Agente Tax → estructura, exposición fiscal
+    └─ Judge Agent → red flags consolidados + executive summary
+         ↓ Human Gate (abogado senior revisa)
+    → Informe final PDF
 ```
 
-**Key advantage**: OpenContracts built-in MCP server means Claude can use it as a tool directly — zero custom integration code required.
+**Human gate** (EU AI Act compliant):
+```python
+@langgraph.node
+def human_review_gate(state):
+    """Mandatory human checkpoint before final report generation."""
+    flagged = [f for f in state["findings"] if f["risk"] == "HIGH"]
+    if flagged:
+        notify_reviewer(flagged)
+        state["status"] = "awaiting_human_review"
+        return state
+    return state
+```
+
+**Tiempo estimado**: 3–5 semanas  
+**Para qué cliente**: Fondos de PE/VC, corporate legal departments, bancos de inversión con deal flow alto
 
 ---
 
-## Pattern 3: Compliance Monitoring Agent
+## Receta 3: Portal de Acceso a Justicia con AI (4–6 semanas)
 
-**Use case**: Continuously monitor regulatory changes (EU AI Act, SEC rules, GDPR updates) and flag new obligations in active contracts.
+**Objetivo**: Portal de autoservicio legal para ciudadanos; formularios guiados + generación de documentos.
 
 **Stack**:
-- **Obligation extraction**: [LexNLP](https://github.com/LexPredict/lexpredict-lexnlp) — extract obligations, deadlines, and defined terms from contracts and regulations
-- **Contract storage**: [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — annotation store with obligation metadata per contract
-- **Monitoring agent**: [smolagents](https://github.com/huggingface/smolagents) — scheduled agent that fetches new regulations, extracts obligations, cross-references active contracts
-- **Alert delivery**: Lavern's notification system ([AnttiHero/lavern](https://github.com/AnttiHero/lavern)) — reuse Telegram/email alert infrastructure
+- `docassemble` (MIT) — entrevistas guiadas, lógica condicional, generación de documentos
+- `Claude Sonnet 5` / `Qwen3-235B` (Apache-2.0) — explicación de términos legales en lenguaje simple
+- `LexNLP` (Apache-2.0) — análisis de documentos subidos por el ciudadano
+- `EspoCRM` (MIT) — gestión de casos derivados a clínica jurídica
 
-**Wire-up**:
+**Flujo**:
 ```
-[Cron: daily]
-→ Fetch new regulatory text (RSS feeds / EUR-Lex API / SEC EDGAR)
-→ RAGFlow (parse regulation document)
-→ LexNLP (extract new obligations, effective dates, affected entities)
-→ smolagents (compare new obligations vs obligation graph in OpenContracts)
-→ Flag deltas (new obligations not covered in active contracts)
-→ Lavern notification system (Telegram/email alert to compliance team)
-→ Lawyer review queue with pre-drafted impact analysis
+Ciudadano llega al portal
+    → Chatbot AI (Claude) explica sus opciones en lenguaje llano
+    → docassemble lanza entrevista guiada (preguntas condicionales)
+    → Sistema genera documento (denuncia, demanda pequeña cuantía, etc.)
+    → Si complejidad alta → derivar a abogado via EspoCRM
+    → Seguimiento del caso en EspoCRM
 ```
+
+**Casos de uso en LATAM**: Formularios de denuncia (México: FEPADE, PROFECO), demandas de pequeña cuantía (Brasil: Juizado Especial), solicitudes de acceso a información pública.
+
+**Tiempo estimado**: 4–6 semanas  
+**Para qué cliente**: Ministerios de Justicia, ONGs de acceso a justicia, colegios de abogados
 
 ---
 
-## Pattern 4: Legal Intake & Matter Creation Agent
+## Receta 4: RAG Legal Corporativo con Búsqueda de Jurisprudencia (2–4 semanas)
 
-**Use case**: Client submits documents or a query → agent extracts relevant facts, classifies matter type, creates structured matter record in case management system.
+**Objetivo**: Sistema de búsqueda semántica sobre base documental legal interna + jurisprudencia pública.
 
 **Stack**:
-- **Document parsing**: RAGFlow
-- **Entity/fact extraction**: LexNLP (parties, dates, jurisdiction, claim amounts, contract types)
-- **Matter classification**: Fine-tuned [InLegalBERT](https://github.com/Law-AI/pretraining-bert) — classify matter type (employment, M&A, IP, litigation, real estate, etc.)
-- **Case management integration**: ArkCase REST API or SuiteCRM API
-- **Orchestration**: smolagents multi-step intake workflow
+- `OpenContracts` (MIT) — ingesta y anotación de documentos internos
+- `LegalBench` + `legalbenchrag` (MIT) — evaluación continua del pipeline RAG
+- `Qdrant` (Apache-2.0) — vector store para búsqueda semántica
+- `LlamaIndex` (MIT) — orquestación del pipeline RAG
+- `DeepSeek-R1` o `Qwen3-235B` — generación de respuestas
 
-**Wire-up**:
+**Pipeline**:
+```python
+from llama_index.core import VectorStoreIndex, StorageContext
+from llama_index.vector_stores.qdrant import QdrantVectorStore
+
+storage_context = StorageContext.from_defaults(vector_store=QdrantVectorStore(...))
+index = VectorStoreIndex.from_documents(legal_docs, storage_context=storage_context)
+
+query_engine = index.as_query_engine(
+    similarity_top_k=10,
+    node_postprocessors=[LegalReranker()],
+)
+response = query_engine.query(
+    "¿Cuál es la jurisprudencia aplicable a cláusulas de limitación de responsabilidad?"
+)
 ```
-Client email / portal submission
-→ RAGFlow (parse attachments: PDF contracts, court filings, correspondence)
-→ LexNLP (extract parties, dates, jurisdiction, claim amounts, contract type)
-→ InLegalBERT (classify matter type with confidence score)
-→ smolagents (compose structured matter record)
-→ ArkCase / SuiteCRM API (create matter with all extracted metadata)
-→ Auto-assign to practice group → notify attorney via webhook
-→ Confirmation sent to client
+
+**Evaluación con LegalBench-RAG**:
+```bash
+python legalbenchrag/evaluate.py --retriever qdrant --corpus contract_corpus --tasks clause_retrieval,case_citation
 ```
+
+**Tiempo estimado**: 2–4 semanas  
+**Para qué cliente**: Firmas grandes con archivos > 10k documentos, corporate legal con múltiples jurisdicciones
 
 ---
 
-## Pattern 5: EU Privacy-First On-Premises Deployment
+## Receta 5: Agente de Compliance EU AI Act para Servicios Legales (3–4 semanas)
 
-**Use case**: European law firm requiring complete data sovereignty — no data leaves the EU, no cloud LLM calls.
+**Objetivo**: Auditar sistemas AI usados por firmas legales para cumplir EU AI Act (agosto 2026).
 
 **Stack**:
-- **LLM**: Mistral 7B or Mixtral 8x7B via [Ollama](https://github.com/ollama/ollama) (MIT) — runs on firm's own EU servers
-- **Agent orchestration**: Lavern (configure Ollama backend — built-in support via `--backend ollama`)
-- **Document intelligence**: OpenContracts self-hosted (MIT)
-- **Entity extraction**: LexNLP (Apache 2.0, pure Python, runs entirely in-process)
-- **Vector DB**: [Qdrant](https://github.com/qdrant/qdrant) (Apache 2.0) self-hosted OR [Chroma](https://github.com/chroma-core/chroma) (Apache 2.0)
-- **Deployment**: Docker Compose on EU-hosted bare metal or EU-region Kubernetes
+- `agentcounsel` (MIT) — skills AI para equipos legales
+- `OpenContracts` (MIT) — repositorio de evidencias de human oversight
+- `LangGraph` (MIT) — pipeline de auditoría
+- `Claude Sonnet 5` — análisis de conformidad y generación de informes
 
-**Privacy guarantees**: All data stays on-premises in the EU. Zero external API calls. GDPR-compliant by design. Attorney-client privilege preserved.
-
-**Wire-up**:
+**Checklist EU AI Act (high-risk AI en legal)**:
 ```
-All components self-hosted in EU data center:
-  Lavern → Ollama (Mistral/Mixtral) [replaces Anthropic/OpenAI]
-  OpenContracts → Qdrant (local vector DB) [replaces cloud vector service]
-  LexNLP → runs in-process [no external calls]
-  Mayan EDMS → document store [replaces cloud DMS]
-  → Zero outbound data flow guaranteed
-  → Audit logs retained on-premises for EU AI Act compliance
+□ Sistema registrado en base de datos EU
+□ Documentación técnica completa (Art. 11)
+□ Gestión de riesgos documentada (Art. 9)
+□ Human oversight mecanismo activo (Art. 14)
+□ Transparencia hacia usuarios finales (Art. 13)
+□ Logs de decisiones almacenados ≥ 6 meses
+□ Accuracy y robustez validadas con LegalBench
 ```
 
-**Cost**: ~€500–2000/month in self-hosted GPU compute for Mixtral vs. $10k+/month in OpenAI API costs at scale.
+**Tiempo estimado**: 3–4 semanas  
+**Para qué cliente**: Cualquier firma EU o con clientes EU que use AI en servicios legales a partir de agosto 2026
 
 ---
 
-## Anti-Patterns to Avoid
+## Receta 6: MCP Server Legal + Claude Desktop para Abogados (1–2 semanas)
 
-| Anti-Pattern | Problem | Fix |
-|-------------|---------|-----|
-| Naive PDF-to-text chunking | Loses table structure, breaks cross-references, kills citation accuracy | Use RAGFlow layout-aware parsing |
-| Single-agent contract review | No verification; hallucination risk is too high for legal | Use Lavern's debate + 10-pass verification loop |
-| Generic LLM prompts for legal tasks | Misses jurisdiction-specific nuance, wrong risk taxonomy | Fine-tune on CUAD + client contracts; use LexNLP extractors |
-| AGPL library in commercial SaaS | License contamination — ContraxSuite (AGPL), SuiteCRM (AGPL) | Use Apache 2.0 alternatives: LexNLP for NLP, OpenContracts for CLM |
-| Cloud LLM for EU law firm | GDPR exposure, privilege risk, EU AI Act non-compliance | Deploy Ollama + Mistral locally; use OpenContracts self-hosted |
-| Building from scratch | Reinventing CUAD's 41-type taxonomy, Lavern's agent patterns | Fork and customize existing open-source; time-to-demo in days not months |
+**Objetivo**: Exponer base documental legal como MCP server para que abogados usen Claude Desktop.
+
+**Stack**:
+- `OpenContracts` MCP server (MIT) — expone contratos y anotaciones como MCP tools
+- `uspto_fpd_mcp` (MIT) — patents y decisiones USPTO como MCP tools
+- `Claude Desktop` — interfaz de chat con herramientas MCP conectadas
+
+**Configuración** (~1 día):
+```json
+{
+  "mcpServers": {
+    "opencontracts": {
+      "command": "python",
+      "args": ["-m", "opencontracts.mcp_server"],
+      "env": { "OPENCONTRACTS_URL": "https://contracts.firma.com/api" }
+    },
+    "uspto": {
+      "command": "node",
+      "args": ["uspto_fpd_mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+**Herramientas disponibles**:
+- `search_contracts(query, date_range, party)` — búsqueda semántica en contratos
+- `get_clause(document_id, clause_type)` — extracción de cláusula específica
+- `compare_clauses(doc_a, doc_b, clause)` — comparación entre contratos
+- `search_patent_decisions(query)` — decisiones USPTO sobre patentes
+
+**Tiempo estimado**: 1–2 semanas (si OpenContracts ya está desplegado)  
+**Para qué cliente**: Firmas que ya usen Claude Pro/Team; onboarding muy rápido sin desarrollo frontend
+
+---
+
+## Matriz de selección de patrón
+
+| Necesidad del cliente | Receta | Tiempo | Complejidad |
+|----------------------|--------|--------|-------------|
+| Revisar contratos de proveedores | 1 — Contract Review Agent | 2–3 sem | Media |
+| Due diligence para M&A / inversión | 2 — Due Diligence Multi-Agente | 3–5 sem | Alta |
+| Portal de acceso a justicia público | 3 — Portal Ciudadano | 4–6 sem | Media |
+| Búsqueda en archivo de contratos | 4 — RAG Legal Corporativo | 2–4 sem | Media |
+| Cumplir EU AI Act agosto 2026 | 5 — Compliance Auditor | 3–4 sem | Media |
+| Abogados usando Claude Desktop hoy | 6 — MCP Server Legal | 1–2 sem | Baja |

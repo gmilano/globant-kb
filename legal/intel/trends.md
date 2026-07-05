@@ -1,51 +1,80 @@
-# Trends — Legal AI (2026)
+# 📡 Tendencias — Legal Services AI
 
-> Current signals as of 2026-07-02
+> Última actualización: 2026-07-05
 
-## #1 — Agentic AI Is Becoming the Standard Operating Model
+## Tendencias técnicas
 
-Over 60% of law firms are now exploring multi-agent AI solutions for workflow automation. The model is shifting from "ask the chatbot" to coordinated multi-agent systems that handle complex workflows end-to-end. Lavern (67 agents, debate protocol, 10-pass verification) is the most complete open-source example of this architecture.
+### 1. De pilotos a despliegues (2026 es el año de ejecución)
+El auge de agentes en 2025 fue experimental. En 2026, la tendencia dominante es **deployment**: equipos legales integran AI en flujos de trabajo reales.
+- 47% de departamentos legales corporativos ya usan GenAI (vs 23% en 2025)
+- 92% de profesionales legales usan al menos 1 herramienta AI
+- Las firmas que no adoptan AI están perdiendo talento joven (80% de nuevos asociados esperan herramientas AI)
 
-**Implication for Globant**: Multi-agent architectures should be the default pitch, not an upsell. Single-model integrations will look dated by Q4 2026.
+### 2. Arquitecturas híbridas LLM + reglas
+Los sistemas de mayor rendimiento en análisis de contratos combinan LLMs con extractores basados en reglas:
+- F1 = 0.912 en CUAD con arquitectura híbrida LLM + LexNLP
+- F1 = 0.883 con LLMs especializados solos
+- F1 = 0.847 con LLMs de propósito general
+- **Implicación**: usar LexNLP para extracción determinística + LLM para razonamiento contextual
 
-## #2 — Hyper-Specialization Is Replacing General-Purpose Legal AI
+### 3. MCP como interfaz legal estándar
+El patrón **MCP (Model Context Protocol) + APIs legales** está emergiendo como estándar:
+- `OpenContracts` lanzó su MCP server integrado (MIT)
+- `uspto_fpd_mcp` expone decisiones USPTO como MCP tools
+- Se anticipan MCP servers para: PACER (US courts), EUR-Lex, BOE España, Diario Oficial LATAM
+- Los agentes Claude ya pueden buscar jurisprudencia y contratos sin código personalizado
 
-General-purpose legal AI is being phased out. The market is splitting into 20+ hyper-specialized vertical products — one for patent prosecution, one for M&A diligence, one for employment disputes. Clients want AI that knows their specific domain at depth, not a generic legal chatbot.
+### 4. LLMs open source líderes para texto legal
+Los tres mejores modelos open-source para análisis de documentos legales en 2026:
+1. **DeepSeek-R1** (Apache-2.0) — razonamiento multi-paso, ventana 128k
+2. **Qwen3-235B-A22B** (Apache-2.0) — mejor relación calidad/coste en producción
+3. **Qwen2.5-VL-72B** (Apache-2.0) — multimodal: analiza PDFs escaneados y tablas
 
-**Implication for Globant**: Build vertical-specific agents with domain-tuned prompts, CUAD-derived risk models, and jurisdiction-specific entity extractors. Specialize, don't generalize.
+### 5. RAG legal especializado
+LegalBench-RAG (2025) demostró que los benchmarks genéricos de RAG no sirven para legal:
+- Los retrievers genéricos tienen 34% menos precisión en búsqueda jurisprudencial
+- Los modelos entrenados en CUAD mejoran extracción de cláusulas en 28%
+- **Implicación**: usar `legalbenchrag` para evaluar cualquier sistema RAG legal antes de producción
 
-## #3 — EU AI Act Compliance Is a New Revenue Stream (August 2026)
+---
 
-The EU AI Act reaches full applicability in August 2026. Law firms using AI must document, audit, and explain AI-assisted decisions. Legal AI vendors are rushing to add explainability layers. This is simultaneously a compliance pressure and a Globant opportunity to build audit infrastructure.
+## Tendencias regulatorias
 
-**Implication for Globant**: Build compliance monitoring and complete audit trail capabilities into every EU legal AI deployment. This is now a standard feature, not an extra.
+### EU AI Act — Agosto 2026 (impacto crítico)
+La UE clasifica AI usada en servicios legales como **alto riesgo** (Annex III):
+- Requiere: transparencia, supervisión humana, gestión de riesgos
+- Requiere: documentación técnica, registro en base de datos EU
+- Sanciones: hasta €30M o 6% de facturación global
+- **Para Globant**: toda implementación de AI legal para clientes EU/regulados en EU debe cumplir EU AI Act
+- Los pipelines de due diligence (lavern, dd-agents) necesitan human gates documentadas como evidence
 
-## #4 — Governance and Explainability Are Table Stakes
+### Confidencialidad y privilege attorney-client
+- Las firmas rechazan SaaS cloud para contratos sensibles → oportunidad para soluciones on-premise
+- `OpenContracts` (self-hosted), `contract-review-agent` (local-first), `arin` (local) responden a esto
+- GDPR + Bar Association rules → los datos del cliente no pueden salir de la jurisdicción
 
-"Black box" outputs are no longer acceptable in legal. AI must be traceable, explainable, and auditable. Lavern's mandatory human gates and 10-pass verification loop are becoming design requirements across the industry, not differentiators.
+### Consolidación CLM (Contract Lifecycle Management)
+- El mercado CLM está fusionándose con AI de análisis: Ironclad, Icertis, Conga añaden LLMs
+- Oportunidad: implementar CLM open source + AI encima para clientes que no quieren vendor lock-in
 
-**Implication for Globant**: Every legal AI solution must include: audit logs, citation tracking, human review checkpoints, and confidence scoring. Non-negotiable for law firm clients.
+---
 
-## #5 — Small and Mid-Market Firms Are the Fastest Adopters
+## Repos más activos esta semana
 
-Small law firms are leapfrogging BigLaw in AI adoption in 2026. Many attorneys are launching AI-native practices from day one. Automation is leveling the playing field, letting solo and small firms scale faster than large firms encumbered by risk governance and legacy systems.
+- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Firma legal agentica Apache-2.0: 267★ y subiendo
+- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS agéntico MIT con MCP server; 920★
+- [zeroentropy-ai/legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) — Benchmark RAG legal (ICAIL 2025); 310★
+- [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) — Directorio curatorial legaltech OSS; 320★
+- [Romelium/dd-agents](https://github.com/Romelium/dd-agents) — Due diligence M&A multi-agente; 90★
 
-**Implication for Globant**: The mid-market legal segment ($1M–$20M revenue firms) is the highest-velocity opportunity. Solutions must be deployable by firms without dedicated IT, and ROI must be demonstrable within weeks.
+---
 
-## #6 — On-Premises and EU-Hosted AI Is a Hard Requirement
+## Lo que viene (próximas 12 semanas)
 
-Attorney-client privilege + GDPR + EU AI Act are making cloud-only AI a non-starter for many European law firms. Demand for on-premises or EU-hosted open-source LLMs (Mistral, Ollama) is rising fast.
-
-**Implication for Globant**: Open-source LLM deployments (Mistral via Ollama) + OpenContracts + Lavern = the preferred stack for European law firm clients. Pitch data sovereignty as a feature, not a constraint.
-
-## #7 — Contract Review Has the Clearest ROI (80% Time Reduction)
-
-Studies consistently show AI can cut contract review time by up to 80% while improving accuracy. This is the clearest ROI story in legal AI and the most common first deployment. CUAD's 41-type risk taxonomy gives clients a concrete vocabulary for scoping the engagement.
-
-**Implication for Globant**: Lead with contract review in all legal AI sales conversations. Use CUAD clause types as the scoping framework. Lavern + CUAD is the fastest path to a working demo.
-
-## #8 — RAG Quality Is the Differentiator in Legal Research
-
-Legal documents are complex: tables, footnotes, cross-references, statutory citations. Naive RAG (plain text chunking) loses this critical structure. RAGFlow's deep-document parsing is rapidly becoming the required baseline, not an advanced option.
-
-**Implication for Globant**: All legal RAG deployments must use layout-aware parsing (RAGFlow or equivalent). Chunk strategy must preserve document structure and enable precise source citation — this is a regulatory requirement under EU AI Act.
+| Tendencia | Probabilidad | Impacto |
+|-----------|-------------|----------|
+| MCP servers para cortes/BOE/EUR-Lex | Alta | Acceso a jurisprudencia en tiempo real para agentes |
+| Fine-tuned Qwen3 en datos CUAD públicos | Alta | LLM legal open source de referencia |
+| Primeras sanciones EU AI Act en legal | Media | Presión para auditorías de sistemas AI |
+| CLM open source con AI integrado de serie | Media | Alternativa real a Ironclad/Icertis |
+| Agentes de litigación (predicción de outcomes) | Baja | Requiere fine-tuning sobre jurisprudencia nacional |
