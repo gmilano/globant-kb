@@ -18,6 +18,8 @@
 | [Harbor](https://goharbor.io) | Apache-2.0 | [goharbor/harbor](https://github.com/goharbor/harbor) | Go | Enterprise container registry — security scanning, RBAC, replication | AI-driven vulnerability triage agent: scan reports → priority ranking → automated ticket creation |
 | [Twenty CRM](https://twenty.com) | AGPL-3.0 | [twentyhq/twenty](https://github.com/twentyhq/twenty) | TypeScript, React | Modern open source CRM, Salesforce alternative. Metadata-driven, API-first. | AI sales agent: auto-enrich contacts, draft emails, predict churn, summarize deal history. 45k+ stars. |
 | [Odoo](https://odoo.com) | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python, JavaScript | Full ERP + CRM suite. Modules for HR, accounting, inventory, sales. 40k+ stars. | AI procurement agent, AI HR assistant, document AI for invoices. Use Odoo as data backbone, layer agents on top. |
+| [SigNoz](https://signoz.io) | Apache-2.0 | [SigNoz/signoz](https://github.com/SigNoz/signoz) | Go + React | Full-stack observability native to OpenTelemetry (logs, traces, metrics, LLM observability). Open DataDog/NewRelic alternative. 20k stars. | AI anomaly detection agent on ClickHouse backend; natural language metric/trace queries via LangGraph tool nodes; LLM observability for agent deployments. |
+| [Forgejo](https://forgejo.org) | MIT | [forgejo/forgejo](https://codeberg.org/forgejo/forgejo) | Go | Community-driven Gitea fork. True open governance. Used by Codeberg.org (European Git hosting). Recommended over Gitea for new sovereign deployments. 10k+ stars. | Expose Forgejo API to AI agents for PR analysis, automated release notes, issue triage, security scanning. Pairs with Woodpecker CI for full sovereign SDLC. |
 
 ## How to Add AI to These Platforms
 

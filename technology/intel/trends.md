@@ -1,4 +1,4 @@
-# 📡 Trends — Technology Industry AI (2026-07-03)
+# 📡 Trends — Technology Industry AI (2026-07-06)
 
 > What's shaping software development, DevOps, and platform engineering in mid-2026.
 > Last updated: 2026-07-05
@@ -106,6 +106,24 @@ Each agent has a role, tools, and context. They hand off work via structured out
 **Number**: At $150/hr developer rate, even 1 auto-resolved CI failure per night pays for the agent infrastructure in 30 days.
 
 **Globant action**: Lead sales with the "boring work first" narrative. The big vision (autonomous dev teams) comes after the client sees ROI on something unglamorous. Stack: n8n + Dify + LangGraph for document automation pipelines.
+
+---
+
+## Trend 11: Sovereign / Self-Hosted Developer Stacks
+
+**What**: Security, privacy, and cost concerns are driving enterprises — especially in regulated industries and LATAM government — to self-hosted development infrastructure. The full GitHub-alternative stack (Forgejo + Woodpecker CI + Backstage + SigNoz + Ollama) is now production-ready.
+
+**Evidence**: Forgejo 10k+ stars; Woodpecker CI Apache-2.0 maturing; SigNoz at 20k stars as DataDog alternative; Ollama 55k+ stars. LATAM governments: several mandate open source for public sector software.
+
+**Full sovereign stack**:
+- **Git**: Forgejo (MIT, community Gitea fork, true open governance)
+- **CI/CD**: Woodpecker CI (Apache-2.0, Docker-native, first-class Forgejo support)
+- **IDP**: Backstage (Apache-2.0, CNCF, 3,000+ companies)
+- **Observability**: SigNoz (Apache-2.0, DataDog alternative, native OTel)
+- **Local LLM**: Ollama (MIT, 55k+, 100+ models, drop-in OpenAI API)
+- **AI coding**: Cline (Apache-2.0) → points to local Ollama endpoint
+
+**Globant action**: "Sovereign AI dev platform" is a compelling enterprise offer for LATAM clients with data residency requirements — especially banking, government, and regulated industries in Argentina, Brazil, Colombia. ~60–70% cost reduction vs. GitHub Enterprise + Copilot + DataDog. Globant can deliver the full stack.
 
 ---
 

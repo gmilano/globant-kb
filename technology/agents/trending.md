@@ -1,71 +1,72 @@
-# 📈 Trending AI Agents — Technology (Week of 2026-07-05)
+# Trending AI Agents & Tools — Technology Industry
 
-> What's moving fast this week in AI for software development and DevOps.
+> Week of 2026-07-06 | What's new and gaining momentum
 
-## 🔥 Hot This Week
+## Breakout This Month
 
-### 1. OpenHands Software Agent SDK
+### OpenCode — 172k stars (MIT)
+The fastest-growing coding agent CLI of 2026. Terminal-first, model-agnostic, competes directly with Claude Code and Codex CLI. Growing 20k+ stars per week at peak. Went viral multiple times. Strong community momentum for teams wanting full local control with no proprietary lock-in.
+- **Repo**: [anomalyco/opencode](https://github.com/anomalyco/opencode)
+
+### OpenAI Codex CLI — 95k stars (Apache-2.0)
+OpenAI's lightweight terminal-based coding agent. Runs locally, connects to OpenAI models. Direct competitor to Aider. Gained 95k stars rapidly — signals massive market demand for CLI-native AI coding tools that developers can self-host or pipe into CI/CD.
+- **Repo**: [openai/codex](https://github.com/openai/codex)
+
+### Gemini CLI — Apache-2.0 (Google, Q2 2026)
+Google's open-source terminal agent. Deep Google services integration. First major coding agent from a hyperscaler released fully open-source. Signaling that the CLI coding agent market is too large for any vendor to keep proprietary.
+
+### OpenHands Software Agent SDK — MIT (NEW)
+OpenHands V1 launched a clean, modular SDK for building custom AI agents on top of the OpenHands platform. Companies can author specialized agents ("only touches Python files", "runs security scans before committing") as composable modules — now a public API.
 - **Repo**: [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk)
-- **License**: MIT
-- **Why trending**: OpenHands V1 launched a clean, modular SDK for building production agents. The ACI (Agent-Computer Interface) is now a public API. Major companies integrating: AMD, Apple, Google.
-- **Globant angle**: Fork and extend for client software engineering automation. Replace junior-task automation in CI pipelines.
+- **Globant angle**: Fork and extend for client-specific engineering automation. Replace junior-task automation in CI pipelines.
 
-### 2. Langfuse v3.x — Tracing for Multi-Agent Systems
+## Framework Momentum Shifts
+
+### LangGraph Surpasses CrewAI in Enterprise Adoption
+LangGraph crossed 24k stars and overtook CrewAI in enterprise adoption in early 2026. Driven by its deterministic graph-based architecture that satisfies audit/compliance requirements. Enterprise teams prefer graphs over role-play metaphors. 34.5M monthly downloads.
+
+### Dify Crosses 144k Stars — "WordPress for AI Apps"
+Dify is now the highest-starred AI agent platform globally. Growing 2k+ stars per week. No-code visual builder for LLM apps is hitting mass-market adoption — comparable to the moment WordPress made web publishing accessible.
+
+### Google ADK: 20k Stars in <18 Months
+Google's Agent Development Kit (April 2025) reached 20k stars and 3.3M monthly downloads — fastest-adopted enterprise agent framework from a major cloud provider. A2A (Agent-to-Agent) protocol adds cross-framework interoperability.
+
+### Langfuse v3.x — Multi-Agent Tracing
+New release adds multi-agent trace trees, cost attribution per agent node, and LLM-as-judge eval templates. First observability platform with native A2A trace support.
 - **Repo**: [langfuse/langfuse](https://github.com/langfuse/langfuse)
-- **License**: MIT
-- **Why trending**: New release adds multi-agent trace trees, cost attribution per agent, and LLM-as-judge eval templates. First observability platform with native A2A trace support.
 - **Globant angle**: Mandatory for any production AI app delivery. Bill clients by actual token cost per workflow.
 
-### 3. smolagents — HuggingFace Code Agents
-- **Repo**: [huggingface/smolagents](https://github.com/huggingface/smolagents)
-- **License**: Apache-2.0
-- **Why trending**: Fastest-growing agent framework of 2026 (0 → 27.7k stars in 15 months). New release adds MCP tool integration and multi-agent support.
-- **Globant angle**: Best framework when clients want to run open-weight models (Llama, Mistral) instead of paying per-token to OpenAI/Anthropic.
+## Security & DevOps AI Trending
 
-### 4. Google ADK — A2A Protocol Adoption
-- **Repo**: [google/adk-python](https://github.com/google/adk-python)
-- **License**: Apache-2.0
-- **Why trending**: A2A (Agent-to-Agent) protocol allows cross-framework agent interoperability. An ADK agent can now call a CrewAI or LangGraph agent via standardized task interface.
-- **Globant angle**: Build once with ADK, expose via A2A for clients using different stacks. Future-proof multi-vendor architectures.
+### claude-code-security-review — MIT, Anthropic (5.4k stars)
+GitHub Action using Claude to analyze code for security vulnerabilities on every PR. Declarative YAML-based setup. Growing as enterprise CI security requirement — signals the market for "AI-native SDLC security" is forming.
+- **Repo**: [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review)
 
-### 5. LangGraph — Production Enterprise Adoption Surge
-- **Repo**: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
-- **License**: MIT
-- **Why trending**: Surpassed CrewAI in enterprise GitHub stars in early 2026. New features: parallel node execution, sub-graphs, streaming token output. Adopted as the production standard at Fortune 500 AI teams.
-- **Globant angle**: Use for stateful, auditable agent workflows where clients need checkpointing and rollback — compliance-heavy industries (finance, healthcare).
+### code-review-graph (MIT, 19.1k stars)
+Local-first code intelligence graph for MCP and CLI. Builds persistent graph of the codebase enabling semantic code navigation for AI agents. Novel approach: graph-first codebase representation.
+- **Repo**: [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph)
 
-### 6. Goose — MCP Extension Marketplace Launched
-- **Repo**: [block/goose](https://github.com/block/goose)
-- **License**: Apache-2.0
-- **Stars**: ~32k (+2.1k this week)
-- **Why trending**: Block launched the Goose MCP Extension Marketplace — pre-built extensions for Jira, GitHub, Slack, Kubernetes. Goose becomes the most extensible CLI dev agent. Viral Block engineering blog post.
-- **Globant angle**: Build Goose extensions for internal tools (Jira, Confluence, client-specific APIs). Deliver as reusable connectors across engagements.
+### dtctl — Apache-2.0, Dynatrace
+AI-native CLI for Dynatrace platform resources built for humans AND AI agents. Signals a new pattern: observability vendors building agent-first tooling as a primary interface (not just API afterthought).
+- **Repo**: [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl)
 
-### 7. LangGraph 0.4 — HITL + State Persistence
-- **Repo**: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
-- **License**: MIT
-- **Stars**: ~110k+ (surged past CrewAI in enterprise adoption)
-- **Why trending**: LangGraph 0.4 (April 2026) sharpened state persistence and HITL checkpoints — the #1 feature enterprise teams asked for. Compliance-heavy clients (finance, healthcare, legal) can now audit every agent decision and roll back to any checkpoint.
-- **Globant angle**: Lead with LangGraph for any client that mentions "compliance," "auditability," or "human approval" requirements.
+## GitHub Signals This Week
 
-## 📊 Signals from GitHub This Week
+- **4.3 million** AI-related repos on GitHub — 178% YoY jump in LLM-focused projects (GitHub Octoverse 2025)
+- **MCP adoption accelerating**: 500+ community MCP servers for GitHub, Jira, Slack, AWS, K8s, Postgres — the "npm for AI tool integrations" is forming
+- **Coding agent consolidation**: With Roo Code archived (May 2026), market consolidating around Cline (VS Code), Aider (terminal), OpenHands (autonomous), OpenCode (terminal)
+- **Sovereign dev stacks**: Forgejo + Woodpecker CI + SigNoz + Backstage gaining as GitHub alternative for LATAM/regulated clients
+- **LLM observability category forming**: Langfuse (MIT, 12k+), SigNoz (Apache, 20k), Grafana Assistant all adding native agent/LLM traces — now a procurement requirement
 
-- **4.3 million** AI-related repos on GitHub — 178% YoY jump in LLM-focused projects
-- **Visual builders** dominating stars: Langflow (146k), Dify (130k+), Flowise (51k)
-- **n8n** crossed 182k stars — enterprise workflow automation is the 2026 breakout
-- **MCP adoption accelerating**: 500+ community MCP servers; all major coding agents now MCP-native
-- **Coding agent triangle**: OpenHands (platform, 78k MIT) + Cline (IDE, 58k Apache) + Goose (CLI, 32k Apache) covers all developer environments
-- **Platform engineering + AI**: Backstage plugin ecosystem exploding with AI-native plugins
+## New Repos to Watch
 
-## 🆕 New Repos to Watch
-
-| Repo | Stars | Signal |
-|------|-------|--------|
-| [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk) | New | Agent SDK split from OpenHands platform — embed in CI/CD without full platform |
-| [CopilotKit/CopilotKit](https://github.com/CopilotKit/CopilotKit) | ~18k | v2.0 with MCP support — the missing frontend layer for any agent stack |
-| [Bumblebee (Perplexity)](https://github.com/perplexity-ai/bumblebee) | ~2.6k | MCP supply chain security scanner — audit MCP servers before installing |
-| [OpenChoreo](https://github.com/openchoreo/openchoreo) | Rising | AI agents + GitOps on Kubernetes developer platforms (v1.0 Apr 2026) |
-| [mastraai/mastra](https://github.com/mastraai/mastra) | ~12k | TypeScript-first agent framework surging with Node.js community in 2026 |
+| Repo | License | Stars | Signal |
+|------|---------|-------|--------|
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | 172k | Fastest-growing coding agent CLI 2026 — viral multiple times |
+| [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | MIT | 5.4k | Enterprise CI security requirement forming a category |
+| [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) | MIT | 19.1k | Graph-first codebase representation for AI agents |
+| [CopilotKit/CopilotKit](https://github.com/CopilotKit/CopilotKit) | MIT | 18k | v2.0 with MCP support — frontend layer for any agent stack |
+| [wong2/awesome-mcp-servers](https://github.com/wong2/awesome-mcp-servers) | MIT | growing | Community MCP registry; npm-equivalent for AI tool integrations |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Updated 2026-07-06. Sources: GitHub Trending, OSSInsight, ByteByteGo Top AI Repos, community feeds.*

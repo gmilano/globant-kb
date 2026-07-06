@@ -46,10 +46,26 @@
 
 | Repo | License | Stars | Description | Build On For |
 |------|---------|-------|-------------|--------------|
-| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~29k | Developer portal framework (Spotify). Centralize services, APIs, docs, runbooks. Plugin ecosystem with AI add-ons. | Internal Developer Platforms (IDPs) with AI layer |
+| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | 21.5k | Developer portal framework (Spotify/CNCF). 3,000+ adopting companies, 2M+ users. CNCF's "global open source standard for platform engineering" (Mar 2026). | Internal Developer Platforms (IDPs) with AI layer |
 | [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | ~24k | Open source Terraform fork (Linux Foundation). Full Terraform HCL compatibility. IaC for any cloud. | Cloud infra provisioning when Terraform BSL is a concern |
 | [crossplane/crossplane](https://github.com/crossplane/crossplane) | Apache-2.0 | ~9.8k | Kubernetes-native infrastructure provisioning. CNCF Graduated (Nov 2025). Multi-cloud control plane. | Platform engineering teams offering self-service infra |
 | [argoproj/argo-cd](https://github.com/argoproj/argo-cd) | Apache-2.0 | ~18k | GitOps continuous delivery for Kubernetes. Declarative, auditable, rollback-capable. | Kubernetes CD pipelines, agent-driven deployment automation |
 
+## Observability & Monitoring
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [SigNoz/signoz](https://github.com/SigNoz/signoz) | Apache-2.0 | 20k | Full-stack observability platform native to OpenTelemetry. Logs + traces + metrics + LLM observability in one app. Open DataDog/NewRelic alternative. ClickHouse backend. | Production monitoring, AI agent observability, LATAM regulated clients |
+| [prometheus/prometheus](https://github.com/prometheus/prometheus) | Apache-2.0 | 57k | CNCF gold standard for metrics monitoring in cloud-native environments. Efficient time-series, powerful PromQL. | Infrastructure metrics, Grafana data source, natural language metric queries |
+| [open-telemetry/opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector) | Apache-2.0 | 4.8k | Vendor-neutral telemetry pipeline (CNCF). Pipes traces/metrics/logs to any backend. | Agent observability, distributed tracing, AI agent span tracking |
+
+## Sovereign Self-Hosted Git & CI/CD
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [go-gitea/gitea](https://github.com/go-gitea/gitea) | MIT | 47k | Lightweight self-hosted Git service in Go. GitHub-like features, single binary. Basis for Forgejo. | Sovereign Git for clients needing on-prem |
+| [forgejo/forgejo](https://codeberg.org/forgejo/forgejo) | MIT | 10k+ | Community-driven Gitea fork (Oct 2022). No corporate strings. True open governance. Recommended over Gitea for new deployments. | Sovereign dev platform, LATAM government clients, data sovereignty |
+| [woodpecker-ci/woodpecker](https://github.com/woodpecker-ci/woodpecker) | Apache-2.0 | 4.2k | Lightweight Docker-native CI/CD. Fork of Drone. First-class Gitea/Forgejo support. Replaces GitHub Actions for self-hosted stacks. | Self-hosted CI/CD alongside Forgejo |
+
 ---
-*See also: `verticals/solutions.md` for full vertical platforms.*
+*See also: `verticals/solutions.md` for full vertical platforms and `intel/trends.md` Trend 11 for the sovereign stack use case.*

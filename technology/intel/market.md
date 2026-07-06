@@ -9,13 +9,15 @@
 |--------|-------|--------|
 | Enterprise AI market size (2026) | $64.38B–$114.87B | Mordor Intelligence / Research Nester |
 | GenAI spending (2026) | $127B (+59% YoY) | Gartner |
-| AI Coding Agents market (2026) | $12.8B | Multiple analyst reports |
+| **AI Code Generation & Developer Assistant (2026)** | **$16.13B → $78.97B (2031), CAGR 37.4%** | Mordor Intelligence |
 | AI Code Tools (2026→2031) | $9.35B → $29.96B, CAGR 26.23% | Mordor Intelligence |
-| AI Agents market (all industries 2025→2030) | $7.84B → $52.62B, CAGR 46.3% | MarketsAndMarkets |
+| **Enterprise AI Coding Agents market (Apr 2026)** | **~$9.8–11B annualized** | Tech-insider.org |
+| AI Agents market (all industries 2026→2033) | $10.9B → $182.9B, CAGR 49.6% | Grand View Research |
 | Average enterprise AI spend per company | $7M/year in 2026 | MedhaCloud survey |
 | Enterprise apps with AI agents by end 2026 | 40% (up from <5% in 2025) | Gartner |
 | Enterprise apps shipped with ≥1 AI agent (Q1 2026) | 80% | Databricks |
 | AI-related repos on GitHub | 4.3 million (178% YoY jump in LLM repos) | GitHub Octoverse 2025 |
+| Multi-agent system inquiries surge (Q1 2024 → Q2 2025) | +1,445% | Gartner |
 
 ## Cloud Hyperscaler AI Performance (Q1 2026)
 

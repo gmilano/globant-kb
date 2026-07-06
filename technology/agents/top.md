@@ -1,42 +1,37 @@
-# 🎯 Top AI Agents — Technology Industry
+# Top AI Agents — Technology / Software Development Industry
 
-> Open source AI agents and tools for software development, DevOps, and platform engineering.
-> Focus: MIT / Apache 2.0 licenses — safe for Globant to build on commercially.
-> Last updated: 2026-07-05
+> Last updated: 2026-07-06 | Curated for Globant AI Studios
 
-## Top AI Agents & Tools
+## Autonomous Software Engineering Agents
 
-| Name | License | Repo | Stars | Description |
-|------|---------|------|-------|-------------|
-| [OpenHands](https://github.com/OpenHands/OpenHands) | MIT | OpenHands/OpenHands | ~78.5k | Full autonomous coding agent: plans, edits files, runs shell commands, browses web, debugs in sandboxed environment. SWE-bench leader. Backed by $18.8M Series A. Used by Apple, Google, AMD, Netflix. |
-| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | crewAIInc/crewAI | ~52k | Role-based multi-agent orchestration. Define agents with roles, goals, backstory; wire into crews and pipelines. 5.2M monthly downloads. Best for structured multi-agent workflows. |
-| [AutoGen](https://github.com/microsoft/autogen) | MIT | microsoft/autogen | ~42k | Microsoft's conversational multi-agent framework. Agents talk to each other to solve tasks. Supports human-in-the-loop, code execution, function calling. Enterprise-grade. |
-| [smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | huggingface/smolagents | ~27.7k | HuggingFace's code-first agent framework (Jan 2025). LLM writes Python to complete tasks — not chains. Sandboxed execution. Best for research and HF ecosystem integration. |
-| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | langgenius/dify | ~144k | Full-stack LLMOps platform: visual builder + RAG + agents + monitoring + deployment. Largest open source AI platform by stars. Self-hostable. Supports 50+ LLM providers. |
-| [Langfuse](https://github.com/langfuse/langfuse) | MIT | langfuse/langfuse | ~28k | LLM observability and engineering platform. Traces, evals, prompt versioning, datasets, playground. Self-hostable. The open source alternative to LangSmith. Mandatory for production AI apps. |
-| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | langchain-ai/langgraph | ~12.8k | Graph-based agent orchestration from LangChain. Stateful, cyclic workflows with checkpointing, rollback, human-in-the-loop. Enterprise standard for production-grade agents. |
-| [Aider](https://github.com/Aider-AI/aider) | Apache-2.0 | Aider-AI/aider | ~26k | Git-aware AI pair programmer for terminal. Works with any LLM (Claude, GPT-4, local). Automatically commits changes with good messages. Best for IDE-free code editing workflows. |
-| [SWE-agent](https://github.com/SWE-agent/SWE-agent) | MIT | SWE-agent/SWE-agent | ~15k | Automated software engineering agent from Princeton. Pioneered the Agent-Computer Interface (ACI) concept — standardized shell/editor/test-runner interface. Foundation for all serious coding agents. |
-| [Google ADK](https://github.com/google/adk-python) | Apache-2.0 | google/adk-python | ~20k | Google's Agent Development Kit. Framework-agnostic agent builder with Gemini, Vertex AI integration. A2A protocol support for interoperability with LangGraph/CrewAI agents. 3.3M monthly downloads. |
+| # | Agent | Repo | License | Stars | Description |
+|---|-------|------|---------|-------|-------------|
+| 1 | **OpenHands** | [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | 78.5k | Autonomous AI software engineer. CodeAct agent executes code, edits files, runs tests, and iterates end-to-end. 72% SWE-Bench score — on par with proprietary alternatives. $18.8M Series A. |
+| 2 | **SWE-agent** | [SWE-agent/SWE-agent](https://github.com/SWE-agent/SWE-agent) | MIT | 15.1k | Princeton NLP's Agent-Computer Interface (ACI) for autonomous GitHub issue resolution. 74% SWE-bench. Pioneered standardized shell/editor/test-runner interfaces now copied by every serious coding agent. |
+| 3 | **Aider** | [Aider-AI/aider](https://github.com/Aider-AI/aider) | Apache-2.0 | 45.9k | AI pair programming in your terminal. Commits directly to Git, works with any editor or model. 4.1M installs, 15B tokens/week. Best-in-class for terminal-first and CI/CD-embedded workflows. |
+| 4 | **Cline** | [cline/cline](https://github.com/cline/cline) | Apache-2.0 | 58.6k | Autonomous coding agent as VS Code extension + SDK + CLI. Creates/edits files, runs terminal commands, uses headless browser, integrates with MCP tools. Every action requires human approval. 4M+ installs. |
 
-## Coding Agents — Comprehensive View
+## Multi-Agent Orchestration Frameworks
 
-| Name | License | Repo | Stars | Description |
-|------|---------|------|-------|-------------|
-| [Cline](https://github.com/cline/cline) | Apache-2.0 | cline/cline | ~58k | Most-starred VS Code AI coding extension. Autonomous file editing, terminal access, Playwright browser control. Supports all major LLMs. 200+ community configs. |
-| [Continue](https://github.com/continuedev/continue) | Apache-2.0 | continuedev/continue | ~31k | Open-source IDE autopilot for VS Code and JetBrains. Configurable to any LLM, any codebase indexer. 200+ integrations. Best for teams wanting IDE AI without vendor lock-in. |
-| [Goose](https://github.com/block/goose) | Apache-2.0 | block/goose | ~32k | Block's MCP-native developer agent. Extensible via MCP extensions (Jira, GitHub, Slack integrations). Runs tasks autonomously in terminal without constant supervision. |
-| [Tabby](https://github.com/TabbyML/tabby) | Apache-2.0 | TabbyML/tabby | ~33k | Self-hosted AI code completion server. Drop-in Copilot replacement via LSP. Supports VSCode, JetBrains, Neovim. Fine-tune on client codebase. Enterprise auth + team analytics. |
+| # | Agent | Repo | License | Stars | Description |
+|---|-------|------|---------|-------|-------------|
+| 5 | **LangGraph** | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 24k | Graph-based stateful multi-agent framework. De facto enterprise standard (34.5M monthly downloads). Directed graphs map cleanly to audit trails, rollback points, and branching workflows. Surpassed CrewAI in stars (2026). |
+| 6 | **CrewAI** | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Role-playing AI agent orchestration. Crews of specialized agents collaborate on complex tasks. 5.2M monthly downloads. Production-deployable with strong community. |
+| 7 | **AutoGen** | [microsoft/autogen](https://github.com/microsoft/autogen) | Apache-2.0 | 54k | Microsoft Research conversation-driven multi-agent framework. Teams of specialized agents collaborate through structured conversations. Pioneered agentic multi-agent chat patterns. |
+| 8 | **Dify** | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Low-code / no-code AI agent and LLM app builder with visual interface. Highest-starred agent platform globally. RAG pipelines, workflows, tool use, custom LLM integration. Accessible to non-engineers. |
+| 9 | **Smolagents** | [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Hugging Face's minimal code-first agent framework (Jan 2025). Agents write Python to call tools — simplest possible design, highly hackable. Strong HuggingFace Hub model integration. |
+| 10 | **Google ADK** | [google/adk-python](https://github.com/google/adk-python) | Apache-2.0 | 20k | Google Agent Development Kit (April 2025). Hierarchical agent trees with sub-agent delegation. Tight Vertex AI + Gemini integration. 3.3M monthly downloads. Ideal for GCP-native stacks. |
 
-## Honorable Mentions
+## Security, Quality & Connectivity Agents
 
-| Name | License | Repo | Description |
-|------|---------|------|-------------|
-| [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) | MIT | openai/openai-agents-python | Official OpenAI framework for building agents. Handoff between agents, guardrails, streaming. |
-| [Mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | mastra-ai/mastra | TypeScript agent framework with workflows, RAG, memory, integrations. Best for JS/TS shops. 12k stars. |
-| [OpenHands SDK](https://github.com/OpenHands/software-agent-sdk) | MIT | OpenHands/software-agent-sdk | Clean, modular SDK for building agents with OpenHands V1 — composable and extensible for production. |
-| [CopilotKit](https://github.com/CopilotKit/CopilotKit) | MIT | CopilotKit/CopilotKit | Frontend stack for AI agents: chat components, HITL hooks, persistent threads, inspector. The missing UI layer. 18k stars. v2.0 adds MCP support. |
-| [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | microsoft/semantic-kernel | Microsoft enterprise agent SDK. C#/Python/Java. Deep Azure/M365 integration. 24k stars. |
+| # | Agent | Repo | License | Stars | Description |
+|---|-------|------|---------|-------|-------------|
+| 11 | **Semgrep** | [semgrep/semgrep](https://github.com/semgrep/semgrep) | LGPL-2.1 (CE) | 11.8k | Lightweight SAST for 30+ languages. Finds bugs with patterns that look like source code. AI-assisted multimodal detection: deterministic rules + LLM for IDOR and business-logic vulns. CI/CD native. |
+| 12 | **MCP Servers** | [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Anthropic's official MCP (Model Context Protocol) reference server implementations. Filesystem, git, memory, fetch, sequential thinking, time. Linux Foundation project — de facto standard for connecting LLMs to tools/data. |
 
----
-*Updated automatically by the ingest pipeline.*
+## Notes
+- **Commercial safety**: MIT + Apache-2.0 across the board — all safe for Globant client engagements
+- **SWE-bench is the benchmark**: OpenHands 72%, SWE-agent 74% — better than many $30/month proprietary tools
+- **MCP is the integration layer**: Cline, OpenHands, Aider all support MCP for external tool connectivity
+- **Dify for non-technical clients**: Visual builder when clients need drag-and-drop, not code-first agents
+- **LangGraph + CrewAI + AutoGen**: Pick based on workflow type (stateful graph vs. role-play vs. conversation)

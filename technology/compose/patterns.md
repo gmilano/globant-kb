@@ -244,6 +244,43 @@ Tabby admin (one-time):
 
 ---
 
+## Recipe 8: Sovereign Dev Platform (LATAM / Regulated Clients)
+
+**Goal**: Full self-hosted development platform replacing GitHub + GitHub Actions + DataDog for clients with data sovereignty, regulatory, or cost requirements.
+
+**Stack**:
+- [forgejo/forgejo](https://codeberg.org/forgejo/forgejo) — self-hosted Git + code review + issue tracker (MIT)
+- [woodpecker-ci/woodpecker](https://github.com/woodpecker-ci/woodpecker) — CI/CD pipelines (Apache-2.0)
+- [backstage/backstage](https://github.com/backstage/backstage) — internal developer portal (Apache-2.0)
+- [SigNoz/signoz](https://github.com/SigNoz/signoz) — full-stack observability + LLM traces (Apache-2.0)
+- [ollama/ollama](https://github.com/ollama/ollama) — on-premise LLM runtime (MIT)
+- [cline/cline](https://github.com/cline/cline) — AI coding (Apache-2.0, points to local Ollama)
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — LLM observability (MIT)
+
+**Infrastructure sizing**:
+```
+On-premise or private cloud:
+├── Forgejo               — 2 CPU, 4GB RAM per 100 devs
+├── Woodpecker CI         — scales horizontally with worker agents
+├── Backstage IDP         — Node.js + PostgreSQL, 4 CPU, 8GB
+├── SigNoz                — ClickHouse backend, 3-node min, 8 CPU, 16GB
+├── Ollama (GPU server)   — NVIDIA A10G or equiv for 70B models
+└── Cline (dev laptops)   — VS Code extension → Ollama endpoint
+```
+
+**Migration path from GitHub** (LATAM enterprise):
+```
+Phase 1 (4 weeks): Mirror — Forgejo mirrors GitHub repos, both active
+Phase 2 (4 weeks): CI/CD — Woodpecker runs alongside GitHub Actions
+Phase 3 (4 weeks): Cut-over — Forgejo primary, GitHub archived read-only
+Phase 4 (ongoing): AI layer — Ollama + Cline + LangGraph on Forgejo webhooks
+```
+
+**Build timeline**: 12–16 weeks for full migration + AI layer  
+**ROI**: ~60–70% cost reduction vs. GitHub Enterprise + GitHub Copilot + DataDog; complete data sovereignty; satisfies LGPD (Brazil), open source procurement mandates (LATAM government); no per-seat licensing.
+
+---
+
 ## Quick-Start Matrix
 
 | Client need | Start here | Timeline | Complexity |
@@ -256,3 +293,4 @@ Tabby admin (one-time):
 | DevOps Slack assistant | n8n + Claude + MCP | 2 weeks | Low |
 | Private LLM deployment | vLLM + Ollama + LiteLLM | 2 weeks | Medium |
 | On-prem Copilot replacement | Tabby + Continue + Ollama | 2 weeks | Low-Medium |
+| Sovereign dev platform | Forgejo + Woodpecker + Backstage + SigNoz + Ollama | 12 weeks | Medium-High |
