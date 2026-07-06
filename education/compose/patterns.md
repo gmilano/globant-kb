@@ -2,14 +2,14 @@
 
 > Concrete recipes combining specific repos + agents + wiring instructions.
 > Each pattern is buildable by a Globant team in the timeframe shown.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ```
 [Open Source LMS Platform]
           ↓
-[AI Middleware Layer (LangChain / LangGraph / pyBKT)]
+[AI Middleware Layer (LangChain / LangGraph / pyBKT / FSRS)]
           ↓
-[Specialized Education Agents (Tutoring / Assessment / Analytics)]
+[Specialized Education Agents (Tutoring / Assessment / Analytics / Memory)]
           ↓
 [Student UI (Chat / XBlock / Moodle Plugin) + Admin Dashboard]
 ```
@@ -182,5 +182,134 @@ services:
 **Value prop**: 30-40% improvement in daily study consistency; works on any phone without app install; perfect for LATAM market
 
 ---
+
+## Pattern 7: FSRS-Powered AI Flashcard System (Memory Science + LLM)
+
+**Goal**: Combine LLM-generated flashcards with scientifically optimal FSRS review scheduling. When a student learns a concept via AI tutor, automatically generate a flashcard and schedule reviews using the forgetting curve to maximize long-term retention.
+
+**Stack**:
+- **SRS Engine**: [open-spaced-repetition/fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki) Python port (MIT) for scheduling logic
+- **Web SRS**: [open-spaced-repetition/fsrs.js](https://github.com/open-spaced-repetition/fsrs.js) (MIT) for browser-based review sessions
+- **Card generation**: Claude Haiku — converts lecture segment or tutor explanation → front/back flashcard
+- **LMS integration**: Open edX XBlock (Apache 2.0) or Moodle plugin
+- **Storage**: PostgreSQL — card content + per-user FSRS state (stability, difficulty, due date)
+- **UI**: React SPA embedded in XBlock or Moodle block
+
+**Wiring**:
+```python
+from fsrs import FSRS, Card, Rating
+import anthropic
+
+# Step 1: LLM tutor explains concept → auto-generate flashcard
+def generate_flashcard(concept_text: str) -> dict:
+    client = anthropic.Anthropic()
+    msg = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=256,
+        messages=[{
+            "role": "user",
+            "content": f"Create a concise flashcard.\nCONTENT: {concept_text}\n"
+                       f"Format exactly:\nFRONT: [one question]\nBACK: [concise answer, max 2 sentences]"
+        }]
+    )
+    lines = msg.content[0].text.strip().splitlines()
+    return {
+        "front": lines[0].replace("FRONT: ", ""),
+        "back": lines[1].replace("BACK: ", "")
+    }
+
+# Step 2: FSRS schedules optimal review interval
+def schedule_review(card_id: str, user_id: str, rating: Rating):
+    f = FSRS()
+    db_card = db.get_card(card_id, user_id)  # loads FSRS state from PostgreSQL
+    fsrs_card, review_log = f.review_card(db_card.fsrs_state, rating)
+    db.save_card_state(card_id, user_id, fsrs_card)  # next_due = fsrs_card.due
+    return fsrs_card.due  # datetime of optimal next review
+
+# Step 3: Daily review session — serve only due cards
+def get_due_cards(user_id: str) -> list:
+    return db.query(
+        "SELECT * FROM cards WHERE user_id=? AND due <= NOW() ORDER BY due ASC",
+        user_id
+    )
+```
+
+**Estimated build**: 2-3 weeks (1 full-stack engineer)
+**Value prop**: FSRS users retain material 2-4x longer than massed practice. Differentiator vs pure-LLM tutors — memory science backbone makes outcomes measurable and provable.
+
+---
+
+## Pattern 8: Offline-First AI Tutoring for Low-Connectivity Schools (Kolibri + On-Device LLM)
+
+**Goal**: Deploy full AI tutoring in schools with no reliable internet. Everything runs on local hardware (Raspberry Pi 5 / refurbished laptop). Zero cloud dependency, zero student data exfiltration. For LATAM rural schools, refugee camps, and government data-sovereignty mandates.
+
+**Stack**:
+- **LMS**: [learningequality/kolibri](https://github.com/learningequality/kolibri) (MIT) — offline-first content delivery + Offline AI Phase 3 plugin framework
+- **LLM runtime**: [Ollama](https://github.com/ollama/ollama) (MIT) — serves Llama 3.2 3B (Raspberry Pi) or Mistral 7B (NUC/laptop)
+- **RAG store**: [FAISS](https://github.com/facebookresearch/faiss) (MIT) — indexes Kolibri channel content locally
+- **Tutoring API**: FastAPI wrapper exposing `/ask` endpoint, called from Kolibri frontend plugin
+- **SRS**: FSRS Python lib + SQLite — offline spaced repetition, no server needed
+- **Sync**: Kolibri's built-in sync protocol — when internet available, sync progress data and optional model updates
+
+**Hardware tiers**:
+```
+Minimum:    Raspberry Pi 5 (8GB RAM)      → Llama 3.2 3B (~2 tokens/sec, ~30 concurrent reads)
+Standard:   Intel NUC / laptop (16GB RAM) → Mistral 7B (~5-8 tokens/sec, class of 20-30)
+School srv: Ubuntu 22.04 (32GB RAM)       → Llama 3.1 13B (~12 tokens/sec, 30-50 concurrent)
+```
+
+**Deployment**:
+```bash
+# On school server / Raspberry Pi (Ubuntu 22.04 / Raspberry Pi OS)
+pip install kolibri
+kolibri start
+
+# LLM runtime
+curl -fsSL https://ollama.ai/install.sh | sh
+ollama pull llama3.2:3b   # 2GB, fits Raspberry Pi 5 8GB
+
+# Index Kolibri content for RAG
+python -m kolibri_ai_indexer \
+  --channel-dir /var/kolibri/content/ \
+  --faiss-index /var/kolibri/ai/index.faiss
+
+# Start AI tutoring API
+python -m kolibri_ai_api \
+  --ollama-host http://localhost:11434 \
+  --faiss-index /var/kolibri/ai/index.faiss \
+  --port 8765
+
+# Enable Kolibri AI plugin (adds AI chat to course pages)
+kolibri plugin enable kolibri_ai_tutor
+kolibri restart
+```
+
+**AI tutor conversation (Spanish, offline)**:
+```
+Student: "No entiendo la fotosíntesis"
+Agent: [queries FAISS for relevant Kolibri content] →
+       [Ollama Llama 3.2 generates explanation from local content] →
+       "La fotosíntesis es el proceso por el cual las plantas producen
+        su propio alimento usando luz solar, agua y CO₂...
+        [FSRS schedules flashcard review in 3 days]"
+```
+
+**Estimated build**: 8-10 weeks (2 engineers + field deployment support)
+**Value prop**: 220+ countries already use Kolibri. Adding AI tutoring reaches millions of students at $0/query after setup. Sells to USAID, World Bank, national MinEdu procurement — clients who explicitly require data sovereignty and offline capability.
+
+---
+
+## Quick-Start Matrix
+
+| Pattern | LMS | Time | Team | Key Tech |
+|---------|-----|------|------|----------|
+| 1. Persistent AI Tutor (Open edX) | Open edX | 6-8 wks | 2 eng | LangGraph + Supabase + Claude |
+| 2. BKT Adaptive Math (Moodle) | Moodle | 3-4 wks | 1 eng | OATutor + pyBKT + LangChain |
+| 3. AI Course Factory | ClassroomIO/edX | 4-5 wks | 2 eng | CrewAI + Claude + H5P + Whisper |
+| 4. Dropout EWS | Moodle | 5-6 wks | 1 DS + 1 eng | XGBoost + SHAP + Moodle logs |
+| 5. Sovereign AI Stack | Open edX | 8-10 wks | 2 eng + DevOps | Ollama + FAISS + pyBKT |
+| 6. WhatsApp Study Agent | Any LMS | 3-4 wks | 1 eng | LangGraph + Claude Haiku + pyBKT |
+| 7. FSRS Flashcard System | Moodle/edX | 2-3 wks | 1 eng | FSRS + Claude Haiku + PostgreSQL |
+| 8. Offline AI (Kolibri) | Kolibri | 8-10 wks | 2 eng + field | Ollama + FAISS + Llama 3.2 3B |
 
 *Each pattern can be adjusted in scope. Minimum viable version of any pattern: 1 sprint (2 weeks) for a demo, 4-8 weeks for production.*

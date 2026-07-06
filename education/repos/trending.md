@@ -1,7 +1,7 @@
 # 📈 Trending Repos — Education
 
 > GitHub repos gaining momentum in EdTech / AI education space.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ## Breakout Repos (Past 30 Days)
 
@@ -16,6 +16,21 @@
 | [microsoft/moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) | MIT | 190+ | ▲ | Microsoft backing; reference RAG plugin for Moodle 4.5+ AI subsystem |
 | [zijinz456/OpenTutor](https://github.com/zijinz456/OpenTutor) | MIT | 180+ | ▲ | Block-based self-hosted; 10+ LLM providers; no server needed |
 | [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | 120+ | ▲ | Gamified AI education for ages 4-16; Next.js 16 + Claude; APAC schools piloting |
+
+## Spaced Repetition & Memory Science (Rising)
+
+| Repo | License | Stars | Velocity | Why |
+|------|---------|-------|----------|-----|
+| [open-spaced-repetition/fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki) | MIT | 4k+ | ▲▲ | FSRS-6 in Anki 25.09; native on all platforms; 1.7B benchmark; production at MaiMemo 100M+ users |
+| [open-spaced-repetition/fsrs.js](https://github.com/open-spaced-repetition/fsrs.js) | MIT | 300+ | ▲▲ | JS FSRS for web LMS — every new flashcard app dropping SM-2 for this |
+| [open-spaced-repetition/srs-benchmark](https://github.com/open-spaced-repetition/srs-benchmark) | MIT | 200+ | ▲ | 1.7B-review benchmark dataset; reference for any SRS algorithm validation |
+
+## Offline-First Education (Rising)
+
+| Repo | License | Stars | Velocity | Why |
+|------|---------|-------|----------|-----|
+| [learningequality/kolibri](https://github.com/learningequality/kolibri) | MIT | 700+ | ▲▲ | Offline AI Phase 3 development; UNHCR + Vodafone partnerships; 220+ countries |
+| [learningequality/studio](https://github.com/learningequality/studio) | MIT | 200+ | ▲ | Content curation for custom Kolibri channels; government curriculum tooling |
 
 ## Established Repos Worth Watching
 

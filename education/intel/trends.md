@@ -1,7 +1,7 @@
 # 📡 Trends — Education AI
 
-> 11 forces reshaping EdTech in 2026. Each trend has an OSS signal and a Globant action.
-> Last updated: 2026-07-06
+> 14 forces reshaping EdTech in 2026. Each trend has an OSS signal and a Globant action.
+> Last updated: 2026-07-06 (second pass)
 
 ## Trend 1: Agent-Native Tutoring (The DeepTutor Moment)
 
@@ -126,6 +126,42 @@
 **OSS signal**: Whisper (MIT, 104k★), Bark (MIT, TTS), OATutor (interactive problems), H5P (interactive video).
 
 **Globant action**: Multi-Modal Tutor XBlock for Open edX — upload lecture video → AI generates transcript + summary + interactive quiz + adaptive follow-up problems.
+
+---
+
+## Trend 12: Spaced Repetition Renaissance — FSRS Becomes the New Standard
+
+**Signal**: FSRS (Free Spaced Repetition Scheduler), developed by the open-spaced-repetition community, was adopted natively by Anki in 23.10+ (Feb 2024) and FSRS-6 shipped in Anki 25.09. Validated on 1.7B reviews from 20k users. Multi-language implementations (Go, Rust, Python, JS) enable any app to integrate best-practice memory science. Production deployment at MaiMemo (100M+ Chinese vocabulary learners).
+
+**Why it matters**: Spaced repetition is the highest-evidence retention technique (Ebbinghaus 1885, Cepeda et al. 2008). Adding FSRS to an AI tutoring app gives it a memory science backbone that LLM-only tutors lack. Students using SRS retain vocabulary/concepts 2-4x longer than massed practice. 10-day engineering effort; clear differentiator.
+
+**OSS signal**: [fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki) (MIT, 4k★), [fsrs.js](https://github.com/open-spaced-repetition/fsrs.js) (MIT), [srs-benchmark](https://github.com/open-spaced-repetition/srs-benchmark) (MIT, 1.7B-review dataset).
+
+**Globant action**: Add FSRS-based review scheduling to any AI tutoring product. After LLM explains a concept → auto-generate flashcard → FSRS schedules optimal review. Wire into Moodle or Open edX via plugin. 2-week engineering investment; differentiates against pure-LLM competitors.
+
+---
+
+## Trend 13: Academic Integrity Crisis Drives Assessment Redesign
+
+**Signal**: 86% of students admit to using AI on assignments in 2026. AI detection tools (Turnitin, GPTZero, Originality.ai) have 10-20% false positive rates — unreliable and ethically problematic. The evidence-based response is **assessment redesign**: oral exams, process portfolios, scenario-based problems, and AI-evaluated rubrics rather than detection-based policing.
+
+**Why it matters**: Every university client Globant works with is grappling with this. Assessment is the highest-value unlock: whoever owns the reliable, fraud-resistant assessment layer owns the academic record. Oral exams are AI-cheat-resistant by design.
+
+**OSS signal**: No dominant open source detection tool (detection is not the answer). For redesign: OATutor (MIT, Socratic hints-not-answers model), LangChain eval chains (MIT), Whisper (MIT) + voice for oral exam recording, LangGraph for multi-turn evaluation.
+
+**Globant action**: Conversational Assessment Platform — oral exam via Whisper + Claude + rubric evaluation + immutable audit trail. Sells to universities actively seeking alternatives to detection-based academic integrity tools.
+
+---
+
+## Trend 14: Micro-credentials & Open Badges 3.0 — Verifiable Skill Records
+
+**Signal**: Open Badges 3.0 (1EdTech / IMS Global, finalized June 2024) is built on W3C Verifiable Credentials. Mass institutional adoption 2025-2026: Google, IBM, Microsoft, Amazon issue OB3 badges and recognize them in recruitment. Major platforms (Credly, Accredible, Canvas Credentials/Badgr, POK) are OB3-certified. Badges stack into micro-degrees. Micro-credential market: $8.2B in 2026, growing rapidly.
+
+**Why it matters**: The credential layer is separating from the learning layer. Any platform that issues verifiable, cryptographically-anchored skill records creates stickiness far beyond the course. Corporate L&D buyers explicitly request this for skills-based talent strategies.
+
+**OSS signal**: [badgr-server](https://github.com/concentricsky/badgr-server) (Apache 2.0) — open source OB3 issuing server. [openbadges-validator-core](https://github.com/1EdTech/openbadges-validator-core) (MIT) — reference OB3 validator.
+
+**Globant action**: Credential layer on top of any LMS — issue OB3 badges for course completion, skill mastery (from pyBKT scores), project portfolio milestones. Wire into Credly/LinkedIn for employer visibility. Bundle with corporate L&D engagements as the skills passport layer.
 
 ---
 

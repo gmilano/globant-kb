@@ -1,7 +1,7 @@
 # 📈 Trending Agents — Education
 
 > What's moving fast this week. High-velocity repos and notable releases.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ## Breaking: DeepTutor v1.0 — The Benchmark Shift (April 2026)
 
@@ -23,17 +23,40 @@ This is the first truly agent-native ITS (Intelligent Tutoring System) at produc
 
 This is the reference implementation for AI-in-Moodle in 2026.
 
+## FSRS Spaced Repetition Goes Native — Memory Science Renaissance (2024-2026)
+
+[**open-spaced-repetition/fsrs4anki**](https://github.com/open-spaced-repetition/fsrs4anki) — The FSRS algorithm is now the standard across the Anki ecosystem:
+- **Anki native** on all platforms (desktop, iOS/AnkiMobile, Android/AnkiDroid, AnkiWeb) since Feb 2024
+- **FSRS-6** shipped in Anki 25.09 — improved retention modeling with better stability decay
+- **Multi-language ecosystem**: Go, Rust, Python, JS — drop-in for any app
+- **Benchmark**: 1.7B reviews from 20k users on HuggingFace validate FSRS outperforms SM-2
+- **Production adoption**: MaiMemo (墨墨背单词), 100M+ Chinese vocabulary learners
+
+**Signal for Globant**: Spaced repetition is the most evidence-backed memory technique. After an AI tutor explains a concept → auto-generate flashcard → FSRS schedules optimal review → retention doubles. 2-week engineering effort to integrate; clear differentiator vs pure-LLM tutors.
+
+## Kolibri Offline AI: On-Device LLM for Zero-Connectivity Classrooms (2026)
+
+[**learningequality/kolibri**](https://github.com/learningequality/kolibri) is approaching a milestone: Offline AI Phase 3 development is underway, targeting post-July 2026 shipping:
+- **On-device LLM inference** — swappable backend engine (Raspberry Pi 5 / refurbished laptops)
+- **Model + embedding distribution** — models ship with content packs, sync offline via Kolibri's protocol
+- **AI content recommendations** — without any internet connection
+- **Real device testing**: UNHCR refugee camps (East Africa), rural schools in 220+ countries
+
+**Signal for Globant LATAM**: This is the most ambitious offline AI project in education. Globant's LATAM offices are uniquely positioned to contribute and leverage for government MinEdu contracts in Brazil, Mexico, Colombia, and Peru where connectivity is unreliable.
+
 ## High-Momentum Repos This Week
 
 | Repo | Stars (now) | Why it's moving |
-|------|-------------|-----------------|
+|------|-------------|------------------|
 | [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | 22k+ | v1.0 complete rewrite; viral HN + Twitter coverage June 2026 |
 | [plastic-labs/tutor-gpt](https://github.com/plastic-labs/tutor-gpt) | 650+ | Theory-of-Mind tutoring; cited in 3 NeurIPS 2025 papers |
 | [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | 620+ | Added 5 new KT model baselines + EDM 2026 dataset integrations |
+| [open-spaced-repetition/fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki) | 4k+ | FSRS-6 native in Anki 25.09; multi-language ecosystem expanding |
 | [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | 350+ | New video assessment + AI quiz generation; AGPL-3.0 |
 | [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | 280+ | Spaced repetition + AI card improvement; iOS/Android/Web; MIT |
 | [microsoft/moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) | 190+ | Microsoft-backed; official Moodle AI plugin; RAG pipeline built-in |
 | [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | 320+ | Ollama-first; rising as privacy-safe Khanmigo alternative |
+| [learningequality/kolibri](https://github.com/learningequality/kolibri) | 700+ | Offline AI Phase 3 development; UNHCR + Vodafone partnerships |
 
 ## Emerging Pattern: Open edX AI Plugins
 
@@ -46,6 +69,7 @@ Open edX XBlock ecosystem is seeing a surge in AI plugins. The [XBlock SDK](http
 | StanBKT (arxiv 2605.23048) | Better BKT parameter estimation — pyBKT integration in progress |
 | OpenTutorAI (arxiv 2602.07176) | Personalized + immersive LLM tutoring with AR hooks |
 | FOKE (2025) | Knowledge Graph + Foundation Models for explainable edu AI |
+| GenMentor (WWW 2025 Oral) | LLM multi-agent framework for goal-oriented learning in ITS |
 
 ---
 *Pipeline updates every hour.*
