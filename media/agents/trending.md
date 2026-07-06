@@ -1,51 +1,41 @@
-# Trending AI Agents — Media & Entertainment (July 2026)
+# 📈 Trending AI Agents — Media & Entertainment (July 2026)
 
-> What's gaining momentum this week in the open-source media AI ecosystem.
-
----
+> What's new and surging in media AI this week.
+> Last updated: 2026-07-06
 
 ## 🔥 Hot Right Now
 
-### 1. OpenMontage — Agentic Video Production Goes Mainstream
-**Repo:** [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | MIT  
-**Why it's trending:** Positioned as the "world's first open-source agentic video production system," OpenMontage accumulated 3k+ stars within weeks of launch. It exposes 12 end-to-end production pipelines (documentary, explainer, ad, social short, etc.) and 500+ agent skills. You describe the video you want in plain language; the agent handles research, scripting, B-roll sourcing, voice-over generation, subtitle burning, and final export.  
-**Globant angle:** Replace 60–70% of pre-production labor on internal training videos, client explainers, and marketing content.
+### ViMax — Agentic End-to-End Video Production
+**Repo:** [HKUDS/ViMax](https://github.com/HKUDS/ViMax) | **License:** MIT | **Stars:** 4k+
+Multi-agent production pipeline: Director + Screenwriter + Producer + Video Generator roles run autonomously. Input a concept, output a finished video with scripting, storyboarding, character creation, and synthesis handled end-to-end. This is the production materialization of the "agentic studio" pattern Google Cloud surfaced at NAB 2026. Fastest-growing media AI repo in June 2026.
+
+### Wan 2.2 — Consumer-GPU Video Generation
+**Repo:** [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | **License:** Apache-2.0 | **Stars:** 18k+
+Wan 2.2 ships 30% faster at 720p than Wan 2.1. The 1.3B variant runs on 8GB VRAM — first production-quality T2V/I2V accessible to indie creators without enterprise GPU infrastructure. Alibaba Tongyi MoE architecture; fully Apache-2.0 commercial. Star count accelerating week-over-week.
+
+### LongCat-Video-Avatar 1.5 — Audio-Driven Lip Sync
+**Repo:** [meituan-longcat/LongCat-Video](https://github.com/meituan-longcat/LongCat-Video)
+Replaces Wav2Vec2 with Whisper-Large for dramatically better lip sync accuracy. Temporal stability for long-form video — critical for automated dubbing and localization pipelines. Trending across Chinese and international ML communities in late June 2026.
+
+### Open-Generative-AI — Self-Hosted 200+ Model Studio
+Search GitHub for `open-generative-ai` | **License:** MIT | **Stars:** 7.5k+
+Unified self-hosted studio interface with 200+ image and video generation models. Includes a dedicated Lip Sync Studio (9 models). Went viral in April 2026 framed as the open alternative to Runway/Gens subscriptions; still trending.
+
+### mediago-drama — Novel-to-Short-Drama Agent
+**Repo:** [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) | **License:** Apache-2.0
+End-to-end agent workbench converting Chinese novels into short drama videos (text → script → video). Early-stage but captures the booming "short drama" format dominant in APAC social media.
 
 ---
 
-### 2. Open-Generative-AI — Unified AI Media Studio
-**Repo:** [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT  
-**Why it's trending:** Hit GitHub Trending in April 2026 and accumulated 7,500+ stars within days. Provides a unified web interface for 200+ image and video generation models (FLUX.1, Midjourney-equivalent, Kling V3, Sora 2, Veo 3) — all self-hosted with no per-generation fees.  
-**Globant angle:** Deploy a private media generation studio for broadcast clients needing high-volume thumbnail, poster, and promo asset generation without SaaS subscription costs.
+## 📊 Signals to Watch
+
+| Signal | Implication |
+|--------|-------------|
+| Wan 2.2 → 8GB VRAM | Subscription-based video AI will lose to self-hosted for creators |
+| ViMax multi-agent pattern | Agentic post-production is now a demo-able reality |
+| HunyuanVideo 1.5 → Apache-2.0 | Tencent's best model now fully commercial — opens B2B use |
+| LongCat lip-sync accuracy | Automated dubbing pipelines are production-viable today |
+| Whisper.cpp CoreML backend | On-device live captioning at broadcast quality on mobile |
 
 ---
-
-### 3. LTX-2.3 — First Open-Source 4K + Native Audio Video Model
-**Repo:** [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache 2.0  
-**Why it's trending:** Released March 2026. LTX-2.3 is the first open-source text-to-video model with native 4K output AND synchronized audio generation (via improved HiFi-GAN vocoder at 24kHz stereo). Prior open-source models required separate audio post-production.  
-**Globant angle:** Enables full short-form video (script → 4K video + audio) in a single open-source pipeline — significant for ad agencies and social media teams.
-
----
-
-### 4. OpenShorts — AI Short-Form Video Platform
-**Repo:** [mutonby/openshorts](https://github.com/mutonby/openshorts) | MIT  
-**Why it's trending:** Growing rapidly as a self-hosted alternative to commercial AI video generators. Includes AI Actors (UGC-style), a clip generator, and a YouTube Studio interface. Built on FastAPI + google-genai + faster-whisper + YOLOv8 + MediaPipe.  
-**Globant angle:** White-label deployment for media companies wanting AI-powered social content at scale without per-video SaaS fees.
-
----
-
-### 5. auto-subs — Native NLE Subtitle Plugin
-**Repo:** [tmoroney/auto-subs](https://github.com/tmoroney/auto-subs) | MIT  
-**Why it's trending:** Connects directly to the NLEs professionals already use (DaVinci Resolve, Premiere Pro, After Effects) with fully local Whisper inference. No cloud upload, no subscription. Gaining traction as broadcasters face accessibility compliance mandates.  
-**Globant angle:** Drop-in AI subtitling for broadcast clients' existing post-production workflows — fastest path to ADA/WCAG compliance.
-
----
-
-## Watch List (Emerging)
-
-| Repo | Status | Why Watch |
-|------|--------|-----------|
-| [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Active | 4K+audio in single open-source pipeline, Apache 2.0 |
-| [backblaze-labs/awesome-video-generation](https://github.com/backblaze-labs/awesome-video-generation) | Curated list | Best single-source map of video generation APIs, SDKs, and tools |
-| [wendy7756/AI-Video-Transcriber](https://github.com/wendy7756/AI-Video-Transcriber) | Active | Multi-platform podcast/video transcription with AI summarization |
-| [InboraStudio/Subtitle-Generator-AI](https://github.com/InboraStudio/Subtitle-Generator-AI) | Active | Fully offline Whisper-based subtitle agent, no GPU required |
+*Updated: 2026-07-06 — Globant AI Studios Media Practice*

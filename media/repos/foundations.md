@@ -1,43 +1,34 @@
-# Foundational Repositories — Media & Entertainment
+# 🏗️ Foundational Repos — Media & Entertainment
 
-> These are the open-source bedrock that Globant media engagements should be built on or integrate with.
+> Build-on-top foundations: active communities, open licenses, production-proven.
+> Last updated: 2026-07-06
 
-## Speech & Audio Processing
+## Core AI Model Foundations
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [openai/whisper](https://github.com/openai/whisper) | MIT | 75k+ | Automatic speech recognition trained on 680k hours; supports 99 languages and translation; the universal starting point for any audio/video transcription pipeline |
-| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | 15k+ | C/C++ port of Whisper with no Python dependency; runs on CPU, Apple Silicon (Core ML), and CUDA; embeds into broadcast hardware, mobile apps, and desktop NLEs |
-| [m-bain/whisperX](https://github.com/m-bain/whisperX) | BSD-2-Clause | 13k+ | Adds word-level timestamps and multi-speaker diarization to Whisper using pyannote.audio; the production standard for podcast transcription and multi-host shows |
-| [collabora/WhisperLive](https://github.com/collabora/WhisperLive) | MIT | 4k+ | WebSocket-based near-real-time Whisper server; handles live transcription streams for broadcast, live events, and accessibility captions |
+| Repo | License | Stars | Description | Why foundational |
+|------|---------|-------|-------------|------------------|
+| [openai/whisper](https://github.com/openai/whisper) | MIT | 104k+ | Multilingual ASR — 680k hrs training; 99-language transcription + translation | Standard for subtitling, dubbing, accessibility, live captioning — every media pipeline needs this |
+| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | 51k+ | Whisper in C/C++ with CUDA/Metal/Vulkan; quantized; real-time on consumer HW | Production deployment layer for whisper — integrates into broadcast and mobile workflows |
+| [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | 24k+ | Open video generation (11B); T2V + I2V; full training code + checkpoints; ~$200K training cost | Only fully open video model with training code — enables fine-tuning on proprietary content |
+| [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | 18k+ | Alibaba Tongyi MoE; 1.3B (8GB VRAM) + 14B (24GB); T2V + I2V; Apache commercial | Best open T2V for consumer GPU deployments; Wan 2.2 is 30% faster at 720p |
+| [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | 12.5k | Zhipu AI; 2B + 5B variants; native HF Diffusers; best multi-clause prompt following | Diffusers-native = easiest integration into existing ML pipelines; CogKit for fine-tuning |
 
-## Video Generation
+## Media Infrastructure Foundations
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache 2.0 | 22k+ | Open-source text-to-video generation; supports variable resolution and duration; usable for synthetic B-roll, promotional short clips, and storyboard visualization |
-| [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache 2.0 | 8k+ | LTX-2.3: first open-source model with native 4K output and synchronized audio generation (HiFi-GAN at 24kHz stereo); released March 2026 |
-| [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | 7.5k+ | Self-hosted studio for 200+ image/video models; REST API for batch generation; MIT makes it fully commercializable in client deployments |
+| Repo | License | Stars | Description | Why foundational |
+|------|---------|-------|-------------|------------------|
+| [jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | GPL-2.0 | 40k+ | Free Software Media System; no-vendor-lock media server; 1,100+ contributors | Largest fully open media server — streaming backbone for internal content platforms |
+| [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) | AGPL-3.0 | 145k+ | Leading open image generation UI; API mode; ControlNet, LoRA, fine-tuning ecosystem | Industry-standard for concept art, storyboarding, marketing assets, thumbnail generation at scale |
+| [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | 27.5k | Professional creative engine for SD models; Node-based workflow builder; API-first | Apache-2.0 (vs AGPL) makes it the preferred commercial-safe alternative to A1111 |
+| [google-ai-edge/mediapipe](https://github.com/google-ai-edge/mediapipe) | Apache-2.0 | 28k+ | Cross-platform ML for face detection, pose, object tracking, hand tracking | AR/VR content tools, broadcast overlays, interactive media — base layer for real-time CV |
 
-## Image Generation (Visual Media)
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI) | GPL-3.0 | 65k+ | Node-based AI generation pipeline; primary tool for complex multi-step media asset workflows: thumbnail generation, cover art, consistent visual style across episode series |
-| [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) | AGPL-3.0 | 140k+ | Most widely used SD interface; powers high-volume thumbnail, poster, key art, and promo asset generation; note AGPL requires open-sourcing modifications in networked deployments |
-
-## Media Infrastructure & Streaming
+## Audio/Music Foundations
 
 | Repo | License | Stars | Description |
 |------|---------|-------|-------------|
-| [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | 2.5k+ | Modern open-source video and media CMS (Python/Django + React) with REST API, HLS streaming, video encoding, search, and access control; basis for private VOD platforms |
-| [owncast/owncast](https://github.com/owncast/owncast) | MIT | 10k+ | Self-hosted live streaming server (Go + React); RTMP ingest, HLS output, built-in chat; MIT license makes it ideal for white-label live event platforms |
-| [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | AGPL-3.0 | 13k+ | Federated ActivityPub-based video hosting (Node.js); WebTorrent P2P delivery reduces bandwidth costs; the leading self-hosted YouTube alternative |
+| [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | 9k+ | Music source separation (vocals/drums/bass/other); v4 Hybrid Transformer |
+| [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT | 22k+ | Meta's audio generation: MusicGen (text-to-music) + AudioGen (text-to-sound) + EnCodec |
+| [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | 36k+ | Text-to-audio: speech + music + sound effects; multilingual; AI voiceover/dubbing |
 
-## Media Processing & Search
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp) | Unlicense | 85k+ | Feature-rich video downloader supporting 1000+ sites; widely used in media archiving, content ingestion pipelines, and competitive monitoring (check ToS per platform) |
-| [facebookresearch/faiss](https://github.com/facebookresearch/faiss) | MIT | 33k+ | Efficient similarity search and clustering for dense vectors; powers semantic video/audio search, content-based recommendation, and near-duplicate detection in media archives |
-| [jina-ai/jina](https://github.com/jina-ai/jina) | Apache 2.0 | 20k+ | Neural search and MLOps framework; used for multimodal media search (image+text+audio), powering "find similar clips" and AI-driven content discovery features |
+---
+*See also: `verticals/solutions.md` for full vertical platforms to build on top of.*

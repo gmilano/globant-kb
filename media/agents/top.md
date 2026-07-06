@@ -1,27 +1,36 @@
-# Top AI Agents & Tools — Media & Entertainment Industry
+# 🎬 Top AI Agents & Tools — Media & Entertainment
 
-> Last updated: 2026-07-02 | Focus: MIT / Apache 2.0 / BSD licenses Globant can build on
+> Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0 / BSD.
+> Last updated: 2026-07-06
 
-## AI Agents Table
+## Top Agents & Tools
 
-| # | Name | GitHub | License | Stars | Description |
-|---|------|--------|---------|-------|-------------|
-| 1 | Whisper | [openai/whisper](https://github.com/openai/whisper) | MIT | 75k+ | OpenAI's robust ASR system trained on 680k hours of multilingual audio; backbone for transcription, subtitling, accessibility, and content search across all media verticals |
-| 2 | whisper.cpp | [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | 15k+ | Pure C/C++ port of Whisper; runs CPU-only with no Python dependency — ideal for edge devices, broadcast encoders, and real-time on-prem transcription |
-| 3 | WhisperX | [m-bain/whisperX](https://github.com/m-bain/whisperX) | BSD-2-Clause | 13k+ | Extends Whisper with word-level timestamps and multi-speaker diarization; critical for podcast editing, news captioning, and multi-host show transcription |
-| 4 | WhisperLive | [collabora/WhisperLive](https://github.com/collabora/WhisperLive) | MIT | 4k+ | Near-real-time Whisper implementation over WebSocket; designed for live broadcast transcription, live news tickers, and simultaneous accessibility captions |
-| 5 | subsai | [absadiki/subsai](https://github.com/absadiki/subsai) | MIT | 2k+ | Subtitles generation tool (WebUI + CLI + Python package) powered by Whisper variants; supports batched 70× realtime inference and multi-speaker diarization for SRT/VTT output |
-| 6 | auto-subs | [tmoroney/auto-subs](https://github.com/tmoroney/auto-subs) | MIT | 3k+ | On-device AI subtitle generation plugin connecting directly to DaVinci Resolve, Adobe Premiere Pro, and After Effects; no cloud or subscription required |
-| 7 | Open-Sora | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache 2.0 | 22k+ | Open-source text-to-video generation system; democratizes efficient video production for trailers, promotional content, and synthetic B-roll generation |
-| 8 | Open-Generative-AI | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | 7.5k+ | Self-hosted unified studio giving access to 200+ image and video generation models (FLUX, Kling, Sora, Veo); no content filters, no per-generation cost |
-| 9 | OpenMontage | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | MIT | 3k+ | World's first open-source agentic video production system; 12 production pipelines, 52 tools, 500+ agent skills — turns an LLM coding agent into a full video production studio |
-| 10 | OpenShorts | [mutonby/openshorts](https://github.com/mutonby/openshorts) | MIT | 2k+ | Free & open source AI video platform: Clip Generator, AI Shorts with AI actors, YouTube-style studio; self-hosted, no watermarks, built on FastAPI + YOLOv8 + faster-whisper |
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| Whisper | [openai/whisper](https://github.com/openai/whisper) | MIT | 104k+ | OpenAI's multilingual ASR — 680k hrs training; 99-language transcription + translation; foundation for subtitling, dubbing, and accessibility pipelines |
+| Open-Sora | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | 24k+ | Fully open video generation (11B model); T2V + I2V; trained for ~$200K; on-par with HunyuanVideo on VBench; includes training code + checkpoints |
+| Wan 2.1 | [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | 18k+ | Alibaba Tongyi MoE video model; 1.3B variant runs on 8GB VRAM, 14B on 24GB; strongest open-source T2V/I2V on consumer GPUs; Wan 2.2 is 30% faster at 720p; fully commercial |
+| CogVideoX | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | 12.5k | Zhipu AI video gen; 2B and 5B variants; best-in-class multi-clause prompt following; native Hugging Face Diffusers integration; 16GB VRAM min |
+| HunyuanVideo | [Tencent-Hunyuan/HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Apache-2.0† | 11.9k | Tencent's production video model (720p/1080p); HunyuanVideo 1.5 is Apache-2.0; exceptional motion quality; requires 60–80GB VRAM for full model |
+| ViMax | [HKUDS/ViMax](https://github.com/HKUDS/ViMax) | MIT | 4k+ | Agentic end-to-end video production: Director + Screenwriter + Producer + Video Generator; orchestrates scriptwriting, storyboarding, character creation, and final video synthesis |
+| WhisperX | [m-bain/whisperX](https://github.com/m-bain/whisperX) | BSD-4 | 11k+ | Whisper + word-level timestamps + speaker diarization; production-ready subtitle and caption pipeline; faster inference than vanilla Whisper |
+| whisper.cpp | [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | 51k+ | Whisper in C/C++; Apple Silicon Metal, CUDA, OpenCL, Vulkan backends; quantized models; real-time on consumer hardware; CoreML backend for on-device live captioning |
+| MediaPipe | [google-ai-edge/mediapipe](https://github.com/google-ai-edge/mediapipe) | Apache-2.0 | 28k+ | Google cross-platform ML for face detection, pose estimation, object tracking, hand tracking — core building block for AR/VR content, broadcast overlays |
+| Stable Diffusion (AUTOMATIC1111) | [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) | AGPL-3.0 | 145k+ | The leading open-source image generation UI; used industry-wide for concept art, storyboarding, marketing assets, thumbnail generation at scale |
 
-## Notes
+†HunyuanVideo 1.5+ is Apache-2.0; earlier versions used Tencent Community License (commercial ≤100M MAU).
 
-- **Whisper family (1–5)** is the undisputed foundation for any media transcription, subtitling, or audio search use case. whisper.cpp enables deployment on broadcast hardware without GPU.
-- **WhisperX** is preferred over raw Whisper when multi-speaker shows, podcasts, or legal depositions need per-speaker attribution.
-- **Video generation (7–9)** is moving fast: Open-Sora and Open-Generative-AI are the leading open-source choices; both are suitable for generating promotional content, synthetic B-roll, and ad creative at scale.
-- **OpenMontage (9)** is the most agentic option — it accepts a natural-language brief and handles research, scripting, asset generation, editing, and composition autonomously.
-- **OpenShorts (10)** targets short-form social media content (YouTube Shorts, TikTok-equivalent) with built-in AI actors and clip generation.
-- All entries carry MIT or Apache 2.0 / BSD licenses except WhisperX (BSD-2-Clause, equally permissive for commercial use).
+---
+
+## Specialized Supporting Tools
+
+| Name | Repo | License | Purpose |
+|------|------|---------|--------|
+| Demucs | [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | Music source separation (vocals/drums/bass/other); v4 Hybrid Transformer; used in remixing, content clearance, karaoke generation |
+| AudioCraft | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT | Meta's audio generation: MusicGen + AudioGen + EnCodec; text-to-music, text-to-sound for media scoring |
+| Bark | [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | Text-to-audio model with speech, music, and sound effects; multilingual; used for AI voiceover and dubbing |
+| InvokeAI | [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | Professional creative engine for SD models; Node-based workflow builder; API-first; Apache-2.0 commercial-safe alternative to A1111 |
+| FILM | [google-research/frame-interpolation](https://github.com/google-research/frame-interpolation) | Apache-2.0 | Frame interpolation for slow-motion / upscaling video frame rate |
+
+---
+*Auto-updated by the Globant AI Studios ingest pipeline.*

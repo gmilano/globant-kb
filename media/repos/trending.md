@@ -1,48 +1,36 @@
-# Trending Repositories — Media & Entertainment (July 2026)
+# 📈 Trending GitHub Repos — Media & Entertainment (July 2026)
 
-> GitHub repos gaining momentum in the media AI space this month.
+> Most-starred and fastest-growing media AI repos right now.
+> Last updated: 2026-07-06
 
----
+## 🔥 GitHub Trending — July 2026
 
-## 🚀 Breaking Into the Mainstream
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|-------------|
+| [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | 18k+ | Wan 2.2 released: 30% faster, 8GB VRAM, fully commercial — the democratization milestone for open video |
+| [HKUDS/ViMax](https://github.com/HKUDS/ViMax) | MIT | 4k+ | Agentic video production (Director+Screenwriter+Producer+Generator all-in-one) went viral June 2026 |
+| [Tencent-Hunyuan/HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Apache-2.0† | 11.9k | v1.5 relicensed Apache-2.0; 720p/1080p quality; drove surge in enterprise interest |
+| [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | 12.5k | CogKit fine-tuning framework release; best-in-class prompt following |
+| [meituan-longcat/LongCat-Video](https://github.com/meituan-longcat/LongCat-Video) | — | Growing | Audio-driven lip sync v1.5 — Whisper-Large-powered; production dubbing viable |
+| [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | 24k+ | Only fully open T2V with training code; benchmark results vs HunyuanVideo 11B |
+| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | 51k+ | CoreML backend for on-device Apple Silicon captioning; Vulkan backend for Linux |
+| [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) | Apache-2.0 | Growing | Novel-to-short-drama agent: text→script→video; captures booming APAC short drama format |
 
-### OpenMontage
-**Repo:** [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | MIT  
-**Stars:** 3k+ (launched Q2 2026)  
-**What it is:** Agentic video production system — the first open-source project to fully automate the production pipeline. Includes 12 pipeline templates (explainer, documentary, ad, social short), 52 tools, and 500+ agent skills. Integrates with Claude, GPT-4o, and local LLMs.  
-**Why it's surging:** Media companies are experimenting with autonomous content production. OpenMontage is the only open-source system that treats video production as an agentic workflow rather than a set of disconnected tools.
+## 📊 Video Generation Model Comparison (for team decisions)
 
----
+| Model | License | VRAM | Quality | Commercial |
+|-------|---------|------|---------|------------|
+| Wan 2.2 (1.3B) | Apache-2.0 | 8GB | Good | ✅ Fully |
+| Wan 2.2 (14B) | Apache-2.0 | 24GB | Excellent | ✅ Fully |
+| CogVideoX-2B | Apache-2.0 | 16GB | Good | ✅ Fully |
+| CogVideoX-5B | Apache-2.0 | 24GB+ | Excellent | ✅ Fully |
+| Open-Sora 2.0 (11B) | Apache-2.0 | 40GB+ | Excellent | ✅ Fully |
+| HunyuanVideo 1.5 | Apache-2.0 | 60-80GB | Exceptional | ✅ Fully |
 
-### Open-Generative-AI
-**Repo:** [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT  
-**Stars:** 7.5k+ (hit GitHub Trending April 2026)  
-**What it is:** Unified self-hosted studio for image and video generation — 200+ models in one interface including FLUX.1, Kling V3, Sora 2, and Veo 3. Python + PyTorch backend, React frontend, CUDA/ROCm support.  
-**Why it's surging:** Subscription fatigue. Teams that previously paid $50–200/month per user for Midjourney/Runway/Kling now self-host and pay only compute costs.
-
----
-
-### LTX-Video (LTX-2.3)
-**Repo:** [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache 2.0  
-**Stars:** 8k+  
-**What it is:** First open-source video generation model with native 4K resolution and synchronized audio output. Released March 2026. Architecture combines a video transformer with an improved HiFi-GAN vocoder for 24kHz stereo audio.  
-**Why it's surging:** Closes the biggest remaining gap in open-source video generation — synchronized audio — enabling fully automated short-form video production without post-production audio work.
-
----
-
-### OpenShorts
-**Repo:** [mutonby/openshorts](https://github.com/mutonby/openshorts) | MIT  
-**Stars:** 2k+  
-**What it is:** Self-hosted AI video platform targeting short-form social content. Includes a Clip Generator, AI Shorts with AI Actors (UGC-style synthetic presenters), and a YouTube Studio interface. Stack: FastAPI, google-genai, faster-whisper, YOLOv8, MediaPipe, FFmpeg.  
-**Why it's surging:** Short-form video is the fastest-growing media format. OpenShorts is the only open-source end-to-end platform for it.
+**Recommendation for Globant engagements:**
+- Demos / POCs with client hardware: **Wan 2.2 1.3B** (8GB VRAM, Apache-2.0)
+- Production content pipelines: **CogVideoX-5B** or **Wan 2.2 14B**
+- Highest quality, enterprise GPU budget: **HunyuanVideo 1.5**
 
 ---
-
-## Rising Fast
-
-| Repo | License | Stars | Momentum |
-|------|---------|-------|----------|
-| [backblaze-labs/awesome-video-generation](https://github.com/backblaze-labs/awesome-video-generation) | MIT | 2k+ | Definitive curated list of AI video APIs, SDKs, models; growing as the reference for developers building media pipelines |
-| [InboraStudio/Subtitle-Generator-AI](https://github.com/InboraStudio/Subtitle-Generator-AI) | MIT | 1.5k+ | Fully offline, no-GPU-needed subtitle agent based on Whisper architecture; gaining traction with small studios |
-| [wendy7756/AI-Video-Transcriber](https://github.com/wendy7756/AI-Video-Transcriber) | MIT | 1k+ | Multi-platform transcription + AI summarization for podcasts and video; integrates faster-whisper + LLM summarization in one CLI |
-| [tmoroney/auto-subs](https://github.com/tmoroney/auto-subs) | MIT | 3k+ | Native NLE subtitle plugin (DaVinci Resolve / Premiere / After Effects); surging as broadcast clients face accessibility mandates |
+*Pipeline auto-updated — Globant AI Studios.*
