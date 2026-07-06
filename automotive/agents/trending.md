@@ -1,35 +1,87 @@
-# Trending This Week — Automotive AI
+# 📈 Trending AI Agents & Tools — Automotive
 
-> Repos and agents gaining traction in the automotive AI space. Updated: 2026-07-06
+> What's new and gaining momentum this week. Curated for Globant AI Studios.
+> Last updated: 2026-07-06
 
-## Hot Repos & Movements
+---
 
-| Repo | License | Why It's Trending | Stars |
-|------|---------|-------------------|-------|
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache 2.0 | Core perception + planning modules for Autoware; multiple PRs merged for NVIDIA Alpamayo integration | 1.7k★ |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache 2.0 | New sub-project: productionizable + safety-certifiable ADAS / Full Self Driving stack from Autoware Foundation | 320★ |
-| [OpenGVLab/DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache 2.0 | Rising fast after surpassing Apollo baseline on CARLA benchmark; LLM behavior planning getting real attention | 1.2k★ |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache 2.0 | Framework for testing autonomous agents in CARLA — filling gap between simulation and CI/CD for AV teams | 77★ |
-| [speed785/open-mechanic](https://github.com/speed785/open-mechanic) | MIT | OBD-II + Claude API combo going viral in indie dev/maker communities — 10x stars in 30 days | 420★ |
-| [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | — | Chinese in-cabin multi-agent system: edge intent detection + cloud LLM planning + cross-domain agent orchestration + vehicle control VAL safety layer | 8★ |
-| [AkbasLab/scenic-sumo](https://github.com/AkbasLab/scenic-sumo) | BSD-3 | Scenic language module for SUMO — automated scenario generation for traffic AI testing | 45★ |
+## 🔥 Top Story: openpilot 0.11 — World Model Breakthrough (March 2026)
 
-## What's New This Week (July 2026)
+comma.ai shipped **openpilot 0.11**, the first real-world robotics agent fully trained in a *learned* simulation. This is a decade-long milestone: the driving model now uses a **2B-parameter world model** trained on 2.5 million minutes of fleet video.
 
-### AGL SoDeV Platform Goes Public
-Automotive Grade Linux (AGL) released the **SoDeV** (Software Defined Vehicle) reference platform on May 14, 2026. Toyota, Honda, Mazda, AISIN, Panasonic, and Renesas contributed. Apache 2.0 licensed. This is the first production-ready open-source SDV middleware stack — major inflection point for the industry.
+**What changed:**
+- Previous versions trained on real-world video only; 0.11 uses synthetic rollouts from the world model
+- Experimental mode adoption hit record highs immediately after nightly release (Jan 19, 2026)
+- Idle power draw on comma four dropped 77% (225 mW → 52 mW)
+- 0.11.2 released June 15, 2026 with further refinements
 
-### Google AAOS SDV Open Source (Announced)
-Google announced it will open-source **Android Automotive OS for Software-Defined Vehicles** (AAOS SDV) later in 2026, in collaboration with Renault Group and Qualcomm. This follows the AGL move and signals OS-level commoditization for vehicle software.
+**Why it matters for Globant:** The learned-sim approach lets OEMs generate training data for rare edge-case scenarios (weather, near-miss) without real-world collection. This unlocks AV training at any scale.
 
-### NVIDIA Alpamayo Drives L4 Deployments
-NVIDIA's 10-billion parameter **Alpamayo** model for Level 4 autonomy attracted Jaguar Land Rover, Lucid, and Uber as early users (CES 2026). Uber confirmed commercial robotaxi deployment in 2026. While proprietary, it's pushing the open-source community (Autoware, Apollo) to add LLM-based planning layers.
+Repos: [commaai/openpilot](https://github.com/commaai/openpilot) · MIT
 
-### Motional Launches Commercial Robotaxi
-Motional launched a commercial robotaxi service in Las Vegas through Uber in early 2026 — first Western commercial robotaxi deployment since Waymo. Creates demand for open-source fleet management integrations.
+---
 
-### BYD SDV Architecture Deep-Dive Circulating
-Community analysis of BYD's Software-Defined Vehicle architecture is circulating on GitHub and LinkedIn. BYD's tight vertical integration (EEA architecture, in-house chips, AI stack) is being studied as a reference model.
+## 🚀 NVIDIA Alpamayo Ecosystem Launch (CES 2026 + March 2026)
+
+NVIDIA announced the **Alpamayo family** at CES 2026 — the industry's first open reasoning Vision-Language-Action (VLA) model for autonomous driving. Alpamayo 1.5 shipped in March 2026.
+
+**Key components:**
+| Component | Repo | License | Notes |
+|-----------|------|---------|-------|
+| Alpamayo model weights | [NVlabs/alpamayo](https://github.com/NVlabs/alpamayo) | Non-commercial (research) | Foundation VLA for AV reasoning |
+| AlpaSim simulator | [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | Apache-2.0 | Open evaluation framework |
+| Autoware integration | [autowarefoundation/alpamayo-autoware](https://github.com/autowarefoundation/alpamayo-autoware) | Apache-2.0 | Plug Alpamayo into Autoware |
+
+**Adoption:** Jaguar Land Rover, Lucid Motors, and Uber have all signed on. Uber plans robotaxi deployment in 2026 using Alpamayo reasoning backbone.
+
+**Note on license:** Alpamayo model weights are non-commercial (research only). AlpaSim (the simulator) is Apache-2.0 and fully buildable-on. Commercial AV products should use AlpaSim + their own trained weights.
+
+---
+
+## 📡 Autoware: End-to-End AI + IEEE IV 2026 Workshop (June 2026)
+
+The Autoware Foundation announced an initiative to integrate **end-to-end AI models** (starting with the AutoDrive E2E model) directly into the Autoware stack, targeting production-grade Level 2+ autonomy for automotive OEMs. Optimization partnership with AMD Instinct GPUs.
+
+The full-day Autoware Tutorial & Workshop at **IEEE IV 2026** (Detroit) covered: map-less navigation, E2E driving, adverse weather perception, connected vehicles.
+
+Repos: [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) · Apache-2.0
+
+---
+
+## 🏗️ Eclipse S-CORE 0.5 — First SDV Runtime Release (November 2025)
+
+**Eclipse S-CORE** hit its first public release (v0.5) in November 2025, marking a key milestone in the Eclipse SDV ecosystem's mission to create a fully open, AUTOSAR-aligned runtime for software-defined vehicles. Full release planned for 2026.
+
+The broader **Eclipse SDV Working Group** now includes 50+ member companies; the MoU for open SDV collaboration grew from 11 to 32 signatories.
+
+Key SDV repos gaining traction:
+- [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) — Rust VSS broker, Apache-2.0
+- Eclipse Leda — Yocto-based SDV.EDGE build system, Apache-2.0
+
+---
+
+## 🚗 In-Vehicle Cockpit AI Agents Rising
+
+A new class of **agentic cockpit systems** is emerging — multi-LLM orchestration running at the vehicle edge:
+
+- **LG AI Cabin Platform** (2026) — on-device generative AI on Qualcomm Snapdragon Cockpit Elite. Analyzes internal cabin cameras + external environment in real-time, no cloud dependency
+- **KPIT Agentic AI Suite** — built on GenAI + Microsoft Foundry for model orchestration inside vehicle ECUs
+- **[cockpit-agent](https://github.com/SuperdeMan/cockpit-agent)** — community project: cloud-edge multi-agent system for intelligent cockpit (Chinese market), LLM planning + vehicle control VAL safety execution
+
+**Pattern to watch:** Edge LLM (Llama 3.2 3B / Phi-3 Mini) + KUKSA databroker + voice NLP = privacy-preserving in-car AI that works offline.
+
+---
+
+## 📊 Trending GitHub Repos This Week
+
+| Repo | Stars | Trend | Notes |
+|------|-------|-------|-------|
+| [commaai/openpilot](https://github.com/commaai/openpilot) | ~50k | ▲▲ | 0.11.2 release |
+| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | ~11.7k | ▲ | IEEE IV 2026 workshop |
+| [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | ~1k | ▲▲ | NVIDIA ecosystem push |
+| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | ~500 | ▲ | SDV momentum |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | ~500 | ▲▲ | Map-less AV gaining interest |
+| [traccar/traccar](https://github.com/traccar/traccar) | ~5k | → | Stable, widely deployed |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

@@ -1,30 +1,60 @@
-# Top AI Agents & Tools — Automotive
+# 🎯 AI Agents & Tools — Automotive
 
-> Open source AI agents and tools for the automotive industry. Focus: MIT / Apache 2.0 / BSD.
+> Open-source agents, frameworks, and tools for the automotive industry.
+> Focus: MIT / Apache 2.0 licenses that Globant can build on commercially.
 > Last updated: 2026-07-06
 
-## Top Agents & Tools
+---
 
-| Name | Repo | License | Stars | Description |
-|------|------|---------|-------|-------------|
-| openpilot | [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | 63k★ | Full ADAS OS for 300+ cars — adaptive cruise control + lane centering via end-to-end neural net. comma four hardware. Production-grade. |
-| Autoware | [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache 2.0 | 11.8k★ | World's leading open-source AV stack on ROS2. Full perception→planning→control pipeline. Runs in CARLA, real vehicles. |
-| Apollo | [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache 2.0 | 24k★ | Baidu's full-stack autonomous driving platform (v11.0). Perception, localization, planning, C++ + Python. Deployed in commercial robotaxi. |
-| CARLA | [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | 14.1k★ | Open-source autonomous driving simulator on Unreal Engine. 100+ scenarios, sensor suite, Python API. UE5 branch active. |
-| DriveMLM | [OpenGVLab/DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache 2.0 | 1.2k★ | LLM-based end-to-end AV framework. Multimodal LLM for behavior planning. 76.1 score on CARLA Town05 Long, beats Apollo baseline +4.7. |
-| DriveLLM | [yaodongC/DriveLLM](https://github.com/yaodongC/DriveLLM) | MIT | 380★ | LLM agent for autonomous driving decisions via FastAPI + LangChain backend wired into ROS1/Autoware stack. |
-| open-mechanic | [speed785/open-mechanic](https://github.com/speed785/open-mechanic) | MIT | 420★ | OBD-II adapter + Claude API → plain-English diagnosis and repair guides. Connects to any ELM327 Bluetooth dongle. |
-| Automotive-AI | [Eloquent-Algorithmics/Automotive-AI](https://github.com/Eloquent-Algorithmics/Automotive-AI) | MIT | 310★ | Hands-free voice diagnostic assistant: GPT-4 + NLP + TTS + STT + OBD-II ELM327. Customizable for any API. |
-| Eclipse SUMO | [eclipse-sumo/sumo](https://github.com/eclipse-sumo/sumo) | EPL-2.0 | 3.2k★ | Highly portable microscopic traffic simulation. Intermodal (pedestrians, bikes, vehicles). Python TraCI API for real-time control. |
-| Scenic | [BerkeleyLearnVerify/Scenic](https://github.com/BerkeleyLearnVerify/Scenic) | BSD-3 | 980★ | Probabilistic programming language for scenario generation and AV testing. Integrates with CARLA, SUMO, Webots. |
+## Core Autonomous Driving Agents
 
-## Why These Matter for Globant
-
-- **openpilot + CARLA**: Best combo for ADAS prototyping — real-world neural net on MIT license, simulation validation
-- **Autoware**: Enterprise-grade AV stack; Toyota/Honda/Renault ecosystem; ROS2 native
-- **Apollo**: China market entry (Baidu ecosystem); strongest perception stack; Apache 2.0 commercial use OK
-- **DriveMLM + DriveLLM**: LLM-layer on top of classic AV stacks — next-gen human-interpretable decisions
-- **open-mechanic + Automotive-AI**: Quick-win for dealer/workshop digitization — OBD-II AI in < 2 weeks
+| Name | License | Description | Stars |
+|------|---------|-------------|-------|
+| [openpilot](https://github.com/commaai/openpilot) | MIT | comma.ai's open OS for robotics — upgrades ADAS on 300+ car models. v0.11 (March 2026) is the first real-world robotics agent trained entirely in a learned (world model) simulator. 2B-param world model trained on 2.5M min of fleet video. | ~50k ★ |
+| [autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | World's leading open-source autonomous driving stack. Full perception → localization → planning → control pipeline. Used by 100+ companies, 30+ vehicle types, 20+ countries. Actively integrating E2E AI with Alpamayo. | ~11.7k ★ |
+| [autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | Safety-certifiable free self-driving stack — ADAS and FSD without requiring 3D HD maps. Vision-only architecture, production-grade code quality target. | ~500 ★ |
+| [alpasim](https://github.com/NVlabs/alpasim) | Apache-2.0 | NVIDIA's AlpaSim — open-source AV simulation platform for testing end-to-end policies. Supports Alpamayo-R1, Alpamayo 1.5, VaVAM, and Transfuser. Microservice architecture with gRPC. Launched Oct 2025. | ~1k ★ |
+| [carla](https://github.com/carla-simulator/carla) | MIT | Unreal Engine-based open urban driving simulator — de-facto standard for ADAS research. Sensors: camera, LiDAR, radar, semantic segmentation. Rich Python API. | ~14.1k ★ |
 
 ---
-*Auto-updated by the ingest pipeline.*
+
+## SDV (Software-Defined Vehicle) Infrastructure
+
+| Name | License | Description | Stars |
+|------|---------|-------------|-------|
+| [kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | Eclipse KUKSA in-vehicle VSS (Vehicle Signal Specification) data broker written in Rust. The data orchestration layer for modern SDVs — standardizes CAN/LIN/Ethernet signals into gRPC-accessible data points. Bosch-backed. | ~500 ★ |
+| [kuksa.val.services](https://github.com/eclipse-kuksa/kuksa.val.services) | Apache-2.0 | Vehicle service implementations on top of KUKSA — seat services, HVAC, VISS bridge. Reference implementation for vehicle abstraction layer. | ~200 ★ |
+
+---
+
+## Fleet Management & Telematics
+
+| Name | License | Description | Stars |
+|------|---------|-------------|-------|
+| [traccar](https://github.com/traccar/traccar) | Apache-2.0 | Real-time GPS tracking server supporting 2,000+ device protocols. Java backend, REST API, web + mobile UI. Industry-standard open-source telematics platform. AI integration via webhook/event stream. | ~5k ★ |
+| [fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | Open-source logistics OS — dispatch, live tracking, telematics, route optimization, maintenance, analytics. REST + WebSocket API. Self-hosted or cloud. No per-driver fees. | ~800 ★ |
+| [fleet-management](https://github.com/openremote/fleet-management) | Apache-2.0 | OpenRemote-based fleet management + telematics platform. Native Teltonika device integration, session/location tracking, IoT device management. | ~100 ★ |
+
+---
+
+## Simulation & Validation Ecosystem
+
+| Name | License | Description | Stars |
+|------|---------|-------------|-------|
+| [gym-carla](https://github.com/cjy1992/gym-carla) | MIT | OpenAI Gym wrapper for CARLA — standardized RL interface for training autonomous agents in simulation. Observation: camera, LiDAR, radar, BEV. | ~620 ★ |
+| [pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | Modular AV research platform on top of CARLA + real hardware. Dataflow graph architecture; perception, prediction, planning modules. Carnegie Mellon / UC Berkeley. | ~534 ★ |
+| [PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | Framework for testing autonomous agents directly in the CARLA simulator. Plug-in architecture for registering custom agents. | ~77 ★ |
+
+---
+
+## Honorable Mentions
+
+| Name | License | Description |
+|------|---------|-------------|
+| [ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | ROS 2 bridge for CARLA — enables ROS-based stacks (Autoware) to run in CARLA simulation. ~637 ★ |
+| [REVOL-E-TION](https://github.com/TUMFTM/REVOL-E-TION) | Apache-2.0 | TU Munich EV site-level energy system optimizer for charging fleets. ~16 ★ |
+| [ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | MIT | Simulation for shortest-route EV charging optimization. ~20 ★ |
+| [alpamayo-autoware](https://github.com/autowarefoundation/alpamayo-autoware) | Apache-2.0 | Integration layer between NVIDIA Alpamayo models and the Autoware stack. Active 2026. |
+
+---
+*Auto-updated by ingest pipeline.*

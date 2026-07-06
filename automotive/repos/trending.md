@@ -1,27 +1,54 @@
-# Trending Repos — Automotive AI
+# 📈 Trending Repos — Automotive
 
-> GitHub repos gaining momentum in automotive AI. Updated: 2026-07-06
+> GitHub repos gaining velocity right now. Curated for Globant AI Studios.
+> Last updated: 2026-07-06
 
-## Trending Now
+---
 
-| Repo | License | Stars | Why Trending |
-|------|---------|-------|--------------|
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache 2.0 | 1.7k★ | Core Autoware perception + planning modules — active PRs for LLM-based path planning integration |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache 2.0 | 320★ | New: productionizable + safety-certifiable free self-driving stack from Autoware Foundation |
-| [OpenGVLab/DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache 2.0 | 1.2k★ | LLM-native AV behavior planner — beats Apollo on CARLA benchmarks; open Apache 2.0 |
-| [speed785/open-mechanic](https://github.com/speed785/open-mechanic) | MIT | 420★ | OBD-II + Claude API = instant plain-English car diagnostics; viral in maker/indie dev communities |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache 2.0 | 77★ | Test framework for autonomous agents in CARLA — fills CI/CD gap for AV teams |
-| [AkbasLab/scenic-sumo](https://github.com/AkbasLab/scenic-sumo) | BSD-3 | 45★ | Scenic probabilistic scenarios → SUMO traffic simulation — adversarial traffic testing |
-| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | — | 8★ | In-cabin multi-agent: edge LLM intent detection + cloud LLM planning + vehicle control safety layer (Chinese SDV architecture) |
-| [ftgTUGraz/LLM4ADSTest](https://github.com/ftgTUGraz/LLM4ADSTest) | MIT | 62★ | IEEE-TITS: LLMs for automated scenario generation and testing of autonomous driving systems |
-| [Pranav-chib/3D-LLM-Autonomous-Driving](https://github.com/Pranav-chib/3D-LLM-Autonomous-Driving) | MIT | 180★ | Curated resource for 3D LLM-based AV research — growing fast as community reference |
-| [ge25nab/Awesome-VLM-AD-ITS](https://github.com/ge25nab/Awesome-VLM-AD-ITS) | MIT | 290★ | VLM papers for autonomous driving + intelligent transportation — IEEE T-IV curated list |
+## 🔥 Breaking Out — Q1/Q2 2026
 
-## On the Radar (Watch List)
+| Repo | License | Stars | Trend | Why trending |
+|------|---------|-------|-------|--------------|
+| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~50k | ▲▲▲ | v0.11 world model release + v0.11.2 (June 2026). Most-discussed AV repo. |
+| [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | Apache-2.0 | ~1k | ▲▲▲ | NVIDIA Alpamayo launch — open simulation framework for the Alpamayo model family |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | ~500 | ▲▲ | Map-free AV stack — growing interest as HD map costs push teams to vision-only |
+| [autowarefoundation/alpamayo-autoware](https://github.com/autowarefoundation/alpamayo-autoware) | Apache-2.0 | ~300 | ▲▲ | Glue layer between NVIDIA Alpamayo and Autoware — high integrator demand |
 
-- **AGL SoDeV** — Automotive Grade Linux SDV reference platform (Apache 2.0) — just went public May 2026; community adoption accelerating
-- **Google AAOS SDV** — Open-source Android Automotive OS for SDV planned late 2026; Renault + Qualcomm partnership
-- **Alpamayo-R1** (arXiv) — Bridging reasoning and action prediction for generalizable AV in long-tail scenarios — likely to open-source models in H2 2026
+---
+
+## 📡 SDV Infrastructure Momentum
+
+| Repo | License | Stars | Trend | Why trending |
+|------|---------|-------|-------|--------------|
+| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | ~500 | ▲▲ | Eclipse SDV Working Group growing to 50+ members; KUKSA as the de-facto VSS layer |
+| [eclipse-kuksa/kuksa.val.services](https://github.com/eclipse-kuksa/kuksa.val.services) | Apache-2.0 | ~200 | ▲ | Teams building vehicle abstractions on top of KUKSA; security audit completed |
+
+---
+
+## 🏭 Fleet & Telematics Rising
+
+| Repo | License | Stars | Trend | Why trending |
+|------|---------|-------|-------|--------------|
+| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | ~800 | ▲▲ | Open logistics OS gaining enterprise traction vs. proprietary alternatives |
+| [traccar/traccar](https://github.com/traccar/traccar) | Apache-2.0 | ~5k | → | Stable and widely deployed; interest spike from AI telemetry integration projects |
+
+---
+
+## 🔬 Research Simulators Gaining Stars
+
+| Repo | License | Stars | Trend | Notes |
+|------|---------|-------|-------|-------|
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | ~1.7k | ▲ | Autoware's component-level repo — direct dependency for E2E AI experiments |
+| [zubairm8580/InterFuser-UI](https://github.com/zubairm8580/InterFuser-UI) | Apache-2.0 | ~1 | new | Real-time Pygame UI for CARLA/InterFuser — camera feeds, LiDAR, speed display |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | ~77 | ▲ | CARLA agent testing framework — plug-and-play, growing use in research labs |
+
+---
+
+## 📝 Community Analysis & Reports
+
+| Repo | License | Stars | Notes |
+|------|---------|-------|-------|
+| [vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture](https://github.com/vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture) | — | new | Analysis of BYD's SDV + AI-DV strategy. Useful competitive intelligence. |
 
 ---
 *Pipeline automático — se actualiza cada hora.*
