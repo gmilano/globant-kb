@@ -1,40 +1,35 @@
-# Trending This Week — Financial AI Agents
+# Trending This Week — Financial AI
 
-> What's new and gaining traction in the financial AI space.
-> Week of 2026-07-05
+> What's new, viral, or gaining momentum in the financial AI open-source space.
+> Last updated: 2026-07-06
 
-## Hot Right Now
+## Hot repos right now
 
-### TradingAgents — 91k★ and accelerating
-The biggest surprise in financial OSS: TradingAgents by Tauric Research exploded to 91k GitHub stars, now among the top 50 most-starred repos on GitHub. V0.2.2 (March 2026) added Claude 4.6, GPT-5.4, and Gemini 3.1 support alongside Anthropic effort control. The multi-agent debate architecture (specialist analysts → structured debate → risk review → final decision) is now the reference pattern for financial agent systems.
+| Repo | License | Stars | Why it's trending |
+|------|---------|-------|-------------------|
+| [TradingAgents v0.3.1](https://github.com/TauricResearch/TradingAgents) | Apache-2.0 | ~80k | Released Jul 2026: Claude Sonnet 5 + Fable 5 support, look-ahead filtering fix for Alpha Vantage, Polymarket + FRED data vendors, configurable LLM retry budget, Bedrock auth. Highest-starred AI finance repo on GitHub. |
+| [LLMQuant/data-mcp](https://github.com/LLMQuant/data-mcp) | MIT | ~200 | MCP server for LLMQuant Data — updated Jul 3 2026. Brings LLMQuant's financial data directly into Claude, Cursor, and other MCP clients. Positions LLMQuant as the "Bloomberg MCP" for OSS quants. |
+| [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | ~16.9k | Conversational personal trading agent; viral in the "vibe coding for finance" wave. Reached 16k+ stars; accessible entry point for individual investors building their own AI. |
+| [auditLens](https://github.com/SashaEee/auditLens) | MIT | new | Deep-research LLM agent + RAG platform for internal bank-product auditing. Cited citations in audit reports; novel compliance-automation angle. |
+| [open-bank-oss](https://github.com/JiRaska/open-bank-oss) | Apache-2.0 | ~6 | Cloud-native retail banking platform reference (Kotlin/Quarkus + Next.js, event-driven microservices). Early-stage but architecturally clean starting point. |
+| [TradingGoose](https://github.com/TradingGoose/TradingGoose.github.io) | MIT | ~50 | Multi-agent LLM framework for individual stock analysis + portfolio management. Extends TradingAgents patterns toward a personal hedge-fund simulation. |
+| [prediction-market-analysis](https://github.com/Jon-Becker/prediction-market-analysis) | MIT | ~1k | 36 GB public Polymarket + Kalshi historical dataset (largest ever compiled). Becoming the data layer for prediction-market LLM agents; directly integrated into TradingAgents v0.3.0. |
 
-### Financial Agent Boom — Dexter 13k, TradingAgents-CN 16k
-Chinese forks and variants of the trading agent pattern are surging. TradingAgents-CN (A-share market localization) hit 16k stars in Q1 2026, while Dexter (autonomous hedge fund agent) crossed 13k. Multi-agent debate is winning across cultural and market contexts.
+## Market signal: $2.1B VC in Q1 2026
 
-### Vibe-Trading — 16.9k★ MIT
-HKUDS "Your Personal Trading Agent" crossed 16.9k stars. Represents the shift from code-first backtesting to natural-language-first strategy specification: describe your strategy in plain English, the agent converts it to executable trading logic.
+Venture capital poured **$2.1 billion** into AI-powered fintech in Q1 2026 alone. The hottest categories:
+- Agentic compliance / AML automation
+- AI-native wealth management (Morgan Stanley MCP play)
+- Autonomous trading infrastructure
+- LLM-powered CFO tools for mid-market
 
-### OpenBB MCP Server — AI-native financial data layer
-OpenBB's MCP server exposes 500+ financial datasets directly to Claude, GPT-5, and any MCP-compatible AI agent. This is becoming the standard connector for "give my agent real market data" use cases.
+## Morgan Stanley MCP moment (June 2026)
 
-### FinGPT-Forecaster — <$300 fine-tuning for stock prediction
-FinGPT crossed 20k stars as teams realized they can fine-tune Llama-3 on earnings transcripts and news sentiment for under $300 — vs $3M for BloombergGPT. Being adopted as the base for client robo-advisor POCs.
+Morgan Stanley announced it will open its wealth management platform to external AI agents via **Model Context Protocol (MCP)** — the first major Wall Street bank to do so. This means any MCP-compatible agent (Claude, GPT-4o, Gemini) can query and act on Morgan Stanley's wealth platform. Open-source implications: the `data-mcp` pattern from LLMQuant + Morgan Stanley's gateway = an emerging standard for agentic finance.
 
-### Hyperswitch — 43k★ Rust payments platform
-Juspay's Hyperswitch (Apache 2.0, Rust) is the open-source Stripe competitor: 120+ PSPs, PCI-compliant vault, intelligent routing. Agentic payments use case: AI agent routes transactions dynamically by cost, success rate, and merchant preference.
+## Goldman Sachs Devin deployment
 
-### auditLens — Deep-research LLM agent for bank audit
-New entrant: LLM + RAG platform for internal bank-product audit with cited reasoning. Small but directionally important — compliance audit agents are the next wave after trading/research agents.
-
-## What's Declining
-- **Zipline / Backtrader**: Both marked reduced-maintenance (💀 in 2026 rankings). Teams migrating to FinRL or AgenticTrading.
-- **Rule-based robo-advisors**: Being replaced by LLM-based portfolio agents with RLHF personalization.
-- **Single-model trading bots**: Replaced by multi-agent debate frameworks.
-
-## Watch List
-- **Agentic payments (Visa/Mastercard)**: Both companies launched AI-native payment frameworks for autonomous agent-driven transactions (Q1 2026).
-- **EU AI Act High-Risk Classification (Aug 2026)**: Financial AI now classified high-risk; compliance and explainability tooling is a fast-growing adjacent market.
-- **FinRobot v2**: AI4Finance Foundation hinting at autonomous equity research report generation.
+Goldman deployed **Devin** (Cognition autonomous software engineer) across its **12,000 developers** in 2026. Reported 3–4× productivity gains. Signals that financial institutions are willing to give agents real autonomy — not just copilots.
 
 ---
-*Updated: 2026-07-05*
+*Pipeline auto-updated each run.*

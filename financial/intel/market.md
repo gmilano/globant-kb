@@ -1,58 +1,88 @@
 # Market Map — Financial Services AI
 
-> Key players, opportunities, and Globant positioning. Focus: LATAM + global.
-> Last updated: 2026-07-05
+> Key players, market sizing, competitive landscape, LATAM opportunities.
+> Last updated: 2026-07-06
 
-## Market Size
+## Market Size (Agentic AI in Financial Services)
 
-| Metric | Value |
-|--------|-------|
-| AI in Finance market (2024) | USD 38.36 billion |
-| AI in Finance market (2030) | USD 190.33 billion (CAGR ~30%) |
-| Financial industry AI investment by 2027 | USD 97 billion (29% CAGR from $35B in 2023) |
-| VC into AI-powered fintech Q1 2026 alone | USD 2.1 billion |
-| JPMorgan projected annual AI-generated value | USD 1.5–2 billion |
-| Finance teams using agentic AI in 2026 | 44% (600%+ increase from 2024) |
-| Avg ROI on agentic AI investment | 2.3x within 13 months |
-| Frontier firm ROI vs laggard ROI | 2.84x vs 0.84x |
+| Year | Market Size | Source |
+|------|------------|--------|
+| 2025 | $5.51B | Mordor Intelligence |
+| 2026 | $7.78B | Mordor Intelligence |
+| 2027 | ~$11B (est.) | |
+| 2031 | $43.52B | Mordor Intelligence |
+| **CAGR 2026–2031** | **41.12%** | Mordor Intelligence |
 
-## Global Players
+- **VC in Q1 2026**: $2.1B into AI-powered fintech (single quarter record)
+- **Adoption**: 44% of finance teams using agentic AI in 2026 (+600% vs 2025)
+- **Enterprise ROI**: Average 2.3× return within 13 months; $3T projected corporate productivity impact
+- **EBITDA lift**: 5.4% improvement for average company deploying agentic AI in finance
 
-| Company | Type | AI Strength | OSS Relevance |
-|---------|------|-------------|---------------|
-| **JPMorgan Chase** | Incumbent | IndexGPT (thematic investing), LLM-powered loan analysis at scale | None — proprietary. Opportunity: compete with OSS stack |
-| **Goldman Sachs** | Incumbent | GS-AI platform, LLM for research summarization | None — proprietary |
-| **Bloomberg** | Data/Terminal | BloombergGPT ($3M fine-tuned), Bloomberg AI | Competes with FinGPT (MIT, <$300 fine-tune) |
-| **Visa / Mastercard** | Payments | AI-native payment frameworks for autonomous agents (Q1 2026) | Competes with Hyperswitch |
-| **Plaid** | Fintech Infra | Bank data connectivity | Competes with Apache Fineract + Hyperswitch |
-| **Stripe** | Payments | Radar fraud + Smart Retries | Competes with Hyperswitch (open-source) |
-| **AI4Finance Foundation** | OSS Research | FinGPT, FinRL, FinRobot, TradingAgents ecosystem | **Direct partner** — all MIT/Apache 2.0 |
-| **OpenBB** | OSS Platform | Open data platform for quants + AI | **Direct partner** — AGPL, MCP server |
-| **Tauric Research** | OSS Research | TradingAgents (91k★) | **Direct partner** — Apache 2.0 |
+## Wall Street AI Deployment Map (2026)
 
-## LATAM Opportunities
+| Institution | Deployment | Model/Platform | Scale | Impact |
+|-------------|-----------|---------------|-------|--------|
+| Goldman Sachs | Autonomous agents for accounting, compliance, client onboarding | Anthropic Claude | Enterprise-wide | Core trade accounting automated |
+| Goldman Sachs | Devin (autonomous software engineer) | Cognition | 12,000 developers | 3–4× productivity gain |
+| Goldman Sachs | GS AI assistant for email, code, research | Internal | 10,000 employees | — |
+| JPMorgan Chase | AI agents for code generation, fraud detection | Internal + OpenAI | Enterprise-wide | $1.5–2B projected annual value |
+| Morgan Stanley | Wealth management platform opened to external AI agents via MCP | MCP standard | Platform-level | First major bank to open APIs to external agents |
+| Lloyds Banking Group | Agentic AI transformation program | Multiple | Enterprise | Named 2026 "Year of Agentic AI" |
 
-### High Signal
-1. **SME lending automation**: Apache Fineract + LLM loan officer agent → 80% of LATAM SMEs underserved by traditional credit scoring. Alternative data (mobile usage, e-commerce transactions) + LLM analysis.
-2. **Cross-border remittances AI**: Hyperswitch routing + LLM agent → optimize remittance corridors (US→MX, US→BR, US→CO) dynamically by cost + speed.
-3. **Regulatory compliance (LATAM fintech)**: Each country has different SBS/CNBV/BACEN rules. Compliance agent layer over Fineract → auto-generates required reports per jurisdiction.
-4. **Fraud detection LATAM**: Jube AML + LLM reasoning → Brazil/Mexico have some of the world's highest card fraud rates. Real-time ML + explainability.
-5. **Conversational banking for unbanked**: Apache Fineract + WhatsApp LLM agent → 40% of LATAM adults unbanked but 85% have smartphones.
+## Key Proprietary Players
 
-### Medium Signal
-6. **Open Banking compliance (Brazil PIX, Mexico CoDi)**: Agentic reconciliation + real-time reporting
-7. **ESG portfolio screening**: FinGPT fine-tuned on ESG disclosures → green finance mandates growing in LATAM
+| Company | Focus | Valuation / ARR | Notes |
+|---------|-------|----------------|-------|
+| **Harvey** | Legal-to-financial AI (contracts, due diligence) | $11B | Expanding into financial services |
+| **Kensho** (S&P Global) | Financial analytics AI | Acquired $550M | NLP on financial data |
+| **Addepar** | Wealth management platform | $2.5B+ | AI-native portfolio reporting |
+| **Alpaca** | Brokerage API + AI trading | $150M+ | Developer-first crypto+equities API |
+| **Composer** | No-code AI trading strategies | Series A | TradingAgents competitor (proprietary) |
+| **Stripe** | Payments + fraud AI | $65B | Radar AI fraud detection |
+| **Plaid** | Open banking data layer | $13.4B | 12,000+ fintech integrations |
+| **Brex** | AI-native corporate finance | $12.3B | Agentic expense management |
+| **Ramp** | AI spend management | $16B | Competing with Brex, strong AI angle |
 
-## Globant Positioning
+## Open-Source Ecosystem Leaders
 
-**Sweet spot**: Systems integrator between open-source financial infrastructure and enterprise clients who lack AI expertise.
+| Org | Key Projects | Community |
+|-----|-------------|-----------|
+| **AI4Finance Foundation** | TradingAgents, FinGPT, FinRL, FinRobot | ~120k combined stars; Columbia/Yale research |
+| **TauricResearch** | TradingAgents | ~80k stars, most active AI finance org 2026 |
+| **LLMQuant** | data-mcp, awesome-trading-agents, Magents | Growing quant-AI community |
+| **Open Finance Lab** | AgenticTrading, FinAgent | Research-to-production scaffold |
+| **FINOS** (Linux Foundation) | Legend, Perspective, FDC3, common-domain-model | Enterprise fintech standards |
+| **Apache** | Fineract | Production core banking, 50+ country deployments |
+| **hummingbot Foundation** | Hummingbot | Institutional crypto market-making community |
 
-| Service | Stack | Client | Timeline |
-|---------|-------|--------|----------|
-| Agentic trading research | TradingAgents + OpenBB + FinGPT | Hedge funds, family offices | 8-12 weeks |
-| Intelligent loan origination | Apache Fineract + LangChain + Llama-3 | Regional banks, credit unions | 10-16 weeks |
-| Agentic payment orchestration | Hyperswitch + Claude + LangGraph | Fintechs, e-commerce | 6-10 weeks |
-| Compliance automation | Jube + OpenSanctions + LLM | Banks, payment processors | 8-14 weeks |
-| CFO AI copilot | ERPNext + RAG + Claude | Mid-market companies | 6-10 weeks |
+## LATAM Market Opportunities
 
-**Differentiation**: Globant can deliver open-source stacks without vendor lock-in, with full auditability — critical for EU AI Act high-risk classification and LATAM central bank requirements.
+### Financial Inclusion (Fintech for the Underbanked)
+- **Brazil**: 55M+ unbanked/underbanked; Apache Fineract + AI loan scoring agent = instant credit decisioning for digital MFIs (microfinance institutions)
+- **Mexico**: $32B remittance market; AI-powered FX routing agent on top of OpenPayments/Rafiki
+- **Colombia / Peru**: Government-mandated financial inclusion initiatives — demand for AI-augmented digital banking
+
+### Mid-Market ERP + AI
+- Most LATAM mid-market companies still on spreadsheets or legacy ERP
+- Odoo + AI accounting agent (automated reconciliation, anomaly detection) = massive opportunity
+- ERPNext growing in tech-forward LATAM companies
+
+### Regulatory Compliance Automation
+- Every LATAM country is tightening AML/KYC rules (modeled on FATF)
+- AI compliance agent on Apache Fineract = automated SAR filing, transaction monitoring
+
+### Prediction Market / Event Derivatives
+- Kalshi and Polymarket growing in LatAm user base
+- LLM agents calibrated on the Jon-Becker dataset (36GB) = alpha generator for emerging markets
+
+## Competitive Positioning for Globant
+
+| Strength | Application |
+|----------|-------------|
+| LATAM engineering talent at scale | Build FinGPT / FinRL pipelines at cost advantage vs US shops |
+| Existing financial services clients | Land-and-expand: add AI agents to existing Odoo/Fineract deployments |
+| Open-source expertise | Fork + customize TradingAgents for institutional clients |
+| Multi-country presence | Cross-border AI compliance framework = LATAM-first product |
+
+---
+*See `intel/trends.md` for current technology and regulatory trends.*

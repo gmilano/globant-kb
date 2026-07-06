@@ -1,57 +1,60 @@
-# Vertical Platforms — Financial Services
+# Vertical Solutions — Financial Services
 
-> Production-ready open-source platforms to customize with AI on top.
-> Model: start from something functional, add an agentic layer above.
-> Last updated: 2026-07-05
+> Existing open-source platforms that can be customized with an AI layer.
+> Model: start from something functional, add the agentic layer on top.
+> Last updated: 2026-07-06
 
-## Recommended Platforms
+## Core Banking
 
-| Platform | License | URL | Stack | AI Use Case |
-|----------|---------|-----|-------|-------------|
-| **Apache Fineract** | Apache-2.0 | [github.com/apache/fineract](https://github.com/apache/fineract) | Java / Spring Boot / MySQL | Add LLM loan officer agent: AI reviews applications, surfaces risks, drafts decision memos |
-| **ERPNext / Frappe** | GPL-3.0 | [github.com/frappe/erpnext](https://github.com/frappe/erpnext) | Python / JavaScript / MariaDB | Conversational ERP: AI agent answers CFO questions, automates AR/AP reconciliation, flags anomalies |
-| **Hyperswitch** | Apache-2.0 | [github.com/juspay/hyperswitch](https://github.com/juspay/hyperswitch) | Rust / PostgreSQL | Agentic payment routing: AI dynamically selects optimal PSP per transaction by cost + success rate |
-| **OpenBB Platform** | AGPL-3.0 | [github.com/OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | Python / FastAPI | Financial research copilot: MCP server connects AI agents to market data, earnings, SEC filings |
-| **Kill Bill** | Apache-2.0 | [github.com/killbill/killbill](https://github.com/killbill/killbill) | Java / PostgreSQL / MySQL | Subscription AI: agent detects churn signals, triggers retention workflows, adjusts pricing |
-| **LedgerSMB** | GPL-2.0 | [github.com/ledgersmb/LedgerSMB](https://github.com/ledgersmb/LedgerSMB) | Perl / PostgreSQL | SMB finance agent: natural-language ledger queries, automated bank reconciliation |
-| **OpenSanctions** | CC-BY | [github.com/opensanctions/opensanctions](https://github.com/opensanctions/opensanctions) | Python / PostgreSQL | KYC/AML compliance agent: screen entities against global sanctions + PEP lists in real time |
-| **Jube (AML/Fraud)** | AGPL-3.0 | [github.com/jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | C# / PostgreSQL | Real-time fraud + AML: supervised + unsupervised ML models, rule engine, case management |
+| Platform | License | Stars | Stack | AI Customization Path |
+|----------|---------|-------|-------|----------------------|
+| [Apache Fineract](https://github.com/apache/fineract) | Apache-2.0 | ~1.8k | Java/Spring Boot, REST APIs, MySQL/PostgreSQL | Full API surface for agent wrapping: loan origination agent, KYC automation agent, transaction monitoring agent. AI Agent Skill available (`npx skills add apache/fineract`). Active MCP integration work underway. |
+| [Mifos X / Community App](https://github.com/openMF/community-app) | MPL-2.0 | ~350 | AngularJS front-end on Fineract backend | Reference implementation for microfinance; use Fineract REST API + an LLM layer for field agent mobile copilot. Used in 50+ countries for financial inclusion. |
+| [open-bank-oss](https://github.com/JiRaska/open-bank-oss) | Apache-2.0 | ~6 | Kotlin/Quarkus + Next.js, event-driven microservices | New (2026), architecturally modern, designed for cloud-native + AI integration from the start. Good greenfield starting point. |
 
-## How to Add AI on Top
+## Accounting & ERP (Finance Module)
 
-### Pattern A: Conversational Layer (2-3 weeks)
+| Platform | License | Stars | Stack | AI Customization Path |
+|----------|---------|-------|-------|----------------------|
+| [ERPNext / Frappe](https://github.com/frappe/erpnext) | GPL-3.0 | ~22k | Python/Frappe framework, MariaDB | Full-featured accounting, invoicing, payroll. Frappe AI SDK allows adding agents on top. Frappe Cloud or self-host. Widely used in LATAM mid-market. |
+| [Odoo (Community)](https://github.com/odoo/odoo) | LGPL-3.0 (community) | ~52.8k | Python/PostgreSQL | Most complete open-source ERP. Finance modules: accounting, expense, payroll, bank sync. Add AI copilot via Odoo's module system + local Ollama or Anthropic API. €7B valuation; 12M+ users. |
+| [Akaunting](https://github.com/akaunting/akaunting) | GPL-3.0 | ~8.7k | Laravel/PHP, Vue.js | SME-focused accounting. Online payments, invoicing, expense tracking, multi-currency. REST API for AI agent integration. Widely used in LATAM SMEs. |
+| [Dolibarr](https://github.com/Dolibarr/dolibarr) | GPL-3.0 | ~5.4k | PHP/HTML/JS | ERP + CRM for SMEs: invoicing, contracts, bank, expense reports. REST API v2 available. Simple to add an LLM module. |
+
+## Investment & Trading Infrastructure
+
+| Platform | License | Stars | Stack | AI Customization Path |
+|----------|---------|-------|-------|----------------------|
+| [OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPL-3.0 | ~70k | Python, FastAPI, React | Replace Bloomberg Terminal data layer. MCP server: Claude queries equity data, macro indicators, earnings. Build research analyst agents directly on top. |
+| [zipline-reloaded](https://github.com/stefan-jansen/zipline-reloaded) | Apache-2.0 | ~1.8k | Python | Algorithmic trading backtest engine. Integrate ML signals (FinGPT sentiment, FinRL models) as alpha factors in a Zipline pipeline. |
+| [hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | ~19k | Python, AsyncIO | Market-making + strategy execution. Add LLM-powered strategy selection: agent reads market microstructure, chooses strategy parameters. |
+
+## Payments & Compliance
+
+| Platform | License | Stars | Stack | AI Customization Path |
+|----------|---------|-------|-------|----------------------|
+| [OpenPayments / Rafiki](https://github.com/interledger/rafiki) | Apache-2.0 | ~850 | TypeScript/Node, PostgreSQL | Open Payments implementation by Interledger Foundation. Wallet-side agent: autonomous payment routing, peer payment instructions. |
+| [FINOS Projects](https://github.com/finos) | Apache-2.0 / MIT | Various | Java / Python | Fintech Open Source Foundation (Linux Foundation). Projects: Legend (data modeling), Perspective (real-time data viz), FDC3 (desktop interoperability). Enterprise fintech AI building blocks. |
+| [great_expectations](https://github.com/great-expectations/great_expectations) | Apache-2.0 | ~10.4k | Python | Data quality validation. Build a financial data quality agent that monitors pipeline integrity — critical for regulatory reporting. |
+
+## How to customize any of these with AI
+
 ```
-[Fineract / ERPNext base]
-         ↓
-[LangChain/LlamaIndex agent with tool access to base API]
-         ↓
-[Claude or Llama-3 as reasoning backbone]
-         ↓
-[Chat UI (Chainlit / Streamlit) for end user]
+Step 1: Fork the repo (or run it locally / docker-compose up)
+Step 2: Map the REST / event API surface
+Step 3: Build an MCP server or LangGraph tool wrapping the APIs
+Step 4: Layer on a domain LLM (FinGPT for financial reasoning)
+Step 5: Define agent goals: "process loan application", "flag AML transaction", "generate P&L report"
+Step 6: Add human-in-the-loop gates for high-risk financial decisions (regulatory requirement)
+Step 7: Deploy with observability (Langfuse / OpenTelemetry traces on all agent decisions)
 ```
 
-### Pattern B: Agentic Workflow (3-5 weeks)
-```
-[OpenBB data layer via MCP]
-         ↓
-[FinGPT sentiment + FinRL signals → multi-agent debate (TradingAgents pattern)]
-         ↓
-[Risk Manager agent reviews decision]
-         ↓
-[Hyperswitch executes payment / ccxt executes trade]
-         ↓
-[Audit log + explainability report for EU AI Act compliance]
-```
+## LATAM-specific considerations
 
-### Pattern C: Embedded Compliance (4-6 weeks)
-```
-[Jube transaction monitoring (real-time scoring)]
-         ↓
-[LLM agent adds natural-language reasoning to flagged transactions]
-         ↓
-[OpenSanctions screening for entity KYC]
-         ↓
-[Case management workflow with human-in-the-loop approval]
-         ↓
-[Explainability report hashed + logged (EU AI Act requirement)]
-```
+- **Odoo** is the most deployed open-source ERP in LATAM mid-market — highest leverage for Globant
+- **Apache Fineract** powers microfinance in Brazil, Colombia, Mexico — MFI clients are a direct opportunity
+- **ERPNext / Frappe** growing in LATAM tech-forward mid-market companies
+- EU AI Act (Aug 2026) affects any EU-facing financial AI — build human-review gates into any Fineract/Odoo AI agent from day one
+
+---
+*See `compose/patterns.md` for concrete wiring recipes.*

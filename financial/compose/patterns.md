@@ -1,253 +1,313 @@
 # Composition Patterns — Financial Services AI
 
-> Concrete recipes for building solutions by combining repos + agents + AI.
-> Each pattern names specific repos, wiring, and estimated delivery time.
-> Last updated: 2026-07-05
+> Concrete recipes combining specific repos + agents + wiring code.
+> All patterns use MIT / Apache 2.0 / BSD licensed components.
+> Last updated: 2026-07-06
+
+## Architecture baseline
+
+```
+[Financial Data Layer]          [AI Reasoning Layer]         [Execution / Output Layer]
+  ccxt / OpenBB / FRED    →    TradingAgents / FinGPT    →    hummingbot / Fineract API
+  (market, macro, alt data)    (LLM agents, domain LLMs)      (trades, reports, decisions)
+```
 
 ---
 
-## Pattern 1: Multi-Agent Investment Research Platform
+## Recipe 1: Multi-Agent Research Analyst (TradingAgents Pattern)
 
-**Goal**: Automate equity research: generate analyst-grade stock reports with market data, news sentiment, fundamentals, and technical analysis.
+**Goal**: Automated investment research report combining fundamental + technical + sentiment analysis.
 
-**Stack**:
-- Data: [OpenBB](https://github.com/OpenBB-finance/OpenBB) via MCP server (500+ financial data sources)
-- Sentiment: [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) LoRA fine-tuned on earnings calls + news
-- Debate: [TradingAgents](https://github.com/TauricResearch/TradingAgents) multi-agent framework (Bull/Bear debate pattern)
-- Reasoning: Claude (claude-sonnet-5) or Llama-3-70B
-- Orchestration: LangGraph
-- Output: Markdown report → PDF (WeasyPrint)
+**Components**:
+- `TauricResearch/TradingAgents` — multi-agent orchestration framework
+- `OpenBB-finance/OpenBB` — market data, fundamentals, macro
+- `AI4Finance-Foundation/FinGPT` — sentiment on news/filings
+- `AI4Finance-Foundation/FinRL` — technical signal generation
+- Claude Sonnet 5 / claude-fable-5 as LLM backbone
 
 **Architecture**:
-```
-OpenBB MCP Server
-    ↓ (market data, SEC filings, earnings transcripts)
-FinGPT Sentiment Agent → score [-1, +1] per news item
-Fundamental Analyst Agent → P/E, revenue, margins, debt
-Technical Analyst Agent → RSI, MACD, support/resistance
-    ↓ (all signals)
-Researcher Team → Bull Agent vs Bear Agent debate (LangGraph)
-Risk Manager Agent → position sizing, stop-loss recommendation
-    ↓
-Portfolio Manager Agent → final BUY/HOLD/SELL + reasoning
-    ↓
-Report Generator → structured Markdown with citations
+```python
+# 1. Start TradingAgents with Claude Sonnet 5 backend
+from tradingagents.graph.trading_graph import TradingAgentsGraph
+from tradingagents.default_config import DEFAULT_CONFIG
+
+config = {**DEFAULT_CONFIG, "llm_provider": "anthropic", "deep_think_llm": "claude-sonnet-5"}
+ta = TradingAgentsGraph(debug=True, config=config)
+
+# 2. Run analysis — agents automatically coordinate:
+#    - Fundamentals Analyst reads OpenBB company filings + earnings
+#    - Technical Analyst computes TA indicators on price data
+#    - Sentiment Analyst runs FinGPT on news headlines
+#    - Bull + Bear Research Agents debate the thesis
+#    - Risk Manager validates position sizing
+#    - Trader synthesizes final decision
+
+_, decision = ta.propagate("NVDA", "2026-07-06")
+print(decision)
 ```
 
-**Estimated delivery**: 6-10 weeks (2 engineers)
-**Client type**: Hedge funds, family offices, wealth management
+**When to use**: Client wants an AI-powered equity research function. Replace $25k/year Bloomberg Terminal subscriptions.
+
+**Time to prototype**: 1 week with TradingAgents scaffold.
 
 ---
 
-## Pattern 2: Intelligent Loan Origination Agent
+## Recipe 2: AI-Augmented Core Banking on Apache Fineract
 
-**Goal**: AI loan officer that reviews applications, retrieves credit bureau data, assesses risk, drafts decision memos, and routes to human approval for edge cases.
+**Goal**: Add AI loan origination, KYC automation, and anomaly detection agents to a microfinance platform.
 
-**Stack**:
-- Core banking: [Apache Fineract](https://github.com/apache/fineract) (loan lifecycle management)
-- LLM: Llama-3-70B (self-hosted for data privacy) or Claude via API
-- Orchestration: LangChain + LangGraph
-- Document processing: Unstructured.io (PDF/image extraction)
-- Vector DB: Qdrant (for similar past cases RAG)
-- Frontend: Chainlit (conversational UI)
+**Components**:
+- `apache/fineract` — core banking REST API
+- `AI4Finance-Foundation/FinGPT` — credit language understanding
+- Anthropic Claude (via API) — document analysis, decision reasoning
+- `great-expectations/great_expectations` — data quality monitoring
+- `openMF/community-app` — reference front-end
+
+**Agent architecture**:
+```python
+# Tool definitions for Claude agent wrapping Fineract
+FINERACT_TOOLS = [
+    {
+        "name": "create_loan_application",
+        "description": "Create a loan application in Fineract for a client",
+        "input_schema": {"type": "object", "properties": {
+            "client_id": {"type": "integer"},
+            "principal": {"type": "number"},
+            "loan_term_months": {"type": "integer"},
+            "purpose": {"type": "string"}
+        }}
+    },
+    {
+        "name": "get_client_transactions",
+        "description": "Get last 90 days of transactions for credit scoring",
+        "input_schema": {"type": "object", "properties": {
+            "client_id": {"type": "integer"}
+        }}
+    },
+    {
+        "name": "flag_transaction_for_review",
+        "description": "Flag a transaction for AML review with reason",
+        "input_schema": {"type": "object", "properties": {
+            "transaction_id": {"type": "string"},
+            "reason": {"type": "string"},
+            "risk_score": {"type": "number"}
+        }}
+    }
+]
+
+# Credit scoring agent
+import anthropic
+client = anthropic.Anthropic()
+
+def run_credit_agent(application_data: dict) -> dict:
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        system="""You are a credit officer at a microfinance institution.
+        Evaluate loan applications using the client's transaction history,
+        purpose, and repayment capacity. Be conservative on first-time borrowers.
+        Always provide a reason for your decision.""",
+        tools=FINERACT_TOOLS,
+        messages=[{"role": "user", "content": f"Evaluate this loan application: {application_data}"}]
+    )
+    return response
+```
+
+**Human gate**: Any loan above $5,000 USD requires human officer review. Agent flags with recommendation only.
+
+**When to use**: Microfinance or digital bank client in LATAM wanting to scale loan processing.
+
+**Time to prototype**: 2 weeks (Fineract setup + agent layer).
+
+---
+
+## Recipe 3: Crypto Algorithmic Trading Agent (ccxt + hummingbot)
+
+**Goal**: LLM-directed market-making strategy that reads market microstructure and adjusts parameters dynamically.
+
+**Components**:
+- `ccxt/ccxt` — unified exchange connectivity
+- `hummingbot/hummingbot` — strategy execution + backtesting
+- `AI4Finance-Foundation/FinRL` — RL-trained strategy models
+- TradingAgents `Risk Manager` agent — position sizing oversight
 
 **Architecture**:
-```
-Loan Application (PDF/form)
-    ↓
-Document Extraction Agent (Unstructured.io)
-    ↓
-Credit Assessment Agent
-    ├── Pulls Fineract loan history via REST API
-    ├── Retrieves credit bureau data (pluggable connector)
-    ├── Compares vs similar approved/rejected cases (Qdrant RAG)
-    └── Scores risk across: capacity, capital, collateral, conditions
-    ↓
-Decision Draft Agent → generates decision memo (approved/declined + reasons)
-    ↓
-Human Review Queue (if score in ambiguous zone 45-65)
-    ↓
-Apache Fineract → creates/updates loan record on approval
+```python
+import ccxt
+import anthropic
+
+exchange = ccxt.binance({
+    'apiKey': 'YOUR_API_KEY',
+    'secret': 'YOUR_SECRET',
+})
+
+def get_market_context(symbol: str) -> dict:
+    orderbook = exchange.fetch_order_book(symbol, limit=20)
+    ticker = exchange.fetch_ticker(symbol)
+    ohlcv = exchange.fetch_ohlcv(symbol, '1h', limit=24)
+    return {"orderbook": orderbook, "ticker": ticker, "ohlcv": ohlcv}
+
+def llm_strategy_advisor(market_ctx: dict) -> dict:
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",  # fast + cheap for real-time decisions
+        max_tokens=512,
+        system="You are a market-making strategy advisor. Given order book and price data, recommend: spread width, inventory limit, skew direction. Output JSON.",
+        messages=[{"role": "user", "content": f"Market context: {market_ctx}"}]
+    )
+    return response  # parse JSON recommendation → pass to hummingbot strategy params
+
+# hummingbot then executes the strategy with the LLM-recommended parameters
 ```
 
-**Key feature**: Full audit trail stored in Fineract for EU AI Act compliance. Every LLM reasoning step logged with timestamp + hash.
+**Note**: Never give the LLM direct order execution authority. Always route through a risk check layer.
 
-**Estimated delivery**: 10-16 weeks (3 engineers)
-**Client type**: Regional banks, credit unions, microfinance institutions, LATAM neobanks
+**When to use**: Crypto exchange or trading desk client wanting AI-adaptive market-making.
 
 ---
 
-## Pattern 3: Agentic Payment Orchestration
+## Recipe 4: Agentic Compliance Monitor (AML / Transaction Monitoring)
 
-**Goal**: AI agent dynamically selects the optimal payment processor for each transaction based on real-time cost, success rate, currency, and merchant preferences.
+**Goal**: Autonomous agent that monitors transactions, detects anomalies, generates SAR drafts.
 
-**Stack**:
-- Payment routing: [Hyperswitch](https://github.com/juspay/hyperswitch) (Apache 2.0, Rust, 120+ PSPs)
-- Intelligence layer: LangChain tool-using agent
-- LLM: Claude or GPT-5 for complex routing decisions
-- Data: Hyperswitch analytics API (success rates, costs, latency per PSP)
-- Monitoring: Prometheus + Grafana
+**Components**:
+- `apache/fineract` — transaction stream source
+- Anthropic Claude (claude-sonnet-5) — reasoning and SAR drafting
+- `great-expectations/great_expectations` — data quality checks on the transaction pipeline
+- Custom rule engine (Python) — hard-coded regulatory thresholds as non-negotiable guardrails
 
-**Architecture**:
+**Pattern**:
+```python
+COMPLIANCE_SYSTEM_PROMPT = """
+You are a compliance officer AI assistant. Your job is to:
+1. Analyze flagged transactions for AML patterns
+2. Check against known typologies (structuring, layering, placement)
+3. If suspicious, draft a SAR (Suspicious Activity Report) with:
+   - Subject details
+   - Transaction summary
+   - Suspicious activity description
+   - Supporting evidence
+
+IMPORTANT: All SARs must be reviewed and approved by a human compliance officer before filing.
+Do not file reports autonomously.
+"""
+
+def monitor_transaction_batch(transactions: list[dict]) -> list[dict]:
+    # Hard-coded rules first (non-negotiable)
+    flagged = [t for t in transactions if
+               t["amount"] > 9000 or  # structuring threshold
+               t["country"] in HIGH_RISK_COUNTRIES or
+               t["counterparty"] in SANCTIONS_LIST]
+
+    # LLM analysis for pattern detection
+    if flagged:
+        client = anthropic.Anthropic()
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=4096,
+            system=COMPLIANCE_SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": f"Analyze these flagged transactions: {flagged}"}]
+        )
+        # Returns draft SARs for human review
+        return {"flagged": flagged, "sar_drafts": response}
 ```
-Payment Intent received
-    ↓
-Hyperswitch Routing Agent
-    ├── Tool: get_psp_success_rates(amount, currency, card_type)
-    ├── Tool: get_psp_costs(amount, currency)
-    ├── Tool: get_merchant_preferences()
-    └── Tool: get_real_time_psp_status()
-    ↓
-LLM reasons: "Stripe has 94% success for Visa Mexico but costs 2.9%+$0.30;
-              Conekta has 91% success and costs 1.8%+$3 MXN for same card type"
-    ↓
-Decision: route to optimal PSP with fallback chain
-    ↓
-Revenue Recovery Agent: on failure, retry next-best PSP within 200ms
-    ↓
-Reconciliation Agent: daily 3-way reconciliation report
-```
 
-**Key metric**: Typical 5-8% improvement in payment success rate, 15-25% cost reduction.
+**Regulatory note**: Under EU AI Act (Aug 2026), AML AI systems are high-risk — mandatory human review gates, audit logging, explainability. Build these in from day one.
 
-**Estimated delivery**: 6-10 weeks (2 engineers)
-**Client type**: E-commerce, fintechs, marketplaces in LATAM
+**When to use**: Banks, MFIs, payment processors needing scalable compliance. Replaces expensive compliance analyst teams for tier-1 filtering.
 
 ---
 
-## Pattern 4: AML + Fraud Detection with Explainable AI
+## Recipe 5: Open Banking Personal Finance Agent
 
-**Goal**: Real-time transaction monitoring combining ML anomaly detection with LLM-generated human-readable explanations, routed to analyst case management.
+**Goal**: MCP-based personal finance agent connecting to user's bank accounts via open banking APIs.
 
-**Stack**:
-- ML engine: [Jube](https://github.com/jube-home/aml-fraud-transaction-monitoring) (AGPL, C# — or Python equivalents: PyOD + scikit-learn)
-- Compliance screening: [OpenSanctions](https://github.com/opensanctions/opensanctions) (CC-BY, global sanctions + PEP lists)
-- LLM reasoning: Claude for explainability reports
-- Orchestration: LangGraph (event-driven, triggered by Jube alerts)
-- Case management: Metabase + custom workflow UI
+**Components**:
+- Bank open banking APIs (EU PSD2, Brazil Open Finance, Mexico CNBV)
+- Claude as MCP host
+- Custom MCP server wrapping bank APIs
+- `AI4Finance-Foundation/FinGPT` — expense categorization model
+- Odoo (optional) — SME accounting backend
 
-**Architecture**:
+**MCP Server skeleton**:
+```python
+# personal_finance_mcp.py — MCP server wrapping open banking APIs
+from mcp.server import Server
+from mcp.server.models import InitializationOptions
+import mcp.types as types
+
+server = Server("personal-finance")
+
+@server.list_tools()
+async def handle_list_tools() -> list[types.Tool]:
+    return [
+        types.Tool(
+            name="get_account_balance",
+            description="Get current balance for user's bank accounts",
+            inputSchema={"type": "object", "properties": {"account_ids": {"type": "array"}}}
+        ),
+        types.Tool(
+            name="get_transactions",
+            description="Get transactions for a date range",
+            inputSchema={"type": "object", "properties": {
+                "account_id": {"type": "string"},
+                "from_date": {"type": "string"},
+                "to_date": {"type": "string"}
+            }}
+        ),
+        types.Tool(
+            name="categorize_and_analyze",
+            description="Run FinGPT categorization on transactions and return spending insights",
+            inputSchema={"type": "object"}
+        ),
+    ]
+
+# User talks to Claude Desktop → Claude calls MCP tools → agent reads bank data
+# → generates personalized financial advice, spending analysis, savings recommendations
 ```
-Transaction stream (Kafka/Webhooks)
-    ↓
-Jube ML Engine
-    ├── Unsupervised: anomaly vs customer's behavioral baseline
-    ├── Supervised: known fraud patterns
-    └── Rules: velocity checks, geo-anomaly, amount thresholds
-    ↓ (flagged transactions)
-OpenSanctions Screening Agent → check sender/receiver vs global lists
-    ↓ (if score > threshold)
-LLM Explanation Agent
-    ├── Input: transaction data + ML score + matched patterns + past cases
-    ├── Output: "This transaction is flagged because: (1) amount 3.4x above
-    │          customer's 90-day average, (2) first transaction to this
-    │          beneficiary country, (3) beneficiary name matches OFAC list
-    │          similarity 87%. Recommendation: hold for analyst review."
-    └── Hash reasoning + log for EU AI Act audit trail
-    ↓
-Case Management Queue → analyst reviews with full context
-    ↓
-Decision + feedback loop → retrain ML model monthly
-```
 
-**Estimated delivery**: 8-14 weeks (3 engineers)
-**Client type**: Banks, payment processors, LATAM fintechs with BACEN/SBS/CNBV requirements
+**When to use**: B2C fintech product or bank wanting a conversational finance assistant.
 
 ---
 
-## Pattern 5: CFO AI Copilot on ERPNext
+## Recipe 6: AI Portfolio Optimizer (FinRL + PyPortfolioOpt)
 
-**Goal**: Conversational AI copilot for CFOs/finance teams: answer questions about financial position, flag anomalies, generate management reports on demand.
+**Goal**: RL-trained agent that continuously rebalances a portfolio using both quantitative signals and LLM sentiment.
 
-**Stack**:
-- ERP: [ERPNext](https://github.com/frappe/erpnext) (GPL, Python/Frappe)
-- LLM layer: LlamaIndex over ERPNext data (SQL agent + RAG on documents)
-- Embedding: text-embedding-3-small or Nomic-embed
-- Vector DB: ChromaDB (lightweight, self-hosted)
-- UI: Frappe's built-in chatbot widget or Slack bot
+**Components**:
+- `AI4Finance-Foundation/FinRL` — DRL agent (PPO) for portfolio allocation
+- `robertmartin8/PyPortfolioOpt` — mean-variance + HRP optimization as risk constraint
+- `AI4Finance-Foundation/FinGPT` — sentiment signal from news
+- `OpenBB-finance/OpenBB` — data feed (price, fundamentals, macro)
 
-**Architecture**:
+**Pipeline**:
 ```
-CFO asks: "What's our AR aging this month compared to last quarter?
-           Which customers are most at risk of default?"
-    ↓
-SQL Agent → generates ERPNext MariaDB query for AR aging data
-RAG Agent → retrieves relevant past board memos on credit risk policy
-Financial Analysis Agent
-    ├── Computes AR aging buckets (0-30, 31-60, 61-90, 90+ days)
-    ├── Flags customers with deteriorating payment patterns
-    └── Cross-references with news sentiment for public companies
-    ↓
-Report Generator → Markdown table + narrative explanation
-    ↓
-Action Suggester → "Consider sending dunning notices to [customers];
-                    adjust credit limit for [company] given 45-day delay trend"
+Daily 9:00 AM:
+  1. OpenBB pulls price data + earnings calendar + macro indicators
+  2. FinGPT scores news sentiment for each holding (+1 to -1)
+  3. FinRL's PPO agent generates action weights based on state (price features + sentiment)
+  4. PyPortfolioOpt applies HRP constraint: limit individual position to max 15%
+  5. Agent generates trade list (buys/sells to rebalance)
+  6. Human review: trader approves or overrides
+  7. ccxt executes approved trades
 ```
 
-**Pre-built queries to implement**:
-- Cash flow 13-week forecast
-- Budget vs actual variance analysis
-- Gross margin by product line / region
-- FX exposure summary (multi-currency)
-- Accounts payable optimization (early payment discount opportunities)
+**Backtesting**: Run the full pipeline on Zipline-Reloaded with FinGPT sentiment signals as factors. Compare Sharpe ratio vs. equal-weight and market-cap-weight benchmarks.
 
-**Estimated delivery**: 6-10 weeks (2 engineers)
-**Client type**: Mid-market companies already on ERPNext or willing to migrate
+**When to use**: RIA (Registered Investment Advisor) or family office wanting systematic, AI-assisted portfolio management. **Do not market as autonomous trading to retail clients** without regulatory approval.
 
 ---
 
-## Pattern 6: FinRL Quantitative Strategy Agent
+## Anti-patterns to avoid
 
-**Goal**: RL-trained portfolio management agent that learns optimal trading policies from historical market data, backtests against benchmarks, and operates in paper trading.
-
-**Stack**:
-- RL framework: [FinRL](https://github.com/AI4Finance-Foundation/FinRL) (MIT, PyTorch)
-- Data: [OpenBB](https://github.com/OpenBB-finance/OpenBB) for historical OHLCV + fundamentals
-- Backtesting: [zipline-reloaded](https://github.com/stefan-jansen/zipline-reloaded) or FinRL built-in env
-- Paper trading: Alpaca Markets API (free paper trading account)
-- Monitoring: MLflow for experiment tracking
-
-**Architecture**:
-```
-Training Phase:
-OpenBB → 5+ years OHLCV + fundamentals for 50-500 assets
-    ↓
-FinRL Environment → StockTradingEnv (multi-asset, transaction costs)
-    ↓
-DRL Training → PPO agent (best for portfolio problems)
-    → 500k environment steps, ~4 hours on A100
-    ↓
-Evaluation → Sharpe ratio, max drawdown, Calmar ratio vs S&P500 / 60-40
-
-Deployment Phase:
-    ↓
-Paper Trading Agent → receives live market data via OpenBB
-    → queries trained PPO policy for action (weights per asset)
-    → executes via Alpaca paper trading API
-    ↓
-TradingAgents Debate Layer → RL signal + LLM analyst debate → final decision
-    ↓
-Risk Manager Agent → enforces position limits, stop-losses
-```
-
-**Estimated delivery**: 8-12 weeks (2 ML engineers)
-**Client type**: Quant funds, family offices, hedge funds evaluating systematic strategies
+| Anti-pattern | Why it fails | Fix |
+|-------------|-------------|-----|
+| LLM direct order execution | Hallucinations cause random trades; no audit trail | Always route through a deterministic rule layer + human gate |
+| Using OpenBB under AGPL in a closed-source SaaS | Violates AGPL — must open server-side code | Keep OpenBB as a separate service with its own exposed API |
+| Fine-tuning FinGPT on client PII data | GDPR/LGPD violation; model memorization of secrets | Use differential privacy; anonymize training data first |
+| Single LLM for all compliance decisions | EU AI Act requires explainability + human review for high-risk | Multi-agent with human gate; log every agent decision |
+| Polling exchange APIs in a tight loop | Rate limits, IP bans, account suspension | Use WebSocket streams (ccxt has unified WS) + exponential backoff |
+| Deploying in EU without AI Act compliance | $35M or 7% global revenue fine | Build explainability + human review gates from day one |
 
 ---
-
-## Component Quick-Reference
-
-| Need | Open-Source Tool | License |
-|------|-----------------|---------|
-| Financial market data | OpenBB MCP Server | AGPL |
-| Sentiment analysis | FinGPT (LoRA fine-tune) | MIT |
-| Multi-agent debate | TradingAgents | Apache 2.0 |
-| RL portfolio | FinRL | MIT |
-| Core banking | Apache Fineract | Apache 2.0 |
-| Payments orchestration | Hyperswitch | Apache 2.0 |
-| ERP + accounting | ERPNext / Frappe | GPL |
-| KYC/AML screening | OpenSanctions | CC-BY |
-| Fraud/AML ML | Jube | AGPL |
-| Crypto exchange API | ccxt | MIT |
-| Portfolio optimization | PyPortfolioOpt | MIT |
-| Subscription billing | Kill Bill | Apache 2.0 |
+*See `repos/foundations.md` for all referenced repos and `verticals/solutions.md` for platform starting points.*
