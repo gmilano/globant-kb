@@ -1,72 +1,68 @@
-# Market Map — Travel & Hospitality AI
+# Market Intelligence — Travel & Hospitality AI
 
-> Key players, market size, competitive dynamics, and LATAM opportunities.
+> Key players, market map, sizing. Focus: LATAM + global.
 > Last updated: 2026-07-06
 
 ## Market Size
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| AI in Travel & Hospitality market (2026) | ~$8B | OpenPR / multiple analysts |
-| AI in Travel & Hospitality market (2033) | $182.5B | OpenPR, CAGR 28.4% |
-| Online Travel Agencies market (2025) | $663.7B | Grand View Research |
-| Online Travel Agencies market (2026) | $718.9B | Grand View Research, CAGR 9.0% |
-| LATAM online travel penetration | 74% | Skift Research 2026 |
-| AI-enabled travelers (global) | 40% have used AI for trip planning | Travala.com, 2026 |
-| Consumers willing to use fully autonomous AI booking | 2% | Expedia AI Trust Gap 2026 |
-| AI bookings share by 2030 (IDC forecast) | up to 30% | IDC Research 2026 |
+| AI in Travel market (2024) | $3.37 billion | Business Research Company |
+| AI in Travel market (2030) | $13.87 billion | Business Research Company |
+| Agentic AI Travel Booking (2025) | $2.1 billion | MarketIntelo |
+| Agentic AI Travel Booking (2034) | $12.1 billion (CAGR 22.5%) | MarketIntelo |
+| Online Travel Agency market (2026) | $561 billion | Mordor Intelligence |
+| Online Travel Agency market (2031) | $761 billion (CAGR 6.3%) | Mordor Intelligence |
+| Travel businesses scaling agentic AI | 61% experimenting or scaling | Breaking Travel News 2026 |
+| Travelers using AI for planning (US) | 58% | Mindful Eco Tourism 2026 |
+| Gen Z/Millennials willing to delegate all planning to AI | 61% | Phocuswright 2026 |
+| IDC forecast: % bookings by AI by 2030 | 30% | IDC 2026 |
+| GenAI ROI improvement in travel | +20% average | Master of Code |
+| Booking completion rate improvement (agentic vs funnel) | +38% in pilots | MarketIntelo |
 
-## Key Players — Global
+## Global Players
 
-| Company | Revenue (2024) | AI Move | OSS Relevance |
-|---------|---------------|---------|---------------|
-| **Booking Holdings** | $23.7B | AI-powered personalization, price prediction, smart filters | Primary target for agentic travel disruption |
-| **Expedia Group** | $13.7B | Romie AI travel buddy (plan, shop, book, monitor in real-time, group-chat integration) | Romie = the UX benchmark to beat |
-| **Airbnb** | $11.94B revenue, $83.8B mktcap | AI agent on 13 models for customer service (Aug 2025); AI-native 2026 strategy | High personalization bar |
-| **Amadeus IT Group** | Commercial | Mosaic APIs for agentic booking (420+ airlines, 2M hotels); partner in Sabre+MindTrip pipeline | GDS kingmaker — OSS must interop or route around |
-| **Sabre Corporation** | Commercial | Sabre+PayPal+MindTrip Q2 2026 end-to-end agentic pipeline | First production agentic booking loop |
-| **TripAdvisor** | Commercial | AI content, AI-powered reviews analysis, testing AI agents | 8 GitHub repos; community-built recommenders |
-| **Google** | Commercial | Google Flights (data layer), Google Travel, Gemini trip planning | Key data source for OSS (trvl, fli scrape public API) |
+| Company | Type | AI Strategy | Open Source / APIs |
+|---------|------|-------------|---------------------|
+| **Booking Holdings** | OTA (Booking.com, Priceline, Kayak, OpenTable) | Booking.com + OpenAI partnership for agentic bookings; AI Trip Planner | Limited; REST APIs for affiliates |
+| **Expedia Group** | OTA (Expedia, Hotels.com, Vrbo) | Expedia AI Travel Assistant; Romie AI agent | Partner APIs |
+| **Airbnb** | Marketplace | AI-powered search, pricing, and host tools | Limited |
+| **Amadeus** | GDS + Tech | Amadeus AI Platform; NDC adoption; developer APIs | MIT SDK (amadeus4dev) |
+| **Sabre** | GDS | SynXis AI; Hospitality AI Suite | Partner program |
+| **Google Travel** | Platform | Agentic booking in AI Mode (Search); Google Flights | fli (unofficial) |
+| **Fliggy/Alibaba** | China OTA | FlyAI — full-stack MCP travel skill; open-sourced | MIT (flyai-skill) |
+| **DIDA** | B2B Travel | RollingGo Hotel MCP: 2M+ hotels, free unlimited API | MIT (rollinggo-hotel-mcp) |
+| **Duffel** | Distribution | NDC-first airline API; MCP server from community | Hackathon kit open |
+| **Mews** | Hotel PMS (cloud) | Mews AI for operations; integrations with major LLMs | SDK: MIT |
 
-## Key Players — LATAM
+## LATAM Market Map
 
-| Company | Market | AI Initiative |
-|---------|--------|---------------|
-| **LATAM Airlines Group** | Chile, Colombia, Peru, Ecuador, Brazil | AI virtual agent launched April 2025 (Chile), expanded June 2025. Natural language trip planning for LATAM passengers. |
-| **MercadoLibre / Meli Travel** | Brazil, Argentina, Mexico | Nascent travel vertical embedded in MercadoPago/Meli ecosystem |
-| **Despegar / Decolar** | Latin America | Major OTA; integrating AI chat for trip planning |
-| **Almundo** | Argentina, Colombia | Mid-size OTA with AI customer service investment |
-| **CVC Corp** | Brazil | Largest travel company in LATAM, digitalization push |
+| Player | Type | Country | AI Status |
+|--------|------|---------|----------|
+| **Despegar.com** | OTA | Pan-LATAM (Argentina HQ) | Acquired by Prosus (Naspers) for $1.7B (Dec 2024); integrating AI across Despegar + iFood + Sympla ecosystem |
+| **Decolar.com** | OTA (Despegar LATAM brand) | Brazil | Portuguese-language NLP; dominant in Brazil |
+| **LATAM Airlines** | Airline | Chile | #1 AI share of voice in LATAM: 73.7 avg score, 24.5% share of voice in AI recommendations (AIVO Research Mar 2026) |
+| **Almundo** | OTA | Argentina | AI-powered trip recommendation; Almundo app with natural language search |
+| **Aerolíneas Argentinas** | Airline | Argentina | Privatization underway; digital transformation investment |
+| **CVC Corp** | Tour Operator | Brazil | Largest tour operator in LATAM; AI personalization trials |
+| **Hotmart** | Platform | Brazil | Digital travel experiences and courses |
 
-## Agentic Travel: The 2026 Race
-
-The industry's defining inflection point: **Sabre + PayPal + MindTrip** announced (March 2026) as the first end-to-end agentic travel booking pipeline. The loop: conversational AI → GDS inventory query → payment completion, all without the user leaving a chat window. Target launch Q2 2026.
-
-**Market reaction:** Booking Holdings, IHG, Marriott all signed partnerships to ensure AI agents can access their inventory. Every major OTA is now racing to be "agentic-ready."
-
-**OSS counter:** The open-source equivalent is achievable today:  
-`trvl/fli` (search, no keys) → `LangGraph` (orchestration) → `Duffel API` (NDC booking) → `Stripe` (payment)
-
-## AI Trust Gap (Expedia, 2026)
-
-| Traveler behavior | Data |
-|------------------|------|
-| Use AI for trip discovery & inspiration | High adoption |
-| Use AI for itinerary suggestions | Medium adoption |
-| Let AI complete bookings autonomously | 2% willing |
-| Want trusted brands involved in booking | 80%+ |
-
-**Implication for Globant:** Solutions that keep humans in the loop for final booking (AI-assisted vs AI-autonomous) will see 10-40× higher adoption. Build "confirm before book" UX patterns.
+**LATAM Dynamics:**
+- Prosus acquisition of Despegar ($1.7B) creates a super-app opportunity: travel + food (iFood) + entertainment (Sympla) — analogous to WeChat/Meituan in China
+- LATAM Airlines leads AI recommendations among Latin American travelers, positioning them well for agentic booking
+- WhatsApp penetration 80%+ in Brazil/Argentina makes WhatsApp-based travel agents a natural channel
+- Spanish/Portuguese NLP quality now matches English for major models — LATAM no longer an AI laggard
 
 ## Globant Positioning
 
-| Segment | Opportunity | Entry Point |
-|---------|-------------|-------------|
-| **LATAM Airlines / Airport** | AI passenger assistant (disruption management, rebooking, gate info) | LATAM Airlines AI agent success story as reference |
-| **Hotel Chains** | AI concierge (pre-stay, in-stay, post-stay) + channel manager optimization | QloApps fork + LangGraph + WhatsApp |
-| **Tour Operators / OTAs** | Conversational booking agent for LATAM market | ExcursioX + CrewAI + WhatsApp Business API |
-| **Corporate Travel** | AI expense automation + travel policy enforcement | TREK + Odoo + receipt parsing AI |
-| **Government / Transit** | AI-enhanced public transit routing (cities) | OpenTripPlanner + LLM front-end |
+| Strength | Evidence |
+|----------|----------|
+| AI Studios in airlines and hospitality | Published airline AI transformation blueprints; Airlines Studio practice |
+| Claude AI Pods | 40% of top 20 Globant revenue accounts using AI Pods; Claude models default |
+| LATAM relationships | Regional presence in Argentina, Brazil, Colombia, Mexico, Chile — proximity to Despegar, LATAM Airlines, Aerolíneas |
+| A2A + MCP expertise | Both protocols already used in financial and healthcare KB patterns — direct transfer |
+
+**Recommended beachhead**: Build an agentic travel concierge product on top of flyai-skill + rollinggo-hotel-mcp + fli, white-label for Latin American mid-market hotel chains and travel agencies. 6-week MVP. QloApps as the PMS backbone for hotels that don't have a PMS.
 
 ---
-*Updated automatically by the Globant AI Studios ingest pipeline.*
+*Updated by ingest pipeline — 2026-07-06.*

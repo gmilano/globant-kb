@@ -1,46 +1,49 @@
-# Trending AI Agents — Travel (Week of 2026-07-06)
+# Trending — Travel AI Agents (July 2026)
 
-> What's moving in travel AI this week. Focus on newly released or rapidly growing repos.
+> What's new and gaining momentum this week.
+> Last updated: 2026-07-06
 
-## Hot This Week
+## Hot This Month
 
-### 1. trvl — MCP-Native Travel CLI (Go)
-**Repo:** [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) — updated July 1, 2026  
-**Why trending:** First single-binary MCP server giving Claude Code, Cursor & Windsurf direct access to Google Flights, Google Hotels, Airbnb, Booking.com, Hostelworld and Ferryhopper — no API keys. 43 tools. Default flight search merges Google Flights + Kiwi + Skiplagged (hidden-city options) into one sorted list.  
-**Drop-in integration:** `claude mcp add trvl --transport stdio -- trvl mcp` — one command, works in Claude Code today.
+### flyai-skill — Alibaba Fliggy's Production MCP Skill
+- **Repo**: [alibaba-flyai/flyai-skill](https://github.com/alibaba-flyai/flyai-skill)
+- **License**: MIT
+- **Why it's hot**: Fliggy is one of the world's largest OTAs (Alibaba Travel). This MCP skill is the first production-grade, full-stack travel skill from a Tier-1 OTA — covering flights, hotels, attractions, ground transport, and packages from initial planning to booking. Launched on ClawHub and GitHub in Q2 2026, ranked #1 travel skill by install volume on ClawHub within days.
+- **Signal**: Major OTAs are now building native MCP skills, not just APIs. This is the new distribution model for travel inventory.
 
-### 2. Google Flights MCP Proliferation (3+ Independent Repos)
-**Repos:** [HaroldLeo/google-flights-mcp](https://github.com/HaroldLeo/google-flights-mcp), [manohar42/google-flights-mcp-server](https://github.com/manohar42/google-flights-mcp-server), [smamidipaka6/flights-mcp-server](https://github.com/smamidipaka6/flights-mcp-server)  
-**Why trending:** Three independent Google Flights MCP implementations appeared in June–July 2026. Combined with Duffel API for actual booking. Pattern: search via MCP → confirm with user → book via Duffel.
+### RollingGo Hotel MCP — DIDA's Free Unlimited Hotel API
+- **Repo**: [RollingGo-AI/rollinggo-hotel-mcp](https://github.com/RollingGo-AI/rollinggo-hotel-mcp)
+- **License**: MIT
+- **Why it's hot**: Backed by DIDA (world's #3 B2B travel supplier), 2M+ hotels, real-time inventory, completely free with no call limits. Permanent unlimited free access unlocked after first tool call within 3 days of API key approval (1-3 min auto-approval).
+- **Signal**: B2B travel suppliers are opening free MCP interfaces to capture the AI agent distribution channel before Booking.com and Expedia lock it down.
 
-### 3. fli — Google Flights Python MCP + CLI
-**Repo:** [punitarani/fli](https://github.com/punitarani/fli) — MIT, 380★  
-**Why trending:** Clean Python SDK and MCP server for programmatic Google Flights search. Gaining adoption as the Python-native alternative to trvl (Go). Integrates directly with LangChain tool-calling workflows.
+### fli — 2.4k Stars for Google Flights MCP
+- **Repo**: [punitarani/fli](https://github.com/punitarani/fli)
+- **License**: MIT | **Stars**: ~2.4k★
+- **Why it's hot**: Reverse-engineered Google Flights internal API — no scraping, no paid API key. Works with Claude Code, Codex CLI, ChatGPT. TypeScript port (`fli-js` on npm) enables frontend. De facto flight search layer for AI developers.
+- **Signal**: ~2.4k★ and growing weekly. Featured on multiple "top MCP servers" lists.
 
-### 4. Sabre + MindTrip + PayPal Agentic Pipeline (Industry Signal)
-**Not open-source**, but sets the benchmark every travel AI stack must replicate.  
-**Why relevant:** Announced Q2 2026 — travel industry's first end-to-end agentic booking loop: MindTrip (conversational AI) → Sabre Mosaic (420+ airlines, 2M hotels) → PayPal agentic payments. The OSS equivalent is: **trvl/fli** (search) + **LangGraph** (orchestration) + **Duffel API** (booking) + **Stripe** (payment).
+### A2A Travel Reference Implementation — extrawest
+- **Repo**: [extrawest/a2a_protocol_fundamentals_python](https://github.com/extrawest/a2a_protocol_fundamentals_python)
+- **License**: MIT
+- **Why it's hot**: Google's Agent2Agent (A2A) protocol is gaining rapid adoption, and this is the canonical travel reference showing specialized agents (hotel/CrewAI, car/LangGraph, currency, planner/ADK) communicating over A2A. Master planner on port 10001, hotel agent on 10002, car rental on 10003, currency on 10004.
+- **Signal**: A2A is becoming the standard for agent-to-agent communication in travel, complementing MCP (tools) with coordination layer.
 
-### 5. Dida Hotel MCP (China B2B)
-**Repo:** [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) — MIT  
-**Why trending:** Global hotel recommendation & booking MCP — 2M+ hotels, direct API from the world's 3rd-largest B2B travel company. Real-time inventory, rate plans & cancellation policy lookup. No call-volume limits on free tier.
+### Azure App Service A2A Travel Agent
+- **Repo**: [Azure-Samples/app-service-a2a-travel-agent](https://github.com/Azure-Samples/app-service-a2a-travel-agent)
+- **License**: MIT
+- **Why it's hot**: Microsoft's official sample deploying A2A multi-agent travel to Azure App Service. Enterprise deployment reference — shows how to containerize and scale travel agents in production.
+- **Signal**: Major cloud vendors publishing travel-specific A2A samples accelerates enterprise adoption.
 
-### 6. Multi-Agent Travel Planning Engine (Community Pattern)
-**Pattern:** 7-specialist-agent travel planning engine for Claude Code (destination research, budget optimization, itinerary validation) that publishes trips as shareable self-contained HTML artifacts. Updated June 22, 2026. Represents the emerging "agentic itinerary as artifact" paradigm.
+## Ecosystem Context
 
-### 7. LATAM Airlines AI Virtual Agent (Production, LATAM signal)
-**Why relevant:** LATAM Airlines launched its AI virtual agent (beta Chile, April 2025) then expanded to Colombia, Peru & Ecuador (June 2025). First major LATAM airline to ship a production conversational booking agent — signals demand for OSS alternatives in the region.
+The travel MCP ecosystem has expanded significantly in 2026:
+- **Flight MCP servers**: `fli` (Google Flights), `flights-mcp` (Duffel), `mcp-amadeus` (GDS), `amadeus-mcp-server-standalone`
+- **Hotel MCP servers**: `rollinggo-hotel-mcp` (DIDA 2M+ hotels), `hotels_mcp_server` (Booking.com), `Dida-hotel-MCP-CN` (Chinese market)
+- **Full-stack**: `flyai-skill` (Fliggy — flights + hotels + attractions + transport)
+- **Coordination**: A2A protocol for multi-agent orchestration
 
-## Patterns to Watch
-
-| Pattern | Signal | OSS Stack |
-|---------|--------|-----------|
-| MCP-native travel search | trvl + google-flights-mcp proliferation | trvl + fli + LangGraph |
-| Chat-to-book full loop | Sabre+MindTrip+PayPal announcement | OpenTripPlanner + Duffel + Stripe |
-| Agentic disruption management | Expedia Romie real-time rebooking | CrewAI + flight status webhooks + notify |
-| Voice-first booking | Alexa/Google Flights voice integrations | Whisper + Rasa + trvl MCP |
-| LATAM mobile-first | LATAM Airlines + high WhatsApp penetration | Rasa + LangGraph + WhatsApp Business API |
-| Hotel B2B MCP | Dida-hotel-MCP-CN free unlimited tier | Dida MCP + Claude + QloApps backend |
+**Key dynamic**: OTAs and B2B suppliers are racing to publish MCP/A2A interfaces before platform aggregators capture the AI agent distribution channel.
 
 ---
-*Updated automatically by the Globant AI Studios ingest pipeline.*
+*Updated weekly by ingest pipeline.*
