@@ -81,6 +81,25 @@
 | Mexico | Nearshore hub for US clients, enterprise software demand | Dify + CrewAI for rapid client POC delivery |
 | Chile | Mature enterprise IT, financial sector AI readiness | LangGraph + Langfuse for auditability |
 
+### Addressable LATAM Segments (Dollar Estimates)
+
+| Segment | LATAM Size Estimate | Best Stack | Why Globant Wins |
+|---------|--------------------|-----------|--------------------|
+| Enterprise IT dev productivity | $800M+ | OpenHands + Cline + Continue | On-prem support, LATAM-local team, LGPD compliance |
+| Software factories / outsourcing | $1B+ (Globant TAM) | Aider + OpenHands + LangGraph | Largest LATAM software factory; self-improvement flywheel |
+| Regulated AI (banks, telcos, gov) | $600M+ | vLLM + Tabby + Keycloak + Vault | Zero-egress sovereign stacks; data residency guarantee |
+| SaaS companies / ISVs | $400M+ | Dify + CrewAI + Langfuse | Rapid delivery + observability; time-to-market advantage |
+| Government / public sector | $300M+ | Forgejo + Gitea + Dify (open-source mandate) | Open source procurement compliance; local presence |
+
+### Data Sovereignty Regulatory Map
+| Country | Regulation | AI Data Restriction | Stack Implication |
+|---------|------------|--------------------|--------------------|
+| Brazil | LGPD (2020) | PII cannot leave country without consent | vLLM on-premise; no external LLM APIs for PII |
+| Mexico | LFPDPPP | Personal data protection similar to GDPR | Self-hosted models for sensitive workloads |
+| Argentina | Law 25.326 | Government data must stay in-country | Sovereign stack mandatory for public sector |
+| Colombia | Law 1581/2012 | Cross-border transfer restrictions | On-premise preferred for regulated industries |
+| Chile | Law 19.628 + new PDPL (2024) | Comprehensive reform in effect 2024 | GDPR-equivalent; treat same as EU for AI |
+
 ## Globant Positioning
 
 - **Strength**: Can build and deliver full AI augmentation stacks using all open source components
@@ -88,3 +107,5 @@
 - **Price point**: Open source stack means no per-seat tool licensing — pass savings to client, margin to Globant
 - **Entry wedge**: Start with AI code review and test generation (SWE-agent + GitHub Actions) — low risk, measurable ROI in week 1
 - **Scale play**: Extend to full autonomous dev teams (OpenHands multi-agent) — 10x output per engineer
+- **Sovereign AI Practice**: Unique capability to deliver zero-egress AI stacks for LATAM regulated clients — no US SaaS vendor can match this
+- **MCP Integration Practice**: Build one MCP server per client's proprietary system; instantly works with all agent frameworks (Claude Code, Cline, Cursor, Goose)

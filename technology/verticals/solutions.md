@@ -46,3 +46,36 @@
 2. On test failure: agent reads logs, identifies root cause, proposes fix
 3. Human approves → auto-commit and re-run
 4. Full audit trail in Langfuse
+
+## LLM Inference Servers (Sovereign / On-Premise AI)
+
+For LATAM clients with data sovereignty requirements (LGPD in Brazil, LFPDPPP in Mexico) or air-gapped environments:
+
+| Platform | License | Repo | Stack | Use Case |
+|----------|---------|------|-------|----------|
+| **vLLM** | Apache-2.0 | [vllm-project/vllm](https://github.com/vllm-project/vllm) | Python + CUDA | High-throughput LLM serving. PagedAttention gives ~24x throughput vs vanilla HuggingFace. OpenAI-compatible API. Serves Qwen2.5-Coder, Llama 3.3, Mistral. Production-grade serving for GPU clusters. |
+| **Ollama** | MIT | [ollama/ollama](https://github.com/ollama/ollama) | Go | Single-command local model serving. Zero-config. Works on Mac/Linux/Windows with 120k+ stars. For dev environments and air-gapped demos. Drop-in OpenAI API. |
+| **Tabby** | Apache-2.0 | [TabbyML/tabby](https://github.com/TabbyML/tabby) | Rust | Self-hosted AI code completion server. RAG over private codebase for context-aware completions. Enterprise auth, team analytics. Drop-in Copilot replacement via LSP. ~33k stars. |
+| **LiteLLM** | MIT | [BerriAI/litellm](https://github.com/BerriAI/litellm) | Python | Universal LLM gateway — routes to 100+ providers (vLLM, Ollama, Anthropic, OpenAI, Bedrock) with unified API. Cost tracking, load balancing, rate limiting, audit logging. |
+
+### Quick-Start: Sovereign AI Coding Stack (Zero Data Egress)
+```bash
+# 1. Deploy vLLM with Qwen2.5-Coder (Apache-2.0 weights — commercially safe)
+docker run --gpus all -p 8000:8000 vllm/vllm-openai:latest \
+  --model Qwen/Qwen2.5-Coder-32B-Instruct --max-model-len 32768
+
+# 2. Configure Tabby to point at vLLM and index private repos
+# tabby-config.toml:
+# [model.completion]
+# kind = "openai/completion"
+# api_endpoint = "http://vllm:8000/v1"
+# [repository]
+# - git = { url = "https://gitea.internal/org/private-repo" }
+
+# 3. Configure Continue (VS Code) to use local vLLM
+# config.json: apiBase = "http://vllm.internal:8000/v1"
+
+# 4. Add Langfuse for local observability
+docker compose up langfuse  # All traces stay on-premise
+```
+**Result**: AI coding capability with zero data egress. 60-70% of GPT-4o quality at $0 API cost.

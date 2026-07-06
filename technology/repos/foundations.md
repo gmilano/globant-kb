@@ -67,5 +67,22 @@
 | [forgejo/forgejo](https://codeberg.org/forgejo/forgejo) | MIT | 10k+ | Community-driven Gitea fork (Oct 2022). No corporate strings. True open governance. Recommended over Gitea for new deployments. | Sovereign dev platform, LATAM government clients, data sovereignty |
 | [woodpecker-ci/woodpecker](https://github.com/woodpecker-ci/woodpecker) | Apache-2.0 | 4.2k | Lightweight Docker-native CI/CD. Fork of Drone. First-class Gitea/Forgejo support. Replaces GitHub Actions for self-hosted stacks. | Self-hosted CI/CD alongside Forgejo |
 
+## Identity, Secrets & Workflow
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [keycloak/keycloak](https://github.com/keycloak/keycloak) | Apache-2.0 | ~23k | Enterprise IAM: SSO, SAML, OAuth2, OIDC. CNCF incubation (Red Hat-backed). Industry-standard identity server. | Secure AI agent service accounts with fine-grained RBAC; MFA enforcement for AI tool access; audit trails |
+| [temporalio/temporal](https://github.com/temporalio/temporal) | MIT | ~12k | Durable workflow execution engine. Handles retries, timeouts, long-running tasks. Replaces fragile cron jobs and state machines. | Power multi-step AI agent workflows that span hours/days; guaranteed exactly-once execution |
+| [hashicorp/vault](https://github.com/hashicorp/vault) | MPL-2.0 | ~32k | Secrets management: dynamic credentials, PKI, encryption-as-service. Runtime secret injection without hardcoded keys. | AI agents retrieve API keys and credentials securely at runtime; no secrets in agent prompts or config |
+
+## MCP Ecosystem (Official Vendor Collections)
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | ~10k | Official Anthropic MCP reference servers: filesystem, Postgres, Slack, GitHub, Brave, Google Drive, Git | Standard tool integration for any MCP-aware agent; educational foundation for custom MCP development |
+| [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) | MIT | ~5k | Official Python SDK for building MCP servers and clients. Next spec v2026-07-28 adds structured output resources. | Build custom MCP servers for proprietary client systems (ERP, CRM, legacy APIs) |
+| [awslabs/mcp](https://github.com/awslabs/mcp) | Apache-2.0 | ~3k | Official AWS MCP servers: S3, EC2, Lambda, CloudWatch, DynamoDB, CDK, Bedrock | AI agents managing AWS infrastructure; pairs with LangGraph or CrewAI orchestration |
+| [microsoft/mcp](https://github.com/microsoft/mcp) | MIT | ~2k | Official Microsoft MCP servers: Azure services, Teams, DevOps pipelines, OneDrive, SharePoint | AI agents integrating with Microsoft enterprise stack; enterprise-grade authentication |
+
 ---
 *See also: `verticals/solutions.md` for full vertical platforms and `intel/trends.md` Trend 11 for the sovereign stack use case.*

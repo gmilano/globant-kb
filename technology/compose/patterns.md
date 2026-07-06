@@ -281,6 +281,80 @@ Phase 4 (ongoing): AI layer — Ollama + Cline + LangGraph on Forgejo webhooks
 
 ---
 
+## Recipe 9: AI SRE — Autonomous Incident Response
+
+**Goal**: Reduce on-call burden by 35%+. L1/L2 incidents auto-diagnosed and remediated; only novel/high-severity incidents reach humans.
+
+**Stack**:
+- **Alerting**: [prometheus/prometheus](https://github.com/prometheus/prometheus) (Apache-2.0) + [grafana/grafana](https://github.com/grafana/grafana) (AGPL-3.0, Grafana 13 with native AI agent metrics panel)
+- **APM + LLM spans**: [SigNoz/signoz](https://github.com/SigNoz/signoz) (AGPL-3.0) — unified infra + AI call observability in ClickHouse
+- **Agent orchestration**: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — stateful incident workflow with HITL gates for destructive actions
+- **Durable execution**: [temporalio/temporal](https://github.com/temporalio/temporal) (MIT) — long-running remediations (DB vacuum, node drain) with guaranteed retry
+- **Agent observability**: [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — trace every AI reasoning step for post-incident review
+- **Notification**: Mattermost bot (AGPL-3.0) or PagerDuty webhook
+
+**Wire-up**:
+```python
+from langgraph.graph import StateGraph
+from langchain_anthropic import ChatAnthropic
+
+def build_incident_graph():
+    graph = StateGraph(IncidentState)
+    
+    # Nodes
+    graph.add_node("fetch_context", fetch_logs_metrics_runbook)  # Pull Prometheus/SigNoz data
+    graph.add_node("diagnose", llm_diagnose_root_cause)          # LLM reasons with runbook
+    graph.add_node("propose_fix", generate_remediation_plan)
+    graph.add_node("human_approval", wait_for_mattermost_approval)  # HITL for prod-critical
+    graph.add_node("execute_fix", run_kubectl_or_remediation_script)
+    graph.add_node("verify_resolution", check_prometheus_alert_cleared)
+    graph.add_node("notify", post_incident_report_to_mattermost)
+
+    # Edges
+    graph.add_edge("fetch_context", "diagnose")
+    graph.add_edge("diagnose", "propose_fix")
+    graph.add_conditional_edges(
+        "propose_fix",
+        route_by_severity,  # LOW/MEDIUM → auto; HIGH/CRITICAL → human approval
+        {"auto": "execute_fix", "manual": "human_approval"}
+    )
+    graph.add_edge("human_approval", "execute_fix")
+    graph.add_edge("execute_fix", "verify_resolution")
+    graph.add_edge("verify_resolution", "notify")
+    return graph.compile()
+
+# Prometheus AlertManager webhook receiver
+# receivers:
+#   - name: ai-sre
+#     webhook_configs:
+#       - url: http://ai-sre-agent:8080/alert
+#         send_resolved: true
+```
+
+```go
+// Temporal workflow for long-running remediations (e.g., PostgreSQL vacuum, node drain)
+func RemediationWorkflow(ctx workflow.Context, incident Incident) error {
+    ao := workflow.ActivityOptions{StartToCloseTimeout: 2 * time.Hour, RetryPolicy: &temporal.RetryPolicy{MaxAttempts: 3}}
+    ctx = workflow.WithActivityOptions(ctx, ao)
+    
+    var plan string
+    workflow.ExecuteActivity(ctx, DiagnoseActivity, incident).Get(ctx, &plan)
+    workflow.ExecuteActivity(ctx, ExecuteRemediationActivity, plan).Get(ctx, nil)
+    workflow.ExecuteActivity(ctx, VerifyResolutionActivity, incident).Get(ctx, nil)
+    return nil
+}
+```
+
+**Grafana 13 setup** (GrafanaCON 2026):
+- New AI/LLM metrics panel type: visualize agent decision latency, resolution confidence score
+- AlertManager → Grafana annotations → LangGraph webhook pipeline
+- SigNoz embedded LLM spans: see when the AI agent called the LLM and what it cost
+
+**Build timeline**: 6–10 weeks (2 weeks MVP with human approval on all actions; 4-6 weeks to autonomous L1/L2)
+**ROI**: MTTR -40-70% for L1/L2 incidents; on-call pages -35%; Gartner: 85% enterprises using AI SRE by 2029
+
+---
+
 ## Quick-Start Matrix
 
 | Client need | Start here | Timeline | Complexity |
@@ -293,4 +367,5 @@ Phase 4 (ongoing): AI layer — Ollama + Cline + LangGraph on Forgejo webhooks
 | DevOps Slack assistant | n8n + Claude + MCP | 2 weeks | Low |
 | Private LLM deployment | vLLM + Ollama + LiteLLM | 2 weeks | Medium |
 | On-prem Copilot replacement | Tabby + Continue + Ollama | 2 weeks | Low-Medium |
+| AI SRE / autonomous ops | LangGraph + Prometheus + Grafana 13 + Temporal + Langfuse | 8 weeks | Medium-High |
 | Sovereign dev platform | Forgejo + Woodpecker + Backstage + SigNoz + Ollama | 12 weeks | Medium-High |

@@ -29,6 +29,21 @@
 | 11 | **Semgrep** | [semgrep/semgrep](https://github.com/semgrep/semgrep) | LGPL-2.1 (CE) | 11.8k | Lightweight SAST for 30+ languages. Finds bugs with patterns that look like source code. AI-assisted multimodal detection: deterministic rules + LLM for IDOR and business-logic vulns. CI/CD native. |
 | 12 | **MCP Servers** | [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Anthropic's official MCP (Model Context Protocol) reference server implementations. Filesystem, git, memory, fetch, sequential thinking, time. Linux Foundation project — de facto standard for connecting LLMs to tools/data. |
 
+## AI Observability & Memory (LLMOps Layer)
+
+| # | Agent | Repo | License | Stars | Description |
+|---|-------|------|---------|-------|-------------|
+| 13 | **Langfuse** | [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | ~12k | Open-source LLM observability: traces, evals, prompt versioning, cost tracking per agent node. Self-hostable on Docker/Kubernetes. v3 adds multi-agent trace trees + A2A trace support. Mandatory for production AI. |
+| 14 | **mem0** | [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~25k | Persistent memory layer for AI agents. Stores user preferences, past decisions, and learned context across sessions. v2 adds team memory (shared across agents). Integrates with LangGraph, CrewAI, AutoGen. |
+
+## MCP (Model Context Protocol) Ecosystem
+
+| # | Agent | Repo | License | Stars | Description |
+|---|-------|------|---------|-------|-------------|
+| 15 | **MCP Reference Servers** | [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | ~10k | Official MCP server implementations: filesystem, Postgres, Slack, GitHub, Brave. Linux Foundation project (donated Dec 2025). Spec v2026-07-28 RC adds multi-hop chaining and structured output resources. |
+| 16 | **AWS MCP Servers** | [awslabs/mcp](https://github.com/awslabs/mcp) | Apache-2.0 | ~3k | Official AWS MCP servers: S3, DynamoDB, CloudWatch, Lambda, CDK. Enables AI agents to provision and manage AWS infrastructure via natural language. |
+| 17 | **Microsoft MCP** | [microsoft/mcp](https://github.com/microsoft/mcp) | MIT | ~2k | Official Microsoft MCP servers for Azure, Teams, DevOps, OneDrive. Enterprise-grade auth. Use when client is Microsoft-stack. |
+
 ## Notes
 - **Commercial safety**: MIT + Apache-2.0 across the board — all safe for Globant client engagements
 - **SWE-bench is the benchmark**: OpenHands 72%, SWE-agent 74% — better than many $30/month proprietary tools

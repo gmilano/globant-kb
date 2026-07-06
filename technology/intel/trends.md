@@ -133,3 +133,40 @@ Each agent has a role, tools, and context. They hand off work via structured out
 **Key repos**: Bumblebee (MCP scanner), [Kyverno](https://github.com/kyverno/kyverno) (K8s policy engine), [trivy](https://github.com/aquasecurity/trivy) (container scanner)
 
 **Globant action**: Add AI triage to security scan pipelines — Trivy scans → AI agent ranks CVEs by real impact → JIRA ticket with fix suggestion.
+
+---
+
+## Trend 12: AI SRE (Autonomous Incident Response)
+**What**: AI agents are entering the operations loop end-to-end: detect alert (Prometheus/Grafana) → reason about root cause (LLM with runbook context) → propose or execute fix (OpenHands or Temporal workflow) → verify resolution → post incident report. Gartner projects 85% of enterprises will use AI SRE tooling by 2029 (from <5% in 2025).
+
+**Why it matters**: On-call engineers spend 60%+ of time on routine incident triage. AI SRE handles L1/L2 incidents autonomously, only escalating novel or high-severity issues. Mean Time to Recovery (MTTR) reductions of 40-70% in early pilots.
+
+**Reference stack**:
+- **Alerting**: Prometheus + Grafana 13 (native AI agent metrics panel launched at GrafanaCON Apr 2026)
+- **APM + LLM spans**: SigNoz (AGPL-3.0) — full-stack traces including AI agent calls
+- **Agent orchestration**: LangGraph (MIT) — stateful incident diagnosis workflow with human-approval gates for destructive actions
+- **Durable execution**: Temporal (MIT) — long-running remediations (DB vacuum, node drain) with guaranteed retry
+- **Observability of the agent itself**: Langfuse (MIT) — trace every AI reasoning step for post-incident review
+
+```python
+# LangGraph AI SRE pattern (alert → diagnose → fix → verify)
+graph.add_node("fetch_context", fetch_logs_metrics_runbook)
+graph.add_node("diagnose", llm_diagnose_root_cause)
+graph.add_node("propose_fix", generate_remediation_plan)
+graph.add_conditional_edges("propose_fix", route_by_severity,
+    {"low": "execute_fix", "high": "human_approval"})  # HITL for prod
+graph.add_node("verify_resolution", check_prometheus_alert_cleared)
+```
+
+**Globant action**: Package "AI SRE" as a standalone offering — OpenHands + Prometheus + Grafana 13 + Langfuse + Temporal. Entry point: connect to client's existing Prometheus AlertManager. ROI: -40% on-call pages in 90 days.
+
+---
+
+## Trend 13: MCP Spec v2026-07-28 — Multi-Hop and Structured Resources
+**What**: The next MCP specification version (release candidate July 28, 2026) adds two breaking-new capabilities: (1) **multi-hop server chaining** — an MCP server can call another MCP server, enabling composed tool pipelines without the agent managing each hop; (2) **structured output resources** — servers can expose typed schemas for their outputs, enabling validation and routing at the protocol level.
+
+**Why it matters**: Multi-hop chaining enables "MCP pipelines" where a GitHub MCP server calls a Jira MCP server automatically when a PR is merged, without agent-level orchestration. Structured resources enable type-safe tool ecosystems.
+
+**Globant action**: Audit all existing MCP integrations before July 28. Consider building multi-hop MCP pipelines as a productivity product for clients who currently rely on n8n for workflow automation — MCP pipelines are simpler and agent-native.
+
+**Watch**: [modelcontextprotocol.io/changelog](https://modelcontextprotocol.io/changelog) for spec drop.
