@@ -1,7 +1,7 @@
 # Foundational Repositories — Retail
 
 > Bases to build on. Open license, active community, production-proven.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ## Commerce Platforms
 
@@ -17,7 +17,10 @@
 
 | Repo | License | Stars | Stack | Description |
 |------|---------|-------|-------|-------------|
-| [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 3.3k★ | Python/PyTorch | Unified recommendation library — 94+ algorithms, 44 benchmark datasets; general/sequential/context-aware/knowledge-based rec; de facto academic-to-production bridge for retail recommendation engines |
+| [microsoft/recommenders](https://github.com/microsoft/recommenders) | Apache 2.0 | 20k★ | Python/PyTorch | Best practices for recommendation systems — 30+ production algorithms (SAR, LightGCN, GRU4Rec, xDeepFM), Jupyter notebooks, AzureML integration; LF AI & Data sandbox project; most comprehensive open RecSys library for enterprise retail |
+| [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 7.5k★ | Python/PyTorch | Unified recommendation library — 100+ algorithms, 44 benchmark datasets; general/sequential/context-aware/knowledge-based rec; de facto academic-to-production bridge for retail recommendation engines |
+| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache 2.0 | 9k★ | Go | Production-ready recommender system with REST API, dashboard, Docker/K8s support — added LLM ranker support Jul 2026; classical CF + multimodal embedding + LLM re-ranking; zero ML ops overhead for deployment |
+| [lyst/lightfm](https://github.com/lyst/lightfm) | Apache 2.0 | 4.7k★ | Python/Cython | Hybrid collaborative + content-based recommendation — solves cold-start problem via item/user metadata; Cython-optimized for multi-core; used in production at Lyst (100M+ fashion items) and Catalant |
 | [RUCAIBox/RecBole-GNN](https://github.com/RUCAIBox/RecBole-GNN) | MIT | 720★ | Python/PyTorch | GNN-based collaborative filtering extension — LightGCN, SGL, SimGCL, NCL; graph-based "customers who bought X also bought Y" at scale |
 | [guymorita/recommendationRaccoon](https://github.com/guymorita/recommendationRaccoon) | MIT | 816★ | Node.js/Redis | Collaborative filtering recommendation engine as an npm module — Redis-backed, lightweight, suitable for smaller catalogs or as a microservice |
 
@@ -35,7 +38,15 @@
 |------|---------|-------|-------|-------------|
 | [RasaHQ/rasa](https://github.com/RasaHQ/rasa) | Apache 2.0 | 19.5k★ | Python | Conversational AI framework — NLU, dialogue management, channel connectors (WhatsApp, Telegram, Slack, Instagram, FB Messenger); retail customer service and voice shopping assistants |
 
-## Dynamic Pricing & Supply Chain
+## Demand Forecasting (Supply Chain AI)
+
+| Repo | License | Stars | Stack | Description |
+|------|---------|-------|-------|-------------|
+| [amazon-science/chronos-forecasting](https://github.com/amazon-science/chronos-forecasting) | Apache 2.0 | 4k★ | Python/PyTorch | Amazon's pretrained LLM for probabilistic time-series forecasting (NeurIPS 2024) — zero-shot demand forecasting for new SKUs without historical data; fine-tunable on SKU-level sales; most important open-source foundation model for retail demand planning |
+| [Nixtla/statsforecast](https://github.com/Nixtla/statsforecast) | Apache 2.0 | 4.2k★ | Python | Lightning-fast statistical forecasting — AutoARIMA, AutoETS, AutoTheta, 100× faster than pmdarima; parallelized by SKU; deployed in production at Walmart MX and Rappi (Colombia/Mexico/Brazil); LATAM demand planning proven |
+| [Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast) | Apache 2.0 | 3.1k★ | Python/PyTorch | Neural forecasting models — NHITS, PatchTST, TimesNet, iTransformer; GPU-accelerated; companion to statsforecast when statistical models aren't enough; handles complex seasonality and external regressors |
+
+## Dynamic Pricing & Inventory Optimization
 
 | Repo | License | Stars | Stack | Description |
 |------|---------|-------|-------|-------------|

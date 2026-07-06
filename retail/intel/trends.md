@@ -16,6 +16,8 @@ The most disruptive trend of H1 2026. AI agents shop autonomously: browse, compa
 ## Trend 3: Multimodal Visual Product Discovery
 "Shop by photo" is commoditizing. CLIP+FAISS pipelines deliver <100ms visual similarity search at scale with commodity GPUs. NVIDIA Retail Shopping Blueprint includes image search as a first-class feature. Fashion, home decor, and beauty verticals leading adoption. Social commerce (Instagram/TikTok) is training consumers to expect visual search.
 
+**Valley3 signal (Jun 2026)**: Alibaba published Valley3 (arxiv:2605.01278) — an omni foundation model specifically scaled for e-commerce multimodal tasks: image captioning, product attribute extraction, visual search, and video commerce. Open weights emerging. Represents next-gen beyond CLIP for fashion/home e-commerce.
+
 **Opportunity**: Build CLIP-powered visual catalog AI for fashion and home retail — differentiated from Shopify/WooCommerce standard search.
 
 ## Trend 4: Conversational Commerce Dominates LATAM
@@ -40,8 +42,13 @@ AI is moving from digital to physical stores. Key use cases gaining traction:
 ## Trend 7: AI Retail Media Networks
 Retailers monetizing their first-party data through AI-powered advertising. Amazon Ads AI, Walmart Connect, MercadoLibre Advertising are deploying ML for ad targeting at scale. Mid-market retailers building retail media networks with open-source ad tech + AI. Sponsored product placement optimization is a $50B+ opportunity globally.
 
-## Trend 8: Supply Chain & Demand Sensing
-Post-pandemic supply chain volatility is driving investment in AI demand forecasting. LSTM/Prophet models + real-time signals (social trends, weather, events) replacing traditional statistical forecasting. Multi-agent warehouse intelligence (NVIDIA blueprint) for autonomous replenishment. Focus on reducing both stockouts (-15% to -30% impact on revenue) and overstock (15-25% of inventory capital wasted).
+## Trend 8: Foundation Models for Demand Forecasting
+Post-pandemic supply chain volatility is driving investment in AI demand forecasting. The 2026 shift: **pretrained foundation models** (Amazon Chronos, Google TimesFM) replacing traditional ARIMA/Prophet for demand sensing. Key advantages:
+- **Zero-shot forecasting**: Chronos predicts new SKUs without any historical data (Apache 2.0, NeurIPS 2024)
+- **Speed**: Nixtla/statsforecast (AutoARIMA) is 100× faster than pmdarima — parallelized by SKU; deployed at Walmart MX and Rappi
+- **Neural models**: NHITS, PatchTST, iTransformer (Nixtla/neuralforecast) handle complex seasonality  
+- **Quantified impact**: Retailers using AI forecasting reduce overstock 15-25% and stockouts 20% (industry benchmarks)
+- Multi-agent warehouse intelligence (NVIDIA blueprint) for autonomous replenishment from forecast signals
 
 ## Trend 9: LLM-Powered Product Content Generation
 AI generating product descriptions, SEO metadata, size guides, and imagery at scale. Retailers with 100k+ SKUs can't manually write content — AI bridges the gap. Bagisto and other platforms building native LLM content generation. Quality and brand voice guardrails are the key differentiator.

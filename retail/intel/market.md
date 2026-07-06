@@ -9,6 +9,7 @@
 |---------|-----------|-----------------|------|--------|
 | AI in Retail (global) | $18.4B | $130.88B | 32.4% | Coherent Market Insights |
 | Agentic Commerce | $7.7B | $65.5B | 35.7% | Grand View Research |
+| Agentic Commerce (AI-influenced GMV) | — | $385B (2030) | — | Morgan Stanley |
 | Agentic AI in Retail & E-commerce | $60.43B | $218.37B (2031) | 29.3% | Mordor Intelligence |
 | LATAM E-Commerce | $215B+ | — | 1.5× global avg | Digital Commerce 360 |
 

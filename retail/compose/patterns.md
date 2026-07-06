@@ -242,3 +242,51 @@ ERPNext — auto-creates Purchase Orders from agent recommendations
 
 **Estimated build time**: 12-16 weeks  
 **LATAM fit**: High — mid-market LATAM retailers running ERPNext (large Frappe community in Brazil)
+
+---
+
+## Pattern 7: AI Demand Forecasting + Auto-Replenishment (Chronos + statsforecast + Odoo)
+
+**Problem**: Retailer with 5k–100k SKUs loses margin to overstock (15-25% of inventory capital wasted) and stockouts (-15-30% revenue impact). Manual forecasting can't scale.
+
+**Stack**:
+```
+Odoo (LGPL-3.0) — ERP: sales history, current stock, purchase orders
+    ↓ (daily ETL: SKU-level time series extraction)
+Nixtla/statsforecast (Apache 2.0) — AutoARIMA per SKU (existing SKUs with history)
+Amazon Chronos (Apache 2.0) — zero-shot forecast for new/seasonal SKUs
+Nixtla/neuralforecast (Apache 2.0) — NHITS for SKUs with complex seasonality
+    ↓ (forecasts → safety stock → reorder point calculation)
+stockpyl (MIT) — EOQ + newsvendor model + multi-echelon optimization
+    ↓
+LangGraph (MIT) — replenishment agent:
+  • forecast_node — selects model (statsforecast/Chronos/neural) per SKU
+  • stock_level_node — checks current inventory vs. reorder point
+  • po_creation_node — generates Purchase Order draft in Odoo
+  • approval_node — human-in-the-loop gate for POs above threshold
+    ↓
+Odoo API — creates Purchase Orders; notifies purchasing team
+```
+
+**Model selection logic**:
+```python
+def select_forecasting_model(sku_history_length: int, has_external_regressors: bool):
+    if sku_history_length < 10:
+        return "chronos"          # zero-shot for new/low-history SKUs
+    elif has_external_regressors:
+        return "neuralforecast"   # NHITS handles weather, promotions, holidays
+    else:
+        return "statsforecast"    # AutoARIMA — fastest, most reliable for standard SKUs
+```
+
+**Wiring**:
+1. Daily ETL: extract SKU sales series from Odoo → pandas DataFrame with `[unique_id, ds, y]`
+2. Run statsforecast `AutoARIMA` in parallel (n_jobs=-1) across all established SKUs
+3. Run Chronos `chronos-t5-base` for new SKUs and low-history items
+4. stockpyl computes reorder points: `ROP = lead_time_demand + safety_stock(z_score, σ)`
+5. LangGraph agent: if `current_stock < ROP` → draft PO in Odoo via REST API
+6. Human approval gate: POs > $10k threshold require buyer confirmation
+
+**Estimated build time**: 4-6 weeks  
+**Expected impact**: -20% overstock, -15% stockouts, 8-12% reduction in inventory carrying cost  
+**LATAM fit**: Very high — Nixtla proven at Walmart MX + Rappi; Odoo dominant in LATAM SME retail
