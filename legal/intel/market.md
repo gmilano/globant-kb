@@ -1,58 +1,92 @@
-# 🗺️ Mapa de mercado — Legal Services AI
+# Mapa de mercado — Legal Services AI
 
-> Players, oportunidades, posicionamiento. Foco: LegalTech + LATAM.
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
 > Última actualización: 2026-07-06
 
-## Tamaño de mercado
+## Mercado global
 
-| Métrica | Valor |
-|---------|-------|
-| Mercado LegalTech global 2025 | USD 35.4 B |
-| Proyección 2036 | USD 78.1 B |
-| CAGR 2026–2036 | 7.4% |
-| Inversión Q1 2026 | USD 2.34 B (103 deals) |
-| Gasto tech en firmas legales 2025 | +9.7% YoY |
-| Adopción AI corporativo legal | 23% (2024) → 54% (2025) |
+| Segmento | 2025 | 2026 | CAGR | Horizonte |
+|----------|------|------|------|-----------|
+| LegalTech AI (específico) | $2.82B | $3.7B | 31.4% | → 2030 |
+| LegalTech total (broad) | $34.1B | $38.67B | 13.22% | → $71.95B (2031) |
+| Legal AI Software (MarketsandMarkets) | $1.2B | $1.8B | ~35% | → $6B (2030) |
+
+---
 
 ## Players globales
 
-| Empresa | Tipo | Fortaleza | Valuación / ARR |
-|---------|------|-----------|-----------------|
-| Harvey AI | AI para big law | Agentes para firmas Am Law 100; contratos, due diligence, investigación | $11 B (Mar 2026, +$200M ronda) |
-| Clio | Practice management | CRM + billing + intake para firmas medianas | $5 B |
-| Legora | AI para litigation | Plataforma de litigación + adquirió Walter AI | $5.55 B (Mar 2026, +$550M ronda) |
-| Ironclad | CLM (Contract Lifecycle) | Lider CLM enterprise; $200M+ ARR | >$1 B |
-| Relativity | eDiscovery | 300k+ usuarios; lider eDiscovery; filing IPO 2026 | ~$4 B |
-| EvenUp | PI / mass tort | AI para personal injury settlements | >$1 B |
-| Filevine | Case management | Case management para firmas litigantes | >$1 B |
-| Thomson Reuters (Westlaw AI) | Research | LLM sobre corpus Westlaw; adquirió Noetica 2026 | Corporación ($9B+ legal segment) |
+| Empresa | Tipo | Fortaleza | Debilidad | Relevancia para Globant |
+|---------|------|-----------|-----------|------------------------|
+| **Harvey** | Startup AI | Modelo LLM propio entrenado en texto legal, $2B+ valutación | Caja negra, precio premium | Competidor en proyectos de firmas grandes |
+| **Thomson Reuters** | Enterprise | Westlaw AI, $200M+ inversión en AI 2025, adquisición SafeSend $600M | Legacy systems, lento | Partner potencial para proyectos corporativos |
+| **RELX / LexisNexis** | Enterprise | Lexis+AI, corpus inmenso, global | Mismo problema que TR | Integrar APIs LexisNexis en soluciones custom |
+| **Clio** | SaaS mid-market | Adquirió vLex $1B (2025), fuerte en firmas pequeñas/medianas | Solo cloud, US-centric | Oportunidad: alternativa open-source on-prem para LATAM |
+| **Everlaw** | Startup | eDiscovery AI, corporate adoption 23%→54% 2024→2025 | Niche (eDiscovery) | Inspiration para patrones de document review |
+| **Relativity** | Enterprise | eDiscovery, AI-powered review | Precio prohibitivo LATAM | Nicho de oportunidad con alternativas open |
+| **Legora** | Startup EU | Multi-agente legal, fuerte en Europa | No LATAM | Referencia de arquitectura (Mike OSS lo reimplementó) |
+| **Spellbook** | Startup | Contract drafting AI, integrado en Word | Solo inglés | Referencia UX para proyectos de contratos |
 
-## M&A destacada 2026
+---
 
-- Harvey adquirió **Hexus** (análisis de deposiciones) — expansión a litigation support
-- Thomson Reuters adquirió **Noetica** — AI para legal research
-- Legora adquirió **Walter AI** — refuerzo de capacidades AI
-- Q1 2026: Harvey + Legora + Relativity = 63% del total invertido en legal tech
+## Mercado LATAM
 
-## Oportunidades AI para Globant
+| País | Tamaño mercado LegalTech | Drivers | Oportunidades Globant |
+|------|--------------------------|---------|----------------------|
+| **Brasil** | Mayor mercado LATAM | Reforma Tributária (IBS/CBS), digitalización judicial, LGPD | Automatización tributaria, document intelligence, compliance LGPD |
+| **México** | 2do mercado | Reforma judicial 2025, digitalización SATL | E-discovery, contratos gobierno, compliance fiscal |
+| **Argentina** | 3er mercado | Deregulación Milei, ajuste legal masivo, necesidad de celeridad | Contract review, regulatory monitoring, AI para bufetes PYME |
+| **Colombia** | Creciente | Digitalización Rama Judicial | Acceso a justicia, legal aid, transcripción audiencias |
+| **Chile** | Maduro digitalmente | Mercado tech avanzado | Premium: AI para M&A, due diligence, banca |
+| **Perú** | Emergente | Digitalización juzgados | Herramientas básicas AI + acceso a justicia |
 
-### LATAM (alta oportunidad)
-- **Digitalización de justicia**: La mayoría de poderes judiciales LATAM aún trabajan con papel; sistemas de gestión de expedientes con AI son un blanco directo.
-- **Reforma tributaria**: Brasil (Reforma Tributária 2024), Colombia y México con cambios regulatorios importantes → demanda de herramientas de compliance y análisis normativo.
-- **Acceso a justicia**: ONGs y servicios de ayuda legal pública necesitan automatización de formularios (docassemble) + asistentes conversacionales.
-- **Derecho corporativo regional**: Multinacionales operando en LATAM necesitan análisis de contratos bilingüe (ES/PT/EN) con sensibilidad a marcos legales locales.
+**LATAM total**: $1.9B (2025) → $4.9B (2034) CAGR ~11.12%
 
-### Global
-- **CLM inteligente**: Construir sobre Ironclad/docassemble + LexNLP + LLM para revisión, alertas de vencimiento y negociación asistida.
-- **eDiscovery con LLM**: Sustituir procesos manuales de revisión con pipelines Blackstone + LexNLP + LLM.
-- **M&A due diligence**: Productizar `due-diligence-agents` como servicio managed para firmas de PE/VC y corporaciones.
-- **Compliance continuo**: Monitoreo permanente de cambios regulatorios + alertas sobre contratos afectados.
+**Hito clave**: Enter (Brazil) se convirtió en el primer unicornio legaltech AI de LATAM (Series B $100M, Founders Fund + Sequoia + Ribbit Capital).
 
-## Posicionamiento Globant
+---
 
-| Palanca | Cómo Globant puede diferenciarse |
-|---------|----------------------------------|
-| Implementación de open source | Tomar lavern/OpenContracts/docassemble y delivery profesional (customización, integración, soporte) |
-| Acelerador LATAM | Adaptar herramientas globales a marcos legales de Brasil, Argentina, México, Colombia |
-| Integración enterprise | Conectar herramientas legales AI con SAP, Salesforce, Oracle que ya usan los clientes |
-| AI governance + compliance | Ofrecer capa de auditoría y explicabilidad para cumplir con EU AI Act (ago 2026) y regulaciones locales |
+## Posicionamiento Globant — Zonas de ganancia
+
+### 1. Contract Intelligence para Corporate Legal Depts
+- **Target**: equipos legales in-house en multinacionales con presencia LATAM
+- **Propuesta**: OpenContracts + Claude → review, extracción, alertas de vencimiento, comparación de cláusulas
+- **Diferencial**: soberanía de datos (on-prem o VPC privada), multilingüe (ES/PT/EN)
+- **Tiempo a valor**: 4-6 semanas MVP
+
+### 2. Legal Aid + Acceso a Justicia
+- **Target**: gobiernos, ONGs, operadores de justicia (Colombia, Perú, Brasil)
+- **Propuesta**: lawglance/RAG + corpus público → asistente legal ciudadano
+- **Diferencial**: open source + self-hosted + multilingüe
+- **Tiempo a valor**: 6-8 semanas
+
+### 3. Regulatory Monitoring & Compliance
+- **Target**: sector financiero, farmacéutico, energético con operaciones LATAM
+- **Propuesta**: MCP servers de normativa local + Claude → alertas regulatorias automáticas
+- **Diferencial**: jurisdicciones múltiples en un stack unificado
+- **Tiempo a valor**: 6-10 semanas
+
+### 4. eDiscovery & Document Review
+- **Target**: firmas de abogados medianas-grandes, M&A
+- **Propuesta**: OpenContracts + Blackstone NER + vector search → review masivo
+- **Diferencial**: costo 10-50x menor que Relativity/Everlaw
+- **Tiempo a valor**: 8-12 semanas
+
+### 5. Despacho Digital (Law Firm Modernization)
+- **Target**: firmas medianas LATAM aún en papel/email
+- **Propuesta**: OpenLawOffice o SuiteCRM + AI layer → gestión completa + AI
+- **Diferencial**: open source, ningún vendor lock-in, hosting local
+- **Tiempo a valor**: 4-8 semanas
+
+---
+
+## Riesgos y consideraciones
+
+| Riesgo | Mitigación |
+|--------|-----------|
+| AI hallucinations en decisiones legales | Mandatory citation verification, human-in-the-loop gates (patrón lavern), LegalBench eval |
+| Regulación de AI en práctica legal | Documentar uso como "asistente", disclaimers, logging de todas las respuestas |
+| Confidencialidad / privilege | Self-hosted, zero telemetría, OpenContracts MIT license audit |
+| Licencia AGPL (Mike, LexNLP) | Uso interno no triggerea AGPL; solo si se expone a terceros |
+
+---
+*Actualizado: 2026-07-06. Fuentes: IMARC Group, Markets&Markets, Thomson Reuters Institute, HAQQ Blog.*

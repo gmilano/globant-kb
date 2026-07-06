@@ -1,29 +1,30 @@
-# 📈 Agentes AI trending — Legal
+# Trending — Legal AI (semana 2026-07-06)
 
-> Novedades de la semana en el ecosistema open source legal.
+> Repos con mayor movimiento en la semana. Foco: legal AI, legaltech, NLP.
 > Última actualización: 2026-07-06
 
 ## Repos más activos esta semana
 
-- **[lavern](https://github.com/AnttiHero/lavern)** — Apache 2.0 | Viral desde mayo 2026 (Artificial Lawyer cubrió el lanzamiento); 67 agentes especializados debaten documentos en 10 rondas antes de emitir dictamen. Destacado por su arquitectura de "tribunal adversarial" multi-agente. ~480★ y subiendo.
+| Repo | Licencia | Stars | Por qué importa |
+|------|----------|-------|----------------|
+| [willchen96/mike](https://github.com/willchen96/mike) | AGPL-3.0 | ~2.2k | Lanzado en mayo 2026 por ex-Latham associate; alternativa open source a Harvey/Legora. 1k★ en 72h. Crecimiento explosivo. |
+| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | ~1.4k | Plataforma DMS agéntica con MCP server integrado. Nuevo en 2026, muy activo en issues/PRs. |
+| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | ~267 | "Agentic law firm" — 67 agentes especializados con human-in-the-loop. Marco multi-agente de referencia para legal. |
+| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | creciente | Lista curada de recursos legaltech: plataformas open source, modelos AI, MCP servers, companies, datasets. |
+| [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | ~2 | MCP server para decisiones finales de petición USPTO. Interesante para patentes + AI. |
+| [HazyResearch/legalbench](https://github.com/HazyResearch/legalbench) | MIT | ~600 | Benchmark estable de referencia; nuevas tasks agregadas en Q2 2026. |
+| [CSHaitao/Awesome-LegalAI-Resources](https://github.com/CSHaitao/Awesome-LegalAI-Resources) | MIT | creciente | Colección exhaustiva de recursos LegalAI: datos, modelos, herramientas para sistemas de justicia inteligente. |
+| [lowtidebuild/contract-review-agent](https://github.com/lowtidebuild/contract-review-agent) | Apache-2.0 | ~40 | Agente de revisión local-first: convierte templates legales en contratos. Patrón reutilizable. |
 
-- **[due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents)** — MIT | M&A due diligence abierto: 13 agentes AI cubren 9 dominios en 38 pasos. Chat interactivo con 14 herramientas MCP. Todo corre local — los documentos solo salen como API calls al LLM configurado (Anthropic, Bedrock, Vertex AI). ~420★
+---
 
-- **[courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp)** — MIT | El servidor MCP de Vaquill para CourtListener abre acceso a 9M+ opiniones judiciales US desde Claude/Cursor/VS Code. Caso claro de MCP democratizando acceso a bases legales. ~95★
+## Noticias de la semana
 
-- **[agentcounsel](https://github.com/zgbrenner/agentcounsel)** — MIT | Biblioteca de 198 skills agnósticas al LLM para equipos legales. Arquitectura de ficheros Markdown: cualquier agente puede leerlos, no hay lock-in. ~140★
-
-- **[ContractGuard](https://github.com/he-yufeng/ContractGuard)** — MIT | Agente que lee cualquier contrato y genera en segundos: red flags, términos abusivos, protecciones faltantes, y un "fairness grade" de A+ a F. ~55★
-
-## Tendencias en repos recientes
-
-| Tema | Descripción | Ejemplo |
-|------|-------------|---------|
-| Agentic law firms | Sistemas multi-agente que simulan equipos legales completos | lavern, due-diligence-agents |
-| MCP + legal databases | Servidores MCP que exponen bases de jurisprudencia/normativa | courtlistener-mcp, Vaquill MCP |
-| Contract intelligence | RAG + NLP sobre contratos; detección de cláusulas abusivas y riesgos | ContractGuard, claude-legal-skill, OpenContracts |
-| LLMs legales especializados | Modelos fine-tuned en corpora jurídicos nacionales | DISC-LawLLM (China), fuzi.mingcha |
-| Skills libraries para legal | Definiciones portables de flujos legales en Markdown/YAML | agentcounsel |
+- **Mike OSS** alcanzó 2.200+ stars y 600 forks. Bloomberg Law y Legal IT Insider lo cubrieron como "cambio de negociación" en el mercado de AI legal ($145k en sanciones, valuaciones en $11B).
+- **OpenContracts** publicó integración nativa con Claude (MCP server) — permite a agentes comparar cláusulas across miles de contratos via tool call.
+- **LegalBench** sumó nuevas tasks en compliance y cross-jurisdictional reasoning (Q2 2026 release).
+- **Clio** completó adquisición de vLex ($1B) — impacto: la plataforma open-source SuiteCRM/CRM alternativa gana tracción como respuesta soberana.
+- **LATAM**: Saga legaltech aseguró €1.5M para expandir plataforma AI en Europa + LATAM. Enter (Brazil) es el primer unicornio legaltech AI de la región.
 
 ---
 *Pipeline automático — se actualiza cada hora.*

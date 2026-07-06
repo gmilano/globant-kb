@@ -1,61 +1,141 @@
-# 📡 Tendencias — Legal AI
+# Tendencias — Legal AI 2026
 
-> Última actualización: 2026-07-06 (segunda pasada — datos frescos)
+> Última actualización: 2026-07-06
+> Fuentes: Bloomberg Law, Forbes Tech Council, Summize, Verbit.ai, Herbert Smith Freehills, Everlaw
 
-## Tendencias principales 2026
+---
 
-### Trend #1: De la experimentación a la integración embebida
-2026 es el año en que AI pasa de ser un proyecto piloto a una capacidad embebida en las herramientas cotidianas del abogado. Copilots dentro de Word, Outlook, y los sistemas de case management están reemplazando a los chatbots standalone. Firmas que no integren AI en su workflow principal quedarán en desventaja competitiva en 18 meses.
+## Tendencia 1: De experimento a despliegue — el año del "business as usual"
 
-**Implicación Globant**: los clientes no quieren otra herramienta; quieren AI dentro de lo que ya usan (Salesforce, Teams, SharePoint, SAP).
+2025 fue el año de la experimentación. 2026 es el año de la decisión: los equipos legales definen si el uso sostenido genera impacto real.
 
-### Trend #2: Agentic law firms — multi-agente adversarial
-Lavern (lanzado mayo 2026) demostró que es viable tener 67 agentes especializados debatiendo un documento en 10 rondas antes de emitir dictamen. La arquitectura "adversarial debate + mandatory human gate" está siendo adoptada como patrón de facto para alta-stakes legal review. Harvey Agents también sigue esta arquitectura.
+- **Adopción corporate legal**: 23% (2024) → 54% (2025) — más que duplicó en un año (ACC + Everlaw survey)
+- **Framing dominante**: "AI como fuerza multiplicadora del abogado", no reemplazo
+- El riesgo de no adoptar ya supera al riesgo de adoptar
 
-**Implicación**: el patrón de un solo LLM generando análisis legal está siendo superado por pipelines multi-agente con verificación cruzada.
+**Implicación Globant**: los clientes ahora piden ROI medible, no pilotos. Proponer métricas: % reducción tiempo de revisión, costo por contrato procesado, etc.
 
-### Trend #3: Automatización de M&A due diligence
-La due diligence M&A es uno de los casos de uso con mayor ROI demostrado: `due-diligence-agents` cubre 9 dominios en 38 pasos que antes requerían semanas de trabajo de analistas. La clave diferenciadora es la trazabilidad a cita exacta — evita las alucinaciones que son inaceptables en contexto legal.
+---
 
-**Cifras**: Harvey adquirió Hexus, Thomson Reuters adquirió Noetica — señal de que eDiscovery y due diligence son los mercados más calientes.
+## Tendencia 2: Agentes multi-step reemplazan al chatbot
 
-### Trend #4: MCP para bases legales
-Vaquill AI lanzó servidores MCP para CourtListener (US), CanLII (Canadá) y su propio índice de 8M+ opiniones. El patrón se está expandiendo: cualquier base de jurisprudencia/normativa puede exponerse como MCP server y ser consultada desde Claude, Cursor, o cualquier LLM con soporte MCP.
+El legaltech se aleja del chatbot reactivo hacia agentes que:
+- Conocen el objetivo del task
+- Aplican reglas y guardrails definidos
+- Tienen contexto del negocio
+- Coordinan múltiples sub-tasks en workflows complejos
 
-**Implicación**: el acceso a corpus legales se democratiza — ya no se necesita integración costosa con Westlaw/LexisNexis.
+**Arquitecturas referencia**: lavern (67 agentes + debate + human gates), Mike OSS (multi-step research/drafting/review).
 
-### Trend #5: EU AI Act obliga governance para herramientas legales
-Las obligaciones del EU AI Act entran en vigor en agosto 2026. Los sistemas AI usados en contextos legales califican como "high-risk" (Anexo III), requiriendo: evaluación de conformidad, registro en base de datos UE, transparencia al usuario, supervisión humana, y documentación técnica.
+**Implicación Globant**: proponer arquitecturas multi-agente desde el inicio, no chatbots. El cliente no quiere "preguntar al AI", quiere "que el AI haga el proceso".
 
-**Implicación**: clientes europeos necesitan ayuda para navegar el compliance; Globant puede ofrecer EU AI Act readiness assessment + implementación de governance.
+---
 
-### Trend #6: Mitigación de alucinaciones como diferenciador clave
-La principal barrera de adopción de AI legal es el riesgo de alucinaciones en citas de jurisprudencia. Las soluciones que se están imponiendo: (a) RAG sobre corpora legales verificados, (b) citation verification como paso obligatorio en el pipeline, (c) arquitecturas multi-agente con verificación cruzada.
+## Tendencia 3: AI embebida en herramientas existentes
 
-**Proyectos líderes**: OpenContracts (grafo de citas programable), due-diligence-agents (traza a página exacta), courtlistener-mcp (fuentes verificadas).
+"Los abogados no quieren otra aplicación" (Bloomberg Law 2026). La AI se mueve:
+- Dentro de Word (Spellbook, CoCounsel)
+- Dentro del DMS (OpenContracts MCP server)
+- Dentro del CRM (SuiteCRM + n8n + Claude)
+- Dentro del correo electrónico
 
-### Trend #7: LLMs especializados por jurisdicción
-DISC-LawLLM (China), fuzi.mingcha (China), y proyectos emergentes en otros países muestran que hay demanda por modelos fine-tuned en corpora legales nacionales. La especialización por jurisdicción reduce alucinaciones vs. modelos generalistas.
+**Implicación Globant**: integrar AI en el sistema que el cliente ya usa, no construir desde cero. Añadir AI layer sobre plataforma open source existente.
 
-**Oportunidad LATAM**: no existe un LLM especializado en derecho latinoamericano (civil law, códigos napoleónicos). Globant podría liderar su creación.
+---
 
-### Trend #8: CLM (Contract Lifecycle Management) con AI nativa
-La próxima generación de CLM embebe AI para: (a) extracción automática de metadatos al ingestar contratos, (b) alertas proactivas de vencimiento y renegociación, (c) análisis de riesgo at-scale sobre portfolios de miles de contratos, (d) negociación asistida con redlines sugeridas.
+## Tendencia 4: MCP servers para jurisdicciones específicas
 
-**Inversión**: Ironclad supera $200M ARR; el mercado CLM crece más rápido que el LegalTech general.
+El Model Context Protocol (MCP) habilitó un ecosistema de servidores legales por jurisdicción:
+- Korean Law MCP: 41 APIs legales gubernamentales
+- German Law MCP: códigos legales alemanes
+- Taiwan Judicial MCP: sentencias + estatutos
+- Indonesia Pasal MCP: 40k+ regulaciones
 
-### Trend #9: Access-to-justice como palanca social
-Organizaciones de ayuda legal pública (LSC en EE.UU., equivalentes en LATAM) están adoptando docassemble + LLM para automatizar la preparación de formularios judiciales para ciudadanos sin recursos. El movimiento A2J Tech (access-to-justice) está ganando tracción y funding filantrópico.
+**Oportunidad LATAM directa**: construir MCP servers para:
+- Diário Oficial da União (Brasil)
+- DOF México (Diario Oficial de la Federación)
+- Boletín Oficial Argentina
+- Normas legales Perú/Colombia
 
-**Oportunidad**: Globant puede ofrecer implementaciones pro-bono/social-impact que construyen reputación y expertise en el sector.
+**Implicación Globant**: producto IP propio — MCP servers para normativa LATAM. Venta como servicio + open source parcial.
 
-### Trend #10: Concentración del mercado LegalTech
-Q1 2026: 3 empresas (Harvey, Legora, Relativity) representaron el 63% de toda la inversión. El mercado se está polarizando entre grandes plataformas con ecosistemas cerrados y soluciones open source especializadas. La estrategia ganadora para integradores como Globant es el espacio intermedio: implementar + customizar open source para dar capacidades que las plataformas cerradas no ofrecen.
+---
 
-## Repos más activos esta semana
+## Tendencia 5: Reducción de alucinaciones como diferenciador
 
-- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Agentic law firm: 67 agentes especializados, debate adversarial, Apache 2.0.
-- [zoharbabin/due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) — M&A due diligence con 13 agentes, 9 dominios, MIT.
-- [Vaquill-AI/courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) — Servidor MCP para CourtListener, MIT.
-- [zgbrenner/agentcounsel](https://github.com/zgbrenner/agentcounsel) — 198 skills legales en Markdown, MIT.
-- [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) — Revisión de contratos con CUAD, MIT.
+Por Q4 2025 había más de 120 casos documentados de alucinaciones AI en tribunales a nivel mundial. En 2026, las plataformas se diferencian por cómo atacan este problema:
+
+- **Citation verification obligatoria** (toda respuesta debe citar fuente)
+- **Hallucination detection pipelines** (OpenContracts tiene esto integrado)
+- **Human-in-the-loop gates** (patrón lavern: mandatory para ciertas acciones)
+- **Retrieval-grounded generation** (RAG con corpus verificado, no internet abierto)
+
+**Implicación Globant**: arquitectura de verificación es prerequisito. Incluir en propuesta técnica siempre.
+
+---
+
+## Tendencia 6: Open source como respuesta a precios premium
+
+Mike OSS (mayo 2026): ex-abogado de Latham reconstruyó Harvey y Legora en 2 semanas, lo publicó como AGPL y logró 2.2k stars en días. La narrativa: "si el AI se entrena con texto legal público, ¿por qué pagar $50-200/user/mes?"
+
+Adopción:
+- Firmas medianas-pequeñas sin presupuesto Harvey
+- Despachos que quieren control de datos
+- Países donde cloud extranjero crea riesgo regulatorio
+
+**Implicación Globant**: hay mercado grande en el tier "quiero Harvey pero open source y on-prem". Globant puede posicionarse exactamente ahí.
+
+---
+
+## Tendencia 7: CLM (Contract Lifecycle Management) como vertical AI prioritaria
+
+El AI se está aplicando masivamente en CLM:
+- Drafting automatizado desde templates
+- Review automático de riesgo por cláusula
+- Alertas de vencimiento y renovación
+- Extracción estructurada de obligaciones
+- Negociación asistida (playbooks digitales)
+
+Herramientas open source clave: OpenContracts (MIT), contract-review-agent (Apache-2.0), LexNLP (AGPL).
+
+**Implicación Globant**: CLM es el caso de uso más vendible en corporate legal. Proponer siempre como punto de entrada.
+
+---
+
+## Tendencia 8: Interoperabilidad — fin de las plataformas siloed
+
+"Los días de plataformas legales aisladas están terminando" (Rev.com 2026). Los equipos quieren:
+- Un sistema que conecte DMS + CRM + billing + AI
+- APIs abiertas para integrar herramientas externas
+- Flujos end-to-end sin cambiar de aplicación
+
+**Implicación Globant**: proponer arquitecturas de integración sobre plataformas open source (OpenLawOffice/SuiteCRM) en vez de soluciones punto a punto.
+
+---
+
+## Tendencia 9: Acceso a justicia con AI — mercado emergente LATAM
+
+El AI está democratizando el acceso a servicios legales en LATAM:
+- Asistentes legales ciudadanos (español/portugués)
+- Chatbots de orientación legal gratuita
+- Herramientas para autónomos y PYMEs sin capacidad de contratar abogados
+- Proyectos de acceso a justicia con ONGs y gobiernos
+
+Enter (Brazil) confirmó esta oportunidad al ser el primer unicornio legaltech AI de LATAM ($100M Series B, 2025).
+
+**Implicación Globant**: oportunidad de impacto social + negocio. Proyectos con BID, gobiernos, organizaciones de justicia civil.
+
+---
+
+## Tendencia 10: Valuaciones legaltech AI en alza
+
+"LegalTech Valuations Surge In 2026 Because of AI" (Broadband Breakfast):
+- Harvey: $2B+ valuación
+- Clio: adquiere vLex $1B (2025)
+- Thomson Reuters: $200M+ AI investment + SafeSend $600M
+- Segmento AI legal específico: $2.82B → $3.7B en sólo 1 año (CAGR 31.4%)
+
+Esto señala: hay inversión real, hay urgencia real, los clientes tienen presupuesto.
+
+---
+*Última actualización: 2026-07-06.*

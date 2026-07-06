@@ -1,4 +1,4 @@
-# 🏭 Verticales de partida — Legal Services
+# Verticales de partida — Legal Services
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
@@ -6,68 +6,69 @@
 
 ## Plataformas recomendadas
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| [docassemble](https://github.com/jhpyle/docassemble) | MIT | https://docassemble.org | Python + YAML + Markdown | Automatización de documentos legales / entrevistas guiadas. Gold-standard en clínicas jurídicas EE.UU. 2.6k★ |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | https://contracts.opensource.legal | Django + React + GraphQL | DMS agéntico: gestión de contratos con anotación, agentes AI y MCP server integrado. 980★ |
-| [CourtListener](https://github.com/freelawproject/courtlistener) | BSD | https://www.courtlistener.com | Django + PostgreSQL + Elasticsearch | Archivo de jurisprudencia US (9M+ opiniones); API pública + RECAP PACER integration. 961★ |
-| [ArkCase CE](https://github.com/ArkCase/ArkCase) | Apache-2.0 | https://www.arkcase.com | Java + Spring + Angular | Case management empresarial: documentos, contactos, calendarios, emails, tareas, billing. FedRAMP autorizado. |
-| [CiviCRM](https://github.com/civicrm/civicrm-core) | AGPL | https://civicrm.org | PHP | CRM + gestión de casos para organizaciones de ayuda legal; manejo de donantes, voluntarios y clientes. 660★ |
-| [SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL | https://suitecrm.com | PHP + JavaScript | CRM completo con módulos de cases, tareas, documentos, reportes y workflows; fork open source de SugarCRM. 4.5k★ |
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
+|------------|----------|------------|-------|-------------|
+| [OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | Apache-2.0 | NodineLegal/OpenLawOffice | .NET / C# / SQL Server | Gestión de despacho: cases, tareas, billing, contactos. Base sólida para añadir AI sobre workflows. |
+| [ArkCase Community Edition](https://www.arkcase.com/product/arkcase-open-source-case-management-platform/) | Apache-2.0 | arkcase.com/open-source | Java / Spring / Angular | Case management completo: FOIA, complaint management, documentos, tiempo y gastos, colaboración. Usado en sector público. |
+| [SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | salesagility/SuiteCRM | PHP / MySQL | CRM extensible para despachos: gestión de clientes, casos, documentos, facturación. Extensiones legales disponibles (Fynsis). |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Open-Source-Legal/OpenContracts | Python / Django / React / GraphQL | DMS agéntico + contract intelligence. MCP server integrado. La opción más avanzada AI-natively. |
+| [ERPNext / Frappe](https://github.com/frappe/erpnext) | GPL-3.0 | frappe/erpnext | Python / JS / MariaDB | ERP general con módulos para firmas de servicios profesionales: proyectos, billing, RRHH, CRM. Base para despachos medianos. |
+| [Odoo Community](https://github.com/odoo/odoo) | LGPL-3.0 | odoo/odoo | Python / PostgreSQL | ERP modular con módulos de project management, timesheet, invoicing, HR. Extensible para servicios legales. |
+| [Mike OSS](https://github.com/willchen96/mike) | AGPL-3.0 | willchen96/mike | Python / React | Plataforma legal AI completa: research, drafting, review. Se auto-hospeda y usa API key propia. |
+
+---
+
+## Detalle de plataformas clave
+
+### OpenLawOffice
+- **Funcionalidades**: gestión de casos, billing por horas, tareas/subtareas, notas, contactos clientes
+- **Integración AI**: añadir endpoint Claude/Ollama para summarize case, draft briefs, time entry auto-fill
+- **LATAM fit**: UI en inglés, pero stack estándar, fácil localización
+- **Tiempo de onboarding**: 1-2 semanas para MVP con AI layer
+
+### ArkCase Community Edition
+- **Funcionalidades**: case management, document management, workflow engine, time tracking
+- **Integración AI**: API REST sobre casos + ingesta de documentos → agentes de categorización, extracción, notificaciones
+- **LATAM fit**: usado en sector público, alineado con procesos gubernamentales
+- **Tiempo de onboarding**: 2-4 semanas (Java, configuración más compleja)
+
+### SuiteCRM + extensión legal
+- **Funcionalidades**: CRM completo con módulo Cases, Documents, Tasks, Invoices, Reports
+- **Integración AI**: Zapier/n8n → Claude para draft emails, summarize case history, flag upcoming deadlines
+- **LATAM fit**: gran comunidad, hosting local disponible
+- **Tiempo de onboarding**: 1 semana para setup, 2-3 semanas para AI layer
+
+### OpenContracts (opción recomendada para proyectos AI-first)
+- **Funcionalidades**: DMS agéntico, annotation, semantic search, MCP server nativo, GraphQL API
+- **Integración AI**: ya viene con MCP + agentes. Sólo necesitás conectar Claude + definir corpus.
+- **LATAM fit**: self-hosted, datos soberanos, API key propia
+- **Tiempo de onboarding**: 1 semana para levantar + 2 semanas para customizar agentes
+
+---
 
 ## Cómo customizar con AI
 
-### docassemble + LLM
-
-```python
-# Agregar endpoint conversacional sobre entrevistas docassemble
-# 1. Instalar docassemble-llm o usar API webhook
-# 2. Conectar OpenAI/Anthropic para interpretar respuestas en lenguaje natural
-# 3. docassemble maneja la lógica y genera el documento; LLM maneja el diálogo
-
-# Ejemplo: flujo docassemble con Anthropic
-import anthropic
-
-client = anthropic.Anthropic()
-def interpret_user_answer(question: str, raw_answer: str) -> str:
-    """Normaliza una respuesta libre del usuario al campo esperado por docassemble."""
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=256,
-        messages=[{"role": "user", "content": f"Question: {question}\nAnswer: {raw_answer}\nExtract the structured value:"}]
-    )
-    return response.content[0].text
-```
-
-### OpenContracts + Agentes AI
-
-```python
-# OpenContracts expone GraphQL + MCP server; añadir agente encima es sencillo
-# 1. Deploy OpenContracts (docker-compose up)
-# 2. Usar el MCP server para conectar Claude/LLM
-# 3. Definir agentes para extracción de cláusulas, alertas de vencimiento, etc.
-
-# Las anotaciones de OpenContracts alimentan el grafo de citas
-# Los agentes pueden hacer: "busca todos los contratos con cláusula de no-compete activa"
-```
-
-### ArkCase CE + AI Pipeline
+### Stack recomendado (2026)
 
 ```
-ArkCase CE (case management)
-       ↓ REST API
-LexNLP (extracción de entidades legales del documento)
-       ↓
-LLM (Anthropic / local Ollama) — resumen, clasificación, risk scoring
-       ↓
-OpenContracts (almacenamiento con grafo de citas)
-       ↓
-UI ArkCase — abogado ve caso + análisis AI integrado
+[Plataforma base: OpenContracts / OpenLawOffice / SuiteCRM]
+          ↓
+[Ingesta de documentos: PDF, DOCX, emails]
+          ↓
+[Vector DB: Qdrant / pgvector / Chroma]
+          ↓
+[Agentes: Claude API + MCP server (OpenContracts) / lavern]
+          ↓
+[UI: chat interface sobre plataforma base ó nueva React app]
 ```
 
-## Notas de licenciamiento para Globant
+### Pasos generales
 
-- **MIT / Apache-2.0**: libre para proyectos comerciales, modificación y redistribución sin restricciones.
-- **AGPL (CiviCRM, SuiteCRM)**: usar como SaaS requiere open-sourcing de modificaciones; preferir fork con cuidado legal o uso interno.
-- **BSD (CourtListener)**: permisivo, comparable a MIT.
-- **ArkCase CE Apache-2.0**: edición comunitaria; la edición Enterprise es propietaria.
+1. **Fork** del repo base elegido
+2. **Ingesta**: pipeline de documentos → vectores (usar LexNLP para extracción previa, mejorar chunks)
+3. **Agente RAG**: Claude + tool_use → queries sobre vector DB + citation graph de OpenContracts
+4. **Verificación**: integrar LegalBench tasks como test suite para validar calidad de respuestas
+5. **UI conversacional**: chat en sidebar o standalone sobre el sistema base
+
+---
+*Ver también: `agents/top.md` para agentes a componer sobre estas plataformas.*
