@@ -30,5 +30,13 @@
 | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT | 22k+ | Meta's audio generation: MusicGen (text-to-music) + AudioGen (text-to-sound) + EnCodec |
 | [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | 36k+ | Text-to-audio: speech + music + sound effects; multilingual; AI voiceover/dubbing |
 
+## Live Broadcast & Real-Time AI
+
+| Repo | License | Stars | Description | Why foundational |
+|------|---------|-------|-------------|------------------|
+| [TEN-framework/TEN-Agent](https://github.com/TEN-framework/TEN-Agent) | Apache-2.0 | 10.8k | Real-time multimodal voice AI agent framework; <100ms latency; voice/video/text; Docker; extensions in Python/TS/Go/C++/Rust | The missing layer for live broadcast AI — AI co-hosts, sports commentary, real-time translation |
+| [Zulko/moviepy](https://github.com/Zulko/moviepy) | MIT | 14.8k | Python library for programmatic video editing: cuts, concatenations, compositing, effects, title insertion | The scripting glue that assembles AI-generated clips into deliverable productions |
+| [ossrs/srs](https://github.com/ossrs/srs) | MIT | 25k+ | Simple Realtime Server — RTMP, WebRTC, HLS, SRT; real-time streaming engine; low-latency live events | Live streaming backbone; AI hooks at ingest for real-time processing |
+
 ---
 *See also: `verticals/solutions.md` for full vertical platforms to build on top of.*

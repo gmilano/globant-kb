@@ -14,8 +14,13 @@
 | Projected AI production cost savings | Up to 30% for TV/film |
 | VFX/3D efficiency gains (exec survey) | 80–90% expected |
 | Agentic AI in content creation (2030) | 35.9% of agentic market |
+| GenAI in M&E (2026) | $2.8 billion |
+| GenAI in M&E (2035) | $21.2 billion |
+| GenAI in M&E CAGR 2026–2035 | 25.2% |
+| AI video ad spend (2026) | $9.1 billion globally (~12% of digital video) |
+| Ad buyers using GenAI (2026) | 78% (vs 62% in 2025) |
 
-*Sources: AlixPartners 2026 M&E Predictions; EY 2026 M&E Trends; McKinsey Tech Forward*
+*Sources: AlixPartners 2026 M&E Predictions; EY 2026 M&E Trends; McKinsey Tech Forward; Precedence Research; AVB 2026*
 
 ---
 
@@ -43,7 +48,7 @@
 | Opportunity | Why Now | Open Stack Available |
 |-------------|---------|---------------------|
 | **Spanish/Portuguese AI dubbing** | Netflix + Prime spending billions on LATAM originals; dubbing costs $50-200K/episode | Whisper + Bark + LongCat lip sync + PeerTube |
-| **Live sports AI commentary** | Brazil, Argentina, Mexico = massive live sports; AI co-commentator, real-time stats overlay | Whisper.cpp + MediaPipe + Owncast + LangGraph |
+| **Live sports AI commentary** | Brazil, Argentina, Mexico = massive live sports; AI co-commentator, real-time stats overlay | Whisper.cpp + MediaPipe + TEN-Agent + Owncast + LangGraph |
 | **Short-form video for social** | TikTok/Reels dominate LATAM; AI-assisted creation is the efficiency play | Wan 2.2 + ViMax + Demucs for audio remix |
 | **News automation / fact-checking** | Disinformation is crisis-level in LATAM; AI verification + AI news publishing pipelines | Ghost + LangGraph + fact-check agents |
 | **Broadcaster tech modernization** | Legacy broadcast infrastructure; Globant has M&E vertical clients | CasparCG + AI graphics + SRS live infra |
@@ -60,6 +65,6 @@
 
 ## Globant Positioning
 
-**Differentiated value:** Globant can act as the "AI studio integration layer" — taking open-source foundations (Whisper, Wan2.1, ViMax, Jellyfin) and building production-grade agentic pipelines on top for M&E clients who can't do this themselves. The OSS stack is free; the value is in the integration, customization, and domain expertise.
+**Differentiated value:** Globant can act as the "AI studio integration layer" — taking open-source foundations (Whisper, Wan2.1, ViMax, Jellyfin, TEN-Agent) and building production-grade agentic pipelines on top for M&E clients who can't do this themselves. The OSS stack is free; the value is in the integration, customization, and domain expertise.
 
 **Competitive angle:** Traditional consultancies offer proprietary AI tools at premium cost. Globant + OSS = same quality at lower cost with no vendor lock — a compelling pitch to LATAM M&E clients with tighter budgets.

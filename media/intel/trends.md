@@ -42,15 +42,23 @@ Tencent relicensed HunyuanVideo 1.5 to Apache-2.0 in 2026. Meta's Demucs/AudioCr
 Chinese short dramas ($10B+ market in China) are going global. The format (5-15 min vertical video, 100 episodes, AI-assisted production) is expanding to LATAM, US, and Europe. AI production pipelines (mediago-drama, ViMax) are being specifically built for this format.
 
 ## Trend 10: AI-Powered Sports Media
-Real-time AI stats overlay, AI commentary co-pilots, automated highlight generation from raw footage. Live sports is the last moat of linear TV; AI is the efficiency play for rights holders and broadcasters trying to do more with smaller editorial teams.
+Real-time AI stats overlay, AI commentary co-pilots, automated highlight generation from raw footage. Live sports is the last moat of linear TV; AI is the efficiency play for rights holders and broadcasters trying to do more with smaller editorial teams. TEN-Agent (<100ms latency) is the key open-source enabler for live AI broadcast.
+
+## Trend 11: MCP Becoming the Creative Tool Integration Layer
+Model Context Protocol (MCP) is emerging as the standard interface for media tools to expose functionality to AI agents. MoviePy MCP server (Skywork AI, Jun 2026) wraps the entire video editing API into Claude-callable tools. Ghost CMS MCP integration enables AI content workflows. This is the "API standardization moment" for creative tools — uniform interface, composable, model-agnostic. Globant opportunity: build MCP servers for client-specific media tools.
+
+**Open stack implication:** MCP + MoviePy + Ghost + Whisper = complete content production pipeline callable from a single Claude agent session.
 
 ---
 
 ## Key Numbers to Quote in Client Meetings
 
 - **$99.48B**: Projected AI in M&E market by 2030 (24.2% CAGR)
+- **$2.8B → $21.2B**: GenAI in M&E 2026 → 2035 (Precedence Research, 25.2% CAGR)
 - **30%**: Production cost reduction achievable with AI (McKinsey)
 - **80-90%**: VFX efficiency gains expected by studio executives
 - **29 languages**: Netflix's current AI dubbing capability
 - **8GB VRAM**: What it now takes to run a production-quality T2V model (Wan 2.2)
-- **$25.98B**: Current 2024 market baseline
+- **$25.98B**: Current 2024 AI in M&E market baseline
+- **$9.1B**: AI video ad spend globally in 2026 (~12% of all digital video advertising)
+- **78%**: Ad buyers using GenAI in 2026 media campaigns (vs 62% in 2025) — fastest creative tooling adoption shift in advertising history

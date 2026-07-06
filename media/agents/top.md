@@ -31,6 +31,8 @@
 | Bark | [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | Text-to-audio model with speech, music, and sound effects; multilingual; used for AI voiceover and dubbing |
 | InvokeAI | [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | Professional creative engine for SD models; Node-based workflow builder; API-first; Apache-2.0 commercial-safe alternative to A1111 |
 | FILM | [google-research/frame-interpolation](https://github.com/google-research/frame-interpolation) | Apache-2.0 | Frame interpolation for slow-motion / upscaling video frame rate |
+| TEN-Agent | [TEN-framework/TEN-Agent](https://github.com/TEN-framework/TEN-Agent) | Apache-2.0 | Real-time multimodal conversational voice AI agent framework; <100ms E2E latency; voice/video/text; Docker-deployable; extensions in Python/TS/Go/C++/Rust; live broadcast AI hosts, audio guides, sports commentary AI |
+| MoviePy | [Zulko/moviepy](https://github.com/Zulko/moviepy) | MIT | Python library for programmatic video editing: cuts, concatenations, compositing, effects, title insertion; the scripting glue that assembles AI-generated clips into final productions; 14.8k★ |
 
 ---
-*Auto-updated by the Globant AI Studios ingest pipeline.*
+*Auto-updated by the Globant AI Studios ingest pipeline. Second pass: 2026-07-06.*
