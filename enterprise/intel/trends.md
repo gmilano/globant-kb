@@ -1,7 +1,7 @@
 # 📡 Trends — Enterprise AI (July 2026)
 
 > Key trends shaping enterprise AI adoption. Updated weekly.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ## Trend 1: Microsoft Agent Framework 1.0 — The Enterprise Standard Solidifies
 
@@ -19,7 +19,7 @@
 
 **Impact:** Enterprise systems become instantly queryable by any MCP-compatible agent without custom integration. One MCP server = accessible to all AI tools.
 
-**Benchmark:** 3,000+ MCP servers now in the ecosystem (as of June 2026).
+**Benchmark:** 5,500+ MCP servers now in the ecosystem (as of July 2026, up from 3,000 in June). 28% of Fortune 500 have implemented MCP servers. Enterprise auth layer (OAuth2, RBAC, audit logging) added in 2026 unblocked most Fortune 500 deployments.
 
 ---
 
@@ -45,7 +45,7 @@
 
 ## Trend 5: Visual Low-Code Agent Builders Go Enterprise
 
-**What:** Dify (144k★, $30M raised), n8n (102k★, enterprise push), Flowise (51k★, acquired by Workday), Langflow (46k★, IBM/DataStax). All added: HITL controls, SSO/SAML, audit logs, Kubernetes deployment, enterprise security hardening in 2026.
+**What:** Dify (144k★, $30M raised, 1M+ apps in production), n8n (182k★, $2.5B valuation, n8n 2.0), Flowise (51k★, acquired by Workday), Langflow (46k★, IBM/DataStax). All added: HITL controls, SSO/SAML, audit logs, Kubernetes deployment, enterprise security hardening in 2026.
 
 **Impact:** Non-technical enterprise teams can now build and deploy production AI agents without deep ML expertise. This compresses the build cycle from months to weeks.
 
@@ -89,9 +89,9 @@
 
 ## Trend 10: Developer Productivity Agents in Enterprise Engineering
 
-**What:** OpenHands (78.5k★, MIT, 72% SWE-bench), Aider (45.9k★, Apache), Cline (58.6k★, Apache) are deployed in enterprise engineering teams. GitHub Copilot (proprietary) reaching 2M paid users. Average dev productivity gain: 35–55% on routine tasks.
+**What:** OpenHands (78.5k★, MIT, 72% SWE-bench, v1.6.0 Kubernetes RBAC), Aider (45.9k★, Apache), Cline (58.6k★, Apache) are deployed in enterprise engineering teams. GitHub Copilot (proprietary) reaching 2M paid users. Average dev productivity gain: 35–55% on routine tasks.
 
-**Opportunity:** Internal dev platform play — Backstage (36k★, Apache) as the AI control plane, with OpenHands/Aider as the coding agents. Full-stack developer productivity solution.
+**Opportunity:** Internal dev platform play — Backstage (36k★, Apache, 3,400+ companies) as the AI control plane, with OpenHands/Aider as the coding agents. Toyota generated $10M ROI from Backstage. Full-stack developer productivity solution.
 
 ---
 
@@ -100,6 +100,40 @@
 **What:** The dominance of massive general-purpose LLMs gives way to specialized domain-specific AI in 2026. Financial, legal, medical, and industry-specific fine-tuned models outperform GPT-4 class models on domain tasks at 10x lower inference cost.
 
 **Enterprise implication:** Don't default to Claude Opus / GPT-4 for every task. Use Claude Haiku / Llama 3 fine-tuned models for classification/extraction; reserve Sonnet/Opus for reasoning-heavy tasks.
+
+---
+
+## Trend 12: A2A Protocol Matures — Inter-Org Agent Federation Becomes Real
+
+**What:** Google's A2A protocol is now governed by the Linux Foundation. ADK 1.0 went GA in Python, Go, Java, and TypeScript. 150+ organizations in production. Native A2A support now in LangGraph, CrewAI, LlamaIndex, Semantic Kernel, and AutoGen.
+
+**Technical spec:** HTTP + Server-Sent Events + JSON-RPC 2.0. Agent Cards for capability advertisement. OAuth2/OIDC/mTLS for auth. Uses same transport as MCP, complementary not competitive.
+
+**Enterprise impact:** Enterprises can now wire specialist agents (legal, finance, HR, procurement) into a federation without custom middleware. Cross-company supply chain scenarios: a Salesforce agent delegates to a Google Vertex agent querying a ServiceNow agent — all via A2A.
+
+**Difference from MCP:** MCP connects an agent to *tools and data*. A2A connects *agents to each other*. Together: MCP handles vertical integration (agent↔system), A2A handles horizontal integration (agent↔agent).
+
+---
+
+## Trend 13: Platform Engineering Gets AI-Native — Backstage as the Control Plane
+
+**What:** Backstage (Apache-2.0, 36k★, CNCF incubating) is evolving from a service catalog into an AI control plane. 3,400+ companies deployed. Gartner: 75% of orgs with platform teams will have internal developer portals by 2026. 94% of orgs say AI is critical/important to platform success.
+
+**Proven ROI:** Toyota Motor North America generated $10M in cost reductions from Backstage. American Airlines manages 500+ microservices through Backstage.
+
+**AI trajectory:** Growing AI plugin catalog — RAG AI assistant, AI-powered scaffolder, intelligent service health queries. AI agent teams are beginning to query the Backstage catalog as a context source for code decisions and incident response.
+
+**Globant play:** Position enterprise AI engagements with Backstage as the "AI-aware control plane" — dev teams access all service context via NL. High-value, multi-year platform engineering engagement pattern.
+
+---
+
+## Trend 14: n8n Becomes Enterprise Automation Infrastructure (Not Just a Dev Tool)
+
+**What:** n8n crossed 182k GitHub stars, reached $2.5B valuation, and shipped n8n 2.0 in December 2025. The AI Agent node is now n8n's most-used building block — surpassing Slack nodes and webhooks.
+
+**Shift:** Enterprise automation teams are using n8n to wire AI agents into existing ERP/CRM/ITSM systems. n8n 2.0's enterprise-grade security (SAML, RBAC, audit logs) removed the last procurement objections.
+
+**Position:** n8n occupies the "integration layer" that SAP Integration Suite and MuleSoft used to own — but at a fraction of the cost, with native AI Agent nodes, and open enough for Globant to build on.
 
 ---
 *Auto-updated by ingest pipeline — 2026-07-06.*

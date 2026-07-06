@@ -2,7 +2,7 @@
 
 > Concrete recipes combining specific repos + agents + wiring instructions.
 > Each pattern names exact repos, estimated effort, and expected outcome.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ---
 
@@ -64,7 +64,7 @@ graph.add_node("human_review", wait_for_approval)  # interrupt point
 **Stack:**
 - `twentyhq/twenty` (Apache-2.0, 45.5k★) — MCP-native CRM (Salesforce alternative)
 - `crewAIInc/crewAI` (MIT, 52.8k★) — role-based multi-agent team
-- `n8n-io/n8n` (Sustainable, 102k★) — trigger automation + 400+ integrations
+- `n8n-io/n8n` (Sustainable, 182k★) — trigger automation + 400+ integrations; n8n 2.0 enterprise security
 - Claude Haiku 4.5 — fast, cost-efficient for high-volume tasks
 
 **Agent Crew:**
@@ -205,8 +205,8 @@ Classify: routine | complex | escalate (Claude Haiku)
 **Problem:** Large engineering org has no single view of services, fragmented runbooks, and devs lose hours to toil (boilerplate PRs, dependency updates, incident lookups).
 
 **Stack:**
-- `backstage/backstage` (Apache-2.0, 36k★) — internal developer portal: service catalog + TechDocs
-- `All-Hands-AI/OpenHands` (MIT, 78.5k★) — software engineering agent (72% SWE-bench)
+- `backstage/backstage` (Apache-2.0, 36k★, 3,400+ companies, Toyota $10M ROI) — internal developer portal
+- `All-Hands-AI/OpenHands` (MIT, 78.5k★, v1.6.0 Kubernetes RBAC) — software engineering agent (72% SWE-bench)
 - `microsoft/agent-framework` (MIT, 18k★) — MAF 1.0 for enterprise .NET orchestration
 - `langchain-ai/langgraph` (MIT, 126k★) — Python workflow orchestration
 - Claude Sonnet 4.6 — code reasoning, PR review, documentation
@@ -237,6 +237,125 @@ LangGraph Agent:
 
 ---
 
+## Pattern 7: A2A Multi-Agent Federation (Google ADK + LangGraph + MCP)
+
+**Problem:** Enterprise functions (legal review, financial approval, HR verification) live in separate agent systems, each built by different teams. Complex business processes require cross-functional agent coordination with no custom middleware budget.
+
+**Stack:**
+- `google/adk-python` (Apache-2.0) — Agent Development Kit 1.0 GA with native A2A support
+- `langchain-ai/langgraph` (MIT, 126k★) — orchestrator agent (Python)
+- `modelcontextprotocol/servers` (MIT) — MCP servers for each backend system
+- Claude Sonnet 4.6 — reasoning in the orchestrator
+- Claude Haiku 4.5 — fast classification in leaf agents
+
+**Scenario:** Employee onboarding requires coordinating: IT provisioning agent + HR verification agent + Legal compliance agent — each built independently, each maintaining its own state.
+
+**Architecture:**
+```
+User submits onboarding request
+    ↓
+LangGraph Orchestrator Agent (Claude Sonnet 4.6)
+    ↓ discovers agents via A2A Agent Cards
+    ├── A2A call → IT Provisioning Agent (ADK)
+    │       ↓ MCP: ServiceNow + Azure AD
+    │       → provisions accounts, returns task ID
+    │
+    ├── A2A call → HR Verification Agent (ADK)
+    │       ↓ MCP: Workday / ERPNext HR module
+    │       → verifies employment status, returns verified=true
+    │
+    └── A2A call → Legal Compliance Agent (LangGraph)
+            ↓ MCP: DocuSign + legal policy KB (Dify RAG)
+            → checks compliance, requires NDA signing if needed
+            → returns compliance_status
+
+LangGraph Orchestrator: waits for all 3, aggregates, emails onboarding report
+```
+
+**A2A wiring (Agent Card for IT Provisioning Agent):**
+```json
+{
+  "id": "it-provisioning-agent",
+  "name": "IT Provisioning Agent",
+  "description": "Provisions Azure AD, M365, and ServiceNow access for new employees",
+  "capabilities": ["provision_user", "deprovision_user", "check_status"],
+  "endpoint": "https://it-agents.internal/a2a",
+  "auth": {"type": "oauth2", "scope": "agent.provision"}
+}
+```
+
+**LangGraph orchestrator delegating via A2A:**
+```python
+from google.adk.a2a import A2AClient
+
+async def call_it_provisioning(state: OnboardingState):
+    client = A2AClient("https://it-agents.internal/a2a")
+    result = await client.call_task(
+        capability="provision_user",
+        payload={"employee_id": state["employee_id"], "role": state["role"]},
+        timeout=300
+    )
+    return {"it_status": result["status"], "accounts": result["accounts"]}
+```
+
+**Effort:** 6–10 weeks (includes building 3 specialist agents + orchestrator)  
+**Outcome:** Complex multi-system onboarding goes from 3–5 business days to < 2 hours; each agent remains independently deployable and versioned; no custom integration code between agent teams  
+**Governance:** Each A2A call is logged; orchestrator maintains full lineage; HITL gate before final account activation
+
+---
+
+## Pattern 8: LLMOps Observability Stack (Langfuse + LangGraph + OpenTelemetry)
+
+**Problem:** Production AI agents are a black box. When Claude returns a wrong answer or a tool call fails silently, teams can't debug. No prompt version control means improvements are lost.
+
+**Stack:**
+- `langfuse/langfuse` (MIT, ~12k★) — LLM observability, prompt management, evals
+- `langchain-ai/langgraph` (MIT, 126k★) — agent framework with built-in Langfuse tracing
+- `traceloop/openllmetry` (Apache-2.0) — OpenTelemetry bridge to existing APM
+- Claude Sonnet 4.6 / Claude Haiku 4.5 — LLM calls (traced automatically)
+
+**What you get:**
+- Full trace of every agent run: which tools were called, in what order, latency per step
+- Token cost per conversation + per agent node
+- Prompt versioning — roll back to v3.1 if v3.2 regresses
+- LLM-as-judge evaluations: automatically score agent outputs against rubrics
+- User feedback loop: thumbs up/down in the UI → fed back to evaluation dataset
+
+**Wiring:**
+```python
+import os
+from langfuse import Langfuse
+from langfuse.callback import CallbackHandler
+
+# Langfuse self-hosted (Docker) or cloud
+langfuse = Langfuse(
+    public_key=os.environ["LANGFUSE_PUBLIC_KEY"],
+    secret_key=os.environ["LANGFUSE_SECRET_KEY"],
+    host="https://langfuse.internal"   # self-hosted
+)
+langfuse_handler = CallbackHandler()
+
+# Pass to LangGraph agent
+result = graph.invoke(
+    {"messages": [("user", query)]},
+    config={"callbacks": [langfuse_handler]}
+)
+# Every node call, tool invocation, and LLM call is now traced
+```
+
+**Self-hosted deployment:**
+```bash
+# docker-compose with Langfuse + PostgreSQL
+docker compose up -d
+# All traces stored locally — no data leaves your VPC
+```
+
+**Effort:** 1–2 weeks to wire; ongoing prompt optimization  
+**Outcome:** Mean time to diagnose production agent failures drops from hours to minutes; prompt improvements are versioned and reversible; compliance teams have full audit trail of every LLM decision  
+**Cost:** Langfuse self-hosted = $0 platform; only LLM inference costs
+
+---
+
 ## Anti-Patterns to Avoid
 
 | Anti-Pattern | Why It Fails | What to Do Instead |
@@ -245,8 +364,9 @@ LangGraph Agent:
 | No data governance before AI | Agents hallucinate or pull from stale/wrong sources | Deploy DataHub/OpenMetadata first |
 | Single giant agent for everything | Context window limits; no audit trail; hard to debug | Decompose into specialist agents with clear interfaces |
 | Skip HITL for high-stakes actions | Compliance failure; trust erosion after first bad automated action | HITL gates on any irreversible action |
-| Deploy without observability | Can't debug production issues; no feedback loop | LangSmith or Dify observability from day 1 |
+| Deploy without observability | Can't debug production issues; no feedback loop | Langfuse or Dify observability from day 1 |
 | Start with Opus/GPT-4 for everything | 10x cost; latency; overkill for classification/extraction | Haiku for routine tasks; Sonnet for reasoning; Opus for complex judgment |
+| Build custom agent-to-agent middleware | Reinventing A2A; lock-in; maintenance burden | Adopt A2A + Google ADK; let the Linux Foundation standard do the work |
 
 ---
 *Auto-updated by ingest pipeline — 2026-07-06.*

@@ -2,7 +2,7 @@
 
 > Production-ready open-source platforms to fork, customize, and add AI on top.
 > Model: start from something functional, add an agentic layer on top.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ## ERP Platforms
 
@@ -25,7 +25,7 @@
 
 | Platform | License | Stars | Stack | AI-Ready | Best For |
 |----------|---------|-------|-------|----------|----------|
-| [Backstage](https://github.com/backstage/backstage) | Apache-2.0 | 36k | TypeScript + React + Node.js | Growing AI plugin catalog; becoming AI control plane for dev orgs | Internal developer portal: service catalog, TechDocs, scaffolder. Foundation for enterprise AI DevX. |
+| [Backstage](https://github.com/backstage/backstage) | Apache-2.0 | 36k | TypeScript + React + Node.js | Growing AI plugin catalog (RAG assistant, AI scaffolder); CNCF incubating; 3,400+ companies; Toyota $10M ROI | Internal developer portal: service catalog, TechDocs, scaffolder. Gartner: 75% of orgs will have IDPs by 2026. Foundation for enterprise AI DevX. |
 | [Directus](https://github.com/directus/directus) | BSL-1.1 | 30k | TypeScript + Vue + Node.js | REST+GraphQL auto-generated from schema; hooks for AI pipelines | Headless CMS / BaaS. Turns any database into an AI-queryable API. |
 | [NocoBase](https://github.com/nocobase/nocobase) | AGPL-3.0 | 16k | TypeScript + React | Plugin system + REST API | No-code / low-code platform builder. Enterprise alternative to Airtable/Notion. |
 
@@ -41,15 +41,16 @@
 
 | Platform | License | Stars | Stack | AI-Ready | Best For |
 |----------|---------|-------|-------|----------|----------|
-| [n8n](https://github.com/n8n-io/n8n) | Sustainable | 102k | TypeScript + Vue + Node.js | Native AI agent nodes; 400+ integrations | Integration-heavy enterprise automation. Best for connecting ERP, CRM, SaaS + AI agents. |
+| [n8n](https://github.com/n8n-io/n8n) | Sustainable | 182k | TypeScript + Vue + Node.js | Native AI agent nodes (most-used building block); 400+ integrations; n8n 2.0 enterprise security | Integration-heavy enterprise automation. $2.5B valuation. Best for connecting ERP, CRM, SaaS + AI agents. |
 | [Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 51k | TypeScript + React | Best-in-class RAG; agentic flow builder | Visual LLM app builder. Acquired by Workday. Strong for RAG + agent pipelines. |
-| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Python + Next.js | All-in-one: RAG, agents, observability, 100+ LLMs | Enterprise LLMOps platform. Fastest path from idea to production AI app. |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Python + Next.js | All-in-one: RAG, agents, observability, 100+ LLMs; 1M+ apps in production | Enterprise LLMOps platform. Fastest path from idea to production AI app. |
 
 ## How to Add AI to Any Platform
 
 ```
 1. CONNECT  — deploy MCP server (e.g. erpnext-mcp-server, DataHub MCP, Twenty native)
              OR expose REST/GraphQL API as LangGraph tools
+             OR register as A2A agent via ADK (for agent-to-agent federation)
 
 2. GROUND   — connect DataHub or OpenMetadata as the context layer
              so agents know what data exists, its schema, and governance rules
@@ -57,10 +58,11 @@
 3. ORCHESTRATE — wire LangGraph for complex stateful workflows
                OR CrewAI for role-based agent teams
                OR n8n for integration-heavy automation
+               OR Google ADK for A2A multi-agent federation
 
-4. OBSERVE  — LangSmith for agent traces
+4. OBSERVE  — Langfuse (self-hosted, $0 platform) for traces + prompt versioning
              OR Dify's built-in observability
-             OR OpenTelemetry to existing APM (Datadog, New Relic, SigNoz)
+             OR OpenTelemetry (openllmetry) to existing APM (Datadog, New Relic, SigNoz)
 
 5. GOVERN  — HITL gates in LangGraph for high-stakes actions
             RBAC in Dify/n8n for access control

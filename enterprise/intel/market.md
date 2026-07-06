@@ -1,7 +1,7 @@
 # 🗺️ Market Map — Enterprise AI
 
 > Players, opportunities, and positioning. Focus: LATAM + global.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-06 (second pass)
 
 ## Market Size & Growth
 
@@ -19,6 +19,8 @@
 | Signal | Data |
 |--------|------|
 | Fortune 500 exploring AI agents | 80% |
+| Fortune 500 with MCP servers implemented | 28% |
+| A2A protocol: organizations in production | 150+ |
 | Enterprises with multi-stage agentic workflows in production | 50%+ |
 | Enterprise apps embedding task-specific AI agents (EOY 2026) | 40% (Gartner) |
 | Global 2000 roles involving direct AI agent engagement (EOY 2026) | 40% (IDC) |
@@ -26,6 +28,7 @@
 | Organizations actively adopting agentic AI | 43% |
 | Agentic AI projects expected to be canceled by 2027 | 40% |
 | Open-source ERP adoption growth 2026 | +32% (cost pressure on SAP/Oracle) |
+| MCP servers in ecosystem | 5,500+ |
 
 ## Global Players
 
@@ -38,8 +41,8 @@
 | Oracle | ERP/DB | Fusion AI, database dominance | Lock-in, cost | Limited open source |
 | Workday | HCM/finance | AI-native HR, strong in US enterprise | Price, limited vertical coverage | Acquired Flowise (signal) |
 | IBM | AI + services | watsonx, enterprise consulting, 113 years trust | Complexity, mixed product track record | DataStax/Langflow acquisition |
-| Google | AI + Cloud | Gemini, Vertex AI, A2A protocol | No enterprise platform products | A2A open protocol; Vertex open tools |
-| Anthropic | Foundation model | Claude enterprise contracts, MCP creator | No platform products (yet) | MCP (open standard) |
+| Google | AI + Cloud | Gemini, Vertex AI, A2A protocol (Linux Foundation) | No enterprise platform products | A2A open protocol; ADK 1.0 GA; Vertex open tools |
+| Anthropic | Foundation model | Claude enterprise contracts, MCP creator | No platform products (yet) | MCP (open standard, Linux Foundation) |
 | LangChain | OSS frameworks | LangGraph/LangSmith, 400 enterprise customers | Competing with MAF | LangGraph MIT, LangSmith proprietary |
 
 ## Open Source Challenger Map
@@ -50,11 +53,21 @@
 | Odoo | SAP + Salesforce + Shopify | LGPL-3.0 | 52.8k | €7B valuation; 12M users |
 | Twenty | Salesforce CRM | Apache-2.0 | 45.5k | 45k★ in < 2 years; MCP-native |
 | SuiteCRM | Salesforce/HubSpot CRM | AGPL-3.0 | 4.3k | 5M users; 60k deployments |
-| Dify | Glean / custom LLMOps | Apache-2.0 | 144k | $30M; enterprise push |
-| n8n | Zapier / Workato | Sustainable | 102k | SAML, Kubernetes; enterprise proven |
+| Dify | Glean / custom LLMOps | Apache-2.0 | 144k | $30M; 1M+ apps; Maersk, Novartis |
+| n8n | Zapier / Workato | Sustainable | 182k | SAML, Kubernetes; n8n 2.0 enterprise-grade; $2.5B valuation |
 | DataHub | Informatica / Collibra | Apache-2.0 | 11.8k | LinkedIn-origin; thousands of orgs |
 | OpenMetadata | Alation / Atlan | Apache-2.0 | 8.2k | 3,000+ deployments; MCP native |
-| Backstage | Internal portal tools | Apache-2.0 | 36k | Spotify-origin; adopted by 2,000+ companies |
+| Backstage | Internal portal tools | Apache-2.0 | 36k | Spotify-origin; 3,400+ companies; CNCF incubating; Toyota $10M ROI |
+
+## LATAM Market Size (Grand View Research / DataMIntelligence 2026)
+
+| Segment | 2024/2025 Size | CAGR | Notes |
+|---------|---------------|------|-------|
+| LATAM enterprise agentic AI | $187M (2024) | 47.4% to 2030 | Brazil + Mexico = primary growth engines |
+| LATAM AI agents (broad) | $556.1M (2025) | 50.8% to 2033 | E-commerce + banking driving adoption |
+| LATAM agentic AI (total) | $0.24B (2026) | High growth | Startups + digital innovation acceleration |
+
+**Key drivers:** Bradesco (82yr-old bank) using agentic AI for fraud prevention and personal concierge. E-commerce AI agents for customer service, chatbots, personalized marketing. Banking AI for fraud detection, risk management, customer engagement.
 
 ## LATAM Opportunities
 
@@ -64,6 +77,7 @@
 - Brazil + Mexico = 60% of LATAM enterprise software spend; Colombia + Argentina growing fast
 - Digital transformation mandates in financial sector (BACEN, CNBV fintech rules) creating demand
 - Odoo Latin America localizations: Argentina, Brazil, Chile, Colombia, Mexico — community-maintained
+- LATAM AI agents market growing at 50.8% CAGR — fastest-growing tech segment in the region
 
 ### LATAM-Specific Plays
 
@@ -74,13 +88,15 @@
 | Compliance automation (fiscal/tax) | ERPNext + LangGraph + AFIP/SAT APIs | Argentina, Mexico | High pain, regulatory complexity |
 | Data governance for financial cos. | DataHub + OpenMetadata + LangGraph | Brazil fintech | BACEN LGPD compliance driver |
 | Internal dev platform for tech cos. | Backstage + LangGraph + Claude | Brazil, Mexico tech hubs | Developer productivity play |
+| Banking fraud detection agent | LangGraph + Claude + WhatsApp | Brazil, Colombia | Follow Bradesco playbook |
 
 ## Globant Positioning
 
 | Capability | Globant Advantage | How to Win |
 |-----------|-----------------|------------|
-| AI agent implementation | Deep LangGraph + CrewAI expertise across industries | Lead with reference patterns from 10 industry KBs |
+| AI agent implementation | Deep LangGraph + CrewAI expertise across industries | Lead with reference patterns from 11 industry KBs |
 | Open source ERP customization | ERPNext/Frappe + AI layer → no license cost for client | Compete on TCO against SAP B1 / Oracle |
 | MCP integration layer | Build MCP servers for any enterprise system | Position as "AI-ready" transformation for any legacy platform |
+| A2A federation design | Wire specialist agent teams across departments | New engagement type: enterprise agent network design |
 | LATAM compliance | Local teams in 18 LATAM countries | Tax localization + AI = unique offering |
 | Enterprise governance | DataHub + OpenMetadata implementation | Prerequisite for responsible AI at scale |
