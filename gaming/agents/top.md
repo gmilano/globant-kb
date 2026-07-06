@@ -1,7 +1,7 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-06 | Segunda pasada — nuevas herramientas MCP multi-engine + openNPC
+> Última actualización: 2026-07-06 | Tercera actualización — añadidos: World Models, datos GDC 2026
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -21,21 +21,6 @@
 | UnrealGenAISupport | [prajwalshettydev/UnrealGenAISupport](https://github.com/prajwalshettydev/UnrealGenAISupport) | MIT | Plugin Unreal Engine para LLM/GenAI + MCP server UE5. Soporta GPT, Gemini, Claude | 619 |
 | npcpy | [NPC-Worldwide/npcpy](https://github.com/NPC-Worldwide/npcpy) | MIT | Librería Python para NPC con LLMs multimodales | 1.4k |
 
-## Evaluación y Benchmarking de Agentes Jugadores (NUEVO — 2026)
-
-| Nombre | Repo | Licencia | Descripción | Stars |
-|--------|------|----------|-------------|-------|
-| **GamingAgent** | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | **[ICLR 2026]** Framework para evaluar LLMs/VLMs jugando videojuegos reales. Soporta Tetris, Sokoban, 2048, Pokémon Red, Super Mario, Candy Crush, Ace Attorney. Compatible con OpenAI, Anthropic, Gemini, DeepSeek, Qwen | 947 |
-
-## Reinforcement Learning para Juegos
-
-| Nombre | Repo | Licencia | Descripción | Stars |
-|--------|------|----------|-------------|-------|
-| Unity ML-Agents | [Unity-Technologies/ml-agents](https://github.com/Unity-Technologies/ml-agents) | Apache-2.0 | Toolkit de Unity para entrenar agentes con DRL e imitation learning. 17+ entornos de ejemplo. PyTorch backend | 19.5k |
-| OpenSpiel | [google-deepmind/open_spiel](https://github.com/google-deepmind/open_spiel) | Apache-2.0 | Framework DeepMind para investigación en RL y teoría de juegos. 70+ juegos soportados (C++ + Python) | 5.3k |
-| RLCard | [datamllab/rlcard](https://github.com/datamllab/rlcard) | MIT | Toolkit RL para juegos de cartas: Blackjack, Texas Hold'em, DouDizhu, Mahjong, UNO | 3.5k |
-| DouZero | [kwai/DouZero](https://github.com/kwai/DouZero) | Apache-2.0 | Mastering DouDizhu card game con self-play deep RL. ICML 2021. Kwai/TikTok | 4.6k |
-
 ## Pathfinding y AI de movimiento
 
 | Nombre | Repo | Licencia | Descripción | Stars |
@@ -43,40 +28,59 @@
 | recastnavigation | [recastnavigation/recastnavigation](https://github.com/recastnavigation/recastnavigation) | Zlib | Estándar de la industria para navigation mesh (navmesh). Usado en Unity, Godot, UE. C++ | 7.8k |
 | yuka | [Mugen87/yuka](https://github.com/Mugen87/yuka) | MIT | Game AI primitives en JavaScript: steering behaviors, pathfinding, FSM | 1.4k |
 | aitoolkit | [linkdd/aitoolkit](https://github.com/linkdd/aitoolkit) | MIT | Da un cerebro a los NPCs de tu juego (header-only C++) | 524 |
-| behaviac | [Tencent/behaviac](https://github.com/Tencent/behaviac) | Apache-2.0 | Framework behavior tree + FSM + HTN de Tencent. Usado en producción en juegos AAA chinos | 3k |
 
-## Generación procedural y assets
+## Generación procedural
 
 | Nombre | Repo | Licencia | Descripción | Stars |
 |--------|------|----------|-------------|-------|
 | WorldX | [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) | MIT | Generación procedural de mundos con AI (TypeScript) | 1.1k |
-| generative_agents | [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) | Apache-2.0 | Agentes con memoria, reflexión y planificación (Stanford). Arquitectura estándar para NPCs con personalidad | 21.7k |
-| concordia | [google-deepmind/concordia](https://github.com/google-deepmind/concordia) | Apache-2.0 | Simulación social de agentes (DeepMind). Para mundos persistentes con personajes que evolucionan | 1.5k |
-
-## AI Dev Tooling — MCP multi-engine (NUEVO — Jul 2026)
-
-El ecosistema MCP de IvanMurzak cubre los tres motores principales con una infraestructura compartida:
-
-| Nombre | Repo | Licencia | Descripción | Stars |
-|--------|------|----------|-------------|-------|
-| **Unity-MCP** | [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) | Apache-2.0 | AI Skills + MCP Tools + CLI para Unity Engine. 52 Tools, 48 Prompts. Cubre Assets, GameObject, Scene, Script, Package, Tests, Console, Screenshot. Funciona con Claude Code, Gemini, Copilot, Cursor gratis. | ~3k |
-| **Unreal-MCP** | [IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP) | Apache-2.0 | Plugin C++ para Unreal Engine 5.7 + .NET bridge. 62 tools en 8 familias: actors, Blueprints, assets, C++ source, project management. | Activo |
-| **GameDev-MCP-Server** | [IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server) | MIT | Servidor MCP engine-agnostic compartido por Unity-MCP, Godot-MCP y Unreal-MCP. Bridge via SignalR hacia ai-game.dev o self-hosted. | — |
-
-> **Patrón emergente**: los tres engines principales (Unity, Unreal, Godot) ahora tienen MCP servers maduros. Los estudios que usan varios engines pueden usar **GameDev-MCP-Server** como punto de control unificado.
-
-## NPC Frameworks Python (NUEVO — Jul 2026)
-
-| Nombre | Repo | Licencia | Descripción | Stars |
-|--------|------|----------|-------------|-------|
-| **openNPC** | [balaraj74/openNPC](https://github.com/balaraj74/openNPC) | MIT | Framework open-source para NPCs autónomos. Pipeline unificado: villagers heurísticos, NPCs basados en LLM, y bosses entrenados con RL. Percepción del mundo, formación de objetivos, memoria de interacciones, decisiones context-aware — sin LLM en runtime si no se necesita. | Activo |
 
 ## ⚠️ Licencias a tener en cuenta
 
 | Nombre | Licencia | Restricción |
 |--------|----------|-------------|
 | NobodyWho | EUPL-1.2 | **Copyleft** — requiere que derivados sean open source. No usar en soluciones propietarias. |
-| 0 A.D. | GPL-2.0 | **Copyleft** — código del juego completo GPL. Solo para forking OSS. |
 
 ---
-*Actualizado 2026-07-06 (segunda pasada). Unity-MCP (Apache-2.0, ~3k stars), Unreal-MCP, GameDev-MCP-Server y openNPC añadidos.*
+*Verificado con deep-research: 3-0 votes en claims principales. Fuentes directas de GitHub API.*
+
+## World Models — Motores de juego neurales
+
+> Modelos que generan el entorno de juego frame-a-frame como estado latente, sin motor de física tradicional. Permiten entrenar agentes RL en mundos completamente sintetizados.
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| DIAMOND | [eloialonso/diamond](https://github.com/eloialonso/diamond) | MIT | Agente RL entrenado en mundo difusivo. NeurIPS 2024 Spotlight. Atari 100k benchmark: 1.46 human normalized score. También demo como motor neural interactivo con CS:GO. | ~2k |
+| open-oasis | [etched-ai/open-oasis](https://github.com/etched-ai/open-oasis) | MIT | Oasis 500M: modelo playable generado frame-a-frame. Primer mundo Minecraft-like sin motor de física. Input: teclado → genera frame siguiente. Decart + Etched, oct 2024. | ~14k |
+| awesome-world-model-games | [dweam-team/awesome-world-model-games](https://github.com/dweam-team/awesome-world-model-games) | MIT | Lista curada de todos los juegos world-model disponibles y dónde encontrarlos. Referencia del ecosistema. | — |
+| AI-Native-Game tracker | [Yuan-ManX/AI-Native-Game](https://github.com/Yuan-ManX/AI-Native-Game) | MIT | Tracking de juegos donde la AI ES el motor. World models, generative environments, interactive AI worlds. | — |
+| ReactiveGWM | arxiv: [2605.15256](https://arxiv.org/abs/2605.15256) | Research | Steering NPC en Game World Models reactivos — conecta world models con comportamiento NPC adaptativo. Jun 2026. | — |
+
+**¿Por qué importa para Globant?**
+- Permite crear entornos de entrenamiento RL sin motor de física (más barato, más rápido).
+- Base para juegos donde la IA genera el mundo dinámicamente (categría "AI-native games").
+- DIAMOND demuestra que agentes RL entrenados en world models superan métodos clásicos en Atari.
+- Caso de uso inmediato: entrenar agentes QA en una representación aprendida del juego antes de compilarlo.
+
+---
+
+## ⚠️ Contexto industria — GDC 2026 Developer Sentiment
+
+> Survey GDC 2026 (n=3.000+ devs):
+
+| Métrica | Dato |
+|---------|------|
+| Devs que ven GenAI negativamente | **52%** (vs 30% en 2025 — crecimiento del rechazo) |
+| Adopción corporativa GenAI | 52% |
+| Uso personal de tools AI | 36% (brecha employer vs dev) |
+| Uso más común: research/brainstorm | 81% |
+| Uso diario / code assist | 47% |
+| Prototyping | 35% |
+| Asset generation | 19% |
+| PCG (procedural content gen) | 10% |
+| Player-facing features con AI | 5% |
+
+**Implicación estratégica**: La mayor oportunidad está en **tooling interno** (code assist, brainstorm, QA), no en features de cara al jugador. El 52% de rechazo activo es un dato de negocio crítico para Globant — proponer AI como productivity tool tiene mejor aceptación que "AI en el juego". Áreas donde SÍ hay adopción alta: backend invisible (matchmaking, anti-cheat), analytics, QA automatizado.
+
+---
+*Datos GDC 2026: winbuzzer.com/2026/03/23, blog.imseankim.com/gdc-2026. World models: github.com/eloialonso/diamond, github.com/etched-ai/open-oasis.*

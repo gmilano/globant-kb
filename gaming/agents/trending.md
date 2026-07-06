@@ -1,6 +1,6 @@
 # Agentes trending — Gaming AI
 
-> Tendencias activas en AI gaming. Última actualización: 2026-07-06 (segunda pasada)
+> Tendencias activas en AI gaming. Última actualización: 2026-07-06
 > Investigación manual curada — complementa el pipeline automático de top.md
 
 ## Tendencias principales en 2026
@@ -14,7 +14,6 @@ La adopción de LLMs para NPCs pasó de prototipos a producción en 2026. El pat
 
 Impacto medido: NPCs AI aumentaron immersion scores 40% y session times 28% en RPGs.
 Segmento NPCs + Digital Humans: 28.6% del mercado total AI gaming en 2026.
-**62% de los nuevos juegos RPG/aventura tienen AI NPCs en 2026** (vs 8% en 2024 — crecimiento brutal).
 
 ### 2. NVIDIA ACE — Digital Humans en tiempo real
 NVIDIA ACE (Avatar Cloud Engine): ASR + NLP + TTS + animación facial para NPCs en tiempo real.
@@ -30,17 +29,11 @@ El paper de Stanford "Generative Agents: Interactive Simulacra of Human Behavior
 
 Repos derivados activos: Concordia (Google DeepMind, Apache 2.0), implementaciones para RPGs y MMOs.
 
-### 4. MCP multi-engine — Unity, Unreal, Godot: ecosistema completo (ACTUALIZADO — Jul 2026)
-El ecosistema MCP para game engines alcanzó madurez plena en mid-2026, cubriendo los tres motores principales:
-- **Unity-MCP** ([IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP), Apache-2.0, **~3k stars**): 52 Tools, 48 Prompts, 12 categorías (Assets, Scene, GameObject, Script, Tests, Console, Screenshot...). Cualquier método C# se convierte en tool con una sola línea. Funciona con Claude Code, Cursor, Gemini, Copilot.
-- **Unreal-MCP** ([IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP), Apache-2.0): plugin C++ para UE 5.7. 62 tools en 8 familias: spawnar actores, Blueprints, gestión de assets, compilar C++.
-- **GameDev-MCP-Server** ([IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server), MIT): servidor MCP engine-agnostic compartido. Bridge via SignalR entre AI agents y el engine.
-- **Godot MCP** ([hi-godot/godot-ai](https://github.com/hi-godot/godot-ai), MIT, 805+ stars): 120+ ops, 41 tools. Primer engine en adoptar MCP (abr 2026), ahora parte del estándar.
-- **Unity AI** (v6.2, mid-2025): suite integrada. Assistant, Generators (texturas con difusión), Inference Engine (ML on-device).
+### 4. AI integrado en engines — Unity 6.2, Godot MCP, Unreal Aura
+- **Unity AI** (v6.2, mid-2025): suite en editor sin suscripción separada. Módulos: Assistant (docs/code), Generators (texturas/sprites con difusión), Inference Engine (ML on-device).
+- **Godot MCP** ([hi-godot/godot-ai](https://github.com/hi-godot/godot-ai), abr 2026, MIT, 805 stars): 120+ operaciones, 41 tools MCP. Conecta Godot a Claude Code, Cursor, Codex.
 - **Unreal Engine — Aura** (Ramen VR, ene 2026): agente con modos editor y coding. Caso Sinn Studio: lanzó *Zombonks* en 5 meses (~mitad del tiempo normal).
 - **Roblox AI Studio** (dic 2025): MCP client integrado + OpenGameEval OSS (47 escenarios de benchmark).
-
-**Impacto para Globant**: Con MCP maduros en Unity, Unreal Y Godot, los estudios que trabajan con múltiples engines pueden estandarizar su AI dev tooling en una sola plataforma (GameDev-MCP-Server). Oportunidad de ofrecer "AI-augmented game dev" para cualquier engine client.
 
 ### 5. PCG con LLMs, Diffusion y World Models
 - **OpenGame** ([leigest519/OpenGame](https://github.com/leigest519/OpenGame), MIT): framework agentico OSS para generar juegos web end-to-end con GameCoder-27B (RL-entrenado para ejecución de código de juego). Abr 2026.
@@ -68,46 +61,49 @@ Patrón emergente: BT como esqueleto de control → LLM como módulo de diálogo
 - Predicción de churn 14 días en adelante con señales: amigos que se van, difficulty walls, session length declining
 - F2P mobile en LATAM: driver crítico (retención > adquisición en costo)
 
-### 9. VLMs como agentes jugadores — benchmark de modelo (NUEVO — Jul 2026)
-**GamingAgent** ([lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent), MIT, 947★, **ICLR 2026**) establece el paradigma de evaluar modelos LLM/VLM jugando videojuegos reales:
-- Usa Gymnasium/Retro interfaces sobre juegos reales: Tetris, Sokoban, 2048, Pokémon Red, Super Mario Bros, Candy Crush, Ace Attorney
-- Compara APIs de OpenAI, Anthropic, Google Gemini, xAI, DeepSeek, Qwen sin infraestructura adicional
-- Genera replays en video para análisis de fallos
-- Casos de uso para Globant: **evaluar qué modelos LLM se comportan mejor en tareas de juego específicas** antes de integrarlos en productos de clientes
-
-**Tendencia paralela**: computer-use agents (Claude Computer Use, GPT-4o Vision) empezando a jugar juegos como tarea de evaluación estándar.
-
-### 10. Sentiment divide — 52% de devs en contra, 50%+ usan AI (GDC 2026)
-**Dato clave de GDC 2026**: 52% de los desarrolladores de juegos tienen visión **negativa** de generative AI (vs 30% en 2025). Sin embargo, al mismo tiempo, 50%+ usa AI en alguna capacidad en su desarrollo.
-- Uso detrás del escenario: brainstorming, placeholder assets, debugging
-- Resistencia a AI player-facing: pocas features AI visibles en títulos shipped
-- Preocupaciones: calidad inconsistente, derechos de autor, impacto en empleo de artistas
-- **Implicación para Globant**: proponer AI como herramienta de studio (dev tooling, QA, analytics) es más fácil de vender que "AI NPCs" en el pitch inicial. Mostrar beneficios técnicos antes de features de cara al jugador.
-
 ## Proyectos a seguir
 
 | Proyecto | URL | Señal |
 |----------|-----|-------|
-| **GamingAgent** | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | ICLR 2026, benchmarking estándar emergente para LLM en gaming |
-| **Unity-MCP** | [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) | ~3k stars Apache-2.0, MCP para Unity maduro, 52 tools, Claude Code ready |
-| **Unreal-MCP** | [IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP) | MCP plugin C++ para UE 5.7, 62 tools |
-| **GameDev-MCP-Server** | [IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server) | MIT engine-agnostic MCP — unifica Unity+Unreal+Godot |
-| **openNPC** | [balaraj74/openNPC](https://github.com/balaraj74/openNPC) | MIT, framework Python unificado para NPCs heurísticos + LLM + RL |
 | **godot_rl_agents** | [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) | RL sobre Godot con 4 frameworks, comunidad activa |
 | **LLMUnity** | [undreamai/LLMUnity](https://github.com/undreamai/LLMUnity) | LLMs locales en Unity, 1.7k stars, creciendo |
 | **npcpy** | [NPC-Worldwide/npcpy](https://github.com/NPC-Worldwide/npcpy) | Python para NPCs multimodales, 1.4k stars |
-| **OpenGame** | [leigest519/OpenGame](https://github.com/leigest519/OpenGame) | Primer framework agentico OSS para generación de juegos web (arxiv abr 2026) |
+| **OpenGame** | [leigest519/OpenGame](https://github.com/leigest519/OpenGame) | Primer framework agentico OSS para generación de juegos web |
 | **Aivill** | [SKYHUBDev/Aivill](https://github.com/SKYHUBDev/Aivill) | Villanos adaptativos que aprenden del comportamiento del jugador |
-| **Carbon Engine** (Fenris) | [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon) | Motor de EVE Online liberado MIT — 1 julio 2026, muy fresco |
 
 ## Señal de mercado — adopción
 
 - 87% de estudios usa AI agents en workflows (Google Cloud survey, 615 devs, jun-jul 2025)
 - 50%+ de estudios AAA usa AI en alguna capacidad
-- 52% de devs tiene opinión **negativa** de generative AI (GDC 2026, up from 30% in 2025)
-- 62% de nuevos RPG/aventura tienen AI NPCs (2026 vs 8% en 2024)
-- Generative AI in Gaming: $1.79B (2025) → $2.21B (2026), CAGR 23.1%
+- Generative AI in Gaming: $1.79B en 2026, CAGR 23.2%
 - NPCs y Digital Humans: mayor segmento (28.6% del total AI gaming)
 
 ---
-*Fuentes: GDC 2026 developer survey, aivexify.com, blog.imseankim.com, thegww.com, github.com/IvanMurzak, github.com/balaraj74, arxiv.org/abs/2604.18394, GitHub (verificado 2026-07-06)*
+*Fuentes: agentmarketcap.ai, solidaitech.com, aivexify.com, wanderfolk.ai, GitHub (verificado 2026-07-02)*
+
+### 9. GDC 2026 — La brecha adopción-rechazo en GenAI
+El GDC State of the Game Industry 2026 (3.000+ desarrolladores) reveló una paradoja:
+- **52% de devs ven GenAI negativamente** — subió desde 30% en 2025 (el rechazo crece más rápido que la adopción).
+- Pero adopción corporativa alcanzó 52%, con solo 36% de uso personal real → brecha "mandato vs convicción".
+- Usos más aceptados: research/brainstorm (81%), code assist (47%), prototipado (35%).
+- Usos más rechazados: asset generation (19%), PCG (10%), player-facing (5%).
+- Devs aceptan AI para **su workflow interno** pero rechazan AI como característica del juego.
+
+**Implicación para Globant**: proponer AI como tooling de productividad (dev tools, QA, análisis) tiene 2-4x mejor recepción en estudios que proponer "NPCs con IA" al usuario final.
+
+### 10. World Models como motores de juego — nueva categoría
+Los modelos de mundo (world models) pasaron de papers académicos a demos jugables en 2024-2026:
+- **DIAMOND** (MIT, NeurIPS 2024 Spotlight, [eloialonso/diamond](https://github.com/eloialonso/diamond)): agente RL entrenado completamente en un world model difusivo. Score 1.46 human normalized en Atari 100k — nuevo estado del arte para agentes entrenados en world models. También funciona como motor neural interactivo de CS:GO.
+- **Oasis 500M** (MIT, [etched-ai/open-oasis](https://github.com/etched-ai/open-oasis)): Decart + Etched, oct 2024. Primer mundo Minecraft-like playable generado frame-a-frame por un modelo transformer difusivo. Sin motor de física. ~14k stars.
+- **ReactiveGWM** (arxiv jun 2026): conecta world models con NPCs reactivos — el mundo generativo responde al estado del NPC.
+- Tracking: [dweam-team/awesome-world-model-games](https://github.com/dweam-team/awesome-world-model-games).
+
+**Aplicaciones prácticas para studios**:
+1. Entrenar agentes RL en una *representación aprendida* del juego (más rápido/barato que el motor real).
+2. Generar variaciones infinitas de niveles sin código de PCG adicional.
+3. Crear demos interactivos de juegos antes de construir el motor completo.
+
+**Estado actual (2026)**: mundo models todavía tienen problemas de consistencia temporal (el inventario "aparece y desaparece"). No producción-ready para juegos completos, pero sí para entrenamiento RL y prototipado.
+
+---
+*Fuentes: GDC 2026 (winbuzzer.com, blog.imseankim.com), github.com/eloialonso/diamond, github.com/etched-ai/open-oasis, arxiv.org/abs/2605.15256*

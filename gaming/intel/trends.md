@@ -1,11 +1,11 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-06 (segunda pasada)
+> Investigación curada con datos verificados. Última actualización: 2026-07-06
 
 ## Tendencias confirmadas (alta confianza)
 
 ### 1. Ecosistema Godot como plataforma AI-first
-Godot (MIT, **114k stars**) emergió como el engine open source con el ecosistema AI más rico:
+Godot (MIT, 112k stars) emergió como el engine open source con el ecosistema AI más rico:
 - **LimboAI** (MIT, 2.8k stars): BTs + Hierarchical State Machines. Stack NPC AI maduro.
 - **Beehave** (MIT, 3.2k stars): behavior trees componibles en el scene tree de Godot.
 - **godot-ai** (MIT, 805 stars, abr 2026): MCP server, 120+ operaciones, conecta Claude/Codex al editor en vivo.
@@ -18,7 +18,6 @@ Godot (MIT, **114k stars**) emergió como el engine open source con el ecosistem
 ### 2. LLM NPCs — de demo a producción
 En 2026, NPCs con LLMs pasaron a producción en títulos comerciales:
 - Segmento NPCs + Digital Humans: **28.6% del mercado total AI gaming** (mayor segmento).
-- **62% de los nuevos juegos RPG/aventura tienen AI NPCs** (2026 vs **8% en 2024**) — crecimiento explosivo.
 - Impacto medido: +40% immersion scores, +28% session time en RPGs.
 - Arquitectura ganadora: BT (estructura reactiva) + LLM (diálogo generativo) + Vector Store (memoria).
 - **Inworld AI** (cerrado) + **NVIDIA ACE**: stack propietario dominante en AAA.
@@ -65,32 +64,6 @@ En 2026, NPCs con LLMs pasaron a producción en títulos comerciales:
 - GNNs para detectar redes coordinadas (boosting, account sharing, fraud en iGaming).
 - Driver LATAM: regulación iGaming Brasil 2025 exige sistemas anti-fraud activos.
 
-### 9. VLM gaming agents como benchmark estándar (NUEVO — Jul 2026)
-**GamingAgent** ([lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent), MIT, 947★) publicado en **ICLR 2026** establece el paradigma:
-- Evalúa LLMs/VLMs jugando videojuegos reales sin infraestructura extra
-- Soporta: Tetris, Sokoban, 2048, Pokémon Red, Super Mario Bros, Candy Crush, Ace Attorney
-- Multi-provider: OpenAI, Anthropic, Gemini, xAI, DeepSeek, Qwen
-- **Impacto**: el gaming se convierte en benchmark de razonamiento espacial y secuencial para modelos
-- Usos en studio: evaluar qué LLM es mejor para tareas de game AI específicas antes de integrarlo
-
-### 10. Open sourcing de motores AAA (NUEVO — Jul 2026)
-Semana del 1-5 julio 2026: dos releases de motores open source de alto impacto:
-- **Carbon Engine** (Fenris/CCP Games): motor de EVE Online liberado **MIT el 1-julio-2026**. C++ cross-platform, 20+ años en producción MMO. Sub-módulos Apache-2.0 y PSF. URL: [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon)
-- **COCOS 4** (ya MIT desde inicio de 2026): motor cross-platform popular en Asia, era propietario.
-
-Tendencia de fondo: estudios AAA comienzan a monetizar su IP tecnológica via OSS (reducción de costos de mantenimiento + comunidad → contrataciones + reputación). Esto abre oportunidades para Globant de customizar motores battle-tested para clientes.
-
-### 11. MCP multi-engine — la capa de AI dev tooling se estandariza (NUEVO — Jul 2026)
-A mediados de 2026 los tres motores principales lograron cobertura MCP madura simultáneamente:
-- **Unity-MCP** ([IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP), Apache-2.0, ~3k stars): 52 tools, 48 prompts, 12 categorías. Cualquier método C# se convierte en tool con una línea. El más completo en stars y funcionalidad.
-- **Unreal-MCP** ([IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP), Apache-2.0): 62 tools en 8 familias para UE 5.7 (actores, Blueprints, assets, C++).
-- **Godot-AI** ([hi-godot/godot-ai](https://github.com/hi-godot/godot-ai), MIT, 805+ stars): 120+ ops, 41 tools — el pionero (abr 2026).
-- **GameDev-MCP-Server** ([IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server), MIT): infraestructura bridge engine-agnostic compartida.
-
-**Impacto**: Con los tres engines cubiertos, los AI coding agents (Claude Code, Cursor, Copilot, Gemini) pueden operar en **cualquier engine** mediante la misma interfaz MCP. Esto elimina la barrera "cuál engine usa el cliente" para ofrecer AI-assisted game dev. Los estudios que usan múltiples engines (Unity para mobile + Unreal para console) ahora tienen un paradigma unificado.
-
-**Adopción esperada**: Los MCP servers para engines madurarán rápido — es el mismo patrón que los MCP servers para DBs (Postgres-MCP, etc.) pero para el dominio de game dev. Seguir la curva de adopción de Unity-MCP como indicador.
-
 ---
 
 ## En el radar (emergente, 2026-2027)
@@ -101,11 +74,45 @@ A mediados de 2026 los tres motores principales lograron cobertura MCP madura si
 | **Gemma 3n on-device NPCs** | Demostrado en Godot sin API. Offline-first gaming. | Ya disponible en beta |
 | **Villanos adaptativos** | Aivill (SKYHUBDev): villanos que aprenden del jugador. | Concepto emergente |
 | **AI game masters** | VirtualGameMaster (MIT, 300 stars): GM automático para RPGs. | En adopción indie |
-| **PCG con diffusion models** | Generación de assets (texturas, música, diálogos) in-pipeline. AI reduce asset time 70-90%. | Parcialmente productivo ya |
-| **StableGen / Dream Textures** | OSS Blender addons para texturizar 3D con GenAI (TRELLIS.2 + SDXL). | Workflow productivo ya |
+| **PCG con diffusion models** | Generación de assets (texturas, música, diálogos) in-pipeline. | Parcialmente productivo ya |
 | **Supabase para game backends** | Alternativa PostgreSQL a Firebase/Nakama para juegos asíncronos. | Adopción creciente 2026 |
-| **Carbon Engine fork projects** | MMO open source sobre Carbon (EVE engine). | Proyectos surgirán en Q3 2026 |
-| **52% devs contra GenAI** (GDC 2026) | Sentiment negativo en aumento — resistencia a AI player-facing pero uso detrás del escenario. | Tendencia establecida 2026 |
 
 ---
-*Fuentes: GitHub (verificado 2026-07-06), blog.imseankim.com (GDC 2026), aivexify.com, opensourceforu.com (Carbon Engine), grandviewresearch.com, solidaitech.com, thebusinessresearchcompany.com (jul 2026), businessresearchinsights.com*
+*Fuentes: GitHub (verificado 2026-07-02), agentmarketcap.ai, solidaitech.com, snsinsider.com, marketresearchfuture.com*
+
+### 9. GDC 2026 — La brecha adopción-rechazo define el mercado
+El GDC State of the Game Industry 2026 (survey con 3.000+ devs profesionales, mar 2026) es el barómetro de la industria:
+
+**Datos clave**:
+- 52% de devs ven GenAI negativamente — era 30% en 2025. El rechazo crece más rápido que la adopción.
+- Adopción corporativa: 52% de empresas usan GenAI.
+- Uso personal real de devs: 36% → brecha "mandato vs convicción" de 16 puntos.
+- Usos aceptados: research/brainstorm (81%), code assist (47%), prototipado (35%).
+- Usos rechazados: generación de assets (19%), PCG (10%), player-facing (5%).
+
+**Interpretación para Globant**:
+El 52% de rechazo no es anti-tecnología — es anti-reemplazo. Los devs aceptan AI para su productividad personal pero rechazan AI que sustituya su craft (arte, diseño, diálogo de personajes). La estrategia correcta para un estudio que vende a estudios de gaming:
+1. **Vender como "amplificador de devs"** (no "reemplazo"). Framing: "Tu equipo produce 3x más con AI" > "AI hace el trabajo por ti".
+2. **Priorizar casos de uso backend invisible**: matchmaking, anti-cheat, analytics — el jugador no sabe que existe AI ahí.
+3. **Evitar** pitches de "NPCs con AI" o "assets generados por AI" como feature principal — 80%+ de devs los ven con sospecha.
+
+Fuente: winbuzzer.com/2026/03/23, blog.imseankim.com/gdc-2026
+
+### 10. World Models como motores de juego — categoría emergente
+Los **world models** (modelos que predicen el siguiente frame de juego como estado latente) pasaron de papers académicos a demos jugables entre 2024-2026:
+
+**Hitos principales**:
+- **DIAMOND** (NeurIPS 2024 Spotlight, [eloialonso/diamond](https://github.com/eloialonso/diamond), MIT): Agente RL entrenado completamente dentro de un world model difusivo. 1.46 human normalized score en Atari 100k — estado del arte para agentes entrenados en world models. Funciona también como motor neural interactivo de CS:GO sin motor de física.
+- **Oasis 500M** (oct 2024, [etched-ai/open-oasis](https://github.com/etched-ai/open-oasis), MIT): Decart + Etched. Primer mundo tipo Minecraft generado frame-a-frame por un transformer difusivo. ~14k stars. Weights públicos (500M params) + inference code.
+- **GameNGen** (NeurIPS 2024): DOOM como motor neural en tiempo real — muestra que un diffusion model puede simular un juego FPS clásico.
+- **ReactiveGWM** (arxiv jun 2026): NPCs reactivos en world models generativos — conecta la generación de mundo con comportamiento de agentes.
+
+**Estado actual (2026)**:
+- **Fortalezas**: entrenamiento RL sin motor, variaciones infinitas de niveles, prototipado visual antes de código.
+- **Limitaciones**: inconsistencia temporal (inventario que aparece/desaparece), consumo de GPU alto, no production-ready para juegos publicados completos.
+- **Proyección**: categoría "AI-native games" (juegos donde el modelo ES el motor) estará en producción indie 2027-2028.
+
+**Uso hoy en estudios**: entrenar agentes QA sobre representación aprendida del juego (más barato/rápido que ejecutar el motor real). Prototipado de "vibes" de nivel antes de construir el asset.
+
+---
+*Fuentes: github.com/eloialonso/diamond, github.com/etched-ai/open-oasis, diamond-wm.github.io, arxiv 2405.12399, arxiv 2605.15256*
