@@ -1,34 +1,50 @@
-# 📈 Trending This Week — Healthcare AI
+# Trending Healthcare AI Agents — Week of 2026-07-06
 
-> What's gaining momentum now. New repos, breakout projects, research drops.
-> Last updated: 2026-07-06
+> What's new and gaining momentum in healthcare AI this week.
 
-## Breakout Projects (July 2026)
+## Breakout Projects (Jul 2026)
 
-| Name | License | Why It's Trending | Stars |
-|------|---------|------------------|-------|
-| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | On-device healthcare AI surging as HIPAA compliance concerns grow. 1,000+ medical models, zero PHI egress. | 4.0k |
-| [care_fe](https://github.com/ohcnetwork/care_fe) | MIT | Care is a Digital Public Good enabling accelerated healthcare delivery. WHO-recognized, deployed in India during COVID. React frontend for open hospital management. | 611 |
-| [AI-Agents-for-Medical-Diagnostics](https://github.com/ahmadvh/AI-Agents-for-Medical-Diagnostics) | MIT | Multi-specialist LLM agent framework for medical case analysis. Showcases how agentic AI can coordinate across cardiology, radiology, and pharmacology roles. | Active |
-| [openmed-agent](https://github.com/openmed-labs/openmed-agent) | MIT | Terminal-native medical AI assistant — runs fully local via Ollama. Gaining traction with privacy-first clinical teams. | New 2026 |
-| [OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) | Apache-2.0 | Largest open-source medical AI skills library for OpenClaw. Hospital workflow automation skills — triage, SOAP notes, prescription check. | New 2026 |
+### 1. OpenMed — Milestone: 340M downloads, 1,500+ models
+- **Repo**: https://github.com/maziyarpanahi/openmed
+- **Why trending**: Launched Jul 16, 2025; crossed 340M model downloads by Jun 2026. Now 650+ models run fully on iPhone. Dominant on-device medical AI solution. Apache-2.0 means zero licensing friction.
+- **Relevance**: HIPAA-safe inference for any healthcare deployment that can't send PHI to cloud.
 
-## Research Drops Worth Watching
+### 2. Multi-Agent Medical Diagnostics Ecosystem
+- **Repos**: [souvikmajumder26/Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant), [ahmadvh/AI-Agents-for-Medical-Diagnostics](https://github.com/ahmadvh/AI-Agents-for-Medical-Diagnostics)
+- **Why trending**: Agentic orchestration frameworks for clinical reasoning went from research to production-deployable stacks in H1 2026. LangGraph-based multi-agent systems for specialist simulation now have reference architectures.
+- **Relevance**: Starting point for clinical decision support POCs.
 
-- **MedBeads** (arXiv 2602.01086) — Agent-native immutable data substrate for trustworthy medical AI. Solves audit trail and data lineage in multi-agent clinical pipelines.
-- **CHI-Bench** — Evaluates AI agents on end-to-end, long-horizon, policy-rich healthcare admin workflows. Exposes gaps in current LLM agents.
-- **FHIR-AgentBench** — Benchmarking LLM agents for realistic interoperable EHR QA using FHIR APIs. Shows GPT-4 / Claude performing well on FHIR retrieval tasks.
-- **HealthAdminBench** (arXiv 2604.09937) — Computer-use agents on healthcare administration tasks. Tests AI navigating real EHR interfaces like Epic and Cerner.
-- **H-AdminSim** — Multi-agent simulator for hospital administrative workflows with FHIR integration. Tests LLM automation in realistic scheduling, billing, triage scenarios.
-- **AgentRx** — Multimodal clinical prediction agent combining imaging, labs, and notes. ICLR 2026 poster.
-- **AI-Care** — Conversational agentic system for Alzheimer's Disease care coordination. Coordinates between patient, family, and clinical AI agents.
+### 3. AgentClinic Benchmark — Clinical AI Evaluation Becomes Standard
+- **URL**: https://agentclinic.github.io/
+- **Why trending**: Becoming the de-facto benchmark for evaluating clinical AI agents. 9 medical specialties, 7 languages, tests tool-use capabilities. OpenAI's HealthBench benchmarks GPT-5.4 (59.0) vs human doctors (43.7) — AI is now beating clinicians on benchmarks.
+- **Relevance**: Any client engagement with a clinical AI component needs to report against these benchmarks.
 
-## Ecosystem Signals
+### 4. FHIR + MCP Integration Pattern
+- **Why trending**: MCP (Model Context Protocol) servers for FHIR R4 are emerging. Pattern: MCP server wraps FHIR API → Claude/GPT agents get structured access to patient data. HAPI FHIR + Medplum both have community MCP server implementations.
+- **Key repos**: [medplum/medplum](https://github.com/medplum/medplum) (Apache-2.0), [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) (Apache-2.0)
+- **Relevance**: Standard integration pattern for AI agents needing patient data access.
 
-- **NVIDIA + Foxconn "Healthy Taiwan"** — USD 1.5B initiative deploying agentic AI in hospitals for clinical decision-making and documentation. June 2026.
-- **Mount Sinai + Mayo Clinic** — Both announced production agentic AI deployments for workflow automation and personalized care in H1 2026.
-- **EU AI Act (Aug 2026)** — High-risk classification for clinical decision support AI is now in force. Privacy-preserving on-device patterns (openmed) gaining enterprise traction.
-- **MCP for healthcare** — FHIR MCP servers emerging: Claude/GPT agents now able to query patient records via standardized FHIR endpoints using Model Context Protocol.
+### 5. Ambient Clinical Documentation — Open-Source Alternatives to Nuance DAX
+- **Why trending**: Epic AI Charting (Feb 2026) and Oracle Health Clinical AI Agent (Feb 2026) demonstrate that EHR vendors are embedding ambient AI. Open-source community is building alternatives using Whisper (ASR) + local LLMs + structured note generators.
+- **Pattern**: `openai/whisper` (MIT) → `medspacy` (MIT) → structured SOAP note → FHIR DocumentReference
+- **Relevance**: High-value use case for hospital systems not on Epic/Oracle.
+
+### 6. CARE FE — Digital Public Good for Healthcare Delivery
+- **Repo**: https://github.com/ohcnetwork/care_fe
+- **License**: MIT
+- **Stars**: ~650
+- **Why trending**: OHC Network's open-source care coordination platform, being adopted across LATAM and Southeast Asia. React + Django stack, FHIR-compatible, designed for resource-constrained environments. AI layer additions underway.
+- **Relevance**: Globant LATAM angle — open source healthcare delivery platform ready for AI customization.
+
+## Research Papers Gaining Traction (2026)
+
+| Paper | Focus | Implication |
+|-------|-------|-------------|
+| ABRA | Agent Benchmark for Radiology Applications | Radiology AI agents now have standardized evaluation |
+| AgentRx | Multimodal clinical prediction agents | Drug recommendation agents benchmarked end-to-end |
+| CHI-Bench | Healthcare workflow automation evaluation | Admin workflow agents being validated at scale |
+| SEMA-RAG | Self-evolving multi-agent RAG for medical reasoning | Dynamic routing improves diagnostic accuracy |
+| DeepTumorVQA | 3D CT hierarchical VLM benchmark | Medical vision-language agents advancing rapidly |
 
 ---
-*Pipeline automático — actualizado por el ingester.*
+*Auto-updated by the ingest pipeline. 2026-07-06.*

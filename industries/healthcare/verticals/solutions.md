@@ -1,77 +1,68 @@
-# Healthcare Vertical Platforms — Open Source Solutions
+# Vertical Platforms — Healthcare
 
-> Real systems used in production worldwide that Globant can customize and build AI on top of.
+> Existing platforms to customize with AI. Model: start from something functional, add an agentic layer on top.
+> Last updated: 2026-07-06
 
-## Electronic Medical Records (EMR)
+## Recommended Platforms
 
-### OpenEMR
-- **Repo**: [openemr/openemr](https://github.com/openemr/openemr)
-- **License**: GPL v3
-- **Stack**: PHP, MySQL, JavaScript
-- **Scale**: Most widely deployed open-source EMR globally; thousands of US outpatient clinics
-- **Strengths**: US billing (ICD-10, CPT), e-prescribing, patient portal, clinical decision support hooks
-- **AI integration points**: REST API, clinical decision support API, document generation hooks
-- **Globant play**: Build AI-powered clinical note generation, code suggestion, and prior auth automation on top of OpenEMR
+| Platform | License | GitHub | Stack | Use Case |
+|----------|---------|--------|-------|----------|
+| [OpenMRS](https://github.com/openmrs/openmrs-core) | MPL-2.0 | openmrs/openmrs-core | Java/Spring + React (3.x) | Full EMR/EHR: 8,000+ facilities, 70+ countries. FHIR R4 API. Strong LATAM presence. AI modules via REST hooks. |
+| [OpenEMR](https://github.com/openemr/openemr) | GPL-3.0 | openemr/openemr | PHP + MySQL | ONC-certified ambulatory EHR (v8.0.0, Mar 2026). US Core 8.0, USCDI v5, SMART on FHIR v2.2. AI integration via FHIR API. |
+| [Medplum](https://github.com/medplum/medplum) | Apache-2.0 | medplum/medplum | TypeScript/React + Node.js | Developer-first FHIR platform. HIPAA+SOC2. Best for building custom AI-native health apps. "Bot" system for server-side agents. |
+| [Bahmni](https://github.com/Bahmni/openmrs-module-bahmniapps) | LGPL-3.0 | Bahmni/openmrs-module-bahmniapps | Angular/React + OpenMRS + Odoo + OpenELIS | Integrated hospital system: EMR + billing + lab. 50+ countries. Ideal for LATAM hospital clients with limited budgets. |
+| [GNU Health](https://health.gnu.org/) | GPL-3.0 | — (Savannah) | Python + Tryton ERP | Hospital management + health information system. Strong in Argentina, Brazil, Cuba. |
+| [CARE (OHC Network)](https://github.com/ohcnetwork/care_fe) | MIT | ohcnetwork/care_fe | React + Django + PostgreSQL | Digital Public Good for care coordination. FHIR-compatible. Proven in India, Bangladesh. LATAM expansion underway. |
+| [HAPI FHIR JPA Server](https://github.com/hapifhir/hapi-fhir-jpaserver-starter) | Apache-2.0 | hapifhir/hapi-fhir-jpaserver-starter | Java + Spring Boot + PostgreSQL | Reference FHIR R4/R5 server. Deploy as interoperability hub. MCP server wrappers available for AI agent connectivity. |
 
-### OpenMRS
-- **Repo**: [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core)
-- **License**: MPL 2.0
-- **Stack**: Java (Spring), REST API, FHIR R4
-- **Scale**: 8,000+ facilities in 70+ countries; WHO and PEPFAR endorsed
-- **Strengths**: Flexible concept dictionary, modular architecture, strong API layer, used in complex longitudinal disease management (HIV, TB, maternal health)
-- **AI integration points**: OpenMRS FHIR2 module (full FHIR R4 API), REST API, module system
-- **Globant play**: Build AI diagnostic assistance modules, predictive readmission models, and population health dashboards
+## How to Customize with AI
 
-### Bahmni (OpenMRS + Odoo + OpenELIS)
-- **Repo**: [bahmni/bahmni-core](https://github.com/bahmni/bahmni-core)
-- **License**: AGPL v3
-- **Stack**: OpenMRS (clinical) + Odoo (billing/inventory) + OpenELIS (lab)
-- **Scale**: 50+ countries, deployed in 20+ Indian government hospitals, NGO and public health settings
-- **Strengths**: Out-of-the-box complete hospital system. Bundled ERP + EMR + lab. Designed for low-resource environments.
-- **AI integration points**: OpenMRS FHIR API, Odoo REST API, OpenELIS lab result feeds
-- **Globant play**: AI triage agent, lab result interpretation, supply chain optimization (Odoo + AI)
+### Pattern 1: AI Layer on OpenMRS/OpenEMR
+```
+1. Deploy OpenMRS/OpenEMR (existing FHIR R4 API)
+2. Deploy HAPI FHIR as interoperability layer (optional)
+3. Connect AI agent via SMART on FHIR (client-py)
+4. Agent reads: Patient, Observation, Condition, MedicationRequest
+5. Agent writes: DocumentReference (notes), CarePlan, CommunicationRequest
+6. Frontend: conversational UI in React consuming FHIR resources
+```
 
-### GNU Health
-- **Repo**: [gnu-health/gnuhealth](https://github.com/gnu-health/gnuhealth)
-- **License**: GPL v3
-- **Stack**: Python, Tryton ERP
-- **Scale**: Used heavily in Latin America, Africa, Caribbean
-- **Strengths**: Full EMR + epidemiology + hospital management + genetics
-- **Globant play**: Strong fit for LATAM government health clients; AI epidemiology modules
+### Pattern 2: Greenfield with Medplum
+```
+1. Fork medplum/medplum (Apache-2.0)
+2. Define data model as FHIR profiles (US Core or custom)
+3. Write Medplum Bots (server-side JS) = your AI agents
+4. Bot triggers: on new Observation → run clinical decision logic
+5. Connect openmed for on-device NLP of clinical notes
+6. Deploy: Medplum Cloud (managed) or self-hosted on AWS/GCP
+```
 
-## Medical Imaging Platforms
+### Pattern 3: Bahmni for LATAM Hospital Client
+```
+1. Deploy Bahmni (OpenMRS + Odoo + OpenELIS)
+2. Add AI module via OpenMRS REST API
+3. Use medspacy for Spanish clinical note parsing
+4. Add ambient documentation: Whisper (ASR) → medspacy → FHIR note
+5. Clinical decision support: LLM-Medical-Agent orchestrating lab + diagnosis
+6. Revenue cycle: Odoo AI extensions for billing automation
+```
 
-### OHIF Medical Imaging Viewer
-- **Repo**: [OHIF/Viewers](https://github.com/OHIF/Viewers)
-- **License**: MIT
-- **Stack**: React, Cornerstone.js, DICOM web
-- **Scale**: Standard web-based DICOM viewer for radiology; deployed in hospitals globally
-- **AI integration points**: Extensible with AI model overlay panels; supports segmentation rendering
-- **Globant play**: Build AI radiology assistant plugin (automatic findings, measurements, report generation)
+## LATAM-Specific Considerations
 
-### MONAI Deploy App SDK
-- **Repo**: [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI)
-- **License**: Apache 2.0
-- **Stack**: Python, PyTorch, Docker, NVIDIA Triton-compatible
-- **Strengths**: End-to-end: label → train → deploy → monitor imaging AI models
-- **Globant play**: Build client-specific imaging AI (tumor detection, organ segmentation) using MONAI, deploy via App SDK
+- **Language**: `medspacy` + `openmed` support Spanish clinical text. `edsnlp` handles Portuguese (Brazil).
+- **Infrastructure**: Bahmni and OpenMRS have the strongest LATAM deployments (Brazil, Mexico, Argentina, Colombia).
+- **Regulations**: LGPD (Brazil), Ley de Protección de Datos (Colombia/Argentina) require on-premise or local-cloud deployments — favors `openmed` on-device approach.
+- **GNU Health**: Particularly strong in Argentina and Cuba; active Spanish-speaking community.
+- **CARE FE**: Being adapted for LATAM contexts; MIT license = zero barriers.
 
-## Healthcare Interoperability
+## Proprietary Platforms (for Integration Engagements)
 
-### HAPI FHIR Server
-- **Repo**: [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir)
-- **License**: Apache 2.0
-- **Stack**: Java (Spring Boot)
-- **Scale**: Most widely used FHIR server implementation. Required for US ONC compliance.
-- **AI integration points**: FHIR Bulk Data export, SMART on FHIR app model, CDS Hooks
-- **Globant play**: FHIR data layer for any healthcare AI solution; CDS Hooks agent that intercepts clinical decisions in real-time
+| Platform | Notes for AI Integration |
+|----------|--------------------------|
+| Epic | 150+ AI features native (Feb 2026). External integration via SMART on FHIR + Epic App Orchard. AI Charting embedded. |
+| Oracle Health (Cerner) | Clinical AI Agent with ambient order creation (Feb 2026). Integration via FHIR R4 APIs. |
+| Nuance DAX Copilot (Microsoft) | Ambient documentation. Can be layered on any EHR. |
+| Innovaccer | AI analytics platform with FHIR data lake. Enterprise segment. |
 
-## Decision Matrix for Globant Client Engagements
-
-| Client Type | Recommended Platform | AI Layer |
-|-------------|---------------------|----------|
-| US outpatient clinic | OpenEMR | Ambient documentation + billing AI |
-| Global NGO / developing country | OpenMRS or Bahmni | Diagnostic support + triage agents |
-| LATAM government health | GNU Health or OpenMRS | Epidemiology + population health AI |
-| Hospital radiology | OHIF + MONAI | AI radiology assistant |
-| Health system (Epic/Cerner connected) | HAPI FHIR + CDS Hooks | Real-time clinical decision agents |
+---
+*See also: `repos/foundations.md` for libraries to build on.*

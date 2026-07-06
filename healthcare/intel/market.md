@@ -1,71 +1,85 @@
-# 🗺️ Market Map — Healthcare AI
+# Market Map — Healthcare AI
 
-> Players, opportunities, positioning. LATAM + global focus.
+> Key players, opportunities, Globant positioning. Focus: LATAM + global.
 > Last updated: 2026-07-06
 
-## Market Size 2026
+## Market Size & Growth
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| Global AI in Healthcare market (2026) | USD $36–56B | GrandView, MarketsAndMarkets, Fortune BI |
-| Projected market (2033) | USD $505B | GrandView Research |
-| CAGR (2026–2033) | 38.9% | GrandView Research |
-| Alt projection (2034) | USD $614B at 44% CAGR | Precedence Research |
-| Healthcare execs expecting agentic AI moderate-to-significant value (2026) | >80% | BCG / Deloitte |
-| "Healthy Taiwan" NVIDIA+Foxconn agentic AI investment (Jun 2026) | USD $1.5B | NVIDIA press release |
-| Clinical AI VC investment (Q1 2026 est.) | ~$3B | CB Insights |
+| Segment | 2025 | 2026 (est.) | 2031–2035 | CAGR |
+|---------|------|-------------|-----------|------|
+| AI in Healthcare (overall) | $36.7B | $50.7B | $194.8B (2031) | 39.7% |
+| Agentic AI in Healthcare | ~$0.7B | $1.1–1.8B | $19.7–33.7B (2034–35) | 34–46% |
+| AI Clinical Decision Support | $1.95B | ~$2.3B | $9.95B (2035) | 17.7% |
+
+**Key 2026 stats:**
+- 63% of healthcare & life sciences professionals actively using AI (NVIDIA survey)
+- 80%+ health executives expect moderate-to-significant value from agentic AI (Deloitte)
+- AI surpasses human doctors on benchmarks: GPT-5.4 scores 59.0 on HealthBench vs 43.7 for physicians with unlimited internet
+- Claude Opus 4.7 reached clinician-level HealthBench performance (47.0)
 
 ## Global Players
 
-| Company | Type | AI Strength | Weakness |
-|---------|------|------------|----------|
-| Epic Systems | EHR vendor | AI-powered ambient documentation (Nuance/DAX), AI governance | Proprietary, costly |
-| Oracle Health (Cerner) | EHR vendor | Oracle AI integrated, cloud-first, FHIR R4 | Integration complexity, migration pain |
-| Microsoft / Nuance | AI layer | DAX Copilot for ambient documentation; Azure Health Data Services; FHIR APIs | Tied to Azure, privacy concerns |
-| Google Health | AI platform | Med-PaLM 2 (expert-level USMLE), imaging AI (dermatology, radiology) | Closed models, trust concerns |
-| AWS HealthAI | Infrastructure | HealthLake FHIR store, Bedrock for medical AI, Comprehend Medical | Vendor lock-in |
-| Tempus AI | Oncology AI | LLM on pathology + genomics + imaging. Listed NYSE 2024. | Oncology-specific, proprietary |
-| Philips | Medical devices | Diagnostic imaging AI, patient monitoring, radiology workflow | Hardware-tied |
-| Veeva Systems | Life sciences | Clinical data management, drug trial AI, regulatory submissions | Life sciences niche |
-| Cohere (enterprise) | AI models | Command R+ for healthcare RAG, on-prem deployment | Less clinical validation |
+| Company | Type | Strength | Weakness | Globant Angle |
+|---------|------|----------|----------|---------------|
+| Epic Systems | EHR Dominant | 150+ AI features native (Feb 2026); 250M+ patient records | Proprietary, expensive | Extend via SMART on FHIR; custom App Orchard apps |
+| Oracle Health (Cerner) | EHR #2 | Clinical AI Agent with ambient order creation (Feb 2026); acute care AI | Migration complexity | Integration layer + AI on top of Oracle FHIR APIs |
+| Nuance (Microsoft) | Ambient docs | DAX Copilot: ambient clinical documentation integrated w/ Epic & others | Microsoft ecosystem lock-in | Complement or replace with open-source Whisper stack |
+| OpenAI | Foundation models | HealthBench; ChatGPT for Clinicians; GPT-5.4 leads benchmarks | No clinical vertical specialization | API layer for client AI solutions |
+| Anthropic | Foundation models | Claude Opus 4.7 at clinician-level HealthBench; healthcare system prompting | No clinical vertical product | Claude API as reasoning backend for clinical agents |
+| Google Health | Research + products | Med-PaLM 2; DeepMind AlphaFold3; imaging AI | Slow commercial deployment | Vertex AI Health for enterprise clients |
+| Suki | Ambient documentation | Ambient clinical intelligence platform; 2026 guide leader | Niche market | Competitor analysis for ambient doc POCs |
+| Innovaccer | AI Analytics | FHIR data lake + AI analytics; enterprise segment | High cost | Integration opportunity for hospital analytics clients |
+| Babylon Health | Telehealth AI | AI triage; global deployments | Financial instability history | |
+| Tempus AI | Oncology AI | Genomic + clinical data; radiology AI | Specialty niche | Oncology client engagements |
 
-## Open Source Ecosystem Players
+## Startup Ecosystem (2026)
 
-| Player | Role | Key Repos |
-|--------|------|----------|
-| OpenMRS Community | Global open EMR | openmrs/openmrs-core, bahmni |
-| Microsoft (OSS arm) | Clinical AI tools | BioGPT, hi-ml, Healthcare APIs |
-| Apache Foundation | Clinical NLP | apache/ctakes |
-| HAPI FHIR / Smile Digital Health | FHIR standard | hapifhir/hapi-fhir |
-| ohcnetwork (India) | Digital Public Good | ohcnetwork/care, care_fe |
-| WHO / PATH / Partners in Health | OpenMRS governance | Global health deployments |
-| Stanford CRFM | Biomedical LLMs | BioMedLM, HELM eval |
-| Mayo Clinic / University of Utah | Clinical NLP | medspaCy, ctakes contributions |
+| Company | Focus | Notable |
+|---------|-------|--------|
+| Nabla | Ambient clinical documentation | European leader; FHIR-native |
+| Abridge | Ambient notes | UCSF partnership; Epic integration |
+| Corti | Emergency triage AI | Real-time decision support |
+| Mednax | Radiology + neonatology AI | High-volume deployment |
+| Paige | Pathology AI (FDA cleared) | Oncology focus |
+| DeepMind Health | Medical imaging | AlphaFold integration |
+| Verily | Life sciences AI | Google spin-off |
+
+## Open-Source Ecosystem Map
+
+```
+Data Layer:         OpenMRS, OpenEMR, Medplum, HAPI FHIR
+NLP Layer:          openmed, medspacy, scispacy, edsnlp, ctakes
+Imaging Layer:      torchio, hi-ml, MONAI (NVIDIA)
+Agent Layer:        LLM-Medical-Agent, Multi-Agent-Medical-Assistant
+Orchestration:      LangGraph, Claude API, AutoGen
+Benchmarking:       AgentClinic, HealthBench, ABRA
+```
 
 ## LATAM Opportunities
 
-### High-Priority Verticals
-1. **Hospital digitization** — 60–70% of Latin American hospitals lack modern EMR/EHR systems. OpenMRS + Bahmni + AI layer is a competitive offer for public health systems (Brazil SUS, Mexico IMSS, Colombia SGSSS).
-2. **Telemedicine + AI triage** — High mobile penetration, low physician density. AI-powered symptom checkers + virtual triage agents reduce emergency overload.
-3. **Chronic disease management** — Diabetes, hypertension prevalence high. AI-powered care coordination agents (medication adherence, labs tracking) have large TAM.
-4. **Medical imaging in under-resourced settings** — Radiology AI (chest X-ray TB detection, diabetic retinopathy screening) where specialists are scarce. torchio + hi-ml + local models.
-5. **Clinical documentation in Spanish** — All major clinical NLP tools are English-first. edsnlp has multilingual support. Huge gap for Spanish clinical NLP.
-6. **Regulatory compliance** — ANVISA (Brazil), INVIMA (Colombia), COFEPRIS (Mexico) are tightening AI medical device rules. Compliance tooling opportunity.
+**Why LATAM is under-served:**
+- Large public hospital systems with legacy or no EHR (targets for OpenMRS/Bahmni + AI)
+- Shortage of specialist physicians (AI decision support has highest ROI)
+- Spanish/Portuguese NLP tooling improving rapidly (openmed 12 languages, medspacy Spanish support)
+- LGPD (Brazil) + Latin American data laws favor on-premise solutions
+- High mobile penetration → patient-facing AI apps viable
 
-### Key LATAM Markets
-- **Brazil**: SUS (200M patients), ANVISA oversight, strong tech ecosystem in São Paulo
-- **Mexico**: IMSS 50M beneficiaries, COFEPRIS oversight, digital health law 2024
-- **Colombia**: Mandatory EHR adoption underway, SGSSS reform
-- **Argentina**: Post-devaluation, cost-sensitive, high medical education quality → local AI talent
+**Specific LATAM angles:**
+1. **Brazil**: LGPD compliance + SUS (public health system) digitization → OpenEMR/OpenMRS + openmed
+2. **Mexico**: IMSS + ISSSTE modernization → FHIR interoperability projects
+3. **Argentina**: GNU Health community + hospital network AI
+4. **Colombia**: Digital health regulations 2025 → FHIR mandate creating integration work
+5. **All LATAM**: Ambient documentation in Spanish (Whisper + medspacy Spanish models) — unserved by DAX Copilot (English-first)
 
 ## Globant Positioning
 
-- **Strength**: Healthcare software delivery expertise + AI Studios capability + LATAM presence
-- **Play 1**: OpenMRS/Bahmni + agentic AI layer for public health ministries in LATAM
-- **Play 2**: FHIR MCP server + LangGraph agentic workflows for US/EU private hospital groups
-- **Play 3**: On-device clinical AI (openmed pattern) for HIPAA/LGPD/GDPR-constrained clients
-- **Play 4**: Spanish-language clinical NLP — adapt edsnlp + medspaCy for Ibero-American health systems
-- **Play 5**: Radiology AI pipelines (torchio + hi-ml) for diagnostic centers in LATAM
+| Service Line | Angle | Starting Point |
+|-------------|-------|----------------|
+| AI Studio | Agentic clinical decision support | LLM-Medical-Agent + FHIR + Claude API |
+| Healthcare Digital | EHR modernization + AI layer | OpenMRS/Medplum + medspacy + openmed |
+| Data & AI | Clinical data platform + analytics | HAPI FHIR + scispacy + LLM analytics |
+| LATAM | Ambient documentation in Spanish | Whisper (MIT) + medspacy + local LLM |
+| Life Sciences | Drug discovery acceleration | scispacy + AlphaFold + LLM pipelines |
 
 ---
-*Updated by the automated intelligence pipeline.*
+*Sources: Grand View Research, MarketsandMarkets, Fortune Business Insights, Deloitte, NVIDIA 2026 Industry Report, OpenAI HealthBench.*

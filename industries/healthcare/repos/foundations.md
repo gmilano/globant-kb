@@ -1,62 +1,45 @@
-# Foundational Open Source Repos for Healthcare AI
+# Foundational Repos — Healthcare
 
-> These are the battle-tested, widely-adopted repos that form the substrate of any healthcare AI project.
+> Build-on-top foundations: open license, active community, production deployments.
+> Last updated: 2026-07-06
 
-## Electronic Health Records & Hospital Management
+## Core Infrastructure
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [openemr/openemr](https://github.com/openemr/openemr) | GPL v3 | 3k+ | Most popular open source EMR + medical practice management. PHP/MySQL. Strong US billing + compliance. Used by thousands of outpatient clinics. |
-| [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) | MPL 2.0 | 1k+ | Modular Java EMR platform powering 8,000+ facilities in 70+ countries. Concept dictionary model, FHIR R4 API, robust REST layer. Ideal base for AI integration. |
-| [bahmni/bahmni-core](https://github.com/bahmni/bahmni-core) | AGPL v3 | 500+ | Full-stack hospital management (OpenMRS + Odoo + OpenELIS) for low-resource environments. Used in 50+ countries, 20+ Indian government hospitals. |
-| [gnu-health/gnuhealth](https://github.com/gnu-health/gnuhealth) | GPL v3 | 300+ | GNU Health EMR + Hospital and Health Information System. Python/Tryton backend. Strong in Latin America + Africa deployments. |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|----------|
+| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | ~2.4k | FHIR-native healthcare platform. TypeScript/React frontend + Node.js backend. HIPAA + SOC2 out of the box. SMART on FHIR v2.2. MCP server emerging. | Yes — REST + FHIR APIs, bot system for agent integration |
+| [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | ~1.0k | The reference Java implementation of the HL7 FHIR standard. Powers enterprise EHR data exchange. FHIR R4/R5. Community MCP server available. | Yes — standard FHIR server to connect AI agents to clinical data |
+| [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) | MPL-2.0 | ~1.3k | OpenMRS core: open-source medical record system powering 8,000+ facilities in 70+ countries. REST and FHIR R4 APIs. Java/Spring backend. Concept dictionary architecture. | Yes — REST API + FHIR module for agent connectivity |
+| [openemr/openemr](https://github.com/openemr/openemr) | GPL-3.0 | ~2.9k | OpenEMR v8.0.0 (Mar 2026): ONC-certified ambulatory EHR. Supports US Core 8.0, USCDI v5, SMART on FHIR v2.2.0. PHP + MySQL. Extensive module ecosystem. | Yes — FHIR R4 API, AI module hooks available |
+| [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | ~4.2k | Local-first medical AI: 1,500+ models for clinical NER, HIPAA PII de-identification. Runs 100% on-device. Python + Apple MLX. | Yes — directly embed in any Python healthcare pipeline |
+| [medspacy/medspacy](https://github.com/medspacy/medspacy) | MIT | ~680 | Clinical NLP toolkit on spaCy. Sentence segmentation, negation detection, section detection, temporal reasoning for clinical notes. Production-proven at VA, Mayo Clinic. | Yes — NLP preprocessing for clinical text before feeding to LLMs |
+| [allenai/scispacy](https://github.com/allenai/scispacy) | MIT | ~3.9k | Allen AI spaCy models for biomedical text. Entity linking to UMLS, MeSH, GO, HPO, RxNorm. 7 pretrained NER models. | Yes — standard biomedical NLP layer for any pipeline |
+| [TorchIO-project/torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | ~2.4k | Medical image processing for deep learning. Augmentation, preprocessing, and loading for 3D MRI/CT/PET data. PyTorch-native. | Yes — imaging preprocessing before vision model inference |
+| [apache/ctakes](https://github.com/apache/ctakes) | Apache-2.0 | ~135 | Apache cTAKES: production clinical NLP at scale. Identifies diseases, symptoms, medications, anatomical sites, lab values from unstructured notes. UMLS-based. | Yes — batch NLP pipeline for EHR note mining |
+| [smart-on-fhir/client-py](https://github.com/smart-on-fhir/client-py) | Apache-2.0 | ~620 | Python SMART on FHIR client library. Handles OAuth2 + FHIR resource retrieval from any SMART-compliant EHR (Epic, Cerner, Meditech). | Yes — Python SDK for agent FHIR data access |
 
-## Medical Imaging
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI) | Apache 2.0 | 6k+ | De-facto standard for medical imaging AI. PyTorch-based. CT/MRI segmentation, classification, detection. Model Zoo, Deploy SDK, Label tool. |
-| [pydicom/pydicom](https://github.com/pydicom/pydicom) | MIT | 2.5k+ | Python library for reading, modifying, and writing DICOM files. Foundation for any imaging pipeline. |
-| [OHIF/Viewers](https://github.com/OHIF/Viewers) | MIT | 4k+ | Web-based DICOM viewer (cornerstone.js). Extensible with AI overlays. Standard for browser-based medical image review. |
-| [cornerstonejs/cornerstone3D](https://github.com/cornerstonejs/cornerstone3D) | MIT | 1k+ | High-performance 3D medical image rendering in the browser. Powers OHIF. Foundation for custom clinical review UIs. |
-
-## Biomedical AI / LLMs
+## Supporting Libraries
 
 | Repo | License | Stars | Description |
 |------|---------|-------|-------------|
-| [microsoft/BioGPT](https://github.com/microsoft/BioGPT) | MIT | 4k+ | Microsoft biomedical LLM. Trained on 15M PubMed abstracts. Strong for relation extraction, QA, text generation. |
-| [epfLLM/meditron](https://github.com/epfLLM/meditron) | Apache 2.0 | 5k+ | EPFL medical LLM suite (7B/70B). Best open-source model for clinical reasoning, USMLE Q&A, medical guidelines. |
-| [stanford-crfm/BioMedLM](https://github.com/stanford-crfm/BioMedLM) | Apache 2.0 | 2k+ | Stanford 2.7B LLM trained purely on PubMed. Lightweight, deployable on-prem for data-residency clients. |
+| [aphp/edsnlp](https://github.com/aphp/edsnlp) | BSD-3-Clause | ~200 | Fast clinical NLP from Paris public hospitals. Multilingual (French/English). OMOP CDM output. Faster than spaCy for large-scale EHR processing. |
+| [microsoft/hi-ml](https://github.com/microsoft/hi-ml) | MIT | ~315 | Deep learning toolbox for medical imaging. Azure ML integration, InnerEye compatibility, DICOM support. |
+| [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | MIT | ~650 | CARE: Digital Public Good for care coordination. React frontend, FHIR-compatible. Deployed across 5+ countries. AI layer being added. |
+| [fhir-fuel/awesome-FHIR](https://github.com/fhir-fuel/awesome-FHIR) | MIT | ~700 | Curated list of FHIR tools, libraries, and resources. Reference for finding FHIR tooling across all languages. |
 
-## Interoperability & Standards
+## Architecture Notes
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Apache 2.0 | 2.5k+ | Most widely used open source FHIR server (Java). Standard for healthcare data interoperability. Required for any US healthcare integration. |
-| [samply/blaze](https://github.com/samply/blaze) | Apache 2.0 | 300+ | High-performance FHIR server built in Clojure. Strong for analytics workloads over large patient populations. |
+**FHIR is the integration backbone**: Any AI agent that needs to read or write patient data should go through a FHIR R4 server. Standard pattern:
 
-## Clinical NLP Infrastructure
+```
+Clinical System (Epic/OpenMRS/OpenEMR)
+    → FHIR R4 API (medplum or hapi-fhir)
+    → SMART on FHIR auth (client-py)
+    → AI Agent (LangGraph / Claude / GPT)
+    → Response logged as FHIR DocumentReference
+```
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [medspacy/medspacy](https://github.com/medspacy/medspacy) | MIT | 667+ | Clinical NLP library on spaCy. Section detection (HPI/Assessment/Plan), negation (NegEx), temporality, UMLS concept normalization. Required preprocessing step before any clinical text reaches an LLM. |
-| [apache/ctakes](https://github.com/apache/ctakes) | Apache-2.0 | 131+ | Apache cTAKES from Mayo Clinic. Extracts medications, diagnoses, procedures, anatomy from clinical text. UMLS-backed, production-hardened. Use for structured extraction at scale. |
-| [TorchIO-project/torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | 2.4k+ | Medical image preprocessing for deep learning (MRI, CT, PET). Data augmentation, patch-based sampling, lazy loading of large 3D volumes. PyTorch standard for medical imaging AI. |
-| [microsoft/hi-ml](https://github.com/microsoft/hi-ml) | MIT | 308+ | Microsoft Health Intelligence ML toolkit. Azure ML integration, radiology and ophthalmology evaluation harnesses, MLOps utilities for healthcare. Enterprise-grade. |
+**On-device vs cloud trade-off**: For PHI, use `openmed` (on-device) or ensure BAA + HIPAA-compliant cloud. Never send raw PHI to unpermissioned APIs.
 
-## Local-First AI & HIPAA-Compliant Infrastructure (New 2025–2026)
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | 4.0k+ | Local-first clinical AI: NER, PII de-identification, 1,000+ medical models, 12 languages, 100% on-device. The answer to "we can't send PHI to the cloud." |
-| [healthchainai/HealthChain](https://github.com/healthchainai/HealthChain) | Apache-2.0 | 210+ | Python SDK for connecting AI models to live EHR systems. FHIR R4, CDS Hooks, SMART on FHIR OAuth2. Skip the EHR integration tax. |
-| [the-momentum/open-wearables](https://github.com/the-momentum/open-wearables) | MIT | 2.0k+ | Self-hosted wearable data API — Garmin, Oura, Whoop, Apple HealthKit, Samsung all unified. AI Health Assistant coming Q3 2026. |
-| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | 1.5k+ | Modern FHIR-native developer platform. SMART on FHIR, subscriptions, CDS Hooks, serverless bot functions on FHIR events. The "Supabase for healthcare" — best starting point for new builds. |
-
-## Curated Ecosystems
-
-| Repo | License | Description |
-|------|---------|-------------|
-| [kakoni/awesome-healthcare](https://github.com/kakoni/awesome-healthcare) | MIT | Master index of open source healthcare software: EMR, imaging, standards, AI/ML, wearables, APIs. Start here for any new vertical. |
-| [AI-in-Health/MedLLMsPracticalGuide](https://github.com/AI-in-Health/MedLLMsPracticalGuide) | MIT | Practical patterns for applying LLMs to medicine. Agent frameworks, benchmarks, evaluation. Nature Reviews Bioengineering publication. |
-| [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC BY 4.0 | Curated index of the latest healthcare agent research: diagnostic agents, clinical dialogue, radiology, benchmarks, drug discovery. |
+---
+*See also: `verticals/solutions.md` for full vertical platforms.*

@@ -1,264 +1,264 @@
-# 🧩 Composition Patterns — Healthcare AI
+# Composition Patterns — Healthcare AI
 
-> Concrete recipes combining real repos + agents. Copy-paste starting points for client engagements.
+> Concrete recipes combining open-source repos + AI agents + integration patterns.
 > Last updated: 2026-07-06
 
-## Architecture Base
+## Architecture Blueprint
 
 ```
-[Open Source EHR/Platform (OpenMRS / OpenEMR / Bahmni / HAPI FHIR)]
-          ↓  FHIR R4 REST API
-[Interoperability Layer — HAPI FHIR server or SMART on FHIR]
+[EHR / Clinical Data Store]        [OpenMRS | OpenEMR | Medplum | Epic FHIR]
+          ↓ FHIR R4 API
+[Interoperability Layer]           [HAPI FHIR | Medplum | smart-on-fhir/client-py]
+          ↓ SMART on FHIR OAuth2
+[AI Orchestration Layer]           [LangGraph | Claude API | AutoGen]
+     ↓               ↓
+[NLP Agents]    [Specialty Agents]  [openmed | medspacy | LLM-Medical-Agent]
           ↓
-[AI Agent Orchestration — LangGraph / CrewAI]
-          ↓  tool calls
-[Specialized Clinical Agents]
-  ├── Clinical NLP (medspaCy / openmed / ctakes)
-  ├── Medical Reasoning (MedAgents / BioGPT)
-  └── Domain-specific (torchio / hi-ml for imaging)
-          ↓
-[UI / API layer — conversational or embedded in EHR]
+[FHIR Write-back / UI]             [DocumentReference | CarePlan | React UI]
 ```
 
 ---
 
-## Recipe 1: Ambient Clinical Documentation Agent
+## Recipe 1: Ambient Clinical Documentation (Spanish/English)
 
-**Use case**: Automate SOAP note generation from voice recordings during physician encounters. 10–15 minutes/patient saved.
+**Problem**: Physicians spend 35-50% of their time on documentation. No affordable ambient tool supports Spanish.
 
 **Stack**:
-- `openai/whisper` (MIT) — voice-to-text transcription
-- `medspacy/medspacy` (MIT) — clinical entity extraction from transcript
-- `hapifhir/hapi-fhir` (Apache-2.0) — store structured encounter in FHIR
-- `microsoft/BioGPT` (MIT) or Claude — SOAP note generation from entities
-- `openmrs/openmrs-core` (MPL-2.0) — backend EHR persistence
+- ASR: `openai/whisper` (MIT) — multilingual, runs on-premise
+- Clinical NLP: `medspacy` (MIT) — section detection, negation, temporal
+- FHIR write: `medplum/medplum` (Apache-2.0) or `hapifhir/hapi-fhir` (Apache-2.0)
+- LLM summarization: Claude API (`claude-opus-4-8` for clinical reasoning)
 
-**Wiring**:
+**Implementation**:
 ```python
-# 1. Transcribe encounter audio
-transcript = whisper.transcribe("encounter_audio.mp3")["text"]
+import whisper
+import spacy
+from medspacy import load as medspacy_load
+import anthropic
 
-# 2. Extract clinical entities
+# 1. Transcribe appointment audio (on-premise)
+model = whisper.load_model("large-v3")
+transcript = model.transcribe("appointment.wav", language="es")["text"]
+
+# 2. NLP: extract entities, negations, sections
+nlp = medspacy_load("es_core_news_sm")  # Spanish clinical model
+doc = nlp(transcript)
+entities = [(ent.text, ent.label_, ent._.is_negated) for ent in doc.ents]
+
+# 3. Structure into SOAP note via LLM
+client = anthropic.Anthropic()
+note = client.messages.create(
+    model="claude-opus-4-8",
+    max_tokens=2000,
+    system="You are a clinical documentation specialist. Structure the following clinical transcript into a SOAP note. Output valid JSON matching FHIR Composition resource structure.",
+    messages=[{"role": "user", "content": f"Transcript: {transcript}\nEntities: {entities}"}]
+)
+
+# 4. Write to FHIR as DocumentReference
+# POST /fhir/R4/DocumentReference with note.content
+```
+
+**Timeline**: 3-4 weeks for MVP; 2-3 months for production with human review workflow  
+**ROI**: 30-40% physician documentation time reduction
+
+---
+
+## Recipe 2: Multi-Agent Clinical Decision Support
+
+**Problem**: Clinicians lack real-time synthesis of lab results, imaging, medications, and guidelines.
+
+**Stack**:
+- Orchestration: `LangGraph` (MIT) + Claude API
+- Data access: `smart-on-fhir/client-py` (Apache-2.0) via SMART on FHIR
+- Clinical NLP: `openmed` (Apache-2.0) for on-device processing
+- Reference: [TUDB-Labs/LLM-Medical-Agent](https://github.com/TUDB-Labs/LLM-Medical-Agent) (MIT)
+
+**Agent Team**:
+```
+PatientContextAgent     → reads FHIR Patient, Observation, MedicationRequest
+LabInterpretationAgent  → analyzes lab trends vs reference ranges
+DDxAgent                → generates differential diagnosis
+GuidelinesAgent         → retrieves relevant clinical guidelines (RAG over NICE/UpToDate)
+SafetyAgent             → checks drug interactions, contraindications
+SynthesisAgent          → produces final clinical summary for physician
+```
+
+**Key Code Pattern (LangGraph)**:
+```python
+from langgraph.graph import StateGraph, END
+from anthropic import Anthropic
+
+# Define state
+class ClinicalState(TypedDict):
+    patient_id: str
+    fhir_data: dict
+    lab_interpretation: str
+    ddx: list[str]
+    guidelines: str
+    safety_flags: list[str]
+    final_summary: str
+
+# Each node calls Claude with specialist system prompt
+def lab_agent(state: ClinicalState) -> ClinicalState:
+    client = Anthropic()
+    response = client.messages.create(
+        model="claude-opus-4-8",
+        system="You are a clinical pathologist. Interpret these lab results...",
+        messages=[{"role": "user", "content": str(state["fhir_data"]["labs"])}]
+    )
+    return {**state, "lab_interpretation": response.content[0].text}
+
+# Build graph
+graph = StateGraph(ClinicalState)
+graph.add_node("lab_agent", lab_agent)
+# ... add all agents, define edges, compile
+```
+
+**Human-in-loop**: Final synthesis is always presented to physician for approval. Never auto-order.  
+**Timeline**: 6-8 weeks for pilot; requires physician advisory involvement
+
+---
+
+## Recipe 3: FHIR Data Pipeline with AI-Powered NLP Mining
+
+**Problem**: Hospitals have millions of unstructured clinical notes; value locked in text.
+
+**Stack**:
+- FHIR server: `hapifhir/hapi-fhir` (Apache-2.0)
+- Clinical NLP batch: `apache/ctakes` (Apache-2.0) + `allenai/scispacy` (MIT)
+- On-device PHI handling: `maziyarpanahi/openmed` (Apache-2.0)
+- Analytics: PostgreSQL + pgvector for semantic search
+
+**Pipeline**:
+```
+FHIR DocumentReference (unstructured notes)
+    ↓ openmed: HIPAA PII de-identification
+    ↓ ctakes: entity extraction (diseases, medications, procedures)
+    ↓ scispacy: UMLS linking → standard codes (ICD-10, RxNorm, SNOMED)
+    ↓ pgvector: semantic embeddings for similarity search
+    ↓ LLM analytics: population health insights, cohort identification
+    ↓ FHIR Observation: write back structured data
+```
+
+**Output**: Structured, coded, de-identified clinical data warehouse  
+**Use cases**: Quality metrics, research cohort identification, population health management  
+**Timeline**: 8-12 weeks; requires clinical informatics expertise for validation
+
+---
+
+## Recipe 4: OpenMRS + AI Clinical Decision Support for LATAM Hospital
+
+**Problem**: Hospital in LATAM using OpenMRS without clinical decision support.
+
+**Stack**:
+- EHR: `openmrs/openmrs-core` (MPL-2.0)
+- AI integration: OpenMRS REST API → Python agent middleware
+- Clinical NLP: `medspacy` Spanish models (MIT)
+- LLM: Local `ollama` with `medllama` or Claude API with BAA
+
+**Integration Points**:
+```
+OpenMRS REST API: /ws/rest/v1/obs (observations)
+                  /ws/rest/v1/encounter (encounters)
+                  /ws/rest/v1/patient (demographics)
+
+AI Middleware:
+  - POST /encounter → trigger AI analysis
+  - AI reads: vitals, diagnoses, medications, allergies
+  - AI produces: suggested interventions, drug interaction alerts
+  - Write back: /ws/rest/v1/obs (new structured observation)
+```
+
+**Spanish NLP for note parsing**:
+```python
 import medspacy
 nlp = medspacy.load()
-doc = nlp(transcript)
-entities = [(e.text, e.label_) for e in doc.ents]  # medications, symptoms, findings
-
-# 3. Generate structured SOAP note
-prompt = f"Generate SOAP note from clinical entities: {entities}"
-soap_note = claude.messages.create(
-    model="claude-sonnet-5",
-    messages=[{"role": "user", "content": prompt}]
-)
-
-# 4. Write to OpenMRS via FHIR
-fhir_encounter = build_fhir_encounter(soap_note, patient_id)
-requests.post("http://localhost:8080/fhir/Encounter", json=fhir_encounter)
+# Add Spanish clinical text processing
+# Extract: symptoms, diagnoses, medication mentions
+# Detect: negation ("no tiene fiebre"), uncertainty ("posiblemente")
 ```
 
-**Estimated build time**: 6–10 weeks
-**Privacy**: Run whisper + medspaCy on-prem; BioMedLM instead of Claude for full air-gap
+**Timeline**: 4-6 weeks for integration; 2-3 months for clinical validation  
+**Key risk**: OpenMRS MPL-2.0 is a weak copyleft; code changes to OpenMRS modules must be shared, but the AI layer on top can be proprietary.
 
 ---
 
-## Recipe 2: Multi-Specialist Clinical Decision Support Agent (MedAgents Pattern)
+## Recipe 5: Radiology AI Agent Pipeline
 
-**Use case**: Complex case review where multiple specialist perspectives improve diagnostic accuracy. Oncology tumor boards, ICU case review, rare disease.
-
-**Stack**:
-- `gersteinlab/MedAgents` (MIT) — multi-agent collaborative reasoning framework
-- `hapifhir/hapi-fhir` (Apache-2.0) — FHIR data source for patient context
-- `LangGraph` (MIT) — agent orchestration with memory and state
-- `microsoft/BioGPT` (MIT) — medical knowledge base
-- OpenMRS REST API — patient data
-
-**Wiring**:
-```python
-# LangGraph multi-agent state machine
-from langgraph.graph import StateGraph
-
-# Define specialist agents (MedAgents pattern)
-agents = {
-    "cardiologist": create_specialist_agent("cardiology guidelines", fhir_tools),
-    "pharmacologist": create_specialist_agent("drug interactions", fhir_tools),
-    "radiologist": create_specialist_agent("imaging findings", imaging_tools),
-    "internist": create_moderator_agent()  # synthesizes consensus
-}
-
-# Each agent gets patient FHIR data + their specialty prompt
-# Agents debate via message passing until consensus
-# Internist agent produces final recommendation
-
-graph = build_medagents_graph(agents)
-result = graph.invoke({"patient_id": "P123", "question": "Optimal treatment?"})
-```
-
-**Estimated build time**: 8–14 weeks (including clinical validation)
-**Note**: Requires physician oversight loop (EU AI Act high-risk compliance)
-
----
-
-## Recipe 3: FHIR MCP Server — AI Agents with Live Patient Data
-
-**Use case**: Give Claude / GPT-4 direct access to live EHR data via FHIR. Power any AI application with patient-specific context.
+**Problem**: Radiologist reading backlog; need AI-assisted anomaly flagging.
 
 **Stack**:
-- `hapifhir/hapi-fhir` (Apache-2.0) — FHIR server
-- `smart-on-fhir/client-js` (Apache-2.0) — OAuth2 SMART on FHIR auth
-- Custom MCP server — wraps FHIR REST as MCP tools
-- Claude via Anthropic API — AI reasoning layer
+- Imaging preprocessing: `torchio` (Apache-2.0) for 3D MRI/CT
+- Deep learning: NVIDIA MONAI (Apache-2.0) for segmentation models
+- LLM report generation: Claude API with structured output
+- FHIR: ImagingStudy + DiagnosticReport resources
 
-**Wiring**:
-```python
-# MCP server wrapping FHIR API as tools
-@mcp_tool
-def get_patient_observations(patient_id: str, code: str) -> list:
-    """Get lab results for a patient by LOINC code"""
-    response = fhir_client.get(
-        f"/Observation?patient={patient_id}&code={code}&_sort=-date&_count=10"
-    )
-    return parse_fhir_bundle(response)
-
-@mcp_tool
-def get_patient_medications(patient_id: str) -> list:
-    """Get active medication list for a patient"""
-    return fhir_client.get(f"/MedicationRequest?patient={patient_id}&status=active")
-
-# Claude with FHIR tools via MCP
-# "What are the last 3 HbA1c values for patient 123?"
-# → get_patient_observations("123", "4548-4") → structured results → LLM synthesis
-```
-
-**Estimated build time**: 4–8 weeks
-**Security**: SMART on FHIR OAuth2 scopes limit data access per clinician role
-
----
-
-## Recipe 4: On-Device HIPAA-Compliant Clinical NER (openmed pattern)
-
-**Use case**: Extract clinical entities from notes/reports without PHI leaving the hospital network. HIPAA/LGPD/GDPR compliant by design.
-
-**Stack**:
-- `maziyarpanahi/openmed` (Apache-2.0) — 1,000+ on-device medical models
-- `openmed-labs/openmed-agent` (MIT) — terminal AI assistant, local inference
-- Ollama (MIT) — local LLM runner
-- `medspacy/medspacy` (MIT) — entity extraction pipeline
-
-**Wiring**:
-```bash
-# Install openmed
-pip install openmed
-
-# Run clinical NER locally — no network call
-python -c "
-from openmed import MedNER, PIIDeidentifier
-ner = MedNER(language='en', model='clinical-ner-large')
-deidentifier = PIIDeidentifier()
-
-note = 'Patient John Smith (DOB 1965-03-12) presents with HbA1c of 9.2...'
-safe_note = deidentifier.deidentify(note)  # Removes PII, stays local
-entities = ner.extract(safe_note)
-print(entities)
-# [('HbA1c', 'LAB_VALUE'), ('9.2', 'NUMERIC'), ('diabetes', 'CONDITION')]
-"
-```
-
-```python
-# Pair with Ollama local LLM for full on-prem AI
-import ollama
-from openmed import MedNER
-
-entities = MedNER().extract(clinical_note)
-response = ollama.chat(
-    model="biomistral",  # medical fine-tuned Mistral
-    messages=[{"role": "user", "content": f"Summarize findings: {entities}"}]
-)
-```
-
-**Estimated build time**: 2–4 weeks (proof of concept), 6–10 weeks (production)
-**HIPAA compliance**: Yes — no PHI transmission, all inference on-device
-
----
-
-## Recipe 5: Prior Authorization Automation Agent
-
-**Use case**: Automate prior authorization requests that currently take 2–5 hours per physician per week. CDS Hooks integration triggers at order entry.
-
-**Stack**:
-- `openmrs/openmrs-core` (MPL-2.0) or OpenEMR (GPL-3.0) — EHR with FHIR API
-- `DBCG/org-opencds-cqf-cds` (Apache-2.0) — CDS Hooks implementation
-- LangGraph (MIT) — multi-step auth workflow agent
-- `microsoft/BioGPT` (MIT) — clinical evidence retrieval
-- Claude API — document drafting
-
-**Wiring**:
-```
-1. Physician orders high-cost procedure in OpenEMR
-2. CDS Hooks fires: "order-sign" hook → Prior Auth Agent
-3. LangGraph agent:
-   - Step 1: Evidence Agent → RAG on clinical guidelines (does this procedure have Level A evidence?)
-   - Step 2: Patient Context Agent → FHIR query for prior treatments, diagnoses, labs
-   - Step 3: Payer Rules Agent → Check payer-specific criteria (configurable rules engine)
-   - Step 4: If criteria met → auto-approve and log
-   - Step 5: If not → Draft clinical justification letter with Claude
-4. CDS Card returned: "Auto-approved" or "Draft letter ready for review"
-```
-
-**Estimated build time**: 10–16 weeks (includes payer rules configuration)
-**ROI**: 2–5 hours/physician/week saved; $15–40/auth administrative cost eliminated
-
----
-
-## Recipe 6: Radiology AI Pipeline (Low-Resource Settings)
-
-**Use case**: Chest X-ray analysis for TB detection in settings with limited radiologist access (LATAM, Africa). Run locally on clinic GPU.
-
-**Stack**:
-- `TorchIO-project/torchio` (Apache-2.0) — DICOM/NIfTI preprocessing and augmentation
-- `microsoft/hi-ml` (MIT) — model training and evaluation pipeline
-- PyTorch (BSD) — deep learning framework
-- `openmrs/openmrs-core` (MPL-2.0) — result persistence and clinical workflow
-- `hapifhir/hapi-fhir` (Apache-2.0) — FHIR DiagnosticReport output
-
-**Wiring**:
+**Pipeline**:
 ```python
 import torchio as tio
-from monai.networks.nets import DenseNet121  # radiologist-grade architecture
+import anthropic
 
-# Preprocessing pipeline (torchio)
-transform = tio.Compose([
-    tio.RescaleIntensity(out_min_max=(0, 1)),
-    tio.RandomFlip(axes=("LR",)),
-    tio.Resize((224, 224, 1))
-])
+# 1. Load and preprocess DICOM
+subject = tio.Subject(mri=tio.ScalarImage("scan.dcm"))
+transform = tio.Compose([tio.RescaleIntensity(), tio.CropOrPad(256)])
+processed = transform(subject)
 
-# Load chest X-ray, preprocess
-subject = tio.Subject(image=tio.ScalarImage("chest_xr.dcm"))
-preprocessed = transform(subject)
+# 2. Run segmentation model (MONAI)
+# ... inference → anomaly_mask, confidence_scores
 
-# Run classification model
-model = DenseNet121(spatial_dims=2, in_channels=1, out_channels=3)
-# outputs: [Normal, TB, Other pathology]
-prediction = model(preprocessed.image.data.unsqueeze(0))
+# 3. Generate structured radiology report
+client = anthropic.Anthropic()
+report = client.messages.create(
+    model="claude-opus-4-8",
+    system="You are a radiologist. Generate a structured radiology report from the following AI analysis findings...",
+    messages=[{"role": "user", "content": f"Findings: {anomaly_findings}"}]
+)
 
-# Write FHIR DiagnosticReport to OpenMRS
-fhir_report = build_diagnostic_report(patient_id, prediction, confidence)
-fhir_client.post("/DiagnosticReport", json=fhir_report)
+# 4. Write FHIR DiagnosticReport for radiologist review
 ```
 
-**Estimated build time**: 8–14 weeks (including model validation and clinical sign-off)
-**Setting**: Works with NVIDIA T4 ($3k) or local CPU for inference (slower)
+**Regulatory note**: AI findings flagged as "AI-assisted preliminary read" — always requires radiologist sign-off per FDA guidance.  
+**Benchmark**: Validate against ABRA (Agent Benchmark for Radiology Applications, 2026)  
+**Timeline**: 10-14 weeks; requires annotated local dataset for fine-tuning
 
 ---
 
-## Pattern Selection Guide
+## Recipe 6: Prior Authorization Automation Agent
 
-| Client Situation | Recommended Pattern |
-|-----------------|-------------------|
-| US hospital, HIPAA strict, no cloud PHI | Recipe 4 (openmed on-device) |
-| Complex clinical decisions, needs specialist opinions | Recipe 2 (MedAgents multi-specialist) |
-| Want AI to query their EHR via chat | Recipe 3 (FHIR MCP server) |
-| Physicians drowning in documentation | Recipe 1 (Ambient documentation) |
-| High prior auth burden, US payers | Recipe 5 (Prior auth agent) |
-| LATAM/Africa, radiology scarce | Recipe 6 (Radiology AI pipeline) |
-| Quick demo / prototype | Recipe 3 + 4 (FHIR MCP + openmed) |
+**Problem**: Prior auth takes 14+ days, consumes 40+ hours/week per practice.
+
+**Stack**:
+- Data: `medplum/medplum` (Apache-2.0) as FHIR store
+- Agent: LangGraph orchestration + Claude API
+- Integration: CoverMyMeds API or payer-specific EDI
+
+**Agent Workflow**:
+```
+1. Trigger: New MedicationRequest or ServiceRequest in FHIR
+2. ClaimsAgent: retrieves payer requirements (payer API or web scrape)
+3. DocumentationAgent: pulls supporting clinical documentation from FHIR
+4. CriteriaMatchAgent: checks if clinical criteria are met
+5. FormAgent: generates prior auth form content
+6. SubmissionAgent: submits to payer portal (with human approval step)
+7. StatusAgent: polls for payer decision; updates FHIR Task resource
+```
+
+**Human gate**: Submission requires clinician e-signature (EHR integration required)  
+**ROI**: 40-60% reduction in PA processing time; 25-35% approval rate improvement  
+**Timeline**: 8-12 weeks; payer API access is the critical path
+
+---
+
+## Anti-Patterns to Avoid
+
+| Pattern | Why Bad | Better Alternative |
+|---------|---------|-------------------|
+| Sending raw PHI to public LLM APIs without BAA | HIPAA violation | Use openmed on-device or Claude API with BAA |
+| AI making autonomous clinical decisions | Regulatory/liability risk | Always human-in-the-loop for clinical output |
+| GPL-3.0 code in commercial product core | Copyleft spreads to entire product | Use MIT/Apache-2.0 components in the AI layer |
+| Single LLM agent for all clinical tasks | Hallucination risk, no specialization | Multi-agent with specialist prompts + verification |
+| Skipping clinical validation | FDA SaMD risk, patient harm | Validate against HealthBench / AgentClinic; involve clinical advisors |
+| Hard-coding clinical guidelines | Guidelines change; outdated advice is dangerous | RAG over versioned guideline documents |
+
+---
+*Patterns validated against: HL7 FHIR R4 spec, SMART on FHIR v2.2, FDA AI/ML SaMD guidance, EU AI Act Article 22 high-risk AI requirements.*

@@ -1,44 +1,25 @@
-# Healthcare AI — Trending GitHub Repos (2026-07-02)
+# Trending Repos — Healthcare (2026-07-06)
 
-## Rising Fast
+> Repos gaining stars, activity, or community attention this week.
 
-### [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare)
-- **Topic**: Curated index of agentic AI for healthcare
-- **Why trending**: Most active curation effort for 2025-2026 healthcare agent papers and implementations
-- **Key coverage**: Diagnostic reasoning agents, radiology benchmarks, clinical dialogue, drug discovery, care coordination
-- **License**: CC BY 4.0
+## High-Quality Trending (Substantive Projects)
 
-### [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI)
-- **Stars**: 6,056+ | **License**: Apache 2.0
-- **Why trending**: Consistent top performer. New Model Zoo additions for pathology and ophthalmology in 2026. NVIDIA backing.
-- **Recent**: MONAI Generative module now in main repo (Warvito/generative_monai merged upstream)
+| Name | License | Stars | Description |
+|------|---------|-------|-------------|
+| [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | ~4.2k | Local-first healthcare AI, 1,500+ medical models on-device. 340M downloads. Breaking out as the HIPAA-safe inference standard. |
+| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | ~2.4k | FHIR-native healthcare dev platform. Apache-2.0, HIPAA+SOC2. React + Node.js. Getting MCP server integrations. |
+| [souvikmajumder26/Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant) | Apache-2.0 | ~850 | Multi-agent medical diagnostics chatbot. LangGraph-orchestrated specialist agents (radiologist, pharmacist, GP). |
+| [allenai/scispacy](https://github.com/allenai/scispacy) | MIT | ~3.9k | SpaCy biomedical NLP models by Allen AI. Consistent demand from clinical data teams. |
+| [TorchIO-project/torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | ~2.4k | Medical imaging deep learning library. Growing adoption as radiology AI agent backends need image preprocessing. |
+| [ahmadvh/AI-Agents-for-Medical-Diagnostics](https://github.com/ahmadvh/AI-Agents-for-Medical-Diagnostics) | MIT | ~460 | Multi-specialist LLM agent panel for case analysis. Emerging reference implementation for agentic diagnostics. |
+| [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | MIT | ~400 | Curated paper list tracking bleeding-edge clinical AI agent research. ~350 cumulative stars (244 in 2025, 103+ in 2026). |
+| [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | MIT | ~650 | CARE: open-source care coordination platform. Deployed LATAM + SE Asia. Gaining AI integration PRs. |
+| [TUDB-Labs/LLM-Medical-Agent](https://github.com/TUDB-Labs/LLM-Medical-Agent) | MIT | ~290 | Multi-agent framework for medical data processing with specialist role simulation. |
+| [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | ~1.0k | HAPI FHIR Java server — the reference FHIR implementation, now getting community MCP server wrappers for AI agent connectivity. |
 
-### [gersteinlab/MedAgentGym](https://github.com/gersteinlab/MedAgentGym)
-- **Topic**: Agentic training environment for biomedical data science
-- **Why trending**: ArXiv June 2026. First gym for training LLM agents on clinical data tasks (EHR queries, omics analysis, literature synthesis)
-- **License**: Apache 2.0
+## Context on Prior Trending List
 
-### [epfLLM/meditron](https://github.com/epfLLM/meditron)
-- **Stars**: 5,000+ | **License**: Apache 2.0
-- **Why trending**: Growing adoption for on-premise healthcare LLM deployments. Meditron-70B consistently beats GPT-4 on medical benchmarks.
-- **Use case**: Hospitals with PHI/data-residency requirements using local LLM inference
+The previous trending list (2026-07-02) had noise: repos with 0 stars, job boards, and non-healthcare projects (env-runner). This update replaces those with substantive healthcare AI projects.
 
-### [AI-in-Health/MedLLMsPracticalGuide](https://github.com/AI-in-Health/MedLLMsPracticalGuide)
-- **Stars**: 3,000+ | **License**: MIT
-- **Why trending**: Published in Nature Reviews Bioengineering. Go-to reference for anyone building medical AI systems.
-
-## Ecosystem Momentum
-
-### FHIR + AI Integration
-- [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) seeing increased agent integration PRs
-- Pattern: LLM agent → FHIR API → structured clinical data → reasoning
-- Driving SMART on FHIR app development for AI overlays on Epic/Cerner
-
-### Healthcare topics growing on GitHub
-- `healthcare-ai-agent` topic: 200+ repos, up 80% YoY
-- `clinical-nlp` topic: active with FHIR-native processing libraries
-- `medical-imaging-ai` topic: dominated by MONAI-based projects
-
-## Recently Archived / Watch Carefully
-- MedPaLM: Google's model — not open source, but its benchmarks define the ceiling for open models to target
-- OpenMed (HuggingFace org): 1,500+ Apache 2.0 medical NER models — useful for clinical text processing pipelines
+---
+*Auto-updated by the ingest pipeline. 2026-07-06.*

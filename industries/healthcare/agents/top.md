@@ -1,68 +1,39 @@
-# Top Open Source AI Agents for Healthcare
+# Top AI Agents & Tools — Healthcare
 
-> Last updated: 2026-07-02 | Focus: MIT / Apache 2.0 / BSD — licenses Globant can build on
+> Open-source AI agents and tools for healthcare. Focus: MIT / Apache 2.0 licenses Globant can build on.
+> Last updated: 2026-07-06
 
-## AI Agents & LLMs
+## Featured Agents & Tools
 
-| Agent | Repo | License | Stars | Description |
-|-------|------|---------|-------|-------------|
-| Meditron | [epfLLM/meditron](https://github.com/epfLLM/meditron) | Apache 2.0 | 5k+ | Suite of open medical LLMs (7B/70B) adapted from Llama-2 on PubMed, clinical guidelines, and medical Q&A. Best open model for clinical reasoning tasks. |
-| BioGPT | [microsoft/BioGPT](https://github.com/microsoft/BioGPT) | MIT | 4k+ | Generative pre-trained transformer for biomedical text generation, relation extraction, and Q&A. Trained on 15M PubMed abstracts. |
-| BioMedLM | [stanford-crfm/BioMedLM](https://github.com/stanford-crfm/BioMedLM) | Apache 2.0 | 2k+ | Stanford 2.7B parameter LLM trained exclusively on PubMed text. Lightweight, on-premise deployable. |
-| MedAgents | [gersteinlab/MedAgents](https://github.com/gersteinlab/MedAgents) | MIT | 1k+ | Multi-agent LLM framework simulating multi-specialist consultation for zero-shot medical reasoning. Achieves GPT-4-level on USMLE without fine-tuning. |
-| EHRAgent | [wshi83/EHRAgent](https://github.com/wshi83/EHRAgent) | MIT | 800+ | LLM agent that answers clinical questions by generating and executing code against EHR databases (MIMIC-III). |
-| MONAI | [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI) | Apache 2.0 | 6k+ | PyTorch-based deep learning toolkit for healthcare imaging. Includes Model Zoo, Label, and Deploy App SDK. NVIDIA + King's College London. |
-| MONAI Label | [Project-MONAI/MONAILabel](https://github.com/Project-MONAI/MONAILabel) | Apache 2.0 | 1.5k+ | Intelligent active-learning image labeling tool; integrates with 3D Slicer and OHIF for iterative annotation and training. |
-| MedLLMsPracticalGuide | [AI-in-Health/MedLLMsPracticalGuide](https://github.com/AI-in-Health/MedLLMsPracticalGuide) | MIT | 3k+ | Comprehensive practical guide for applying LLMs in medicine (Nature Reviews Bioengineering). Agent patterns, benchmarks, and evaluation datasets. |
-| Awesome-AI-Agents-Healthcare | [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC BY 4.0 | Active | Curated index of latest agentic AI systems: diagnostic agents, clinical dialogue, radiology, drug discovery, administration. |
-| MedAgentGym | [gersteinlab/MedAgentGym](https://github.com/gersteinlab/MedAgentGym) | Apache 2.0 | New | Scalable training environment for agentic code-centric reasoning on biomedical data science tasks (arXiv June 2026). |
+| Name | License | Stars | Description |
+|------|---------|-------|-------------|
+| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | ~4.2k | Local-first healthcare AI: clinical NER & HIPAA PII de-identification running 100% on-device. 1,500+ open medical models across 12 languages using Apple MLX + Python. 340M model downloads as of Jun 2026. |
+| [medspacy](https://github.com/medspacy/medspacy) | MIT | ~680 | Clinical NLP library built on spaCy. Provides sentence segmentation, contextual analysis, attribute assertion (negation, temporality), and section detection for clinical notes. Production-ready. |
+| [scispacy](https://github.com/allenai/scispacy) | MIT | ~3.9k | Allen AI's spaCy models for biomedical and scientific text. Includes NER models for diseases, chemicals, genes, and linking to UMLS/MeSH ontologies. |
+| [torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | ~2.4k | Medical imaging processing for AI/deep learning. Data augmentation, preprocessing, and loading for 3D MRI/CT. Integrates with PyTorch. |
+| [Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant) | Apache-2.0 | ~850 | GenAI-powered multi-agentic medical diagnostics and healthcare research chatbot. Designed for clinicians, researchers, and patients. Uses LangGraph + RAG over clinical literature. |
+| [edsnlp](https://github.com/aphp/edsnlp) | BSD-3-Clause | ~200 | Fast modular NLP framework from AP-HP (Paris public hospitals), compatible with PyTorch and spaCy. Specialized in French and multilingual clinical text, OMOP CDM output. |
+| [ctakes](https://github.com/apache/ctakes) | Apache-2.0 | ~135 | Apache cTAKES: battle-tested clinical NLP platform for extracting information from clinical notes. Identifies diseases, symptoms, medications, procedures using UMLS. |
+| [hi-ml](https://github.com/microsoft/hi-ml) | MIT | ~315 | Microsoft's HI-ML toolbox for deep learning in medical imaging. Integrates with Azure ML and InnerEye. Supports segmentation, classification on DICOM data. |
+| [LLM-Medical-Agent](https://github.com/TUDB-Labs/LLM-Medical-Agent) | MIT | ~290 | Multi-agent framework for medical data processing. Orchestrates specialist agents (cardiologist, radiologist, pharmacist) to analyze complex cases end-to-end. |
+| [AI-Agents-for-Medical-Diagnostics](https://github.com/ahmadvh/AI-Agents-for-Medical-Diagnostics) | MIT | ~460 | LLM-based AI agents simulating a multidisciplinary medical team for complex case analysis. Produces treatment recommendations from structured specialist perspectives. |
 
-## Clinical Dialogue & Communication Agents
+## Emerging / Research-Grade Agents (2026)
 
-| Agent | Repo | License | Description |
-|-------|------|---------|-------------|
-| Clinical-Camel | [bowang-lab/clinical-camel](https://github.com/bowang-lab/clinical-camel) | Apache 2.0 | Medical QA and dialogue agent based on LLaMA-2-70B with USMLE + clinical corpus training |
-| Agentic Clinical Dialogue | [xqz614/Awesome-Agentic-Clinical-Dialogue](https://github.com/xqz614/Awesome-Agentic-Clinical-Dialogue) | MIT | Resource collection of medical agents for clinical dialogue, health Q&A, and patient interaction |
-| CHA | [Institute4FutureHealth/CHA](https://github.com/Institute4FutureHealth/CHA) | MIT | Conversational Health Agent — modular LLM-powered framework with wearable, EHR, and knowledge graph integration for personalized longitudinal health conversations |
-| MDAgents | [mitmedialab/MDAgents](https://github.com/mitmedialab/MDAgents) | MIT | MIT Media Lab — adaptive LLM collaboration assembling GP + specialist + radiologist agents per query complexity. GPT-4 level on MedQA benchmarks. |
+| Name | License | Description |
+|------|---------|-------------|
+| [AgentClinic](https://agentclinic.github.io/) | MIT | Multimodal benchmark for tool-using clinical AI agents. Simulates patient interactions, multimodal data collection, and tool use across 9 medical specialties and 7 languages. |
+| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | MIT | ~398★ curated list tracking latest research papers: radiology agents (ABRA), EHR agents, surgical agents, mental health agents, clinical dialogue agents. |
+| [Awesome-Medical-LLM-Agent](https://github.com/yczhou001/Awesome-Medical-LLM-Agent) | MIT | Survey repo: "Reasoning as the Engine — The Evolution from Medical LLMs to Versatile Medical Agents." Comprehensive taxonomy of medical agent architectures. |
+| [SEMA-RAG](https://github.com/AIM-Research-Lab/Awesome-AI-Agents-Medicine) | Apache-2.0 | Self-evolving multi-agent RAG for medical reasoning. Featured in 2026 literature. Dynamic agent routing based on query complexity. |
 
-## Clinical NLP Tools
+## Selection Rationale (for Globant engagements)
 
-| Agent | Repo | License | Stars | Description |
-|-------|------|---------|-------|-------------|
-| medspacy | [medspacy/medspacy](https://github.com/medspacy/medspacy) | MIT | 667+ | Clinical NLP library built on spaCy. Section detection (HPI/Assessment/Plan), negation (NegEx), temporality, UMLS concept normalization. Production-grade; used at multiple health systems. |
-| ctakes | [apache/ctakes](https://github.com/apache/ctakes) | Apache-2.0 | 131+ | Apache cTAKES from Mayo Clinic — extracts medications, diagnoses, procedures, anatomy from clinical notes. UMLS-backed, production-hardened. |
+- **Best for HIPAA-compliant on-prem NLP**: `openmed` (Apache-2.0, fully on-device, no PHI leaves the network)
+- **Best for clinical note parsing**: `medspacy` + `scispacy` combo (MIT, production-proven at major hospitals)
+- **Best for medical imaging AI**: `torchio` (Apache-2.0, integrates with any PyTorch pipeline)
+- **Best for multi-agent clinical workflows**: `Multi-Agent-Medical-Assistant` or `LLM-Medical-Agent` (Apache-2.0 / MIT)
+- **Avoid**: Models that require sending PHI to third-party cloud APIs without BAA
 
-## Local-First AI & EHR Integration (New 2025–2026)
-
-| Agent | Repo | License | Stars | Description |
-|-------|------|---------|-------|-------------|
-| openmed | [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | 4.0k+ | Local-first healthcare AI: clinical NER & HIPAA PII de-identification, 1,000+ medical models, 12 languages, 100% on-device (Apple MLX + Python). The go-to for clients with data residency requirements. |
-| openmed-agent | [openmed-labs/openmed-agent](https://github.com/openmed-labs/openmed-agent) | Apache-2.0 | 23+ | Terminal-native clinical workspace — prior auth review, coding audits, care coordination. 62 built-in tools, SNOMED/ICD-10/RxNorm access. From the OpenMed team. |
-| HealthChain | [healthchainai/HealthChain](https://github.com/healthchainai/HealthChain) | Apache-2.0 | 210+ | Python SDK connecting AI models to live EHR systems via FHIR. Multi-EHR aggregation, CDS-Hooks endpoints, SMART on FHIR OAuth2 (Epic + Cerner in v0.4). |
-| open-wearables | [the-momentum/open-wearables](https://github.com/the-momentum/open-wearables) | MIT | 2.0k+ | Self-hosted platform unifying wearable health data (Garmin, Oura, Whoop, Apple HealthKit, Samsung) through a single AI-ready REST API. Docker Compose + native mobile SDKs. |
-
-## Radiology & Medical Imaging Agents
-
-| Agent | Repo | License | Stars | Description |
-|-------|------|---------|-------|-------------|
-| MedRAX | [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) | Apache-2.0 | 95+ | Medical reasoning agent for chest X-ray analysis via tool-calling LLM over specialized vision models (segmentation, grounding, pathology). SOTA on CheXBench Q1 2026. |
-| STELLA | [zaixizhang/STELLA](https://github.com/zaixizhang/STELLA) | MIT | 62+ | Self-evolving LLM agent for biomedical research — autonomously retrieves PubMed literature, generates hypotheses, designs experiments. ReAct + tool use. |
-
-## Benchmarks (Evaluate Your Agent Against These)
-
-| Benchmark | Repo | What It Tests |
-|-----------|------|---------------|
-| MedAgentBench | [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | Stanford virtual EHR environment for medical LLM agent tasks |
-| CHI-Bench | [actava-ai/chi-bench](https://github.com/actava-ai/chi-bench) | End-to-end, long-horizon, policy-rich healthcare workflows |
-| FHIR-AgentBench | [glee4810/FHIR-AgentBench](https://github.com/glee4810/FHIR-AgentBench) | EHR interoperability QA over FHIR APIs |
-
-## Notes for Globant Engagements
-
-- **Meditron + EHRAgent** = most production-ready combo for clinical reasoning over real EHR data
-- **MONAI** = gold standard for any medical imaging project (segmentation, classification, detection)
-- **openmed** = go-to for HIPAA/EU AI Act data residency requirements (on-prem, 4k stars, actively maintained)
-- **HealthChain** = fastest path to integrating AI into Epic/Cerner via FHIR; skip only if EHR vendor has direct AI API
-- **medspacy + ctakes** = standard clinical NLP preprocessing before sending text to any LLM
-- **BioGPT / BioMedLM** = deployable on-premise for strict data-residency clients
-- All Apache 2.0 / MIT above are safe for commercial use without GPL complications
+---
+*Auto-updated by the ingest pipeline. 2026-07-06 pass.*

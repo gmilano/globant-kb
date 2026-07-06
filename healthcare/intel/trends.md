@@ -1,72 +1,82 @@
-# 📡 Trends — Healthcare AI
+# Trends — Healthcare AI (2026-07-06)
 
-> What's shaping the industry right now. Signal over noise.
-> Last updated: 2026-07-06
+> Current forces shaping the healthcare AI landscape. What Globant studios need to know.
 
-## Macro Trends (H1 2026)
+## 10 Defining Trends (July 2026)
 
-### 1. Agentic AI Entering Clinical Workflows
-Healthcare is moving beyond chatbots to autonomous agents that can take actions: order labs, flag deteriorating patients, draft prior authorization letters, and coordinate care transitions. Mayo Clinic and Mount Sinai both announced production agentic deployments in H1 2026.
+### 1. Agentic AI: From Recommending to Executing
+The 2026 shift: clinical AI no longer just alerts — it executes defined tasks within governed workflows. Sepsis prediction agents now trigger nursing protocols. Prior authorization agents submit forms autonomously. Administrative agents handle scheduling and billing end-to-end.
 
-> **Opportunity**: Multi-agent clinical workflow automation using LangGraph + FHIR MCP servers + OpenMRS/OpenEMR backends.
+- **Market signal**: 80%+ health executives expect agentic AI value in 2026 (Deloitte)
+- **Open-source vector**: LLM-Medical-Agent, Multi-Agent-Medical-Assistant, LangGraph orchestration
+- **Caution**: Human-in-the-loop required for clinical decisions by regulation; automation applies to admin/workflow first
 
-### 2. On-Device / Privacy-First Clinical AI
-EU AI Act (Aug 2026 enforcement) classifies clinical decision support as high-risk AI. HIPAA, LGPD, and EU GDPR restrict PHI from leaving enterprise perimeters. The **openmed** pattern — running 1,000+ medical models 100% on-device with Apple MLX / Ollama — is the architecture healthcare enterprises want.
+### 2. Ambient Clinical Documentation Goes Mainstream
+Epic AI Charting (Feb 2026) and Oracle Health Clinical AI Agent (Feb 2026) embed ambient listening natively. Physicians speak during appointments; AI produces structured SOAP notes and clinical orders. Nuance DAX Copilot is losing ground to native EHR implementations.
 
-> **Opportunity**: Build HIPAA/LGPD-compliant clinical AI using openmed + openmed-agent + BioMedLM running on-premise.
+- **Open-source stack**: `openai/whisper` (MIT) → `medspacy` (MIT) → structured note → FHIR DocumentReference
+- **LATAM opportunity**: All leading ambient tools are English-first; Spanish ambient documentation is a greenfield
 
-### 3. FHIR as the AI Data Standard
-HL7 FHIR R4/R5 is now the mandatory interoperability standard in the US (ONC 21st Century Cures Act) and gaining ground in EU and LATAM. AI agents are now calling FHIR APIs directly. **FHIR-AgentBench** and **MedAgentBench** both use FHIR as the evaluation substrate.
+### 3. AI Surpasses Human Performance on Clinical Benchmarks
+GPT-5.4 scored 59.0 on OpenAI's HealthBench Professional vs 43.7 for human doctors with unlimited internet access. Claude Opus 4.7 reached 47.0 (clinician-level). OpenAI's HealthBench benchmark (5,000 conversations, 262 physicians in 60 countries) is becoming the industry standard for clinical AI validation.
 
-> **Opportunity**: Build FHIR MCP servers that expose patient data to Claude/GPT-4 agents. HAPI FHIR is the reference implementation.
+- **Implication**: Clients will demand benchmark results; any clinical AI engagement needs HealthBench or AgentClinic evaluation
+- **Open source**: HealthBench evaluation rubric and grading codebase are open licensed
 
-### 4. Clinical LLMs Reaching Expert-Level Performance
-- **Med-PaLM 2** (Google): Expert-level USMLE score (86.5%)
-- **GPT-4 / Claude**: Surpassing human performance on clinical licensing exams
-- **BioGPT**: Best open-source biomedical LLM, competitive on domain-specific tasks
-- **BioMedLM** (Stanford): 2.7B parameter, fully open, PubMed-trained — suitable for on-premise deployment
+### 4. FHIR + MCP = Standard AI Integration Pattern
+Model Context Protocol (MCP) servers wrapping FHIR R4 APIs are emerging as the standard way to give AI agents structured access to patient data. HAPI FHIR and Medplum both have community MCP server implementations. Three specialized MCP servers are in production: FHIR R4 query + US Core validation, SNOMED/LOINC/ICD terminology, drug safety reasoning via FDA labeling.
 
-> **Opportunity**: Fine-tune BioMedLM or BioGPT on client's proprietary clinical data (EHR notes, protocols) for specialty-specific clinical AI.
+- **Stack**: HAPI FHIR Server → MCP Server → Claude/GPT agent → FHIR write-back
+- **Key auth**: SMART on FHIR OAuth2 for patient-context access
 
-### 5. Multi-Agent Medical Reasoning (MedAgents Pattern)
-The **MedAgents** framework (ACL 2024) demonstrates that multiple LLM "specialist" agents collaborating outperform single-model approaches on complex clinical reasoning — without fine-tuning. This mirrors how multidisciplinary medical teams work.
+### 5. On-Device AI for HIPAA Compliance
+OpenMed's 340M downloads and 650+ iPhone-compatible models signal a structural shift: PHI never leaves the device/network. For any client where HIPAA BAA is difficult or PHI sensitivity is paramount, on-device inference with Apache-2.0 models is the architecture.
 
-> **Opportunity**: Build multi-specialist consultation agents for oncology tumor boards, ICU case review, rare disease diagnosis.
+- **Key repo**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0)
+- **Models**: 1,500+ open medical models for NER, de-identification, summarization
 
-### 6. Ambient Clinical Documentation
-Voice-to-structured-clinical-note is the highest-ROI immediate AI application in healthcare. Microsoft Nuance DAX Copilot is the market leader. Open-source equivalent: Whisper (ASR) + medspaCy (NLP) + BioGPT (generation) + OpenMRS (persistence).
+### 6. Radiology AI Agents Reach Production
+ABRA (Agent Benchmark for Radiology Applications, 2026) and DermAgent are formalizing evaluation for specialty AI agents. NVIDIA MONAI + torchio pipelines are standard. FDA 510(k) cleared AI tools (Paige, Aidoc) are commercially deployed; open-source community is 12-18 months behind on clinical validation.
 
-> **Opportunity**: Build open-source ambient documentation stack for clients who can't afford DAX or need on-premise deployment.
+- **Open source**: torchio (Apache-2.0), MONAI (Apache-2.0), hi-ml (MIT)
+- **Engagement type**: AI-assisted radiology reading, anomaly flagging, report generation
 
-### 7. Medical Imaging AI Democratization
-Radiology AI is moving from research to production. **torchio** and **hi-ml** make it possible to build radiologist-grade models with PyTorch. Key applications: chest X-ray analysis (TB, pneumonia), diabetic retinopathy screening, skin lesion classification — all addressable in resource-limited settings.
+### 7. Drug Discovery & Life Sciences AI
+AlphaFold 3 + LLM pipelines for drug target identification. scispacy + PubMed LLMs for literature mining. Clinical trial matching agents. This segment is research-grade but high-value for pharma clients.
 
-> **Opportunity**: Radiology AI for LATAM diagnostic centers where specialist radiologists are scarce. torchio + MONAI + local GPU infrastructure.
+- **Tools**: scispacy (MIT), AlphaFold (Apache-2.0), BioGPT (MIT)
+- **Market**: Life sciences AI is a $3.4B+ segment growing at 30%+ CAGR
 
-### 8. Healthcare Administration Automation
-**CHI-Bench** and **HealthAdminBench** (both 2026) show AI agents can automate end-to-end prior authorization, scheduling, and billing workflows. This is a $250B+ administrative burden in US healthcare alone.
+### 8. Hospital Administrative Workflow Automation
+CHI-Bench (2026) evaluates AI agents in automated healthcare workflows: prior authorization, discharge planning, scheduling, claims processing. These are the highest-ROI short-term targets because they don't require clinical licensure.
 
-> **Opportunity**: Prior authorization agent using CDS Hooks + FHIR + LangGraph. Immediate ROI for US hospital clients.
+- **Pattern**: H-AdminSim multi-agent simulator + FHIR integration for realistic workflow testing
+- **Win**: Admin automation 30-40% efficiency gains without clinical regulatory risk
 
-### 9. Federated Learning for Healthcare
-Privacy-preserving AI training across hospital networks without sharing raw data. NVIDIA FLARE, PySyft, and Flower framework gaining hospital adoption. Allows model training on distributed EHR data across multiple institutions.
+### 9. Mental Health & Patient-Facing Agents
+Mental health agent ecosystem is growing: conversational therapy support, crisis detection, medication adherence. Highest ethical risk area but also highest unmet need. FDA is drafting SaMD (Software as Medical Device) guidance.
 
-> **Opportunity**: Federated learning pipeline for healthcare consortia that want collective AI without data sharing agreements.
+- **Key project**: aiagenta2z/HealthcareAgent — list of awesome AI agents for patient-facing healthcare
+- **Caution**: Requires careful scope-of-practice boundaries; never a replacement for clinical care
 
-### 10. Spanish-Language Clinical NLP Gap
-All major clinical NLP tools (medspaCy, ctakes, ClarityNLP) are English-only. edsnlp from AP-HP Paris handles French well and has multilingual architecture. Massive unmet need for Spanish, Portuguese clinical NLP.
+### 10. Clinical Data Governance: EU AI Act + FDA SaMD
+EU AI Act enforcement begins Aug 2026 for high-risk AI systems. Clinical decision support tools used by clinicians are Class III (high-risk). US FDA expanding SaMD pre-market review to AI/ML systems. Any clinical AI engagement needs regulatory pathway mapped early.
 
-> **Opportunity**: Adapt edsnlp or fine-tune medspaCy for Spanish/Portuguese clinical text. First-mover advantage in LATAM and Iberian markets.
+- **Key**: Distinguish "clinical decision support" (triggers FDA/CE) from "workflow automation" (generally exempt)
+- **Open-source risk**: GPL-3.0 (OpenEMR, GNU Health) creates copyleft risk in commercial products; favor MIT/Apache
 
-## Regulatory Signals
+## Technology Radar (Healthcare AI)
 
-| Regulation | Region | Impact |
-|-----------|--------|--------|
-| EU AI Act (Aug 2026 enforcement) | EU | Clinical DSS classified high-risk; conformity assessment, documentation, human oversight required |
-| ONC 21st Century Cures Act | US | Mandatory FHIR R4 APIs for EHRs; prohibits information blocking |
-| HIPAA + HITECH | US | PHI cannot be sent to public cloud LLMs without BAA; on-device AI wins |
-| LGPD (Brazil) | Brazil | Patient data requires explicit consent; data residency rules |
-| COFEPRIS AI decree | Mexico | Medical AI device classification, clinical validation requirements |
+| Technology | Stage | Action |
+|-----------|-------|-------|
+| Ambient clinical documentation (Whisper + LLM) | Adopt | Build reference implementation now |
+| FHIR + MCP integration | Adopt | Standard pattern for all healthcare AI projects |
+| On-device medical NLP (openmed) | Adopt | Default for PHI-sensitive deployments |
+| Multi-agent clinical decision support | Trial | POC ready; production needs human-in-loop governance |
+| Radiology AI agents | Trial | NVIDIA MONAI stack; validate against ABRA benchmark |
+| Drug discovery LLM pipelines | Assess | R&D stage; pharma client conversations only |
+| Mental health AI agents | Assess | High ethical risk; regulatory uncertainty |
+| Autonomous clinical order generation | Hold | FDA/CE pathway not clear; human approval mandatory |
 
 ---
-*Updated by the automated intelligence pipeline.*
+*Sources: Deloitte Agentic AI Health Report, NVIDIA 2026 Healthcare Industry Report, OpenAI HealthBench, Kellton/Gleecus agentic AI forecasts, Philips 2026 healthcare AI trends, EU AI Act official timeline.*
