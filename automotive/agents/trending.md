@@ -1,31 +1,35 @@
-# 📈 Agentes en tendencia — semana del 2026-07-05
+# Trending This Week — Automotive AI
 
-> Lo más nuevo y activo en el ecosistema automotive AI esta semana.
+> Repos and agents gaining traction in the automotive AI space. Updated: 2026-07-06
 
-## Repos activos esta semana
+## Hot Repos & Movements
 
-| Nombre | Licencia | Novedad | Stars |
-|--------|----------|---------|-------|
-| [autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | ROS 2 AV stack en constante actualización; nuevo módulo de detección de peatones en intersecciones | 1.7k |
-| [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | Apache-2.0 | Arquitectura Multi-Agent cloud-edge para cabina inteligente SDV; soporte VAL seguro + HMI streaming | ~5 |
-| [InterFuser-UI](https://github.com/zubairm8580/InterFuser-UI) | Apache-2.0 | UI en tiempo real para CARLA con visualización de cámaras, LiDAR, velocidad y outputs de control | 1 |
-| [PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | Framework de test para agentes en CARLA; nuevos escenarios de intersección y lluvia | 77 |
-| [predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) | MIT | Patrón MCP + LLM para mantenimiento predictivo; nuevo soporte para detección de fallas en cajas de cambio | ~40 |
-| [ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | MIT | Optimización de rutas de recarga EV con RL; soporte para flotas mixtas ICE+EV | 20 |
+| Repo | License | Why It's Trending | Stars |
+|------|---------|-------------------|-------|
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache 2.0 | Core perception + planning modules for Autoware; multiple PRs merged for NVIDIA Alpamayo integration | 1.7k★ |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache 2.0 | New sub-project: productionizable + safety-certifiable ADAS / Full Self Driving stack from Autoware Foundation | 320★ |
+| [OpenGVLab/DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache 2.0 | Rising fast after surpassing Apollo baseline on CARLA benchmark; LLM behavior planning getting real attention | 1.2k★ |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache 2.0 | Framework for testing autonomous agents in CARLA — filling gap between simulation and CI/CD for AV teams | 77★ |
+| [speed785/open-mechanic](https://github.com/speed785/open-mechanic) | MIT | OBD-II + Claude API combo going viral in indie dev/maker communities — 10x stars in 30 days | 420★ |
+| [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | — | Chinese in-cabin multi-agent system: edge intent detection + cloud LLM planning + cross-domain agent orchestration + vehicle control VAL safety layer | 8★ |
+| [AkbasLab/scenic-sumo](https://github.com/AkbasLab/scenic-sumo) | BSD-3 | Scenic language module for SUMO — automated scenario generation for traffic AI testing | 45★ |
 
-## Tendencias que emergen esta semana
+## What's New This Week (July 2026)
 
-### 1. Agentes de cabina inteligente (SDV Cockpit Agents)
-Con el despliegue masivo de Software-Defined Vehicles (SDV), proliferan agentes que dividen la inferencia entre el edge del vehículo (latencia baja, seguridad) y la nube (razonamiento complejo). El patrón `cockpit-agent` cristaliza esta arquitectura en open source.
+### AGL SoDeV Platform Goes Public
+Automotive Grade Linux (AGL) released the **SoDeV** (Software Defined Vehicle) reference platform on May 14, 2026. Toyota, Honda, Mazda, AISIN, Panasonic, and Renesas contributed. Apache 2.0 licensed. This is the first production-ready open-source SDV middleware stack — major inflection point for the industry.
 
-### 2. MCP para diagnóstico vehicular
-El servidor `predictive-maintenance-mcp` representa un patrón emergente: convertir el sistema de diagnóstico legacy en un servidor MCP y exponer cualquier LLM como copiloto del técnico de taller. Sin reescribir el stack.
+### Google AAOS SDV Open Source (Announced)
+Google announced it will open-source **Android Automotive OS for Software-Defined Vehicles** (AAOS SDV) later in 2026, in collaboration with Renault Group and Qualcomm. This follows the AGL move and signals OS-level commoditization for vehicle software.
 
-### 3. Test frameworks para agentes AV
-El crecimiento de PCLA y herramientas similares refleja la maduración del espacio: los equipos pasan de "construir el agente AV" a "cómo probarlo en 1000 escenarios reproduciiblemente".
+### NVIDIA Alpamayo Drives L4 Deployments
+NVIDIA's 10-billion parameter **Alpamayo** model for Level 4 autonomy attracted Jaguar Land Rover, Lucid, and Uber as early users (CES 2026). Uber confirmed commercial robotaxi deployment in 2026. While proprietary, it's pushing the open-source community (Autoware, Apollo) to add LLM-based planning layers.
 
-### 4. Robotaxi y Level 4
-NVIDIA Alpamayo (10B params), Waymo y Uber confirmaron despliegue de robotaxis en 2026. Esto acelera la demanda de stacks open-source compatibles (Autoware, Apollo) para OEMs tier-2 y tier-3 que no pueden usar soluciones propietarias.
+### Motional Launches Commercial Robotaxi
+Motional launched a commercial robotaxi service in Las Vegas through Uber in early 2026 — first Western commercial robotaxi deployment since Waymo. Creates demand for open-source fleet management integrations.
+
+### BYD SDV Architecture Deep-Dive Circulating
+Community analysis of BYD's Software-Defined Vehicle architecture is circulating on GitHub and LinkedIn. BYD's tight vertical integration (EEA architecture, in-house chips, AI stack) is being studied as a reference model.
 
 ---
 *Pipeline automático — se actualiza cada hora.*

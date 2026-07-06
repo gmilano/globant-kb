@@ -1,63 +1,67 @@
-# 🗺️ Mapa de mercado — Automotive AI
+# Market Map — Automotive AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-05
+> Players, opportunities, positioning. LATAM + global focus.
+> Last updated: 2026-07-06
 
-## Tamaño de mercado
+## Market Size
 
-| Segmento | 2026 | Proyección | CAGR | Fuente |
-|----------|------|-----------|------|--------|
-| Automotive AI global | $14.99B | $51.68B (2034) | 16.7% | Fortune Business Insights |
-| Autonomous Vehicles market | ~$80.49B | — | — | Industry estimates 2025 |
-| AI Dealership adoption | 75% familiaridad con AI | 27% planean adoptar next year | — | Cox Automotive 2026 |
+| Source | 2025/2026 | Target Year | Projection | CAGR |
+|--------|-----------|-------------|------------|------|
+| Fortune Business Insights | $14.99B (2026) | 2034 | $51.68B | 16.7% |
+| Markets and Markets | $18.83B (2025) | 2032 | $75.02B | 21.8% |
+| Vynz Research | $15.8B (2025) | 2035 | $69.8B | 15.5% |
+| Precedence Research | $5.80B (2026) | 2035 | $58.99B | 28.76% |
+| IDTechEx (SDV SW revenue) | — | 2035 | +30-34% CAGR | 30-34% |
 
-## Players globales por segmento
+**Consensus range**: $15–19B in 2026 → $52–75B by 2032-2035. **Strong buy signal** across all forecasters.
 
-### Conducción autónoma / AV
-| Empresa | Posición | Stack | Modelo de negocio |
-|---------|----------|-------|-------------------|
-| **Waymo** (Alphabet) | Líder L4, robotaxis en operación | Propietary + Waymo Open Dataset | B2C robotaxi, B2B licencias |
-| **Baidu Apollo** | Líder en China, L4 en Beijing/Wuhan | Apollo open source + servicios cloud | Open core + cloud services |
-| **NVIDIA** | Proveedor de silicon + software (DRIVE platform, Alpamayo model) | Propietary + curated OSS | B2B to OEMs |
-| **comma.ai** | ADAS L2 consumer/prosumer | OpenPilot open source | Hardware (comma 3X) + data |
-| **Autoware Foundation** | Stack AV open source para industria | Autoware Universe (Apache-2.0) | Consorcio OSS |
+## Global Players
 
-### Software-Defined Vehicles (SDV)
-| Empresa | Posición | Diferenciador |
-|---------|----------|--------------|
-| **BYD** | Líder mundial en SDV + EV integration | Deep vertical integration, SW-HW co-design |
-| **Tesla** | Over-the-Air, Autopilot/FSD, Dojo supercomputer | Datos de flota masivos (>3B km) |
-| **Volkswagen Group** | CarIAd subsidiary, CARIAD OS | Plataforma para todo el grupo (VW, Audi, Porsche) |
-| **Stellantis** | STLA platform con Amazon AWS partnership | Multi-brand SDV cloud partnership |
+| Company | Type | AI Strength | Open Source? | Notes |
+|---------|------|-------------|--------------|-------|
+| **Tesla** | OEM + tech | FSD v13, Dojo supercomputer, end-to-end neural net | No | Closed stack; regulatory friction in EU/China |
+| **NVIDIA** | Chip + platform | Alpamayo (10B param L4 model), DRIVE platform | Partial | Drives Autoware integrations; partners with JLR/Lucid/Uber |
+| **Baidu** | Tech + robotaxi | Apollo platform (Apache 2.0), RT6 robotaxi | Yes (Apollo) | Commercial robotaxi in China; strongest open AV platform |
+| **Waymo** | Robotaxi | Waymo Open Dataset | Data only | Phoenix/SF commercial ops; raising $5.6B (2025) |
+| **Motional** | Robotaxi | — | No | Uber robotaxi Las Vegas 2026; Hyundai Ioniq 5 fleet |
+| **comma.ai** | ADAS hardware/SW | openpilot (MIT), neural net ADAS | Yes (MIT) | $999 device; 300+ car support; best consumer open ADAS |
+| **Tier IV** | AV stack | Autoware (Apache 2.0) | Yes | Japan; commercializing Autoware for real deployments |
+| **BYD** | OEM + tech | Vertical AI integration, DiLink OS | No | Fastest growing EV brand; SDV-native architecture |
+| **Continental** | Tier-1 supplier | ADAS sensors + ECUs | Partial | Moving to software-first (SDV) in 2026 |
+| **Mobileye** | ADAS chips | EyeQ chips + RSS model | No | Public (MBLY); dominant ADAS chip market |
+| **Qualcomm** | Chip | Snapdragon Ride, AAOS SDV partnership | Partial | Google AAOS SDV collaboration |
+| **Renault** | OEM | Software Defined Vehicle (partnership Google/AAOS) | No | First major EU OEM to commit to AAOS SDV |
 
-### IA en manufactura automotriz
-| Empresa | Solución | ROI documentado |
-|---------|----------|----------------|
-| **BMW Group** | CV quality inspection en línea de producción | -40% defectos de pintura |
-| **Volkswagen** | IA en robótica de ensamblaje + predictive maintenance | -50% tiempo de inactividad no planificado |
-| **Toyota** | Kaizen AI — RL para optimización de secuencia de ensamblaje | +8% throughput en plantas |
+## AI Sub-Segments
 
-## Oportunidades AI en LATAM
+| Segment | Key Players | Open Source Opportunity |
+|---------|-------------|------------------------|
+| **Autonomous Driving** | Tesla, Waymo, Baidu, comma.ai | openpilot, Apollo, Autoware |
+| **ADAS (L1-L2+)** | Mobileye, Continental, Bosch | openpilot, Autoware vision_pilot |
+| **In-cabin AI** | Cerence, SoundHound, Amazon | cockpit-agent, whisper + LangGraph |
+| **Fleet Management** | Samsara, Fleetio, Verizon Connect | Fleetbase, fleetms, Odoo |
+| **Vehicle Diagnostics** | Bosch, Delphi, Snap-on | open-mechanic, Automotive-AI |
+| **Simulation/Testing** | Ansys, dSPACE, IPG | CARLA, SUMO, Scenic, PCLA |
+| **SDV Middleware** | BlackBerry QNX, Green Hills | AGL SoDeV, Android AAOS SDV |
+| **Predictive Maintenance** | IBM, SAP, Siemens | LangGraph + OBD-II pattern |
 
-### Concesionarios y flotas (mercado más accesible)
-- **75% de concesionarios** están familiarizados con AI pero solo adoptan herramientas básicas (chatbots de lead gen)
-- **Brecha de servicio**: redes de concesionarios LATAM (México, Brasil, Colombia, Argentina) usan ERP fragmentados o planillas Excel para gestión de taller
-- **Oportunidad Globant**: implementar ERPNext/Odoo + capa agéntica LLM para gestión de OT, presupuestos y seguimiento al cliente — diferenciador frente a SAP/DMS propietarios costosos
+## AI Opportunities in LATAM
 
-### Inspección de daños (aseguradoras)
-- Las aseguradoras LATAM procesan siniestros manualmente con ajustadores en campo
-- **A.I.-AutoInspector pattern**: fotos del vehículo → estimación de daño → presupuesto en minutos
-- Regulación favorable en Brasil y México para peritaje digital desde 2025
+| Opportunity | Why LATAM | Recommended Stack |
+|-------------|-----------|-------------------|
+| **Independent Workshop Digitization** | 10x more independent shops than dealer networks in LATAM; almost zero AI adoption | open-mechanic + WhatsApp + Claude |
+| **Fleet AI for Logistics** | LATAM logistics boom post-ecommerce; growing fleets in BR/MX/CO | Fleetbase + LangGraph + OSRM |
+| **Dealer DMS Modernization** | LATAM auto dealers run legacy DMS (CDK, Reynolds); fragmented market ripe for AI | Odoo dealer + AI service agent |
+| **Shared Mobility AI** | Uber/Cabify/99 dominance; route optimization + demand forecasting | SUMO simulation + RL agent |
+| **EV Charging Optimization** | EV growth in Brazil (ABVE: +120% 2025); charging infrastructure gaps | ev-charging-optimization + RL |
+| **Road Safety AI (V2X)** | Brazil/Mexico have high road fatality rates; government funding available | SUMO + V2X simulation + CARLA |
 
-### Flotas de transporte urbano
-- Municipios LATAM con flotas de buses eléctricos (Santiago, Bogotá, CDMX) sin plataforma de mantenimiento predictivo
-- **Oportunidad**: Fleetbase + predictive-maintenance-mcp + Ollama local en edge
+## Globant Positioning
 
-## Posicionamiento Globant
+**Globant should lead with:**
+1. **Fleet AI Platform** — Fleetbase + LangGraph + Claude → conversational fleet ops (nearest driver, fuel alerts, maintenance scheduling). Quick-to-POC (3-4 weeks), clear ROI.
+2. **Workshop AI Diagnostics** — OBD-II + open-mechanic + Claude → plain-Spanish repair guidance for independent mechanics. Massive LATAM TAM.
+3. **AV Testing Pipeline** — CARLA + DriveMLM + PCLA → AI-generated test scenarios for ADAS QA. Relevant for OEM/Tier-1 clients.
+4. **In-Cabin AI Agent** — LangGraph + Whisper + Claude + vehicle API → hands-free, voice-driven vehicle AI. Sell to OEMs or fleet operators.
 
-| Capacidad | Ventaja competitiva | Caso de uso flagship |
-|-----------|--------------------|--------------------|
-| AI Engineering | Integración de LLMs con stacks legacy automotive (OBD-II, AUTOSAR, CAN bus) | DMS inteligente para grupo concesionario |
-| Data & Analytics | Pipelines de sensor data para predictive maintenance a escala de flota | Flota de logística B2B con 500+ vehículos |
-| Computer Vision | Inspección visual en línea de manufactura (YOLOv8 + custom models) | Planta de ensamblaje tier-1 en México/Brasil |
-| Platform Engineering | Despliegue de Autoware/Apollo en hardware de cliente OEM | Prototipo AV para cliente mobility LATAM |
+**Key differentiator**: open-source stack (MIT/Apache) + Claude API gives Globant a deployable, commercially licensable solution without royalty exposure.

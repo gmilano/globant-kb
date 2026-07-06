@@ -1,55 +1,63 @@
-# 🏭 Verticales de partida — Automotive
+# Vertical Solutions — Automotive
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-05
+> Existing vertical platforms customizable with AI. Strategy: start functional, add agentic layer on top.
+> Last updated: 2026-07-06
 
-## Plataformas recomendadas
+## Recommended Platforms
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **ERPNext** (Frappe) | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe Framework, MariaDB | ERP con módulo de manufactura automotriz: variantes de ítem (motor, color, trim), BOM, control de producción, inventario de repuestos. ~23.5k ★ |
-| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python, PostgreSQL | Suite completa con módulos de concesionario (fleet, maintenance, CRM), taller y facturación. El más adoptado en LATAM para PyMEs automotrices. ~40k ★ |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java, Apache | ERP/CRM/SCM enterprise para fabricantes y distribuidores. Módulos de manufactura, cadena de suministro y CRM para concesionarios grandes. |
-| **Fleetbase** | MIT | [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | Laravel, Vue.js | Plataforma headless de gestión de flotas con API. Despacho, tracking en tiempo real, gestión de conductores. Base ideal para añadir agentes RL de optimización de rutas. |
-| **OpenDMS** | Apache-2.0 | [openDMS](https://github.com/topics/dealer-management) | PHP/MySQL | Sistemas de Dealer Management System open source para concesionarios: inventario de vehículos, órdenes de trabajo, CRM de leads. |
-| **AureusERP** | MIT | [aureuserp/aureuserp](https://github.com/aureuserp/aureuserp) | Laravel, Vue.js | ERP full-stack MIT puro. Base limpia para construir módulos verticales automotrices sin restricciones de licencia. |
+| Platform | License | Repo | Stack | Use Case |
+|----------|---------|------|-------|----------|
+| **Fleetbase** | AGPL-3.0 | [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | PHP/Laravel + Ember.js | Modular logistics + fleet OS. 8,000+ operations. Self-hostable. REST API + webhooks. |
+| **Fleetbase Fleet-Ops** | AGPL-3.0 | [fleetbase/fleetops](https://github.com/fleetbase/fleetops) | Extension of Fleetbase | Fleet dispatch, driver management, real-time GPS tracking, route optimization. |
+| **Fleetms** | MIT | [jmnda-dev/fleetms](https://github.com/jmnda-dev/fleetms) | Node.js + React | Fleet maintenance software — service records, cost tracking, vehicle lifecycle management. |
+| **Odoo** | LGPL-3 | [odoo/odoo](https://github.com/odoo/odoo) | Python + JS | ERP/CRM with automotive dealer module, fleet management, service orders, spare parts. |
+| **ERPNext** | GPL-3 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe | Full ERP including manufacturing (auto parts), service management, CRM. |
+| **AGL SoDeV** | Apache 2.0 | [AGL/AGL-repo](https://gerrit.automotivelinux.org) | C/C++ + Linux | Automotive Grade Linux SDV reference platform (released May 2026). Toyota/Honda/Mazda/Panasonic/Renesas contributors. |
+| **CARLA** | MIT | [carla-simulator/carla](https://github.com/carla-simulator/carla) | C++ + Python + UE | Full AV simulation environment — use as testing vertical for any AV or ADAS solution. |
+| **Eclipse SUMO** | EPL-2.0 | [eclipse-sumo/sumo](https://github.com/eclipse-sumo/sumo) | C++ + Python | Traffic simulation platform — fleet routing, signal optimization, V2X testing. |
+| **Apache OFBiz** | Apache 2.0 | [apache/ofbiz](https://github.com/apache/ofbiz-framework) | Java | Enterprise ERP including manufacturing + automotive supply chain modules. |
 
-## Módulos AI que encajan sobre estas plataformas
+## How to Customize with AI
 
-### Sobre ERPNext / Odoo (taller y concesionario)
+### Fleetbase + AI (Recommended Quick Win)
 ```
-Odoo Fleet Module
-       ↓
-predictive-maintenance-mcp (servidor MCP)
-       ↓
-LLM (Claude / GPT-4o / Ollama local)
-       ↓
-Técnico consulta en lenguaje natural: "¿Qué vehículos necesitan revisión esta semana?"
+Fleetbase Fleet-Ops (self-hosted, AGPL-3.0)
+    ↓ REST API / webhooks
+LangGraph agent layer
+    ↓ tools: dispatch, GPS, vehicle status
+Claude / GPT-4 / Ollama (local)
+    ↓
+WhatsApp / Slack / Web chat UI
 ```
+Use case: dispatcher asks in natural language "which driver is closest to pickup X?" — agent queries fleet API, calculates route, assigns.
 
-### Sobre Fleetbase (operaciones de flota)
+### Odoo Dealer DMS + AI
 ```
-Fleetbase API (tracking GPS, datos de ruta)
-       ↓
-Agente RL de optimización (ev-charging-optimization o custom)
-       ↓
-Dashboard de despacho + alertas proactivas al conductor
+Odoo (automotive dealer module)
+    ↓ Python model hooks
+LangChain tool wrappers for Odoo models
+    ↓
+AI agent: service advisor, parts lookup, customer follow-up
+    ↓
+Voice/chat integration (WhatsApp Business / Twilio)
 ```
+Use case: customer calls, AI books service appointment, checks parts availability, follows up via WhatsApp.
 
-### Sobre ERPNext (manufactura)
+### Workshop OBD-II + AI
 ```
-ERPNext Manufacturing (BOM, producción)
-       ↓
-YOLOv8 en línea de inspección (defecto visual)
-       ↓
-Trigger automático de orden de trabajo en ERPNext si defecto detectado
+Vehicle (OBD-II port via ELM327 Bluetooth)
+    ↓
+open-mechanic OR Automotive-AI (MIT)
+    ↓ DTC codes + live sensor data
+Claude API (plain-English explanation + repair guide)
+    ↓
+Technician mobile app (React Native)
 ```
+Use case: mechanic scans car, AI explains fault in plain Spanish/English, links to repair guide, estimates labor.
 
-## Cómo customizar con AI
+## LATAM Considerations
 
-1. **Fork** del repo base (ERPNext, Odoo, Fleetbase)
-2. **Añadir servidor MCP** o endpoint REST que expone datos del ERP al LLM
-3. **Wrapear flujos existentes** con agentes LangGraph: aprobación de OT, predicción de quiebre de stock, generación de presupuesto de reparación
-4. **UI conversacional** (chat widget) sobre el sistema base; o integrar con WhatsApp Business API para flotas y talleres LATAM
-5. **Deploy local** con Ollama + modelo Llama-3 para clientes con restricciones de datos (OEMs, aseguradoras)
+- **Fleetbase** is self-hostable — critical for Brazil/Argentina data sovereignty requirements (LGPD/PDPA)
+- **Odoo** has strong LATAM community + Spanish/Portuguese language support; cost-effective vs SAP for mid-market dealers
+- **ERPNext** deployed in LATAM auto parts distributors; strong community in Mexico and Colombia
+- **Open-mechanic** pattern is relevant for independent workshops (LATAM has 10x more independent shops than dealer networks)

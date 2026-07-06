@@ -1,39 +1,31 @@
-# 🏗️ Repos fundacionales — Automotive
+# Foundational Repos — Automotive
 
-> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-05
+> Bases to build on. Open license, active community, production-proven.
+> Last updated: 2026-07-06
 
-## Simulación & entorno de desarrollo AV
+## Core Platforms & Frameworks
 
-| Repo | Licencia | Descripción | Base para AI |
-|------|----------|-------------|--------------|
-| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | Simulador fotorrealista sobre Unreal Engine para investigación en conducción autónoma. Sensores virtuales (LiDAR, radar, cámaras), mapas HD, condiciones climáticas. | Sí — 14.1k ★ |
-| [microsoft/AirSim](https://github.com/microsoft/AirSim) | MIT | Simulador de vehículos y drones de Microsoft AI Research sobre Unreal/Unity. Entorno de referencia para RL en vehículos autónomos. | Sí — 17.6k ★ (archived) |
-| [eclipse-sumo/sumo](https://github.com/eclipse-sumo/sumo) | EPL-2.0 | Simulation of Urban Mobility — simulador microscópico de tráfico de Eclipse. Escenarios de ciudad completa para optimización de flujos vehiculares. | Sí — 2.5k ★ |
-| [gym-carla](https://github.com/cjy1992/gym-carla) | MIT | Wrapper OpenAI Gym para CARLA. Permite entrenar agentes RL directamente en el simulador. | Sí — 620 ★ |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | 63k★ | Production ADAS OS running on 300+ car models. End-to-end neural net for lane centering + adaptive cruise. Python + C++ + OpenCL. | Yes — plug in custom models |
+| [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache 2.0 | 24k★ | Baidu's full autonomous driving platform. Modular: perception, HD map, prediction, planning, control. v11.0 for commercial deployment. | Yes — swappable modules |
+| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache 2.0 | 11.8k★ | World's #1 open-source AV stack on ROS2. Foundation-backed by Toyota, Tier IV, ROBOTIS. Runs CARLA + real vehicles. | Yes — ROS2 native, AI plugins |
+| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | 14.1k★ | Open-source autonomous driving simulator (Unreal Engine). Full sensor suite, Python API, 100+ scenarios. UE5 branch in active development. | Yes — simulation sandbox |
+| [eclipse-sumo/sumo](https://github.com/eclipse-sumo/sumo) | EPL-2.0 | 3.2k★ | Eclipse SUMO — microscopic traffic simulation for large networks. Python TraCI/libsumo API. Intermodal (cars, bikes, pedestrians, transit). | Yes — TraCI API for RL agents |
+| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | 637★ | ROS/ROS2 bridge for CARLA — connects CARLA simulation to Autoware/openpilot/ROS stacks seamlessly. | Yes — integration glue |
+| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache 2.0 | 534★ | Modular AV platform on CARLA + real world. ERDOS dataflow runtime. Perception + planning + control in Python. | Yes — rapid prototype |
+| [BerkeleyLearnVerify/Scenic](https://github.com/BerkeleyLearnVerify/Scenic) | BSD-3 | 980★ | Probabilistic scenario specification language for AV testing. Generates adversarial + edge-case test scenarios for CARLA/SUMO/Webots. | Yes — AV test generation |
+| [cjy1992/gym-carla](https://github.com/cjy1992/gym-carla) | MIT | 620★ | OpenAI Gym wrapper for CARLA — reinforcement learning environments for autonomous driving experiments. | Yes — RL training |
+| [OpenGVLab/DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache 2.0 | 1.2k★ | LLM-based AV framework — multimodal LLM as behavior planning module. 76.1 CARLA Town05 Long score. Human-interpretable decisions. | Yes — LLM-native AV |
 
-## Stacks de conducción autónoma
+## Infrastructure Repos
 
-| Repo | Licencia | Descripción | Base para AI |
-|------|----------|-------------|--------------|
-| [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | Plataforma end-to-end de Baidu: percepción multi-sensor, HD map, predicción de comportamiento, planificación y control. Documentación extensa y comunidad activa. | Sí — 26.6k ★ |
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ADAS Level 2 open source. Corre en dispositivos comma 3X. Soporte de 300+ vehículos de producción. Modelo neural "supercombo" entrenado en 10M+ millas. | Sí — ~56k ★ |
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | Stack ROS 2 más adoptado en investigación AV. Módulos independientes de percepción, localización, planificación y control. Certificable para SOTIF. | Sí — 1.7k ★ |
-| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | Plataforma modular AV sobre CARLA y vehículos reales. Arquitectura dataflow que separa cada componente, facilita pruebas A/B de módulos. | Sí — 534 ★ |
-
-## Computer Vision automotriz
-
-| Repo | Licencia | Descripción | Base para AI |
-|------|----------|-------------|--------------|
-| [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics) | AGPL-3.0 | YOLOv8/v11 — detección de objetos de referencia en la industria. Ampliamente usado para inspección visual en línea de manufactura automotriz. | Sí — 42k ★ |
-| [PJLab-ADG/PCSim](https://github.com/PJLab-ADG/PCSim) | Apache-2.0 | Simulación de nubes de puntos LiDAR y placement de sensores. Publicado en ICRA 2023. | Sí — 272 ★ |
-
-## Integración ROS
-
-| Repo | Licencia | Descripción | Base para AI |
-|------|----------|-------------|--------------|
-| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | Bridge ROS/ROS2 para CARLA. Publica topics estándar de sensor_msgs, nav_msgs. | Sí — 637 ★ |
-| [carla-simulator/carla-autoware](https://github.com/carla-simulator/carla-autoware) | MIT | Integración de Autoware con CARLA para pruebas end-to-end del stack AV. | Sí — 282 ★ |
+| Repo | License | Stars | Purpose |
+|------|---------|-------|---------|
+| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | 1.8k★ | Modular logistics OS (PHP/Laravel + Ember.js). REST API + webhooks. Fleet ops, dispatch, tracking. |
+| [fleetbase/fleetops](https://github.com/fleetbase/fleetops) | AGPL-3.0 | 420★ | Fleet & transport management extension for Fleetbase. Driver management, real-time tracking, dispatch. |
+| [jmnda-dev/fleetms](https://github.com/jmnda-dev/fleetms) | MIT | 180★ | Fleet maintenance and management software — service records, costs, vehicle lifecycle. |
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3 | 52.8k★ | Full ERP/CRM — automotive dealer module, fleet management, service orders, spare parts inventory. |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas (ERP, DMS, fleet).*
+*See also: `verticals/solutions.md` for complete vertical platforms.*

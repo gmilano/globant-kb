@@ -1,55 +1,89 @@
-# 📡 Tendencias — Automotive AI 2026
+# Trends — Automotive AI
 
-> Última actualización: 2026-07-05
+> Current industry trends shaping the automotive AI landscape. Updated: 2026-07-06
 
-## Megatendencias del sector
+## Trend 1: AI-Defined Vehicles (ADV) — AI as Core Architecture
 
-### 1. AI-Defined Vehicles (ADV) — la evolución del SDV
-El sector está transitando de Software-Defined Vehicle (SDV) a **AI-Defined Vehicle (ADV)**: la IA no es solo una feature del cockpit sino el sistema nervioso que toma decisiones de percepción, conducción, eficiencia energética y servicio al conductor en tiempo real.
+The era of the "AI-defined vehicle" has arrived. AI is no longer a feature layer — it's the operating principle for design, user experience, and safety systems. Vehicles are being architected around continuous AI inference loops, not discrete ECUs.
 
-- NVIDIA presentó **Alpamayo**: modelo de 10B parámetros para razonamiento en escenarios complejos de conducción, apuntando a Level 4
-- BYD lidera en integración SW-HW: sus vehículos tienen IA integrada en el chip de control de batería, sistema de frenado y suspensión activa
-- Waymo y Uber confirman despliegue masivo de robotaxis en 2026
+**What it means for Globant**: clients are moving from "add AI feature" to "redesign software architecture." Consulting opportunity for SDV architecture design using AGL SoDeV + Autoware + AI stack.
 
-### 2. Edge AI + arquitectura híbrida
-El modelo de AI puramente en la nube no funciona en automotive (latencia, conectividad). La arquitectura ganadora es híbrida:
-- **Edge** (onboard compute): inferencia en tiempo real para seguridad crítica (frenado, percepción)
-- **Cloud**: modelos grandes, actualización OTA, analytics de flota, fine-tuning
+## Trend 2: Level 4 Autonomy Targeting Commercial Deployment (2026)
 
-Impacto en open source: crecimiento de stacks como `cockpit-agent` que gestionan la orquestación cloud-edge, y de frameworks de inference en edge (TensorRT, ONNX Runtime).
+Production L4 autonomous systems are targeting December 2026 deployment, especially in China. Key signals:
+- NVIDIA **Alpamayo** (10B parameter model) attracted JLR, Lucid, and Uber as early users (CES 2026)
+- **Motional** launched commercial robotaxi in Las Vegas via Uber partnership (2026)
+- Baidu **Apollo** deployed commercial robotaxi (Ernie Bot integrated)
+- China targeting ~60 cities for commercial L4 deployment
 
-### 3. Inspección visual con AI en manufactura — ROI probado
-- Sistemas de visión AI reducen defectos de manufactura en **40-60%** (BMW, VW documentados)
-- Adopción masiva de YOLOv8/v11 en líneas de producción tier-1 y tier-2
-- Tendencia emergente: **multimodal** — CV + datos de sensor + historial de mantenimiento integrados en un agente único de quality control
+## Trend 3: Software-Defined Vehicles (SDV) as Infrastructure Shift
 
-### 4. LLM + MCP para talleres y diagnóstico
-El patrón MCP (Model Context Protocol) emerge como el puente entre sistemas legacy de diagnóstico vehicular y LLMs:
-- Técnico de taller consulta en lenguaje natural: "¿Qué vehículos necesitan cambio de correa antes de fin de mes?"
-- LLM llama al servidor MCP que consulta el DMS/ERP y devuelve respuesta procesable
-- Sin reescribir el stack legacy — reduce tiempo de adopción de semanas a días
+2026 marks the transition from testing to global deployment. SDVs are viewed as long-term digital assets generating ongoing revenue via software and services:
+- SDV feature-related revenue growing at **30-34% CAGR through 2035**
+- **AGL SoDeV** reference platform released May 2026 — Toyota, Honda, Mazda, Panasonic, Renesas
+- **Google AAOS SDV** open-source release planned late 2026 with Renault + Qualcomm
+- OTA updates becoming standard — vehicles shipping with "incomplete software, update later" model (Apple-style)
 
-### 5. Conducción autónoma open source para tier-2 y tier-3
-- OEMs pequeños y medianos no pueden desarrollar su propio stack AV propietario
-- **Apollo** y **Autoware** se consolidan como las bases de referencia para custom AV
-- Ecosistema de simulación (CARLA, AirSim) permite validar antes de desplegar en vehículo real
-- Apollo 11.0 se focaliza en deployments funcionales a escala en escenarios de alto valor
+## Trend 4: LLM Agents for Driving Decision-Making
 
-### 6. Agentes AI en concesionarios
-- 68% de concesionarios reportan impacto positivo de AI en operaciones
-- Principales aplicaciones: lead gen/CRM automatizado, pricing dinámico de usados, scheduling de servicio
-- Próxima ola: agentes que cierran la cotización de reparación en tiempo real con el cliente (WhatsApp + LLM + datos de ERP)
+VLMs (Vision-Language Models) and LLMs are being integrated as the planning layer in AV stacks:
+- **DriveMLM** (Apache 2.0) achieves 76.1 CARLA score — beats Apollo baseline by 4.7 points
+- **DriveLLM** (MIT) wires FastAPI + LangChain into ROS/Autoware for LLM-driven decisions
+- Research trend: LLMs for **explainable** driving decisions ("I braked because a cyclist was predicted to enter lane")
+- **LLM4ADSTest** (IEEE-TITS): using LLMs to auto-generate adversarial test scenarios
 
-### 7. Flotas EV y optimización de carga
-- Adopción masiva de EV en flotas corporativas y de transporte público
-- Problema: optimizar cuándo y dónde cargar minimizando costo y tiempo
-- Solución: agentes RL + datos de tarifa eléctrica en tiempo real + estado de la flota
-- Oportunidad en LATAM: Chile, Colombia, México con programas de renovación de flota de buses a EV
+## Trend 5: V2X and Connected Vehicle Infrastructure
 
-## Repos más activos esta semana
+Vehicle-to-everything communication (V2X) is transitioning from pilot to deployment:
+- V2X, satellite links, hybrid networks, and edge computing becoming essential for high-density urban AV
+- Connected vehicle data generating new revenue streams (insurance, OTA, mobility-as-a-service)
+- **SUMO** + V2X simulation used for city-scale traffic optimization with AI agents
 
-- [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) — Stack ROS 2 AV, actualización continua
-- [commaai/openpilot](https://github.com/commaai/openpilot) — ADAS L2 open source, nuevo soporte de vehículos
-- [LGDiMaggio/predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) — MCP + LLM para mantenimiento predictivo
-- [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) — Testing de agentes AV en CARLA
-- [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) — Multi-agent cloud-edge para SDV
+## Trend 6: Automotive Cybersecurity as Non-Negotiable
+
+With OTA updates becoming standard and vehicles running 100M+ lines of code:
+- Cybersecurity moved from afterthought to foundational requirement
+- **UNECE WP.29 / ISO/SAE 21434** mandating automotive cybersecurity frameworks globally
+- Attack surface analysis ("Agent2Agent Threats in Safety-Critical LLM Assistants") emerging research
+- Implications: any AI agent touching vehicle control needs safety-certification layer
+
+## Trend 7: Open Source SDV Commoditization
+
+Two critical 2026 moves signal OS-level commoditization:
+- **AGL SoDeV** (Apache 2.0) — industry consortium approach, open reference platform
+- **Google AAOS SDV** (Apache 2.0) — hyperscaler entering SDV OS space
+- This mirrors what Linux did to server OS in 2000s — proprietary SDV middleware (QNX, Green Hills) under pressure
+
+## Trend 8: AI-Powered Workshop & Dealer Digitization
+
+Independent mechanic shops and auto dealers are being targeted by AI diagnostic tools:
+- **open-mechanic** (MIT, 420★) viral growth — OBD-II + Claude API demo reaching tens of millions of vehicles
+- LATAM: 10x more independent shops than dealers; almost zero digital penetration
+- Opportunity: sub-$100 OBD-II dongle + AI = instant digital mechanic for independent shops
+
+## Trend 9: EV + Charging AI
+
+EV adoption driving new AI use cases:
+- Brazil ABVE: +120% EV registrations in 2025; infrastructure lagging
+- EV charging optimization with RL agents — shortest charging routes, grid load balancing
+- Vehicle-to-grid (V2G) requiring AI for bidirectional energy management
+- Open source: REVOL-E-TION (Apache 2.0), ev-charging-optimization (MIT) as starting points
+
+## Trend 10: Simulation as Primary Testing Ground
+
+AV teams are standardizing on simulation-first development:
+- CARLA (MIT, 14k★) + SUMO (EPL, 3.2k★) + Scenic (BSD, 980★) = dominant open stack
+- LLM-generated adversarial scenarios (LLM4ADSTest) replacing hand-crafted test cases
+- PCLA framework emerging for CI/CD integration with CARLA
+- Government mandates (EU AI Act, UNECE) requiring extensive simulation evidence before road testing
+
+## Trend 11: Chinese SDV Architecture as Reference Model
+
+BYD, SAIC, NIO building vertically integrated AI stacks:
+- In-house chips (BYD DiLink, NIO Adam supercomputing platform)
+- Full software ownership (no Tier-1 dependency)
+- Being studied globally as blueprint for cost-effective AI-native vehicle development
+- **cockpit-agent** (GitHub) — example of Chinese edge+cloud multi-agent in-cabin architecture
+
+---
+*Key insight for engagements*: The split is emerging between **AV autonomy** (high-complexity, long-horizon, L3-L4) and **applied automotive AI** (fleet ops, diagnostics, in-cabin assistants, dealer tools). Globant's sweet spot is applied automotive AI — faster time-to-value, lower regulatory risk, clear ROI.
