@@ -1,50 +1,45 @@
-# Trending AI Agents — Retail (Week of 2026-07-04)
+# Trending This Week — Retail AI
 
-## What's Gaining Momentum This Week
+> Last updated: 2026-07-06
 
-### 1. NVIDIA Retail Catalog Enrichment — Apache 2.0 Breakout
-- **Repo:** [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment)
-- **License:** Apache 2.0
-- **Why trending:** Unlike the Retail Shopping Assistant (NVIDIA proprietary license), this blueprint is fully Apache 2.0 — commercially clean for client deployments. Uses vision-language models to transform bare product images into structured catalog data (title, description, attributes, SEO tags) at scale. Massive reduction in catalog ops labor.
-- **Retail signal:** Catalog quality is now a critical enabler for agentic commerce — AI shopping agents rank products by data richness. Retailers with poor catalog data will be invisible to autonomous shoppers. This blueprint closes that gap in weeks, not months.
+## Breakout Signals (July 2026)
 
-### 2. NVIDIA Multi-Agent Intelligent Warehouse Blueprint
-- **Repo:** [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse)
-- **License:** NVIDIA License (reference architecture)
-- **Why trending:** Autonomous warehouse management with multiple specialized agents coordinating pick-path optimization, dock scheduling, and exception handling. Announced at NRF 2026 alongside Catalog Enrichment.
-- **Retail signal:** Omnichannel fulfillment complexity is the #1 pain point for multi-location retailers — this is the reference architecture clients will ask about in RFPs.
+### 1. Agentic Commerce Goes Mainstream
+**"Zero-click commerce"** is the defining trend of H1 2026. AI agents shop autonomously on behalf of consumers — they browse, compare, add to cart, and complete purchases without user clicks. Over 1 million Shopify merchants have already opted into OpenAI's Instant Checkout feature inside ChatGPT. During Cyber Week 2025, 20% of all global orders were influenced by AI agents (Salesforce data).
 
-### 3. NVIDIA Retail Shopping Assistant Blueprint
-- **Repo:** [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant)
-- **License:** NVIDIA License (code open; models/data proprietary)
-- **Why trending:** Continues to be the definitive LangGraph multi-agent pattern applied to retail — image-based product search + natural-language Q&A + cart management. Connected to Shopware 6 successfully in community experiments; Medusa v3 integration guide published this week.
-- **Retail signal:** Multiple SI partners adopting this as starting template for 2026 shopping assistant RFPs.
+### 2. NVIDIA Retail Blueprint Gaining Traction
+[NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) — LangGraph-powered multi-agent retail assistant published as a reference blueprint. Developers are forking it to connect to Shopware 6, Medusa, and Saleor backends. Features: natural language search + image search + cart management in a single agent graph.
 
-### 4. Gorse v0.5+ LLM Ranker Mode — Momentum Builds
-- **Repo:** [gorse-io/gorse](https://github.com/gorse-io/gorse)
-- **License:** Apache 2.0
-- **Why trending:** Star count climbed from 8.5k to 9.6k between July 2 and July 4 — unusually fast growth. LLM re-ranking layer now stable; retailers injecting business rules via natural language ("boost sustainability-certified items", "suppress out-of-season SKUs"). New dashboard makes A/B testing native vs. LLM-ranked results trivial.
-- **Retail signal:** Growing interest from mid-market retailers seeking a self-hosted alternative to AWS Personalize; cost savings of 60-80% vs SaaS personalization at equivalent quality.
+### 3. Adobe Analytics: 4,700% YoY Growth in AI-Driven Retail Visits
+Adobe Analytics Q1 2026 report: generative AI referred traffic to US retail sites grew 4,700% year-over-year. AI shopping assistants (ChatGPT, Perplexity, Gemini) are now a major discovery channel alongside Google Search.
 
-### 5. Rasa CALM Architecture — LLM-Augmented Customer Service
-- **Repo:** [RasaHQ/rasa](https://github.com/RasaHQ/rasa)
-- **License:** Apache 2.0
-- **Why trending:** CALM (Contextual Autonomous Language Model) is the 2026 paradigm shift in conversational AI — replaces intent classification with LLM-driven dialogue understanding while maintaining on-prem deployment safety. Retail implementations: order status, returns initiation, product Q&A, store locator.
-- **Retail signal:** EU AI Act transparency requirements (enforceable August 2026) are driving demand for auditable, self-hosted chatbot infrastructure. Rasa's on-prem model is now competitive advantage over SaaS chatbot vendors that cannot guarantee data residency.
+### 4. Latam-GPT Launch for LATAM Commerce
+Chile's National Center of Artificial Intelligence launched **Latam-GPT** (February 2026) — Spanish/Portuguese LLM trained on regional content. Creating opportunity for e-commerce personalization, product descriptions in regional Spanish, and LATAM customer service agents without translation overhead.
 
-### 6. Nixtla NeuralForecast — Foundation Model Integration
-- **Repo:** [Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast)
-- **License:** Apache 2.0
-- **Why trending:** PatchTST and Moirai foundation models now integrated; MAPE < 8% on M5 retail competition benchmarks. Zero-shot cross-retailer transfer is now feasible, eliminating months of model training per client.
-- **Retail signal:** Teams are actively migrating from ARIMA/XGBoost ensembles to NeuralForecast for seasonal demand planning and promotional lift modeling.
+### 5. RecBole 2.0 + GNN Extensions
+[RUCAIBox/RecBole-GNN](https://github.com/RUCAIBox/RecBole-GNN) — GNN-based collaborative filtering package merged into RecBole2.0 ecosystem. LightGCN and SimGCL are becoming the default production algorithms for session-based e-commerce recommendations. Better cold-start performance than matrix factorization for new SKUs.
 
-### 7. Universal Commerce Protocol (UCP) Ecosystem
-- **Context:** Google/Shopify co-developed and announced UCP at NRF 2026 — REST/JSON-RPC standard enabling AI agents to browse, compare, and purchase across any retailer platform.
-- **Watch:** Multiple open-source UCP client libraries and middleware adapters appearing on GitHub. Medusa (30.9k stars) and Saleor (22.2k stars) are first-movers in publishing UCP-compatible endpoints.
-- **Retail signal:** Retailers without UCP-ready APIs risk being invisible to AI shopping agents (ChatGPT Checkout, Perplexity Shopping, Amazon AI Shopping) — major architectural implication for all Globant commerce engagements starting H2 2026.
+### 6. Medusa v2 + MCP Integration Pattern
+[SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) — MCP server for Medusa SDK emerging as the pattern for "agentic retail": LLM agents can natively call Medusa's commerce APIs (create cart, query inventory, process orders) without custom tool wrapping. Globant opportunity: build retail agent stacks on this.
 
-### 8. Medusa v3 — "Commerce Platform for Agents and Developers"
-- **Repo:** [medusajs/medusa](https://github.com/medusajs/medusa)
-- **License:** MIT
-- **Why trending:** Now at 30.9k stars (up from ~25k in June). v3 release repositions Medusa as an agent-native commerce platform; new module system and workflow engine designed for AI orchestration. 33.4% month-on-month community growth vs. Saleor's 2.1%.
-- **Retail signal:** Fastest-growing open-source commerce platform in 2026; recommended base for new Globant retail builds.
+### 7. Visual Search Commoditization (CLIP+FAISS)
+CLIP+FAISS pipelines for visual product search are now plug-and-play at production scale. Several startups are shipping "shop by photo" at <100ms latency with commodity GPU. Open-source implementations at [abinthomasonline/clip-faiss](https://github.com/abinthomasonline/clip-faiss) and [jarvisx17/OpenAI-Clip-Image-Search](https://github.com/jarvisx17/OpenAI-Clip-Image-Search).
+
+### 8. ShelfOps & Store-Level Intelligence
+[IFAKA/shelfops](https://github.com/IFAKA/shelfops) — Computer vision for retail shelf auditing, comparing Cerebras Gemma inference against local Gemma. Signals a trend: AI moving from digital/online retail into physical store operations (shelf availability, planogram compliance, in-store analytics).
+
+### 9. MercadoLibre + AI: LATAM Scale
+MercadoLibre controls 40% of Latin America's e-commerce and is deploying AI recommendation and pricing systems at scale. LATAM ecommerce projected to surpass $215 billion in 2026, growing 1.5× faster than global average. AI-driven logistics optimization is a key differentiator in markets like Brazil, Mexico, Argentina.
+
+### 10. LLM-Enhanced Recommendations vs. Traditional CF
+Research published H1 2026 shows LLM-enhanced recommendation models outperform traditional collaborative filtering on cold-start and diversity metrics. Hybrid architectures (LLM embedding + RecBole algorithms) becoming the new production standard.
+
+## Repos to Watch
+
+| Repo | Why Watch |
+|------|-----------|
+| [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Best reference multi-agent retail architecture publicly available |
+| [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | Multi-agent warehouse/supply chain AI blueprint |
+| [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MCP→Medusa bridge enabling LLM-native commerce actions |
+| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | CV shelf auditing — physical retail AI frontier |
+| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Store-level AI intelligence framework |

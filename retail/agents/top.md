@@ -1,29 +1,37 @@
-# Top AI Agents & Tools — Retail Industry
+# Top AI Agents & Tools — Retail
 
-> Last updated: 2026-07-04 | Focus: MIT / Apache 2.0 / BSD licenses Globant can build on
+> Last updated: 2026-07-06 | Focus: open-source, permissive licenses Globant can build on
 
-## AI Agents Table
+## Core Retail AI Agents
 
-| # | Name | GitHub | License | Stars | Description |
-|---|------|--------|---------|-------|-------------|
-| 1 | Gorse | [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache 2.0 | 9.6k+ | AI-powered open-source recommender system engine (Go); supports classical ML + LLM rankers and multimodal content via embeddings — integrates with any retail catalog via REST API in minutes |
-| 2 | NVIDIA Retail Shopping Assistant | [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | NVIDIA License* | 2k+ | Production-ready multi-agent blueprint built with LangGraph; handles natural-language queries, image-based product search, real-time streaming responses, and intelligent cart management |
-| 3 | NVIDIA Retail Catalog Enrichment | [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache 2.0 | 1k+ | GenAI-powered catalog enrichment system (Apache 2.0): transforms basic product images into comprehensive rich catalog entries — titles, descriptions, attributes, tags — at scale using vision-language models |
-| 4 | Microsoft Recommenders | [microsoft/recommenders](https://github.com/microsoft/recommenders) | MIT | 18k+ | Best-practice implementations of 30+ recommendation algorithms (collaborative filtering, content-based, deep learning, RL); includes SAR, NCF, xDeepFM, LightGBM with Jupyter notebooks |
-| 5 | NeuralForecast | [Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast) | Apache 2.0 | 3.5k+ | Scalable neural forecasting library (NHITS, N-BEATS, PatchTST, TimesNet, Moirai); purpose-built for SKU-level retail demand prediction across thousands of stores and long horizons |
-| 6 | TimeGPT SDK (Nixtla) | [Nixtla/nixtla](https://github.com/Nixtla/nixtla) | Apache 2.0 | 2k+ | SDK for TimeGPT-1: pre-trained time-series transformer trained on 100B+ data points; handles retail promotions, holidays, and intermittent sales with zero-shot accuracy out of the box |
-| 7 | Rasa | [RasaHQ/rasa](https://github.com/RasaHQ/rasa) | Apache 2.0 | 19k+ | Open-source conversational AI framework for retail customer service chatbots; new CALM architecture (2025) augments NLU with LLM reasoning for handling complex customer journeys |
-| 8 | Apache PredictionIO | [apache/predictionio](https://github.com/apache/predictionio) | Apache 2.0 | 13k+ | ML server for building and deploying predictive recommendation and purchase-propensity engines; exposes REST API that plugs directly into any commerce platform stack |
-| 9 | CrewAI | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 55k+ | Multi-agent orchestration framework; coordinates retail AI crews (catalog curator, pricing agent, support agent, inventory watcher) with role-based task delegation and 5.2M monthly downloads |
-| 10 | LangChain | [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 100k+ | LLM orchestration framework; foundation for building retail chatbots, semantic product search chains, and agentic workflows with retrieval-augmented generation over product catalogs |
+| Agent | Repo | License | Stars | Description |
+|-------|------|---------|-------|-------------|
+| RecBole | [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 3.3k★ | Unified recommendation library — 94+ algorithms (BPR, SASRec, LightGCN, DeepFM, KGAT) covering general, sequential, context-aware & knowledge-based rec; 44 benchmark datasets; PyTorch-based; industry standard for building e-commerce personalization engines |
+| NVIDIA Retail Shopping Assistant | [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | NVIDIA Community | 1.2k★ | Production multi-agent blueprint on LangGraph — natural language product search, image-based visual search, intelligent shopping cart management, real-time streaming responses; Shopware 6 integration documented; reference architecture Globant can extend |
+| Rasa Open Source | [RasaHQ/rasa](https://github.com/RasaHQ/rasa) | Apache 2.0 | 19.5k★ | Conversational AI framework — NLU + dialogue management + channel connectors (WhatsApp, Telegram, Slack, FB); CALM approach (LLM understanding + deterministic actions for reliability); battle-tested for retail customer service and in-store voice assistants |
+| LangGraph | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 13k★ | Stateful multi-agent orchestration with cycles and branching — powers retail agent workflows: cart management, order tracking, returns processing, inventory queries; 34.5M monthly downloads; backbone of NVIDIA's retail blueprint |
+| CrewAI | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k★ | Role-based multi-agent orchestration — product research crew, competitive pricing crew, customer support crew; 5.2M monthly downloads; strong retail use-case community with ready-made crew templates |
+| RecBole-GNN | [RUCAIBox/RecBole-GNN](https://github.com/RUCAIBox/RecBole-GNN) | MIT | 720★ | GNN-enhanced recommendation on top of RecBole — LightGCN, SGL, SimGCL, NCL; graph-based collaborative filtering for "customers also bought" and session-based recommendation at catalog scale |
+| CLIP (OpenAI) | [openai/CLIP](https://github.com/openai/CLIP) | MIT | 26k★ | Contrastive Language-Image Pretraining — foundation for visual product search; enables "find similar product by photo" or text-to-image search; multimodal embedding for retail catalog AI; pairs with FAISS for sub-100ms retrieval |
+| FAISS (Meta) | [facebookresearch/faiss](https://github.com/facebookresearch/faiss) | MIT | 34k★ | Facebook AI Similarity Search — billion-scale vector search in milliseconds; CUDA/CPU support; backbone for product embedding search, visual similarity, and real-time recommendation retrieval; GPU-accelerated for catalog sizes >10M SKUs |
+| PriceWars | [hpi-epic/pricewars](https://github.com/hpi-epic/pricewars) | MIT | 430★ | Dynamic pricing simulation platform (HPI Berlin research) — multi-merchant competitive repricing, RL agents, rule-based and ML-driven pricing strategies; retail price elasticity modeling; spawn as microservice for live price optimization |
+| Bagisto | [bagisto/bagisto](https://github.com/bagisto/bagisto) | MIT | 28k★ | Laravel-based AI-integrated e-commerce platform — native support for GPT-4/Claude/Gemini, multi-language/multi-currency, plugin/theme ecosystem; InnoShop variant with modular AI automation (search, recommendations, content) |
 
-*NVIDIA Shopping Assistant blueprint uses NVIDIA License for models/data but orchestration code is open-source; Retail-Catalog-Enrichment (row 3) is cleanly Apache 2.0 for commercial use.
+## Supporting Tools
 
-## Notes
+| Tool | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| Medusa | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 32k★ | Headless commerce platform — agent-ready APIs, Node.js/TypeScript, modular modules (cart, orders, inventory, promotions); foundation for agentic checkout & composable commerce |
+| Saleor | [saleor/saleor](https://github.com/saleor/saleor) | Apache 2.0 | 22.4k★ | GraphQL-first headless commerce (Django/Python) — extensible storefront with webhooks, multi-channel; ideal for adding AI recommendation layers on top |
+| Dify | [langgenius/dify](https://github.com/langgenius/dify) | Apache 2.0 | 144k★ | Low-code AI agent builder — visual RAG pipeline, LLM workflow builder; rapidly build retail copilots & customer-facing AI without writing agent orchestration from scratch |
+| Weaviate | [weaviate/weaviate](https://github.com/weaviate/weaviate) | BSD-3 | 13k★ | Vector database — product catalog embedding store; hybrid BM25+vector search; powers semantic product discovery and "shop the look" features |
+| medusa-mcp | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | 65★ | MCP server for Medusa JS SDK — enables Claude/LLM agents to natively call Medusa commerce APIs (products, carts, orders); emerging pattern for agentic retail |
 
-- **Gorse (1)** is the strongest self-hosted recommendation engine — drop-in alternative to AWS Personalize or Recombee, with LLM re-ranking layer; now at 9.6k stars (was 8.5k in July 2).
-- **NVIDIA Catalog Enrichment (3)** is new on this update — Apache 2.0, the most commercially usable of the NVIDIA retail blueprints; pair with Medusa/Saleor for automated catalog ops.
-- **Rasa (7)** upgraded to CALM (Contextual Autonomous Language Model) architecture in 2025; the 2026 standard for intent-aware retail customer service bots with on-prem/private-cloud deployment.
-- **NeuralForecast + TimeGPT (5–6)** are the 2026 leaders for demand forecasting; NeuralForecast for self-hosted fine-tuned models, TimeGPT for zero-shot accuracy without training.
-- **CrewAI + LangChain (9–10)** are complementary: LangChain for individual chains/tools, CrewAI for multi-agent crews that coordinate pricing, inventory, and support simultaneously.
-- All entries carry MIT, Apache 2.0, or BSD licenses suitable for commercial Globant client engagements (except NVIDIA Shopping Assistant — use Catalog Enrichment Blueprint instead for Apache-clean projects).
+## Recommendation Algorithm Coverage (RecBole)
+
+| Category | Key Algorithms | Retail Use Case |
+|----------|---------------|-----------------|
+| General Rec | BPR, NeuMF, LightGCN, NGCF | Homepage personalization, "For You" feed, email campaigns |
+| Sequential Rec | SASRec, GRU4Rec, BERT4Rec, FPMC | Session-based "Next product" prediction, cart completion |
+| Context-aware | FM, DeepFM, xDeepFM, DCN | CTR prediction, search ranking, sponsored placement |
+| Knowledge-based | KGAT, RippleNet, KGCN, KGIN | Cross-category discovery, long-tail items, new user cold start |

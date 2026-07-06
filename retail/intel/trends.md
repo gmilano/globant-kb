@@ -1,135 +1,65 @@
-# Industry Trends — Retail AI (2026)
+# Trends — Retail AI (July 2026)
 
-> Current intelligence from Mordor Intelligence, McKinsey, Capgemini, Deloitte, Google Cloud, and Invent.AI research — Updated 2026-07-04
+> Current signals, industry shifts, and emerging patterns.
+> Last updated: 2026-07-06
 
-## Trend 1: Agentic Commerce — AI Agents as Shoppers
+## Trend 1: Agentic Commerce — Zero-Click Purchasing
+The most disruptive trend of H1 2026. AI agents shop autonomously: browse, compare prices, apply coupons, add to cart, and complete checkout without human clicks. **ChatGPT Instant Checkout** (OpenAI + Shopify) has 1M+ merchants opted in. AI agents are becoming the new customer — retailers must optimize for machines, not just humans.
 
-Consumers are delegating shopping to AI agents. The Agentic AI in Retail & eCommerce market is $60.43B in 2026, growing at 29.29% CAGR to reach $218.37B by 2031. McKinsey estimates $1 trillion in orchestrated US retail revenue by 2030, $3–5 trillion globally.
+**Impact**: Retailers need to expose clean APIs and structured product data (schema.org) or be invisible to AI agents. SEO is being replaced by "AEO" (Agent Engine Optimization).
 
-**What this means for retailers:**
-- Expose structured product data (JSON-LD, open APIs)
-- Support agent-friendly checkout APIs (no CAPTCHA, machine-readable flows)
-- Implement AI-readable pricing and real-time availability feeds
-- Build brand presence in LLM knowledge (AI agents recommend brands they "know")
-- Universal Commerce Protocol (UCP): REST/JSON-RPC standard by Google/Shopify — adopt or be invisible
+## Trend 2: AI-Powered Personalization at Scale
+70% of retail executives plan to implement AI-powered personalization by end of 2026. Personalization now drives up to 31% of total e-commerce revenue and can boost AOV by 369% for engaged customers. LLM-enhanced recommendation models (hybrid LLM embedding + RecBole algorithms) are outperforming traditional collaborative filtering on cold-start and diversity metrics.
 
-**Open source movers:** Medusa v3 and Saleor have published UCP-compatible endpoints; Perplexity Shopping confirmed compatible with Saleor.
+**Key shift**: Moving from "customers also bought" (static CF) to real-time contextual rec considering search history, browsing session, weather, location, and intent signals.
 
-**Globant opportunity:** UCP-readiness audits + remediation engagements; agentic commerce API gateway design.
+## Trend 3: Multimodal Visual Product Discovery
+"Shop by photo" is commoditizing. CLIP+FAISS pipelines deliver <100ms visual similarity search at scale with commodity GPUs. NVIDIA Retail Shopping Blueprint includes image search as a first-class feature. Fashion, home decor, and beauty verticals leading adoption. Social commerce (Instagram/TikTok) is training consumers to expect visual search.
 
----
+**Opportunity**: Build CLIP-powered visual catalog AI for fashion and home retail — differentiated from Shopify/WooCommerce standard search.
 
-## Trend 2: Voice-Commerce — Fastest Growing Segment
+## Trend 4: Conversational Commerce Dominates LATAM
+WhatsApp is the primary shopping channel in Latin America. Conversational commerce (chatbots + live chat) is the standard for customer service and sales across Brazil, Mexico, Colombia. Tools like Jelou (LatAm-focused) and Rasa-based bots are deployed at major retailers. Chile's Latam-GPT (Feb 2026) enables Spanish/Portuguese commerce AI with regional cultural context.
 
-Voice-Commerce Agents register the strongest growth trajectory in all of retail AI: **36.25% CAGR through 2031** (Mordor Intelligence) — outpacing even generative dialogue agents. Voice is moving from smart speaker novelty to integrated checkout experience.
+**LATAM stat**: Less than ⅓ of LATAM consumers prioritize personalized recommendations — they care more about reliable delivery and transparent pricing. AI reliability > AI flash in this market.
 
-**Manifestations in 2026:**
-- In-store voice kiosks replacing touchscreen POS for accessibility
-- Hands-free re-ordering via voice assistants (household staples, subscriptions)
-- Voice-based customer service tier-1 (order status, store hours, product info)
-- Multimodal voice+image: "I'm looking at this product, tell me if it comes in blue" (photo + voice)
+## Trend 5: Dynamic Pricing & Price Intelligence
+AI-driven dynamic pricing is moving from airlines/hotels into retail. Competitive price monitoring, real-time margin optimization, and promotional timing are all being automated. PriceWars (MIT) provides simulation infrastructure. Demand elasticity modeling + RL agents for repricing is now accessible to mid-market retailers.
 
-**Stack:** Rasa CALM (voice + text) + OpenAI Whisper / faster-whisper (transcription) + TTS + Medusa API
+**Risk**: Consumer backlash against perceived price manipulation. Transparency and fairness guardrails needed.
 
-**Globant opportunity:** Voice commerce implementation for grocery, pharmacy, and convenience retail clients where hands-free is operationally important.
+## Trend 6: Physical Retail AI (Store Floor Intelligence)
+AI is moving from digital to physical stores. Key use cases gaining traction:
+- **Shelf auditing**: Computer vision detecting out-of-stock, planogram compliance (ShelfOps, MIT)
+- **In-store customer analytics**: CV tracking foot traffic, heatmaps, dwell time
+- **Smart checkout**: Computer vision self-checkout without barcode scanning
+- **Real-time inventory**: RFID + AI reconciling digital vs. physical stock
 
----
+**Signal**: [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) — "biggest AI opportunity in retail is on the store floor, not headquarters."
 
-## Trend 3: Autonomous Supply Chain & Demand Sensing
+## Trend 7: AI Retail Media Networks
+Retailers monetizing their first-party data through AI-powered advertising. Amazon Ads AI, Walmart Connect, MercadoLibre Advertising are deploying ML for ad targeting at scale. Mid-market retailers building retail media networks with open-source ad tech + AI. Sponsored product placement optimization is a $50B+ opportunity globally.
 
-By 2026, supply chains are becoming self-adaptive. AI continuously monitors demand signals and inventory positions, automatically triggering replenishment within defined guardrails.
+## Trend 8: Supply Chain & Demand Sensing
+Post-pandemic supply chain volatility is driving investment in AI demand forecasting. LSTM/Prophet models + real-time signals (social trends, weather, events) replacing traditional statistical forecasting. Multi-agent warehouse intelligence (NVIDIA blueprint) for autonomous replenishment. Focus on reducing both stockouts (-15% to -30% impact on revenue) and overstock (15-25% of inventory capital wasted).
 
-**Key capabilities going mainstream:**
-- Real-time demand sensing using social signals (TikTok virality, weather, events)
-- Automated purchase orders below threshold (no human approval for routine orders)
-- Hyper-local SKU optimization: right product, right store, right quantity
-- Autonomous rerouting of shipments when disruptions detected
+## Trend 9: LLM-Powered Product Content Generation
+AI generating product descriptions, SEO metadata, size guides, and imagery at scale. Retailers with 100k+ SKUs can't manually write content — AI bridges the gap. Bagisto and other platforms building native LLM content generation. Quality and brand voice guardrails are the key differentiator.
 
-**Numbers:** 60% of Tier-1 retailers now operating autonomous supply chain elements (Capgemini).
+## Trend 10: Agent Engine Optimization (AEO)
+As AI agents replace direct browsing for product discovery, retailers must optimize for how LLMs and agents perceive their products. Clean structured data (schema.org Product, offer, availability), product feed quality, and AI-friendly APIs matter more than traditional SEO signals. Brands without structured product APIs will be invisible to agentic commerce flows.
 
-**Stack in use:** NeuralForecast / TimeGPT → CrewAI decision agent → ERPNext/OFBiz automated PO generation
+## Key Numbers to Know
 
----
-
-## Trend 4: Multimodal Shopping Assistants
-
-AI shopping assistants in 2026 are fully multimodal — text, image, and voice:
-- **Photo-based search:** Upload image → visual similarity search over product catalog (CLIP/BLIP embeddings)
-- **Voice in-store:** Kiosk Q&A with real-time stock and personalized recommendations
-- **LLM product expertise:** Assistant explains materials, care instructions, compatibility, size guides
-- **Contextual memory:** Assistant recalls prior purchases and preferences across sessions
-
-**Stack:** CLIP embeddings + LangGraph agent + Gorse collaborative filtering + Medusa/Saleor catalog API + NVIDIA Retail Shopping Assistant blueprint
-
----
-
-## Trend 5: Catalog Intelligence as Agentic Commerce Prerequisite
-
-AI shopping agents (ChatGPT Checkout, Perplexity Shopping) rank products by catalog data richness. Retailers with sparse product data are penalized or invisible. Catalog enrichment has gone from nice-to-have to survival requirement.
-
-**What's happening:**
-- Product title/description quality scoring becoming standard practice
-- Multi-attribute extraction from images using VLMs (GPT-4V, LLaVA, BLIP-2)
-- Automated generation of structured product attributes (size, material, color, compatibility)
-- SEO and agent-discoverability optimization as unified goal
-
-**Stack:** NVIDIA Retail-Catalog-Enrichment (Apache 2.0) → Medusa/Saleor catalog API → Milvus vector search
-
-**Globant opportunity:** Catalog modernization engagements as precursor to agentic commerce readiness.
-
----
-
-## Trend 6: Hyper-Personalized Dynamic Pricing
-
-88% of retailers use AI regularly (McKinsey 2026, up from 78% the prior year). Pricing AI is the most common first deployment:
-- **Markdown optimization:** When and by how much to discount without destroying margin
-- **Competitive parity:** Real-time repricing against competitor feeds (Rainforest API, Keepa)
-- **Promotion effectiveness:** Predict which promotions generate margin vs. mere volume
-- **Demand elasticity:** Know the price point that maximizes revenue per SKU
-- **Personalized pricing:** Different price signals to different customer segments (loyalty, geography)
-
-**Stack:** TensorHouse pricing patterns → competitor APIs → NeuralForecast elasticity model → Medusa/Saleor price rules API
-
----
-
-## Trend 7: Physical Retail AI Renaissance
-
-Physical stores gaining market share as "trust-building hubs" — reversing the e-commerce-only narrative. Asia-Pacific leading at 34.88% CAGR driven by unmanned store proliferation.
-
-- **Smart shelf cameras:** YOLOv8-based stockout and planogram compliance detection
-- **AI associate assist:** RAG over product catalog gives store associates real-time expert knowledge
-- **Footfall analytics:** Computer vision counts traffic, dwell time, conversion by zone
-- **Frictionless checkout:** Computer vision–powered just-walk-out expanding beyond Amazon Go
-- **Unmanned stores:** 24/7 autonomous retail (Asia-Pacific dominant, spreading to LATAM)
-
-**Open source:** YOLOv8 (Ultralytics, AGPL-3.0) for shelf monitoring + LangChain RAG for associate assist
-
----
-
-## Trend 8: Pragmatic AI — From Pilot to Production
-
-The "AI pilot" era is over. McKinsey reports retailers have exited experimentation:
-- 88% use AI regularly (up from 78% prior year)
-- 62% are experimenting with AI agents specifically
-- Focus: cost-per-transaction reduction, margin recovery, operational automation
-- ROI measurement: now demanded at the SKU and campaign level, not business-unit level
-
-**What's being automated now:** Stockout detection, return fraud scoring, supplier negotiation, product description generation (catalog enrichment), customer service tier-1, price optimization
-
----
-
-## Key Numbers to Cite in Client Proposals
-
-| Stat | Source |
-|------|--------|
-| Agentic AI in retail: $60.43B in 2026 → $218.37B by 2031 (29.29% CAGR) | Mordor Intelligence |
-| McKinsey: agentic commerce → $1T US retail by 2030, $3-5T globally | McKinsey |
-| Global retail e-commerce: $7.4T+ in 2026 | Industry consensus |
-| 88% of retailers use AI regularly in 2026 | McKinsey |
-| 62% experimenting with AI agents | McKinsey |
-| Generative Dialogue Agents: 45.80% of agentic retail AI market share | Mordor Intelligence |
-| Voice-Commerce Agents: 36.25% CAGR through 2031 (fastest segment) | Mordor Intelligence |
-| Asia-Pacific agentic retail: 34.88% CAGR (unmanned store proliferation) | Mordor Intelligence |
-| 40% of enterprise apps will have AI agents by end 2026 | Gartner |
-| Autonomous supply chains at 60% of Tier-1 retailers | Capgemini |
-| 80%+ of ecommerce interactions influenced by AI | Industry research |
+| Metric | Value | Source |
+|--------|-------|--------|
+| AI in retail market (2026) | $18.4B | Coherent Market Insights |
+| AI in retail market (2033) | $130.88B | Coherent Market Insights |
+| Agentic commerce CAGR 2026-2033 | 35.7% | Grand View Research |
+| Cyber Week 2025 orders via AI agents | 20% | Salesforce |
+| YoY growth AI-driven retail site visits | 4,700% | Adobe Analytics |
+| Merchants using OpenAI Instant Checkout | 1M+ | Shopify/OpenAI |
+| Executives planning AI personalization | 70% | Industry survey 2026 |
+| Rec engine impact on e-commerce revenue | up to 31% | McKinsey |
+| LATAM e-commerce 2026 | $215B+ | Digital Commerce 360 |
+| MercadoLibre market share (LATAM) | 40% | MercadoLibre/Endeavor |

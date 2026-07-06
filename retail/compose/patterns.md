@@ -1,328 +1,244 @@
-# Compose Patterns — Retail AI
+# Composition Patterns — Retail AI
 
-> Concrete recipes: specific repos + agents + wiring instructions
-> Last updated: 2026-07-04
-
----
-
-## Pattern 1: Self-Hosted AI Product Recommendation Engine
-
-**Use case:** Replace SaaS personalization (Recombee, Coveo, AWS Personalize) with a self-hosted stack delivering collaborative filtering + LLM re-ranking.
-
-**Components:**
-- **[gorse-io/gorse](https://github.com/gorse-io/gorse)** (Apache 2.0) — recommendation engine core
-- **[medusajs/medusa](https://github.com/medusajs/medusa)** (MIT) — commerce catalog + events source
-- **[langchain-ai/langchain](https://github.com/langchain-ai/langchain)** (MIT) — LLM re-ranking layer
-
-**Wiring:**
-```
-1. Deploy Gorse with Docker Compose (gorse-io/gorse/docker-compose.yml)
-   - Configure item catalog source: call Medusa GET /store/products → POST /api/items to Gorse
-   - Set up daily catalog sync job
-
-2. Ingest user interaction events in real-time:
-   - Medusa webhook: order.placed → POST /api/feedback {user, item, type:"purchase", value:1}
-   - Medusa webhook: cart.item_added → POST /api/feedback {type:"add-to-cart", value:0.5}
-   - Frontend event: product_view → POST /api/feedback {type:"view", value:0.1}
-
-3. Serve recommendations:
-   - Homepage: GET /api/recommend?user-id={uid}&n=20 → Gorse collaborative filtering results
-   - Product page: GET /api/neighbors?item-id={pid}&n=10 → similar item recommendations
-
-4. Optional LLM re-ranking (when business rules needed):
-   - Pass Gorse top-20 + user context to LangChain chain
-   - Prompt: "Re-rank these 20 products for a user who prefers eco-friendly items. Boost margin >30%. Output ranked IDs only."
-   - Cache LLM re-ranked results in Redis (TTL 15 min per user)
-
-5. A/B test: Gorse native ranking vs LLM re-ranked via Gorse experiment API
-```
-
-**Timeline:** 3–4 weeks to production
-**Expected outcome:** 15–25% CTR improvement vs random/bestseller baseline; 60–80% cost reduction vs SaaS personalization; <50ms p99 recommendation latency with Redis cache.
+> Concrete recipes using specific repos + agents + wiring instructions.
+> All components are MIT / Apache 2.0 / LGPL unless noted.
+> Last updated: 2026-07-06
 
 ---
 
-## Pattern 2: Retail Demand Forecasting + Automated Replenishment
+## Pattern 1: Agentic Shopping Assistant (WhatsApp → Medusa)
 
-**Use case:** Predict weekly SKU demand per store location, then automatically generate purchase orders in ERPNext within guardrails.
+**Problem**: LATAM retailer wants customers to browse, search, and buy via WhatsApp without building a native app.
 
-**Components:**
-- **[Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast)** (Apache 2.0) — NHITS/PatchTST demand models
-- **[Nixtla/statsforecast](https://github.com/Nixtla/statsforecast)** (Apache 2.0) — ETS/ARIMA ensemble baseline
-- **[frappe/erpnext](https://github.com/frappe/erpnext)** (GPL-3.0) — PO generation and inventory
-- **[crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** (MIT) — multi-agent orchestration
-
-**Wiring:**
+**Stack**:
 ```
-1. Data extraction:
-   - ERPNext REST API: GET /api/resource/Stock Ledger Entry → 2 years daily sales per (SKU, store)
-   - Enrich with: promotional calendar, store closures, competitor events
-
-2. Forecast pipeline (run weekly on Sundays):
-   - NeuralForecast NHITS: train per (SKU, store); 8-week horizon; use log1p transform
-   - StatsForecast ETS: baseline ensemble (add +30% weight to NHITS if MAPE < ETS)
-   - Output: forecast_df[['SKU','store','date','yhat','yhat_lower','yhat_upper']]
-
-3. CrewAI Demand Analyst Agent:
-   - Input: forecast_df + current_stock from ERPNext + in_transit_qty
-   - Computes: reorder_qty = max(0, sum(yhat_8wk) - current_stock - in_transit + safety_stock)
-   - Flags: items with forecast confidence interval > 40% for human review
-
-4. CrewAI Procurement Agent:
-   - For items with reorder_qty > 0 and confidence OK:
-     - ERPNext API: POST /api/resource/Purchase Order (status=Draft)
-   - Applies constraints: MOQ from supplier master, pack size rounding
-
-5. CrewAI Supervisor Agent:
-   - Reviews all Draft POs
-   - Auto-approves if total_value < $5,000 AND supplier_reliability_score > 0.85
-   - Sends Slack alert via webhook for POs requiring human approval
-   - ERPNext: PATCH status=Submitted for auto-approved POs
+WhatsApp Business API (customer channel)
+    ↓
+Rasa (Apache 2.0) — intent recognition, dialogue management, CALM
+    ↓
+LangGraph (MIT) — multi-step agent graph (search → cart → checkout → confirmation)
+    ↓
+medusa-mcp (MIT) — MCP server exposing Medusa commerce APIs as LLM tools
+    ↓
+Medusa (MIT) — cart, orders, inventory, promotions backend
+    ↓
+RecBole (MIT) — "while you shop" recommendation engine
 ```
 
-**Timeline:** 5–7 weeks to production
-**Expected outcome:** 20–35% reduction in stockout events; 15% reduction in overstock carrying costs.
+**Wiring**:
+1. Deploy Medusa v2 with product catalog, inventory, and checkout configured
+2. Start medusa-mcp server — exposes `create_cart`, `add_item`, `search_products`, `get_order` as MCP tools
+3. Build LangGraph agent with nodes: [intent_router → product_search → add_to_cart → apply_promo → checkout_confirm]
+4. Wire Rasa CALM to handle NLU + call LangGraph for multi-step flows
+5. Connect Rasa to WhatsApp via Twilio or Vonage connector
+
+**Estimated build time**: 8-12 weeks  
+**Key differentiator**: WhatsApp as primary commerce channel; medusa-mcp enables LLM-native cart operations without custom tool code  
+**LATAM fit**: High — Brazil/Mexico WhatsApp commerce adoption
 
 ---
 
-## Pattern 3: Multimodal AI Shopping Assistant
+## Pattern 2: Real-Time Personalization Engine (RecBole + Medusa)
 
-**Use case:** Customer-facing chatbot handling natural-language queries, image-based search, personalized recommendations, and cart management — all from one agent surface.
+**Problem**: E-commerce platform has >50k SKUs but serves the same homepage to all users. Wants "Amazon-style" personalization without building from scratch.
 
-**Components:**
-- **[NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant)** — base LangGraph blueprint
-- **[saleor/saleor](https://github.com/saleor/saleor)** (BSD-3) — GraphQL commerce API
-- **[gorse-io/gorse](https://github.com/gorse-io/gorse)** (Apache 2.0) — personalized recommendations
-
-**Wiring:**
+**Stack**:
 ```
-1. Fork NVIDIA retail-shopping-assistant repo
-   - Replace demo catalog with Saleor GraphQL product API calls
-   - Set SALEOR_API_URL and SALEOR_AUTH_TOKEN in config
-
-2. LangGraph agent graph nodes:
-   Intent Classifier Node
-   ├── SEARCH → Product Search Tool
-   │   ├── Text: embed query → vector similarity over CLIP product embeddings
-   │   └── Image: CLIP encode upload → cosine similarity search → top-10 products
-   ├── RECOMMEND → Gorse Tool
-   │   └── GET /api/recommend?user-id={session_uid} → personalized products
-   ├── CART → Cart Manager Tool
-   │   ├── addLine: Saleor GraphQL mutation checkoutLinesAdd
-   │   └── removeLines: Saleor GraphQL mutation checkoutLinesDelete
-   ├── PRODUCT_INFO → RAG Tool
-   │   └── Retrieve from product catalog vector store → LLM answers care/size/material Qs
-   └── SUPPORT → Escalation Tool
-       └── Create Zendesk ticket via API if confidence < 0.7
-
-3. Streaming: all responses via WebSocket (LangGraph astream_events)
-4. Session state: Redis (user preferences, cart context, conversation history)
-5. Observability: LangSmith traces for QA and prompt optimization
+Medusa (MIT) — commerce backend + event webhooks
+    ↓ (purchase/view events via webhooks)
+Event stream (Redis Streams or Kafka)
+    ↓
+RecBole (MIT) — SASRec (sequential rec) + LightGCN (collaborative filtering)
+    ↓
+FAISS (MIT) — real-time nearest-neighbor retrieval from precomputed embeddings
+    ↓
+Recommendation API (FastAPI) — returns top-N products per user
+    ↓
+Storefront (Next.js + Medusa Storefront) — "Recommended for you" widget
 ```
 
-**Timeline:** 6–8 weeks to production
-**Expected outcome:** 40% reduction in support ticket volume; 12–18% uplift in average order value from recommendation-driven cross-sell.
+**Algorithm selection**:
+| Use Case | Algorithm | Why |
+|----------|-----------|-----|
+| "You might also like" | LightGCN (RecBole) | Graph-based CF; handles implicit feedback |
+| "Complete the look" | BERT4Rec (RecBole) | Sequential; considers recent browsing |
+| "Trending now" | ItemKNN (RecBole) | Popularity + similarity; no cold-start issues |
+| "Shop by style" | CLIP + FAISS | Multimodal; works on image similarity |
+
+**Wiring**:
+1. Deploy RecBole training pipeline — ingest purchase/view events, retrain nightly
+2. FAISS index built from RecBole embeddings — serves real-time top-N in <50ms
+3. FastAPI wrapper with user_id input → returns ranked product_ids
+4. Medusa storefront calls recommendation API on page load
+5. A/B test RecBole vs. existing rule-based recommendations
+
+**Estimated build time**: 10-14 weeks  
+**Expected impact**: +15-25% CTR on product cards; up to +31% revenue contribution from recommendations
 
 ---
 
-## Pattern 4: Agentic Dynamic Pricing Pipeline
+## Pattern 3: Visual Search — "Shop by Photo" (CLIP + FAISS + Saleor)
 
-**Use case:** Continuously monitor competitor prices and demand signals, optimize retail prices within business rules (minimum margin, MAP compliance), and sync to storefront automatically.
+**Problem**: Fashion/home decor retailer wants "find similar product" — user uploads photo, system returns visually matching items from catalog.
 
-**Components:**
-- **[ikatsov/tensor-house](https://github.com/ikatsov/tensor-house)** (Apache 2.0) — DQN pricing patterns + elasticity models
-- **[medusajs/medusa](https://github.com/medusajs/medusa)** (MIT) — price lists API
-- **[Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast)** (Apache 2.0) — demand elasticity modeling
-- **[crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** (MIT) — agent orchestration
-
-**Wiring:**
+**Stack**:
 ```
-1. Configure data sources:
-   - Competitor data: Rainforest API (Amazon) or Keepa (historical + real-time)
-   - Internal data: Medusa GET /admin/products → current prices + margin data
-   - TensorHouse: use pricing/price-optimization-using-dqn-reinforcement-learning.ipynb as base
-
-2. Demand Elasticity Agent (runs daily):
-   - NeuralForecast: train price-demand model per SKU (historical price changes + units sold)
-   - Output: elasticity coefficient ε per SKU (e.g., -1.3 means 10% price ↑ → 13% demand ↓)
-
-3. Pricing Strategy Agent (runs every 4 hours):
-   For each SKU:
-     competitor_min = min(competitor_prices)
-     optimal_price = argmax(price × predicted_demand(price, ε))
-     proposed_price = clip(
-       optimal_price,
-       min=COGS × 1.15,            # 15% minimum margin floor
-       max=MAP_PRICE               # manufacturer advertised price ceiling
-     )
-     if proposed_price > competitor_min × 1.05:
-       proposed_price = competitor_min × 1.02  # stay within 2% of cheapest
-
-4. Sync Agent:
-   - Batch updates: Medusa PATCH /admin/price-lists/{id}/prices
-   - Audit log: append {sku, old_price, new_price, reason, timestamp} to append-only log table
-   - Slack notification: daily digest of price changes > 10%
-
-5. Guardrails:
-   - Never change more than 15% in a single cycle
-   - Block changes during flash sale windows (calendar integration)
-   - Human approval required if SKU revenue > $100k/month
+User uploads image (mobile app or web)
+    ↓
+CLIP (MIT) — extract 512-dim visual embedding from uploaded image
+    ↓
+FAISS (MIT) — approximate nearest-neighbor search over pre-indexed catalog embeddings
+    ↓
+Top-K product IDs returned in <100ms
+    ↓
+Saleor (Apache 2.0) — fetch product metadata, prices, availability
+    ↓
+Storefront — display visually similar products with "Shop this look" CTA
 ```
 
-**Timeline:** 4–6 weeks to production
-**Expected outcome:** 3–8% gross margin improvement; elimination of systematic under/overpricing vs. competitors.
-
----
-
-## Pattern 5: Autonomous Inventory Management Crew
-
-**Use case:** Multi-agent crew monitors stock levels 24/7, detects anomalies (stockouts, shrinkage, demand spikes), and coordinates replenishment without constant human intervention.
-
-**Components:**
-- **[crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** (MIT) — crew orchestration
-- **[odoo/odoo](https://github.com/odoo/odoo)** or **[frappe/erpnext](https://github.com/frappe/erpnext)** — inventory data source
-- **[Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast)** (Apache 2.0) — demand sensing
-
-**Wiring:**
+**Catalog indexing pipeline**:
 ```python
-# CrewAI crew definition
-crew = Crew(agents=[
-    Agent(
-        role='Inventory Monitor',
-        goal='Poll ERP every 30 min; flag items below safety_stock threshold',
-        tools=[odoo_stock_tool, alert_tool]
-    ),
-    Agent(
-        role='Anomaly Detective',
-        goal='Compare actual vs expected consumption; alert on shrinkage (>2σ variance from forecast)',
-        tools=[forecast_tool, stats_tool, alert_tool]
-    ),
-    Agent(
-        role='Replenishment Coordinator',
-        goal='Run 4-week NeuralForecast; compute EOQ; generate purchase quantity recommendations',
-        tools=[neuralforecast_tool, supplier_catalog_tool]
-    ),
-    Agent(
-        role='Supplier Liaison',
-        goal='Send RFQ via email if preferred supplier lead time > 5 days; track responses',
-        tools=[email_tool, supplier_api_tool]
-    ),
-    Agent(
-        role='Ops Reporter',
-        goal='Generate daily markdown inventory health summary → post to Slack #ops-inventory',
-        tools=[slack_tool, reporting_tool]
-    )
-])
+# Nightly batch: index all product images
+from openai.clip import CLIP
+import faiss, numpy as np
 
-# Task flow (sequential with conditional branching)
-Monitor → Anomaly (parallel) → Replenishment → Liaison (if lead_time > 5d) → Report
+model = CLIP.load("ViT-B/32")
+embeddings = []
+for product in catalog.products:
+    img = load_image(product.image_url)
+    emb = model.encode_image(img)  # 512-dim
+    embeddings.append(emb)
+
+index = faiss.IndexFlatIP(512)  # inner product = cosine similarity
+index.add(np.array(embeddings))
+faiss.write_index(index, "catalog.index")
 ```
 
-**Timeline:** 4–6 weeks to production
-**Expected outcome:** 30-minute mean time to detect stockout (vs. 24-hour human-driven cycle); 40% reduction in emergency replenishment orders at premium freight cost.
+**Wiring**:
+1. Build nightly CLIP embedding pipeline for all catalog images (GPU recommended for >100k SKUs)
+2. Serve FAISS index via FastAPI endpoint: POST /search-by-image → returns product_ids + similarity scores
+3. Connect to Saleor via GraphQL to fetch product details for returned IDs
+4. Add "Upload photo to find similar" button to storefront product discovery
+
+**Estimated build time**: 6-8 weeks  
+**Key metric**: Conversion rate on visual search sessions typically 2-3× higher than keyword search
 
 ---
 
-## Pattern 6: AI Catalog Enrichment Pipeline (Agentic Commerce Readiness)
+## Pattern 4: Dynamic Pricing Agent (PriceWars + CrewAI + Saleor)
 
-**Use case:** Transform a sparse product catalog (basic images, minimal text) into richly structured, agent-discoverable catalog data — titles, descriptions, attributes, SEO tags — at scale, ahead of agentic commerce adoption.
+**Problem**: Mid-market retailer wants automated competitive repricing — monitor competitor prices, model demand elasticity, update prices within margin guardrails.
 
-**Components:**
-- **[NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment)** (Apache 2.0) — VLM catalog enrichment pipeline
-- **[saleor/saleor](https://github.com/saleor/saleor)** (BSD-3) or **[medusajs/medusa](https://github.com/medusajs/medusa)** (MIT) — catalog API target
-- **[milvus-io/milvus](https://github.com/milvus-io/milvus)** (Apache 2.0) — vector search for enriched catalog
-- **[langchain-ai/langchain](https://github.com/langchain-ai/langchain)** (MIT) — orchestration + LLM enrichment layer
-
-**Wiring:**
+**Stack**:
 ```
-1. Catalog audit (Day 1):
-   - Extract all products from Saleor/Medusa catalog API
-   - Score data quality per product: title length, description word count, attribute count, image count
-   - Segment: rich (≥4 attrs, ≥100 word desc), thin (1-3 attrs), bare (image only)
-
-2. Image → catalog data enrichment (NVIDIA Retail-Catalog-Enrichment):
-   - Deploy blueprint on GPU-enabled instance (A10/L40 recommended)
-   - Input: product image URLs from catalog
-   - Output per product:
-     - Generated title (brand-consistent, keyword-rich)
-     - Long-form description (200-500 words)
-     - Structured attributes (color, material, dimensions, care, compatibility)
-     - SEO tags (LSI keywords for product category)
-     - JSON-LD schema markup (Product + Offer types — critical for AI agent discoverability)
-
-3. LangChain quality review agent:
-   - Check each enriched entry against brand guidelines (tone, prohibited terms, competitor references)
-   - Score 0-100; auto-approve if score ≥ 80; flag < 80 for human review
-   - Batch publish approved entries: Saleor GraphQL mutation productUpdate / Medusa PATCH /admin/products/{id}
-
-4. Vector indexing for semantic search (Milvus):
-   - Embed enriched descriptions with CLIP (text tower) + product image (image tower)
-   - Store in Milvus collection: {product_id, text_embedding, image_embedding, metadata}
-   - Enable: text query → semantic product search; image upload → visual similarity search
-
-5. Agent-discoverability validation:
-   - Simulate agentic commerce queries against enriched catalog:
-     "Find me a waterproof hiking boot under $150 in size 10"
-   - Measure: retrieval precision@10 before vs. after enrichment
-   - Target: precision improvement ≥ 40% for thin→rich catalog items
-
-6. Ongoing enrichment (continuous):
-   - Webhook trigger: Saleor/Medusa product.created → auto-enrich new products within 30 min
-   - Weekly re-enrichment for seasonal or promotion-adjusted products
+Competitor price feeds (scrapers / price intelligence APIs)
+    ↓
+PriceWars (MIT) — simulation engine; models demand elasticity + competitor reactions
+    ↓
+CrewAI (MIT) — multi-agent pricing crew:
+  • CompetitorAnalystAgent — monitors market prices
+  • ElasticityModelAgent — forecasts demand at price points
+  • MarginGuardAgent — enforces floor/ceiling rules
+  • PricingDecisionAgent — synthesizes and decides
+    ↓
+Saleor (Apache 2.0) — applies price updates via GraphQL mutation
+    ↓
+Monitoring dashboard — price change audit log, revenue impact
 ```
 
-**Timeline:** 2–3 weeks for initial batch enrichment; 1 additional week to integrate ongoing pipeline
-**Expected outcome:** 80%+ reduction in catalog ops labor for new product onboarding; 40%+ improvement in AI agent discoverability; reduced bounce rate on product pages from better search relevance.
+**CrewAI crew definition**:
+```python
+from crewai import Agent, Task, Crew
+
+competitor_analyst = Agent(
+    role="Competitor Price Analyst",
+    goal="Monitor and summarize competitor pricing for SKUs",
+    tools=[price_scraper_tool, market_data_tool]
+)
+elasticity_modeler = Agent(
+    role="Demand Elasticity Modeler",
+    goal="Predict demand at candidate price points using historical data",
+    tools=[pricewars_simulation_tool, historical_sales_tool]
+)
+margin_guard = Agent(
+    role="Margin Guardian",
+    goal="Reject pricing decisions that violate floor/ceiling rules",
+    tools=[margin_calculator_tool]
+)
+pricing_decision = Agent(
+    role="Pricing Decision Maker",
+    goal="Synthesize analysis and recommend optimal price",
+    tools=[saleor_update_price_tool]
+)
+```
+
+**Estimated build time**: 10-14 weeks  
+**Key guardrails**: Always require human approval for >20% price change; log all decisions for compliance
 
 ---
 
-## Pattern 7: On-Prem Retail Customer Service Chatbot (LGPD/GDPR-Compliant)
+## Pattern 5: AI Customer Service Agent (Rasa + LangGraph + Medusa)
 
-**Use case:** Deploy a retail customer service chatbot that handles order status, returns, product Q&A, and store locator — fully on-premises for data residency compliance (Brazil LGPD, EU GDPR, EU AI Act).
+**Problem**: Retailer handling 10k+ customer service inquiries/day. 70% are repetitive: order status, returns, product questions. Wants AI to resolve tier-1 automatically.
 
-**Components:**
-- **[RasaHQ/rasa](https://github.com/RasaHQ/rasa)** (Apache 2.0) — CALM conversational AI engine
-- **[frappe/erpnext](https://github.com/frappe/erpnext)** (GPL-3.0) or **[medusajs/medusa](https://github.com/medusajs/medusa)** (MIT) — order/product data
-- **[milvus-io/milvus](https://github.com/milvus-io/milvus)** (Apache 2.0) — product knowledge vector store
-- Local LLM (Ollama + Llama 3.1 or Mistral 7B) — on-prem inference, no data leaves premises
-
-**Wiring:**
+**Stack**:
 ```
-1. Deploy Rasa CALM stack (Docker Compose):
-   - rasa-server, rasa-actions-server, rasa-webchat widget
-   - Connect to on-prem LLM via Ollama endpoint (localhost:11434)
-
-2. Define flows (CALM YAML):
-   order_status_flow:
-     - action: ask_order_id
-     - action: lookup_order_erpnext  # custom action: GET /api/resource/Sales Order/{id}
-     - action: respond_order_status
-   
-   return_initiation_flow:
-     - action: ask_order_and_reason
-     - action: validate_return_eligibility  # within 30 days, not digital goods
-     - action: create_return_erpnext  # POST /api/resource/Sales Return
-     - action: send_return_label_email
-
-   product_qa_flow:
-     - action: extract_product_query
-     - action: retrieve_from_milvus  # semantic search over enriched product catalog
-     - action: generate_answer_with_local_llm  # Ollama Llama 3.1
-
-3. Milvus knowledge base (product catalog RAG):
-   - Embed all enriched product descriptions (from Pattern 6) with local embedding model
-   - Store: {product_id, chunk, embedding, metadata}
-   - Custom Rasa action: embed query → Milvus search → top-3 chunks → LLM answer generation
-
-4. EU AI Act disclosure (August 2026 requirement):
-   - Rasa channel: inject "You are chatting with an AI assistant" banner on session start
-   - Log all conversations with user consent (LGPD/GDPR compliant consent flow)
-   - Human escalation path: connect to live agent queue if confidence < 0.6
-
-5. Integration:
-   - Embed rasa-webchat on Medusa/Saleor storefront via JS snippet
-   - Optional: WhatsApp Business API for LATAM mobile-first markets
+Customer channels: WhatsApp / Web chat / Email
+    ↓
+Rasa (Apache 2.0) — NLU classification → intent routing
+    ↓
+LangGraph (MIT) — stateful agent graph:
+  • order_status_node — queries Medusa Orders API
+  • return_initiation_node — creates return in Medusa
+  • product_qa_node — RAG over product catalog + FAQs
+  • escalation_node — human handoff with context
+    ↓
+Medusa (MIT) — orders, returns, inventory APIs
+Weaviate (BSD-3) — product knowledge base (semantic search)
+    ↓
+Human agent dashboard — receives escalated tickets with full context
 ```
 
-**Timeline:** 4–6 weeks to production
-**Expected outcome:** 60–70% of tier-1 queries resolved without human agent; full data residency compliance; EU AI Act transparent AI disclosure; LGPD-compliant for Brazil deployments.
+**Automation tiers**:
+| Intent | Automation Level | Tool |
+|--------|-----------------|------|
+| "Where is my order?" | Full auto (95% confidence) | Medusa Orders API |
+| "I want to return X" | Full auto + confirmation | Medusa Returns API |
+| "Does it come in blue?" | Full auto via RAG | Weaviate product KB |
+| "I'm angry about X" | Escalate to human | Human handoff + context |
+
+**Estimated build time**: 8-12 weeks  
+**Expected outcome**: 60-70% of tier-1 inquiries automated; CSAT maintained or improved via faster response
+
+---
+
+## Pattern 6: Retail Intelligence Dashboard (ERPNext + RecBole + LangGraph)
+
+**Problem**: Regional retailer with 50+ stores needs business intelligence: what to reorder, what to promote, what's underperforming — with natural language querying.
+
+**Stack**:
+```
+ERPNext (GPL-3.0) — sales data, inventory, purchase orders
+    ↓ (daily data sync)
+RecBole (MIT) — item popularity modeling, trend detection
+Stockpyl (MIT) — inventory optimization (reorder points, safety stock)
+    ↓
+LangGraph (MIT) — "retail intelligence agent":
+  • trend_analyst_node — identifies top/bottom performers
+  • reorder_agent_node — suggests replenishment orders
+  • promo_agent_node — recommends markdown candidates
+  • report_generator_node — creates executive summary
+    ↓
+Dify (Apache 2.0) — natural language interface: "What should I reorder this week?"
+    ↓
+ERPNext — auto-creates Purchase Orders from agent recommendations
+```
+
+**Key queries the agent handles**:
+- "Show me items trending up this week but at risk of stockout"
+- "Which products have been sitting over 60 days? Suggest markdowns"
+- "What should I reorder for the holiday season given last year's data?"
+- "Compare store performance for locations in São Paulo"
+
+**Estimated build time**: 12-16 weeks  
+**LATAM fit**: High — mid-market LATAM retailers running ERPNext (large Frappe community in Brazil)

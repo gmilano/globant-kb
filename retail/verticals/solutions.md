@@ -1,70 +1,68 @@
-# Vertical Solutions — Retail Industry
+# Vertical Solutions — Retail & E-Commerce
 
-> Real platforms with open-source cores that Globant can build AI on top of
-> Last updated: 2026-07-04
+> Real platforms Globant can customize with AI on top.
+> Model: start from something functional, add an agentic layer above.
+> Last updated: 2026-07-06
 
-## Commerce & Storefront
+## E-Commerce Platforms (AI-Customizable)
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Medusa** | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | Mid-market DTC brands, API-first & agent-native commerce (30.9k stars) | AI product search (vector embeddings), LLM shopping assistant, dynamic pricing rules, UCP agent endpoint; v3 workflow engine purpose-built for AI orchestration |
-| **Saleor** | [saleor/saleor](https://github.com/saleor/saleor) | BSD-3 | B2C/B2B composable commerce, GraphQL-first (22.2k stars) | Built-in AI agent skill layer; LLM-driven catalog management; Claude/Cursor integration native; first-mover on UCP and Perplexity Shopping compatibility |
-| **WooCommerce** | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-3.0 | SMB to mid-enterprise WordPress stores (30%+ market share, 10k stars) | AI chatbot plugins, Gorse recommendation engine integration, AI product description generation, SEO optimization |
-| **OpenCart** | [opencart/opencart](https://github.com/opencart/opencart) | GPL-3.0 | Budget-conscious SMB online stores | AI product description generation via LLM extension, basic chatbot, SEO optimization |
-| **PrestaShop** | [PrestaShop/PrestaShop](https://github.com/PrestaShop/PrestaShop) | OSL-3.0 | European SMB e-commerce, strong in LATAM | AI product descriptions, recommendation modules, GDPR/LGPD-compliant chatbot add-ons |
+| Platform | License | GitHub | Stars | Stack | Best For |
+|----------|---------|--------|-------|-------|----------|
+| **Medusa** | MIT | [medusajs/medusa](https://github.com/medusajs/medusa) | 32k★ | Node.js/TypeScript | Modern headless commerce — best for building composable commerce with AI agents on top; MCP server available (medusa-mcp); used by Heineken, Mitsubishi |
+| **Saleor** | Apache 2.0 | [saleor/saleor](https://github.com/saleor/saleor) | 22.4k★ | Python/Django | GraphQL-first API; multi-channel/multi-country; add AI rec layer via webhooks; strong for fashion, B2B, marketplace |
+| **Bagisto** | MIT | [bagisto/bagisto](https://github.com/bagisto/bagisto) | 28k★ | PHP/Laravel | AI model integrations built-in (GPT-4/Claude/Gemini); plugin ecosystem; multi-language/multi-currency → LATAM-ready |
+| **PrestaShop** | OSL-3.0 | [PrestaShop/PrestaShop](https://github.com/PrestaShop/PrestaShop) | 8.2k★ | PHP | 300k+ merchants, strong in Europe and LATAM; v9 released 2025; wide module ecosystem for AI add-ons; OSL allows customization |
+| **OpenCart** | GPL-3.0 | [opencart/opencart](https://github.com/opencart/opencart) | 7.6k★ | PHP | Simple, widely deployed globally; large LATAM SMB base; add AI modules for product recommendation and chatbot |
 
-## ERP & Back Office
+## ERP + Retail Management
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Odoo** | [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | Full-suite retail ops: POS, inventory, CRM, accounting, eCommerce (40k+ stars, 12M users) | AI demand forecasting module (v17+), conversational ops chatbot, AI-driven pricing rules, supplier negotiation agent; LGPL allows use without GPL contamination |
-| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | SMB to mid-market retail back office (20k stars); strong in LATAM | REST API integration with LangChain agents for inventory Q&A, PO automation, and supplier management; Frappe framework enables custom doctype AI tools |
-| **Apache OFBiz** | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache 2.0 | Enterprise catalog management, complex order routing; most permissive license | Deep Java integration for embedded ML models (demand forecasting, scoring, classification) — most flexible for enterprise AI embedding; safest license for IP-sensitive clients |
+| Platform | License | GitHub/URL | Stars | Stack | Best For |
+|----------|---------|-----------|-------|-------|----------|
+| **Odoo Community** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | 52.8k★ | Python | Full ERP suite — e-commerce, POS, inventory, CRM, accounting; LGPL allows proprietary modules; add AI layer for demand forecasting, customer scoring, automated reordering |
+| **ERPNext / Frappe** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | 36.4k★ | Python/Frappe | Full-stack ERP with retail modules — POS, inventory, multi-warehouse; Frappe framework allows building AI-powered custom apps alongside |
+| **Apache OFBiz** | Apache 2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | 750★ | Java | Enterprise ERP + e-commerce all-in-one — order management, catalog, CRM, accounting; Apache license = no commercial restrictions; AI modernization target for large retailers |
 
-## POS & In-Store
+## Point of Sale (POS)
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Open Source POS** | [opensourcepos/opensourcepos](https://github.com/opensourcepos/opensourcepos) | MIT | Small-format retail POS (PHP/CodeIgniter, MySQL) | Lightweight AI upsell recommendations at checkout, voice input at kiosk, LLM-powered receipt generation |
-| **ERPNext POS Next** | [frappe forum](https://discuss.frappe.io/t/introducing-pos-next-the-future-of-open-source-pos-for-erpnext/155560) | AGPL-3.0 | Modern ERPNext POS (v15+), real-time + offline | AI sales associate assistant at terminal, real-time inventory lookup, AI cross-sell prompt at checkout |
-| **UniCenta oPOS** | [unicenta/unicentaopos](https://github.com/unicenta/unicentaopos) | GPL-3.0 | Small-format store POS (Java, free) | Lightweight AI upsell recommendations at checkout, voice input at kiosk |
+| Platform | License | GitHub | Stars | Stack | Best For |
+|----------|---------|--------|-------|-------|----------|
+| **Unicenta oPos** | GPL-3.0 | [poolborges/unicenta-opos](https://github.com/poolborges/unicenta-opos) | 350★ | Java | Full-featured POS for physical retail — extensible for AI receipt analysis, upsell recommendations at checkout |
+| **Openbravo** | Commercial/Community | openbravo.com | — | Java | Cloud/self-hosted ERP for retail and hospitality — POS + inventory + omnichannel; strong in Spain/LATAM; AI integration via REST API |
 
-## Recommendation & Personalization
+## Customer Data & Loyalty
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Gorse** | [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache 2.0 | Self-hosted product recommendation engine for any retailer (9.6k stars) | Drop-in replacement for AWS Personalize (60-80% cost reduction); LLM re-ranking layer for business-rule injection; A/B testing native |
-| **Apache PredictionIO** | [apache/predictionio](https://github.com/apache/predictionio) | Apache 2.0 | ML-powered recommendation and prediction server | Deploy trained recommendation models as REST endpoints into any existing commerce stack |
-| **Microsoft Recommenders** | [microsoft/recommenders](https://github.com/microsoft/recommenders) | MIT | Reference library and rapid prototyping (18k stars) | 30+ algorithms for benchmarking before committing to production recommender architecture |
+| Platform | License | GitHub | Stars | Stack | Best For |
+|----------|---------|--------|-------|-------|----------|
+| **Mautic** | Apache 2.0 | [mautic/mautic](https://github.com/mautic/mautic) | 7.5k★ | PHP | Open source marketing automation — email, SMS, push notifications; add AI segmentation and send-time optimization on top |
+| **SuiteCRM** | AGPL-3.0 | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | 4.5k★ | PHP | Full CRM — customer 360, cases, campaigns; add AI lead scoring, churn prediction, next-best-offer recommendations |
+| **Open Loyalty** | MIT | [DivanteLtd/open-loyalty](https://github.com/DivanteLtd/open-loyalty) | 500★ | PHP/Symfony | Open loyalty program platform — points, tiers, rewards; integrate AI for personalized loyalty offers and churn prevention |
 
-## Demand Forecasting & Analytics
+## How to Add AI on Top
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Nixtla NeuralForecast** | [Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast) | Apache 2.0 | SKU-level demand forecasting at scale | Neural models (NHITS, PatchTST, Moirai) + promotional calendar features → automated replenishment; <8% MAPE on M5 Walmart benchmark |
-| **Nixtla StatsForecast** | [Nixtla/statsforecast](https://github.com/Nixtla/statsforecast) | Apache 2.0 | Fast statistical baseline forecasting (20× faster than pmdarima) | ETS/ARIMA ensemble as interpretable fallback alongside NeuralForecast for robust retail demand use cases |
-| **TensorHouse** | [ikatsov/tensor-house](https://github.com/ikatsov/tensor-house) | Apache 2.0 | Retail ML reference implementations | Pricing optimization (DQN RL), demand sensing, promotion effectiveness, CLV modeling — industry-proven patterns in Jupyter notebooks |
+### Step 1: Choose a vertical base
+- **Modern API-first**: Medusa (MIT) or Saleor (Apache 2.0)
+- **Full ERP needed**: Odoo (LGPL) or ERPNext (GPL)
+- **Existing merchant base (LATAM)**: Bagisto (MIT) or PrestaShop (OSL)
 
-## Catalog AI
+### Step 2: Add AI recommendation layer
+```
+Medusa/Saleor → webhook on product views/purchases
+             → RecBole (MIT) for collaborative filtering
+             → FAISS (MIT) for real-time retrieval
+             → return top-N recommendations via API
+```
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **NVIDIA Retail Catalog Enrichment** | [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache 2.0 | Automated product catalog enrichment from images | Transform raw product images → rich titles/descriptions/attributes/tags using VLMs; critical for agentic commerce visibility; reduces catalog ops labor by 80%+ |
+### Step 3: Add conversational agent
+```
+Rasa (Apache 2.0) or LangGraph (MIT)
+  ↓ connects to commerce platform APIs
+  ↓ order status, product search, returns
+  ↓ deploys on WhatsApp (LATAM primary channel)
+```
 
-## Customer Service
-
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Rasa** | [RasaHQ/rasa](https://github.com/RasaHQ/rasa) | Apache 2.0 | Enterprise-grade retail chatbot (19k stars), on-prem/private-cloud | CALM architecture for order status, returns, product Q&A, store locator; EU AI Act transparent AI disclosure compliant; LGPD-friendly for LATAM deployments |
-
-## Platform Selection Guide
-
-| Scenario | Recommended Stack |
-|----------|------------------|
-| Net-new DTC brand, AI-first | Medusa (commerce) + Gorse (recs) + NeuralForecast (demand) + Rasa (CX) |
-| Existing Odoo customer adding AI | Odoo v17 AI module + LangChain agent over Odoo REST API + Gorse recommendations |
-| Enterprise retailer, Java shop | Apache OFBiz + PredictionIO + TensorHouse ML patterns |
-| SMB WordPress store | WooCommerce + Rasa chatbot + Gorse for recommendations |
-| Multi-location retail with POS | Odoo POS or OSPOS (MIT) + AI associate assist RAG app + NVIDIA Catalog Enrichment |
-| Catalog modernization project | NVIDIA Retail-Catalog-Enrichment (Apache 2.0) + Medusa/Saleor catalog API + Milvus vector search |
-| EU client — data residency required | Medusa + Rasa (on-prem) + Gorse (self-hosted) — all deployable in private cloud |
+### Step 4: Add agentic commerce
+```
+medusa-mcp (MIT) exposes Medusa as MCP tools
+Claude / GPT-4 can create carts, check inventory,
+apply promotions, complete checkout autonomously
+```
