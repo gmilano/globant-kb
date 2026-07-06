@@ -2,69 +2,72 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-05
+> Última actualización: 2026-07-06
 
 ## Plataformas recomendadas
 
 | Plataforma | Licencia | URL | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
-| docassemble | MIT | [github.com/jhpyle/docassemble](https://github.com/jhpyle/docassemble) | Python/Flask | Entrevistas guiadas, formularios de corte, acceso a justicia, generación de documentos legales |
-| OpenContracts | MIT | [github.com/Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Django/React/Postgres | DMS legal con anotación humana, agentes AI integrados, MCP server, vector search |
-| EspoCRM | MIT | [github.com/espocrm/espocrm](https://github.com/espocrm/espocrm) | PHP/JS | CRM para firmas legales: gestión de clientes, casos, actividades, documentos |
-| SuiteCRM | AGPL-3.0 | [github.com/salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | PHP/SugarCRM | CRM relacional para firmas: seguimiento de clientes, pipeline de asuntos, compliance |
-| ClinicCases | GPL-3.0 | [github.com/ClinicCases/ClinicCases](https://github.com/ClinicCases/ClinicCases) | PHP/MySQL | Gestión de casos para clínicas jurídicas universitarias: time tracking, calendar, export |
-| Dolibarr | GPL-3.0 | [github.com/Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | ERP/CRM web para despachos: facturación, cotizaciones, agenda, contactos, contabilidad |
-| OpenLaw | Apache-2.0 | [github.com/openlawteam/openlaw-core](https://github.com/openlawteam/openlaw-core) | Scala/JVM | Acuerdos legales digitales con lógica programable; base para contratos inteligentes |
-| Portabilis i-diario | MIT | [github.com/portabilis/i-diario](https://github.com/portabilis/i-diario) | Ruby on Rails | Gestión de registros legales LATAM (Brasil); adaptable para registro y expedientes |
-
----
+| [docassemble](https://github.com/jhpyle/docassemble) | MIT | https://docassemble.org | Python + YAML + Markdown | Automatización de documentos legales / entrevistas guiadas. Gold-standard en clínicas jurídicas EE.UU. 2.6k★ |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | https://contracts.opensource.legal | Django + React + GraphQL | DMS agéntico: gestión de contratos con anotación, agentes AI y MCP server integrado. 980★ |
+| [CourtListener](https://github.com/freelawproject/courtlistener) | BSD | https://www.courtlistener.com | Django + PostgreSQL + Elasticsearch | Archivo de jurisprudencia US (9M+ opiniones); API pública + RECAP PACER integration. 961★ |
+| [ArkCase CE](https://github.com/ArkCase/ArkCase) | Apache-2.0 | https://www.arkcase.com | Java + Spring + Angular | Case management empresarial: documentos, contactos, calendarios, emails, tareas, billing. FedRAMP autorizado. |
+| [CiviCRM](https://github.com/civicrm/civicrm-core) | AGPL | https://civicrm.org | PHP | CRM + gestión de casos para organizaciones de ayuda legal; manejo de donantes, voluntarios y clientes. 660★ |
+| [SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL | https://suitecrm.com | PHP + JavaScript | CRM completo con módulos de cases, tareas, documentos, reportes y workflows; fork open source de SugarCRM. 4.5k★ |
 
 ## Cómo customizar con AI
 
-### Paso 1 — Fork + setup local
-```bash
-git clone https://github.com/Open-Source-Legal/OpenContracts
-docker-compose up -d
-```
+### docassemble + LLM
 
-### Paso 2 — Añadir endpoint AI
 ```python
-# settings.py / .env
-ANTHROPIC_API_KEY = "..."
-OPENAI_API_KEY = "..."       # alternativa
-OLLAMA_BASE_URL = "http://localhost:11434"  # opción local/privada
+# Agregar endpoint conversacional sobre entrevistas docassemble
+# 1. Instalar docassemble-llm o usar API webhook
+# 2. Conectar OpenAI/Anthropic para interpretar respuestas en lenguaje natural
+# 3. docassemble maneja la lógica y genera el documento; LLM maneja el diálogo
+
+# Ejemplo: flujo docassemble con Anthropic
+import anthropic
+
+client = anthropic.Anthropic()
+def interpret_user_answer(question: str, raw_answer: str) -> str:
+    """Normaliza una respuesta libre del usuario al campo esperado por docassemble."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=256,
+        messages=[{"role": "user", "content": f"Question: {question}\nAnswer: {raw_answer}\nExtract the structured value:"}]
+    )
+    return response.content[0].text
 ```
 
-### Paso 3 — Wrappear flujos existentes con agentes
+### OpenContracts + Agentes AI
+
 ```python
-# Ejemplo: agente de extracción de cláusulas sobre OpenContracts
-from opencontracts import DocumentAgent
-from lexnlp.extract.en import clauses
+# OpenContracts expone GraphQL + MCP server; añadir agente encima es sencillo
+# 1. Deploy OpenContracts (docker-compose up)
+# 2. Usar el MCP server para conectar Claude/LLM
+# 3. Definir agentes para extracción de cláusulas, alertas de vencimiento, etc.
 
-agent = DocumentAgent(
-    model="claude-sonnet-5-20251101",
-    extractors=[clauses.get_clauses],
-    annotation_schema="contract_clauses_v2"
-)
-result = agent.analyze(document_id="doc-123")
+# Las anotaciones de OpenContracts alimentan el grafo de citas
+# Los agentes pueden hacer: "busca todos los contratos con cláusula de no-compete activa"
 ```
 
-### Paso 4 — UI conversacional
-- Exponer resultados vía MCP server (OpenContracts ya incluye uno)
-- Conectar Claude Desktop o cualquier cliente MCP al endpoint
-- Configurar herramientas: `search_contracts`, `get_clause`, `compare_versions`
+### ArkCase CE + AI Pipeline
 
----
+```
+ArkCase CE (case management)
+       ↓ REST API
+LexNLP (extracción de entidades legales del documento)
+       ↓
+LLM (Anthropic / local Ollama) — resumen, clasificación, risk scoring
+       ↓
+OpenContracts (almacenamiento con grafo de citas)
+       ↓
+UI ArkCase — abogado ve caso + análisis AI integrado
+```
 
-## Selección por tamaño de cliente
+## Notas de licenciamiento para Globant
 
-| Perfil | Plataforma recomendada | Razón |
-|--------|----------------------|-------|
-| Clínica jurídica / pro-bono | docassemble | Portales de autoservicio para ciudadanos |
-| Firma mediana (20-100 abogados) | EspoCRM + OpenContracts | CRM + DMS agéntico integrado |
-| Firma grande / corporate legal | OpenContracts + lavern | Análisis masivo de contratos con pipeline multi-agente |
-| Legal Ops / GC office | agentcounsel + OpenContracts | Skills AI sobre flujos existentes |
-| Cortes / sector público | docassemble + ClinicCases | Acceso a justicia + gestión de casos |
-
----
-*Ver también: `repos/foundations.md` para librerías NLP y `compose/patterns.md` para recetas.*
+- **MIT / Apache-2.0**: libre para proyectos comerciales, modificación y redistribución sin restricciones.
+- **AGPL (CiviCRM, SuiteCRM)**: usar como SaaS requiere open-sourcing de modificaciones; preferir fork con cuidado legal o uso interno.
+- **BSD (CourtListener)**: permisivo, comparable a MIT.
+- **ArkCase CE Apache-2.0**: edición comunitaria; la edición Enterprise es propietaria.

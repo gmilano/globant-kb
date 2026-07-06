@@ -1,31 +1,20 @@
-# 📈 Repos trending — Legal Services
+# 📈 Repos trending — Legal
 
-> Última actualización: 2026-07-05
-
-## GitHub trending esta semana — Legal AI
+> GitHub repos con mayor tracción reciente en el espacio legal AI.
+> Última actualización: 2026-07-06
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Firma legal agentica: 67 agentes IA especialistas con debate evidencial, human gates obligatorias y loop de verificación de 10 pasos | 267★ |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | DMS para el mundo agentico: annotation + AI agents + MCP server + vector search en una sola plataforma | 920★ |
-| [dd-agents](https://github.com/Romelium/dd-agents) | Apache-2.0 | Due diligence M&A open source: 13 agentes AI (Legal, Finance, Commercial, Cyber, HR, Tax, ESG + Judge) en pipeline 38-step | 90★ |
-| [legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) | MIT | Benchmark de RAG para recuperación legal; mide precisión de retrieval sobre case law, no sólo generación | 310★ |
-| [agentcounsel](https://github.com/zgbrenner/agentcounsel) | MIT | Skills AI-agnósticas para equipos legales; funciona en Claude Code, Cursor, Codex, y 26 herramientas más | 180★ |
-| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada de recursos legaltech OSS: MCP servers, modelos AI, plataformas, datasets para el ecosistema global | 320★ |
-| [LexNLP](https://github.com/LexPredict/lexpredict-lexnlp) | Apache-2.0 | Librería NLP de contratos (LexPredict): extracción de cláusulas, fechas, partes, obligaciones; producción-ready | 3.2k★ |
-| [docassemble](https://github.com/jhpyle/docassemble) | MIT | Plataforma de entrevistas legales guiadas + ensamblado de documentos; base de portales de acceso a justicia | 2.6k★ |
-| [uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | MCP server para USPTO Final Petition Decisions: análisis de patentes con contexto comprimido | 18★ |
-| [contract-review-agent](https://github.com/lowtidebuild/contract-review-agent) | Apache-2.0 | Agente local-first de revisión de contratos: sin envío de datos a la nube, ideal para firmas con alta confidencialidad | 40★ |
-
----
-
-## Nuevos repos con potencial (< 30 días)
-
-| Nombre | Descripción | Señal |
-|--------|-------------|-------|
-| [uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | UK Legal AI Agents 2026: compliance, contratos y litigación | Timing post-Brexit + EU AI Act |
-| [nl-rag-qdrant-legal](https://github.com/kjgdgch65g/nl-rag-qdrant-legal) | RAG legal con Qdrant; demo lista | Stack ligero, fácil de fork |
-| [arin](https://github.com/sandip-pathe/arin) | Workspace local para documentos legales | Demanda de análisis on-premise |
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 agentes AI, debate adversarial de documentos, 10 rondas de verificación, puertas humanas obligatorias. TypeScript. Lanzamiento mayo 2026. | ~480★ |
+| [due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) | MIT | M&A due diligence: 13 agentes en 9 dominios, 38 pasos, trazabilidad a página/cita exacta, 14 herramientas MCP, ejecución 100% local. | ~420★ |
+| [claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | MIT | Skill de revisión de contratos: detección CUAD de riesgos, benchmarks de mercado, redlines para abogados. Funciona con Claude Code, Codex, Cursor y 26+ herramientas. | 355★ |
+| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada: plataformas open source, modelos AI, servidores MCP, empresas, datasets y herramientas para el ecosistema legal global. Mantenida por Vaquill AI. | ~220★ |
+| [agentcounsel](https://github.com/zgbrenner/agentcounsel) | MIT | 198 skills agnósticas al LLM para equipos legales en 20 áreas de práctica + operaciones legales y metodología. Markdown puro, portable a cualquier entorno. | ~140★ |
+| [courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) | MIT | Servidor MCP para CourtListener: 9M+ opiniones US, PACER, eCFR. Alojado o self-hosted. | ~95★ |
+| [ContractGuard](https://github.com/he-yufeng/ContractGuard) | MIT | Agente de análisis de contratos: detecta red flags, terms abusivos, protecciones faltantes; genera grade A+–F de equidad. | ~55★ |
+| [LawGlance](https://github.com/lawglance/lawglance) | MIT | Asistente legal RAG gratuito y abierto para acceso universal a orientación legal con citas a fuentes. | ~90★ |
+| [uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | MIT | Automatización de flujos legales UK 2026: compliance, contratos y litigación. | ~15★ |
+| [LawAgent](https://github.com/AI-Hub-Admin/LawAgent) | MIT | Directorio curado de recursos de agentes AI para derecho y legal: frameworks, papers, datasets. | ~80★ |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

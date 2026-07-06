@@ -1,80 +1,61 @@
-# 📡 Tendencias — Legal Services AI
+# 📡 Tendencias — Legal AI
 
-> Última actualización: 2026-07-05
+> Última actualización: 2026-07-06 (segunda pasada — datos frescos)
 
-## Tendencias técnicas
+## Tendencias principales 2026
 
-### 1. De pilotos a despliegues (2026 es el año de ejecución)
-El auge de agentes en 2025 fue experimental. En 2026, la tendencia dominante es **deployment**: equipos legales integran AI en flujos de trabajo reales.
-- 47% de departamentos legales corporativos ya usan GenAI (vs 23% en 2025)
-- 92% de profesionales legales usan al menos 1 herramienta AI
-- Las firmas que no adoptan AI están perdiendo talento joven (80% de nuevos asociados esperan herramientas AI)
+### Trend #1: De la experimentación a la integración embebida
+2026 es el año en que AI pasa de ser un proyecto piloto a una capacidad embebida en las herramientas cotidianas del abogado. Copilots dentro de Word, Outlook, y los sistemas de case management están reemplazando a los chatbots standalone. Firmas que no integren AI en su workflow principal quedarán en desventaja competitiva en 18 meses.
 
-### 2. Arquitecturas híbridas LLM + reglas
-Los sistemas de mayor rendimiento en análisis de contratos combinan LLMs con extractores basados en reglas:
-- F1 = 0.912 en CUAD con arquitectura híbrida LLM + LexNLP
-- F1 = 0.883 con LLMs especializados solos
-- F1 = 0.847 con LLMs de propósito general
-- **Implicación**: usar LexNLP para extracción determinística + LLM para razonamiento contextual
+**Implicación Globant**: los clientes no quieren otra herramienta; quieren AI dentro de lo que ya usan (Salesforce, Teams, SharePoint, SAP).
 
-### 3. MCP como interfaz legal estándar
-El patrón **MCP (Model Context Protocol) + APIs legales** está emergiendo como estándar:
-- `OpenContracts` lanzó su MCP server integrado (MIT)
-- `uspto_fpd_mcp` expone decisiones USPTO como MCP tools
-- Se anticipan MCP servers para: PACER (US courts), EUR-Lex, BOE España, Diario Oficial LATAM
-- Los agentes Claude ya pueden buscar jurisprudencia y contratos sin código personalizado
+### Trend #2: Agentic law firms — multi-agente adversarial
+Lavern (lanzado mayo 2026) demostró que es viable tener 67 agentes especializados debatiendo un documento en 10 rondas antes de emitir dictamen. La arquitectura "adversarial debate + mandatory human gate" está siendo adoptada como patrón de facto para alta-stakes legal review. Harvey Agents también sigue esta arquitectura.
 
-### 4. LLMs open source líderes para texto legal
-Los tres mejores modelos open-source para análisis de documentos legales en 2026:
-1. **DeepSeek-R1** (Apache-2.0) — razonamiento multi-paso, ventana 128k
-2. **Qwen3-235B-A22B** (Apache-2.0) — mejor relación calidad/coste en producción
-3. **Qwen2.5-VL-72B** (Apache-2.0) — multimodal: analiza PDFs escaneados y tablas
+**Implicación**: el patrón de un solo LLM generando análisis legal está siendo superado por pipelines multi-agente con verificación cruzada.
 
-### 5. RAG legal especializado
-LegalBench-RAG (2025) demostró que los benchmarks genéricos de RAG no sirven para legal:
-- Los retrievers genéricos tienen 34% menos precisión en búsqueda jurisprudencial
-- Los modelos entrenados en CUAD mejoran extracción de cláusulas en 28%
-- **Implicación**: usar `legalbenchrag` para evaluar cualquier sistema RAG legal antes de producción
+### Trend #3: Automatización de M&A due diligence
+La due diligence M&A es uno de los casos de uso con mayor ROI demostrado: `due-diligence-agents` cubre 9 dominios en 38 pasos que antes requerían semanas de trabajo de analistas. La clave diferenciadora es la trazabilidad a cita exacta — evita las alucinaciones que son inaceptables en contexto legal.
 
----
+**Cifras**: Harvey adquirió Hexus, Thomson Reuters adquirió Noetica — señal de que eDiscovery y due diligence son los mercados más calientes.
 
-## Tendencias regulatorias
+### Trend #4: MCP para bases legales
+Vaquill AI lanzó servidores MCP para CourtListener (US), CanLII (Canadá) y su propio índice de 8M+ opiniones. El patrón se está expandiendo: cualquier base de jurisprudencia/normativa puede exponerse como MCP server y ser consultada desde Claude, Cursor, o cualquier LLM con soporte MCP.
 
-### EU AI Act — Agosto 2026 (impacto crítico)
-La UE clasifica AI usada en servicios legales como **alto riesgo** (Annex III):
-- Requiere: transparencia, supervisión humana, gestión de riesgos
-- Requiere: documentación técnica, registro en base de datos EU
-- Sanciones: hasta €30M o 6% de facturación global
-- **Para Globant**: toda implementación de AI legal para clientes EU/regulados en EU debe cumplir EU AI Act
-- Los pipelines de due diligence (lavern, dd-agents) necesitan human gates documentadas como evidence
+**Implicación**: el acceso a corpus legales se democratiza — ya no se necesita integración costosa con Westlaw/LexisNexis.
 
-### Confidencialidad y privilege attorney-client
-- Las firmas rechazan SaaS cloud para contratos sensibles → oportunidad para soluciones on-premise
-- `OpenContracts` (self-hosted), `contract-review-agent` (local-first), `arin` (local) responden a esto
-- GDPR + Bar Association rules → los datos del cliente no pueden salir de la jurisdicción
+### Trend #5: EU AI Act obliga governance para herramientas legales
+Las obligaciones del EU AI Act entran en vigor en agosto 2026. Los sistemas AI usados en contextos legales califican como "high-risk" (Anexo III), requiriendo: evaluación de conformidad, registro en base de datos UE, transparencia al usuario, supervisión humana, y documentación técnica.
 
-### Consolidación CLM (Contract Lifecycle Management)
-- El mercado CLM está fusionándose con AI de análisis: Ironclad, Icertis, Conga añaden LLMs
-- Oportunidad: implementar CLM open source + AI encima para clientes que no quieren vendor lock-in
+**Implicación**: clientes europeos necesitan ayuda para navegar el compliance; Globant puede ofrecer EU AI Act readiness assessment + implementación de governance.
 
----
+### Trend #6: Mitigación de alucinaciones como diferenciador clave
+La principal barrera de adopción de AI legal es el riesgo de alucinaciones en citas de jurisprudencia. Las soluciones que se están imponiendo: (a) RAG sobre corpora legales verificados, (b) citation verification como paso obligatorio en el pipeline, (c) arquitecturas multi-agente con verificación cruzada.
+
+**Proyectos líderes**: OpenContracts (grafo de citas programable), due-diligence-agents (traza a página exacta), courtlistener-mcp (fuentes verificadas).
+
+### Trend #7: LLMs especializados por jurisdicción
+DISC-LawLLM (China), fuzi.mingcha (China), y proyectos emergentes en otros países muestran que hay demanda por modelos fine-tuned en corpora legales nacionales. La especialización por jurisdicción reduce alucinaciones vs. modelos generalistas.
+
+**Oportunidad LATAM**: no existe un LLM especializado en derecho latinoamericano (civil law, códigos napoleónicos). Globant podría liderar su creación.
+
+### Trend #8: CLM (Contract Lifecycle Management) con AI nativa
+La próxima generación de CLM embebe AI para: (a) extracción automática de metadatos al ingestar contratos, (b) alertas proactivas de vencimiento y renegociación, (c) análisis de riesgo at-scale sobre portfolios de miles de contratos, (d) negociación asistida con redlines sugeridas.
+
+**Inversión**: Ironclad supera $200M ARR; el mercado CLM crece más rápido que el LegalTech general.
+
+### Trend #9: Access-to-justice como palanca social
+Organizaciones de ayuda legal pública (LSC en EE.UU., equivalentes en LATAM) están adoptando docassemble + LLM para automatizar la preparación de formularios judiciales para ciudadanos sin recursos. El movimiento A2J Tech (access-to-justice) está ganando tracción y funding filantrópico.
+
+**Oportunidad**: Globant puede ofrecer implementaciones pro-bono/social-impact que construyen reputación y expertise en el sector.
+
+### Trend #10: Concentración del mercado LegalTech
+Q1 2026: 3 empresas (Harvey, Legora, Relativity) representaron el 63% de toda la inversión. El mercado se está polarizando entre grandes plataformas con ecosistemas cerrados y soluciones open source especializadas. La estrategia ganadora para integradores como Globant es el espacio intermedio: implementar + customizar open source para dar capacidades que las plataformas cerradas no ofrecen.
 
 ## Repos más activos esta semana
 
-- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Firma legal agentica Apache-2.0: 267★ y subiendo
-- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS agéntico MIT con MCP server; 920★
-- [zeroentropy-ai/legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) — Benchmark RAG legal (ICAIL 2025); 310★
-- [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) — Directorio curatorial legaltech OSS; 320★
-- [Romelium/dd-agents](https://github.com/Romelium/dd-agents) — Due diligence M&A multi-agente; 90★
-
----
-
-## Lo que viene (próximas 12 semanas)
-
-| Tendencia | Probabilidad | Impacto |
-|-----------|-------------|----------|
-| MCP servers para cortes/BOE/EUR-Lex | Alta | Acceso a jurisprudencia en tiempo real para agentes |
-| Fine-tuned Qwen3 en datos CUAD públicos | Alta | LLM legal open source de referencia |
-| Primeras sanciones EU AI Act en legal | Media | Presión para auditorías de sistemas AI |
-| CLM open source con AI integrado de serie | Media | Alternativa real a Ironclad/Icertis |
-| Agentes de litigación (predicción de outcomes) | Baja | Requiere fine-tuning sobre jurisprudencia nacional |
+- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Agentic law firm: 67 agentes especializados, debate adversarial, Apache 2.0.
+- [zoharbabin/due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) — M&A due diligence con 13 agentes, 9 dominios, MIT.
+- [Vaquill-AI/courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) — Servidor MCP para CourtListener, MIT.
+- [zgbrenner/agentcounsel](https://github.com/zgbrenner/agentcounsel) — 198 skills legales en Markdown, MIT.
+- [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) — Revisión de contratos con CUAD, MIT.

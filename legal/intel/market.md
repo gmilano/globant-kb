@@ -1,85 +1,58 @@
 # 🗺️ Mapa de mercado — Legal Services AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-05
+> Players, oportunidades, posicionamiento. Foco: LegalTech + LATAM.
+> Última actualización: 2026-07-06
 
 ## Tamaño de mercado
 
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| Mercado global Legal AI 2025 | USD 2.48B | Straits Research |
-| Mercado global Legal AI 2026 | USD 2.75B | Straits Research |
-| Mercado global Legal AI 2034 (proyección) | USD 6.3B | Straits Research |
-| CAGR 2026-2034 | 10.91% | Straits Research |
-| Proyección alternativa 2026 | USD 3.7B | ResearchAndMarkets |
-| CAGR alternativa (2025-2026) | 31.4% | ResearchAndMarkets |
-| Firmas usando GenAI 2026 | 41% | Thomson Reuters |
-| Departamentos legales corporativos usando GenAI 2026 | 47% | Thomson Reuters |
-| Profesionales legales con al menos 1 herramienta AI | 92% | Wolters Kluwer |
-
----
+| Métrica | Valor |
+|---------|-------|
+| Mercado LegalTech global 2025 | USD 35.4 B |
+| Proyección 2036 | USD 78.1 B |
+| CAGR 2026–2036 | 7.4% |
+| Inversión Q1 2026 | USD 2.34 B (103 deals) |
+| Gasto tech en firmas legales 2025 | +9.7% YoY |
+| Adopción AI corporativo legal | 23% (2024) → 54% (2025) |
 
 ## Players globales
 
-| Empresa | Tipo | Fortaleza | Debilidad |
-|---------|------|-----------|----------|
-| Thomson Reuters (Westlaw AI) | Propietario | Datos legales más amplios del mundo; Casetext adquirida | Lock-in, precio muy alto |
-| LexisNexis | Propietario | Jurisprudencia global, integración con flujos de firma | Lento en adopción de LLMs abiertos |
-| Harvey AI | Propietario | Modelo especializado en razonamiento legal; Allen & Overy partnership | SaaS cloud-only, confidencialidad cuestionable |
-| Luminance | Propietario | Líder en due diligence automática; muy adoptado en M&A | Caro, integración compleja |
-| Kira Systems (Litera) | Propietario | Contract analysis maduro; 400+ tipos de cláusulas | Adquirido, roadmap incierto |
-| Ironclad | Propietario | CLM líder en startups tech | Enfocado en contratos comerciales, no litigación |
-| Clio | Propietario | SaaS líder para firmas pequeñas/medianas en Norteamérica | No open source; sin verticales LATAM |
-| LexPredict / Elevate | Híbrido | LexNLP Apache-2.0; consultoría + software | Poco conocido en LATAM |
+| Empresa | Tipo | Fortaleza | Valuación / ARR |
+|---------|------|-----------|-----------------|
+| Harvey AI | AI para big law | Agentes para firmas Am Law 100; contratos, due diligence, investigación | $11 B (Mar 2026, +$200M ronda) |
+| Clio | Practice management | CRM + billing + intake para firmas medianas | $5 B |
+| Legora | AI para litigation | Plataforma de litigación + adquirió Walter AI | $5.55 B (Mar 2026, +$550M ronda) |
+| Ironclad | CLM (Contract Lifecycle) | Lider CLM enterprise; $200M+ ARR | >$1 B |
+| Relativity | eDiscovery | 300k+ usuarios; lider eDiscovery; filing IPO 2026 | ~$4 B |
+| EvenUp | PI / mass tort | AI para personal injury settlements | >$1 B |
+| Filevine | Case management | Case management para firmas litigantes | >$1 B |
+| Thomson Reuters (Westlaw AI) | Research | LLM sobre corpus Westlaw; adquirió Noetica 2026 | Corporación ($9B+ legal segment) |
 
----
+## M&A destacada 2026
 
-## Ecosistema open source
+- Harvey adquirió **Hexus** (análisis de deposiciones) — expansión a litigation support
+- Thomson Reuters adquirió **Noetica** — AI para legal research
+- Legora adquirió **Walter AI** — refuerzo de capacidades AI
+- Q1 2026: Harvey + Legora + Relativity = 63% del total invertido en legal tech
 
-| Capa | Herramienta | Licencia | Rol |
-|------|-------------|----------|-----|
-| Datos | CUAD, LegalBench, ECtHR | MIT | Benchmarks y fine-tuning |
-| NLP | LexNLP, Blackstone | Apache-2.0 | Extracción de cláusulas y entidades |
-| LLM base | Qwen3-235B, DeepSeek-R1 | Apache-2.0 | Motores de razonamiento open |
-| Plataforma | OpenContracts, docassemble | MIT | DMS y entrevistas guiadas |
-| Agente orquestador | LangGraph, lavern, dd-agents | MIT/Apache | Pipelines multi-agente |
-| MCP | OpenContracts MCP, uspto_fpd_mcp | MIT | Exposición de APIs legales a agentes |
+## Oportunidades AI para Globant
 
----
+### LATAM (alta oportunidad)
+- **Digitalización de justicia**: La mayoría de poderes judiciales LATAM aún trabajan con papel; sistemas de gestión de expedientes con AI son un blanco directo.
+- **Reforma tributaria**: Brasil (Reforma Tributária 2024), Colombia y México con cambios regulatorios importantes → demanda de herramientas de compliance y análisis normativo.
+- **Acceso a justicia**: ONGs y servicios de ayuda legal pública necesitan automatización de formularios (docassemble) + asistentes conversacionales.
+- **Derecho corporativo regional**: Multinacionales operando en LATAM necesitan análisis de contratos bilingüe (ES/PT/EN) con sensibilidad a marcos legales locales.
 
-## Oportunidades AI en LATAM
-
-| Oportunidad | Mercado | Por qué ahora |
-|-------------|---------|---------------|
-| Revisión automática de contratos en español/portugués | Brasil, México, Argentina, Colombia | Escasez de abogados + crecimiento de PYMES |
-| Acceso a justicia digital | México, Brasil, Perú | Ministerios de justicia digitalizando formularios |
-| Compliance tributario IA | Toda LATAM | Reforma tributária brasileña 2026; cambios IVA México |
-| Due diligence M&A | Chile, Colombia, Brasil | Record de M&A en 2026 en sector tech y energía |
-| Legal Ops para multinacionales | Filiales de empresas US/EU | EU AI Act requiere auditorías en todas las jurisdicciones |
-| Automatización de escrituras / notariado | México, Perú | Digitalización de registros públicos |
-
----
-
-## Consolidación M&A 2026
-
-| Adquisición | Impacto |
-|-------------|---------|
-| Thomson Reuters + Casetext | TR añade capacidades de drafting y análisis transaccional LLM |
-| Litera + Kira Systems | Litera consolida suite de gestión de documentos legales |
-| Harvey AI (ronda $100M+) | Empresa más valorada de legal AI; modelo propietario especializado |
-| Intapp (cotizada) | Plataforma para firmas grandes; adquiriendo herramientas AI de compliance |
-
----
+### Global
+- **CLM inteligente**: Construir sobre Ironclad/docassemble + LexNLP + LLM para revisión, alertas de vencimiento y negociación asistida.
+- **eDiscovery con LLM**: Sustituir procesos manuales de revisión con pipelines Blackstone + LexNLP + LLM.
+- **M&A due diligence**: Productizar `due-diligence-agents` como servicio managed para firmas de PE/VC y corporaciones.
+- **Compliance continuo**: Monitoreo permanente de cambios regulatorios + alertas sobre contratos afectados.
 
 ## Posicionamiento Globant
 
-| Fortaleza | Aplicación en Legal |
-|-----------|---------------------|
-| Engineering en LATAM con inglés fluido | Implementaciones para firmas US/EU con equipos en LATAM |
-| Experiencia en LLM y agentes | Pipelines de due diligence y contract review sobre plataformas OSS |
-| Clientes enterprise regulados | Extensión natural a legal ops de corporativos (energía, finanzas, salud) |
-| Capacidad de customización de OSS | Fork + customizar OpenContracts / docassemble + AI encima |
-| EU AI Act como habilitador | Globant puede posicionarse como integrador certificado para compliance AI Act en legal |
-
----
-*Ver también: `intel/trends.md` para tendencias técnicas y regulatorias.*
+| Palanca | Cómo Globant puede diferenciarse |
+|---------|----------------------------------|
+| Implementación de open source | Tomar lavern/OpenContracts/docassemble y delivery profesional (customización, integración, soporte) |
+| Acelerador LATAM | Adaptar herramientas globales a marcos legales de Brasil, Argentina, México, Colombia |
+| Integración enterprise | Conectar herramientas legales AI con SAP, Salesforce, Oracle que ya usan los clientes |
+| AI governance + compliance | Ofrecer capa de auditoría y explicabilidad para cumplir con EU AI Act (ago 2026) y regulaciones locales |

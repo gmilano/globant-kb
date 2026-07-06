@@ -1,252 +1,229 @@
-# 🧩 Patrones de composición — Legal Services AI
+# 🧩 Patrones de composición — Legal Services
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-05
+> Última actualización: 2026-07-06 (segunda pasada — recetas completas)
 
 ## Arquitectura base
 
 ```
-[Plataforma vertical OSS]          docassemble / OpenContracts / EspoCRM
+[Plataforma vertical base (open source)]
           ↓
-[Capa NLP / extracción]            LexNLP / Blackstone → cláusulas, partes, fechas
+[Capa de extracción / NLP — LexNLP / Blackstone]
           ↓
-[Motor de razonamiento LLM]        Claude Sonnet 5 / Qwen3-235B / DeepSeek-R1
+[Agentes especializados — lavern / agentcounsel / due-diligence-agents]
           ↓
-[Orquestador de agentes]           LangGraph / lavern / dd-agents
+[LLM backend — Claude claude-sonnet-5 / Mistral EU / Ollama local]
           ↓
-[Interfaz / API]                   MCP server / REST API / UI conversacional
+[Almacenamiento + grafo de citas — OpenContracts / CourtListener]
+          ↓
+[UI conversacional / API para el cliente]
 ```
 
 ---
 
-## Receta 1: Agente de Revisión de Contratos (2–3 semanas)
+## Receta 1: Revisión inteligente de contratos
 
-**Objetivo**: Revisar contratos en español/inglés, detectar cláusulas de riesgo, generar redlines.
-
-**Stack**:
-- `OpenContracts` (MIT) — repositorio de documentos + anotación
-- `LexNLP` (Apache-2.0) — extracción determinística de cláusulas, fechas, partes
-- `claude-legal-skill` (MIT) — skill de revisión con CUAD risk detection
-- `Claude Sonnet 5` — razonamiento y redacción de redlines
-
-**Wiring**:
-```python
-from lexnlp.extract.en import clauses, dates, parties
-from anthropic import Anthropic
-
-# 1. Extraer entidades con LexNLP (determinístico, rápido)
-entities = {
-    "clauses": list(clauses.get_clauses(contract_text)),
-    "dates": list(dates.get_dates(contract_text)),
-    "parties": list(parties.get_parties(contract_text)),
-}
-
-# 2. Razonamiento sobre riesgo con Claude
-client = Anthropic()
-response = client.messages.create(
-    model="claude-sonnet-5-20251101",
-    max_tokens=4096,
-    system="You are a contract review specialist. Identify high-risk clauses and suggest redlines.",
-    messages=[{
-        "role": "user",
-        "content": f"Contract entities extracted:\n{entities}\n\nFull contract:\n{contract_text}"
-    }]
-)
-
-# 3. Almacenar en OpenContracts con anotaciones
-opencontracts.create_annotation(
-    document_id=doc_id,
-    label="risk_analysis",
-    content=response.content[0].text,
-    entities=entities
-)
-```
-
-**Tiempo estimado**: 2–3 semanas  
-**Para qué cliente**: Firmas medianas 20-100 abogados, departamentos de compras con contratos de proveedores
-
----
-
-## Receta 2: Pipeline de Due Diligence M&A Multi-Agente (3–5 semanas)
-
-**Objetivo**: Análisis automatizado de data room para M&A: legal, financiero, compliance, cyber, HR.
+**Objetivo**: Analizar contratos comerciales en segundos, detectar cláusulas abusivas y generar redlines.
 
 **Stack**:
-- `lavern` (Apache-2.0) — 67 agentes especialistas con human gates
-- `dd-agents` (Apache-2.0) — pipeline 38-step: Legal + Finance + Commercial + Cyber + HR + Tax + ESG
-- `OpenContracts` (MIT) — ingesta y almacenamiento del data room
-- `LangGraph` (MIT) — orquestación del grafo de agentes
-- `DeepSeek-R1` o `Claude Sonnet 5` — razonamiento de alto nivel
-
-**Arquitectura**:
-```
-Data Room (PDFs/DOCX)
-    ↓ OpenContracts ingesta y vectoriza
-    ↓ LangGraph coordina pipeline
-    ├─ Agente Legal → clausulas, litigios, IP
-    ├─ Agente Finance → estados financieros, deuda
-    ├─ Agente Commercial → contratos clientes/proveedores
-    ├─ Agente Cyber → contratos SLA, incidentes
-    ├─ Agente HR → contratos clave, no-compete
-    ├─ Agente Tax → estructura, exposición fiscal
-    └─ Judge Agent → red flags consolidados + executive summary
-         ↓ Human Gate (abogado senior revisa)
-    → Informe final PDF
-```
-
-**Human gate** (EU AI Act compliant):
-```python
-@langgraph.node
-def human_review_gate(state):
-    """Mandatory human checkpoint before final report generation."""
-    flagged = [f for f in state["findings"] if f["risk"] == "HIGH"]
-    if flagged:
-        notify_reviewer(flagged)
-        state["status"] = "awaiting_human_review"
-        return state
-    return state
-```
-
-**Tiempo estimado**: 3–5 semanas  
-**Para qué cliente**: Fondos de PE/VC, corporate legal departments, bancos de inversión con deal flow alto
-
----
-
-## Receta 3: Portal de Acceso a Justicia con AI (4–6 semanas)
-
-**Objetivo**: Portal de autoservicio legal para ciudadanos; formularios guiados + generación de documentos.
-
-**Stack**:
-- `docassemble` (MIT) — entrevistas guiadas, lógica condicional, generación de documentos
-- `Claude Sonnet 5` / `Qwen3-235B` (Apache-2.0) — explicación de términos legales en lenguaje simple
-- `LexNLP` (Apache-2.0) — análisis de documentos subidos por el ciudadano
-- `EspoCRM` (MIT) — gestión de casos derivados a clínica jurídica
+- [`LexNLP`](https://github.com/LexPredict/lexpredict-lexnlp) — extracción de partes, fechas, montos, obligaciones, cláusulas de termination
+- [`claude-legal-skill`](https://github.com/evolsb/claude-legal-skill) — CUAD risk detection, benchmarks de mercado, redlines sugeridas
+- [`OpenContracts`](https://github.com/Open-Source-Legal/OpenContracts) — almacenamiento con anotaciones + grafo de citas para comparar vs. contratos previos
 
 **Flujo**:
 ```
-Ciudadano llega al portal
-    → Chatbot AI (Claude) explica sus opciones en lenguaje llano
-    → docassemble lanza entrevista guiada (preguntas condicionales)
-    → Sistema genera documento (denuncia, demanda pequeña cuantía, etc.)
-    → Si complejidad alta → derivar a abogado via EspoCRM
-    → Seguimiento del caso en EspoCRM
+PDF/DOCX contrato
+      ↓
+LexNLP → extrae metadatos estructurados (partes, fechas, montos, jurisdicción)
+      ↓
+claude-legal-skill (vía Claude Code / Cursor) → análisis CUAD, risk scoring, redlines
+      ↓
+OpenContracts API → guarda contrato + anotaciones + vincula a contratos relacionados
+      ↓
+Dashboard → abogado ve heat-map de riesgo + redlines comparativas
 ```
 
-**Casos de uso en LATAM**: Formularios de denuncia (México: FEPADE, PROFECO), demandas de pequeña cuantía (Brasil: Juizado Especial), solicitudes de acceso a información pública.
-
-**Tiempo estimado**: 4–6 semanas  
-**Para qué cliente**: Ministerios de Justicia, ONGs de acceso a justicia, colegios de abogados
+**Tiempo estimado**: 3-4 semanas (MVP) | **Licencias**: MIT + Apache-2.0
 
 ---
 
-## Receta 4: RAG Legal Corporativo con Búsqueda de Jurisprudencia (2–4 semanas)
+## Receta 2: M&A Due Diligence Automatizada
 
-**Objetivo**: Sistema de búsqueda semántica sobre base documental legal interna + jurisprudencia pública.
+**Objetivo**: Cubrir un data room completo con 13 agentes AI especializados en 9 dominios antes de que los abogados revisen.
 
 **Stack**:
-- `OpenContracts` (MIT) — ingesta y anotación de documentos internos
-- `LegalBench` + `legalbenchrag` (MIT) — evaluación continua del pipeline RAG
-- `Qdrant` (Apache-2.0) — vector store para búsqueda semántica
-- `LlamaIndex` (MIT) — orquestación del pipeline RAG
-- `DeepSeek-R1` o `Qwen3-235B` — generación de respuestas
+- [`due-diligence-agents`](https://github.com/zoharbabin/due-diligence-agents) — orquesta 13 agentes en 38 pasos (Legal, Finance, Commercial, Tech, Cyber, HR, Tax, Regulatory, ESG)
+- [`OpenContracts`](https://github.com/Open-Source-Legal/OpenContracts) — DMS para el data room con grafo de citas
+- [`courtlistener-mcp`](https://github.com/Vaquill-AI/courtlistener-mcp) — verificación de litigios previos de las partes en jurisprudencia US
 
-**Pipeline**:
+**Flujo**:
+```
+Data room (carpetas de documentos)
+      ↓
+OpenContracts → ingesta, OCR, indexación vectorial
+      ↓
+due-diligence-agents → 13 agentes en paralelo por dominio
+  ├── Legal Agent → cláusulas críticas, litigios pendientes
+  ├── Finance Agent → estados financieros, deuda
+  ├── Cyber Agent → políticas de seguridad, incidentes
+  └── ... (9 dominios) → Judge Agent → síntesis ejecutiva con red flags
+      ↓
+courtlistener-mcp → verificar historial litigioso de las partes
+      ↓
+Report: executive summary + hallazgos por dominio + citas exactas (página/párrafo)
+```
+
+**Tiempo estimado**: 4-6 semanas (MVP productizable) | **Licencias**: MIT
+
+---
+
+## Receta 3: Agentic Law Firm (Tipo lavern)
+
+**Objetivo**: Sistema multi-agente que revisa documentos legales mediante debate adversarial con 10 rondas de verificación.
+
+**Stack**:
+- [`lavern`](https://github.com/AnttiHero/lavern) — 67 agentes especializados, debate adversarial, mandatory human gates
+- [`agentcounsel`](https://github.com/zgbrenner/agentcounsel) — 198 skills por área de práctica para enriquecer el conocimiento de los agentes
+- [`OpenContracts`](https://github.com/Open-Source-Legal/OpenContracts) — repositorio de precedentes y contratos previos
+
+**Configuración lavern**:
+```yaml
+# lavern/config.yaml
+llm_backend: anthropic  # o "mistral" para datos EU, o "ollama" para local
+heartbeat: 30m          # procesa nuevos documentos cada 30 minutos
+agents:
+  - contract_reviewer
+  - risk_assessor
+  - compliance_checker
+  - precedent_searcher   # usa OpenContracts MCP
+notifications:
+  - telegram
+  - email
+human_gate: required_before_output  # obligatorio antes de emitir dictamen final
+```
+
+**Flujo**:
+```
+Documento nuevo detectado (carpeta monitoreada)
+      ↓
+lavern Clawern → 67 agentes analizan en paralelo
+      ↓
+Rondas de debate (10 pasadas) → agentes se contraargumentan
+      ↓
+Human gate → abogado revisa y aprueba o rechaza
+      ↓
+Precedent board actualizado → aprendizaje acumulativo entre revisiones
+      ↓
+Notificación (Telegram/email/macOS) con dictamen final
+```
+
+**Tiempo estimado**: 2-3 semanas (lavern ya listo, customizar agentes) | **Licencias**: Apache-2.0
+
+---
+
+## Receta 4: Legal Research RAG sobre Jurisprudencia
+
+**Objetivo**: Asistente que responde preguntas legales citando casos reales de jurisprudencia US.
+
+**Stack**:
+- [`CourtListener`](https://github.com/freelawproject/courtlistener) — corpus de 9M+ opiniones US (o API pública)
+- [`courtlistener-mcp`](https://github.com/Vaquill-AI/courtlistener-mcp) — interfaz MCP para Claude
+- [`LexNLP`](https://github.com/LexPredict/lexpredict-lexnlp) — extracción de citas a casos, estatutos y secciones del CFR
+
+**Flujo**:
 ```python
-from llama_index.core import VectorStoreIndex, StorageContext
-from llama_index.vector_stores.qdrant import QdrantVectorStore
+# Configurar servidor MCP en Claude Desktop / Claude Code
+# En settings de Claude:
+# {
+#   "mcp_servers": {
+#     "courtlistener": {
+#       "url": "courtlistener-mcp.vaquill.ai",
+#       "auth": "bring-your-own-key"
+#     }
+#   }
+# }
 
-storage_context = StorageContext.from_defaults(vector_store=QdrantVectorStore(...))
-index = VectorStoreIndex.from_documents(legal_docs, storage_context=storage_context)
+# Claude puede entonces responder:
+# "¿Hay precedentes sobre non-compete clauses en California post-2024?"
+# → courtlistener-mcp busca en 9M+ opiniones → respuesta con citas verificadas
 
-query_engine = index.as_query_engine(
-    similarity_top_k=10,
-    node_postprocessors=[LegalReranker()],
-)
-response = query_engine.query(
-    "¿Cuál es la jurisprudencia aplicable a cláusulas de limitación de responsabilidad?"
-)
+# Para LATAM: reemplazar CourtListener por corpus local del país
+# (e.g. jurisprudencia argentina de la CSJN, colombiana de la Corte Suprema)
 ```
 
-**Evaluación con LegalBench-RAG**:
-```bash
-python legalbenchrag/evaluate.py --retriever qdrant --corpus contract_corpus --tasks clause_retrieval,case_citation
-```
-
-**Tiempo estimado**: 2–4 semanas  
-**Para qué cliente**: Firmas grandes con archivos > 10k documentos, corporate legal con múltiples jurisdicciones
+**Tiempo estimado**: 1-2 semanas | **Licencias**: BSD (CourtListener) + MIT (MCP)
 
 ---
 
-## Receta 5: Agente de Compliance EU AI Act para Servicios Legales (3–4 semanas)
+## Receta 5: Automatización de Documentos Legales (A2J)
 
-**Objetivo**: Auditar sistemas AI usados por firmas legales para cumplir EU AI Act (agosto 2026).
+**Objetivo**: Asistente conversacional que ayuda a ciudadanos sin recursos a completar formularios judiciales.
 
 **Stack**:
-- `agentcounsel` (MIT) — skills AI para equipos legales
-- `OpenContracts` (MIT) — repositorio de evidencias de human oversight
-- `LangGraph` (MIT) — pipeline de auditoría
-- `Claude Sonnet 5` — análisis de conformidad y generación de informes
+- [`docassemble`](https://github.com/jhpyle/docassemble) — motor de entrevistas guiadas y generación de documentos
+- LLM (Claude claude-haiku-4-5 para bajo costo) — interpretación en lenguaje natural de respuestas del usuario
+- [`LexNLP`](https://github.com/LexPredict/lexpredict-lexnlp) — extracción de entidades para auto-completar campos
 
-**Checklist EU AI Act (high-risk AI en legal)**:
+**Flujo**:
 ```
-□ Sistema registrado en base de datos EU
-□ Documentación técnica completa (Art. 11)
-□ Gestión de riesgos documentada (Art. 9)
-□ Human oversight mecanismo activo (Art. 14)
-□ Transparencia hacia usuarios finales (Art. 13)
-□ Logs de decisiones almacenados ≥ 6 meses
-□ Accuracy y robustez validadas con LegalBench
+Usuario en lenguaje natural: "Quiero demandar a mi arrendador por no devolver el depósito"
+      ↓
+LLM (Claude Haiku) → identifica tipo de formulario necesario
+      ↓
+docassemble → lanza entrevista guiada con preguntas en lenguaje simple
+      ↓
+LLM → normaliza respuestas libres a campos estructurados de docassemble
+      ↓
+LexNLP → verifica entidades (nombres, fechas, montos) extraídas
+      ↓
+docassemble → genera formulario judicial completado y listo para firma
+      ↓
+PDF descargable + instrucciones de presentación al tribunal
 ```
 
-**Tiempo estimado**: 3–4 semanas  
-**Para qué cliente**: Cualquier firma EU o con clientes EU que use AI en servicios legales a partir de agosto 2026
+**Tiempo estimado**: 3-4 semanas | **Licencias**: MIT
 
 ---
 
-## Receta 6: MCP Server Legal + Claude Desktop para Abogados (1–2 semanas)
+## Receta 6: Compliance Continuo con Monitoreo de Cambios Normativos
 
-**Objetivo**: Exponer base documental legal como MCP server para que abogados usen Claude Desktop.
+**Objetivo**: Sistema que monitorea cambios en regulaciones y alerta sobre contratos afectados en el portfolio.
 
 **Stack**:
-- `OpenContracts` MCP server (MIT) — expone contratos y anotaciones como MCP tools
-- `uspto_fpd_mcp` (MIT) — patents y decisiones USPTO como MCP tools
-- `Claude Desktop` — interfaz de chat con herramientas MCP conectadas
+- [`agentcounsel`](https://github.com/zgbrenner/agentcounsel) — skills de compliance por área regulatoria
+- [`LexNLP`](https://github.com/LexPredict/lexpredict-lexnlp) — extracción de referencias normativas en contratos
+- [`OpenContracts`](https://github.com/Open-Source-Legal/OpenContracts) — portfolio de contratos indexado y consultable
+- LangGraph / LangChain — orquestación del agente de monitoreo
 
-**Configuración** (~1 día):
-```json
-{
-  "mcpServers": {
-    "opencontracts": {
-      "command": "python",
-      "args": ["-m", "opencontracts.mcp_server"],
-      "env": { "OPENCONTRACTS_URL": "https://contracts.firma.com/api" }
-    },
-    "uspto": {
-      "command": "node",
-      "args": ["uspto_fpd_mcp/dist/index.js"]
-    }
-  }
-}
+**Flujo**:
+```python
+# Agente LangGraph que corre diariamente:
+from langgraph.graph import StateGraph
+
+# Estado del agente de compliance
+class ComplianceState(TypedDict):
+    regulation_changes: list  # cambios detectados en normativa
+    affected_contracts: list  # contratos con cláusulas afectadas
+    alerts: list              # alertas para el equipo legal
+
+# Nodos del grafo
+# 1. monitor_regulations: scraping/API de fuentes normativas (BOE, CFR, DO)
+# 2. extract_changes: LLM identifica cambios relevantes vs. estado previo
+# 3. query_contracts: OpenContracts API → contratos que referencian la normativa
+# 4. risk_assess: agentcounsel skills → evalúa impacto de cambio sobre cada contrato
+# 5. notify: genera alerts priorizadas por nivel de riesgo
 ```
 
-**Herramientas disponibles**:
-- `search_contracts(query, date_range, party)` — búsqueda semántica en contratos
-- `get_clause(document_id, clause_type)` — extracción de cláusula específica
-- `compare_clauses(doc_a, doc_b, clause)` — comparación entre contratos
-- `search_patent_decisions(query)` — decisiones USPTO sobre patentes
-
-**Tiempo estimado**: 1–2 semanas (si OpenContracts ya está desplegado)  
-**Para qué cliente**: Firmas que ya usen Claude Pro/Team; onboarding muy rápido sin desarrollo frontend
+**Tiempo estimado**: 5-6 semanas | **Licencias**: MIT + Apache-2.0
 
 ---
 
-## Matriz de selección de patrón
+## Anti-patrones a evitar
 
-| Necesidad del cliente | Receta | Tiempo | Complejidad |
-|----------------------|--------|--------|-------------|
-| Revisar contratos de proveedores | 1 — Contract Review Agent | 2–3 sem | Media |
-| Due diligence para M&A / inversión | 2 — Due Diligence Multi-Agente | 3–5 sem | Alta |
-| Portal de acceso a justicia público | 3 — Portal Ciudadano | 4–6 sem | Media |
-| Búsqueda en archivo de contratos | 4 — RAG Legal Corporativo | 2–4 sem | Media |
-| Cumplir EU AI Act agosto 2026 | 5 — Compliance Auditor | 3–4 sem | Media |
-| Abogados usando Claude Desktop hoy | 6 — MCP Server Legal | 1–2 sem | Baja |
+| Anti-patrón | Problema | Alternativa |
+|-------------|---------|-------------|
+| LLM generando citas legales sin RAG | Alucinaciones de casos inexistentes | Siempre usar RAG sobre corpus verificado (CourtListener, OpenContracts) |
+| Un solo agente para todo | Sin verificación cruzada | Arquitectura multi-agente adversarial (lavern pattern) |
+| Procesar datos legales en cloud de terceros sin consentimiento | Violación de confidencialidad cliente-abogado | `due-diligence-agents` corre 100% local; preferir Ollama o deployments privados |
+| Outputs legales sin human gate | Riesgo de mal consejo jurídico | Mandatory human gate (lavern, agentcounsel lo implementan) |
+| Ignorar jurisdicción en análisis contractual | Análisis incorrecto (ley aplicable varía) | LexNLP extrae jurisdicción; adaptar prompts por marco legal |
