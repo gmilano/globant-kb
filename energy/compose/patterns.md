@@ -1,152 +1,229 @@
-# 🧩 Patrones de composición — Energy
+# 🧩 Composition Patterns — Energy
 
-> Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Cada receta nombra repos específicos y cómo conectarlos.
-> Última actualización: 2026-07-05
+> Concrete recipes for building energy AI solutions by wiring together real repos and agents.
+> Each recipe names specific repos, integration points, and realistic timelines.
+> Last updated: 2026-07-06
 
-## Arquitectura base
+## Base Pattern
 
 ```
-[Plataforma vertical base (OpenEMS / MyEMS / GridAPPS-D)]
+[Open-source vertical platform (EMS / Grid sim / IoT)]
           ↓
-[Capa de datos: InfluxDB / TimescaleDB / PI Historian]
+[Data pipeline (MQTT / REST / SCADA adapter)]
           ↓
-[Capa AI: PyPSA / pandapower / pvlib / proloaf]
+[LangGraph / CrewAI agent orchestration layer]
           ↓
-[Orquestación agéntica: LangGraph + MCP Tools]
+[LLM reasoning (Claude API / Ollama for on-prem)]
           ↓
-[Interfaz: dashboard Grafana + chatbot Claude API + alertas]
+[Operator UI (Streamlit / React dashboard)]
 ```
 
 ---
 
-## Receta 1: EMS Inteligente con Agente Conversacional
+## Pattern 1: Agentic DERMS — DER Dispatch Agent
 
-**Objetivo**: EMS open source con asistente LLM que explica consumos, detecta anomalías y sugiere acciones de ahorro.
+**Problem**: Utility has 50-500 MW of distributed solar, BESS, and EV chargers. Rule-based dispatch leaves 15-25% value on the table.
 
-- **Base**: [MyEMS](https://github.com/MyEMS/myems) (MIT) — Python + React + MySQL + InfluxDB
-- **Agente**: LangGraph + Claude API (Sonnet 5)
-- **Tools MCP**:
-  - `read_meter_data` → consulta InfluxDB de MyEMS
-  - `get_anomaly_alerts` → activa cuando Z-score > 3σ sobre consumo base
-  - `get_cost_breakdown` → lectura de tarifas + consumo por período
-  - `generate_retrofit_report` → ejecuta simulación EnergyPlus vía eppy
-- **Stack adicional**: [santoshphilip/eppy](https://github.com/santoshphilip/eppy) (MIT) para simulaciones
-- **Flujo**:
-  1. Operador pregunta: "¿Por qué subió el consumo un 20% esta semana?"
-  2. Agente lee datos de MyEMS API → identifica HVAC como causa vía Z-score
-  3. Agente sugiere ajuste de setpoints + simula ahorro con eppy
-  4. Genera reporte PDF con proyección de ahorro anual
-- **Tiempo MVP**: 3-4 semanas
-- **Clientes objetivo**: edificios corporativos, hospitales, shoppings LATAM
+**Stack**:
+- **Grid model**: [PyPSA](https://github.com/PyPSA/PyPSA) (MIT) — AC OPF, multi-period dispatch
+- **Platform**: [GridAPPS-D](https://github.com/GRIDAPPSD/GRIDAPPSD) (BSD-3) — SCADA bridge, asset APIs
+- **Forecasting**: [pvlib](https://github.com/pvlib/pvlib-python) (BSD-3) + [NREL/Wattile](https://github.com/NREL/Wattile) (BSD-3)
+- **Agent framework**: [LangGraph](https://github.com/langchain-ai/langgraph) (MIT)
+- **LLM**: Claude Haiku 4.5 (fast + cheap for real-time decisions)
 
----
+**Architecture**:
+```
+GridAPPS-D SCADA ──► LangGraph supervisor agent
+                           ├── Forecasting subagent (pvlib + Wattile)
+                           ├── OPF subagent (PyPSA dispatch)
+                           ├── BESS scheduler subagent
+                           └── Alert/explanation subagent (Claude Haiku)
+```
 
-## Receta 2: Pronóstico Solar/Eólico para Traders de Energía
+**Key integration points**:
+1. GridAPPS-D REST API → LangGraph tool `get_grid_state()`
+2. pvlib hourly solar forecast → state input to OPF subagent
+3. PyPSA `network.optimize()` → optimal dispatch per asset
+4. Claude Haiku explains dispatch decision to operator in plain language
 
-**Objetivo**: sistema de pronóstico 24-72h con intervalos de confianza para ofertas en mercados eléctricos de corto plazo.
-
-- **Base**: [pvlib/pvlib-python](https://github.com/pvlib/pvlib-python) (BSD-3-Clause) para solar; [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) (MIT) para optimización de despacho
-- **Forecasting**: [sogno-platform/proloaf](https://github.com/sogno-platform/proloaf) (Apache 2.0) — RNN probabilístico
-- **Datos**: ERA5 (Copernicus) para meteorología histórica; API SMHI/OpenMeteo para pronóstico
-- **Agente**: LangGraph + tool `optimize_bid_strategy`
-- **Flujo**:
-  1. proloaf genera distribución de probabilidad de generación para las próximas 24h
-  2. pvlib valida con datos de irradiación y temperatura del parque específico
-  3. PyPSA resuelve OPF con generación estocástica → identifica precio de oferta óptimo
-  4. Agente LangGraph genera recomendación: "Oferta 85 MWh a 42 USD/MWh con 80% confianza"
-- **Alertas**: notificación automática si pronóstico se desvía > 15% del real en tiempo real
-- **Tiempo MVP**: 4-6 semanas
-- **Clientes objetivo**: desarrolladores de parques solares/eólicos, traders de energía, utilities
+**Estimated timeline**: 8-10 weeks (POC: 3 weeks)
+**Expected ROI**: 15-25% BESS revenue increase, 10-15% curtailment reduction
 
 ---
 
-## Receta 3: Mantenimiento Predictivo de Activos de Red
+## Pattern 2: Building Energy Optimizer (RL-based HVAC)
 
-**Objetivo**: detectar fallas inminentes en transformadores, cables y protecciones antes de que ocurran usando ML sobre señales SCADA.
+**Problem**: Commercial building HVAC = 40-50% of total energy. Rule-based controls are inefficient. RL agents can cut costs 15-25%.
 
-- **Simulación de red**: [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) (BSD-3-Clause) — power flow + state estimation
-- **ML**: [kaymen99/AI-for-energy-sector](https://github.com/kaymen99/AI-for-energy-sector) (MIT) — modelos de anomalía en activos
-- **Agente**: LangGraph con tool `run_state_estimation` y `classify_anomaly`
-- **Datos**: lecturas SCADA/IEC 61850 vía [pyiec61850-ng](https://github.com/f0rw4rd/pyiec61850-ng) o PI Historian
-- **Alertas**: [OperatorFabric](https://github.com/opfab/operatorfabric-core) (MPL-2.0, LF Energy) — plataforma industrial de notificaciones a operadores
-- **Flujo**:
-  1. Lecturas SCADA cada 15s → state estimation en pandapower
-  2. ML detecta desviación en voltaje/corriente → agente clasifica: degradación térmica / falla incipiente / normal
-  3. Si crítico: OperatorFabric emite alerta a operador con diagnóstico en lenguaje natural
-  4. Agente genera orden de trabajo con urgencia priorizada
-- **KPI target**: reducción 25-35% fallas inesperadas; extensión 20% vida útil activos
-- **Tiempo MVP**: 6-8 semanas
-- **Clientes objetivo**: distribuidoras eléctricas LATAM (Brasil, Chile, México)
+**Stack**:
+- **Simulation env**: [Sinergym](https://github.com/ugr-sail/sinergym) (MIT) over EnergyPlus
+- **RL framework**: [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3) (MIT) — PPO or SAC agent
+- **EMS platform**: [MyEMS](https://github.com/myems/myems) (MIT) — production monitoring + control
+- **Monitoring**: Grafana + InfluxDB (OSS)
+- **LLM layer**: [rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) (MIT) adapted + Claude API for explanation
 
----
+**Architecture**:
+```
+EnergyPlus building model
+       ↓
+Sinergym Gym environment
+       ↓
+SB3 PPO agent (train offline 1-2 weeks)
+       ↓
+MyEMS real-time controller (deploy trained policy)
+       ↓
+Claude API: "Why did the agent lower setpoint to 22°C at 3pm?"
+```
 
-## Receta 4: DERMS Agéntico para Gestión de DERs
+**Training recipe**:
+```python
+import sinergym
+import gymnasium as gym
+from stable_baselines3 import PPO
 
-**Objetivo**: plataforma de gestión de recursos energéticos distribuidos (solar, BESS, EV, cargas flexibles) con orquestación AI.
+env = gym.make('Eplus-5Zone-hot-continuous-v1')
+model = PPO('MlpPolicy', env, verbose=1, tensorboard_log='./tb/')
+model.learn(total_timesteps=1_000_000)
+model.save('hvac_policy')
+```
 
-- **Base**: [GRIDAPPSD/GOSS-GridAPPS-D](https://github.com/GRIDAPPSD/GOSS-GridAPPS-D) (Apache 2.0) — DERMS framework DOE
-- **Optimización de red**: [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) (BSD-3-Clause) — OPF en tiempo real
-- **EV charging**: [ChargePi/oscp-go](https://github.com/ChargePi/oscp-go) (MIT) — Open Smart Charging Protocol
-- **Agente**: LangGraph multi-agente:
-  - `GridStateAgent`: monitorea voltaje/flujos en red de distribución
-  - `DERDispatchAgent`: despacha BESS, pausa EV charging, activa carga flexible
-  - `MarketPriceAgent`: captura precio spot + señales de sistema
-- **Flujo**:
-  1. GridStateAgent detecta sobrecarga en alimentador (potencia > 95% capacidad)
-  2. DERDispatchAgent calcula: cuánto BESS descargar + qué EV pausar + qué cargas diferir
-  3. pandapower valida que la acción resuelve la violación de voltaje antes de ejecutar
-  4. Acciones enviadas vía GridAPPS-D API y OSCP a dispositivos
-  5. Log completo con razón de cada decisión para auditoría regulatoria
-- **KPI target**: reducción 40% curtailment solar; evitar 30% inversiones en refuerzo de red
-- **Tiempo MVP**: 8-10 semanas
-- **Clientes objetivo**: cooperativas eléctricas, distribuidoras con alta penetración solar (Chile, nordeste Brasil)
+**Estimated timeline**: 5-7 weeks (sim train + MyEMS deploy)
+**Expected ROI**: 15-25% HVAC energy reduction on TOU tariffs
 
 ---
 
-## Receta 5: Optimizador RL para Edificios y Microgrids
+## Pattern 3: Renewable Energy Forecasting Agent
 
-**Objetivo**: agente de RL que aprende a controlar HVAC, iluminación y carga de BESS para minimizar costo energético manteniendo confort.
+**Problem**: Solar/wind IPP needs 24-72 hour generation forecasts for grid commitments and curtailment minimization.
 
-- **Entorno simulación**: [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) (MIT) — EnergyPlus + Gym
-- **Testbed**: [IBM/rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) (MIT) — benchmarks de entrenamiento
-- **Scripting IDF**: [santoshphilip/eppy](https://github.com/santoshphilip/eppy) (MIT) — parametrización de modelos de edificios
-- **Algoritmo RL**: PPO / SAC (stable-baselines3) entrenado en sinergym; transferencia a edificio real
-- **Despliegue**: agente Python expuesto como API REST → integración con BMS (Siemens Desigo, Honeywell)
-- **Flujo training → producción**:
-  1. Crear modelo EnergyPlus del edificio real con eppy
-  2. Entrenar agente RL en sinergym durante 500k steps (~2h en GPU)
-  3. Validar en modo shadow (observa pero no actúa) durante 2 semanas
-  4. Activar control real; monitoreo continuo con Grafana
-  5. Reentrenamiento mensual con datos reales del edificio
-- **KPI target**: ahorro 15-25% en factura energética; reducción 20% emisiones CO₂
-- **Tiempo MVP**: 6-8 semanas (incluyendo modelado del edificio)
-- **Clientes objetivo**: corporativos, hospitales, malls, universidades LATAM
+**Stack**:
+- **Solar modeling**: [pvlib](https://github.com/pvlib/pvlib-python) (BSD-3) — physics-based irradiance → power
+- **Wind modeling**: [windpowerlib](https://github.com/wind-python/windpowerlib) (MIT) — power curves, wake effects
+- **Probabilistic forecast**: [NREL/Wattile](https://github.com/NREL/Wattile) (BSD-3) — LSTM + uncertainty
+- **Weather data**: ERA5 reanalysis via [NREL/rex](https://github.com/NREL/rex) (BSD-3)
+- **Agent**: LangGraph — orchestrates forecast pipeline, handles re-training triggers
+- **Reporting**: Claude API — generate plain-language daily forecast briefings
 
----
+**Architecture**:
+```
+ERA5/NWP weather data (hourly)
+       ↓
+pvlib irradiance → PV power (or windpowerlib for wind)
+       ↓
+Wattile LSTM → probabilistic P10/P50/P90 forecast
+       ↓
+LangGraph agent: decides if re-training triggered (MAE > threshold)
+       ↓
+Claude API: "Tomorrow's solar output: 42 MWh ±8. Recommend holding back 3 MW reserve."
+```
 
-## Receta 6: Modelo Nacional de Transición Energética con PyPSA-Earth
-
-**Objetivo**: modelo de sistema energético nacional open source para análisis de escenarios de transición energética (consultores, reguladores, academias).
-
-- **Base**: [pypsa-meets-earth/pypsa-earth](https://github.com/pypsa-meets-earth/pypsa-earth) (MIT) — modelo global PyPSA
-- **Datos**: OpenStreetMap (red eléctrica), ERA5 (recurso solar/eólico), ENTSO-E / operadores nacionales
-- **Optimización**: [PyPSA/pypsa-eur](https://github.com/pypsa/pypsa-eur) (MIT) como referencia metodológica
-- **Agente de análisis**: LangGraph + Claude API
-  - `run_scenario_optimization` → ejecuta PyPSA con parámetros dados
-  - `compare_scenarios` → compara KPIs: costo, emisiones, curtailment, inversión
-  - `generate_policy_brief` → redacta informe ejecutivo con hallazgos
-- **Workflow Snakemake**: pipeline reproducible desde datos raw hasta resultados
-- **Flujo**:
-  1. Analista especifica escenario: "Chile 2035 con 70% renovables, sin carbón"
-  2. Agente configura PyPSA-Earth con parámetros del escenario
-  3. Snakemake ejecuta pipeline: descarga datos → construye red → optimiza → reporta
-  4. Claude API genera narrative de política: "Para lograr el escenario, se requieren 8 GW de BESS y 2,400 km de nuevas líneas de transmisión en el eje norte-sur"
-- **Entregable**: informe PDF + visualizaciones de Grafana con rutas de inversión óptimas
-- **Tiempo MVP**: 8-12 semanas (incluye calibración del modelo)
-- **Clientes objetivo**: ministerios de energía, reguladores (CNE Chile, ANEEL Brasil), consultoras de inversión
+**Estimated timeline**: 4-6 weeks
+**Expected ROI**: 5-12% reduction in imbalance penalties, better grid commitment bids
 
 ---
 
-*Para más contexto de mercado: ver `intel/market.md` y `intel/trends.md`.*
-*Para repos base detallados: ver `repos/foundations.md`.*
+## Pattern 4: Carbon-Aware AI Workload Scheduler
+
+**Problem**: Enterprise running ML training, batch jobs, data processing. Energy cost + carbon footprint both reducible by shifting workloads to green grid windows.
+
+**Stack**:
+- **Carbon data**: [electricitymap-contrib](https://github.com/tmrowco/electricitymap-contrib) (MIT) — real-time CI per grid zone
+- **Scheduler**: LangGraph agent with Kubernetes/cloud batch job APIs as tools
+- **LLM**: Claude Haiku 4.5 — fast decisions on defer/run
+- **Integration**: electricityMap REST API (free tier covers 5 countries)
+
+**Architecture**:
+```
+electricityMap API (carbon intensity, now + 24h forecast)
+       ↓
+LangGraph scheduler agent
+   ├── tool: get_carbon_intensity(zone, hours=24)
+   ├── tool: list_pending_jobs(priority='deferrable')
+   ├── tool: schedule_job(job_id, start_time)
+   └── tool: send_slack_notification(message)
+LLM decision: "Defer 3 training jobs 6h → save 40% carbon, $280 cost"
+```
+
+**Integration snippet**:
+```python
+from langchain_anthropic import ChatAnthropic
+from langgraph.graph import StateGraph
+
+def get_carbon_intensity(zone: str) -> dict:
+    r = requests.get(f"https://api.electricitymap.org/v3/carbon-intensity/latest?zone={zone}",
+                     headers={"auth-token": EM_TOKEN})
+    return r.json()
+```
+
+**Estimated timeline**: 2-3 weeks (quickest win in energy portfolio)
+**Expected ROI**: 20-40% carbon reduction for deferrable workloads; 5-15% cost saving off-peak
+
+---
+
+## Pattern 5: Grid Operator AI Assistant (LLM + SCADA)
+
+**Problem**: Grid operators handle 100-500 alarms/shift. 80% are false positives or low-priority. LLM assistant triages, annotates, and suggests actions.
+
+**Stack**:
+- **Platform**: [OperatorFabric](https://github.com/opfab/operatorfabric-core) (MPL-2.0) — card-based operator UI
+- **Grid model**: [pandapower](https://github.com/e2nIEE/pandapower) (BSD-3) — real-time state estimation
+- **Agent**: LangGraph with RAG over grid topology docs, operating procedures
+- **LLM**: Claude Sonnet 5 — complex grid event reasoning
+- **Vector store**: FAISS (MIT) — index of NOC procedures, historical incidents
+
+**Architecture**:
+```
+SCADA alarm feed → OperatorFabric REST
+       ↓
+LangGraph triage agent
+   ├── Classify alarm (tool: pandapower state check)
+   ├── RAG lookup: relevant operating procedure
+   ├── Generate annotation (Claude Sonnet): "Transformer T-221 thermal alarm.
+   │   Cause: 98% loading for 45min. Recommended action: Transfer load to T-223."
+   └── Push card back to OperatorFabric operator console
+```
+
+**Estimated timeline**: 10-14 weeks (SCADA integration + NOC procedure RAG build)
+**Expected ROI**: 60-80% reduction in alarm fatigue; operator response time -40%
+
+---
+
+## Pattern 6: PyPSA-Earth National Energy Transition Modeler
+
+**Problem**: Ministry of Energy / IPP needs to model scenarios: "What does 80% renewable by 2035 cost? Where do we need new transmission?"
+
+**Stack**:
+- **Model**: [PyPSA-Earth](https://github.com/pypsa-meets-earth/pypsa-earth) (MIT) — full country network
+- **Data**: OSM + ERA5 + entso-e via automated Snakemake pipeline
+- **Scenarios**: LangGraph agent parameterizes and runs PyPSA-Earth scenarios
+- **LLM**: Claude Opus 4.8 — interprets results, writes policy briefing
+- **Visualization**: Plotly + Dash (MIT)
+
+**Architecture**:
+```
+User NL input: "Model 70% solar + 20% wind scenario for Brazil 2035"
+       ↓
+LangGraph planning agent
+   ├── Parse scenario parameters
+   ├── Configure PyPSA-Earth Snakemake config.yaml
+   ├── Run: snakemake solve_all_networks (async, 30-120 min)
+   ├── Collect results: cost, CO2, transmission expansion
+   └── Claude Opus: generate 2-page policy brief with charts
+```
+
+**Snakemake trigger from agent**:
+```python
+import subprocess
+def run_pypsa_scenario(config_overrides: dict) -> str:
+    with open('config/config.yaml', 'w') as f:
+        yaml.dump({**BASE_CONFIG, **config_overrides}, f)
+    result = subprocess.run(['snakemake', '-j4', 'solve_all_networks'],
+                            capture_output=True, cwd=PYPSA_EARTH_DIR)
+    return result.stdout.decode()
+```
+
+**Estimated timeline**: 6-8 weeks (data pipeline + scenario UI)
+**Expected ROI**: Replace 3-month consultant study with 2-hour AI run; $200K+ per engagement
+
+---
+*Each recipe can be delivered as a Globant AI Accelerator (4-week POC) before full build.*

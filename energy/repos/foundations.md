@@ -1,32 +1,44 @@
-# 🏗️ Repos fundacionales — Energy
+# 🏗️ Foundational Repos — Energy
 
-> Bases sobre las cuales construir soluciones AI para el sector energético.
-> Foco: licencias abiertas (MIT, BSD, Apache 2.0), comunidades activas, alta adoptabilidad.
-> Última actualización: 2026-07-05
+> Core open-source foundations to build AI energy solutions on top of.
+> Focus: permissive licenses, active maintenance, production-proven.
+> Last updated: 2026-07-06
 
-## Plataformas y frameworks base
+## Grid Simulation & Analysis
 
-| Repo | Licencia | Descripción | ¿Base para AI? |
-|------|----------|-------------|----------------|
-| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | MIT | Python for Power System Analysis: optimización lineal/no-lineal de sistemas eléctricos, renovables, almacenamiento, redes de gas e hidrógeno | Sí — ~2k★ |
-| [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | BSD-3-Clause | Power flow, OPF, state estimation, short-circuit IEC 60909; base pandas, interfaz MATPOWER/PYPOWER; backend optimizado con numba | Sí — ~900★ |
-| [pvlib/pvlib-python](https://github.com/pvlib/pvlib-python) | BSD-3-Clause | Librería estándar de simulación fotovoltaica: modelado de irradiación, temperatura, inverters; usado por utilities y desarrolladores PV globales | Sí — ~1.1k★ |
-| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | Entorno OpenAI Gym sobre EnergyPlus para entrenamiento RL en control de edificios; soporte multi-agente, wrappers de recompensa personalizables | Sí — ~231★ |
-| [IBM/rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) | MIT | Testbed IBM para optimización RL de consumo energético en edificios; EnergyPlus + OpenAI Gym; benchmarks incluidos | Sí — ~217★ |
-| [MyEMS/myems](https://github.com/MyEMS/myems) | MIT | EMS completo (Python backend + React frontend): colección de datos, análisis, reportes de energía/carbono; VPP, microgrid, PV nativo | Sí — ~400★ |
-| [GRIDAPPSD/GOSS-GridAPPS-D](https://github.com/GRIDAPPSD/GOSS-GridAPPS-D) | Apache 2.0 | Plataforma DOE para aplicaciones avanzadas de distribución; APIs CIM, integración OpenDSS/GridLAB-D, DERMS, optimización de red | Sí — ~150★ |
-| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | Plataforma IoT 100% open source: integración dispositivos, inteligencia, BESS, EV charging, tarifas dinámicas, APIs de mercado eléctrico | Sí — ~1.8k★ |
-| [PyPSA/pypsa-eur](https://github.com/PyPSA/pypsa-eur) | MIT | Modelo de optimización sector-coupled del sistema energético europeo; workflow Snakemake completo; transportable a otras regiones | Sí — ~584★ |
-| [pypsa-meets-earth/pypsa-earth](https://github.com/pypsa-meets-earth/pypsa-earth) | MIT | Extensión global de PyPSA-Eur: modela sistemas energéticos nacionales con datos abiertos; cubre LATAM, África, Asia | Sí — ~200★ |
+| Repo | License | Stars | Description | AI Use |
+|------|---------|-------|-------------|--------|
+| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | MIT | ~2.8k | Python for Power System Analysis — AC/DC OPF, multi-carrier energy systems, investment optimization | Agent-controlled dispatch, RL environment for grid optimization |
+| [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | BSD-3 | ~1.6k | Power flow, OPF, short-circuit analysis on pandas DataFrames | Fast grid state evaluation inside AI optimization loops |
+| [gridlab-d/gridlab-d](https://github.com/gridlab-d/gridlab-d) | BSD-3 | ~620 | PNNL distribution grid + transactive energy simulator | RL training environment for DER dispatch, demand response |
+| [dss-extensions/OpenDSSDirect.py](https://github.com/dss-extensions/OpenDSSDirect.py) | MIT | ~210 | Python API for OpenDSS distribution simulator | DER hosting capacity, voltage regulation AI |
+| [pnnl/tesp](https://github.com/pnnl/tesp) | BSD-3 | ~110 | PNNL Transactive Energy Simulation Platform — HELICS co-simulation | Multi-agent price signal simulation, VPP AI |
 
-## Simuladores y herramientas de análisis
+## Renewable Energy Modeling
 
-| Repo | Licencia | Descripción | Uso principal |
-|------|----------|-------------|---------------|
-| [gridlab-d/gridlab-d](https://github.com/gridlab-d/gridlab-d) | BSD-3-Clause | Simulador de distribución eléctrica con modelos agente; metering, mercados, SCADA; desarrollado por DOE/PNNL | Simulación distribución |
-| [RyanCMann/OSESMO](https://github.com/RyanCMann/OSESMO) | MIT | Open Source Energy Storage Model: optimización de despacho de baterías (BESS) para minimizar facturas comerciales | BESS optimization |
-| [santoshphilip/eppy](https://github.com/santoshphilip/eppy) | MIT | Scripting Python para EnergyPlus: generación y modificación de archivos IDF/IDD; automatización de simulaciones de edificios | Building simulation |
-| [sogno-platform/proloaf](https://github.com/sogno-platform/proloaf) | Apache 2.0 | Pronóstico probabilístico de carga eléctrica con redes recurrentes (RNN); intervalos de confianza para operaciones de mercado | Load forecasting |
+| Repo | License | Stars | Description | AI Use |
+|------|---------|-------|-------------|--------|
+| [pvlib/pvlib-python](https://github.com/pvlib/pvlib-python) | BSD-3 | ~1.3k | Solar irradiance models, cell temperature, PV system simulation | Feature engineering for solar forecasting agents |
+| [wind-python/windpowerlib](https://github.com/wind-python/windpowerlib) | MIT | ~320 | Wind power curves, wake effects, site-specific wind modeling | Wind generation forecasting, turbine health AI |
+| [pypsa-meets-earth/pypsa-earth](https://github.com/pypsa-meets-earth/pypsa-earth) | MIT | ~590 | Global open energy model — any country/region, Snakemake workflow | National energy transition planning, AI scenario analysis |
+| [NREL/rex](https://github.com/NREL/rex) | BSD-3 | ~95 | NREL renewable energy resource extraction (wind, solar, wave HDF5 datasets) | Dataset backbone for renewable AI models |
+
+## Building Energy & HVAC
+
+| Repo | License | Stars | Description | AI Use |
+|------|---------|-------|-------------|--------|
+| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | ~310 | EnergyPlus Gym env for RL HVAC/building control | RL policy training for net-zero buildings |
+| [IBM/rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) | MIT | ~240 | RL testbed (PPO/SAC) for EnergyPlus HVAC optimization | Proven -15% to -25% energy reduction baselines |
+| [NREL/Wattile](https://github.com/NREL/Wattile) | BSD-3 | ~180 | NREL probabilistic building load forecasting — LSTM + uncertainty | Short-term load forecasting for demand response agents |
+| [santoshphilip/eppy](https://github.com/santoshphilip/eppy) | MIT | ~200 | Scripting and automation for EnergyPlus IDF files | Programmatic building model generation for AI training |
+
+## Data & Market Integration
+
+| Repo | License | Stars | Description | AI Use |
+|------|---------|-------|-------------|--------|
+| [EnergieID/entsoe-py](https://github.com/EnergieID/entsoe-py) | MIT | ~530 | ENTSO-E Transparency Platform Python REST client — EU grid data | Real-time price/generation data for trading agents |
+| [tmrowco/electricitymap-contrib](https://github.com/tmrowco/electricitymap-contrib) | MIT | ~3.5k | Real-time carbon intensity per grid zone — 100+ parsers | Carbon-aware AI workload scheduling |
+| [pydata/pandas-datareader](https://github.com/pydata/pandas-datareader) | BSD-3 | ~2.8k | Energy data from EIA, Quandl, World Bank APIs | Data pipeline for energy market AI agents |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas (EMS, SCADA, DERMS).*
+*See `verticals/solutions.md` for full vertical platforms.*

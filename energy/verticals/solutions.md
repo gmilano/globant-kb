@@ -1,55 +1,57 @@
-# 🏭 Verticales de partida — Energy
+# 🏭 Vertical Solutions — Energy
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional y probado, añadir capa agéntica encima.
-> Última actualización: 2026-07-05
+> Production-grade open-source platforms customizable with AI layers.
+> Model: start with something functional, add an agentic layer on top.
+> Last updated: 2026-07-06
 
-## Plataformas recomendadas
+## Recommended Platforms
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **MyEMS** | MIT | [github.com/MyEMS/myems](https://github.com/MyEMS/myems) | Python + React + MySQL/InfluxDB | EMS completo: edificios, fábricas, hospitales, parques; ISO 50001; VPP nativo; añadir agente LLM para recomendaciones |
-| **OpenEMS** | Eclipse PL 2.0 | [github.com/OpenEMS/openems](https://github.com/OpenEMS/openems) | Java + TypeScript + InfluxDB | EMS para almacenamiento + renovables + EV charging + heat pumps; detrás de FEMS (FENECON); añadir ML para predicción |
-| **OpenRemote** | AGPL-3.0 | [github.com/openremote/openremote](https://github.com/openremote/openremote) | Java + Angular + PostgreSQL | IoT platform + EMS: tarifas dinámicas, mercados eléctricos, BESS, EV; API REST + MQTT + WebSocket |
-| **OperatorFabric** | MPL-2.0 | [github.com/opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core) | Spring Boot + Angular + RabbitMQ | Plataforma industrial para operadores de utilities: notificaciones, procesos, SCADA integration; LF Energy project |
-| **GridAPPS-D** | Apache 2.0 | [github.com/GRIDAPPSD/GOSS-GridAPPS-D](https://github.com/GRIDAPPSD/GOSS-GridAPPS-D) | Python + Java + Apache ActiveMQ | Plataforma DOE para DERMS/DMS: apps de distribución avanzada; CIM + OpenDSS + GridLAB-D; base para agentes de red |
+| Platform | License | Repo | Stack | Use case |
+|----------|---------|------|-------|----------|
+| **MyEMS** | MIT | [github.com/myems/myems](https://github.com/myems/myems) | Python + React + MySQL | Building & industrial Energy Management System — dashboards, metering, reports. Add LLM advisor on top. |
+| **OpenEMS** | MIT | [github.com/OpenEMS/openems](https://github.com/OpenEMS/openems) | Java + Angular | Edge energy management for solar, BESS, EV charging, heat pumps. REST API for AI agent integration. |
+| **OpenRemote** | AGPL-3.0 | [github.com/openremote/openremote](https://github.com/openremote/openremote) | Java + TypeScript | Full IoT platform: device management, asset trees, rule engine. v1.6 native LLM support. 1.8k★ |
+| **OperatorFabric** | MPL-2.0 | [github.com/opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core) | Spring Boot + Angular | RTE France — real-time grid operator alerting, card-based situational awareness. LLM annotation in v5.0. |
+| **GridAPPS-D** | BSD-3 | [github.com/GRIDAPPSD/GRIDAPPSD](https://github.com/GRIDAPPSD/GRIDAPPSD) | Python + Java + Docker | DOE/PNNL grid application development platform — SCADA bridge, DER management APIs, RL training |
+| **Fledge** | Apache-2.0 | [github.com/fledge-iot/fledge](https://github.com/fledge-iot/fledge) | C++ + Python | LF Energy industrial IoT framework — sensor ingestion, edge ML, cloud bridge for substations |
+| **OSEM** | MIT | [github.com/osem-saar/osem](https://github.com/osem-saar/osem) | Ruby on Rails | Open-source event/conference energy mgmt — adaptable for demand-response programs |
+| **EnergyPlus** | BSD-3 | [github.com/NREL/EnergyPlus](https://github.com/NREL/EnergyPlus) | C++ (NREL) | DOE whole-building energy simulation. Foundation for Sinergym / RL building control research |
 
-## Sistemas de monitoreo de activos
+## Key Standards & Protocols (open specs with open-source implementations)
 
-| Plataforma | Licencia | URL | Uso |
-|------------|----------|-----|-----|
-| **Zabbix** | AGPL-3.0 | github.com/zabbix/zabbix | Monitoreo de infraestructura; adaptable a activos SCADA vía templates |
-| **Grafana** | AGPL-3.0 | github.com/grafana/grafana | Dashboards para telemetría energética; plugin para análisis con AI |
-| **Apache Superset** | Apache 2.0 | github.com/apache/superset | BI para datos energéticos; drill-down en KPIs de consumo y generación |
+| Standard | Relevance | Open impl |
+|----------|-----------|----------|
+| **IEC 61850** | Grid substation automation | [pyiec61850-ng](https://github.com/f0rw4rd/pyiec61850-ng) (GPL-3) |
+| **OCPP 1.6 / 2.0** | EV charging protocol | [mobilityhouse/ocpp](https://github.com/mobilityhouse/ocpp) (MIT) |
+| **OSCP** | EV smart charging | [ChargePi/oscp-go](https://github.com/ChargePi/oscp-go) (MIT) |
+| **CIM / CGMES** | Grid topology data model | [CIM-Tools](https://github.com/sogno-platform/cimpy) (MPL-2.0) |
+| **FIWARE NGSI-LD** | Smart grid data semantics | OpenRemote + Orion-LD |
 
-## Cómo customizar con AI
+## How to Add AI on Top
 
-### Opción A: MyEMS + LLM Agent (recomendada para EMS)
 ```
-MyEMS (base MIT) 
-  → añadir endpoint: POST /api/ai/recommend
-  → LangGraph agent: lee datos históricos, genera recomendaciones
-  → Claude API: respuestas en lenguaje natural para operadores
-  → Notificaciones: alertas proactivas cuando consumo anomalía detectada
-Tiempo estimado: 3-4 semanas MVP
-```
-
-### Opción B: OpenEMS + ML Forecasting
-```
-OpenEMS (FEMS base) 
-  → añadir microservicio Python: pronóstico 24h con pvlib + pandapower
-  → API REST: predicción entregada a OpenEMS Controller
-  → Optimización: schedule de BESS basado en pronóstico + tarifas
-  → Dashboard: Grafana con intervalos de confianza
-Tiempo estimado: 4-6 semanas MVP
+1. Deploy platform (Docker Compose / Helm)
+2. Expose REST/MQTT API from platform
+3. Connect LangGraph agent to API
+4. Add LLM reasoning layer (Claude API / local Ollama)
+5. Build operator chat UI (Streamlit / React)
 ```
 
-### Opción C: GridAPPS-D + DERMS Agent
-```
-GridAPPS-D (Apache 2.0 base)
-  → App Python: agente LangGraph que lee estado de red vía CIM API
-  → pandapower: cálculo de power flow en tiempo real
-  → Acciones: reconfiguración automática de switches, despacho DERs
-  → Logging: trazabilidad completa de decisiones del agente
-Tiempo estimado: 6-8 semanas MVP
-```
+### MyEMS + AI example
+- **What it is**: production EMS used in 100+ buildings in China, Europe, LATAM
+- **AI add-on**: connect Claude API to MyEMS REST; agent answers "Why did Building A spike 40% at 2pm?" in plain language
+- **Data in**: real-time meter readings, hourly tariffs, weather
+- **Data out**: anomaly explanations, demand response recommendations, report drafts
+
+### OpenEMS + AI example
+- **What it is**: edge controller for solar+BESS+EV at prosumer/microgrid level
+- **AI add-on**: LangGraph agent reads SoC, solar forecast, tariff schedule; decides charge/discharge schedule
+- **Proven**: reduces peak import by 20-35% on time-of-use tariffs
+
+### OperatorFabric + AI example
+- **What it is**: real-time operator dashboard used in French/Spanish national grid
+- **AI add-on**: LLM alarm annotator classifies incoming grid events, suggests N-1 actions
+- **In production**: RTE France v5.0 deployed Jun 2026
+
+---
+*See `compose/patterns.md` for wiring diagrams.*

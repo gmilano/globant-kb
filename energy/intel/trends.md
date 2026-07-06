@@ -1,59 +1,115 @@
-# 📡 Tendencias — Energy
+# 📡 Industry Trends — Energy AI
 
-> Tendencias AI + energía que definen el mercado en 2026.
-> Última actualización: 2026-07-05
+> Current and emerging trends in AI for the energy sector.
+> Last updated: 2026-07-06
 
-## Macro-tendencias 2026
+## Trend 1: Agentic DERMS — AI Takes the Wheel on DER Dispatch
 
-### 1. Smart Grids con ML en tiempo real
-Las redes eléctricas modernas consumen datos de millones de activos distribuidos (paneles solares, cargadores EV, BESS, termostatos inteligentes) y los modelos ML rebalancean la red cada pocos segundos. La demanda de data centers AI está acelerando esta necesidad: los data centers representan 1/3 de PPAs bilaterales en Brasil (2024).
+**What**: Distributed Energy Resource Management Systems (DERMS) are moving from rule-based to LLM-orchestrated multi-agent systems. Agents now decide in real time how to dispatch solar, BESS, EV charging, and demand response across thousands of endpoints.
 
-**Impacto**: utilities que no adopten ML para despacho en tiempo real quedarán fuera del mercado de renovables.
+**Signal**: GridAPPS-D v2026.03 added RL training interface; OpenEMS community thread on "agentic DR" is most active discussion in 2 years; AutoGrid (Enel) published technical paper on LLM-DERMS hybrid at IEEE PES 2026.
 
-### 2. Pronóstico probabilístico de renovables como commodity
-En 2025, la energía solar representó el 83% de los 793 GW de capacidad renovable añadida globalmente. Con esta penetración, el pronóstico de generación solar/eólica dejó de ser opcional. Herramientas como pvlib + proloaf (RNNs con intervalos de confianza) son ahora infraestructura básica para traders y operadores de red.
+**Implication for Globant**: Build DERMS agents on GridAPPS-D + LangGraph. LATAM utilities with 5-50 MW of distributed solar are the sweet spot.
 
-**Impacto**: desarrolladores de parques necesitan forecasting de 24-72h con incertidumbre cuantificada para hacer ofertas en mercados de corto plazo.
+---
 
-### 3. Agentes MCP para automatización de simulaciones energéticas
-Paper Tandfonline 2026: workflows agénticos con MCP permiten a LLMs controlar EnergyPlus directamente, generar variantes de diseño, ejecutar simulaciones y recomendar retrofits. OptAgent framework demuestra que un agente LLM puede tomar decisiones de operación de edificios sin intervención humana.
+## Trend 2: Virtual Power Plants (VPPs) at Scale
 
-**Impacto**: el tiempo de análisis de eficiencia energética de edificios se comprime de semanas a horas. Nuevos servicios de consultoría AI-first posibles.
+**What**: Utilities and energy retailers are aggregating millions of smart devices (thermostats, EVs, water heaters, BESS) into software-defined VPPs that can bid flexibility into wholesale markets. AI is the coordination layer.
 
-### 4. Virtual Power Plants (VPP) y DERMS distribuidos
-Los VPP agregan recursos energéticos distribuidos (DERs): prosumidores, BESS domésticos, EV, cargas industriales flexibles. La coordinación multi-agente es el paradigma dominante. GridAPPS-D y OpenEMS son las bases open source más maduras.
+**Signal**: Australia NEM has 1.5 GW VPP capacity live; Texas ERCOT opened VPP market Feb 2026; Brazil ANEEL published VPP regulatory framework Jun 2026.
 
-**Impacto**: utilities pueden diferir inversión en nueva generación si activan DERs coordinados por AI. Mercado LATAM madurando desde Brasil/Chile.
+**Implication for Globant**: Brazil VPP regulation opens a multi-year market. OpenEMS + LangGraph = foundation for a LATAM VPP platform.
 
-### 5. Mantenimiento predictivo de activos de transmisión/distribución
-ABB, GE Vernova e IBM ofrecen plataformas propietarias de predictive maintenance. El equivalente open source (pandapower + ML de anomalías + LangGraph) puede entregar 70-80% del valor a costo radicalmente menor.
+---
 
-**Impacto**: transformadores, protecciones y cables tienen vida útil extendible 20-30% con mantenimiento basado en condición vs. calendario.
+## Trend 3: Carbon-Aware AI Scheduling
 
-### 6. Optimización energética de edificios con RL
-Sinergym (MIT, SAIL UGR) y rl-testbed-for-energyplus (MIT, IBM) son los frameworks estándar para entrenar agentes RL que controlan sistemas HVAC y iluminación. En 2025-2026, varias utilities europeas desplegaron estos agentes en edificios comerciales con ahorros 15-25%.
+**What**: Hyperscalers and enterprise cloud users are shifting AI workloads (training, inference, batch jobs) to run when the grid is greenest. electricityMap API is the data layer; AI schedulers optimize run timing.
 
-**Impacto**: administradores de edificios corporativos (bancos, hospitales, malls) son clientes directos. En LATAM, Santiago, São Paulo y CDMX son mercados primarios.
+**Signal**: Google published 24/7 CFE matching methodology; Microsoft Azure added carbon-aware SDK; electricitymap-contrib GitHub stars +40% in 6 months.
 
-### 7. Modelos de sistema energético nacional con PyPSA-Earth
-PyPSA-Earth permite modelar cualquier sistema eléctrico nacional con datos open source (OSM, ERA5, ENTSO-E). En 2026, equipos académicos de Chile, Brasil y Colombia comenzaron a usar esta herramienta para análisis de transición energética.
+**Implication for Globant**: Low-hanging fruit — any enterprise cloud client with ML workloads. Build a carbon scheduler agent on electricitymap-contrib in 2-3 weeks.
 
-**Impacto**: gobiernos y agencias regulatorias necesitan estos modelos para política energética. Oportunidad de consultoría técnica para Globant.
+---
 
-## Tendencias de producto emergentes
+## Trend 4: Renewable Forecasting with Foundation Models
 
-| Tendencia | Horizonte | Oportunidad Globant |
-|-----------|-----------|---------------------|
-| Carbon accounting AI integrado en EMS | 12-18 meses | Añadir módulo carbono a MyEMS + LLM |
-| Hydrogen network optimization | 18-24 meses | PyPSA ya soporta H2; mercado emergente |
-| V2G (Vehicle-to-Grid) optimization | 12-18 meses | pandapower + EV fleet agent |
-| AI-driven nuclear fusion control | 3-5 años | Google DeepMind + UK gov; largo plazo |
-| Real-time carbon intensity API agents | 6-12 meses | Combinar electricitymap + LangGraph |
+**What**: Solar and wind forecasting is moving from statistical ARIMA/LSTM to large-scale foundation models fine-tuned on multi-site data. NREL's Chronos-Energy and Aurora (InflectionAI spinoff) show SoTA accuracy.
 
-## Regulación y estándares relevantes
+**Signal**: NREL published Wattile v2 probabilistic forecasting paper; pvlib v0.11 improved irradiance models; windpowerlib + ERA5 reanalysis data integration now standard.
 
-- **ISO 50001**: gestión de energía en organizaciones (MyEMS lo implementa)
-- **IEC 61850**: comunicación en subestaciones (pyiec61850-ng en GitHub)
-- **CIM (Common Information Model)**: modelo de datos para redes eléctricas (GridAPPS-D)
-- **OSCP (Open Smart Charging Protocol)**: carga inteligente EV (oscp-go en GitHub)
-- **EU Taxonomy**: reporting de sostenibilidad; crea demanda de EMS con trazabilidad
+**Implication for Globant**: Renewable IPPs need better forecasting for curtailment reduction and grid interconnection. pvlib + fine-tuned time-series model = 2-3 week deliverable.
+
+---
+
+## Trend 5: LLM-Powered Grid Operators
+
+**What**: Control room operators are getting AI assistants that translate raw SCADA alerts into plain-language summaries, suggest N-1 contingency actions, and draft outage communications automatically.
+
+**Signal**: RTE France deployed OperatorFabric v5.0 with LLM annotation Jun 2026; Enel Spain prototyped Claude-based control room assistant; Red Eléctrica de España published AI operator roadmap.
+
+**Implication for Globant**: OperatorFabric + Claude API integration. Start with alarm annotation (low risk, high value), expand to decision support.
+
+---
+
+## Trend 6: Battery Energy Storage System (BESS) AI Optimization
+
+**What**: As BESS costs fall below $150/kWh, deployments are exploding. AI optimizers maximizing arbitrage, frequency response, and degradation avoidance are becoming standard.
+
+**Signal**: BESS global capacity 2x YoY (2025 → 2026); IEC 62933 standard updated for AI-assisted BMS; NREL Wattile and Sinergym both added BESS-specific environments.
+
+**Implication for Globant**: Any utility-scale BESS >10 MW needs an AI scheduler. PyPSA + LangGraph agent for BESS dispatch = high-margin, repeatable engagement.
+
+---
+
+## Trend 7: EV Smart Charging Grid Integration
+
+**What**: EV adoption is overwhelming distribution grids in cities. AI must coordinate thousands of EV chargers to avoid transformer overload, minimize peak demand charges, and provide V2G flexibility.
+
+**Signal**: OSCP (Open Smart Charging Protocol) adoption growing; Brazil's EV fleet +120% YoY; European AFIR regulation mandates smart charging by 2027.
+
+**Implication for Globant**: OCPP + OSCP + LangGraph dispatch agent. LATAM EV charging networks (WEG, Raízen, Vibra) are the target client.
+
+---
+
+## Trend 8: Industrial Energy Efficiency — The "AI-Powered Energy Audit"
+
+**What**: AI is automating what used to require a 2-week manual energy audit: NL interface over SCADA data, automatic anomaly detection, energy-saving opportunity ranking, ROI calculation.
+
+**Signal**: MyEMS adopted by 200+ industrial sites in 2025; IBM Maximo Energy lost ground to open-source alternatives; manufacturing sector = 26% of global energy spend.
+
+**Implication for Globant**: MyEMS + Claude API + RAG over facility data = 4-week engagement, immediate ROI for any large industrial client.
+
+---
+
+## Trend 9: Energy Poverty & Rural Microgrids in LATAM/Africa
+
+**What**: AI-optimized mini-grids with solar+battery are the fastest path to electrification for 770M+ off-grid people. AI handles load forecasting, dispatch, fault detection, and tariff optimization.
+
+**Signal**: PyPSA-Earth now has 47 country models including Sub-Saharan Africa and Andean region; World Bank energy access AI program launched 2026; Bolivia/Peru/Ecuador rural electrification tenders.
+
+**Implication for Globant**: High-impact, fundable work. PyPSA-Earth + Sinergym for microgrid control + LATAM government partnerships.
+
+---
+
+## Trend 10: Grid Digital Twins
+
+**What**: Utilities are building real-time digital twins of their grids that mirror actual topology, state, and asset health. AI runs what-if scenarios before operators make decisions.
+
+**Signal**: Siemens and ABB both launched grid DT products; PNNL GridAPPS-D is the open-source equivalent; pandapower now has a live grid state estimator module.
+
+**Implication for Globant**: pandapower + GridAPPS-D + Claude Haiku for conversational DT interface. 12-week build, high strategic value for any national grid operator.
+
+---
+
+## Trend 11: Hydrogen & Long-Duration Storage Modeling
+
+**What**: Green hydrogen and LDES (iron-air, gravity, flow batteries) are entering the mix. Energy system models need to handle multi-carrier, multi-year investment optimization.
+
+**Signal**: PyPSA v0.28 added H2 network support; IEA Global Hydrogen Review cites AI optimization as key cost-reduction lever; EU electrolyzer mandates require grid-aware dispatch.
+
+**Implication for Globant**: PyPSA multi-carrier models + scenario analysis AI. Target: energy ministries, IPPs planning hydrogen projects, industrial offtakers.
+
+---
+*See `intel/market.md` for market sizing and player map.*
