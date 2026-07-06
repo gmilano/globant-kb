@@ -1,84 +1,72 @@
-# Market Intelligence — Travel Industry
+# Market Map — Travel & Hospitality AI
 
-> Key players, competitive map, and partnership landscape as of 2026-07-05
+> Key players, market size, competitive dynamics, and LATAM opportunities.
+> Last updated: 2026-07-06
 
-## Key Players
+## Market Size
 
-### GDS / Infrastructure
-| Player | Position | Open Source Posture | Relevance to Globant |
-|--------|----------|---------------------|---------------------|
-| **Amadeus IT Group** | Largest GDS (40%+ market share); also hotel tech (Delphi, HotSOS) | Official MIT-licensed SDKs (Python, Node, Java) on `amadeus4dev` GitHub | Primary GDS integration target; self-service API free for dev/test |
-| **Sabre** | Second-largest GDS; Red App developer ecosystem | Sabre Dev Studio REST APIs; no major open-source repos | Enterprise contracts required; less agent-friendly than Amadeus |
-| **Travelport** | Third GDS; pivoting to modern APIs (JSON/REST) | Limited open-source presence | Less common in LATAM engagements; Amadeus preferred |
+| Metric | Value | Source |
+|--------|-------|--------|
+| AI in Travel & Hospitality market (2026) | ~$8B | OpenPR / multiple analysts |
+| AI in Travel & Hospitality market (2033) | $182.5B | OpenPR, CAGR 28.4% |
+| Online Travel Agencies market (2025) | $663.7B | Grand View Research |
+| Online Travel Agencies market (2026) | $718.9B | Grand View Research, CAGR 9.0% |
+| LATAM online travel penetration | 74% | Skift Research 2026 |
+| AI-enabled travelers (global) | 40% have used AI for trip planning | Travala.com, 2026 |
+| Consumers willing to use fully autonomous AI booking | 2% | Expedia AI Trust Gap 2026 |
+| AI bookings share by 2030 (IDC forecast) | up to 30% | IDC Research 2026 |
 
-### OTA & Booking Platforms
-| Player | Position | AI Investment |
-|--------|----------|---------------|
-| **Booking.com** | Largest OTA; 28M+ listings | Heavy agentic AI investment; launched conversational booking assistant in 2025 |
-| **Expedia Group** | Major OTA + B2B tech supplier | Expedia Rapid API; acquired AI travel startup in 2025; building autonomous booking |
-| **Airbnb** | Dominant short-term rental | LLM-powered search redesign 2025; exploring autonomous booking for business travel |
-| **Trip.com (Ctrip)** | Dominant Asia-Pacific OTA | AI itinerary generation native; MCP server publishing for agent interoperability |
+## Key Players — Global
 
-### Hotel Chains & Industry Alliances
-| Player | Position | AI/Agent Stance |
-|--------|----------|-----------------|
-| **Marriott International** | Largest hotel chain globally | Joined A2A/MCP interoperability standards; enabling autonomous AI booking of Marriott inventory |
-| **IHG Hotels & Resorts** | Major global chain | Co-signed industry AI booking standards; exposing rate/availability via agent-compatible APIs |
-| **Hilton** | Top 3 global chain | AI concierge deployment; testing LLM-powered check-in and room customization |
+| Company | Revenue (2024) | AI Move | OSS Relevance |
+|---------|---------------|---------|---------------|
+| **Booking Holdings** | $23.7B | AI-powered personalization, price prediction, smart filters | Primary target for agentic travel disruption |
+| **Expedia Group** | $13.7B | Romie AI travel buddy (plan, shop, book, monitor in real-time, group-chat integration) | Romie = the UX benchmark to beat |
+| **Airbnb** | $11.94B revenue, $83.8B mktcap | AI agent on 13 models for customer service (Aug 2025); AI-native 2026 strategy | High personalization bar |
+| **Amadeus IT Group** | Commercial | Mosaic APIs for agentic booking (420+ airlines, 2M hotels); partner in Sabre+MindTrip pipeline | GDS kingmaker — OSS must interop or route around |
+| **Sabre Corporation** | Commercial | Sabre+PayPal+MindTrip Q2 2026 end-to-end agentic pipeline | First production agentic booking loop |
+| **TripAdvisor** | Commercial | AI content, AI-powered reviews analysis, testing AI agents | 8 GitHub repos; community-built recommenders |
+| **Google** | Commercial | Google Flights (data layer), Google Travel, Gemini trip planning | Key data source for OSS (trvl, fli scrape public API) |
 
-### Open-Source Ecosystem
-| Player | Contribution | License |
-|--------|-------------|---------|
-| **QloApps / Webkul** | Only mature open-source hotel PMS | OSL-3.0 |
-| **ExcursioX** | Only MIT travel CRM with full booking flow | MIT |
-| **Amadeus4Dev** | Official GDS SDKs (Python, Node, Java, Android) | MIT |
-| **OpenTravel Alliance** | Schema standards for interoperability | Apache 2.0 |
-| **LangChain** | Agent framework dominant in travel AI builds | MIT |
-| **NERVsystems/osmmcp** | OSM as MCP server — first geo layer for LLM agents | MIT |
-| **DIDA-AI/Dida-hotel-MCP** | First hotel booking MCP server (2M+ hotels) | MIT |
-| **Project-OSRM** | High-performance routing engine (BSD-2-Clause, 7.7k★) | BSD-2-Clause |
-| **Valhalla** | Multi-modal routing engine (MIT, 5.6k★) | MIT |
+## Key Players — LATAM
 
-## Market Size & Growth
+| Company | Market | AI Initiative |
+|---------|--------|---------------|
+| **LATAM Airlines Group** | Chile, Colombia, Peru, Ecuador, Brazil | AI virtual agent launched April 2025 (Chile), expanded June 2025. Natural language trip planning for LATAM passengers. |
+| **MercadoLibre / Meli Travel** | Brazil, Argentina, Mexico | Nascent travel vertical embedded in MercadoPago/Meli ecosystem |
+| **Despegar / Decolar** | Latin America | Major OTA; integrating AI chat for trip planning |
+| **Almundo** | Argentina, Colombia | Mid-size OTA with AI customer service investment |
+| **CVC Corp** | Brazil | Largest travel company in LATAM, digitalization push |
 
-| Segment | 2024 | 2030 | CAGR |
-|---------|------|------|------|
-| AI in Tourism (global) | $2.95B | $13.38B | 28.7% |
-| Global travel tech total | $12B | $22B | ~8% |
-| LATAM travel tech | $1.8B | $4.5B | ~12% |
-| Agentic AI in travel | nascent | Significant | 40%+ |
+## Agentic Travel: The 2026 Race
 
-**Key prediction (IDC 2026)**: 30% of travel bookings executed by AI agents by 2030.
-**Phocuswright (2026)**: 61% of travel businesses experimenting with or scaling agentic AI.
-**Consumer trust gap**: Only 2% of US consumers willing to fully delegate booking to AI — massive UX opportunity.
-**Amadeus**: $50M AI fund launched for travel tech partners (2025).
+The industry's defining inflection point: **Sabre + PayPal + MindTrip** announced (March 2026) as the first end-to-end agentic travel booking pipeline. The loop: conversational AI → GDS inventory query → payment completion, all without the user leaving a chat window. Target launch Q2 2026.
 
-## Market Map
+**Market reaction:** Booking Holdings, IHG, Marriott all signed partnerships to ensure AI agents can access their inventory. Every major OTA is now racing to be "agentic-ready."
 
-```
-[Traveler] ──────────────────────────────────────────────────────────────
-    │                                                                    
-    ├── AI Travel Agent (LangGraph/CrewAI) ─── Natural language input
-    │       │
-    │       ├── Flight Search ────── Amadeus SDK → GDS (Amadeus/Sabre/Travelport)
-    │       ├── Hotel Search ─────── Amadeus SDK → Hotels / QloApps PMS
-    │       ├── Activities ──────────Viator API / local tour operator API
-    │       ├── Transfers ───────────Booking.com Transport API
-    │       └── Visa/Docs ──────────RAG over visa requirement knowledge base
-    │
-    ├── OTA Layer ──────── Booking.com / Expedia / Airbnb (competing with agent)
-    │
-    ├── GDS Layer ──────── Amadeus / Sabre / Travelport (being disintermediated)
-    │
-    └── Operations Back-End
-            ├── Hotel PMS ──────── QloApps / Odoo Hotel Module
-            ├── Agency ERP ─────── ERPNext / Apache OFBiz / ExcursioX
-            └── Analytics ──────── NeuralForecast + custom BI
-```
+**OSS counter:** The open-source equivalent is achievable today:  
+`trvl/fli` (search, no keys) → `LangGraph` (orchestration) → `Duffel API` (NDC booking) → `Stripe` (payment)
 
-## Competitive Dynamics (2026)
+## AI Trust Gap (Expedia, 2026)
 
-- **OTA disintermediation risk**: Agentic AI agents are beginning to bypass OTAs, booking directly with hotels/airlines via standardized APIs. Marriott and IHG's MCP adoption is a direct response.
-- **GDS modernization pressure**: Amadeus is winning the developer mindshare race with free self-service APIs and MIT-licensed SDKs. Sabre and Travelport are playing catch-up.
-- **LLM search replacing metasearch**: Kayak, Google Flights, Skyscanner all face disruption as LLM agents perform the comparison shopping step autonomously.
-- **Globant positioning**: Strong position to deliver agent-first travel platforms — combining open-source foundations (QloApps, ExcursioX, Amadeus SDKs) with LangGraph/CrewAI orchestration.
+| Traveler behavior | Data |
+|------------------|------|
+| Use AI for trip discovery & inspiration | High adoption |
+| Use AI for itinerary suggestions | Medium adoption |
+| Let AI complete bookings autonomously | 2% willing |
+| Want trusted brands involved in booking | 80%+ |
+
+**Implication for Globant:** Solutions that keep humans in the loop for final booking (AI-assisted vs AI-autonomous) will see 10-40× higher adoption. Build "confirm before book" UX patterns.
+
+## Globant Positioning
+
+| Segment | Opportunity | Entry Point |
+|---------|-------------|-------------|
+| **LATAM Airlines / Airport** | AI passenger assistant (disruption management, rebooking, gate info) | LATAM Airlines AI agent success story as reference |
+| **Hotel Chains** | AI concierge (pre-stay, in-stay, post-stay) + channel manager optimization | QloApps fork + LangGraph + WhatsApp |
+| **Tour Operators / OTAs** | Conversational booking agent for LATAM market | ExcursioX + CrewAI + WhatsApp Business API |
+| **Corporate Travel** | AI expense automation + travel policy enforcement | TREK + Odoo + receipt parsing AI |
+| **Government / Transit** | AI-enhanced public transit routing (cities) | OpenTripPlanner + LLM front-end |
+
+---
+*Updated automatically by the Globant AI Studios ingest pipeline.*

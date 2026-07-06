@@ -1,49 +1,59 @@
-# Foundational Repos — Travel Industry
+# Foundational Repos — Travel & Hospitality
 
-> The bedrock open-source projects every travel AI initiative should know
-> Last updated: 2026-07-05
+> Bases to build on. Open license, active community, real production usage.
+> Last updated: 2026-07-06
 
-## Agent Orchestration
+## Core Foundations
 
-| # | Repo | License | Stars | Role |
-|---|------|---------|-------|------|
-| 1 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 35k+ | Graph-based agent orchestration library; the standard backbone for multi-step travel agents (flight → hotel → activity → confirm); supports retries, human-in-the-loop, and streaming out of the box |
-| 2 | [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 100k+ | Core LLM framework for tool-calling agents; provides the travel tool ecosystem (web search, calendar, email) and prompt templates used by most travel agent projects |
-| 3 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52k+ | Multi-agent crew orchestration; use to define travel specialist agents (Flight Researcher, Hotel Scout, Itinerary Writer, Budget Optimizer) with role-based memory and task delegation |
-| 4 | [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache 2.0 | 27k+ | Minimal code-first agent framework for composing travel tool pipelines (price scraping, content generation, translation); low overhead, no vendor lock-in |
+| Repo | License | Stars | Stack | Role |
+|------|---------|-------|-------|------|
+| [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) | LGPL-2.1 | ~5.5k★ | Java, GraphQL | Industry-standard multi-modal trip planner. GTFS + OpenStreetMap routing. Powers transit apps for 100+ city governments. 26,985 commits, 255 contributors. Add AI on top for NL route queries. |
+| [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | 1.2k★ | PHP, MySQL | Hotel PMS + booking engine + channel manager. OTA sync (Booking.com, Expedia, Airbnb), room management, invoicing. Add AI concierge layer for upsell & guest service automation. |
+| [LibreBooking/librebooking](https://github.com/LibreBooking/librebooking) | Apache-2.0 | 900★ | PHP | Flexible resource scheduling & reservation system. Used for meeting rooms, equipment, tours. Mobile-friendly. Apache-2.0 means clean Globant IP. |
+| [OSU-NLP-Group/TravelPlanner](https://github.com/OSU-NLP-Group/TravelPlanner) | MIT | 468★ | Python | ICML'24 Spotlight. 4M-record travel dataset + 1,225 planning intents + sandbox. Use as: (1) eval suite for your travel agent, (2) fine-tuning data source, (3) benchmark to communicate quality to clients. |
+| [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | LGPL/CC-BY | 180★ | CSV, Python | Canonical open dataset: 10,000+ airports, 900+ airlines, country/timezone/currency codes. Foundation for all travel search reference data. Companion: OpenTREP full-text C++ search engine. |
+| [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | MIT | 65★ | MERN | Travel agency CRM with integrated ticketing (flights, trains, buses), hotel management & booking. MIT license — cleanest IP for Globant to fork. Starting point for tour-operator solutions. |
+| [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) | MIT | 27★ | Go | MCP server exposing Google Flights, Hotels, Airbnb, Booking.com as LLM tools. The foundation for any conversational travel search agent. Single Go binary; no API keys; production-ready MCP transport. |
+| [mauriceboe/TREK](https://github.com/mauriceboe/TREK) | MIT | 210★ | TypeScript | Self-hosted trip planner: real-time collaboration, interactive maps, PWA, SSO, budgets, packing lists. Foundation for corporate travel management tools. Deploy on-prem for data-sovereign clients. |
 
-## Hotel & Travel Platforms
+## What Each Foundation Enables
 
-| # | Repo | License | Stars | Role |
-|---|------|---------|-------|------|
-| 5 | [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | 1.5k+ | Full open-source hotel PMS + booking engine + channel manager; the hospitality equivalent of Medusa — the base platform when building AI on top of hotel operations |
-| 6 | [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | MIT | 200+ | Open-source Travel CRM with integrated ticketing, hotel management, and booking modules; MERN stack + Redux Toolkit; the only MIT-licensed travel CRM with full booking flows |
-| 7 | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 22k+ | ERPNext with travel agency module: invoice management, supplier payments, itinerary costing, and CRM; Python REST API pairs cleanly with LangChain agent tools for automated back-office ops |
-| 8 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache 2.0 | 3k+ | Apache OFBiz ERP/CRM — mature Java framework with order management, supplier catalog, and accounting; deployed in large tour operators as the operational backbone |
+### OpenTripPlanner → AI-Powered Transit Assistant
+```
+OSM + GTFS data → OpenTripPlanner (routing) → GraphQL API
+       ↓
+LLM agent parses natural language query → calls OTP API → formats itinerary
+       ↓
+"How do I get from Palermo to Retiro by public transit at 9pm?" answered in seconds
+```
 
-## GDS / Flight & Hotel Data
+### QloApps → AI Hotel Concierge
+```
+QloApps PMS (rooms, rates, reservations) → REST API
+       ↓
+LangGraph agent: guest NL request → check availability → upsell rooms/spa → book
+       ↓
+WhatsApp/Web chat interface for guests
+```
 
-| # | Repo | License | Stars | Role |
-|---|------|---------|-------|------|
-| 9 | [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | 700+ | Official Amadeus GDS Python SDK; provides REST access to live flight search, hotel rates, seat maps, and trip purpose prediction — the primary GDS integration layer for agent tool calls |
-| 10 | [amadeus4dev/amadeus-node](https://github.com/amadeus4dev/amadeus-node) | MIT | 500+ | Official Amadeus GDS Node.js SDK; same live flight + hotel APIs for TypeScript/JavaScript travel agent stacks; widely used in serverless booking microservices |
+### TravelPlanner Dataset → Benchmark-Driven Development
+```
+1,225 planning intents with constraints (budget, dietary, mobility)
+       ↓
+Run your agent against dataset → compute delivery rate, commonsense, final-trip score
+       ↓
+Present quality metrics to client at kickoff — defensible engineering
+```
 
-## Routing & Geospatial Infrastructure (NEW Jul 2026)
+### opentraveldata → Reference Data Service
+```
+10k airports + 900 airlines + timezone/currency data → microservice
+       ↓
+Travel agents use it for IATA code lookup, flight time zone normalization, currency display
+       ↓
+No vendor dependency — fully open, self-hostable
+```
 
-| # | Repo | License | Stars | Role |
-|---|------|---------|-------|------|
-| 11 | [Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend) | BSD-2-Clause | 7.7k+ | C++ high-performance routing on OpenStreetMap; sub-millisecond queries; map-matching, traveling salesman; production-tested at Uber scale; expose as LangChain tool for "route from A to B" queries |
-| 12 | [valhalla/valhalla](https://github.com/valhalla/valhalla) | MIT | 5.6k+ | Multi-modal routing engine (car/bike/walk/transit) on OSM; isochrones + time matrices; great for fleet management and multi-modal itinerary agents |
-| 13 | [graphhopper/graphhopper](https://github.com/graphhopper/graphhopper) | Apache 2.0 | 5k+ | Java routing engine with REST API; commercial-friendly Apache 2.0; isochrones, matrix API, custom vehicle profiles; preferred when Java stack required |
-| 14 | [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) | LGPL-3.0 | 2.6k+ | Multi-modal trip planner combining GTFS transit + OSM; GraphQL API; transit agency data available for São Paulo, Buenos Aires, Mexico City, Bogotá, Santiago |
-| 15 | [NERVsystems/osmmcp](https://github.com/NERVsystems/osmmcp) | MIT | 300+ | OpenStreetMap as MCP server; geocoding, routing, nearby POI, neighborhood analysis for LLMs via Model Context Protocol — no API keys, no custom SDK, just wire to agent |
-
-## Selection Rationale
-
-- **Agent layer**: LangGraph (complex stateful flows) or CrewAI (role-based crews) — both MIT, both production-proven in travel by 2026.
-- **GDS connectivity**: Amadeus Python/Node SDKs (both MIT) for live flight and hotel data; free self-service tier available; enterprise tier for production volume.
-- **Hotel PMS**: QloApps (OSL-3.0, free to self-host) for hotel-side clients; wrap its booking API as a LangChain tool.
-- **Back-office ERP**: ERPNext for SMB travel agencies (GPL-3.0, cost-conscious); Apache OFBiz for enterprise tour operators (Apache 2.0, Java).
-- **CRM**: ExcursioX (MIT) is the only fully open travel CRM — fork it, add AI suggestion sidebar, ship.
-- **Routing (NEW)**: OSRM for raw performance (BSD-2-Clause), Valhalla for multi-modal (MIT), GraphHopper for Java stacks (Apache 2.0), OTP for public transit (LGPL). Use osmmcp to expose any of these to LLM agents via MCP without custom integration code.
-- **License posture**: MIT (ExcursioX, LangGraph, CrewAI, Amadeus SDKs, Valhalla, osmmcp) and Apache 2.0 (OFBiz, Smolagents, GraphHopper) are commercially safe. OSRM is BSD-2-Clause (also safe). OSL-3.0 (QloApps) and GPL (ERPNext) require care if distributing modified code.
+---
+*See also: `verticals/solutions.md` for full vertical platforms.*  
+*Updated automatically by the Globant AI Studios ingest pipeline.*

@@ -1,410 +1,221 @@
-# Compose Patterns — Travel AI
+# Composition Patterns — Travel & Hospitality AI
 
-> Concrete recipes: specific repos + agents + wiring instructions
-
----
-
-## Pattern 1: Full-Stack AI Trip Planning Agent
-
-**Use case:** A traveler describes their trip in natural language; the agent researches, books flights + hotel, generates a day-by-day itinerary, and sends a confirmation email — all autonomously.
-
-**Components:**
-- **[langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** (MIT) — stateful multi-step agent graph
-- **[amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python)** (MIT) — live flight + hotel search
-- **[sergio11/langgraph_travel_planner_assistant](https://github.com/sergio11/langgraph_travel_planner_assistant)** (MIT) — reference implementation
-- **[nirbar1985/ai-travel-agent](https://github.com/nirbar1985/ai-travel-agent)** (MIT) — booking + email confirmation pattern
-
-**Wiring:**
-```python
-# 1. Define LangGraph tool nodes
-from amadeus import Client, ResponseError
-
-amadeus = Client(client_id=AMADEUS_KEY, client_secret=AMADEUS_SECRET)
-
-def search_flights(origin, destination, date, adults=1):
-    response = amadeus.shopping.flight_offers_search.get(
-        originLocationCode=origin,
-        destinationLocationCode=destination,
-        departureDate=date,
-        adults=adults
-    )
-    return response.data[:5]  # top 5 offers
-
-def search_hotels(city_code, check_in, check_out, adults=1):
-    response = amadeus.shopping.hotel_offers_search.get(
-        cityCode=city_code,
-        checkInDate=check_in,
-        checkOutDate=check_out,
-        adults=adults
-    )
-    return response.data[:5]
-
-# 2. Wire as LangChain tools
-from langchain.tools import tool
-
-@tool
-def flight_search_tool(origin: str, destination: str, date: str) -> list:
-    """Search for available flights. origin and destination are IATA codes."""
-    return search_flights(origin, destination, date)
-
-@tool
-def hotel_search_tool(city_code: str, check_in: str, check_out: str) -> list:
-    """Search for hotels in a city. city_code is IATA city code."""
-    return search_hotels(city_code, check_in, check_out)
-
-# 3. Build LangGraph state graph
-from langgraph.graph import StateGraph, END
-from langgraph.checkpoint.memory import MemorySaver
-
-graph = StateGraph(TravelPlanState)
-graph.add_node("parse_intent", parse_intent_node)     # extract dates, cities, preferences
-graph.add_node("search_flights", flight_search_node)  # calls amadeus flight_search_tool
-graph.add_node("search_hotels", hotel_search_node)    # calls amadeus hotel_search_tool
-graph.add_node("select_options", selection_node)      # LLM picks best flight + hotel
-graph.add_node("human_confirm", HumanInTheLoopNode()) # pause for user approval
-graph.add_node("confirm_booking", booking_node)       # mock booking (real: Amadeus Orders API)
-graph.add_node("generate_itinerary", itinerary_node)  # day-by-day plan via LLM
-graph.add_node("send_confirmation", email_node)       # SMTP email with itinerary
-
-# Edges
-graph.set_entry_point("parse_intent")
-graph.add_edge("parse_intent", "search_flights")
-graph.add_edge("search_flights", "search_hotels")
-graph.add_edge("search_hotels", "select_options")
-graph.add_edge("select_options", "human_confirm")
-graph.add_conditional_edges("human_confirm",
-    lambda s: "confirm_booking" if s["approved"] else END)
-graph.add_edge("confirm_booking", "generate_itinerary")
-graph.add_edge("generate_itinerary", "send_confirmation")
-graph.add_edge("send_confirmation", END)
-
-# 4. Run with checkpointing (resume after user confirmation)
-checkpointer = MemorySaver()
-app = graph.compile(checkpointer=checkpointer, interrupt_before=["human_confirm"])
-```
-
-**Expected outcome:** End-to-end trip booked from natural language in < 60 seconds; human confirmation step prevents accidental charges; full itinerary emailed automatically.
+> Concrete recipes combining specific open-source repos + AI agents + wiring instructions.
+> Each pattern is a Globant studio-ready starting point. Last updated: 2026-07-06.
 
 ---
 
-## Pattern 2: Hotel Revenue Management Agent
+## Pattern 1: WhatsApp Conversational Booking Agent (LATAM)
 
-**Use case:** Automatically optimize room pricing for a QloApps-managed hotel based on occupancy, local events, and competitor rates — without a costly RMS subscription.
+**Problem:** Tour operators and mid-size travel agencies in LATAM lose leads because their booking process requires web forms. Customers already live in WhatsApp.  
+**Solution:** Conversational booking agent on WhatsApp, in Spanish/Portuguese, connected to live flight & hotel data.
 
-**Components:**
-- **[Qloapps/QloApps](https://github.com/Qloapps/QloApps)** (OSL-3.0) — hotel PMS with booking API
-- **[crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** (MIT) — multi-agent crew
-- **[Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast)** (Apache 2.0) — occupancy forecasting
-
-**Wiring:**
-```python
-from crewai import Agent, Task, Crew
-
-# Agent definitions
-occupancy_forecaster = Agent(
-    role='Occupancy Forecaster',
-    goal='Predict next 30-day occupancy per room type using historical booking data',
-    tools=[qloapps_bookings_tool, neuralforecast_tool],
-    backstory='You are an expert hotel revenue analyst...'
-)
-
-competitor_monitor = Agent(
-    role='Rate Monitor',
-    goal='Fetch competitor room rates for the same dates from Booking.com/Expedia scraping',
-    tools=[rate_scraper_tool, competitor_db_tool]
-)
-
-pricing_strategist = Agent(
-    role='Pricing Strategist',
-    goal='Set optimal room prices: maximize RevPAR within business rules (floor price, comp set positioning)',
-    tools=[qloapps_rate_update_tool],
-    backstory='You know hotel pricing theory: price floor = COGS × 1.25; never undercut comp set by >10%...'
-)
-
-# Tasks
-forecast_task = Task(
-    description='Pull 12 months of bookings from QloApps API. Train NHITS model per room type. Output 30-day occupancy forecast.',
-    agent=occupancy_forecaster
-)
-
-competitor_task = Task(
-    description='Scrape top 5 competitor rates for each of the next 30 days. Return {date: {competitor: rate}}.',
-    agent=competitor_monitor
-)
-
-pricing_task = Task(
-    description='''
-    Using occupancy forecast and competitor rates:
-    1. If forecast_occupancy > 85%: price = comp_avg × 1.08 (premium positioning)
-    2. If forecast_occupancy 60-85%: price = comp_avg × 1.00 (parity)
-    3. If forecast_occupancy < 60%: price = comp_avg × 0.95 (value positioning)
-    Apply floor: max(proposed_price, room_cogs × 1.25)
-    Update QloApps via PATCH /api/rooms/{id}/rates for each date.
-    ''',
-    agent=pricing_strategist,
-    context=[forecast_task, competitor_task]
-)
-
-# Crew runs nightly at 02:00
-crew = Crew(agents=[occupancy_forecaster, competitor_monitor, pricing_strategist],
-            tasks=[forecast_task, competitor_task, pricing_task],
-            verbose=True)
-crew.kickoff()
+**Stack:**
+```
+WhatsApp Business API
+      ↓
+Rasa (Apache-2.0) — NLU + dialogue management
+      ↓
+LangGraph (MIT) — stateful multi-step orchestration
+      ↓
+trvl MCP (MIT) — Google Flights + Hotels + Airbnb
+Duffel API     — NDC booking (free tier for prototyping)
+      ↓
+ExcursioX (MIT) — CRM: store booking, customer history
+      ↓
+WhatsApp confirmation message + booking reference
 ```
 
-**Expected outcome:** 8-15% RevPAR improvement vs. flat/manual pricing; full audit log of every rate change with reasoning.
+**Repos:**
+- [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) — flight + hotel search
+- [RasaHQ/rasa](https://github.com/RasaHQ/rasa) — conversational AI
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — agent orchestration
+- [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) — travel CRM
+
+**Architecture notes:**
+1. Rasa handles intent classification (book_flight, book_hotel, check_itinerary, cancel)
+2. LangGraph maintains trip state across the multi-turn conversation
+3. trvl MCP provides live search results without GDS API keys
+4. Duffel handles actual ticketing via NDC (direct from airlines)
+5. ExcursioX stores confirmed bookings + customer profile for future trips
+
+**Estimated timeline:** 10–14 weeks  
+**LATAM fit:** High — WhatsApp penetration >80% in Brazil, Colombia, Argentina; Spanish/Portuguese LLMs via Claude Haiku 4.5 or Llama 3.1-8B fine-tuned on LATAM travel data
 
 ---
 
-## Pattern 3: AI Travel Concierge with RAG Knowledge Base
+## Pattern 2: AI Hotel Concierge (Pre-Stay, In-Stay, Post-Stay)
 
-**Use case:** A white-label travel concierge chatbot for a hotel or tour operator that answers destination questions, suggests activities, and escalates to human agents when needed.
+**Problem:** Hotel chains running QloApps (or similar PMS) have no AI-powered guest engagement. Competitors offer AI chat for room requests, upsell, and support.  
+**Solution:** LangGraph agent wired into QloApps backend, accessible via WhatsApp or hotel web widget.
 
-**Components:**
-- **[huggingface/smolagents](https://github.com/huggingface/smolagents)** (Apache 2.0) — agent framework
-- **[langchain-ai/langchain](https://github.com/langchain-ai/langchain)** (MIT) — RAG pipeline
-- **[moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX)** (MIT) — CRM for escalation ticketing
-
-**Wiring:**
-```python
-# 1. Build destination knowledge base
-from langchain.document_loaders import DirectoryLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
-from langchain.embeddings import HuggingFaceEmbeddings
-
-loader = DirectoryLoader('./destination_guides/')  # curated PDFs/Markdown per destination
-docs = loader.load()
-splits = RecursiveCharacterTextSplitter(chunk_size=500).split_documents(docs)
-vectorstore = Chroma.from_documents(splits, HuggingFaceEmbeddings())
-retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
-
-# 2. Define smolagents tool set
-from smolagents import tool, CodeAgent, LiteLLMModel
-
-@tool
-def destination_rag(query: str) -> str:
-    """Answer questions about destinations, visa requirements, weather, and local tips."""
-    docs = retriever.get_relevant_documents(query)
-    return "\n".join([d.page_content for d in docs])
-
-@tool
-def excursiox_create_ticket(guest_name: str, issue: str, priority: str) -> str:
-    """Escalate to human agent by creating a support ticket in ExcursioX CRM."""
-    # POST /api/tickets via ExcursioX REST API
-    resp = requests.post(f"{EXCURSIOX_URL}/api/tickets",
-        json={"guest": guest_name, "issue": issue, "priority": priority},
-        headers={"Authorization": f"Bearer {EXCURSIOX_TOKEN}"})
-    return f"Ticket #{resp.json()['id']} created. Agent will contact within 30 min."
-
-@tool
-def search_local_activities(destination: str, interests: str, date: str) -> str:
-    """Search for activities matching traveler interests at the destination."""
-    # Integrate Viator API or curated local DB
-    return activity_search(destination, interests, date)
-
-# 3. Deploy concierge agent
-model = LiteLLMModel("anthropic/claude-sonnet-5")  # or local Llama 4
-concierge = CodeAgent(
-    tools=[destination_rag, excursiox_create_ticket, search_local_activities],
-    model=model,
-    system_prompt="""You are a luxury travel concierge. Be warm and specific.
-    Use destination_rag for factual questions. Suggest activities based on interests.
-    If the guest reports a problem or you cannot help, always escalate via excursiox_create_ticket."""
-)
-
-# 4. Expose as WebSocket streaming endpoint
-# Integrates with hotel website chat widget or WhatsApp via Twilio webhook
+**Stack:**
+```
+QloApps (OSL-3.0) — PMS: rooms, rates, reservations, F&B
+      ↓ REST API
+LangGraph (MIT) — orchestration with memory
+      ↓ Tools
+check_availability() → QloApps API
+book_room()          → QloApps API
+get_amenities()      → RAG over hotel knowledge base (Weaviate)
+upsell_room()        → LLM-generated upgrade offer
+request_service()    → QloApps housekeeping ticket
+      ↓
+WhatsApp / Web chat widget
 ```
 
-**Expected outcome:** 40% reduction in front-desk call volume; 24/7 concierge coverage without staffing cost; all escalations auto-logged in ExcursioX CRM.
+**Repos:**
+- [Qloapps/QloApps](https://github.com/Qloapps/QloApps) — hotel PMS base
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — agent
+- [weaviate/weaviate](https://github.com/weaviate/weaviate) — MIT, vector DB for hotel knowledge
+- [naakaarafr/AI-Travel-Agent-Advanced](https://github.com/naakaarafr/AI-Travel-Agent-Advanced) — CrewAI reference pattern
+
+**Guest journey:**
+- **Pre-stay (T-3 days):** Agent sends WhatsApp: "Your room is ready. Would you like early check-in ($30) or a room upgrade ($50/night)?" → upsell conversion
+- **In-stay:** Guest texts "I need extra towels" → agent creates housekeeping ticket → confirms ETA
+- **Post-stay:** Agent sends "How was your stay? Leave a Google review for 10% off your next booking" → review automation
+
+**Estimated timeline:** 8–12 weeks  
+**Revenue impact:** Hotel upsell revenue typically +15–25% with AI-assisted pre-stay engagement
 
 ---
 
-## Pattern 4: Corporate Travel Policy Compliance Agent
+## Pattern 3: Transit AI Assistant (OpenTripPlanner + LLM)
 
-**Use case:** When an employee submits a travel request, an AI agent checks policy compliance, finds the most cost-effective approved options, and auto-approves or routes to manager based on spend threshold.
+**Problem:** City governments and transit authorities running OpenTripPlanner have no NL interface. Users must know bus numbers and timetables.  
+**Solution:** Conversational transit assistant that answers "How do I get from X to Y by 9pm?" with real-time delays.
 
-**Components:**
-- **[crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)** (MIT) — multi-agent crew
-- **[amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python)** (MIT) — live rates
-- **[frappe/erpnext](https://github.com/frappe/erpnext)** (GPL-3.0) — expense and approval workflow
-
-**Wiring:**
-```python
-# CrewAI Crew definition
-policy_checker = Agent(
-    role='Policy Compliance Agent',
-    goal='Verify travel request against corporate policy (class of service, advance booking days, per diem)',
-    tools=[policy_db_tool, amadeus_flight_tool]
-)
-
-cost_optimizer = Agent(
-    role='Cost Optimizer',
-    goal='Find the 3 cheapest compliant options (flight + hotel) within policy guardrails',
-    tools=[amadeus_flight_tool, amadeus_hotel_tool, cost_comparison_tool]
-)
-
-approver = Agent(
-    role='Auto-Approver',
-    goal='Auto-approve if total cost < $2,000 AND policy_compliant=True; else route to manager',
-    tools=[erpnext_approval_tool, slack_notify_tool]
-)
-
-# Task sequence
-check_policy = Task(
-    description=f"Check if this trip (route, dates, class) complies with policy ID {policy_id}. Flag any violations.",
-    agent=policy_checker
-)
-
-find_options = Task(
-    description="Find 3 best flight + hotel combos within policy. Include: airline, hotel, total cost, booking links.",
-    agent=cost_optimizer,
-    context=[check_policy]
-)
-
-approve_or_route = Task(
-    description="""
-    If policy_compliant AND total_cost < $2000:
-        - ERPNext: POST /api/resource/Travel Request {'status': 'Approved', 'options': top_option}
-        - Slack: notify employee with booking link
-    Else:
-        - ERPNext: POST /api/resource/Travel Request {'status': 'Pending Approval'}
-        - Slack: notify manager with policy violations highlighted
-    """,
-    agent=approver,
-    context=[check_policy, find_options]
-)
+**Stack:**
+```
+OpenStreetMap + GTFS data → OpenTripPlanner (LGPL-2.1)
+                                    ↓ GraphQL API
+LangGraph agent:
+  parse_nl_query()    → extract origin, destination, time, preferences
+  query_otp()         → OpenTripPlanner GraphQL
+  fetch_realtime()    → GTFS-RT for delay/alert data
+  format_response()   → human-readable itinerary
+                                    ↓
+Web widget / WhatsApp / SMS / Alexa
 ```
 
-**Expected outcome:** 70% of low-value travel requests auto-approved in < 2 minutes; policy violation rate drops due to pre-check before booking; manager workload reduced to high-value exception reviews only.
+**Repos:**
+- [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) — routing engine
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — agent orchestration
+- [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) — airport/station reference data
+
+**Example interaction:**
+```
+User: "How do I get from Palermo to Retiro this evening around 9pm? 
+       I need to be there by 9:30"
+Agent: "Take Line D from Palermo station at 9:08pm → Plaza Italia → 
+        Retiro, arrives 9:24pm. 
+        ⚠️ Line D is running 3 min late tonight — take 9:05pm to be safe.
+        Alternative: Taxi via Rappi ~$4, 12 min."
+```
+
+**Estimated timeline:** 6–10 weeks  
+**Clients:** City governments, airports, transit authorities, tourism boards
 
 ---
 
-## Pattern 5: AI-Powered Tour Package Content Generator
+## Pattern 4: Agentic Flight + Hotel Search Pipeline (MCP-Native)
 
-**Use case:** A tour operator needs to publish 500 tour descriptions in 10 languages. A multi-agent pipeline generates, translates, SEO-optimizes, and publishes structured content automatically.
+**Problem:** Travel apps require expensive GDS contracts for flight/hotel data. Teams want to prototype without Amadeus API fees.  
+**Solution:** MCP-native search pipeline using free-tier tools that gives LLM agents real-time flight + hotel data.
 
-**Components:**
-- **[huggingface/smolagents](https://github.com/huggingface/smolagents)** (Apache 2.0) — agent pipeline
-- **[langchain-ai/langchain](https://github.com/langchain-ai/langchain)** (MIT) — prompt chains
-- **[moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX)** (MIT) — content publishing API
-
-**Wiring:**
-```python
-from smolagents import CodeAgent, LiteLLMModel, tool
-import json
-
-@tool
-def generate_tour_description(tour_data: dict) -> str:
-    """Generate a 400-word tour description from structured data (destination, highlights, duration, price)."""
-    prompt = f"""
-    Write a compelling 400-word tour description for:
-    Destination: {tour_data['destination']}
-    Duration: {tour_data['duration']} days
-    Highlights: {', '.join(tour_data['highlights'])}
-    Price from: ${tour_data['price_from']}
-    Tone: Inspiring but factual. Include unique selling points. SEO-friendly.
-    """
-    return llm.invoke(prompt).content
-
-@tool
-def translate_content(text: str, target_language: str) -> str:
-    """Translate tour content to target language preserving marketing tone."""
-    return translation_llm.invoke(f"Translate to {target_language}, keep marketing tone:\n{text}").content
-
-@tool
-def publish_to_excursiox(tour_id: str, content: dict) -> str:
-    """Publish translated content to ExcursioX tour catalog via REST API."""
-    resp = requests.patch(f"{EXCURSIOX_URL}/api/tours/{tour_id}",
-        json={"descriptions": content}, headers={"Authorization": f"Bearer {TOKEN}"})
-    return f"Published {len(content)} language versions for tour {tour_id}"
-
-# Pipeline: process 500 tours in parallel batches
-languages = ["en", "es", "pt", "fr", "de", "it", "ja", "zh", "ar", "ko"]
-
-for tour in tour_catalog:
-    base_description = generate_tour_description(tour)
-    translations = {lang: translate_content(base_description, lang) for lang in languages}
-    publish_to_excursiox(tour['id'], translations)
+**Stack:**
+```
+User NL request
+      ↓
+LangGraph orchestrator
+      ↓ MCP calls
+trvl: search_flights(origin, dest, date)       → Google Flights + Kiwi + Skiplagged merged
+trvl: search_hotels(location, check_in, nights) → Booking.com + Airbnb + Hotels.com
+fli:  track_price(flight_id)                    → price alert on specific flight
+Dida-hotel-MCP: get_hotel_details(hotel_id)     → 2M hotels, real-time rates
+      ↓
+LLM formats ranked options with reasoning
+      ↓
+User confirms → Duffel API books (NDC, direct airline)
 ```
 
-**Expected outcome:** 500 tours × 10 languages = 5,000 pieces of content generated in < 2 hours; consistent tone; replaces 3-month manual localization project.
+**Repos:**
+- [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) — flight + hotel MCP, no API keys
+- [punitarani/fli](https://github.com/punitarani/fli) — Google Flights Python SDK
+- [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) — 2M hotels, free tier
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — orchestration
+
+**Zero-to-demo time:** 2–3 days with trvl + Claude Code MCP integration  
+**Full production:** Add Duffel account for booking, Stripe for payment, ~6–8 weeks
 
 ---
 
-## Pattern 6: MCP-Native Geo-Aware Travel Agent (NEW Jul 2026)
+## Pattern 5: Corporate Travel + Expense Automation Agent
 
-**Use case:** Travel agent with native geographic intelligence — "what restaurants are within walking distance of Hotel X?" — without Google Maps API costs, using fully open-source OSM infrastructure.
+**Problem:** Enterprise clients spend 30% of travel admin time on expense submission, receipt parsing & policy compliance.  
+**Solution:** AI agent that enforces travel policy at booking time, parses receipts, and auto-submits expenses to ERP.
 
-**Components:**
-- **[NERVsystems/osmmcp](https://github.com/NERVsystems/osmmcp)** (MIT) — OSM as MCP server (geocoding + routing + POI)
-- **[DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN)** (MIT) — Hotel search+booking via MCP
-- **[langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)** (MIT) — Stateful agent orchestration
-- **[langgenius/dify](https://github.com/langgenius/dify)** (Apache 2.0) — Chat UI + RAG destination guides
-
-**Architecture:**
+**Stack:**
 ```
-User message → Dify chat UI
-                    ↓
-            LangGraph agent (Claude/GPT backbone)
-                    ↓ tool calls via MCP
-    ┌──────────────────────────────────────┐
-    │  osmmcp MCP server (self-hosted)      │
-    │  - geocode("Hotel Alvear, Buenos Aires") │
-    │  - nearby_places(lat, lon, "restaurant", 500m) │
-    │  - route(hotel_coords, restaurant_coords) │
-    │  - isochrone(hotel_coords, walk=15min) │
-    └──────────────────────────────────────┘
-    ┌──────────────────────────────────────┐
-    │  Dida hotel MCP server               │
-    │  - search_hotels(city, dates, guests) │
-    │  - get_hotel_details(hotel_id)        │
-    │  - check_availability(hotel_id, dates)│
-    └──────────────────────────────────────┘
+TREK (MIT) — trip planning & collaboration (self-hosted)
+      ↓ Trip data
+LangGraph policy agent:
+  check_policy()       → fetch company travel policy (RAG over policy docs)
+  validate_booking()   → flag out-of-policy segments (>$X hotel, non-preferred airline)
+  approve_or_escalate()→ auto-approve in-policy / route to manager
+      ↓ Confirmed trip
+Odoo / ERPNext — expense management + accounting
+      ↓
+LLM receipt parser:
+  parse_receipt_image()→ extract vendor, amount, category, date (via Claude Vision)
+  match_to_trip()      → link receipt to approved trip in ERP
+  submit_expense()     → create expense report in Odoo
+      ↓
+CFO dashboard: policy compliance %, spend by category, anomaly alerts
 ```
 
-**Wiring (MCP client config):**
-```json
-{
-  "mcpServers": {
-    "osmmcp": {
-      "command": "uvx",
-      "args": ["osmmcp"]
-    },
-    "dida-hotel": {
-      "command": "npx",
-      "args": ["-y", "dida-hotel-mcp"],
-      "env": { "DIDA_API_KEY": "${DIDA_API_KEY}" }
-    }
-  }
-}
+**Repos:**
+- [mauriceboe/TREK](https://github.com/mauriceboe/TREK) — trip planner
+- [odoo/odoo](https://github.com/odoo/odoo) or [frappe/erpnext](https://github.com/frappe/erpnext) — ERP
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — agent
+
+**ROI:** 60–70% reduction in expense processing time; 15–20% reduction in out-of-policy spend  
+**Estimated timeline:** 12–16 weeks for full enterprise deployment  
+**Clients:** Mid-size corporations, consulting firms, NGOs with distributed staff
+
+---
+
+## Pattern 6: LLM-Evaluated Travel Agent (Benchmark-Driven Development)
+
+**Problem:** "Our AI travel agent is good" is not a client pitch. How do you prove it's better than competitors?  
+**Solution:** Use the TravelPlanner benchmark (ICML'24) as a continuous eval harness. Show clients pass-rate improvements sprint-over-sprint.
+
+**Stack:**
+```
+TravelPlanner dataset (MIT):
+  - 1,225 planning intents with hard constraints (budget, diet, mobility)
+  - 4M records: flights, hotels, attractions, cities
+      ↓
+Your travel agent under test
+      ↓
+TravelPlanner evaluator:
+  delivery_rate()      → did the agent produce a valid plan?
+  commonsense_score()  → does the plan pass basic logic checks?
+  final_trip_score()   → does it satisfy all user constraints?
+      ↓
+Sprint dashboard: quality curve over time
 ```
 
-**LangGraph integration:**
-```python
-from langgraph.prebuilt import create_react_agent
-from langchain_mcp_adapters.client import MultiServerMCPClient
+**Repos:**
+- [OSU-NLP-Group/TravelPlanner](https://github.com/OSU-NLP-Group/TravelPlanner) — benchmark dataset + eval
+- [naakaarafr/AI-Travel-Agent-Advanced](https://github.com/naakaarafr/AI-Travel-Agent-Advanced) — agent to test
+- [2020uce0047/travel-agent](https://github.com/2020uce0047/travel-agent) — LangGraph agent reference
 
-async with MultiServerMCPClient({
-    "osmmcp": {"command": "uvx", "args": ["osmmcp"]},
-    "dida-hotel": {"command": "npx", "args": ["-y", "dida-hotel-mcp"]}
-}) as mcp_client:
-    tools = await mcp_client.get_tools()  # all MCP tools auto-loaded
-    agent = create_react_agent(claude_model, tools)
-    
-    result = await agent.ainvoke({"messages": [
-        ("user", "Find me a hotel in Buenos Aires for next weekend with good restaurants walking distance")
-    ]})
-    # Agent: 1) geocode Buenos Aires → 2) search Dida hotels → 3) pick top option
-    #        → 4) osmmcp nearby restaurants within 500m → 5) format response
-```
+**Why this matters for Globant:** Benchmark-driven development lets the studio present a quality narrative at client kickoff ("current state: 0.6% success rate on GPT-4 — our agent targets 15%+") and report measurable improvement each sprint. Client confidence multiplier.
 
-**Expected outcome:** Full geo + hotel agent with zero API key dependencies (OSM is free); self-hosted routing eliminates Google Maps costs (~$1K+/mo at scale); MCP wiring takes < 1 day vs. weeks for custom SDK integration; LATAM-ready (full OSM coverage for BR/MX/AR/CO/CL).
+**Estimated setup:** 1–2 days to run first baseline evaluation
 
-**Cost structure:**
-- osmmcp: free (OSM data, self-hosted)
-- Dida hotel search: free tier (no call limits for prototyping)
-- OSRM/Nominatim: self-hosted, ~$50/mo for 2-core server
-- LLM: Claude claude-sonnet-5 ~$3/M tokens
-- Total infra: ~$100-200/mo for production (vs. $1K+ with Google Maps + proprietary hotel API)
+---
+
+*See also: `verticals/solutions.md` for platform details and `agents/top.md` for agent specs.*  
+*Updated automatically by the Globant AI Studios ingest pipeline.*

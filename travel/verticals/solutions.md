@@ -1,56 +1,65 @@
-# Vertical Solutions — Travel Industry
+# Vertical Solutions — Travel & Hospitality
 
-> Real platforms with open-source cores that Globant can build AI on top of
-> Last updated: 2026-07-05
+> Existing open-source platforms that can be customized with AI. Model: start with something functional, add agentic layer on top.
+> Last updated: 2026-07-06
 
-## Hotel & Property Management
+## Recommended Platforms
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **QloApps** | [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | Independent hotels and boutique chains; full PMS + booking engine + channel manager | AI dynamic pricing agent, LLM-powered upsell at checkout (room upgrades, spa packages), automated guest communication agent, demand forecasting for revenue management |
-| **Odoo (Hotel Module)** | [JayVora-SerpentCS/OdooHotelManagementSystem](https://github.com/JayVora-SerpentCS/OdooHotelManagementSystem) | LGPL-3.0 | Hotels already on Odoo ERP wanting unified operations | AI front-desk chatbot integrated with Odoo CRM, occupancy forecasting via Odoo AI module, automated billing reconciliation |
+| Platform | License | Repo | Stars | Stack | Use Case |
+|----------|---------|------|-------|-------|----------|
+| QloApps | OSL-3.0 | [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | 1.2k★ | PHP/MySQL | Hotel PMS + Booking Engine + Channel Manager. OTA sync (Booking.com, Expedia, Airbnb). Add AI guest concierge for upsell, check-in automation & support. |
+| LibreBooking | Apache-2.0 | [LibreBooking/librebooking](https://github.com/LibreBooking/librebooking) | 900★ | PHP | General resource reservation. Tours, rooms, vehicles, activities. Best Apache-2.0 option for clean IP. Add NL booking assistant on top. |
+| OpenTripPlanner | LGPL-2.1 | [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) | ~5.5k★ | Java/GraphQL | Multi-modal transit routing (bus, rail, bike, walk). Powers government transit apps worldwide. Add LLM front-end for conversational route planning. |
+| PHPTRAVELS | Proprietary-ish | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | — | PHP | Travel agency software: CRM, supplier API integrations, vouchers, booking engine. Largest OSS-adjacent travel agency management system. Check license carefully before forking. |
+| ExcursioX | MIT | [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | 65★ | MERN | Travel CRM: flight/train/bus ticketing, hotel management, booking. MIT = cleanest IP for Globant. Good starting point for tour-operator solutions in LATAM. |
+| TREK | MIT | [mauriceboe/TREK](https://github.com/mauriceboe/TREK) | 210★ | TypeScript | Self-hosted trip planner: real-time collaboration, maps, PWA, SSO, budgets, packing lists. Corporate travel management alternative to Concur. |
+| Odoo (Travel Modules) | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | 42k★ | Python | Via community modules: hotel management, tour operator, expense management. If client already runs Odoo, add AI agent layer for travel expense approvals & booking policy enforcement. |
+| ERPNext (Expense) | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | 22k★ | Python/JS | Travel expense management, reimbursement workflows, policy compliance. Extend with AI for receipt parsing & anomaly detection. |
 
-## Travel Agency & Tour Operator
+## Travel-Specific Platforms Not on GitHub
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **ExcursioX** | [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | MIT | SMB travel agencies needing CRM + ticketing + hotel management in one stack | AI itinerary suggestion sidebar, lead scoring agent for new inquiries, automated follow-up email agent, package pricing optimization |
-| **ERPNext (Travel)** | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | Travel agencies needing invoicing, supplier management, and payroll | LangChain agent for cost breakdown Q&A, automated supplier payment reminders, AI-generated tour cost estimates from customer requirements |
-| **Apache OFBiz** | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache 2.0 | Large tour operators with complex product catalogs and multi-currency operations | Embedded ML models for package demand forecasting, AI pricing engine via Java service layer, automated order fulfillment workflows |
+| Platform | License | What It Is | AI Opportunity |
+|----------|---------|------------|----------------|
+| **Amadeus Self-Serve APIs** | Commercial (free tier) | GDS access: flights, hotels, points of interest | MCP wrapper → LLM travel agent with live GDS data |
+| **Duffel API** | Commercial (free tier) | Flight booking API (NDC direct from airlines) | Pair with trvl/fli for search → book pipeline |
+| **OpenGTS** | Apache-2.0 | Open GPS Tracking System for fleet/vehicle management | Fleet AI for ground transport / shuttle operators |
 
-## GDS & Flight Data
+## How to Customize with AI
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **Amadeus Python SDK** | [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | Python-stack travel agents needing live flight search, hotel rates, and ancillaries | Wrap as LangChain/LangGraph tool; AI agent calls `flight_offers_search()` and `hotel_offers_search()` autonomously; trip purpose prediction API for corporate travel |
-| **Amadeus Node SDK** | [amadeus4dev/amadeus-node](https://github.com/amadeus4dev/amadeus-node) | MIT | Node.js/TypeScript travel apps and serverless booking microservices | Same GDS capabilities in TypeScript; ideal for Next.js travel frontends with server actions calling Amadeus via agent tool |
+### Pattern A: Hotel PMS + AI Concierge (QloApps)
+```
+1. Deploy QloApps (Docker or VPS)
+2. Expose REST booking API
+3. Build LangGraph agent with tools: check_availability(), book_room(), get_amenities()
+4. Connect WhatsApp/Web chat via Rasa or direct webhook
+5. Add upsell logic: room upgrade, spa, late checkout suggestions
+```
 
-## Standards & Interoperability
+### Pattern B: Transit AI Assistant (OpenTripPlanner)
+```
+1. Deploy OpenTripPlanner with local GTFS + OSM data
+2. Expose GraphQL API
+3. Wrap with LLM agent: parse NL query → OTP GraphQL → format response
+4. Add real-time GTFS-RT for delays/alerts
+5. Output: "Your 9pm bus from Palermo is running 8 min late — here's an alternate"
+```
 
-| Platform | Resource | License | Best For | AI Opportunity |
-|----------|----------|---------|----------|----------------|
-| **OpenTravel Alliance** | [opentravel.org](https://opentravel.org) | Apache 2.0 | Any travel system needing standardized data schemas (OTA XML/JSON) | Use OTA schemas to normalize supplier feeds into a unified vector store for RAG-powered travel Q&A agents |
-| **A2A Travel Interoperability** | Emerging standard (2026) | Open | AI agents from different vendors interoperating on booking tasks | Wire hotel and flight provider MCP servers to LangGraph booking agents; Marriott and IHG already implementing |
+### Pattern C: Tour Operator CRM + AI Sales Copilot (ExcursioX)
+```
+1. Fork ExcursioX (MIT) — add Globant branding
+2. Integrate CrewAI sales agent: lead qualification → itinerary proposal → quote generation
+3. Connect opentraveldata for airport/airline reference lookups
+4. Add WhatsApp channel for LATAM market
+5. Automate follow-up sequences with AI-drafted messages
+```
 
-## Geo & Routing Infrastructure (NEW Jul 2026)
+### Pattern D: Corporate Travel Management (TREK + Odoo)
+```
+1. TREK for trip planning & collaboration (self-hosted)
+2. Odoo for expense management & policy enforcement
+3. AI agent: check travel policy → approve/flag bookings → parse receipts → submit expenses
+4. Integration: TREK trips → Odoo expense reports automatically
+```
 
-| Platform | Repo | License | Best For | AI Opportunity |
-|----------|------|---------|----------|----------------|
-| **OSRM** | [Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend) | BSD-2-Clause | High-performance route calculation on OSM data; sub-ms queries | Expose as LangChain tool: agent asks "fastest route from hotel to airport" → OSRM responds in <1ms |
-| **Valhalla** | [valhalla/valhalla](https://github.com/valhalla/valhalla) | MIT | Multi-modal routing (car/bike/walk/transit); isochrones; time matrices | Agent calculates walking time between itinerary stops; fleet routing for transfer services |
-| **GraphHopper** | [graphhopper/graphhopper](https://github.com/graphhopper/graphhopper) | Apache 2.0 | Java stack routing; custom vehicle profiles; REST API | Embed in Java-based PMS or booking platform for route-aware scheduling |
-| **OpenTripPlanner** | [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) | LGPL-3.0 | Multi-modal trip planning with GTFS transit data; GraphQL API | LATAM public transit routing (São Paulo SPTrans, Buenos Aires GCBA, CDMX Metro) |
-| **osmmcp** | [NERVsystems/osmmcp](https://github.com/NERVsystems/osmmcp) | MIT | OSM as MCP server; geocoding, routing, POI, neighborhood analysis for LLMs | Wire to any LangGraph/CrewAI agent — no custom SDK, just MCP tool calls for all geo needs |
-
-## Platform Selection Guide
-
-| Scenario | Recommended Stack |
-|----------|------------------|
-| New hotel client, AI-native PMS | QloApps (base PMS) + LangGraph agent (pricing + upsell) + Amadeus SDK (channel connect) |
-| Travel agency wanting AI upsell | ExcursioX (MIT CRM) + CrewAI crew (Researcher + Booker + Concierge) |
-| Enterprise tour operator | Apache OFBiz (ERP) + LangChain agents (order Q&A, cost estimation) + NeuralForecast (demand) |
-| Existing Odoo agency client | Odoo Hotel Module + LangChain over Odoo REST API + Amadeus Python SDK for live rates |
-| Corporate travel management | ERPNext (travel module) + CrewAI corporate travel crew + Amadeus SDK for policy compliance |
-| Geo-aware itinerary agent | osmmcp (all geo needs via MCP) + OpenTripPlanner (transit) + OSRM (driving) + LangGraph (orchestration) |
-| LATAM sustainable transit | OpenTripPlanner + GTFS (SPTrans/GCBA/CDMX) + Valhalla (bike/walk legs) + Dify (chat UI) |
-| Airport/hotel kiosk (offline) | Llama 4 local (Ollama) + osmmcp (OSM, self-hosted) + OSRM (self-hosted) + QloApps |
+---
+*Updated automatically by the Globant AI Studios ingest pipeline.*

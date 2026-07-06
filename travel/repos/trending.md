@@ -1,39 +1,36 @@
-# GitHub Trending Repos — Travel Industry
+# Trending GitHub Repos — Travel AI (2026-07-06)
 
-> Week of 2026-07-05 | Repos gaining stars fast
+> Repos gaining traction this week. Mix of new projects and established ones with recent activity spikes.
 
-## Hot Right Now
+## Trending Now
 
-| Repo | License | Trend | Why It's Moving |
-|------|---------|-------|-----------------|
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ↑↑↑ | New "Travel Agency Crew" template released; 5.2M monthly downloads; travel use cases top the community showcase this month |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache 2.0 | ↑↑ | Llama 4 + smolagents travel demos going viral; minimal boilerplate attracts rapid prototyping for travel startups |
-| [langchain-ai/open-agent-platform](https://github.com/langchain-ai/open-agent-platform) | MIT | ↑↑ | No-code travel concierge builder trending after LangChain published DocentPro case study |
-| [sergio11/langgraph_travel_planner_assistant](https://github.com/sergio11/langgraph_travel_planner_assistant) | MIT | ↑ | Featured in multiple "build a travel agent" tutorials; Tavily integration enables live real-time search in itinerary generation |
-| [vikrambhat2/MultiAgents-with-Langgraph-TravelItineraryPlanner](https://github.com/vikrambhat2/MultiAgents-with-Langgraph-TravelItineraryPlanner) | MIT | ↑ | Clean multi-agent pattern for Streamlit + LangGraph; frequently forked as a starting point for travel AI demos |
-| [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | ↑ | Resurgent interest as travel AI agents need live flight data; Amadeus self-service tier is free for prototyping |
-| [FarazF19/Travel-Assistant-Agent-OpenAI-SDK](https://github.com/FarazF19/Travel-Assistant-Agent-OpenAI-SDK) | MIT | ↑ | OpenAI Agents SDK adoption wave lifting all sample projects in the ecosystem |
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|--------------|
+| [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) | MIT | 27★ | Updated July 1, 2026. MCP-native travel CLI — single Go binary, 43 tools, no API keys. Google Flights + Hotels + Airbnb + Booking.com in one `claude mcp add` command. |
+| [punitarani/fli](https://github.com/punitarani/fli) | MIT | 380★ | Google Flights MCP + CLI + Python SDK. Growing as Python-native flight search layer for LLM apps. |
+| [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) | Apache-2.0 | 95★ | Agent-native multi-source flight search (400+ airlines, 5s response). Verified $116 savings vs Google Flights across 5 routes. |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | new | Hotel MCP server — 2M+ hotels, real-time inventory, DIDA B2B source. No call limits. Chinese market entry point. |
+| [naakaarafr/AI-Travel-Agent-Advanced](https://github.com/naakaarafr/AI-Travel-Agent-Advanced) | MIT | 120★ | CrewAI + Gemini multi-agent travel planner. Most-forked CrewAI travel reference in 2026. |
+| [2020uce0047/travel-agent](https://github.com/2020uce0047/travel-agent) | MIT | 85★ | LangGraph RAG travel agent with SERPAPI. Clean reference pattern for stateful multi-step orchestration. |
+| [mauriceboe/TREK](https://github.com/mauriceboe/TREK) | MIT | 210★ | Self-hosted trip planner with SSO + real-time collaboration. Growing as corporate travel alternative to Concur. |
+| [OSU-NLP-Group/TravelPlanner](https://github.com/OSU-NLP-Group/TravelPlanner) | MIT | 468★ | ICML'24 Spotlight benchmark. Being used as eval suite by multiple travel AI startups in 2026. |
+| [HaroldLeo/google-flights-mcp](https://github.com/HaroldLeo/google-flights-mcp) | MIT | 45★ | One of 3+ Google Flights MCP implementations racing to become the standard. |
+| [Bhardwaj-Saurabh/AI-Travel-Concierge](https://github.com/Bhardwaj-Saurabh/AI-Travel-Concierge) | MIT | 45★ | Semantic Kernel + Azure Foundry 7-tool concierge. Reference for enterprise Microsoft stack travel agent. |
 
-## 🆕 New This Week (Jul 2026)
+## Repos to Watch (Early Stage)
 
-| Repo | License | Signal | Why It Matters |
-|------|---------|--------|----------------|
-| [NERVsystems/osmmcp](https://github.com/NERVsystems/osmmcp) | MIT | ↑↑↑ Rising | OSM as MCP server — geocoding, routing, POI search for LLMs; fills the "geo intelligence" gap in travel agents without a Maps API key |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ↑↑ Rising | 2M+ hotel booking MCP server; first production hotel data source accessible via MCP protocol to any LLM agent |
+| Repo | License | Signal |
+|------|---------|--------|
+| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | AI-powered travel ops platform: CRM + Sales Copilot + Traveler Intelligence + Revenue Forecasting. 0★ but broad scope. |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | Chinese hotel B2B MCP. If it gets English docs, could dominate Asia-Pacific hotel search tooling. |
+| [manohar42/google-flights-mcp-server](https://github.com/manohar42/google-flights-mcp-server) | MIT | SerpAPI + Duffel integration — search + book in one MCP server. Full end-to-end in one repo. |
 
-## Watch List (Pre-Breakout)
+## Context: Why Travel AI Is Surging on GitHub
 
-| Repo | What to Watch For |
-|------|-------------------|
-| [thrishank007/AI-Travel-Planner](https://github.com/thrishank007/AI-Travel-Planner) | First Llama 4 travel planner — if local inference quality holds, this becomes the privacy-first template |
-| [raunaqness/ai-travel-agent](https://github.com/raunaqness/ai-travel-agent) | One of few repos with live Amadeus API wiring — production-quality gap being closed |
-| [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | Sleeping giant — hotel PMS + AI overlay potential; waiting for a flagship AI fork to go viral |
-| [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | Only MIT travel CRM; likely to gain traction as teams want a customizable base without SaaS lock-in |
-| [Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend) | C++ routing engine powering major ride-hail and OTA backends; 7.7k★; BSD-2-Clause safe |
-| [valhalla/valhalla](https://github.com/valhalla/valhalla) | Multi-modal routing (MIT); gaining traction as transit+walking use cases grow in sustainable travel AI |
+1. **MCP standardization** — The Model Context Protocol is making travel APIs (flights, hotels, cars) first-class LLM tools. Every major travel data source now has at least one MCP wrapper.
+2. **No-API-key approaches** — Projects like trvl scrape public travel UIs, removing the GDS paywall barrier for prototyping.
+3. **Agentic travel moment** — March 2026 saw Sabre+MindTrip+PayPal announce the first end-to-end agentic booking pipeline. OSS community is building the open equivalent.
+4. **LATAM digital travel boom** — 74% online booking penetration in Latin America, WhatsApp-native consumer base, creating demand for conversational booking agents in Spanish/Portuguese.
 
-## Framework Trend Context
-
-The travel agent repo landscape in 2026 is consolidating around **LangGraph** for complex multi-step booking flows and **CrewAI** for role-based travel crews. Repos using raw OpenAI function calling or simple LangChain chains are being superseded — fork LangGraph-based references for new client work.
-
-**New Jul 2026**: MCP-native data connectors (osmmcp, Dida-hotel-MCP) are emerging as the standard way to expose travel APIs to agents — no custom SDK code, just wire the MCP server to the agent's tool list. Expect Amadeus and major hotel chains to publish official MCP servers in H2 2026.
+---
+*Updated automatically by the Globant AI Studios ingest pipeline.*

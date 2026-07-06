@@ -1,38 +1,46 @@
-# Trending AI Agents — Travel Industry
+# Trending AI Agents — Travel (Week of 2026-07-06)
 
-> Week of 2026-07-05 | What's new and gaining traction
+> What's moving in travel AI this week. Focus on newly released or rapidly growing repos.
 
-## Breakout Projects This Month
+## Hot This Week
 
-### 1. Agentic Booking via MCP + A2A Protocols
-Major hotel chains (Marriott, IHG) are exposing booking APIs as MCP servers, enabling autonomous agents to book rooms end-to-end without human intervention. The `open-agent-platform` from LangChain and the emerging A2A travel agent interoperability spec are converging here. Watch: community forks wiring LangGraph agents to hotel MCP endpoints.
+### 1. trvl — MCP-Native Travel CLI (Go)
+**Repo:** [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) — updated July 1, 2026  
+**Why trending:** First single-binary MCP server giving Claude Code, Cursor & Windsurf direct access to Google Flights, Google Hotels, Airbnb, Booking.com, Hostelworld and Ferryhopper — no API keys. 43 tools. Default flight search merges Google Flights + Kiwi + Skiplagged (hidden-city options) into one sorted list.  
+**Drop-in integration:** `claude mcp add trvl --transport stdio -- trvl mcp` — one command, works in Claude Code today.
 
-### 2. DocentPro Multi-Agent Travel Companion (LangGraph + LangSmith)
-DocentPro published their production multi-agent architecture: modular LangGraph agents for trip planning + real-time conversation, using LangSmith for observability. First major public case study of LLM + deterministic logic blending in travel. Reference: [blog.langchain.com/customers-docentpro](https://blog.langchain.com/customers-docentpro/)
+### 2. Google Flights MCP Proliferation (3+ Independent Repos)
+**Repos:** [HaroldLeo/google-flights-mcp](https://github.com/HaroldLeo/google-flights-mcp), [manohar42/google-flights-mcp-server](https://github.com/manohar42/google-flights-mcp-server), [smamidipaka6/flights-mcp-server](https://github.com/smamidipaka6/flights-mcp-server)  
+**Why trending:** Three independent Google Flights MCP implementations appeared in June–July 2026. Combined with Duffel API for actual booking. Pattern: search via MCP → confirm with user → book via Duffel.
 
-### 3. Llama 4-Powered Local Travel Planners
-Several repos (thrishank007/AI-Travel-Planner, vikrambhat2 planner) switched from GPT-4 to Llama 4 as the backbone LLM — enabling fully offline itinerary generation. This trend is accelerating as Meta's Llama 4 instruction-following quality matches GPT-4 on travel planning benchmarks.
+### 3. fli — Google Flights Python MCP + CLI
+**Repo:** [punitarani/fli](https://github.com/punitarani/fli) — MIT, 380★  
+**Why trending:** Clean Python SDK and MCP server for programmatic Google Flights search. Gaining adoption as the Python-native alternative to trvl (Go). Integrates directly with LangChain tool-calling workflows.
 
-### 4. CrewAI Travel Agency Templates
-crewAI released official "Travel Agency Crew" template in their repo — a 4-agent crew (Research, Flight Finder, Hotel Scout, Itinerary Writer) that runs end-to-end trip planning from a single user prompt. Growing fast in GitHub stars due to low setup friction.
+### 4. Sabre + MindTrip + PayPal Agentic Pipeline (Industry Signal)
+**Not open-source**, but sets the benchmark every travel AI stack must replicate.  
+**Why relevant:** Announced Q2 2026 — travel industry's first end-to-end agentic booking loop: MindTrip (conversational AI) → Sabre Mosaic (420+ airlines, 2M hotels) → PayPal agentic payments. The OSS equivalent is: **trvl/fli** (search) + **LangGraph** (orchestration) + **Duffel API** (booking) + **Stripe** (payment).
 
-### 5. Voice-First Travel Agents
-Integration of travel planning agents with OpenAI Realtime API / Whisper for voice-first booking flows. Early repos combining LangGraph travel agents with Twilio Voice webhooks emerging in the `travel-planner` GitHub topic.
+### 5. Dida Hotel MCP (China B2B)
+**Repo:** [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) — MIT  
+**Why trending:** Global hotel recommendation & booking MCP — 2M+ hotels, direct API from the world's 3rd-largest B2B travel company. Real-time inventory, rate plans & cancellation policy lookup. No call-volume limits on free tier.
 
-### 6. osmmcp — OSM as MCP Server (NEW Jul 2026)
-`NERVsystems/osmmcp` makes OpenStreetMap accessible to any LLM agent via the Model Context Protocol: geocoding, routing, nearby places search, neighborhood analysis, EV station finder, all without a single API key. This is the geo intelligence layer for travel agents — "find restaurants within 500m of the hotel" is now a native tool call. Pattern: wire to any LangGraph or CrewAI agent without custom SDK code.
+### 6. Multi-Agent Travel Planning Engine (Community Pattern)
+**Pattern:** 7-specialist-agent travel planning engine for Claude Code (destination research, budget optimization, itinerary validation) that publishes trips as shareable self-contained HTML artifacts. Updated June 22, 2026. Represents the emerging "agentic itinerary as artifact" paradigm.
 
-### 7. Dida-hotel-MCP — 2M+ Hotel Booking via MCP (NEW Jul 2026)
-`DIDA-AI/Dida-hotel-MCP-CN` wraps a B2B hotel aggregator (third-largest globally) as an MCP server. Real-time availability, rates, cancellation policies for 2M+ hotels — searchable by location, dates, star rating, guest count. No API key registration friction for prototyping; free tier with no call limits. This is the pattern for connecting any GDS to an agent without writing connector code.
+### 7. LATAM Airlines AI Virtual Agent (Production, LATAM signal)
+**Why relevant:** LATAM Airlines launched its AI virtual agent (beta Chile, April 2025) then expanded to Colombia, Peru & Ecuador (June 2025). First major LATAM airline to ship a production conversational booking agent — signals demand for OSS alternatives in the region.
 
-## Key Signals
+## Patterns to Watch
 
-| Signal | Implication |
-|--------|-------------|
-| IDC: 30% of bookings by AI agents by 2030 | Long-term platform shift; invest in MCP-compatible booking APIs now |
-| 61% of travel companies piloting agentic AI (Phocuswright) | Enterprise demand is real; Globant can sell delivery capability today |
-| Marriott + IHG joining A2A/MCP standards | GDS disintermediation risk; direct hotel AI APIs becoming the norm |
-| Llama 4 local inference quality | Data-residency clients now viable without SaaS LLM cost |
-| LangGraph streaming + checkpointing | Complex multi-step bookings (flight + hotel + transfer + visa) now reliable |
-| osmmcp + Dida-hotel-MCP live (Jul 2026) | MCP travel data layer now exists; agents have geo + hotel inventory without custom connectors |
-| AI in Tourism $2.95B→$13.38B by 2030 (28.7% CAGR) | Travel AI is a large, fast-growing market; infrastructure investment pays off |
+| Pattern | Signal | OSS Stack |
+|---------|--------|-----------|
+| MCP-native travel search | trvl + google-flights-mcp proliferation | trvl + fli + LangGraph |
+| Chat-to-book full loop | Sabre+MindTrip+PayPal announcement | OpenTripPlanner + Duffel + Stripe |
+| Agentic disruption management | Expedia Romie real-time rebooking | CrewAI + flight status webhooks + notify |
+| Voice-first booking | Alexa/Google Flights voice integrations | Whisper + Rasa + trvl MCP |
+| LATAM mobile-first | LATAM Airlines + high WhatsApp penetration | Rasa + LangGraph + WhatsApp Business API |
+| Hotel B2B MCP | Dida-hotel-MCP-CN free unlimited tier | Dida MCP + Claude + QloApps backend |
+
+---
+*Updated automatically by the Globant AI Studios ingest pipeline.*
