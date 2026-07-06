@@ -1,26 +1,51 @@
-# 📈 Agentes trending — Education
+# 📈 Trending Agents — Education
 
-> Última actualización: 2026-07-05
+> What's moving fast this week. High-velocity repos and notable releases.
+> Last updated: 2026-07-06
 
-## Lo más nuevo esta semana
+## Breaking: DeepTutor v1.0 — The Benchmark Shift (April 2026)
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Breakout 2026: 10k stars en 39 días. Agent-native tutoring workspace con EduHub skill registry: Socratic tutor, flashcard builder, essay feedback, exam blueprints. Arquitectura dual-loop reasoning + RAG + web search. | 23.7k |
-| [Open TutorAI CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | MIT | Plataforma de tutoring personalizado con avatar AI, adaptación por estilo de aprendizaje, soporte multi-curricula. Open-source CE con self-hosting. | 890 |
-| [EduAgent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | Convierte documentos de cursos estáticos en entornos de tutoring dinámico vía LangGraph + RAG. Active recall automático, mapas mentales semánticos. Muy activo en 2026. | 320 |
-| [Vacademy Platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | Plataforma e-learning completa con learner tracking y assessment management. Stack moderno, apta para integración AI. | 280 |
-| [flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | Flashcards con AI y spaced repetition para iOS, Android y web. Integración con LLMs para mejorar tarjetas automáticamente. | 340 |
-| [Automated Essay Grader](https://github.com/Hasif50/Automated-Essay-Grader) | MIT | Calificación automatizada de ensayos con GPT-4 + LangChain. Features: multi-criteria scoring, detección de plagio, reportes PDF. | 210 |
-| [jupyterquiz](https://github.com/jmshea/jupyterquiz) | MIT | Generador interactivo de quizzes para Jupyter Notebooks. Usado en cursos STEM universitarios. Integración con LLMs en progreso. | 310 |
+[**DeepTutor**](https://github.com/HKUDS/DeepTutor) crossed 22k GitHub stars and dropped v1.0 — a 200k+ line ground-up rewrite in April 2026. The University of Hong Kong team introduced:
+- **Persistent TutorBots** that maintain evolving learner models across sessions (no more context resets)
+- **Heartbeat system** — proactive study check-ins, reminders, habit formation
+- **Multi-agent Book Engine** — teams of agents collaborate on a knowledge base built from uploaded documents
+- **Agent-native CLI** — every KB, session, and TutorBot is one command away
 
-## Tendencias clave 2026
+This is the first truly agent-native ITS (Intelligent Tutoring System) at production scale. Fast-followers already building on it.
 
-- **Agent-native tutoring**: DeepTutor marca el paradigma — no es un chatbot sobre un LMS, es un agente con tool use, RAG, búsqueda web y generación de ejercicios.
-- **RAG sobre contenido de cursos**: EduAgent y Open TutorAI muestran el patrón: ingestar PDFs/videos de cursos → RAG → tutor contextual.
-- **Automated assessment en auge**: Essay grading, quiz generation y feedback automático crecen rápido. 83% de instituciones planean AI teaching assistants para fin de 2026.
-- **Privacy-first (on-prem)**: Con datos de estudiantes menores, Ollama + modelos locales gana tracción vs. APIs cloud.
-- **Khanmigo effect**: Khan Academy pasó de 40k a 700k usuarios Khanmigo en un año. Valida el modelo de tutor AI at scale.
+## SOLA Moodle Plugin — In Production (May 2026)
+
+[**moodle-local_ai_course_assistant**](https://github.com/saylordotorg/moodle-local_ai_course_assistant) by Saylor.org shipped to 30-course production pilot in May 2026:
+- Floating chat widget embedded in course pages
+- Streaming responses via SSE (no waiting)
+- Multi-provider: Claude, OpenAI, Ollama (self-hosted), MiniMax
+- Role-based behavior (student vs instructor context)
+
+This is the reference implementation for AI-in-Moodle in 2026.
+
+## High-Momentum Repos This Week
+
+| Repo | Stars (now) | Why it's moving |
+|------|-------------|-----------------|
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | 22k+ | v1.0 complete rewrite; viral HN + Twitter coverage June 2026 |
+| [plastic-labs/tutor-gpt](https://github.com/plastic-labs/tutor-gpt) | 650+ | Theory-of-Mind tutoring; cited in 3 NeurIPS 2025 papers |
+| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | 620+ | Added 5 new KT model baselines + EDM 2026 dataset integrations |
+| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | 350+ | New video assessment + AI quiz generation; AGPL-3.0 |
+| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | 280+ | Spaced repetition + AI card improvement; iOS/Android/Web; MIT |
+| [microsoft/moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) | 190+ | Microsoft-backed; official Moodle AI plugin; RAG pipeline built-in |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | 320+ | Ollama-first; rising as privacy-safe Khanmigo alternative |
+
+## Emerging Pattern: Open edX AI Plugins
+
+Open edX XBlock ecosystem is seeing a surge in AI plugins. The [XBlock SDK](https://github.com/openedx/XBlock) makes it straightforward to embed AI tutoring, auto-grading, and adaptive problem selection directly into edX courses. Several universities (MIT OpenCourseWare, Africa Learning Exchange) are publishing their XBlock AI extensions in 2026.
+
+## Research Turning Into Code
+
+| Paper → Repo | What it does |
+|---|---|
+| StanBKT (arxiv 2605.23048) | Better BKT parameter estimation — pyBKT integration in progress |
+| OpenTutorAI (arxiv 2602.07176) | Personalized + immersive LLM tutoring with AR hooks |
+| FOKE (2025) | Knowledge Graph + Foundation Models for explainable edu AI |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline updates every hour.*

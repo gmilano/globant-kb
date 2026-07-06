@@ -1,72 +1,132 @@
-# 📡 Tendencias — Education
+# 📡 Trends — Education AI
 
-> Última actualización: 2026-07-05
+> 11 forces reshaping EdTech in 2026. Each trend has an OSS signal and a Globant action.
+> Last updated: 2026-07-06
 
-## Macro-tendencias 2026
+## Trend 1: Agent-Native Tutoring (The DeepTutor Moment)
 
-### 1. Agent-native tutoring (no chatbots sobre LMS)
-El paradigma cambió: los mejores productos no son "chatbots pegados a un LMS" sino agentes con tool use, RAG, búsqueda web y generación de ejercicios en tiempo real.
-- **Referente**: DeepTutor (HKUDS) — dual-loop reasoning + EduHub skill registry. 23.7k stars en meses.
-- **Comercial**: Khanmigo pasó de 40k a 700k usuarios en 1 año escolar (17x). Duolingo Max llega a 116M MAU.
-- **Señal**: 83% de instituciones planean AI Teaching Assistants para fin de 2026 (X-Pilot).
+**Signal**: DeepTutor v1.0 (22k★) proved that persistent TutorBots with evolving learner models outperform stateless chatbots. Every new edu AI project in 2026 is copying this architecture: memory layer + Heartbeat proactive nudges + multi-agent content engine.
 
-### 2. Purpose-built AI (vs. herramientas genéricas)
-La OCDE recomienda explícitamente en su Digital Education Outlook 2026 moverse desde herramientas AI genéricas hacia plataformas de AI diseñadas para producir aprendizaje duradero. El mercado responde:
-- Bloom's Taxonomy-aligned AI (genera ejercicios por nivel cognitivo)
-- AI que mide durable learning gains, no solo satisfacción
-- Evaluación ética y de sesgos específica a educación
+**Why it matters**: The shift from "ask a question, get an answer" → "an AI that knows you, tracks your progress, reminds you, adapts its pedagogy" is the same jump from search engines to personalized feeds. First mover wins the habit layer.
 
-### 3. Adaptive learning systems at scale
-- Sistemas adaptativos muestran **42% de mejora en resultados de aprendizaje** (DemandSage 2026)
-- OATutor + Bayesian Knowledge Tracing sigue siendo el gold standard académico
-- LLMs ahora permiten explicaciones naturales sobre árboles de conocimiento
-- Reinforcement learning para paths (EduAdapt AI) gana adopción
+**OSS signal**: DeepTutor (Apache 2.0), tutor-gpt (MIT Theory-of-Mind), LangGraph memory (MIT).
 
-### 4. Automated assessment y feedback
-- AI video tools reducen producción de cursos de **80h a <5h** (67% docentes ahorran 10+h/semana)
-- Essay grading automático: GPT-4 + LangChain (Automated Essay Grader) con feedback rubric-aligned
-- Quiz generation desde cualquier documento: DeepTutor, obsidian-quiz-generator, jupyterquiz
-- Plagiarism detection integrado en graders open source
+**Globant action**: Build DeepTutor-style persistent tutoring on top of client LMS using LangGraph + Supabase memory store.
 
-### 5. RAG sobre contenido de cursos
-El patrón más replicado:
-```
-PDFs/videos del curso → chunking → embeddings → vector DB → RAG → tutor contextual
-```
-- LangChain + Qdrant/Pinecone es el stack favorito
-- EduAgent y Open TutorAI lo implementan de serie
-- Open edX XBlocks permiten insertar RAG tutors dentro de unidades de curso existentes
+---
 
-### 6. Privacy-first: on-prem con modelos locales
-- Datos de estudiantes menores de edad: regulaciones estrictas (COPPA, GDPR, LGPD, LSPDP)
-- Ollama + Llama/Mistral/Gemma en servidores locales del colegio/universidad = zero cloud exposure
-- Moodle es la plataforma más usada para este patrón (PHP, auto-hosteable)
+## Trend 2: LMS AI Subsystems Becoming Standard
 
-### 7. Workforce upskilling impulsado por AI
-- 70% de skills laborales cambiarán para 2030 por AI (WEF)
-- 47% de líderes empresariales planean upskilling AI para empleados
-- Frappe LMS + ERPNext = plataforma unificada LMS-HR para corporate upskilling
-- Bootcamps y micro-credentials crecen +180% YoY en LATAM
+**Signal**: Moodle 4.5 shipped a native AI provider abstraction layer (Ollama, OpenAI, Azure, Anthropic). Open edX Sumac (2026) integrates AI recommendations natively. Canvas AI Assist is GA. Every LMS now has an official AI plugin framework.
 
-### 8. Multimodal y voz
-- Tutor por voz: interfaces como Open TutorAI con avatar parlante
-- Transcripción de clases + Q&A automático sobre las mismas
-- Accessibility: text-to-speech, speech-to-text integrados en LMS
+**Why it matters**: Universities and school districts don't buy separate AI tools — they extend their existing LMS. The market is won at the LMS plugin layer.
 
-## Señales débiles a vigilar
+**OSS signal**: [microsoft/moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) (MIT), SOLA (GPL, production May 2026), XBlock (Apache 2.0).
 
-| Señal | Por qué importa |
-|-------|----------------|
-| Agentic curriculum design (EduGPT) | AI diseña sílabos completos → nuevos negocios en instructional design |
-| AI proctoring alternativo | Debate ético sobre vigilancia → opportunity para assessment alternativo (proyectos, portfolios) |
-| Open source fine-tuning educativo | Modelos fine-tuneados en pedagogía (Llama-Education) → mejores tutors sin GPT-4 |
-| OECD AI competency frameworks | Regulación educativa AI en Europa → certification needs + compliance tooling |
-| AI para lenguas indígenas | LATAM: quechua, guaraní, náhuatl → nicho sin competencia, misión social |
+**Globant action**: Build reusable AI plugin libraries for Moodle + Open edX that plug into multiple client accounts.
 
-## Repos más activos esta semana
+---
 
-- [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) — Agent-native tutoring, 23.7k stars, en fuerte crecimiento
-- [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) — Plataforma tutoring con avatar AI, 890 stars
-- [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) — LangGraph + RAG tutoring dinámico
-- [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) — AI flashcards + spaced repetition
-- [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) — E-learning platform moderna, AGPL-3.0
+## Trend 3: Adaptive Learning Goes Mainstream via BKT + Deep KT
+
+**Signal**: pyBKT (BSD) + pykt-toolkit (MIT) are now the production libraries behind adaptive systems at 50+ universities. Knowledge Tracing moved from research paper to default feature in new platforms.
+
+**Why it matters**: Personalized learning paths (mastery-based progression) consistently show 30-42% learning outcome improvements. EdTech buyers now demand adaptive as table stakes.
+
+**OSS signal**: [pyBKT](https://github.com/CAHLR/pyBKT), [pykt-toolkit](https://github.com/pykt-team/pykt-toolkit), [OATutor](https://github.com/CAHLR/OATutor).
+
+**Globant action**: Offer BKT-based adaptive layer as an add-on to Open edX/Moodle implementations.
+
+---
+
+## Trend 4: Privacy-First Local LLM Deployments in Education
+
+**Signal**: 71% of educators cite data privacy as top risk. Schools and universities in EU (GDPR) and LATAM (LGPD, Mexico privacy law) cannot send student data to US cloud APIs. Ollama + open weights models (Llama 3.1, Mistral 7B) are the answer.
+
+**Why it matters**: This is a procurement blocker for cloud AI tools. Globant can solve it by deploying fully on-premise LLM stacks.
+
+**OSS signal**: Ollama (MIT, 55k★), Open-TutorAI-CE (MIT, Ollama-first), LiteLLM (MIT, proxy/router).
+
+**Globant action**: Sovereign EdTech Stack — Ollama + Open edX + local RAG + pyBKT, zero student data leaves the campus network.
+
+---
+
+## Trend 5: AI Content Creation Slashes Course Production Costs
+
+**Signal**: AI video tools + AI slide generators + AI quiz generators reduce course production from 80+ hours to under 5 hours. 67% of educators save 10+ hours/week. Open edX Studio + AI content layer is the target architecture.
+
+**Why it matters**: Corporate L&D teams are the biggest buyers — they need to ship 100s of courses/year. AI drops unit cost 95%.
+
+**OSS signal**: Open edX Studio (Apache 2.0), H5P (MIT), Whisper (MIT) for transcript generation, open-source DALL-E alternatives for images.
+
+**Globant action**: AI Course Factory — LangChain + Claude + Open edX Studio API to generate course shells from topic → syllabus → content → quiz.
+
+---
+
+## Trend 6: Automated Dropout Prevention with AI Early Warning Systems
+
+**Signal**: EWS (Early Warning Systems) powered by ML are being deployed at scale. dssg/student-early-warning (MIT) + XGBoost pipelines on LMS log data predict at-risk students weeks before withdrawal. Several LATAM universities piloting in 2026.
+
+**Why it matters**: 30-40% dropout rates in LATAM universities represent massive economic/social loss. Institutions pay $50-150/student-at-risk-identified for retention tools.
+
+**OSS signal**: [dssg/student-early-warning](https://github.com/dssg/student-early-warning), MLflow (Apache 2.0), Moodle log analytics.
+
+**Globant action**: EWS product on top of Moodle — xAPI log ingestion → ML model → counselor dashboard with intervention recommendations.
+
+---
+
+## Trend 7: Conversational Assessment & AI Auto-Grading
+
+**Signal**: Universities are moving from MCQ exams (easy to cheat with AI) toward conversational oral exams, portfolio assessment, and AI-evaluated open-ended writing. AI auto-grading of essays + code assignments is becoming mainstream.
+
+**Why it matters**: Assessment is the highest-value EdTech unlock. Whoever owns the grade owns the relationship.
+
+**OSS signal**: OATutor (question generation, MIT), LangChain evaluation chains (MIT), open grading rubric frameworks.
+
+**Globant action**: Conversational Assessment Agent — oral exam via voice interface + LLM rubric evaluation + audit trail.
+
+---
+
+## Trend 8: Agentic Study Plans & Learning Path Orchestration
+
+**Signal**: Beyond tutoring single questions, students want agents that plan and execute a full study plan: "I have a math exam in 3 weeks, I'm weak on integration." → Agent builds weekly plan, schedules sessions, adjusts based on pyBKT mastery, sends Slack/WhatsApp reminders.
+
+**Why it matters**: Retention and completion rates (the LMS metric that matters most) jump 2-3x with structured guided plans.
+
+**OSS signal**: DeepTutor Heartbeat (Apache 2.0), LangGraph orchestration (MIT), pyBKT adaptive selection.
+
+**Globant action**: Study Plan Agent as an Open edX XBlock or Moodle plugin.
+
+---
+
+## Trend 9: LATAM EdTech Gap = Opportunity Window
+
+**Signal**: 74% of LATAM students are now online learners but use platforms built for English-first, US context (Khan Academy, Coursera). Portuguese and Spanish adaptive tutors are scarce. Government procurement for digital education is surging ($1B+ Brazil 2025-2030).
+
+**Why it matters**: Globant's LATAM base is a unique distribution advantage. First Spanish/Portuguese agentic LMS wins the market.
+
+**OSS signal**: Chamilo (GPL, dominant in LATAM), Open edX (Apache, government-grade), pyBKT (language-agnostic).
+
+**Globant action**: LATAM Education Brain — Chamilo or Open edX + Llama 3.1 Portuguese/Spanish fine-tune + BKT + WhatsApp study reminders.
+
+---
+
+## Trend 10: EdTech M&A Acceleration — Open Source as Acquisition Bait
+
+**Signal**: EdTech M&A is at highest multiple since 2021 (4.8x ARR). AI tutors and corporate L&D AI are top acquisition targets. Open source projects with active communities are acquired at 3-5x revenue (eduNEXT, Raccoon Gang, etc.).
+
+**Why it matters**: Globant can build AI EdTech products on OSS foundations, prove traction with clients, then either productize or present as acqui-hire target.
+
+---
+
+## Trend 11: Multi-Modal Learning (Voice + Visual + Text AI)
+
+**Signal**: Students learn better with multi-modal explanations. New platforms combine: text explanation + AI-generated diagram + voice walkthrough + interactive problem. Whisper (MIT) for speech, open image gen for diagrams, TTS for voice.
+
+**OSS signal**: Whisper (MIT, 104k★), Bark (MIT, TTS), OATutor (interactive problems), H5P (interactive video).
+
+**Globant action**: Multi-Modal Tutor XBlock for Open edX — upload lecture video → AI generates transcript + summary + interactive quiz + adaptive follow-up problems.
+
+---
+
+*See market.md for sizing data and compose/patterns.md for concrete implementation recipes.*

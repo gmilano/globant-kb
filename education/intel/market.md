@@ -1,75 +1,71 @@
-# 🗺️ Mapa de mercado — Education
+# 🗺️ Market Intelligence — Education AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-05
+> Key players, market sizing, competitive positioning. Focus: LATAM + global.
+> Last updated: 2026-07-06
 
-## Tamaño de mercado
+## Market Size & Growth
 
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| AI in Education market 2026 | $12.3B globales | HolonIQ, 2026 |
-| Crecimiento CAGR 2022-2026 | 36% | DemandSage |
-| Proyección 2028 | $32.7B | Mordor Intelligence |
-| Proyección 2035 | $136.79B | Multiple analysts |
-| VC EdTech AI 2025 | $4.2B invertidos | FE International |
-| Adopción GenAI en educación | 86% de organizaciones | Programs.com |
-| Adopción por estudiantes | 86% usan AI promedio | Engageli |
-| Instituciones con AI Teaching Asst (plan 2026) | 83% | X-Pilot |
-| AI video tools: reducción tiempo producción cursos | 80h → <5h | X-Pilot |
-| Ahorro horario docentes con AI | 10+ h/semana en 67% | TeachBetter.ai |
+| Segment | 2026 Size | 2030–2035 Projection | CAGR |
+|---------|-----------|----------------------|------|
+| AI in Education (global) | $9.58B | $136.79B (2035) | **34.52%** |
+| AI in Education (alt estimate) | $23B | — | **42%** (fastest-growing segment) |
+| EdTech overall | $404B | $605B (2027) | ~11% |
+| AI-based adaptive learning | $6.3B | $49B (2033) | ~28% |
+| AI tutoring specifically | $3.1B | $40B (2033) | ~33% |
 
-## Players globales
+> Sources: Technavio 2026, Searchlab 2026 aggregation, FE International EdTech M&A report 2026
 
-| Empresa | Tipo | AI Product | Escala | Open Source |
-|---------|------|-----------|--------|-------------|
-| **Khan Academy** | NonProfit | Khanmigo (tutor AI) | 189.6M usuarios registrados; 700k Khanmigo (17x YoY) | No (pero GPLv3 bases) |
-| **Duolingo** | EdTech público | Duolingo Max | 116.7M MAU Q4 2024; $748M revenue 2024 | No |
-| **Coursera** | EdTech público | AI Mentor (piloto) | 197M learners; $757M revenue FY2025 | No |
-| **Google** | Big Tech | LearnLM, NotebookLM | 3B+ usuarios products educación | Parcial |
-| **Microsoft** | Big Tech | Copilot for Education | 150M+ Azure EDU users | Parcial (VS Code, etc.) |
-| **Chegg** | EdTech | AI Tutor (ene 2026) | 4M suscriptores | No |
-| **Udemy** | EdTech | Udemy AI | $786.6M revenue 2024 | No |
-| **2U/edX** | EdTech | Embedded AI tools | 45M+ learners | No |
-| **Carnegie Learning** | EdTech | MATHia AI | K-12 foco, EE.UU. | No |
-| **Anthology (Blackboard)** | Enterprise LMS | Ally + AI | Grandes universidades | No |
+## Adoption Snapshot (2026)
 
-## Líderes open source
+- **86%** of education organizations now use generative AI — highest of any industry
+- **83%** of institutions plan AI teaching assistant deployment by end of 2026
+- **42%** improvement in learning outcomes from adaptive learning systems (meta-study)
+- **60%** increase in student engagement from AI-driven personalization
+- AI video tools reduce course production from **80+ hours → under 5 hours**
+- 67% of educators report saving **10+ hours/week** using AI content tools
 
-| Proyecto | Org | Escala | Licencia |
-|----------|-----|--------|----------|
-| Moodle | Moodle HQ | 150k sitios, 400M usuarios | GPL v3 |
-| Open edX | Axim / 2U | 150M learners | Apache 2.0 |
-| Frappe LMS | Frappe Technologies | Creciendo rápido | MIT |
-| DeepTutor | HKUDS (HKU) | 23.7k stars, viral 2026 | Apache 2.0 |
-| OATutor | CAHLR (Berkeley) | Académico, validado | MIT |
+## Global Players Map
 
-## Oportunidades AI en LATAM
+| Company | Type | Positioning | Open Source? |
+|---------|------|-------------|--------------|
+| **Khan Academy / Khanmigo** | Non-profit | Socratic AI tutor; 150M users; US-dominant | No |
+| **Coursera** | Platform | AI course recommendations; corporate L&D | No |
+| **Duolingo** | Consumer | AI language tutoring; 100M+ users | No |
+| **Instructure (Canvas)** | Enterprise LMS | US higher ed; AI Assist feature 2026 | Partial (AGPL) |
+| **Moodle HQ** | Foundation | Global non-enterprise; AI subsystem 4.5 | Yes (GPL) |
+| **Open edX (2U/Axim)** | Foundation | MOOC-scale; enterprise learning | Yes (Apache 2.0) |
+| **Chegg** | US K-12 | AI homework help; under pressure from free LLMs | No |
+| **Google (Gemini Edu)** | Big Tech | Google Workspace for Education + Gemini | No |
+| **Microsoft (Teams Edu)** | Big Tech | Teams + Copilot for Education; Moodle plugin | Partial (MIT plugins) |
+| **Synthesis** | Startup | AI tutoring post-SpaceX-school; $99-149/mo | No |
 
-### Brechas del mercado
+## LATAM Specifics
 
-- **Universidades medianas**: Moodle + GPT/Claude para tutoring → mínima inversión, máximo impacto. Países: México, Colombia, Brasil, Argentina.
-- **Upskilling corporativo**: Frappe LMS + AI grading + reporting → HR tech en empresas industriales y financieras LATAM.
-- **K-12 con idiomas locales**: Español, Portugués. Duolingo no llega a contenido curricular nacional; gap enorme.
-- **Certificaciones técnicas**: Bootcamps + OATutor para coding, datos, cloud → competencia directa con Platzi / Henry.
-- **Instituciones con datos privados (menores)**: Moodle + Ollama on-prem = compliant LGPD/LSPDP.
+| Country | Market Signal | Opportunity |
+|---------|--------------|-------------|
+| **Brazil** | 40M+ students; ENEM pressure; Portuguese LLM gap | Adaptive ENEM prep; Portuguese BKT tutors |
+| **Mexico** | SEP (Secretaría de Educación) AI pilots 2026; 33M students | Government LMS modernization on Open edX |
+| **Argentina** | High university enrollment; economic pressure on textbooks | Low-cost AI tutoring on open platforms |
+| **Colombia** | MinEducación digital curriculum 2025-2030 | Customized AI courseware on Moodle/Chamilo |
+| **Chile** | PAES university entrance AI prep demand | Exam-specific AI tutoring + study agents |
 
-### Vectores de entrada LATAM
+## Positioning for Globant AI Studios
 
-1. **Alianzas universitarias**: Open edX ya usado en UBA, UNAM, USP. Capa AI por encima = conversación natural.
-2. **Ministerios de Educación**: Acceso institucional → plataforma nacional con AI tutoring.
-3. **Empresas de formación**: BPO, outsourcing, manufactura → upskilling a escala con Frappe LMS.
+| Opportunity | Why Globant wins | Build on |
+|-------------|-----------------|---------|
+| **University LMS modernization** | Open edX expertise + AI layer; government contracts | Open edX + Tutor + DeepTutor |
+| **Corporate L&D / Skills academies** | Enterprise clients already trust Globant; AI upskilling urgent | ClassroomIO + LangGraph + Ollama |
+| **K-12 AI tutoring (LATAM)** | Spanish/Portuguese language models; local hosting; data privacy | Chamilo + pyBKT + local LLMs |
+| **Adaptive assessment** | Psychometrics + AI = EdTech unicorn signal | OATutor + pyBKT + pyKT |
+| **AI content creation tooling** | Reduce course production from 80h → 5h | Open edX Studio + AI generation layer |
 
-## Posicionamiento Globant
+## M&A Signal (EdTech 2026)
 
-| Capacidad | Ventaja Globant |
-|-----------|-----------------|
-| Open source customization | Experiencia modificando Moodle, Open edX para enterprise |
-| AI/LLM integration | LangChain, LangGraph, RAG pipelines over course content |
-| LATAM presence | Relaciones con universidades, gobiernos y empresas regionales |
-| Data privacy | Despliegues on-prem con Ollama para instituciones K-12 |
-| Multilingual | Agentes en español y portugués; localización de content |
-| Mobile | Moodle App / React Native para acceso móvil en zonas rurales |
+Per FE International EdTech M&A 2026 report:
+- **AI tutors** are the primary acquisition target (3-5x ARR)
+- **Corporate training AI** is the dominant buyer segment (post-pandemic L&D boom)
+- **Open source LMS services companies** (Tutor.com, Raccoon Gang, eduNEXT) are consolidating
+- Median SaaS EdTech multiple: **4.8x ARR** (up from 3.2x in 2024)
 
-### Propuesta de valor diferenciada
-
-> "Tomamos tu LMS existente (Moodle/Open edX/Frappe) y le añadimos una capa agéntica: tutor personalizado, grading automático, analytics predictivo de deserción y paths de aprendizaje adaptativo — en 8 semanas, sin migrar datos."
+---
+*See trends.md for the 11 forces shaping EdTech AI in 2026.*

@@ -1,181 +1,186 @@
-# 🧩 Patrones de composición — Education
+# 🧩 Composition Patterns — Education AI
 
-> Recetas concretas para construir soluciones usando repos reales + agentes + AI.
-> Última actualización: 2026-07-05
-
-## Arquitectura base
+> Concrete recipes combining specific repos + agents + wiring instructions.
+> Each pattern is buildable by a Globant team in the timeframe shown.
+> Last updated: 2026-07-06
 
 ```
-[Plataforma vertical base (Moodle / Open edX / Frappe LMS)]
+[Open Source LMS Platform]
           ↓
-[Capa RAG: contenido de cursos → embeddings → vector DB]
+[AI Middleware Layer (LangChain / LangGraph / pyBKT)]
           ↓
-[Agentes LangGraph: assess → explain → quiz → remediate loop]
+[Specialized Education Agents (Tutoring / Assessment / Analytics)]
           ↓
-[UI conversacional / API para el cliente]
+[Student UI (Chat / XBlock / Moodle Plugin) + Admin Dashboard]
 ```
 
 ---
 
-## Patrón 1: AI Tutor sobre Open edX (Universidad)
+## Pattern 1: Persistent AI Tutor on Open edX (DeepTutor Architecture)
 
-**Objetivo**: Añadir tutoring conversacional a una instalación Open edX existente sin migrar datos.
+**Goal**: Deploy a persistent AI TutorBot that remembers each student across sessions, tracks mastery, sends proactive study nudges.
 
 **Stack**:
-- [openedx/openedx-platform](https://github.com/openedx/openedx-platform) — LMS base
-- [openedx/XBlock](https://github.com/openedx/XBlock) — insertar el tutor dentro de unidades de curso
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — loop assess→teach→quiz→remediate
-- [langgenius/dify](https://github.com/langgenius/dify) — RAG pipeline sobre PDFs del curso + monitoring
-- [ollama/ollama](https://github.com/ollama/ollama) — LLM local si datos sensibles (estudiantes menores)
+- **LMS**: [Open edX + Tutor](https://github.com/overhangio/tutor) (AGPL 3.0) — base platform
+- **XBlock**: [openedx/XBlock](https://github.com/openedx/XBlock) (Apache 2.0) — plugin framework
+- **Orchestration**: [LangGraph](https://github.com/langchain-ai/langgraph) (MIT) — stateful multi-agent graph
+- **Memory**: Supabase (PostgreSQL) — persistent student state, mastery vectors
+- **LLM**: Anthropic Claude Sonnet (extended context, instruction-following) or Ollama local
+- **Reference architecture**: [DeepTutor](https://github.com/HKUDS/DeepTutor) (Apache 2.0) — study its TutorBot + Heartbeat design
 
-**Flujo**:
-```
-Estudiante abre unidad → XBlock AI tutor activa LangGraph agent
-  → Agent lee progreso del estudiante (Open edX API)
-  → RAG query sobre material del curso (Dify + Qdrant)
-  → Genera explicación adaptada al nivel del estudiante
-  → Propone quiz (DeepTutor style: 3 preguntas escaladas)
-  → Si falla: remediation path → nodo LangGraph alternativo
-  → Registra progreso → Open edX gradebook API
+**Wiring**:
+```python
+# XBlock calls LangGraph agent with student_id + current_problem
+# LangGraph fetches student history from Supabase (memory layer)
+# BKT mastery scores from pyBKT inform problem difficulty selection
+# Agent responds with explanation + next adaptive problem
+# Heartbeat cron: daily LangGraph node checks inactive students → sends nudge via email/SMS
 ```
 
-**Tiempo estimado**: 4-6 semanas (1 XBlock + LangGraph pipeline + RAG ingest)
-**Licencias**: Apache 2.0 + MIT → Globant puede deployar y customizar sin restricciones
+**Estimated build**: 6-8 weeks (2 engineers)
+**Value prop**: Persistent tutor = 2-3x completion rate improvement over stateless chatbots
 
 ---
 
-## Patrón 2: Essay Grader Automático sobre Moodle
+## Pattern 2: BKT Adaptive Math Tutor on Moodle (OATutor + pyBKT)
 
-**Objetivo**: Feedback inmediato y grading multi-criteria para assignments de texto.
+**Goal**: Add a mastery-based adaptive practice system to an existing Moodle installation. Students work through problems at their level — system adjusts difficulty as they demonstrate mastery.
 
 **Stack**:
-- [moodle/moodle](https://github.com/moodle/moodle) — LMS base
-- [Hasif50/Automated-Essay-Grader](https://github.com/Hasif50/Automated-Essay-Grader) — core grading engine
-- [langchain-ai/langchain](https://github.com/langchain-ai/langchain) — orquestación prompts + rubrics
-- Claude API (claude-sonnet-5) o GPT-4 — modelo de lenguaje para grading
-- Moodle Webhook → trigger al submit del assignment
+- **LMS**: [Moodle](https://github.com/moodle/moodle) (GPL 3.0) — existing client install
+- **ITS**: [OATutor](https://github.com/CAHLR/OATutor) (MIT) — React SPA with BKT + 550+ math problems
+- **KT Engine**: [pyBKT](https://github.com/CAHLR/pyBKT) (BSD 3-Clause) — student mastery model
+- **LTI bridge**: OATutor LTI middleware — connects Moodle gradebook to OATutor sessions
+- **AI Hints**: LangChain (MIT) + OpenAI/Claude — generates Socratic hints when student is stuck
 
-**Flujo**:
+**Wiring**:
 ```
-Estudiante sube ensayo → Moodle webhook → Grader microservice
-  → LangChain: extrae rubrica del assignment (desde descripción Moodle)
-  → Automated Essay Grader: evalúa por criterio (tesis, argumentación, gramática, sources)
-  → Genera feedback rubric-aligned en el idioma del curso
-  → Detección de plagio (similitud vs. corpus)
-  → Push resultado a Moodle Gradebook API
-  → Notificación al estudiante con feedback detallado
+1. Moodle activity → LTI 1.3 launch → OATutor SPA
+2. Student answers → pyBKT.update(skill_id, correct) → mastery score
+3. If mastery < threshold: select next problem from same skill
+4. If stuck (3 wrong): LangChain generates Socratic hint from problem context
+5. On mastery: OATutor returns grade → Moodle gradebook via LTI
 ```
 
-**Tiempo estimado**: 2-3 semanas
-**Modelo recomendado**: claude-sonnet-5 (mejor ratio quality/cost para feedback educativo largo)
-**Licencias**: GPL 3.0 (Moodle) + MIT (Grader) → distribución restringida, ideal para cliente que deployea internamente
+**Estimated build**: 3-4 weeks (1 engineer, existing Moodle)
+**Value prop**: 42% learning outcome improvement; replaces static homework with adaptive practice
 
 ---
 
-## Patrón 3: Adaptive Corporate Upskilling (Frappe LMS + ERPNext)
+## Pattern 3: AI Course Factory (Corporate L&D Accelerator)
 
-**Objetivo**: Plataforma corporativa donde el LMS está conectado a HR — cursos recomendados por gap de skills, progreso vinculado a performance review.
+**Goal**: Generate full course shells (outline → slides → video script → quiz → SCORM package) from a topic specification using AI. Reduce course production from 80 hours → 4 hours.
 
 **Stack**:
-- [frappe/lms](https://github.com/frappe/lms) — LMS base (MIT)
-- ERPNext / Frappe HR — HR y performance management (mismo stack)
-- [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) — adaptive learning paths
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — orquestación del learning agent
-- [jmshea/jupyterquiz](https://github.com/jmshea/jupyterquiz) — evaluaciones técnicas para roles data/dev
+- **LMS**: [ClassroomIO](https://github.com/classroomio/classroomio) (Apache 2.0) or Open edX
+- **Content pipeline**: [LangChain](https://github.com/langchain-ai/langchain) (MIT) — document processing, generation
+- **LLM**: Claude Opus (curriculum design) + Claude Sonnet (content generation)
+- **Video**: Whisper (MIT) — transcript → slides; open TTS for voiceover
+- **Interactives**: H5P (MIT) — quiz + interactive video packaging
+- **SCORM output**: Open edX Studio API (Apache 2.0)
 
-**Flujo**:
+**Wiring**:
 ```
-HR crea job role con skills requeridos → Frappe HR
-  → EduAdapt AI: analiza gap entre skills del empleado y rol target
-  → LangGraph: genera learning path personalizado (cursos Frappe LMS + recursos externos)
-  → Empleado completa cursos → quizzes automáticos vía jupyterquiz (para roles técnicos)
-  → Manager dashboard: progreso + predicción de tiempo para alcanzar competencia
-  → Performance review Frappe HR ingesta resultados LMS → evalúa cumplimiento learning goals
+Input: topic + learning_objectives + target_audience + hours
+  ↓
+CrewAI agents:
+  - Instructional Designer: outline → learning objectives per module
+  - Content Writer: each module → explanatory text + examples
+  - Quiz Generator: LLM generates 5 MCQ + 2 open-ended per module
+  - SCORM Packager: assembles H5P units → SCORM 2004 zip
+  ↓
+Output: SCORM package → upload to ClassroomIO/Open edX in one click
 ```
 
-**Tiempo estimado**: 6-8 semanas
-**Licencias**: MIT (Frappe LMS, EduAdapt AI) → ideal para Globant, deployable sin fricción legal
+**Estimated build**: 4-5 weeks (2 engineers)
+**Value prop**: 95% cost reduction in course production; enable client L&D teams to self-serve
 
 ---
 
-## Patrón 4: Knowledge Tracing Tutor (K-12 / STEM)
+## Pattern 4: Dropout Early Warning System on Moodle
 
-**Objetivo**: Tutor de matemáticas/ciencias con estimación científica de dominio por skill usando Bayesian Knowledge Tracing.
+**Goal**: Predict at-risk students 3-4 weeks before likely dropout using LMS behavioral data. Surface intervention alerts to academic advisors.
 
 **Stack**:
-- [CAHLR/OATutor](https://github.com/CAHLR/OATutor) — ITS base con BKT (MIT)
-- [langchain-ai/langchain](https://github.com/langchain-ai/langchain) — generación de explicaciones naturales
-- [ollama/ollama](https://github.com/ollama/ollama) — LLM local (privacidad menores)
-- [moodle/moodle](https://github.com/moodle/moodle) — LMS institucional donde se integra
+- **LMS**: [Moodle](https://github.com/moodle/moodle) (GPL 3.0) — xAPI/log data source
+- **EWS Reference**: [dssg/student-early-warning](https://github.com/dssg/student-early-warning) (MIT) — feature engineering, model architecture
+- **ML**: scikit-learn / XGBoost — gradient-boosted classifier on engagement features
+- **Feature pipeline**: Python ETL reading Moodle `mdl_logstore_standard_log` + gradebook
+- **Explainability**: SHAP values → "why this student is flagged" for counselors
+- **UI**: Moodle plugin (`local_ews`) — counselor dashboard with risk scores + intervention checklist
 
-**Flujo**:
-```
-Estudiante intenta problema → OATutor evalúa respuesta
-  → BKT actualiza probabilidad de dominio por skill (ej. "fracciones: 0.72")
-  → Si P(dominio) < 0.8: LangChain genera hint Socrático (no da respuesta, guía)
-  → Si falla 3 veces: LangChain genera explicación completa con ejemplos
-  → OATutor selecciona siguiente problema: más fácil si P<0.5, más difícil si P>0.8
-  → Dashboard docente: mapa de calor P(dominio) por skill × estudiante
-  → Export a Moodle gradebook
+**Key features to extract from Moodle logs**:
+```python
+features = [
+    'days_since_last_login', 'assignment_submission_rate',
+    'forum_post_count', 'quiz_average_score',
+    'video_completion_rate', 'grade_trend_7d',
+    'predicted_grade_gap'  # vs class average
+]
 ```
 
-**Tiempo estimado**: 3-5 semanas
-**Diferencial**: BKT es científicamente validado (Carnegie Mellon); no es "AI que adivina", es modelo probabilístico.
+**Estimated build**: 5-6 weeks (1 data scientist + 1 backend engineer)
+**Value prop**: 15-25% dropout reduction; counselors reach the right student at the right time
 
 ---
 
-## Patrón 5: RAG Course Q&A (Cualquier LMS)
+## Pattern 5: Privacy-Safe Campus AI Stack (Sovereign EdTech)
 
-**Objetivo**: Chatbot que responde preguntas de estudiantes sobre el material del curso 24/7, reduciendo carga docente.
+**Goal**: Full AI tutoring + analytics stack deployed entirely on-premise. Zero student data leaves campus network. Required for EU/LATAM data privacy compliance.
 
 **Stack**:
-- Cualquier LMS (Moodle / Open edX / Frappe) como source de contenido
-- [langgenius/dify](https://github.com/langgenius/dify) — RAG pipeline + UI chatbot + monitoring
-- [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) — orchestration LangGraph + RAG
-- Vector DB: Qdrant (MIT) o Chroma (Apache 2.0)
-- Claude API o Ollama para respuestas
+- **LMS**: [Open edX via Tutor](https://github.com/overhangio/tutor) (AGPL 3.0) — on-premise
+- **LLM runtime**: [Ollama](https://github.com/ollama/ollama) (MIT) — serves Llama 3.1 70B / Mistral 7B locally
+- **LLM router**: LiteLLM (MIT) — unified API proxy; swap models without code changes
+- **Tutoring agent**: [Open-TutorAI-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) (MIT) — configured for Ollama backend
+- **RAG store**: [FAISS](https://github.com/facebookresearch/faiss) (MIT) + LangChain — indexes course PDFs locally
+- **KT model**: [pyBKT](https://github.com/CAHLR/pyBKT) (BSD 3-Clause) — mastery tracking, local PostgreSQL
+- **Monitoring**: local Langfuse (MIT) — LLM observability, cost tracking
 
-**Flujo**:
-```
-Docente sube PDFs/PPTs/videos del curso → Dify ingest pipeline
-  → Chunking + embeddings → Qdrant
-  → Estudiante pregunta en chat widget del LMS
-  → EduAgent: RAG query → retrieve top-k chunks relevantes
-  → LLM genera respuesta con citations al material del curso
-  → Si fuera del scope del curso: responde "esto no está en el material; consulta al docente"
-  → Dify monitoring: preguntas frecuentes → dashboard para el docente
+**Deployment**:
+```yaml
+# docker-compose on university servers
+services:
+  openedx: tutor local start
+  ollama: ollama serve --model llama3.1:70b
+  litellm: litellm --config litellm_config.yaml
+  open-tutor-ai: docker run open-tutor-ai-ce --llm-backend=ollama
+  faiss-rag: custom FastAPI + FAISS
+  langfuse: langfuse/langfuse:latest
 ```
 
-**Tiempo estimado**: 1-2 semanas (el más rápido de implementar)
-**KPI**: Reducción de emails al docente, satisfacción del estudiante, preguntas resueltas fuera de horario
+**Estimated build**: 8-10 weeks (2 engineers + 1 DevOps)
+**Value prop**: GDPR/LGPD compliant; no API costs after setup (~$0.001/query vs $0.01-0.05 cloud); sells to EU/government accounts that block cloud AI
 
 ---
 
-## Patrón 6: AI para Predicción de Deserción (Analytics)
+## Pattern 6: WhatsApp Study Companion (LATAM Student Retention)
 
-**Objetivo**: Alertar proactivamente sobre estudiantes en riesgo de abandonar el curso.
+**Goal**: Meet students where they are — WhatsApp is the primary communication platform in LATAM. Agent sends daily study reminders, answers subject questions, delivers adaptive micro-quizzes, tracks streaks.
 
 **Stack**:
-- [openedx/openedx-platform](https://github.com/openedx/openedx-platform) — fuente de datos de engagement
-- Open edX Analytics (Aspects) — pipeline de datos
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — agente de análisis + alertas
-- [langgenius/dify](https://github.com/langgenius/dify) — dashboard + notificaciones
+- **Messaging**: WhatsApp Business API (Meta) via Twilio or Green API
+- **Orchestration**: [LangGraph](https://github.com/langchain-ai/langgraph) (MIT) — stateful conversation graph
+- **LMS integration**: Moodle REST API or Open edX APIs — reads enrolled courses + grades
+- **Mastery**: [pyBKT](https://github.com/CAHLR/pyBKT) (BSD 3-Clause) — skill mastery per student
+- **LLM**: Anthropic Claude Haiku (fast, cheap, Spanish/Portuguese proficiency)
+- **Memory**: Redis — student session state, last interaction, streak counter
+- **RAG**: LangChain + FAISS over course textbook PDFs
 
-**Señales de riesgo**:
-- Días sin login > umbral configurable
-- % completitud < peers similares
-- Notas en quizzes decrecientes
-- Foros: 0 posts en últimas 2 semanas
-
-**Flujo**:
+**Conversation flow**:
 ```
-Cron diario → LangGraph analytics agent
-  → Extrae métricas de Open edX Analytics API
-  → Scoring model: asigna riesgo 0-1 por estudiante
-  → Si riesgo > 0.7: genera mensaje personalizado para el estudiante
-  → Notifica al docente/advisor con contexto: "Ana tiene 12 días sin ingresar, últimas 2 notas <50%"
-  → Opcional: trigger email personalizado al estudiante con recurso de ayuda
+7:00 AM: "Hola [name]! 🎓 Hoy te toca practicar Cálculo Integral.
+          ¿Empezamos con 3 problemas rápidos? (5 min)"
+  → Student: "sí"
+  → Agent: delivers micro-quiz from pyBKT-selected problems
+  → Correct: updates mastery, sends congratulation + next topic hint
+  → Wrong: sends Socratic hint, retries with simpler variant
+8:00 PM: "¿Estudiaste hoy? Llevas 5 días seguidos — ¡sigue así! 🔥"
 ```
 
-**Tiempo estimado**: 3-4 semanas
-**Impacto**: Retención +15-25% reportada en implementaciones similares
+**Estimated build**: 3-4 weeks (1 full-stack engineer)
+**Value prop**: 30-40% improvement in daily study consistency; works on any phone without app install; perfect for LATAM market
+
+---
+
+*Each pattern can be adjusted in scope. Minimum viable version of any pattern: 1 sprint (2 weeks) for a demo, 4-8 weeks for production.*

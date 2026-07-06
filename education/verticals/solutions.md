@@ -1,44 +1,64 @@
-# 🏭 Verticales de partida — Education
+# 🏭 Vertical Solutions — Education
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-05
+> Real platforms to customize with AI. Build on proven foundations, add an agentic layer on top.
+> Strategy: fork a working platform → inject AI capabilities → deliver 10x faster than greenfield.
+> Last updated: 2026-07-06
 
-## Plataformas recomendadas
+## Core LMS Platforms
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **Open edX** | Apache-2.0 | [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Python/Django + React | LMS universitario / corporativo a escala. 150M+ learners. Añadir XBlocks AI, Khanmigo-style tutor, RAG sobre contenido de cursos. |
-| **Moodle** | GPL-3.0 | [moodle/moodle](https://github.com/moodle/moodle) | PHP + MySQL/PostgreSQL | El LMS más deployed (400M usuarios, 150k sitios). AI subsystem nativo desde v4.5. Plugins: AI quiz generation, essay grading, learning analytics. |
-| **Frappe Learning** | MIT | [frappe/lms](https://github.com/frappe/lms) | Python/Frappe + Vue.js | LMS empresarial / educadores. **Licencia MIT = ideal Globant**. Mismo stack que ERPNext → integración con HR, performance, onboarding corporativo. |
-| **OpenEduCat** | LGPL-3.0 | [OCA/vertical-education](https://github.com/OCA/vertical-education) | Python/Odoo | Education ERP completo: admisiones, attendance, gradebook, fees, biblioteca, hostel. AI on top: predicción de deserción, tutoring, reporting automático. |
-| **Sakai** | Apache-2.0 | [sakaiproject/sakai](https://github.com/sakaiproject/sakai) | Java/Spring | LMS consorcio universitario (Michigan, Indiana, MIT, Stanford). Fuerte en gradebook, evaluación peer, portfolios. AI: automatic feedback, plagiarism. |
-| **Moodle App** | Apache-2.0 | [moodlehq/moodleapp](https://github.com/moodlehq/moodleapp) | Angular/Ionic | App móvil oficial Moodle. Base para UX móvil con AI: push notifications personalizadas, offline tutoring, voice Q&A. |
-| **Richie CMS** | MIT | [openfun/richie](https://github.com/openfun/richie) | Python/Django | Portal educativo (catálogo, search, SEO). Complementa Open edX con AI search, recomendaciones de cursos, personalization layer. |
+| Platform | License | Stars | URL | Stack | Best for |
+|----------|---------|-------|-----|-------|---------|
+| **Open edX** | Apache 2.0 | 8.1k | [github.com/openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Django/Python, React MFEs | Universities, MOOCs, corporate academies with 10k+ learners. 140M+ users globally. XBlock AI plugin system. |
+| **Moodle** | GPL 3.0 | 5.5k | [github.com/moodle/moodle](https://github.com/moodle/moodle) | PHP, Mustache templates | K-12 and higher education with existing Moodle installations. 300M+ users. Built-in AI subsystem in v4.5. |
+| **Canvas LMS** | AGPL 3.0 | 5.6k | [github.com/instructure/canvas-lms](https://github.com/instructure/canvas-lms) | Ruby on Rails, React | US higher education market (40% of universities). LTI 1.3 native. Strong accessibility (a11y). |
+| **Frappe LMS** | AGPL 3.0 | 2.1k | [github.com/frappe/lms](https://github.com/frappe/lms) | Python/Frappe, Vue.js | SMB corporate training, startups. Simple admin, ERPNext-compatible, easy Python scripting for AI. |
+| **ClassroomIO** | Apache 2.0 | 1.4k | [github.com/classroomio/classroomio](https://github.com/classroomio/classroomio) | SvelteKit, Supabase | Corporate L&D teams moving off Google Classroom/Thinkific. Beautiful UI, Apache-2.0 clean license. |
+| **Chamilo LMS** | GPL 3.0 | 820+ | [github.com/chamilo/chamilo-lms](https://github.com/chamilo/chamilo-lms) | PHP, Symfony | LATAM universities and governments — largest in Spanish-speaking markets. French + Spanish communities. |
 
-## Comparativa rápida para Globant
+## Deployment Infrastructure
 
-| Criterio | Open edX | Moodle | Frappe LMS |
-|----------|----------|--------|------------|
-| Licencia | Apache 2.0 ✅ | GPL 3.0 ⚠️ | MIT ✅✅ |
-| Escala | Enterprise (150M) | Masivo (400M) | SMB/Mid |
-| AI Ready | Buena (XBlocks) | Creciente (v4.5) | Alta (extensible) |
-| LATAM presencia | Alta (universidades) | Muy alta | Media |
-| Time-to-value | Semanas | Días | Días |
-| Recomendado para | Universidades grandes | Instituciones K-12/HE | Corporativo/Upskilling |
+| Platform | License | Stars | Description |
+|----------|---------|-------|-------------|
+| **Tutor (Open edX)** | AGPL 3.0 | 5.2k | [github.com/overhangio/tutor](https://github.com/overhangio/tutor) — Docker-based Open edX deployment. Install Open edX in 5 min. Plugin system. The standard self-hosted edX distribution. |
+| **Moodle Docker** | GPL 3.0 | 600+ | [github.com/moodlehq/moodle-docker](https://github.com/moodlehq/moodle-docker) — Official Moodle Docker containers. Instant dev environment, CI-friendly. |
 
-## Cómo customizar con AI
+## AI Plugins & Extensions (Plug Into Existing LMS)
 
-### Patrón Open edX
-1. Fork `openedx-platform` → deploy en cloud (AWS/GCP)
-2. Crear XBlock AI (`openedx/XBlock`) → insertar tutor conversacional en cada unidad
-3. Añadir pipeline RAG (LangChain + Pinecone/Qdrant) sobre contenido del curso
-4. Integrar LangGraph para orquestar: assess skill → generate explanation → quiz → remediate
-5. Dashboard de analytics con learning patterns por estudiante
+| Plugin | License | Platform | Description |
+|--------|---------|----------|-------------|
+| [moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) | MIT | Moodle | Microsoft accelerator: floating chatbot, Azure OpenAI, RAG over course content |
+| [SOLA](https://github.com/saylordotorg/moodle-local_ai_course_assistant) | GPL 3.0 | Moodle | Multi-provider (Claude/OpenAI/Ollama), streaming, role-aware; in production May 2026 |
+| [moodle-block_openai_chat](https://github.com/Limekiller/moodle-block_openai_chat) | GPL 3.0 | Moodle | 24/7 AI chat support block; persona customization |
+| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache 2.0 | Open edX | Framework for custom learning components — embed AI tutors, adaptive problems |
 
-### Patrón Frappe LMS (Corporativo)
-1. Deploy Frappe LMS con ERPNext → cursos + HR integrados
-2. Añadir AI grading vía Automated Essay Grader (LangChain + Claude/GPT-4)
-3. Capa adaptativa: EduAdapt AI → paths personalizados por rol/performance
-4. Reporting automático: agente LangGraph → genera reporte de progreso semanal por manager
-5. Integración con Frappe HR → linking aprendizaje con evaluación de desempeño
+## Specialized Vertical Platforms
+
+| Platform | License | Description |
+|----------|---------|-------------|
+| **OpenMCT** (NASA) | Apache 2.0 | [github.com/nasa/openmct](https://github.com/nasa/openmct) — Mission control web framework. Used as base for advanced STEM education dashboards + learning analytics visualization. |
+| **H5P** | MIT | [github.com/h5p/h5p-php-library](https://github.com/h5p/h5p-php-library) — Interactive content framework (quizzes, interactive video, flashcards). Integrates with Moodle/Canvas/edX. 500+ content types. AI content generation layer being built on top. |
+| **BigBlueButton** | LGPL 3.0 | [github.com/bigbluebutton/bigbluebutton](https://github.com/bigbluebutton/bigbluebutton) — Open source virtual classroom. WebRTC video. AI transcription, note-taking, and engagement analytics plugins available. |
+
+## How to Add AI to Any Platform
+
+```
+1. Fork the platform repo (Open edX, Moodle, Chamilo, etc.)
+2. Pick your AI entry point:
+   - Open edX: build an XBlock with LangChain RAG
+   - Moodle: install SOLA plugin (GPL) or build local_* plugin
+   - Canvas: build an LTI 1.3 tool with AI backend
+   - Frappe LMS: write a Python frappe.whitelist() API + Vue frontend
+3. Connect to LLM:
+   - Cloud: OpenAI / Anthropic API
+   - On-premise: Ollama (MIT) running llama3.1 / mistral
+4. Wrap with agents:
+   - Simple Q&A: LangChain + FAISS RAG
+   - Adaptive tutoring: pyBKT + OATutor BKT engine
+   - Persistent tutor: DeepTutor architecture reference
+5. Deploy:
+   - Open edX: via Tutor plugin system
+   - Moodle: as local_* plugin (standard Moodle dir structure)
+```
+
+---
+*See also: `agents/top.md` for the AI agents that go on top of these platforms.*
