@@ -1,7 +1,7 @@
 # Mapa de mercado — Gaming AI
 
 > Players, tamaños, oportunidades. Foco LATAM + posicionamiento Globant.
-> Última actualización: 2026-07-05
+> Última actualización: 2026-07-06 (segunda pasada — datos de mercado frescos)
 
 ## Tamaño de mercado global
 
@@ -9,12 +9,18 @@
 |----------|------------|------------|------|----------|
 | AI in Games — amplio (Grand View) | $7.05B | ~$8.4B est. | 33.2% | → $75.1B en 2033 |
 | AI in Gaming — Precedence | $4.54B | — | 33.57% | → $37.89B en 2034 |
-| Generative AI in Gaming | $1.79B | $2.21B | 23.1% | — |
+| Generative AI in Gaming | $1.79B | **$2.21B** | **23.1%** | → $5.09B en 2030 (Business Research Co., jul 2026) |
+| AI Game Assets Generator | — | **$2.08B** | 20% | → $10.73B en 2035 (Business Research Insights) |
 | NPCs + Digital Humans | — | 28.6% del total AI gaming | — | Mayor segmento individual |
 | LATAM Gaming market | $25.70B | $28.04B | 9.12% | 2026-2034 |
 | LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad |
 
-**Adopción**: 87% de estudios ya usa AI agents en sus workflows (Google Cloud survey, 615 developers, jun-jul 2025). 50%+ de estudios AAA. Sin embargo, 52% tiene visión negativa de generative AI (GDC 2026) — uso detrás del escenario, no player-facing.
+**Adopción (datos actualizados jul 2026)**:
+- 87% de estudios usa AI agents en workflows (Google Cloud survey, 615 devs, jun-jul 2025)
+- 38.2% de developers de juegos en EE.UU. usan generative AI para creación de juegos/media (2024)
+- 48% de rise en uso de AI para creación de assets 3D — indie studios compitiendo con AAA
+- 52% tiene visión negativa de generative AI (GDC 2026 — arriba desde 30% en 2025)
+- 62% de nuevos RPG/aventura tienen AI NPCs en 2026 vs 8% en 2024
 
 ---
 
@@ -101,5 +107,18 @@
 - **Studios locales** (Aquiris Brasil, Luderia México): potenciales clientes más que competidores
 - **Inworld/Convai**: plataformas cerradas caras → Globant puede ofrecer alternativa OSS consultiva
 
+## MCP Ecosystem Players (NUEVO — Jul 2026)
+
+El ecosistema MCP para game engines emergió como capa de infraestructura estándar:
+
+| Plataforma | MCP Tool | Licencia | Tools | Proveedor |
+|-----------|---------|---------|-------|-----------|
+| Unity | [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) | Apache-2.0 | 52 tools, 48 prompts | Comunidad |
+| Unreal Engine 5.7 | [IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP) | Apache-2.0 | 62 tools | Comunidad |
+| Godot | [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) | MIT | 120+ ops, 41 tools | hi-godot |
+| Multi-engine | [IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server) | MIT | Bridge agnostic | Comunidad |
+
+**Oportunidad**: los tres motores de juego principales ya tienen MCP servers maduros. Globant puede ofrecer "AI Game Studio" como servicio completo sin importar el engine del cliente.
+
 ---
-*Fuentes: grandviewresearch.com, precedenceresearch.com, marketresearchfuture.com, globenewswire.com (jul 2026), snsinsider.com, marketdataforecast.com (2026-07-05)*
+*Fuentes: grandviewresearch.com, precedenceresearch.com, thebusinessresearchcompany.com (jul 2026 report), businessresearchinsights.com, globenewswire.com (jul 2026), wifitalents.com, snsinsider.com, kevurugames.com, GitHub (2026-07-06)*

@@ -1,14 +1,18 @@
 # Repos trending — Gaming AI
 
-> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-05
+> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-06 (segunda pasada)
 
 ## Trending con tracción real (verificado manualmente)
 
 | Repo | Licencia | Descripción | Stars | Señal |
 |------|----------|-------------|-------|-------|
+| [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) | Apache-2.0 | **AI Skills + MCP Tools + CLI para Unity Engine**. 52 Tools, 48 Prompts, 12 categorías. Claude Code, Cursor, Gemini ready. Cualquier C# → tool con 1 línea. | ~3k | Mayor MCP tool para Unity, creciendo rápido en 2026 |
+| [IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP) | Apache-2.0 | Plugin C++ para Unreal Engine 5.7 + .NET bridge. 62 tools en 8 familias. | Activo | Cierra el triángulo Unity+Unreal+Godot con MCP |
+| [IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server) | MIT | MCP server engine-agnostic compartido por Unity-MCP, Godot-MCP, Unreal-MCP. Bridge SignalR. | — | Infraestructura unificada para AI dev tooling multi-engine |
+| [balaraj74/openNPC](https://github.com/balaraj74/openNPC) | MIT | Framework Python para NPCs autónomos. Pipeline unificado: heurísticos → LLM → RL. Percepción, objetivos, memoria de interacciones. Sin LLM en runtime si no se necesita. | Activo | Alternativa OSS a Inworld/Convai — Python nativo |
 | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | **[ICLR 2026]** LLM/VLM gaming agents. Evalúa modelos jugando Tetris, Pokémon Red, Mario, Sokoban, 2048, Ace Attorney. Multi-provider API. | 947 | Paper ICLR 2026, benchmarking estándar emergente |
 | [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) | MIT | MCP server para Godot. 120+ ops, 41 tools. Conecta Claude Code/Cursor al editor Godot en vivo. | 805 | Lanzado abr 2026, adopción masiva |
-| [leigest519/OpenGame](https://github.com/leigest519/OpenGame) | MIT | Framework agentico end-to-end para generar juegos web. Usa GameCoder-27B (LLM RL-entrenado). | ~500 | Primer framework de su tipo, abr 2026 |
+| [leigest519/OpenGame](https://github.com/leigest519/OpenGame) | MIT | Framework agentico end-to-end para generar juegos web. Usa GameCoder-27B (LLM RL-entrenado). ArXiv abr 2026. | ~500 | Primer framework de su tipo, paper verificado |
 | [AlanLaboratory/UnrealMLAgents](https://github.com/AlanLaboratory/UnrealMLAgents) | Apache-2.0 | Port de Unity ML-Agents para Unreal Engine. Deep RL para juegos UE. v1.0 en 2025. | — | Comunidad Unreal adoptando RL |
 | [pamirtuna/gamestudio-subagents](https://github.com/pamirtuna/gamestudio-subagents) | MIT | Equipo de sub-agentes AI en terminal: dev, QA, artist, game designer. | — | Patrón "AI dev team" aplicado a gaming |
 | [Yuan-ManX/ai-game-devtools](https://github.com/Yuan-ManX/ai-game-devtools) | MIT | Hub curado: LLMs, world models, textures, shaders, 3D, audio, analytics para game dev. | 1.2k | Lista de referencia más completa del ecosistema |
@@ -49,5 +53,6 @@
 - **Gemma 3n on-device**: demostrado en Godot (code-forge-temple/local-llm-npc), posibilita NPCs offline-first.
 
 ---
-*Pipeline automático actualiza señales; análisis manual verifica relevancia. 2026-07-05*
-*GamingAgent (ICLR 2026) y Carbon Engine añadidos esta semana — muy frescos.*
+*Pipeline automático actualiza señales; análisis manual verifica relevancia. 2026-07-06 (segunda pasada)*
+*GamingAgent (ICLR 2026) y Carbon Engine añadidos 2026-07-05 — muy frescos.*
+*Unity-MCP (~3k stars Apache-2.0), Unreal-MCP, GameDev-MCP-Server (MIT), openNPC (MIT) añadidos 2026-07-06.*

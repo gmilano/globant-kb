@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-05
+> Última actualización: 2026-07-06 (segunda pasada — Receta 8 añadida: MCP multi-engine)
 
 ## Patrón base
 
@@ -261,6 +261,61 @@ GamingAgent (MIT, ICLR 2026)           ← framework de evaluación
 
 ---
 
+---
+
+## Receta 8: AI Dev Tooling Multi-Engine (Unity + Unreal + Godot) — NUEVO Jul 2026
+
+**Caso de uso**: Estudio con proyectos en múltiples engines (Unity para mobile, Unreal para console, Godot para indie) que quiere una solución única de AI-assisted development.
+
+**Stack**:
+```
+Claude Code / Cursor / Copilot / Gemini (cualquier cliente MCP)
+    ↕ Model Context Protocol
+IvanMurzak/GameDev-MCP-Server (MIT)     ← bridge engine-agnostic via SignalR
+    ├── IvanMurzak/Unity-MCP (Apache-2.0)
+    │   ├── 52 Tools: Assets, Scene, GameObject, Script, Tests, Console, Screenshot
+    │   ├── 48 Prompts para flujos comunes
+    │   └── Cualquier método C# → tool con 1 línea de código
+    ├── IvanMurzak/Unreal-MCP (Apache-2.0)
+    │   ├── 62 Tools: actores, Blueprints, assets, C++ source, project mgmt
+    │   └── Plugin C++ + .NET bridge para UE 5.7
+    └── hi-godot/godot-ai (MIT)
+        ├── 120+ operaciones, 41 MCP tools
+        └── Scene building, scripts, signals, animations via lenguaje natural
+```
+
+**Repos**:
+- [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) — Apache-2.0, ~3k stars. MCP para Unity, 52 tools.
+- [IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP) — Apache-2.0. MCP para UE 5.7, 62 tools.
+- [IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server) — MIT. Bridge agnostic compartido.
+- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805+ stars. MCP para Godot.
+
+**Cómo conectar**:
+1. Para Unity: instalar Unity-MCP desde Package Manager (git URL). Configurar en Claude Code: `claude mcp add unity-mcp`.
+2. Para Unreal: instalar el plugin C++ en UE 5.7, configurar .NET bridge local.
+3. Para Godot: instalar godot-ai desde Godot Asset Library.
+4. Opcionalmente usar GameDev-MCP-Server como punto de control único si el estudio alterna entre engines.
+5. Prompts de ejemplo por engine:
+   - Unity: "Crea un sistema de inventario con ScriptableObjects, agrega un UI Canvas vinculado"
+   - Unreal: "Spawna un Actor con NavMeshComponent y configura el Blueprint para seguir al jugador"
+   - Godot: "Crea una escena de plataformer con KinematicBody2D, wirea los signals de colisión"
+
+**Extensión — openNPC para cualquier engine**:
+```
+openNPC (MIT)                           ← framework Python NPC agnóstico
+    ├── Tier 1: heurísticos              ← NPCs simples sin LLM (0 costo, offline)
+    ├── Tier 2: LLM runtime              ← diálogo generativo (Claude Haiku, ~$0.01/conv)
+    └── Tier 3: RL-trained bosses        ← agentes entrenados con SB3+PPO
+        ↕ HTTP API
+    Engine (Unity / Unreal / Godot)     ← cualquiera llama a la misma API Python
+```
+openNPC separa la lógica NPC del engine → mismo backend de NPC para proyectos multi-platform.
+
+**Tiempo estimado**: Setup base en 1-2 días por engine; openNPC integration 1 semana adicional.
+**Valor**: eliminación del "one-size-fits-one-engine" — ofrecer AI game dev como práctica horizontal.
+
+---
+
 ## Tabla resumen
 
 | Patrón | Stack principal | Esfuerzo | ROI esperado |
@@ -270,8 +325,9 @@ GamingAgent (MIT, ICLR 2026)           ← framework de evaluación
 | Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención |
 | Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability |
 | Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual |
-| AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
+| AI Dev Tooling Godot | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
 | Evaluación LLMs para gaming | GamingAgent (ICLR 2026) | 2-5 días | Selección óptima de LLM, -riesgo |
+| AI Dev Tooling Multi-Engine | Unity-MCP + Unreal-MCP + GameDev-MCP | 2-3 días setup | AI dev para cualquier engine del cliente |
 
 ---
-*Repos verificados en GitHub 2026-07-05. Receta 7 añadida con GamingAgent ICLR 2026.*
+*Repos verificados en GitHub 2026-07-06 (segunda pasada). Receta 8 añadida: MCP multi-engine + openNPC.*

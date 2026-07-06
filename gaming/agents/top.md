@@ -1,7 +1,7 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-05 | Verificado con deep-research
+> Última actualización: 2026-07-06 | Segunda pasada — nuevas herramientas MCP multi-engine + openNPC
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -53,6 +53,24 @@
 | generative_agents | [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) | Apache-2.0 | Agentes con memoria, reflexión y planificación (Stanford). Arquitectura estándar para NPCs con personalidad | 21.7k |
 | concordia | [google-deepmind/concordia](https://github.com/google-deepmind/concordia) | Apache-2.0 | Simulación social de agentes (DeepMind). Para mundos persistentes con personajes que evolucionan | 1.5k |
 
+## AI Dev Tooling — MCP multi-engine (NUEVO — Jul 2026)
+
+El ecosistema MCP de IvanMurzak cubre los tres motores principales con una infraestructura compartida:
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| **Unity-MCP** | [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) | Apache-2.0 | AI Skills + MCP Tools + CLI para Unity Engine. 52 Tools, 48 Prompts. Cubre Assets, GameObject, Scene, Script, Package, Tests, Console, Screenshot. Funciona con Claude Code, Gemini, Copilot, Cursor gratis. | ~3k |
+| **Unreal-MCP** | [IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP) | Apache-2.0 | Plugin C++ para Unreal Engine 5.7 + .NET bridge. 62 tools en 8 familias: actors, Blueprints, assets, C++ source, project management. | Activo |
+| **GameDev-MCP-Server** | [IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server) | MIT | Servidor MCP engine-agnostic compartido por Unity-MCP, Godot-MCP y Unreal-MCP. Bridge via SignalR hacia ai-game.dev o self-hosted. | — |
+
+> **Patrón emergente**: los tres engines principales (Unity, Unreal, Godot) ahora tienen MCP servers maduros. Los estudios que usan varios engines pueden usar **GameDev-MCP-Server** como punto de control unificado.
+
+## NPC Frameworks Python (NUEVO — Jul 2026)
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| **openNPC** | [balaraj74/openNPC](https://github.com/balaraj74/openNPC) | MIT | Framework open-source para NPCs autónomos. Pipeline unificado: villagers heurísticos, NPCs basados en LLM, y bosses entrenados con RL. Percepción del mundo, formación de objetivos, memoria de interacciones, decisiones context-aware — sin LLM en runtime si no se necesita. | Activo |
+
 ## ⚠️ Licencias a tener en cuenta
 
 | Nombre | Licencia | Restricción |
@@ -61,4 +79,4 @@
 | 0 A.D. | GPL-2.0 | **Copyleft** — código del juego completo GPL. Solo para forking OSS. |
 
 ---
-*Actualizado 2026-07-05. Verificado con búsquedas directas en GitHub. GamingAgent añadido tras publicación ICLR 2026.*
+*Actualizado 2026-07-06 (segunda pasada). Unity-MCP (Apache-2.0, ~3k stars), Unreal-MCP, GameDev-MCP-Server y openNPC añadidos.*

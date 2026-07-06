@@ -1,6 +1,6 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-05
+> Investigación curada con datos verificados. Última actualización: 2026-07-06 (segunda pasada)
 
 ## Tendencias confirmadas (alta confianza)
 
@@ -80,6 +80,17 @@ Semana del 1-5 julio 2026: dos releases de motores open source de alto impacto:
 
 Tendencia de fondo: estudios AAA comienzan a monetizar su IP tecnológica via OSS (reducción de costos de mantenimiento + comunidad → contrataciones + reputación). Esto abre oportunidades para Globant de customizar motores battle-tested para clientes.
 
+### 11. MCP multi-engine — la capa de AI dev tooling se estandariza (NUEVO — Jul 2026)
+A mediados de 2026 los tres motores principales lograron cobertura MCP madura simultáneamente:
+- **Unity-MCP** ([IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP), Apache-2.0, ~3k stars): 52 tools, 48 prompts, 12 categorías. Cualquier método C# se convierte en tool con una línea. El más completo en stars y funcionalidad.
+- **Unreal-MCP** ([IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP), Apache-2.0): 62 tools en 8 familias para UE 5.7 (actores, Blueprints, assets, C++).
+- **Godot-AI** ([hi-godot/godot-ai](https://github.com/hi-godot/godot-ai), MIT, 805+ stars): 120+ ops, 41 tools — el pionero (abr 2026).
+- **GameDev-MCP-Server** ([IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server), MIT): infraestructura bridge engine-agnostic compartida.
+
+**Impacto**: Con los tres engines cubiertos, los AI coding agents (Claude Code, Cursor, Copilot, Gemini) pueden operar en **cualquier engine** mediante la misma interfaz MCP. Esto elimina la barrera "cuál engine usa el cliente" para ofrecer AI-assisted game dev. Los estudios que usan múltiples engines (Unity para mobile + Unreal para console) ahora tienen un paradigma unificado.
+
+**Adopción esperada**: Los MCP servers para engines madurarán rápido — es el mismo patrón que los MCP servers para DBs (Postgres-MCP, etc.) pero para el dominio de game dev. Seguir la curva de adopción de Unity-MCP como indicador.
+
 ---
 
 ## En el radar (emergente, 2026-2027)
@@ -97,4 +108,4 @@ Tendencia de fondo: estudios AAA comienzan a monetizar su IP tecnológica via OS
 | **52% devs contra GenAI** (GDC 2026) | Sentiment negativo en aumento — resistencia a AI player-facing pero uso detrás del escenario. | Tendencia establecida 2026 |
 
 ---
-*Fuentes: GitHub (verificado 2026-07-05), blog.imseankim.com (GDC 2026), aivexify.com, opensourceforu.com (Carbon Engine), grandviewresearch.com, solidaitech.com*
+*Fuentes: GitHub (verificado 2026-07-06), blog.imseankim.com (GDC 2026), aivexify.com, opensourceforu.com (Carbon Engine), grandviewresearch.com, solidaitech.com, thebusinessresearchcompany.com (jul 2026), businessresearchinsights.com*

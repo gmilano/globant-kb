@@ -52,6 +52,15 @@
 | [Farama-Foundation/Gymnasium](https://github.com/Farama-Foundation/Gymnasium) | MIT | API estándar de entornos RL. Sucesor de OpenAI Gym | 12.1k |
 | [google-deepmind/open_spiel](https://github.com/google-deepmind/open_spiel) | Apache-2.0 | Framework para investigación RL + teoría de juegos. 70+ juegos (C++ + Python) | 5.3k |
 
+## AI Dev Tooling — MCP para Engines (NUEVO — Jul 2026)
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) | Apache-2.0 | AI Skills + MCP Tools + CLI para Unity. 52 Tools, 48 Prompts, 12 categorías. Funciona con Claude Code, Cursor, Gemini, Copilot gratis. Cualquier método C# → tool con 1 línea. | ~3k |
+| [IvanMurzak/Unreal-MCP](https://github.com/IvanMurzak/Unreal-MCP) | Apache-2.0 | Plugin C++ para Unreal Engine 5.7. 62 tools en 8 familias: actores, Blueprints, assets, C++. | Activo |
+| [IvanMurzak/GameDev-MCP-Server](https://github.com/IvanMurzak/GameDev-MCP-Server) | MIT | Servidor MCP engine-agnostic compartido por Unity-MCP, Godot-MCP y Unreal-MCP. Bridge SignalR → self-hosted o ai-game.dev. | — |
+
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*
-*Carbon Engine (Fenris) añadido 2026-07-05 — liberado MIT el 1 julio 2026, muy fresco.*
+*Carbon Engine (Fenris) añadido 2026-07-05 — liberado MIT el 1 julio 2026.*
+*Unity-MCP, Unreal-MCP, GameDev-MCP-Server añadidos 2026-07-06 — ecosistema MCP multi-engine completo.*
