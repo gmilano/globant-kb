@@ -1,94 +1,86 @@
-# 🗺️ Mapa de mercado — Enterprise AI
+# 🗺️ Market Map — Enterprise AI
 
-> Players, oportunidades, posicionamiento. Foco global + LATAM.
-> Última actualización: 2026-07-05
+> Players, opportunities, and positioning. Focus: LATAM + global.
+> Last updated: 2026-07-06
 
-## Tamaño de mercado
+## Market Size & Growth
 
-| Segmento | 2025 | 2026 | 2030/2033 | CAGR |
-|----------|------|------|-----------|------|
-| AI Agents global | $7.8B | $10.9B | $52.6B (2030) | 46.3% |
-| Enterprise Agentic AI | $5.9B | $7.5B | — | 27.3% |
-| Agentic AI total | $7.3B | $9.1B | $139.2B (2034) | 40.5% |
-| Enterprise AI total | — | — | ~$300B (2035) | 35%+ |
+| Segment | 2026 Size | Growth | Source |
+|---------|-----------|--------|--------|
+| Global AI spending (total) | $2.59 trillion | +47% YoY | Gartner May 2026 |
+| Enterprise AI agents market | $10.9–12.1B | 44–46% CAGR through 2030 | Gartner / IDC |
+| AI models spending | $32.6B | +110% YoY | Gartner |
+| Open-source ERP market | $5.31B | 9.66% CAGR through 2031 | Industry analysis |
+| Enterprise software spend at risk from agentic AI | $234B | — | Gartner Jul 1, 2026 |
+| McKinsey AI agent annual value creation | $2.6–4.4T | — | McKinsey Global Institute |
 
-**Adopción actual (2026)**:
-- 31% de enterprises ejecutan al menos 1 agente AI en producción
-- Banking/insurance lidera: 47% adoption rate
-- 40% de enterprise apps tendrán AI agents embebidos a fin de 2026 (Gartner)
-- Enterprises que pasaron 2 años con AI propietario están volviendo a open source
+## Adoption Metrics (Mid-2026)
 
-## Players globales — Proveedores de plataforma
+| Signal | Data |
+|--------|------|
+| Fortune 500 exploring AI agents | 80% |
+| Enterprises with multi-stage agentic workflows in production | 50%+ |
+| Enterprise apps embedding task-specific AI agents (EOY 2026) | 40% (Gartner) |
+| Global 2000 roles involving direct AI agent engagement (EOY 2026) | 40% (IDC) |
+| Avg ROI on enterprise agentic AI deployments | 171% (US: 192%) |
+| Organizations actively adopting agentic AI | 43% |
+| Agentic AI projects expected to be canceled by 2027 | 40% |
+| Open-source ERP adoption growth 2026 | +32% (cost pressure on SAP/Oracle) |
 
-| Empresa | Tipo | Fortaleza enterprise | Debilidad |
-|---------|------|----------------------|-----------|
-| **Microsoft** | Plataforma + SDK | Azure OpenAI, Semantic Kernel, Copilot Studio. C#/Java first. | Lock-in a Azure, caro a escala |
-| **Salesforce** | CRM + AI | Einstein AI embebido, Agentforce. 150k+ clientes. | Muy caro, código cerrado |
-| **ServiceNow** | ITSM + AI | "AI control tower for business". Partnership OpenAI. | Solo ITSM/HR, nicho |
-| **SAP** | ERP + AI | Joule AI embebido en S/4HANA. 300M usuarios. | Migración compleja, caro |
-| **IBM** | AI + Consulting | Watsonx enterprise. Gobernanza, compliance. | Lento, percibido como legacy |
-| **Google** | AI + GWS | Gemini en Google Workspace. ADK open source. Vertex AI. | Compite con clientes |
-| **AWS** | Cloud + Bedrock | Bedrock Agents managed. Multi-model. Auto-scaling. | Vendor lock-in severo |
-| **Oracle** | DB + Cloud | AI integrado en Fusion Cloud. RRHH, finanzas fuertes. | Muy caro, legacy |
+## Global Players
 
-## Players open source — Ecosistema
+| Company | Type | Strength | Weakness | Open Source Position |
+|---------|------|----------|----------|---------------------|
+| Microsoft | Platform | MAF 1.0, Azure AI, Copilot Studio, enterprise trust | Vendor lock-in risk | SK + AutoGen → MAF (MIT) |
+| Salesforce | SaaS CRM | Einstein AI, 150k customers, platform dominance | High cost, closed system | Agentforce ($234B risk signal) |
+| SAP | ERP | 300M users, global compliance, industry depth | Legacy architecture, huge TCO | ABAP remains proprietary |
+| ServiceNow | ITSM/workflow | AI-native workflows, 7k enterprise customers | Price, complexity | Limited open source |
+| Oracle | ERP/DB | Fusion AI, database dominance | Lock-in, cost | Limited open source |
+| Workday | HCM/finance | AI-native HR, strong in US enterprise | Price, limited vertical coverage | Acquired Flowise (signal) |
+| IBM | AI + services | watsonx, enterprise consulting, 113 years trust | Complexity, mixed product track record | DataStax/Langflow acquisition |
+| Google | AI + Cloud | Gemini, Vertex AI, A2A protocol | No enterprise platform products | A2A open protocol; Vertex open tools |
+| Anthropic | Foundation model | Claude enterprise contracts, MCP creator | No platform products (yet) | MCP (open standard) |
+| LangChain | OSS frameworks | LangGraph/LangSmith, 400 enterprise customers | Competing with MAF | LangGraph MIT, LangSmith proprietary |
 
-| Proyecto | Empresa detrás | Modelo | Fortaleza |
-|----------|----------------|--------|-----------|
-| LangChain / LangGraph | LangChain Inc. | Open core | Estándar de facto para LLM apps |
-| CrewAI | CrewAI Inc. | Open core | Multi-agente más adoptado |
-| Dify | LangGenius | Apache 2.0 + cloud | Plataforma visual más popular |
-| n8n | n8n GmbH | Sustainable Use + cloud | iPaaS con AI |
-| Odoo | Odoo SA | LGPL + enterprise | ERP más popular |
-| ERPNext / Frappe | Frappe Technologies | GPL + cloud | ERP India/LATAM |
-| OpenMetadata | Collate | Apache 2.0 + cloud | Gobernanza datos |
+## Open Source Challenger Map
 
-## Oportunidades AI en LATAM
+| Challenger | Replaces | License | Stars | Enterprise Traction |
+|-----------|---------|---------|-------|---------------------|
+| ERPNext | SAP / Oracle ERP | GPL-3.0 | 36.4k | 400k+ companies; 120+ countries |
+| Odoo | SAP + Salesforce + Shopify | LGPL-3.0 | 52.8k | €7B valuation; 12M users |
+| Twenty | Salesforce CRM | Apache-2.0 | 45.5k | 45k★ in < 2 years; MCP-native |
+| SuiteCRM | Salesforce/HubSpot CRM | AGPL-3.0 | 4.3k | 5M users; 60k deployments |
+| Dify | Glean / custom LLMOps | Apache-2.0 | 144k | $30M; enterprise push |
+| n8n | Zapier / Workato | Sustainable | 102k | SAML, Kubernetes; enterprise proven |
+| DataHub | Informatica / Collibra | Apache-2.0 | 11.8k | LinkedIn-origin; thousands of orgs |
+| OpenMetadata | Alation / Atlan | Apache-2.0 | 8.2k | 3,000+ deployments; MCP native |
+| Backstage | Internal portal tools | Apache-2.0 | 36k | Spotify-origin; adopted by 2,000+ companies |
 
-### Mercado
-- LATAM digital transformation: $40B+ en software enterprise para 2027
-- Brasil, México, Colombia: los 3 mercados enterprise más grandes
-- 65% de enterprises LATAM sin solución AI en producción (oportunidad)
-- Preferencia por self-hosted / data sovereignty (regulación LGPD Brasil, etc.)
+## LATAM Opportunities
 
-### Verticales con mayor demanda en LATAM
+### Why LATAM Now
+- Open-source ERP adoption grew 32% globally in 2026; LATAM price sensitivity amplifies this
+- SAP/Oracle license costs ($500K–$5M/yr) driving SME and mid-market to open alternatives
+- Brazil + Mexico = 60% of LATAM enterprise software spend; Colombia + Argentina growing fast
+- Digital transformation mandates in financial sector (BACEN, CNBV fintech rules) creating demand
+- Odoo Latin America localizations: Argentina, Brazil, Chile, Colombia, Mexico — community-maintained
 
-| Vertical | Oportunidad | Plataforma base |
-|----------|-------------|-----------------|
-| Manufactura / Industria | Automatización de órdenes, calidad, mantenimiento predictivo | ERPNext + LangGraph |
-| Banca / Finanzas | AML, KYC agéntico, atención al cliente | LangGraph + Dify |
-| Retail / Distribución | Gestión de inventario inteligente, pricing dinámico | Odoo + CrewAI |
-| Servicios profesionales | Knowledge management, generación de propuestas | LangGraph + OpenMetadata |
-| Gobierno / Sector público | Procesamiento documental, atención ciudadana | n8n + Dify (on-premise) |
+### LATAM-Specific Plays
 
-### Diferenciadores para Globant en LATAM
-1. **Self-hosted AI** sobre Odoo/ERPNext (cumplimiento LGPD/datos locales)
-2. **Español nativo**: agentes que hablan castellano y portugués sin degradación de calidad
-3. **Integración con sistemas legados**: SAP legacy, sistemas gubernamentales, bancarios core
-4. **Precio**: open source base = 60-80% menos que Salesforce/SAP AI Premium
+| Opportunity | Stack | Market | Entry Point |
+|-------------|-------|--------|-------------|
+| AI-augmented ERP for mid-market | ERPNext + LangGraph + Claude Haiku | Brazil, Mexico, Colombia | 3-5w POC → replace SAP B1 |
+| AI CRM for LATAM sales teams | Twenty + LangGraph + WhatsApp API | All LATAM | WhatsApp-native CRM agent |
+| Compliance automation (fiscal/tax) | ERPNext + LangGraph + AFIP/SAT APIs | Argentina, Mexico | High pain, regulatory complexity |
+| Data governance for financial cos. | DataHub + OpenMetadata + LangGraph | Brazil fintech | BACEN LGPD compliance driver |
+| Internal dev platform for tech cos. | Backstage + LangGraph + Claude | Brazil, Mexico tech hubs | Developer productivity play |
 
-## Posicionamiento Globant
+## Globant Positioning
 
-### Fortaleza competitiva
-- **Implementadores** de Odoo, ERPNext, Frappe con AI layer encima
-- **Integradores** entre sistemas legacy (SAP, Oracle) y capa agéntica nueva
-- **Constructores** de agentes verticales específicos (manufactura, banca LATAM)
-
-### Propuesta de valor central
-> "Transformamos tu ERP/CRM actual en una plataforma agéntica en 8-12 semanas, sin reemplazar tu inversión existente"
-
-### Stack recomendado para propuestas
-```
-Base: Odoo (LGPL) o ERPNext (GPL) — sin costo de licencia
-IA:   LangGraph + Dify (Apache) — self-hosted
-LLM:  Claude API (Anthropic) o Azure OpenAI — según requisitos de datos
-Infra: Docker + Kubernetes on-premise o cloud LATAM
-```
-
-### Competidores a desplazar
-- **Tier 1**: Salesforce Agentforce (~$150/user/mes) → Odoo+CrewAI (~$0 licencia + impl)
-- **Tier 2**: SAP Joule (incluido en S/4HANA Premium) → integración LangGraph sobre SAP legacy
-- **Tier 3**: Microsoft Copilot Studio ($200/mes/tenant) → Semantic Kernel self-hosted
-
----
-*Fuentes: Grand View Research, Fortune Business Insights, Accelirate 2026, Gartner, kai-waehner.de*
+| Capability | Globant Advantage | How to Win |
+|-----------|-----------------|------------|
+| AI agent implementation | Deep LangGraph + CrewAI expertise across industries | Lead with reference patterns from 10 industry KBs |
+| Open source ERP customization | ERPNext/Frappe + AI layer → no license cost for client | Compete on TCO against SAP B1 / Oracle |
+| MCP integration layer | Build MCP servers for any enterprise system | Position as "AI-ready" transformation for any legacy platform |
+| LATAM compliance | Local teams in 18 LATAM countries | Tax localization + AI = unique offering |
+| Enterprise governance | DataHub + OpenMetadata implementation | Prerequisite for responsible AI at scale |

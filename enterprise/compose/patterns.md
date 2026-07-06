@@ -1,399 +1,252 @@
-# 🧩 Patrones de composición — Enterprise
+# 🧩 Composition Patterns — Enterprise AI
 
-> Recetas concretas para construir soluciones enterprise combinando repos + agentes + AI.
-> Cada receta nombra repos específicos, cómo cablearlos, y el esfuerzo estimado.
-> Última actualización: 2026-07-05
-
-## Arquitectura base
-
-```
-[Plataforma vertical (Odoo / ERPNext / SuiteCRM)]
-              ↓  API REST / XML-RPC / MCP
-[Capa de integración (LangChain Tools / MCP Server)]
-              ↓
-[Orquestador de agentes (LangGraph / CrewAI)]
-              ↓  LLM calls
-[Modelo (Claude API / Azure OpenAI / Llama local)]
-              ↓
-[UI conversacional (Dify / Streamlit / custom)]
-```
+> Concrete recipes combining specific repos + agents + wiring instructions.
+> Each pattern names exact repos, estimated effort, and expected outcome.
+> Last updated: 2026-07-06
 
 ---
 
-## Receta 1: ERP Conversacional — "Pregúntale a tu Odoo"
+## Pattern 1: Agentic ERP Assistant (ERPNext + LangGraph + Claude)
 
-**Objetivo**: Chatbot empresarial que responde preguntas en lenguaje natural sobre el estado del negocio y ejecuta acciones en Odoo.
+**Problem:** Finance/ops teams spend hours querying ERP data, generating reports, and updating records manually.
 
-**Stack**:
-- Base ERP: [odoo/odoo](https://github.com/odoo/odoo) — LGPL-3.0, 52.8k★
-- Orquestador: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT, 13k★
-- UI: [langgenius/dify](https://github.com/langgenius/dify) — Apache 2.0, 138k★
-- LLM: Claude API (claude-sonnet-5) via Anthropic SDK
+**Stack:**
+- `frappe/erpnext` (GPL-3.0, 36.4k★) — ERP backbone
+- `frappe/frappe` (MIT, 10.4k★) — REST API + webhooks
+- `rakeshgangwar/erpnext-mcp-server` (MIT) — MCP bridge: exposes ERPNext as AI tools
+- `langchain-ai/langgraph` (MIT, 126k★) — stateful agent orchestration
+- Claude Sonnet 4.6 — reasoning + NL generation
 
-**Arquitectura**:
+**Architecture:**
 ```
-Usuario → Dify chatbot
-              ↓
-        LangGraph Agent
-        ├── Tool: odoo_search_orders(partner, date_range)
-        ├── Tool: odoo_get_stock_level(product_id)
-        ├── Tool: odoo_create_po(vendor, lines)
-        └── Tool: odoo_approve_invoice(invoice_id)
-              ↓
-        Odoo XML-RPC / REST API
+User (NL query) → LangGraph Agent
+                    ↓
+              erpnext-mcp-server (MCP)
+                    ↓
+              ERPNext REST API
+                    ↓
+            Query results → LangGraph → Claude generates answer
+                    ↓
+              HITL gate (for write operations)
+                    ↓
+            ERPNext record update + audit log
 ```
 
-**Código clave**:
+**Key agent tools:**
+- `get_sales_report(period, filters)` — pulls Sales Analytics from ERPNext
+- `create_purchase_order(vendor, items)` — writes PO with HITL approval gate
+- `get_outstanding_invoices(customer)` — AR aging queries
+- `run_payroll(period)` — HR payroll with mandatory human approval
+
+**Wiring (LangGraph):**
 ```python
-import xmlrpc.client
-from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
-import anthropic
+from langgraph.graph import StateGraph
+from langchain_anthropic import ChatAnthropic
 
-# Conexión Odoo
-url = "https://mycompany.odoo.com"
-db, uid = "mydb", authenticate(url, user, password)
-models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
-
-@tool
-def get_pending_invoices(limit: int = 10) -> list:
-    """Obtiene facturas pendientes de aprobación en Odoo"""
-    return models.execute_kw(db, uid, pwd, 'account.move', 'search_read',
-        [[['state', '=', 'posted'], ['payment_state', '=', 'not_paid']]],
-        {'fields': ['name', 'partner_id', 'amount_total', 'invoice_date_due'], 'limit': limit})
-
-@tool
-def approve_invoice(invoice_id: int) -> bool:
-    """Aprueba y registra el pago de una factura en Odoo"""
-    # Requiere human-in-the-loop approval en LangGraph
-    return models.execute_kw(db, uid, pwd, 'account.move', 'action_register_payment', [[invoice_id]])
-
-# Agente con human-in-the-loop para acciones destructivas
-from langgraph.checkpoint.memory import MemorySaver
-graph = create_react_agent(
-    model="claude-sonnet-5",
-    tools=[get_pending_invoices, approve_invoice],
-    checkpointer=MemorySaver(),
-    interrupt_before=["approve_invoice"]  # pausa para confirmación humana
-)
+# Load erpnext-mcp-server as LangGraph tools
+# Set PostgreSQL checkpointer for persistent state
+# Add HITL interrupt before any write operation
+graph = StateGraph(AgentState)
+graph.add_node("agent", call_claude_with_erpnext_tools)
+graph.add_node("human_review", wait_for_approval)  # interrupt point
 ```
 
-**Esfuerzo**: 3-4 semanas | **Equipo**: 2 desarrolladores Python
+**Effort:** 4–6 weeks  
+**Outcome:** Finance team self-serves ERP queries in NL; write operations gated by HITL; full audit trail for compliance  
+**LATAM fit:** ERPNext has Argentina, Brazil, Chile, Colombia, Mexico localizations — tax/fiscal compliance built in
 
 ---
 
-## Receta 2: Agente de Gobernanza de Datos — "Data Steward AI"
+## Pattern 2: AI-Native CRM Pipeline (Twenty + CrewAI + n8n)
 
-**Objetivo**: Agente que monitorea la calidad de datos en el data warehouse, detecta anomalías, y propone correcciones automáticamente.
+**Problem:** Sales team manually logs CRM updates, writes follow-up emails, and qualifies leads — high time cost, inconsistent quality.
 
-**Stack**:
-- Catálogo: [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) — Apache 2.0, 8k★
-- Linaje: [datahub-project/datahub](https://github.com/datahub-project/datahub) — Apache 2.0, 11k★
-- Orquestador: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT
-- Calidad: Great Expectations / Soda Core — Apache 2.0
-- LLM: Claude API (claude-sonnet-5)
+**Stack:**
+- `twentyhq/twenty` (Apache-2.0, 45.5k★) — MCP-native CRM (Salesforce alternative)
+- `crewAIInc/crewAI` (MIT, 52.8k★) — role-based multi-agent team
+- `n8n-io/n8n` (Sustainable, 102k★) — trigger automation + 400+ integrations
+- Claude Haiku 4.5 — fast, cost-efficient for high-volume tasks
 
-**Arquitectura**:
+**Agent Crew:**
+1. **Lead Qualifier Agent** — scores inbound leads using ICP criteria from CRM history
+2. **Outreach Writer Agent** — drafts personalized emails using deal context from Twenty
+3. **CRM Updater Agent** — writes activity logs, updates deal stages via Twenty MCP
+4. **Sales Coach Agent** — analyzes lost deals, surfaces coaching insights for reps
+
+**Wiring:**
 ```
-[OpenMetadata — catálogo de activos]
-        ↓ polling cada hora
-[Data Steward Agent (LangGraph)]
-├── Tool: openmetadata_get_quality_issues()
-├── Tool: datahub_get_lineage(dataset)
-├── Tool: run_great_expectations_suite(suite)
-├── Tool: openmetadata_create_task(issue)
-└── Tool: notify_data_owner(owner, issue)
-        ↓
-[Claude API — análisis y recomendación]
-        ↓
-[Slack / Email — notificación al data owner]
+n8n trigger: new lead arrives (webhook from website form)
+    ↓
+CrewAI crew.kickoff()
+    Lead Qualifier → reads company data via Twenty MCP
+    Outreach Writer → drafts email (Claude Haiku)
+    CRM Updater → posts activity + sets stage in Twenty
+    ↓
+n8n: send email via SendGrid; notify Slack channel
 ```
 
-**Código clave**:
+**n8n integration:** Configure n8n webhook to trigger on new Twenty contacts; n8n handles email sending + Slack notification after CrewAI crew completes.
+
+**Effort:** 3–5 weeks  
+**Outcome:** 70–80% reduction in manual CRM data entry; consistent lead qualification; personalized outreach at scale  
+**Cost:** Claude Haiku at $0.80/MTok input — very affordable for high-volume CRM tasks
+
+---
+
+## Pattern 3: Enterprise Data Governance Agent (DataHub + OpenMetadata + LangGraph)
+
+**Problem:** Data teams spend weeks manually cataloging datasets, tracking lineage, and answering "where does this data come from?" — blocking AI projects from getting started.
+
+**Stack:**
+- `datahub-project/datahub` (Apache-2.0, 11.8k★) — metadata platform + MCP server
+- `open-metadata/OpenMetadata` (Apache-2.0, 8.2k★) — data context layer, 130+ connectors, MCP server
+- `langchain-ai/langgraph` (MIT, 126k★) — stateful governance agent
+- Claude Sonnet 4.6 — complex reasoning over metadata graphs
+
+**Agents:**
+- **Data Discovery Agent** — "Find all tables related to customer revenue in Q2" → queries DataHub MCP, returns ranked results with lineage
+- **Quality Monitor Agent** — polls OpenMetadata quality metrics, alerts on SLA breaches
+- **Governance Advisor Agent** — assesses new datasets against LGPD/GDPR rules, flags PII fields
+- **Lineage Explainer Agent** — "How was this metric calculated?" → traces full lineage graph via DataHub API
+
+**Wiring:**
 ```python
-from metadata.ingestion.ometa.ometa_api import OpenMetadata
-from metadata.generated.schema.entity.services.connections.metadata.openMetadataConnection import OpenMetadataConnection
+# Both DataHub and OpenMetadata expose MCP servers
+# LangGraph agent uses them as tools
 
-# Conectar OpenMetadata
-connection = OpenMetadataConnection(hostPort="http://openmetadata:8585/api")
-client = OpenMetadata(connection)
-
-@tool
-def get_tables_with_quality_issues(min_severity: str = "high") -> list:
-    """Obtiene tablas con problemas de calidad de datos en OpenMetadata"""
-    tables = client.list_entities(entity=Table)
-    return [t for t in tables if t.dataQuality and t.dataQuality.failed > 0]
-
-@tool  
-def get_upstream_lineage(table_fqn: str) -> dict:
-    """Obtiene el lineage upstream de una tabla en DataHub"""
-    # DataHub GraphQL API
-    return datahub_client.get_lineage(table_fqn, direction="upstream")
+tools = [
+    datahub_mcp_client.get_tool("search_datasets"),
+    datahub_mcp_client.get_tool("get_lineage"),
+    openmetadata_mcp_client.get_tool("get_data_quality"),
+    openmetadata_mcp_client.get_tool("get_pii_fields"),
+]
+agent = create_react_agent(claude_sonnet, tools)
+graph = StateGraph(GovernanceState).add_node("agent", agent).compile()
 ```
 
-**Esfuerzo**: 4-5 semanas | **Equipo**: 2 devs (1 data engineer + 1 AI engineer)
+**Effort:** 5–7 weeks  
+**Outcome:** Self-service data discovery; automated LGPD/GDPR compliance checks; lineage questions answered in seconds not days  
+**LATAM fit:** LGPD (Brazil) + Ley de Protección de Datos (Argentina, Chile, Colombia) compliance is a current pain point
 
 ---
 
-## Receta 3: Pipeline Multi-Agente de Ventas — Lead-to-Cash
+## Pattern 4: Enterprise RAG Knowledge Base (Dify + DataHub + Claude)
 
-**Objetivo**: Pipeline de ventas completamente agéntico: califica leads, genera propuestas, actualiza CRM, agenda follow-ups — sin intervención humana para deals < $10k.
+**Problem:** Enterprise knowledge is siloed across Confluence, SharePoint, PDFs, Slack — employees can't find answers; onboarding takes weeks.
 
-**Stack**:
-- CRM: [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) — AGPL, 4.5k★ (o Odoo CRM)
-- Orquestador: [crewAI-Inc/crewAI](https://github.com/crewAI-Inc/crewAI) — MIT, 45k★
-- Automatización: [n8n-io/n8n](https://github.com/n8n-io/n8n) — Sustainable Use, 50k★
-- LLM: Claude API (claude-sonnet-5)
+**Stack:**
+- `langgenius/dify` (Apache-2.0, 144k★) — RAG pipeline + agent deployment platform
+- `datahub-project/datahub` (Apache-2.0, 11.8k★) — data catalog as retrieval context
+- Claude Sonnet 4.6 — reasoning + answer generation
+- Self-hosted vector DB (pgvector in PostgreSQL, or Qdrant MIT)
 
-**Arquitectura**:
+**Architecture:**
 ```
-[Lead entra (web form / email / LinkedIn)]
-        ↓ n8n webhook
-[CrewAI Lead Pipeline]
-├── Agent: Lead Qualifier
-│   ├── Tool: enrich_lead_data(email)    # Hunter.io / Apollo
-│   ├── Tool: score_icp_fit(company)     # Reglas configurables
-│   └── Tool: update_crm_score(lead_id)
-├── Agent: Proposal Generator
-│   ├── Tool: get_company_profile(domain)
-│   ├── Tool: get_similar_deals(industry)
-│   └── Tool: generate_proposal(context)  # Claude claude-sonnet-5
-└── Agent: CRM Updater
-    ├── Tool: suitecrm_create_opportunity(data)
-    ├── Tool: suitecrm_schedule_activity(opp_id, date)
-    └── Tool: send_proposal_email(contact, pdf)
+Document ingestion:
+  Confluence / SharePoint / PDFs → Dify ingestion pipeline
+  → chunking + embedding (Dify managed)
+  → pgvector / Qdrant
+
+Query path:
+  Employee question → Dify RAG agent
+      → hybrid search (semantic + keyword) over knowledge base
+      → DataHub MCP: fetch governance context (who owns this data, is it current?)
+      → Claude Sonnet: synthesize answer with citations
+      → HITL: flag low-confidence answers for human review
 ```
 
-**Código clave**:
-```python
-from crewai import Agent, Task, Crew
-import anthropic
+**Dify configuration:**
+- Enable dataset with Confluence + SharePoint connectors
+- Set retrieval mode: hybrid search (semantic + full-text)
+- Add DataHub as custom tool via MCP
+- Set Claude Sonnet as reasoning model; Claude Haiku for classification tasks
 
-claude = anthropic.Anthropic()
-
-lead_qualifier = Agent(
-    role="Lead Qualification Specialist",
-    goal="Evalúa si el lead cumple el perfil de cliente ideal (ICP)",
-    backstory="Experto en ventas B2B con 10 años de experiencia en SaaS enterprise",
-    tools=[enrich_lead_tool, score_icp_tool, crm_update_tool],
-    llm="claude-sonnet-5"
-)
-
-proposal_writer = Agent(
-    role="Enterprise Proposal Writer",
-    goal="Genera propuestas personalizadas que convierten leads en oportunidades",
-    tools=[get_company_profile_tool, get_similar_deals_tool, generate_pdf_tool],
-    llm="claude-sonnet-5"
-)
-
-qualify_task = Task(
-    description="Analiza el lead {lead_data} y determina ICP fit score (0-100)",
-    agent=lead_qualifier,
-    expected_output="JSON con icp_score, qualification_notes, recommended_action"
-)
-
-proposal_task = Task(
-    description="Genera propuesta de valor personalizada para {company_name} en industria {industry}",
-    agent=proposal_writer,
-    context=[qualify_task]
-)
-
-crew = Crew(agents=[lead_qualifier, proposal_writer], tasks=[qualify_task, proposal_task])
-```
-
-**Esfuerzo**: 4-6 semanas | **Equipo**: 2 devs + 1 sales ops
+**Effort:** 2–4 weeks (quickest win on this list)  
+**Outcome:** Employee self-service answers with source citations; 40–60% reduction in internal support tickets  
+**Cost model:** Dify self-hosted = $0 platform cost; only LLM inference (Claude Haiku for most queries)
 
 ---
 
-## Receta 4: Automatización de Procesos Documentales — "Document Intelligence"
+## Pattern 5: Customer Support Agent with HITL (SuiteCRM + LangGraph + Claude)
 
-**Objetivo**: Agente que procesa documentos empresariales (facturas, contratos, RFPs, informes) extrayendo datos estructurados, validándolos, y ejecutando acciones en sistemas backend.
+**Problem:** Customer support team handles 80% routine queries manually; complex cases escalate slowly; no learning loop.
 
-**Stack**:
-- Flujos: [n8n-io/n8n](https://github.com/n8n-io/n8n) — Sustainable Use, 50k★
-- RAG + UI: [langgenius/dify](https://github.com/langgenius/dify) — Apache 2.0, 138k★
-- Orquestador: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT
-- OCR: PaddleOCR (Apache 2.0) o Tesseract (Apache 2.0)
-- ERP destino: Odoo / ERPNext
-- LLM: Claude API claude-sonnet-5 (excelente para extracción estructurada)
+**Stack:**
+- `salesagility/SuiteCRM` (AGPL-3.0, 4.3k★) — enterprise CRM with case management
+- `langchain-ai/langgraph` (MIT, 126k★) — stateful agent with HITL interrupt
+- `langgenius/dify` (Apache-2.0, 144k★) — RAG over product docs / support KB
+- Claude Haiku 4.5 — fast, cheap for routine classification + response drafting
+- Claude Sonnet 4.6 — complex reasoning for escalated cases
 
-**Arquitectura**:
+**Agent flow:**
 ```
-[Documento entra: email, S3, SharePoint]
-        ↓ n8n trigger
-[Document Intelligence Agent (LangGraph)]
-├── Node: classify_document(content)       # factura / contrato / RFP
-├── Node: extract_structured_data(doc)     # Claude claude-sonnet-5 JSON mode
-├── Node: validate_against_master(data)    # valida vendor, PO, monto
-├── Node: human_review_checkpoint()        # pausa si confianza < 90%
-└── Node: post_to_erp(validated_data)      # Odoo / ERPNext
-        ↓
-[Resultado: ERP actualizado + documento archivado]
+Inbound ticket (email/chat) → LangGraph agent
+    ↓
+Classify: routine | complex | escalate (Claude Haiku)
+    ├── routine → RAG search Dify KB → draft response → HITL light check → auto-send
+    ├── complex → retrieve customer history from SuiteCRM REST API
+    │              → Claude Sonnet reasons over history + KB
+    │              → draft response → human agent reviews (HITL) → send
+    └── escalate → create SuiteCRM case, assign to senior rep, draft context summary
 ```
 
-**Código clave**:
-```python
-import anthropic
+**SuiteCRM integration:** REST API v8 for case CRUD, customer history retrieval, activity logging. Webhook triggers on new case creation.
 
-client = anthropic.Anthropic()
+**LangGraph HITL:** PostgreSQL checkpointer stores state; agent pauses at `human_review` node; human approves/edits via Slack or web UI; agent resumes.
 
-def extract_invoice_data(pdf_text: str) -> dict:
-    """Extrae datos estructurados de una factura usando Claude"""
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{
-            "role": "user",
-            "content": f"""Extrae los siguientes campos de esta factura en JSON:
-            - vendor_name, vendor_tax_id, invoice_number, invoice_date
-            - due_date, subtotal, tax_amount, total_amount
-            - line_items: [{description, quantity, unit_price, total}]
-            
-            Factura:
-            {pdf_text}
-            
-            Responde SOLO con JSON válido."""
-        }]
-    )
-    return json.loads(response.content[0].text)
-
-# LangGraph con human checkpoint
-from langgraph.types import interrupt
-
-def human_review_node(state):
-    confidence = state["confidence_score"]
-    if confidence < 0.9:
-        # Pausa el flujo — un humano revisa en dashboard
-        human_decision = interrupt({
-            "type": "invoice_review",
-            "data": state["extracted_data"],
-            "confidence": confidence
-        })
-        return {"validated_data": human_decision["approved_data"]}
-    return {"validated_data": state["extracted_data"]}
-```
-
-**Esfuerzo**: 5-6 semanas | **Equipo**: 2 devs + 1 QA
+**Effort:** 5–7 weeks  
+**Outcome:** 60–70% of tickets auto-resolved; human agents focus on complex/high-value cases; full audit trail per case  
+**Compliance:** Every decision node logged for GDPR/LGPD subject access request fulfillment
 
 ---
 
-## Receta 5: IT Operations Agent — "AIOps para Enterprise"
+## Pattern 6: Internal Developer Productivity Platform (Backstage + OpenHands + MAF)
 
-**Objetivo**: Agente que monitorea infraestructura, diagnostica incidentes automáticamente, y toma acciones correctivas para problemas conocidos.
+**Problem:** Large engineering org has no single view of services, fragmented runbooks, and devs lose hours to toil (boilerplate PRs, dependency updates, incident lookups).
 
-**Stack**:
-- Framework: [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) — MIT, 27k★
-- Automatización: [n8n-io/n8n](https://github.com/n8n-io/n8n) — Sustainable Use
-- Observabilidad: Prometheus + Grafana (Apache 2.0)
-- Ticketing: Jira / ServiceNow via API
-- LLM: Azure OpenAI (claude-sonnet-5 si stacks no-Microsoft) | claude-sonnet-5 opcional
+**Stack:**
+- `backstage/backstage` (Apache-2.0, 36k★) — internal developer portal: service catalog + TechDocs
+- `All-Hands-AI/OpenHands` (MIT, 78.5k★) — software engineering agent (72% SWE-bench)
+- `microsoft/agent-framework` (MIT, 18k★) — MAF 1.0 for enterprise .NET orchestration
+- `langchain-ai/langgraph` (MIT, 126k★) — Python workflow orchestration
+- Claude Sonnet 4.6 — code reasoning, PR review, documentation
 
-**Arquitectura**:
+**Agents wired into Backstage:**
+1. **Service Health Agent** — queries Backstage catalog + telemetry; answers "is service X healthy?" in NL
+2. **PR Automation Agent** (OpenHands) — auto-creates PRs for dependency bumps, lint fixes, minor bugs
+3. **Incident Response Agent** — fetches runbook from TechDocs + service graph from Backstage; drafts incident report
+4. **Onboarding Agent** — new hire asks "how do I deploy to production?" → NL search over TechDocs + service catalog
+
+**Wiring:**
 ```
-[Prometheus alertas / logs / métricas]
-        ↓ webhook → n8n
-[IT Ops Agent (Semantic Kernel)]
-├── Plugin: InfraPlugin
-│   ├── GetAlerts(severity, service)
-│   ├── GetLogs(service, time_range)
-│   └── GetMetrics(host, metrics)
-├── Plugin: RemediationPlugin
-│   ├── RestartService(service_name)
-│   ├── ScaleDeployment(deployment, replicas)
-│   └── FlushCache(service)
-└── Plugin: TicketingPlugin
-    ├── CreateIncident(title, severity, description)
-    ├── UpdateIncident(incident_id, note)
-    └── ResolveIncident(incident_id, resolution)
-```
-
-**Código clave (C# / Semantic Kernel)**:
-```csharp
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Agents;
-
-var kernel = Kernel.CreateBuilder()
-    .AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey)
-    .Build();
-
-kernel.ImportPluginFromType<InfraPlugin>();
-kernel.ImportPluginFromType<RemediationPlugin>();
-kernel.ImportPluginFromType<TicketingPlugin>();
-
-var agent = new ChatCompletionAgent
-{
-    Name = "ITOpsAgent",
-    Instructions = """
-        Eres un ingeniero de SRE senior. Cuando recibas una alerta:
-        1. Analiza los logs y métricas del servicio afectado
-        2. Diagnostica la causa raíz
-        3. Para problemas conocidos (OOM, disco lleno, CPU spike): ejecuta remediación directa
-        4. Para problemas desconocidos: crea un incidente P1 y escala al equipo
-        Siempre documenta tus acciones en el ticket.
-    """,
-    Kernel = kernel
-};
+Backstage plugin (custom) → calls LangGraph API
+LangGraph Agent:
+  tools = [
+    backstage_catalog_search(query),   # REST API to Backstage
+    openhands_run_task(task_spec),     # OpenHands for code changes
+    techdocs_search(query),             # Backstage TechDocs search
+    github_create_pr(branch, body),    # GitHub MCP tool
+  ]
 ```
 
-**Esfuerzo**: 6-8 semanas | **Equipo**: 2 devs + 1 SRE
+**For .NET shops:** Replace LangGraph with MAF 1.0 (agent-framework); same tool set, C# implementation.
+
+**Effort:** 8–12 weeks  
+**Outcome:** Dev productivity +35–55% on routine tasks; incident MTTR reduced 40%; new hire time-to-productivity cut by half  
+**Globant play:** Position as "AI-native internal platform" transformation — high-value, multi-year engagement
 
 ---
 
-## Receta 6: Knowledge Base Agéntica — "Enterprise Brain"
+## Anti-Patterns to Avoid
 
-**Objetivo**: RAG enterprise sobre toda la documentación de la empresa (políticas, procedimientos, contratos, reportes), accesible via chatbot con respuestas citadas y verificadas.
-
-**Stack**:
-- RAG + UI: [langgenius/dify](https://github.com/langgenius/dify) — Apache 2.0, 138k★
-- Catálogo de datos: [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) — Apache 2.0
-- Vector DB: Qdrant (Apache 2.0) o Weaviate (BSD)
-- Fuentes: SharePoint / Google Drive / Confluence via n8n connectors
-- LLM: Claude API (claude-sonnet-5) — mejor en documentos largos y razonamiento
-
-**Arquitectura**:
-```
-[Fuentes: SharePoint, Confluence, Notion, GDrive]
-        ↓ n8n sync (cada 6h)
-[Dify Knowledge Base]
-├── Chunking: semantic chunks 512 tokens
-├── Embedding: text-embedding-3-large
-└── Index: Qdrant vector store
-        ↓
-[Dify Chatbot con RAG]
-├── Query → Hybrid search (vector + BM25)
-├── Reranking → Cohere Rerank / BGE
-├── Generation → Claude claude-sonnet-5
-└── Citation → Referencias a documentos fuente
-        ↓
-[UI: Dify web app / Slack bot / Teams bot]
-```
-
-**Configuración Dify**:
-```yaml
-# dify/docker-compose.yaml (self-hosted)
-# Agregar en Dataset settings:
-retrieval_model:
-  search_method: hybrid_search
-  reranking_enable: true
-  reranking_model: BAAI/bge-reranker-v2-m3  # open source
-  top_k: 5
-  score_threshold: 0.5
-
-# Model: claude-sonnet-5 via Anthropic provider
-# System prompt: "Responde SOLO con información de los documentos. Cita la fuente."
-```
-
-**Esfuerzo**: 2-3 semanas (MVP) | **Equipo**: 1 dev + 1 knowledge manager
+| Anti-Pattern | Why It Fails | What to Do Instead |
+|-------------|-------------|-------------------|
+| Automate existing broken processes | 40% of agentic projects canceled because agents inherit process debt | Redesign the process first; then automate |
+| No data governance before AI | Agents hallucinate or pull from stale/wrong sources | Deploy DataHub/OpenMetadata first |
+| Single giant agent for everything | Context window limits; no audit trail; hard to debug | Decompose into specialist agents with clear interfaces |
+| Skip HITL for high-stakes actions | Compliance failure; trust erosion after first bad automated action | HITL gates on any irreversible action |
+| Deploy without observability | Can't debug production issues; no feedback loop | LangSmith or Dify observability from day 1 |
+| Start with Opus/GPT-4 for everything | 10x cost; latency; overkill for classification/extraction | Haiku for routine tasks; Sonnet for reasoning; Opus for complex judgment |
 
 ---
-
-## Comparativa de recetas
-
-| Receta | Caso de uso | Dificultad | Esfuerzo | Stack principal |
-|--------|-------------|------------|----------|-----------------|
-| 1. ERP Conversacional | Consultas y acciones en Odoo | Media | 3-4 sem | LangGraph + Odoo |
-| 2. Data Governance | Calidad de datos automatizada | Alta | 4-5 sem | OpenMetadata + LangGraph |
-| 3. Lead-to-Cash | Pipeline de ventas agéntico | Media | 4-6 sem | CrewAI + SuiteCRM |
-| 4. Document Intelligence | Extracción y procesamiento docs | Media-Alta | 5-6 sem | n8n + Dify + LangGraph |
-| 5. IT Ops Agent | AIOps, auto-remediación | Alta | 6-8 sem | Semantic Kernel + n8n |
-| 6. Enterprise Brain | Knowledge base RAG | Baja-Media | 2-3 sem | Dify + Qdrant |
+*Auto-updated by ingest pipeline — 2026-07-06.*

@@ -1,118 +1,105 @@
-# 📡 Tendencias — enterprise AI (julio 2026)
+# 📡 Trends — Enterprise AI (July 2026)
 
-> Tendencias tecnológicas y de mercado que definen el landscape enterprise AI.
-> Última actualización: 2026-07-05
+> Key trends shaping enterprise AI adoption. Updated weekly.
+> Last updated: 2026-07-06
 
-## 1. La "tercera capa de automatización": agentes sobre RPA y BPM
+## Trend 1: Microsoft Agent Framework 1.0 — The Enterprise Standard Solidifies
 
-2026 es el año en que el agente AI dejó de ser un experimento y se convirtió en la **tercera capa** de la plataforma de automatización enterprise (junto a RPA y BPM):
+**What:** April 2026, Microsoft shipped MAF 1.0 — production unification of AutoGen + Semantic Kernel into a single SDK with stable LTS APIs. Native A2A + MCP interoperability built in.
 
-```
-Capa 1 — RPA        : Bots para UI scraping, automatización de pantallas
-Capa 2 — BPM/iPaaS  : Orquestación de procesos (n8n, MuleSoft, Workato)
-Capa 3 — AI Agents  : Razonamiento, toma de decisiones, manejo de excepciones
-```
+**Impact:** .NET enterprise teams now have a single framework with Microsoft's long-term support commitment. AutoGen and SK teams are actively migrating. 54k AutoGen stars + 27.9k SK stars = massive installed base converging.
 
-**Impacto**: Empresas no reemplazan RPA — lo envuelven. Los agentes AI manejan las excepciones que el RPA no puede, reduciendo intervención humana de 30% a <5%.
-
-## 2. Agentic Automation end-to-end
-
-Las empresas ya no automatizan tareas discretas sino **procesos completos end-to-end**:
-- Lead entra → agente califica → genera propuesta → actualiza CRM → programa follow-up
-- Factura llega → agente extrae datos → valida contra PO → aprueba/rechaza → contabiliza
-- Ticket de soporte entra → agente diagnostica → resuelve o escala → documenta solución
-
-**Drivers**: Presión de productividad, costos operacionales, ventaja competitiva.
-
-## 3. MCP (Model Context Protocol) como estándar de integración
-
-El protocolo MCP de Anthropic está convirtiéndose en el USB-C de las integraciones AI enterprise:
-
-- **Servidores MCP existentes**: ERPNext, 1C:Enterprise, Salesforce, ServiceNow, SAP (community), GitHub, Jira, Confluence
-- **Adopción**: Cada plataforma enterprise mayor tendrá servidor MCP oficial en H2 2026
-- **Patrón emergente**: `LLM ←→ MCP ←→ Sistema enterprise` reemplaza integraciones custom
-
-```
-Claude / GPT-4 / Llama
-        ↕  MCP
-[ERPNext] [SAP] [Salesforce] [ServiceNow] [GitHub]
-```
-
-## 4. Visual builders dominan la adopción masiva
-
-Las 3 herramientas más estrelladas en AI enterprise son builders visuales:
-- Dify: 138k★ (Apache 2.0)
-- Langflow: 60k★ (MIT)
-- Flowise: 40k★ (Apache 2.0)
-
-**Por qué**: Reducen el tiempo de prototipado de semanas a horas. Permiten que analistas de negocio participen en el diseño de agentes. El código Python sigue siendo el estándar para producción.
-
-## 5. Open source gana sobre propietario para infraestructura
-
-> "Enterprises que pasaron 2 años en pilotos de AI propietaria están volviendo a open source porque las herramientas cerradas no pueden conectarse a sus sistemas reales."
-
-**Motores del cambio**:
-- Vendor lock-in inaceptable para sistemas core
-- Cumplimiento de datos (LGPD, GDPR) — self-hosted obligatorio en sectores regulados
-- Costo: $150-200/user/mes para Salesforce AI vs. $0 licencia + implementación
-- Velocidad de customización: 4-6 semanas open source vs. 6-12 meses vendor
-
-## 6. Human-in-the-loop como requisito enterprise
-
-Los sistemas puramente autónomos generan resistencia. El patrón ganador combina:
-- Agente propone → humano aprueba para decisiones de alto impacto
-- Agente ejecuta → humano puede intervenir/pausar en cualquier momento
-- Agente aprende de correcciones → mejora continua supervisada
-
-**LangGraph** lo implementa nativamente con checkpoints y `interrupt()`.
-
-## 7. Observabilidad y evaluación de agentes = nuevo NFR crítico
-
-En 2025, el despliegue era el reto. En 2026, el reto es saber si el agente está **funcionando correctamente** en producción:
-- **Langsmith** (LangChain) — trazabilidad de cadenas y agentes
-- **Phoenix** (Arize) — evaluación de LLMs en producción
-- **Helicone** — monitoreo de costos y latencia de LLM calls
-- **Opik** (Comet) — evaluación end-to-end de RAG pipelines
-
-## 8. RAG de segunda generación — más allá de la búsqueda vectorial
-
-Los RAG simples (chunk → embed → search) son insuficientes para enterprise:
-- **GraphRAG**: Microsoft Research — recuperación con grafos de conocimiento. Mejor para documentos relacionados.
-- **HybridRAG**: Búsqueda vectorial + BM25 keyword. Más preciso en dominios técnicos.
-- **Agentic RAG**: El agente decide qué recuperar, cuándo, con qué query. Self-corrects.
-- **Multimodal RAG**: Documentos con tablas, imágenes, gráficos (esencial en manufactura, legal, medicina).
-
-## 9. Gobernanza de datos como prerequisito para AI enterprise
-
-Sin datos limpios y catalogados, los agentes dan respuestas incorrectas. Las empresas están invirtiendo en:
-- **DataHub / OpenMetadata** para catalogar activos de datos
-- **Great Expectations / Soda** para calidad de datos automatizada
-- **Data lineage** visible para auditorías de AI
-
-**Patrón**: OpenMetadata como "capa de contexto" que alimenta al agente con metadata de negocio.
-
-## 10. Agentes especializados por dominio, orquestados por coordinador
-
-El patrón multi-agente enterprise que funciona:
-
-```
-                    [Agente Coordinador (LangGraph)]
-                   /           |            \
-          [Agente ERP]  [Agente CRM]  [Agente RRHH]
-          (Odoo tools)  (SuiteCRM API) (ERPNext HR)
-```
-
-Cada agente es experto en su dominio. El coordinador enruta, desambigua y consolida.
-
-## Tendencias emergentes (H2 2026)
-
-| Tendencia | Estado | Impacto esperado |
-|-----------|--------|------------------|
-| **Agents as microservices** — deploy de agentes como containers independientes | Early adoption | Alto — infraestructura estándar |
-| **LLM local en enterprise** — Llama 4, Mistral on-prem para datos sensibles | Creciendo | Alto — LATAM regulación |
-| **AI en ERP SaaS** — Odoo AI copilot, ERPNext AI | GA | Medio — complemento |
-| **Agent evaluation standards** — benchmarks enterprise | Emergente | Alto — compras enterprise |
-| **Multi-modal agents** — voz + imagen en flujos enterprise | Early | Medio — manufactura, retail |
+**Repos:** [microsoft/agent-framework](https://github.com/microsoft/agent-framework), [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)
 
 ---
-*Fuentes: machinelearningmastery.com, prolifics.ai, kai-waehner.de, accelirate.com, informationweek.com, Gartner 2026*
+
+## Trend 2: MCP Becomes the HTTP of AI Agents
+
+**What:** Model Context Protocol (Anthropic) has become the de facto standard for connecting AI agents to tools and data. Every major enterprise platform — DataHub, OpenMetadata, Twenty, Dify, n8n, Flowise — now ships an MCP server. Claude Desktop, VS Code Copilot, and Cursor all natively consume MCP.
+
+**Impact:** Enterprise systems become instantly queryable by any MCP-compatible agent without custom integration. One MCP server = accessible to all AI tools.
+
+**Benchmark:** 3,000+ MCP servers now in the ecosystem (as of June 2026).
+
+---
+
+## Trend 3: $234B Enterprise Software Spend at Risk from Agentic AI (Gartner, July 1 2026)
+
+**What:** Gartner published analysis identifying $234B of traditional enterprise application software spend (SAP, Oracle, Salesforce, ServiceNow) at structural risk from agentic AI. Agents are beginning to directly replace workflow modules, not just augment them.
+
+**Impact:** Open-source alternatives (ERPNext, Twenty, SuiteCRM) are positioned to capture displaced spend. Open-source ERP adoption grew 32% in 2026 driven by this pressure.
+
+**Implication for Globant:** Client engagement strategy — frame AI-augmented ERPNext/Odoo as the cost-effective alternative to legacy renewal.
+
+---
+
+## Trend 4: From Single Agents to Multi-Agent Orchestration at Scale
+
+**What:** CrewAI reports 2B+ agentic workflows processed. LangGraph has 400 companies in production (Cisco, Uber, LinkedIn, BlackRock, JPMorgan). Gartner: 40% of enterprise apps will embed task-specific agents by EOY 2026 (up from < 5% in 2025).
+
+**The pattern:** Single-agent workflows are giving way to coordinated specialist agent teams. Complex tasks exceed single-agent context windows; multi-agent is now the production pattern.
+
+**Caution:** 65% of teams hit a wall within 12 months and have to rewrite everything (mis-framing existing processes as agent workflows). 40% of agentic AI projects expected to be canceled by 2027 — failure comes from automating bad processes, not reimagining them.
+
+---
+
+## Trend 5: Visual Low-Code Agent Builders Go Enterprise
+
+**What:** Dify (144k★, $30M raised), n8n (102k★, enterprise push), Flowise (51k★, acquired by Workday), Langflow (46k★, IBM/DataStax). All added: HITL controls, SSO/SAML, audit logs, Kubernetes deployment, enterprise security hardening in 2026.
+
+**Impact:** Non-technical enterprise teams can now build and deploy production AI agents without deep ML expertise. This compresses the build cycle from months to weeks.
+
+**Winner:** Dify for all-in-one RAG + agents + observability. n8n for integration-heavy scenarios.
+
+---
+
+## Trend 6: Human-in-the-Loop (HITL) as Compliance Requirement
+
+**What:** n8n, Dify, and Flowise all added native HITL support in 2026. LangGraph's HITL was the artifact a healthcare HIPAA auditor required (node-by-node decision trace). EU AI Act and SEC AI guidance are pushing HITL for high-stakes automated decisions.
+
+**Enterprise requirement:** Any agent touching financial decisions, customer communications, or healthcare data now needs HITL gates + full audit trail. LangGraph is the production standard for this.
+
+---
+
+## Trend 7: Agentic ERP — Open Source ERP Gets Its AI Moment
+
+**What:** Open-source ERP getting a "second look" as AI changes the buy decision (ERP Today, 2026). Odoo 2026 roadmap: AI-assisted CRM (next best action), predictive inventory, LLM accounting reconciliation. ERPNext: MCP server available, LangGraph agents can read/write ERP data via natural language.
+
+**Market signal:** Open-source ERP market = $5.31B in 2026, CAGR 9.66%. Odoo valued at €7B (Jan 2026) despite being open-source-based.
+
+**Opportunity:** Enterprises facing $500K–$5M SAP renewal will trade for ERPNext + AI layer at fraction of cost.
+
+---
+
+## Trend 8: Agent-to-Agent (A2A) Protocol — Inter-Org Agent Federation
+
+**What:** Google's open A2A protocol enables agents to discover and call each other across organizational boundaries. MAF 1.0 already supports A2A. LangGraph adding support in v1.2.
+
+**Impact:** Enterprises can federate specialist agents (legal, finance, HR, procurement) without custom middleware. Supply chain AI agents at different companies can coordinate directly.
+
+---
+
+## Trend 9: Enterprise Data Governance as AI Prerequisite
+
+**What:** DataHub (11.8k★, Apache) and OpenMetadata (8.2k★, Apache) are now positioned as AI prerequisites — agents need governed, semantically rich context about data before they can safely act on it. Both ship MCP servers giving any agent access to the data catalog.
+
+**Implication:** Globant opportunity: governance implementation as a pre-step to every enterprise AI engagement. No data governance = no trustworthy AI agents.
+
+---
+
+## Trend 10: Developer Productivity Agents in Enterprise Engineering
+
+**What:** OpenHands (78.5k★, MIT, 72% SWE-bench), Aider (45.9k★, Apache), Cline (58.6k★, Apache) are deployed in enterprise engineering teams. GitHub Copilot (proprietary) reaching 2M paid users. Average dev productivity gain: 35–55% on routine tasks.
+
+**Opportunity:** Internal dev platform play — Backstage (36k★, Apache) as the AI control plane, with OpenHands/Aider as the coding agents. Full-stack developer productivity solution.
+
+---
+
+## Trend 11: Specialized Domain Models Overtake General-Purpose LLMs
+
+**What:** The dominance of massive general-purpose LLMs gives way to specialized domain-specific AI in 2026. Financial, legal, medical, and industry-specific fine-tuned models outperform GPT-4 class models on domain tasks at 10x lower inference cost.
+
+**Enterprise implication:** Don't default to Claude Opus / GPT-4 for every task. Use Claude Haiku / Llama 3 fine-tuned models for classification/extraction; reserve Sonnet/Opus for reasoning-heavy tasks.
+
+---
+*Auto-updated by ingest pipeline — 2026-07-06.*

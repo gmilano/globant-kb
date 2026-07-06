@@ -1,87 +1,68 @@
-# 🏭 Verticales de partida — Enterprise
+# 🏭 Vertical Solutions — Enterprise
 
-> Plataformas enterprise open source customizables con AI.
-> Modelo: partir de algo funcional + añadir capa agéntica encima.
-> Última actualización: 2026-07-05
+> Production-ready open-source platforms to fork, customize, and add AI on top.
+> Model: start from something functional, add an agentic layer on top.
+> Last updated: 2026-07-06
 
-## ERP — Enterprise Resource Planning
+## ERP Platforms
 
-| Plataforma | Licencia | Repo | Stars | Stack | Mejor para |
-|------------|----------|------|-------|-------|------------|
-| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | 52.8k | Python, PostgreSQL | El ERP más completo. 30+ módulos: ventas, inventario, contabilidad, manufactura, e-commerce, RRHH. Módulo Odoo AI (copilot) ya incluido en v17+. |
-| **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | 36.4k | Python (Frappe), MariaDB | ERP completo sobre Frappe. API REST auto-generada para toda entidad. Ideal para manufactura, distribución y servicios. |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | 1.1k | Java, PostgreSQL | ERP enterprise Apache con SCM+CRM integrado. Para stacks Java legacy. Muy customizable. |
-| **Dolibarr** | GPL-3.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | 5.9k | PHP, MySQL | ERP/CRM ligero para PyMEs. 20 años de estabilidad. Fácil de instalar. |
+| Platform | License | Stars | Stack | AI-Ready | Best For |
+|----------|---------|-------|-------|----------|----------|
+| [ERPNext / Frappe](https://github.com/frappe/erpnext) | GPL-3.0 | 36.4k | Python + MariaDB + Vue | MCP bridge via [erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) | SME to mid-market. Full ERP: accounting, HR, manufacturing, CRM, inventory. Most extensible open ERP for AI. |
+| [Odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52.8k | Python + PostgreSQL + OWL | 2026 AI roadmap: smart CRM suggestions, predictive inventory, LLM accounting | Full-stack ERP+CRM. €7B valuation. 300+ modules. Best for full-suite enterprise apps. |
+| [Apache OFBiz](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 1.1k | Java + Derby/PostgreSQL | REST API, pluggable services | Pure Apache license. No viral license risk. Accounting, inventory, order management, HR. |
+| [Dolibarr](https://github.com/Dolibarr/dolibarr) | GPL-3.0 | 5.5k | PHP + MySQL | REST API + module system | Freelancers to SMEs. Simple, lightweight ERP+CRM. Fast to deploy. |
 
-## CRM — Customer Relationship Management
+## CRM Platforms
 
-| Plataforma | Licencia | Repo | Stars | Stack | Mejor para |
-|------------|----------|------|-------|-------|------------|
-| **SuiteCRM** | AGPL-3.0 | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | 4.5k | PHP | CRM con 5M+ usuarios. Feature parity con Salesforce. API REST completa lista para AI. Alternativa open source #1. |
-| **EspoCRM** | GPL-3.0 | [espocrm/espocrm](https://github.com/espocrm/espocrm) | 2.1k | PHP, JS | CRM moderno con interfaz responsive. Muy extensible via metadata. Popular en LATAM. |
-| **Twenty** | AGPL-3.0 | [twentyhq/twenty](https://github.com/twentyhq/twenty) | 28k | TypeScript, React, PostgreSQL | CRM moderno estilo Notion. Crecimiento explosivo. Alternativa a HubSpot con UX moderna. |
-| **Krayin CRM** | MIT | [krayin/laravel-crm](https://github.com/krayin/laravel-crm) | 1.1k | Laravel, PHP | CRM Laravel open source. Licencia MIT — ideal para customización sin restricciones. |
+| Platform | License | Stars | Stack | AI-Ready | Best For |
+|----------|---------|-------|-------|----------|----------|
+| [Twenty](https://github.com/twentyhq/twenty) | Apache-2.0 | 45.5k | TypeScript + React + GraphQL | **Native MCP server** — any MCP client connects to CRM data out of the box | AI-first Salesforce alternative. Built from scratch for the agent era. Fastest growing OSS CRM 2026. |
+| [SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4.3k | PHP + MySQL | REST API, webhook integration | Enterprise feature parity with Salesforce. 5M users. Deepest open-source CRM feature set. |
+| [EspoCRM](https://github.com/espocrm/espocrm) | AGPL-3.0 | 1.8k | PHP + JavaScript | REST API + webhook triggers | Clean REST API; strong for mid-market. Good AI integration point. |
 
-## Low-code / No-code Interno
+## Developer Platform / Internal Tools
 
-| Plataforma | Licencia | Repo | Stars | Stack | Mejor para |
-|------------|----------|------|-------|-------|------------|
-| **Appsmith** | Apache 2.0 | [appsmithorg/appsmith](https://github.com/appsmithorg/appsmith) | 35k | Java, TypeScript | Builder de apps internas con drag-drop. Conecta a cualquier API/DB. Ideal para dashboards AI. |
-| **Tooljet** | AGPL-3.0 | [ToolJet/ToolJet](https://github.com/ToolJet/ToolJet) | 33k | Ruby, JavaScript | Plataforma low-code con 50+ conectores. Apps internas con widgets de AI. |
-| **Budibase** | GPL-3.0 | [Budibase/budibase](https://github.com/Budibase/budibase) | 23k | Svelte, Node.js | Self-hosted app builder. APIs auto-generadas, SSO, RBAC. |
-| **NocoDB** | AGPL-3.0 | [nocodb/nocodb](https://github.com/nocodb/nocodb) | 52k | Node.js | Airtable open source. Convierte cualquier BD en spreadsheet API. Base perfecta para agentes. |
+| Platform | License | Stars | Stack | AI-Ready | Best For |
+|----------|---------|-------|-------|----------|----------|
+| [Backstage](https://github.com/backstage/backstage) | Apache-2.0 | 36k | TypeScript + React + Node.js | Growing AI plugin catalog; becoming AI control plane for dev orgs | Internal developer portal: service catalog, TechDocs, scaffolder. Foundation for enterprise AI DevX. |
+| [Directus](https://github.com/directus/directus) | BSL-1.1 | 30k | TypeScript + Vue + Node.js | REST+GraphQL auto-generated from schema; hooks for AI pipelines | Headless CMS / BaaS. Turns any database into an AI-queryable API. |
+| [NocoBase](https://github.com/nocobase/nocobase) | AGPL-3.0 | 16k | TypeScript + React | Plugin system + REST API | No-code / low-code platform builder. Enterprise alternative to Airtable/Notion. |
 
-## Gobernanza de datos (enterprise AI-ready)
+## Data Governance & Discovery
 
-| Plataforma | Licencia | Repo | Stars | Stack | Mejor para |
-|------------|----------|------|-------|-------|------------|
-| **DataHub** | Apache 2.0 | [datahub-project/datahub](https://github.com/datahub-project/datahub) | 11k | Java, Python, React | Catálogo de datos event-driven (Kafka). Linaje, gobernanza, data mesh. Desarrollado por LinkedIn. |
-| **OpenMetadata** | Apache 2.0 | [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | 8k | Java, Python | Plataforma unificada: discovery, quality, linaje, profiling. 3000+ deployments. Más simple que DataHub. |
-| **Apache Atlas** | Apache 2.0 | [apache/atlas](https://github.com/apache/atlas) | 1.9k | Java | Gobernanza para ecosistemas Hadoop/Hive. Maduro, estable para stacks legacy. |
+| Platform | License | Stars | Stack | AI-Ready | Best For |
+|----------|---------|-------|-------|----------|----------|
+| [DataHub](https://github.com/datahub-project/datahub) | Apache-2.0 | 11.8k | Python + React + Kafka | **MCP server GA** — agents query data catalog directly | Enterprise data discovery, governance, lineage. Originally from LinkedIn. Thousands of org deployments. |
+| [OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 8.2k | Python + React + Java | **MCP server + AI SDK** — 130 connectors, semantic search, data contracts | Open context layer for data+AI. 3,000+ enterprise deployments. Best for AI-first governance. |
+| [Apache Atlas](https://github.com/apache/atlas) | Apache-2.0 | 1.8k | Java + Hadoop ecosystem | REST API | Hadoop-centric data governance. Best for orgs with heavy Hadoop/HBase footprint. |
 
-## Automatización de flujos enterprise
+## Workflow Automation Platforms
 
-| Plataforma | Licencia | Repo | Stars | Stack | Mejor para |
-|------------|----------|------|-------|-------|------------|
-| **n8n** | Sustainable Use | [n8n-io/n8n](https://github.com/n8n-io/n8n) | 50k | TypeScript, Node.js | 400+ conectores + AI nativo. El iPaaS open source. Alternativa a Zapier/Make con self-hosting. |
-| **Prefect** | Apache 2.0 | [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | 18k | Python | Orquestación de data pipelines con AI. Ideal para ETL+ML pipelines enterprise. |
-| **Airflow** | Apache 2.0 | [apache/airflow](https://github.com/apache/airflow) | 38k | Python | Orquestador de workflows más maduro. Estándar en data engineering enterprise. |
+| Platform | License | Stars | Stack | AI-Ready | Best For |
+|----------|---------|-------|-------|----------|----------|
+| [n8n](https://github.com/n8n-io/n8n) | Sustainable | 102k | TypeScript + Vue + Node.js | Native AI agent nodes; 400+ integrations | Integration-heavy enterprise automation. Best for connecting ERP, CRM, SaaS + AI agents. |
+| [Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 51k | TypeScript + React | Best-in-class RAG; agentic flow builder | Visual LLM app builder. Acquired by Workday. Strong for RAG + agent pipelines. |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Python + Next.js | All-in-one: RAG, agents, observability, 100+ LLMs | Enterprise LLMOps platform. Fastest path from idea to production AI app. |
 
-## Cómo añadir AI sobre estas plataformas
+## How to Add AI to Any Platform
 
 ```
-Paso 1: Levantar la plataforma base (Docker Compose / Helm chart)
-         ↓
-Paso 2: Exponer APIs REST/GraphQL (la mayoría ya las tienen)
-         ↓
-Paso 3: Conectar via MCP Server o LangChain Tools
-         ↓
-Paso 4: Añadir capa de agentes (LangGraph / CrewAI / Dify)
-         ↓
-Paso 5: UI conversacional (chatbot en la plataforma o separado)
-```
+1. CONNECT  — deploy MCP server (e.g. erpnext-mcp-server, DataHub MCP, Twenty native)
+             OR expose REST/GraphQL API as LangGraph tools
 
-### Patrón específico para Odoo + AI
-```python
-# Conectar LangChain a Odoo via XML-RPC o REST
-from langchain_community.tools import StructuredTool
-import xmlrpc.client
+2. GROUND   — connect DataHub or OpenMetadata as the context layer
+             so agents know what data exists, its schema, and governance rules
 
-odoo = xmlrpc.client.ServerProxy('{ODOO_URL}/xmlrpc/2/object')
+3. ORCHESTRATE — wire LangGraph for complex stateful workflows
+               OR CrewAI for role-based agent teams
+               OR n8n for integration-heavy automation
 
-def get_sales_orders(partner_id: int) -> list:
-    """Buscar órdenes de venta de un cliente en Odoo"""
-    return odoo.execute_kw('sale.order', 'search_read',
-        [[['partner_id', '=', partner_id]]], {'fields': ['name', 'amount_total']})
+4. OBSERVE  — LangSmith for agent traces
+             OR Dify's built-in observability
+             OR OpenTelemetry to existing APM (Datadog, New Relic, SigNoz)
 
-sales_tool = StructuredTool.from_function(get_sales_orders)
-# Wrapear en LangGraph agent para consultas naturales
-```
-
-### Patrón específico para ERPNext + MCP
-```bash
-# Usar erpnext-mcp-server para conectar Claude/cualquier LLM
-git clone https://github.com/rakeshgangwar/erpnext-mcp-server
-# Configurar en claude_desktop_config.json o API MCP
-# El agente puede consultar y crear documentos en ERPNext directamente
+5. GOVERN  — HITL gates in LangGraph for high-stakes actions
+            RBAC in Dify/n8n for access control
+            DataHub lineage to trace every AI decision to source data
 ```

@@ -1,43 +1,46 @@
-# 🏗️ Repos fundacionales — Enterprise
+# 🏗️ Foundational Repos — Enterprise
 
-> Bases sobre las cuales construir soluciones enterprise con AI. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-05
+> Bases to build on. Open license, active community, production-proven.
+> Last updated: 2026-07-06
 
-## Frameworks de orquestación de agentes
+## Agent Orchestration Foundations
 
-| Repo | Licencia | Stars | Descripción | ¿Base para AI? |
-|------|----------|-------|-------------|----------------|
-| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | ~95k | Framework de referencia para LLM apps. Chains, retrievers, tools, memory. Base de LangGraph y Langflow. | Sí — capa de integración universal |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~13k | Orquestación de agentes stateful con grafos. Checkpoints, rollback, human-in-the-loop. Estándar de producción enterprise. | Sí — orquestador principal |
-| [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | 27k+ | SDK enterprise para Python, C#, Java. Plugins, planificación, memoria vectorial, integración Azure OpenAI. | Sí — indispensable en stacks Microsoft |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache 2.0 | 27k+ | Framework minimalista. Code agents que escriben Python. Compatible con cualquier LLM en HF Hub o local. | Sí — para agentes ligeros |
-| [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) | MIT | 12k+ | Type-safety para agentes Python. Validación estricta de I/O, compatible con FastAPI. | Sí — para APIs enterprise tipadas |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 126k | Graph-based stateful agent framework. Production at Uber, LinkedIn, Klarna. PostgreSQL persistence, HITL, LangSmith observability. Enterprise standard for complex workflows. | ★★★ — designed for it |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Role-based multi-agent framework. 2B+ workflows processed. Fastest prototype-to-production for team-of-agents patterns. | ★★★ — purpose-built |
+| [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | 27.9k | Enterprise AI SDK for Python/.NET/Java. Plugin system, thread state, telemetry, Azure integration. Foundation of MAF 1.0. | ★★★ — enterprise-grade |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 54k | Multi-agent conversation framework. Now merging into MAF 1.0, but 54k★ installed base still active. | ★★★ — widely deployed |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | LLMOps platform: visual builder + RAG + agents + observability. 100+ LLM providers. Production deployment target for enterprise teams. | ★★★ — all-in-one |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimal code-first agent framework. Agents write and execute Python. Fastest single-agent loop. | ★★★ — simple and fast |
 
-## Plataformas visuales de flujos LLM
+## Enterprise Platform Foundations
 
-| Repo | Licencia | Stars | Descripción | ¿Base para AI? |
-|------|----------|-------|-------------|----------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache 2.0 | 138k+ | Plataforma líder: RAG nativo, multi-agente, drag-drop. Self-hosteable con Docker. | Sí — hub de orquestación enterprise |
-| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 60k+ | Builder visual sobre LangChain/LangGraph con Python subyacente. Exporta a código. | Sí — para equipos Python con UI |
-| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache 2.0 | 40k+ | Chatbot LLM builder enfocado en RAG. Setup más rápido. Ideal para MVPs. | Sí — para chatbots internos rápidos |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | 50k+ | 400+ integraciones nativas + LangChain para AI. El pegamento entre sistemas legacy y agentes. | Sí — iPaaS con AI integrado |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36.4k | Full-stack ERP: accounting, HR, manufacturing, CRM, inventory. MCP server via third-party adapter. Most AI-extensible open-source ERP. | ★★☆ — MCP bridge available |
+| [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10.4k | Low-code Python + JS web framework underlying ERPNext. REST API, webhooks, scheduler. Best foundation for building custom AI agents on top of ERP. | ★★★ — REST + webhooks |
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52.8k | Full-stack ERP + CRM + e-commerce. 2026 roadmap includes native AI: smart CRM suggestions, predictive inventory, LLM-assisted accounting reconciliation. €7B valuation. | ★★☆ — AI roadmap in progress |
+| [twentyhq/twenty](https://github.com/twentyhq/twenty) | Apache-2.0 | 45.5k | Open-source Salesforce alternative. Native MCP server — AI agents connect to CRM data out of the box. Fastest-growing OSS CRM in 2026. | ★★★ — MCP native |
+| [suitecrm/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4.3k | Feature-complete enterprise CRM (Salesforce parity). 5M users. AGPL keeps it open. REST API + webhook support for AI integration. | ★★☆ — REST integration |
+| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 1.1k | Apache ERP: accounting, inventory, order management, HR. Pure Apache license (no LGPL restrictions). Stable 10+ year project. | ★★☆ — API extensible |
 
-## Plataformas ERP / CRM (base de customización)
+## Data & Governance Foundations
 
-| Repo | Licencia | Stars | Descripción | ¿Base para AI? |
-|------|----------|-------|-------------|----------------|
-| [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10.4k | Low-code web framework Python+JS. Base de ERPNext. ORM, API REST automática, WebSockets. | Sí — base completa de ERPNext |
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k+ | ERP open source completo: SCM, manufactura, contabilidad, RRHH, CRM. Auto-API. | Sí — ERP con extensiones AI |
-| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52k+ | ERP+CRM lider open source. 30+ módulos: ventas, inventario, contabilidad, e-commerce. | Sí — ERP más popular para AI |
-| [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4.5k | CRM PHP con 5M+ usuarios. API REST completa. Alternativa open source a Salesforce. | Sí — CRM con API AI-ready |
-| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 1.1k | ERP enterprise de Apache con SCM, CRM integrado. Java, muy customizable. | Sí — para stacks Java enterprise |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [datahub-project/datahub](https://github.com/datahub-project/datahub) | Apache-2.0 | 11.8k | Enterprise metadata platform: data discovery, governance, observability. Originally from LinkedIn, now at thousands of orgs. MCP queryable. | ★★★ — AI context layer |
+| [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 8.2k | Open context layer for data + AI: 130+ connectors, MCP server, semantic search, data lineage, governance, quality. Gives AI agents governed data access. | ★★★ — MCP + AI SDK |
+| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | 36k | Spotify's developer portal: service catalog, TechDocs, plugins. AI plugin ecosystem growing fast. Foundation for internal developer platforms. | ★★☆ — plugin-extensible |
 
-## Gobernanza de datos y catálogos
+## Workflow Automation Foundations
 
-| Repo | Licencia | Stars | Descripción | ¿Base para AI? |
-|------|----------|-------|-------------|----------------|
-| [datahub-project/datahub](https://github.com/datahub-project/datahub) | Apache 2.0 | 11k+ | Catálogo de datos + linaje + gobernanza. Desarrollado por LinkedIn. Arquitectura event-driven con Kafka. | Sí — gobernanza de datos para AI |
-| [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache 2.0 | 8k+ | Plataforma unificada: discovery, governance, quality, linaje, colaboración. 3000+ deployments. | Sí — capa de contexto para agentes |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable | 102k | Workflow automation + AI agent nodes. 400+ integrations. Enterprise SSO/SAML, Kubernetes-native. Deepest integration story in the visual builder space. | ★★★ — native AI nodes |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 51k | Visual agentic workflow builder. Best-in-class RAG. Acquired by Workday. SSRF protection, enterprise security hardening. | ★★★ — RAG + agents |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 46k | Visual flow-based agent/RAG builder. IBM/DataStax acquisition. SOC2 Type II on managed cloud. Strong enterprise security posture. | ★★★ — SOC2 certified |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*See also: `verticals/solutions.md` for full vertical platform list.*
+*Auto-updated by ingest pipeline — 2026-07-06.*
