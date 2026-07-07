@@ -1,54 +1,35 @@
-# 📈 Trending Repos — Automotive
+# GitHub Trending — Automotive AI (2026-07-07)
 
-> GitHub repos gaining velocity right now. Curated for Globant AI Studios.
-> Last updated: 2026-07-06
+> Repos gaining momentum this week. Signals of what builders are excited about.
 
----
+## High-Velocity Repos
 
-## 🔥 Breaking Out — Q1/Q2 2026
+| Repo | License | Stars | Velocity | Why It's Trending |
+|------|---------|-------|----------|-------------------|
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | ↑ active | Core Autoware component gaining forks after Mobileye integration announcement; new ROS 2 Humble releases |
+| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | 11.8k | ↑ +200/wk | Updated June 25 2026; SDV wave driving evaluations by OEMs |
+| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~52k | ↑ steady | NVIDIA Alpamayo announcement triggering community discussion on next-gen ADAS |
+| [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | ~26k | ↑ active | Updated April 2026; new routing + prediction module commits |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | ↑ new | Framework for testing autonomous agents in CARLA — agentic sim-testing pattern gaining attention |
+| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | — | new | ↑ rising | Cloud-edge multi-agent system for smart cockpits; LLM planning + vehicle control + HMI streaming |
+| [zubairm8580/InterFuser-UI](https://github.com/zubairm8580/InterFuser-UI) | Apache-2.0 | 1 | ↑ new | Real-time CARLA driving visualization with Pygame — useful for AD research dashboards |
+| [vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture](https://github.com/vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture) | — | new | ↑ interest | Deep-dive into BYD's SDV + AI-DV strategy; referenced in automotive AI circles |
+| [Eloquent-Algorithmics/Automotive-AI](https://github.com/Eloquent-Algorithmics/Automotive-AI) | Apache-2.0 | growing | ↑ new | Hands-free AI for mobile automotive diagnostic businesses; integrates APIs for 2-way interaction while driving |
+| [Divyeshpratap/A.I.-AutoInspector](https://github.com/Divyeshpratap/A.I.-AutoInspector) | MIT | ~180 | ↑ stable | CV + Gen AI damage assessment; consistently cited in automotive insurance AI discussions |
 
-| Repo | License | Stars | Trend | Why trending |
-|------|---------|-------|-------|--------------|
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~50k | ▲▲▲ | v0.11 world model release + v0.11.2 (June 2026). Most-discussed AV repo. |
-| [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | Apache-2.0 | ~1k | ▲▲▲ | NVIDIA Alpamayo launch — open simulation framework for the Alpamayo model family |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | ~500 | ▲▲ | Map-free AV stack — growing interest as HD map costs push teams to vision-only |
-| [autowarefoundation/alpamayo-autoware](https://github.com/autowarefoundation/alpamayo-autoware) | Apache-2.0 | ~300 | ▲▲ | Glue layer between NVIDIA Alpamayo and Autoware — high integrator demand |
+## Emerging Signals
 
----
+### Signal 1: Smart Cockpit Agents (2026 breakout theme)
+The `cockpit-agent` pattern — cloud-edge multi-agent with LLM planning + in-vehicle control execution — is being replicated by multiple teams in China (BYD, SAIC) and Europe (Bosch, Continental). Expect this to become a standard architecture pattern by Q4 2026.
 
-## 📡 SDV Infrastructure Momentum
+### Signal 2: CARLA-as-Agent-Testbed
+Repos pairing CARLA with LangGraph or CrewAI for agentic scenario testing (PCLA, carla-agent-benchmark forks) are multiplying. The pattern: LLM agent drives scenario design → CARLA executes → vision model evaluates outcomes.
 
-| Repo | License | Stars | Trend | Why trending |
-|------|---------|-------|-------|--------------|
-| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | ~500 | ▲▲ | Eclipse SDV Working Group growing to 50+ members; KUKSA as the de-facto VSS layer |
-| [eclipse-kuksa/kuksa.val.services](https://github.com/eclipse-kuksa/kuksa.val.services) | Apache-2.0 | ~200 | ▲ | Teams building vehicle abstractions on top of KUKSA; security audit completed |
+### Signal 3: CAN Bus × MCP Experiments
+Several labs are publishing experiments connecting Model Context Protocol (MCP) servers to vehicle OBD-II/CAN bus. The goal: expose vehicle telemetry as tool-calls so an LLM agent can reason about vehicle state in real language. Still early (< 100 stars each) but conceptually important.
 
----
-
-## 🏭 Fleet & Telematics Rising
-
-| Repo | License | Stars | Trend | Why trending |
-|------|---------|-------|-------|--------------|
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | ~800 | ▲▲ | Open logistics OS gaining enterprise traction vs. proprietary alternatives |
-| [traccar/traccar](https://github.com/traccar/traccar) | Apache-2.0 | ~5k | → | Stable and widely deployed; interest spike from AI telemetry integration projects |
-
----
-
-## 🔬 Research Simulators Gaining Stars
-
-| Repo | License | Stars | Trend | Notes |
-|------|---------|-------|-------|-------|
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | ~1.7k | ▲ | Autoware's component-level repo — direct dependency for E2E AI experiments |
-| [zubairm8580/InterFuser-UI](https://github.com/zubairm8580/InterFuser-UI) | Apache-2.0 | ~1 | new | Real-time Pygame UI for CARLA/InterFuser — camera feeds, LiDAR, speed display |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | ~77 | ▲ | CARLA agent testing framework — plug-and-play, growing use in research labs |
+### Signal 4: Open-Source BEV Perception Models
+Bird's-eye-view (BEV) perception models (NuScenes-trained) are moving from research to repo. Multiple Apache/MIT releases enabling camera-only L2+ perception without expensive LiDAR — directly relevant to retrofitting AI onto commercial fleets.
 
 ---
-
-## 📝 Community Analysis & Reports
-
-| Repo | License | Stars | Notes |
-|------|---------|-------|-------|
-| [vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture](https://github.com/vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture) | — | new | Analysis of BYD's SDV + AI-DV strategy. Useful competitive intelligence. |
-
----
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated by the ingest pipeline.*

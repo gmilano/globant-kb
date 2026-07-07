@@ -1,87 +1,52 @@
-# 📈 Trending AI Agents & Tools — Automotive
+# Trending — Automotive AI (Week of 2026-07-07)
 
-> What's new and gaining momentum this week. Curated for Globant AI Studios.
-> Last updated: 2026-07-06
+> What's new, breaking, and gaining momentum in automotive AI this week.
 
----
+## Breaking Signals
 
-## 🔥 Top Story: openpilot 0.11 — World Model Breakthrough (March 2026)
+### 1. NVIDIA Alpamayo — 10B-param L4 Autonomy Model
+NVIDIA unveiled Alpamayo, a 10-billion-parameter model designed specifically for Level 4 autonomy at scale. Early users include Jaguar Land Rover, Lucid, and Uber. Uber reiterated 2026 robotaxi deployment plans using Alpamayo as the inference backbone. This is the clearest sign yet that LLM-scale thinking is entering the autonomous driving stack.
 
-comma.ai shipped **openpilot 0.11**, the first real-world robotics agent fully trained in a *learned* simulation. This is a decade-long milestone: the driving model now uses a **2B-parameter world model** trained on 2.5 million minutes of fleet video.
+### 2. Autoware + Mobileye Integration Expands
+In February 2026, Elektrobit integrated EB corbos Linux for Safety Applications into Mobileye Drive — a scalable end-to-end L4 self-driving system now available as an OEM platform. Autoware-based stacks are being evaluated as a software layer on top of Mobileye hardware by Tier-1 suppliers.
 
-**What changed:**
-- Previous versions trained on real-world video only; 0.11 uses synthetic rollouts from the world model
-- Experimental mode adoption hit record highs immediately after nightly release (Jan 19, 2026)
-- Idle power draw on comma four dropped 77% (225 mW → 52 mW)
-- 0.11.2 released June 15, 2026 with further refinements
+### 3. Stellantis × Qualcomm Snapdragon Ride Pilot (May 2026)
+Stellantis and Qualcomm expanded their multi-year collaboration to integrate Snapdragon Digital Chassis solutions across next-generation vehicle architectures. Snapdragon Ride Pilot (ADAS SoC) is now the official platform for Stellantis SDVs.
 
-**Why it matters for Globant:** The learned-sim approach lets OEMs generate training data for rare edge-case scenarios (weather, near-miss) without real-world collection. This unlocks AV training at any scale.
+### 4. Software-Defined Vehicles Dominate CES 2026
+CES 2026 was dominated by SDV announcements. Bosch highlighted AI-driven cockpit systems, motion control, and by-wire technologies — electronic controls replacing mechanical connections. Every major OEM announced a software architecture refresh timeline.
 
-Repos: [commaai/openpilot](https://github.com/commaai/openpilot) · MIT
+### 5. Edge AI Displacing Cloud AI In-Cabin
+The industry is shifting from cloud-dependent AI to edge AI running inside the vehicle. The consensus architecture: edge handles real-time/safety-critical decisions, cloud handles complex reasoning and model updates. Reduces latency from 100-300ms (cloud round-trip) to <10ms (on-chip inference).
 
----
+### 6. Computer Vision Defect Detection at Production Quality
+Deep learning CNN architectures for in-line defect detection reached 95–100% accuracy in live production environments as GPU inference hardware hit sub-200ms latency at cost-effective price points. Quality inspection AI is now a line-item in every greenfield plant build.
 
-## 🚀 NVIDIA Alpamayo Ecosystem Launch (CES 2026 + March 2026)
+### 7. AI Dealership Conversions Measured at Scale
+Dealerships running AI across the full customer lifecycle (lead scoring → personalization → follow-up → service recovery) are showing:
+- +27% internet lead conversion
+- +33% lapsed customer recovery
+- +24% vehicle repurchase lift
 
-NVIDIA announced the **Alpamayo family** at CES 2026 — the industry's first open reasoning Vision-Language-Action (VLA) model for autonomous driving. Alpamayo 1.5 shipped in March 2026.
+This is moving AI from "interesting" to "KPI-proven" in automotive retail.
 
-**Key components:**
-| Component | Repo | License | Notes |
-|-----------|------|---------|-------|
-| Alpamayo model weights | [NVlabs/alpamayo](https://github.com/NVlabs/alpamayo) | Non-commercial (research) | Foundation VLA for AV reasoning |
-| AlpaSim simulator | [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | Apache-2.0 | Open evaluation framework |
-| Autoware integration | [autowarefoundation/alpamayo-autoware](https://github.com/autowarefoundation/alpamayo-autoware) | Apache-2.0 | Plug Alpamayo into Autoware |
+## GitHub Repos Gaining Stars This Week
 
-**Adoption:** Jaguar Land Rover, Lucid Motors, and Uber have all signed on. Uber plans robotaxi deployment in 2026 using Alpamayo reasoning backbone.
+| Repo | Movement | Why |
+|------|----------|-----|
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | ↑ 1.7k★ active | Core component of Autoware stack — Mobileye integration driving forks |
+| [commaai/openpilot](https://github.com/commaai/openpilot) | ↑ steady | Community exploring Alpamayo model integration with ADAS pipelines |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | ↑ new | Framework for testing autonomous agents in CARLA — agentic sim testing |
+| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | ↑ rising | Cloud-edge multi-agent system for smart cockpits, LLM planning + HMI |
+| [automotive-ai/ReplicaR-lite](https://github.com/automotive-ai) | ↑ new | Traffic simulation from AAI GmbH — rising interest in synthetic data gen |
 
-**Note on license:** Alpamayo model weights are non-commercial (research only). AlpaSim (the simulator) is Apache-2.0 and fully buildable-on. Commercial AV products should use AlpaSim + their own trained weights.
+## Trends to Watch
 
----
-
-## 📡 Autoware: End-to-End AI + IEEE IV 2026 Workshop (June 2026)
-
-The Autoware Foundation announced an initiative to integrate **end-to-end AI models** (starting with the AutoDrive E2E model) directly into the Autoware stack, targeting production-grade Level 2+ autonomy for automotive OEMs. Optimization partnership with AMD Instinct GPUs.
-
-The full-day Autoware Tutorial & Workshop at **IEEE IV 2026** (Detroit) covered: map-less navigation, E2E driving, adverse weather perception, connected vehicles.
-
-Repos: [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) · Apache-2.0
-
----
-
-## 🏗️ Eclipse S-CORE 0.5 — First SDV Runtime Release (November 2025)
-
-**Eclipse S-CORE** hit its first public release (v0.5) in November 2025, marking a key milestone in the Eclipse SDV ecosystem's mission to create a fully open, AUTOSAR-aligned runtime for software-defined vehicles. Full release planned for 2026.
-
-The broader **Eclipse SDV Working Group** now includes 50+ member companies; the MoU for open SDV collaboration grew from 11 to 32 signatories.
-
-Key SDV repos gaining traction:
-- [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) — Rust VSS broker, Apache-2.0
-- Eclipse Leda — Yocto-based SDV.EDGE build system, Apache-2.0
+- **MCP servers for CAN bus**: Early experiments connecting Claude/GPT agents to vehicle CAN bus data streams via MCP — enabling natural language vehicle diagnostics
+- **Digital twin + LLM co-pilots**: Plant simulation + LLM = engineers can ask "what happens if I increase line speed by 10%?" and get a simulated answer in seconds
+- **Agentic supply chain**: Multi-agent systems coordinating production planning, logistics, and procurement in real time across Tier-1/Tier-2 suppliers
+- **Battery AI**: ML models predicting cell degradation from charge cycles — enabling predictive battery replacement scheduling
+- **SDV app stores**: OEMs building in-vehicle app ecosystems; AI agents that help drivers discover/configure vehicle capabilities via voice
 
 ---
-
-## 🚗 In-Vehicle Cockpit AI Agents Rising
-
-A new class of **agentic cockpit systems** is emerging — multi-LLM orchestration running at the vehicle edge:
-
-- **LG AI Cabin Platform** (2026) — on-device generative AI on Qualcomm Snapdragon Cockpit Elite. Analyzes internal cabin cameras + external environment in real-time, no cloud dependency
-- **KPIT Agentic AI Suite** — built on GenAI + Microsoft Foundry for model orchestration inside vehicle ECUs
-- **[cockpit-agent](https://github.com/SuperdeMan/cockpit-agent)** — community project: cloud-edge multi-agent system for intelligent cockpit (Chinese market), LLM planning + vehicle control VAL safety execution
-
-**Pattern to watch:** Edge LLM (Llama 3.2 3B / Phi-3 Mini) + KUKSA databroker + voice NLP = privacy-preserving in-car AI that works offline.
-
----
-
-## 📊 Trending GitHub Repos This Week
-
-| Repo | Stars | Trend | Notes |
-|------|-------|-------|-------|
-| [commaai/openpilot](https://github.com/commaai/openpilot) | ~50k | ▲▲ | 0.11.2 release |
-| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | ~11.7k | ▲ | IEEE IV 2026 workshop |
-| [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | ~1k | ▲▲ | NVIDIA ecosystem push |
-| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | ~500 | ▲ | SDV momentum |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | ~500 | ▲▲ | Map-less AV gaining interest |
-| [traccar/traccar](https://github.com/traccar/traccar) | ~5k | → | Stable, widely deployed |
-
----
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated by the ingest pipeline.*

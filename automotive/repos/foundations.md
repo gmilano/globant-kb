@@ -1,63 +1,67 @@
-# 🏗️ Foundational Repos — Automotive
+# Foundational Repos — Automotive
 
-> Build-on-these bases. Open license, active community, production-proven.
-> Last updated: 2026-07-06
+> The bedrock repositories to build on. Open license, active community, production-proven.
+> Last updated: 2026-07-07
 
----
+## Autonomous Driving & Simulation
 
-## Autonomous Driving Stack
-
-| Repo | License | Description | AI-Ready? |
-|------|---------|-------------|-----------|
-| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | World's leading open-source AV stack. Full modular pipeline: perception, localization, planning, control. 100+ companies, 20+ countries. ROS 2-based. | Yes — 11.7k ★ |
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | Open OS for robotics/ADAS. 300+ supported cars. v0.11 uses 2B-param world model trained on 2.5M min fleet video. Pure vision + radar. | Yes — ~50k ★ |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | Production-grade vision-only ADAS/FSD stack — no HD map dependency. Safety-certifiable code quality. | Yes — ~500 ★ |
-| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | Unreal Engine urban driving simulator. Sensors: RGB camera, LiDAR, radar, semantic seg. Python API. De-facto research standard. | Yes — 14.1k ★ |
-| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | Modular AV research platform on CARLA + real hardware (CMU/UCB). Dataflow graph architecture. Plug-in perception, prediction, planning. | Yes — 534 ★ |
-
----
-
-## Simulation & Testing
-
-| Repo | License | Description | AI-Ready? |
-|------|---------|-------------|-----------|
-| [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | Apache-2.0 | NVIDIA AlpaSim — open AV simulation for E2E policy testing. gRPC microservices. Supports Alpamayo-R1, VaVAM, Transfuser. | Yes — ~1k ★ |
-| [cjy1992/gym-carla](https://github.com/cjy1992/gym-carla) | MIT | OpenAI Gym wrapper for CARLA. Standardized RL training interface for AV agents. | Yes — 620 ★ |
-| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | ROS 2 ↔ CARLA bridge. Enables Autoware and other ROS stacks to use CARLA for simulation. | Yes — 637 ★ |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | Plug-and-play framework for registering and testing autonomous agents in CARLA. | Yes — 77 ★ |
-| [PJLab-ADG/PCSim](https://github.com/PJLab-ADG/PCSim) | Apache-2.0 | LiDAR point cloud simulation + sensor placement optimization (ICRA 2023). | Yes — 272 ★ |
-
----
-
-## Software-Defined Vehicle (SDV) Infrastructure
-
-| Repo | License | Description | AI-Ready? |
-|------|---------|-------------|-----------|
-| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | Rust-based in-vehicle VSS data broker. Standardizes CAN/LIN/Ethernet signals into gRPC-accessible data points. Backbone of Eclipse SDV ecosystem. | Yes — ~500 ★ |
-| [eclipse-kuksa/kuksa.val.services](https://github.com/eclipse-kuksa/kuksa.val.services) | Apache-2.0 | Vehicle service implementations on KUKSA (seat, HVAC, VISS). Reference for vehicle abstraction layer. | Yes — ~200 ★ |
-| [SoftwareDefinedVehicle](https://github.com/SoftwareDefinedVehicle) | Apache-2.0 | Eclipse SDV GitHub org. Eclipse Leda (Yocto-based SDV.EDGE build), Velocitas (vehicle app framework), Chariott (service discovery). | Yes |
-
----
+| Repo | License | Stars | Description | Build-on potential |
+|------|---------|-------|-------------|-------------------|
+| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~52k | Operating system for robotics / ADAS. Runs on 300+ vehicle models. Production-grade lane keeping + adaptive cruise. Python core. | High — add LLM-powered scene narration, driver monitoring agents |
+| [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | ~26k | Baidu's L4 autonomous driving platform. Full perception → planning → control pipeline. Cyber RT middleware. | High — extend with LLM-based mission planning and edge cases |
+| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | ~11.8k | World's leading open-source AD stack, built on ROS 2. Production-deployed in 30+ vehicle types across 20 countries. | High — ROS 2 ecosystem; add AI planners via ROS nodes |
+| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | ~14.1k | Open-source autonomous driving simulator in Unreal Engine. Photorealistic environments, Python+C++ API, sensor suite. | High — primary training/validation platform; pair with openpilot or Autoware |
+| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | ~637 | ROS/ROS 2 bridge for CARLA. Connects simulation sensors (camera, LiDAR, radar) to ROS 2 nodes. | Medium — glue layer for CARLA + Autoware integration |
+| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | ~534 | Modular AD platform running on CARLA and real-world vehicles. Separates perception, prediction, planning, control into composable components. | High — good reference architecture for modular AI agent composition |
 
 ## Fleet Management & Telematics
 
-| Repo | License | Description | AI-Ready? |
-|------|---------|-------------|-----------|
-| [traccar/traccar](https://github.com/traccar/traccar) | Apache-2.0 | GPS tracking server for 2,000+ device protocols. Java + REST API. Industry standard. Webhook/event stream for AI integration. | Yes — ~5k ★ |
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | Open logistics OS — dispatch, telematics, route optimization, maintenance, analytics. REST + WebSocket. | Yes — ~800 ★ |
-| [openremote/fleet-management](https://github.com/openremote/fleet-management) | Apache-2.0 | OpenRemote-based fleet telematics. Teltonika device integration, IoT management. | Yes — ~100 ★ |
-| [sachnaror/fleet-management-system](https://github.com/sachnaror/fleet-management-system) | Apache-2.0 | Python FastAPI fleet platform — OBD-II, CAN bus, GPS, driver behavior, fault detection, live dashboard. | Yes — ~30 ★ |
+| Repo | License | Stars | Description | Build-on potential |
+|------|---------|-------|-------------|-------------------|
+| [traccar/traccar](https://github.com/traccar/traccar) | Apache-2.0 | ~5.2k | Real-time GPS tracking server. 200+ protocols, 2000+ device models, REST API, geofencing, trip reporting. Java backend. | High — add ML anomaly detection, route optimization AI, predictive alerts |
+| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | ~1.1k | Modular logistics + fleet OS. Fleet management, route optimization, warehouse ops, e-commerce delivery. Laravel + Vue.js. | High — add AI dispatching agents, ETA prediction, cost forecasting |
+
+## Computer Vision & Inspection
+
+| Repo | License | Stars | Description | Build-on potential |
+|------|---------|-------|-------------|-------------------|
+| [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics) | AGPL-3.0 | ~45k | YOLOv8/v11 — fastest production-grade object detection. Runs on edge (Jetson, RPi). | High — power automotive visual inspection; detects defects, pedestrians, road signs |
+| [Divyeshpratap/A.I.-AutoInspector](https://github.com/Divyeshpratap/A.I.-AutoInspector) | MIT | ~180 | Vehicle damage assessment via CV + Gen AI chatbot. YOLO-based defect localization + GPT-powered Q&A on damage reports. | High — extend with multi-car batch processing, insurance API integration |
+
+## EV & Energy Infrastructure
+
+| Repo | License | Stars | Description | Build-on potential |
+|------|---------|-------|-------------|-------------------|
+| [TUMFTM/REVOL-E-TION](https://github.com/TUMFTM/REVOL-E-TION) | Apache-2.0 | ~16 | Site-level energy system optimization for EV fleet charging. Investigates charging strategies and grid impact. Python. | High — add RL-based smart charging agent; connect to real grid API |
+| [philippnormann/ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | MIT | ~20 | RL simulation for finding shortest charging routes for EVs. Gym-compatible environment. | Medium — baseline for routing agent development |
+
+## Manufacturing & Robotics
+
+| Repo | License | Stars | Description | Build-on potential |
+|------|---------|-------|-------------|-------------------|
+| [microsoft/agentic-factory-hack](https://github.com/microsoft/agentic-factory-hack) | MIT | ~60 | Multi-agent predictive maintenance orchestration with LangGraph + Azure AI. Reference architecture for factory AI agents. | High — adapt to automotive body-shop or press-shop equipment monitoring |
+
+## Dependency Map (Quick-Start Stack)
+
+```
+Autonomous Driving Stack
+├── carla-simulator/carla          ← simulation environment
+│   └── carla-simulator/ros-bridge ← ROS 2 bridge
+├── autowarefoundation/autoware    ← full AD software stack
+│   └── erdos-project/pylot        ← modular perception/planning research
+└── commaai/openpilot              ← consumer ADAS (MIT, deployable today)
+
+Fleet Ops Stack
+├── traccar/traccar                ← GPS backbone
+│   └── [LangGraph agent layer]   ← add AI anomaly detection here
+└── fleetbase/fleetbase            ← logistics OS
+    └── [route optimization AI]   ← add ML dispatch agents here
+
+Visual Inspection Stack
+├── ultralytics/ultralytics        ← YOLO object detection
+├── A.I.-AutoInspector             ← end-to-end damage assessment demo
+└── [agentic-factory-hack pattern] ← multi-agent orchestration for inspection lines
+```
 
 ---
-
-## CARLA Ecosystem Utilities
-
-| Repo | License | Description | AI-Ready? |
-|------|---------|-------------|-----------|
-| [carla-simulator/carla-autoware](https://github.com/carla-simulator/carla-autoware) | MIT | CARLA ↔ Autoware AV integration. Bridge for testing Autoware stacks in CARLA. | Yes — 282 ★ |
-| [YukunXia/Carla_iLQR_MPC](https://github.com/YukunXia/Carla_iLQR_MPC) | MIT | Real-time MPC based on iLQR in CARLA. Planning algorithm reference. | Yes — 315 ★ |
-| [Amin-Tgz/awesome-CARLA](https://github.com/Amin-Tgz/awesome-CARLA) | CC0-1.0 | Curated CARLA resources: tutorials, blog posts, code. Community aggregator. | Yes — 917 ★ |
-
----
-
-*See also: `verticals/solutions.md` for full vertical platforms (fleet, dealer, ERP).*
+*See also: `verticals/solutions.md` for full vertical platforms.*

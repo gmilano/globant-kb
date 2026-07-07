@@ -1,342 +1,254 @@
-# 🧩 Composition Patterns — Automotive AI
+# Composition Patterns — Automotive AI
 
-> Concrete recipes using real repos + agents. Ready to prototype.
-> Last updated: 2026-07-06
-
----
-
-## Architecture Template
-
-```
-[Open-source vertical platform]    (Traccar / Autoware / KUKSA / Odoo)
-          ↓
-[Event stream / API bridge]        (webhook, gRPC, REST)
-          ↓
-[AI agent layer]                   (LangGraph / CrewAI + Claude API)
-          ↓
-[Action executors]                 (Odoo service order / SMS alert / KUKSA write)
-          ↓
-[Conversational UI / Dashboard]    (Chainlit / React + WebSocket)
-```
+> Concrete recipes for building AI solutions using the identified repos + agents.
+> Each pattern names the specific repos, shows how to wire them, and gives a delivery estimate.
+> Last updated: 2026-07-07
 
 ---
 
-## Pattern 1: AI-Powered Fleet Intelligence Platform
+## Pattern 1: AI-Enhanced Fleet Tracking (Traccar + LangGraph)
 
-**Goal:** Give a commercial fleet operator a natural-language interface to their fleet data + proactive maintenance alerts.
+**Use case:** Add predictive maintenance alerts, route anomaly detection, and driver coaching to an existing GPS fleet.
 
-**Stack:**
-- Base: [Traccar](https://github.com/traccar/traccar) (Apache-2.0) — GPS tracking, event stream
-- Fleet ops: [Fleetbase](https://github.com/fleetbase/fleetbase) (AGPL-3.0) — dispatch + maintenance
-- AI: LangGraph + Claude Sonnet 5 (`claude-sonnet-5`)
-- ERP: Odoo Community (LGPL-3.0) — service order generation
+**Stack:** `traccar/traccar` (Apache-2.0) + `langchain-ai/langgraph` (MIT) + Anthropic Claude API
 
-**Wiring:**
+**Architecture:**
+```
+Traccar REST API (speed, fuel, GPS, engine temp)
+    ↓
+LangGraph supervisor agent
+    ├── anomaly_agent: detect abnormal patterns vs. historical baseline
+    ├── maintenance_agent: predict breakdown (48-72h horizon)
+    ├── route_agent: re-route based on traffic + fuel cost
+    └── coach_agent: weekly driver behavior report
+    ↓
+Notification layer (Slack / WhatsApp / email)
+```
+
+**Key code — Anomaly Detection Agent:**
 ```python
-# Traccar webhook → event normalizer → LangGraph agent
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph
 from anthropic import Anthropic
 
 client = Anthropic()
 
-def analyze_telemetry(state):
-    """Analyze OBD-II telemetry event from Traccar webhook."""
-    event = state["event"]
+def anomaly_detector(state: dict) -> dict:
+    telemetry = state["telemetry"]
+    baseline = state["baseline"]
+    
+    prompt = f"""
+    Vehicle {telemetry['vehicle_id']} telemetry:
+    - Fuel consumption: {telemetry['fuel_l_per_100km']} L/100km (baseline: {baseline['fuel_l_per_100km']})
+    - Engine temp: {telemetry['engine_temp_c']}°C
+    - Speed variance: {telemetry['speed_variance']}
+    
+    Is this anomalous? What is the likely cause and recommended action?
+    """
+    
     response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{
-            "role": "user",
-            "content": f"""Analyze this vehicle telemetry event and determine if maintenance is needed:
-Vehicle: {event['deviceName']} ({event['vehicleId']})
-Event type: {event['type']}
-Attributes: {event['attributes']}
-Recent history: {event['history']}
-
-Return JSON: {{"action": "none|alert|schedule_maintenance", "severity": "low|medium|high", "reason": "..."}}"""
-        }]
+        max_tokens=500,
+        messages=[{"role": "user", "content": prompt}]
     )
-    return {"analysis": response.content[0].text}
-
-def create_service_order(state):
-    """Create Odoo service order if maintenance required."""
-    if state["analysis"]["action"] == "schedule_maintenance":
-        # POST to Odoo JSON-RPC endpoint
-        odoo_rpc("fleet.vehicle.log.services", "create", {
-            "vehicle_id": state["vehicle_id"],
-            "description": state["analysis"]["reason"],
-            "date": "today"
-        })
-    return state
-
-graph = StateGraph(dict)
-graph.add_node("analyze", analyze_telemetry)
-graph.add_node("act", create_service_order)
-graph.add_edge("analyze", "act")
-graph.add_edge("act", END)
+    return {**state, "anomaly_assessment": response.content[0].text}
 ```
 
-**Natural language query endpoint:**
-```python
-# "Which trucks in the São Paulo fleet need service this week?"
-response = client.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=2048,
-    tools=[traccar_query_tool, fleetbase_query_tool],
-    messages=[{"role": "user", "content": user_query}]
-)
-```
-
-**Time to build:** 3–4 weeks
-**Cost:** ~$0.003–0.01 per alert generated (Claude API) + Traccar/Fleetbase self-hosted
-**LATAM fit:** Direct fit for Brazilian logistics companies (JBS, BRF, Ambev fleets)
+**Delivery estimate:** 3-5 weeks | **Cost:** ~$0.05-0.15/vehicle/day | **LATAM fit:** Excellent
 
 ---
 
-## Pattern 2: ADAS Simulation CI/CD Pipeline
+## Pattern 2: Predictive Maintenance Agent for Automotive Manufacturing
 
-**Goal:** Automate regression testing of ADAS algorithms in simulation on every code push.
+**Use case:** Monitor plant equipment (CNC, welding robots, presses). Predict failures 48-72h ahead. Auto-schedule maintenance.
 
-**Stack:**
-- Simulator: [CARLA](https://github.com/carla-simulator/carla) (MIT)
-- AV stack: [Autoware](https://github.com/autowarefoundation/autoware) (Apache-2.0)
-- Policy testing: [AlpaSim](https://github.com/NVlabs/alpasim) (Apache-2.0)
-- ROS bridge: [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) (MIT)
-- CI: GitHub Actions / GitLab CI
-- Reporting: LLM-generated test summaries (Claude API)
-
-**Pipeline:**
-```yaml
-# .github/workflows/adas-sim.yml
-name: ADAS Simulation Tests
-on: [push, pull_request]
-
-jobs:
-  simulate:
-    runs-on: [self-hosted, gpu]
-    steps:
-      - name: Start CARLA server
-        run: docker run -d --gpus all carlasimulator/carla:0.9.15
-
-      - name: Run Autoware in simulation
-        run: |
-          ros2 launch autoware_launch planning_simulator.launch.xml \
-            map_path:=./maps/test_town \
-            scenario:=./scenarios/highway_merge.yaml
-
-      - name: Run AlpaSim policy eval
-        run: |
-          python alpasim/eval.py \
-            --policy autoware_policy \
-            --scenarios all \
-            --output results/
-
-      - name: Generate AI test report
-        run: |
-          python scripts/ai_report.py results/ \
-            # Uses Claude API to interpret pass/fail metrics,
-            # highlight regressions, suggest root causes
-```
-
-**Test scenario generation with Claude:**
-```python
-# Generate edge-case scenario descriptions from natural language
-scenario = client.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=1024,
-    messages=[{"role": "user", "content": 
-        "Generate a CARLA scenario YAML for: pedestrian crossing in rain at night, "
-        "two cars in adjacent lanes, ego vehicle at 50 km/h. OpenSCENARIO format."}]
-)
-```
-
-**Time to build:** 4–6 weeks (infrastructure setup dominates)
-**Value:** Catch regressions before hardware testing — estimated 60–70% test cycle cost reduction
-
----
-
-## Pattern 3: SDV Cockpit AI Agent (On-Device, Privacy-First)
-
-**Goal:** Voice-controlled in-car AI agent that runs entirely on the vehicle compute unit, no cloud dependency.
-
-**Stack:**
-- Vehicle signals: [Eclipse KUKSA databroker](https://github.com/eclipse-kuksa/kuksa-databroker) (Apache-2.0) → gRPC
-- Vehicle apps: [Eclipse Velocitas](https://github.com/eclipse-velocitas) (Apache-2.0) → Python
-- Speech-to-text: OpenAI Whisper (MIT) — on device
-- Edge LLM: Phi-3 Mini (3.8B, MIT) or Llama 3.2 3B (Meta Community) via Ollama
-- Text-to-speech: Coqui TTS (MPL-2.0)
-- OS: Eclipse Leda (Apache-2.0) on vehicle compute
+**Stack:** `microsoft/agentic-factory-hack` (MIT) + `langchain-ai/langgraph` (MIT) + `scikit-learn` + Claude API
 
 **Architecture:**
 ```
-Microphone → Whisper (on-device STT)
-           → LLM reasoning (Phi-3 Mini, Ollama)
-           → Intent parser
-           → KUKSA databroker (gRPC write)
-           → Vehicle actuators (HVAC, nav, seat, infotainment)
-           → Coqui TTS response (on-device)
+IoT Sensors (vibration, temp, current, acoustic) → MQTT/OPC-UA
+    ↓
+LangGraph Multi-Agent Orchestrator
+    ├── sensor_reader_agent: collect + normalize
+    ├── anomaly_agent: Z-score + ML deviation detection
+    ├── forecaster_agent: LSTM Remaining Useful Life prediction
+    ├── diagnosis_agent: Claude root cause analysis
+    ├── parts_agent: inventory check + auto-PO
+    └── scheduler_agent: book maintenance in ERP calendar
 ```
 
-**KUKSA vehicle app (Velocitas pattern):**
+**Key code — Diagnosis Agent:**
 ```python
-from vehicle import Vehicle, VehicleApp
-from sdv.vdb.subscriptions import DataPointReply
-
-class CockpitAIApp(VehicleApp):
-    def __init__(self):
-        super().__init__()
-        self.Vehicle = Vehicle()
-
-    async def on_start(self):
-        await self.subscribe_data_points([
-            self.Vehicle.Cabin.HVAC.Station.Row1.Left.Temperature,
-            self.Vehicle.CurrentLocation.Latitude,
-            self.Vehicle.Speed,
-        ])
-
-    async def on_command(self, natural_language_command: str):
-        """Process voice command via on-device LLM."""
-        # Ollama inference (on-device)
-        import ollama
-        response = ollama.chat(model='phi3:mini', messages=[
-            {"role": "system", "content": "You control vehicle systems. Return JSON actions only."},
-            {"role": "user", "content": f"Command: {natural_language_command}\n"
-                f"Current speed: {await self.Vehicle.Speed.get()}\n"
-                f"Current temp: {await self.Vehicle.Cabin.HVAC.Station.Row1.Left.Temperature.get()}"}
-        ])
-        actions = parse_actions(response['message']['content'])
-        for action in actions:
-            await self.execute_vehicle_action(action)
-```
-
-**Time to build:** 6–8 weeks (KUKSA + Velocitas setup + edge ML optimization)
-**Cost per query:** $0 after hardware (fully on-device)
-**Target clients:** EV OEMs, Tier-1 suppliers building cockpit software, premium aftermarket
-
----
-
-## Pattern 4: AI-Powered Dealership CRM + Service Assistant
-
-**Goal:** AI assistant for dealership staff — answers customer questions, qualifies leads, schedules service, generates repair estimates.
-
-**Stack:**
-- Base: [Odoo Community](https://github.com/odoo/odoo) (LGPL-3.0) — CRM + Service modules
-- AI: Claude Sonnet 5 via Anthropic API
-- Voice/chat: Chainlit or React + WebSocket
-- Channels: WhatsApp Business API, SMS (Twilio)
-
-**Lead qualification agent:**
-```python
-# Odoo webhook: new CRM lead created
-@app.post("/webhook/odoo-lead")
-async def qualify_lead(lead: dict):
+def diagnosis_agent(state: dict) -> dict:
     response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=1500,
-        system="""You are a dealership CRM assistant. Given a lead, 
-        score it (1-10), suggest follow-up action, and draft a personalized 
-        response message. Output JSON.""",
+        max_tokens=800,
+        system="You are an industrial equipment diagnostics expert for automotive manufacturing.",
         messages=[{"role": "user", "content": f"""
-Lead details:
-Name: {lead['partner_name']}
-Source: {lead['source_id']}
-Vehicle interest: {lead['tag_ids']}
-Message: {lead['description']}
-Budget mentioned: {lead.get('planned_revenue', 'unknown')}
+            Equipment: {state['equipment_metadata']['name']}
+            Vibration RMS: {state['sensor_readings']['vibration']} g
+            Temperature: {state['sensor_readings']['temp']}°C
+            Motor current: {state['sensor_readings']['current']} A
+            Anomaly score: {state['anomaly_score']:.2f} (threshold: 0.75)
+            Diagnose: failure mode? Time to failure? Recommended action?
         """}]
     )
-    qualification = json.loads(response.content[0].text)
-    
-    # Update Odoo CRM via JSON-RPC
-    odoo_write("crm.lead", lead["id"], {
-        "priority": str(min(qualification["score"] // 4, 2)),
-        "description": qualification["follow_up"] + "\n\n" + lead["description"]
-    })
-    
-    # Send WhatsApp via Twilio
-    if qualification["score"] >= 7:
-        send_whatsapp(lead["mobile"], qualification["personalized_message"])
+    return {**state, "diagnosis": response.content[0].text, "action_required": state["anomaly_score"] > 0.75}
 ```
 
-**Service estimate generator:**
-```python
-# Service advisor describes problem in plain language
-estimate = client.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=1024,
-    messages=[{"role": "user", "content": f"""
-Customer complaint: {complaint}
-Vehicle: {year} {make} {model}, {mileage}km
-Dealer labor rate: ${labor_rate}/hr
-Parts catalog: {parts_db_excerpt}
-
-Generate a service estimate with: diagnosis steps, parts needed (with part numbers), 
-labor hours, total cost range, and customer-friendly explanation.
-    """}]
-)
-```
-
-**Time to build:** 2–3 weeks
-**Cost:** ~$0.01–0.05 per lead qualification + $0.005 per service estimate
-**LATAM fit:** High — Odoo is already popular in LATAM auto workshops; AI layer adds immediate ROI
+**Delivery estimate:** 6-10 weeks | **ROI:** 15-25% maintenance cost reduction, 40% downtime reduction (McKinsey) | **LATAM fit:** High
 
 ---
 
-## Pattern 5: Predictive Maintenance for Mining/Agricultural Fleets
+## Pattern 3: Vehicle Damage Inspection Agent (CV + Gen AI)
 
-**Goal:** Detect equipment failure 2–7 days in advance using vehicle telemetry + ML, reducing unplanned downtime by 20–30%.
+**Use case:** Automated visual damage assessment at dealerships, rental companies, or insurance adjusters.
 
-**Stack:**
-- Telemetry ingest: [Traccar](https://github.com/traccar/traccar) (Apache-2.0) + OBD-II adapters
-- Time-series ML: Prophet (MIT) + scikit-learn (BSD-3)
-- Anomaly detection: [Isolation Forest / LSTM Autoencoder]
-- Agent: LangGraph + Claude Haiku (cost-optimized for high-volume alerts)
-- CMMS: [Fleetbase](https://github.com/fleetbase/fleetbase) (AGPL) or Odoo Maintenance
+**Stack:** `ultralytics/ultralytics` YOLO v11 (AGPL-3.0) + `A.I.-AutoInspector` (MIT) + Claude vision API + FastAPI
 
-**High-level flow:**
+**Architecture:**
 ```
-OBD-II adapter → Traccar (5-min telemetry intervals)
-               → Time-series database (InfluxDB / TimescaleDB)
-               → Anomaly detection model (runs hourly)
-               → LangGraph alert agent (Claude Haiku)
-               → Maintenance schedule creation in Fleetbase/Odoo
-               → SMS/WhatsApp alert to fleet supervisor
+Mobile camera
+    ↓
+YOLO v11 (detects: dent, scratch, crack, rust)
+    ↓
+Claude vision (severity assessment, cost estimate, insurance classification)
+    ↓
+Structured JSON report → PDF → Insurance API / DMS
 ```
 
-**Anomaly → work order:**
+**Key code — Inspection Pipeline:**
 ```python
-async def anomaly_to_workorder(anomaly: dict) -> dict:
-    """Convert ML anomaly signal into a structured maintenance work order."""
+import base64
+from ultralytics import YOLO
+from anthropic import Anthropic
+
+model = YOLO("yolov11-automotive-damage.pt")
+client = Anthropic()
+
+def inspect_vehicle(image_path: str, vehicle_info: dict) -> dict:
+    results = model(image_path)
+    damage_boxes = [
+        {"class": results[0].names[int(c)], "confidence": float(conf)}
+        for c, conf in zip(results[0].boxes.cls, results[0].boxes.conf) if conf > 0.5
+    ]
+    with open(image_path, "rb") as f:
+        image_data = base64.standard_b64encode(f.read()).decode("utf-8")
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",  # cost-optimized for high volume
-        max_tokens=512,
-        messages=[{"role": "user", "content": f"""
-Anomaly detected on vehicle {anomaly['vehicle_id']}:
-Signal: {anomaly['signal_name']} ({anomaly['current_value']} vs baseline {anomaly['baseline']})
-Anomaly score: {anomaly['score']:.2f}
-Vehicle type: {anomaly['vehicle_type']}
-Last maintenance: {anomaly['last_service_date']}
-
-Generate: (1) likely root cause, (2) urgency (immediate/within 48h/scheduled), 
-(3) maintenance action, (4) estimated downtime if ignored.
-Output JSON.
-        """}]
+        model="claude-opus-4-8",
+        max_tokens=1000,
+        messages=[{"role": "user", "content": [
+            {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": image_data}},
+            {"type": "text", "text": f"Vehicle: {vehicle_info}\nDetected: {damage_boxes}\nAssess severity, cost range, repair priority, insurance classification. Return JSON."}
+        ]}]
     )
-    return {"work_order": json.loads(response.content[0].text), **anomaly}
+    return {"vehicle": vehicle_info, "detections": damage_boxes, "assessment": response.content[0].text}
 ```
 
-**Time to build:** 5–7 weeks (ML model training requires historical data)
-**ROI:** 20–30% reduction in unplanned downtime, 15% reduction in parts costs
-**LATAM fit:** Direct fit for Chilean copper mines (Codelco, Anglo American), Brazilian agribusiness (JBS, Cargill fleets), Colombian logistics
+**Delivery estimate:** 4-6 weeks | **Cost:** ~$0.08-0.15/inspection | **LATAM fit:** Excellent (MercadoLibre Autos, OLX, Porto Seguro)
 
 ---
 
-## Quick-Start Selection Matrix
+## Pattern 4: Smart Cockpit AI Agent (Cloud-Edge Multi-Agent)
 
-| Use Case | Base Platform | AI Model | Build Time | Team Size |
-|----------|--------------|----------|------------|-----------|
-| Fleet intelligence + NL query | Traccar + Fleetbase | Claude Sonnet 5 | 3–4 wks | 2–3 devs |
-| ADAS simulation CI/CD | CARLA + Autoware + AlpaSim | Claude Sonnet 5 | 4–6 wks | 3–4 devs |
-| SDV cockpit AI (on-device) | KUKSA + Velocitas + Phi-3 | Phi-3 Mini / Llama 3.2 | 6–8 wks | 3–5 devs |
-| Dealership CRM + service AI | Odoo + WhatsApp | Claude Sonnet 5 | 2–3 wks | 1–2 devs |
-| Predictive maintenance | Traccar + Prophet + LSTM | Claude Haiku 4.5 | 5–7 wks | 3–4 devs |
+**Use case:** In-vehicle AI assistant — fast intent on device, complex reasoning in cloud.
+
+**Stack:** `SuperdeMan/cockpit-agent` pattern + Llama 3.2 3B via Ollama (edge) + Claude claude-sonnet-5 (cloud)
+
+**Architecture:**
+```
+Driver voice input
+    ↓
+Edge: Llama 3.2 3B (<10ms) → simple intents (play music, set temp) → CAN bus
+    └── complex intents → Claude (cloud) → reasoning → HMI response + VAL commands
+```
+
+**Key code — Intent Routing:**
+```python
+import ollama
+from anthropic import Anthropic
+
+client = Anthropic()
+SIMPLE_INTENTS = {"play_music", "set_temperature", "call_contact", "set_volume"}
+
+def route_intent(voice_input: str, vehicle_state: dict) -> dict:
+    edge = ollama.chat(model="llama3.2:3b",
+        messages=[{"role": "user", "content": f"Classify as one of {SIMPLE_INTENTS} or 'complex': '{voice_input}'"}])
+    intent = edge["message"]["content"].strip()
+    if intent in SIMPLE_INTENTS:
+        return {"intent": intent, "handled_by": "edge"}
+    cloud = client.messages.create(model="claude-sonnet-5", max_tokens=500,
+        system=f"Intelligent vehicle assistant. State: {vehicle_state}",
+        messages=[{"role": "user", "content": voice_input}])
+    return {"intent": "complex", "action": cloud.content[0].text, "handled_by": "cloud"}
+```
+
+**Delivery estimate:** 8-12 weeks | **LATAM fit:** Medium (Chinese OEMs entering Brazil: BYD, Chery, JAC)
+
+---
+
+## Pattern 5: Autonomous Driving Research Pipeline (CARLA + Autoware + LLM)
+
+**Use case:** LLM agents generate test scenarios → CARLA executes → Autoware navigates → Claude evaluates → loop.
+
+**Stack:** `carla-simulator/carla` (MIT) + `autowarefoundation/autoware` (Apache-2.0) + `MasoudJTehrani/PCLA` (Apache-2.0) + Claude
+
+**Key code — Scenario Generation Loop:**
+```python
+failure_history = []
+for i in range(100):
+    response = client.messages.create(
+        model="claude-sonnet-5", max_tokens=800,
+        system="Generate CARLA ScenarioRunner JSON configs for autonomous driving testing. Focus on edge cases.",
+        messages=[{"role": "user", "content": f"""
+            Previous failures: {chr(10).join(failure_history[-5:])}
+            Generate a new scenario targeting a DIFFERENT failure mode.
+            Must be realistic for a Brazilian city. Include: weather, traffic, pedestrian behavior.
+            Return as CARLA ScenarioRunner JSON.
+        """}]
+    )
+    scenario = response.content[0].text
+    result = run_carla_scenario(scenario)
+    if result["outcome"] == "failure":
+        failure_history.append(f"Scenario {i}: {result['failure_reason']}")
+```
+
+**Delivery estimate:** 4-8 weeks | **Target:** OEM R&D labs, Tier-1 ADAS suppliers, ITA/USP/UNICAMP/UNAM
+
+---
+
+## Pattern 6: EV Fleet Smart Charging Optimizer
+
+**Use case:** Manage charging for 50-500 EVs to minimize cost, avoid grid peaks, maximize availability.
+
+**Stack:** `TUMFTM/REVOL-E-TION` (Apache-2.0) + `ev-charging-optimization` (MIT) + `traccar/traccar` (Apache-2.0) + LangGraph
+
+**Architecture:**
+```
+Fleet State (Traccar: battery %, location, next trip) + Grid State (tariff, load forecast) + Weather
+    ↓
+LangGraph Charging Optimizer
+    ├── demand_forecaster: predict which vehicles need charge by when
+    ├── grid_reader: find optimal charging windows (low tariff + low grid load)
+    ├── scheduler: assign vehicle → charger → time window
+    └── override_handler: emergency charging
+    ↓
+Charging station commands (OCPP protocol) + Fleet dashboard update
+```
+
+**Estimated savings:** 20-35% charging energy cost reduction | **Delivery:** 5-8 weeks | **LATAM fit:** High
+
+---
+
+## Pattern Selection Guide
+
+| Client scenario | Pattern | Time | Complexity |
+|----------------|---------|------|------------|
+| Fleet operator (trucks/vans) | Pattern 1: Fleet Tracking AI | 3-5 wk | Low |
+| Auto plant (quality/maintenance) | Pattern 2: Predictive Maintenance | 6-10 wk | Medium |
+| Dealership / insurance / rental | Pattern 3: Damage Inspection | 4-6 wk | Medium |
+| OEM / SDV cockpit project | Pattern 4: Smart Cockpit | 8-12 wk | High |
+| AD research lab | Pattern 5: CARLA + LLM pipeline | 4-8 wk | Medium |
+| EV fleet operator | Pattern 6: Smart Charging | 5-8 wk | Medium |
+
+---
+*Auto-updated by the ingest pipeline.*

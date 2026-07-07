@@ -1,99 +1,122 @@
-# 🏭 Vertical Solutions — Automotive
+# Vertical Solutions — Automotive
 
-> Existing platforms that can be customized with AI on top.
-> Model: start from something functional, add an agentic layer.
-> Last updated: 2026-07-06
+> Full vertical platforms — real systems to fork and add an AI layer on top.
+> Model: start from something functional, add an agentic layer above it.
+> Last updated: 2026-07-07
 
----
+## Recommended Platforms
 
-## Fleet Management & Telematics
-
-| Platform | License | URL | Stack | Use Case |
-|----------|---------|-----|-------|----------|
-| **Traccar** | Apache-2.0 | [traccar/traccar](https://github.com/traccar/traccar) | Java + PostgreSQL + REST API | GPS tracking for 2,000+ device protocols. Add AI layer: route optimization agent, anomaly detection on telemetry streams, predictive maintenance alerts. |
-| **Fleetbase** | AGPL-3.0 | [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | Laravel + Vue + WebSocket | Full logistics OS — dispatch, telematics, route optimization, maintenance. Extend with: NLP dispatch assistant, AI-powered ETA prediction, driver scoring agent. |
-| **OpenRemote Fleet** | Apache-2.0 | [openremote/fleet-management](https://github.com/openremote/fleet-management) | Java + Kotlin + IoT | IoT-native fleet telematics on OpenRemote platform. Teltonika native integration. Add: sensor fusion AI, geofencing alerts, carbon footprint optimizer. |
-| **fleet-management-system** | Apache-2.0 | [sachnaror/fleet-management-system](https://github.com/sachnaror/fleet-management-system) | Python FastAPI + SQLAlchemy | OBD-II + CAN bus + GPS platform. Extend with: LangGraph maintenance agent, driver behavior scoring ML, fault prediction model. |
-
-**How to add AI:**
-1. Connect Traccar webhook → Lambda/FastAPI → LangGraph agent
-2. Agent monitors telemetry stream, triggers alerts, schedules maintenance in Odoo
-3. Add Claude API for natural-language fleet queries: "Which trucks are due for service this week?"
+| Platform | License | Repo / URL | Stack | Use Case |
+|----------|---------|------------|-------|----------|
+| [Traccar](https://github.com/traccar/traccar) | Apache-2.0 | github.com/traccar/traccar | Java + React | Real-time GPS fleet tracking; add AI anomaly detection + predictive alerts |
+| [Fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | github.com/fleetbase/fleetbase | Laravel + Vue.js | Full logistics OS: fleet, warehouse, delivery; add AI dispatching agents |
+| [Odoo Fleet](https://github.com/odoo/odoo) | LGPL-3.0 | github.com/odoo/odoo | Python + PostgreSQL | ERP-integrated fleet: contracts, fuel, maintenance; add AI cost forecasting |
+| [Autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | github.com/autowarefoundation/autoware | C++ + ROS 2 | Full autonomous driving stack for L4; add LLM mission planners |
+| [openpilot](https://github.com/commaai/openpilot) | MIT | github.com/commaai/openpilot | Python + C++ | ADAS OS for consumer vehicles; extend with LLM co-pilot features |
+| [CARLA Simulator](https://github.com/carla-simulator/carla) | MIT | github.com/carla-simulator/carla | C++ + Python | Autonomous driving sim; build AI agent training/eval pipelines on top |
+| [OpenGTS](http://www.opengts.org) | Apache-2.0 | sourceforge.net/projects/opengts | Java | Web-based GPS fleet tracking; mature, enterprise-proven; add ML alerts |
+| [DMS via Frappe](https://github.com/frappe/frappe) | MIT | github.com/frappe/frappe | Python + MariaDB | Frappe framework used as base for open-source DMS; add AI inventory + CRM agents |
 
 ---
 
-## Dealer Management Systems (DMS)
+## Platform Deep Dives
 
-| Platform | License | URL | Stack | Use Case |
-|----------|---------|-----|-------|----------|
-| **Odoo Community** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python + PostgreSQL + JS | Activate: Vehicle Inventory, CRM, Accounting, Service modules. All on one DB. Add AI: lead scoring, appointment scheduling agent, predictive parts inventory. |
-| **ERPNext / Frappe** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python + MariaDB + Vue | Full ERP with manufacturing, inventory, CRM. Automotive workshops use it for service orders, parts, customer history. AI layer: NLP service request intake, warranty claim agent. |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java + Derby/PostgreSQL | Modules: accounting, inventory, CRM, catalog, HR. Enterprise-grade. AI layer: demand forecasting, parts procurement agent. |
+### 1. Traccar — AI-Enhanced Fleet Tracking
 
-**Odoo automotive recipe:**
+**What it does:** GPS tracking for vehicle fleets. Supports 200+ GPS protocols, 2000+ device models. Geofencing, trip reporting, driver behavior scoring, maintenance reminders.
+
+**AI integration points:**
 ```
-Odoo Community (self-hosted)
-  └─ Vehicle Inventory module
-  └─ CRM module (lead → vehicle match)
-  └─ Service module (repair orders)
-  └─ AI add-on: webhook → Claude API → structured service notes
-  └─ AI add-on: SMS/WhatsApp bot for appointment booking
+Traccar REST API
+    ↓
+LangGraph agent (polling vehicle telemetry every 30s)
+    ↓
+Anomaly detection model (abnormal speed, fuel consumption, route deviation)
+    ↓
+Alert → Slack / email / dashboard
 ```
+
+**What to add:**
+- Predictive maintenance: vibration + temp anomalies → predict breakdown 48-72h ahead
+- Route optimization: LLM agent re-routes dynamically based on traffic + fuel cost
+- Driver coaching: NLP analysis of trip patterns → personalized driving tips
+- Carbon reporting: auto-generate Scope 3 emissions reports from trip data
+
+**LATAM angle:** Large logistics operators (Mercado Libre, DHL LATAM, Rappi) run fleets of 10k+ vehicles. AI on top of Traccar = real differentiation vs. generic fleet SaaS.
 
 ---
 
-## Autonomous Driving & ADAS Platforms
+### 2. Fleetbase — AI Logistics OS
 
-| Platform | License | URL | Stack | Use Case |
-|----------|---------|-----|-------|----------|
-| **Autoware** | Apache-2.0 | [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | ROS 2 + C++ + Python | Full AV stack. Customize: add customer-specific sensor drivers, perception models, geofenced behavioral planners. Used in production L2-L4 deployments. |
-| **openpilot** | MIT | [commaai/openpilot](https://github.com/commaai/openpilot) | Python + C++ + tinygrad | ADAS OS for 300+ cars. Fork and adapt for OEM use, fleet retrofits, or research. v0.11 world model is commercially buildable (MIT). |
-| **AlpaSim** | Apache-2.0 | [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | Python + gRPC | Simulation-first AV development. Test any policy (custom or Alpamayo) in NVIDIA's open simulator. |
-| **CARLA** | MIT | [carla-simulator/carla](https://github.com/carla-simulator/carla) | C++ + Unreal Engine + Python | Simulation environment for ADAS R&D. Customize: inject custom map tiles, sensor configs, traffic scenarios. |
+**What it does:** Modular LSOS (Logistics + Supply Chain OS). Fleet management, driver apps, route optimization, warehouse management, e-commerce delivery fulfillment, developer API. Multi-tenant, self-hosted or cloud.
+
+**AI integration points:**
+```
+Fleetbase Webhooks / REST API
+    ↓
+LangGraph multi-agent orchestrator
+    ├── Dispatch agent (optimal driver assignment)
+    ├── ETA prediction agent (ML model on historical trip data)
+    ├── Cost optimization agent (fuel + toll + driver time)
+    └── Exception handler (weather, traffic, vehicle breakdown)
+```
+
+**What to add:**
+- Real-time dispatch: LLM agent considers driver skills, vehicle load, traffic → optimal assignment
+- Customer comms: auto-send ETA updates and delay alerts via WhatsApp (common in LATAM)
+- Fleet health scoring: aggregate all vehicle telemetry → health score → proactive maintenance
 
 ---
 
-## Software-Defined Vehicle (SDV) Middleware
+### 3. Autoware — Open AD Stack for Commercial Fleets
 
-| Platform | License | URL | Stack | Use Case |
-|----------|---------|-----|-------|----------|
-| **Eclipse KUKSA** | Apache-2.0 | [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Rust + gRPC + VSS | In-vehicle data broker. Subscribe to vehicle signals (speed, door state, HVAC) via gRPC. Power AI apps: personalization agents, OTA health monitors, cabin safety. |
-| **Eclipse Velocitas** | Apache-2.0 | [eclipse-velocitas](https://github.com/eclipse-velocitas) | Python + Docker + K8s | Vehicle app development framework on top of KUKSA. Write Python "vehicle apps" that read/write VSS signals. |
-| **Eclipse Leda** | Apache-2.0 | [eclipse-leda](https://github.com/eclipse-leda) | Yocto + K8s + OTA | SDV.EDGE OS build. Run containerized vehicle apps on embedded hardware. |
+**What it does:** Production-ready autonomous driving software stack on ROS 2. Used in automated shuttle buses, last-mile delivery robots, airport tugs. Commercial-grade SLAM, object detection, path planning.
 
-**SDV AI recipe:**
+**AI integration points:**
 ```
-Eclipse Leda (embedded OS on vehicle compute unit)
-  └─ KUKSA Databroker (VSS signal hub)
-  └─ Vehicle app (Velocitas): subscribes to speed, location, CAN signals
-  └─ Edge LLM (Phi-3 Mini / Llama 3.2 3B via Ollama)
-  └─ Cockpit AI agent: voice NLP → KUKSA write → seat/HVAC/nav control
-  └─ Cloud sync: anonymized telemetry → OTA model updates
+Autoware Core
+    ├── Perception (object detection, lane detection) → add foundation model fine-tuning
+    ├── Prediction (agent behavior forecasting) → add LLM-based scenario reasoning
+    └── Planning (route + trajectory) → add LLM mission planner for edge cases
 ```
+
+**Best fit for Globant engagements:** Smart city pilots (closed-campus autonomous shuttles), port/mine/airport logistics autonomy projects.
 
 ---
 
-## EV Charging & Energy Management
+### 4. Odoo Fleet + AI
 
-| Platform | License | URL | Stack | Use Case |
-|----------|---------|-----|-------|----------|
-| **REVOL-E-TION** | Apache-2.0 | [TUMFTM/REVOL-E-TION](https://github.com/TUMFTM/REVOL-E-TION) | Python + OR-Tools | Site-level EV fleet energy optimization. TU Munich. Extend with: LLM scheduling assistant, grid price forecasting agent. |
-| **ev-charging-optimization** | MIT | [philippnormann/ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | Python simulation | Shortest-route EV charging simulation. Foundation for fleet-level charge scheduling AI. |
+**What it does:** Fleet module within Odoo ERP. Vehicle registry, contract management, fuel tracking, maintenance scheduling, cost analysis. Integrates with HR, accounting, procurement.
+
+**AI integration points:**
+- Predictive maintenance scheduler: ML model on maintenance history → predict next service date
+- AI-assisted procurement: agent suggests tire/part orders based on fleet usage patterns
+- Cost forecasting: LLM generates fleet cost forecasts for finance teams
+- Compliance agent: auto-generate regulatory compliance reports (LATAM varies by country)
 
 ---
 
-## How to Customize Any Platform with AI
+## Selection Guide
 
-```
-1. Fork the base repo (Odoo / Autoware / Traccar / KUKSA)
-2. Add AI endpoint (Anthropic API / local Ollama for on-vehicle)
-3. Identify trigger points: events, webhooks, scheduled jobs
-4. Wrap existing flows with agents (LangGraph / CrewAI)
-5. Add conversational UI layer (Chainlit / custom React + WebSocket)
-6. Keep original platform logic intact — AI is additive, not a rewrite
-```
+| Scenario | Recommended Platform | AI Layer |
+|----------|---------------------|----------|
+| Fleet of 50-500 vehicles, SMB | Traccar + LangGraph | Anomaly + maintenance alerts |
+| Enterprise logistics / delivery | Fleetbase + CrewAI | Multi-agent dispatch + ETA |
+| ERP-first client | Odoo Fleet | Predictive maintenance + cost AI |
+| Autonomous shuttle/delivery pilot | Autoware + ROS 2 | LLM mission planner |
+| Vehicle inspection at scale | A.I.-AutoInspector + YOLO | CV damage + LLM report |
+| Consumer ADAS upgrade | openpilot fork | LLM scene narrator + co-pilot |
 
-**Cost model for fleet AI:**
-- Self-hosted Traccar + LangGraph + Ollama on-prem: ~$0 variable cost after hardware
-- Traccar + Claude API: ~$0.003 per maintenance alert generation
-- Full Fleetbase + Claude Sonnet for dispatch: ~$0.01-0.05 per dispatch decision
+---
+
+## How to Add AI to Any Platform
+
+1. **Fork the base repo** — keep a clean upstream remote for security patches
+2. **Expose a data API** — most platforms have REST hooks; capture telemetry events
+3. **Add an agent orchestration layer** — LangGraph or CrewAI wrapping the platform's API
+4. **Wire in LLM inference** — Anthropic Claude API or local Ollama (for data-sensitive clients)
+5. **Add a conversational UI** — React chat panel or WhatsApp webhook for LATAM markets
+6. **Instrument with Langfuse** — trace agent calls, costs, and quality for ongoing improvement
+
+---
+*Auto-updated by the ingest pipeline.*

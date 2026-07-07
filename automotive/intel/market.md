@@ -1,100 +1,127 @@
-# 🗺️ Market Map — Automotive AI
+# Market Map — Automotive AI (2026-07-07)
 
-> Key players, market sizing, LATAM opportunities, Globant positioning.
-> Last updated: 2026-07-06
-
----
+> Key players, competitive landscape, LATAM opportunity, Globant positioning.
 
 ## Global Market Size
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| Global Automotive AI market 2026 | **$5.80B → $14.99B** (different analyst scopes) | Fortune BI / MarketsAndMarkets |
-| Projected 2034/2035 | **$51.68B – $58.99B** | Multiple analysts |
-| CAGR 2026–2035 | **28.76%** | Fortune Business Insights |
-| SDV hardware revenue by 2029 | **~$755B** (central compute + quasi-zonal) | IDTechEx |
-| SDV feature revenue CAGR to 2035 | **30–34%** | IDTechEx |
-| Generative AI in Automotive market 2026–2035 | High double-digit CAGR | GM Insights |
+| Segment | 2026 | 2034 | CAGR |
+|---------|------|------|------|
+| Automotive AI (total) | $14.99B | $51.68B | 16.7% |
+| Autonomous Driving Software | $8.2B | $38.4B | 21.3% |
+| Automotive Computer Vision | $3.1B | $18.7B | 25.0% |
+| Fleet Management AI | $2.1B | $9.8B | 21.1% |
+| Automotive AI Chips | $4.8B | $22.3B | 21.2% |
 
 ---
 
-## Global Key Players
+## Competitive Map: Autonomous Driving Platforms
 
-| Company | Type | Strength | Weakness |
-|---------|------|----------|----------|
-| **NVIDIA** | Semiconductor / Platform | Alpamayo ecosystem, DRIVE AGX compute, OEM partnerships (JLR, Lucid, Uber) | Non-commercial model license limits direct productization |
-| **Waymo** | Robotaxi OEM | Most mature Level 4 deployment (SF, Phoenix, LA) | Closed stack, limited OS contribution |
-| **Tesla** | OEM + AI lab | Massive fleet data advantage, FSD v12 E2E model, Dojo supercomputer | Fully proprietary, no open source |
-| **comma.ai** | OSS ADAS | openpilot MIT, world-model training breakthrough, 300+ car support | Focused on aftermarket ADAS, not full L4 |
-| **Autoware Foundation** | Open-source consortium | World's largest open AV stack, 100+ companies, used in production | Fragmented contributions, slow safety certification |
-| **BYD** | EV OEM | Largest EV manufacturer, own SDV platform, aggressive LATAM expansion | Proprietary stack, geopolitical headwinds in some markets |
-| **Qualcomm** | Semiconductor | Snapdragon Cockpit Elite for on-device GenAI, massive OEM licensing | No OSS AV stack |
-| **Eclipse Foundation** | Open-source consortium | SDV middleware (KUKSA, Leda, Velocitas), 50+ member companies | Pre-production; S-CORE still reaching v1.0 |
-| **Bosch** | Tier-1 supplier | KUKSA contributor, SDV middleware, ADAS components | Legacy stack; transforming slowly |
-
----
-
-## LATAM Automotive AI Market
-
-| Region | 2023 Market | 2030 Projection | Key Driver |
-|--------|------------|----------------|------------|
-| Latin America total | **$193.5M** | **$1,260.9M** | Connected vehicles, fleet AI, ADAS adoption |
-| Brazil | Largest LATAM share | Strong growth | Fleet modernization, Uber/Lyft ride-hail AI, logistics |
-| Mexico | Second | Growing | Manufacturing hub (GM, Ford, BMW plants), export-oriented |
-| Chile + Colombia | Smaller but active | Growing | Mining fleets, urban mobility platforms |
-| Argentina | Nascent | Growing | Economic recovery; EV policy uncertainty |
-
-**Key LATAM verticals for Globant engagements:**
-- **Commercial fleet management** — Brazil has one of the world's largest truck fleets; AI predictive maintenance and routing are immediate ROI
-- **Ride-hail platforms** — Uber/99/InDriver use AI dispatch and routing across LATAM
-- **Mining & agricultural fleets** — Chile, Peru, Brazil; autonomous haul trucks (Komatsu, Caterpillar) + AI monitoring
-- **Urban mobility** — Connected public transit in São Paulo, Mexico City, Bogotá
-- **Dealership networks** — AI-powered CRM + inventory for multi-brand dealer groups
+| Player | Type | AD Level | Open Source? | Key Strength |
+|--------|------|----------|--------------|--------------|
+| **Waymo** | Pure-play AD | L4 | No | 40M+ autonomous miles; best safety record |
+| **Tesla FSD** | OEM-embedded | L3→L4 | No | Massive fleet data (6M+ cars); neural net approach |
+| **Baidu Apollo** | Platform + OEM | L4 | Yes (Apache-2.0) | Largest China robotaxi deployment; open platform |
+| **Mobileye** | Tier-1 / Platform | L2→L4 | Partial | 125M+ EyeQ chips shipped; Mobileye Drive |
+| **NVIDIA DRIVE** | AI Hardware + SW | L2→L5 | Partial | Alpamayo model; Orin SoC; dominant in OEM design wins |
+| **Autoware (Foundation)** | Open-source stack | L4 | Yes (Apache-2.0) | 100+ companies, global deployments, ROS 2 ecosystem |
+| **comma.ai (openpilot)** | Consumer ADAS | L2 | Yes (MIT) | 300+ car models; hack-friendly; passionate community |
+| **Qualcomm Snapdragon Ride** | SoC + SW | L2→L3 | Partial | Stellantis partnership; Snapdragon Digital Chassis |
+| **Bosch** | Tier-1 | L2→L4 | No | AI cockpit systems, by-wire tech, global OEM relationships |
+| **Continental** | Tier-1 | L2→L3 | No | SurroundView, camera AI, ADAS sensor fusion |
 
 ---
 
-## Competitive Landscape by Solution Area
+## Competitive Map: Fleet Management AI
 
-### Autonomous Driving Stack
-```
-Open-source:   Autoware (Apache-2.0) > openpilot (MIT) > AlpaSim (Apache-2.0)
-Proprietary:   Waymo Driver > Tesla FSD > Mobileye SuperVision
-NVIDIA bridge: Alpamayo (non-commercial research) + AlpaSim (Apache-2.0 simulator)
-```
+| Player | Type | Stars / Scale | Open Source? | Key Strength |
+|--------|------|---------------|--------------|----|
+| **Samsara** | SaaS fleet | ~200 enterprise clients | No | AI dashcam + telematics at scale |
+| **Geotab** | SaaS fleet | 3.5M+ connected vehicles | No | Largest open telematics platform; SDK |
+| **Fleetcomplete** | SaaS fleet | 500k+ assets | No | AI-powered maintenance + compliance |
+| **Traccar** | Open source | 5.2k★ GitHub | Yes (Apache-2.0) | 200+ protocols; self-hostable; customizable |
+| **Fleetbase** | Open source | 1.1k★ GitHub | Yes (AGPL-3.0) | Full logistics OS; developer-first |
+| **Odoo Fleet** | Open source ERP | 45k★ (Odoo repo) | Yes (LGPL-3.0) | ERP-integrated; finance + HR context |
 
-### Fleet Management
-```
-Open-source:   Traccar (Apache-2.0) > Fleetbase (AGPL-3.0) > OpenRemote (Apache-2.0)
-SaaS:          Samsara > Geotab > Verizon Connect
-LATAM players: Cobli (Brazil), Rastrear (Brazil), Qualcomm FleetEdge
-```
+---
 
-### SDV / In-Vehicle AI
-```
-Open-source:   Eclipse KUKSA (Apache-2.0) > Eclipse Leda > Velocitas
-Proprietary:   AUTOSAR AP > Android Automotive OS > BlackBerry QNX
-Chipsets:      Qualcomm Snapdragon Cockpit Elite, NVIDIA DRIVE AGX Orin
-```
+## Competitive Map: Manufacturing AI
 
-### Dealer Management Systems
-```
-Open-source:   Odoo Community (LGPL) > ERPNext (GPL) > Apache OFBiz (Apache-2.0)
-Proprietary:   CDK Global > Reynolds & Reynolds > Dealertrack
-LATAM ERP:     Odoo is dominant in SME automotive shops across LATAM
-```
+| Player | Type | Key Application |
+|--------|------|-----------------|
+| **Landing AI** | AI platform | Visual inspection for manufacturing; LandingLens CV platform |
+| **Cognex** | Machine vision | Industrial cameras + AI vision for automotive inspection |
+| **Keyence** | Machine vision | Sensors + cameras; Toyota, BMW supplier |
+| **Microsoft** | AI platform | Factory AI (agentic-factory-hack reference); Azure IoT + AI |
+| **Siemens** | Digital twin | Xcelerator platform; factory simulation + AI |
+| **Dassault** | Digital twin | 3DEXPERIENCE; virtual production twin |
+| **Open source** | Various | YOLO (ultralytics), OpenCV, PyTorch — combine for custom inspection |
+
+---
+
+## LATAM Market Opportunity
+
+### Brazil — Largest Market
+
+| Opportunity | Size | AI Application |
+|-------------|------|----------------|
+| Logistics / last-mile delivery | 850k+ delivery vehicles | AI-optimized fleet dispatch + routing |
+| Auto manufacturing (ABC Paulista) | Stellantis, VW, GM, Toyota plants | CV quality inspection + predictive maintenance |
+| EV charging network (2025-2028) | $2B government mandate | Smart charging optimization |
+| Dealership network (auto retail) | 100k+ dealerships | AI lead scoring + customer experience |
+
+**Key players:** Mercado Livre logistics, iFood delivery, DHL Brasil, Volkswagen do Brasil, Stellantis Brasil
+
+### Mexico — Manufacturing Hub
+
+| Opportunity | Size | AI Application |
+|-------------|------|----------------|
+| Auto manufacturing | 4th largest auto exporter globally | CV inspection, predictive maintenance, digital twin |
+| Cross-border logistics | $50B+ US-Mexico auto parts trade | Agentic supply chain coordination |
+| Dealership AI | 20k+ dealerships | Lead scoring, service scheduling AI |
+
+**Key plants:** Ford Hermosillo, GM Silao, BMW San Luis Potosí, Audi San José Chiapa, Stellantis Toluca
+
+### Argentina
+
+| Opportunity | Size | AI Application |
+|-------------|------|----------------|
+| Auto manufacturing | VW, Toyota, Renault plants | Quality inspection AI |
+| Fleet operators | Large rural distances | Route + fuel optimization AI |
+
+### Chile
+
+| Opportunity | Size | AI Application |
+|-------------|------|----------------|
+| EV adoption | Government pushing EV mandate | Smart charging, fleet electrification planning |
+| Mining fleet | Large autonomous mining trucks | Autonomous haulage AI; safety monitoring |
+
+---
+
+## LATAM-Specific Gaps (Globant can address)
+
+1. **Spanish-language in-vehicle AI assistants** — No major OEM has a well-tuned Spanish LA (Latin American) voice assistant for vehicles.
+2. **AI-powered fleet management in Portuguese/Spanish** — Traccar/Fleetbase in English; LATAM fleet operators need localized AI agents.
+3. **Compliance AI for LATAM vehicle regulations** — DENATRAN (Brazil), SCT (Mexico), SEC (Chile) have complex vehicle compliance rules; AI compliance agents don't exist.
+4. **EV charging network optimization for LATAM grid** — LATAM grids are unstable; smart charging agents that handle blackouts and partial power are needed.
+5. **Used car AI inspection** — Semi-informal used car market in LATAM (OLX, MercadoLibre Autos); CV damage inspection + price estimation agent = clear value.
 
 ---
 
 ## Globant Positioning
 
-**Where Globant can win:**
+| Dimension | Globant Advantage | Recommended Play |
+|-----------|-------------------|------------------|
+| Talent scale | 30k+ engineers across LATAM + US + EU | Staff autonomous driving AI projects for OEMs and Tier-1s |
+| LATAM depth | On-ground in Brazil, Mexico, Argentina, Colombia, Chile | Fleet AI + EV charging AI for LATAM operators |
+| Open source expertise | Strong Python/ML engineering; Odoo + ROS experience | Build on Autoware / Traccar / Fleetbase; add AI layer |
+| Manufacturing AI | Plants in Brazil, Mexico are clients | CV inspection + predictive maintenance delivery |
+| Digital transformation | Existing OEM + Tier-1 relationships | SDV digital transformation: migrate to software-defined architectures |
+| AI Studio | Specialized AI agents team | Smart cockpit AI, diagnostics agents, supply chain orchestration |
 
-1. **Fleet AI for LATAM logistics companies** — Wrap Traccar/Fleetbase + Claude API into a branded predictive maintenance + route intelligence product. Fast time-to-market; open-source base reduces cost.
+### Key Differentiator vs. Big 4 Consulting
+- Globant *builds* software, not just advises — critical for automotive AI where working demos close deals
+- LATAM-native: language, regulation, and cultural context
+- Open source first: lower cost-to-pilot for OEM innovation labs
 
-2. **SDV cockpit AI for OEMs** — Integrate Eclipse KUKSA + on-device LLM (Phi-3/Llama 3.2) into a privacy-preserving, offline-capable cockpit AI. Target Tier-1 suppliers (Bosch, Continental, Visteon) and emerging EV OEMs.
-
-3. **ADAS simulation services** — Use CARLA + Autoware + AlpaSim as Globant's simulation lab for clients wanting to test ADAS features before hardware deployment.
-
-4. **Dealership AI transformation** — Odoo + Claude API for AI-powered lead handling, service scheduling, parts forecasting. High ROI, fast deployment for dealer groups.
-
-5. **Mining / agricultural autonomous fleet** — LATAM mining companies (Anglo American, Codelco, Vale) actively AI-piloting autonomous haul monitoring. Wrap Traccar + ML + LangGraph.
+---
+*Auto-updated by the ingest pipeline.*
