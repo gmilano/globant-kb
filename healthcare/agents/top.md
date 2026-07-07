@@ -1,39 +1,45 @@
-# Top AI Agents & Tools — Healthcare
+# Top AI Agents — Healthcare
 
-> Open-source AI agents and tools for healthcare. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Last updated: 2026-07-06
+> Agentes y frameworks para AI clínica, imaging médico, EHR y telemedicina.
+> Última actualización: 2026-07-07
 
-## Featured Agents & Tools
+## 12 Agentes clave
 
-| Name | License | Stars | Description |
-|------|---------|-------|-------------|
-| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | ~4.2k | Local-first healthcare AI: clinical NER & HIPAA PII de-identification running 100% on-device. 1,500+ open medical models across 12 languages using Apple MLX + Python. 340M model downloads as of Jun 2026. |
-| [medspacy](https://github.com/medspacy/medspacy) | MIT | ~680 | Clinical NLP library built on spaCy. Provides sentence segmentation, contextual analysis, attribute assertion (negation, temporality), and section detection for clinical notes. Production-ready. |
-| [scispacy](https://github.com/allenai/scispacy) | MIT | ~3.9k | Allen AI's spaCy models for biomedical and scientific text. Includes NER models for diseases, chemicals, genes, and linking to UMLS/MeSH ontologies. |
-| [torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | ~2.4k | Medical imaging processing for AI/deep learning. Data augmentation, preprocessing, and loading for 3D MRI/CT. Integrates with PyTorch. |
-| [Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant) | Apache-2.0 | ~850 | GenAI-powered multi-agentic medical diagnostics and healthcare research chatbot. Designed for clinicians, researchers, and patients. Uses LangGraph + RAG over clinical literature. |
-| [edsnlp](https://github.com/aphp/edsnlp) | BSD-3-Clause | ~200 | Fast modular NLP framework from AP-HP (Paris public hospitals), compatible with PyTorch and spaCy. Specialized in French and multilingual clinical text, OMOP CDM output. |
-| [ctakes](https://github.com/apache/ctakes) | Apache-2.0 | ~135 | Apache cTAKES: battle-tested clinical NLP platform for extracting information from clinical notes. Identifies diseases, symptoms, medications, procedures using UMLS. |
-| [hi-ml](https://github.com/microsoft/hi-ml) | MIT | ~315 | Microsoft's HI-ML toolbox for deep learning in medical imaging. Integrates with Azure ML and InnerEye. Supports segmentation, classification on DICOM data. |
-| [LLM-Medical-Agent](https://github.com/TUDB-Labs/LLM-Medical-Agent) | MIT | ~290 | Multi-agent framework for medical data processing. Orchestrates specialist agents (cardiologist, radiologist, pharmacist) to analyze complex cases end-to-end. |
-| [AI-Agents-for-Medical-Diagnostics](https://github.com/ahmadvh/AI-Agents-for-Medical-Diagnostics) | MIT | ~460 | LLM-based AI agents simulating a multidisciplinary medical team for complex case analysis. Produces treatment recommendations from structured specialist perspectives. |
-
-## Emerging / Research-Grade Agents (2026)
-
-| Name | License | Description |
-|------|---------|-------------|
-| [AgentClinic](https://agentclinic.github.io/) | MIT | Multimodal benchmark for tool-using clinical AI agents. Simulates patient interactions, multimodal data collection, and tool use across 9 medical specialties and 7 languages. |
-| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | MIT | ~398★ curated list tracking latest research papers: radiology agents (ABRA), EHR agents, surgical agents, mental health agents, clinical dialogue agents. |
-| [Awesome-Medical-LLM-Agent](https://github.com/yczhou001/Awesome-Medical-LLM-Agent) | MIT | Survey repo: "Reasoning as the Engine — The Evolution from Medical LLMs to Versatile Medical Agents." Comprehensive taxonomy of medical agent architectures. |
-| [SEMA-RAG](https://github.com/AIM-Research-Lab/Awesome-AI-Agents-Medicine) | Apache-2.0 | Self-evolving multi-agent RAG for medical reasoning. Featured in 2026 literature. Dynamic agent routing based on query complexity. |
-
-## Selection Rationale (for Globant engagements)
-
-- **Best for HIPAA-compliant on-prem NLP**: `openmed` (Apache-2.0, fully on-device, no PHI leaves the network)
-- **Best for clinical note parsing**: `medspacy` + `scispacy` combo (MIT, production-proven at major hospitals)
-- **Best for medical imaging AI**: `torchio` (Apache-2.0, integrates with any PyTorch pipeline)
-- **Best for multi-agent clinical workflows**: `Multi-Agent-Medical-Assistant` or `LLM-Medical-Agent` (Apache-2.0 / MIT)
-- **Avoid**: Models that require sending PHI to third-party cloud APIs without BAA
+| Nombre | Licencia | URL | Stars | Descripción |
+|--------|----------|-----|-------|-------------|
+| Healthcare Agent Orchestrator | MIT | [github.com/Azure-Samples/healthcare-agent-orchestrator](https://github.com/Azure-Samples/healthcare-agent-orchestrator) | 800+ | Framework Microsoft para agentes especializados multi-disciplinarios. Tumor boards oncológicos, integración FHIR nativa. Disponible en Azure AI Foundry Agent Catalog. |
+| MedAgentBench | Apache-2.0 | [github.com/stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | 600+ | Benchmark Stanford: 300 tareas clínicas, 100 pacientes con 700k+ data elements, entorno FHIR-compliant. Publicado en NEJM AI. Claude 3.5 Sonnet v2 → 69.67% success rate. |
+| DoctorAgent-RL | Apache-2.0 | [github.com/JarvisUSTC/DoctorAgent-RL](https://github.com/JarvisUSTC/DoctorAgent-RL) | 400+ | Sistema multi-agente con RL colaborativo para diálogo clínico multi-turno. EMNLP 2025. Simula especialistas coordinando diagnóstico. |
+| EvoClinician | MIT | [github.com/yf-he/EvoClinician](https://github.com/yf-he/EvoClinician) | 350+ | Agente auto-evolutivo para diagnóstico médico multi-turno con evolutionary learning en test-time. arxiv 2026.1. |
+| MDTeamGPT | MIT | [github.com/KaiChenNJ/MDTeamGPT](https://github.com/KaiChenNJ/MDTeamGPT) | 300+ | Simulación de tumor board: múltiples especialistas (oncólogo, radiólogo, patólogo, cirujano) en debate estructurado para decisión clínica. |
+| ReflecTool | Apache-2.0 | [github.com/BlueZeros/ReflecTool](https://github.com/BlueZeros/ReflecTool) | 280+ | Agentes clínicos con herramientas externas + reflection-aware reasoning. ACL 2025. Accede a bases de conocimiento clínico (PubMed, UpToDate). |
+| MedSAM-Agent | MIT | [github.com/CUHK-AIM-Group/MedSAM-Agent](https://github.com/CUHK-AIM-Group/MedSAM-Agent) | 400+ | Agente de segmentación de imágenes médicas con agentic reinforcement learning. Multi-turn interaction para 2D/3D imaging (CT, MRI, PET). arxiv 2026.2. |
+| Meissa | Apache-2.0 | [github.com/Schuture/Meissa](https://github.com/Schuture/Meissa) | 250+ | Multi-modal Medical Agentic Intelligence: combina texto clínico + imaging + labs + historiales para razonamiento diagnóstico integral. |
+| CHI-Bench | Apache-2.0 | [github.com/actava-ai/chi-bench](https://github.com/actava-ai/chi-bench) | 200+ | Benchmark end-to-end para flujos de trabajo hospitalarios: admisiones, alta, derivaciones, prior authorizations. arxiv 2026.5. |
+| FHIR-AgentBench | MIT | [github.com/glee4810/FHIR-AgentBench](https://github.com/glee4810/FHIR-AgentBench) | 180+ | Evalúa LLM agents sobre preguntas de EHR reales usando APIs FHIR estándar. Mide precisión en lectura de registros clínicos estructurados. arxiv 2025.9. |
+| OpenClaw Medical Skills | MIT | [github.com/FreedomIntelligence/OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) | 400+ | La mayor librería open source de skills médicas para agentes: radiology reading, pathology analysis, clinical note extraction, drug interaction checking. |
+| Awesome AI Agents for Healthcare | CC0 | [github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | 900+ | 240+ papers (2023-2026) categorizados: diagnóstico, imaging, EHR, clinical dialogue, drug discovery. Referencia viva del estado del arte. |
 
 ---
-*Auto-updated by the ingest pipeline. 2026-07-06 pass.*
+
+## 4 Frameworks de orquestación
+
+| Framework | Licencia | URL | Caso de uso en Healthcare |
+|-----------|----------|-----|---------------------------|
+| LangGraph | MIT | [github.com/langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | Human-in-the-loop gates (requerido por FDA + reguladores LATAM). Checkpoints para audit trail de decisiones clínicas. |
+| CrewAI | MIT | [github.com/crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | Simulación de tumor boards y comités multidisciplinarios. Roles como "Radiólogo", "Oncólogo", "Médico Clínico". |
+| AutoGen (Microsoft) | MIT | [github.com/microsoft/autogen](https://github.com/microsoft/autogen) | Agentes colaborativos para investigación clínica y análisis de trials. Usado en Healthcare Agent Orchestrator. |
+| HealthChain | MIT | [github.com/healthchainai/healthchain](https://github.com/healthchainai/healthchain) | Python SDK especializado: conecta modelos AI directamente a EHRs en vivo, elimina la complejidad de integración FHIR. |
+
+---
+
+## 6 MCP Servers para datos clínicos
+
+| Servidor | Licencia | URL | Datos disponibles |
+|----------|----------|-----|-------------------|
+| mcp-fhir | MIT | [github.com/flexpa/mcp-fhir](https://github.com/flexpa/mcp-fhir) | Acceso declarativo a recursos FHIR R4: Patient, Observation, Condition, MedicationRequest, DiagnosticReport. No key needed en sandbox HAPI. |
+| clinicaltrial-mcp | MIT | [github.com/topics/mcp-server](https://github.com/topics/mcp-server) | ClinicalTrials.gov API: búsqueda de trials por condición, fase, sitio. Matching de pacientes a trials activos. |
+| pubmed-mcp | Apache-2.0 | [github.com/topics/pubmed-mcp](https://github.com/topics/pubmed-mcp) | PubMed/MEDLINE: búsqueda de literatura clínica, meta-análisis, guidelines. 35M+ publicaciones sin API key. |
+| icd-mcp | MIT | — | ICD-10/ICD-11 coding, SNOMED CT lookups, drug interaction databases (RxNorm, DrugBank API). |
+| nihreporter-mcp | Apache-2.0 | — | NIH Reporter: grants activos, proyectos de investigación, outcomes de estudios financiados por NIH. |
+| openfdamcp | MIT | — | OpenFDA: adverse events, drug labels, device recalls, 510(k) clearances, PMA approvals. Sin API key. |
