@@ -47,6 +47,31 @@
 3. Human approves → auto-commit and re-run
 4. Full audit trail in Langfuse
 
+## MLOps & AI Engineering Platforms (Added: Third Pass 2026-07-07)
+
+For client engagements involving model training, fine-tuning, or systematic evaluation of AI pipelines:
+
+| Platform | License | Repo | Stack | Use Case | AI Integration Point |
+|----------|---------|------|-------|----------|--------------------|
+| **MLflow** | Apache-2.0 | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Python | ML experiment tracking, model registry, model serving. MLflow 3.0: LLM tracing + GenAI eval. Linux Foundation-backed. | Add LLM tracing to any LangGraph agent: every agent run becomes a tracked experiment with prompt versions, costs, and outcomes. |
+| **Kubeflow** | Apache-2.0 | [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Python, K8s | Full K8s-native ML platform: Pipelines, KServe (model serving), Katib (HPO), Training Operator. CNCF project. | Deploy and serve fine-tuned models (Qwen2.5-Coder, Llama 3.3) at scale on K8s clusters with autoscaling GPU allocation. |
+| **Prefect** | Apache-2.0 | [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Python | Modern workflow orchestration — retries, scheduling, visibility. ML pipelines, ETL, and AI agent workflow scheduling. | Schedule RAG knowledge base refreshes, trigger agent re-training on new client data, orchestrate multi-step data pipelines feeding AI systems. |
+| **ZenML** | Apache-2.0 | [zenml-io/zenml](https://github.com/zenml-io/zenml) | Python | Framework-agnostic MLOps abstraction — write pipelines once, deploy to Kubeflow/Airflow/Vertex/Sagemaker. | Portable ML pipelines across client environments; avoids rewriting code when client switches cloud provider. |
+
+### Pattern E: AI Engineering Pipeline (MLflow + LangGraph + Prefect)
+```
+1. Prefect schedules weekly pipeline run
+   ↓
+2. ETL: pull new client data → chunk → embed → upsert to pgvector (Supabase)
+   ↓
+3. Eval harness: MLflow logs 100 RAG queries against golden dataset
+   ↓
+4. MLflow model registry: promote if accuracy ≥ threshold; alert if degraded
+   ↓
+5. LangGraph agent: notifies stakeholders via Slack MCP server with eval report
+```
+This closes the "continuous improvement loop" that distinguishes production AI from demo AI.
+
 ## LLM Inference Servers (Sovereign / On-Premise AI)
 
 For LATAM clients with data sovereignty requirements (LGPD in Brazil, LFPDPPP in Mexico) or air-gapped environments:

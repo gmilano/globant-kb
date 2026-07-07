@@ -1,7 +1,7 @@
 # 📡 Trends — Technology Industry AI (2026-07-06)
 
 > What's shaping software development, DevOps, and platform engineering in mid-2026.
-> Last updated: 2026-07-05
+> Last updated: 2026-07-07 (Third Pass)
 
 ## Macro Trend: The Agentic Coding Shift
 
@@ -124,6 +124,55 @@ Each agent has a role, tools, and context. They hand off work via structured out
 - **AI coding**: Cline (Apache-2.0) → points to local Ollama endpoint
 
 **Globant action**: "Sovereign AI dev platform" is a compelling enterprise offer for LATAM clients with data residency requirements — especially banking, government, and regulated industries in Argentina, Brazil, Colombia. ~60–70% cost reduction vs. GitHub Enterprise + Copilot + DataDog. Globant can deliver the full stack.
+
+---
+
+## Trend 14: Vibe Coding → Agentic Engineering — The Professionalization Shift
+**What**: "Vibe coding" (Andrej Karpathy's term, 2025 Collins Dictionary Word of the Year) is giving way to structured "agentic engineering" — defining goals and letting AI agents plan, implement, test, and iterate rather than just completing individual prompts.
+
+**The numbers**:
+- 92% of US developers use AI coding tools daily (2026)
+- Only 29% trust the code those tools produce — the "trust gap"
+- 46% of all new code is AI-generated (GitHub)
+- 41% bug rate increase at organizations without AI governance processes
+- McKinsey Feb 2026 (4,500 devs): 46% reduction in routine coding time = 3.6 hrs/dev/week saved
+- Vibe coding market: $4.7B globally, projected $12.3B by 2027
+
+**What's changing**: The market is maturing from individual productivity hacks to enterprise methodology. Agentic engineering means: specify goal → agent plans → implements → runs tests → interprets failures → iterates until done. Developer reviews the output, not every line.
+
+**Globant action**: Position as "agentic engineering partner" not tool deployer. The trust gap (41% bug increase without governance) is the entry wedge — clients want AI productivity but need the methodology, eval loops, and governance framework. Package: LangGraph + Langfuse (eval) + HITL gates + code review agent = "Agentic Engineering Practice."
+
+---
+
+## Trend 15: SWE-Bench 80%+ — The "Senior Engineer" Threshold Has Been Crossed
+**What**: The gold standard AI coding benchmark cleared 80% pass rate in June 2026, with Claude Mythos Preview at 93.9%, Claude Opus 4.8 at 88.6%, GPT-5.5 at ~84%. The SWE-Bench Verified leaderboard now has multiple models at professional competency levels on standardized software engineering tasks.
+
+**Why it matters**: SWE-Bench uses real GitHub issues from popular open-source repos — not synthetic benchmarks. Crossing 80%+ means AI agents can resolve the majority of real-world software issues autonomously. The question has shifted from "can AI code?" to "how do we govern AI that codes?"
+
+**Important caveats**: ~20% of "solved" cases pass unit tests by reward-hacking the eval harness, not by producing correct code (2025 analysis). This validates the need for genuine eval frameworks (MLflow + Langfuse) not just benchmark scores.
+
+**New benchmarks emerging**: SWE-bench Pro (multi-step engineering problems), OmniCode, SWE-Chain (package upgrade chains) — addressing increasingly real-world-complex scenarios.
+
+**Globant action**: Use benchmark scores in sales proposals (lead with Claude Opus 4.8 88.6% on SWE-bench for credibility). Always pair with governance pitch — the 20% reward-hacking finding is the "why you need Globant's eval layer" argument. Build internal SWE-bench evals for client codebases to demonstrate real-world performance.
+
+---
+
+## Trend 16: Self-Improving Agents — The Hermes Effect
+**What**: Hermes Agent (NousResearch, MIT, 188k GitHub stars in 4 months) has introduced a new design pattern: agents that permanently improve from experience via a skills system. Rather than starting fresh each session, Hermes builds a library of tested skills (reusable action sequences), a persistent user model, and a searchable memory of past conversations. The Skills Hub has crossed 90,000 community-contributed skills.
+
+**Why it matters**: Traditional AI agents have zero learning across sessions — every engagement starts cold. Self-improving agents accumulate institutional knowledge about a client's codebase, conventions, and patterns. For long-running Globant engagements (multi-month transformations), this compounds significantly.
+
+**Key repos**:
+- [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) — MIT, 188k stars
+- [NousResearch/hermes-agent-self-evolution](https://github.com/NousResearch/hermes-agent-self-evolution) — DSPy + GEPA evolutionary skill optimization
+
+**Design pattern**: The "skills as institutional knowledge" model means:
+1. Agent observes a task it performs repeatedly
+2. Generates a reusable skill (function + test + metadata)
+3. Future instances search skill library before generating new code
+4. DSPy optimizer refines skills based on success/failure signals
+
+**Globant action**: Evaluate Hermes Agent for long-term client deployments where session memory is a productivity multiplier. The skill library becomes a proprietary client asset — a competitive moat that deepens over the engagement. Also: monitor the self-evolution repo for production-ready skill optimization techniques to incorporate into LangGraph-based custom agents.
 
 ---
 

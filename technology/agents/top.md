@@ -1,6 +1,6 @@
 # Top AI Agents — Technology / Software Development Industry
 
-> Last updated: 2026-07-06 | Curated for Globant AI Studios
+> Last updated: 2026-07-07 | Curated for Globant AI Studios (Third Pass)
 
 ## Autonomous Software Engineering Agents
 
@@ -44,9 +44,25 @@
 | 16 | **AWS MCP Servers** | [awslabs/mcp](https://github.com/awslabs/mcp) | Apache-2.0 | ~3k | Official AWS MCP servers: S3, DynamoDB, CloudWatch, Lambda, CDK. Enables AI agents to provision and manage AWS infrastructure via natural language. |
 | 17 | **Microsoft MCP** | [microsoft/mcp](https://github.com/microsoft/mcp) | MIT | ~2k | Official Microsoft MCP servers for Azure, Teams, DevOps, OneDrive. Enterprise-grade auth. Use when client is Microsoft-stack. |
 
-## Notes
+## Breakout Agents of 2026 (Added: Third Pass 2026-07-07)
+
+| # | Agent | Repo | License | Stars | Description |
+|---|-------|------|---------|-------|-------------|
+| 18 | **Hermes Agent** | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | MIT | 188k | Nous Research's self-improving AI agent — the fastest-growing open-source project in agentic AI history (0 → 188k stars in ~4 months, launched Feb 25 2026). Unique "skills system": learns from past actions, permanently improves recurring tasks, builds a persistent user model across sessions. Auto-imports settings/memories from OpenClaw. Always-on cloud deployment model. Skills Hub now has 90,000+ community-contributed skills. |
+| 19 | **OpenClaw** | [PSPDFKit/openclaw](https://github.com/pspdfkit-labs/openclaw) | MIT | 210k | Personal agentic AI framework that runs on your hardware and communicates via Telegram/WhatsApp. Originally viral as Clawdbot (Nov 2025) → Moltbot → OpenClaw (Jan 2026). Surged from 9k → 210k+ stars in weeks, making it one of the fastest GitHub virals of all time. Designed for always-on desktop/server use; not IDE-embedded. Pioneer of "hardware-native agent" pattern. Succeeded by Hermes Agent for advanced users. |
+
+## MLOps & AI Engineering Agents (Added: Third Pass 2026-07-07)
+
+| # | Agent | Repo | License | Stars | Description |
+|---|-------|------|---------|-------|-------------|
+| 20 | **MLflow** | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | 20k | Linux Foundation-backed ML lifecycle platform. MLflow 3.0 adds native LLM tracing and GenAI evaluation. Covers experiment tracking, model registry, model deployment, LLM evaluation. The de facto standard for open-source ML experiment management. Integrates with LangGraph (via OpenTelemetry traces) for agent-level experiment tracking. |
+| 21 | **Prefect** | [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Apache-2.0 | ~17k | Modern workflow orchestration with a developer-friendly API and best-in-class UI. Used for ML pipelines, data engineering, and AI agent workflows. Handles retries, scheduling, and observability natively. Lighter-weight than Airflow; better DX than Kubeflow for teams without dedicated platform engineers. |
+
+## Notes (Updated 2026-07-07)
 - **Commercial safety**: MIT + Apache-2.0 across the board — all safe for Globant client engagements
-- **SWE-bench is the benchmark**: OpenHands 72%, SWE-agent 74% — better than many $30/month proprietary tools
-- **MCP is the integration layer**: Cline, OpenHands, Aider all support MCP for external tool connectivity
+- **SWE-bench crossed 80%+**: Claude Mythos Preview 93.9%, Claude Opus 4.8 88.6%, GPT-5.5 ~84% — AI coding agents are at or above senior-engineer level on standardized tasks (Jun 2026)
+- **MCP is the integration layer**: Cline, OpenHands, Aider, Hermes Agent all support MCP for external tool connectivity
 - **Dify for non-technical clients**: Visual builder when clients need drag-and-drop, not code-first agents
 - **LangGraph + CrewAI + AutoGen**: Pick based on workflow type (stateful graph vs. role-play vs. conversation)
+- **Hermes Agent for persistent autonomous tasks**: When the client needs "always-on" agents that learn and improve over time without human restarts
+- **MLflow for MLOps**: Add to every engagement that trains or fine-tunes models; LLM tracing in v3.0 makes it dual-purpose for agentic workloads

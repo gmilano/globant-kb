@@ -1,18 +1,29 @@
 # 🗺️ Market Map — Technology Industry AI
 
 > Key players, market size, opportunities. Focus: LATAM + global.
-> Last updated: 2026-07-05
+> Last updated: 2026-07-07 (Third Pass)
 
-## Market Size
+## Market Size (Updated Third Pass 2026-07-07)
 
+### Global AI Market
 | Metric | Value | Source |
 |--------|-------|--------|
-| Enterprise AI market size (2026) | $64.38B–$114.87B | Mordor Intelligence / Research Nester |
+| Global AI market (2026) | $539.5B – $617.6B | Grand View Research / Statista |
+| Global AI market (2033 forecast) | $3.5T – $3.64T, CAGR 29–31% | Grand View Research |
+| GenAI specifically CAGR | 43.4% | Multiple analysts |
 | GenAI spending (2026) | $127B (+59% YoY) | Gartner |
-| **AI Code Generation & Developer Assistant (2026)** | **$16.13B → $78.97B (2031), CAGR 37.4%** | Mordor Intelligence |
-| AI Code Tools (2026→2031) | $9.35B → $29.96B, CAGR 26.23% | Mordor Intelligence |
-| **Enterprise AI Coding Agents market (Apr 2026)** | **~$9.8–11B annualized** | Tech-insider.org |
+
+### Enterprise AI & Developer Markets
+| Metric | Value | Source |
+|--------|-------|--------|
+| Enterprise AI market (2026) | **$114.87B** | Research Nester |
+| Enterprise AI market (2031) | $273.08B, CAGR 18.91% | Research Nester |
+| **AI in Software Development (2026)** | **$718.3M** | Persistence Market Research |
+| **AI in Software Development (2033)** | **$9.165B, CAGR 43.5%** | Persistence Market Research |
+| **AI Code Generation & Developer Assistant (2026→2031)** | **$16.13B → $78.97B, CAGR 37.4%** | Mordor Intelligence |
+| Enterprise AI Coding Agents market (Apr 2026) | ~$9.8–11B annualized | Tech-insider.org |
 | AI Agents market (all industries 2026→2033) | $10.9B → $182.9B, CAGR 49.6% | Grand View Research |
+| "Vibe coding" tools market (2026) | $4.7B → $12.3B by 2027 | Second Talent / 13Labs |
 | Average enterprise AI spend per company | $7M/year in 2026 | MedhaCloud survey |
 | Enterprise apps with AI agents by end 2026 | 40% (up from <5% in 2025) | Gartner |
 | Enterprise apps shipped with ≥1 AI agent (Q1 2026) | 80% | Databricks |
@@ -28,19 +39,30 @@
 | **AWS** | $37.6B (+28% YoY) | Bedrock agent spending +170% QoQ |
 | **IBM** | ~$16B total revenue; consulting 1/3 | IBM-Google Cloud agentic AI platform (Jun 4 2026) |
 
-## Developer Adoption Statistics
+## Developer Adoption Statistics (Updated 2026-07-07)
 
-| Metric | Value |
-|--------|-------|
-| Developers using AI coding tools | 85% |
-| Using AI tools regularly (daily/weekly) | 73% |
-| Professional devs using AI daily | 51% |
-| Average time saved per developer/week | 3.6 hours |
-| Productivity lift (common coding tasks) | 20–55% |
-| Enterprise productivity gain (net avg) | 19.3% (Gartner) |
-| Engineering leaders reporting improvements | 90% |
-| Gartner prediction: devs using AI coding agents by 2028 | 75% (up from <10% in 2023) |
-| Enterprise apps with task-specific AI agents by end 2026 | 40% (Gartner) |
+| Metric | Value | Source |
+|--------|-------|--------|
+| US developers using AI coding tools **daily** | **92%** | Hostinger / 13Labs 2026 |
+| Developers who **trust** AI-generated code | **only 29%** | Hostinger 2026 |
+| All new code that is AI-generated | **46%** | GitHub 2026 |
+| Bug rate increase post-AI-tool adoption (no governance) | **+41%** | Keyhole Software 2026 |
+| Time saved per developer per week | 3.6 hours | McKinsey Feb 2026 (4,500 devs, 150 enterprises) |
+| Routine coding task time reduction | **46%** | McKinsey Feb 2026 |
+| Productivity uplift range (varies by task/experience) | 55% speedup to 19% slowdown | Multiple studies |
+| Engineering leaders reporting improvements | 90% | Various 2025-2026 |
+| Enterprise productivity gain (net avg) | 19.3% | Gartner |
+| Gartner: devs using AI coding agents by 2028 | 75% (up from <10% in 2023) | Gartner |
+| SWE-bench top score (Jun 2026) | **93.9%** (Claude Mythos Preview) | MarkTechPost May 2026 |
+| Hermes Agent GitHub stars at 4 months old | **188k** (fastest agentic AI growth ever) | The Agent Report Jun 2026 |
+
+### The Trust Gap — Key Sales Insight
+The defining tension in enterprise AI adoption in 2026: **adoption outpacing governance**.
+- 92% daily AI tool usage vs. 29% trust rate = massive unmet governance need
+- 41% bug rate increase at orgs without review processes
+- Gartner: governance is the #1 barrier to production AI deployment for 67% of CIOs
+
+**Globant opportunity**: Enterprises need a methodology partner, not just tooling. Governance, eval loops (Langfuse), and HITL are the differentiators — and they are not "nice to have" but now procurement requirements.
 
 ## Global Players
 
@@ -71,15 +93,29 @@
 
 5. **AI Testing & QA Automation**: 20-40% of software projects in LATAM still manual QA. SWE-agent + OpenHands for automated test generation = high-value low-risk entry.
 
+### LATAM AI Market Size (Third Pass 2026-07-07)
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| LATAM AI market (2026) | **$40.5B** | Market Data Forecast |
+| LATAM AI market (2034) | **$504.71B**, CAGR 37.07% | Market Data Forecast |
+| LATAM IT services market projected (2030) | $67.4B | Alcor |
+| Brazil IT market (2026) | $117.8B (#1 in LATAM, 7th consecutive year) | Various |
+| Argentina ICT market (2031 forecast) | $45.86B, CAGR 14.29% | Alcor |
+| LATAM startups that have adopted GenAI | **85%** | IDB 2026 |
+| LATAM startups with predictive AI adoption | **75%** | IDB 2026 |
+| Microsoft LATAM investment (Brazil alone) | $2.7B in AI + cloud infrastructure | Microsoft 2026 |
+| LATAM AI talent pool | 2M+ tech specialists | Various recruiters |
+
 ### Key LATAM Markets
 
-| Country | Opportunity | Stack Fit |
-|---------|-------------|-----------|
-| Brazil | Largest tech market, fintech hub, AI adoption highest in region | Full stack — LangGraph + OpenHands + Langfuse |
-| Argentina | Strong developer talent, cost-sensitive (prefer open source over SaaS) | Ollama + local vLLM + OpenHands (avoid per-token costs) |
-| Colombia | Growing tech export sector, government digitization mandates | Backstage IDP + Gitea + open source stack |
-| Mexico | Nearshore hub for US clients, enterprise software demand | Dify + CrewAI for rapid client POC delivery |
-| Chile | Mature enterprise IT, financial sector AI readiness | LangGraph + Langfuse for auditability |
+| Country | IT Market | AI Opportunity | Stack Fit |
+|---------|-----------|----------------|-----------|
+| Brazil | $117.8B | Fintech hub, LGPD compliance, data sovereignty | Full stack — LangGraph + OpenHands + vLLM on-prem + Langfuse |
+| Argentina | $45.86B by 2031 | 176k+ tech talent, cost-sensitive, prefers OSS | Ollama + local vLLM + OpenHands (avoid per-token costs) |
+| Colombia | Growing | Cloud/data export sector, government digitization | Backstage IDP + Gitea + open source stack |
+| Mexico | Large | Nearshore hub for US clients, enterprise software demand | Dify + CrewAI for rapid client POC delivery |
+| Chile | Mature | Financial sector AI readiness, GDPR-equivalent PDPL 2024 | LangGraph + Langfuse for auditability |
 
 ### Addressable LATAM Segments (Dollar Estimates)
 

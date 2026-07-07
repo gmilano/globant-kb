@@ -2,7 +2,7 @@
 
 > Concrete recipes for building AI solutions: specific repos + agents + wiring instructions.
 > Each pattern is a production-ready architecture Globant can deliver.
-> Last updated: 2026-07-03
+> Last updated: 2026-07-07 (Third Pass)
 
 ---
 
@@ -355,6 +355,95 @@ func RemediationWorkflow(ctx workflow.Context, incident Incident) error {
 
 ---
 
+---
+
+## Recipe 10: Continuous AI Improvement Pipeline (MLflow + LangGraph + Prefect)
+
+**Goal**: Close the "deploy and forget" gap — build a self-monitoring AI app that continuously measures its own quality and improves over time.
+
+**Stack**:
+- **RAG backend**: [supabase/supabase](https://github.com/supabase/supabase) (Apache-2.0) — pgvector for embeddings, Postgres for knowledge base
+- **Workflow scheduler**: [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) (Apache-2.0) — weekly pipeline runs
+- **Eval & tracking**: [mlflow/mlflow](https://github.com/mlflow/mlflow) (Apache-2.0) — logs eval results, tracks prompt versions, registers improved models
+- **Agent orchestrator**: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — eval harness agent that samples queries and compares to golden dataset
+- **LLM observability**: [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — traces production queries for eval sampling
+- **LLM**: Claude claude-haiku-4-5 for eval (cheap, fast), Claude claude-sonnet-4-6 for production
+
+**Architecture**:
+```
+Production AI App (RAG/Agent)
+        ↓ real user queries
+Langfuse (traces all queries)
+        ↓ weekly: Prefect triggers eval pipeline
+LangGraph Eval Agent:
+  1. Sample 100 production traces from Langfuse
+  2. Run each through current RAG + new RAG (A/B)
+  3. LLM-as-judge: Claude Haiku scores both answers
+        ↓
+MLflow logs:
+  - accuracy scores per prompt version
+  - cost per query
+  - latency distribution
+  - regression alerts if score drops >5%
+        ↓
+Promote if improved → update Supabase embeddings + prompt registry
+        ↓
+Slack notification: "RAG v2.3 → v2.4: accuracy +8%, cost -12%. Auto-deployed."
+```
+
+**Wire-up**:
+```python
+import mlflow
+import mlflow.pyfunc
+from prefect import flow, task
+from langchain_anthropic import ChatAnthropic
+from langfuse import Langfuse
+
+@task
+def sample_production_traces(n: int = 100) -> list[dict]:
+    langfuse = Langfuse()
+    traces = langfuse.fetch_traces(limit=n, order_by="random")
+    return [{"query": t.input, "answer": t.output, "score": t.scores} for t in traces]
+
+@task
+def run_rag_eval(traces: list[dict], prompt_version: str) -> dict:
+    judge = ChatAnthropic(model="claude-haiku-4-5-20251001")
+    scores = []
+    for trace in traces:
+        new_answer = rag_pipeline(trace["query"], prompt_version)
+        score = judge.invoke(f"Rate 0-10: Original: {trace['answer']}\nNew: {new_answer}")
+        scores.append(float(score.content))
+    return {"mean_score": sum(scores)/len(scores), "prompt_version": prompt_version}
+
+@flow(name="rag-eval-pipeline")
+def weekly_eval_pipeline():
+    with mlflow.start_run(run_name="weekly-eval"):
+        traces = sample_production_traces(100)
+        current = run_rag_eval(traces, "v2.3")
+        candidate = run_rag_eval(traces, "v2.4")
+        
+        mlflow.log_metrics({
+            "current_accuracy": current["mean_score"],
+            "candidate_accuracy": candidate["mean_score"],
+            "improvement": candidate["mean_score"] - current["mean_score"]
+        })
+        
+        if candidate["mean_score"] > current["mean_score"] + 0.5:  # threshold
+            mlflow.register_model(candidate["prompt_version"], "rag-prompt-registry")
+            promote_to_production(candidate["prompt_version"])
+            notify_slack("New RAG version promoted automatically")
+
+# Prefect schedule: every Monday at 6am UTC
+# prefect deployment build weekly_eval_pipeline -n "weekly-rag-eval" --cron "0 6 * * 1"
+```
+
+**Estimated build**: 3–4 weeks  
+**ROI**: Production RAG/agent quality improves 10–30% over first quarter without manual intervention. Langfuse sampling means you're evaluating on real user queries, not synthetic benchmarks. MLflow gives client a dashboard proving the AI gets better over time — a compelling renewal argument.
+
+**Globant angle**: This is the "continuous AI improvement retainer" — deliver the initial AI app (4-6 weeks), then maintain the eval/improvement pipeline (~2 days/week). Clients renew because their AI demonstrably improves every quarter.
+
+---
+
 ## Quick-Start Matrix
 
 | Client need | Start here | Timeline | Complexity |
@@ -369,3 +458,6 @@ func RemediationWorkflow(ctx workflow.Context, incident Incident) error {
 | On-prem Copilot replacement | Tabby + Continue + Ollama | 2 weeks | Low-Medium |
 | AI SRE / autonomous ops | LangGraph + Prometheus + Grafana 13 + Temporal + Langfuse | 8 weeks | Medium-High |
 | Sovereign dev platform | Forgejo + Woodpecker + Backstage + SigNoz + Ollama | 12 weeks | Medium-High |
+| Continuous AI improvement retainer | MLflow + Langfuse + Prefect + LangGraph eval | 4 weeks setup | Low (ongoing) |
+| Self-improving agent deployment | Hermes Agent + Skills Hub customization | 2 weeks | Low |
+| AI engineering governance | LangGraph + Langfuse eval + HITL gates + Semgrep | 3 weeks | Medium |

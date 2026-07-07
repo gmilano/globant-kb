@@ -2,7 +2,7 @@
 
 > The bedrock open source projects to build AI solutions on top of.
 > All MIT, Apache-2.0, or MPL — commercially safe for Globant engagements.
-> Last updated: 2026-07-05
+> Last updated: 2026-07-07 (Third Pass)
 
 ## Agent Frameworks & Orchestration
 
@@ -84,5 +84,34 @@
 | [awslabs/mcp](https://github.com/awslabs/mcp) | Apache-2.0 | ~3k | Official AWS MCP servers: S3, EC2, Lambda, CloudWatch, DynamoDB, CDK, Bedrock | AI agents managing AWS infrastructure; pairs with LangGraph or CrewAI orchestration |
 | [microsoft/mcp](https://github.com/microsoft/mcp) | MIT | ~2k | Official Microsoft MCP servers: Azure services, Teams, DevOps pipelines, OneDrive, SharePoint | AI agents integrating with Microsoft enterprise stack; enterprise-grade authentication |
 
+## MLOps & AI Engineering (Added: Third Pass 2026-07-07)
+
+| Repo | License | Stars | Description | Build On For |
+|------|---------|-------|-------------|--------------|
+| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | ~20k | Linux Foundation ML lifecycle platform. MLflow 3.0 adds LLM tracing + GenAI evaluation alongside classical experiment tracking + model registry. The open-source standard. | ML experiment tracking, model versioning, LLM evaluation, agent run logging |
+| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | ~14k | Kubernetes-native ML platform: Pipelines, Katib (HPO), KServe (model serving), Training Operator. Best for teams with dedicated platform engineering. | End-to-end ML workflows on K8s; production model serving with autoscaling |
+| [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Apache-2.0 | ~17k | Modern Python workflow orchestration — retries, scheduling, observability, UI. Lighter-weight than Airflow. Increasingly used for LLM pipelines and AI agent workflows. | Data pipelines feeding AI agents; scheduled re-training; ETL for RAG knowledge bases |
+| [zenml-io/zenml](https://github.com/zenml-io/zenml) | Apache-2.0 | ~4.5k | Framework-agnostic MLOps stack with pipeline abstraction over Kubeflow, Airflow, and vertex. "Terraform for ML pipelines" — write once, deploy to any orchestrator. | ML team standardization across multiple cloud providers; avoids vendor lock-in |
+
+## AI-Readiness Matrix (Full Foundation Stack, Updated 2026-07-07)
+
+| Category | Best OSS Foundation | License | When to Use |
+|----------|--------------------|---------|-----------| 
+| Agent orchestration | LangGraph | MIT | Complex stateful workflows, audit trails needed |
+| Multi-agent roles | CrewAI | MIT | Team-of-agents pattern, client-friendly metaphor |
+| Low-code agents | Dify | Apache-2.0 | Non-technical client, rapid POC |
+| Local LLM serving | Ollama (dev) / vLLM (prod) | MIT / Apache-2.0 | Data sovereignty, cost control |
+| LLM observability | Langfuse | MIT | Every production AI app, mandatory |
+| ML experiment tracking | MLflow | Apache-2.0 | Any engagement with model training/fine-tuning |
+| Workflow orchestration | Prefect | Apache-2.0 | Scheduled pipelines, ETL for RAG |
+| K8s ML platform | Kubeflow | Apache-2.0 | Enterprise MLOps with dedicated platform team |
+| Identity / auth | Keycloak | Apache-2.0 | Multi-user AI platforms, enterprise SSO |
+| Durable workflows | Temporal | MIT | Long-running agent tasks (minutes to hours) |
+| Secrets management | Vault | MPL-2.0 | AI agents needing dynamic API key rotation |
+| Self-hosted Git | Forgejo | MIT | Data sovereignty, LATAM government mandates |
+| Self-hosted CI/CD | Woodpecker CI | Apache-2.0 | Alongside Forgejo; sovereign dev stack |
+| Dev portal (IDP) | Backstage | Apache-2.0 | Internal developer platform with AI plugin |
+| Full-stack observability | SigNoz | Apache-2.0 | DataDog/NewRelic replacement; LLM traces built-in |
+
 ---
-*See also: `verticals/solutions.md` for full vertical platforms and `intel/trends.md` Trend 11 for the sovereign stack use case.*
+*See also: `verticals/solutions.md` for full vertical platforms and `intel/trends.md` for sovereign stack (Trend 11) and agentic engineering (Trend 14) use cases.*
