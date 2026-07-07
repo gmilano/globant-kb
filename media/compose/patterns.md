@@ -1,7 +1,7 @@
 # 🧩 Composition Patterns — Media & Entertainment
 
 > Concrete recipes combining real repos + agents + AI.
-> Updated: 2026-07-07
+> Updated: 2026-07-07 (fifth pass — Pattern 8: AI Podcast Studio added)
 
 ## Pattern 1: AI Auto-Captioning Pipeline
 **Use case**: Broadcaster or OTT platform needs ADA/EU accessibility compliance + cost reduction vs manual captioning.
@@ -908,6 +908,180 @@ AI-generated asset → Claude Haiku (metadata description)
 
 ---
 
+## Pattern 8: AI Podcast Studio (Content Library → Branded Podcast)
+**Use case**: Brand, publisher, or media company wants to turn existing content (blog posts, reports, news archives) into a regular AI-produced podcast series in any language.
+**Repos**: souzatharsis/podcastfy + coqui-ai/TTS + AzuraCast/AzuraCast + Claude API
+**Build time**: 2-3 weeks | **Cost**: ~$0.10-0.50/episode (LLM API + TTS) vs $500-2000 human production
+**License**: Apache-2.0 + MPL-2.0 + Apache-2.0
+
+```python
+import anthropic
+from podcastfy.client import generate_podcast
+from TTS.api import TTS
+import httpx
+from pathlib import Path
+
+class BrandedPodcastStudio:
+    """
+    Content-to-podcast pipeline using Podcastfy + Coqui TTS.
+    Input: any URL, PDF, or text content.
+    Output: branded audio podcast episode ready for distribution.
+    """
+    
+    def __init__(self, brand_name: str, language: str = "pt"):
+        self.brand_name = brand_name
+        self.language = language  # "pt" (Brazil), "es" (LATAM), "en"
+        self.claude = anthropic.Anthropic()
+        # XTTS v2 for multilingual voice cloning
+        self.tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
+    
+    def produce_episode(self, content_source: str, episode_title: str,
+                        reference_voice: str = None, duration: str = "short") -> dict:
+        """
+        Produce a complete podcast episode from a content source.
+        duration: "short" (5-10 min) | "long" (25-40 min)
+        """
+        
+        # Step 1: Generate episode outline with Claude
+        outline = self._generate_outline(content_source, episode_title, duration)
+        
+        # Step 2: Generate podcast audio via Podcastfy
+        # Podcastfy handles: content extraction → LLM script → TTS → audio
+        podcast_config = {
+            "word_count": 1500 if duration == "short" else 5000,
+            "conversation_style": ["engaging", "informative", "professional"],
+            "podcast_name": self.brand_name,
+            "podcast_tagline": outline["tagline"],
+            "output_language": self.language,
+            "text_to_speech_model": "edge",  # Use Edge TTS for speed; swap for ElevenLabs for quality
+            "creativity": 0.7,
+            "user_instructions": outline["custom_instructions"]
+        }
+        
+        audio_output = generate_podcast(
+            urls=[content_source] if content_source.startswith("http") else None,
+            text=content_source if not content_source.startswith("http") else None,
+            conversation_config=podcast_config,
+            tts_model="edge",
+            longform=(duration == "long")
+        )
+        
+        # Step 3: Generate show notes and distribution metadata
+        metadata = self._generate_metadata(outline, episode_title)
+        
+        return {
+            "audio_path": audio_output,
+            "title": episode_title,
+            "description": metadata["description"],
+            "show_notes": metadata["show_notes"],
+            "chapters": metadata["chapters"],
+            "social_teaser": metadata["social_teaser"]
+        }
+    
+    def _generate_outline(self, content: str, title: str, duration: str) -> dict:
+        """Pre-process content with Claude to create a focused podcast outline."""
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            messages=[{
+                "role": "user",
+                "content": f"""Create a {duration}-form podcast episode outline for: {title}
+Content source: {content[:500]}...
+Brand: {self.brand_name}
+Language: {self.language}
+
+Return JSON:
+{{
+    "tagline": "1-sentence show tagline",
+    "key_points": ["point 1", "point 2", "point 3"],
+    "custom_instructions": "specific tone and focus instructions for the AI hosts",
+    "target_audience": "who this is for"
+}}"""
+            }]
+        )
+        import json
+        return json.loads(response.content[0].text)
+    
+    def _generate_metadata(self, outline: dict, title: str) -> dict:
+        """Generate all distribution metadata for the episode."""
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            messages=[{
+                "role": "user",
+                "content": f"""Create podcast episode distribution metadata.
+Episode: {title}
+Brand: {self.brand_name}
+Key points: {outline['key_points']}
+Target audience: {outline['target_audience']}
+
+Return JSON:
+{{
+    "description": "Episode description (150 words max, for podcast apps)",
+    "show_notes": "Detailed show notes with timestamps placeholder (200 words max)",
+    "chapters": [
+        {{"time": "00:00", "title": "Introduction"}},
+        {{"time": "02:00", "title": "Main Topic"}},
+        {{"time": "08:00", "title": "Conclusion"}}
+    ],
+    "social_teaser": "Twitter/LinkedIn post (280 chars max, with relevant hashtags)"
+}}"""
+            }]
+        )
+        import json
+        return json.loads(response.content[0].text)
+    
+    def publish_to_azuracast(self, episode: dict, station_id: str, 
+                              azura_url: str, azura_key: str) -> bool:
+        """Upload episode to AzuraCast for podcast/radio distribution."""
+        with open(episode["audio_path"], "rb") as f:
+            response = httpx.post(
+                f"{azura_url}/api/station/{station_id}/files",
+                headers={"X-API-Key": azura_key},
+                files={"file": (f"{episode['title']}.mp3", f, "audio/mpeg")},
+                data={
+                    "title": episode["title"],
+                    "album": self.brand_name,
+                    "comments": episode["description"]
+                }
+            )
+        return response.status_code == 200
+
+# Usage — Brazilian Portuguese branded podcast from blog post
+studio = BrandedPodcastStudio(
+    brand_name="Globant Tech Insights LATAM",
+    language="pt"
+)
+
+episode = studio.produce_episode(
+    content_source="https://www.globant.com/stay-relevant/ai-trends-2026",
+    episode_title="Tendências de AI em 2026: O que muda para empresas LATAM",
+    duration="short"
+)
+
+print(f"Episode ready: {episode['audio_path']}")
+print(f"Social: {episode['social_teaser']}")
+```
+
+**Architecture**:
+```
+Content (URL / PDF / text)
+    ↓ Claude Haiku (outline + instructions)
+    ↓ Podcastfy (LLM script generation + multi-turn dialogue)
+    ↓ Edge TTS / Coqui XTTS v2 (voice synthesis, multilingual)
+    → branded .mp3 episode
+    ↓ AzuraCast (podcast feed + radio distribution)
+    → Spotify / Apple Podcasts / RSS / Radio stream
+```
+
+**Why this pattern wins**:
+- 2-3 week PoC vs months of manual podcast setup
+- Supports Portuguese + Spanish natively (LATAM-ready)
+- Podcastfy Apache-2.0 = commercial use OK
+- Scales: one codebase → 10+ languages, 100+ episodes/month
+
+---
+
 ## Quick-Start Matrix
 
 | Client Type | Best Pattern | Time | Stack | Cost/Month |
@@ -920,6 +1094,7 @@ AI-generated asset → Claude Haiku (metadata description)
 | **Social / Creator Platform** | Pattern 2 (Content Factory) | 4-6 wk | OpenMontage + ViMax | $500-1k GPU |
 | **Sports Broadcaster** | Pattern 6 (Live Sports Highlights) | 3-5 wk | faster-whisper + Claude Haiku + ffmpeg | $200-400/event |
 | **News Org / Broadcaster (compliance)** | Pattern 7 (C2PA Provenance) | 3-4 wk | c2pa-python + Claude Haiku | $100-300 infra |
+| **Brand / Publisher (content → podcast)** | Pattern 8 (AI Podcast Studio) | 2-3 wk | Podcastfy + Coqui TTS + AzuraCast | $200-400 API |
 | **Branded Content / Agency** | Pattern 2+6 (Studio+Highlights) | 6-8 wk | LTX-2 + OpenMontage + Claude | $800-2k GPU |
 
 ---
