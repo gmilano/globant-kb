@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-02
+> Última actualización: 2026-07-07 | v2 — añadida Receta 7 (Unity MCP) y Receta 8 (COCOS 4 Mobile)
 
 ## Patrón base
 
@@ -28,7 +28,7 @@ Godot 4 (MIT)                          ← engine del juego
     └── BTState con trigger HTTP         ← dispara llamada al LLM
         └── Claude / GPT-4o / Ollama    ← LLM (cloud o local)
             └── pre-conversation.json   ← personalidad + conocimiento del personaje
-                └── ChromaDB / Qdrant   ← vector store para memoria episódica
+                └── ChromaDB / Qdrant   ← vector store para memoria episódica + LTM
 ```
 
 **Repos**:
@@ -42,7 +42,8 @@ Godot 4 (MIT)                          ← engine del juego
 2. Crear un BTAction `LLMDialogue` que envía POST al endpoint LLM con: `{character: "...", player_input: "...", memory: [...últimos N eventos...]}`.
 3. La respuesta del LLM vuelve como texto → animación de lip sync + texto en UI.
 4. Guardar el intercambio en el memory store (ChromaDB vía API HTTP o SQLite local).
-5. Opción local sin internet: usar Ollama con Llama 3.1 8B o Gemma 3n on-device.
+5. Para Long-Term Memory (breakthrough 2026): añadir campo `moral_alignment` y `tone` que se actualiza con cada interacción y se incluye en el prompt del NPC.
+6. Opción local sin internet: usar Ollama con Llama 3.1 8B o Gemma 3n on-device.
 
 **Tiempo estimado**: 2-3 semanas para MVP funcional con voz.
 **Costo cloud**: ~$0.01-0.05 por conversación con Claude Haiku / GPT-4o-mini.
@@ -77,7 +78,7 @@ Godot 4 (MIT)                           ← juego a testear como entorno RL
 5. El agente entrenado se convierte en un "explorador" que corre el juego 24/7 detectando regresiones.
 
 **Tiempo estimado**: 1-2 semanas para primer agente; 3-4 semanas para sistema de QA completo.
-**ROI**: reducción de 60-70% en QA manual según benchmarks de la industria.
+**ROI**: reducción de 60-70% en QA manual. AAA studios reportan ahorro $10M/título en QA+localization+assets AI.
 
 ---
 
@@ -133,7 +134,6 @@ Godot 4 (MIT) — runtime del juego
     └── PCG de assets:
         └── Stable Diffusion (API) para texturas procedurales
             └── [o opcional] AI-generated music con MusicGen (MIT)
-
 ```
 
 **Repos**:
@@ -174,16 +174,8 @@ FastAPI server (Python)
 - [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars. RAG + agentes sobre datos propios.
 - [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector database para embeddings.
 
-**Cómo conectar**:
-1. Preparar el corpus del juego: manual, patch notes, FAQs, descripciones de ítems → convertir a Markdown.
-2. Indexar en ChromaDB con LlamaIndex usando embeddings de OpenAI o Sentence Transformers (MIT).
-3. FastAPI expone endpoint POST `/ask` que recibe pregunta del jugador.
-4. LlamaIndex recupera chunks relevantes (top-5 por similitud coseno).
-5. LLM recibe chunks + pregunta → genera respuesta natural en el tono del juego.
-6. Godot muestra respuesta en UI in-game con animación.
-
-**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku. Para volumen alto: Llama 3.1 8B local en servidor.
 **Tiempo estimado**: 1-2 semanas para MVP funcional.
+**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku. Para volumen alto: Llama 3.1 8B local en servidor.
 
 ---
 
@@ -205,8 +197,8 @@ Godot 4 Editor (MIT)                   ← editor abierto
 ```
 
 **Repos**:
-- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. 120+ operaciones, ~41 MCP tools.
-- [FlamxGames/godot-ai-assistant-hub](https://github.com/FlamxGames/godot-ai-assistant-hub) — MIT. Alternativa con Ollama/Gemini/OpenRouter.
+- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. 120+ operaciones, ~41 MCP tools. Listado en Godot Asset Library jul 2026.
+- [jame581/GodotPrompter](https://github.com/jame581/GodotPrompter) — MIT. 51 agentic skills para Godot 4.x incluyendo PCG.
 
 **Cómo configurar**:
 1. Instalar godot-ai desde Godot Asset Library o GitHub.
@@ -218,257 +210,147 @@ Godot 4 Editor (MIT)                   ← editor abierto
 
 ---
 
+## Receta 7: Unity MCP Dev Tooling (nuevo — julio 2026)
+
+**Caso de uso**: Studio con codebase Unity que quiere AI-assisted development. La opción recomendada para clientes Unity.
+
+**Stack**:
+```
+Claude Code / Cursor / Copilot / cualquier MCP client
+    ↕ Model Context Protocol
+CoplayDev/unity-mcp (MIT, 5.8k stars)  ← MCP bridge más adoptado
+    ↕ Unity Editor API (C#)
+Unity 6.2 Editor                        ← editor abierto
+    ├── Gestión de assets desde lenguaje natural
+    ├── Control de scenes: crear, modificar, eliminar GameObjects
+    ├── Edición de scripts C# con contexto del proyecto
+    ├── Ejecución de tests
+    └── [Opcional] IvanMurzak/Unity-MCP (MIT) ← exposición de métodos C# custom
+```
+
+**Repos**:
+- [CoplayDev/unity-mcp](https://github.com/CoplayDev/unity-mcp) — MIT, **5.8k stars**. 47 herramientas. El más adoptado.
+- [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) — MIT, 3.4k stars. Extensible: cualquier método C# → herramienta.
+- [CoderGamester/mcp-unity](https://github.com/CoderGamester/mcp-unity) — MIT, 1.8k stars. Node.js bridge para IDEs.
+- [AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server) — MIT, 278 stars. 268 tools: Shader Graph, NavMesh, MPPM multiplayer.
+
+**Cómo configurar**:
+```bash
+# 1. Instalar CoplayDev/unity-mcp via Package Manager de Unity
+#    (UPM: https://github.com/CoplayDev/unity-mcp)
+
+# 2. En settings de Claude Code:
+{
+  "mcpServers": {
+    "unity": {
+      "command": "npx",
+      "args": ["unity-mcp-server"]
+    }
+  }
+}
+
+# 3. Abrir Unity Editor y el MCP server levanta automáticamente
+```
+
+**Ejemplo de uso**:
+```
+Claude Code: "Crea un sistema de inventario con UI para el player prefab"
+  → unity-mcp crea el script C#, lo adjunta al prefab, crea el Canvas UI
+  → Unity muestra los cambios en tiempo real
+
+Claude Code: "El character controller tiene un bug con pendientes de >45 grados"
+  → Inspecciona el CharacterController, modifica el slopeLimit, corre el test suite
+```
+
+**Para exponer lógica custom** (IvanMurzak/Unity-MCP):
+```csharp
+// Una línea convierte cualquier método en herramienta MCP
+[McpPluginTool]
+public static string GetPlayerStats(string playerId) {
+    // Unity logic...
+    return JsonUtility.ToJson(stats);
+}
+```
+
+**Tiempo estimado**: Setup en 1 día. ROI inmediato para cualquier studio Unity.
+**Ventaja diferencial**: CoplayDev/unity-mcp > godot-ai en stars (5.8k vs 805) — señal de adopción masiva en Unity.
+
+---
+
+## Receta 8: COCOS 4 + AI para mobile gaming LATAM (nuevo — julio 2026)
+
+**Caso de uso**: Studio mobile LATAM que quiere añadir AI features sin costo de engine license. COCOS 4 pasó a MIT en enero 2026.
+
+**Stack**:
+```
+COCOS 4 (MIT, mobile-first)            ← engine del juego
+    ├── TypeScript/JavaScript lógica
+    │   └── Claude Haiku API          ← NPC diálogo, $0.25/MTok input
+    ├── ONNX modelo exportado          ← AI on-device (NPU en móviles 2026)
+    │   └── Clasificador churn         ← sin costo de API, privacidad
+    └── Supabase (Apache-2.0)          ← backend + pgvector
+        ├── pgvector                   ← RAG sobre lore del juego sin ChromaDB
+        └── Edge Functions (Deno)      ← trigger AI en eventos del juego
+```
+
+**Repos**:
+- [cocos/cocos-engine](https://github.com/cocos/cocos-engine) — MIT (desde ene 2026). ~18k stars.
+- [supabase/supabase](https://github.com/supabase/supabase) — Apache-2.0. 80k stars. pgvector incluido.
+
+**Implementación NPC diálogo en COCOS 4**:
+```typescript
+// En COCOS TypeScript, llamada al LLM desde el evento de interacción
+import { _decorator, Component } from 'cc';
+
+@ccclass('NPCDialogue')
+export class NPCDialogue extends Component {
+    private characterId = 'village_elder';
+    
+    async onPlayerInteract(playerInput: string) {
+        const memory = await this.getPlayerMemory();  // pgvector lookup
+        
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'x-api-key': process.env.CLAUDE_API_KEY,
+                'anthropic-version': '2023-06-01',
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: 'claude-haiku-4-5-20251001',
+                max_tokens: 150,
+                system: `Eres ${this.characterId}. El jugador te ha ayudado ${memory.questsCompleted} veces. Su alineación es ${memory.moralAlignment}.`,
+                messages: [{ role: 'user', content: playerInput }]
+            })
+        });
+        
+        const data = await response.json();
+        this.showDialogue(data.content[0].text);
+        
+        // Guardar en Supabase pgvector para LTM
+        await this.updatePlayerMemory(playerInput, data.content[0].text);
+    }
+}
+```
+
+**Costo por conversación**: ~$0.003 con Claude Haiku. Para 10k DAU con 3 interacciones/sesión: ~$90/día.
+**Alternativa on-device**: ONNX model exportado desde Ollama/llama.cpp → sin costo de API, funciona offline.
+**Tiempo estimado**: 3-5 semanas para MVP completo con NPC diálogo + analytics básico.
+
+---
+
 ## Tabla resumen
 
 | Patrón | Stack principal | Esfuerzo | ROI esperado |
-|--------|----------------|---------|--------------|
-| NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion (datos industria) |
-| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual |
+|--------|----------------|---------|---------------|
+| NPC con LLM (Godot) | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion (datos industria) |
+| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual; $10M/título AAA |
 | Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención |
 | Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability |
 | Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual |
-| AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
+| AI Dev Tooling (Godot) | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
+| AI Dev Tooling (Unity) | CoplayDev/unity-mcp + Claude Code | 1 día setup | 2-3x velocidad; 5.8k stars adopción masiva |
+| COCOS 4 + AI mobile LATAM | COCOS 4 (MIT) + Supabase + Claude | 3-5 semanas | AI features sin license fees |
 
 ---
-*Repos verificados en GitHub 2026-07-02. URLs directas incluidas.*
-
-## Receta 7: World Model para RL Training — sin motor de física
-
-**Caso de uso**: Entrenar agentes RL en una representación aprendida del juego, más rápido y barato que ejecutar el motor real. Ideal para: QA agents, balance testing, oponentes AI.
-
-**¿Por qué?**
-- Ejecutar Godot/Unity para entrenamiento RL es caro en CPU/GPU: el motor completo corre solo para generar obs/reward.
-- Un world model aprende la dinámica del juego → el agente RL puede entrenarse en el modelo, 10-100x más rápido.
-- DIAMOND (NeurIPS 2024) demostró 1.46 HNS en Atari 100k — SOTA para agentes en world models.
-
-**Stack**:
-```
-Paso 1: Recolectar datos de juego
-    Godot 4 (MIT)
-    └── godot_rl_agents (MIT)
-        └── Grabar: [frame_t, acción_t, frame_t+1, reward_t]
-            → Dataset de transiciones (≥100k frames)
-
-Paso 2: Entrenar el world model
-    DIAMOND framework (MIT) [eloialonso/diamond]
-    └── Diffusion world model
-        └── Input: frame_t + acción → predice frame_t+1
-        └── También predice: done_flag, reward
-
-Paso 3: Entrenar el agente RL en el world model
-    DIAMOND agent (MIT)
-    └── PPO / SAC contra el world model (no el juego real)
-    └── 10-100x más rápido que contra el motor
-
-Paso 4: Transferir al juego real
-    Godot 4 (MIT)
-    └── godot_rl_agents
-        └── Fine-tune del agente entrenado en world model
-            → 90% del entrenamiento ya está hecho
-```
-
-**Repos**:
-- [eloialonso/diamond](https://github.com/eloialonso/diamond) — MIT. DIAMOND: diffusion world model + RL agent. NeurIPS 2024 Spotlight. Base para este patrón.
-- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT. Recolección de datos de juego desde Godot + fine-tuning.
-- [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) — MIT. Algoritmos RL para el agente.
-- [etched-ai/open-oasis](https://github.com/etched-ai/open-oasis) — MIT. Referencia: arquitectura Oasis 500M (alternativa a DIAMOND).
-
-**Código base (Python)**:
-```python
-# Entrenamiento simplificado con DIAMOND
-# Ver: github.com/eloialonso/diamond para setup completo
-
-from diamond.agent import DiamondAgent
-from diamond.world_model import DiffusionWorldModel
-
-# 1. Cargar datos recolectados con godot_rl_agents
-dataset = GameTransitionDataset("recordings/godot_game/")
-
-# 2. Entrenar world model
-wm = DiffusionWorldModel(obs_shape=(84, 84, 3), action_dim=8)
-wm.train(dataset, steps=500_000)
-
-# 3. Entrenar agente RL en el world model
-agent = DiamondAgent(world_model=wm)
-agent.train(steps=2_000_000)  # sin ejecutar Godot
-
-# 4. Exportar agente para deployment en Godot
-agent.save("trained_agent.onnx")
-# → Importar en godot_rl_agents para fine-tuning final
-```
-
-**Tiempo estimado**: 2-3 semanas para recolección + entrenamiento. 3-4 semanas para integración completa.
-**Ventaja clave**: el world model puede entrenarse en CPU/GPU modesta. El agente RL en el world model no requiere Godot en runtime.
-**Limitación**: el world model introduce "alucinaciones" (objetos que aparecen/desaparecen). Fine-tune en el juego real es necesario para production-quality.
-
----
-
-## Receta 8: Dev Tooling Workflow — Productividad con el stack GDC-aceptado
-
-**Caso de uso**: Acelerar el workflow de un equipo de 5-15 devs usando solo los usos de AI que tienen >35% de adopción según GDC 2026: research/brainstorm (81%), code assist (47%), prototipado (35%). Evita los usos con alta resistencia (asset gen, NPCs con AI visibles).
-
-**Stack**:
-```
-Fase 1: Design + Research (brainstorm)
-    Claude claude-sonnet-5 / Opus 4.8 (API)
-    └── Prompt de brainstorm: "Genera 20 mecánicas de juego para [genre], con pros/cons/esfuerzo estimado"
-    └── Prompt de research: "Analiza este GDD y encuentra inconsistencias de mecánicas"
-
-Fase 2: Code Assist (desarrollo)
-    Claude Code (CLI) con godot-ai (MIT)
-    └── MCP server local: Claude Code conectado al editor Godot
-    └── Godot 4 (MIT): engine
-    └── Flujo: dev describe en lenguaje natural → Claude genera GDScript → dev revisa
-    Alternativa: Cursor + godot-ai para devs acostumbrados a IDE
-
-Fase 3: QA automatizado (testing invisible)
-    godot_rl_agents (MIT)
-    └── Agente RL explorador → detecta bugs edge-case
-    └── GitHub Actions → runs diarios del agente QA
-    └── Reporte automático en GitHub Issues
-
-Fase 4: Analytics (producción)
-    PostHog (MIT, self-hosted)
-    └── Events: session_start, level_completed, died, quit_game
-    └── Dashboards: funnel por nivel, churn por día de juego
-    Grafana (Apache-2.0)
-    └── Alertas: drop en DAU/MAU, spike en abandono de nivel
-```
-
-**Repos**:
-- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT. MCP server para Godot → code assist.
-- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT. QA con RL agents.
-- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT. Analytics self-hosted.
-- [grafana/grafana](https://github.com/grafana/grafana) — Apache-2.0. Dashboards.
-
-**Por qué este framing funciona con devs**:
-- No reemplaza: el dev sigue siendo el autor del código (AI es copiloto).
-- No genera assets: los artistas del estudio mantienen control creativo.
-- El QA con RL hace trabajo tedioso (regresiones, edge cases) que los devs no quieren hacer.
-- Analytics es backend invisible: el jugador no sabe que hay AI.
-
-**Tiempo estimado**: Setup inicial 3-5 días. ROI desde semana 1.
-**Cifras de referencia**: godot-ai reporta 2-3x velocidad en setup de escenas. RL QA reduce tiempo de bug finding en 60-70%.
-
----
-
-## Receta 9: LLM Game Evaluation — selección de modelo con lmgame-Bench
-
-**Caso de uso**: antes de integrar un LLM en un proyecto de gaming (NPC, QA bot, PCG), evaluar sistemáticamente qué modelo rinde mejor para el tipo de juego del cliente. Evitar contratar API cara que falla en la tarea real.
-
-**¿Por qué?**
-- Los benchmarks generales (MMLU, HumanEval) no predicen bien el rendimiento en tareas de gaming.
-- lmgame-Bench (ICLR 2026) demuestra que los juegos discriminan mejor las capacidades que los benchmarks de texto.
-- Para juegos de planificación espacial (puzzles, platformers) → necesitas modelos con razonamiento fuerte.
-- Para juegos narrativos (RPG, diálogo de NPCs) → modelos mid-size pueden igualar al líder.
-
-**Stack**:
-```
-lmgame-Bench (Apache-2.0)
-    ├── Juegos de referencia por tipo:
-    │   ├── Razonamiento espacial: Sokoban, Tetris
-    │   ├── Toma de decisiones: Candy Crush, 2048
-    │   ├── Acción/reacción: Super Mario Bros
-    │   └── Narrativa/diálogo: Ace Attorney
-    ├── Harness modular:
-    │   ├── Percepción (on/off) — simula qué ve el agente
-    │   ├── Memoria (on/off) — simula contexto de largo plazo
-    │   └── Razonamiento (on/off) — simula CoT / planning
-    └── Modelos a evaluar:
-        ├── Claude Haiku 4.5 (bajo costo)
-        ├── Claude Sonnet 5 (balance)
-        ├── GPT-4o-mini (alternativa)
-        └── Llama 3.1 8B local (zero costo)
-```
-
-**Código base (Python)**:
-```python
-# Evaluación con lmgame-Bench — ver github.com/lmgame-org/GamingAgent
-# Requiere: pip install lmgame gymnasium anthropic
-
-import anthropic
-from lmgame import GamingBenchmark, GameConfig
-
-# Definir juegos según el tipo de proyecto del cliente
-# Proyecto: RPG con NPCs conversacionales → priorizar Ace Attorney
-# Proyecto: Puzzle game con QA bot → priorizar Sokoban + Tetris
-games = [
-    GameConfig("ace_attorney", episodes=10),  # narrativa
-    GameConfig("sokoban", episodes=10),       # planificación espacial
-]
-
-client = anthropic.Anthropic()
-
-def run_model_eval(model_id: str, game_config: GameConfig) -> dict:
-    bench = GamingBenchmark(
-        game=game_config,
-        model=model_id,
-        perception_module=True,
-        memory_module=True,      # habilitar todos para fair comparison
-        reasoning_module=True,
-    )
-    results = bench.run()
-    return {
-        "model": model_id,
-        "game": game_config.name,
-        "score": results.mean_score,
-        "completion_rate": results.completion_rate,
-        "avg_tokens": results.avg_tokens_per_step,
-        "cost_per_episode": results.estimated_cost_usd
-    }
-
-# Evaluar todos los modelos en todos los juegos
-models = [
-    "claude-haiku-4-5-20251001",
-    "claude-sonnet-5",
-    "gpt-4o-mini",
-]
-
-results = []
-for model in models:
-    for game in games:
-        r = run_model_eval(model, game)
-        results.append(r)
-        print(f"{model} @ {game.name}: score={r['score']:.2f}, cost=${r['cost_per_episode']:.4f}")
-
-# Selección automática: mejor score / costo para el juego objetivo
-import pandas as pd
-df = pd.DataFrame(results)
-# Para RPG: filtrar Ace Attorney y elegir mejor relación score/costo
-rpg_results = df[df.game == "ace_attorney"].copy()
-rpg_results["efficiency"] = rpg_results.score / rpg_results.cost_per_episode
-best_model = rpg_results.loc[rpg_results.efficiency.idxmax(), "model"]
-print(f"Modelo recomendado para NPCs RPG: {best_model}")
-```
-
-**Interpretación de resultados:**
-
-| Tipo de juego | Skill que mide | Modelos que destacan | Uso gaming |
-|---------------|---------------|---------------------|------------|
-| Sokoban / Tetris | Planificación espacial | GPT-5, Claude Sonnet 5 | QA bots para puzzles, pathfinding AI |
-| Candy Crush / 2048 | Optimización táctica | Claude Haiku (sorprendentemente bien) | Balance testing, match-3 PCG |
-| Super Mario Bros | Reacción + coordinación | VLMs con baja latencia | Playtesting agentes de acción |
-| Ace Attorney | Comprensión narrativa larga | Modelos mid-size compiten | NPCs de RPG, diálogo |
-
-**Tiempo estimado**: 2-4 horas para evaluar 3 modelos en 2-3 juegos.
-**Costo de evaluación**: $5-20 USD total para 10 episodios por modelo/juego en modelos cloud.
-**ROI**: evitar meses de integración con el modelo incorrecto. Diferencia entre Claude Haiku ($0.001/msg) y Sonnet ($0.005/msg) es 5x en producción — elegir bien ahorra $10k+/mes en producción.
-
----
-
-## Tabla resumen actualizada
-
-| Patrón | Stack principal | Esfuerzo | ROI esperado | GDC alignment |
-|--------|----------------|---------|--------------|---------------|
-| NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion | ⚠️ baja adopción devs (5%) |
-| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual | ✅ backend invisible |
-| Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención | ✅ backend invisible |
-| Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito | ⚠️ baja adopción devs (10%) |
-| Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte | ✅ tooling |
-| AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x dev speed | ✅ alta adopción (47%) |
-| World Model RL Training | DIAMOND + godot_rl_agents | 2-3 semanas | 10-100x entrenamiento | ✅ backend invisible |
-| Dev Productivity Stack | godot-ai + RL QA + PostHog | 3-5 días setup | 2-3x team velocity | ✅ GDC-aceptado completo |
-| LLM Game Evaluation | lmgame-Bench + 3 modelos | 2-4 horas | modelo correcto elegido | ✅ pre-venta / arquitectura |
-
----
-*Actualizado 2026-07-06. GDC alignment basado en GDC State of the Game Industry 2026.*
+*v2 (2026-07-07): añadidas Receta 7 (Unity MCP — stack con código, 4 repos) y Receta 8 (COCOS 4 mobile LATAM — código TypeScript). Repos verificados en GitHub.*

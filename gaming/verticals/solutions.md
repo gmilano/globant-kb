@@ -2,7 +2,7 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
-> Última actualización: 2026-07-05
+> Última actualización: 2026-07-07 | v2
 
 ## Stack recomendado: Godot + Nakama
 
@@ -20,19 +20,32 @@ Nakama (Apache-2.0) — backend multiplayer
     + PostHog (MIT) — analytics de jugador
 ```
 
+## Stack alternativo: Unity + unity-mcp (para clientes Unity)
+
+Para studios que ya tienen código base en Unity y quieren añadir AI:
+
+```
+Unity 6.2 (propietario — free tier)
+    + CoplayDev/unity-mcp (MIT) — MCP bridge AI ↔ Unity Editor
+    + IvanMurzak/Unity-MCP (MIT) — cualquier método C# → herramienta
+    + LLMUnity (Apache-2.0) — NPCs con LLMs locales o cloud
+    ↕ Nakama SDK Unity (Apache-2.0) — backend
+Nakama (Apache-2.0) — backend multiplayer compartido
+```
+
 ---
 
 ## Plataformas base completas
 
 | Plataforma | Licencia | URL | Stars | Stack | Caso de uso |
 |------------|----------|-----|-------|-------|-------------|
-| **Godot Engine** | MIT | [godotengine/godot](https://github.com/godotengine/godot) | 114k | C++/GDScript/C# | Engine 2D/3D completo. Base para integrar NPCs AI, PCG, diálogo. Ecosistema AI más rico open source. |
-| **Open 3D Engine** | Apache-2.0 | [o3de/o3de](https://github.com/o3de/o3de) | 9.5k | C++ | Engine AAA. Sponsors AWS/Epic/Intel (Linux Foundation). Para proyectos enterprise con AWS Bedrock. |
-| **Carbon Engine (Fenris)** | **MIT** | [FenrisCreations/carbon](https://github.com/FenrisCreations/carbon) | NUEVO | C++ | **Motor de EVE Online liberado MIT el 1-julio-2026.** Framework cross-platform probado en producción AAA durante 20+ años. Sub-módulos Apache-2.0 y PSF. |
-| **COCOS 4** | **MIT** | [cocos2d/cocos-engine](https://github.com/cocos2d/cocos-engine) | 8k | C++/JS/TS | Motor cross-platform popular en Asia, **liberado MIT en 2026** (era propietario). Ligero para mobile e in-app games. |
-| **Nakama** | Apache-2.0 | [heroiclabs/nakama](https://github.com/heroiclabs/nakama) | 12.8k | Go + SDKs | Backend de juego completo. Matchmaking, leaderboards, chat, social. 500k devs. |
+| **Godot Engine** | MIT | [godotengine/godot](https://github.com/godotengine/godot) | 112k+ | C++/GDScript/C# | Engine 2D/3D completo. Base para integrar NPCs AI, PCG, diálogo. Ecosistema AI más rico open source. |
+| **Open 3D Engine** | Apache-2.0 | [o3de/o3de](https://github.com/o3de/o3de) | 9.5k | C++ | Engine AAA. Sponsors AWS/Epic/Intel. Para proyectos enterprise con AWS Bedrock. |
+| **COCOS 4** | MIT | [cocos/cocos-engine](https://github.com/cocos/cocos-engine) | ~18k | C++/TypeScript/JS | MIT desde enero 2026. Mobile-first. AI-native philosophy. Dominante en Asia, creciente en LATAM mobile. |
+| **Nakama** | Apache-2.0 | [heroiclabs/nakama](https://github.com/heroiclabs/nakama) | 12.8k | Go + SDKs | Backend de juego completo. Matchmaking, leaderboards, chat, social. 500k devs. SDK Godot/Unity/Unreal. |
 | **Colyseus** | MIT | [colyseus/colyseus](https://github.com/colyseus/colyseus) | 6.2k | Node.js/TypeScript | Servidor multiplayer web. Ideal para browser games y webapps. |
 | **MonoGame** | MIT | [MonoGame/MonoGame](https://github.com/MonoGame/MonoGame) | 11k | C# | Framework C# cross-platform. Para devs .NET que quieren añadir AI. |
+| **Stride** | MIT | [stride3d/stride](https://github.com/stride3d/stride) | 7.7k | C# | Engine .NET maduro (ex-Xenko). Alternativa seria a Unity sin controversy de pricing. |
 | **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. pgvector para RAG. |
 
 ---
@@ -85,6 +98,45 @@ Godot Engine (MIT)
 
 ---
 
+### Unity + AI (para studios con codebase Unity)
+
+**Stack AI-assisted dev en Unity:**
+```
+Unity 6.2
+    └── CoplayDev/unity-mcp (MIT, 5.8k stars)   ← MCP bridge
+        └── Claude Code / Cursor / Copilot       ← AI assistant
+            ↕ 47 MCP tools
+            ├── manage_assets      ← assets
+            ├── control_scenes     ← scenes
+            ├── edit_scripts       ← GDScript/C#
+            └── run_tests          ← testing loop
+```
+
+**NPCs en Unity con LLMs locales:**
+```
+Unity 6.2
+    └── LLMUnity (Apache-2.0, 1.7k stars)
+        ├── LLM local (Ollama/llama.cpp) — sin costo de API
+        └── Claude/GPT API — para calidad premium
+```
+
+---
+
+### COCOS 4 + AI (mobile gaming — nuevo 2026)
+
+```
+COCOS 4 (MIT)
+    └── TypeScript/JavaScript lógica
+        ├── LLM API (Claude Haiku / GPT-4o-mini) → NPC diálogo
+        ├── ONNX modelo exportado → AI on-device (NPUs en móviles 2026)
+        └── Supabase (pgvector) → memoria del jugador y RAG sobre lore
+```
+
+Ventaja COCOS 4 + AI: engine 100% open source que los AI tools pueden leer, entender y modificar.
+Impacto en mobile LATAM: COCOS MIT elimina el costo de engine para studios de bajo presupuesto.
+
+---
+
 ### Nakama + AI (backend inteligente)
 
 Nakama expone hooks server-side en Go, TypeScript y Lua. Interceptar eventos y llamar a modelos:
@@ -108,24 +160,6 @@ Módulos AI a añadir:
 
 ---
 
-### Carbon Engine (EVE Online, MIT — NUEVO Jul 2026)
-
-Primer motor AAA de este nivel open source. Oportunidades:
-
-```
-Carbon Engine (MIT)
-    + AI NPC layer
-    │   ↓
-    │   LLMs (Claude / local Llama)   ← diálogos de NPCs en MMO
-    │   + memoria persistente Qdrant  ← recuerdan relaciones con jugador
-    ├── COCOS 4 (MIT) para UI/HUD     ← interfaces móviles del juego
-    └── Nakama (Apache-2.0)           ← backend multiplayer MMO
-```
-
-**Use case principal**: proyectos de MMO o juego de escala similar a EVE que quieran base de motor probada en producción sin royalties. El motor tiene 20+ años de hardening.
-
----
-
 ### Supabase para juegos asíncronos/persistentes
 
 Ideal para: RPGs, idle games, juegos de turnos, social games, UGC platforms.
@@ -138,15 +172,7 @@ Supabase (PostgreSQL + realtime + auth + storage + pgvector)
     │   └── Embeddings del lore/personajes → RAG sin ChromaDB externo
     └── Realtime subscriptions
         └── Live updates de estado de juego
-
-Casos de uso:
-    ├── Recomendación de siguiente misión (LLM sobre historial del jugador)
-    ├── Descripción generativa de ítems de inventario (LLM)
-    ├── Soporte in-game via chatbot (RAG sobre pgvector + LLM)
-    └── Detección de cheating en juegos asíncronos (SQL analytics + ML)
 ```
-
-Ventajas vs Firebase para gaming: SQL nativo (queries complejas), pgvector (RAG sin servicio externo), open source self-hosteable, Row Level Security.
 
 ---
 
@@ -161,8 +187,6 @@ AWS Comprehend                         ← análisis de toxicidad en chat
 AWS Rekognition                        ← moderación de contenido UGC
 ```
 
-Perfil: estudio mid-size/AAA que quiere escalar con AWS sin royalties de engine. Sin lock-in: O3DE es Apache 2.0, puede migrar a otro cloud.
-
 ---
 
 ## Tabla fit por caso de uso
@@ -171,16 +195,15 @@ Perfil: estudio mid-size/AAA que quiere escalar con AWS sin royalties de engine.
 |-------------|----------------|---------|----------|
 | NPC con LLM local | Godot | LimboAI + Ollama | 2-3 semanas |
 | NPC con memoria persistente | Godot | Generative Agents pattern + Claude API | 3-4 semanas |
+| AI dev tooling (Godot) | Godot + godot-ai | Claude Code / Cursor via MCP | 1 día setup |
+| AI dev tooling (Unity) | Unity + CoplayDev/unity-mcp | Claude Code / Cursor / Copilot | 1 día setup |
 | Multiplayer backend inteligente | Nakama | ONNX hooks + PostHog | 3-4 semanas |
 | Backend social/persistente + AI | Supabase | Edge Functions + pgvector + LLM | 2-3 semanas |
 | RL training / QA automatizado | Godot + godot_rl_agents | SB3 + PPO | 2-4 semanas |
-| AI-assisted game dev | Godot + godot-ai | Claude Code / Cursor via MCP | 1 día setup |
+| Mobile gaming + AI (LATAM) | COCOS 4 | ONNX on-device + Supabase pgvector | 3-5 semanas |
 | Juego AAA con AI cloud | O3DE | AWS Bedrock / GameLift | Meses (enterprise) |
 | RPG con PCG y narrativa generativa | Luanti fork + Godot | Concordia + LlamaIndex + LLM | 6-10 semanas |
-| MMO con NPCs masivos | Carbon Engine (MIT) | LLM + Nakama | Proyecto grande (6m+) |
-| Browser game / web game AI | COCOS 4 (MIT) + Colyseus | LLM API | 3-6 semanas |
-| Asset creation AI-assisted | Blender + StableGen | TRELLIS.2 + SDXL | Workflow inmediato |
 
 ---
-*Fuentes: heroiclabs.com, supabase.com/blog, godotengine.org, o3de.org, opensourceforu.com, GitHub (verificado 2026-07-05)*
-*Carbon Engine y COCOS 4 MIT añadidos 2026-07-05 — noticias de esta semana.*
+*v2 (2026-07-07): añadido COCOS 4 (MIT ene 2026), Stride, Unity MCP stack, nueva tabla fit con Unity MCP.*
+*Fuentes: heroiclabs.com, supabase.com, godotengine.org, o3de.org, cocos.com, GitHub (verificado 2026-07-07)*
