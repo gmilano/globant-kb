@@ -1,11 +1,11 @@
 {
-  "next": 0,
+  "next": 1,
   "last_updated": "2026-07-07",
-  "last_industry": "enterprise",
+  "last_industry": "gaming",
   "last_status": "completed",
-  "note": "enterprise KB fully written (8 files, ~911 lines net additions) and pushed to globant-kb/enterprise/.",
+  "note": "gaming KB v2 — 8 files fully rewritten and pushed to globant-kb/gaming/. Unity MCP ecosystem (4 servers >11k stars), COCOS 4 MIT, LTM NPCs, GDC 2026 SOTI data, AI-invisible strategy, LATAM dev market $123.7M→$438.6M, 8 compose patterns with code.",
   "previous_industries": {
-    "gaming": "completed",
+    "gaming": "second pass completed 2026-07-07 - 8 files v2 pushed to globant-kb/gaming/. Unity MCP (CoplayDev 5.8k + 3 others >11k total), COCOS 4 MIT Jan 2026, LTM NPCs breakthrough, GDC 2026 SOTI, AI-invisible strategy, LATAM 372.3M players 1200+ studios.",
     "legal": "completed",
     "financial": "completed",
     "healthcare": "completed",
