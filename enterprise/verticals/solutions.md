@@ -1,189 +1,146 @@
-# Vertical Platforms — Enterprise
+# Enterprise Vertical Solutions — AI-Ready Platforms
 
-> Real platforms you can fork, customize, and add AI on top of.
-> Model: start functional, add the agentic layer.
+> Real platforms Globant can fork, customize, and layer AI on top of.
+> Model: start with a functional system → add agentic layer → build vertical solution.
 > Last updated: 2026-07-07
 
-## Platform Map
+## ERP (Enterprise Resource Planning)
 
-| Platform | License | Repo | Stars | Stack | Primary Use Case |
-|----------|---------|------|-------|-------|-----------------|
-| [Odoo](https://github.com/odoo/odoo) | LGPL-3.0 | odoo/odoo | ~52k | Python/OWL | Full ERP+CRM suite — most deployed OSS ERP globally |
-| [ERPNext](https://github.com/frappe/erpnext) | GPL-3.0 | frappe/erpnext | ~36k | Python/Vue (Frappe) | Manufacturing, supply chain, HR, finance, multi-company |
-| [Twenty CRM](https://github.com/twentyhq/twenty) | MIT | twentyhq/twenty | ~45k | TypeScript/React | AI-native Salesforce alternative with native MCP server |
-| [SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | salesagility/SuiteCRM | ~4k | PHP/Vue | Feature-complete Salesforce alternative; 5M+ users |
-| [Apache OFBiz](https://github.com/apache/ofbiz-framework) | Apache-2.0 | apache/ofbiz-framework | ~1.1k | Java/Groovy | Complex enterprise ERP with e-commerce, order mgmt |
-| [NocoBase](https://github.com/nocobase/nocobase) | AGPL-3.0 | nocobase/nocobase | ~14k | TypeScript | No-code/low-code enterprise app builder; plugin-based |
-| [Backstage](https://github.com/backstage/backstage) | Apache-2.0 | backstage/backstage | ~29k | TypeScript/React | Internal developer portal; AI model catalog; service mesh |
+### Odoo
+- **Repo**: [github.com/odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52k stars
+- **Stack**: Python, PostgreSQL, OWL (JS framework), Docker
+- **Modules**: Accounting, Inventory, Manufacturing, CRM, HR, eCommerce, Project, Purchase, Sales
+- **AI Integration Points**:
+  - Odoo AI module (Odoo 18): CRM lead scoring, email summarization, chatbot builder
+  - REST/RPC API for agent-driven CRUD on any model
+  - n8n official Odoo node for workflow automation
+  - Custom module pattern: inherit `mail.thread` → inject LLM suggestions into chatter
+- **Globant Use Case**: Mid-market manufacturing/distribution ERP modernization with AI copilots
+- **LATAM Presence**: Strong Brazil, Mexico, Argentina deployments; 100+ Odoo partners in LATAM
+
+### ERPNext + Frappe
+- **Repo**: [github.com/frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k stars
+- **Stack**: Python (Frappe Framework), MariaDB, Redis, Vue.js
+- **Modules**: Accounting, HR, Payroll, Manufacturing, Supply Chain, CRM, Project
+- **AI Integration Points**:
+  - [ERPNext MCP Server](https://github.com/rakeshgangwar/erpnext-mcp-server) — expose ERP as MCP tools for Claude/GPT
+  - Frappe Framework API-first: every DocType auto-generates REST + Webhooks
+  - AI extensions available: frappe-ai (text generation), frappe-copilot (smart forms)
+  - LangChain integration via REST API and webhook triggers
+- **Globant Use Case**: SME ERP implementation with AI-driven procurement, invoicing, and supply chain agents
+- **LATAM Fit**: GPL-3.0 allows deployment; actively used in India + emerging markets; LATAM community growing
 
 ---
 
-## Deep Dives
+## CRM (Customer Relationship Management)
 
-### 1. Twenty CRM — Best for AI-Native CRM Projects
-**Why choose it**: The only major OSS CRM with a native MCP server — Claude, ChatGPT, and Cursor can query and mutate customer data directly via agent protocols. MIT license means no copyleft concerns.
+### Twenty CRM
+- **Repo**: [github.com/twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45k stars
+- **Stack**: TypeScript, React, Node.js, PostgreSQL, GraphQL
+- **AI Integration Points**:
+  - **Native MCP server** (Cloud) — AI agents read/write CRM records, pipelines, contacts via natural language
+  - GraphQL + REST API-first — every object queryable by AI agents
+  - Custom objects and fields with schema-driven AI form completion
+  - n8n integration for automated deal stage progressions
+- **Best For**: AI-native sales teams, startups, and enterprises wanting Salesforce alternatives
+- **Globant Use Case**: Build AI-augmented sales copilot on top of Twenty for client sales teams
 
-**AI integration points**:
-- MCP server: agents can read contacts, deals, tasks, timeline events
-- Webhook system: trigger agent workflows on CRM events
-- Custom objects API: extend data model for industry-specific AI features
+### SuiteCRM
+- **Repo**: [github.com/salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4k stars
+- **Stack**: PHP, MySQL/MariaDB, Bootstrap
+- **Scale**: ~2M downloads, 5M active users globally
+- **AI Integration Points**:
+  - REST API v8 for agent-driven lead/contact/opportunity CRUD
+  - Logic Hooks (PHP callbacks) as agentic trigger points
+  - Email-to-case, call transcription → AI summary plugins
+  - Community AI modules for lead scoring via scikit-learn
+- **Globant Use Case**: Legacy SuiteCRM migration to AI-augmented CRM for large sales organizations
 
-**Integration code** (Twenty + Claude MCP pattern):
-```python
-import anthropic
+---
 
-# With Twenty's native MCP server running
-client = anthropic.Anthropic()
-response = client.beta.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=2048,
-    mcp_servers=[{
-        "type": "url",
-        "url": "http://localhost:3000/api/mcp",  # Twenty MCP endpoint
-        "name": "twenty-crm",
-    }],
-    messages=[{
-        "role": "user",
-        "content": "Find all deals in negotiation stage with ARR > $50k and draft a follow-up strategy"
-    }]
-)
-print(response.content[0].text)
+## Collaboration & ITSM
+
+### Mattermost
+- **Repo**: [github.com/mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | 29k stars
+- **Stack**: Go (server), React (web), PostgreSQL/MySQL
+- **AI Integration Points**:
+  - Plugin system: deploy LLM agents as Mattermost bots (slash commands, auto-responses)
+  - Mattermost Copilot plugin (self-hosted): LLM-powered thread summarization and Q&A
+  - Webhook bots: agents receive events and post AI-generated responses
+  - Integration with n8n for multi-channel enterprise automation
+- **Globant Use Case**: Deploy AI team assistant bot in Mattermost for knowledge retrieval, meeting summaries, and ticket creation
+
+### GLPI
+- **Repo**: [github.com/glpi-project/glpi](https://github.com/glpi-project/glpi) | GPL-3.0 | 4k stars (200k+ production deployments)
+- **Stack**: PHP, MySQL/MariaDB
+- **Modules**: Ticketing, Asset Management, Change Management, CMDB, Service Catalog
+- **AI Integration Points**:
+  - REST API for agent-driven ticket creation, update, and resolution
+  - FusionInventory plugin for AI-driven asset discovery and cataloging
+  - Custom plugin pattern: AI ticket classifier (RAGFlow → GLPI category assignment)
+  - Webhook → n8n → LLM → GLPI for intelligent auto-routing
+- **Globant Use Case**: AI-augmented ITSM for large enterprises — intelligent ticket triage, KB article suggestions
+
+---
+
+## HR & Payroll
+
+### Frappe HR (HRMS)
+- **Repo**: [github.com/frappe/hrms](https://github.com/frappe/hrms) | GPL-3.0 | 2k stars
+- **Stack**: Python (Frappe), MariaDB, Vue.js
+- **Modules**: Recruitment, Onboarding, Leave & Attendance, Expense Management, Payroll, Performance Reviews, Taxation
+- **AI Integration Points**:
+  - ERPNext MCP Server exposes all HR DocTypes to AI agents
+  - AI resume screening: hook recruitment workflow to LLM scoring
+  - Payroll Engine can call LLM for regulation interpretation
+  - n8n integration for onboarding workflow automation
+- **Globant Use Case**: AI-augmented HR platform for mid-market clients — resume screening, payroll anomaly detection
+
+---
+
+## Business Intelligence
+
+### Metabase
+- **Repo**: [github.com/metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 38k stars
+- **Stack**: Clojure (server), React (frontend), H2/Postgres/MySQL (app DB)
+- **AI Integration Points**:
+  - Built-in NL query: "Show me revenue by country last quarter" → SQL
+  - Embedding API: embed AI-generated dashboards in enterprise portals
+  - REST API: agents can read questions, cards, and dashboards
+  - AI agents can generate Metabase questions via API and embed results in chat
+- **Globant Use Case**: Build AI analytics copilot on top of Metabase for client reporting teams
+
+---
+
+## No-Code / Low-Code Enterprise Apps
+
+### NocoBase
+- **Repo**: [github.com/nocobase/nocobase](https://github.com/nocobase/nocobase) | Apache-2.0 | 15k stars
+- **Stack**: Node.js, React, PostgreSQL
+- **Best For**: Custom internal tools, CRM/ERP extensions, workflow apps without heavy dev
+- **AI Integration Points**:
+  - AI plugin system: embed LLM agents in workflow nodes
+  - Apache-2.0 license — cleanest for Globant to build commercial products
+  - REST API for all data models
+  - Use as frontend for ERPNext/Odoo with AI overlay layer
+- **Globant Use Case**: Rapid custom enterprise app development with AI-driven workflow automation
+
+---
+
+## How to Layer AI on Any Platform
+
+```
+1. CONNECT: Expose platform via REST API / MCP server / Webhooks
+2. ORCHESTRATE: n8n (automation layer) or LangGraph (stateful agents) as middleware
+3. GENERATE: RAGFlow for document Q&A; Dify for GenAI workflows; Flowise for quick PoC
+4. ACT: Agents read platform state → reason → write back (create ticket, update CRM, post message)
+5. GOVERN: LangFuse for tracing; MLflow for model management; EU AI Act audit log
 ```
 
-**LATAM fit**: Self-hosted, $0 license cost, TypeScript stack familiar to LATAM dev teams; replaces $75-150/user/month Salesforce for mid-market.
+### Stack Recommendation by Client Size
 
----
-
-### 2. ERPNext / Frappe — Best for Manufacturing & Complex Enterprise
-**Why choose it**: Most feature-complete OSS ERP; Frappe framework provides REST APIs, webhooks, and event system that wires cleanly to LangGraph workflows.
-
-**AI integration pattern** (ERPNext + LangGraph):
-```python
-import frappe
-import anthropic
-from langgraph.graph import StateGraph
-
-# Frappe provides REST API at /api/resource/{doctype}
-# Use LangGraph to build multi-step workflows over ERP data
-
-client = anthropic.Anthropic()
-
-def check_inventory_tool(item_code: str) -> dict:
-    """Query ERPNext inventory via REST"""
-    response = frappe.get_doc("Item", item_code)  # or use requests to REST API
-    return {"qty": response.actual_qty, "reorder_level": response.reorder_level}
-
-def create_purchase_order_tool(supplier: str, items: list) -> str:
-    """Create PO in ERPNext"""
-    po = frappe.new_doc("Purchase Order")
-    po.supplier = supplier
-    po.items = items
-    po.insert()
-    return po.name
-
-# Build LangGraph workflow with these tools
-tools = [check_inventory_tool, create_purchase_order_tool]
-response = client.messages.create(
-    model="claude-haiku-4-5-20251001",
-    max_tokens=1024,
-    tools=tools,
-    messages=[{"role": "user", "content": "Check inventory for SKU-001 and reorder if below threshold"}]
-)
-```
-
-**Cost per query**: ~$0.0002 (Claude Haiku + ~500 tokens)
-**Build time**: 2-3 weeks for standard procurement automation
-
----
-
-### 3. Odoo — Best for Broad Enterprise Coverage
-**Why choose it**: 52k+ modules covering accounting, HR, inventory, manufacturing, CRM, e-commerce. Python + XML ecosystem; large LATAM implementation community.
-
-**AI integration pattern** (Odoo + Claude Sonnet):
-```python
-import xmlrpc.client
-import anthropic
-import json
-
-# Odoo XML-RPC API
-url = "https://your-odoo-instance.com"
-db, username, password = "your-db", "admin", "password"
-
-common = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/common")
-uid = common.authenticate(db, username, password, {})
-models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
-
-def get_overdue_invoices():
-    return models.execute_kw(db, uid, password, 'account.move', 'search_read',
-        [[['invoice_date_due', '<', '2026-07-01'], ['state', '=', 'posted']]],
-        {'fields': ['name', 'partner_id', 'amount_residual', 'invoice_date_due']})
-
-client = anthropic.Anthropic()
-invoices = get_overdue_invoices()
-response = client.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=2048,
-    messages=[{
-        "role": "user",
-        "content": f"Analyze these overdue invoices and prioritize collection actions:\n{json.dumps(invoices, indent=2)}"
-    }]
-)
-```
-
----
-
-### 4. Apache OFBiz — Best for Apache-Licensed ERP (No Copyleft)
-**Why choose it**: True Apache-2.0 license (no copyleft risk); Java/Groovy stack; strong in e-commerce, order management, financial accounting.
-
-**AI readiness**: REST APIs available; integrate via LangGraph tool nodes calling OFBiz REST endpoints.
-
----
-
-### 5. Backstage — Best for Internal AI Platform Portal
-**Why choose it**: 3,400+ companies; Toyota achieved $10M ROI; CNCF incubating. Acts as the "front door" to enterprise AI capabilities — AI model catalog, agent registry, template scaffolding.
-
-**AI catalog pattern**:
-```typescript
-// backstage-plugin-ai-catalog/src/components/ModelCatalog.tsx
-import { catalogApiRef, useApi } from '@backstage/core-plugin-api';
-
-// Register AI models as catalog entities
-// catalog-info.yaml:
-// apiVersion: backstage.io/v1alpha1
-// kind: Component
-// metadata:
-//   name: customer-churn-agent
-//   annotations:
-//     ai.globant.com/model: claude-sonnet-5
-//     ai.globant.com/framework: langgraph
-//     ai.globant.com/cost-per-query: "0.002"
-```
-
----
-
-## LATAM Deployment Map
-
-| Country | Top Platform Choice | Key Consideration |
-|---------|-------------------|------------------|
-| Brazil | Odoo + ERPNext | SPED fiscal compliance modules available for both |
-| Mexico | Odoo + ERPNext | CFDI 4.0 invoicing modules; strong local partners |
-| Argentina | ERPNext (lighter) | Inflationary accounting; multi-currency critical |
-| Colombia | Odoo | DIAN electronic invoicing module available |
-| Chile | Odoo | SII electronic documents; strong Odoo community |
-| Peru | ERPNext | SUNAT compliance; growing Frappe partner network |
-
----
-
-## Build vs Buy Matrix
-
-| Scenario | Recommendation | Estimated Build Time |
-|---------|---------------|---------------------|
-| AI-native CRM from scratch | Twenty CRM + Claude MCP | 3-4 weeks |
-| Manufacturing ERP + AI procurement | ERPNext + LangGraph | 4-6 weeks |
-| Broad enterprise (HR+Finance+CRM) | Odoo + Claude | 4-8 weeks |
-| No-code enterprise app + AI | NocoBase + Dify | 2-3 weeks |
-| DevOps AI portal | Backstage + OpenHands | 4-6 weeks |
-| Complex order management | OFBiz + LangGraph (Apache safe) | 6-8 weeks |
-
----
-*See `compose/patterns.md` for complete wiring recipes.*
+| Client Size | ERP | CRM | AI Layer | Automation |
+|-------------|-----|-----|----------|------------|
+| SME (<200 employees) | ERPNext + Frappe HR | Twenty CRM | Dify (self-hosted) | n8n |
+| Mid-market (200–2000) | Odoo | SuiteCRM or Twenty | Dify + RAGFlow | n8n + LangGraph |
+| Enterprise (2000+) | Odoo or SAP (custom) | SuiteCRM or Salesforce | MAF + RAGFlow | Microsoft Agent Framework + n8n |

@@ -1,77 +1,46 @@
 # Foundational Repos — Enterprise AI
 
-> Core open-source repositories to build on. Permissive licenses, active communities.
+> Core platforms and frameworks for building enterprise AI solutions.
+> Priority: MIT / Apache 2.0 / LGPL — safe for commercial customization.
 > Last updated: 2026-07-07
 
-## Category 1: Agent Orchestration Frameworks
+## Enterprise Platforms (ERP / CRM / Collaboration)
 
-| Repo | License | Stars | What it gives you |
-|------|---------|-------|------------------|
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34k | Graph-based stateful multi-agent workflows; checkpointing; human-in-the-loop; streaming |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~31k | Role-based agent crews; task decomposition; async execution; tool use |
-| [google/adk-python](https://github.com/google/adk-python) | Apache-2.0 | ~20k | Google Agent Dev Kit; A2A native; multi-agent routing; Vertex AI integration |
-| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~15k | Lightweight agents SDK; handoffs; guardrails; tracing; model-agnostic |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~42k | Multi-agent conversations; GroupChat; Magentic-One patterns; MAF successor |
+| Repo | License | Stars | Description | AI Readiness |
+|------|---------|-------|-------------|--------------|
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52k | Full business suite: CRM, inventory, accounting, HR, e-commerce, manufacturing. Modular architecture — add AI via Odoo Apps or custom modules. | REST API + webhooks; AI modules available |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k | Free, open-source ERP covering accounting, inventory, HR, payroll, manufacturing, and supply chain. Built on Frappe Framework. MCP server (rakeshgangwar/erpnext-mcp-server) enables direct AI agent access. | MCP server, REST API, webhooks |
+| [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10k | Low-code Python + JS web framework powering ERPNext, Frappe HR, and 100+ Frappe Apps. DocType model makes schema changes AI-scriptable. | MIT license — best for AI integration layer |
+| [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45k | Modern open-source CRM with native MCP server (Cloud). GraphQL + REST API-first. AI agents can query, create, update CRM records via natural language. Top pick for AI-native CRM stack. | Native MCP, GraphQL, AI-first design |
+| [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4k | World's most-downloaded open-source CRM (~2M downloads, 5M users). Mature feature set: territory management, quote generation, advanced reporting. No native AI but strong REST API. | REST API; AI via custom modules |
 
-## Category 2: LLMOps & App Platforms
+## Collaboration & Communication
 
-| Repo | License | Stars | What it gives you |
-|------|---------|-------|------------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | Full LLMOps platform; RAG pipelines; visual workflow builder; multi-model; SSO |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | ~182k | Visual automation with 400+ integrations; native AI nodes; self-hostable; fair-code |
-| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | ~19k | AI engineering platform; LLM tracing; agent evaluation; model registry; cost control |
-| [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Apache-2.0 | ~17k | Workflow orchestration; retries; caching; built-in observability; agentic pipeline support |
+| Repo | License | Stars | Description | AI Readiness |
+|------|---------|-------|-------------|--------------|
+| [mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | 29k | Self-hosted team messaging platform. Slash commands, webhooks, plugin system. AI bots and agents can be deployed as plugins or webhook integrations. | Webhook bots, plugin AI agents |
+| [nextcloud/server](https://github.com/nextcloud/server) | AGPL-3.0 | 26k | Self-hosted file sync and collaboration. AI Assistant app (Nextcloud AI) integrates LLMs for document Q&A, summarization, and generation directly in the UI. | Native AI Assistant app |
 
-## Category 3: Autonomous Agent Runtimes
+## ITSM & Operations
 
-| Repo | License | Stars | What it gives you |
-|------|---------|-------|------------------|
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | Apache-2.0 | ~76k | Autonomous software engineer; 72.8% SWE-Bench; Docker/K8s sandboxing; RBAC/SAML |
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | Apache-2.0 | ~86k | Browser control for AI agents; headless + headed; form fill, navigation, extraction |
-| [microsoft/playwright](https://github.com/microsoft/playwright) | Apache-2.0 | ~68k | Browser automation foundation; multi-browser; used under browser-use |
+| Repo | License | Stars | Description | AI Readiness |
+|------|---------|-------|-------------|--------------|
+| [glpi-project/glpi](https://github.com/glpi-project/glpi) | GPL-3.0 | 4k | Enterprise ITSM platform — ticketing, asset management, change management, CMDB. 200k+ active deployments. AI plugins for ticket classification and auto-assignment. | REST API; AI ticket routing plugins |
+| [frappe/hrms](https://github.com/frappe/hrms) | GPL-3.0 | 2k | Open-source HR and payroll system built on Frappe. Recruitment, onboarding, leave/attendance, expense management, payroll, performance reviews. AI-scriptable via ERPNext MCP server. | Frappe API; AI resume screening |
 
-## Category 4: Infrastructure & Orchestration
+## Business Intelligence & Data
 
-| Repo | License | Stars | What it gives you |
-|------|---------|-------|------------------|
-| [temporalio/temporal](https://github.com/temporalio/temporal) | MIT | ~13k | Durable execution; automatic retry; state persistence; Multi-Region 99.99% SLA |
-| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~29k | Internal developer portal; service catalog; AI model registry; scaffolding |
-| [zenml-io/zenml](https://github.com/zenml-io/zenml) | Apache-2.0 | ~4.2k | MLOps framework; pipeline versioning; model deployment; cloud-agnostic |
+| Repo | License | Stars | Description | AI Readiness |
+|------|---------|-------|-------------|--------------|
+| [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 38k | Open-source BI and data visualization. Natural language queries ("ask a question") built in. Embed dashboards in enterprise portals. AI agents can query Metabase APIs. | NL queries built-in, REST API |
+| [nocobase/nocobase](https://github.com/nocobase/nocobase) | Apache-2.0 | 15k | No-code/low-code enterprise platform for building CRM, ERP, and workflow apps with a plugin architecture. AI-driven data model builder, embed LLM agents in workflows. | Apache-2.0; AI plugin system |
 
-## Category 5: ERP / CRM Foundations
+## Agent Orchestration Layer
 
-| Repo | License | Stars | What it gives you |
-|------|---------|-------|------------------|
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~36k | Full ERP (manufacturing, supply chain, HR, finance); Python/JS; MCP server available |
-| [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10k | Low-code web framework underlying ERPNext; REST API; role-based access; event hooks |
-| [twentyhq/twenty](https://github.com/twentyhq/twenty) | MIT | ~45k | AI-native CRM (Salesforce alternative); native MCP server; TypeScript; self-hostable |
-| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~1.1k | Apache ERP for complex enterprise automation (order mgmt, e-commerce, accounting) |
+| Repo | License | Stars | Description | AI Readiness |
+|------|---------|-------|-------------|--------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Visual GenAI application platform — workflow builder, RAG pipelines, prompt management, multi-model support. Deploy as self-hosted or cloud. REST API for embedding in enterprise systems. | Purpose-built for enterprise AI |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | AGPL-3.0 | 150k+ | Self-hosted workflow automation with 400+ integrations and native AI nodes (ReAct agents, memory, LLM chains). The integration glue between enterprise systems and AI models. | Native AI nodes, self-hosted |
 
 ---
-
-## AI-Readiness Matrix
-
-| Repo | REST API | Webhooks | MCP Server | LLM Hooks | License Risk |
-|------|----------|----------|-----------|-----------|-------------|
-| LangGraph | ✅ | ✅ | build it | Native | Low (MIT) |
-| Dify | ✅ | ✅ | ✅ | Native | Low (Apache-2.0) |
-| n8n | ✅ | ✅ | ✅ | Native AI nodes | Medium (Sustainable Use) |
-| ERPNext / Frappe | ✅ | ✅ | ✅ community | Event hooks | Medium (GPL-3.0 — copyleft) |
-| Twenty CRM | ✅ | ✅ | ✅ native | Planned | Low (MIT) |
-| Apache OFBiz | ✅ | limited | no | Manual | Low (Apache-2.0) |
-| Temporal | ✅ | ✅ | no | Workflow steps | Low (MIT) |
-| MLflow | ✅ | ✅ | no | Evaluation hooks | Low (Apache-2.0) |
-| Backstage | ✅ | ✅ | no | Plugin API | Low (Apache-2.0) |
-| OpenHands | ✅ | ✅ | no | Sandboxed agents | Low (Apache-2.0) |
-
----
-
-## License Risk Notes
-
-- **MIT / Apache-2.0**: Green light — can build proprietary products on top
-- **GPL-3.0 (ERPNext)**: Copyleft — modifications to ERPNext itself must be open-sourced; services built on top can be proprietary; get legal sign-off for client deliverables
-- **Sustainable Use (n8n)**: Cannot offer n8n itself as a managed service; using n8n internally or wrapping it in a client solution is fine
-- **LGPL-3.0 (Odoo community)**: Modifications to Odoo must be open-sourced; custom addons can be proprietary
-
----
-*See also: `verticals/solutions.md` for complete platform evaluations.*
+*See also: `verticals/solutions.md` for full platform profiles with customization guides.*

@@ -1,81 +1,33 @@
-# Trending Repos — Enterprise AI
+# Trending Repos — Enterprise AI (July 2026)
 
-> GitHub velocity and momentum signals. Updated weekly.
-> Last updated: 2026-07-07
+> Repos with strong momentum this week. Updated: 2026-07-07
 
-## Velocity Table (July 2026)
+## 🚀 Breakout Growth
 
-| Repo | License | Stars | +/month | Category | Signal |
-|------|---------|-------|---------|----------|--------|
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | Apache-2.0 | ~86k | +12k | Web agents | 🔥 Breakout — enterprise web automation standard |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | ~182k | +8k | Automation | n8n 2.0 enterprise launch, $2.5B valuation |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | +6k | LLMOps | 1M+ apps milestone; Maersk + Novartis case studies |
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | Apache-2.0 | ~76k | +5k | Coding agent | $18.8M Series A; 87% bug tickets solved same-day |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~42k | +2k | Multi-agent | MAF transition coverage; still widely cited |
-| [twentyhq/twenty](https://github.com/twentyhq/twenty) | MIT | ~45k | +3k | CRM | Native MCP server story driving adoption |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34k | +2.5k | Orchestration | LangGraph Platform GA; 400 enterprise deployments |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~31k | +2k | Multi-agent | 1,500 company case studies published |
-| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~29k | +800 | Dev portal | AI model catalog patterns going viral |
-| [temporalio/temporal](https://github.com/temporalio/temporal) | MIT | ~13k | +500 | Workflows | Agentic workflow durability narrative |
+| Repo | License | Stars | Weekly Δ | Why It's Hot |
+|------|---------|-------|----------|--------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | +800 | #1 enterprise GenAI platform by stars. Visual workflow builder + RAG + multi-model hub. July update added MCP tool calling and improved agent execution tracing. |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | AGPL-3.0 | 150k+ | +600 | Crossed 150k stars. Enterprises adopting as AI integration layer replacing bespoke ETL + API glue code. New native AI nodes for sub-agent spawning. |
+| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | 73k | +500 | Enterprise document RAG. July 2026 added Google BigQuery ingest and multi-channel chat (Slack, Feishu, Discord). Best-in-class PDF table extraction. |
+| [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45k | +300 | CRM with native MCP server — AI agents can read/write CRM records. Growing as Salesforce open-source alternative for AI-native teams. |
+| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | 75k+ | +400 | MAF 1.0 launched April 2026, combining AutoGen + Semantic Kernel. Rapid growth from existing AutoGen/SK communities migrating to unified SDK. |
 
----
+## 📈 Established Giants (High Star Count, Steady Growth)
 
-## Breakout Analysis: browser-use
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52k | Perennial leader. Full business suite. Odoo 18 AI modules for CRM lead scoring, document AI, and chatbot builder now in stable. |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k | Open-source ERP. Integration with ERPNext MCP server enables AI agents to operate ERP workflows via natural language. Active community. |
+| [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 38k | BI platform with NL query UI. Enterprises using as AI analytics layer — agents generate charts and reports from natural language questions. |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52k | Role-based multi-agent orchestration. 5.2M monthly downloads. Increasing enterprise use for document review, customer support, and sales automation agents. |
 
-**Signal**: +86k★ in under 12 months. One of the fastest-growing repos in GitHub history.
+## 🆕 New Projects to Watch
 
-**Why enterprises care**:
-- Eliminates need for APIs on legacy SaaS — if humans can use it via browser, agents can too
-- Procurement portals, legacy HR systems, competitor monitoring — all suddenly automatable
-- Integrates with LangGraph, CrewAI, AutoGen as a tool
-
-**Architecture pattern emerging**:
-```
-LangGraph (orchestrator)
-  → Claude Sonnet 5 (reasoning)
-  → browser-use (web actions)
-  → custom tools (internal APIs)
-```
-
-**Watch**: browser-use cloud (managed browser infrastructure) announced for H2 2026.
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | 75k+ | Production-ready successor to AutoGen + Semantic Kernel. .NET + Python, A2A + MCP, enterprise LTS. |
+| [nocobase/nocobase](https://github.com/nocobase/nocobase) | Apache-2.0 | 15k | No-code enterprise app builder with AI plugin support. Rapidly adopted for internal tools and custom business apps without custom dev. |
+| [Payroll-Engine/PayrollEngine](https://github.com/Payroll-Engine/PayrollEngine) | MIT | 1k | Regulation-driven payroll framework — multi-tenant, multi-country, API-first, with AI-scriptable rules engine. |
 
 ---
-
-## Breakout Analysis: OpenHands Enterprise
-
-**Signal**: $18.8M Series A (Madrona lead) + 76k★ + 72.8% SWE-Bench Verified
-
-**Enterprise differentiator**:
-- Only OSS coding agent with Kubernetes RBAC + SAML + VPC option
-- Agent Control Plane for managing concurrent agent sessions
-- Budget enforcement + usage reporting for cost governance
-- Customer Engineer for Enterprise tier
-
-**LATAM opportunity**: Legacy Java/.NET system modernization — OpenHands can autonomously port and test code blocks, dramatically reducing modernization sprint costs.
-
----
-
-## New Protocol Repos to Watch
-
-| Repo | License | Stars | Why Watch |
-|------|---------|-------|----------|
-| [google/A2A](https://github.com/google/A2A) | Apache-2.0 | ~8k | A2A v1.0 reference implementation; gRPC + REST |
-| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | ~22k | Official MCP server registry — 9,652 servers and climbing |
-| [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | MIT | ~7k | Official TypeScript MCP SDK |
-| [anthropics/anthropic-sdk-python](https://github.com/anthropics/anthropic-sdk-python) | MIT | ~4k | Production Claude integration SDK |
-
----
-
-## H2 2026 Predictions
-
-| Prediction | Confidence | Basis |
-|-----------|-----------|-------|
-| browser-use crosses 100k★ | High | Current trajectory (+3k/week) |
-| OpenHands Enterprise GA cloud offering | High | Series A funded, announced roadmap |
-| Dify 200k★ | Medium | 1M apps milestone, strong B2B push |
-| First Gartner MQ for Agentic Platforms | High | 1,445% inquiry surge signals maturation |
-| A2A + MCP joint convergence spec | Medium | Google/Anthropic/Microsoft commitment |
-| LangGraph Platform becomes category default | High | 400 enterprise deployments, Cisco/Uber |
-
----
-*Automated pipeline — updated hourly.*
+*Pipeline automatic — updated every hour.*

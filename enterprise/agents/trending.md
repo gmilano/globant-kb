@@ -1,69 +1,52 @@
-# Trending This Week — Enterprise AI
+# Trending Enterprise AI — Week of 2026-07-07
 
-> What's new, what's breaking out, what to watch.
-> Last updated: 2026-07-07
+> What's moving fast right now in enterprise AI open source.
 
-## Breakout Repos (July 2026)
+## 🔥 Top Signals This Week
 
-### 🔥 browser-use — 86k★ (+12k this month)
-- **Repo**: github.com/browser-use/browser-use (Apache-2.0)
-- **What**: AI agents get real browser control — click, fill forms, navigate, extract
-- **Why it matters**: Unlocks web-based enterprise workflows without scraping APIs; becoming the standard web automation layer in agentic stacks
-- **Use case**: Automate RFP portals, legacy SaaS systems with no API, competitive intelligence
+### 1. Microsoft Agent Framework 1.0 (GA — April 2026)
+AutoGen and Semantic Kernel officially merged into **Microsoft Agent Framework 1.0**. Production-ready SDK with stable LTS APIs, A2A (Agent-to-Agent) protocol support, MCP integration, and cross-runtime interoperability between .NET and Python runtimes. This is the new default for Microsoft-stack enterprise AI.
+- Repo: [github.com/microsoft/agent-framework](https://github.com/microsoft/agent-framework)
+- Impact: Teams building on AutoGen or SK should plan migration to MAF for production.
 
-### 🔥 OpenHands — 76k★ ($18.8M Series A)
-- **Repo**: github.com/All-Hands-AI/OpenHands (Apache-2.0)
-- **What**: Autonomous AI software engineer — 72.8% SWE-Bench Verified (Claude 4.5), 53%+ on real GitHub issues
-- **Why it matters**: First OSS coding agent with enterprise RBAC + SAML + VPC deployment; solves 87% of bug tickets same-day
-- **Use case**: Internal dev productivity, code review automation, legacy modernization sprints
+### 2. RAGFlow July 2026 — BigQuery + Chat Channels
+RAGFlow shipped two major updates this month:
+- **BigQuery connector** — ingest enterprise data warehouses directly into RAG pipelines
+- **Multi-channel chat** — native Feishu, Discord, Telegram, and Line connectors for enterprise messaging
+- Stars: 73k+, growing ~500/week
+- Repo: [github.com/infiniflow/ragflow](https://github.com/infiniflow/ragflow)
 
-### 🔥 A2A Protocol v1.0 GA
-- **Spec**: github.com/google/A2A (Apache-2.0)
-- **What**: Agent-to-Agent protocol now at v1.0; gRPC support, signed Agent Cards, multi-tenancy
-- **Why it matters**: 150+ organizations in production; Linux Foundation governance alongside MCP; becoming the architectural standard for agent federation
-- **Use case**: Multi-agent enterprise systems where specialized agents hand off tasks to each other
+### 3. EU AI Act Obligations — August 2026
+Mandatory EU AI Act compliance begins August 2026. Enterprise AI deployments in EU must implement risk classification, logging, human-oversight mechanisms, and model documentation. Open-source governance frameworks (LangFuse, MLflow, Arize) are seeing surges in enterprise adoption as compliance tooling.
+- Affects all Globant clients with EU operations
+- Key gap: only 21% of enterprises currently have a mature AI governance model
 
-### 📈 Microsoft Agent Framework (MAF) — AutoGen successor
-- **Repo**: github.com/microsoft/autogen (MIT, MAF branch)
-- **What**: Enterprise-ready successor to AutoGen; stable APIs, long-term support commitment
-- **Why it matters**: AutoGen enters maintenance mode; MAF is the production path for Microsoft-stack enterprises
-- **Use case**: Enterprise multi-agent with Azure OpenAI, Teams integration
+### 4. Gartner: 40% Enterprise Apps Will Have Task-Specific AI Agents by End 2026
+As of Q1 2026, fewer than 5% of enterprise applications have embedded agents. Gartner's August 2025 forecast projects a jump to 40% by end of 2026 — the fastest technology adoption curve they have ever measured. This validates the urgency of Globant's AI Studios vertical KB strategy.
 
-### 📈 Twenty CRM — 45k★ (native MCP)
-- **Repo**: github.com/twentyhq/twenty (MIT)
-- **What**: Open-source Salesforce alternative with first-class MCP server (Claude/ChatGPT/Cursor)
-- **Why it matters**: Only major OSS CRM with native AI-agent protocol support; Y Combinator S23; free self-hosted
-- **Use case**: Replace Salesforce with AI-native CRM for mid-market; wire Claude directly to customer data
+### 5. Agentic AI at the Enterprise Tipping Point (April 2026)
+April 2026 marked the inflection point when agentic AI moved from pilot to production at scale:
+- Average ROI: **171%** from agentic AI deployments (U.S. enterprises: 192%)
+- Time-to-ROI ranges: 2 weeks (customer service) to 12 months (supply chain)
+- Klarna AI agent: saved $60M, handled workload of 853 employees by Q3 2025
+- Petrobras: $1B+ in projected savings
+- 84% of enterprises plan to increase AI agent investments in 2026
 
----
+### 6. n8n Surpasses 150k Stars — Emerging Agentic Orchestrator
+n8n has crossed 150,000 GitHub stars, cementing its position as the most-starred self-hostable workflow automation platform. The addition of native AI nodes (ReAct agents, memory, sub-workflows) means n8n is increasingly used as the **glue layer** between enterprise systems and LLMs — without writing custom integration code.
 
-## Velocity Table (Week of July 7, 2026)
+### 7. Hybrid RPA + Agentic AI Stacks
+2026's winning enterprise architecture: **RPA for predictable volume, agentic AI for dynamic cognition, Microsoft Power Platform as the connective tissue**. Traditional RPA vendors (UiPath, Automation Anywhere) are embedding agentic capabilities, while open-source stacks (n8n + LangGraph + CrewAI) are gaining ground in mid-market where licensing costs matter.
 
-| Repo | Stars | +/week | Signal |
-|------|-------|--------|--------|
-| browser-use/browser-use | 86k | +3,000 | Breakout — web automation standard |
-| All-Hands-AI/OpenHands | 76k | +2,100 | Series A momentum |
-| n8n-io/n8n | 182k | +1,800 | n8n 2.0 enterprise launch |
-| langgenius/dify | 144k | +1,500 | 1M apps milestone coverage |
-| langchain-ai/langgraph | 34k | +900 | LangGraph Platform GA |
-| crewAIInc/crewAI | 31k | +700 | 1,500 enterprise case studies |
-| twentyhq/twenty | 45k | +650 | MCP native CRM story |
-| google/adk-python | 20k | +600 | A2A v1.0 GA coverage |
-| temporalio/temporal | 13k | +350 | Agentic workflow use cases |
-| backstage/backstage | 29k | +250 | AI model catalog patterns |
+## 📊 Star Growth Leaders (Enterprise AI, June–July 2026)
+
+| Repo | Stars | Weekly Growth |
+|------|-------|---------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | 144k | ~800/week |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | 150k+ | ~600/week |
+| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | 73k | ~500/week |
+| [twentyhq/twenty](https://github.com/twentyhq/twenty) | 45k | ~300/week |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 52k | ~250/week |
 
 ---
-
-## Q3 2026 Watch Signals
-
-| Signal | Prediction |
-|--------|-----------|
-| Gartner Magic Quadrant for Agentic Platforms | First dedicated MQ expected Q3 2026 — LangGraph Platform + Dify Enterprise likely Leaders |
-| MCP Registry 10,000 servers | Will cross 10k by August 2026 (at 9,652 as of May) |
-| OpenHands Enterprise GA | Cloud SaaS + on-prem K8s offering expected Q3 2026 |
-| A2A + MCP convergence spec | Joint interoperability spec from Google/Anthropic/Microsoft expected Q3 2026 |
-| Microsoft MAF 1.0 | Stable release expected Q3 2026; AutoGen migration tools |
-| 40% enterprise apps with agents | Gartner milestone — Q4 2026 end-of-year measure |
-
----
-*Automated pipeline — updated hourly.*
+*Sources: GitHub, Gartner, Deloitte Agentic AI Report 2026, OneReach AI Stats 2026*
