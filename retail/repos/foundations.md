@@ -1,75 +1,42 @@
-# Foundational Repositories — Retail
+# 🏗️ Repos fundacionales — Retail & Consumer
 
-> Bases to build on. Open license, active community, production-proven.
-> Last updated: 2026-07-06 (second pass)
+> Bases sobre las cuales construir soluciones AI para retail.
+> Foco: licencias abiertas, comunidad activa, AI-ready.
+> Última actualización: 2026-07-07
 
-## Commerce Platforms
+## Plataformas ecommerce headless (AI-first)
 
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 32k★ | Node.js/TypeScript | The world's most flexible headless commerce platform — modular architecture (cart, orders, inventory, promotions, fulfillment), agent-ready REST+GraphQL APIs, plugin ecosystem; Heineken and Mitsubishi use it in production; foundation for agentic checkout |
-| [saleor/saleor](https://github.com/saleor/saleor) | Apache 2.0 | 22.4k★ | Python/Django/GraphQL | GraphQL-first headless commerce — MACH architecture, multi-channel, storefront-agnostic; extensible via webhooks and apps; ideal for AI recommendation layer integration |
-| [bagisto/bagisto](https://github.com/bagisto/bagisto) | MIT | 28k★ | PHP/Laravel | Full-featured e-commerce with native AI model support (GPT-4, Claude, Gemini), multi-currency, multi-language, plugin/theme system; bridges traditional and headless retail |
-| [apache/ofbiz](https://github.com/apache/ofbiz-framework) | Apache 2.0 | 750★ | Java | Apache OFBiz — enterprise ERP + e-commerce suite; accounting, inventory, catalog management, CRM, POS, order management; mature codebase; AI wrapper target for legacy retail modernization |
-| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-3.0 | 10.4k★ | PHP/WordPress | World's largest e-commerce platform by merchant count (~30% of all online stores); active AI plugin ecosystem; not MIT but GPL allows customization |
+| Repo | Licencia | Stars | Stack | Por qué usarlo |
+|------|----------|-------|-------|----------------|
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31k | Node.js / TypeScript | "Open-Source Commerce Platform for Agents and Developers" — módulos desacoplados, MCP server disponible, API-first, ideal para añadir AI agents encima |
+| [saleor/saleor](https://github.com/saleor/saleor) | BSD-3-Clause | 23k | Python / Django / GraphQL | GraphQL-first, multi-channel, composable; arquitectura MACH; la más popular entre retailers enterprise en Europa y LATAM |
+| [vendure-ecommerce/vendure](https://github.com/vendure-ecommerce/vendure) | MIT | 6.9k | TypeScript / NestJS / GraphQL | TypeScript end-to-end, plugin architecture robusta; ideal para equipos TypeScript puros |
+| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.1k | PHP / WordPress | Mayor install base global; 28% del ecommerce mundial; enorme ecosistema de plugins AI |
+| [PrestaShop/PrestaShop](https://github.com/PrestaShop/PrestaShop) | OSL-3.0 | 8.7k | PHP | Dominante en Europa, LATAM (especialmente Brasil/Argentina); PrestaShop 9 released 2025 |
+| [opencart/opencart](https://github.com/opencart/opencart) | MIT | 7.9k | PHP | Ligero, fácil de customizar; bueno para retailers PYME; licencia MIT permite máxima flexibilidad |
 
-## Recommendation & Personalization
+## Sistemas de recomendación (producción + research)
 
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [microsoft/recommenders](https://github.com/microsoft/recommenders) | Apache 2.0 | 20k★ | Python/PyTorch | Best practices for recommendation systems — 30+ production algorithms (SAR, LightGCN, GRU4Rec, xDeepFM), Jupyter notebooks, AzureML integration; LF AI & Data sandbox project; most comprehensive open RecSys library for enterprise retail |
-| [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 7.5k★ | Python/PyTorch | Unified recommendation library — 100+ algorithms, 44 benchmark datasets; general/sequential/context-aware/knowledge-based rec; de facto academic-to-production bridge for retail recommendation engines |
-| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache 2.0 | 9k★ | Go | Production-ready recommender system with REST API, dashboard, Docker/K8s support — added LLM ranker support Jul 2026; classical CF + multimodal embedding + LLM re-ranking; zero ML ops overhead for deployment |
-| [lyst/lightfm](https://github.com/lyst/lightfm) | Apache 2.0 | 4.7k★ | Python/Cython | Hybrid collaborative + content-based recommendation — solves cold-start problem via item/user metadata; Cython-optimized for multi-core; used in production at Lyst (100M+ fashion items) and Catalant |
-| [RUCAIBox/RecBole-GNN](https://github.com/RUCAIBox/RecBole-GNN) | MIT | 720★ | Python/PyTorch | GNN-based collaborative filtering extension — LightGCN, SGL, SimGCL, NCL; graph-based "customers who bought X also bought Y" at scale |
-| [guymorita/recommendationRaccoon](https://github.com/guymorita/recommendationRaccoon) | MIT | 816★ | Node.js/Redis | Collaborative filtering recommendation engine as an npm module — Redis-backed, lightweight, suitable for smaller catalogs or as a microservice |
+| Repo | Licencia | Stars | Stack | Por qué usarlo |
+|------|----------|-------|-------|----------------|
+| [recommenders-team/recommenders](https://github.com/recommenders-team/recommenders) | MIT | 20k | Python / Spark | Best practices: 100+ algoritmos, notebooks listos para producción, benchmarks; Linux Foundation AI project |
+| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | 9.6k | Go | API REST lista para producción, soporte LLM ranker + multimodal; el recomendador más completo "out of the box" |
+| [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | 4.7k | Python / Cython | Híbrido collaborative+content-based; resuelve cold start; usado en producción por Lyst, Catalant y otros retailers |
+| [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 3.5k | Python / PyTorch | 94 algoritmos de recomendación incluyendo deep learning; ideal para research y benchmarking |
 
-## Visual Search & Embeddings
+## ML para retail (pricing, supply chain, forecasting)
 
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [openai/CLIP](https://github.com/openai/CLIP) | MIT | 26k★ | Python/PyTorch | Contrastive Language-Image Pretraining — multimodal embedding; foundation for "shop by photo", product similarity search, automatic catalog tagging |
-| [facebookresearch/faiss](https://github.com/facebookresearch/faiss) | MIT | 34k★ | C++/Python/CUDA | Facebook AI Similarity Search — billion-scale nearest-neighbor search; GPU-accelerated; backbone of every production product search engine |
-| [weaviate/weaviate](https://github.com/weaviate/weaviate) | BSD-3 | 13k★ | Go | Vector database — hybrid BM25+vector search; product catalog store; semantic search ("find me casual summer dresses under $50") |
+| Repo | Licencia | Stars | Stack | Por qué usarlo |
+|------|----------|-------|-------|----------------|
+| [ikatsov/tensor-house](https://github.com/ikatsov/tensor-house) | MIT | 1.8k | Python / PyTorch | Notebooks enterprise: DQN pricing, BTYD LTV, supply chain RL, demand forecasting, marketing mix |
+| [ikatsov/algorithmic-marketing](https://github.com/ikatsov/algorithmic-marketing) | MIT | 900 | Python | Atribución multi-touch, bid optimization, uplift modeling, presupuesto marketing; complemento de tensor-house |
 
-## Customer Engagement & Conversational
+## ERP completo con módulo ecommerce
 
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [RasaHQ/rasa](https://github.com/RasaHQ/rasa) | Apache 2.0 | 19.5k★ | Python | Conversational AI framework — NLU, dialogue management, channel connectors (WhatsApp, Telegram, Slack, Instagram, FB Messenger); retail customer service and voice shopping assistants |
+| Repo | Licencia | Stars | Stack | Por qué usarlo |
+|------|----------|-------|-------|----------------|
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 40k | Python | ERP completo + ecommerce + POS + CRM + inventario; Community Edition libre; mayor ERP open source del mundo |
+| [apache/ofbiz](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 700 | Java | ERP enterprise con módulos: ecommerce, CRM, inventario, contabilidad; probado en grandes retailers |
 
-## Demand Forecasting (Supply Chain AI)
-
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [amazon-science/chronos-forecasting](https://github.com/amazon-science/chronos-forecasting) | Apache 2.0 | 4k★ | Python/PyTorch | Amazon's pretrained LLM for probabilistic time-series forecasting (NeurIPS 2024) — zero-shot demand forecasting for new SKUs without historical data; fine-tunable on SKU-level sales; most important open-source foundation model for retail demand planning |
-| [Nixtla/statsforecast](https://github.com/Nixtla/statsforecast) | Apache 2.0 | 4.2k★ | Python | Lightning-fast statistical forecasting — AutoARIMA, AutoETS, AutoTheta, 100× faster than pmdarima; parallelized by SKU; deployed in production at Walmart MX and Rappi (Colombia/Mexico/Brazil); LATAM demand planning proven |
-| [Nixtla/neuralforecast](https://github.com/Nixtla/neuralforecast) | Apache 2.0 | 3.1k★ | Python/PyTorch | Neural forecasting models — NHITS, PatchTST, TimesNet, iTransformer; GPU-accelerated; companion to statsforecast when statistical models aren't enough; handles complex seasonality and external regressors |
-
-## Dynamic Pricing & Inventory Optimization
-
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [hpi-epic/pricewars](https://github.com/hpi-epic/pricewars) | MIT | 430★ | Python/Docker | Dynamic pricing simulation platform — multi-merchant competitive repricing microservice, RL agents, price elasticity modeling; spawn as pricing microservice |
-| [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | 164★ | Python | Inventory optimization and simulation — stochastic inventory theory, supply chain network design, GSAP algorithms; solid foundation for demand-driven replenishment |
-
-## Agent Orchestration (Retail Workflows)
-
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 13k★ | Python/TypeScript | Stateful multi-agent orchestration — cycles, branching, persistence; powers retail agent workflows: order tracking, returns, cart management |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k★ | Python | Role-based multi-agent system — product research crews, competitive pricing crews, customer support crews |
-| [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | 65★ | TypeScript | MCP server for Medusa SDK — LLM agents can natively call Medusa commerce APIs without custom tool wrapping |
-
-## Agentic Commerce Protocols (Fourth Pass — July 2026)
-
-| Repo | License | Stars | Stack | Description |
-|------|---------|-------|-------|-------------|
-| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~800★ | Python/FastAPI/Milvus | Reference implementation of ACP + UCP dual protocol — AI-to-merchant checkout negotiation, delegated payments, dynamic promotions via Nemotron LLM, ARAG recommendation pipeline |
-| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~600★ | Python/FastAPI/FLUX | GenAI catalog enrichment — VLM product analysis, cultural image gen, 3D asset creation, ACP/UCP schema export; launched NRF Jan 2026 |
-| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~10k★ | Python | Official OpenAI Agents SDK — ACP v1.3, handoffs, guardrails, shopping agent patterns; MCP-compatible as of v1.3 |
-
-## See also
-
-- `verticals/solutions.md` — full vertical platforms (ERP, POS, loyalty programs)
-- `agents/top.md` — AI agent details with algorithm breakdowns
+---
+*Ver también: `verticals/solutions.md` para análisis detallado de cada plataforma vertical.*

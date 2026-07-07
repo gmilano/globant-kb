@@ -1,48 +1,27 @@
-# GitHub Trending — Retail AI (July 2026)
+# 📈 Repos trending — Retail AI
 
-> Repos gaining momentum this week. Mix of breakout and steady climbers.
-> Last updated: 2026-07-06
+> Repos con mayor movimiento en las últimas semanas.
+> Última actualización: 2026-07-07
 
-## Breakout This Week
+## Trending esta semana
 
-| Repo | License | Stars | Why Trending |
-|------|---------|-------|-------------|
-| [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | NVIDIA Community | 1.2k★ | Production multi-agent retail blueprint on LangGraph — image search + natural language product discovery + cart management; being forked onto Shopware 6, Medusa, Saleor; NVIDIA Newsroom coverage drove spike |
-| [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | NVIDIA Community | 800★ | Multi-agent warehouse intelligence — demand sensing, automated replenishment, warehouse routing optimization; companion to retail shopping assistant |
-| [NVIDIA-AI-Blueprints/ai-virtual-assistant](https://github.com/NVIDIA-AI-Blueprints/ai-virtual-assistant) | NVIDIA Community | 950★ | Customizable AI virtual assistant for customer service — contextually aware responses, common inquiry automation; production reference for retail support desk |
-| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | 150★ | Retail shelf audit demo — computer vision with Cerebras Gemma inference vs local Gemma; signals physical store AI frontier; getting attention from grocery and pharmacy verticals |
-| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache 2.0 | 85★ | Store-level AI intelligence framework — "biggest AI opportunity in retail is on the store floor, not headquarters"; real-time shelf analytics, local pricing, inventory at edge |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | Blueprint multi-agente para shopping advisor: LangGraph orchestration, visual search, cart management, streaming responses. Referencia arquitectónica para agentic commerce | ~400 |
+| [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | Apache-2.0 | Warehouse intelligence con multi-agentes: picking optimization, inventory tracking en tiempo real, integración ERP/WMS | ~300 |
+| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | Añadió LLM ranker + multimodal embeddings; sigue siendo el recomendador open source más completo en producción | 9.6k |
+| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | Shelf audit demo: Cerebras Gemma 4 vs. Gemma local para detectar gaps de planograma, OOS, y facings incorrectos en tiempo real | ~30 |
+| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Store-level AI intelligence: tráfico, patrones de compra, layout optimization; tesis de que el ROI mayor está en la tienda | ~10 |
+| [unicamp-dl/retailGPT](https://github.com/unicamp-dl/retailGPT) | MIT | RAG-chatbot para retail e-commerce: retrieval sobre catálogos de productos, soporte conversacional; desarrollado por Unicamp (Brasil) | 180 |
+| [ro-anderson/multi-agent-rag-customer-support](https://github.com/ro-anderson/multi-agent-rag-customer-support) | MIT | Sistema multi-agente customer support: routing LangGraph + RAG + escalamiento; producción-ready | 120 |
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | Nuevo posicionamiento: "Commerce Platform for Agents and Developers"; MCP server añadido en 2026 | 31k |
 
-## Steady Climbers
+## Por qué importa esto
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 32k★ | Headless commerce backbone — gaining stars as developers migrate from Magento/WooCommerce to agent-ready architecture |
-| [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 3.3k★ | Recommendation library — new citations from LLM-hybrid recommendation papers driving developer attention |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache 2.0 | 144k★ | Low-code AI builder — retail use cases (product chatbots, catalog Q&A) appearing on Dify's showcase |
-| [bagisto/bagisto](https://github.com/bagisto/bagisto) | MIT | 28k★ | AI-integrated Laravel commerce — PHP community adopting AI modules for product content generation and search |
-| [redis-developer/shopping-ai-agent-langgraph-js-demo](https://github.com/redis-developer/shopping-ai-agent-langgraph-js-demo) | Apache 2.0 | 420★ | Shopping AI assistant with recipe tools + product search + semantic caching for grocery e-commerce; solid grocery/CPG reference implementation |
+- **NVIDIA Blueprints** se están convirtiendo en la referencia arquitectónica para agentic retail: multi-agent con LangGraph, streaming responses, visual search. Cualquier proyecto enterprise debería evaluarlos como punto de partida.
+- **Gorse** sigue siendo el mejor camino a producción para recomendaciones: API REST, Go performante, soporte LLM ya incluido.
+- **ShelfOps** y **store-level-intelligence** señalan el siguiente frente: AI en el edge (tienda física), no solo en ecommerce.
+- **Medusa.js** se reposicionó explícitamente como "para agentes y desarrolladores" — el primer ecommerce framework que pone agentic AI en su misión.
 
-## Fourth Pass Additions (July 2026)
-
-| Repo | License | Stars | Why Trending |
-|------|---------|-------|-------------|
-| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~600★ | NRF Jan 2026 launch — FLUX cultural image gen + TRELLIS 3D + ACP schema export; +40★/week; addressable by retailers with 100k+ SKU catalog ops pain |
-| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~10k★ | ACP v1.3 MCP-compatible — +1200% AI traffic for compliant merchants; shopping agent boilerplate; 1M+ Shopify merchants now ACP-accessible |
-| [minimalart/mcp-medusa](https://github.com/minimalart/mcp-medusa) | MIT | ~120★ | Community Medusa MCP adapter gaining traction; featured in Medusa v2.8+ docs; enables any Claude agent to run Medusa commerce ops |
-
-## Community Projects Worth Watching
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [gz-yami/mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | 5.1k★ | Full e-commerce system (WeChat mini-program, H5, iOS/Android, PC, O2O) — Chinese market features; AGPL limits commercial use but shows cross-border commerce architecture |
-| [medusajs/medusa-eats](https://github.com/medusajs/medusa-eats) | MIT | 251★ | Uber Eats-style food delivery platform on Medusa 2.0 + Next.js — quick-service restaurant and dark store recipe |
-| [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | 65★ | Medusa MCP server — early but important: enables LLM-native retail operations; watch for community adoption |
-
-## License Caution
-
-| Repo | License | Issue |
-|------|---------|-------|
-| `woocommerce/woocommerce` | GPL-3.0 | Copyleft — review before embedding in commercial product |
-| `gz-yami/mall4j` | AGPL-3.0 | Strong copyleft — SaaS provision triggers license obligations |
-| `Blakew316/shopconnect` | AGPL-3.0 | Web3/ZK promo system — copyleft risk |
+---
+*Pipeline automático — se actualiza cada hora.*
