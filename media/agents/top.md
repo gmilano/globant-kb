@@ -1,7 +1,7 @@
 # 🎯 Top AI Agents & Tools — Media & Entertainment
 
 > Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0.
-> Last updated: 2026-07-07 (fourth pass — LTX-2, SkyReels-V2, MAGI-1, Open-Generative-AI added)
+> Last updated: 2026-07-07 (fifth pass — YuE full-song music gen, Podcastfy podcast AI added)
 
 ## Top 10 AI Agents & Tools
 
@@ -27,6 +27,15 @@
 | **MAGI-1** | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | 24B autoregressive denoising model from Sand AI; generates chunk-by-chunk (24 frames/chunk); supports T2V, I2V, V2V with streaming generation; 4.5B variant also available |
 | **Open-Generative-AI** | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~22.6k | Self-hosted studio with 200+ models (Flux, Kling, Sora, Veo); Image + Video + Lip Sync + Cinema studios; viral April 2026 (+7.5k stars in days); no content filters |
 | **Open-Sora 2.0** | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~22k | Ships complete training pipeline alongside inference weights — the only major video model to do so; data preprocessing, training scripts, eval all included |
+
+## 5th-Pass Additions (July 2026)
+
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| **YuE** | [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | ~6.1k | Full-song music generation from lyrics (lyrics2song) — the open-source Suno.ai alternative. Generates complete multi-minute songs with vocals + accompaniment from text prompts. Supports incremental generation. |
+| **Podcastfy** | [souzatharsis/podcastfy](https://github.com/souzatharsis/podcastfy) | Apache-2.0 | ~3k | Python alternative to Google NotebookLM's podcast feature. Transforms multi-modal content (websites, PDFs, images, YouTube, text) into multilingual audio conversations using 100+ LLM backends (Anthropic, OpenAI, Google). |
+| **NeuralNoise** | [leopiney/neuralnoise](https://github.com/leopiney/neuralnoise) | MIT | ~800 | Multi-agent AI podcast studio: agents collaborate to analyze content, write scripts, and generate audio. Uses "Podcast Studio" metaphor with specialized workers for each production step. |
+| **ACE-Step 1.5** | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Apache-2.0 | ~2k | Text-to-audio music model (Jan 2026). Transforms text descriptions into high-fidelity music tracks. Architecturally novel with Block Flow Matching for parallel latent denoising. |
 
 ## Supplementary Tools
 

@@ -1,6 +1,6 @@
 # 📡 Trends — Media & Entertainment AI
 
-> Current trends shaping the industry. Updated: 2026-07-07
+> Current trends shaping the industry. Updated: 2026-07-07 (fifth pass)
 
 ## Trend 1: Agentic Video Production (2025–2026 Inflection)
 **Signal**: OpenMontage viral launch + ViMax 1.1k★ in weeks; "agentic video" now a search category.
@@ -146,6 +146,21 @@ This signals a product category shift:
 - **Impact**: Media clients no longer need to negotiate with proprietary AI vendors for bulk video generation. Self-hosted studios with Apache-2.0/MIT models become the enterprise path.
 - **Globant angle**: Building branded AI creative studios on top of Open-Generative-AI + LTX-2 + MAGI-1 as a turnkey delivery. 4-6 week engagement.
 
+## Trend 16: AI Podcast Production Goes Mainstream (2026)
+**Signal**: Podcastfy (Apache-2.0, ~3k★) framed as "the open-source version of the most popular product Google built in the last decade" — referring to NotebookLM's podcast feature.
+
+The podcast-from-content pipeline has become one of the most demanded media AI workflows:
+- **Podcastfy**: any URL/PDF/YouTube/text → multi-turn AI audio conversation in any language; 100+ LLM backends; Apache-2.0
+- **NeuralNoise**: multi-agent studio (analyst + writer + audio engineer agents) for higher-quality complex shows; MIT
+- **302 Podcast Generator**: image/text/link upload → script + background music + audio synthesis
+- **YuE + Coqui TTS**: original AI music beds + AI voices for fully original podcast audio
+
+**Why it matters**: Every organization with a content library (research reports, documentation, news archives) can now launch a branded podcast channel in days. LATAM media clients with Spanish/Portuguese content can reach audio-first audiences without traditional podcast production budgets.
+
+**Impact**: Content marketing, educational publishers, news organizations, corporate communications — all of these can produce 30-minute podcast episodes from any internal document automatically.
+
+**Globant angle**: 2-3 week PoC for any client: `Podcastfy + Coqui TTS XTTS v2 (voice cloning) + AzuraCast (distribution)` = fully branded podcast studio from existing content library.
+
 ## Summary Timeline
 
 | Period | Development |
@@ -153,7 +168,7 @@ This signals a product category shift:
 | 2023 | Whisper open-sourced; Stable Diffusion image generation mainstream |
 | 2024 | AnimateDiff/SVD first viable open video; AudioCraft released |
 | 2025 | Faster-whisper production standard; first agentic media tools |
-| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members** |
+| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; Podcastfy podcast AI proliferates; microdrama $14B by year-end** |
 | 2026 H2 (projected) | LTX-2 becomes default for production; SkyReels-V3 multimodal SOTA; C2PA contractual in broadcast; interactive MAGI-1 streaming apps; $256B AI M&E by 2035 pathway confirmed |
 
 ## Q3 2026 Watch Signals

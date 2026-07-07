@@ -1,6 +1,6 @@
 # 📈 Trending AI Agents — Media & Entertainment
 
-> What's new and gaining traction this week. Updated: 2026-07-07 (fourth pass)
+> What's new and gaining traction this week. Updated: 2026-07-07 (fifth pass — YuE, Podcastfy, ACE-Step added)
 
 ## Breakout Projects (June–July 2026)
 
@@ -71,6 +71,28 @@
 - **Stars**: ~3.5k
 - **What it is**: 24B parameter autoregressive denoising model. Generates video chunk-by-chunk (24 frames/chunk), enabling streaming generation — you can see frames as they produce. T2V, I2V, V2V modes. A 4.5B lightweight variant for low-VRAM deployment.
 - **Why it matters**: Autoregressive architecture enables streaming output — ideal for interactive applications and progressive generation in broadcast workflows.
+
+## 5th-Pass Breakouts (July 2026)
+
+### 11. YuE — Open-Source Full-Song Generation (Lyrics → Complete Song)
+- **Repo**: [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) (Apache-2.0)
+- **Stars**: ~6.1k
+- **What it is**: The first widely-adopted open-source foundation model for full-song generation from lyrics. Input: lyrics + style prompt → output: multi-minute song with vocal track + accompaniment. Think Suno.ai but open, Apache-2.0, self-hostable.
+- **Why it matters**: Every prior open-source music generation tool (AudioCraft/MusicGen) generates instrumental or short clips. YuE generates complete, cohesive songs with singing. This is the capability that content studios need for original soundtracks, jingles, branded content.
+- **Globant angle**: Replace expensive sync licensing for short-form content with AI-original songs. LATAM Portuguese/Spanish lyric support makes it ideal for regional campaigns.
+
+### 12. Podcastfy — Multi-Modal Content to Podcast (NotebookLM Rival)
+- **Repo**: [souzatharsis/podcastfy](https://github.com/souzatharsis/podcastfy) (Apache-2.0)
+- **Stars**: ~3k (explosive growth: "the open-source version of the most popular product Google built in the last decade")
+- **What it is**: Python library + app that transforms any content (URLs, PDFs, YouTube videos, text, images) into AI audio conversations. Supports 100+ LLM backends and major TTS providers (ElevenLabs, Google, OpenAI). Shorts (2-5 min) and longform (30+ min) modes. Multilingual.
+- **Why it matters**: Google NotebookLM's podcast feature is wildly popular but proprietary and limited. Podcastfy replicates it with full control over LLM, voice, language, and format. The content-to-podcast pipeline is the most demanded media AI workflow of 2026.
+- **Globant angle**: Any client with a content library (news, research, training materials) can instantly launch a podcast channel using Podcastfy + Coqui TTS for LATAM Spanish/Portuguese.
+
+### 13. NeuralNoise — Multi-Agent Podcast Studio
+- **Repo**: [leopiney/neuralnoise](https://github.com/leopiney/neuralnoise) (MIT)
+- **Stars**: ~800
+- **What it is**: Multi-agent AI podcast studio where agents work as a team: analyst → writer → audio engineer. Each "worker" in the studio has a specialized role. Higher quality than single-agent approaches for complex content.
+- **Why it matters**: Complements Podcastfy for complex multi-segment shows. Good for client-facing demos of agent orchestration in media workflows.
 
 ## Audio Ecosystem Moves
 

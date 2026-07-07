@@ -1,7 +1,7 @@
 # 🏗️ Foundational Repos — Media & Entertainment
 
 > Core repositories to build on. Open licenses. Active communities.
-> Last updated: 2026-07-07 (fourth pass — LTX-2, SkyReels-V2, MAGI-1, Open-Generative-AI, Open-Sora 2.0 added)
+> Last updated: 2026-07-07 (fifth pass — YuE, Podcastfy, ACE-Step added)
 
 ## Speech & Transcription
 
@@ -17,6 +17,9 @@
 | Repo | License | Stars | Description | AI-Ready |
 |------|---------|-------|-------------|----------|
 | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT* | ~22k | MusicGen (text→music), AudioGen (text→SFX), EnCodec tokenizer. *models CC-BY-NC | Yes — BGM/SFX generation |
+| [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | ~6.1k | Full-song music generation from lyrics (lyrics2song) — vocals + accompaniment, multi-minute output | Yes — original songs |
+| [ace-step/ace-step](https://github.com/ace-step/ace-step) | Apache-2.0 | ~2k | Text-to-audio model with Block Flow Matching for parallel denoising; high-fidelity music from descriptions | Yes — music gen |
+| [souzatharsis/podcastfy](https://github.com/souzatharsis/podcastfy) | Apache-2.0 | ~3k | Multi-modal to multilingual podcast: URLs, PDFs, YouTube, text → AI audio conversation; 100+ LLM backends | Yes — content → podcast |
 | [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | ~9k | Hybrid Transformer Demucs v4: drums/bass/vocals/other separation, 9.20 dB SDR | Yes — stem separation |
 | [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Python audio effects library — VST3/AU support, 300× faster than other libs | Yes — audio ML pipeline |
 | [coqui-ai/TTS](https://github.com/coqui-ai/TTS) | MPL-2.0 | ~36k | Deep learning TTS: 1100+ models, voice cloning, multilingual (incl. Spanish/Portuguese) | Yes — broadcast voiceover |
@@ -62,7 +65,9 @@
 | Category | Best Pick (Apache/MIT) | Why |
 |----------|----------------------|-----|
 | Transcription / captions | SYSTRAN/faster-whisper | 4× faster, INT8, MIT license |
-| Music generation | facebookresearch/audiocraft | Industry standard, MIT code |
+| Music generation (BGM/SFX) | facebookresearch/audiocraft | Industry standard, MIT code |
+| Music generation (full songs) | multimodal-art-projection/YuE | Lyrics → complete song, Apache-2.0 |
+| Podcast generation | souzatharsis/podcastfy | Apache-2.0, 100+ LLM backends, multilingual |
 | Source separation | facebookresearch/demucs | Best SDR, MIT, Python |
 | Video generation (general) | THUDM/CogVideo | Apache-2.0, best docs, 12.5k★ |
 | Video generation (4K + audio) | Lightricks/LTX-2 | First native audio+video, Apache-2.0 |

@@ -1,6 +1,6 @@
 # 🗺️ Market Map — Media & Entertainment AI
 
-> Global players, market data, LATAM opportunities. Updated: 2026-07-07 (fourth pass)
+> Global players, market data, LATAM opportunities. Updated: 2026-07-07 (fifth pass)
 
 ## Global Market Size
 
@@ -27,13 +27,15 @@
 | Brazil streaming users | Top 3 global | 97% adults 18-64 reach via YouTube |
 | Mexico FAST usage | 53% of internet users | Highest FAST penetration globally |
 | Brazil FAST usage | 40% | Second highest globally |
+| Microdramas global revenue (end 2026) | **$14B** | Short-form serial content; $3B outside China; 3-5 min episodes |
+| Microdramas LATAM share | Emerging | Brazil/Mexico top markets; AI production pipeline opportunity |
 | Netflix LATAM market share | ~50% | Dominant streaming position |
 | Key growth drivers | Mobile-first content, FAST, microdramas | Short-form serial content booming |
 
 ## Country Intelligence
 
 | Country | Media Market Size | AI Readiness | Key Opportunity |
-|---------|-----------------|--------------|-----------------|
+|---------|-----------------|--------------|----------------|
 | **Brazil** | $22B+ (largest LATAM) | High | FAST platform AI, Portuguese TTS/ASR, Globo AI partnership track |
 | **Mexico** | $14B+ | High | Telenovela AI production, Televisa/Univision digital transformation |
 | **Argentina** | $5B | Medium | Streaming localization, AI subtitling for content export |
@@ -90,6 +92,7 @@
 | **Music Source Separation Service** | Music labels, sync | Demucs stems for licensing/remixing | 2-3 weeks |
 | **LATAM Localization AI** | Studios, streaming | Portuguese/Spanish TTS+ASR for LATAM expansion | 3-4 weeks |
 | **DAM AI Enrichment** | Networks, production cos | Auto-tagging, AI search for large archives | 4-6 weeks |
+| **AI Podcast Studio** | Brands, publishers, radio | Podcastfy + Coqui TTS: any content → branded podcast | 2-3 weeks |
 | **AI Radio Automation** | Radio stations | AI playlist curation, automated DJ scripts | 3-4 weeks |
 | **Live Sports AI Highlights** | Sports broadcasters | Auto-clip key moments, AI sports narrative | 3-5 weeks |
 | **4K AI Content Studio (LTX-2)** | Branded content, agencies | LTX-2 white-label studio for 4K output | 4-6 weeks |
@@ -98,7 +101,7 @@
 ## Proprietary vs. Open Source Landscape
 
 | Capability | Proprietary Leader | Best OSS Alternative | License |
-|------------|-------------------|---------------------|---------|
+|------------|-------------------|---------------------|--------|
 | Video generation | Runway Gen-3, Sora | CogVideoX, Wan 2.2, LTX-Video | Apache-2.0 |
 | Speech recognition | AWS Transcribe, Deepgram | openai/whisper, faster-whisper | MIT |
 | Music generation | Suno, Udio | AudioCraft/MusicGen | MIT (code) |

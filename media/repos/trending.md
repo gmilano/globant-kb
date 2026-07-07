@@ -1,6 +1,6 @@
 # 📈 Trending Repos — Media & Entertainment
 
-> GitHub repos gaining momentum. Updated: 2026-07-07 (fourth pass)
+> GitHub repos gaining momentum. Updated: 2026-07-07 (fifth pass)
 
 ## Velocity Table (June–July 2026)
 
@@ -12,6 +12,8 @@
 | [Open-Montage/OpenMontage](https://github.com/Open-Montage/OpenMontage) | MIT | ~4k | +350 | Agentic video production system — 12 pipelines, 52 tools, 500+ skills for Claude Code |
 | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~4.5k | +300 | Infinite-length film via Autoregressive Diffusion-Forcing |
 | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | +250 | 24B autoregressive video; streaming output; T2V/I2V/V2V |
+| [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | ~6.1k | +300 | Full-song music generation: lyrics → complete song with vocals + accompaniment; open Suno.ai alternative |
+| [souzatharsis/podcastfy](https://github.com/souzatharsis/podcastfy) | Apache-2.0 | ~3k | +250 | Multi-modal to podcast: any content type → AI audio conversation; 100+ LLM backends, multilingual |
 | [HKUDS/ViMax](https://github.com/HKUDS/ViMax) | MIT | ~1.5k | +200 | Multi-agent video generation: Director+Screenwriter+Producer+Generator |
 | [vita-epfl/Stable-Video-Infinity](https://github.com/vita-epfl/Stable-Video-Infinity) | Apache-2.0 | ~2.5k | +180 | ICLR 2026 Oral — infinite-length video with error recycling |
 | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | ~13k | +150 | CogVideoX-1.5: best-documented open video gen model — steady accumulation |

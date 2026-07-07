@@ -2,7 +2,7 @@
 
 > Real platforms to start from — fork, extend with AI, deliver to clients.
 > Model: working platform + AI layer on top = faster delivery.
-> Last updated: 2026-07-07 (fourth pass)
+> Last updated: 2026-07-07 (fifth pass)
 
 ## Video Platforms & CMS
 
@@ -18,6 +18,7 @@
 |----------|---------|------|-------|----------|----------------------|
 | **AzuraCast** | Apache-2.0 | [AzuraCast/AzuraCast](https://github.com/AzuraCast/AzuraCast) | PHP + Vue | Web radio: stations, playlists, DJ management, analytics; ~3.5k★ | AI playlist scheduling, genre classification, listener analytics |
 | **Liquidsoap** | MIT | [savonet/liquidsoap](https://github.com/savonet/liquidsoap) | OCaml + DSL | Scripted audio/video streaming language — backbone of many radio systems | AI-driven track selection, dynamic jingles, real-time SFX |
+| **Castopod** | AGPL-3.0 | [ad-aures/castopod](https://github.com/ad-aures/castopod) | PHP + Vue | Self-hosted podcast hosting with ActivityPub federation — publish to Podcast Index, Spotify, Apple; ~2k★ | AI episode generation via Podcastfy, auto-show-notes, chapter generation |
 
 ## Digital Asset Management (DAM)
 
@@ -260,7 +261,7 @@ clips = ltx2_script_to_screen(
 ## Build-vs-Buy Matrix
 
 | Scenario | Build (OSS) | Time | Buy/License | Decision Driver |
-|----------|------------|------|-------------|-----------------|
+|----------|------------|------|-------------|----------------|
 | Auto-captions for OTT | faster-whisper + MediaCMS | 2-3 wk | Rev.ai, Verbit | Volume >100h/month → OSS wins on cost |
 | Short-form content factory | OpenMontage + CogVideoX | 4-6 wk | Runway subscription | Need customization/branding → OSS |
 | 4K branded content | LTX-2 + Claude | 4-6 wk | Runway Gen-3 | Apache-2.0 + no per-clip pricing → OSS |
