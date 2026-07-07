@@ -1,102 +1,118 @@
-# 🗺️ Market Map — Enterprise AI
+# Market Intelligence — Enterprise AI
 
-> Players, opportunities, and positioning. Focus: LATAM + global.
-> Last updated: 2026-07-06 (second pass)
+> Key players, market sizing, Globant positioning.
+> Last updated: 2026-07-07
 
-## Market Size & Growth
+## Market Sizing
 
-| Segment | 2026 Size | Growth | Source |
-|---------|-----------|--------|--------|
-| Global AI spending (total) | $2.59 trillion | +47% YoY | Gartner May 2026 |
-| Enterprise AI agents market | $10.9–12.1B | 44–46% CAGR through 2030 | Gartner / IDC |
-| AI models spending | $32.6B | +110% YoY | Gartner |
-| Open-source ERP market | $5.31B | 9.66% CAGR through 2031 | Industry analysis |
-| Enterprise software spend at risk from agentic AI | $234B | — | Gartner Jul 1, 2026 |
-| McKinsey AI agent annual value creation | $2.6–4.4T | — | McKinsey Global Institute |
+### Global AI Agents (Enterprise)
+| Segment | 2025 | 2026 | 2030 | CAGR |
+|---------|------|------|------|------|
+| AI Agents Market | $7.84B | $10.9B | $52.62B | 44-46% |
+| Agentic AI Platform | $1.2B | $1.8B | $12B | ~55% |
+| Enterprise AI total | $114.87B | ~$135B | $273B | 18.91% |
+| AI Automation (workflow) | $4.7B | $6.1B | $12.3B | ~20% |
 
-## Adoption Metrics (Mid-2026)
+**Key milestone**: Gartner — 40% of enterprise apps will embed task-specific AI agents by end of 2026, up from <5% in 2025. 1,445% surge in multi-agent system inquiries from Q1 2024 to Q2 2025.
 
-| Signal | Data |
-|--------|------|
-| Fortune 500 exploring AI agents | 80% |
-| Fortune 500 with MCP servers implemented | 28% |
-| A2A protocol: organizations in production | 150+ |
-| Enterprises with multi-stage agentic workflows in production | 50%+ |
-| Enterprise apps embedding task-specific AI agents (EOY 2026) | 40% (Gartner) |
-| Global 2000 roles involving direct AI agent engagement (EOY 2026) | 40% (IDC) |
-| Avg ROI on enterprise agentic AI deployments | 171% (US: 192%) |
-| Organizations actively adopting agentic AI | 43% |
-| Agentic AI projects expected to be canceled by 2027 | 40% |
-| Open-source ERP adoption growth 2026 | +32% (cost pressure on SAP/Oracle) |
-| MCP servers in ecosystem | 5,500+ |
+### Latin America AI Agents
+| Metric | Value | Source |
+|--------|-------|--------|
+| LATAM AI agents revenue (2025) | $556.1M | Grand View Research |
+| LATAM AI agents revenue (2026E) | ~$840M | Grand View / 50.8% CAGR |
+| LATAM agentic AI to 2033 | $14.2B | Grand View Research |
+| LATAM CAGR (AI agents) | 50.8% | Grand View Research |
+| LATAM share of global agentic AI | 2.80% | DataMIntelligence |
+| Brazil agents in production | 19% of enterprises | Numoru LATAM 2026 |
+| Brazil banking adoption | Leading — 47% | Numoru LATAM 2026 |
 
-## Global Players
+---
 
-| Company | Type | Strength | Weakness | Open Source Position |
-|---------|------|----------|----------|---------------------|
-| Microsoft | Platform | MAF 1.0, Azure AI, Copilot Studio, enterprise trust | Vendor lock-in risk | SK + AutoGen → MAF (MIT) |
-| Salesforce | SaaS CRM | Einstein AI, 150k customers, platform dominance | High cost, closed system | Agentforce ($234B risk signal) |
-| SAP | ERP | 300M users, global compliance, industry depth | Legacy architecture, huge TCO | ABAP remains proprietary |
-| ServiceNow | ITSM/workflow | AI-native workflows, 7k enterprise customers | Price, complexity | Limited open source |
-| Oracle | ERP/DB | Fusion AI, database dominance | Lock-in, cost | Limited open source |
-| Workday | HCM/finance | AI-native HR, strong in US enterprise | Price, limited vertical coverage | Acquired Flowise (signal) |
-| IBM | AI + services | watsonx, enterprise consulting, 113 years trust | Complexity, mixed product track record | DataStax/Langflow acquisition |
-| Google | AI + Cloud | Gemini, Vertex AI, A2A protocol (Linux Foundation) | No enterprise platform products | A2A open protocol; ADK 1.0 GA; Vertex open tools |
-| Anthropic | Foundation model | Claude enterprise contracts, MCP creator | No platform products (yet) | MCP (open standard, Linux Foundation) |
-| LangChain | OSS frameworks | LangGraph/LangSmith, 400 enterprise customers | Competing with MAF | LangGraph MIT, LangSmith proprietary |
+## Adoption Statistics (2026)
 
-## Open Source Challenger Map
+| Metric | Value | Source |
+|--------|-------|--------|
+| Orgs with ≥1 agent in production | 57% | IDC / Accelirate 2026 |
+| Orgs planning agent deployment | 72% | Accelirate 2026 |
+| Enterprises with multiple agent types | 31% | IDC 2026 |
+| ROI per $1 invested in GenAI | 3.7x | IDC + Microsoft |
+| Knowledge worker hours recovered/week | 6.4 hrs/seat | McKinsey Global AI Survey Q1 2026 |
+| AI agent customer service ticket cost | $0.46 vs $4.18 human | Bain Agentic Benchmark 2026 |
+| Code review agent cost per PR | $0.72 vs $48 engineer time | Bain Agentic Benchmark 2026 |
+| Payback period — customer service | 4.1 months | Bain Agentic Benchmark 2026 |
+| Payback period — engineering | 9.3 months | Bain Agentic Benchmark 2026 |
+| Agentic projects canceled by 2027 | >40% | Gartner (unclear ROI, governance) |
 
-| Challenger | Replaces | License | Stars | Enterprise Traction |
-|-----------|---------|---------|-------|---------------------|
-| ERPNext | SAP / Oracle ERP | GPL-3.0 | 36.4k | 400k+ companies; 120+ countries |
-| Odoo | SAP + Salesforce + Shopify | LGPL-3.0 | 52.8k | €7B valuation; 12M users |
-| Twenty | Salesforce CRM | Apache-2.0 | 45.5k | 45k★ in < 2 years; MCP-native |
-| SuiteCRM | Salesforce/HubSpot CRM | AGPL-3.0 | 4.3k | 5M users; 60k deployments |
-| Dify | Glean / custom LLMOps | Apache-2.0 | 144k | $30M; 1M+ apps; Maersk, Novartis |
-| n8n | Zapier / Workato | Sustainable | 182k | SAML, Kubernetes; n8n 2.0 enterprise-grade; $2.5B valuation |
-| DataHub | Informatica / Collibra | Apache-2.0 | 11.8k | LinkedIn-origin; thousands of orgs |
-| OpenMetadata | Alation / Atlan | Apache-2.0 | 8.2k | 3,000+ deployments; MCP native |
-| Backstage | Internal portal tools | Apache-2.0 | 36k | Spotify-origin; 3,400+ companies; CNCF incubating; Toyota $10M ROI |
+---
 
-## LATAM Market Size (Grand View Research / DataMIntelligence 2026)
+## Global Enterprise AI Players
 
-| Segment | 2024/2025 Size | CAGR | Notes |
-|---------|---------------|------|-------|
-| LATAM enterprise agentic AI | $187M (2024) | 47.4% to 2030 | Brazil + Mexico = primary growth engines |
-| LATAM AI agents (broad) | $556.1M (2025) | 50.8% to 2033 | E-commerce + banking driving adoption |
-| LATAM agentic AI (total) | $0.24B (2026) | High growth | Startups + digital innovation acceleration |
+| Company | Type | OSS Contribution | Enterprise AI Play |
+|---------|------|-----------------|-------------------|
+| Microsoft | Platform | AutoGen (MIT), Semantic Kernel (MIT) | Azure AI Foundry, MAF, Copilot Studio |
+| Google | Platform | ADK (Apache-2.0), A2A (Apache-2.0) | Vertex AI Agent Builder, Gemini for Workspace |
+| Anthropic | Model | MCP (MIT), Claude SDKs | Claude Enterprise, Bedrock, tool use |
+| Salesforce | Platform | Flows SDK | Agentforce — 1,000+ enterprise agents |
+| ServiceNow | Platform | — | Now Assist — 85% automation rate |
+| IBM | Platform | — | watsonx Orchestrate; IBM Think 2026 AI Operating Model |
+| SAP | Platform | — | Business AI + Joule copilot; 400M business users |
+| Oracle | Platform | — | AI Agents in Fusion; OCI GenAI |
+| Cohere | Model | — | Enterprise RAG, rerankers for private data |
+| Hugging Face | OSS Hub | Transformers (Apache-2.0) | Inference API, Spaces, dataset hub |
 
-**Key drivers:** Bradesco (82yr-old bank) using agentic AI for fraud prevention and personal concierge. E-commerce AI agents for customer service, chatbots, personalized marketing. Banking AI for fraud detection, risk management, customer engagement.
+---
 
-## LATAM Opportunities
+## Proprietary vs Open Source — Enterprise AI
 
-### Why LATAM Now
-- Open-source ERP adoption grew 32% globally in 2026; LATAM price sensitivity amplifies this
-- SAP/Oracle license costs ($500K–$5M/yr) driving SME and mid-market to open alternatives
-- Brazil + Mexico = 60% of LATAM enterprise software spend; Colombia + Argentina growing fast
-- Digital transformation mandates in financial sector (BACEN, CNBV fintech rules) creating demand
-- Odoo Latin America localizations: Argentina, Brazil, Chile, Colombia, Mexico — community-maintained
-- LATAM AI agents market growing at 50.8% CAGR — fastest-growing tech segment in the region
+| Dimension | Proprietary (Copilot/Salesforce) | Open Source (LangGraph/Dify) |
+|-----------|----------------------------------|------------------------------|
+| Time to first demo | 1-2 days | 1-2 weeks |
+| Customization depth | Limited | Unlimited |
+| Cost at scale | $50-150/user/month | Infra only ($5-30/user/month) |
+| Data privacy | Cloud (compliance risk) | Self-hosted (full control) |
+| Vendor lock-in | High | Low |
+| Enterprise support | Included | Paid (LangSmith, Dify Enterprise) |
+| MCP/A2A support | Emerging | Native in Dify, n8n, Twenty |
 
-### LATAM-Specific Plays
+---
 
-| Opportunity | Stack | Market | Entry Point |
-|-------------|-------|--------|-------------|
-| AI-augmented ERP for mid-market | ERPNext + LangGraph + Claude Haiku | Brazil, Mexico, Colombia | 3-5w POC → replace SAP B1 |
-| AI CRM for LATAM sales teams | Twenty + LangGraph + WhatsApp API | All LATAM | WhatsApp-native CRM agent |
-| Compliance automation (fiscal/tax) | ERPNext + LangGraph + AFIP/SAT APIs | Argentina, Mexico | High pain, regulatory complexity |
-| Data governance for financial cos. | DataHub + OpenMetadata + LangGraph | Brazil fintech | BACEN LGPD compliance driver |
-| Internal dev platform for tech cos. | Backstage + LangGraph + Claude | Brazil, Mexico tech hubs | Developer productivity play |
-| Banking fraud detection agent | LangGraph + Claude + WhatsApp | Brazil, Colombia | Follow Bradesco playbook |
+## 6 Globant Enterprise AI Win Zones
 
-## Globant Positioning
+### 1. LangGraph Enterprise Platform (Highest ROI)
+- **Client type**: Fortune 500 / Globant existing accounts with complex workflows
+- **Offering**: Multi-agent enterprise automation on LangGraph + Claude
+- **Moat**: 400 enterprise deployments reference pool; LangSmith observability; Globant as SI
+- **Revenue model**: Build (6-12 weeks) + LangSmith/LangGraph Platform license resell + ongoing optimization retainer
 
-| Capability | Globant Advantage | How to Win |
-|-----------|-----------------|------------|
-| AI agent implementation | Deep LangGraph + CrewAI expertise across industries | Lead with reference patterns from 11 industry KBs |
-| Open source ERP customization | ERPNext/Frappe + AI layer → no license cost for client | Compete on TCO against SAP B1 / Oracle |
-| MCP integration layer | Build MCP servers for any enterprise system | Position as "AI-ready" transformation for any legacy platform |
-| A2A federation design | Wire specialist agent teams across departments | New engagement type: enterprise agent network design |
-| LATAM compliance | Local teams in 18 LATAM countries | Tax localization + AI = unique offering |
-| Enterprise governance | DataHub + OpenMetadata implementation | Prerequisite for responsible AI at scale |
+### 2. ERPNext / Odoo AI Modernization (LATAM Sweet Spot)
+- **Client type**: Mid-market LATAM enterprises running legacy ERP (SAP B1, older Odoo)
+- **Offering**: Migrate to ERPNext/Odoo + AI procurement, AR collection, FP&A agents on top
+- **Moat**: LATAM fiscal compliance expertise (SPED, CFDI, DIAN) + AI layer
+- **Revenue model**: 12-16 week migration + AI agents build + 3-year SLA retainer
+
+### 3. Twenty CRM + AI for Tech/SaaS (Rising)
+- **Client type**: B2B SaaS companies 50-500 employees replacing Salesforce
+- **Offering**: Twenty CRM deployment + Claude MCP integration + custom agent workflows
+- **Moat**: Native MCP = fastest time to AI-native CRM in market
+- **Revenue model**: 6-8 week build + Claude API pass-through + CRM ops retainer
+
+### 4. OpenHands Enterprise — Legacy Code Modernization
+- **Client type**: Banks, telcos, utilities with large Java/.NET codebases
+- **Offering**: Deploy OpenHands for autonomous code analysis, test generation, and incremental modernization
+- **Moat**: 72.8% SWE-Bench resolution rate; sandboxed enterprise deployment
+- **Revenue model**: Per-sprint outcome (# issues resolved) + governance layer build
+
+### 5. Dify RAG Enterprise Knowledge Bases
+- **Client type**: Professional services, legal, financial services with proprietary documents
+- **Offering**: Dify-powered RAG over internal documents + compliance guardrails + audit trail
+- **Moat**: Dify's visual builder accelerates delivery; 1M+ apps reference
+- **Revenue model**: 4-6 week build + Dify Enterprise license resell + ongoing knowledge base management
+
+### 6. Backstage AI Platform Portal
+- **Client type**: Engineering organizations >500 developers building internal AI tools
+- **Offering**: Backstage implementation with AI model catalog, agent registry, cost governance
+- **Moat**: 3,400 company reference pool; Globant's engineering culture alignment
+- **Revenue model**: 8-12 week build + plugin development retainer
+
+---
+*See `intel/trends.md` for current trend analysis.*

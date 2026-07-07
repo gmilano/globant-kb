@@ -1,57 +1,61 @@
-# 🎯 Top AI Agents — Enterprise
+# Top AI Agents & Frameworks — Enterprise
 
-> Open-source AI agents and frameworks for enterprise automation. Focus: MIT / Apache 2.0 licenses that Globant can build on.
-> Last updated: 2026-07-06 (second pass)
+> Open-source AI agents and orchestration frameworks for enterprise automation.
+> Focus: MIT / Apache 2.0 licenses Globant can build on.
+> Last updated: 2026-07-07
 
-## Top Agents & Frameworks
+## Top 10 Enterprise AI Agents & Frameworks
 
-| Name | License | Stars | Description |
-|------|---------|-------|-------------|
-| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | 126k | Graph-based stateful agent orchestration. Production standard for Fortune 500: Uber, LinkedIn, Klarna (saved $60M/yr). Supports persistent state via PostgreSQL checkpointer, HITL gates, LangSmith observability. |
-| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Role-based multi-agent framework. Claims 2B+ agentic workflows processed. Fastest path from prototype to team-of-agents; most Fortune 500 teams start here before migrating to LangGraph for production. |
-| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Visual LLMOps platform with drag-and-drop agent builder, 100+ LLM providers, built-in RAG pipelines, and production observability dashboard. $30M raised 2026. 1M+ apps in production. Enterprise customers: Maersk, Novartis. |
-| [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | MIT | 18k | MAF 1.0 (April 2026): production unification of AutoGen + Semantic Kernel. Enterprise-grade multi-agent orchestration, A2A + MCP interoperability, stable LTS APIs. Go-to for .NET enterprise stacks. |
-| [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | 27.9k | Microsoft's AI SDK for .NET/Python/Java. Native plugin system, thread-based state, type safety, telemetry. Enterprise features: filters, SSO hooks, Azure OpenAI integration. Foundation of MAF 1.0. |
-| [n8n](https://github.com/n8n-io/n8n) | Sustainable | 182k | Workflow automation platform with native AI agent nodes. 400+ integrations, self-hosted, enterprise SSO/SAML, Kubernetes-native. n8n 2.0 (Dec 2025): enterprise-grade security by default, AI Agent node with token management. $2.5B valuation. Deepest enterprise integration story among visual builders. |
-| [Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 51k | Low-code agentic workflow builder with best-in-class RAG. Acquired by Workday 2026, signaling enterprise legitimacy. Visual chain/agent builder, native vector DB integration, SSRF protection. |
-| [Langflow](https://github.com/langflow-ai/langflow) | MIT | 46k | Visual flow-based agent builder for RAG + LLM apps, backed by IBM/DataStax. SOC2 Type II certified on managed cloud. Strong enterprise security posture post-acquisition. |
-| [AutoGen](https://github.com/microsoft/autogen) | MIT | 54k | Microsoft multi-agent conversation framework (now superseded by MAF 1.0, but widely deployed). Simple abstractions for agent teams, code execution, and function calling. |
-| [Smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Hugging Face minimal agent framework. Code-first approach: agents write and execute Python directly. Fastest single-agent loop for tool-use tasks; composes cleanly with HF model ecosystem. |
+| Name | License | Repo | Stars | Description |
+|------|---------|------|-------|-------------|
+| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | langchain-ai/langgraph | ~34k | Stateful multi-agent orchestration with graph-based workflows; 34.5M monthly downloads; used in prod by Cisco, Uber, LinkedIn, BlackRock, JPMorgan |
+| [n8n](https://github.com/n8n-io/n8n) | Sustainable Use | n8n-io/n8n | ~182k | Visual workflow automation with 400+ integrations and native AI agent nodes; self-hostable; $2.5B valuation; n8n 2.0 with enterprise SSO/audit |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | langgenius/dify | ~144k | LLMOps platform with visual workflow builder, RAG pipeline, and agentic app factory; 1M+ apps in production (Maersk, Novartis) |
+| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | crewAIInc/crewAI | ~31k | Role-based multi-agent orchestration; 1,500+ enterprise deployments; 5.2M monthly downloads; best for task-decomposed crew patterns |
+| [AutoGen](https://github.com/microsoft/autogen) | MIT | microsoft/autogen | ~42k | Microsoft multi-agent framework (maintenance mode → succeeded by MAF); conversational multi-agent abstractions with GroupChat and nested conversations |
+| [OpenHands](https://github.com/All-Hands-AI/OpenHands) | Apache-2.0 | All-Hands-AI/OpenHands | ~76k | Autonomous AI software engineer; 72.8% SWE-Bench Verified with Claude 4.5; sandboxed Docker/K8s; $18.8M Series A; Enterprise: RBAC + SAML + VPC |
+| [browser-use](https://github.com/browser-use/browser-use) | Apache-2.0 | browser-use/browser-use | ~86k | Give AI agents real browser control (click, type, navigate); fastest-growing agent tool of H1 2026; powers web automation layer in enterprise stacks |
+| [Google ADK](https://github.com/google/adk-python) | Apache-2.0 | google/adk-python | ~20k | Google Agent Development Kit; multi-agent orchestration with A2A protocol native support; 3.3M monthly downloads; strong Vertex AI integration |
+| [Backstage](https://github.com/backstage/backstage) | Apache-2.0 | backstage/backstage | ~29k | Spotify's internal developer portal platform; CNCF incubating; 3,400+ companies; ML model catalog + AI service templates + agent registry patterns |
+| [Temporal](https://github.com/temporalio/temporal) | MIT | temporalio/temporal | ~13k | Durable workflow execution for long-running agent tasks; automatic retry + state persistence; Multi-Region Replication 99.99% SLA; ideal for agent orchestration |
 
 ---
 
-## Specialized Enterprise Agents
+## MCP Servers for Enterprise
 
-| Name | License | Stars | Use Case |
-|------|---------|-------|----------|
-| [OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | 78.5k | Software engineering agent, 72% SWE-bench Verified. v1.6.0: Kubernetes multi-user RBAC. Automates code review, PR creation, bug fixes. Production at enterprise engineering teams. |
-| [DataHub](https://github.com/datahub-project/datahub) | Apache-2.0 | 11.8k | Metadata & data governance platform. Powers data discovery at thousands of orgs; agent-queryable via MCP. Originally from LinkedIn. |
-| [OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 8.2k | Open context layer for data + AI: 130+ connectors, MCP server, semantic search, governance, lineage. Gives AI agents governed access to enterprise data assets. |
-| [erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) | MIT | 104 | MCP server bridging AI assistants to ERPNext/Frappe — natural language queries against ERP data. |
-| [Twenty](https://github.com/twentyhq/twenty) | Apache-2.0 | 45.5k | Open-source Salesforce alternative. Cloud workspaces ship with native MCP server — AI agents connect directly to CRM data. |
+| MCP Server | Repo | Description |
+|-----------|------|-------------|
+| ERPNext MCP | github.com/rakeshgangwar/erpnext-mcp-server | Connect AI to ERPNext (Frappe) data and operations |
+| 1C:Enterprise MCP | github.com/infaton/MCP35 | 51 tools for 1C ERP via Model Context Protocol |
+| Twenty CRM MCP | github.com/twentyhq/twenty | Native MCP server — Claude/ChatGPT/Cursor integration |
+| Odoo MCP | github.com/zahere-dev/odoo-mcp-server | Odoo ERP operations via MCP |
+| Salesforce MCP | community | Salesforce data and workflow access for AI agents |
 
 ---
 
 ## Protocol Standards (2026)
 
-| Protocol | Owner | Adoption | Role |
-|----------|-------|---------|------|
-| MCP (Model Context Protocol) | Anthropic → Linux Foundation Agentic AI Foundation (Dec 2025) | 5,500+ servers; 28% of Fortune 500 have implemented MCP servers; supported natively by Anthropic/OpenAI/Google/Microsoft | Standard for connecting agents to tools and data — "the HTTP of AI agents" |
-| A2A (Agent-to-Agent) | Google → Linux Foundation (2026) | 150+ orgs in production; ADK 1.0 GA in Python/Go/Java/TypeScript | Standard for agents to discover and call each other across organizational/vendor boundaries |
+| Protocol | Maintainer | Adoption | Role |
+|----------|-----------|---------|------|
+| MCP (Model Context Protocol) | Anthropic / Linux Foundation | 9,652 servers; 97M monthly SDK downloads; 41% orgs in prod | Agent ↔ tool integration (vertical) |
+| A2A (Agent-to-Agent) | Google / Linux Foundation | v1.0 GA; 150+ orgs in production | Agent ↔ agent communication (horizontal) |
+| ACP (Agent Communication Protocol) | IBM / BeeAI | Emerging; REST-based | Agent lifecycle + discovery |
+| OpenAI Agents SDK | OpenAI | ~15k★ | Lightweight SDK with tracing + guardrails |
 
 ---
 
 ## Framework Selection Guide
 
-| Use Case | Recommended Framework | Why |
-|----------|----------------------|-----|
-| Complex stateful workflows, regulated industries | LangGraph | Persistent state, HITL, full audit trail |
-| Team of specialized agents, rapid prototyping | CrewAI | Role abstraction, fast iteration |
-| Visual builder, RAG + agents, non-technical users | Dify | All-in-one, observability out of the box |
-| .NET / Azure enterprise stack | Microsoft Agent Framework (MAF) | LTS, A2A + MCP, Semantic Kernel foundation |
-| Integration-heavy workflows, 400+ systems | n8n | Broadest connector library |
-| Single agent, HuggingFace models | Smolagents | Minimal, code-first, fast |
-| Multi-agent federation across org boundaries | Google ADK + A2A | Standard protocol, Linux Foundation governed |
+| Scenario | Recommended | Why |
+|---------|------------|-----|
+| Complex stateful enterprise workflows | LangGraph | Graph model, 34% enterprise market share |
+| No-code automation + AI | n8n | 400+ integrations, self-hostable |
+| LLM app factory + RAG | Dify | Visual builder, 1M+ apps in prod |
+| Role-based multi-agent | CrewAI | Simple mental model, 1,500+ deployments |
+| Autonomous coding/DevOps | OpenHands | 76k★, 72.8% SWE-Bench, enterprise RBAC |
+| Web automation layer | browser-use | 86k★, direct browser control |
+| Long-running durable workflows | Temporal | Automatic retry, 99.99% SLA |
+| Internal developer portal | Backstage | 3,400 companies, CNCF |
 
 ---
-*Auto-updated by ingest pipeline — 2026-07-06.*
+*Updated automatically by the ingest pipeline.*
