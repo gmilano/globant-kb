@@ -1,66 +1,177 @@
 # 🏭 Vertical Solutions — Media & Entertainment
 
-> Existing open platforms to customize with AI. Strategy: start with a functional system, add the agentic layer on top.
-> Last updated: 2026-07-06
+> Real platforms to start from — fork, extend with AI, deliver to clients.
+> Model: working platform + AI layer on top = faster delivery.
+> Last updated: 2026-07-07
 
-## Recommended Platforms
+## Video Platforms & CMS
 
-### Video & Media Streaming
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **MediaCMS** | AGPL-3.0 | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | Python/Django + React | Full-featured video CMS with REST API, transcoding, search | Auto-tagging, AI search, transcription via Whisper |
+| **PeerTube** | AGPL-3.0 | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | TypeScript + Vue | Federated YouTube alternative; ActivityPub; ~13k★ | Plugin AI subtitles, content moderation, recommendation |
+| **Owncast** | MIT | [owncast/owncast](https://github.com/owncast/owncast) | Go + React | Self-hosted live streaming + chat; single binary deployment | AI moderation, real-time transcription, automated clips |
 
-| Platform | License | Repo | Stack | Use Case |
-|----------|---------|------|-------|----------|
-| **Jellyfin** | GPL-2.0 | [jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | .NET, React | 40k+ stars; full-featured self-hosted media server for VOD streaming; no vendor lock; REST API for AI integration; metadata, transcoding, mobile clients included |
-| **PeerTube** | AGPL-3.0 | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | Node.js, Vue | Federated YouTube alternative; instances auto-federate via ActivityPub; used by universities, broadcasters, public media; plugin system for AI overlays |
-| **Owncast** | MIT | [owncast/owncast](https://github.com/owncast/owncast) | Go | Self-hosted live streaming + chat; OBS push → browser viewer; MIT = fully commercial; perfect base for branded live streaming with AI commentary/moderation |
-| **MediaCMS** | AGPL-3.0 | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | Python/Django, React | Full-featured video CMS + REST API; S3 storage; HLS adaptive streaming; search; ideal base for internal media portals with AI search/discovery layer |
-| **SRS (Simple Realtime Server)** | MIT | [ossrs/srs](https://github.com/ossrs/srs) | C++ | RTMP, WebRTC, HLS, SRT; real-time streaming engine; MIT; used in broadcast infrastructure; low-latency live events; AI can hook into ingest pipeline |
+## Radio & Audio Broadcasting
 
-### Digital Asset Management (DAM)
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **AzuraCast** | Apache-2.0 | [AzuraCast/AzuraCast](https://github.com/AzuraCast/AzuraCast) | PHP + Vue | Web radio: stations, playlists, DJ management, analytics; ~3.5k★ | AI playlist scheduling, genre classification, listener analytics |
+| **Liquidsoap** | MIT | [savonet/liquidsoap](https://github.com/savonet/liquidsoap) | OCaml + DSL | Scripted audio/video streaming language — backbone of many radio systems | AI-driven track selection, dynamic jingles, real-time SFX |
 
-| Platform | License | Repo | Stack | Use Case |
-|----------|---------|------|-------|----------|
-| **ResourceSpace** | BSD-style | [montala-limited/resourcespace](https://github.com/montala-limited/resourcespace) | PHP | Open source DAM; metadata, versioning, collections, access control; foundation for AI-powered asset tagging and retrieval |
-| **OpenMetadata** | Apache-2.0 | [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Java, Python | Unified metadata platform; use as backbone for cataloguing all media assets + AI lineage tracking |
+## Digital Asset Management (DAM)
 
-### Content Management & Publishing
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **ResourceSpace** | BSD | [resourcespace/resourcespace](https://github.com/resourcespace/resourcespace) | PHP + MySQL | Full DAM: metadata, versioning, permissions, search, video preview | AI metadata tagging, facial recognition, content similarity |
+| **AtroCore DAM** | Apache-2.0 | [atrocore/atrocore](https://github.com/atrocore/atrocore) | PHP | Free DAM with AI-ready plugin architecture | Auto-tagging, AI description generation |
 
-| Platform | License | Repo | Stack | Use Case |
-|----------|---------|------|-------|----------|
-| **Ghost** | MIT | [TryGhost/Ghost](https://github.com/TryGhost/Ghost) | Node.js | Professional publishing platform; built-in Members API; Webhook support; AI content generation pipelines integrate naturally via API |
-| **Strapi** | MIT† | [strapi/strapi](https://github.com/strapi/strapi) | Node.js | Headless CMS with REST + GraphQL API; ideal API layer for AI-powered content generation feeding to any frontend |
-| **Directus** | BSL | [directus/directus](https://github.com/directus/directus) | Node.js, Vue | Data platform + headless CMS; strong REST/GraphQL API; AI automation via Flows |
+## Content Management
 
-†Strapi Community Edition is MIT; Enterprise Edition is commercial.
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **Strapi** | MIT (Community) | [strapi/strapi](https://github.com/strapi/strapi) | Node.js | Headless CMS — API-first content management; ~65k★ | AI content enrichment, auto-categorization, editorial AI |
+| **Ghost** | MIT | [TryGhost/Ghost](https://github.com/TryGhost/Ghost) | Node.js | Publishing platform for newsletters + membership sites | AI writing assist, SEO optimization, newsletter personalization |
 
-### Broadcast & Playout
+## Integration Code Patterns
 
-| Platform | License | Repo | Stack | Use Case |
-|----------|---------|------|-------|----------|
-| **Restreamer** | Apache-2.0 | [datarhei/restreamer](https://github.com/datarhei/restreamer) | Node.js, Docker | Multi-destination live streaming; RTMP/SRT/HLS; AI scene detection hooks |
-| **Caspar CG** | GPL-3.0 | [CasparCG/server](https://github.com/CasparCG/server) | C++ | Professional broadcast playout server used in live TV; extensible with AI graphics generation |
+### Pattern A: MediaCMS + Whisper Auto-Captioning
+
+```python
+# Add to MediaCMS after video upload webhook
+import subprocess
+import httpx
+from faster_whisper import WhisperModel
+
+def auto_caption_on_upload(video_path: str, media_id: str):
+    model = WhisperModel("large-v3", device="cuda", compute_type="int8")
+    segments, info = model.transcribe(video_path, beam_size=5)
+    
+    # Build WebVTT
+    vtt_lines = ["WEBVTT", ""]
+    for i, seg in enumerate(segments):
+        start = format_timestamp(seg.start)
+        end = format_timestamp(seg.end)
+        vtt_lines.append(f"{i+1}")
+        vtt_lines.append(f"{start} --> {end}")
+        vtt_lines.append(seg.text.strip())
+        vtt_lines.append("")
+    
+    vtt_content = "\n".join(vtt_lines)
+    
+    # POST to MediaCMS subtitle API
+    httpx.post(
+        f"https://your-mediacms.com/api/v1/media/{media_id}/subtitles/",
+        headers={"Authorization": "Token your-api-token"},
+        json={"language": "en", "subtitles_file": vtt_content}
+    )
+
+def format_timestamp(seconds: float) -> str:
+    h = int(seconds // 3600)
+    m = int((seconds % 3600) // 60)
+    s = seconds % 60
+    return f"{h:02d}:{m:02d}:{s:06.3f}"
+```
+
+### Pattern B: AzuraCast + Claude AI Playlist Curation
+
+```python
+import anthropic
+import httpx
+
+def ai_curate_playlist(station_id: str, mood: str, duration_minutes: int):
+    """Use Claude to curate a radio playlist based on mood and available tracks."""
+    
+    # Fetch available tracks from AzuraCast
+    tracks = httpx.get(
+        f"https://your-azuracast.com/api/station/{station_id}/files",
+        headers={"X-API-Key": "your-api-key"}
+    ).json()
+    
+    track_list = [f"{t['title']} by {t['artist']} ({t['length']}s)" 
+                  for t in tracks[:200]]
+    
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": f"""Select tracks for a {duration_minutes}-minute {mood} radio set.
+Available tracks:
+{chr(10).join(track_list)}
+
+Return a JSON array of track titles in order, fitting within {duration_minutes} minutes total.
+Ensure good flow and variety."""
+        }]
+    )
+    
+    # Parse and schedule the playlist
+    import json
+    selected = json.loads(response.content[0].text)
+    
+    # POST playlist to AzuraCast
+    httpx.post(
+        f"https://your-azuracast.com/api/station/{station_id}/playlists",
+        headers={"X-API-Key": "your-api-key"},
+        json={"name": f"AI {mood} Set", "tracks": selected}
+    )
+    
+    return selected
+```
+
+### Pattern C: PeerTube Plugin — AI Content Moderation
+
+```javascript
+// PeerTube plugin: ai-content-moderator
+// plugins/peertube-plugin-ai-moderator/main.js
+
+async function register({ registerHook, peertubeHelpers, settingsManager }) {
+  // Hook into video upload
+  registerHook({
+    target: 'action:api.video.updated',
+    handler: async ({ video }) => {
+      if (video.state !== 'published') return;
+      
+      const apiKey = await settingsManager.getSetting('anthropic-api-key');
+      
+      // Get transcript via Whisper API call
+      const transcript = await transcribeVideo(video.streamingPlaylists[0]);
+      
+      // Moderate with Claude
+      const Anthropic = require('@anthropic-ai/sdk');
+      const client = new Anthropic({ apiKey });
+      
+      const result = await client.messages.create({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 256,
+        messages: [{
+          role: 'user',
+          content: `Review this video transcript for policy violations. 
+Reply with JSON: {"safe": boolean, "reason": "string", "confidence": 0-1}
+Transcript: ${transcript.slice(0, 2000)}`
+        }]
+      });
+      
+      const moderation = JSON.parse(result.content[0].text);
+      
+      if (!moderation.safe && moderation.confidence > 0.85) {
+        // Flag for human review
+        await peertubeHelpers.videos.blacklistVideo({ videoId: video.id, reason: moderation.reason });
+      }
+    }
+  });
+}
+```
+
+## LATAM-Specific Platforms
+
+| Country | Platform | License | Description |
+|---------|----------|---------|-------------|
+| Brazil | TV Cultura OSS stack | Mixed | Public broadcaster using open-source playout |
+| Argentina | Televisión Pública (Plex-based) | Proprietary | National platform modernizing with AI subtitles |
+| Mexico | Canal Once digital stack | In-house | First Mexican broadcaster deploying AI transcription |
+| Regional | FAST platform builders | Apache | LATAM FAST is $152M+; open tools for free ad-supported tier |
 
 ---
-
-## How to Add AI on Top
-
-```
-[Open Platform (Jellyfin / PeerTube / MediaCMS / Ghost)]
-          ↓ REST API / Webhook / Plugin hook
-[AI Integration Layer (LangGraph agent / FastAPI adapter)]
-          ↓
-[Specialized Media AI Tools]
-   ├── Transcription: openai/whisper + whisper.cpp
-   ├── Video Generation: Wan2.1 / CogVideoX / Open-Sora
-   ├── Audio: AudioCraft / Demucs / Bark
-   ├── Image: InvokeAI / AUTOMATIC1111 / MediaPipe
-   └── Search: Weaviate / Qdrant + CLIP embeddings
-          ↓
-[Conversational UI / API exposed to client]
-```
-
-### Key integration points per platform:
-- **Jellyfin**: Plugin API → auto-tag assets with CLIP; AI-powered search via Weaviate
-- **PeerTube**: Webhook on video upload → auto-transcribe (Whisper) → auto-translate subtitles → auto-thumbnail
-- **Owncast**: Stream chat → AI moderation → real-time overlay generation
-- **MediaCMS**: REST API → batch AI metadata enrichment for existing asset library
-- **Ghost**: Content API + Webhooks → LLM draft generation + SEO optimization agent
+*Globant approach: start from a working vertical platform, add AI layer on top. 2-4 week to working PoC.*

@@ -1,42 +1,64 @@
 # 🏗️ Foundational Repos — Media & Entertainment
 
-> Build-on-top foundations: active communities, open licenses, production-proven.
-> Last updated: 2026-07-06
+> Core repositories to build on. Open licenses. Active communities.
+> Last updated: 2026-07-07
 
-## Core AI Model Foundations
+## Speech & Transcription
 
-| Repo | License | Stars | Description | Why foundational |
-|------|---------|-------|-------------|------------------|
-| [openai/whisper](https://github.com/openai/whisper) | MIT | 104k+ | Multilingual ASR — 680k hrs training; 99-language transcription + translation | Standard for subtitling, dubbing, accessibility, live captioning — every media pipeline needs this |
-| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | 51k+ | Whisper in C/C++ with CUDA/Metal/Vulkan; quantized; real-time on consumer HW | Production deployment layer for whisper — integrates into broadcast and mobile workflows |
-| [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | 24k+ | Open video generation (11B); T2V + I2V; full training code + checkpoints; ~$200K training cost | Only fully open video model with training code — enables fine-tuning on proprietary content |
-| [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | 18k+ | Alibaba Tongyi MoE; 1.3B (8GB VRAM) + 14B (24GB); T2V + I2V; Apache commercial | Best open T2V for consumer GPU deployments; Wan 2.2 is 30% faster at 720p |
-| [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | 12.5k | Zhipu AI; 2B + 5B variants; native HF Diffusers; best multi-clause prompt following | Diffusers-native = easiest integration into existing ML pipelines; CogKit for fine-tuning |
+| Repo | License | Stars | Description | AI-Ready |
+|------|---------|-------|-------------|----------|
+| [openai/whisper](https://github.com/openai/whisper) | MIT | ~104k | Robust multilingual ASR via large-scale weak supervision — 99 languages, 680k hours training data | Yes — best accuracy |
+| [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper) | MIT | ~15k | CTranslate2 reimplementation: 4× faster, INT8 quantization, production-ready | Yes — default for prod |
+| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | ~51k | C/C++ port — runs on RPi, mobile, edge; no Python dep | Yes — edge/IoT |
+| [m-bain/whisperX](https://github.com/m-bain/whisperX) | BSD-2 | ~13k | Word-level timestamps + speaker diarization — closed captions, forensics | Yes — captions/subtitles |
 
-## Media Infrastructure Foundations
+## Audio Generation & Processing
 
-| Repo | License | Stars | Description | Why foundational |
-|------|---------|-------|-------------|------------------|
-| [jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | GPL-2.0 | 40k+ | Free Software Media System; no-vendor-lock media server; 1,100+ contributors | Largest fully open media server — streaming backbone for internal content platforms |
-| [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) | AGPL-3.0 | 145k+ | Leading open image generation UI; API mode; ControlNet, LoRA, fine-tuning ecosystem | Industry-standard for concept art, storyboarding, marketing assets, thumbnail generation at scale |
-| [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | 27.5k | Professional creative engine for SD models; Node-based workflow builder; API-first | Apache-2.0 (vs AGPL) makes it the preferred commercial-safe alternative to A1111 |
-| [google-ai-edge/mediapipe](https://github.com/google-ai-edge/mediapipe) | Apache-2.0 | 28k+ | Cross-platform ML for face detection, pose, object tracking, hand tracking | AR/VR content tools, broadcast overlays, interactive media — base layer for real-time CV |
+| Repo | License | Stars | Description | AI-Ready |
+|------|---------|-------|-------------|----------|
+| [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT* | ~22k | MusicGen (text→music), AudioGen (text→SFX), EnCodec tokenizer. *models CC-BY-NC | Yes — BGM/SFX generation |
+| [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | ~9k | Hybrid Transformer Demucs v4: drums/bass/vocals/other separation, 9.20 dB SDR | Yes — stem separation |
+| [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Python audio effects library — VST3/AU support, 300× faster than other libs | Yes — audio ML pipeline |
+| [coqui-ai/TTS](https://github.com/coqui-ai/TTS) | MPL-2.0 | ~36k | Deep learning TTS: 1100+ models, voice cloning, multilingual (incl. Spanish/Portuguese) | Yes — broadcast voiceover |
 
-## Audio/Music Foundations
+## Video Generation
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | 9k+ | Music source separation (vocals/drums/bass/other); v4 Hybrid Transformer |
-| [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT | 22k+ | Meta's audio generation: MusicGen (text-to-music) + AudioGen (text-to-sound) + EnCodec |
-| [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | 36k+ | Text-to-audio: speech + music + sound effects; multilingual; AI voiceover/dubbing |
+| Repo | License | Stars | Description | AI-Ready |
+|------|---------|-------|-------------|----------|
+| [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | ~12.5k | CogVideoX-1.5/5B text/image-to-video — best developer experience in class | Yes — enterprise-safe |
+| [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache-2.0 | ~6k | Real-time video gen at 30fps/1216×704 — faster than real-time on A100 | Yes — interactive apps |
+| [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | ~12k | MoE video model: image conditioning, 24GB GPU deployment, Wan 2.2 update | Yes — Apache-safe |
+| [vita-epfl/Stable-Video-Infinity](https://github.com/vita-epfl/Stable-Video-Infinity) | Apache-2.0 | ~2k | ICLR 2026 Oral — infinite-length generation with error recycling | Yes — long-form content |
+| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | ~75k | Node-based GUI for all diffusion models; every major 2026 video model has ComfyUI nodes | Yes (backend API usable) |
 
-## Live Broadcast & Real-Time AI
+## Media Distribution & Streaming
 
-| Repo | License | Stars | Description | Why foundational |
-|------|---------|-------|-------------|------------------|
-| [TEN-framework/TEN-Agent](https://github.com/TEN-framework/TEN-Agent) | Apache-2.0 | 10.8k | Real-time multimodal voice AI agent framework; <100ms latency; voice/video/text; Docker; extensions in Python/TS/Go/C++/Rust | The missing layer for live broadcast AI — AI co-hosts, sports commentary, real-time translation |
-| [Zulko/moviepy](https://github.com/Zulko/moviepy) | MIT | 14.8k | Python library for programmatic video editing: cuts, concatenations, compositing, effects, title insertion | The scripting glue that assembles AI-generated clips into deliverable productions |
-| [ossrs/srs](https://github.com/ossrs/srs) | MIT | 25k+ | Simple Realtime Server — RTMP, WebRTC, HLS, SRT; real-time streaming engine; low-latency live events | Live streaming backbone; AI hooks at ingest for real-time processing |
+| Repo | License | Stars | Description | AI-Ready |
+|------|---------|-------|-------------|----------|
+| [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | AGPL-3.0 | ~13k | ActivityPub-federated video platform — YouTube alternative, REST API | Plugin AI caption/search |
+| [owncast/owncast](https://github.com/owncast/owncast) | MIT | ~9.5k | Self-hosted live streaming + chat server (Go backend, React frontend) | Yes — AI moderation hooks |
+| [AzuraCast/AzuraCast](https://github.com/AzuraCast/AzuraCast) | Apache-2.0 | ~3.5k | Web radio management suite — stations, playlists, DJ accounts, analytics | AI playlist scheduling |
+| [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | ~3.2k | Full-featured video & media CMS (Python/Django + React) with REST API | AI search, auto-tagging |
+
+## Broadcast & Infrastructure
+
+| Repo | License | Stars | Description | AI-Ready |
+|------|---------|-------|-------------|----------|
+| [ebu/awesome-broadcasting](https://github.com/ebu/awesome-broadcasting) | Various | ~1.5k | EBU curated list of open source broadcast tech: playout, encoding, monitoring | Reference list |
+| [SYSTRAN/CTranslate2](https://github.com/OpenNMT/CTranslate2) | MIT | ~4k | Fast Transformer inference engine — powers faster-whisper; INT8/FP16 on CPU+GPU | Yes — inference infra |
+
+## AI-Readiness Matrix
+
+| Category | Best Pick (Apache/MIT) | Why |
+|----------|----------------------|-----|
+| Transcription / captions | SYSTRAN/faster-whisper | 4× faster, INT8, MIT license |
+| Music generation | facebookresearch/audiocraft | Industry standard, MIT code |
+| Source separation | facebookresearch/demucs | Best SDR, MIT, Python |
+| Video generation | THUDM/CogVideo | Apache-2.0, best docs, 12.5k★ |
+| Long-form video | vita-epfl/Stable-Video-Infinity | ICLR Oral, Apache-2.0 |
+| Live streaming | owncast/owncast | MIT, Go, single binary |
+| Radio automation | AzuraCast/AzuraCast | Apache-2.0, full stack |
+| Video CMS | mediacms-io/mediacms | Most actively maintained |
 
 ---
-*See also: `verticals/solutions.md` for full vertical platforms to build on top of.*
+*See also: `verticals/solutions.md` for complete vertical platforms.*

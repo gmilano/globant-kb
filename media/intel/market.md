@@ -1,70 +1,88 @@
 # 🗺️ Market Map — Media & Entertainment AI
 
-> Key players, market size, LATAM opportunities, Globant positioning.
-> Last updated: 2026-07-06
+> Global players, market data, LATAM opportunities. Updated: 2026-07-07
 
-## Market Size
+## Global Market Size
 
-| Metric | Value |
-|--------|-------|
-| AI in M&E market (2024) | $25.98 billion |
-| AI in M&E market (2030) | $99.48 billion |
-| CAGR 2024-2030 | **24.2%** |
-| Content personalization share | 27.4% of AI segment revenue |
-| Projected AI production cost savings | Up to 30% for TV/film |
-| VFX/3D efficiency gains (exec survey) | 80–90% expected |
-| Agentic AI in content creation (2030) | 35.9% of agentic market |
-| GenAI in M&E (2026) | $2.8 billion |
-| GenAI in M&E (2035) | $21.2 billion |
-| GenAI in M&E CAGR 2026–2035 | 25.2% |
-| AI video ad spend (2026) | $9.1 billion globally (~12% of digital video) |
-| Ad buyers using GenAI (2026) | 78% (vs 62% in 2025) |
+| Metric | 2025 | 2026 | 2030 | CAGR | Source |
+|--------|------|------|------|------|--------|
+| AI in Media & Entertainment | $28.32B | $35.77B | $99.48B | 24.2% | Grand View Research |
+| AI Video Generation | $1.8B | $2.5B | $8.4B | 36.2% | Coherent Market Insights |
+| AI Audio/Speech (Media) | $3.2B | $4.1B | $12B | ~28% | Multiple |
+| Global E&M total advertising | ~$420B | ~$453B | $1.4T | 6.9% (US) | PwC Outlook 2026 |
+| Monthly active AI video users | — | 124M+ | — | — | Industry reports |
 
-*Sources: AlixPartners 2026 M&E Predictions; EY 2026 M&E Trends; McKinsey Tech Forward; Precedence Research; AVB 2026*
+## LATAM Media Market
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| LATAM total media revenues 2026 | **$65B** | Omdia forecast; +10.7% YoY — outpaces US (6.9%) |
+| Brazil FAST revenue | **$152M** | 3rd largest FAST market globally (behind US + UK) |
+| Brazil streaming users | Top 3 global | 97% adults 18-64 reach via YouTube |
+| Mexico FAST usage | 53% of internet users | Highest FAST penetration globally |
+| Brazil FAST usage | 40% | Second highest globally |
+| Netflix LATAM market share | ~50% | Dominant streaming position |
+| Key growth drivers | Mobile-first content, FAST, microdramas | Short-form serial content booming |
+
+## Country Intelligence
+
+| Country | Media Market Size | AI Readiness | Key Opportunity |
+|---------|-----------------|--------------|-----------------|
+| **Brazil** | $22B+ (largest LATAM) | High | FAST platform AI, Portuguese TTS/ASR, Globo AI partnership track |
+| **Mexico** | $14B+ | High | Telenovela AI production, Televisa/Univision digital transformation |
+| **Argentina** | $5B | Medium | Streaming localization, AI subtitling for content export |
+| **Colombia** | $3.5B | Medium | RCN/Caracol digital AI transformation |
+| **Chile** | $2.8B | High | Regional OTT platform AI features |
+| **Peru** | $1.8B | Low-Medium | Emerging FAST market, mobile-first |
+
+## Global Players & OSS Contributions
+
+| Company | AI Product | OSS Contribution | Weakness |
+|---------|-----------|-----------------|----------|
+| **OpenAI** | Whisper ASR, Sora (closed) | openai/whisper (MIT ★104k) | Video gen closed-source |
+| **Meta/Facebook Research** | AudioCraft, Demucs | facebookresearch/audiocraft, demucs | Models CC-BY-NC |
+| **Stability AI** | Stable Video Diffusion | SVD, AnimateDiff | Financial struggles |
+| **Tsinghua THUDM** | CogVideoX | THUDM/CogVideo (Apache-2.0 ★12.5k) | Academic, not enterprise-supported |
+| **Lightricks** | LTX-Video | Lightricks/LTX-Video (Apache-2.0 ★6k) | Startup-scale support |
+| **Wan Video** | Wan 2.2 | Wan-Video/Wan2.1 (Apache-2.0 ★12k) | Limited English docs |
+| **Runway** | Gen-3 (closed) | None | No OSS path |
+| **EBU** | Tech R&D | ebu/awesome-broadcasting | Standards org only |
+| **Spotify** | AI DJ, AI Voice Translation | spotify/pedalboard (GPL-3.0 ★5.5k) | GPL license |
+| **SYSTRAN** | Translation/ASR | SYSTRAN/faster-whisper (MIT ★15k) | Niche positioning |
+
+## AI Adoption in Media (2026)
+
+| Application | Adoption | Growth | Notes |
+|-------------|----------|--------|-------|
+| Auto-captioning / subtitles | ~60% of broadcasters | Mature | Regulation-driven (ADA, EU accessibility) |
+| AI-assisted video editing | ~35% | High | Accelerating with agent tools |
+| Synthetic voiceover / TTS | ~25% | High | Cost savings vs human VO |
+| Music/SFX generation | ~15% | Very high | License cost avoidance |
+| AI-generated short video | ~20% | Explosive | Social/FAST content at scale |
+| Content recommendation AI | ~80% | Mature | Netflix, Spotify pioneered; now standard |
+| Automated transcription | ~75% of podcasts | Mature | Whisper ecosystem |
+
+## Globant Win Zones
+
+| Opportunity | Client Type | Value Prop | Time to PoC |
+|-------------|-------------|------------|-------------|
+| **AI Auto-Captioning Pipeline** | Broadcaster, OTT | ADA/EU compliance + cost reduction vs manual | 2-3 weeks |
+| **Agentic Short-Form Content Factory** | Social media, FAST | 10-100× content volume with AI production | 4-6 weeks |
+| **Music Source Separation Service** | Music labels, sync | Demucs stems for licensing/remixing | 2-3 weeks |
+| **LATAM Localization AI** | Studios, streaming | Portuguese/Spanish TTS+ASR for LATAM expansion | 3-4 weeks |
+| **DAM AI Enrichment** | Networks, production cos | Auto-tagging, AI search for large archives | 4-6 weeks |
+| **AI Radio Automation** | Radio stations | AI playlist curation, automated DJ scripts | 3-4 weeks |
+
+## Proprietary vs. Open Source Landscape
+
+| Capability | Proprietary Leader | Best OSS Alternative | License |
+|------------|-------------------|---------------------|---------|
+| Video generation | Runway Gen-3, Sora | CogVideoX, Wan 2.2, LTX-Video | Apache-2.0 |
+| Speech recognition | AWS Transcribe, Deepgram | openai/whisper, faster-whisper | MIT |
+| Music generation | Suno, Udio | AudioCraft/MusicGen | MIT (code) |
+| Voice cloning | ElevenLabs | Coqui TTS, WhisperSpeech | MPL / MIT |
+| Source separation | Splice Stem Player | Demucs | MIT |
+| Streaming platform | YouTube, Twitch | PeerTube, Owncast | AGPL, MIT |
 
 ---
-
-## Key Players (Global)
-
-| Player | Type | AI Strength | Open-Source Play |
-|--------|------|-------------|------------------|
-| **Adobe** | Creative tools | Firefly generative AI embedded in Premiere, After Effects, Photoshop | Proprietary; Firefly API is partner-tier |
-| **Google / YouTube** | Platform + infra | VideoFX, Lumiere, MusicFX; YouTube AI content moderation at scale | MediaPipe (Apache-2.0) is their OSS contribution; Gemini API |
-| **Meta / Instagram** | Social + AI | Segment Anything (SAM), Demucs, AudioCraft all open-sourced | Strongest OSS contributor in media AI; MIT/Apache licenses |
-| **Netflix** | OTT + AI R&D | AI dubbing (29 languages), personalization engine, thumbnail A/B | Mostly proprietary; some OSS tools (conductor, atlas) |
-| **Tencent** | Video platform + AI | HunyuanVideo, massive video infra | HunyuanVideo 1.5 → Apache-2.0 June 2026 |
-| **Alibaba / Tongyi** | Video AI | Wan 2.1/2.2 — best open T2V; Tongyi Wanx image gen | Wan-Video/Wan2.1 Apache-2.0; strongest open media model |
-| **Runway ML** | AI video tools | Gen-3 proprietary leader; competitive moat narrowing as OSS closes gap | No OSS; reference implementation for what to build against |
-| **OpenAI** | Foundation models | Sora (not yet released publicly), Whisper (MIT), DALL·E (proprietary) | Whisper MIT is a massive gift to the media industry |
-| **Stability AI** | Image/video gen | Stable Diffusion family; declining but still important model ecosystem | SD models open (RAIL license); community ecosystem is huge |
-| **ElevenLabs** | Voice synthesis | Leading commercial TTS; AI dubbing; used by Netflix/Amazon | Proprietary; Bark (suno-ai) is the OSS alternative |
-
----
-
-## LATAM Opportunities
-
-### High-Potential Areas
-
-| Opportunity | Why Now | Open Stack Available |
-|-------------|---------|---------------------|
-| **Spanish/Portuguese AI dubbing** | Netflix + Prime spending billions on LATAM originals; dubbing costs $50-200K/episode | Whisper + Bark + LongCat lip sync + PeerTube |
-| **Live sports AI commentary** | Brazil, Argentina, Mexico = massive live sports; AI co-commentator, real-time stats overlay | Whisper.cpp + MediaPipe + TEN-Agent + Owncast + LangGraph |
-| **Short-form video for social** | TikTok/Reels dominate LATAM; AI-assisted creation is the efficiency play | Wan 2.2 + ViMax + Demucs for audio remix |
-| **News automation / fact-checking** | Disinformation is crisis-level in LATAM; AI verification + AI news publishing pipelines | Ghost + LangGraph + fact-check agents |
-| **Broadcaster tech modernization** | Legacy broadcast infrastructure; Globant has M&E vertical clients | CasparCG + AI graphics + SRS live infra |
-| **Creator economy tools** | 50M+ creator economy in LATAM growing fast; self-hosted alternatives to expensive SaaS | Open-Generative-AI + Jellyfin + InvokeAI |
-
-### Key Clients Globant Can Target
-- **Streaming platforms** (local/regional OTT wanting AI content tools)
-- **Broadcasters** (TV networks modernizing with AI overlays, AI dubbing)
-- **Sports media** (Copa Libertadores, F1 LATAM rights holders)
-- **News organizations** (automated publishing, moderation)
-- **Content studios** (production cost reduction with AI tools)
-
----
-
-## Globant Positioning
-
-**Differentiated value:** Globant can act as the "AI studio integration layer" — taking open-source foundations (Whisper, Wan2.1, ViMax, Jellyfin, TEN-Agent) and building production-grade agentic pipelines on top for M&E clients who can't do this themselves. The OSS stack is free; the value is in the integration, customization, and domain expertise.
-
-**Competitive angle:** Traditional consultancies offer proprietary AI tools at premium cost. Globant + OSS = same quality at lower cost with no vendor lock — a compelling pitch to LATAM M&E clients with tighter budgets.
+*Data sources: Omdia Jan 2026, Grand View Research, Coherent Market Insights, PwC Outlook 2026.*
