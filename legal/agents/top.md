@@ -1,45 +1,44 @@
-# Agentes AI — Legal Services
+# 🎯 Agentes AI — Legal
 
-> Agentes y herramientas AI open source para la industria legal. Foco: MIT / Apache 2.0 / AGPL.
-> Última actualización: 2026-07-06
+> Agentes y herramientas AI open source para la industria legal. Foco: MIT / Apache 2.0.
+> Última actualización: 2026-07-07
 
 ## Agentes y herramientas destacadas
 
-| Nombre | Licencia | Repo | Stars | Descripción |
-|--------|----------|------|-------|-------------|
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Open-Source-Legal/OpenContracts | ~1.4k | Document intelligence platform para el mundo agéntico: MCP server integrado, GraphQL + REST API, anotación humana, extracción estructurada, y semantic search sobre repositorios de contratos. Base ideal para agentes de revisión contractual. |
-| [Mike OSS](https://github.com/willchen96/mike) | AGPL-3.0 | willchen96/mike | ~2.2k | Plataforma legal AI open source construida por ex-Latham & Watkins como alternativa a Harvey y Legora. Full-stack: research, drafting, review, con tu propia API key. 1k★ en 72h de lanzamiento (mayo 2026). |
-| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | AnttiHero/lavern | ~267 | "Tu despacho agéntico". 67 agentes especialistas que revisan documentos mediante debate con evidencias, human gates obligatorios y loop de verificación de 10 pasadas. |
-| [DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | FudanDISC/DISC-LawLLM | ~937 | Sistema legal inteligente basado en LLM (Fudan + Inspur + China University of Political Science). Fine-tuned en corpus judicial chino masivo. Arquitectura base para vertical jurídica. |
-| [Blackstone](https://github.com/ICLRandD/Blackstone) | Apache-2.0 | ICLRandD/Blackstone | ~691 | Pipeline spaCy + modelo para NLP en texto legal no estructurado (UK common law). Identifica spans como CASENAME, LEGIS, CITATION, COURT, JUDGE. Producción en firmas del Reino Unido. |
-| [LexNLP](https://github.com/LexPredict/lexpredict-lexnlp) | AGPL-3.0 | LexPredict/lexpredict-lexnlp | ~790 | Extracción NLP sobre texto legal y regulatorio: fechas, partes, montos, entidades geopolíticas, definiciones, citas legales. Base de ContraxSuite. Dual-licensing disponible. |
-| [LegalBench](https://github.com/HazyResearch/legalbench) | MIT | HazyResearch/legalbench | ~600 | Benchmark colaborativo (Stanford/Cornell) con 90+ tasks para evaluar razonamiento legal en LLMs. Usado para seleccionar modelos base en proyectos legales. |
-| [LexGLUE](https://github.com/coastalcph/lex-glue) | MIT | coastalcph/lex-glue | ~400 | Benchmark de comprensión legal en inglés: ECtHR, SCOTUS, EUR-LEX, LEDGAR, UNFAIR-ToS, CaseHOLD. Integrado con Hugging Face Datasets. Referencia de evaluación. |
-| [lawglance](https://github.com/lawglance/lawglance) | MIT | lawglance/lawglance | ~50 | AI legal assistant basado en RAG (Redis + vector DB). Respuestas legales rápidas sobre corpus indexado. Arquitectura simple para productizar asesoramiento legal básico. |
-| [awesome-legal-nlp](https://github.com/maastrichtlawtech/awesome-legal-nlp) | MIT | maastrichtlawtech/awesome-legal-nlp | ~331 | Curated list de recursos LegalNLP: datasets, modelos, papers, herramientas. Punto de entrada para investigar el stack técnico legal. |
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | ~1.4k | Document intelligence platform with programmable citation graph, human annotation, structured extraction, AI agents, and built-in MCP server at /mcp/. Self-hosted DMS for the agentic world. Ships /llms.txt and /.well-known/mcp.json. |
+| [willchen96/mike](https://github.com/willchen96/mike) | AGPL-3.0 | ~2.2k | Open-source Harvey/Legora alternative built by former Latham & Watkins associate Will Chen. Document-aware chat for contracts, tabular extraction across hundreds of docs, Claude+Gemini API backends. 2.2k★ + 614 forks in first week (May 2026). |
+| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | ~400 | Agentic law firm: 67 specialist AI agents (59 specialists, 7 orchestrators, 1 base) reviewing documents through evidence-backed debate. 10-pass verification loop, mandatory human gates. 155k+ lines of code. Claude/Mistral backends. |
+| [FudanDISC/DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | ~937 | Chinese legal LLM fine-tuned from Baichuan-13B on judicial corpora. Multi-turn legal consultation, court case retrieval, examination assistance. LawBench SOTA for Chinese law. |
+| [ICLRandD/Blackstone](https://github.com/ICLRandD/Blackstone) | Apache-2.0 | ~691 | spaCy NLP pipeline and models for unstructured English legal text: named entity recognition (cases, courts, dates, instruments, judges, locations, organisations), sentence segmentation aware of legal abbreviations. |
+| [LexPredict/lexpredict-lexnlp](https://github.com/LexPredict/lexpredict-lexnlp) | AGPL-3.0 | ~790 | Legal NLP library powering ContraxSuite: extracts 18+ entity types (dates, amounts, durations, geoentities, parties, definitions, conditions, terminations, regulations), pre-trained legal word embeddings. Python. |
+| [HazyResearch/legalbench](https://github.com/HazyResearch/legalbench) | MIT | ~620 | 162-task benchmark suite for evaluating LLM legal reasoning: contract NLI, statutory reasoning, CUAD issue spotting, privacy policy, international law. Gold standard for legal LLM evaluation. |
+| [coastalcph/lex-glue](https://github.com/coastalcph/lex-glue) | MIT | ~410 | LexGLUE benchmark for legal language understanding: 7 classification tasks (ECtHR, EURLEX, SCOTUS, LEDGAR, UNFAIR-ToS, CaseHOLD). Multi-task fine-tuning baselines for BERT/RoBERTa/Longformer. |
+| [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | MIT | ~355 | Claude Code skill for AI-powered contract review: CUAD-based risk detection, market benchmark scoring, lawyer-ready redlines. Works with Claude Code, Codex, Cursor. |
+| [maastrichtlawtech/awesome-legal-nlp](https://github.com/maastrichtlawtech/awesome-legal-nlp) | MIT | ~331 | Curated list of Legal NLP resources: datasets (CUAD, LEDGAR, CaseHOLD, ContractNLI, MultiLexSum), models, papers, tools, benchmarks. Maintained by Maastricht Law Tech. |
 
 ---
 
-## Herramientas MCP para jurisdicciones específicas
+## MCP Servers para Legal AI
 
-| MCP Server | Jurisdicción | Descripción |
-|------------|-------------|-------------|
-| Korean Law MCP | Korea | 17 tools sobre 41 APIs legales gubernamentales coreanas, verificación de citas, diff temporal |
-| ayunis-legal-mcp | Alemania | Expone códigos legales alemanes vía MCP |
-| Pasal MCP | Indonesia | 40k+ regulaciones indonesias con acceso grounded para agentes |
-| MCP Taiwan Legal DB | Taiwan | Sentencias del Judicial Yuan + base nacional de estatutos |
-| Yargı MCP | Turquía | Bases de datos legales turcas vía MCP |
+| Servidor | Licencia | Descripción |
+|----------|----------|--------------|
+| [OpenContracts /mcp/](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Corpus management, document search, annotation queries, citation graph traversal |
+| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | MIT | Comprehensive MCP server for legal workflows: contract analysis, clause extraction, compliance checks |
+| [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | USPTO Final Petition Decisions: high-performance patent analysis with context reduction |
 
 ---
 
-## Datasets y benchmarks para fine-tuning
+## Datasets clave
 
-| Dataset | Licencia | Descripción |
-|---------|----------|-------------|
-| CUAD (Contract Understanding Atticus Dataset) | CC-BY-4.0 | 510 contratos, 41 categorías de cláusulas anotadas por abogados. Gold standard para contract review. |
-| LEDGAR | CC-BY | 100k+ cláusulas contractuales de SEC EDGAR clasificadas en 100 tipos. |
-| EUR-LEX | CC-BY | Legislación EU anotada para clasificación multilingüe. |
-| CaseHOLD | CC-BY | 53k+ citas legales de US Federal Courts para QA de precedentes. |
+| Dataset | Tamaño | Tarea | Licencia |
+|---------|--------|-------|----------|
+| CUAD (Contract Understanding Atticus Dataset) | 510 contratos, 13k+ anotaciones | Clause extraction, risk detection | CC BY 4.0 |
+| LEDGAR | 850k+ cláusulas | Clause classification | CC BY 4.0 |
+| CaseHOLD | 53k+ citas | Legal holding prediction | CC BY 4.0 |
+| MultiLexSum | 41k+ documentos | Legal summarization | CC BY 4.0 |
+| ContractNLI | 607 contratos | NLI on contracts | Research |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest. Segunda pasada: 2026-07-06.*
+*Actualizado automáticamente por el pipeline de ingest.*

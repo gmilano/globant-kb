@@ -1,323 +1,452 @@
-# Patrones de composición — Legal Services AI
+# 🧩 Patrones de composición — Legal Services
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Actualización: 2026-07-06
+> Última actualización: 2026-07-07
 
 ---
 
-## Stack base recomendado
+## Arquitectura base
 
 ```
-[Plataforma vertical: OpenContracts / OpenLawOffice / SuiteCRM]
+[Plataforma vertical base (OpenContracts / OpenLawOffice / ArkCase)]
           ↓
-[Ingesta de documentos: PDF, DOCX, emails → chunks]
+[Capa de integración AI (lavern / mike / claude-legal-skill)]
           ↓
-[NLP pre-processing: LexNLP / Blackstone → entidades, fechas, partes]
+[Agentes especializados (Blackstone NER / LexNLP / LegalBench eval)]
           ↓
-[Vector DB: Qdrant / pgvector / Chroma → embeddings]
-          ↓
-[Agente: Claude API (claude-sonnet-5) + MCP server OpenContracts]
-          ↓
-[Verificación: citation check + human gate (patrón lavern)]
-          ↓
-[UI: chat sobre plataforma base ó API para integración]
+[UI conversacional / MCP server / API para el cliente]
 ```
 
 ---
 
-## Patrón 1: Contract Review Agent (4-6 semanas)
+## Patrón 1: Contract Review Agent con CUAD Risk Detection
 
-**Objetivo**: Automatizar primera pasada de revisión contractual — identificar cláusulas problemáticas, sugerir lenguaje alternativo, generar reporte de riesgo.
+**Repos:** [lavern](https://github.com/AnttiHero/lavern) + [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) + Claude Haiku  
+**Licencias:** Apache-2.0 + MIT — libre para productos comerciales  
+**Tiempo:** 2-3 semanas  
+**Costo operativo:** ~$0.002/contrato (Claude Haiku)
 
-**Repos**:
-- [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS + MCP server + citation graph
-- [lowtidebuild/contract-review-agent](https://github.com/lowtidebuild/contract-review-agent) — agente local-first de revisión
-- LexNLP — pre-processing de entidades y cláusulas
-- CUAD dataset — fine-tuning o few-shot examples para detección de cláusulas
-
-**Wiring**:
+**Caso de uso:** Revisión automática de contratos (NDAs, acuerdos de servicios, contratos laborales) con detección de cláusulas de riesgo CUAD y generación de redlines.
 
 ```python
 import anthropic
-from opencontracts_mcp import OpenContractsMCPClient
+import json
+from pathlib import Path
 
 client = anthropic.Anthropic()
-mcp = OpenContractsMCPClient(base_url="http://localhost:8000")
 
-# 1. Subir contrato a OpenContracts (indexa + vectoriza automáticamente)
-doc_id = mcp.upload_document("contrato_proveedor.pdf")
+CUAD_RISK_CATEGORIES = [
+    "Limitation of Liability", "IP Ownership Assignment", "Auto-Renewal",
+    "Non-Compete", "Non-Solicitation", "Change of Control",
+    "Termination for Convenience", "Governing Law", "Warranty Duration",
+    "Price Restrictions", "Minimum Commitment", "Indemnification"
+]
 
-# 2. Obtener annotation graph del contrato
-annotations = mcp.get_annotations(doc_id)
+def review_contract(contract_text: str, contract_type: str = "NDA") -> dict:
+    tools = [
+        {
+            "name": "report_contract_analysis",
+            "description": "Report the complete contract analysis with risks and redlines",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "risk_score": {
+                        "type": "integer",
+                        "description": "Overall risk score 1-10 (10 = highest risk)",
+                        "minimum": 1, "maximum": 10
+                    },
+                    "verdict": {
+                        "type": "string",
+                        "enum": ["SIGN", "NEGOTIATE", "REJECT"],
+                        "description": "Recommended action"
+                    },
+                    "risks_found": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "category": {"type": "string"},
+                                "clause_text": {"type": "string"},
+                                "risk_level": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+                                "explanation": {"type": "string"},
+                                "suggested_redline": {"type": "string"}
+                            },
+                            "required": ["category", "clause_text", "risk_level", "explanation"]
+                        }
+                    },
+                    "missing_clauses": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Important clauses absent from the contract"
+                    },
+                    "executive_summary": {"type": "string"}
+                },
+                "required": ["risk_score", "verdict", "risks_found", "executive_summary"]
+            }
+        }
+    ]
 
-# 3. Claude revisa con contexto del citation graph
-response = client.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=4096,
-    tools=mcp.get_tools(),  # buscar_clausulas, comparar_contratos, citar_precedente
-    messages=[{
-        "role": "user",
-        "content": f"""Revisa el contrato {doc_id}. 
-        Identifica: (1) cláusulas de indemnización con exposición ilimitada,
-        (2) penalidades desproporcionadas, (3) ausencia de limitación de responsabilidad.
-        Para cada hallazgo: cita el span exacto, el riesgo, y sugiere lenguaje alternativo.
-        Basa tus hallazgos únicamente en el texto del contrato, sin supuestos externos."""
-    }]
-)
+    system_prompt = f"""You are an expert contract attorney specializing in {contract_type} review.
+    
+Analyze contracts for the following CUAD risk categories: {', '.join(CUAD_RISK_CATEGORIES)}.
 
-# 4. Human gate: abogado aprueba/modifica antes de entregar reporte
-print(response.content)
-```
+Rules:
+- Every risk finding MUST cite the specific clause text from the contract
+- If a clause doesn't exist in the contract, note it as missing
+- Redlines must be specific and actionable
+- Risk score reflects aggregate risk, not just individual issues
 
-**Costo estimado**: ~$0.01-0.05 por contrato de 10-30 páginas (Claude Sonnet 5)
-**Reducción de tiempo**: 70-80% en primera pasada de revisión
+Be precise, cite everything, be actionable."""
 
----
-
-## Patrón 2: RAG Legal Research Assistant (3-4 semanas)
-
-**Objetivo**: Asistente de investigación jurídica sobre corpus indexado (jurisprudencia, doctrina, normativa).
-
-**Repos**:
-- [lawglance/lawglance](https://github.com/lawglance/lawglance) — arquitectura RAG base
-- [Qdrant](https://github.com/qdrant/qdrant) — vector search (Apache-2.0)
-- MCP servers jurisdiccionales (Korea/Germany/Taiwan como referencia, o construir LATAM)
-
-**Wiring**:
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.models import VectorParams, Distance
-import anthropic
-
-# Setup
-client = anthropic.Anthropic()
-qdrant = QdrantClient(host="localhost", port=6333)
-
-# 1. Indexar corpus (jurisprudencia, doctrina, normativa)
-# Ver lawglance/lawglance para pipeline de ingesta
-
-# 2. Consulta con retrieval
-def legal_research(query: str, jurisdiction: str = "argentina") -> str:
-    # Retrieval
-    query_vector = embed(query)  # usar text-embedding-3-small o claude embeddings
-    results = qdrant.search(
-        collection_name=f"legal_{jurisdiction}",
-        query_vector=query_vector,
-        limit=8
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=4096,
+        system=system_prompt,
+        tools=tools,
+        tool_choice={"type": "any"},
+        messages=[{
+            "role": "user",
+            "content": f"Review this {contract_type}:\n\n{contract_text}"
+        }]
     )
-    
-    context = "\n\n".join([r.payload["text"] for r in results])
-    sources = [r.payload["source"] for r in results]
-    
-    # Generation con citation enforcement
+
+    for block in response.content:
+        if block.type == "tool_use" and block.name == "report_contract_analysis":
+            return block.input
+
+    return {"error": "No analysis produced"}
+
+
+def batch_review_contracts(contract_dir: str, contract_type: str = "NDA") -> list:
+    results = []
+    for contract_path in Path(contract_dir).glob("*.txt"):
+        text = contract_path.read_text()
+        analysis = review_contract(text, contract_type)
+        analysis["filename"] = contract_path.name
+        results.append(analysis)
+        print(f"✓ {contract_path.name}: {analysis.get('verdict')} (risk: {analysis.get('risk_score')}/10)")
+    return results
+```
+
+---
+
+## Patrón 2: RAG Legal sobre OpenContracts (Due Diligence M&A)
+
+**Repos:** [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) + Claude Sonnet 5  
+**Licencia:** MIT — libre para productos comerciales  
+**Tiempo:** 3-4 semanas  
+**Costo operativo:** ~$0.005/query (Claude Sonnet 5)
+
+**Caso de uso:** Equipo M&A sube data room de 500+ documentos a OpenContracts. Analistas hacen preguntas en lenguaje natural, reciben respuestas grounded con citas.
+
+```python
+import anthropic
+import requests
+
+OC_URL = "http://localhost:8000/graphql"
+client = anthropic.Anthropic()
+
+def search_opencontracts(query: str, corpus_id: int) -> list:
+    gql_query = """
+    query SearchDocs($query: String!, $corpusId: Int!) {
+        searchDocuments(query: $query, corpusId: $corpusId, first: 5) {
+            edges {
+                node {
+                    id
+                    title
+                    annotations(first: 10) {
+                        edges {
+                            node {
+                                id
+                                rawText
+                                annotation { page }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    """
+    response = requests.post(OC_URL, json={
+        "query": gql_query,
+        "variables": {"query": query, "corpusId": corpus_id}
+    }, headers={"Authorization": "Bearer YOUR_TOKEN"})
+    return response.json().get("data", {}).get("searchDocuments", {}).get("edges", [])
+
+
+def due_diligence_query(question: str, corpus_id: int) -> str:
+    tools = [{
+        "name": "search_corpus",
+        "description": "Search the due diligence document corpus",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string"},
+                "corpus_id": {"type": "integer"}
+            },
+            "required": ["query", "corpus_id"]
+        }
+    }]
+
+    messages = [{"role": "user", "content": question}]
+
+    while True:
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=4096,
+            system="""You are a senior M&A due diligence attorney.
+            Always cite specific documents and clause text when answering.
+            Search the corpus multiple times with different queries to be thorough.""",
+            tools=tools,
+            messages=messages
+        )
+
+        if response.stop_reason == "end_turn":
+            for block in response.content:
+                if hasattr(block, "text"):
+                    return block.text
+            break
+
+        messages.append({"role": "assistant", "content": response.content})
+        tool_results = []
+
+        for block in response.content:
+            if block.type == "tool_use" and block.name == "search_corpus":
+                docs = search_opencontracts(block.input["query"], corpus_id)
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": str(docs)
+                })
+
+        if tool_results:
+            messages.append({"role": "user", "content": tool_results})
+
+    return "Error: No response generated"
+```
+
+---
+
+## Patrón 3: Agentic Law Firm con lavern (Alta Calidad, Volumen Medio)
+
+**Repos:** [AnttiHero/lavern](https://github.com/AnttiHero/lavern) + Claude Sonnet 5  
+**Licencia:** Apache-2.0 — libre para productos comerciales  
+**Tiempo:** 4-6 semanas  
+**Costo operativo:** ~$0.05-0.20/documento (Claude Sonnet 5, 10-pass)
+
+```bash
+git clone https://github.com/AnttiHero/lavern
+cd lavern
+
+cat > config/agents.yaml << EOF
+active_agents:
+  - contract_reviewer
+  - risk_assessor  
+  - ip_specialist
+  - employment_specialist
+  - governing_law_expert
+  - indemnification_specialist
+  
+jurisdiction: "Brazil"
+language: "pt-BR"
+verification_passes: 10
+human_gate_on_critical: true
+notifications:
+  slack_webhook: "${SLACK_WEBHOOK_URL}"
+EOF
+
+export ANTHROPIC_API_KEY="sk-..."
+python -m lavern.main \
+  --document contracts/acquisition_agreement.pdf \
+  --workflow contract_review \
+  --output reports/
+```
+
+**Agente especializado para derecho brasileño:**
+```python
+BRAZIL_LABOR_SPECIALIST_PROMPT = """
+You are a specialist in Brazilian Labor Law (CLT - Consolidação das Leis do Trabalho).
+
+Review employment clauses for:
+1. Compliance with CLT requirements (Art. 444, 468 CLT)
+2. Non-compete validity under Brazilian law
+3. FGTS obligations and provisions
+4. Férias (vacation) and 13º salário provisions
+
+Critical: ANY finding must cite the specific clause AND the CLT article.
+Flag clauses that conflict with CLT minimum rights (cannot be waived).
+Language: Portuguese (BR)
+"""
+```
+
+---
+
+## Patrón 4: MCP Legal Server con Claude Desktop (Para Abogados)
+
+**Repos:** [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) + [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp)  
+**Licencia:** MIT — libre para productos comerciales  
+**Tiempo:** 2-3 semanas  
+**Costo operativo:** ~$0.001/mensaje
+
+```json
+{
+  "mcpServers": {
+    "firm-contracts": {
+      "url": "http://contracts.firma.com/mcp/",
+      "transport": "http"
+    },
+    "legal-workflows": {
+      "command": "uvx",
+      "args": ["legal-mcp"],
+      "env": {
+        "LEGAL_MCP_CORPUS": "client_contracts",
+        "LEGAL_MCP_JURISDICTION": "MX"
+      }
+    }
+  }
+}
+```
+
+```python
+from mcp.server.fastmcp import FastMCP
+import anthropic
+
+mcp = FastMCP("Firma Legal MCP")
+client = anthropic.Anthropic()
+
+@mcp.tool()
+def search_precedents(legal_issue: str, jurisdiction: str = "MX") -> str:
+    """Busca precedentes en el corpus de la firma."""
+    docs = oc_client.search(query=legal_issue, corpus="precedents",
+                            filters={"jurisdiction": jurisdiction})
+    return format_precedents(docs)
+
+@mcp.tool()
+def analyze_clause_risk(clause_text: str, clause_type: str) -> dict:
+    """Analiza el riesgo de una cláusula usando CUAD."""
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1024,
+        messages=[{"role": "user",
+                   "content": f"Analyze this {clause_type} clause:\n\n{clause_text}"}]
+    )
+    return {"analysis": response.content[0].text}
+
+@mcp.tool()
+def draft_clause(clause_type: str, party_position: str, jurisdiction: str = "MX") -> str:
+    """Genera borrador de cláusula."""
     response = client.messages.create(
         model="claude-sonnet-5",
         max_tokens=2048,
-        system="""Sos un asistente de investigación jurídica.
-        Respondé ÚNICAMENTE basándote en los documentos proporcionados.
-        Citá siempre la fuente exacta (nombre del documento, sección, párrafo).
-        Si la información no está en los documentos, decilo explícitamente.""",
-        messages=[{
-            "role": "user",
-            "content": f"Documentos de referencia:\n{context}\n\nConsulta: {query}"
-        }]
+        system=f"Draft {party_position} {clause_type} clause for {jurisdiction} law.",
+        messages=[{"role": "user", "content": "Draft a new clause."}]
     )
-    
-    return response.content[0].text, sources
-```
+    return response.content[0].text
 
-**LATAM quick-win**: indexar Boletín Oficial Argentina, DOF México, Diário Oficial Brasil → asistente de monitoreo regulatorio.
+if __name__ == "__main__":
+    mcp.run(transport="http", port=8001)
+```
 
 ---
 
-## Patrón 3: Agentic Law Firm (8-12 semanas)
+## Patrón 5: LATAM Compliance AI — Reforma Tributaria + LGPD/LPDP
 
-**Objetivo**: Plataforma multi-agente completa, inspirada en lavern — múltiples agentes especializados con debate y human gates.
-
-**Repos**:
-- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — arquitectura de referencia (fork + customizar)
-- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS backend
-- [willchen96/mike](https://github.com/willchen96/mike) — referencia de UI/UX y flujo completo
-- [HazyResearch/legalbench](https://github.com/HazyResearch/legalbench) — eval suite
-
-**Arquitectura**:
-
-```
-Orchestrator Agent (Claude Sonnet 5)
-    │
-    ├── Research Agent → RAG sobre corpus legal indexado
-    ├── Draft Agent → generación de documentos desde templates
-    ├── Review Agent → revisión de contratos (patrón 1)
-    ├── Compliance Agent → chequeo contra normativa vigente
-    └── Citation Verifier → verificación de toda cita antes de salida
-           │
-           └── [HUMAN GATE] → abogado aprueba antes de entrega final
-```
-
-**Implementación de Human Gate** (inspirado en lavern):
+**Repos:** [LexPredict/lexpredict-lexnlp](https://github.com/LexPredict/lexpredict-lexnlp) + Claude Haiku + ERPNext  
+**Licencia:** AGPL-3.0 ⚠️ — revisar para SaaS  
+**Tiempo:** 4-5 semanas  
+**Costo operativo:** ~$0.0003/documento
 
 ```python
-from anthropic import Anthropic
+import anthropic
+from lexnlp.extract import dates, amounts, parties, definitions
 
-def run_with_human_gate(task: str, risk_level: str = "high"):
-    client = Anthropic()
-    
-    # Paso 1: Agentes analizan y proponen
-    proposal = orchestrate_agents(client, task)
-    
-    # Paso 2: Si riesgo alto → human gate obligatorio
-    if risk_level == "high":
-        print(f"\n[HUMAN GATE] Propuesta del agente:\n{proposal}")
-        approval = input("¿Aprobás esta acción? (s/n/modificar): ")
+client = anthropic.Anthropic()
+
+def extract_contract_entities(contract_text: str) -> dict:
+    return {
+        "dates": list(dates.get_dates(contract_text)),
+        "amounts": list(amounts.get_amounts(contract_text)),
+        "parties": list(parties.get_parties(contract_text)),
+        "definitions": list(definitions.get_definitions(contract_text))
+    }
+
+def check_brazil_tax_compliance(contract_text: str) -> dict:
+    """Verifica compliance con Reforma Tributária (IBS/CBS) + LGPD."""
+    entities = extract_contract_entities(contract_text)
+
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=2048,
+        system="""Você é especialista em direito tributário brasileiro e LGPD.
         
-        if approval == "n":
-            return "Acción cancelada por el usuario"
-        elif approval == "modificar":
-            modification = input("Ingresá tu modificación: ")
-            return apply_modification(proposal, modification)
-    
-    return proposal
-```
+Analise contratos para:
+1. Cláusulas de preço: verificar CBS/IBS (vigência 2027-2033 transição)
+2. Responsabilidade fiscal: quem absorve variação tributária
+3. Dados pessoais: compliance com LGPD (Lei 13.709/2018)
+4. NFe/CFDI: referências corretas
 
-**Costo estimado**: $500-2000/mes para firma de 10-20 abogados con uso intensivo.
-
----
-
-## Patrón 4: Multi-Jurisdiction MCP Server (LATAM) (6-10 semanas)
-
-**Objetivo**: Construir MCP server propio para normativa LATAM (análogo a Korean Law MCP / German Law MCP).
-
-**Repos base**:
-- [Model Context Protocol SDK](https://github.com/modelcontextprotocol/python-sdk) — MIT
-- Fuentes: Diário Oficial BR (dados.gov.br), DOF México API, BO Argentina
-
-**Estructura del MCP server**:
-
-```python
-# latam_legal_mcp/server.py
-from mcp.server import Server
-from mcp.server.models import InitializationOptions
-import mcp.types as types
-
-app = Server("latam-legal")
-
-@app.list_tools()
-async def handle_list_tools() -> list[types.Tool]:
-    return [
-        types.Tool(
-            name="buscar_normativa",
-            description="Busca normativa legal en Argentina, Brasil, México, Colombia, Chile, Perú",
-            inputSchema={
+Sempre cite o texto específico da cláusula e o artigo legal violado.""",
+        tools=[{
+            "name": "tax_compliance_report",
+            "description": "Report tax compliance findings",
+            "input_schema": {
                 "type": "object",
                 "properties": {
-                    "pais": {"type": "string", "enum": ["AR", "BR", "MX", "CO", "CL", "PE"]},
-                    "query": {"type": "string"},
-                    "desde": {"type": "string", "description": "Fecha desde (YYYY-MM-DD)"},
+                    "issues_found": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "issue": {"type": "string"},
+                                "severity": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH"]},
+                                "recommendation": {"type": "string"}
+                            }
+                        }
+                    },
+                    "lgpd_risks": {"type": "array", "items": {"type": "string"}},
+                    "compliant": {"type": "boolean"}
                 },
-                "required": ["pais", "query"]
+                "required": ["issues_found", "compliant"]
             }
-        ),
-        types.Tool(
-            name="verificar_vigencia",
-            description="Verifica si una norma está vigente o fue derogada",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "pais": {"type": "string"},
-                    "norma": {"type": "string", "description": "Número y tipo de norma"},
-                },
-                "required": ["pais", "norma"]
-            }
-        ),
-        types.Tool(
-            name="diff_temporal",
-            description="Compara versiones de una norma en dos fechas distintas",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "pais": {"type": "string"},
-                    "norma": {"type": "string"},
-                    "fecha_a": {"type": "string"},
-                    "fecha_b": {"type": "string"},
-                },
-                "required": ["pais", "norma", "fecha_a", "fecha_b"]
-            }
-        )
-    ]
+        }],
+        tool_choice={"type": "any"},
+        messages=[{"role": "user",
+                   "content": f"Contrato:\n{contract_text}\n\nEntidades: {entities}"}]
+    )
 
-@app.call_tool()
-async def handle_call_tool(name: str, arguments: dict) -> list[types.TextContent]:
-    if name == "buscar_normativa":
-        results = await fetch_from_official_gazette(
-            country=arguments["pais"],
-            query=arguments["query"],
-            since=arguments.get("desde")
-        )
-        return [types.TextContent(type="text", text=results)]
-    # ... otros handlers
-```
-
-**Uso con Claude**:
-
-```python
-# Conectar MCP server a Claude
-response = client.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=2048,
-    tools=[{"type": "mcp", "server": "latam-legal"}],
-    messages=[{"role": "user", "content": 
-        "¿Qué cambios hubo en la normativa de protección de datos en Argentina y Brasil en 2026?"}]
-)
+    for block in response.content:
+        if block.type == "tool_use":
+            return block.input
+    return {}
 ```
 
 ---
 
-## Patrón 5: SuiteCRM + AI Layer (Despacho Digital) (2-4 semanas)
+## Matriz quick-start por tipo de cliente
 
-**Objetivo**: Modernizar despacho con CRM open source + AI para automatizar comunicaciones, billing, y gestión de casos.
-
-**Repos**:
-- [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) — AGPL-3.0 (uso interno OK)
-- n8n (fair-code) — automatización de workflows
-- Claude API — drafting + summarization
-
-**Flujos a automatizar**:
-
-```
-Nuevo caso entra (email/formulario)
-  → n8n detecta → crea Case en SuiteCRM
-  → Claude extrae: partes, tipo de caso, urgencia, jurisdicción
-  → Asigna al abogado correcto (reglas configurable)
-  → Draft email de bienvenida personalizado (Claude)
-  → Crea carpeta de documentos + checklist de tareas
-
-Vence un plazo en SuiteCRM
-  → n8n detecta D-7 antes del vencimiento
-  → Claude genera briefing del caso con contexto relevante
-  → Envía notificación al abogado con acciones sugeridas
-
-Cliente envía contrato para revisión
-  → n8n recibe adjunto → llama a Patrón 1 (Contract Review Agent)
-  → Reporte de riesgo adjuntado automáticamente al Case
-  → Abogado revisa reporte + aprueba → envía al cliente
-```
-
-**Tiempo**: 2 semanas setup SuiteCRM + n8n, 2 semanas configurar flujos AI
-**Costo infra**: ~$100-300/mes (VPS + API Claude)
-**ROI**: 40-60% reducción en tareas administrativas por caso
+| Tipo de cliente | Patrón recomendado | Repos base | Tiempo | Costo/mes |
+|----------------|-------------------|-----------|--------|----------|
+| Firma legal mediana (40-200 abogados) | P3 lavern + P4 MCP Server | lavern + OpenContracts | 6-8 sem | $500-2k LLM |
+| Banco / Aseguradora (contratos masivos) | P1 CUAD Review + P5 Compliance | claude-legal-skill + LexNLP | 3-5 sem | $200-800 LLM |
+| M&A / Private Equity | P2 OpenContracts RAG | OpenContracts + Claude | 4-6 sem | $1k-3k LLM |
+| Empresa mediana (legal in-house) | P4 MCP Server básico | OpenContracts + lavern | 3-4 sem | $100-500 LLM |
+| Startup LegalTech LATAM | P1+P5 combinados | lavern + LexNLP | 4-6 sem | $300-1k LLM |
+| Gobierno / Sector público | P4 + ArkCase | ArkCase + OpenContracts | 8-12 sem | $200-600 LLM |
+| Firma AI-native (nuevo modelo) | P2+P3 full stack | OpenContracts + lavern + Mike | 8-12 sem | $2k-5k LLM |
 
 ---
 
-## Tabla de selección rápida
+## Selección de modelo por tarea
 
-| Necesidad del cliente | Patrón | Semanas | Costo/mes |
-|-----------------------|--------|---------|-----------|
-| Revisar contratos rápido | Patrón 1: Contract Review | 4-6 | $50-500 |
-| Investigar jurisprudencia | Patrón 2: RAG Research | 3-4 | $100-300 |
-| Plataforma legal completa | Patrón 3: Agentic Law Firm | 8-12 | $500-2000 |
-| Monitoreo regulatorio LATAM | Patrón 4: MCP Server LATAM | 6-10 | $200-800 |
-| Modernizar despacho | Patrón 5: SuiteCRM + AI | 2-4 | $100-300 |
+| Tarea | Modelo | Justificación |
+|-------|--------|---------------|
+| Revisión masiva de NDAs | claude-haiku-4-5-20251001 | Alto volumen, costo bajo, calidad suficiente |
+| Due diligence M&A | claude-sonnet-5 | Alta precisión, citas críticas |
+| Drafting de cláusulas | claude-sonnet-5 | Calidad de redacción necesaria |
+| Extracción de entidades | claude-haiku-4-5-20251001 | Tarea estructurada, costo $0 |
+| Multi-agente debate (lavern) | claude-sonnet-5 | Razonamiento complejo requerido |
+| Compliance check básico | claude-haiku-4-5-20251001 | Reglas claras, costo bajo |
 
 ---
-*Ver también: `agents/top.md` para detalles de cada componente. `verticals/solutions.md` para plataformas base.*
+*Actualizado automáticamente por el pipeline de ingest.*

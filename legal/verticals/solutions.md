@@ -1,74 +1,157 @@
-# Verticales de partida — Legal Services
+# 🏭 Verticales de partida — Legal Services
 
 > Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-06
+> Modelo: partir de algo funcional, añadir capa agentica arriba.
+> Última actualización: 2026-07-07
+
+---
 
 ## Plataformas recomendadas
 
-| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
-|------------|----------|------------|-------|-------------|
-| [OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | Apache-2.0 | NodineLegal/OpenLawOffice | .NET / C# / SQL Server | Gestión de despacho: cases, tareas, billing, contactos. Base sólida para añadir AI sobre workflows. |
-| [ArkCase Community Edition](https://www.arkcase.com/product/arkcase-open-source-case-management-platform/) | Apache-2.0 | arkcase.com/open-source | Java / Spring / Angular | Case management completo: FOIA, complaint management, documentos, tiempo y gastos, colaboración. Usado en sector público. |
-| [SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | salesagility/SuiteCRM | PHP / MySQL | CRM extensible para despachos: gestión de clientes, casos, documentos, facturación. Extensiones legales disponibles (Fynsis). |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Open-Source-Legal/OpenContracts | Python / Django / React / GraphQL | DMS agéntico + contract intelligence. MCP server integrado. La opción más avanzada AI-natively. |
-| [ERPNext / Frappe](https://github.com/frappe/erpnext) | GPL-3.0 | frappe/erpnext | Python / JS / MariaDB | ERP general con módulos para firmas de servicios profesionales: proyectos, billing, RRHH, CRM. Base para despachos medianos. |
-| [Odoo Community](https://github.com/odoo/odoo) | LGPL-3.0 | odoo/odoo | Python / PostgreSQL | ERP modular con módulos de project management, timesheet, invoicing, HR. Extensible para servicios legales. |
-| [Mike OSS](https://github.com/willchen96/mike) | AGPL-3.0 | willchen96/mike | Python / React | Plataforma legal AI completa: research, drafting, review. Se auto-hospeda y usa API key propia. |
+| Plataforma | Licencia | Stars | Stack | Caso de uso |
+|------------|----------|-------|-------|-------------|
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT ✅ | ~1.4k | Django, React, pgvector | DMS agentico: contratos, due diligence, regulatory libraries |
+| [Mike OSS](https://github.com/willchen96/mike) | AGPL-3.0 ⚠️ | ~2.2k | FastAPI, React | Plataforma legal AI completa: chat + extracción |
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 ✅ | ~400 | Python, TypeScript | Sistema agentico de revisión: 67 agentes especializados |
+| [OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | Apache-2.0 ✅ | ~420 | .NET, PostgreSQL | Gestión de bufete: casos, facturación, tareas |
+| [ArkCase CE](https://www.arkcase.com/) | Apache-2.0 ✅ | Community | Java, Spring Boot | Case management FedRAMP/HIPAA para sector regulado |
+| [ERPNext](https://github.com/frappe/erpnext) | GPL-3.0 ⚠️ | ~22k | Python, Frappe | ERP completo con módulo legal + billing para firmas |
+| [Odoo](https://github.com/odoo/odoo) | LGPL-3.0 ⚠️ | ~52k | Python, JavaScript | CRM + facturación + gestión de contratos para firmas |
 
 ---
 
-## Detalle de plataformas clave
+## Deep dive: OpenContracts (MIT — Recomendado principal)
 
-### OpenLawOffice
-- **Funcionalidades**: gestión de casos, billing por horas, tareas/subtareas, notas, contactos clientes
-- **Integración AI**: añadir endpoint Claude/Ollama para summarize case, draft briefs, time entry auto-fill
-- **LATAM fit**: UI en inglés, pero stack estándar, fácil localización
-- **Tiempo de onboarding**: 1-2 semanas para MVP con AI layer
+**Por qué es el punto de partida ideal:**
+1. MIT license — sin restricciones para productos comerciales
+2. MCP server nativo — Claude/GPT-4 se conectan directo sin código adicional
+3. Citation graph automático — cada upload genera relaciones entre documentos
+4. GraphQL + REST API — integra con cualquier frontend
 
-### ArkCase Community Edition
-- **Funcionalidades**: case management, document management, workflow engine, time tracking
-- **Integración AI**: API REST sobre casos + ingesta de documentos → agentes de categorización, extracción, notificaciones
-- **LATAM fit**: usado en sector público, alineado con procesos gubernamentales
-- **Tiempo de onboarding**: 2-4 semanas (Java, configuración más compleja)
-
-### SuiteCRM + extensión legal
-- **Funcionalidades**: CRM completo con módulo Cases, Documents, Tasks, Invoices, Reports
-- **Integración AI**: Zapier/n8n → Claude para draft emails, summarize case history, flag upcoming deadlines
-- **LATAM fit**: gran comunidad, hosting local disponible
-- **Tiempo de onboarding**: 1 semana para setup, 2-3 semanas para AI layer
-
-### OpenContracts (opción recomendada para proyectos AI-first)
-- **Funcionalidades**: DMS agéntico, annotation, semantic search, MCP server nativo, GraphQL API
-- **Integración AI**: ya viene con MCP + agentes. Sólo necesitás conectar Claude + definir corpus.
-- **LATAM fit**: self-hosted, datos soberanos, API key propia
-- **Tiempo de onboarding**: 1 semana para levantar + 2 semanas para customizar agentes
-
----
-
-## Cómo customizar con AI
-
-### Stack recomendado (2026)
-
+**Arquitectura:**
 ```
-[Plataforma base: OpenContracts / OpenLawOffice / SuiteCRM]
-          ↓
-[Ingesta de documentos: PDF, DOCX, emails]
-          ↓
-[Vector DB: Qdrant / pgvector / Chroma]
-          ↓
-[Agentes: Claude API + MCP server (OpenContracts) / lavern]
-          ↓
-[UI: chat interface sobre plataforma base ó nueva React app]
+Upload documentos
+      ↓
+Agentes auto-describen y resumen (configurable)
+      ↓
+Citation graph: statutory citations → edges automáticos
+      ↓
+MCP server en /mcp/ — clientes LLM se conectan
+      ↓
+GraphQL API para apps + React UI para equipos
 ```
 
-### Pasos generales
+**Integración con Claude (código):**
+```python
+# Conectar Claude a OpenContracts via MCP
+import anthropic
 
-1. **Fork** del repo base elegido
-2. **Ingesta**: pipeline de documentos → vectores (usar LexNLP para extracción previa, mejorar chunks)
-3. **Agente RAG**: Claude + tool_use → queries sobre vector DB + citation graph de OpenContracts
-4. **Verificación**: integrar LegalBench tasks como test suite para validar calidad de respuestas
-5. **UI conversacional**: chat en sidebar o standalone sobre el sistema base
+client = anthropic.Anthropic()
+
+# Claude usa el MCP server de OpenContracts directamente
+# Configurar en claude_desktop_config.json:
+# {
+#   "mcpServers": {
+#     "opencontracts": {
+#       "url": "http://localhost:8000/mcp/",
+#       "transport": "http"
+#     }
+#   }
+# }
+
+# O usar via API con herramientas manuales
+response = client.messages.create(
+    model="claude-sonnet-5",
+    max_tokens=2048,
+    tools=[{
+        "name": "search_contracts",
+        "description": "Search the OpenContracts corpus for relevant documents and annotations",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Search query"},
+                "corpus_id": {"type": "integer", "description": "OpenContracts corpus ID"}
+            },
+            "required": ["query"]
+        }
+    }],
+    messages=[{
+        "role": "user",
+        "content": "Find all NDA clauses about data retention in our contract corpus"
+    }]
+)
+```
 
 ---
-*Ver también: `agents/top.md` para agentes a componer sobre estas plataformas.*
+
+## Deep dive: Mike OSS (AGPL-3.0)
+
+**Cuándo usar:** Cliente que quiere Harvey/Legora sin vendor lock-in y tiene capacidad técnica interna.
+
+**Features principales (replicando Harvey/Legora):**
+- Document-aware chat: respuestas grounded en documentos específicos
+- Tabular extraction: extrae tablas de datos de cientos de contratos en paralelo
+- Multi-model: Claude API o Gemini API (la firma provee su propia API key)
+
+**Deployment pattern:**
+```bash
+# Docker deployment básico
+git clone https://github.com/willchen96/mike
+cd mike
+cp .env.example .env
+# Configurar ANTHROPIC_API_KEY o GOOGLE_API_KEY en .env
+docker compose up -d
+```
+
+**⚠️ Nota AGPL-3.0:** Si Globant despliega Mike como servicio (SaaS) para el cliente, las modificaciones deben publicarse. Para deployments internos en la firma del cliente, AGPL-3.0 es libre.
+
+---
+
+## Deep dive: lavern (Apache-2.0 — Preferido para productos SaaS)
+
+**Cuándo usar:** Necesitas un pipeline de revisión de contratos de alta calidad con verificación multi-agente.
+
+**Configuración mínima:**
+```bash
+git clone https://github.com/AnttiHero/lavern
+cd lavern
+pip install -r requirements.txt
+# Configurar ANTHROPIC_API_KEY en .env
+# Seleccionar agentes activos en config/agents.yaml
+python -m lavern.main --document path/to/contract.pdf
+```
+
+**Personalización típica para cliente:**
+1. Seleccionar subset de 67 agentes según especialidad del cliente (M&A, empleo, IP)
+2. Modificar prompts de agentes para jurisdicción específica (Brasil, México, etc.)
+3. Integrar notificaciones con Slack/Teams en lugar de Telegram
+4. Añadir webhook para guardar resultados en OpenLawOffice o sistema cliente
+
+---
+
+## LATAM: Mapa de plataformas por país
+
+| País | Plataforma dominante | AI opportunity | Notas |
+|------|---------------------|----------------|-------|
+| Brasil | ERPNext + custom | Enter ($1.2B unicorn) — acceso a justicia masivo | 75M litigios pendientes |
+| México | Odoo + módulos locales | Contratos comerciales + compliance fiscal SAT | CFDI integration |
+| Argentina | Odoo + ERPNext | Contratos laborales + restructuring | Inestabilidad regulatoria = alta demanda |
+| Colombia | SuiteCRM + custom | Due diligence M&A + contratos de servicios | Mercado M&A creciente |
+| Chile | OpenLawOffice + custom | Contratos minería + infraestructura | Inglés/español bilingual |
+| Perú | ERPNext | Contratos minería + gobierno | Licitaciones públicas AI |
+
+---
+
+## Build vs Buy matrix
+
+| Escenario | Recomendación | Licencia | Tiempo |
+|-----------|--------------|----------|--------|
+| Firma mediana quiere Harvey alternativo | Mike OSS + Globant support | AGPL-3.0 | 4-6 sem |
+| Due diligence M&A repository | OpenContracts + Claude MCP | MIT | 3-4 sem |
+| Revisión de contratos de alto volumen | lavern + customización agentes | Apache-2.0 | 4-6 sem |
+| Gestión operativa bufete | OpenLawOffice + capa AI | Apache-2.0 | 6-8 sem |
+| Sector regulado (gobierno/banca) | ArkCase CE + AI layer | Apache-2.0 | 8-12 sem |
+| LATAM acceso a justicia masivo | Enter-style + OpenContracts | MIT | 10-16 sem |
+
+---
+*Actualizado automáticamente por el pipeline de ingest.*

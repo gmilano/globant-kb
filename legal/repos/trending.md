@@ -1,31 +1,50 @@
-# Repos trending — Legal AI (2026-07-06)
+# 📈 Repos trending — Legal
 
-> Repos con momentum esta semana en GitHub. Detección por actividad de commits, issues, y stars delta.
-> Última actualización: 2026-07-06
+> Última actualización: 2026-07-07
 
-| Nombre | Licencia | Stars | Descripción |
-|--------|----------|-------|-------------|
-| [willchen96/mike](https://github.com/willchen96/mike) | AGPL-3.0 | ~2.2k | Alternativa open source a Harvey/Legora. Full-stack legal AI platform (research, drafting, review) con API key propia. Lanzado mayo 2026, explosivo crecimiento. |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | ~1.4k | DMS agéntico con MCP server nativo. Citation graph sobre corpus de contratos, anotación humana + AI extraction. El Moodle del legaltech. |
-| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | ~267 | Agentic law firm: 67 agentes especializados, debate con evidencias, mandatory human gates, 10-pass verification. Framework de referencia para multi-agente legal. |
-| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | creciente | Curated list de recursos legaltech: plataformas open source, modelos AI, MCP servers, companies, datasets. Muy activo en 2026. |
-| [lowtidebuild/contract-review-agent](https://github.com/lowtidebuild/contract-review-agent) | Apache-2.0 | ~40 | Agente local-first de revisión contractual. Convierte templates en contratos analizados. Patrón reutilizable en proyectos Globant. |
-| [lawglance/lawglance](https://github.com/lawglance/lawglance) | MIT | ~50 | RAG-based AI legal assistant. Redis cache + vector DB. Arquitectura simple para asesoramiento legal Q&A. |
-| [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | ~2 | MCP server para USPTO Final Petition Decisions. Interesante para proyectos de patentes + AI. |
-| [hasnaintypes/lawbotics](https://github.com/hasnaintypes/lawbotics) | MIT | ~30 | AI contract analysis: fine-tuned en CUAD dataset para identificar cláusulas clave. Next.js + ML. |
-| [CSHaitao/Awesome-LegalAI-Resources](https://github.com/CSHaitao/Awesome-LegalAI-Resources) | MIT | creciente | Colección de recursos LegalAI para sistemas de justicia inteligente. Datos + modelos + herramientas. |
-| [openlegaldata/awesome-legal-data](https://github.com/openlegaldata/awesome-legal-data) | MIT | ~200 | Colección de datasets y recursos para procesamiento de texto legal. Multilingüe, multi-jurisdicción. |
+## Tabla de velocidad
+
+| Nombre | Stars | Δ/semana | Licencia | Por qué importa |
+|--------|-------|----------|----------|-----------------|
+| [willchen96/mike](https://github.com/willchen96/mike) | ~2.2k | +2.2k | AGPL-3.0 | Harvey/Legora clone viral. 2.2k★ + 614 forks en primera semana. Mayor explosión en legal OSS 2026. |
+| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | ~400 | +150 | Apache-2.0 | Agentic law firm: 67 agentes, debate citado, 10-pass verify. Artificial Lawyer "Has Arrived". |
+| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | ~1.4k | +80 | MIT | MCP server nativo + citation graph. DMS para el mundo agentico. |
+| [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | ~355 | +50 | MIT | Claude Code skill: CUAD risk + redlines. Integra en cualquier IDE con Claude Code. |
+| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | ~120 | +40 | MIT | MCP server completo para legal workflows. Buscando case study partners. |
+| [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | ~25 | +20 | MIT | USPTO FPD via MCP. Patent analysis sin API key de pago. |
+| [sandip-pathe/arin](https://github.com/sandip-pathe/arin) | ~80 | +15 | MIT | Local-first legal document workspace: summarize + discuss legal text offline. |
+| [HazyResearch/legalbench](https://github.com/HazyResearch/legalbench) | ~620 | +10 | MIT | Standard de evaluación LLM en legal. Crecimiento sostenido a medida que más firmas adoptan AI. |
+| [mahdyet1845/Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI) | ~10 | +8 | MIT | Brasil: análisis Reforma Tributária (IBS, CBS) con IA + web en tiempo real. LATAM relevante. |
+| [uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | ~15 | +5 | MIT | UK Legal AI Agents 2026: compliance, contratos, litigios. |
 
 ---
 
-## MCP Servers legales trending
+## Análisis de breakout: Mike OSS
 
-| Repo | Jurisdicción | Stars | Descripción |
-|------|-------------|-------|-------------|
-| Korean Law MCP | Korea | N/A | 17 tools sobre 41 APIs legales gubernamentales, citation verification, time-travel diff |
-| ayunis-legal-mcp | Alemania | N/A | Códigos legales alemanes vía MCP para agentes Claude |
-| Pasal MCP | Indonesia | N/A | 40k+ regulaciones indonesias con acceso grounded |
-| MCP Taiwan Legal DB | Taiwan | N/A | Sentencias Judicial Yuan + estatutos nacionales |
+**Contexto:** Will Chen pasó 2 semanas reconstruyendo el core de Harvey ($11B) y Legora ($5.6B).
+
+**Performance excepcional:**
+- 0 → 2.2k★ en 7 días (mayor crecimiento en legal OSS 2026)
+- 614 forks — señal de que firmas están experimentando activamente
+- Portada de Hacker News, Artificial Lawyer, Legal IT Insider, Legal Futures simultáneamente
+
+**AGPL-3.0 como arma estratégica:**
+> "Changes the negotiation" — Legal IT Insider
+
+Firmas que antes pagaban $X/mes por Harvey/Legora ahora tienen alternativa viable. El efecto no es que todos migren a Mike, sino que el precio de Harvey/Legora está bajo presión.
+
+**Implicación para Globant:** Oportunidad de implementación + customización de Mike para firmas que quieren self-hosted pero no tienen capacidad técnica interna.
+
+---
+
+## Watch list H2 2026
+
+| Repo | Señal a monitorear | Probabilidad |
+|------|--------------------|--------------|
+| [willchen96/mike](https://github.com/willchen96/mike) | Llega a 5k★ + enterprise features | Alta |
+| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Multi-firma SaaS layer | Media |
+| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | v2.0 con RAG nativo + más MCP tools | Alta |
+| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | Adopción por firmas medianas | Media |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

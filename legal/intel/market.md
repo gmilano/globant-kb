@@ -1,92 +1,105 @@
-# Mapa de mercado — Legal Services AI
+# 🗺️ Mapa de mercado — Legal AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-06
+> Players, datos de mercado, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-07
 
-## Mercado global
+---
 
-| Segmento | 2025 | 2026 | CAGR | Horizonte |
-|----------|------|------|------|-----------|
-| LegalTech AI (específico) | $2.82B | $3.7B | 31.4% | → 2030 |
-| LegalTech total (broad) | $34.1B | $38.67B | 13.22% | → $71.95B (2031) |
-| Legal AI Software (MarketsandMarkets) | $1.2B | $1.8B | ~35% | → $6B (2030) |
+## Tamaño de mercado global
+
+| Fuente | 2025 | 2026 | 2030 | CAGR |
+|--------|------|------|------|------|
+| MarketsandMarkets | $2.82B | — | $10.82B | 28.3% |
+| Technavio | $1.83B | — | +$5.53B (2026-2030) | 32.1% |
+| Grand View Research (LegalTech AI) | — | $3.7B | $11.06B | 31.5% |
+| Meticulous Research | — | — | — (2026-2036) | — |
+| Consenso mercado | ~$2.5-3.7B | ~$3.7B | ~$11B | **~31% CAGR** |
+
+**Acelerador clave 2026:** shift hacia agentic AI y autonomous workflows → intensifica demanda en todas las verticales.
 
 ---
 
 ## Players globales
 
-| Empresa | Tipo | Fortaleza | Debilidad | Relevancia para Globant |
-|---------|------|-----------|-----------|------------------------|
-| **Harvey** | Startup AI | Modelo LLM propio entrenado en texto legal, $2B+ valutación | Caja negra, precio premium | Competidor en proyectos de firmas grandes |
-| **Thomson Reuters** | Enterprise | Westlaw AI, $200M+ inversión en AI 2025, adquisición SafeSend $600M | Legacy systems, lento | Partner potencial para proyectos corporativos |
-| **RELX / LexisNexis** | Enterprise | Lexis+AI, corpus inmenso, global | Mismo problema que TR | Integrar APIs LexisNexis en soluciones custom |
-| **Clio** | SaaS mid-market | Adquirió vLex $1B (2025), fuerte en firmas pequeñas/medianas | Solo cloud, US-centric | Oportunidad: alternativa open-source on-prem para LATAM |
-| **Everlaw** | Startup | eDiscovery AI, corporate adoption 23%→54% 2024→2025 | Niche (eDiscovery) | Inspiration para patrones de document review |
-| **Relativity** | Enterprise | eDiscovery, AI-powered review | Precio prohibitivo LATAM | Nicho de oportunidad con alternativas open |
-| **Legora** | Startup EU | Multi-agente legal, fuerte en Europa | No LATAM | Referencia de arquitectura (Mike OSS lo reimplementó) |
-| **Spellbook** | Startup | Contract drafting AI, integrado en Word | Solo inglés | Referencia UX para proyectos de contratos |
+| Empresa | Tipo | Valuación/Revenue | Fortaleza | Debilidad |
+|---------|------|------------------|-----------|-----------|
+| Harvey | Propietario | $11B (2026) | LLM legal especializado, enterprise adoption | Caro, vendor lock-in |
+| Legora | Propietario | $5.6B (2026) | Colaboración legal agentica | Caro, europeo |
+| Clio | SaaS | $3B+ | Case management + billing dominant | No AI nativo aún |
+| LexisNexis AI | Propietario | Parte de RELX $70B+ | Datos propietarios masivos, Lexis+ AI | Cerrado, legacy |
+| Thomson Reuters CoCounsel | Propietario | Parte de TR $8.5B | Westlaw integration, enterprise trust | Costoso |
+| Ironclad | SaaS | $3.2B | CLM (Contract Lifecycle Management) leader | No legal reasoning |
+| Litera | SaaS | ~$500M | Document automation, Word integration | Herramienta puntual |
+| **Mike OSS** | **Open Source** | **AGPL-3.0** | Replica Harvey/Legora, self-hosted | AGPL compliance para SaaS |
+| **lavern** | **Open Source** | **Apache-2.0** | 67-agent debate protocol, enterprise-quality | Requiere LLM API costs |
+| **OpenContracts** | **Open Source** | **MIT** | MCP nativo, DMS agentico, citation graph | Requiere DevOps |
 
 ---
 
-## Mercado LATAM
+## LATAM: Mapa de oportunidades
 
-| País | Tamaño mercado LegalTech | Drivers | Oportunidades Globant |
-|------|--------------------------|---------|----------------------|
-| **Brasil** | Mayor mercado LATAM | Reforma Tributária (IBS/CBS), digitalización judicial, LGPD | Automatización tributaria, document intelligence, compliance LGPD |
-| **México** | 2do mercado | Reforma judicial 2025, digitalización SATL | E-discovery, contratos gobierno, compliance fiscal |
-| **Argentina** | 3er mercado | Deregulación Milei, ajuste legal masivo, necesidad de celeridad | Contract review, regulatory monitoring, AI para bufetes PYME |
-| **Colombia** | Creciente | Digitalización Rama Judicial | Acceso a justicia, legal aid, transcripción audiencias |
-| **Chile** | Maduro digitalmente | Mercado tech avanzado | Premium: AI para M&A, due diligence, banca |
-| **Perú** | Emergente | Digitalización juzgados | Herramientas básicas AI + acceso a justicia |
+### Métricas clave
 
-**LATAM total**: $1.9B (2025) → $4.9B (2034) CAGR ~11.12%
+| Métrica | Valor | Fuente |
+|---------|-------|--------|
+| LATAM LegalTech Market 2025 | $1.9B | IMARC Group |
+| LATAM LegalTech Market 2034 | $4.9B | IMARC Group |
+| LATAM LegalTech CAGR | 11.12% | IMARC Group |
+| Brasil litigios pendientes | ~75 millones | Enter data 2026 |
+| Brasil % casos laborales globales | >90% | Enter data 2026 |
+| Enter valuation (Mayo 2026) | $1.2B | Sequoia/Founders Fund |
 
-**Hito clave**: Enter (Brazil) se convirtió en el primer unicornio legaltech AI de LATAM (Series B $100M, Founders Fund + Sequoia + Ribbit Capital).
+### Enter: Primer unicornio AI de LATAM ($1.2B — Mayo 2026)
 
----
+**Ronda:** Series B $100M — Founders Fund + Sequoia Capital + Ribbit Capital
 
-## Posicionamiento Globant — Zonas de ganancia
+**Tecnología:**
+- AI que gestiona proceso judicial completo: drafting mociones → estimación settlement → coordinación → escalación humana
+- Clientes: Nubank, Bradesco, Mercado Livre, Airbnb, LATAM Airlines
+- ROI reportado: billones de reais ahorrados + mayor tasa de éxito + reducción costos operativos
 
-### 1. Contract Intelligence para Corporate Legal Depts
-- **Target**: equipos legales in-house en multinacionales con presencia LATAM
-- **Propuesta**: OpenContracts + Claude → review, extracción, alertas de vencimiento, comparación de cláusulas
-- **Diferencial**: soberanía de datos (on-prem o VPC privada), multilingüe (ES/PT/EN)
-- **Tiempo a valor**: 4-6 semanas MVP
+**Señal para Globant:** El mercado LATAM no está esperando — hay demanda real y capital validado. Enter se enfoca en litigios masivos (B2C). Oportunidad Globant: M&A, corporate legal, compliance para empresas medianas.
 
-### 2. Legal Aid + Acceso a Justicia
-- **Target**: gobiernos, ONGs, operadores de justicia (Colombia, Perú, Brasil)
-- **Propuesta**: lawglance/RAG + corpus público → asistente legal ciudadano
-- **Diferencial**: open source + self-hosted + multilingüe
-- **Tiempo a valor**: 6-8 semanas
+### País por país
 
-### 3. Regulatory Monitoring & Compliance
-- **Target**: sector financiero, farmacéutico, energético con operaciones LATAM
-- **Propuesta**: MCP servers de normativa local + Claude → alertas regulatorias automáticas
-- **Diferencial**: jurisdicciones múltiples en un stack unificado
-- **Tiempo a valor**: 6-10 semanas
-
-### 4. eDiscovery & Document Review
-- **Target**: firmas de abogados medianas-grandes, M&A
-- **Propuesta**: OpenContracts + Blackstone NER + vector search → review masivo
-- **Diferencial**: costo 10-50x menor que Relativity/Everlaw
-- **Tiempo a valor**: 8-12 semanas
-
-### 5. Despacho Digital (Law Firm Modernization)
-- **Target**: firmas medianas LATAM aún en papel/email
-- **Propuesta**: OpenLawOffice o SuiteCRM + AI layer → gestión completa + AI
-- **Diferencial**: open source, ningún vendor lock-in, hosting local
-- **Tiempo a valor**: 4-8 semanas
+| País | Mercado | Oportunidad AI | Plataforma sugerida | Regulación AI |
+|------|---------|----------------|---------------------|---------------|
+| Brasil | Dominante en LATAM. 75M litigios. | Acceso a justicia, automación de demandas laborales, due diligence corporativo | OpenContracts + Mike OSS | Marco AI en proceso (PL 2338/2023) |
+| México | CFDI + reforma fiscal constante | Compliance fiscal SAT, contratos comerciales, IP | Odoo legal + lavern | LFPIORPI compliance |
+| Argentina | Alta rotación regulatoria | Contratos laborales, reestructuración deuda, contratos USD | ERPNext + Claude | Sin ley AI específica |
+| Colombia | M&A creciente, inversión extranjera | Due diligence M&A, contratos minería/energía | OpenContracts + lavern | Ley 1581 datos personales |
+| Chile | Minería + infraestructura | Contratos B2G, licitaciones públicas | ArkCase + AI layer | Reforma Ley datos 2024 |
+| Perú | Minería + construcción | Contratos concesiones, compliance ambiental | ERPNext + módulo legal | Sin ley AI específica |
 
 ---
 
-## Riesgos y consideraciones
+## Proprietary vs Open Source — Comparativa
 
-| Riesgo | Mitigación |
-|--------|-----------|
-| AI hallucinations en decisiones legales | Mandatory citation verification, human-in-the-loop gates (patrón lavern), LegalBench eval |
-| Regulación de AI en práctica legal | Documentar uso como "asistente", disclaimers, logging de todas las respuestas |
-| Confidencialidad / privilege | Self-hosted, zero telemetría, OpenContracts MIT license audit |
-| Licencia AGPL (Mike, LexNLP) | Uso interno no triggerea AGPL; solo si se expone a terceros |
+| Dimensión | Harvey/Legora/Clio | Mike + OpenContracts + lavern |
+|-----------|-------------------|-------------------------------|
+| Costo mensual | $200-500/usuario/mes | $0 licencia + infra + LLM API |
+| Customización | Limitada (API) | Total (source code) |
+| Data sovereignty | Cloud vendor | Self-hosted, cliente controla |
+| Vendor risk | Alto (depende de roadmap) | Bajo (fork si es necesario) |
+| Compliance (regulado) | Depende del vendor | Control total |
+| Time to value | Semanas (SaaS onboarding) | 4-8 semanas con Globant |
+| Soporte | Vendor SLA | Globant SLA (oportunidad) |
 
 ---
-*Actualizado: 2026-07-06. Fuentes: IMARC Group, Markets&Markets, Thomson Reuters Institute, HAQQ Blog.*
+
+## 6 Zonas de win para Globant
+
+1. **Mike OSS Implementation + Support**: Firmas que quieren salir de Harvey/Legora. Globant implementa, customiza, soporta Mike bajo AGPL-3.0. Diferencial: soporte enterprise + integraciones locales.
+
+2. **OpenContracts para Due Diligence M&A**: Bancos de inversión y firmas M&A en LATAM necesitan repositorios de documentos inteligentes. OpenContracts MIT es el punto de partida.
+
+3. **lavern para High-Volume Contract Review**: Aseguradoras, bancos, telecos con contratos estándar de alto volumen. 67 agentes lavern + customización Globant para jurisdicción local.
+
+4. **Enter-style Access to Justice**: Replicar modelo Enter para mercados diferentes a Brasil (Chile, Colombia, Perú). Open source stack + Globant engineering.
+
+5. **LATAM Compliance AI**: Reforma tributaria Brasil, CFDI México, NIIF regional → herramientas AI para compliance fiscal + contractual. Stack: LexNLP + Claude + ERPNext.
+
+6. **ArkCase AI Layer para Sector Público**: Gobiernos LATAM con necesidades FOIA, case management, transparencia. ArkCase CE Apache-2.0 + capa AI Globant.
+
+---
+*Actualizado automáticamente por el pipeline de ingest.*
