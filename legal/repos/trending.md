@@ -1,50 +1,33 @@
-# 📈 Repos trending — Legal
+# Repos trending — Legal AI
 
-> Última actualización: 2026-07-07
+> GitHub trending para legal AI. Última actualización: 2026-07-07
 
-## Tabla de velocidad
+## Repos calientes esta semana
 
-| Nombre | Stars | Δ/semana | Licencia | Por qué importa |
-|--------|-------|----------|----------|-----------------|
-| [willchen96/mike](https://github.com/willchen96/mike) | ~2.2k | +2.2k | AGPL-3.0 | Harvey/Legora clone viral. 2.2k★ + 614 forks en primera semana. Mayor explosión en legal OSS 2026. |
-| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | ~400 | +150 | Apache-2.0 | Agentic law firm: 67 agentes, debate citado, 10-pass verify. Artificial Lawyer "Has Arrived". |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | ~1.4k | +80 | MIT | MCP server nativo + citation graph. DMS para el mundo agentico. |
-| [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | ~355 | +50 | MIT | Claude Code skill: CUAD risk + redlines. Integra en cualquier IDE con Claude Code. |
-| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | ~120 | +40 | MIT | MCP server completo para legal workflows. Buscando case study partners. |
-| [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | ~25 | +20 | MIT | USPTO FPD via MCP. Patent analysis sin API key de pago. |
-| [sandip-pathe/arin](https://github.com/sandip-pathe/arin) | ~80 | +15 | MIT | Local-first legal document workspace: summarize + discuss legal text offline. |
-| [HazyResearch/legalbench](https://github.com/HazyResearch/legalbench) | ~620 | +10 | MIT | Standard de evaluación LLM en legal. Crecimiento sostenido a medida que más firmas adoptan AI. |
-| [mahdyet1845/Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI) | ~10 | +8 | MIT | Brasil: análisis Reforma Tributária (IBS, CBS) con IA + web en tiempo real. LATAM relevante. |
-| [uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | ~15 | +5 | MIT | UK Legal AI Agents 2026: compliance, contratos, litigios. |
-
----
-
-## Análisis de breakout: Mike OSS
-
-**Contexto:** Will Chen pasó 2 semanas reconstruyendo el core de Harvey ($11B) y Legora ($5.6B).
-
-**Performance excepcional:**
-- 0 → 2.2k★ en 7 días (mayor crecimiento en legal OSS 2026)
-- 614 forks — señal de que firmas están experimentando activamente
-- Portada de Hacker News, Artificial Lawyer, Legal IT Insider, Legal Futures simultáneamente
-
-**AGPL-3.0 como arma estratégica:**
-> "Changes the negotiation" — Legal IT Insider
-
-Firmas que antes pagaban $X/mes por Harvey/Legora ahora tienen alternativa viable. El efecto no es que todos migren a Mike, sino que el precio de Harvey/Legora está bajo presión.
-
-**Implicación para Globant:** Oportunidad de implementación + customización de Mike para firmas que quieren self-hosted pero no tienen capacidad técnica interna.
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | MCP server: 17 tools wrapeando 41 APIs del gobierno coreano. Statute, case law, ordinances con hallucination verification. TypeScript. | ~2.2k |
+| [claude-fuer-deutsches-recht](https://github.com/Klotzkette/claude-fuer-deutsches-recht) | MIT | Skill collection para derecho alemán: laboral, corporativo, insolvencia, data protection. Python. Momentum por EU AI Act. | ~1.3k |
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 specialist agents, debate multi-agente, human gates, 10-pass verification. TypeScript. | ~268 |
+| [claude-for-legal-ZH](https://github.com/CSlawyer1985/claude-for-legal-ZH) | MIT | Chinese law adaptation: agents, skills y MCP connectors para derecho chino. | ~536 |
+| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Curated list: plataformas, AI models, MCP servers, companies, datasets para el ecosistema legal global. | ~400 |
+| [EU-Compliance-MCP](https://github.com/Ansvar-Systems/EU_compliance_MCP) | MIT | 61 regulaciones EU (GDPR, AI Act, DORA, NIS2) con 4,095 artículos y comparación cross-regulation. | ~80 |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Document intelligence platform con MCP server, vector search, annotation y AI agents. Self-hostable. | ~400 |
+| [dd-agents](https://github.com/zoharbabin/due-diligence-agents) | Apache-2.0 | M&A due diligence: 13 AI agents, pipeline de 38 pasos para análisis completo de transacciones. | ~120 |
+| [lawyer-llama](https://github.com/AndrewZhe/lawyer-llama) | MIT | LLaMA-13B para tareas legales chinas. De Universidad de Fudan. NLP legal adaptado. | ~994 |
+| [CSHaitao/Awesome-LegalAI-Resources](https://github.com/CSHaitao/Awesome-LegalAI-Resources) | MIT | Colección de datos, herramientas y recursos para Legal AI e intelligent justice systems. | ~500 |
 
 ---
 
-## Watch list H2 2026
+## Repos de nicho con momentum
 
-| Repo | Señal a monitorear | Probabilidad |
-|------|--------------------|--------------|
-| [willchen96/mike](https://github.com/willchen96/mike) | Llega a 5k★ + enterprise features | Alta |
-| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Multi-firma SaaS layer | Media |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | v2.0 con RAG nativo + más MCP tools | Alta |
-| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | Adopción por firmas medianas | Media |
+| Nombre | Notas |
+|--------|-------|
+| [direito-familiar-imobiliario](https://github.com/maiconfuhr/direito-familiar-imobiliario) | MIT, Brasil civil law, actualizado mayo 2026 — relevante para LATAM |
+| [pasal](https://github.com/ilhamfp/pasal) | MIT, 40k+ regulaciones Indonesia via MCP + REST + web — modelo replicable para LATAM |
+| [contract-review-agent](https://github.com/kipeum86/contract-review-agent) | MIT, local-first, clause-level analysis con tracked-change DOCX redlines |
+| [ContextGem](https://github.com/shcherbak-ai/contextgem) | Apache-2.0, LLM extraction con schemas declarativos, momentum en contract analytics |
+| [adeu](https://github.com/dealfluence/adeu) | MIT, MCP server para inyectar Track Changes en Word — gap crítico que faltaba |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

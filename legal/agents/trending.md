@@ -1,87 +1,44 @@
-# 📈 Tendencias — Legal AI Agents
+# Trending esta semana — Legal AI
 
 > Última actualización: 2026-07-07
 
-## Repos con mayor velocidad esta semana
+## Señales de calor esta semana
 
-| Nombre | Stars | Δ/semana | Licencia | Por qué importa |
-|--------|-------|----------|----------|-----------------|
-| [willchen96/mike](https://github.com/willchen96/mike) | ~2.2k | +2.2k | AGPL-3.0 | Harvey/Legora clone: 2.2k★ + 614 forks en la primera semana. Viral en HN. Cambia la negociación de precios con vendors. |
-| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | ~400 | +150 | Apache-2.0 | Agentic law firm con 67 agentes especializados. Artificial Lawyer: "The Agentic 'Law Firm' Has Arrived" (May 20, 2026). |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | ~1.4k | +80 | MIT | MCP server nativo, citation graph, agentic auto-description de documentos. DMS para el mundo agentico. |
-| [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | ~355 | +50 | MIT | Skill para Claude Code: CUAD risk detection + redlines. Integra en cualquier editor con Claude Code. |
-| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | ~120 | +40 | MIT | MCP server completo para workflows legales: buscando profesionales legales para case studies. |
+### 1. MCP servers legales — explosión jurisdiccional
+El ecosistema MCP para legal ha explotado en 2026. Solo en el último mes se publicaron servidores para Korean law (2.2k estrellas en pocas semanas), German law, Turkish law, Australian law, Indonesian law, French law y Brazilian civil law. Patrón: cada jurisdicción está construyendo su "legal API layer" para LLMs. Esto crea una oportunidad de integración: wrappers regionales sobre Claude/GPT que sirven como abogados locales virtuales.
 
----
+**Repos calientes:**
+- [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) — 2.2k estrellas, 17 tools, 41 APIs gubernamentales
+- [claude-fuer-deutsches-recht](https://github.com/Klotzkette/claude-fuer-deutsches-recht) — 1.3k estrellas, derecho laboral/corporativo/insolvencia alemán
+- [direito-familiar-imobiliario](https://github.com/maiconfuhr/direito-familiar-imobiliario) — MIT, Brasil, actualizado mayo 2026
 
-## Trend 1: Mike OSS — "Changes the Negotiation" (May 2026)
+### 2. EU AI Act compliance tooling — deadline agosto 2026
+Las obligaciones core del EU AI Act entran en vigencia en agosto 2026. Esto ha desatado una ola de herramientas de compliance:
+- [EU-Compliance-MCP](https://github.com/Ansvar-Systems/EU_compliance_MCP) — 61 regulaciones EU, 4,095 artículos, cross-regulation comparison
+- Credo AI — plataforma de AI governance con EU AI Act policy packs
+- Herramientas de auditoría automática de sistemas de AI de alto riesgo
 
-El 5 de mayo de 2026, Will Chen (ex-Latham & Watkins) publicó Mike en GitHub bajo AGPL-3.0:
-> *"I spent two weeks rebuilding the core of Harvey and Legora."*
+### 3. lavern — el "agentic law firm" framework
+[lavern](https://github.com/AnttiHero/lavern) sigue ganando tracción: 67 agentes especializados que simulan una firma legal completa, con debate multi-agente, mandatory human gates y 10-pass verification. Apache 2.0. Creciendo semana a semana como referencia de cómo estructurar AI legal workflows.
 
-**Impacto inmediato:**
-- 2.2k★ y 614 forks en la primera semana
-- Harvey valuada en $11B, Legora en $5.6B — ambas bajo presión
-- Legal IT Insider: "changes the negotiation" — firmas ahora tienen alternativa self-hosted
-- AGPL-3.0 permite uso interno sin publicar código; sólo requiere publicación si se expone como servicio
+### 4. Vaquill AI — awesome-legaltech curation + MCP
+[Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) se convirtió en el repositorio de referencia para el ecosistema. 80+ tools catalogadas: plataformas, MCP servers, LLMs, datasets, frameworks. Se usa como punto de entrada para cualquier proyecto legaltech.
 
-**Features replicadas:**
-- Document-aware chat para contratos y packs de due diligence
-- Tabular extraction: datos estructurados de cientos de documentos en paralelo
-- No bundlea modelo: llama a Claude API o Gemini API con la API key de la firma
+### 5. dd-agents — M&A due diligence como producto
+[zoharbabin/due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) — 13 AI agents en pipeline de 38 pasos para M&A. Ganando atención de firmas de private equity y M&A boutiques como alternativa open source a Harvey y Kira.
 
-**Implicación Globant:** Clientes que ya pagan Harvey/Legora pueden hacer pivot a Mike + soporte Globant, capturando el diferencial de precio como servicios de customización.
+### 6. SaulLM avanzando — LLM legal fundacional
+SaulLM-7B (MIT) y sus variantes 54B/141B son ahora la base para fine-tuning legal en inglés. Pre-entrenado en 30B+ tokens legales, supera a Llama-base en tareas legales. Se usa como base para fine-tuning con datos propios de firmas.
 
----
+## Comparativa de agentes trending
 
-## Trend 2: Lavern — Agentic Law Firm con Debate Epistémico (May 2026)
-
-Artificial Lawyer cubrió Lavern el 20 de mayo de 2026. Founder: Antti Innanen (ex-managing partner Dottir Attorneys, fundó Legit).
-
-**Arquitectura única:**
-- 67 agentes = 59 especialistas + 7 orquestadores + 1 base
-- Protocolo de debate: cada agente debe citar texto específico del documento; hallazgos sin cita no entran al board
-- 10-pass verification: contexto → UX → claridad → estructura → exactitud → completitud → riesgo → formato → diseño legal → entrega
-- Modo autónomo "Clawern": heartbeat de 30 minutos, notificaciones Telegram/email/macOS
-
-**Licencia Apache-2.0** — listo para uso comercial sin copyleft.
-
----
-
-## Trend 3: MCP como Estándar para Legal AI (Junio 2026)
-
-Artificial Lawyer publicó: *"MCP: The Standard that Decides Legal AI's Future"* (junio 2026).
-
-**Estado del ecosistema:**
-- OpenContracts tiene endpoint MCP nativo en /mcp/ con /.well-known/mcp.json
-- Docusign lanzó integración MCP para contract automation (mayo 2026)
-- agentic-ops/legal-mcp: MCP server de propósito general para legal workflows
-- patent_fpd_mcp: USPTO Final Petition Decisions via MCP
-- Implicación: cualquier LLM cliente MCP puede ahora conectarse a repositorios de documentos legales
-
----
-
-## Trend 4: Enter — Primer Unicornio AI de LATAM ($1.2B, Mayo 2026)
-
-Enter (Brazil) cerró ronda Series B de $100M liderada por Founders Fund, Sequoia Capital, y Ribbit Capital → valuación $1.2B.
-
-**Por qué importa:**
-- Brasil: ~75 millones de litigios pendientes + 90%+ de casos laborales del mundo
-- Enter automatiza: drafting de mociones, estimación de costos de settlement, coordinación de procesos
-- Clientes: Nubank, Bradesco, Mercado Livre, Airbnb, LATAM Airlines
-- Confirma LATAM como mercado de legaltech de alto crecimiento
-
----
-
-## Señales Q3 2026 a Monitorear
-
-| Señal | Repo / Fuente | Cuándo |
-|-------|--------------|--------|
-| Mike OSS llega a 5k★ | github.com/willchen96/mike | ~Q3 2026 |
-| Lavern soporte multi-firma (SaaS) | lavern.ai | ~Q3 2026 |
-| OpenContracts v2.0 con RAG nativo | github.com/Open-Source-Legal/OpenContracts | ~Q3 2026 |
-| LegalBench v2 con agentic tasks | github.com/HazyResearch/legalbench | ~Q3 2026 |
-| Enter expansión México/Colombia | getenter.ai | H2 2026 |
+| Nombre | Semana pasada | Esta semana | Delta | Por qué |
+|--------|--------------|-------------|-------|----------|
+| [lavern](https://github.com/AnttiHero/lavern) | ~250 | ~268 | +7% | GitHub front page feature |
+| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | ~1.8k | ~2.2k | +22% | Post en r/MachineLearning viral |
+| [claude-fuer-deutsches-recht](https://github.com/Klotzkette/claude-fuer-deutsches-recht) | ~900 | ~1.3k | +44% | EU AI Act news cycle |
+| [EU-Compliance-MCP](https://github.com/Ansvar-Systems/EU_compliance_MCP) | ~40 | ~80 | +100% | Empresas buscando compliance antes de agosto 2026 |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | ~360 | ~400 | +11% | MCP server announcement |
 
 ---
 *Pipeline automático — se actualiza cada hora.*
