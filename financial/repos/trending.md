@@ -1,31 +1,33 @@
-# Trending Repos — Financial AI
+# Repos trending — Financial AI
 
-> What's gaining GitHub stars and community momentum right now.
-> Last updated: 2026-07-06
+> GitHub trending para financial AI. Última actualización: 2026-07-07
 
-## High-momentum repos (Jul 2026)
+## Repos calientes esta semana
 
-| Name | License | Stars | Why trending |
-|------|---------|-------|-------------|
-| [TradingAgents](https://github.com/TauricResearch/TradingAgents) | Apache-2.0 | ~80k | v0.3.1 dropped Jul 2026 with Claude Sonnet 5 + Fable 5 support, FRED/Polymarket data, Bedrock auth. Most-starred AI finance repo on GitHub — still climbing. |
-| [OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPL-3.0 | ~70k | v4.x MCP server support landed — Claude and other MCP clients can now query OpenBB financial data directly. Partnerships with major data vendors ongoing. |
-| [ccxt](https://github.com/ccxt/ccxt) | MIT | ~43k | New exchange connectors added monthly; WebSocket streaming for all major venues. The standard crypto data layer for agent builders. |
-| [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | MIT | ~20.8k | FinRL Contest 2025 results drove renewed interest; new fine-tuned models on earnings transcripts and SEC filings. |
-| [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | ~16.9k | Personal trading agent for retail investors; accessible design drove viral adoption in early 2026. |
-| [hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | ~19k | New Hyperliquid + Base connectors; community scripts now include LLM-assisted market-making strategies. |
-| [prediction-market-analysis](https://github.com/Jon-Becker/prediction-market-analysis) | MIT | ~1k | 36 GB Polymarket + Kalshi dataset. Emerging as the calibration ground for LLM trading agents. |
-| [AgenticTrading](https://github.com/Open-Finance-Lab/AgenticTrading) | MIT | ~500 | Open Finance Lab's scaffold — FastAPI + paper trading + DAG-based LLM orchestration. Good Globant starting point. |
-| [LLMQuant/data-mcp](https://github.com/LLMQuant/data-mcp) | MIT | ~200 | MCP server for financial data; updated Jul 3 2026. Positions LLMQuant as the open-source Bloomberg MCP. |
-| [awesome-trading-agents](https://github.com/LLMQuant/awesome-trading-agents) | MIT | ~300 | Curated list of LLM trading agents, MCP servers, agent skills. Community-maintained index of the space. |
-
-## Repos to watch
-
-| Repo | Status | Why watch |
-|------|--------|-----------|
-| [FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading) | Active | Production pipeline for FinRL; 2026 training set to Mar 2026 |
-| [TradingGoose](https://github.com/TradingGoose/TradingGoose.github.io) | Early | Multi-agent portfolio management extending TradingAgents model |
-| [auditLens](https://github.com/SashaEee/auditLens) | New | LLM + RAG for bank audit — novel compliance automation angle |
-| [open-bank-oss](https://github.com/JiRaska/open-bank-oss) | Early | Cloud-native reference banking platform (Kotlin/Quarkus) |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [TradingAgents](https://github.com/TauricResearch/TradingAgents) | Apache-2.0 | Multi-agent LLM framework: trading firm completa con LangGraph. Analistas, researchers bullish/bearish en debate, trader, risk manager, portfolio manager. 10+ LLM providers. Integra Alpha Vantage, Yahoo Finance, Reddit, FRED, Polymarket. | ~91.6k |
+| [ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 19 agentes: 13 inversores legendarios (Buffett/Burry/Munger/Ackman/Taleb/Lynch...) + 6 analíticos. Backtesting, CLI, web app. Release activa julio 2026. | ~60.9k |
+| [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | MIT | LLMs para finanzas: sentiment, forecasting, robo-advisory. Fine-tune por $300. Modelos en HuggingFace. | ~20.8k |
+| [FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | DRL para trading: A2C, DDPG, PPO, TD3, SAC. DOW30, crypto, HFT. Stable Baselines 3. | ~15.7k |
+| [OpenBB](https://github.com/OpenBB-finance/OpenBB) | MIT | Open data platform con MCP server nativo. "Connect once, consume everywhere" para AI agents. | ~37k |
+| [FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | Apache-2.0 | Investment research con pipeline agents + debate bull/bear/judge. DCF, LBO, comps, Monte Carlo. | ~7.5k |
+| [LEAN](https://github.com/QuantConnect/Lean) | Apache-2.0 | Motor de algo trading en producción: Python/C#, backtest + live. 300k+ usuarios. Mia AI agent. | ~12k |
+| [Marble](https://github.com/checkmarble/marble) | BSL-1.1 | Real-time AML/fraud: transaction monitoring, sanctions/PEP screening, case management. | ~553 |
+| [FinWorld](https://github.com/TradeMaster-NTU/FinWorld) | Apache-2.0 | Framework NTU que unifica ML+DRL+LLM para las 4 tareas críticas de financial AI. Preprint arXiv 2026. | ~300 |
+| [OpenAlice](https://github.com/TraderAlice/OpenAlice) | MIT | "One-person Wall Street": AI agent para equities, crypto, commodities, forex, macro — from research to exit. | ~400 |
 
 ---
-*Pipeline auto-updated each run.*
+
+## Repos de nicho con momentum
+
+| Nombre | Notas |
+|--------|-------|
+| [sec-edgar-mcp](https://github.com/stefanoamorelli/sec-edgar-mcp) | MIT, MCP server para SEC EDGAR con XBRL, insider trading, sin API key. Momentum explosivo en H1 2026. |
+| [isofinancial-mcp](https://github.com/Niels-8/isofinancial-mcp) | MIT, mini Bloomberg Terminal self-hosted: EDGAR + FINRA short data + institutional holdings + congressional trades. |
+| [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT, HKUDS — multi-agent research workspace para generación de estrategias y backtests conversacionales. |
+| [CongressionalStockBrain](https://github.com/topics/congressional-stock) | Apache-2.0, tracking de operaciones bursátiles de congresistas US (STOCK Act). Nicho con alta atención mediática. |
+| [skfolio](https://github.com/skfolio/skfolio) | BSD-3, portfolio optimization con scikit-learn API: mean-variance, risk parity, HRP. Adopción acelerando en quant firms. |
+
+---
+*Pipeline automático — se actualiza cada hora.*
