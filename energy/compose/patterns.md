@@ -1,229 +1,400 @@
-# 🧩 Composition Patterns — Energy
+# Composition Patterns — Energy AI
 
-> Concrete recipes for building energy AI solutions by wiring together real repos and agents.
-> Each recipe names specific repos, integration points, and realistic timelines.
-> Last updated: 2026-07-06
-
-## Base Pattern
-
-```
-[Open-source vertical platform (EMS / Grid sim / IoT)]
-          ↓
-[Data pipeline (MQTT / REST / SCADA adapter)]
-          ↓
-[LangGraph / CrewAI agent orchestration layer]
-          ↓
-[LLM reasoning (Claude API / Ollama for on-prem)]
-          ↓
-[Operator UI (Streamlit / React dashboard)]
-```
+> Concrete recipes for building AI solutions using the identified repos + agents.
+> Each pattern names the specific repos, shows how to wire them, and gives a delivery estimate.
+> Last updated: 2026-07-07
 
 ---
 
-## Pattern 1: Agentic DERMS — DER Dispatch Agent
+## Pattern 1: Smart Grid Anomaly Detection Agent (OpenEMS + LangGraph + Claude)
 
-**Problem**: Utility has 50-500 MW of distributed solar, BESS, and EV chargers. Rule-based dispatch leaves 15-25% value on the table.
+**Use case:** Monitor an energy management system in real time. Detect abnormal consumption, generation, or storage behavior. Alert operators and suggest root causes.
 
-**Stack**:
-- **Grid model**: [PyPSA](https://github.com/PyPSA/PyPSA) (MIT) — AC OPF, multi-period dispatch
-- **Platform**: [GridAPPS-D](https://github.com/GRIDAPPSD/GRIDAPPSD) (BSD-3) — SCADA bridge, asset APIs
-- **Forecasting**: [pvlib](https://github.com/pvlib/pvlib-python) (BSD-3) + [NREL/Wattile](https://github.com/NREL/Wattile) (BSD-3)
-- **Agent framework**: [LangGraph](https://github.com/langchain-ai/langgraph) (MIT)
-- **LLM**: Claude Haiku 4.5 (fast + cheap for real-time decisions)
+**Stack:**
+- `OpenEMS/openems` — energy management IoT backbone (AGPL/EPL)
+- `langchain-ai/langgraph` — agent orchestration (MIT)
+- Anthropic Claude API (`claude-sonnet-5`) — anomaly reasoning
+- Slack/WhatsApp (Twilio) — operator notification
 
-**Architecture**:
+**Architecture:**
 ```
-GridAPPS-D SCADA ──► LangGraph supervisor agent
-                           ├── Forecasting subagent (pvlib + Wattile)
-                           ├── OPF subagent (PyPSA dispatch)
-                           ├── BESS scheduler subagent
-                           └── Alert/explanation subagent (Claude Haiku)
-```
-
-**Key integration points**:
-1. GridAPPS-D REST API → LangGraph tool `get_grid_state()`
-2. pvlib hourly solar forecast → state input to OPF subagent
-3. PyPSA `network.optimize()` → optimal dispatch per asset
-4. Claude Haiku explains dispatch decision to operator in plain language
-
-**Estimated timeline**: 8-10 weeks (POC: 3 weeks)
-**Expected ROI**: 15-25% BESS revenue increase, 10-15% curtailment reduction
-
----
-
-## Pattern 2: Building Energy Optimizer (RL-based HVAC)
-
-**Problem**: Commercial building HVAC = 40-50% of total energy. Rule-based controls are inefficient. RL agents can cut costs 15-25%.
-
-**Stack**:
-- **Simulation env**: [Sinergym](https://github.com/ugr-sail/sinergym) (MIT) over EnergyPlus
-- **RL framework**: [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3) (MIT) — PPO or SAC agent
-- **EMS platform**: [MyEMS](https://github.com/myems/myems) (MIT) — production monitoring + control
-- **Monitoring**: Grafana + InfluxDB (OSS)
-- **LLM layer**: [rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) (MIT) adapted + Claude API for explanation
-
-**Architecture**:
-```
-EnergyPlus building model
-       ↓
-Sinergym Gym environment
-       ↓
-SB3 PPO agent (train offline 1-2 weeks)
-       ↓
-MyEMS real-time controller (deploy trained policy)
-       ↓
-Claude API: "Why did the agent lower setpoint to 22°C at 3pm?"
+OpenEMS REST API (real-time: meter readings, device states, PV output, battery SoC)
+    ↓ (poll every 60s)
+LangGraph supervisor agent
+    ├── data_agent: fetch + normalize telemetry
+    ├── baseline_agent: compare vs. expected profile (time-of-week + weather)
+    ├── anomaly_agent: Claude assesses deviations → severity + root cause
+    └── alert_agent: notify operator if severity > threshold
+    ↓
+Operator dashboard + Slack #grid-alerts
 ```
 
-**Training recipe**:
+**Key code — Anomaly Assessment Agent:**
 ```python
-import sinergym
-import gymnasium as gym
-from stable_baselines3 import PPO
+from langgraph.graph import StateGraph, END
+from anthropic import Anthropic
 
-env = gym.make('Eplus-5Zone-hot-continuous-v1')
-model = PPO('MlpPolicy', env, verbose=1, tensorboard_log='./tb/')
-model.learn(total_timesteps=1_000_000)
-model.save('hvac_policy')
+client = Anthropic()
+
+def anomaly_agent(state: dict) -> dict:
+    telemetry = state["telemetry"]
+    baseline = state["baseline"]
+    
+    prompt = f"""
+    Site: {telemetry['site_id']} — {telemetry['site_name']}
+    Current readings:
+    - Grid import: {telemetry['grid_import_kw']} kW (baseline: {baseline['grid_import_kw']} kW)
+    - Solar PV output: {telemetry['pv_output_kw']} kW (expected: {baseline['pv_output_kw']} kW)
+    - Battery SoC: {telemetry['battery_soc_pct']}% (target range: {baseline['soc_target_range']})
+    - Total consumption: {telemetry['consumption_kw']} kW (baseline: {baseline['consumption_kw']} kW)
+    Weather: {telemetry['weather_condition']}, {telemetry['irradiance_wm2']} W/m²
+    
+    Is this anomalous? If yes: what is the most likely cause and what should the operator do?
+    Rate severity: low / medium / high / critical.
+    """
+    
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=600,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    
+    return {
+        **state,
+        "anomaly_assessment": response.content[0].text,
+        "alert_required": state["deviation_pct"] > 25
+    }
 ```
 
-**Estimated timeline**: 5-7 weeks (sim train + MyEMS deploy)
-**Expected ROI**: 15-25% HVAC energy reduction on TOU tariffs
+**Delivery estimate:** 3-5 weeks  
+**Cost at scale:** ~$0.02-0.05 per site per day (Claude API, 100-site portfolio)  
+**LATAM fit:** Excellent — Brazilian and Chilean utilities managing distributed solar + storage portfolios
 
 ---
 
-## Pattern 3: Renewable Energy Forecasting Agent
+## Pattern 2: Demand Response RL Agent (CityLearn + LangGraph + Claude)
 
-**Problem**: Solar/wind IPP needs 24-72 hour generation forecasts for grid commitments and curtailment minimization.
+**Use case:** Optimize energy consumption across a commercial building or campus. RL agent controls HVAC, EV charging, and battery to minimize peak demand and costs. Claude explains decisions to building managers.
 
-**Stack**:
-- **Solar modeling**: [pvlib](https://github.com/pvlib/pvlib-python) (BSD-3) — physics-based irradiance → power
-- **Wind modeling**: [windpowerlib](https://github.com/wind-python/windpowerlib) (MIT) — power curves, wake effects
-- **Probabilistic forecast**: [NREL/Wattile](https://github.com/NREL/Wattile) (BSD-3) — LSTM + uncertainty
-- **Weather data**: ERA5 reanalysis via [NREL/rex](https://github.com/NREL/rex) (BSD-3)
-- **Agent**: LangGraph — orchestrates forecast pipeline, handles re-training triggers
-- **Reporting**: Claude API — generate plain-language daily forecast briefings
+**Stack:**
+- `intelligent-environments-lab/CityLearn` — RL training environment (MIT)
+- `Stable-Baselines3` — RL training (MIT)
+- `langchain-ai/langgraph` — orchestration for multi-building coordination (MIT)
+- Anthropic Claude API — plain-language explainer for building managers
 
-**Architecture**:
+**Architecture:**
 ```
-ERA5/NWP weather data (hourly)
-       ↓
-pvlib irradiance → PV power (or windpowerlib for wind)
-       ↓
-Wattile LSTM → probabilistic P10/P50/P90 forecast
-       ↓
-LangGraph agent: decides if re-training triggered (MAE > threshold)
-       ↓
-Claude API: "Tomorrow's solar output: 42 MWh ±8. Recommend holding back 3 MW reserve."
-```
-
-**Estimated timeline**: 4-6 weeks
-**Expected ROI**: 5-12% reduction in imbalance penalties, better grid commitment bids
-
----
-
-## Pattern 4: Carbon-Aware AI Workload Scheduler
-
-**Problem**: Enterprise running ML training, batch jobs, data processing. Energy cost + carbon footprint both reducible by shifting workloads to green grid windows.
-
-**Stack**:
-- **Carbon data**: [electricitymap-contrib](https://github.com/tmrowco/electricitymap-contrib) (MIT) — real-time CI per grid zone
-- **Scheduler**: LangGraph agent with Kubernetes/cloud batch job APIs as tools
-- **LLM**: Claude Haiku 4.5 — fast decisions on defer/run
-- **Integration**: electricityMap REST API (free tier covers 5 countries)
-
-**Architecture**:
-```
-electricityMap API (carbon intensity, now + 24h forecast)
-       ↓
-LangGraph scheduler agent
-   ├── tool: get_carbon_intensity(zone, hours=24)
-   ├── tool: list_pending_jobs(priority='deferrable')
-   ├── tool: schedule_job(job_id, start_time)
-   └── tool: send_slack_notification(message)
-LLM decision: "Defer 3 training jobs 6h → save 40% carbon, $280 cost"
+CityLearn environment (simulation on historical building data)
+    ↓
+PPO/SAC RL agent training (Stable-Baselines3)
+    ↓
+Export trained policy (ONNX)
+    ↓
+Production deployment:
+    Building BMS → state → RL policy → control commands → HVAC/EV/Battery
+    ↓
+LangGraph explanation layer:
+    └── Claude explains actions to building manager in plain language
+        "Battery discharging now to reduce peak — saving ~$180 vs. grid import"
 ```
 
-**Integration snippet**:
+**Key code — Training and Deployment:**
 ```python
-from langchain_anthropic import ChatAnthropic
-from langgraph.graph import StateGraph
+from citylearn.citylearn import CityLearnEnv
+from citylearn.wrappers import NormalizedObservationWrapper
+from stable_baselines3 import SAC
+from anthropic import Anthropic
 
-def get_carbon_intensity(zone: str) -> dict:
-    r = requests.get(f"https://api.electricitymap.org/v3/carbon-intensity/latest?zone={zone}",
-                     headers={"auth-token": EM_TOKEN})
-    return r.json()
+# Training phase
+env = CityLearnEnv(schema="my_building.json")
+env = NormalizedObservationWrapper(env)
+model = SAC("MlpPolicy", env, verbose=1)
+model.learn(total_timesteps=500_000)
+model.save("building_demand_response_policy")
+
+# Production inference with LLM explainer
+client = Anthropic()
+
+def act_and_explain(building_state: dict) -> dict:
+    # RL policy decides action
+    obs = normalize_state(building_state)
+    action, _ = model.predict(obs, deterministic=True)
+    
+    # Claude explains the action
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=200,
+        messages=[{"role": "user", "content": f"""
+        Building state: {building_state}
+        RL agent decided: {interpret_action(action)}
+        Explain this decision in one sentence for a non-technical building manager.
+        Focus on cost and comfort impact.
+        """}]
+    )
+    
+    return {
+        "action": action.tolist(),
+        "explanation": response.content[0].text,
+        "estimated_savings_usd": estimate_savings(action, building_state)
+    }
 ```
 
-**Estimated timeline**: 2-3 weeks (quickest win in energy portfolio)
-**Expected ROI**: 20-40% carbon reduction for deferrable workloads; 5-15% cost saving off-peak
+**Delivery estimate:** 5-8 weeks (includes RL training on client building data)  
+**ROI baseline:** 10-20% peak demand reduction; 15-25% energy cost savings for flexible loads  
+**LATAM fit:** High — São Paulo commercial real estate (high electricity tariffs); Chilean office parks with solar + storage
 
 ---
 
-## Pattern 5: Grid Operator AI Assistant (LLM + SCADA)
+## Pattern 3: Utility Load Forecasting Agent (OpenSTEF + LangGraph + Claude)
 
-**Problem**: Grid operators handle 100-500 alarms/shift. 80% are false positives or low-priority. LLM assistant triages, annotates, and suggests actions.
+**Use case:** A distribution utility needs accurate 24-48h load forecasts for grid balancing. AutoML pipeline trains and maintains forecasting models. Claude generates operator-facing forecast summaries and flags unusual demand patterns.
 
-**Stack**:
-- **Platform**: [OperatorFabric](https://github.com/opfab/operatorfabric-core) (MPL-2.0) — card-based operator UI
-- **Grid model**: [pandapower](https://github.com/e2nIEE/pandapower) (BSD-3) — real-time state estimation
-- **Agent**: LangGraph with RAG over grid topology docs, operating procedures
-- **LLM**: Claude Sonnet 5 — complex grid event reasoning
-- **Vector store**: FAISS (MIT) — index of NOC procedures, historical incidents
+**Stack:**
+- `OpenSTEF/openstef` — AutoML energy forecasting pipeline (Apache-2.0)
+- `langchain-ai/langgraph` — orchestration (MIT)
+- Weather API (INMET Brazil / DMC Chile / Open-Meteo)
+- Anthropic Claude API — narrative forecast summaries
+- Langfuse — forecast accuracy tracking
 
-**Architecture**:
+**Architecture:**
 ```
-SCADA alarm feed → OperatorFabric REST
-       ↓
-LangGraph triage agent
-   ├── Classify alarm (tool: pandapower state check)
-   ├── RAG lookup: relevant operating procedure
-   ├── Generate annotation (Claude Sonnet): "Transformer T-221 thermal alarm.
-   │   Cause: 98% loading for 45min. Recommended action: Transfer load to T-223."
-   └── Push card back to OperatorFabric operator console
-```
-
-**Estimated timeline**: 10-14 weeks (SCADA integration + NOC procedure RAG build)
-**Expected ROI**: 60-80% reduction in alarm fatigue; operator response time -40%
-
----
-
-## Pattern 6: PyPSA-Earth National Energy Transition Modeler
-
-**Problem**: Ministry of Energy / IPP needs to model scenarios: "What does 80% renewable by 2035 cost? Where do we need new transmission?"
-
-**Stack**:
-- **Model**: [PyPSA-Earth](https://github.com/pypsa-meets-earth/pypsa-earth) (MIT) — full country network
-- **Data**: OSM + ERA5 + entso-e via automated Snakemake pipeline
-- **Scenarios**: LangGraph agent parameterizes and runs PyPSA-Earth scenarios
-- **LLM**: Claude Opus 4.8 — interprets results, writes policy briefing
-- **Visualization**: Plotly + Dash (MIT)
-
-**Architecture**:
-```
-User NL input: "Model 70% solar + 20% wind scenario for Brazil 2035"
-       ↓
-LangGraph planning agent
-   ├── Parse scenario parameters
-   ├── Configure PyPSA-Earth Snakemake config.yaml
-   ├── Run: snakemake solve_all_networks (async, 30-120 min)
-   ├── Collect results: cost, CO2, transmission expansion
-   └── Claude Opus: generate 2-page policy brief with charts
+Smart meter AMI data (15-min intervals) + Weather forecast
+    ↓
+OpenSTEF AutoML pipeline
+    → Feature engineering (load lags, temperature, day-of-week, holidays)
+    → Model selection + training (XGBoost/LightGBM)
+    → Probabilistic output: P10 / P50 / P90 for next 48h
+    ↓
+LangGraph forecast agent
+    ├── quality_checker: flag anomalous forecasts (vs. last week same day)
+    ├── narrative_agent: Claude writes operator briefing from forecast data
+    └── alert_agent: flag scenarios requiring operator action
+    ↓
+Operator dashboard + morning briefing email
 ```
 
-**Snakemake trigger from agent**:
+**Key code — Forecast + Narrative Agent:**
 ```python
-import subprocess
-def run_pypsa_scenario(config_overrides: dict) -> str:
-    with open('config/config.yaml', 'w') as f:
-        yaml.dump({**BASE_CONFIG, **config_overrides}, f)
-    result = subprocess.run(['snakemake', '-j4', 'solve_all_networks'],
-                            capture_output=True, cwd=PYPSA_EARTH_DIR)
-    return result.stdout.decode()
+from openstef.pipeline.optimize_hyperparameters import optimize_hyperparameters_pipeline
+from openstef.pipeline.create_forecast import create_forecast_pipeline
+from anthropic import Anthropic
+
+client = Anthropic()
+
+def generate_forecast_briefing(forecast_df, grid_metadata: dict) -> str:
+    peak_hour = forecast_df.loc[forecast_df["forecast"].idxmax()]
+    valley_hour = forecast_df.loc[forecast_df["forecast"].idxmin()]
+    uncertainty_band = (
+        forecast_df["forecast_solar_upper"] - forecast_df["forecast_solar_lower"]
+    ).mean()
+    
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=400,
+        system="You are a power grid operations analyst. Write concise, actionable briefings for grid operators.",
+        messages=[{"role": "user", "content": f"""
+        Grid: {grid_metadata['name']} — {grid_metadata['region']}
+        Forecast period: next 48 hours
+        
+        Key metrics:
+        - Peak demand: {peak_hour['forecast']:.1f} MW at {peak_hour.name.strftime('%H:%M')} tomorrow
+        - Valley demand: {valley_hour['forecast']:.1f} MW at {valley_hour.name.strftime('%H:%M')}
+        - P90 vs P10 uncertainty band: ±{uncertainty_band:.1f} MW avg
+        - Renewable generation forecast: {grid_metadata['renewables_pct']}% of expected supply
+        
+        Write a 3-sentence operator briefing: what to expect, any concerns, recommended action.
+        """}]
+    )
+    
+    return response.content[0].text
 ```
 
-**Estimated timeline**: 6-8 weeks (data pipeline + scenario UI)
-**Expected ROI**: Replace 3-month consultant study with 2-hour AI run; $200K+ per engagement
+**Delivery estimate:** 4-6 weeks  
+**Cost per utility:** ~$500-2,000/month (Claude API + infrastructure for 1M meter network)  
+**LATAM fit:** Excellent — Brazilian AMI rollout (85M meters by 2028); Alliander-tested model transfers to LATAM data
 
 ---
-*Each recipe can be delivered as a Globant AI Accelerator (4-week POC) before full build.*
+
+## Pattern 4: Grid Planning LLM Agent (PyPSA + PowerMCP + Claude)
+
+**Use case:** Power system planning engineer asks natural language questions about grid impact of new renewable projects, transmission upgrades, or demand growth scenarios. Claude uses PowerMCP to run PyPSA simulations and interpret results.
+
+**Stack:**
+- `PyPSA/PyPSA` + `pypsa-meets-earth/pypsa-earth` — power system models (MIT)
+- `Power-Agent/PowerMCP` — MCP servers for power system software (MIT)
+- Anthropic Claude API — reasoning + interpretation
+- FastAPI — REST endpoint for planning teams
+
+**Architecture:**
+```
+Planning engineer query (natural language)
+    ↓
+Claude (via PowerMCP as MCP tools)
+    ├── load_grid_model(region="brazil_south")
+    ├── add_generator(type="wind", capacity_mw=500, location="RS")
+    ├── run_optimal_power_flow()
+    ├── get_congestion_report()
+    └── compute_curtailment_delta()
+    ↓
+Claude interprets OPF results → narrative + tables → planning team
+```
+
+**Key code — Planning Agent:**
+```python
+from anthropic import Anthropic
+
+client = Anthropic()
+
+# PowerMCP tools are exposed as Claude tools via MCP
+def run_grid_planning_query(engineer_question: str, grid_region: str) -> str:
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2000,
+        system=f"""You are a power systems planning expert. You have access to PyPSA grid models
+        via PowerMCP tools. When analyzing grid scenarios:
+        1. Always run a baseline OPF before adding new generation/load
+        2. Report congestion in MW and $/h terms
+        3. Quantify curtailment as % of potential generation
+        4. Recommend mitigation options with rough cost estimates
+        Grid region: {grid_region}""",
+        messages=[{"role": "user", "content": engineer_question}]
+        # PowerMCP tools injected via MCP configuration (Claude Desktop / Claude Code)
+    )
+    return response.content[0].text
+
+# Example call:
+result = run_grid_planning_query(
+    engineer_question="""What is the impact of adding 1 GW of offshore wind in 
+    the coast of Santa Catarina on transmission congestion to São Paulo?
+    What transmission upgrades would be needed?""",
+    grid_region="brazil"
+)
+```
+
+**Delivery estimate:** 4-6 weeks (PyPSA-Earth Brazil model + PowerMCP integration + UI)  
+**Target clients:** ANEEL (Brazilian regulator), EPE (energy planning), transmission utilities (Taesa, Cteep)  
+**LATAM fit:** High — Brazilian energy transition requires massive grid planning for offshore wind + solar expansion
+
+---
+
+## Pattern 5: Renewable Asset Predictive Maintenance Agent
+
+**Use case:** Monitor wind farm or solar plant SCADA data. Predict equipment failures 48-72 hours in advance. Auto-schedule maintenance and order spare parts.
+
+**Stack:**
+- `emoncms/emoncms` or plant SCADA (MQTT/OPC-UA) — telemetry data (AGPL)
+- `langchain-ai/langgraph` — orchestration (MIT)
+- `scikit-learn` + `statsmodels` — anomaly detection (BSD/MIT)
+- Anthropic Claude API (`claude-sonnet-5`) — maintenance diagnosis
+- CMMS integration (SAP PM / Maximo / Limble)
+
+**Architecture:**
+```
+Wind/Solar SCADA data (turbine vibration, temp, power output, nacelle direction)
+    ↓ MQTT / OPC-UA / REST
+LangGraph Maintenance Agent
+    ├── telemetry_reader: normalize SCADA signals to standard units
+    ├── anomaly_detector: Z-score + isolation forest on sensor streams
+    ├── forecaster: predict RUL (Remaining Useful Life) via LSTM on vibration data
+    ├── diagnosis_agent: Claude identifies failure mode from sensor pattern
+    ├── parts_agent: check CMMS inventory + generate PO if part needed
+    └── scheduler_agent: book maintenance window avoiding peak generation hours
+    ↓
+CMMS work order + Slack #maintenance-wind-farm
+```
+
+**Key code — Diagnosis Agent:**
+```python
+def wind_turbine_diagnosis(state: dict) -> dict:
+    sensor = state["sensor_readings"]
+    turbine = state["turbine_metadata"]
+    anomaly_score = state["anomaly_score"]
+    
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=800,
+        system="You are a wind turbine maintenance expert. Analyze sensor patterns and identify failure modes.",
+        messages=[{"role": "user", "content": f"""
+        Turbine: {turbine['id']} — {turbine['model']} — {turbine['site']}
+        Wind conditions: {sensor['wind_speed_ms']} m/s, direction {sensor['wind_dir_deg']}°
+        
+        Sensor readings (vs. baseline):
+        - Main bearing vibration: {sensor['bearing_vib_mm_s']} mm/s (baseline: {turbine['baseline_vib']} mm/s)
+        - Gearbox oil temp: {sensor['gearbox_oil_temp_c']}°C (max: {turbine['gearbox_temp_max']}°C)
+        - Generator winding temp: {sensor['gen_winding_temp_c']}°C
+        - Power output: {sensor['power_kw']} kW (expected at this wind: {sensor['expected_power_kw']} kW)
+        - Rotor speed: {sensor['rotor_rpm']} RPM
+        
+        Anomaly score: {anomaly_score:.2f} (alert threshold: 0.70)
+        
+        Diagnose: What is the likely failure mode? Estimated hours to failure? 
+        Which maintenance action? Priority: routine / urgent / emergency?
+        """}]
+    )
+    
+    return {
+        **state,
+        "diagnosis": response.content[0].text,
+        "maintenance_required": anomaly_score > 0.70
+    }
+```
+
+**Delivery estimate:** 6-9 weeks (includes SCADA integration + CMMS connector)  
+**ROI baseline:** Avoid one major gearbox failure = $300K-$800K savings; predictive maintenance reduces O&M costs 20-30%  
+**LATAM fit:** High — Chilean and Brazilian wind farms (Rio Grande do Norte, Ceará, Atacama) with 10-20 year asset lives
+
+---
+
+## Pattern 6: Energy Procurement AI Agent (PPA + Carbon + Cost Optimizer)
+
+**Use case:** Data center or large industrial consumer needs to optimize energy procurement — mix of PPAs (Power Purchase Agreements), spot market, and on-site renewables — while minimizing cost and maximizing renewable percentage for carbon reporting.
+
+**Stack:**
+- `PyPSA/PyPSA` or `oemof/oemof-solph` — energy system modeling (MIT)
+- `langchain-ai/langgraph` — orchestration (MIT)
+- Electricity market API (CCEE Brazil / CEN Chile / MISO/CAISO)
+- Anthropic Claude API — strategy reasoning + report generation
+- Carbon accounting: custom GHG protocol implementation
+
+**Architecture:**
+```
+Data Center / Industrial Consumer
+    Energy demand forecast (next 12 months, hourly granularity)
+    +
+Market data (spot prices, PPA offers, renewable certificates)
+    +
+Carbon goals (Scope 2 target, RE100 commitment)
+    ↓
+LangGraph Procurement Optimizer
+    ├── demand_forecaster: predict load profile with growth assumptions
+    ├── market_reader: fetch spot + forward electricity prices
+    ├── portfolio_optimizer: PyPSA/oemof OPF for optimal PPA mix
+    ├── carbon_accountant: compute Scope 2 emissions per scenario
+    └── report_generator: Claude writes procurement strategy memo
+    ↓
+Procurement recommendation:
+    - Optimal PPA mix (MW by source + geography + term)
+    - Expected cost vs. all-spot baseline
+    - Renewable % trajectory to meet RE100 target
+    - Carbon credit purchases needed to fill gap
+```
+
+**Estimated savings:** 15-30% energy cost reduction vs. all-spot procurement; 100% renewable target achievable in 2-3 years with optimized PPA portfolio  
+**Delivery estimate:** 6-10 weeks  
+**LATAM fit:** Excellent — Brazilian data centers (AWS, Google, Microsoft building in São Paulo) need renewable PPAs given RE100 commitments; Chilean solar oversupply creates attractive PPA pricing
+
+---
+
+## Pattern Selection Guide
+
+| Client scenario | Pattern | Time | Complexity |
+|----------------|---------|------|------------|
+| Building / campus energy management | Pattern 1: Smart Grid Anomaly Detection | 3-5 wk | Low |
+| Commercial building demand response | Pattern 2: CityLearn RL Agent | 5-8 wk | Medium |
+| Distribution utility (AMI rollout) | Pattern 3: Load Forecasting Agent | 4-6 wk | Medium |
+| Grid planning / regulatory | Pattern 4: PyPSA + PowerMCP | 4-6 wk | Medium |
+| Wind / solar farm O&M | Pattern 5: Predictive Maintenance | 6-9 wk | Medium |
+| Data center / large industrial | Pattern 6: Procurement Optimizer | 6-10 wk | High |
+
+---
+*Auto-updated by the ingest pipeline.*

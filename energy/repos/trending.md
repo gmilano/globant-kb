@@ -1,34 +1,49 @@
-# 📈 Trending Repos — Energy
+# Trending Repositories — Energy AI (2026-07-07)
 
-> Fast-moving repositories gaining traction in the energy AI space.
-> Last updated: 2026-07-06
-
-## Trending Now
-
-| Repo | License | Stars | What's new |
-|------|---------|-------|-----------|
-| [pypsa-meets-earth/pypsa-earth](https://github.com/pypsa-meets-earth/pypsa-earth) | MIT | ~590 | v0.5 May 2026 — 47 country models, LATAM grid data improved, Snakemake 8 |
-| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | 1.8k | v1.6 native LLM rule engine (Claude/GPT) over IoT asset trees, VPP demos |
-| [tmrowco/electricitymap-contrib](https://github.com/tmrowco/electricitymap-contrib) | MIT | ~3.5k | Carbon-aware AI scheduling; adopted by major cloud providers for green compute |
-| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | ~310 | v3.4: multi-zone support, GPT-4o baseline agent, WandB experiment tracking |
-| [NREL/Wattile](https://github.com/NREL/Wattile) | BSD-3 | ~180 | Probabilistic load forecasting SoTA — featured at NREL AI Summit Jun 2026 |
-| [pvlib/pvlib-python](https://github.com/pvlib/pvlib-python) | BSD-3 | ~1.3k | v0.11: improved bifacial module modeling, new horizon shading algorithm |
-| [f0rw4rd/pyiec61850-ng](https://github.com/f0rw4rd/pyiec61850-ng) | GPL-3.0 | 6 | Python IEC 61850 bindings (grid standard) — enables AI protocol agents |
-| [pnnl/tesp](https://github.com/pnnl/tesp) | BSD-3 | ~110 | Transactive energy with HELICS co-simulation; new RL agent examples |
-| [sariekiriyuu/smartEMS-MultiAgent-Demo](https://github.com/sariekiriyuu/smartEMS-MultiAgent-Demo) | MIT | 2 | New Jun 2026 — LangGraph multi-agent EMS for BESS + solar dispatch simulation |
-| [ArsamAryandoust/awesome-ml-power-systems](https://github.com/ArsamAryandoust/awesome-ml-power-systems) | — | 1 | Curated list of ML papers + datasets + benchmarks for power systems |
-| [ChargePi/oscp-go](https://github.com/ChargePi/oscp-go) | MIT | 3 | Open Smart Charging Protocol (OSCP) SDK for Go — EV + grid interaction layer |
-| [Marinalizm/BESS-energy-management-system](https://github.com/Marinalizm/BESS-energy-management-system) | — | 2 | Real-time 300MW BESS monitoring — ML anomaly detection demo |
-
-## Repos to Watch (Growing Fast)
-
-| Repo | License | Why watch |
-|------|---------|----------|
-| [NREL/rex](https://github.com/NREL/rex) | BSD-3 | NREL wind+solar+wave HDF5 dataset access — critical data layer for renewable AI |
-| [GRIDAPPSD/GRIDAPPSD](https://github.com/GRIDAPPSD/GRIDAPPSD) | BSD-3 | DOE Grid Apps Distribution — new RL training interface, DER management AI |
-| [dss-extensions/OpenDSSDirect.py](https://github.com/dss-extensions/OpenDSSDirect.py) | MIT | Fastest OpenDSS Python API; growing use in DER AI research |
-| [pt9912/grid-gym](https://github.com/pt9912/grid-gym) | — | Deterministic simulation for grid RL validation — new Jun 2026 |
-| [EnergieID/entsoe-py](https://github.com/EnergieID/entsoe-py) | MIT | ENTSO-E REST client; now used in several production energy trading agents |
+> Fast-moving repos and emerging signals in energy AI.
 
 ---
-*Pipeline auto-updates every hour.*
+
+## Velocity Table
+
+| Repo | Stars | Velocity | Signal |
+|------|-------|----------|--------|
+| [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | ~178 | ↑↑↑ Breakout | First MCP bridge for power grid software; Harvard SEAS backing |
+| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | 2,000 | ↑↑ High | PyPSA-Earth (global power model) gaining adoption for LATAM grid planning |
+| [OpenEMS/openems](https://github.com/OpenEMS/openems) | 1,400 | ↑ Steady | 2026.7.0 released July 2026; most actively released energy platform |
+| [emoncms/emoncms](https://github.com/emoncms/emoncms) | 1,600 | ↑ Steady | Open-source SCADA for distributed PV/storage deployments |
+| [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | 621 | ↑↑ Growing | Multi-agent RL demand response reaching production deployments |
+| [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | ~180 | ↑↑ Growing | Alliander-backed AutoML forecasting; grid operator grade |
+| [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | 1,200 | ↑ Steady | PowerMCP integration → new use cases for LLM-driven power flow |
+| [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM) | ~90 | ↑↑ Early | Domain-tuned foundation models for power; watching for star growth |
+| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | ~400 | ↑ Growing | Research compass for energy AI; broad cross-domain adoption |
+| [kaymen99/AI-for-energy-sector](https://github.com/kaymen99/AI-for-energy-sector) | ~350 | ↑ Steady | Practical ML implementations for energy; widely forked |
+
+---
+
+## Emerging Signals
+
+### Signal 1: MCP × Power Systems
+PowerMCP (MIT, Harvard SEAS) is applying the Model Context Protocol to industrial power system software — the same architecture that lets Claude read files or browse the web, now letting Claude run power flow calculations in PowerWorld or simulate faults in OpenDSS. This is the inflection point that starts moving LLM agents from text analysis tools to active power grid engineering assistants.
+
+**Early adopters to watch:** ERCOT (Texas grid operator), national labs (NREL, Argonne), and European TSOs (Elia, TenneT) have all published roadmaps toward AI-assisted grid operations.
+
+---
+
+### Signal 2: PyPSA-Earth — Open Power Systems for Every Country
+PyPSA-Earth (an extension of PyPSA by an open international team) is building validated power system models for every country. LATAM is a priority region. Once complete, Globant can use these models for AI-driven grid planning studies for Brazilian and Chilean utilities — without needing proprietary data from day one.
+
+**GitHub:** https://github.com/pypsa-meets-earth/pypsa-earth
+
+---
+
+### Signal 3: OpenSTEF Expanding Beyond Netherlands
+OpenSTEF was built for Alliander's Dutch distribution grid. Now being evaluated by utilities in Germany, Belgium, and LATAM. Its architecture (pluggable ML models, weather-feature integration, probabilistic output) is directly applicable to any distribution grid — including Brazil's Cemig, Enel Brasil, and CPFL.
+
+---
+
+### Signal 4: RL Demand Response Moving to Production
+CityLearn hit 621★ and multiple academic/industry papers are now reporting **production** RL deployments (not just simulations). Buildings in the EU and US are running CityLearn-trained policies for real-time demand response. First LATAM commercial building RL demand-response deployment expected in 2026-2027 (Chile or Colombia likely first movers, given grid stability incentives).
+
+---
+*Auto-updated by the ingest pipeline.*

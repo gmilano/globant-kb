@@ -1,57 +1,145 @@
-# 🏭 Vertical Solutions — Energy
+# Vertical Solutions — Energy
 
-> Production-grade open-source platforms customizable with AI layers.
-> Model: start with something functional, add an agentic layer on top.
-> Last updated: 2026-07-06
+> Full vertical platforms — real systems to fork and add an AI layer on top.
+> Model: start from something functional, add an agentic layer above it.
+> Last updated: 2026-07-07
 
 ## Recommended Platforms
 
-| Platform | License | Repo | Stack | Use case |
-|----------|---------|------|-------|----------|
-| **MyEMS** | MIT | [github.com/myems/myems](https://github.com/myems/myems) | Python + React + MySQL | Building & industrial Energy Management System — dashboards, metering, reports. Add LLM advisor on top. |
-| **OpenEMS** | MIT | [github.com/OpenEMS/openems](https://github.com/OpenEMS/openems) | Java + Angular | Edge energy management for solar, BESS, EV charging, heat pumps. REST API for AI agent integration. |
-| **OpenRemote** | AGPL-3.0 | [github.com/openremote/openremote](https://github.com/openremote/openremote) | Java + TypeScript | Full IoT platform: device management, asset trees, rule engine. v1.6 native LLM support. 1.8k★ |
-| **OperatorFabric** | MPL-2.0 | [github.com/opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core) | Spring Boot + Angular | RTE France — real-time grid operator alerting, card-based situational awareness. LLM annotation in v5.0. |
-| **GridAPPS-D** | BSD-3 | [github.com/GRIDAPPSD/GRIDAPPSD](https://github.com/GRIDAPPSD/GRIDAPPSD) | Python + Java + Docker | DOE/PNNL grid application development platform — SCADA bridge, DER management APIs, RL training |
-| **Fledge** | Apache-2.0 | [github.com/fledge-iot/fledge](https://github.com/fledge-iot/fledge) | C++ + Python | LF Energy industrial IoT framework — sensor ingestion, edge ML, cloud bridge for substations |
-| **OSEM** | MIT | [github.com/osem-saar/osem](https://github.com/osem-saar/osem) | Ruby on Rails | Open-source event/conference energy mgmt — adaptable for demand-response programs |
-| **EnergyPlus** | BSD-3 | [github.com/NREL/EnergyPlus](https://github.com/NREL/EnergyPlus) | C++ (NREL) | DOE whole-building energy simulation. Foundation for Sinergym / RL building control research |
-
-## Key Standards & Protocols (open specs with open-source implementations)
-
-| Standard | Relevance | Open impl |
-|----------|-----------|----------|
-| **IEC 61850** | Grid substation automation | [pyiec61850-ng](https://github.com/f0rw4rd/pyiec61850-ng) (GPL-3) |
-| **OCPP 1.6 / 2.0** | EV charging protocol | [mobilityhouse/ocpp](https://github.com/mobilityhouse/ocpp) (MIT) |
-| **OSCP** | EV smart charging | [ChargePi/oscp-go](https://github.com/ChargePi/oscp-go) (MIT) |
-| **CIM / CGMES** | Grid topology data model | [CIM-Tools](https://github.com/sogno-platform/cimpy) (MPL-2.0) |
-| **FIWARE NGSI-LD** | Smart grid data semantics | OpenRemote + Orion-LD |
-
-## How to Add AI on Top
-
-```
-1. Deploy platform (Docker Compose / Helm)
-2. Expose REST/MQTT API from platform
-3. Connect LangGraph agent to API
-4. Add LLM reasoning layer (Claude API / local Ollama)
-5. Build operator chat UI (Streamlit / React)
-```
-
-### MyEMS + AI example
-- **What it is**: production EMS used in 100+ buildings in China, Europe, LATAM
-- **AI add-on**: connect Claude API to MyEMS REST; agent answers "Why did Building A spike 40% at 2pm?" in plain language
-- **Data in**: real-time meter readings, hourly tariffs, weather
-- **Data out**: anomaly explanations, demand response recommendations, report drafts
-
-### OpenEMS + AI example
-- **What it is**: edge controller for solar+BESS+EV at prosumer/microgrid level
-- **AI add-on**: LangGraph agent reads SoC, solar forecast, tariff schedule; decides charge/discharge schedule
-- **Proven**: reduces peak import by 20-35% on time-of-use tariffs
-
-### OperatorFabric + AI example
-- **What it is**: real-time operator dashboard used in French/Spanish national grid
-- **AI add-on**: LLM alarm annotator classifies incoming grid events, suggests N-1 actions
-- **In production**: RTE France v5.0 deployed Jun 2026
+| Platform | License | Repo / URL | Stack | Use Case |
+|----------|---------|------------|-------|----------|
+| [OpenEMS](https://github.com/OpenEMS/openems) | AGPL-3.0 / EPL-2.0 | github.com/OpenEMS/openems | Java + TypeScript | Energy management IoT stack; add AI anomaly detection + RL dispatch |
+| [Emoncms](https://github.com/emoncms/emoncms) | AGPL-3.0 | github.com/emoncms/emoncms | PHP + MySQL | IoT energy monitoring + SCADA for PV; add ML forecasting layer |
+| [PyPSA](https://github.com/PyPSA/PyPSA) | MIT | github.com/PyPSA/PyPSA | Python | Power system optimization; add LLM planning assistant + scenario generation |
+| [pandapower](https://github.com/e2nIEE/pandapower) | BSD-3 | github.com/e2nIEE/pandapower | Python + pandas | Power flow analysis; add PowerMCP for LLM-driven grid analysis |
+| [CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | MIT | github.com/intelligent-environments-lab/CityLearn | Python + Gymnasium | RL demand response; deploy trained policies to building controllers |
+| [OpenSTEF](https://github.com/OpenSTEF/openstef) | Apache-2.0 | github.com/OpenSTEF/openstef | Python + XGBoost | AutoML energy forecasting; deploy at any distribution utility |
+| [EnergyPlus](https://github.com/NREL/EnergyPlus) | BSD-3 | github.com/NREL/EnergyPlus | C++ + Python | Building energy simulation; RL agent training environment |
+| [oemof-solph](https://github.com/oemof/oemof-solph) | MIT | github.com/oemof/oemof-solph | Python | Energy system optimization modeling; multi-sector long-term planning |
 
 ---
-*See `compose/patterns.md` for wiring diagrams.*
+
+## Platform Deep Dives
+
+### 1. OpenEMS — AI-Enhanced Energy Management
+
+**What it does:** Modular IoT platform for managing energy storage, renewables, EV chargers, heat pumps, and grid tariffs. Three-tier architecture: Edge (on-site PLC-like control), UI (real-time web dashboard), Backend (cloud aggregation). Used by utilities, building operators, and industrial sites across Europe. Latest release: 2026.7.0 (July 2026).
+
+**AI integration points:**
+```
+OpenEMS REST API (real-time meter readings, device states)
+    ↓
+LangGraph agent orchestrator
+    ├── anomaly_agent: detect abnormal consumption vs. expected profile
+    ├── forecast_agent: 24h load + solar generation forecast (calls OpenSTEF)
+    ├── dispatch_agent: optimal battery charge/discharge schedule
+    └── alert_agent: notify operator for critical events (Slack / WhatsApp)
+    ↓
+OpenEMS control commands (charge battery, curtail PV, adjust EV charging rate)
+```
+
+**What to add:**
+- Conversational energy advisor: NL interface for operators ("Why is building 3 consuming 40% more than yesterday?")
+- Predictive maintenance: inverter + battery health agent from telemetry trends
+- Tariff optimization: agent reads real-time electricity prices and schedules flexible loads
+- Carbon footprint tracker: auto-generate Scope 2 emissions reports from meter data
+
+**LATAM angle:** Self-hostable — critical for Brazilian and Chilean utilities where data sovereignty (LGPD) restricts cloud processing of grid operational data.
+
+---
+
+### 2. CityLearn — RL Demand Response for Buildings
+
+**What it does:** Multi-agent RL environment for building energy coordination. RL agents control HVAC, EV charging, batteries, and heating systems to minimize peak demand, costs, and grid stress. Compatible with all major RL libraries (Stable-Baselines3, RLlib, CleanRL). MIT license, 621★.
+
+**Production deployment path:**
+```
+CityLearn environment (simulation with real building data)
+    ↓
+RL agent training (PPO / SAC via Stable-Baselines3)
+    ↓
+Policy evaluation (reward = -cost - peak penalty - discomfort)
+    ↓
+Export trained policy (ONNX or pickle)
+    ↓
+Deploy to building controller (BMS API integration)
+    ↓
+Real-time inference: agent reads state → sends control commands every 15 min
+```
+
+**What to add:**
+- LLM explainer: Claude explains RL agent decisions to building operators in plain language
+- Multi-building coordinator: LangGraph orchestrates RL agents across building portfolio
+- Demand response market agent: links to electricity market APIs for incentive-based response
+
+---
+
+### 3. OpenSTEF — Utility-Grade Energy Forecasting
+
+**What it does:** Complete AutoML pipeline for short-term energy forecasting. Developed by Alliander (Netherlands grid operator) and production-tested at scale. Handles the full ML workflow — from raw data to probabilistic forecast with uncertainty bands. Critical for grid operators scheduling balancing reserves.
+
+**Integration with LATAM utilities:**
+```
+Smart meter data (AMI head-end system)
+    +
+Weather forecast API (INMET Brazil / DMC Chile)
+    ↓
+OpenSTEF AutoML pipeline
+    → Feature engineering (lags, weather, calendar effects)
+    → Model selection (XGBoost / LightGBM / linear boosting)
+    → Probabilistic forecast (P10, P50, P90)
+    ↓
+Operational planning:
+    ├── Grid operator: schedule reserves based on P90 forecast
+    ├── Renewables: curtailment planning for overgeneration scenarios
+    └── DER aggregator: coordinate demand response events
+```
+
+---
+
+### 4. PyPSA + PowerMCP — LLM-Assisted Grid Planning
+
+**What it does:** PyPSA provides power system optimization (capacity planning, optimal dispatch, transmission constraints). PowerMCP wraps PyPSA as an MCP server, enabling Claude and other LLMs to call PyPSA directly through natural language.
+
+**Use case — Grid Planning Agent:**
+```
+Planning engineer asks Claude:
+"What is the impact of adding 500 MW of offshore wind in Rio Grande do Sul
+on grid congestion and curtailment?"
+    ↓
+Claude uses PowerMCP to:
+    1. Load the PyPSA-Earth Brazil grid model
+    2. Add the new wind generation nodes
+    3. Run optimal power flow (OPF)
+    4. Compute congestion delta and curtailment volume
+    5. Return narrative + tables to the engineer
+```
+
+---
+
+## Selection Guide
+
+| Scenario | Recommended Platform | AI Layer |
+|----------|---------------------|----------|
+| Commercial building / campus energy | OpenEMS + LangGraph | Anomaly + tariff optimization + forecast |
+| Multi-building demand response | CityLearn + LangGraph | RL dispatch + LLM explainer |
+| Distribution utility forecasting | OpenSTEF | AutoML probabilistic forecasting |
+| Grid planning + analysis | PyPSA + PowerMCP | LLM-driven scenario analysis |
+| Solar/storage site SCADA | Emoncms + ML pipeline | Generation forecast + fault detection |
+| National/regional grid modeling | PyPSA-Earth | LLM planning assistant + scenario generation |
+| Industrial energy management | OpenEMS + oemof | Cost optimization + multi-carrier energy |
+
+---
+
+## How to Add AI to Any Energy Platform
+
+1. **Fork the base platform** — keep upstream remote for security patches (energy software has long maintenance horizons)
+2. **Expose the time-series data** — most platforms have REST or MQTT hooks; capture telemetry at consistent intervals
+3. **Add an agent orchestration layer** — LangGraph wrapping the platform's API for multi-agent coordination
+4. **Wire in LLM inference** — Claude API for reasoning; local Ollama for sensitive operational data (LGPD compliance)
+5. **Add probabilistic forecasting** — OpenSTEF or custom XGBoost model on historical data
+6. **Build the operator interface** — React chat panel or WhatsApp webhook (common in LATAM utility operations)
+7. **Instrument with Langfuse** — trace agent calls, measure forecast accuracy, track operator intervention rate
+
+---
+*Auto-updated by the ingest pipeline.*
