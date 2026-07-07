@@ -1,16 +1,22 @@
 # 🗺️ Market Map — Media & Entertainment AI
 
-> Global players, market data, LATAM opportunities. Updated: 2026-07-07
+> Global players, market data, LATAM opportunities. Updated: 2026-07-07 (fourth pass)
 
 ## Global Market Size
 
-| Metric | 2025 | 2026 | 2030 | CAGR | Source |
+| Metric | 2025 | 2026 | 2030/2035 | CAGR | Source |
 |--------|------|------|------|------|--------|
-| AI in Media & Entertainment | $28.32B | $35.77B | $99.48B | 24.2% | Grand View Research |
-| AI Video Generation | $1.8B | $2.5B | $8.4B | 36.2% | Coherent Market Insights |
+| AI in Media & Entertainment | $28.32B | $35.77B | $256B (2035) | 25.26% | SNS Insider May 2026 |
+| AI Video Generation | $1.8B | $2.5B | $8.4B (2030) | 36.2% | Coherent Market Insights |
+| Generative AI in M&E | — | — | $21.2B (2035) | — | Precedence Research |
 | AI Audio/Speech (Media) | $3.2B | $4.1B | $12B | ~28% | Multiple |
+| OTT streaming revenues (total) | $226.6B | $118.3B streaming | $213.5B streaming (2033) | 8.8% | Coherent Market Insights |
+| Global sports rights revenues | — | $67B+ | — | — | PwC Outlook 2026 |
+| Streaming sports spend | — | $14.2B (+7% YoY) | — | — | PwC Outlook 2026 |
 | Global E&M total advertising | ~$420B | ~$453B | $1.4T | 6.9% (US) | PwC Outlook 2026 |
 | Monthly active AI video users | — | 124M+ | — | — | Industry reports |
+
+> **Key update (May 2026):** SNS Insider significantly raised the long-term AI in M&E forecast — from prior $99.48B by 2030 to $256B by 2035 — driven by rising demand for personalized content experiences and AI-powered media automation globally.
 
 ## LATAM Media Market
 
@@ -50,6 +56,19 @@
 | **Spotify** | AI DJ, AI Voice Translation | spotify/pedalboard (GPL-3.0 ★5.5k) | GPL license |
 | **SYSTRAN** | Translation/ASR | SYSTRAN/faster-whisper (MIT ★15k) | Niche positioning |
 
+## Live Sports & Streaming Milestone Data (2026)
+
+| Signal | Value | Implication |
+|--------|-------|-------------|
+| Online video overtook pay-TV revenue | $176B vs $170B (2025 first time) | Structural shift — streaming is now the primary market |
+| Streaming content spend crossed $100B | $101B in 2026 | First-ever $100B milestone for content production |
+| Amazon Prime Video sports spend | $3.8B (27% of streaming sports spend) | Largest single streaming sports buyer |
+| Global sports rights | $67B+ (2026) | Sports is the anchor for hybrid FAST+streaming monetization |
+| AI at NAB 2026 | ~2× exhibitors vs prior year | AI is now core infrastructure, not a feature demo |
+| 31% of M&E orgs deployed AI in production | — | Majority still pre-production — large opportunity |
+| C2PA member organizations | 140+ (Canon, Nikon, Leica, Sony) | Hardware + software converging on provenance standard |
+| Reuters/AP synthetic media reduction | 34% via provenance tagging | C2PA measurably working in newsrooms |
+
 ## AI Adoption in Media (2026)
 
 | Application | Adoption | Growth | Notes |
@@ -72,6 +91,9 @@
 | **LATAM Localization AI** | Studios, streaming | Portuguese/Spanish TTS+ASR for LATAM expansion | 3-4 weeks |
 | **DAM AI Enrichment** | Networks, production cos | Auto-tagging, AI search for large archives | 4-6 weeks |
 | **AI Radio Automation** | Radio stations | AI playlist curation, automated DJ scripts | 3-4 weeks |
+| **Live Sports AI Highlights** | Sports broadcasters | Auto-clip key moments, AI sports narrative | 3-5 weeks |
+| **4K AI Content Studio (LTX-2)** | Branded content, agencies | LTX-2 white-label studio for 4K output | 4-6 weeks |
+| **C2PA Provenance Tagging** | News orgs, studios | EU AI Act compliance + authenticity workflow | 3-4 weeks |
 
 ## Proprietary vs. Open Source Landscape
 

@@ -1,7 +1,7 @@
 # 🏗️ Foundational Repos — Media & Entertainment
 
 > Core repositories to build on. Open licenses. Active communities.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-07 (fourth pass — LTX-2, SkyReels-V2, MAGI-1, Open-Generative-AI, Open-Sora 2.0 added)
 
 ## Speech & Transcription
 
@@ -29,6 +29,10 @@
 | [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache-2.0 | ~6k | Real-time video gen at 30fps/1216×704 — faster than real-time on A100 | Yes — interactive apps |
 | [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | ~12k | MoE video model: image conditioning, 24GB GPU deployment, Wan 2.2 update | Yes — Apache-safe |
 | [vita-epfl/Stable-Video-Infinity](https://github.com/vita-epfl/Stable-Video-Infinity) | Apache-2.0 | ~2k | ICLR 2026 Oral — infinite-length generation with error recycling | Yes — long-form content |
+| [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) | Apache-2.0 | ~8k | First open-source 4K video+audio model in a single pass; 22B DiT, IC-LoRA fine-tuning, LTX Desktop editor; Jan 2026 | Yes — 4K production |
+| [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~4.5k | Infinite-length film via Autoregressive Diffusion-Forcing; V1 is human-centric on HunyuanVideo | Yes — long-form/character |
+| [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | 24B autoregressive video (chunk-by-chunk, 24 frames/chunk); 4.5B variant for low-VRAM; streaming generation | Yes — streaming/interactive |
+| [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~22k | Ships full training pipeline + weights — data preprocessing, training scripts, eval tools all included | Yes — training/fine-tuning |
 | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | ~75k | Node-based GUI for all diffusion models; every major 2026 video model has ComfyUI nodes | Yes (backend API usable) |
 
 ## Media Distribution & Streaming
@@ -39,6 +43,12 @@
 | [owncast/owncast](https://github.com/owncast/owncast) | MIT | ~9.5k | Self-hosted live streaming + chat server (Go backend, React frontend) | Yes — AI moderation hooks |
 | [AzuraCast/AzuraCast](https://github.com/AzuraCast/AzuraCast) | Apache-2.0 | ~3.5k | Web radio management suite — stations, playlists, DJ accounts, analytics | AI playlist scheduling |
 | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | ~3.2k | Full-featured video & media CMS (Python/Django + React) with REST API | AI search, auto-tagging |
+
+## Self-Hosted AI Studio Platforms
+
+| Repo | License | Stars | Description | AI-Ready |
+|------|---------|-------|-------------|----------|
+| [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~22.6k | Self-hosted studio: Image + Video + Lip Sync + Cinema tabs, 200+ models (Flux, Kling, Sora, Veo), no filters; viral Apr 2026 | Yes — full studio |
 
 ## Broadcast & Infrastructure
 
@@ -54,8 +64,13 @@
 | Transcription / captions | SYSTRAN/faster-whisper | 4× faster, INT8, MIT license |
 | Music generation | facebookresearch/audiocraft | Industry standard, MIT code |
 | Source separation | facebookresearch/demucs | Best SDR, MIT, Python |
-| Video generation | THUDM/CogVideo | Apache-2.0, best docs, 12.5k★ |
-| Long-form video | vita-epfl/Stable-Video-Infinity | ICLR Oral, Apache-2.0 |
+| Video generation (general) | THUDM/CogVideo | Apache-2.0, best docs, 12.5k★ |
+| Video generation (4K + audio) | Lightricks/LTX-2 | First native audio+video, Apache-2.0 |
+| Video generation (training) | hpcaitech/Open-Sora | Full training pipeline included |
+| Long-form video | SkyworkAI/SkyReels-V2 | Infinite via ADF, Apache-2.0 |
+| Long-form video (alt) | vita-epfl/Stable-Video-Infinity | ICLR Oral, error recycling |
+| Streaming video (autoregressive) | SandAI-org/MAGI-1 | Chunk-by-chunk, streaming output |
+| Self-hosted studio | Anil-matcha/Open-Generative-AI | 200+ models, MIT, desktop installer |
 | Live streaming | owncast/owncast | MIT, Go, single binary |
 | Radio automation | AzuraCast/AzuraCast | Apache-2.0, full stack |
 | Video CMS | mediacms-io/mediacms | Most actively maintained |

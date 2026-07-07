@@ -1,6 +1,6 @@
 # 📈 Trending AI Agents — Media & Entertainment
 
-> What's new and gaining traction this week. Updated: 2026-07-07
+> What's new and gaining traction this week. Updated: 2026-07-07 (fourth pass)
 
 ## Breakout Projects (June–July 2026)
 
@@ -44,6 +44,34 @@
 - **What it is**: Generates 30fps video at 1216×704 faster than real time on A100. Latency-optimized for interactive applications.
 - **Why it matters**: First model to break the real-time barrier — enables live/interactive video generation.
 
+## 4th-Pass Breakouts (July 2026)
+
+### 7. LTX-2.3 — First Open-Source 4K Audio+Video in a Single Pass
+- **Repo**: [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) (Apache-2.0)
+- **Stars**: ~8k (launched Jan 6, 2026; 2.3 update Mar 5, 2026)
+- **What it is**: The first DiT-based open-source model that generates native 4K video with synchronized audio in one forward pass — no separate audio step. LTX-2.3 is ~22B parameters with IC-LoRA adapters, camera control LoRAs, and FP8 quantization for 32GB GPUs. Includes LTX Desktop editor for fully local workflows.
+- **Why it matters**: Ends the "silent video" era for open-source. Every prior open model (CogVideoX, Wan, HunyuanVideo) required separate audio generation. LTX-2 collapses that to one step.
+- **Globant angle**: Production-ready for client video generation pipelines — 4K output, commercial-safe Apache-2.0 license, fine-tuning supported.
+
+### 8. Open-Generative-AI — Self-Hosted 200-Model Studio Goes Viral
+- **Repo**: [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) (MIT)
+- **Stars**: ~22.6k (April 2026 viral launch, +7.5k in days)
+- **What it is**: Self-hosted studio with 200+ models: Image, Video, Lip Sync, and Cinema studios. Supports Flux, Midjourney-compatible, Kling, Sora, Veo — all from one interface. One-click installers for macOS/Windows/Linux. No subscription required.
+- **Why it matters**: Framed as "the end of subscription AI platforms" — hit GitHub Trending in April 2026. Shows the consumer demand for self-hosted, no-filter alternatives.
+- **Globant angle**: Reference architecture for building branded AI creative studios on top of open models for media clients.
+
+### 9. SkyReels-V2 — Infinite-Length Human-Centric Video
+- **Repo**: [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) (Apache-2.0)
+- **Stars**: ~4.5k
+- **What it is**: Infinite-length film generation using Autoregressive Diffusion-Forcing (ADF). SkyReels-V1 is the human-centric base (fine-tuned on HunyuanVideo). V2 adds infinite temporal extension — generates arbitrarily long videos with consistent characters.
+- **Why it matters**: Complements ViMax for the long-form narrative use case. Human-centric focus makes it ideal for actor-driven content, interviews, documentary.
+
+### 10. MAGI-1 (Sand AI) — 24B Autoregressive Video
+- **Repo**: [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) (Apache-2.0)
+- **Stars**: ~3.5k
+- **What it is**: 24B parameter autoregressive denoising model. Generates video chunk-by-chunk (24 frames/chunk), enabling streaming generation — you can see frames as they produce. T2V, I2V, V2V modes. A 4.5B lightweight variant for low-VRAM deployment.
+- **Why it matters**: Autoregressive architecture enables streaming output — ideal for interactive applications and progressive generation in broadcast workflows.
+
 ## Audio Ecosystem Moves
 
 ### faster-whisper now default for production
@@ -68,6 +96,11 @@ Meta's AudioCraft (facebookresearch/audiocraft) seeing large spike in fine-tunin
 | LATAM total media market 2026 | $65B (+10.7% YoY) | Omdia Jan 2026 |
 | Brazil FAST revenue (3rd global) | $152M | Omdia |
 | Open source AI video models available | 31+ | AIFreeForever survey |
+| OTT revenues 2025 | $226.6B (+13.9% YoY from $199B) | Industry tracking |
+| AI M&E market 2026 | $35.77B → $256B by 2035 | SNS Insider May 2026 |
+| Global sports rights revenue 2026 | $67B+ (streaming: $14.2B, +7% YoY) | PwC Outlook 2026 |
+| AI exhibitors at NAB 2026 | ~2× vs prior year | NAB 2026 show floor |
+| C2PA member organizations | 140+ (including Canon, Nikon, Leica) | C2PA Jan 2026 |
 
 ---
 *Updated 2026-07-07. Focus on Apache 2.0 / MIT for commercial builds.*

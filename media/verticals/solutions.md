@@ -2,7 +2,7 @@
 
 > Real platforms to start from — fork, extend with AI, deliver to clients.
 > Model: working platform + AI layer on top = faster delivery.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-07 (fourth pass)
 
 ## Video Platforms & CMS
 
@@ -32,6 +32,14 @@
 |----------|---------|------|-------|----------|----------------------|
 | **Strapi** | MIT (Community) | [strapi/strapi](https://github.com/strapi/strapi) | Node.js | Headless CMS — API-first content management; ~65k★ | AI content enrichment, auto-categorization, editorial AI |
 | **Ghost** | MIT | [TryGhost/Ghost](https://github.com/TryGhost/Ghost) | Node.js | Publishing platform for newsletters + membership sites | AI writing assist, SEO optimization, newsletter personalization |
+
+## AI Video Generation Platforms (4th-Pass Additions)
+
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **LTX Desktop + LTX-2** | Apache-2.0 | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) | Python + DiT | Local 4K video+audio generation studio; single-pass, no internet required | Native audio generation, IC-LoRA fine-tuning, camera control LoRAs |
+| **Open-Generative-AI** | MIT | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | JavaScript | Self-hosted multi-model studio; 200+ models across Image/Video/Lip Sync/Cinema | Claude API integration for script-to-video pipelines, branded studio |
+| **Open-Sora 2.0** | Apache-2.0 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Python | Complete video gen with training pipeline; only open model shipping full train code | Custom model training on client content libraries |
 
 ## Integration Code Patterns
 
@@ -164,14 +172,100 @@ Transcript: ${transcript.slice(0, 2000)}`
 }
 ```
 
+### Pattern D: LTX-2 + Claude Video Script-to-Screen
+
+```python
+import anthropic
+import subprocess
+from pathlib import Path
+
+def ltx2_script_to_screen(brief: str, output_dir: str, 
+                            style: str = "corporate") -> list[str]:
+    """Turn a creative brief into 4K video clips using LTX-2 + Claude."""
+    
+    claude = anthropic.Anthropic()
+    
+    # Step 1: Claude generates shot list from brief
+    response = claude.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": f"""Turn this creative brief into LTX-2 video prompts.
+Brief: {brief}
+Style: {style}
+
+Return JSON: {{"shots": [{{
+    "prompt": "detailed visual description for LTX-2 (focus on lighting, movement, style)",
+    "audio_prompt": "describe background audio/music for this shot",
+    "duration_sec": int (5-10),
+    "order": int
+}}]}}
+
+LTX-2 prompt tips: be specific about camera angle, lighting, motion speed, color grade."""
+        }]
+    )
+    
+    import json
+    plan = json.loads(response.content[0].text)
+    
+    clips = []
+    for shot in sorted(plan["shots"], key=lambda s: s["order"]):
+        output_path = Path(output_dir) / f"shot_{shot['order']:02d}.mp4"
+        
+        # LTX-2.3 inference — generates 4K video+audio natively
+        subprocess.run([
+            "python", "-m", "ltx_video.inference",
+            "--prompt", shot["prompt"],
+            "--audio_prompt", shot["audio_prompt"],
+            "--output", str(output_path),
+            "--resolution", "4K",
+            "--duration", str(shot["duration_sec"]),
+            "--model", "ltx-2.3"
+        ], check=True, cwd="/opt/LTX-2")
+        
+        clips.append(str(output_path))
+    
+    # Assemble into final video
+    final_path = str(Path(output_dir) / "final.mp4")
+    concat_file = Path(output_dir) / "concat.txt"
+    concat_file.write_text("\n".join(f"file '{c}'" for c in clips))
+    
+    subprocess.run([
+        "ffmpeg", "-f", "concat", "-safe", "0", "-i", str(concat_file),
+        "-c:v", "copy", "-c:a", "aac", final_path
+    ], check=True)
+    
+    return clips
+
+# Usage
+clips = ltx2_script_to_screen(
+    brief="30-second product launch video for a sports brand. Energy, motion, athletes.",
+    output_dir="/output/sports_campaign",
+    style="high-energy cinematic"
+)
+```
+
 ## LATAM-Specific Platforms
 
 | Country | Platform | License | Description |
 |---------|----------|---------|-------------|
-| Brazil | TV Cultura OSS stack | Mixed | Public broadcaster using open-source playout |
+| Brazil | TV Cultura OSS stack | Mixed | Public broadcaster using open-source playout; Globo digital transformation 2018→2026 |
+| Brazil | Globoplay + ge.globo | Proprietary | Simulcast + multi-angle cameras; World Cup 2026 host broadcaster; AI metadata opportunity |
 | Argentina | Televisión Pública (Plex-based) | Proprietary | National platform modernizing with AI subtitles |
 | Mexico | Canal Once digital stack | In-house | First Mexican broadcaster deploying AI transcription |
+| Mexico | Vix+ (TelevisaUnivision) | Proprietary | ~MXN 99/month streaming; AI personalization + FAST tier opportunity |
 | Regional | FAST platform builders | Apache | LATAM FAST is $152M+; open tools for free ad-supported tier |
+
+## Build-vs-Buy Matrix
+
+| Scenario | Build (OSS) | Time | Buy/License | Decision Driver |
+|----------|------------|------|-------------|-----------------|
+| Auto-captions for OTT | faster-whisper + MediaCMS | 2-3 wk | Rev.ai, Verbit | Volume >100h/month → OSS wins on cost |
+| Short-form content factory | OpenMontage + CogVideoX | 4-6 wk | Runway subscription | Need customization/branding → OSS |
+| 4K branded content | LTX-2 + Claude | 4-6 wk | Runway Gen-3 | Apache-2.0 + no per-clip pricing → OSS |
+| C2PA compliance | c2pa-python | 3-4 wk | Adobe Content Auth | Own infrastructure needed for audit trail → OSS |
+| Live sports highlights | faster-whisper + Claude + ffmpeg | 3-5 wk | Magnifi AI | Volume + real-time SLA → evaluate both |
 
 ---
 *Globant approach: start from a working vertical platform, add AI layer on top. 2-4 week to working PoC.*

@@ -525,6 +525,389 @@ ffmpeg → S3/CDN (social media distribution)
 
 ---
 
+## Pattern 6: AI Live Sports Highlights Pipeline
+**Use case**: Sports broadcaster or rights holder needs to auto-clip key moments from live events for social media, FAST platform, and post-game packages.
+**Repos**: SYSTRAN/faster-whisper + Claude API + ffmpeg + faster-whisper (for transcription) + Claude vision
+**Build time**: 3-5 weeks | **Cost**: ~$0.005/event-minute (GPU + Claude) vs $2-5k/event manual
+**License**: MIT + Apache-2.0 — clean for commercial use
+
+```python
+import anthropic
+import subprocess
+import json
+import asyncio
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass
+class Highlight:
+    start_sec: float
+    end_sec: float
+    event_type: str  # "goal", "score", "foul", "interview", "celebration"
+    confidence: float
+    social_caption: str
+
+class SportsHighlightPipeline:
+    def __init__(self):
+        self.claude = anthropic.Anthropic()
+    
+    def process_event(self, video_path: str, sport: str = "soccer") -> list[Highlight]:
+        """Process a sports event video and extract highlights."""
+        
+        # Step 1: Transcribe commentary with faster-whisper
+        commentary = self._transcribe_commentary(video_path)
+        
+        # Step 2: Identify highlight moments from commentary
+        moments = self._identify_moments(commentary, sport)
+        
+        # Step 3: Extract and package clips
+        highlights = []
+        for moment in moments:
+            clip_path = self._extract_clip(video_path, moment["start_sec"], moment["end_sec"])
+            
+            highlights.append(Highlight(
+                start_sec=moment["start_sec"],
+                end_sec=moment["end_sec"],
+                event_type=moment["event_type"],
+                confidence=moment["confidence"],
+                social_caption=moment["social_caption"]
+            ))
+        
+        return highlights
+    
+    def _transcribe_commentary(self, video_path: str) -> list[dict]:
+        """Extract and transcribe audio commentary from video."""
+        from faster_whisper import WhisperModel
+        
+        # Extract audio
+        audio_path = "/tmp/event_audio.wav"
+        subprocess.run([
+            "ffmpeg", "-i", video_path, "-ac", "1", "-ar", "16000", audio_path, "-y"
+        ], capture_output=True, check=True)
+        
+        model = WhisperModel("medium", device="cuda", compute_type="int8")
+        segments, _ = model.transcribe(audio_path, beam_size=5)
+        
+        return [{"start": s.start, "end": s.end, "text": s.text} for s in segments]
+    
+    def _identify_moments(self, commentary: list[dict], sport: str) -> list[dict]:
+        """Use Claude to identify key moments from commentary transcript."""
+        
+        # Build timestamped transcript
+        transcript_text = "\n".join(
+            f"[{s['start']:.1f}s] {s['text']}" for s in commentary
+        )
+        
+        sport_moments = {
+            "soccer": ["goal", "penalty", "red card", "free kick", "corner", "save", "injury time"],
+            "basketball": ["dunk", "three pointer", "buzzer beater", "foul", "timeout", "block"],
+            "american_football": ["touchdown", "interception", "sack", "field goal", "fumble"],
+        }
+        key_events = sport_moments.get(sport, ["score", "foul", "timeout", "highlight"])
+        
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2048,
+            messages=[{
+                "role": "user",
+                "content": f"""Identify highlight moments from this {sport} commentary transcript.
+Key events to find: {', '.join(key_events)}
+
+Transcript:
+{transcript_text[:8000]}
+
+Return JSON array of highlights:
+[{{
+    "start_sec": float (start of highlight, -5s before the call for buildup),
+    "end_sec": float (end of highlight, +3s after peak),
+    "event_type": string,
+    "confidence": 0.0-1.0,
+    "social_caption": string (max 140 chars for social media),
+    "commentary_quote": string (the exact commentary call)
+}}]
+
+Only include events with confidence >= 0.75. Return empty array if none."""
+            }]
+        )
+        
+        return json.loads(response.content[0].text)
+    
+    def _extract_clip(self, video_path: str, start_sec: float, end_sec: float) -> str:
+        """Extract a clip from the full video using ffmpeg."""
+        duration = end_sec - start_sec
+        output_path = f"/tmp/highlight_{int(start_sec)}.mp4"
+        
+        subprocess.run([
+            "ffmpeg", "-i", video_path,
+            "-ss", str(max(0, start_sec)),
+            "-t", str(duration + 3),  # +3s buffer
+            "-c:v", "libx264", "-c:a", "aac",
+            "-preset", "fast",
+            output_path, "-y"
+        ], check=True, capture_output=True)
+        
+        return output_path
+    
+    def generate_social_package(self, highlights: list[Highlight], 
+                                 event_name: str) -> dict:
+        """Generate a complete social media package from highlights."""
+        
+        # Sort by confidence, take top 5
+        top = sorted(highlights, key=lambda h: h.confidence, reverse=True)[:5]
+        
+        response = self.claude.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=1024,
+            messages=[{
+                "role": "user",
+                "content": f"""Create a social media content package for: {event_name}
+
+Highlights detected:
+{json.dumps([{
+    "event": h.event_type,
+    "caption": h.social_caption,
+    "start": h.start_sec
+} for h in top], indent=2)}
+
+Return JSON:
+{{
+    "summary_post": string (Twitter/X post, max 280 chars),
+    "instagram_caption": string (max 2200 chars, hashtags included),
+    "thumbnail_description": string (describe ideal thumbnail frame for AI generation),
+    "top_clip_index": int (which clip index to feature as the main post)
+}}"""
+            }]
+        )
+        
+        package = json.loads(response.content[0].text)
+        package["clips"] = [{"start": h.start_sec, "caption": h.social_caption} 
+                           for h in top]
+        return package
+
+# Usage
+pipeline = SportsHighlightPipeline()
+highlights = pipeline.process_event("/data/match_broadcast.mp4", sport="soccer")
+print(f"Found {len(highlights)} highlights")
+
+social = pipeline.generate_social_package(highlights, "Copa América Semifinal 2026")
+print(f"Summary post: {social['summary_post']}")
+```
+
+**Architecture**:
+```
+Live/recorded broadcast → faster-whisper (commentary transcription)
+    → Claude Haiku (moment detection from commentary text)
+    → ffmpeg (clip extraction with timestamp precision)
+    → Claude Sonnet 5 (social media package generator)
+    → Social distribution (Instagram/TikTok/X/FAST)
+```
+
+---
+
+## Pattern 7: C2PA Content Provenance Tagger (EU AI Act Compliance)
+**Use case**: News organization, broadcaster, or studio needs to attach cryptographic provenance to all AI-generated or AI-edited media assets for EU AI Act compliance.
+**Repos**: `c2pa-python` (Adobe, Apache-2.0) + Claude API
+**Build time**: 3-4 weeks | **Cost**: ~$0.0001/asset (near-zero API cost)
+**License**: Apache-2.0 + MIT — clean for commercial use
+
+```python
+import anthropic
+import json
+from pathlib import Path
+from datetime import datetime, timezone
+
+# pip install c2pa-python
+# Apache-2.0 license — official C2PA Python bindings from Adobe
+import c2pa
+
+class C2PAProvenanceTagger:
+    """Tags media assets with C2PA provenance manifests."""
+    
+    def __init__(self, org_name: str, signing_cert_path: str):
+        self.org_name = org_name
+        self.signing_cert = signing_cert_path
+        self.claude = anthropic.Anthropic()
+    
+    def tag_ai_generated(self, asset_path: str, generation_params: dict) -> str:
+        """Tag a fully AI-generated asset with C2PA provenance."""
+        
+        # Build C2PA assertion for AI-generated content
+        assertion = {
+            "label": "c2pa.actions",
+            "data": {
+                "actions": [{
+                    "action": "c2pa.created",
+                    "softwareAgent": {
+                        "name": "Globant AI Studio",
+                        "version": "1.0"
+                    },
+                    "parameters": {
+                        "description": f"AI-generated by {self.org_name}",
+                        "generationModel": generation_params.get("model", "unknown"),
+                        "prompt": generation_params.get("prompt", ""),
+                        "timestamp": datetime.now(timezone.utc).isoformat()
+                    }
+                }]
+            }
+        }
+        
+        # Build AI disclosure assertion (EU AI Act requirement)
+        ai_disclosure = {
+            "label": "c2pa.generative.ai.training.and.data",
+            "data": {
+                "technique": "generative_ai",
+                "model": generation_params.get("model", "unknown"),
+                "dataSources": generation_params.get("training_data", "unknown")
+            }
+        }
+        
+        # Generate metadata description with Claude
+        meta_description = self._generate_metadata_description(
+            asset_path, generation_params
+        )
+        
+        # Apply C2PA manifest
+        manifest_json = {
+            "claim_generator": f"{self.org_name}/ai-studio",
+            "title": Path(asset_path).stem,
+            "assertions": [assertion, ai_disclosure],
+            "credentials": [],
+            "metadata": {
+                "description": meta_description,
+                "organization": self.org_name,
+                "created": datetime.now(timezone.utc).isoformat()
+            }
+        }
+        
+        # Sign and embed manifest
+        output_path = asset_path.replace(
+            Path(asset_path).suffix, 
+            f"_c2pa{Path(asset_path).suffix}"
+        )
+        
+        c2pa.sign_asset(
+            source=asset_path,
+            dest=output_path,
+            manifest=json.dumps(manifest_json),
+            cert_path=self.signing_cert,
+            algorithm="ps256"
+        )
+        
+        return output_path
+    
+    def tag_ai_edited(self, original_path: str, edited_path: str, 
+                      edit_description: str) -> str:
+        """Tag an AI-edited version of a human-created asset."""
+        
+        assertion = {
+            "label": "c2pa.actions",
+            "data": {
+                "actions": [{
+                    "action": "c2pa.edited",
+                    "softwareAgent": {
+                        "name": "Globant AI Studio",
+                        "version": "1.0"
+                    },
+                    "parameters": {
+                        "description": edit_description,
+                        "editType": "ai_enhanced",
+                        "originalAsset": original_path,
+                        "timestamp": datetime.now(timezone.utc).isoformat()
+                    }
+                }]
+            }
+        }
+        
+        manifest_json = {
+            "claim_generator": f"{self.org_name}/ai-studio",
+            "assertions": [assertion],
+            "ingredients": [{"title": "original", "uri": original_path}]
+        }
+        
+        output_path = edited_path.replace(
+            Path(edited_path).suffix,
+            f"_c2pa{Path(edited_path).suffix}"
+        )
+        
+        c2pa.sign_asset(
+            source=edited_path,
+            dest=output_path,
+            manifest=json.dumps(manifest_json),
+            cert_path=self.signing_cert,
+            algorithm="ps256"
+        )
+        
+        return output_path
+    
+    def _generate_metadata_description(self, asset_path: str, params: dict) -> str:
+        """Use Claude to generate a factual description for the C2PA manifest."""
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=256,
+            messages=[{
+                "role": "user",
+                "content": f"""Generate a factual, 1-2 sentence description for an AI-generated media asset's C2PA provenance record.
+
+Asset: {Path(asset_path).name}
+Generation model: {params.get('model', 'unknown')}
+Prompt used: {params.get('prompt', 'n/a')[:200]}
+Organization: {self.org_name}
+
+Write in third person, factual tone. Focus on what was generated and by whom. No marketing language."""
+            }]
+        )
+        return response.content[0].text.strip()
+    
+    def verify_asset(self, asset_path: str) -> dict:
+        """Verify the C2PA provenance of an asset."""
+        try:
+            manifest = c2pa.read_manifest(asset_path)
+            return {
+                "has_provenance": True,
+                "manifest": json.loads(manifest),
+                "is_ai_generated": self._check_ai_disclosure(json.loads(manifest))
+            }
+        except Exception:
+            return {"has_provenance": False, "is_ai_generated": None}
+    
+    def _check_ai_disclosure(self, manifest: dict) -> bool:
+        for assertion in manifest.get("assertions", []):
+            if "generative.ai" in assertion.get("label", ""):
+                return True
+        return False
+
+# Usage
+tagger = C2PAProvenanceTagger(
+    org_name="Globant Media Studio",
+    signing_cert_path="/etc/certs/globant_c2pa.p12"
+)
+
+# Tag an AI-generated video
+tagged = tagger.tag_ai_generated(
+    asset_path="/output/product_video.mp4",
+    generation_params={
+        "model": "LTX-2.3",
+        "prompt": "Product showcase video for new sneaker line, studio lighting",
+        "training_data": "Licensed commercial video datasets"
+    }
+)
+
+# Verify any asset
+result = tagger.verify_asset(tagged)
+print(f"Provenance verified: {result['has_provenance']}")
+print(f"AI-generated: {result['is_ai_generated']}")
+```
+
+**Architecture**:
+```
+AI-generated asset → Claude Haiku (metadata description)
+    → c2pa-python (manifest building + cryptographic signing)
+    → Tagged asset with embedded C2PA manifest
+    → Verification API (for newsrooms, platforms, regulators)
+```
+
+---
+
 ## Quick-Start Matrix
 
 | Client Type | Best Pattern | Time | Stack | Cost/Month |
@@ -535,6 +918,9 @@ ffmpeg → S3/CDN (social media distribution)
 | **Studio (LATAM expansion)** | Pattern 4 (Localization) | 3-4 wk | WhisperX + Coqui TTS + Claude | $400-800 GPU |
 | **Radio Station** | Pattern 5 (Radio AI) | 3-4 wk | AzuraCast + faster-whisper + Claude | $200-400 cloud |
 | **Social / Creator Platform** | Pattern 2 (Content Factory) | 4-6 wk | OpenMontage + ViMax | $500-1k GPU |
+| **Sports Broadcaster** | Pattern 6 (Live Sports Highlights) | 3-5 wk | faster-whisper + Claude Haiku + ffmpeg | $200-400/event |
+| **News Org / Broadcaster (compliance)** | Pattern 7 (C2PA Provenance) | 3-4 wk | c2pa-python + Claude Haiku | $100-300 infra |
+| **Branded Content / Agency** | Pattern 2+6 (Studio+Highlights) | 6-8 wk | LTX-2 + OpenMontage + Claude | $800-2k GPU |
 
 ---
 *All patterns use MIT/Apache-2.0/MPL-2.0 licenses unless noted. Globant delivery estimates include deployment + testing.*

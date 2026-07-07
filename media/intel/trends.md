@@ -90,6 +90,62 @@ AI video has moved from text-prompt → single clip to full multi-step agent pip
 - Combines with ViMax for narrative multi-shot consistency
 - **Impact**: The gap between AI video and professional long-form production collapses.
 
+## Trend 12: LTX-2 — Native 4K Audio+Video Collapses the Production Pipeline (Jan 2026)
+**Signal**: Lightricks/LTX-2 released January 6, 2026 — Apache-2.0, first open-source model with synchronized audio+video in a single DiT forward pass.
+
+Prior to LTX-2, every open-source video model required:
+1. Video generation (CogVideoX, Wan, HunyuanVideo)
+2. Separate audio generation (AudioCraft, ElevenLabs)
+3. Audio-video synchronization step (ffmpeg sync, timing alignment)
+
+LTX-2 eliminates steps 2 and 3. LTX-2.3 (March 5, 2026) adds ~22B parameters, IC-LoRA fine-tuning adapters, camera control LoRAs, and FP8 quantization for 32GB GPU workflows. The LTX Desktop editor makes the full pipeline run locally without cloud dependency.
+- **Impact**: Production pipeline for a branded content video drops from 3 tools + manual sync to 1 tool. 4K output with synchronized narration/music in one step. Commercial-safe Apache-2.0.
+- **Globant angle**: Default recommendation for client 4K video generation projects from H2 2026 onward.
+
+## Trend 13: NAB 2026 — AI is Now Infrastructure, Not a Feature
+**Signal**: NAB Show 2026 (April 18-22, Las Vegas) featured ~2× more AI exhibitors than prior year and two AI Pavilions. Central theme: AI embedded across production, post-production, distribution, and newsroom operations.
+
+Key announcements and demonstrations:
+- **PGA TOUR AI Production**: Live broadcast automation using Shotlink real-time shot data + agentic AI, triggering intelligent production decisions during live play
+- **Asport Orchestrator**: AI layer above live production workflows, processing live streams + match data + contextual data to automatically identify key moments and generate clips
+- **Studio Network Solutions on-premise AI suite**: Metadata extraction/generation/analysis, perpetual license (no per-query cloud costs)
+- **AWS "AI-powered scale for storytellers"**: AI tools for every stage of the content lifecycle
+
+The NAB 2026 signal: broadcast and media infrastructure companies (not just startups) are shipping AI-native products. The creative/editorial AI tools of 2024 are now operational AI systems in 2026.
+- **Impact**: Live sports AI is the highest-value segment. Rights owners ($67B in sports rights) seeking to maximize per-event clip/highlight output to justify streaming spend.
+- **Globant angle**: AI sports production — auto-clip workflows, live highlight generation, AI narrative overlay — is a 3-5 week PoC with Asport/faster-whisper patterns.
+
+## Trend 14: C2PA Adoption Wave — Content Authenticity Becomes Contractual (2026)
+**Signal**: C2PA now 140+ member organizations; Canon, Nikon, Leica shipping C2PA firmware; Reuters and AP report 34% reduction in synthetic media reaching editorial queues.
+
+The C2PA standard (Coalition for Content Provenance and Authenticity) reached critical mass in 2026:
+- **v2.1 draft** in circulation; finalization expected late 2026
+- **Camera hardware**: 60+ manufacturers committed to C2PA-compliant hardware by Q3 2027
+- **Industry adoption**: Adobe, Google, Sony, OpenAI all C2PA members
+- **Regulatory push**: EU AI Act enforcement (2026) creating legal obligation for provenance disclosure
+- **Platform adoption**: YouTube, Adobe, Reuters all implementing C2PA metadata ingestion
+
+The four-layer detection stack now standard:
+1. Signed C2PA provenance (cryptographic chain of custody)
+2. Visual watermarks (SynthID from Google, C2PA-embedded)
+3. Metadata signals
+4. Trained classifiers
+
+- **Impact**: Every AI-generated media asset now needs a provenance trail. This is moving from "best practice" to contractual requirement in broadcast/news supply chains.
+- **Globant angle**: C2PA compliance integration as a service offering. 3-4 week implementation with `c2pa-python` (Adobe, Apache-2.0) library.
+
+## Trend 15: Self-Hosted AI Studio as a Product Category (April 2026)
+**Signal**: Open-Generative-AI (MIT, ~22.6k★) hit GitHub Trending in April 2026, framed as "the end of subscription AI video platforms."
+
+The appeal is direct: one self-hosted deployment gives access to 200+ underlying models (Flux, Midjourney-compatible, Kling, Sora, Veo) with no per-query costs, no content policies, and no vendor lock-in. The project packages Image, Video, Lip Sync, and Cinema studios in a single interface with one-click installers for macOS/Windows/Linux.
+
+This signals a product category shift:
+- 2024: "Which AI video tool should we use?" → answer is Runway/Pika/Sora subscription
+- 2026: "Which open-source studio should we self-host?" → answer is white-label branded studio on Open-Generative-AI / ComfyUI backend
+
+- **Impact**: Media clients no longer need to negotiate with proprietary AI vendors for bulk video generation. Self-hosted studios with Apache-2.0/MIT models become the enterprise path.
+- **Globant angle**: Building branded AI creative studios on top of Open-Generative-AI + LTX-2 + MAGI-1 as a turnkey delivery. 4-6 week engagement.
+
 ## Summary Timeline
 
 | Period | Development |
@@ -97,8 +153,18 @@ AI video has moved from text-prompt → single clip to full multi-step agent pip
 | 2023 | Whisper open-sourced; Stable Diffusion image generation mainstream |
 | 2024 | AnimateDiff/SVD first viable open video; AudioCraft released |
 | 2025 | Faster-whisper production standard; first agentic media tools |
-| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; OpenMontage viral; LATAM FAST $65B; native audio sync** |
-| 2026 H2 (projected) | Infinite-length video practical; real-time AI broadcast standard; C2PA compliance required |
+| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members** |
+| 2026 H2 (projected) | LTX-2 becomes default for production; SkyReels-V3 multimodal SOTA; C2PA contractual in broadcast; interactive MAGI-1 streaming apps; $256B AI M&E by 2035 pathway confirmed |
+
+## Q3 2026 Watch Signals
+
+| Signal | What to Watch For | Implication |
+|--------|-------------------|-------------|
+| LTX-2 enterprise adoption | First enterprise case studies using LTX Desktop for 4K client content | Validates Globant production studio pattern |
+| SkyReels-V3 release | Multimodal model reaching closed-source SOTA levels | Raises bar on open-source video quality |
+| C2PA v2.1 finalization | Late 2026 expected — binding spec for hardware compliance | Accelerates contractual compliance demand |
+| Asport + NAB AI partnerships | Follow-on to NAB 2026 — sports broadcast AI deals Q3 | Live sports AI PoC pipeline opens |
+| Open-Generative-AI forks | Enterprise forks adding auth, logging, billing | White-label studio market maturing |
 
 ---
 *Updated 2026-07-07. Sources: Omdia, Grand View Research, ICLR 2026, industry coverage.*

@@ -1,7 +1,7 @@
 # 🎯 Top AI Agents & Tools — Media & Entertainment
 
 > Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0.
-> Last updated: 2026-07-07 (third pass — complete rewrite)
+> Last updated: 2026-07-07 (fourth pass — LTX-2, SkyReels-V2, MAGI-1, Open-Generative-AI added)
 
 ## Top 10 AI Agents & Tools
 
@@ -17,6 +17,16 @@
 | **OpenMontage** | [Open-Montage/OpenMontage](https://github.com/Open-Montage/OpenMontage) | MIT | ~3k | World's first open-source agentic video production system — 12 pipelines, 52 tools, 500+ agent skills; plain-language video production |
 | **ComfyUI** | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | ~75k | Node-based diffusion model GUI/backend — de-facto standard for image/video production workflows; all major 2026 video models supported |
 | **Stable-Video-Infinity** | [vita-epfl/Stable-Video-Infinity](https://github.com/vita-epfl/Stable-Video-Infinity) | Apache-2.0 | ~2k | ICLR 2026 Oral — infinite-length video generation with error recycling; resolves the coherence-over-time problem for long-form content |
+
+## 2026 Breakthrough Models (4th-Pass Additions)
+
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| **LTX-2** | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) | Apache-2.0 | ~8k | First open-source model to generate native 4K video with synchronized audio in a single pass; released Jan 6, 2026; LTX-2.3 (Mar 2026) adds 22B DiT, IC-LoRA adapters, FP8 quant for 32GB GPUs |
+| **SkyReels-V2** | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~4.5k | Infinite-length film generation via Autoregressive Diffusion-Forcing (ADF); V1 is human-centric video on HunyuanVideo base — best for character consistency |
+| **MAGI-1** | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | 24B autoregressive denoising model from Sand AI; generates chunk-by-chunk (24 frames/chunk); supports T2V, I2V, V2V with streaming generation; 4.5B variant also available |
+| **Open-Generative-AI** | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~22.6k | Self-hosted studio with 200+ models (Flux, Kling, Sora, Veo); Image + Video + Lip Sync + Cinema studios; viral April 2026 (+7.5k stars in days); no content filters |
+| **Open-Sora 2.0** | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~22k | Ships complete training pipeline alongside inference weights — the only major video model to do so; data preprocessing, training scripts, eval all included |
 
 ## Supplementary Tools
 
