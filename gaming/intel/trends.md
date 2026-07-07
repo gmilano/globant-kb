@@ -1,6 +1,6 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-06
+> Investigación curada con datos verificados. Última actualización: 2026-07-07
 
 ## Tendencias confirmadas (alta confianza)
 
@@ -116,3 +116,64 @@ Los **world models** (modelos que predicen el siguiente frame de juego como esta
 
 ---
 *Fuentes: github.com/eloialonso/diamond, github.com/etched-ai/open-oasis, diamond-wm.github.io, arxiv 2405.12399, arxiv 2605.15256*
+
+### 11. Game-based LLM benchmarking — los juegos como test universal de agentes (ICLR 2026)
+Los juegos emergieron como el entorno de evaluación más completo para LLMs en 2025-2026. lmgame-Bench (ICLR 2026) formalizó este paradigma:
+
+**Por qué los juegos son el benchmark definitivo**:
+- Requieren **percepción** (interpretar pantalla/estado), **razonamiento** (planificación de acciones), **memoria** (recordar estado anterior) y **planificación a largo plazo** — exactamente las capacidades requeridas en producción.
+- A diferencia de benchmarks de texto, los juegos son difíciles de contaminar (el modelo no puede "memorizar" la solución).
+- Los juegos discriminan mejor entre modelos que benchmarks satíricos de preguntas y respuestas.
+
+**Benchmarks activos:**
+
+| Benchmark | Venue | Juegos/Entorno | Foco |
+|-----------|-------|----------------|------|
+| lmgame-Bench | ICLR 2026 | 6 juegos (Sokoban, Tetris, Candy Crush, 2048, Mario, Ace Attorney) | Percepción + razonamiento + memoria modular |
+| MineExplorer | arxiv 2605.30931 | Minecraft (1,497 tareas) | Exploración open-world sostenida |
+| MineAnyBuild | NeurIPS 2025 | Minecraft (construcción) | Planificación espacial 3D |
+| GamingAgent | ICLR 2026 | Multiple | Eval computer-use en juegos locales |
+
+**Hallazgo clave de lmgame-Bench**: los juegos de planificación espacial (Sokoban, Tetris) discriminan más entre modelos que los juegos narrativos (Ace Attorney). Claude/GPT-5 lideran en planificación; modelos más pequeños pueden igualar en narrativa.
+
+**Aplicación práctica**: antes de seleccionar un LLM para un proyecto de NPC/QA/PCG, ejecutar el benchmark en un juego del mismo género que el proyecto. Ahorra días de integración con el modelo incorrecto.
+
+Repos: [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — Apache-2.0 | [git-disl/awesome-LLM-game-agent-papers](https://github.com/git-disl/awesome-LLM-game-agent-papers) — MIT
+
+---
+
+### 12. 30% AAA studios con AI propietaria — fractura del mercado (mayo 2026)
+El GDC Festival of Gaming 2026 Trends Report (mayo 27, 2026) reveló un dato nuevo: **30% de estudios AAA ya tienen sistemas AI propietarios** entrenados con datos y assets internos.
+
+**Implicaciones:**
+- **Fractura del mercado**: estudios grandes construyen AI custom (ventaja competitiva diferenciada); estudios mid-size/indie dependen de proveedores externos → brecha que crece.
+- **El "infrastructure problem"**: los devs tienen acceso a modelos potentes (ChatGPT, Claude) pero carecen de la plataforma interna para integrarlos en pipelines de producción. El problema no es el modelo — es la infraestructura de datos, governance y toolchain.
+- **Co-desarrollo creciente**: como alternativa al build interno, estudios buscan partners externos para el stack AI.
+- **Unity y Unreal integrados**: herramientas AI "en el punto de creación" (Editor integrado vs herramienta externa separada). Barra de adopción mínima se reduce.
+
+**Oportunidad Globant**: exactamente el punto de entrada — el "infrastructure problem" es lo que AI Studios resuelve. Los 70% de estudios AAA sin AI propietaria y todo el segmento mid-size son el mercado total disponible.
+
+Fuente: businesswire.com/news/home/20260527821603/en (GDC Festival of Gaming 2026 Trends Report)
+
+---
+
+### 13. Morgan Stanley — $22B en ganancias desbloqueables: AI es ahora un mandato de board
+Morgan Stanley publicó en abril 2026 que AI podría desbloquear $22B anuales en ganancias para la industria del gaming. Este análisis cambió el nivel de conversación en los estudios:
+
+**Mecánica del $22B:**
+- $275B en gasto global de consumidores en juegos (2026)
+- ~$55B reinvertido en desarrollo y operaciones (20%)
+- AI puede reducir ese costo ~50% → libera $27.5B en costos operativos → $22B en ganancias adicionales
+- Equipos más pequeños + timelines comprimidos + más iteraciones post-launch + customer support automatizado
+
+**Impacto en conversaciones de ventas:**
+- Antes de este análisis: el pitch era tecnológico ("AI mejora NPCs") → interlocutor CTO.
+- Después: el pitch es financiero ("AI reduce COGS 50%") → interlocutor CFO/CEO/board.
+- Los estudios de tamaño medio que antes esperaban a "ver cómo va" ahora sienten presión competitiva real: los grandes ya lo están implementando.
+
+**Acción para Globant**: usar el análisis Morgan Stanley como opening en proposals. Calcular el ROI específico del cliente: si el studio gasta $10M/año en QA + content, AI tools podrían ahorrar $3-5M/año → payback en 6-12 meses.
+
+Fuente: morganstanley.com/insights/articles/ai-gaming-22-billion-industry-earning-potential-2026
+
+---
+*Fuentes: lmgame.org/GamingAgent, arxiv.org/abs/2605.30931, neurips.cc/virtual/2025/poster/121620 (MineAnyBuild), businesswire.com/20260527821603 (GDC Festival), morganstanley.com/ai-gaming-22B, gamedev.net/gdc-trends-2026*

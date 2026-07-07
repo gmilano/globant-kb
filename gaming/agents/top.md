@@ -1,7 +1,7 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-06 | Tercera actualización — añadidos: World Models, datos GDC 2026
+> Última actualización: 2026-07-07 | Cuarta actualización — añadidos: GamingAgent (ICLR 2026), awesome-LLM-game-agent-papers, sección benchmarks
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -43,6 +43,22 @@
 
 ---
 *Verificado con deep-research: 3-0 votes en claims principales. Fuentes directas de GitHub API.*
+
+## Benchmarks y evaluación de agentes en juegos
+
+> Proyectos que miden capacidades de LLMs/VLMs usando juegos como entorno de evaluación. Clave para validar qué modelos sirven para gaming.
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| GamingAgent | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | Apache-2.0 | ICLR 2026 — LLM/VLM gaming agents y lmgame-Bench. 6 juegos (Sokoban, Tetris, Candy Crush, 2048, Super Mario Bros, Ace Attorney), harness modular (percepción/memoria/razonamiento), 13 modelos evaluados. Identifica qué capacidades LLM se correlacionan con qué juegos. | ~800 |
+| awesome-LLM-game-agent-papers | [git-disl/awesome-LLM-game-agent-papers](https://github.com/git-disl/awesome-LLM-game-agent-papers) | MIT | Survey ACM CSUR sobre LLM game agents. Cataloga papers de PCG, RPG, RTS, narrative games. Incluye "Memory-Augmented State Machine Prompting for RTS" y "Speculative Actions" (ICLR 2026 Oral). | ~600 |
+
+**¿Por qué importa para Globant?**
+- lmgame-Bench permite evaluar sistemáticamente qué modelo usar en cada juego antes de contratar API.
+- Patrón: ejecutar benchmark contra el juego del cliente → elegir el modelo óptimo (costo/latencia/capacidad).
+- Identifica brechas: razonamiento espacial (Tetris, Sokoban) requiere modelos más potentes que narrativa (Ace Attorney).
+
+---
 
 ## World Models — Motores de juego neurales
 

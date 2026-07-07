@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Gaming
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-02 | Verificado con deep-research
+> Última actualización: 2026-07-07 | Añadida sección Benchmarks (GamingAgent ICLR 2026, MineExplorer)
 
 ## Game Engines
 
@@ -33,6 +33,19 @@
 |------|----------|-------------|-------|
 | [grafana/grafana](https://github.com/grafana/grafana) | Apache-2.0 | Dashboards player analytics en tiempo real | 67k |
 | [PostHog/posthog](https://github.com/PostHog/posthog) | MIT | Product analytics self-hosted. Player behavior analysis | 23k |
+
+## Benchmarks y evaluación LLM en juegos
+
+> Frameworks para medir qué modelos y agentes sirven para gaming. Clave antes de seleccionar LLM para un proyecto.
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | Apache-2.0 | lmgame-Bench (ICLR 2026): 6 juegos, harness modular percepción/memoria/razonamiento, 13 modelos evaluados. Gym-style API. | ~800 |
+| [git-disl/awesome-LLM-game-agent-papers](https://github.com/git-disl/awesome-LLM-game-agent-papers) | MIT | Survey ACM CSUR sobre LLM game agents. Tracking continuo de papers. Base académica del ecosistema. | ~600 |
+
+**MineExplorer** (arxiv 2605.30931): 1,497 tareas en Minecraft para evaluar exploración open-world de MLLMs. Filtra tareas que dependen de conocimiento específico de Minecraft → mide capacidad general de exploración.
+
+**MineAnyBuild** (NeurIPS 2025): benchmarking de planificación espacial para agentes en mundos abiertos. Complementa MineExplorer: planificación táctica vs exploración libre.
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

@@ -1,7 +1,7 @@
 # Mapa de mercado — Gaming AI
 
 > Players, tamaños, oportunidades. Foco LATAM + posicionamiento Globant.
-> Última actualización: 2026-07-06
+> Última actualización: 2026-07-07
 
 ## Tamaño de mercado global
 
@@ -15,7 +15,23 @@
 | LATAM Gaming market | $25.70B | $28.04B | 9.12% | 2026-2034 |
 | LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad |
 
-**Adopción**: 87% de estudios ya usa AI agents en sus workflows (Google Cloud survey, 615 developers, jun-jul 2025). 50%+ de estudios AAA.
+**Adopción**: 87% de estudios ya usa AI agents en sus workflows (Google Cloud survey, 615 developers, jun-jul 2025). 50%+ de estudios AAA. **30% de estudios AAA ya tiene sistemas AI propietarios** entrenados en datos internos (GDC Festival 2026, mayo 2026).
+
+## Análisis Morgan Stanley — $22B en ganancias desbloqueadas (abril 2026)
+
+| Dato | Valor |
+|------|-------|
+| Gasto global consumidores en juegos (2026) | **$275B** |
+| % reinvertido en desarrollo y operaciones | ~20% ($55B) |
+| Reducción de costos estimada por AI | **~50%** |
+| Ganancias adicionales desbloqueables | **$22B / año** |
+| Mecanismo principal | Coding automatizado, testing, content generation |
+
+**Beneficiarios directos según Morgan Stanley**: Tencent, Sony, Roblox (plataformas/operadores) + Take-Two, EA, Ubisoft (publishers con escala para desplegar AI en múltiples títulos).
+
+**Implicación para Globant**: el driver de adopción de AI en gaming ya es **financiero** (reducción de COGS), no solo tecnológico. Los decisores en estudios son ahora CFOs y boards, no solo CTOs. El pitch óptimo cuantifica el ROI: % de reducción de QA manual + velocidad de content pipeline.
+
+*Fuente: morganstanley.com/insights/articles/ai-gaming-22-billion-industry-earning-potential-2026, reuters.com (abril 2026)*
 
 **GDC 2026 sentiment** (julio 2026): 52% de devs ven GenAI negativamente (vs 30% en 2025). Adopción corporativa 52%, uso personal 36%. La brecha "mandato vs convicción" es el dato estratégico del año — los estudios adoptan por top-down, los devs resisten en el día a día. La ventana es tooling invisible (QA, matchmaking, analytics).
 

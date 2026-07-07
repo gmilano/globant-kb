@@ -16,6 +16,8 @@
 | [Yuan-ManX/AI-Native-Game](https://github.com/Yuan-ManX/AI-Native-Game) | MIT | Tracking de juegos donde la AI ES el juego (world models, generative environments). | — | Categoría emergente: AI-native games |
 | [stride3d/stride](https://github.com/stride3d/stride) | MIT | Engine C# cross-platform (ex-Xenko). Alternativa a Unity para devs .NET. | 7.7k | Engine maduro, alternativa Unity sin drama |
 | [SKYHUBDev/Aivill](https://github.com/SKYHUBDev/Aivill) | — | Villanos adaptativos que aprenden el comportamiento del jugador y evolucionan estrategias. | 0 | Concept muy relevante, observar |
+| [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | Apache-2.0 | ICLR 2026 — lmgame-Bench: 6 juegos, harness modular, 13 modelos evaluados. Framework para benchmarkear LLMs con juegos. | ~800 | Paper ICLR 2026 aceptado, referencia de la comunidad |
+| [git-disl/awesome-LLM-game-agent-papers](https://github.com/git-disl/awesome-LLM-game-agent-papers) | MIT | Survey ACM CSUR sobre LLM game agents. Cataloga papers PCG, RPG, RTS, narrative. "Speculative Actions" ICLR 2026 Oral. | ~600 | Referencia académica consolidada |
 
 ## Engines en radar
 
@@ -40,7 +42,7 @@
 - **Gemma 3n on-device**: demostrado en Godot (code-forge-temple/local-llm-npc), posibilita NPCs offline-first.
 
 ---
-*Pipeline automático actualiza señales; análisis manual verifica relevancia. 2026-07-02*
+*Pipeline automático actualiza señales; análisis manual verifica relevancia. Actualizado 2026-07-07*
 
 ## World Models — nueva categoría 2024-2026
 

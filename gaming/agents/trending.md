@@ -1,6 +1,6 @@
 # Agentes trending — Gaming AI
 
-> Tendencias activas en AI gaming. Última actualización: 2026-07-06
+> Tendencias activas en AI gaming. Última actualización: 2026-07-07
 > Investigación manual curada — complementa el pipeline automático de top.md
 
 ## Tendencias principales en 2026
@@ -105,5 +105,54 @@ Los modelos de mundo (world models) pasaron de papers académicos a demos jugabl
 
 **Estado actual (2026)**: mundo models todavía tienen problemas de consistencia temporal (el inventario "aparece y desaparece"). No producción-ready para juegos completos, pero sí para entrenamiento RL y prototipado.
 
+### 11. GamingAgent + lmgame-Bench — evaluación sistemática de LLMs en juegos (ICLR 2026)
+El proyecto [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent), aceptado en ICLR 2026, introduce un framework para evaluar LLMs y VLMs usando 6 juegos clásicos como entorno de test.
+
+**Qué hace:**
+- **lmgame-Bench**: benchmark modular sobre Sokoban, Tetris, Candy Crush, 2048, Super Mario Bros y Ace Attorney via API Gym unificada.
+- **Harness modular**: los módulos de percepción, memoria y razonamiento se pueden habilitar/deshabilitar para aislar qué capacidad falla.
+- **13 modelos evaluados**: ranking de qué LLM sirve para qué tipo de juego.
+- **Correlaciones clave**: juegos de planificación espacial (Sokoban, Tetris) discriminan bien entre modelos; juegos narrativos (Ace Attorney) miden comprensión de lenguaje largo.
+
+**Por qué importa para Globant:**
+- Permite escoger el modelo correcto para cada caso de uso (razonamiento espacial vs narrativo vs memoria).
+- Protocolo reproducible para benchmarkear modelos propietarios del cliente contra juegos internos.
+- Señal académica de calidad: ICLR 2026 valida el enfoque "juegos como benchmark universal".
+
+**Repos relacionados:**
+- [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — Apache-2.0
+- [git-disl/awesome-LLM-game-agent-papers](https://github.com/git-disl/awesome-LLM-game-agent-papers) — survey ACM CSUR
+- MineExplorer (arxiv 2605.30931): 1,497 tareas en Minecraft para evaluar exploración open-world con MLLMs
+- MineAnyBuild (NeurIPS 2025): benchmarking de planificación espacial para agentes en Minecraft
+
+### 12. GDC Festival of Gaming 2026 — "infrastructure problem" y studios propietarios
+El GDC Festival of Gaming 2026 Trends Report (mayo 27, 2026) es el segundo informe GDC del año, complementando al State of the Game Industry (marzo):
+
+**Nuevos datos clave:**
+- El 36% de desarrolladores usa herramientas GenAI en su trabajo diario.
+- **30% de estudios AAA ya tienen sistemas AI propietarios** entrenados en datos y assets internos — señal de madurez del mercado que el State of Industry no capturó.
+- El reporte enmarca el problema central como "infrastructure problem": los devs tienen acceso a modelos potentes pero carecen de toolchains integrados, pipelines de datos y governance para operarlos de forma sostenible.
+- AI agentica podría reducir costos de desarrollo AAA manejando coding, debugging y customer support.
+- Co-desarrollo creciendo como estrategia para compensar falta de presupuesto interno.
+- Unity y Unreal ahora tienen AI integrada "en el punto de creación" (no como herramienta externa separada).
+
+**Implicación para Globant:** El gap de "infrastructure problem" es exactamente el servicio de AI Studios — los estudios tienen la demanda pero no la arquitectura. Oportunidad de positioning como "AI game dev infrastructure partner".
+
+Fuente: businesswire.com/news/home/20260527821603/en/GDC-Festival-of-Gaming-2026-Trends-Report, gamedev.net/news/gdc-trends-report-2026
+
+### 13. Morgan Stanley — AI puede desbloquear $22B en ganancias gaming (abril 2026)
+Análisis de Morgan Stanley publicado en abril 2026 sobre el impacto financiero de AI en gaming:
+
+**Datos clave:**
+- Gasto global de consumidores en videojuegos: **$275B en 2026**.
+- AI podría **reducir costos de desarrollo en ~50%** (coding, testing, content generation).
+- Potencial de desbloquear **$22B adicionales en ganancias** anuales para la industria.
+- Beneficiarios principales: **Tencent, Sony, Roblox** (plataformas/operadores); y grandes publishers como **Take-Two, EA, Ubisoft** (escala para desplegar AI en múltiples títulos).
+- Mecánica: equipos más pequeños, timelines comprimidos, más iteraciones post-launch.
+
+**Contexto para Globant**: el análisis confirma que la presión para adoptar AI en gaming es financiera, no solo tecnológica. Los clientes no son solo estudios apasionados por la tecnología — son ejecutivos buscando reducir COGS del juego. El pitch más efectivo: ROI en reducción de QA manual + content creation speed.
+
+Fuente: morganstanley.com/insights/articles/ai-gaming-22-billion-industry-earning-potential-2026
+
 ---
-*Fuentes: GDC 2026 (winbuzzer.com, blog.imseankim.com), github.com/eloialonso/diamond, github.com/etched-ai/open-oasis, arxiv.org/abs/2605.15256*
+*Fuentes: GDC 2026 (winbuzzer.com, blog.imseankim.com), GDC Festival 2026 (businesswire.com, gamedev.net), Morgan Stanley (morganstanley.com, reuters.com), github.com/lmgame-org/GamingAgent, arxiv.org/abs/2605.30931, github.com/eloialonso/diamond, github.com/etched-ai/open-oasis, arxiv.org/abs/2605.15256*

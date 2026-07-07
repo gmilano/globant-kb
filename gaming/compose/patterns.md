@@ -352,6 +352,110 @@ Fase 4: Analytics (producción)
 
 ---
 
+## Receta 9: LLM Game Evaluation — selección de modelo con lmgame-Bench
+
+**Caso de uso**: antes de integrar un LLM en un proyecto de gaming (NPC, QA bot, PCG), evaluar sistemáticamente qué modelo rinde mejor para el tipo de juego del cliente. Evitar contratar API cara que falla en la tarea real.
+
+**¿Por qué?**
+- Los benchmarks generales (MMLU, HumanEval) no predicen bien el rendimiento en tareas de gaming.
+- lmgame-Bench (ICLR 2026) demuestra que los juegos discriminan mejor las capacidades que los benchmarks de texto.
+- Para juegos de planificación espacial (puzzles, platformers) → necesitas modelos con razonamiento fuerte.
+- Para juegos narrativos (RPG, diálogo de NPCs) → modelos mid-size pueden igualar al líder.
+
+**Stack**:
+```
+lmgame-Bench (Apache-2.0)
+    ├── Juegos de referencia por tipo:
+    │   ├── Razonamiento espacial: Sokoban, Tetris
+    │   ├── Toma de decisiones: Candy Crush, 2048
+    │   ├── Acción/reacción: Super Mario Bros
+    │   └── Narrativa/diálogo: Ace Attorney
+    ├── Harness modular:
+    │   ├── Percepción (on/off) — simula qué ve el agente
+    │   ├── Memoria (on/off) — simula contexto de largo plazo
+    │   └── Razonamiento (on/off) — simula CoT / planning
+    └── Modelos a evaluar:
+        ├── Claude Haiku 4.5 (bajo costo)
+        ├── Claude Sonnet 5 (balance)
+        ├── GPT-4o-mini (alternativa)
+        └── Llama 3.1 8B local (zero costo)
+```
+
+**Código base (Python)**:
+```python
+# Evaluación con lmgame-Bench — ver github.com/lmgame-org/GamingAgent
+# Requiere: pip install lmgame gymnasium anthropic
+
+import anthropic
+from lmgame import GamingBenchmark, GameConfig
+
+# Definir juegos según el tipo de proyecto del cliente
+# Proyecto: RPG con NPCs conversacionales → priorizar Ace Attorney
+# Proyecto: Puzzle game con QA bot → priorizar Sokoban + Tetris
+games = [
+    GameConfig("ace_attorney", episodes=10),  # narrativa
+    GameConfig("sokoban", episodes=10),       # planificación espacial
+]
+
+client = anthropic.Anthropic()
+
+def run_model_eval(model_id: str, game_config: GameConfig) -> dict:
+    bench = GamingBenchmark(
+        game=game_config,
+        model=model_id,
+        perception_module=True,
+        memory_module=True,      # habilitar todos para fair comparison
+        reasoning_module=True,
+    )
+    results = bench.run()
+    return {
+        "model": model_id,
+        "game": game_config.name,
+        "score": results.mean_score,
+        "completion_rate": results.completion_rate,
+        "avg_tokens": results.avg_tokens_per_step,
+        "cost_per_episode": results.estimated_cost_usd
+    }
+
+# Evaluar todos los modelos en todos los juegos
+models = [
+    "claude-haiku-4-5-20251001",
+    "claude-sonnet-5",
+    "gpt-4o-mini",
+]
+
+results = []
+for model in models:
+    for game in games:
+        r = run_model_eval(model, game)
+        results.append(r)
+        print(f"{model} @ {game.name}: score={r['score']:.2f}, cost=${r['cost_per_episode']:.4f}")
+
+# Selección automática: mejor score / costo para el juego objetivo
+import pandas as pd
+df = pd.DataFrame(results)
+# Para RPG: filtrar Ace Attorney y elegir mejor relación score/costo
+rpg_results = df[df.game == "ace_attorney"].copy()
+rpg_results["efficiency"] = rpg_results.score / rpg_results.cost_per_episode
+best_model = rpg_results.loc[rpg_results.efficiency.idxmax(), "model"]
+print(f"Modelo recomendado para NPCs RPG: {best_model}")
+```
+
+**Interpretación de resultados:**
+
+| Tipo de juego | Skill que mide | Modelos que destacan | Uso gaming |
+|---------------|---------------|---------------------|------------|
+| Sokoban / Tetris | Planificación espacial | GPT-5, Claude Sonnet 5 | QA bots para puzzles, pathfinding AI |
+| Candy Crush / 2048 | Optimización táctica | Claude Haiku (sorprendentemente bien) | Balance testing, match-3 PCG |
+| Super Mario Bros | Reacción + coordinación | VLMs con baja latencia | Playtesting agentes de acción |
+| Ace Attorney | Comprensión narrativa larga | Modelos mid-size compiten | NPCs de RPG, diálogo |
+
+**Tiempo estimado**: 2-4 horas para evaluar 3 modelos en 2-3 juegos.
+**Costo de evaluación**: $5-20 USD total para 10 episodios por modelo/juego en modelos cloud.
+**ROI**: evitar meses de integración con el modelo incorrecto. Diferencia entre Claude Haiku ($0.001/msg) y Sonnet ($0.005/msg) es 5x en producción — elegir bien ahorra $10k+/mes en producción.
+
+---
+
 ## Tabla resumen actualizada
 
 | Patrón | Stack principal | Esfuerzo | ROI esperado | GDC alignment |
@@ -364,6 +468,7 @@ Fase 4: Analytics (producción)
 | AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x dev speed | ✅ alta adopción (47%) |
 | World Model RL Training | DIAMOND + godot_rl_agents | 2-3 semanas | 10-100x entrenamiento | ✅ backend invisible |
 | Dev Productivity Stack | godot-ai + RL QA + PostHog | 3-5 días setup | 2-3x team velocity | ✅ GDC-aceptado completo |
+| LLM Game Evaluation | lmgame-Bench + 3 modelos | 2-4 horas | modelo correcto elegido | ✅ pre-venta / arquitectura |
 
 ---
 *Actualizado 2026-07-06. GDC alignment basado en GDC State of the Game Industry 2026.*
