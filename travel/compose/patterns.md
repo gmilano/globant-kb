@@ -1,308 +1,179 @@
-# Composition Patterns — Travel & Hospitality
+# Composition Patterns — Travel & Hospitality AI
 
-> Concrete recipes combining open-source repos + AI agents.
-> Each pattern names specific repos, wiring, and estimated build time.
-> Last updated: 2026-07-06
+> Concrete recipes using real repos. Build times for 2-3 dev Globant team.
+> Last updated: 2026-07-07
+
+## Pattern 1: Hotel AI Concierge (WhatsApp + QloApps + Claude)
+
+**Stack**: QloApps + DIDA hotel MCP + Twilio WhatsApp + Claude claude-sonnet-5 + OpenAI Agents SDK + FastAPI
+
+**Repos**: [Qloapps/QloApps](https://github.com/Qloapps/QloApps) + [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) + [openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+
+```python
+from agents import Agent, tool
+import requests
+
+QLOAPPS_API = "https://hotel.example.com/api"
+
+@tool
+def check_room_availability(check_in: str, check_out: str, guests: int) -> dict:
+    """Check available rooms in QloApps"""
+    resp = requests.get(f"{QLOAPPS_API}/rooms/available",
+        params={"date_from": check_in, "date_to": check_out, "guests": guests})
+    return resp.json()
+
+@tool
+def create_reservation(room_id: str, guest_name: str, guest_email: str,
+                        check_in: str, check_out: str) -> dict:
+    """Create a booking in QloApps"""
+    resp = requests.post(f"{QLOAPPS_API}/bookings", json={
+        "room_id": room_id, "name": guest_name, "email": guest_email,
+        "date_from": check_in, "date_to": check_out})
+    return resp.json()
+
+concierge = Agent(
+    name="Hotel Concierge",
+    model="claude-sonnet-5",
+    tools=[check_room_availability, create_reservation],
+    instructions="Warm hotel concierge. Confirm price+dates before booking. Match guest language."
+)
+```
+
+**Build time**: 2-3 weeks | **Cost**: ~$0.01-0.05/conversation | **Lift**: 15-25% upsell, -40% front desk calls
 
 ---
 
-## Pattern 1: MCP-First Conversational Travel Search
+## Pattern 2: Corporate Travel Agent (Amadeus + LangGraph + Slack)
 
-**Use case**: Natural-language flight + hotel search for a web or WhatsApp interface. User types "I want to fly Buenos Aires to Miami next weekend, 4-star hotel, 3 nights" and gets ranked options.
+**Stack**: Amadeus Python SDK + OpenAI Agents SDK + LangGraph + PostgreSQL + Slack
 
-**Components:**
-- `punitarani/fli` — Google Flights search (free, no API key)
-- `RollingGo-AI/rollinggo-hotel-mcp` — Hotel search (2M+ hotels, free)
-- Claude 3.5 Sonnet (or claude-sonnet-5) as the conversational agent
-- Optional: `esakrissa/hotels_mcp_server` for Booking.com Western coverage
+**Repos**: [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) + [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) + Reference: [jongalloway/travel-booking-agents](https://github.com/jongalloway/travel-booking-agents)
 
-**Architecture:**
-```
-User message
-    ↓
-Claude (tool_use) — interprets intent, extracts params
-    ├── fli.search_flights(origin, dest, dates, cabin)
-    └── rollinggo.search_hotels(city, checkin, checkout, guests, stars)
-         ↓
-Claude synthesizes results → ranked itinerary response
-    ↓
-User refines ("cheaper flights?", "only 5-star", "show beach hotels")
-```
-
-**Wire-up (Python):**
 ```python
-import anthropic
-from fli import FlightSearch  # punitarani/fli
-# rollinggo-hotel-mcp runs as MCP server on port 3000
+from amadeus import Client
+from agents import Agent, tool
 
-client = anthropic.Anthropic()
-tools = [
-    {
-        "name": "search_flights",
-        "description": "Search Google Flights for available routes",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "origin": {"type": "string", "description": "IATA code"},
-                "destination": {"type": "string"},
-                "departure_date": {"type": "string", "description": "YYYY-MM-DD"},
-                "return_date": {"type": "string"},
-                "cabin_class": {"type": "string", "enum": ["economy", "business", "first"]}
-            },
-            "required": ["origin", "destination", "departure_date"]
-        }
-    },
-    # rollinggo tools loaded from MCP server manifest
-]
-```
+amadeus = Client(client_id="...", client_secret="...")
 
-**Estimated build time**: 1-2 weeks (includes WhatsApp channel via Twilio if needed)
-
----
-
-## Pattern 2: Full Agentic Trip Planner (LangGraph Multi-Agent)
-
-**Use case**: End-to-end trip planning: user describes a trip, agent researches flights, books hotels, plans itinerary, includes activities, sends confirmation. Human-in-the-loop before final booking.
-
-**Components:**
-- `langchain-ai/langgraph` — StateGraph orchestration
-- `punitarani/fli` — Flight search
-- `ravinahp/flights-mcp` — Duffel for actual booking (creates real PNR)
-- `RollingGo-AI/rollinggo-hotel-mcp` — Hotel search + booking
-- `alibaba-flyai/flyai-skill` — Attractions, activities, local transport
-- `crewAIInc/crewAI` — Itinerary drafting crew
-- Tavily or Firecrawl — Live web research for activities/restaurants
-
-**Architecture:**
-```
-User: "Plan a 7-day trip to Tokyo for 2, October, $6000 budget, love food and art"
-    ↓
-TripPlannerGraph (LangGraph StateGraph)
-    ├── FlightNode: fli.search() → top 3 options → HITL confirm
-    ├── HotelNode: rollinggo.search() → top 5 hotels → HITL confirm  
-    ├── ActivitiesNode: flyai-skill.search_attractions() + Tavily web search
-    ├── ItineraryNode: CrewAI crew (planner_agent + local_expert_agent)
-    └── BookingNode: flights-mcp.book() + rollinggo.book() → confirmation
-         ↓
-Trip object: {flights, hotel, itinerary, budget_breakdown, confirmation_codes}
-```
-
-**LangGraph State:**
-```python
-from typing import TypedDict, List, Optional
-from langgraph.graph import StateGraph, END
-
-class TripState(TypedDict):
-    user_request: str
-    destination: str
-    dates: dict
-    budget: float
-    travelers: int
-    flights: Optional[List[dict]]
-    hotel: Optional[dict]
-    activities: Optional[List[dict]]
-    itinerary: Optional[str]
-    confirmed: bool
-    booking_refs: Optional[dict]
-```
-
-**Estimated build time**: 4-6 weeks (MVP with human-in-the-loop; 8 weeks for auto-booking)
-
----
-
-## Pattern 3: Hotel Concierge AI (WhatsApp + QloApps)
-
-**Use case**: Hotel property deploys a 24/7 WhatsApp concierge. Guests can check availability, book rooms, request services (late checkout, restaurant reservation, housekeeping), get local recommendations — all via WhatsApp.
-
-**Components:**
-- `Qloapps/QloApps` — Hotel PMS backend (reservations, room inventory, front desk)
-- `langchain-ai/langgraph` — Concierge agent orchestration
-- Twilio WhatsApp API — Channel
-- `RollingGo-AI/rollinggo-hotel-mcp` or QloApps REST API — Room search/booking
-- Claude Haiku — Fast response generation (cost-optimized for high volume)
-
-**Architecture:**
-```
-Guest WhatsApp message → Twilio webhook → FastAPI endpoint
-    ↓
-ConciergAgent (LangGraph)
-    ├── IntentClassifier: "booking" | "service_request" | "info" | "complaint"
-    ├── BookingAgent: QloApps REST API → check_availability → create_reservation
-    ├── ServiceAgent: QloApps housekeeping/F&B API → create_service_request
-    └── RecoAgent: local attractions search (flyai-skill or Google Places MCP)
-         ↓
-Response in guest language (Spanish/Portuguese/English)
-    ↓
-Twilio → WhatsApp message to guest
-```
-
-**QloApps REST Hook:**
-```python
-import httpx
-
-async def check_hotel_availability(checkin: str, checkout: str, adults: int):
-    async with httpx.AsyncClient() as client:
-        response = await client.get(
-            f"{QLOAPPS_BASE}/api/rooms/availability",
-            params={"checkin": checkin, "checkout": checkout, "adults": adults},
-            headers={"Authorization": f"Bearer {QLOAPPS_API_KEY}"}
-        )
-        return response.json()
-```
-
-**Estimated build time**: 3-4 weeks (2 weeks QloApps setup + 2 weeks agent)
-
----
-
-## Pattern 4: Corporate Travel Management Agent
-
-**Use case**: Corporate travel bot enforces travel policy while searching best rates. Employee says "I need to fly to NYC for a client meeting next Tuesday," agent finds policy-compliant options, gets manager approval, books, adds to expense system.
-
-**Components:**
-- `donghyun-chae/mcp-amadeus` — Amadeus GDS (corporate fares, negotiated rates)
-- `amadeus4dev/amadeus-python` — Trip Purpose Prediction, corporate hotel search
-- `HarimxChoi/langgraph-travel-agent` — Production reference (Amadeus + Hotelbeds + HubSpot)
-- `langchain-ai/langgraph` — Policy enforcement + approval workflow
-- HubSpot or Salesforce CRM — Trip logging
-- Slack API — Manager approval notifications
-
-**Architecture:**
-```
-Employee Slack message: "Need flight NYC Jun 15-17, hotel near Midtown"
-    ↓
-TravelPolicyAgent (LangGraph)
-    ├── PolicyChecker: max fare class, advance booking rules, preferred hotels
-    ├── FlightAgent: amadeus.flight_offers_search(policy_params)
-    ├── HotelAgent: amadeus.hotel_search(corporate_rate_code) 
-    ├── ApprovalWorkflow: HITL → Slack notification to manager
-    ├── BookingAgent: amadeus.flight_orders_create() (post-approval)
-    └── ExpenseAgent: log to HubSpot deal / Concur expense system
-         ↓
-Employee gets booking confirmation + calendar invite
-```
-
-**Policy enforcement:**
-```python
 TRAVEL_POLICY = {
-    "max_flight_cabin": "economy",  # business if >6hr or >$500 fare diff
-    "advance_booking_days": 7,       # must book 7+ days out
-    "preferred_hotel_chains": ["Marriott", "Hilton", "IHG"],
-    "max_hotel_rate_usd": 250,
-    "approval_required_above_usd": 1500
+    "max_hotel_per_night": 285,
+    "max_flight_economy": 520,
+    "approved_airlines": ["AA", "UA", "DL", "LH", "IB"],
+    "approval_thresholds": {"auto": 500, "manager": 2000, "finance": float("inf")}
 }
+
+@tool
+def search_flights(origin: str, destination: str, date: str, max_price: float) -> list:
+    """Search flights via Amadeus GDS"""
+    response = amadeus.shopping.flight_offers_search.get(
+        originLocationCode=origin, destinationLocationCode=destination,
+        departureDate=date, adults=1, maxPrice=max_price, currencyCode="USD")
+    return [{"price": o["price"]["total"], "carrier": o["validatingAirlineCodes"][0]}
+            for o in response.data[:5]]
+
+@tool
+def check_policy_compliance(flight_price: float, airline: str) -> dict:
+    """Validate against corporate travel policy"""
+    violations = []
+    if float(flight_price) > TRAVEL_POLICY["max_flight_economy"]:
+        violations.append(f"Flight ${flight_price} exceeds limit")
+    if airline not in TRAVEL_POLICY["approved_airlines"]:
+        violations.append(f"Airline {airline} not approved")
+    return {"compliant": not violations, "violations": violations}
 ```
 
-**Estimated build time**: 6-8 weeks (corporate policy complexity drives timeline)
+**Workflow**: Request → Search Agent → Policy Check → Approval Router ($500 auto/$500-2k manager/$2k+ finance) → Book → Expense Record
+
+**Build time**: 4-6 weeks | **Cost**: ~$0.10-0.30/booking | **Savings**: 2-3hr admin → 5 min per trip
 
 ---
 
-## Pattern 5: LATAM Travel Intelligence Dashboard
+## Pattern 3: Multi-Modal Trip Planner (OpenTripPlanner + Amadeus + LangGraph)
 
-**Use case**: Travel management company (TMC) or OTA wants competitive intelligence on LATAM routes: price trends, demand signals, competitor pricing, optimal booking windows.
+**Stack**: OpenTripPlanner (Java/GTFS/OSM) + OpenTravelData + Amadeus + LangGraph
 
-**Components:**
-- `crewAIInc/crewAI` — Research crew (multi-agent scraping + synthesis)
-- `punitarani/fli` — Real-time Google Flights pricing
-- `amadeus4dev/amadeus-python` — Amadeus Flight Delay Prediction + Inspiration Search
-- Firecrawl — Despegar/Almundo pricing scraper (structured extraction)
-- LangGraph — Daily batch pipeline
-- PostgreSQL + pgvector — Price history + vector search
+**Repos**: [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) + [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) + [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python)
 
-**Crew Architecture:**
 ```
-PricingIntelligenceCrew (CrewAI)
-    ├── PriceScraperAgent: fli + Firecrawl → Despegar/Almundo prices
-    ├── TrendAnalystAgent: amadeus.flight_inspiration_search() → demand signals
-    ├── CompetitorAgent: web search → competitor promotions, route changes
-    └── ReportWriterAgent: synthesize → weekly intelligence brief
-         ↓
-Dashboard (Streamlit or Metabase) showing:
-- Price trends by route (BUE→MIA, GRU→LIS, BOG→NYC)
-- Demand index (search volume proxies)
-- Optimal booking window recommendations
-- Competitor promotional activity
+User: "Plan 5-day trip to Buenos Aires for 2, budget $3000, from NYC"
+  1. FlightAgent → Amadeus → JFK-EZE $580 RT/person
+  2. HotelAgent → Amadeus/DIDA → Palermo hotels $120-180/night
+  3. RoutingAgent → OpenTripPlanner → daily transit routes
+  4. ActivityAgent → Amadeus Activities → Tango show, Tigre Delta, winery
+  5. BudgetAgent → $1160 + $700 + $400 = $2260 ✓
+  6. SynthesisAgent → formatted itinerary with map links
 ```
 
-**LangGraph pipeline:**
+**Build time**: 6-8 weeks | **Deliverable**: Embeddable widget for tourism boards
+
+---
+
+## Pattern 4: Flight Deal Discovery (Duffel NDC-First)
+
+**Stack**: Duffel API (400+ airlines, NDC-first) + LangGraph + PostgreSQL + WhatsApp notifications
+
+**Key insight**: Duffel gives direct airline pricing (no GDS markup) — how LetsFG achieved $116 savings vs Google Flights.
+
 ```python
-from langgraph.graph import StateGraph
+from duffel_api import Duffel
 
-class IntelState(TypedDict):
-    routes: List[str]
-    price_data: dict
-    demand_data: dict
-    competitor_data: dict
-    brief: str
+client = Duffel(access_token="...")
 
-pipeline = StateGraph(IntelState)
-pipeline.add_node("scrape_prices", scrape_prices_node)
-pipeline.add_node("fetch_amadeus", fetch_amadeus_node)
-pipeline.add_node("research_competitors", research_competitors_node)
-pipeline.add_node("generate_brief", generate_brief_node)
-# Run daily via cron
+def search_route(origin: str, destination: str, date: str) -> dict:
+    offer_requests = client.offer_requests.create({
+        "slices": [{"origin": origin, "destination": destination, "departure_date": date}],
+        "passengers": [{"type": "adult"}], "cabin_class": "economy"})
+    offers = list(client.offers.list(offer_requests.id))
+    return min(offers, key=lambda o: float(o.total_amount))
 ```
 
-**Estimated build time**: 4-6 weeks
+**Repos**: [duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) + Reference: [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG)
+
+**Build time**: 3-4 weeks | **Margin**: Affiliate/white-label for travel agencies
 
 ---
 
-## Pattern 6: A2A Federated Travel Platform
+## Pattern 5: LATAM Tour Operator CRM + AI Agent
 
-**Use case**: Platform aggregating multiple specialized travel agents that can be composed on demand. Each agent is independently deployable and communicates via A2A protocol. Enables a marketplace of travel capabilities.
+**Stack**: ExcursioX (MIT) + OpenAI Agents SDK + Claude + Twilio WhatsApp + Google Sheets (migration)
 
-**Components:**
-- `a2aproject/A2A` — Protocol foundation (Apache 2.0, ~20k★)
-- `extrawest/a2a_protocol_fundamentals_python` — Reference travel implementation
-- `Azure-Samples/app-service-a2a-travel-agent` — Enterprise deployment reference
-- Google ADK — Master trip planner agent
-- CrewAI — Hotel booking specialist agent
-- LangGraph — Flight search specialist agent
-- FastAPI — A2A server transport layer per agent
+**Repos**: [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) + [openai/openai-agents-python](https://github.com/openai/openai-agents-python)
 
-**Architecture:**
 ```
-TripPlannerAgent (Google ADK, port 10001) — master coordinator
-    A2A →  FlightAgent      (LangGraph, port 10002) — fli + amadeus
-    A2A →  HotelAgent       (CrewAI, port 10003)    — rollinggo + QloApps
-    A2A →  CarRentalAgent   (LangGraph, port 10004) — partner APIs
-    A2A →  CurrencyAgent    (FastAPI, port 10005)    — FX rates + budgeting
-    A2A →  ActivitiesAgent  (CrewAI, port 10006)    — flyai-skill + Viator
+WhatsApp inquiry
+  → Lead Qualification Agent (budget? dates? group size? interests?)
+  → Quote Generation Agent → ExcursioX pricing API → PDF quote
+  → Follow-up Agent → 24h follow-up → objection handling
+  → Booking Confirmation Agent → ExcursioX booking → confirmation
+  → Pre-departure Agent → 48h before: packing list + meeting point + weather
 ```
 
-**Agent Card (A2A spec):**
-```json
-{
-  "name": "TravelHotelAgent",
-  "description": "Search and book hotels from 2M+ properties worldwide",
-  "url": "http://hotel-agent:10003",
-  "version": "1.0.0",
-  "capabilities": {
-    "streaming": true,
-    "pushNotifications": true
-  },
-  "skills": [
-    {"id": "hotel_search", "name": "Search Hotels"},
-    {"id": "hotel_book", "name": "Book Hotel"},
-    {"id": "hotel_cancel", "name": "Cancel Reservation"}
-  ]
-}
-```
-
-**Why A2A over monolith**: Independent scaling, language-agnostic (each agent in best-fit language), team autonomy (hotel team owns hotel agent), incremental capability addition.
-
-**Estimated build time**: 8-12 weeks (infrastructure-heavy; justified for platform products)
+**Build time**: 3-4 weeks | **Impact**: 3-5x faster quotes, -40-60% admin | **Lift**: 20-30% more bookings
 
 ---
 
-## Anti-Patterns to Avoid
+## Pattern 6: Hotel Revenue Management AI Agent
 
-| Anti-Pattern | Why It Fails | Better Alternative |
-|--------------|-------------|-------------------|
-| Scraping OTA websites for flight/hotel data | Fragile, TOS violation, rate-limited | Use fli (Google Flights reverse API), flights-mcp (Duffel), rollinggo-hotel-mcp |
-| Building a proprietary hotel inventory | Expensive, stale data | Rollinggo-hotel-mcp: 2M+ hotels, real-time, free |
-| Synchronous multi-step booking (no HITL) | Books wrong flights, angry customers | LangGraph HITL confirmation before booking step |
-| Ignoring NDC | Miss ancillary revenue, poor offer quality | Duffel/Amadeus NDC APIs for ancillary-aware offers |
-| One monolithic agent for all travel tasks | Context overflow, poor tool selection | Specialized agents per domain via A2A/LangGraph |
+**Stack**: QloApps (historical data) + DIDA hotel MCP (competitor rates) + darts (forecasting) + Claude
+
+**Repos**: [Qloapps/QloApps](https://github.com/Qloapps/QloApps) + [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) + [unit8co/darts](https://github.com/unit8co/darts) (Apache 2.0)
+
+```python
+async def daily_pricing_review():
+    occupancy = forecast_occupancy(qlo_booking_history, horizon_days=30)
+    comp_rates = await dida_mcp.search_hotels(location=HOTEL_LOCATION, date=tomorrow)
+    events = scrape_local_events_calendar(city=HOTEL_CITY, days=30)
+    rec = claude.messages.create(
+        model="claude-sonnet-5",
+        messages=[{"role": "user", "content": f"""
+        Hotel: {HOTEL_NAME}, current rate: ${current_rate}/night
+        Occupancy forecast: {occupancy}% | Competitor rates: {comp_rates} | Events: {events}
+        Recommend rate adjustments for next 30 days with exact dollar amounts.
+        """}])
+    post_to_slack(rec.content[0].text)
+```
+
+**Build time**: 4-5 weeks | **Impact**: 8-15% RevPAR improvement | **vs IDeaS G3 RMS**: ~$50k/yr commercial alternative
 
 ---
-*Updated by ingest pipeline — 2026-07-06.*
+*Updated: 2026-07-07*

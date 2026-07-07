@@ -1,31 +1,36 @@
-# Trending Repos — Travel AI (July 2026)
+# Trending Repos — Travel & Hospitality
 
-> GitHub momentum this week. Focus on MCP, A2A, and production agents.
-> Last updated: 2026-07-06
+> GitHub velocity this week. Mix of production-grade and experiment-grade repos.
+> Last updated: 2026-07-07
 
-## Top Momentum Repos
+## Velocity Table (Stars / Momentum)
 
-| Name | License | Stars | Description |
-|------|---------|-------|-------------|
-| [punitarani/fli](https://github.com/punitarani/fli) | MIT | ~2.4k★ | Google Flights MCP + CLI + Python library. Reverse-engineered internal API, no paid keys. Most-starred flight search tool in the MCP ecosystem. |
-| [alibaba-flyai/flyai-skill](https://github.com/alibaba-flyai/flyai-skill) | MIT | ~150★ | Fliggy (Alibaba) full-stack travel MCP skill. First production MCP skill from a major OTA. Gaining fast after ClawHub launch. |
-| [extrawest/a2a_protocol_fundamentals_python](https://github.com/extrawest/a2a_protocol_fundamentals_python) | MIT | ~120★ | A2A protocol travel reference: hotel booking, car rental, currency, trip coordination — all as specialized agents. |
-| [naakaarafr/AI-Travel-Agent-Advanced](https://github.com/naakaarafr/AI-Travel-Agent-Advanced) | MIT | ~90★ | CrewAI + Gemini trip planner with 3 specialized agents, real-time web search, 7-day itinerary with budget. |
-| [RollingGo-AI/rollinggo-hotel-mcp](https://github.com/RollingGo-AI/rollinggo-hotel-mcp) | MIT | ~80★ | DIDA-backed hotel booking MCP, 2M+ hotels, free unlimited access. Surging as developers adopt it as the hotel layer. |
-| [ravinahp/flights-mcp](https://github.com/ravinahp/flights-mcp) | MIT | ~205★ | Duffel API flights MCP. Multi-city, contextual memory, Dockerized. Go-to for developers needing NDC-connected airline inventory. |
-| [shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) | MIT | ~74★ | Production-grade multi-agent trip planner with MLOps patterns. Good reference for enterprise quality bars. |
-| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~45★ | LangGraph async parallel agent: Amadeus + Hotelbeds + Twilio + HubSpot. Best production reference for enterprise integrations. |
-| [Azure-Samples/app-service-a2a-travel-agent](https://github.com/Azure-Samples/app-service-a2a-travel-agent) | MIT | ~40★ | Microsoft's official A2A travel agent on Azure App Service. Enterprise deployment reference with containerization patterns. |
-| [BjornMelin/openai-agents-travel-graph](https://github.com/BjornMelin/openai-agents-travel-graph) | MIT | ~55★ | OpenAI Agents SDK + LangGraph + Playwright browser automation + Supabase persistence. State-of-the-art agentic architecture. |
+| Repo | License | Stars | Momentum | Why Notable |
+|------|---------|-------|----------|-------------|
+| [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) | MIT | ~200★ | 🔥🔥🔥 | Agent-native flight search. $116 savings verified vs Google Flights same day. 400+ airlines 5s search. Building community for agentic travel |
+| [BjornMelin/openai-agents-travel-graph](https://github.com/BjornMelin/openai-agents-travel-graph) | MIT | ~120★ | 🔥🔥 | OpenAI Agents SDK + LangGraph + Playwright — first complete autonomous travel research & booking loop |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~80★ | 🔥🔥 | Hotel MCP server, 2M+ hotels. Chinese B2B hotel GDS exposed as MCP tool. Zero rate limit |
+| [shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) | MIT | 74★ | 🔥 | Production-grade multi-agent trip planner. Good reference architecture |
+| [kbhujbal/Multi-Agent-AI-Travel-Advisor](https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor) | MIT | 53★ | 🔥 | 7 specialized agents + RAG. Visa, currency, packing agents included |
+| [esradag/LangChain-TravelPlanner](https://github.com/esradag/LangChain-TravelPlanner) | MIT | ~35★ | → | GPT-4 + Google Maps + Folium interactive map. Clean demo code |
+| [jongalloway/travel-booking-agents](https://github.com/jongalloway/travel-booking-agents) | MIT | ~40★ | → | Corporate travel + approval workflow. Policy enforcement agent |
+| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | 1★ | ↗ | AI travel operations platform: CRM + Sales Copilot + Traveler Intelligence + Revenue Forecasting. Early but ambitious |
+| [MozartofCode/travel-agent](https://github.com/MozartofCode/travel-agent) | MIT | ~30★ | → | CrewAI multi-agent: transportation + accommodation + activities + weather + history roles |
+| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0 | 5★ | ↗ | New: travel platform scaffold, Apache-2.0 — watch for growth |
 
-## Context
+## Emerging Patterns in Trending Repos
 
-**Why MCP + A2A is reshaping travel tech:**
-- Legacy travel distribution relied on GDS (Amadeus, Sabre, Travelport) with complex IATA standards
-- MCP allows AI agents to natively query flight/hotel inventory without full GDS certification
-- A2A allows specialized travel agents to coordinate without centralized orchestrators
-- OTAs (Fliggy/Alibaba, Booking.com via OpenAI partnership) are racing to publish MCP/A2A interfaces
-- Developers now have free access to 2M+ hotels (DIDA/RollingGo) and real Google Flights data (punitarani/fli) — the moat around travel inventory is crumbling
+**1. Agentic flight search with real savings data**
+LetsFG is the first repo showing *verified* price savings over Google Flights. This is the killer metric the market has been waiting for.
+
+**2. MCP servers for travel inventory**
+DIDA hotel MCP is the first of what will be many. Expect Amadeus, Duffel, and OTAs to publish MCP servers through 2026.
+
+**3. LangGraph for booking state machines**
+The `openai-agents-travel-graph` pattern (search → evaluate → book → confirm as a graph state machine) is being cloned rapidly.
+
+**4. Corporate travel as first production beachhead**
+`jongalloway/travel-booking-agents` shows corporate travel as the first real production use case.
 
 ---
-*Auto-updated by ingest pipeline — 2026-07-06.*
+*Pipeline auto-update — refreshed every hour.*
