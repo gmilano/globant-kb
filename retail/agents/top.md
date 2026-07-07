@@ -32,10 +32,27 @@
 | Chronos | [amazon-science/chronos-forecasting](https://github.com/amazon-science/chronos-forecasting) | Apache 2.0 | 4k★ | Amazon's pretrained LLM for time-series forecasting (NeurIPS 2024) — zero-shot demand prediction for new SKUs without historical data; fine-tunable on SKU history; replaces ARIMA for cold-start demand sensing |
 | statsforecast | [Nixtla/statsforecast](https://github.com/Nixtla/statsforecast) | Apache 2.0 | 4.2k★ | Lightning-fast demand forecasting — AutoARIMA, AutoETS, AutoTheta; 100× faster than pmdarima; parallelized by SKU; production at Walmart MX + Rappi; LATAM supply chain proven; pairs with Chronos for full coverage |
 
+## Fourth Pass Additions (July 2026)
+
+| Agent | Repo | License | Stars | Description |
+|-------|------|---------|-------|-------------|
+| NVIDIA Retail Catalog Enrichment | [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~600★ | NRF Jan 2026 launch — GenAI pipeline: product images → rich catalog entries with Nemotron VLM analysis, FLUX.1-Kontext cultural image gen (LATAM-ready), Microsoft TRELLIS 3D asset creation, ACP/UCP schema export. Cost: <$0.01/SKU vs $2–10/SKU manual. |
+| OpenAI Agents SDK | [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~10k★ | Official OpenAI agentic SDK powering ACP v1.3 shopping agents — handoffs between agents, tool orchestration, built-in guardrails. Used by Shopify + 1M+ merchants for agentic checkout. Compatible with Claude via tool-calling pattern. |
+
+## ACP / UCP / MCP Protocol Standards (2026)
+
+| Protocol | Owner | Version | What retail agents can do | Stars/Reach |
+|----------|-------|---------|--------------------------|-------------|
+| ACP v1.3 | OpenAI + Stripe | v1.3 (MCP-compatible) | Agent→merchant checkout, delegated payments, order lifecycle, dispute hooks | 1M+ Shopify merchants |
+| UCP | NVIDIA | v2026-01-11 | Discovery, cart management, purchase completion, webhook events | Growing — 200+ merchants |
+| MCP | Anthropic | Stable | Tool-calling standard — all retail APIs exposed as agent tools | 9,652+ servers, 97M downloads |
+
+> **Globant play**: ACP/UCP compliance implementation = +1200% AI-sourced traffic for client merchants. Any retailer not ACP-ready is invisible to ChatGPT/Claude/Perplexity shoppers. 6–10 week implementation project.
+
 ## Recommendation Algorithm Coverage (RecBole)
 
 | Category | Key Algorithms | Retail Use Case |
-|----------|---------------|-----------------|
+|----------|---------------|------------------|
 | General Rec | BPR, NeuMF, LightGCN, NGCF | Homepage personalization, "For You" feed, email campaigns |
 | Sequential Rec | SASRec, GRU4Rec, BERT4Rec, FPMC | Session-based "Next product" prediction, cart completion |
 | Context-aware | FM, DeepFM, xDeepFM, DCN | CTR prediction, search ranking, sponsored placement |

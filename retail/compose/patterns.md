@@ -290,3 +290,237 @@ def select_forecasting_model(sku_history_length: int, has_external_regressors: b
 **Estimated build time**: 4-6 weeks  
 **Expected impact**: -20% overstock, -15% stockouts, 8-12% reduction in inventory carrying cost  
 **LATAM fit**: Very high — Nixtla proven at Walmart MX + Rappi; Odoo dominant in LATAM SME retail
+
+---
+
+## Pattern 8: AI Catalog Enrichment Pipeline (NVIDIA Retail-Catalog-Enrichment + Claude)
+
+**Problem**: Retailer has 50k–500k SKUs with bare-bones product listings (one image, short title, no attributes). Manual enrichment costs $2–10/SKU and takes months. Poor catalog = invisible to AI shopping agents.
+
+**Stack**:
+```
+Product image feed (S3 / CDN)
+    ↓
+NVIDIA Retail-Catalog-Enrichment (Apache-2.0) — VLM analysis, image gen, 3D creation
+  • Nemotron 3 Nano Omni → structured product JSON
+  • FLUX.1-Kontext-Dev → cultural background images (LATAM/APAC-ready)
+  • Microsoft TRELLIS → 3D GLB model for interactive viewer
+    ↓
+Claude Haiku — quality review (QA agent: approve/flag/improve)
+    ↓
+ACP/UCP schema export → Medusa / Saleor catalog update
+```
+
+**Wiring**:
+```python
+# catalog_enrichment_pipeline.py
+import anthropic
+import httpx
+import base64
+import json
+
+client = anthropic.Anthropic()
+NVIDIA_API = "http://localhost:8000"  # NVIDIA blueprint local deploy
+MEDUSA_URL = "http://localhost:9000"
+MEDUSA_KEY = "your_medusa_key"
+
+def enrich_product(image_path: str, market: str = "latam") -> dict:
+    """NVIDIA blueprint: image → rich catalog entry"""
+    with open(image_path, "rb") as f:
+        img_b64 = base64.b64encode(f.read()).decode()
+    resp = httpx.post(f"{NVIDIA_API}/enrich", json={
+        "image_base64": img_b64,
+        "target_market": market,
+        "generate_3d": True,
+        "generate_cultural_background": True,
+        "export_acp_schema": True
+    }, timeout=120)
+    return resp.json()
+
+def claude_qa(enriched: dict) -> dict:
+    """Claude Haiku: approve/flag enriched entry"""
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=512,
+        messages=[{"role": "user", "content": f"""
+QA review for AI-enriched product catalog entry:
+{json.dumps(enriched, indent=2)}
+
+Check: title clarity, description completeness, tag accuracy, no hallucinations.
+Return JSON: {{"approved": bool, "quality_score": 0-100, "issues": [], "price_tier": "budget|mid|premium"}}"""}]
+    )
+    return json.loads(response.content[0].text)
+
+def upload_to_medusa(enriched: dict, review: dict) -> str:
+    """Upload approved entry to Medusa"""
+    payload = {
+        "title": enriched.get("title", ""),
+        "description": enriched.get("description", ""),
+        "metadata": {
+            "enriched": True, "quality_score": review["quality_score"],
+            "price_tier": review["price_tier"],
+            "acp_schema": enriched.get("acp_schema", {}),
+            "model_3d_url": enriched.get("model_3d_glb_url", "")
+        },
+        "tags": [{"value": t} for t in enriched.get("tags", [])]
+    }
+    r = httpx.post(f"{MEDUSA_URL}/admin/products", json=payload,
+                   headers={"x-medusa-access-token": MEDUSA_KEY})
+    return r.json().get("product", {}).get("id", "")
+
+def process_batch(image_paths: list, market: str = "latam"):
+    results = {"processed": 0, "approved": 0, "ids": [], "errors": []}
+    for path in image_paths:
+        try:
+            enriched = enrich_product(path, market)
+            review = claude_qa(enriched)
+            if review["approved"] and review["quality_score"] >= 75:
+                medusa_id = upload_to_medusa(enriched, review)
+                results["ids"].append(medusa_id)
+                results["approved"] += 1
+            results["processed"] += 1
+        except Exception as e:
+            results["errors"].append(str(e))
+    return results
+```
+
+**Estimated build time**: 2–3 weeks  
+**Cost**: <$0.01/SKU (NVIDIA GPU) + $0.00015/SKU (Claude Haiku QA) — vs. $2–10/SKU manual  
+**ROI**: 99% cost reduction; catalog completeness enables ACP/UCP shopping agent discoverability  
+**LATAM fit**: High — FLUX.1-Kontext generates culturally-adapted backgrounds for Brazilian/Mexican market
+
+---
+
+## Pattern 9: WhatsApp Commerce + Visual Search (LATAM Live Commerce)
+
+**Problem**: LATAM brand running Instagram/TikTok Live shopping wants to capture post-stream sales via WhatsApp — customers send a screenshot/photo from the live session and want to buy that exact item.
+
+**Stack**:
+```
+Customer sends photo on WhatsApp
+    ↓
+Twilio WhatsApp API → webhook receives image
+    ↓
+Claude Haiku Vision — extracts product attributes from photo
+    ↓
+Gorse (Apache 2.0) — CF retrieval + vector match for catalog products
+    ↓
+Claude Haiku — generates WhatsApp reply with top matches + payment link
+    ↓
+Medusa (MIT) — creates cart + checkout link
+    ↓
+Pix (Brazil) / OXXO (Mexico) / WebPay (Chile) — payment completion
+```
+
+**Wiring**:
+```python
+# whatsapp_visual_commerce.py
+from fastapi import FastAPI, Request
+from twilio.rest import Client as Twilio
+import anthropic
+import httpx
+import base64
+import json, os
+
+app = FastAPI()
+twilio = Twilio(os.getenv("TWILIO_SID"), os.getenv("TWILIO_TOKEN"))
+claude = anthropic.Anthropic()
+
+GORSE_URL = "http://localhost:8088"
+MEDUSA_URL = "http://localhost:9000"
+MEDUSA_KEY = os.getenv("MEDUSA_KEY")
+
+def detect_country_lang(phone: str) -> tuple[str, str]:
+    mapping = {"+55": ("BR", "pt"), "+52": ("MX", "es"), "+54": ("AR", "es"),
+               "+57": ("CO", "es"), "+56": ("CL", "es")}
+    for prefix, (country, lang) in mapping.items():
+        if phone.startswith(prefix):
+            return country, lang
+    return "LATAM", "es"
+
+def analyze_product_image(image_bytes: bytes, lang: str) -> dict:
+    """Claude Vision: extract searchable product attributes"""
+    img_b64 = base64.standard_b64encode(image_bytes).decode()
+    response = claude.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=256,
+        messages=[{"role": "user", "content": [
+            {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": img_b64}},
+            {"type": "text", "text": f"""Extract product attributes from this image for catalog search.
+Return JSON: {{"search_query": "3 words", "category": "...", "color": "...", "style": "..."}}
+Language context: {lang}"""}
+        ]}]
+    )
+    try:
+        return json.loads(response.content[0].text)
+    except Exception:
+        return {"search_query": "product", "category": "general"}
+
+def gorse_search(query: str, n: int = 5) -> list:
+    """Gorse: semantic catalog search"""
+    r = httpx.get(f"{GORSE_URL}/api/items", params={"n": n, "text": query})
+    return r.json() if r.status_code == 200 else []
+
+def create_medusa_checkout(product_id: str, customer_email: str) -> str:
+    """Create Medusa cart + return checkout URL"""
+    cart_r = httpx.post(f"{MEDUSA_URL}/store/carts",
+                        json={"email": customer_email, "currency_code": "brl"},
+                        headers={"x-medusa-access-token": MEDUSA_KEY})
+    cart_id = cart_r.json().get("cart", {}).get("id")
+    if cart_id:
+        httpx.post(f"{MEDUSA_URL}/store/carts/{cart_id}/line-items",
+                   json={"variant_id": product_id, "quantity": 1},
+                   headers={"x-medusa-access-token": MEDUSA_KEY})
+        return f"https://store.example.com/checkout/{cart_id}"
+    return ""
+
+@app.post("/whatsapp/image-search")
+async def image_search_handler(request: Request):
+    form = await request.form()
+    from_phone = form.get("From", "").replace("whatsapp:", "")
+    media_url = form.get("MediaUrl0", "")
+    
+    if not media_url:
+        return {"status": "no_image"}
+    
+    country, lang = detect_country_lang(from_phone)
+    
+    img_r = httpx.get(media_url, auth=(os.getenv("TWILIO_SID"), os.getenv("TWILIO_TOKEN")))
+    
+    attrs = analyze_product_image(img_r.content, lang)
+    
+    matches = gorse_search(attrs.get("search_query", ""), n=3)
+    
+    if lang == "pt":
+        reply = f"Encontrei produtos similares para voce!\n\n"
+    else:
+        reply = f"Encontre productos similares!\n\n"
+    
+    checkout_urls = []
+    for i, item in enumerate(matches[:3], 1):
+        name = item.get("Labels", {}).get("name", f"Produto {i}")
+        price = item.get("Labels", {}).get("price", "Consultar precio")
+        checkout = create_medusa_checkout(item.get("ItemId", ""), "customer@example.com")
+        reply += f"{i}. {name} — {price}\n"
+        if checkout:
+            checkout_urls.append(checkout)
+    
+    if checkout_urls:
+        reply += f"\nComprar: {checkout_urls[0]}"
+        if country == "BR":
+            reply += "\nAceita Pix!"
+        elif country == "MX":
+            reply += "\nAceita OXXO!"
+    
+    twilio.messages.create(
+        from_=f"whatsapp:{os.getenv('TWILIO_WHATSAPP_NUMBER')}",
+        to=f"whatsapp:{from_phone}",
+        body=reply
+    )
+    return {"status": "sent"}
+```
+
+**Estimated build time**: 2–3 weeks  
+**Cost**: ~$0.01/image (Claude Haiku Vision) + $0.0042/WhatsApp message (Twilio)  
+**Expected conversion**: 15–25% lift (visual intent = high-purchase-intent signal)  
+**LATAM fit**: Very high — Brazil/Chile live video commerce growing fast; WhatsApp image sharing is native behavior

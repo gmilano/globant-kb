@@ -34,10 +34,62 @@ MercadoLibre controls 40% of Latin America's e-commerce and is deploying AI reco
 ### 10. LLM-Enhanced Recommendations vs. Traditional CF
 Research published H1 2026 shows LLM-enhanced recommendation models outperform traditional collaborative filtering on cold-start and diversity metrics. Hybrid architectures (LLM embedding + RecBole algorithms) becoming the new production standard.
 
+### 11. NVIDIA Retail-Catalog-Enrichment: NRF Big Show Launch (Jan 2026)
+[NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) — Apache-2.0, ~600★, +40★/week.
+
+Launched at NRF Big Show Jan 11–13 2026. Transforms bare product images into ACP/UCP-compliant rich catalog entries:
+- **Nemotron 3 Nano Omni** (VLM) → structured product JSON: title, attributes, materials, sizing, tags
+- **FLUX.1-Kontext-Dev** → culturally-appropriate product backgrounds (key for LATAM localization of product images)
+- **Microsoft TRELLIS** → 2D product image → interactive 3D GLB model for product viewers
+- **Exa Deep Agents** → web research for competitive positioning and product insights
+- **Protocol export**: ACP/UCP-compliant schemas → products immediately discoverable by AI shopping agents
+
+**Cost comparison**: Manual catalog enrichment at $2–10/SKU → AI pipeline at <$0.01/SKU. Retailers with 100k+ SKUs see 99% cost reduction.
+
+**Globant angle**: Position as "catalog AI automation service" — measurable ROI in <6 months for large retailers.
+
+### 12. Morgan Stanley $190–385B Agentic Commerce: Validated by 2026 Adoption Data
+
+Published Dec 2025, now validated by H1 2026 behavioral data:
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| Agentic shopping U.S. e-commerce by 2030 (base) | $190 billion | Morgan Stanley |
+| Agentic shopping U.S. e-commerce by 2030 (optimistic) | $385 billion | Morgan Stanley |
+| Americans who bought something via AI in past month | 23% | Morgan Stanley survey H1 2026 |
+| ChatGPT used for shopping | 45% of U.S. respondents | Morgan Stanley |
+| Bain estimate: AI share of U.S. e-commerce 2030 | 25% | Bain & Company |
+| McKinsey: orchestrated U.S. retail by 2030 | $1 trillion | McKinsey |
+| McKinsey: orchestrated global retail by 2030 | $3–5 trillion | McKinsey |
+| AI-sourced traffic increase for ACP-compliant merchants | +1200% | Q1 2026 industry data |
+| Leading category | Grocery / CPG (replenishment frequency) | Morgan Stanley |
+
+**Globant implication**: Every retail client pitch now has C-suite-level market data to frame the AI urgency.
+
+### 13. ACP v1.3 — MCP-Compatible Agentic Commerce Protocol
+
+OpenAI + Stripe shipped ACP v1.3 (2026) with full MCP compatibility:
+- **MCP bridge**: any Claude/GPT agent can now complete ACP checkout via standard MCP tool calls
+- **UCP interop**: NVIDIA UCP v2026-01-11 and ACP v1.3 now cross-compatible
+- **Delegated payments**: AI agent holds payment authority on user's behalf (guardrails + limits configurable)
+- **Dispute resolution**: merchant can reject or modify agent-proposed prices via webhook hooks
+
+Impact: 1M+ Shopify merchants are now ACP-accessible. Retailers not on ACP are **invisible** to AI shopping agents.
+
+### 14. LATAM Live Video Commerce: 5× Higher Conversion
+
+Brazil and Chile data from H1 2026:
+- **Live video shopping conversion**: 5× higher than static e-commerce pages
+- **Brazil Gen-Z**: discovers products via "For You" page → direct Pix purchase → ~50% direct purchase rate
+- **LATAM SMBs**: 86% use GenAI for customer chats; 50%+ targeting agent-driven commerce in 2026
+- **LATAM e-commerce**: $232B market in 2026, 22% CAGR
+
+**Pattern emerging**: Short video discovery → AI agent Q&A on WhatsApp → Pix/OXXO/WebPay checkout = frictionless LATAM retail funnel. Build time: 3–5 weeks.
+
 ## Repos to Watch
 
 | Repo | Why Watch |
-|------|-----------|
+|------|----------|
 | [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Best reference multi-agent retail architecture publicly available |
 | [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | Multi-agent warehouse/supply chain AI blueprint |
 | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MCP→Medusa bridge enabling LLM-native commerce actions |

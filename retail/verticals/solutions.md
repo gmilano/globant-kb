@@ -66,3 +66,30 @@ medusa-mcp (MIT) exposes Medusa as MCP tools
 Claude / GPT-4 can create carts, check inventory,
 apply promotions, complete checkout autonomously
 ```
+
+### Step 5: ACP/UCP Compliance (Fourth Pass — July 2026)
+```
+NVIDIA Retail-Agentic-Commerce (Apache-2.0)
+  ↓ implements ACP v1.3 + UCP v2026-01-11 checkout
+  ↓ AI shopping agents (ChatGPT/Claude/Perplexity) can purchase
+  ↓ +1200% AI-sourced traffic for compliant merchants
+```
+
+## Agentic Commerce Reference Implementations (Fourth Pass — July 2026)
+
+| Platform | License | Stars | ACP/UCP | Agent-Ready | Notes |
+|----------|---------|-------|---------|-------------|-------|
+| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~800★ | ✅ ACP + UCP | ✅ ARAG pipeline | Reference impl for agentic checkout; Milvus + Nemotron LLM |
+| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~600★ | ✅ ACP/UCP export | ✅ Multi-agent | Catalog enrichment pipeline; <$0.01/SKU; cultural image gen LATAM |
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | ~34k★ | 🔧 via ACP adapter | ✅ Agentic Workflows + MCP | Best foundation for ACP-compliant builds |
+
+## LATAM Platform Deployment Map (Updated July 2026)
+
+| Country | Recommended Platform | Key AI Integration | Payment |
+|---------|---------------------|-------------------|---------|
+| Brazil 🇧🇷 | Medusa (MIT) + Gorse | WhatsApp Claude agent + Pix checkout + live video AI | Pix (instant) |
+| Mexico 🇲🇽 | Odoo + statsforecast | Demand forecasting + OXXO cash payment | OXXO / SPEI |
+| Argentina 🇦🇷 | Saleor + dynamic pricing | AI repricing (inflation) + MercadoPago | MercadoPago |
+| Colombia 🇨🇴 | Medusa + RecBole | WhatsApp commerce + Rappi integration | PSE / Nequi |
+| Chile 🇨🇱 | Saleor + CLIP search | Live video + visual search + WebPay | WebPay |
+| Peru 🇵🇪 | WooCommerce + LangGraph | AI customer service + SUNAT invoicing | SUNAT digital |

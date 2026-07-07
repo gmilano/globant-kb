@@ -6,7 +6,7 @@
 ## Breakout This Week
 
 | Repo | License | Stars | Why Trending |
-|------|---------|-------|--------------|
+|------|---------|-------|-------------|
 | [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | NVIDIA Community | 1.2k★ | Production multi-agent retail blueprint on LangGraph — image search + natural language product discovery + cart management; being forked onto Shopware 6, Medusa, Saleor; NVIDIA Newsroom coverage drove spike |
 | [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | NVIDIA Community | 800★ | Multi-agent warehouse intelligence — demand sensing, automated replenishment, warehouse routing optimization; companion to retail shopping assistant |
 | [NVIDIA-AI-Blueprints/ai-virtual-assistant](https://github.com/NVIDIA-AI-Blueprints/ai-virtual-assistant) | NVIDIA Community | 950★ | Customizable AI virtual assistant for customer service — contextually aware responses, common inquiry automation; production reference for retail support desk |
@@ -22,6 +22,14 @@
 | [langgenius/dify](https://github.com/langgenius/dify) | Apache 2.0 | 144k★ | Low-code AI builder — retail use cases (product chatbots, catalog Q&A) appearing on Dify's showcase |
 | [bagisto/bagisto](https://github.com/bagisto/bagisto) | MIT | 28k★ | AI-integrated Laravel commerce — PHP community adopting AI modules for product content generation and search |
 | [redis-developer/shopping-ai-agent-langgraph-js-demo](https://github.com/redis-developer/shopping-ai-agent-langgraph-js-demo) | Apache 2.0 | 420★ | Shopping AI assistant with recipe tools + product search + semantic caching for grocery e-commerce; solid grocery/CPG reference implementation |
+
+## Fourth Pass Additions (July 2026)
+
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|-------------|
+| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~600★ | NRF Jan 2026 launch — FLUX cultural image gen + TRELLIS 3D + ACP schema export; +40★/week; addressable by retailers with 100k+ SKU catalog ops pain |
+| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~10k★ | ACP v1.3 MCP-compatible — +1200% AI traffic for compliant merchants; shopping agent boilerplate; 1M+ Shopify merchants now ACP-accessible |
+| [minimalart/mcp-medusa](https://github.com/minimalart/mcp-medusa) | MIT | ~120★ | Community Medusa MCP adapter gaining traction; featured in Medusa v2.8+ docs; enables any Claude agent to run Medusa commerce ops |
 
 ## Community Projects Worth Watching
 

@@ -56,6 +56,40 @@ AI generating product descriptions, SEO metadata, size guides, and imagery at sc
 ## Trend 10: Agent Engine Optimization (AEO)
 As AI agents replace direct browsing for product discovery, retailers must optimize for how LLMs and agents perceive their products. Clean structured data (schema.org Product, offer, availability), product feed quality, and AI-friendly APIs matter more than traditional SEO signals. Brands without structured product APIs will be invisible to agentic commerce flows.
 
+## Trend 11: NVIDIA Catalog Enrichment — Catalog AI Automation Arrives
+
+**Signal**: NVIDIA launched Retail-Catalog-Enrichment blueprint at NRF Big Show Jan 2026 (Apache-2.0). Full pipeline: product image → ACP/UCP-compliant rich catalog entry at <$0.01/SKU.
+
+**Components**: Nemotron 3 Nano Omni (VLM content analysis) → FLUX.1-Kontext-Dev (cultural image backgrounds for LATAM/APAC) → Microsoft TRELLIS (2D → interactive 3D GLB) → Exa Deep Agents (web insights) → ACP/UCP schema export.
+
+**Business impact**: Retailers with 100k+ SKUs spend 30–40% of ops budget on catalog management. This blueprint reduces it by 99% in cost and days-to-weeks in time.
+
+**Globant play**: Catalog AI automation service — measurable ROI in <6 months. Especially powerful for LATAM retailers entering new markets who need culturally-adapted product imagery.
+
+## Trend 12: ACP/UCP Compliance = +1200% AI-Sourced Traffic
+
+**Signal**: Retailers with ACP v1.3 / UCP v2026-01-11 checkout see +1200% increase in AI-sourced traffic (Q1 2026 data). Morgan Stanley validates $190–385B U.S. e-commerce by AI agents by 2030.
+
+**Why it matters**: AI shopping agents (ChatGPT, Perplexity, Claude) now **complete purchases**. Merchants without ACP/UCP compliance are invisible to these agents. ACP/UCP compliance is the new "mobile-ready" — mandatory by 2027.
+
+**ACP v1.3 key addition (2026)**: Full MCP compatibility — any Claude or GPT agent can checkout via ACP using standard tool calls. UCP and ACP now interoperate.
+
+**Globant play**: ACP/UCP implementation project for major retailers: 4–8 weeks using NVIDIA Retail-Agentic-Commerce blueprint (Apache-2.0) + Medusa backend.
+
+## Trend 13: LATAM Live Video Commerce — 5× Conversion, AI Layer Emerging
+
+**Signal**: Brazil and Chile live video shopping achieves 5× higher conversion than static e-commerce (H1 2026 data). Brazil Gen-Z direct purchase rate via short video reaches ~50%. AI is beginning to automate live session management.
+
+**Pattern forming**: Short video discovery → WhatsApp AI agent Q&A → Pix/OXXO/WebPay checkout → 50% completion rate.
+
+**AI layer emerging**:
+- AI session managers: answer product questions in real time during live streams
+- Dynamic discounting: apply discount codes at peak engagement moments (AI-timed)
+- Inventory sync: real-time "X units left" signals to scarcity engine
+- Post-session retargeting: AI-generated WhatsApp follow-up to viewers who didn't buy
+
+**Globant play**: WhatsApp + Claude Haiku + Medusa + Pix integration. Build: 3–5 weeks. Target: Brazilian fashion/beauty/electronics brands running TikTok/Instagram Live commerce.
+
 ## Key Numbers to Know
 
 | Metric | Value | Source |
@@ -68,5 +102,11 @@ As AI agents replace direct browsing for product discovery, retailers must optim
 | Merchants using OpenAI Instant Checkout | 1M+ | Shopify/OpenAI |
 | Executives planning AI personalization | 70% | Industry survey 2026 |
 | Rec engine impact on e-commerce revenue | up to 31% | McKinsey |
-| LATAM e-commerce 2026 | $215B+ | Digital Commerce 360 |
+| LATAM e-commerce 2026 | $232B | Market research 2026 |
 | MercadoLibre market share (LATAM) | 40% | MercadoLibre/Endeavor |
+| ACP-compliant merchant AI traffic boost | +1200% | Q1 2026 industry data |
+| U.S. consumers who bought via AI (past month) | 23% | Morgan Stanley H1 2026 |
+| LATAM SMBs using GenAI for chats | 86% | Scala Technologies 2026 |
+| Brazil live video vs. static e-commerce conversion | 5× higher | H1 2026 data |
+| Applied AI in Retail & E-Commerce (2035) | $376.48B | Precedence Research |
+| McKinsey orchestrated global retail (2030) | $3–5T | McKinsey |

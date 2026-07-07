@@ -61,6 +61,14 @@
 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k★ | Python | Role-based multi-agent system — product research crews, competitive pricing crews, customer support crews |
 | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | 65★ | TypeScript | MCP server for Medusa SDK — LLM agents can natively call Medusa commerce APIs without custom tool wrapping |
 
+## Agentic Commerce Protocols (Fourth Pass — July 2026)
+
+| Repo | License | Stars | Stack | Description |
+|------|---------|-------|-------|-------------|
+| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~800★ | Python/FastAPI/Milvus | Reference implementation of ACP + UCP dual protocol — AI-to-merchant checkout negotiation, delegated payments, dynamic promotions via Nemotron LLM, ARAG recommendation pipeline |
+| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~600★ | Python/FastAPI/FLUX | GenAI catalog enrichment — VLM product analysis, cultural image gen, 3D asset creation, ACP/UCP schema export; launched NRF Jan 2026 |
+| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~10k★ | Python | Official OpenAI Agents SDK — ACP v1.3, handoffs, guardrails, shopping agent patterns; MCP-compatible as of v1.3 |
+
 ## See also
 
 - `verticals/solutions.md` — full vertical platforms (ERP, POS, loyalty programs)

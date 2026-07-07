@@ -21,10 +21,40 @@
 - Personalized product recommendations can boost AOV by up to 369% (engaged customers)
 - Personalization drives up to 31% of total e-commerce revenue
 
+## Fourth Pass Market Data (July 2026)
+
+| Segment | 2026 Value | 2030/2031/2035 | CAGR | Source |
+|---------|-----------|----------------|------|--------|
+| Applied AI in Retail & E-Commerce | $72.42B | $376.48B (2035) | ~20% | Precedence Research |
+| Agentic shopping — U.S. base case | — | $190B (2030) | — | Morgan Stanley |
+| Agentic shopping — U.S. optimistic | — | $385B (2030) | — | Morgan Stanley |
+| Orchestrated U.S. retail (McKinsey) | — | $1T (2030) | — | McKinsey |
+| Orchestrated global retail (McKinsey) | — | $3–5T (2030) | — | McKinsey |
+| LATAM e-commerce | $232B | — | 22% CAGR | Market research 2026 |
+| Voice commerce (fastest segment) | — | 36.25% CAGR | 36.25% | Mordor Intelligence |
+
+**Updated LATAM signals** (H1 2026 data):
+- 86% of LATAM SMBs use GenAI for customer chats (Scala Technologies)
+- 50%+ LATAM brands targeting agent-driven commerce by end 2026
+- Brazil Gen-Z: ~50% direct purchase rate via short video ("For You" page) + Pix
+- Live video shopping (Brazil/Chile): 5× higher conversion vs. static e-commerce
+- AI-sourced traffic for ACP-compliant merchants: **+1200%** (Q1 2026)
+- 23% of Americans bought via AI in past month (Morgan Stanley H1 2026 survey)
+
+## ACP / UCP / MCP Protocol Landscape
+
+| Protocol | Owner | Status | What agents can do |
+|----------|-------|--------|-------------------|
+| ACP v1.3 | OpenAI + Stripe | MCP-compatible (2026) | Agent checkout, payment delegation, order lifecycle, dispute hooks |
+| UCP v2026-01-11 | NVIDIA | GA | Discovery, cart management, purchase completion, webhook events |
+| MCP | Anthropic | Stable | Tool-calling standard — 9,652+ servers, 97M downloads; wraps ACP/UCP |
+
+> **Critical**: Retailers without ACP/UCP compliance are **invisible** to AI shopping agents. +1200% traffic increase for compliant merchants documented Q1 2026.
+
 ## Global Key Players
 
 | Company | Type | AI Capability | Open Source Contribution |
-|---------|------|---------------|--------------------------|
+|---------|------|---------------|---------------------------|
 | **Amazon** | Retailer + Platform | Personalization at scale (130M items), Alexa shopping | OpenSearch (Apache 2.0) |
 | **Google** | Platform | Shopping Graph, product image search, Merchant Center AI | TensorFlow, Vertex AI APIs |
 | **Salesforce** | Commerce Cloud | Einstein AI — product recommendations, order management | CumulusCI (BSD) |
