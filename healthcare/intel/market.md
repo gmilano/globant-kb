@@ -1,142 +1,74 @@
-# Mapa de mercado — Healthcare AI
+# 🗺️ Mapa de mercado — Healthcare AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-07 (v2 — datos de mercado verificados)
 
 ## Tamaño de mercado
 
-| Métrica | Valor 2026 | Proyección | CAGR |
-|---------|-----------|------------|------|
-| AI in Healthcare (global) | $50.7B | $505.6B (2033) | 38.9% |
-| AI in Healthcare (alt. estimado) | $36.67B | $194.79B (2031) | 39.7% |
-| Digital Health LATAM | ~$16B | $66.40B (2033) | 20.05% |
-| Hospitales usando AI en alguna función | 80% | — | — |
-| Firmas con ambient doc AI | ~100% | — | (saturado) |
-| Dispositivos médicos AI/ML FDA cleared | 1,250+ | creciendo | — |
-| Inversión VC en healthtech AI (Q1 2026) | $4.2B global | — | — |
+| Segmento | 2026 | Proyección | CAGR |
+|----------|------|-----------|------|
+| AI en Healthcare (global) | $50.7B | $505.6B (2033) | 38.9% |
+| Agentic AI en Healthcare | $1.83B | $19.71B (2034) | ~35% |
+| Digital Health LATAM | $12.82B (2024 base) | $66.40B (2033) | 20.05% |
+| Telemedicina LATAM | $3.46B | $12.34B (2034) | 17.23% |
 
----
+**Señal clave (Deloitte, 2026)**: 80% de ejecutivos healthcare esperan valor significativo de agentes AI. Solo 3% tienen agentes en producción. → **Ventana de oportunidad masiva**: primero en llegar define el stack.
 
-## Players globales — competidores y ecosystem
+## Players globales
 
-### Plataformas AI clínicas (comerciales)
 | Empresa | Tipo | Fortaleza | Debilidad |
 |---------|------|-----------|----------|
-| Nuance DAX (Microsoft) | Ambient documentation | 100% adopción en US health systems | Caro, requiere Azure, lock-in |
-| Epic AI | EHR integrado | 260M+ patient records, AI nativa | Propietario, solo clientes Epic, $$$$ |
-| Oracle Health (Cerner) | EHR + AI | Grandes sistemas de salud | Complejo de implementar, no customizable |
-| IBM Watson Health (adquirido) | Oncología AI | — | Vendido, fragmentado |
-| Google Health / Med-Gemma | LLM médico | Med-PaLM 2 acertó USMLE, Med-Gemma open-source | Datos de privacidad cuestionados |
-| Amazon HealthLake | Data platform FHIR | AWS ecosystem | Cloud-only, sin open source |
-| Rad AI | Radiology AI | Ahorros en radiology workflow | Solo radiología, propietario |
-| Veeva | Life sciences AI | Pharma y clinical trials | No clínica hospitalaria |
+| **Epic Systems** | EHR propietario | 35% del mercado hospitalario US, AI scribe integrado | Lock-in extremo, sin API abierta real, caro |
+| **Cerner (Oracle Health)** | EHR propietario | Fuerte en hospitales grandes, VA/DoD | Post-adquisición Oracle caótico, integración lenta |
+| **Nuance (Microsoft)** | AI clínica | DAX Copilot (ambient scribe), integración Azure + Epic | Propietario, caro para mid-market |
+| **Tempus AI** | Oncología AI | Datos genómicos + AI para oncología, FDA cleared | Solo oncología, base de datos propietaria |
+| **Google Health** | Tech grande | DeepMind AlphaFold, Med-PaLM 2, Fitbit data | Privacidad cuestionada, proyectos discontinuados |
+| **Amazon HealthLake** | Cloud AI | FHIR nativo, HealthLake MCP, escala AWS | Dependencia AWS, costo en escala |
+| **OpenMRS Community** | Open source EHR | 50+ países, FHIR nativo, sin vendor lock-in | Recursos de desarrollo limitados |
+| **Bahmni (ThoughtWorks)** | Open source HIS | Hospital completo + bajo recurso, ONG/gobiernos | Requiere customización; soporte comunidad |
+| **Mediware / Nuvolo** | Specialty clinical | Especialidades clínicas propietarias | No AI-first |
 
-### Open source / customizable
-| Proyecto | Tipo | Adopción | Posicionamiento |
-|----------|------|----------|------------------|
-| MONAI | Medical imaging | 8.4k★, hospitales de investigación | PyTorch de imaging médico |
-| OpenMRS | EMR | 1.9k★, 42+ países | EHR de hospitales públicos mundiales |
-| Medplum | FHIR dev platform | 2.5k★, crecimiento rápido | La plataforma moderna para HealthTech builders |
-| MEDITRON (EPFL) | Medical LLM | 1.2k★, hospitals on-premise | LLM clínico free, Apache-2.0 |
-| PyHealth | Clinical ML | 1.6k★, academia+producción | Predictive modeling en 10 líneas |
-| HAPI FHIR | FHIR server | 2.1k★, miles de deploys | Implementación de referencia FHIR |
-| cTAKES | Clinical NLP | 400+★, estándar academia | NLP clínico Apache, integra con EHRs |
-| OpenEMR | EHR | 2.4k★, 100k+ instalaciones | EHR gratuito para clínicas pequeñas |
+## Mapa de oportunidades LATAM
 
----
+### Brasil (mercado líder)
+- **Tamaño**: Mayor mercado digital health LATAM (>40% del total regional)
+- **Driver**: Presidente Lula → Plan AI $4B en 4 años incluyendo salud pública
+- **Oportunidad**: Sistema Único de Saúde (SUS) con 214M usuarios → enorme base para AI pública
+- **LGPD**: Ley brasileña de protección de datos equivalente a HIPAA → demanda LLMs on-premise / privacidad
+- **Tracción**: Plataformas de telemedicina (Teladoc, Docway, iClinic) en expansión con AI
 
-## Mapa LATAM
-
-### Brasil — mercado dominante
-
-**Contexto:**
-- Mercado healthcare LATAM más grande: ~45% del total regional
-- SUS (Sistema Único de Saúde): 210M+ ciudadanos con acceso universal
-- ConecteSUS: plataforma digital federal llega a 150M+ ciudadanos (vacunas, resultados, medicamentos)
-- ANVISA: Law 14.874/24 + PCCP-ready software rules para AI medical devices
-- PIX usado para pagamentos de saúde → datos de health spending accesibles
-
-**Oportunidades:**
-- AI de triagem no SUS: reducción de filas de espera en UBS (Unidades Básicas de Saúde)
-- Documentação clínica ambient en PT-BR: notas SOAP automatizadas para médicos del SUS
-- Análise de exames por AI: laudo de raio-X, ECG, dermatoscopia para UBS sem especialista
-- Open Health Data analytics: dados ConecteSUS para vigilância epidemiológica AI
-
-**Stack recomendado:** OpenMRS + medspacy PT-BR + MEDITRON + MONAI
-
-### México — segundo mercado
-
-**Contexto:**
-- IMSS: 67M+ afiliados; ISSSTE: 14M+; sector privado en crecimiento
-- COFEPRIS regula medical AI: aún sin marco tan robusto como FDA/ANVISA
-- Telemedicina acelerada post-pandemia: 1,200+ plataformas registradas
-- Nearshoring boom: empresas US con empleados MX → demanda de health benefits digitales
-
-**Oportunidades:**
-- AI para detección de diabetes: 14.1M diabéticos en MX, subutilización de screening AI
-- Telemedicina para zonas rurales (40% población): AI de triage en español mexicano
-- Laboratorios clínicos AI: automatización de lectura de resultados (Chopo, Salud Digna)
-- Mental health AI: brecha severa, 1 psiquiatra por cada 50k personas
-
-**Stack recomendado:** OpenEMR + Med42 + medspacy ES + LangGraph human gates
-
-### Colombia
-
-**Contexto:**
-- Hub de medical BPO regional: history, transcripción, coding
-- Minsalud: avanzando en ePrescription y eSalud
-- 1DOC3: telemedicina AI validada comercialmente, 3M+ usuarios
-- Sectores extractivos (minero, energético): salud ocupacional compleja
-
-**Oportunidades:**
-- AI para occupational health: empresas mineras/petroleras con poblaciones dispersas
-- Revenue cycle management AI: facturación a EPS/ARS con automatización
-- AI para historias clínicas estructuradas: Colombia aún en papel en muchos centros
+### México
+- **Tamaño**: 2do mercado LATAM, parte del top-3 con >70% del share regional
+- **Driver**: Crecimiento clase media + seguro privado + turismo médico ($6B+/año)
+- **Oportunidad**: IMSS/ISSSTE con sistemas legacy → modernización con AI; hospitales privados compitiendo con AI scribe
+- **Gap**: Falta de EHR interoperables → Bahmni/OpenEMR + FHIR como oportunidad
 
 ### Argentina
+- **CAGR más alto (2026-2031)** según Grand View Research
+- **Driver**: Crisis económica → telemedicina más económica que presencial; talento técnico de alto nivel
+- **Oportunidad**: Sector privado (OSDE, Swiss Medical) invirtiendo en AI para eficiencia operativa
+- **Gap**: Integración AI con prepagas (obra social) para automatización de autorizaciones médicas
 
-**Contexto:**
-- Ecosistema tech sofisticado, muchos desarrolladores médicos
-- PAMI: 5M+ afiliados (adultos mayores), sistema propio de salud
-- Inflación afecta inversión en sistemas: soluciones open source preferidas
+### Colombia / Chile / Perú
+- **Crecimiento acelerado** en telemedicina post-COVID
+- Colombia: Ecosistema healthtech Bogotá emergente; regulación favorable
+- Chile: Sistema dual público/privado (Fonasa/Isapre) → AI para optimización de beneficios
 
-**Oportunidades:**
-- AI para diagnóstico de imagen en clínicas privadas (Sanatorio, Swiss Medical)
-- Mental health AI: Argentina tiene la mayor densidad de psicólogos del mundo → AI para apoyo entre sesiones
-- Drug interaction AI: farmacias con base propia buscando AI de prescripción checking
+## Oportunidades específicas para Globant AI Studios
 
----
-
-## 5 Gaps en LATAM — oportunidades para Globant
-
-| # | Gap | Descripción | Tamaño estimado |
-|---|-----|-------------|------------------|
-| 1 | **Ambient clinical documentation PT-BR/ES** | Nuance DAX ($$$) no está disponible en LATAM. Oportunidad para OpenScribe/Whisper + medspacy + MEDITRON customizado para SUS/IMSS | Muy alto |
-| 2 | **AI para imágenes médicas en centros de baja complejidad** | 70%+ de UBS/centros de primer nivel no tienen acceso a radiólogo. MONAI + OHIF + LangGraph puede dar lectura asistida de RX, ECG | Alto |
-| 3 | **FHIR interoperability layer LATAM** | Los EHRs de LATAM no hablan entre sí. Medplum + HAPI FHIR + Agentes de traducción semántica como middleware neutral | Alto |
-| 4 | **AI de triaje para telemedicina** | 46.7% del revenue de digital health LATAM es telesalud. Falta la capa AI de triage que clasifica urgencia antes del médico | Muy alto |
-| 5 | **Clinical AI con compliance ANVISA/COFEPRIS** | No existe un framework open source de clinical AI pre-certificado para LATAM. Globant puede construir el "clinical AI starter kit LATAM-compliant" | Alto |
-
----
+| Oportunidad | Mercado | Stack recomendado | Tamaño deal estimado |
+|-------------|---------|-------------------|---------------------|
+| Prior Authorization AI | US (revenue cycle) | openmed-agent + LangGraph + FHIR MCP | $200k–$800k |
+| Ambient Scribe para clínicas LATAM | Brasil / México / Argentina | Whisper + Claude + FHIR write | $150k–$500k |
+| CDSS open source para hospitales públicos | Brasil (SUS) / México (IMSS) | OpenMRS + medspaCy + LangGraph | $300k–$1.2M |
+| Telemedicina AI (triage + diagnóstico) | LATAM broad | Ottehr + Multi-Agent-Medical-Assistant | $200k–$600k |
+| Drug discovery / investigación | Global / Universidades | BioChatter + BioCypher + LLMs locales | $100k–$400k |
+| Compliance LGPD/HIPAA on-premise | Brasil / US | openmed (local) + HAPI FHIR local | $150k–$500k |
 
 ## Posicionamiento Globant
 
-**Propuesta de valor:**
-> "Globant AI Studios construye soluciones de AI clínica sobre la capa open source de healthcare (MONAI, OpenMRS, Medplum, medspacy, MEDITRON) para hospitales regionales, neobancos de salud, aseguradoras y ministerios de salud en LATAM — con compliance ANVISA/COFEPRIS/FDA desde día 1."
-
-**Diferenciadores:**
-- Fine-tuning de MEDITRON/BioMistral con datos clínicos propietarios del cliente en PT-BR, ES-LATAM
-- Integración MCP-FHIR + agents para acceso estructurado a datos EHR sin integration custom
-- MONAI pipeline para imaging AI con inference on-premise (HIPAA/ANVISA: sin datos en cloud)
-- Human-in-the-loop patterns con LangGraph (obligatorio para diagnósticos de alto riesgo)
-- Builds sobre Apache Fineract analogy: HAPI FHIR + Medplum sin vendor lock-in
-
-**GTM tabla:**
-
-| Segmento | Pain point | Solución Globant | Deal size |
-|----------|-----------|------------------|----------|
-| Hospital regional BR/MX (200-1000 camas) | Documentación manual, sin radiólogo AI | Ambient doc + MONAI imaging AI | $200k-600k |
-| Plataforma telemedicina LATAM | Triage ineficiente, costo médico alto | AI triage ES/PT + LangGraph escalamiento | $150k-450k |
-| Aseguradora / EPS | Revenue cycle manual, fraude en claims | Claims AI + PyHealth + audit trail | $300k-900k |
-| Ministerio de Salud | Epidemiología sin datos estructurados | FHIR interop + AI surveillance | $200k-1M |
-| Clínica de oncología privada | Tumor boards lentos, no hay acceso remoto | MDTeamGPT pattern + MONAI | $400k-1.2M |
+**Ventaja diferencial**:
+- Delivery LATAM + presencia en US → único proveedor que puede entregar compliance LGPD+HIPAA
+- Expertise en plataformas open source (Bahmni, OpenMRS, OpenEMR) sin lock-in de vendor
+- Stack AI agéntico sobre EHR existente → time-to-value 6-12 semanas vs. 18 meses legacy
+- Talento en AI/ML + conocimiento regulatorio salud LATAM

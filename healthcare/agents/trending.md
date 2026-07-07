@@ -1,66 +1,45 @@
-# Agentes en tendencia — Healthcare AI
+# 📈 Agentes Healthcare trending — Julio 2026
 
-> Señales calientes de la semana. Foco en agentic AI clínica y digital health.
+> Qué está ganando tracción esta semana en el ecosistema AI de salud.
 > Última actualización: 2026-07-07
 
-## 6 Señales calientes
+## 🔥 Repos con mayor momentum
 
-### 1. ARPA-H lanza programa para primer agente clínico AI autorizado por FDA
-
-**Qué está pasando:** La Advanced Research Projects Agency for Health (ARPA-H) anunció financiamiento para desarrollar el primer sistema de AI agéntica autorizado por FDA para atención clínica real. El sistema incluye un **agente de cara al paciente** (ajuste autónomo de citas, medicamentos, dieta, ejercicio) y un **agente supervisor** que monitorea los agentes desplegados para seguridad continua.
-
-**Por qué importa para Globant:** El marco regulatorio para AI agentic en clínica comienza a existir. Las firmas que desarrollan capacidad de conformidad FDA/ANVISA con agentic AI hoy tendrán ventaja enorme en 24-36 meses.
-
----
-
-### 2. Ambient clinical documentation: primer AI use case en alcanzar 100% de adopción
-
-**Qué está pasando:** La documentación clínica ambiental (AI que transcribe y estructura consultas médicas en tiempo real) ha alcanzado **100% de adopción** entre los sistemas de salud encuestados en 2026 — la primera aplicación AI en lograr penetración cuasi-universal en cuidados agudos. Nuance DAX, Suki, Abridge y soluciones open source (OpenScribe) dominan.
-
-**Por qué importa para Globant:** El mercado de ambient AI ya es maduro. El diferenciador ahora es **integración con workflows clínicos posteriores**: derivaciones automáticas, prescripciones pre-cargadas, alertas de interacción farmacológica — todo lo que viene después de la transcripción.
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) | Apache-2.0 | 869 skills médicos curados para OpenClaw. El repo padre OpenClaw pasó de 9k a 188k★ en 60 días, el mayor crecimiento en historia GitHub. Medical Skills una de las librerías más descargadas en healthcare AI. | 2.8k |
+| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY-4.0 | Lista curada de avances en Agentic AI para salud: papers Mar 2026 sobre SEMA-RAG, CHI-Bench, DermAgent, MedMemoryBench. Referencia de investigación más citada del área. | ~1.2k |
+| [openmed-agent](https://github.com/openmed-labs/openmed-agent) | MIT | Asistente médico terminal privado. Tracción acelerada desde que los costos de prior authorization (PA) automation dominan el debate en revenue cycle management en EEUU. | ~800 |
+| [fhir-mcp-server (Momentum)](https://github.com/the-momentum/fhir-mcp-server) | MIT | Lanzamiento oficial Momentum FHIR MCP: "eliminar semanas de aprendizaje FHIR". Se volvió el estándar de integración AI↔EHR en semanas de su lanzamiento. | ~500 |
+| [xSoVx/fhir-mcp](https://github.com/xSoVx/fhir-mcp) | MIT | FHIR-MCP con PHI protection y audit logging. Ganó tracción en hospitales que necesitan compliance vs. la opción de Momentum sin audit logs empresariales. | ~300 |
+| [Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant) | MIT | Demo multi-agente para diagnóstico y research. Muy citado en Reddit/HackerNews como punto de partida para proyectos de diagnóstico asistido. | ~400 |
+| [AI-Healthcare-System (pavanbadempet)](https://github.com/pavanbadempet/AI-Healthcare-System) | MIT | Stack completo: React 19, FastAPI, LangGraph RAG, Ollama local, XGBoost diagnóstico (Diabetes/Corazón/Hígado), HL7 FHIR R4, AWS EKS. Arquitectura de referencia para plataformas clínicas privadas. | ~200 |
+| [Healthcare-AI-CDSS-LangGraph](https://github.com/SayamAlt/Healthcare-AI-Clinical-Decision-Support-System-using-LangGraph) | MIT | CDSS con StateGraph no-lineal, PubMed RAG, validación de drug interactions. Destaca en la comunidad LangGraph como caso de uso médico canónico. | ~100 |
 
 ---
 
-### 3. MONAI v1.6.0 (junio 2026): production-ready medical imaging AI
+## 📰 Señales de mercado esta semana
 
-**Qué está pasando:** MONAI (Apache-2.0, 8.4k★) lanzó la versión 1.6.0 en junio 2026 con soporte mejorado para multi-GPU inference, modelos de foundation para segmentación, y deployment en NVIDIA Holoscan. Usado por hospitales de investigación como Stanford, Mayo Clinic y NHS UK.
-
-**Por qué importa:** MONAI es el PyTorch de la imagen médica. Los proyectos de AI de radiología, oncología y patología se construyen sobre él. Globant puede proponer stacks MONAI + OHIF (DICOM viewer) + LangGraph agents.
-
----
-
-### 4. MCP-FHIR: Bloomberg Terminal de datos clínicos para agentes
-
-**Qué está pasando:** Apareció el paper "Enhancing Clinical Decision Support and EHR Insights through LLMs and MCP: An Open-Source MCP-FHIR Framework" (arxiv 2506.13800). Permite acceso declarativo a recursos FHIR R4 (Patient, Observation, Condition, MedicationRequest) para cualquier LLM agent, similar a como sec-edgar-mcp hizo accesible SEC para agentes financieros.
-
-**Por qué importa:** Cualquier agente clínico puede ahora acceder a datos EHR estructurados via FHIR sin integration custom. El mismo patrón MCP que explotó en finanzas está llegando a healthcare.
+- **BCG report (Ene 2026)**: "AI Agents Will Transform Health Care in 2026" — 80% de ejecutivos esperan valor significativo de agentes AI en funciones clínicas y back-office.
+- **Deloitte survey (2026)**: 61% de organizaciones healthcare ya tienen budget aprobado para agentic AI; solo 3% en producción → ventana de oportunidad masiva.
+- **Microsoft + Health Management Academy**: Nuevo research sobre "agentic AI readiness" en healthcare (Feb 2026); solo hospitales grandes están listos para despliegue enterprise.
+- **OpenMRS v3**: Migración completa a microfrontends React; ecosistema de módulos AI nativo en roadmap activo.
+- **OpenEMR 8.0.0** (Mar 2026): ONC Ambulatory EHR Certification, US Core 8.0, USCDI v5, SMART on FHIR v2.2.0.
+- **Nature npj AI (2026)**: Paper de revisión sobre AI agents en healthcare — aplicaciones, evaluaciones y direcciones futuras. Cita CHI-Bench como benchmark estándar.
+- **Brazil Lula AI Plan**: $4 billion en 4 años para adopción de AI en sector público, incluyendo salud. Acelerador clave para LATAM.
 
 ---
 
-### 5. Healthcare AI LATAM: $12.82B (2024) → $66.40B (2033), CAGR 20%
+## 🆕 Papers recientes (Mar–Jul 2026)
 
-**Qué está pasando:** Brasil, México y Colombia lideran el boom de digital health en LATAM. Brasil's Law 14.874/24 moderniza el framework para medical devices AI (incluyendo PCCP-ready software de ANVISA). ConecteSUS llega a 150M+ ciudadanos. Telesalud representa 46.7% del revenue de digital health LATAM.
-
-**Por qué importa:** El mercado LATAM de healthcare AI está en fase de adopción temprana → crecimiento masivo. La ventana para posicionarse como proveedor de referencia es 2026-2028.
-
----
-
-### 6. Multi-disciplinary AI tumor boards: el patrón TradingAgents aplicado a oncología
-
-**Qué está pasando:** MDTeamGPT, Healthcare Agent Orchestrator (Microsoft) y DoctorAgent-RL implementan el mismo patrón que TradingAgents en finanzas: múltiples agentes especializados (oncólogo, radiólogo, patólogo, cirujano) en debate estructurado, con un agente coordinador que sintetiza el plan de tratamiento. Publicaciones en EMNLP 2025 y NEJM AI validan el patrón.
-
-**Por qué importa para Globant:** El patrón multi-agent debate + human gate es replicable: "el tumor board de un hospital de investigación, disponible para hospitales regionales a un costo accesible."
+| Paper | Descripción |
+|-------|-------------|
+| SEMA-RAG | Self-Evolving Multi-Agent RAG para razonamiento médico |
+| CHI-Bench | Benchmark de agentes AI para flujos de trabajo en healthcare |
+| DermAgent | Agente multimodal para análisis dermatológico |
+| MedMemoryBench | Benchmark de memoria de agentes en atención médica personalizada |
+| COTCAgent | Consulta preventiva via chain-of-thought clínico |
+| When OpenClaw Meets Hospital | Agentic Operating System para flujos dinámicos clínicos |
 
 ---
-
-## Momentum — delta semanal estimado
-
-| Señal | Tendencia | Driver |
-|-------|-----------|--------|
-| Clinical AI agents (LangGraph + FHIR) | ↑↑↑ | ARPA-H + NEJM AI publications |
-| MONAI v1.6.0 imaging | ↑↑ | Production deployments NHS/Mayo |
-| Ambient documentation AI | ↑ (maduro) | 100% adoptado, valor está en integraciones |
-| MCP-FHIR ecosystem | ↑↑↑ | Paper arxiv 2506, explosión similar a MCP financiero |
-| LATAM digital health | ↑↑↑ | Regulación Brasil 14.874/24, ConecteSUS scale |
-| Multi-agent tumor boards | ↑↑ | Azure Healthcare Agent Orchestrator en producción |
-| Medical LLM fine-tuning (MEDITRON, BioMistral) | ↑↑ | Alternativa open source a GPT-4 en clínica |
+*Pipeline automático — se actualiza cada hora.*

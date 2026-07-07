@@ -1,95 +1,49 @@
-# Verticales de partida — Healthcare AI
+# 🏭 Verticales de partida — Healthcare
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-07
+> Plataformas verticales existentes customizables con AI. Modelo: partir de algo funcional y añadir capa agéntica.
+> Última actualización: 2026-07-07 (v2 — investigación profunda)
 
 ## Plataformas recomendadas
 
 | Plataforma | Licencia | URL | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
-| [OpenMRS](https://github.com/openmrs/openmrs-core) | MPL-2.0 | openmrs.org | Java, Spring, REST + FHIR | EMR empresarial modular con concept dictionary. 42+ países en producción. Base para agregar AI de diagnóstico y triage en hospitales públicos LATAM. |
-| [OpenEMR](https://github.com/openemr/openemr) | GPL-3.0 | open-emr.org | PHP/Laravel, FHIR R4 API | EHR + practice management más popular open source. 100k+ instalaciones. FHIR R4 API completa. Base para AI de documentación y billing automation. |
-| [Medplum](https://github.com/medplum/medplum) | Apache-2.0 | medplum.com | TypeScript, React, FHIR R4 | Plataforma dev FHIR-native: bots serverless, SDK, SMART on FHIR. Base moderna para construir apps clínicas con AI integrada desde día 1. |
-| [MONAI](https://github.com/Project-MONAI/MONAI) | Apache-2.0 | monai.io | Python, PyTorch, CUDA | Medical imaging AI: segmentación, clasificación, detección, generación. 8.4k★. Standard de la industria para radiology, pathology, oncology AI. |
-| [OHIF Viewers](https://github.com/OHIF/Viewers) | MIT | ohif.org | TypeScript, React, Cornerstone.js | DICOM viewer web zero-footprint: lesion tracking, segmentation overlay, measurements. Integra con MONAI para AI inference en tiempo real. |
-| [HAPI FHIR](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | hapifhir.io | Java, Spring Boot | Servidor FHIR R4 de referencia. Implementación más adoptada. Base para construir el data layer de cualquier solución healthcare AI. |
-| [cTAKES](https://github.com/apache/ctakes) | Apache-2.0 | ctakes.apache.org | Java, UIMA | Clinical NLP: extracción de entidades (diagnósticos, medicamentos, procedimientos) de notas de EHR en texto libre. Estándar en investigación clínica. |
-| [medspacy](https://github.com/medspacy/medspacy) | MIT | github.com/medspacy | Python, spaCy | Clinical NLP pipeline: negación, temporalidad, sección detection para notas de EHR. Funciona en español y portugués. Ligero y fast. |
-| [OpenScribe](https://github.com/sammargolis/OpenScribe) | MIT | github.com/sammargolis/OpenScribe | Python, Whisper | Medical scribe local-first: transcripción de consultas sin cloud, HIPAA nativo. Alternativa free a Nuance DAX. Base para ambient documentation AI. |
-| [GNU Health](https://gnuhealth.org) | GPL-3.0 | gnuhealth.org | Python/Tryton | EMR + gestión hospitalaria + salud pública. Usado en hospitales públicos LATAM (Venezuela, Argentina, Colombia). Soporte nativo en español. |
-| [Bahmni](https://github.com/Bahmni/bahmni-core) | AGPL-3.0 | bahmni.org | Java, OpenMRS, OpenERP | EHR + hospital management para settings de bajos recursos. Ampliamente usado en hospitales comunitarios LATAM y Asia. |
-| [PyHealth](https://github.com/sunlabuiuc/PyHealth) | MIT | pyhealth.readthedocs.io | Python, PyTorch | Predictive modeling clínico: readmisión, mortalidad, drug recommendation, coding automation. Pipeline de 10 líneas para ML en MIMIC. |
+| **OpenMRS** | MPL-2.0 | [github.com/openmrs](https://github.com/openmrs/openmrs-core) | Java + REST + FHIR R4 | EHR modular para clínicas y hospitales. 50+ países, incluyendo implementaciones nacionales LATAM. APIs FHIR nativas para conectar agentes AI. |
+| **OpenEMR** | GPL-3.0 | [github.com/openemr/openemr](https://github.com/openemr/openemr) | PHP + JS + MySQL | EHR ambulatorio US más popular open source. v8.0.0 (Mar 2026): ONC certified, SMART on FHIR v2.2.0, USCDI v5. Ideal para clínicas en US/LATAM que necesitan certificación. |
+| **Bahmni** | Apache-2.0 / LGPL | [bahmni.org](https://www.bahmni.org) / [github.com/Bahmni](https://github.com/Bahmni) | OpenMRS + Odoo + OpenELIS + React | Hospital Management System completo para entornos de bajos recursos. Incluye HIS, farmacia, laboratorio, billing. 50+ países. Premio Digital Public Good. Adoptado por MSF/OPS/gobiernos. |
+| **GNU Health** | GPL-3.0 | [gnuhealth.org](https://www.gnuhealth.org) | Python + GNU Tryton | EMR + HIS + Health Information System. Recomendado por OMS para países en desarrollo. Módulos de salud pública, epidemiología, farmacia, control de vectores. |
+| **Ottehr** | MIT | [github.com/masslight/ottehr](https://github.com/masslight/ottehr) | React + Node.js + FHIR | EMR moderno open source construido nativo con FHIR. Diseñado para urgencias y telemedicina. Stack JS moderno, fácil de customizar. |
+| **care_fe (OHC Network)** | MIT | [github.com/ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | React + REST | Digital Public Good para entrega acelerada de atención. UI moderna sobre OpenMRS. Adoptado en India, expandiéndose globalmente. 611★ activos. |
+| **HAPI FHIR Server** | Apache-2.0 | [github.com/hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Java + Spring Boot | La implementación FHIR más completa: servidor, cliente, validador. Base de Azure Health Data Services. Estándar para interoperabilidad AI↔EHR. |
+| **Microsoft FHIR Server** | MIT | [github.com/microsoft/fhir-server](https://github.com/microsoft/fhir-server) | C# + Azure | FHIR server enterprise de Microsoft. FHIR R4 + R4B, high-performance, Azure native. Integrable con HealthLake MCP. Para clientes enterprise en Azure. |
 
 ---
 
-## Mapas de stack por tipo de proyecto
+## Cómo customizar con AI — Receta estándar
 
-### Para AI de imágenes médicas (radiology/pathology AI)
 ```
-OHIF Viewers (MIT)          → Visualización DICOM: viewer web sin footprint, lesion tracking
-    ↓
-Orthanc (LGPL)              → PACS server: storage + retrieval de estudios DICOM
-    ↓
-MONAI (Apache-2.0)          → AI inference: segmentación de tumores, clasificación de hallazgos
-    ↓
-MedSAM (Apache-2.0)         → Segmentación interactiva: radiologist-in-the-loop refinement
-    ↓
-LangGraph (MIT)             → Orquestación: radiology report generation con human-in-the-loop gate
-    ↓ resultado
-AI radiology pipeline: estudio → análisis → draft report → radiologist approval → EHR integration
+1. Fork del repo base (OpenMRS / OpenEMR / Bahmni)
+2. Exponer datos vía FHIR R4 API (built-in en todos)
+3. Configurar fhir-mcp-server (Momentum) como conector
+4. Conectar agente (openmed-agent / Claude + MCP)
+5. Añadir NLP clínico sobre notas (medspaCy + cTAKES)
+6. Desplegar UI conversacional (React) sobre el sistema base
 ```
 
-### Para ambient clinical documentation AI
-```
-OpenScribe/Whisper (MIT)    → Transcripción local: audio de consulta → texto (HIPAA sin cloud)
-    ↓
-medspacy + cTAKES (MIT/Apache) → Clinical NLP: extracción de diagnósticos, medicamentos, plan
-    ↓
-MEDITRON / BioMistral (Apache-2.0) → Structuring: notas SOAP, ICD-10 coding, CPT coding
-    ↓
-Medplum bots (Apache-2.0)  → FHIR integration: push estructurado al EHR del paciente
-    ↓
-LangGraph (MIT)             → Human gate: médico revisa + aprueba antes de guardar en EHR
-    ↓ resultado
-Consulta médica → nota estructurada en EHR en < 2 minutos. Sin typing. Sin cloud required.
-```
+## Mapa de selección por contexto
 
-### Para telemedicina AI en LATAM
-```
-GNU Health / OpenMRS (GPL/MPL) → Core clínico: EHR del paciente, historial, medicamentos
-    ↓
-medspacy ES/PT (MIT)        → Triage NLP: síntomas en español/portugués → urgencia score
-    ↓
-BioMistral / Med42 (Apache-2.0) → Diagnóstico diferencial en idioma local
-    ↓
-HAPI FHIR (Apache-2.0)     → Interoperabilidad: referral a especialista con datos estructurados
-    ↓
-LangGraph (MIT)             → Escalamiento: urgente → médico en línea; no urgente → AI follow-up
-    ↓ resultado
-Triage automatizado 24/7 en PT-BR/ES-LATAM → reducción 60% en consultas evitables
-```
+| Contexto | Plataforma recomendada |
+|----------|----------------------|
+| Clínica ambulatoria US (certificación ONC requerida) | OpenEMR 8.0.0 |
+| Hospital LATAM / bajo recurso / ONG | Bahmni (OpenMRS + Odoo + OpenELIS) |
+| Red nacional de salud / epidemiología | OpenMRS + GNU Health |
+| Urgencias / telemedicina / startup | Ottehr |
+| Interoperabilidad FHIR enterprise | HAPI FHIR + Microsoft FHIR Server |
+| Plataforma AI nativa (greenfield) | Ottehr + fhir-mcp-server + openmed-agent |
 
----
+## Módulos AI más demandados sobre estas plataformas
 
-## Cómo customizar con AI
-
-1. **Fork del repo base** — OpenMRS, OpenEMR o Medplum según el contexto de despliegue
-2. **Añadir FHIR layer** — HAPI FHIR como servidor de datos o Medplum bots para workflows
-3. **Integrar LLM médico** — MEDITRON fine-tuned en datos del cliente, o Claude API vía MCP
-4. **Clinical NLP pipeline** — medspacy para notas en ES/PT, cTAKES para inglés, Whisper para audio
-5. **Wrappear flujos con agentes** — LangGraph para orquestación multi-step con audit trail
-6. **Compliance desde día 1** — HIPAA: datos locales o cifrado E2E; ANVISA/COFEPRIS: audit trail completo de decisiones AI; human-in-the-loop obligatorio para diagnósticos de alto riesgo
-
----
-
-## Plataformas relevantes para LATAM
-
-| País | Plataforma | Contexto |
-|------|-----------|----------|
-| Brasil | OpenMRS + medspacy PT-BR | SUS (Sistema Único de Saúde) necesita soluciones open source. OpenMRS es base de sistemas municipales. medspacy fine-tuned en PT-BR para notas de UBS. ANVISA Law 14.874/24 exige audit trail. |
-| Brasil | GNU Health | Hospitales públicos estaduales y municipales. Soporte nativo en português. Base para AI de atenção primária. |
-| México | OpenEMR + FHIR | Sector privado (IMSS, ISSSTE, clínicas). COFEPRIS regula medical AI. OpenEMR con FHIR R4 como base para telemedicina AI. |
-| Colombia | OpenMRS + Bahmni | Red hospitalaria pública. Ministerio de Salud. Bahmni para hospitales de menor complejidad. 1DOC3 telemedicina ya validada. |
-| Chile | Medplum + HAPI FHIR | EHR Chile (MINSAL) ya es open source. FHIR R4 adoptado. Medplum como plataforma moderna para apps HealthTech. |
-| LATAM general | MEDITRON / BioMistral | LLMs open source multilingual (ES/PT). Más económico que GPT-4 para volumen clínico alto. Deployable on-premise para hospitales con restricciones de datos. |
+1. **Ambient Scribe**: transcripción de consulta → nota SOAP automática (Whisper + LLM + FHIR write)
+2. **Prior Authorization Agent**: reglas aseguradoras → decisión automática (openmed-agent + reglas ICD/CPT)
+3. **Clinical Decision Support**: diagnóstico diferencial + drug interactions (LangGraph + PubMed)
+4. **Predictive Risk**: readmission, sepsis early warning (XGBoost + LangGraph + FHIR)
+5. **NLP sobre EHR histórico**: extracción entidades clínicas → knowledge graph (medspaCy + BioCypher)

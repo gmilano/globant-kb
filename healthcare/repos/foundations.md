@@ -1,67 +1,49 @@
-# Repos de base — Healthcare AI
+# 🏗️ Repos fundacionales — Healthcare
 
-> Plataformas, toolkits y datasets open source para healthcare AI.
-> Última actualización: 2026-07-07
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa, producción-ready.
+> Última actualización: 2026-07-07 (v2 — investigación profunda)
 
-## Imaging médico (computer vision clínica)
+## Plataformas y frameworks base
 
-| Repo | Licencia | Stars | Descripción |
-|------|----------|-------|-------------|
-| [MONAI](https://github.com/Project-MONAI/MONAI) | Apache-2.0 | 8.4k | PyTorch framework para deep learning en healthcare imaging. Transforms, pre-trained models, métricas clínicas. v1.6.0 junio 2026. Estándar de la industria. |
-| [OHIF Viewers](https://github.com/OHIF/Viewers) | MIT | 4.5k | Zero-footprint DICOM viewer web-based con lesion tracking, measurements, segmentation overlay. Usado en hospitales de investigación. |
-| [Cornerstone.js](https://github.com/cornerstonejs/cornerstone) | MIT | 3.2k | Plataforma de medical imaging web completa: DICOM parsing, rendering, tools annotation. Base de OHIF. |
-| [OpenMEDLab](https://github.com/openmedlab) | Apache-2.0 | org | Shanghai AI Lab: SAM-Med2D/3D (segment anything para medicina), RETFound (retina), PULSE (LLM médico), MedLSAM (localización 3D). 15+ repos especializados. |
-| [MedSAM](https://github.com/bowang-lab/MedSAM) | Apache-2.0 | 2.8k | Segment Anything adaptado para imágenes médicas: 1.5M+ masks en 10+ imaging modalities. Fine-tuned para CT, MRI, histología. |
-
----
-
-## EHR / sistemas clínicos
-
-| Repo | Licencia | Stars | Descripción |
-|------|----------|-------|-------------|
-| [OpenMRS](https://github.com/openmrs/openmrs-core) | MPL-2.0 | 1.9k | EMR empresarial: concept dictionary, REST + FHIR APIs, módulos clínicos. Usado en 42+ países, estándar en salud pública LATAM/África. |
-| [OpenEMR](https://github.com/openemr/openemr) | GPL-3.0 | 2.4k | EHR + práctica médica más popular open source: scheduling, billing, prescribing, FHIR R4 API. 100k+ instalaciones activas, 30+ idiomas. |
-| [Medplum](https://github.com/medplum/medplum) | Apache-2.0 | 2.5k | Plataforma de desarrollo healthcare FHIR-native: SDK, bots (funciones serverless), workflows. Base para construir aplicaciones clínicas modernas. |
-| [HAPI FHIR](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | 2.1k | Implementación Java de referencia para clientes y servidores HL7 FHIR. El servidor FHIR open source más adoptado. |
-| [GNU Health](https://salsa.debian.org/gnu-health-team/gnuhealth) | GPL-3.0 | — | Sistema EMR + gestión hospitalaria + información de salud pública. Usado en hospitales públicos LATAM. |
-| [Bahmni](https://github.com/Bahmni/bahmni-core) | AGPL-3.0 | 300+ | EHR + sistema hospitalario para settings de recursos limitados. Basado en OpenMRS. Ampliamente usado en Asia y LATAM. |
+| Repo | Licencia | Descripción | Base para AI |
+|------|----------|-------------|-------------|
+| [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) | MPL-2.0 | Sistema de registros médicos open source de referencia mundial. REST + FHIR APIs nativas, modular, desplegado en 50+ países. Base para Bahmni y decenas de implementaciones nacionales. | FHIR server listo para conectar agentes via MCP |
+| [openemr/openemr](https://github.com/openemr/openemr) | GPL-3.0 | EHR ambulatorio US más popular open source (v8.0.0, Mar 2026). ONC certified, US Core 8.0, USCDI v5, SMART on FHIR v2.2.0, bulk export FHIR. PHP + JavaScript. | SMART on FHIR para apps AI; API FHIR completa |
+| [Bahmni/bahmni-core](https://github.com/Bahmni/bahmni-core) | LGPL-3.0 | Hospital Management System completo sobre OpenMRS + Odoo + OpenELIS. Award-winning para entornos de bajos recursos, adoptado en 50+ países. Incluye HIS, farmacia, laboratorio, billing. | Stack completo para hospital; layer AI sobre cada módulo |
+| [gnuhealth/gnuhealth](https://www.gnuhealth.org/) | GPL-3.0 | GNU Health: EMR + Hospital Management + Health Information System en Python/GTK. Sistema OMS-recomendado para países en desarrollo. | Layer agéntico sobre módulos de salud pública |
+| [medspacy/medspacy](https://github.com/medspacy/medspacy) | MIT | NLP clínico sobre spaCy. Componentes: negation, temporalidad, sección EHR, UMLS entity linking. Desarrollado con Mayo Clinic. Punto de entrada para extraer datos de EHR no-estructurados. | Extracción información clínica → knowledge graph |
+| [apache/ctakes](https://github.com/apache/ctakes) | Apache-2.0 | Clinical Text Analysis & Knowledge Extraction System. UMLS/SNOMED/ICD-10, pipeline UIMA, NER clínica, assertion. Estándar en investigación académica y hospitales de alto nivel. | Pipeline de información clínica para RAG/CDSS |
+| [TorchIO-project/torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | Librería PyTorch para imágenes médicas 3D: MRI, CT, PET. Transforms, augmentation, datasets, samplers. Citada en 500+ papers científicos. | Foundation para modelos AI de diagnóstico por imagen |
+| [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | La implementación FHIR en Java más completa y madura: FHIR server, validation, client library. Base de Microsoft Azure Health Data Services. | FHIR server para conectar cualquier EHR con agentes AI |
+| [microsoft/fhir-server](https://github.com/microsoft/fhir-server) | MIT | FHIR server de Microsoft: Azure-native, high-performance, soporte para FHIR R4 y R4B, integrable con HealthLake. Opción enterprise para clientes Azure. | Backend FHIR enterprise para despliegues hospitalarios |
+| [biocypher/biochatter](https://github.com/biocypher/biochatter) | MIT | Framework conversacional biomédico con LLMs: RAG sobre knowledge graphs, model chaining, benchmarking. Soporta Neo4j, ontologías biomédicas. Privacidad con Ollama. | Conversational AI sobre datos biomédicos estructurados |
 
 ---
 
-## Clinical NLP / procesamiento de texto médico
+## Por qué estos repos son la base
 
-| Repo | Licencia | Stars | Descripción |
-|------|----------|-------|-------------|
-| [cTAKES](https://github.com/apache/ctakes) | Apache-2.0 | 400+ | Apache Clinical Text Analysis and Knowledge Extraction System. NLP para texto libre clínico en inglés: named entity recognition, temporal relations, assertion detection. Estándar en investigación clínica. |
-| [medspacy](https://github.com/medspacy/medspacy) | MIT | 600+ | spaCy pipeline para clinical NLP: sección detection, negation, temporality, UMLS entity linking. Excelente para notas de EHR en PT/ES. |
-| [scispacy](https://github.com/allenai/scispacy) | MIT | 1.6k | spaCy para biomedical/scientific text: modelos pre-entrenados en PubMed, UMLS linker. Allen AI. |
-| [PyHealth](https://github.com/sunlabuiuc/PyHealth) | MIT | 1.6k | Deep learning toolkit para predictive modeling clínico: readmisión, mortalidad, drug recommendation, length of stay. 33+ modelos, datasets: MIMIC-III/IV, eICU, OMOP. |
-| [HealthChain](https://github.com/healthchainai/healthchain) | MIT | 211 | SDK Python para conectar modelos AI directamente a EHRs en vivo. "Skip the integration tax." Soporte FHIR R4 nativo. |
+```
+Capa 1 — EHR/HIS (fuente de datos)
+  OpenMRS / OpenEMR / Bahmni / GNU Health
+        ↓ REST + FHIR API
+Capa 2 — Interoperabilidad AI
+  HAPI FHIR / Microsoft FHIR Server
+        ↓ MCP Server
+Capa 3 — Agentes AI
+  openmed-agent / BioChatter / OpenClaw-Medical-Skills
+        ↓ NLP / Imágenes
+Capa 4 — Procesamiento especializado
+  medspaCy + cTAKES (texto clínico)
+  torchio + hi-ml (imágenes médicas)
+```
+
+## Stack mínimo viable para proyecto healthcare AI
+
+1. **EHR Base**: OpenEMR (US/LATAM) o OpenMRS (LATAM low-resource / global)
+2. **FHIR Layer**: HAPI FHIR o fhir-mcp-server (Momentum)
+3. **NLP clínico**: medspaCy para notas; cTAKES para codificación SNOMED/ICD
+4. **Agente principal**: openmed-agent (workflows clínicos) o BioChatter (conocimiento biomédico)
+5. **UI**: Ottehr (React moderno) o módulo web OpenMRS
 
 ---
-
-## Medical LLMs / Foundation Models
-
-| Repo | Licencia | Stars | Descripción |
-|------|----------|-------|-------------|
-| [MedLLMsPracticalGuide](https://github.com/AI-in-Health/MedLLMsPracticalGuide) | MIT | 2k | Guía práctica Nature Reviews Bioengineering: árbol de LLMs médicos, tablas, papers 2021-2026. Referencia de referencia del campo. |
-| [MEDITRON](https://github.com/epfLLM/meditron) | Apache-2.0 | 1.2k | Llama-2 fine-tuned por EPFL en guidelines médicas: PubMed, clinical guidelines, medical papers. MEDITRON-70B disponible en HuggingFace. |
-| [BioMistral](https://github.com/BioMistral/BioMistral) | Apache-2.0 | 800+ | Mistral fine-tuned en PubMed. Multilingual: inglés, francés, español, portugués. Ideal para clínica LATAM. |
-| [Med42](https://github.com/m42-health/med42) | Apache-2.0 | 600+ | Llama-3 70B fine-tuned por M42 Health: USMLE, clinical reasoning, patient communication. Med42-v2 supera MedPaLM2 en varios benchmarks. |
-| [OpenBioLLM](https://huggingface.co/aaditya/Llama3-OpenBioLLM-70B) | Apache-2.0 | — | Llama-3 70B fine-tuned en corpus biomédico curado: PubMed, clinical notes, textbooks médicos. Avanzado en razonamiento clínico en ES/PT. |
-| [ClinicalBERT](https://github.com/kexinhuang12345/clinicalBERT) | MIT | 800+ | BERT fine-tuned en notas clínicas MIMIC-III. Embeddings para clasificación de diagnósticos, NER clínica, readmisión prediction. |
-
----
-
-## Datasets y benchmarks
-
-| Dataset | Licencia | Descripción |
-|---------|----------|-------------|
-| MIMIC-III/IV | PhysioNet | ICU records: 60k+ admissions, notas, labs, vitales, diagnósticos. Gold standard para investigación clínica. Acceso via credenciales. |
-| PubMed (35M+ papers) | Public Domain | Literatura biomédica completa accesible via API y MCP. Indexado con MeSH headings. |
-| MedQA (USMLE) | MIT | 12,723 preguntas de examen médico para evaluación de LLMs. Gold standard para medical QA. |
-| ClinicalTrials.gov | Public Domain | 500k+ ensayos clínicos: condición, criterios, sitios, fases, outcomes. API REST pública. |
-| OpenFDA | Public Domain | Adverse events (FAERS), drug labels, device clearances, recall notices. 15M+ registros, API pública. |
-| SA-Med2D-20M | Apache-2.0 | 20 millones de máscaras de segmentación médica (OpenMEDLab/Shanghai AI Lab). El mayor dataset público para medical imaging segmentation. |
-| HealthBench | Apache-2.0 | OpenAI benchmark 2026: 5k+ conversaciones médicas evaluadas por médicos. Evalúa seguridad + precisión de LLMs en contexto clínico. |
-| FLARE 2026 | Apache-2.0 | Foundation model fine-tuning benchmark para CT segmentation: 4k+ casos multi-órgano. |
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
