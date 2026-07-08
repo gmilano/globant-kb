@@ -1,7 +1,7 @@
 # 🧩 Composition Patterns — Media & Entertainment
 
 > Concrete recipes combining real repos + agents + AI.
-> Updated: 2026-07-07 (fifth pass — Pattern 8: AI Podcast Studio added)
+> Updated: 2026-07-08 (v7 — Pattern 9: Wan 2.7 Storyboard-to-Video added; matrix updated)
 
 ## Pattern 1: AI Auto-Captioning Pipeline
 **Use case**: Broadcaster or OTT platform needs ADA/EU accessibility compliance + cost reduction vs manual captioning.
@@ -1082,6 +1082,392 @@ Content (URL / PDF / text)
 
 ---
 
+## Pattern 9: Wan 2.7 Storyboard-to-Video (Thinking Mode + First/Last Frame)
+**Use case**: Brand, agency, or studio needs to turn storyboard frames into polished video sequences with minimal prompt iteration — using Wan 2.7's reasoning-first generation.
+**Repos**: Wan-Video/Wan2.2 (Wan 2.7) + Claude API
+**Build time**: 2-4 weeks | **Cost**: ~$3-8/video (24GB VRAM GPU required)
+**License**: Apache-2.0
+
+```python
+import anthropic
+import subprocess
+import base64
+import json
+from pathlib import Path
+
+class Wan27StoryboardPipeline:
+    """
+    Converts storyboard images → polished video clips using Wan 2.7 Thinking Mode.
+    Wan 2.7 reasons about composition/motion BEFORE denoising — fewer failed generations.
+    First/last frame control enables direct storyboard-to-shot workflow.
+    """
+    
+    def __init__(self, wan_model_path: str):
+        self.wan_path = wan_model_path  # /opt/Wan2.2
+        self.claude = anthropic.Anthropic()
+    
+    def storyboard_to_video(self, storyboard_frames: list[str], 
+                             brief: str, output_dir: str) -> list[str]:
+        """
+        Convert storyboard frames to video clips.
+        storyboard_frames: list of image file paths (panel 1, panel 2, ...)
+        brief: creative brief / brand guidelines
+        Returns: list of output clip paths in order.
+        """
+        clips = []
+        
+        # Process consecutive frame pairs as shots
+        for i in range(len(storyboard_frames) - 1):
+            first_frame = storyboard_frames[i]
+            last_frame = storyboard_frames[i + 1]
+            
+            # Use Claude Vision to analyze frames and generate Wan 2.7 prompt
+            wan_prompt = self._generate_wan_prompt(first_frame, last_frame, brief, i)
+            
+            # Generate clip with Wan 2.7 Thinking Mode + first/last frame
+            clip_path = self._generate_with_frames(
+                first_frame, last_frame, wan_prompt, 
+                output_dir, clip_index=i
+            )
+            clips.append(clip_path)
+        
+        # Also generate a clip from the last storyboard frame alone (final shot)
+        if storyboard_frames:
+            final_clip = self._generate_from_frame(
+                storyboard_frames[-1], brief, output_dir, 
+                clip_index=len(storyboard_frames)
+            )
+            clips.append(final_clip)
+        
+        return clips
+    
+    def _generate_wan_prompt(self, first_frame: str, last_frame: str, 
+                              brief: str, shot_index: int) -> str:
+        """Use Claude Vision to analyze storyboard panels → Wan 2.7 prompt."""
+        
+        def encode_image(path: str) -> str:
+            with open(path, "rb") as f:
+                return base64.b64encode(f.read()).decode()
+        
+        response = self.claude.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=1024,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"""You are a video director. Analyze these two storyboard panels (start and end of shot {shot_index + 1}).
+Creative brief: {brief}
+
+Generate a precise Wan 2.7 video generation prompt that:
+1. Describes the MOTION connecting start frame to end frame
+2. Specifies camera movement (pan, zoom, cut, hold)
+3. Describes lighting, mood, and visual style
+4. Is under 300 words (Wan supports 5000 chars but concise is better)
+5. Uses cinematic language
+
+Return only the prompt text, no explanation."""
+                    },
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": "image/jpeg",
+                            "data": encode_image(first_frame)
+                        }
+                    },
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": "image/jpeg",
+                            "data": encode_image(last_frame)
+                        }
+                    }
+                ]
+            }]
+        )
+        return response.content[0].text.strip()
+    
+    def _generate_with_frames(self, first_frame: str, last_frame: str,
+                               prompt: str, output_dir: str, clip_index: int) -> str:
+        """Run Wan 2.7 with thinking mode + first/last frame control."""
+        output_path = str(Path(output_dir) / f"clip_{clip_index:03d}.mp4")
+        
+        subprocess.run([
+            "python", "generate.py",
+            "--task", "i2v",                  # image-to-video
+            "--size", "1080*1920",             # 1080p vertical (adjust for landscape: 1920*1080)
+            "--ckpt_dir", "/models/Wan2.7-I2V-14B-480P",
+            "--first_frame", first_frame,
+            "--last_frame", last_frame,        # Wan 2.7: define end state
+            "--thinking_mode",                 # Wan 2.7: compositional reasoning before denoising
+            "--prompt", prompt,
+            "--sample_steps", "50",
+            "--save_file", output_path,
+        ], check=True, cwd=self.wan_path)
+        
+        return output_path
+    
+    def _generate_from_frame(self, frame: str, brief: str, 
+                              output_dir: str, clip_index: int) -> str:
+        """Generate a clip from a single storyboard frame (text-guided motion)."""
+        output_path = str(Path(output_dir) / f"clip_{clip_index:03d}.mp4")
+        
+        # Ask Claude for a motion prompt for this single frame
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=256,
+            messages=[{"role": "user", "content": f"Generate a 1-sentence Wan 2.7 motion prompt for a video starting from this scene. Brief: {brief}. Describe realistic camera and subject motion only."}]
+        )
+        motion_prompt = response.content[0].text.strip()
+        
+        subprocess.run([
+            "python", "generate.py",
+            "--task", "i2v",
+            "--size", "1080*1920",
+            "--ckpt_dir", "/models/Wan2.7-I2V-14B-480P",
+            "--first_frame", frame,
+            "--thinking_mode",
+            "--prompt", motion_prompt,
+            "--sample_steps", "50",
+            "--save_file", output_path,
+        ], check=True, cwd=self.wan_path)
+        
+        return output_path
+    
+    def assemble_film(self, clips: list[str], output_path: str, 
+                      add_audio: bool = True) -> str:
+        """Assemble clips into final film. Wan 2.7 generates native audio per clip."""
+        
+        # Create ffmpeg concat file
+        concat_file = "/tmp/wan_concat.txt"
+        with open(concat_file, "w") as f:
+            for clip in clips:
+                f.write(f"file '{clip}'\n")
+        
+        if add_audio:
+            # Wan 2.7 native audio is embedded in each clip
+            subprocess.run([
+                "ffmpeg", "-f", "concat", "-safe", "0", "-i", concat_file,
+                "-c:v", "libx264", "-c:a", "aac", "-movflags", "+faststart",
+                output_path, "-y"
+            ], check=True)
+        else:
+            subprocess.run([
+                "ffmpeg", "-f", "concat", "-safe", "0", "-i", concat_file,
+                "-c:v", "libx264", "-an", output_path, "-y"
+            ], check=True)
+        
+        return output_path
+
+# Usage — Brand TVC from storyboard
+pipeline = Wan27StoryboardPipeline(wan_model_path="/opt/Wan2.2")
+
+storyboard = [
+    "/storyboard/frame_01_product_reveal.jpg",
+    "/storyboard/frame_02_lifestyle_shot.jpg",
+    "/storyboard/frame_03_cta_closeup.jpg",
+    "/storyboard/frame_04_end_card.jpg",
+]
+
+clips = pipeline.storyboard_to_video(
+    storyboard_frames=storyboard,
+    brief="Premium athletic footwear brand, energetic but aspirational, warm golden tones",
+    output_dir="/output/tvc_clips/"
+)
+
+final = pipeline.assemble_film(clips, "/output/tvc_final.mp4")
+print(f"TVC ready: {final}")
+```
+
+**Architecture**:
+```
+Storyboard panels → Claude Vision (analyze panels → Wan 2.7 prompts)
+    → Wan 2.7 --thinking-mode (compositional plan → denoising)
+        + --first-frame / --last-frame (storyboard-defined endpoints)
+    → 1080p clips with native audio (per Wan 2.7 audio integration)
+    → ffmpeg assembly → final branded video
+```
+
+**Why Thinking Mode matters**:
+- Prior video models: prompt → immediate denoising (no spatial reasoning)
+- Wan 2.7: prompt → reasoning step (composition? motion? intent?) → denoising
+- Result: fewer failed generations per accepted clip; prompt-iteration cycles shrink
+- First/last frame = storyboard panels become the generation contract, not suggestions
+
+---
+
+## Pattern E: KrillinAI Agentic Dubbing (LATAM Multilingual Release)
+**Use case**: LATAM media company or brand needs to release content in Portuguese + Spanish simultaneously, without a translation team.
+**Repos**: krillinai/KrillinAI + Claude API (brand-voice layer)
+**Build time**: 2-3 weeks | **Cost**: ~$0.50/minute vs $20-40/minute human dubbing
+**License**: Apache-2.0
+
+```python
+import anthropic
+import subprocess
+import json
+from pathlib import Path
+
+class AgenticDubbingPipeline:
+    """
+    KrillinAI skills/ directory = each stage is a composable agent with stable CLI contract.
+    Pattern: KrillinAI handles the pipeline mechanics; Claude handles brand voice + QA.
+    """
+    
+    LATAM_TARGETS = {
+        "pt-BR": {"lang_code": "pt", "dialect": "Brazilian Portuguese", "platform": "youtube"},
+        "es-MX": {"lang_code": "es", "dialect": "Mexican Spanish", "platform": "youtube"},
+        "es-AR": {"lang_code": "es", "dialect": "Argentine Spanish", "platform": "tiktok"},
+    }
+    
+    def __init__(self, krillinai_path: str = "/opt/KrillinAI"):
+        self.krillinai = krillinai_path
+        self.claude = anthropic.Anthropic()
+    
+    def dub_video(self, video_url: str, target_lang: str, 
+                  brand_voice: str, output_dir: str) -> str:
+        """
+        Full agentic dubbing pipeline: download → transcribe → translate → TTS → reformat.
+        brand_voice: brand guidelines string (tone, vocabulary, personas to avoid)
+        """
+        lang_config = self.LATAM_TARGETS[target_lang]
+        out_path = Path(output_dir) / f"dubbed_{target_lang}.mp4"
+        
+        # Stage 1: KrillinAI download + transcribe (agent skill)
+        transcript_path = self._run_krillinai_stage(
+            ["download", "transcribe"],
+            video_url=video_url,
+            output_dir=str(output_dir)
+        )
+        
+        # Stage 2: Claude brand-aware translation (replaces raw MT)
+        with open(transcript_path) as f:
+            raw_transcript = json.load(f)
+        
+        translated = self._translate_with_brand_voice(
+            raw_transcript, lang_config["dialect"], brand_voice
+        )
+        
+        # Write translated transcript for KrillinAI TTS stage
+        translated_path = str(Path(output_dir) / "translated.json")
+        with open(translated_path, "w") as f:
+            json.dump(translated, f)
+        
+        # Stage 3: KrillinAI TTS + reformat + cover (agent skills)
+        self._run_krillinai_stage(
+            ["tts", "reformat", "cover"],
+            transcript=translated_path,
+            target_lang=lang_config["lang_code"],
+            platform=lang_config["platform"],
+            output=str(out_path)
+        )
+        
+        return str(out_path)
+    
+    def _run_krillinai_stage(self, skills: list[str], **kwargs) -> str:
+        """Run KrillinAI skills/ CLI — each skill has a stable contract."""
+        args = ["krillinai", "skills", "run", "--skill", ",".join(skills)]
+        for k, v in kwargs.items():
+            args += [f"--{k.replace('_', '-')}", str(v)]
+        
+        result = subprocess.run(args, capture_output=True, text=True, 
+                                cwd=self.krillinai, check=True)
+        
+        # KrillinAI skills output the result file path on stdout
+        return result.stdout.strip().split("\n")[-1]
+    
+    def _translate_with_brand_voice(self, transcript: list[dict], 
+                                     dialect: str, brand_voice: str) -> list[dict]:
+        """Claude translation preserving brand voice, idioms, timing."""
+        segments_text = "\n".join(
+            f"[{i}|{s['start']:.2f}-{s['end']:.2f}] {s['text']}"
+            for i, s in enumerate(transcript)
+        )
+        
+        response = self.claude.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=8096,
+            messages=[{
+                "role": "user",
+                "content": f"""Translate these video segments to {dialect}.
+
+Brand voice guidelines: {brand_voice}
+
+Rules:
+- Keep translations roughly the same spoken length (TTS timing constraint)
+- Use natural, idiomatic {dialect} as spoken in broadcast media
+- Preserve brand terminology exactly as specified in guidelines
+- Maintain tone: if original is formal, stay formal; casual stays casual
+- Segments format: [index|start-end] text
+
+Segments:
+{segments_text}
+
+Return JSON: [{{"index": int, "start": float, "end": float, "text": "translation"}}]"""
+            }]
+        )
+        
+        return json.loads(response.content[0].text)
+    
+    def dub_channel(self, video_urls: list[str], target_langs: list[str],
+                    brand_voice: str, output_dir: str) -> dict:
+        """Dub an entire YouTube channel's videos in parallel."""
+        from concurrent.futures import ThreadPoolExecutor
+        
+        results = {}
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            futures = {}
+            for url in video_urls:
+                for lang in target_langs:
+                    future = executor.submit(
+                        self.dub_video, url, lang, brand_voice, 
+                        str(Path(output_dir) / Path(url).stem / lang)
+                    )
+                    futures[future] = (url, lang)
+            
+            for future in futures:
+                url, lang = futures[future]
+                try:
+                    results[f"{url}_{lang}"] = future.result()
+                except Exception as e:
+                    results[f"{url}_{lang}"] = f"ERROR: {e}"
+        
+        return results
+
+# Usage — LATAM brand dubbing
+pipeline = AgenticDubbingPipeline()
+
+branded = pipeline.dub_video(
+    video_url="https://youtube.com/watch?v=...",
+    target_lang="pt-BR",
+    brand_voice="Athletic brand, energetic but not aggressive. Avoid: 'cheap', 'discount'. Use: 'acessível', 'democratizar'. Target: 18-35 urban professionals.",
+    output_dir="/output/dubbed/"
+)
+
+print(f"Dubbed: {branded}")
+# Cost: ~$0.50/minute of video vs $20-40 human dubbing
+```
+
+**Architecture**:
+```
+Video URL → KrillinAI skill:download → KrillinAI skill:transcribe
+    → Claude (brand-voice translation, {dialect})
+    → KrillinAI skill:tts → KrillinAI skill:reformat → KrillinAI skill:cover
+    → Platform-optimized dubbed video (YouTube/TikTok/Bilibili format)
+```
+
+**Cost comparison**:
+| Method | Cost/minute | Time to 10-language dub |
+|--------|------------|------------------------|
+| Human dubbing studio | $20-40 | 3-6 weeks |
+| KrillinAI + Claude | ~$0.50 | 2-4 hours |
+| Savings | 40-80× | 10-20× faster |
+
+---
+
 ## Quick-Start Matrix
 
 | Client Type | Best Pattern | Time | Stack | Cost/Month |
@@ -1095,6 +1481,8 @@ Content (URL / PDF / text)
 | **Sports Broadcaster** | Pattern 6 (Live Sports Highlights) | 3-5 wk | faster-whisper + Claude Haiku + ffmpeg | $200-400/event |
 | **News Org / Broadcaster (compliance)** | Pattern 7 (C2PA Provenance) | 3-4 wk | c2pa-python + Claude Haiku | $100-300 infra |
 | **Brand / Publisher (content → podcast)** | Pattern 8 (AI Podcast Studio) | 2-3 wk | Podcastfy + Coqui TTS + AzuraCast | $200-400 API |
+| **Film / Ad Agency (storyboard)** | Pattern 9 (Wan 2.7 Storyboard) | 2-4 wk | Wan 2.7 + Claude Vision | $400-800 GPU |
+| **LATAM Dubbing / Localization** | Pattern E (KrillinAI Agentic Dubbing) | 2-3 wk | KrillinAI + Claude brand layer | $200-400 API |
 | **Branded Content / Agency** | Pattern 2+6 (Studio+Highlights) | 6-8 wk | LTX-2 + OpenMontage + Claude | $800-2k GPU |
 
 ---

@@ -1,6 +1,6 @@
 # 🗺️ Market Map — Media & Entertainment AI
 
-> Global players, market data, LATAM opportunities. Updated: 2026-07-07 (fifth pass)
+> Global players, market data, LATAM opportunities. Updated: 2026-07-08 (v7 — GenAI M&E sub-segment update, Morgan Stanley 30% cost savings)
 
 ## Global Market Size
 
@@ -8,7 +8,8 @@
 |--------|------|------|------|------|--------|
 | AI in Media & Entertainment | $28.32B | $35.77B | $256B (2035) | 25.26% | SNS Insider May 2026 |
 | AI Video Generation | $1.8B | $2.5B | $8.4B (2030) | 36.2% | Coherent Market Insights |
-| Generative AI in M&E | — | — | $21.2B (2035) | — | Precedence Research |
+| **Generative AI in M&E (specific)** | **$2.5B** | **$3.16B** | **$8.06B (2030)** | **26.4%** | **Globe Newswire Jul 7, 2026** |
+| Generative AI in M&E (long-range) | — | — | $21.2B (2035) | — | Precedence Research |
 | AI Audio/Speech (Media) | $3.2B | $4.1B | $12B | ~28% | Multiple |
 | OTT streaming revenues (total) | $226.6B | $118.3B streaming | $213.5B streaming (2033) | 8.8% | Coherent Market Insights |
 | Global sports rights revenues | — | $67B+ | — | — | PwC Outlook 2026 |
@@ -17,6 +18,7 @@
 | Monthly active AI video users | — | 124M+ | — | — | Industry reports |
 
 > **Key update (May 2026):** SNS Insider significantly raised the long-term AI in M&E forecast — from prior $99.48B by 2030 to $256B by 2035 — driven by rising demand for personalized content experiences and AI-powered media automation globally.
+> **Key update (Jul 7, 2026):** Globe Newswire confirms GenAI M&E sub-segment at $3.16B in 2026, reaching $8.06B by 2030 at 26.4% CAGR. Growth drivers: GenAI + VR/AR integration, cloud AI media services, real-time personalization. **Morgan Stanley estimate: AI could reduce TV/film production costs by up to 30%.**
 
 ## LATAM Media Market
 
@@ -52,7 +54,7 @@
 | **Stability AI** | Stable Video Diffusion | SVD, AnimateDiff | Financial struggles |
 | **Tsinghua THUDM** | CogVideoX | THUDM/CogVideo (Apache-2.0 ★12.5k) | Academic, not enterprise-supported |
 | **Lightricks** | LTX-Video | Lightricks/LTX-Video (Apache-2.0 ★6k) | Startup-scale support |
-| **Wan Video** | Wan 2.2 | Wan-Video/Wan2.1 (Apache-2.0 ★12k) | Limited English docs |
+| **Wan Video (Alibaba Tongyi Lab)** | Wan 2.7 (Thinking Mode) | Wan-Video/Wan2.2 (Apache-2.0 ~18k) | 24GB VRAM min; HuggingFace weights |
 | **Runway** | Gen-3 (closed) | None | No OSS path |
 | **EBU** | Tech R&D | ebu/awesome-broadcasting | Standards org only |
 | **Spotify** | AI DJ, AI Voice Translation | spotify/pedalboard (GPL-3.0 ★5.5k) | GPL license |
@@ -102,7 +104,8 @@
 
 | Capability | Proprietary Leader | Best OSS Alternative | License |
 |------------|-------------------|---------------------|--------|
-| Video generation | Runway Gen-3, Sora | CogVideoX, Wan 2.2, LTX-Video | Apache-2.0 |
+| Video generation | Runway Gen-3, Sora | Wan 2.7, CogVideoX, LTX-2 | Apache-2.0 |
+| Video dubbing/localization | ElevenLabs Dubbing, HeyGen | KrillinAI, open-dubbing | Apache-2.0 / MIT |
 | Speech recognition | AWS Transcribe, Deepgram | openai/whisper, faster-whisper | MIT |
 | Music generation | Suno, Udio | AudioCraft/MusicGen | MIT (code) |
 | Voice cloning | ElevenLabs | Coqui TTS, WhisperSpeech | MPL / MIT |

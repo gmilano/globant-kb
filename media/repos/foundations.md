@@ -1,7 +1,7 @@
 # 🏗️ Foundational Repos — Media & Entertainment
 
 > Core repositories to build on. Open licenses. Active communities.
-> Last updated: 2026-07-07 (fifth pass — YuE, Podcastfy, ACE-Step added)
+> Last updated: 2026-07-08 (v7 — Wan 2.7, KrillinAI, open-dubbing added; fish-speech noted non-commercial)
 
 ## Speech & Transcription
 
@@ -23,6 +23,7 @@
 | [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | ~9k | Hybrid Transformer Demucs v4: drums/bass/vocals/other separation, 9.20 dB SDR | Yes — stem separation |
 | [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Python audio effects library — VST3/AU support, 300× faster than other libs | Yes — audio ML pipeline |
 | [coqui-ai/TTS](https://github.com/coqui-ai/TTS) | MPL-2.0 | ~36k | Deep learning TTS: 1100+ models, voice cloning, multilingual (incl. Spanish/Portuguese) | Yes — broadcast voiceover |
+| [fishaudio/fish-speech](https://github.com/fishaudio/fish-speech) | Fish Audio Research License ⚠️ | ~31k | SOTA open-source TTS (rivals ElevenLabs quality). **Non-commercial only** — commercial license required from Fish Audio. Use Coqui for client production; fish-speech for internal benchmarking only. | Research/eval only |
 
 ## Video Generation
 
@@ -30,7 +31,7 @@
 |------|---------|-------|-------------|----------|
 | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | ~12.5k | CogVideoX-1.5/5B text/image-to-video — best developer experience in class | Yes — enterprise-safe |
 | [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache-2.0 | ~6k | Real-time video gen at 30fps/1216×704 — faster than real-time on A100 | Yes — interactive apps |
-| [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | ~12k | MoE video model: image conditioning, 24GB GPU deployment, Wan 2.2 update | Yes — Apache-safe |
+| [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | **Wan 2.7** (Apr 2026): "Thinking Mode" reasoning before generation, 1080p/15s, native audio, first/last frame control, 5000-char prompts — flagship open Apache video model for H2 2026 | Yes — default recommendation |
 | [vita-epfl/Stable-Video-Infinity](https://github.com/vita-epfl/Stable-Video-Infinity) | Apache-2.0 | ~2k | ICLR 2026 Oral — infinite-length generation with error recycling | Yes — long-form content |
 | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) | Apache-2.0 | ~8k | First open-source 4K video+audio model in a single pass; 22B DiT, IC-LoRA fine-tuning, LTX Desktop editor; Jan 2026 | Yes — 4K production |
 | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~4.5k | Infinite-length film via Autoregressive Diffusion-Forcing; V1 is human-centric on HunyuanVideo | Yes — long-form/character |
@@ -53,6 +54,13 @@
 |------|---------|-------|-------------|----------|
 | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~22.6k | Self-hosted studio: Image + Video + Lip Sync + Cinema tabs, 200+ models (Flux, Kling, Sora, Veo), no filters; viral Apr 2026 | Yes — full studio |
 
+## Video Localization & Dubbing (v7 addition)
+
+| Repo | License | Stars | Description | AI-Ready |
+|------|---------|-------|-------------|----------|
+| [krillinai/KrillinAI](https://github.com/krillinai/KrillinAI) | Apache-2.0 | ~10.4k | AI-Agent-native video translation & dubbing: full pipeline (download → transcribe → translate → TTS → reformat → cover). `skills/` directory exposes each stage as composable agent skill. 100+ languages, YouTube/TikTok/Bilibili optimized. | Yes — agent orchestration |
+| [Softcatala/open-dubbing](https://github.com/Softcatala/open-dubbing) | MIT | ~800 | Fully local dubbing via OSS models — Coqui/MMS/Edge TTS + Meta NLLB translation. No cloud dependency, LGPD-compliant offline option. | Yes — local/offline |
+
 ## Broadcast & Infrastructure
 
 | Repo | License | Stars | Description | AI-Ready |
@@ -69,12 +77,14 @@
 | Music generation (full songs) | multimodal-art-projection/YuE | Lyrics → complete song, Apache-2.0 |
 | Podcast generation | souzatharsis/podcastfy | Apache-2.0, 100+ LLM backends, multilingual |
 | Source separation | facebookresearch/demucs | Best SDR, MIT, Python |
-| Video generation (general) | THUDM/CogVideo | Apache-2.0, best docs, 12.5k★ |
+| Video generation (general/default) | Wan-Video/Wan2.2 (Wan 2.7) | Thinking Mode + first/last frame + native audio, Apache-2.0 |
 | Video generation (4K + audio) | Lightricks/LTX-2 | First native audio+video, Apache-2.0 |
 | Video generation (training) | hpcaitech/Open-Sora | Full training pipeline included |
 | Long-form video | SkyworkAI/SkyReels-V2 | Infinite via ADF, Apache-2.0 |
 | Long-form video (alt) | vita-epfl/Stable-Video-Infinity | ICLR Oral, error recycling |
 | Streaming video (autoregressive) | SandAI-org/MAGI-1 | Chunk-by-chunk, streaming output |
+| Video translation/dubbing (agent) | krillinai/KrillinAI | Apache-2.0, AI-Agent-native, 100+ languages |
+| Video dubbing (local/LGPD) | Softcatala/open-dubbing | MIT, no cloud dependency, Coqui/NLLB |
 | Self-hosted studio | Anil-matcha/Open-Generative-AI | 200+ models, MIT, desktop installer |
 | Live streaming | owncast/owncast | MIT, Go, single binary |
 | Radio automation | AzuraCast/AzuraCast | Apache-2.0, full stack |

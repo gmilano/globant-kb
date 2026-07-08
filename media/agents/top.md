@@ -1,7 +1,7 @@
 # 🎯 Top AI Agents & Tools — Media & Entertainment
 
 > Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0.
-> Last updated: 2026-07-07 (fifth pass — YuE full-song music gen, Podcastfy podcast AI added)
+> Last updated: 2026-07-08 (v7 — Wan 2.7 Thinking Mode, KrillinAI agentic dubbing added)
 
 ## Top 10 AI Agents & Tools
 
@@ -27,6 +27,13 @@
 | **MAGI-1** | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | 24B autoregressive denoising model from Sand AI; generates chunk-by-chunk (24 frames/chunk); supports T2V, I2V, V2V with streaming generation; 4.5B variant also available |
 | **Open-Generative-AI** | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~22.6k | Self-hosted studio with 200+ models (Flux, Kling, Sora, Veo); Image + Video + Lip Sync + Cinema studios; viral April 2026 (+7.5k stars in days); no content filters |
 | **Open-Sora 2.0** | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~22k | Ships complete training pipeline alongside inference weights — the only major video model to do so; data preprocessing, training scripts, eval all included |
+
+## v7 Additions (July 8, 2026)
+
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| **Wan 2.7** | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | Alibaba Tongyi Lab video gen with "Thinking Mode" — model reasons compositionally before rendering. 1080p/15s, native audio, first/last frame control, 5000-char prompts. Biggest open-source video model update of Q2 2026. |
+| **KrillinAI** | [krillinai/KrillinAI](https://github.com/krillinai/KrillinAI) | Apache-2.0 | ~10.4k | AI-Agent-native video translation & dubbing. Full pipeline: download → transcribe → translate → TTS dub → reformat → cover. 100+ languages. `skills/` directory exposes each stage as AI Agent skill. YouTube/TikTok/Bilibili optimized. |
 
 ## 5th-Pass Additions (July 2026)
 
@@ -55,6 +62,7 @@
 | `mcp-youtube` | community | YouTube transcript extraction, metadata; essential for content repurposing |
 | `mcp-ffmpeg` | community | Wrap ffmpeg operations as MCP tools for agent-driven media transcoding |
 | `mcp-whisper` | community | Local Whisper transcription as an MCP server for agent pipelines |
+| `krillinai-skills` | krillinai | KrillinAI `skills/` directory: per-stage AI Agent skills for orchestrating video dubbing pipelines |
 
 ## Key Datasets
 

@@ -2,7 +2,7 @@
 
 > Real platforms to start from — fork, extend with AI, deliver to clients.
 > Model: working platform + AI layer on top = faster delivery.
-> Last updated: 2026-07-07 (fifth pass)
+> Last updated: 2026-07-08 (v7 — Localization/Dubbing section, KrillinAI, open-dubbing, Wan 2.7)
 
 ## Video Platforms & CMS
 
@@ -34,12 +34,102 @@
 | **Strapi** | MIT (Community) | [strapi/strapi](https://github.com/strapi/strapi) | Node.js | Headless CMS — API-first content management; ~65k★ | AI content enrichment, auto-categorization, editorial AI |
 | **Ghost** | MIT | [TryGhost/Ghost](https://github.com/TryGhost/Ghost) | Node.js | Publishing platform for newsletters + membership sites | AI writing assist, SEO optimization, newsletter personalization |
 
+## Localization & Dubbing Platforms (v7 addition)
+
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **KrillinAI** | Apache-2.0 | [krillinai/KrillinAI](https://github.com/krillinai/KrillinAI) | Go + LLM | AI-Agent-native video translation & dubbing; 100+ languages; 10.4k★ | Each stage is a composable agent skill; Claude orchestration for brand voice |
+| **open-dubbing** (Softcatala) | MIT | [Softcatala/open-dubbing](https://github.com/Softcatala/open-dubbing) | Python | Fully local dubbing via OSS models (Coqui/MMS/Edge TTS + NLLB translation) | LGPD-compliant offline dubbing; no cloud dependency |
+
+### Pattern E: KrillinAI Agentic Dubbing (LATAM Localization Upgrade)
+
+```python
+import anthropic
+import subprocess
+import json
+from pathlib import Path
+
+class AgenticDubbingPipeline:
+    """KrillinAI + Claude brand-voice layer for LATAM localization."""
+    
+    def __init__(self, brand_glossary: dict):
+        self.claude = anthropic.Anthropic()
+        self.brand_glossary = brand_glossary
+    
+    def dub_video(self, video_url: str, target_lang: str, output_dir: str) -> str:
+        """Full agentic dubbing: KrillinAI skills + Claude brand translation."""
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        
+        # Step 1: KrillinAI skills — download + transcribe
+        result = subprocess.run([
+            "krillinai", "skills", "run",
+            "--skill", "download,transcribe",
+            "--input", video_url,
+            "--output-dir", output_dir,
+            "--format", "json"
+        ], capture_output=True, text=True, check=True)
+        transcript = json.loads(result.stdout)
+        
+        # Step 2: Claude — brand-aware translation
+        lang_names = {"pt-BR": "Brazilian Portuguese", "es-MX": "Mexican Spanish"}
+        glossary_str = "\n".join(f"- '{k}' → '{v}'" for k, v in self.brand_glossary.items())
+        full_text = "\n".join(f"[{i}] {s['text']}" for i, s in enumerate(transcript["segments"]))
+        
+        response = self.claude.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=4096,
+            messages=[{"role": "user", "content": 
+                f"Translate to {lang_names[target_lang]}. Enforce brand glossary:\n{glossary_str}\n\nSegments:\n{full_text}\n\nReturn JSON: [{{\"index\": int, \"text\": str}}]"
+            }]
+        )
+        translations = json.loads(response.content[0].text)
+        segments = transcript["segments"].copy()
+        for t in translations:
+            segments[t["index"]]["text"] = t["text"]
+        
+        translated_path = Path(output_dir) / "translated.json"
+        translated_path.write_text(json.dumps({"segments": segments}))
+        
+        # Step 3: KrillinAI skills — TTS + reformat + cover
+        final = subprocess.run([
+            "krillinai", "skills", "run",
+            "--skill", "tts,reformat,cover",
+            "--transcript", str(translated_path),
+            "--video-dir", output_dir,
+            "--target-language", target_lang,
+            "--platform", "youtube",
+            "--format", "json"
+        ], capture_output=True, text=True, check=True)
+        
+        return json.loads(final.stdout)["output_video"]
+
+# Usage — Brazilian Portuguese dubbing
+pipeline = AgenticDubbingPipeline(brand_glossary={
+    "artificial intelligence": "inteligência artificial",
+    "cloud computing": "computação em nuvem",
+    "Globant": "Globant"
+})
+output = pipeline.dub_video("https://youtube.com/watch?v=example", "pt-BR", "/output/latam")
+print(f"Dubbed video: {output}")
+```
+
+**Architecture**:
+```
+Video URL → KrillinAI skills (download + transcribe)
+         → Claude Sonnet 5 (brand-aware translation with glossary enforcement)
+         → KrillinAI skills (TTS dub + reformat + cover generation)
+         → YouTube-optimized dubbed video in pt-BR / es-MX / es-AR
+```
+
+---
+
 ## AI Video Generation Platforms (4th-Pass Additions)
 
 | Platform | License | Repo | Stack | Use Case | AI Integration Points |
 |----------|---------|------|-------|----------|----------------------|
 | **LTX Desktop + LTX-2** | Apache-2.0 | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) | Python + DiT | Local 4K video+audio generation studio; single-pass, no internet required | Native audio generation, IC-LoRA fine-tuning, camera control LoRAs |
 | **Open-Generative-AI** | MIT | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | JavaScript | Self-hosted multi-model studio; 200+ models across Image/Video/Lip Sync/Cinema | Claude API integration for script-to-video pipelines, branded studio |
+| **Wan 2.7** | Apache-2.0 | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Python | Alibaba Tongyi Lab; "Thinking Mode" before generation; 1080p/15s; native audio; first/last frame (storyboard→video); Apache-2.0 | Default for new video gen projects H2 2026; storyboard-driven production |
 | **Open-Sora 2.0** | Apache-2.0 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Python | Complete video gen with training pipeline; only open model shipping full train code | Custom model training on client content libraries |
 
 ## Integration Code Patterns
@@ -267,6 +357,9 @@ clips = ltx2_script_to_screen(
 | 4K branded content | LTX-2 + Claude | 4-6 wk | Runway Gen-3 | Apache-2.0 + no per-clip pricing → OSS |
 | C2PA compliance | c2pa-python | 3-4 wk | Adobe Content Auth | Own infrastructure needed for audit trail → OSS |
 | Live sports highlights | faster-whisper + Claude + ffmpeg | 3-5 wk | Magnifi AI | Volume + real-time SLA → evaluate both |
+| Video dubbing (LATAM) | KrillinAI + Claude brand layer | 2-3 wk | HeyGen, ElevenLabs Dubbing | Apache-2.0, agent-native, 100+ lang → OSS wins |
+| Video dubbing (offline/LGPD) | open-dubbing + Coqui | 2-3 wk | Any cloud dubbing | Data sovereignty requirement → OSS local |
+| AI video generation (storyboard) | Wan 2.7 + first/last frame | 2-4 wk | Runway Gen-3 | Thinking Mode + Apache-2.0 → OSS now competitive |
 
 ---
 *Globant approach: start from a working vertical platform, add AI layer on top. 2-4 week to working PoC.*

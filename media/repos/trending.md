@@ -1,6 +1,6 @@
 # 📈 Trending Repos — Media & Entertainment
 
-> GitHub repos gaining momentum. Updated: 2026-07-07 (fifth pass)
+> GitHub repos gaining momentum. Updated: 2026-07-08 (v7 — Wan 2.7 and KrillinAI added to velocity table)
 
 ## Velocity Table (June–July 2026)
 
@@ -14,10 +14,20 @@
 | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | +250 | 24B autoregressive video; streaming output; T2V/I2V/V2V |
 | [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | ~6.1k | +300 | Full-song music generation: lyrics → complete song with vocals + accompaniment; open Suno.ai alternative |
 | [souzatharsis/podcastfy](https://github.com/souzatharsis/podcastfy) | Apache-2.0 | ~3k | +250 | Multi-modal to podcast: any content type → AI audio conversation; 100+ LLM backends, multilingual |
+| [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | +1.2k | **Wan 2.7**: Thinking Mode + native audio + first/last frame — flagship open video model Q2 2026 |
+| [krillinai/KrillinAI](https://github.com/krillinai/KrillinAI) | Apache-2.0 | ~10.4k | +800 | AI-Agent-native dubbing: 100+ languages, `skills/` API, full pipeline CLI |
 | [HKUDS/ViMax](https://github.com/HKUDS/ViMax) | MIT | ~1.5k | +200 | Multi-agent video generation: Director+Screenwriter+Producer+Generator |
 | [vita-epfl/Stable-Video-Infinity](https://github.com/vita-epfl/Stable-Video-Infinity) | Apache-2.0 | ~2.5k | +180 | ICLR 2026 Oral — infinite-length video with error recycling |
 | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | ~13k | +150 | CogVideoX-1.5: best-documented open video gen model — steady accumulation |
 | [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper) | MIT | ~16k | +100 | Production standard for broadcast transcription; continued steady growth |
+
+## v7 Breakout Analyses (July 8, 2026)
+
+### Wan 2.7 — "Chain-of-Thought for Video"
+Every prior open-source video model generates blindly: prompt in → denoising starts immediately. Wan 2.7's Thinking Mode adds an explicit compositional reasoning step before rendering — the model plans spatial relationships, motion logic, and prompt interpretation before generation begins. This reduces failed generations (wrong object positioning, incoherent motion, missed intent) measurably. Combined with first/last frame control (sketch start + end frames → model fills in the motion) and native audio integration, Wan 2.7 changes the client production workflow from "iterate on prompts" to "define the storyboard → generate directly." Apache-2.0 open weights on HuggingFace; 24GB VRAM minimum.
+
+### KrillinAI — Agentic Dubbing Crosses 10k Stars
+KrillinAI reached 10k★ in roughly 6 months — comparable early traction to Podcastfy. Its differentiator is agent-native design: every pipeline stage is a discrete `skills/` module with a stable CLI contract, making it orchestratable by Claude or any AI framework without custom glue code. The practical LATAM application is direct: any client with a YouTube channel can auto-dub to Portuguese + Spanish at $0.50/minute without a translation team. Pattern 4 (LATAM Localization) upgrades from ~200 lines of custom Whisper+Coqui Python to a KrillinAI `skills/` invocation + Claude brand-voice wrapper.
 
 ## 4th-Pass Breakout Analyses
 

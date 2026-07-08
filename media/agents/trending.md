@@ -1,6 +1,6 @@
 # 📈 Trending AI Agents — Media & Entertainment
 
-> What's new and gaining traction this week. Updated: 2026-07-07 (fifth pass — YuE, Podcastfy, ACE-Step added)
+> What's new and gaining traction this week. Updated: 2026-07-08 (v7 — Wan 2.7 Thinking Mode, KrillinAI agentic dubbing, market update)
 
 ## Breakout Projects (June–July 2026)
 
@@ -72,6 +72,22 @@
 - **What it is**: 24B parameter autoregressive denoising model. Generates video chunk-by-chunk (24 frames/chunk), enabling streaming generation — you can see frames as they produce. T2V, I2V, V2V modes. A 4.5B lightweight variant for low-VRAM deployment.
 - **Why it matters**: Autoregressive architecture enables streaming output — ideal for interactive applications and progressive generation in broadcast workflows.
 
+## v7 Breakouts (July 8, 2026)
+
+### 14. Wan 2.7 — First Open Video Model with "Thinking Mode"
+- **Repo**: [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) (Apache-2.0)
+- **Stars**: ~18k (cumulative Wan-Video org); released April 2026
+- **What it is**: Wan 2.7 inserts an explicit "Thinking Mode" reasoning step before generation — the model builds a compositional plan (spatial relationships, motion logic, prompt intent) before denoising begins. Result: fewer failed clips, better prompt adherence, less iteration.
+- **Key features**: 1080p/15s, T2V/I2V, native audio, first/last-frame control, 5000-char prompts, Apache-2.0 open weights on HuggingFace/ModelScope.
+- **Globant angle**: Default open-source video model recommendation for new projects from H2 2026; storyboard-driven workflows with first/last frame control.
+
+### 15. KrillinAI — AI-Agent-Native Video Dubbing
+- **Repo**: [krillinai/KrillinAI](https://github.com/krillinai/KrillinAI) (Apache-2.0)
+- **Stars**: ~10.4k (10k milestone reached in ~6 months)
+- **What it is**: Full video dubbing pipeline (download → transcribe → translate → TTS → reformat → cover) with each stage exposed as a composable AI Agent `skill`. Claude or any agent can orchestrate autonomous localization.
+- **Languages**: 100+; optimized for YouTube/TikTok/Bilibili/Shorts.
+- **Globant angle**: Drop-in Pattern 4 upgrade — LATAM dubbing at $0.50/minute without a translation team.
+
 ## 5th-Pass Breakouts (July 2026)
 
 ### 11. YuE — Open-Source Full-Song Generation (Lyrics → Complete Song)
@@ -120,6 +136,9 @@ Meta's AudioCraft (facebookresearch/audiocraft) seeing large spike in fine-tunin
 | Open source AI video models available | 31+ | AIFreeForever survey |
 | OTT revenues 2025 | $226.6B (+13.9% YoY from $199B) | Industry tracking |
 | AI M&E market 2026 | $35.77B → $256B by 2035 | SNS Insider May 2026 |
+| **GenAI in M&E (specific) 2026** | **$3.16B → $8.06B by 2030, CAGR 26.4%** | **Globe Newswire Jul 7, 2026** |
+| Morgan Stanley AI production cost savings | Up to 30% reduction in TV/film prod. costs | Morgan Stanley 2026 |
+| KrillinAI stars (July 2026) | 10.4k | GitHub |
 | Global sports rights revenue 2026 | $67B+ (streaming: $14.2B, +7% YoY) | PwC Outlook 2026 |
 | AI exhibitors at NAB 2026 | ~2× vs prior year | NAB 2026 show floor |
 | C2PA member organizations | 140+ (including Canon, Nikon, Leica) | C2PA Jan 2026 |

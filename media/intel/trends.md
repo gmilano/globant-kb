@@ -1,6 +1,6 @@
 # 📡 Trends — Media & Entertainment AI
 
-> Current trends shaping the industry. Updated: 2026-07-07 (fifth pass)
+> Current trends shaping the industry. Updated: 2026-07-08 (v7 — Trends 17-18 added: Wan 2.7 Thinking Mode, Agentic Dubbing Wave)
 
 ## Trend 1: Agentic Video Production (2025–2026 Inflection)
 **Signal**: OpenMontage viral launch + ViMax 1.1k★ in weeks; "agentic video" now a search category.
@@ -161,6 +161,40 @@ The podcast-from-content pipeline has become one of the most demanded media AI w
 
 **Globant angle**: 2-3 week PoC for any client: `Podcastfy + Coqui TTS XTTS v2 (voice cloning) + AzuraCast (distribution)` = fully branded podcast studio from existing content library.
 
+## Trend 17: Chain-of-Thought Comes to Video Generation — Wan 2.7 Thinking Mode (Q2 2026)
+**Signal**: Alibaba Tongyi Lab releases Wan 2.7 (April 2026) with an explicit "Thinking Mode" reasoning stage before generation — the first open-source video model to plan compositionally before rendering.
+
+Every prior open-source video model operates blind: receive prompt → immediately begin denoising. Wan 2.7 inserts a pre-generation reasoning step:
+1. **Compositional planning**: How should elements relate spatially? (foreground/background depth, positioning)
+2. **Motion logic**: What narrative motion should drive the sequence?
+3. **Intent disambiguation**: What does this prompt most likely mean?
+
+Additional Wan 2.7 features:
+- **First/last frame control**: Specify start + end frame → model generates the motion between (storyboard-driven production)
+- **Native audio**: Integrated audio generation (no AudioCraft step)
+- **1080p/15s** output, 5000-character prompts, Apache-2.0 open weights
+
+- **Impact**: Fewer failed generations per accepted clip. Prompt-iteration cycles shorten. First/last frame enables direct storyboard → video workflows.
+- **Globant angle**: Wan 2.7 replaces CogVideoX as the default open-source recommendation for video generation client projects from H2 2026 onward.
+
+## Trend 18: Agentic Dubbing Wave — Localization Becomes an Autonomous Pipeline (2026)
+**Signal**: KrillinAI (Apache-2.0, 10.4k★) crosses 10k stars with an agent-native architecture; open-dubbing (MIT) shows offline demand; fish-speech (31k★) shows TTS quality approaching ElevenLabs.
+
+The full video dubbing pipeline is now autonomous and open-source:
+
+| Stage | 2026 Open-Source Tool |
+|-------|----------------------|
+| Speech transcription | faster-whisper / WhisperX (MIT) |
+| Translation | Claude API / Meta NLLB (LLM/Apache) |
+| Voice synthesis | Coqui TTS XTTS v2 (MPL) |
+| Audio-video alignment | ffmpeg (open) |
+| Platform optimization | KrillinAI skills/ (Apache-2.0) |
+
+KrillinAI's `skills/` directory exposes each stage as a composable AI Agent skill with a stable CLI contract — making the full pipeline orchestratable by Claude without custom glue code.
+
+- **Impact**: LATAM media companies can release multilingual on day 1 vs weeks of human production. Cost: ~$0.50/minute vs $20-40/minute human dubbing.
+- **Globant angle**: KrillinAI + Claude brand-voice layer = Pattern 4 upgrade. 2-3 week PoC for any client with multilingual distribution needs.
+
 ## Summary Timeline
 
 | Period | Development |
@@ -168,7 +202,7 @@ The podcast-from-content pipeline has become one of the most demanded media AI w
 | 2023 | Whisper open-sourced; Stable Diffusion image generation mainstream |
 | 2024 | AnimateDiff/SVD first viable open video; AudioCraft released |
 | 2025 | Faster-whisper production standard; first agentic media tools |
-| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; Podcastfy podcast AI proliferates; microdrama $14B by year-end** |
+| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; Podcastfy podcast AI proliferates; microdrama $14B by year-end; Wan 2.7 Thinking Mode (Apr 2026); KrillinAI 10k★ agentic dubbing; GenAI M&E $3.16B confirmed (Jul 7 Globe Newswire)** |
 | 2026 H2 (projected) | LTX-2 becomes default for production; SkyReels-V3 multimodal SOTA; C2PA contractual in broadcast; interactive MAGI-1 streaming apps; $256B AI M&E by 2035 pathway confirmed |
 
 ## Q3 2026 Watch Signals
