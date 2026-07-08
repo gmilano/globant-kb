@@ -1,463 +1,489 @@
-# 🧩 Composition Patterns — Technology Industry
+# 🧩 Compose Patterns — Technology Industry
 
-> Concrete recipes for building AI solutions: specific repos + agents + wiring instructions.
-> Each pattern is a production-ready architecture Globant can deliver.
-> Last updated: 2026-07-07 (Third Pass)
-
----
-
-## Architecture Base
-
-```
-[Vertical Platform (Backstage / Gitea / Supabase / Dify)]
-                    ↓
-        [MCP Tool Servers / REST APIs]
-                    ↓
-    [Agent Orchestrator (LangGraph / CrewAI)]
-                    ↓
-      [LLM (Claude / GPT-4o / local vLLM)]
-                    ↓
-    [Observability (Langfuse) + Memory (Mem0)]
-                    ↓
-    [Output: code patch / PR / ticket / alert / deploy]
-```
+> Concrete recipes for building AI-powered solutions using the repos and agents in this KB.
+> Each pattern names specific repos + wiring + estimated time to first demo.
+> Last updated: 2026-07-08
 
 ---
 
-## Recipe 1: AI Autonomous Code Review & Fix Agent
+## Pattern 1: Private AI Coding Assistant (On-Prem Copilot)
 
-**Goal**: Every PR automatically reviewed, bugs found, and fix suggestions applied as commits.
+**Problem**: Engineering teams want AI coding help but can't send code to external APIs (IP, compliance).  
+**Stack**: Ollama + vLLM + Cline + GitLab CE  
+**Licenses**: MIT (Ollama) + Apache-2.0 (vLLM) + Apache-2.0 (Cline) + MIT (GitLab CE)  
+**Time to demo**: 4 hours
 
-**Stack**:
-- **Trigger**: GitHub/Gitea webhook on PR open
-- **Orchestrator**: [LangGraph](https://github.com/langchain-ai/langgraph) (stateful workflow)
-- **Agent**: [SWE-agent](https://github.com/SWE-agent/SWE-agent) (code analysis + fix generation)
-- **LLM**: Claude claude-sonnet-4-6 or local [vLLM](https://github.com/vllm-project/vllm) + Qwen2.5-Coder
-- **Memory**: [Mem0](https://github.com/mem0ai/mem0) (remember project conventions across PRs)
-- **Observability**: [Langfuse](https://github.com/langfuse/langfuse) (trace every review, eval quality)
-
-**Wire-up**:
-```python
-# LangGraph workflow
-graph = StateGraph(ReviewState)
-graph.add_node("fetch_diff", fetch_pr_diff_node)
-graph.add_node("analyze", swe_agent_analyze_node)   # SWE-agent ACI
-graph.add_node("propose_fix", llm_fix_node)
-graph.add_node("post_comment", github_comment_node)
-graph.add_edge("fetch_diff", "analyze")
-graph.add_conditional_edges("analyze", route_by_severity)
-
-# Langfuse wraps the whole workflow
-with langfuse.trace(name="pr-review") as trace:
-    result = graph.invoke({"pr_url": pr_url})
+```
+[Engineer in VS Code]
+        ↓ Cline (VS Code extension, Apache-2.0)
+[Ollama / vLLM serving Qwen2.5-Coder or DeepSeek-Coder-V3]
+  (runs on internal GPU server, no data leaves org)
+        ↓ REST API
+[GitLab CE webhooks → Cline auto-PR reviews on push]
+        ↓
+[CI pipeline (Drone/Tekton) runs tests, reports back to Cline]
 ```
 
-**Estimated build**: 3–4 weeks  
-**ROI**: Catch 60–80% of common bugs before human review. Save 30min/PR for senior engineers.
+```bash
+# Quick start
+docker run -d -v ollama:/root/.ollama -p 11434:11434 ollama/ollama
+ollama pull qwen2.5-coder:32b
+
+# Configure Cline in VS Code: point to http://localhost:11434
+# Set model: qwen2.5-coder:32b
+```
+
+**Key Win**: 100% private, zero API costs, matches GPT-4 on coding benchmarks at 32B parameter size.
 
 ---
 
-## Recipe 2: Multi-Agent Software Development Crew
+## Pattern 2: AI-Powered Code Review in CI/CD
 
-**Goal**: Given a feature spec, a crew of agents plans, implements, tests, and opens a PR — autonomously.
+**Problem**: Security and quality reviews are a bottleneck; too slow, too inconsistent.  
+**Stack**: claude-code-security-review + Semgrep + GitLab CI / GitHub Actions  
+**Licenses**: MIT (claude-code-security-review) + LGPL-2.1 (Semgrep)  
+**Time to demo**: 2 hours
 
-**Stack**:
-- **Framework**: [CrewAI](https://github.com/crewAIInc/crewAI) (role-based crews)
-- **Agents**:
-  - `PlannerAgent`: breaks spec into tasks (Claude claude-opus-4-8 for reasoning)
-  - `ArchitectAgent`: chooses patterns, writes interfaces (Claude claude-sonnet-4-6)
-  - `ImplementerAgent`: writes code using [Aider](https://github.com/Aider-AI/aider) tool (Claude claude-sonnet-4-6)
-  - `TesterAgent`: generates and runs tests via [OpenHands](https://github.com/OpenHands/OpenHands) sandbox
-  - `ReviewerAgent`: final code review, opens PR (Claude claude-haiku-4-5 for efficiency)
-- **Observability**: [Langfuse](https://github.com/langfuse/langfuse) (trace each agent step, cost per feature)
-- **Output**: Git branch + PR with implementation, tests, and changelog
+```yaml
+# .github/workflows/ai-review.yml
+name: AI Security Review
+on: [pull_request]
 
-```python
-from crewai import Agent, Task, Crew
+jobs:
+  semgrep:
+    uses: semgrep/semgrep-action@v2
+    with:
+      config: auto
 
-planner = Agent(role="Tech Lead", goal="Break feature into implementable tasks",
-                tools=[jira_tool, confluence_tool], llm="claude-opus-4-8")
-implementer = Agent(role="Senior Engineer", goal="Implement assigned tasks",
-                    tools=[aider_tool, shell_tool], llm="claude-sonnet-4-6")
-tester = Agent(role="QA Engineer", goal="Write and run tests for all changes",
-               tools=[openhands_sandbox_tool], llm="claude-sonnet-4-6")
+  ai-security-review:
+    uses: anthropics/claude-code-security-review@v1
+    with:
+      anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+      # Reviews diff, posts inline comments on security issues
 
-crew = Crew(agents=[planner, implementer, tester],
-            tasks=[plan_task, implement_task, test_task],
-            process=Process.sequential)
-
-result = crew.kickoff(inputs={"feature_spec": spec})
+  ai-quality-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Aider code review
+        run: |
+          pip install aider-chat
+          aider --review --message "Review this PR for code quality, naming, and maintainability"
 ```
 
-**Estimated build**: 5–7 weeks (incl. tool integration)  
-**ROI**: 10x output per engineer on well-defined features. Best for backlog burn-down sprints.
+**Key Win**: Security issues caught before human review; reviewers focus on architecture, not OWASP top 10.
 
 ---
 
-## Recipe 3: AI Internal Developer Portal (Backstage + AI)
+## Pattern 3: Autonomous Bug-Fix Agent (SWE-agent Pattern)
 
-**Goal**: Backstage IDP where developers ask questions in natural language: "How do I deploy service X to staging?" and get live, accurate answers from runbooks + live cluster state.
-
-**Stack**:
-- **Base**: [Backstage](https://github.com/backstage/backstage) (developer portal)
-- **Infra data**: [Crossplane](https://github.com/crossplane/crossplane) (K8s-native resource discovery) + [Argo CD](https://github.com/argoproj/argo-cd) (deployment state)
-- **RAG**: [Langchain](https://github.com/langchain-ai/langchain) + [Supabase](https://github.com/supabase/supabase) pgvector (index all runbooks, ADRs, READMEs)
-- **Orchestrator**: [LangGraph](https://github.com/langchain-ai/langgraph) (route query → RAG vs. live API vs. agent action)
-- **LLM**: Claude claude-sonnet-4-6 or local [vLLM](https://github.com/vllm-project/vllm)
-- **Observability**: [Langfuse](https://github.com/langfuse/langfuse)
-
-**Architecture**:
-```
-Developer asks: "Why is auth-service deployment failing?"
-        ↓
-LangGraph router: classify query
-        ↓
-Parallel: [RAG over runbooks] + [Argo CD API: get deployment logs] + [Crossplane: get resource status]
-        ↓
-Claude synthesizes: "Deployment failing because PVC quota exceeded. Runbook step 3: increase quota."
-        ↓
-Backstage UI shows answer + link to runbook + one-click fix action
-```
-
-**Estimated build**: 4–6 weeks  
-**ROI**: 60–70% reduction in L1 developer support tickets. Senior engineers freed from answering repetitive infra questions.
-
----
-
-## Recipe 4: LLMOps Pipeline — AI App Factory
-
-**Goal**: Rapid deployment of client AI applications using Dify as the platform backbone, with full observability and continuous improvement loop.
-
-**Stack**:
-- **Platform**: [Dify](https://github.com/langgenius/dify) (visual builder + RAG + monitoring, self-hosted)
-- **LLM Gateway**: [LiteLLM](https://github.com/BerriAI/litellm) (route to Claude/GPT-4o/local based on cost/quality)
-- **LLM Serving**: [vLLM](https://github.com/vllm-project/vllm) (on-premise for sensitive client data)
-- **Observability**: [Langfuse](https://github.com/langfuse/langfuse) (Dify → Langfuse via OpenTelemetry integration)
-- **Memory**: [Mem0](https://github.com/mem0ai/mem0) (user memory across sessions)
-
-**Flow**:
-```
-Client requirement (3 day POC)
-        ↓
-Dify: visual workflow (drag-and-drop) → deployed app in hours
-        ↓
-LiteLLM: route expensive queries to Claude claude-opus-4-8, simple to Claude claude-haiku-4-5 (80% cost savings)
-        ↓
-Langfuse: track user sessions, eval quality, optimize prompts
-        ↓
-Graduate to LangGraph code when workflow complexity exceeds Dify's visual builder
-```
-
-**Estimated build (client POC)**: 3–5 days  
-**Estimated build (production)**: 3–5 weeks (add Langfuse eval loop, LiteLLM cost optimization, Mem0 memory)
-
----
-
-## Recipe 5: Self-Healing CI/CD with AI Agents
-
-**Goal**: When CI fails, an AI agent diagnoses the failure, patches the code, and re-runs — without human intervention for known failure patterns.
-
-**Stack**:
-- **Trigger**: GitHub Actions / Gitea CI on test failure
-- **Agent**: [OpenHands](https://github.com/OpenHands/OpenHands) (autonomous coding in sandbox)
-- **Orchestrator**: [LangGraph](https://github.com/langchain-ai/langgraph) (retry loop with human escalation after N attempts)
-- **Memory**: [Mem0](https://github.com/mem0ai/mem0) (remember fix patterns — "flaky test X fixed by Y approach")
-- **Observability**: [Langfuse](https://github.com/langfuse/langfuse) (trace each fix attempt, success rate KPI)
+**Problem**: Backlog of known bugs that no one has time to fix.  
+**Stack**: OpenHands + SWE-agent + GitLab + Pytest  
+**Licenses**: MIT (OpenHands, SWE-agent)  
+**Time to demo**: 1 day
 
 ```python
-# LangGraph self-healing loop
-def should_retry(state: CIState) -> str:
-    if state.attempt_count > 3:
-        return "escalate_to_human"
-    if state.fix_confidence < 0.7:
-        return "escalate_to_human"
-    return "apply_fix"
+# autonomous_bugfix.py
+from openhands import Agent, GitHubEnvironment
 
-graph.add_conditional_edges("diagnose", should_retry)
-```
-
-**Estimated build**: 4–5 weeks  
-**ROI**: 40–60% of CI failures auto-resolved (flaky tests, import errors, env vars, linting). Saves 15-30min/failure for developer who would otherwise investigate.
-
----
-
-## Recipe 6: AI DevOps Assistant (n8n + MCP)
-
-**Goal**: Slack-connected AI assistant that answers operational questions, triggers runbooks, and creates tickets — all from a single chat interface.
-
-**Stack**:
-- **Workflow**: [n8n](https://github.com/n8n-io/n8n) (Slack webhook → AI node → Jira/PagerDuty/GitHub actions)
-- **AI Node**: Claude claude-sonnet-4-6 via Anthropic API (n8n has native Anthropic integration)
-- **MCP Tools**: Kubernetes MCP server, GitHub MCP server, Jira MCP server
-- **Knowledge Base**: [Langfuse](https://github.com/langfuse/langfuse) dataset of past incidents + resolutions
-- **Memory**: [Mem0](https://github.com/mem0ai/mem0) (remember infrastructure context per team)
-
-```
-Slack: "@ai-ops why is prod latency spiking?"
-        ↓
-n8n: route to AI node
-        ↓
-Claude + K8s MCP: query pod metrics, recent deploys, resource usage
-        ↓
-n8n: format response with charts (Grafana snapshot)
-        ↓
-Slack: "Latency spike started 14:23 UTC, correlates with deploy #1234. auth-service pods using 95% CPU. Recommend: scale auth-service to 6 replicas. [one-click action]"
-```
-
-**Estimated build**: 2–3 weeks  
-**ROI**: On-call engineers answer 70% fewer Slack questions. Mean time to diagnosis (MTTD) drops from 20min to 2min.
-
----
-
----
-
-## Recipe 7: Self-Hosted Copilot Alternative (Tabby + Continue + Ollama)
-
-**Goal**: Replace GitHub Copilot Enterprise ($39/user/month) with a self-hosted stack that keeps all code on-prem.
-
-**Stack**:
-- **Completion server**: [Tabby](https://github.com/TabbyML/tabby) (Apache-2.0, ~33k stars) — LSP-compatible server
-- **IDE plugin**: [Continue](https://github.com/continuedev/continue) (Apache-2.0) — VS Code + JetBrains integration
-- **LLM inference**: [Ollama](https://github.com/ollama/ollama) (MIT, ~120k stars) — runs Codestral / Qwen2.5-Coder locally
-- **Model**: Codestral (Mistral) or DeepSeek Coder V2 — best open-weight code models as of mid-2026
-
-**Wire-up**:
-```
-Developer in VS Code → Continue plugin:
-  Inline completion → Tabby (LSP) → Ollama (Codestral model, GPU server)
-  Chat sidebar → Continue → Ollama (Qwen2.5-Coder-32B)
-  Codebase Q&A → Continue → Tabby repo index → Gitea API
-
-Tabby admin (one-time):
-  - Point Tabby at Gitea repos for context indexing
-  - Enable enterprise auth (SSO via OIDC)
-  - View team analytics dashboard for adoption metrics
-```
-
-**Cost breakdown (20-dev team)**:
-- GitHub Copilot Enterprise: 20 × $39 = $780/month
-- Self-hosted: 1× RTX 4090 GPU server ~$600/month cloud, all OSS software = $0
-- Break-even: **~20 developers**; profitable above that
-- **Bonus**: Code never leaves client infrastructure — satisfies data sovereignty requirements
-
-**Build timeline**: 1–2 weeks (infra) + 1 week (IDE rollout)
-
----
-
-## Recipe 8: Sovereign Dev Platform (LATAM / Regulated Clients)
-
-**Goal**: Full self-hosted development platform replacing GitHub + GitHub Actions + DataDog for clients with data sovereignty, regulatory, or cost requirements.
-
-**Stack**:
-- [forgejo/forgejo](https://codeberg.org/forgejo/forgejo) — self-hosted Git + code review + issue tracker (MIT)
-- [woodpecker-ci/woodpecker](https://github.com/woodpecker-ci/woodpecker) — CI/CD pipelines (Apache-2.0)
-- [backstage/backstage](https://github.com/backstage/backstage) — internal developer portal (Apache-2.0)
-- [SigNoz/signoz](https://github.com/SigNoz/signoz) — full-stack observability + LLM traces (Apache-2.0)
-- [ollama/ollama](https://github.com/ollama/ollama) — on-premise LLM runtime (MIT)
-- [cline/cline](https://github.com/cline/cline) — AI coding (Apache-2.0, points to local Ollama)
-- [langfuse/langfuse](https://github.com/langfuse/langfuse) — LLM observability (MIT)
-
-**Infrastructure sizing**:
-```
-On-premise or private cloud:
-├── Forgejo               — 2 CPU, 4GB RAM per 100 devs
-├── Woodpecker CI         — scales horizontally with worker agents
-├── Backstage IDP         — Node.js + PostgreSQL, 4 CPU, 8GB
-├── SigNoz                — ClickHouse backend, 3-node min, 8 CPU, 16GB
-├── Ollama (GPU server)   — NVIDIA A10G or equiv for 70B models
-└── Cline (dev laptops)   — VS Code extension → Ollama endpoint
-```
-
-**Migration path from GitHub** (LATAM enterprise):
-```
-Phase 1 (4 weeks): Mirror — Forgejo mirrors GitHub repos, both active
-Phase 2 (4 weeks): CI/CD — Woodpecker runs alongside GitHub Actions
-Phase 3 (4 weeks): Cut-over — Forgejo primary, GitHub archived read-only
-Phase 4 (ongoing): AI layer — Ollama + Cline + LangGraph on Forgejo webhooks
-```
-
-**Build timeline**: 12–16 weeks for full migration + AI layer  
-**ROI**: ~60–70% cost reduction vs. GitHub Enterprise + GitHub Copilot + DataDog; complete data sovereignty; satisfies LGPD (Brazil), open source procurement mandates (LATAM government); no per-seat licensing.
-
----
-
-## Recipe 9: AI SRE — Autonomous Incident Response
-
-**Goal**: Reduce on-call burden by 35%+. L1/L2 incidents auto-diagnosed and remediated; only novel/high-severity incidents reach humans.
-
-**Stack**:
-- **Alerting**: [prometheus/prometheus](https://github.com/prometheus/prometheus) (Apache-2.0) + [grafana/grafana](https://github.com/grafana/grafana) (AGPL-3.0, Grafana 13 with native AI agent metrics panel)
-- **APM + LLM spans**: [SigNoz/signoz](https://github.com/SigNoz/signoz) (AGPL-3.0) — unified infra + AI call observability in ClickHouse
-- **Agent orchestration**: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — stateful incident workflow with HITL gates for destructive actions
-- **Durable execution**: [temporalio/temporal](https://github.com/temporalio/temporal) (MIT) — long-running remediations (DB vacuum, node drain) with guaranteed retry
-- **Agent observability**: [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — trace every AI reasoning step for post-incident review
-- **Notification**: Mattermost bot (AGPL-3.0) or PagerDuty webhook
-
-**Wire-up**:
-```python
-from langgraph.graph import StateGraph
-from langchain_anthropic import ChatAnthropic
-
-def build_incident_graph():
-    graph = StateGraph(IncidentState)
-    
-    # Nodes
-    graph.add_node("fetch_context", fetch_logs_metrics_runbook)  # Pull Prometheus/SigNoz data
-    graph.add_node("diagnose", llm_diagnose_root_cause)          # LLM reasons with runbook
-    graph.add_node("propose_fix", generate_remediation_plan)
-    graph.add_node("human_approval", wait_for_mattermost_approval)  # HITL for prod-critical
-    graph.add_node("execute_fix", run_kubectl_or_remediation_script)
-    graph.add_node("verify_resolution", check_prometheus_alert_cleared)
-    graph.add_node("notify", post_incident_report_to_mattermost)
-
-    # Edges
-    graph.add_edge("fetch_context", "diagnose")
-    graph.add_edge("diagnose", "propose_fix")
-    graph.add_conditional_edges(
-        "propose_fix",
-        route_by_severity,  # LOW/MEDIUM → auto; HIGH/CRITICAL → human approval
-        {"auto": "execute_fix", "manual": "human_approval"}
+agent = Agent(
+    llm="claude-sonnet-5",  # or local vLLM endpoint
+    environment=GitHubEnvironment(
+        repo="org/repo",
+        token=os.environ["GITHUB_TOKEN"]
     )
-    graph.add_edge("human_approval", "execute_fix")
-    graph.add_edge("execute_fix", "verify_resolution")
-    graph.add_edge("verify_resolution", "notify")
-    return graph.compile()
+)
 
-# Prometheus AlertManager webhook receiver
-# receivers:
-#   - name: ai-sre
-#     webhook_configs:
-#       - url: http://ai-sre-agent:8080/alert
-#         send_resolved: true
-```
+# Pull open bugs tagged "ai-fixable" from GitLab
+issues = gitlab.issues.list(labels=["ai-fixable"], state="opened")
 
-```go
-// Temporal workflow for long-running remediations (e.g., PostgreSQL vacuum, node drain)
-func RemediationWorkflow(ctx workflow.Context, incident Incident) error {
-    ao := workflow.ActivityOptions{StartToCloseTimeout: 2 * time.Hour, RetryPolicy: &temporal.RetryPolicy{MaxAttempts: 3}}
-    ctx = workflow.WithActivityOptions(ctx, ao)
-    
-    var plan string
-    workflow.ExecuteActivity(ctx, DiagnoseActivity, incident).Get(ctx, &plan)
-    workflow.ExecuteActivity(ctx, ExecuteRemediationActivity, plan).Get(ctx, nil)
-    workflow.ExecuteActivity(ctx, VerifyResolutionActivity, incident).Get(ctx, nil)
-    return nil
-}
-```
-
-**Grafana 13 setup** (GrafanaCON 2026):
-- New AI/LLM metrics panel type: visualize agent decision latency, resolution confidence score
-- AlertManager → Grafana annotations → LangGraph webhook pipeline
-- SigNoz embedded LLM spans: see when the AI agent called the LLM and what it cost
-
-**Build timeline**: 6–10 weeks (2 weeks MVP with human approval on all actions; 4-6 weeks to autonomous L1/L2)
-**ROI**: MTTR -40-70% for L1/L2 incidents; on-call pages -35%; Gartner: 85% enterprises using AI SRE by 2029
-
----
-
----
-
-## Recipe 10: Continuous AI Improvement Pipeline (MLflow + LangGraph + Prefect)
-
-**Goal**: Close the "deploy and forget" gap — build a self-monitoring AI app that continuously measures its own quality and improves over time.
-
-**Stack**:
-- **RAG backend**: [supabase/supabase](https://github.com/supabase/supabase) (Apache-2.0) — pgvector for embeddings, Postgres for knowledge base
-- **Workflow scheduler**: [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) (Apache-2.0) — weekly pipeline runs
-- **Eval & tracking**: [mlflow/mlflow](https://github.com/mlflow/mlflow) (Apache-2.0) — logs eval results, tracks prompt versions, registers improved models
-- **Agent orchestrator**: [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — eval harness agent that samples queries and compares to golden dataset
-- **LLM observability**: [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — traces production queries for eval sampling
-- **LLM**: Claude claude-haiku-4-5 for eval (cheap, fast), Claude claude-sonnet-4-6 for production
-
-**Architecture**:
-```
-Production AI App (RAG/Agent)
-        ↓ real user queries
-Langfuse (traces all queries)
-        ↓ weekly: Prefect triggers eval pipeline
-LangGraph Eval Agent:
-  1. Sample 100 production traces from Langfuse
-  2. Run each through current RAG + new RAG (A/B)
-  3. LLM-as-judge: Claude Haiku scores both answers
-        ↓
-MLflow logs:
-  - accuracy scores per prompt version
-  - cost per query
-  - latency distribution
-  - regression alerts if score drops >5%
-        ↓
-Promote if improved → update Supabase embeddings + prompt registry
-        ↓
-Slack notification: "RAG v2.3 → v2.4: accuracy +8%, cost -12%. Auto-deployed."
-```
-
-**Wire-up**:
-```python
-import mlflow
-import mlflow.pyfunc
-from prefect import flow, task
-from langchain_anthropic import ChatAnthropic
-from langfuse import Langfuse
-
-@task
-def sample_production_traces(n: int = 100) -> list[dict]:
-    langfuse = Langfuse()
-    traces = langfuse.fetch_traces(limit=n, order_by="random")
-    return [{"query": t.input, "answer": t.output, "score": t.scores} for t in traces]
-
-@task
-def run_rag_eval(traces: list[dict], prompt_version: str) -> dict:
-    judge = ChatAnthropic(model="claude-haiku-4-5-20251001")
-    scores = []
-    for trace in traces:
-        new_answer = rag_pipeline(trace["query"], prompt_version)
-        score = judge.invoke(f"Rate 0-10: Original: {trace['answer']}\nNew: {new_answer}")
-        scores.append(float(score.content))
-    return {"mean_score": sum(scores)/len(scores), "prompt_version": prompt_version}
-
-@flow(name="rag-eval-pipeline")
-def weekly_eval_pipeline():
-    with mlflow.start_run(run_name="weekly-eval"):
-        traces = sample_production_traces(100)
-        current = run_rag_eval(traces, "v2.3")
-        candidate = run_rag_eval(traces, "v2.4")
-        
-        mlflow.log_metrics({
-            "current_accuracy": current["mean_score"],
-            "candidate_accuracy": candidate["mean_score"],
-            "improvement": candidate["mean_score"] - current["mean_score"]
+for issue in issues[:10]:  # process 10 bugs per run
+    result = agent.solve(
+        task=f"Fix bug: {issue.title}\n\n{issue.description}",
+        constraints=[
+            "Must pass all existing tests",
+            "Must not change public API signatures",
+            "PR description must explain root cause"
+        ]
+    )
+    if result.tests_pass:
+        gitlab.mergerequests.create({
+            "source_branch": result.branch,
+            "target_branch": "main",
+            "title": f"fix: {issue.title} (AI-generated)",
+            "description": result.explanation,
+            "labels": ["ai-generated", "needs-human-review"]
         })
-        
-        if candidate["mean_score"] > current["mean_score"] + 0.5:  # threshold
-            mlflow.register_model(candidate["prompt_version"], "rag-prompt-registry")
-            promote_to_production(candidate["prompt_version"])
-            notify_slack("New RAG version promoted automatically")
-
-# Prefect schedule: every Monday at 6am UTC
-# prefect deployment build weekly_eval_pipeline -n "weekly-rag-eval" --cron "0 6 * * 1"
 ```
 
-**Estimated build**: 3–4 weeks  
-**ROI**: Production RAG/agent quality improves 10–30% over first quarter without manual intervention. Langfuse sampling means you're evaluating on real user queries, not synthetic benchmarks. MLflow gives client a dashboard proving the AI gets better over time — a compelling renewal argument.
-
-**Globant angle**: This is the "continuous AI improvement retainer" — deliver the initial AI app (4-6 weeks), then maintain the eval/improvement pipeline (~2 days/week). Clients renew because their AI demonstrably improves every quarter.
+**Key Win**: 10-40% of backlog bugs fixed autonomously; team focuses on complex issues and review.
 
 ---
 
-## Quick-Start Matrix
+## Pattern 4: AIOps Platform (Kubernetes + AI Diagnostics)
 
-| Client need | Start here | Timeline | Complexity |
-|-------------|-----------|----------|------------|
-| AI code review | SWE-agent + LangGraph | 3 weeks | Low |
-| Automate feature development | CrewAI multi-agent crew | 6 weeks | Medium |
-| Developer portal with AI | Backstage + RAG + Claude | 5 weeks | Medium |
-| Rapid AI app for client | Dify + Langfuse | 5 days (POC) | Low |
-| Self-healing CI | OpenHands + LangGraph | 4 weeks | Medium |
-| DevOps Slack assistant | n8n + Claude + MCP | 2 weeks | Low |
-| Private LLM deployment | vLLM + Ollama + LiteLLM | 2 weeks | Medium |
-| On-prem Copilot replacement | Tabby + Continue + Ollama | 2 weeks | Low-Medium |
-| AI SRE / autonomous ops | LangGraph + Prometheus + Grafana 13 + Temporal + Langfuse | 8 weeks | Medium-High |
-| Sovereign dev platform | Forgejo + Woodpecker + Backstage + SigNoz + Ollama | 12 weeks | Medium-High |
-| Continuous AI improvement retainer | MLflow + Langfuse + Prefect + LangGraph eval | 4 weeks setup | Low (ongoing) |
-| Self-improving agent deployment | Hermes Agent + Skills Hub customization | 2 weeks | Low |
-| AI engineering governance | LangGraph + Langfuse eval + HITL gates + Semgrep | 3 weeks | Medium |
+**Problem**: SRE team spends 60% of time on alert triage vs. proactive reliability work.  
+**Stack**: Prometheus + Grafana + k8sgpt + LangGraph  
+**Licenses**: Apache-2.0 (Prometheus, k8sgpt) + AGPL-3.0 (Grafana) + MIT (LangGraph)  
+**Time to demo**: 1 day
+
+```python
+# aiops_agent.py
+from langchain_anthropic import ChatAnthropic
+from langgraph.graph import StateGraph
+import subprocess
+
+llm = ChatAnthropic(model="claude-sonnet-5")
+
+def check_k8s(state):
+    # k8sgpt scans cluster and outputs issues as JSON
+    result = subprocess.run(
+        ["k8sgpt", "analyze", "--output", "json", "--explain"],
+        capture_output=True, text=True
+    )
+    state["k8s_issues"] = json.loads(result.stdout)
+    return state
+
+def query_prometheus(state):
+    # Query for anomalies in the last hour
+    query = 'rate(http_requests_total{status=~"5.."}[5m]) > 0.1'
+    response = requests.get(f"{PROMETHEUS_URL}/api/v1/query", params={"query": query})
+    state["error_rate_metrics"] = response.json()["data"]["result"]
+    return state
+
+def triage_and_route(state):
+    issues = state["k8s_issues"] + state["error_rate_metrics"]
+    analysis = llm.invoke(f"""
+    Analyze these infrastructure issues:
+    {json.dumps(issues, indent=2)}
+    
+    For each issue:
+    1. Severity (P1/P2/P3)
+    2. Root cause hypothesis
+    3. Recommended remediation steps
+    4. Auto-fix if safe (restart pod, scale deployment, etc.)
+    
+    Output JSON array of actions.
+    """)
+    state["actions"] = json.loads(analysis.content)
+    return state
+
+def execute_safe_remediations(state):
+    for action in state["actions"]:
+        if action["severity"] == "P1" and action["auto_fix"] and action["risk"] == "low":
+            subprocess.run(action["kubectl_command"], shell=True)
+            # Post to Slack: f"Auto-fixed P1: {action['description']}"
+    return state
+
+# Build the graph
+graph = StateGraph(dict)
+graph.add_node("k8s_check", check_k8s)
+graph.add_node("metrics_query", query_prometheus)
+graph.add_node("triage", triage_and_route)
+graph.add_node("remediate", execute_safe_remediations)
+
+graph.add_edge("k8s_check", "triage")
+graph.add_edge("metrics_query", "triage")
+graph.add_edge("triage", "remediate")
+
+aiops_agent = graph.compile()
+
+# Run every 5 minutes via cron
+if __name__ == "__main__":
+    aiops_agent.invoke({"k8s_issues": [], "error_rate_metrics": [], "actions": []})
+```
+
+**Key Win**: P1 incidents auto-remediated in <2 min; MTTR drops 50%; SREs focus on root cause, not firefighting.
+
+---
+
+## Pattern 5: Agent-Powered Developer Portal (Backstage + CrewAI)
+
+**Problem**: Developers waste 2+ hours/day on boilerplate service setup, documentation lookup, platform navigation.  
+**Stack**: Backstage + CrewAI + GitHub MCP + Confluence MCP  
+**Licenses**: Apache-2.0 (Backstage, CrewAI)  
+**Time to demo**: 2 days
+
+```python
+# backstage_agent_crew.py
+from crewai import Agent, Task, Crew, Process
+from crewai_tools import MCPClientToolset
+
+# Connect to existing platform tools via MCP
+github_tools = MCPClientToolset(server_url="http://github-mcp:3000")
+jira_tools = MCPClientToolset(server_url="http://jira-mcp:3000")
+backstage_tools = MCPClientToolset(server_url="http://backstage-mcp:3000")
+
+# Define specialized agents
+architect = Agent(
+    role="Platform Architect",
+    goal="Design the new service scaffolding",
+    tools=[backstage_tools],
+    llm="claude-sonnet-5"
+)
+
+integrator = Agent(
+    role="Integration Specialist",
+    goal="Wire up the service to platform services (auth, logging, tracing)",
+    tools=[github_tools],
+    llm="claude-sonnet-5"
+)
+
+documenter = Agent(
+    role="Technical Writer",
+    goal="Generate TechDocs for Backstage catalog",
+    tools=[backstage_tools],
+    llm="claude-haiku-4-5"  # cheaper model for docs
+)
+
+# Developer says: "Create a new Python FastAPI service called payment-processor"
+user_request = "Create a new Python FastAPI service called payment-processor with JWT auth, Postgres, and Prometheus metrics"
+
+crew = Crew(
+    agents=[architect, integrator, documenter],
+    tasks=[
+        Task(agent=architect, description=f"Scaffold service: {user_request}"),
+        Task(agent=integrator, description="Create GitHub repo, add CI/CD workflow, wire service mesh"),
+        Task(agent=documenter, description="Write TechDocs, register in Backstage catalog")
+    ],
+    process=Process.sequential
+)
+
+result = crew.kickoff()
+# Result: complete repo, CI/CD, docs, Backstage entry — in 5 minutes vs 2 hours manual
+```
+
+**Key Win**: New service setup drops from 2 hours → 5 minutes; developer experience score (DX) improvement measurable.
+
+---
+
+## Pattern 6: MLOps Experiment Agent
+
+**Problem**: ML team runs experiments ad-hoc; no reproducibility, results scattered, best model hard to find.  
+**Stack**: MLflow + ZenML + LangGraph + Ray  
+**Licenses**: Apache-2.0 (MLflow, ZenML, Ray) + MIT (LangGraph)  
+**Time to demo**: 3 days
+
+```python
+# mlops_experiment_agent.py
+import mlflow
+from zenml.pipelines import pipeline
+from zenml.steps import step
+from langchain_anthropic import ChatAnthropic
+
+llm = ChatAnthropic(model="claude-sonnet-5")
+
+@step
+def analyze_experiments(experiment_name: str) -> str:
+    """AI agent that reads MLflow experiments and suggests next run."""
+    client = mlflow.tracking.MlflowClient()
+    runs = client.search_runs(
+        experiment_ids=[client.get_experiment_by_name(experiment_name).experiment_id],
+        order_by=["metrics.val_accuracy DESC"],
+        max_results=20
+    )
+    
+    runs_summary = [
+        {
+            "run_id": r.info.run_id,
+            "params": r.data.params,
+            "metrics": r.data.metrics,
+            "status": r.info.status
+        }
+        for r in runs
+    ]
+    
+    suggestion = llm.invoke(f"""
+    You are an ML experiment optimizer. Analyze these experiment runs:
+    {json.dumps(runs_summary, indent=2)}
+    
+    Suggest the next 3 hyperparameter configurations to try.
+    Explain why based on the trends you observe.
+    Output as JSON array with keys: learning_rate, batch_size, epochs, rationale.
+    """)
+    
+    return suggestion.content
+
+@step
+def run_suggested_experiments(suggestions: str) -> dict:
+    """Launch Ray distributed training for suggested configs."""
+    configs = json.loads(suggestions)
+    
+    import ray
+    from ray import tune
+    
+    ray.init()
+    
+    analysis = tune.run(
+        train_fn,  # your training function
+        config={
+            "learning_rate": tune.grid_search([c["learning_rate"] for c in configs]),
+            "batch_size": tune.grid_search([c["batch_size"] for c in configs]),
+        },
+        num_samples=len(configs),
+        resources_per_trial={"cpu": 4, "gpu": 1}
+    )
+    
+    best_config = analysis.best_config
+    mlflow.log_params(best_config)
+    
+    return {"best_config": best_config, "best_metric": analysis.best_result["val_accuracy"]}
+
+@pipeline
+def mlops_agent_pipeline():
+    suggestions = analyze_experiments(experiment_name="churn-prediction")
+    results = run_suggested_experiments(suggestions=suggestions)
+```
+
+**Key Win**: AI suggests next experiments based on run history; 60% less human time on hyperparameter search.
+
+---
+
+## Pattern 7: Automated Documentation Agent
+
+**Problem**: Code documentation is always out of date; engineers don't write it, PMs can't read the code.  
+**Stack**: Aider + OpenHands + GitHub Actions + MkDocs  
+**Licenses**: Apache-2.0 (Aider, OpenHands) + MIT (MkDocs)  
+**Time to demo**: 4 hours
+
+```yaml
+# .github/workflows/auto-docs.yml
+name: AI Documentation Update
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**/*.py'
+      - 'src/**/*.ts'
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # get diff
+
+      - name: Install Aider
+        run: pip install aider-chat
+
+      - name: Detect changed files
+        id: changed
+        run: |
+          echo "files=$(git diff --name-only HEAD~1 HEAD | grep -E '\.(py|ts)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      - name: Update docs with Aider
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          aider --model claude-haiku-4-5 \
+                --message "Update the documentation in docs/ to reflect changes in: ${{ steps.changed.outputs.files }}. 
+                           Update API docs, add new function docs, update README if needed.
+                           Keep docs accurate to the actual code — never invent behavior." \
+                ${{ steps.changed.outputs.files }} docs/
+
+      - name: Build and deploy docs
+        run: |
+          pip install mkdocs mkdocs-material
+          mkdocs gh-deploy --force
+
+      - name: Open PR for doc changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "docs: auto-update for changes in ${{ steps.changed.outputs.files }}"
+          body: "AI-generated documentation update. Please review before merging."
+          branch: "auto-docs-${{ github.sha }}"
+          labels: "auto-docs,needs-review"
+```
+
+**Key Win**: Docs update automatically on every merge; junior developers can understand codebase faster.
+
+---
+
+## Pattern 8: Multi-Language Codebase Migration Agent
+
+**Problem**: Client has a large Java 8 / PHP 5 legacy codebase they need to migrate to modern stack.  
+**Stack**: OpenHands + SWE-agent + LangGraph + Pytest/JUnit  
+**Licenses**: MIT (OpenHands, SWE-agent, LangGraph)  
+**Time to first module migrated**: 1 week
+
+```python
+# migration_agent.py
+from openhands import Agent, LocalEnvironment
+from langgraph.graph import StateGraph
+
+def analyze_module(state):
+    """Analyze a legacy module: dependencies, complexity, test coverage."""
+    agent = Agent(llm="claude-sonnet-5", environment=LocalEnvironment())
+    analysis = agent.run(f"""
+    Analyze the legacy module: {state['module_path']}
+    
+    Report:
+    1. External dependencies (package versions)
+    2. Internal dependencies (other modules it calls)
+    3. Cyclomatic complexity per function
+    4. Existing test coverage (%)
+    5. Migration complexity: LOW / MEDIUM / HIGH
+    6. Suggested target stack (FastAPI/Spring Boot/NestJS)
+    """)
+    state['analysis'] = analysis
+    return state
+
+def write_tests_first(state):
+    """Generate characterization tests before migration — lock in current behavior."""
+    agent = Agent(llm="claude-sonnet-5", environment=LocalEnvironment())
+    agent.run(f"""
+    Write comprehensive characterization tests for: {state['module_path']}
+    
+    Rules:
+    - Tests must pass against the EXISTING code
+    - Cover all public functions/endpoints
+    - Include edge cases found in the code
+    - Output as pytest / JUnit format
+    - Place in tests/characterization/{state['module_name']}/
+    """)
+    return state
+
+def migrate_module(state):
+    """Migrate the module to modern stack, guided by characterization tests."""
+    agent = Agent(llm="claude-sonnet-5", environment=LocalEnvironment())
+    agent.run(f"""
+    Migrate {state['module_path']} to {state['analysis']['target_stack']}.
+    
+    Constraints:
+    - ALL characterization tests in tests/characterization/{state['module_name']}/ must pass
+    - Preserve the same public API contract
+    - Use modern patterns (async/await, type hints, dependency injection)
+    - Add proper error handling and logging
+    - Output to: src_new/{state['module_name']}/
+    """)
+    return state
+
+# LangGraph orchestration
+graph = StateGraph(dict)
+graph.add_node("analyze", analyze_module)
+graph.add_node("test", write_tests_first)
+graph.add_node("migrate", migrate_module)
+
+graph.add_edge("analyze", "test")
+graph.add_edge("test", "migrate")
+
+migration_graph = graph.compile()
+```
+
+**Key Win**: Characterization tests prevent regressions; agent handles boilerplate migration, humans handle architecture decisions.
+
+---
+
+## Pattern Selection Guide
+
+| Client Situation | Start With | Why |
+|-----------------|-----------|-----|
+| Wants to try AI coding | Pattern 1 (Private Copilot) | Zero risk, immediate dev productivity |
+| Security/compliance concern | Pattern 2 (AI Code Review) | Measurable security improvement, CI/CD native |
+| Bug backlog out of control | Pattern 3 (Autonomous Bug Fix) | Quantifiable ROI: bugs closed / sprint |
+| SRE team overwhelmed | Pattern 4 (AIOps) | MTTR reduction is easy to measure |
+| Platform engineering modernization | Pattern 5 (Dev Portal) | Developer experience transformation |
+| Data science team needs structure | Pattern 6 (MLOps) | Reproducibility + experiment ROI |
+| Documentation always stale | Pattern 7 (Auto Docs) | Quick win, high perceived value by non-tech |
+| Legacy modernization project | Pattern 8 (Migration Agent) | Reduce migration cost by 40-60% |
