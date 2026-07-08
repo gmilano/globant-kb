@@ -475,6 +475,229 @@ migration_graph = graph.compile()
 
 ---
 
+---
+
+## Pattern 9: LLM Observability Foundation (Langfuse Self-Hosted)
+
+**Problem**: AI agents in production behave unexpectedly — hallucinations, high latency, prompt regressions — and there's no visibility into what's happening.  
+**Stack**: Langfuse + OpenTelemetry + Claude (Anthropic SDK) + PostgreSQL  
+**Licenses**: MIT (Langfuse) + Apache-2.0 (OpenTelemetry)  
+**Time to demo**: 4 hours
+
+```yaml
+# docker-compose.yml — self-hosted Langfuse
+version: "3.8"
+services:
+  langfuse-server:
+    image: langfuse/langfuse:3
+    ports: ["3000:3000"]
+    environment:
+      DATABASE_URL: "postgresql://langfuse:secret@db/langfuse"
+      NEXTAUTH_SECRET: "change-me-in-production"
+      NEXTAUTH_URL: "http://localhost:3000"
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "true"
+    depends_on: [db]
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: langfuse
+      POSTGRES_USER: langfuse
+      POSTGRES_PASSWORD: secret
+    volumes: [postgres_data:/var/lib/postgresql/data]
+volumes:
+  postgres_data:
+```
+
+```python
+# agent_with_observability.py
+import os
+from langfuse import Langfuse
+from langfuse.decorators import observe, langfuse_context
+from anthropic import Anthropic
+
+langfuse = Langfuse(
+    host=os.environ["LANGFUSE_HOST"],       # http://localhost:3000
+    public_key=os.environ["LANGFUSE_PUBLIC_KEY"],
+    secret_key=os.environ["LANGFUSE_SECRET_KEY"],
+)
+client = Anthropic()
+
+@observe(name="code-review-agent")
+def review_pull_request(pr_diff: str, repo: str) -> dict:
+    """Review a PR diff for security and quality issues."""
+    langfuse_context.update_current_observation(
+        metadata={"repo": repo, "diff_lines": len(pr_diff.splitlines())}
+    )
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        messages=[{
+            "role": "user",
+            "content": f"""Review this PR diff for security vulnerabilities and code quality:
+
+{pr_diff}
+
+Output JSON: {{"issues": [{{"severity": "HIGH|MEDIUM|LOW", "file": "...", "line": 0, "description": "..."}}], "overall_quality": "PASS|REVIEW|FAIL"}}"""
+        }]
+    )
+
+    result = response.content[0].text
+    langfuse_context.update_current_observation(
+        output=result,
+        usage={"input": response.usage.input_tokens, "output": response.usage.output_tokens}
+    )
+    return result
+
+# Run an eval pipeline on traced outputs
+def run_weekly_eval():
+    """Score recent traces for hallucination and quality."""
+    dataset = langfuse.get_dataset("pr-reviews-sample")
+    for item in dataset.items:
+        with item.observe(run_name="eval-run-2026-07") as trace_id:
+            result = review_pull_request(item.input["diff"], item.input["repo"])
+            item.link(trace_id, run_name="eval-run-2026-07")
+            langfuse.score(
+                name="format-correctness",
+                value=1.0 if "issues" in result else 0.0,
+                trace_id=trace_id
+            )
+```
+
+**Key Win**: Full trace visibility into every AI call; eval datasets catch prompt regressions; EU AI Act compliance documentation auto-generated from traces. $50k–$150k engagement size.
+
+---
+
+## Pattern 10: Kubernetes AI Platform (kagent + k8sgpt + LangGraph)
+
+**Problem**: Platform engineering team wants to deploy AI agents to production on Kubernetes using the same GitOps workflow as all other workloads.  
+**Stack**: kagent + k8sgpt + LangGraph + Prometheus + Anthropic Claude  
+**Licenses**: Apache-2.0 (kagent, k8sgpt, LangGraph, Prometheus)  
+**Time to demo**: 1 day
+
+```yaml
+# kagent-sre-agent.yaml — deploy an AI agent as a K8s resource
+apiVersion: kagent.dev/v1alpha1
+kind: Agent
+metadata:
+  name: sre-incident-responder
+  namespace: ai-ops
+spec:
+  description: "Monitors cluster health, triages incidents, auto-remediates P1s"
+  systemPrompt: |
+    You are an SRE agent for our production Kubernetes cluster.
+    When given an alert, you must:
+    1. Query Prometheus for related metrics (last 30 min)
+    2. Run k8sgpt analyze to scan affected namespace
+    3. Determine root cause with confidence level
+    4. If confidence > 0.85 AND severity == P1 AND action is safe: execute remediation
+    5. Otherwise: create incident report and page on-call via PagerDuty MCP
+    Always log reasoning to Langfuse trace.
+  model:
+    apiKeySecret: anthropic-api-key
+    provider: anthropic
+    name: claude-sonnet-5
+  tools:
+    - type: MCPServer
+      mcpServer:
+        url: http://prometheus-mcp:8080   # Prometheus queries
+    - type: MCPServer
+      mcpServer:
+        url: http://k8sgpt-mcp:8080       # K8s diagnostics
+    - type: MCPServer
+      mcpServer:
+        url: http://pagerduty-mcp:8080    # incident management
+```
+
+```python
+# sre_langraph_brain.py — optional: LangGraph orchestration for complex multi-step incidents
+from langchain_anthropic import ChatAnthropic
+from langgraph.graph import StateGraph, END
+from typing import TypedDict
+import subprocess, json, requests
+
+class IncidentState(TypedDict):
+    alert: dict
+    k8s_analysis: str
+    metrics: list
+    root_cause: str
+    confidence: float
+    action_taken: str
+
+llm = ChatAnthropic(model="claude-sonnet-5")
+
+def gather_context(state: IncidentState) -> IncidentState:
+    ns = state["alert"].get("namespace", "default")
+    # k8sgpt analyze
+    k8s = subprocess.run(
+        ["k8sgpt", "analyze", "-n", ns, "--output", "json", "--explain"],
+        capture_output=True, text=True
+    )
+    state["k8s_analysis"] = k8s.stdout
+    # Prometheus — fetch error rate for namespace
+    q = f'sum(rate(http_requests_total{{namespace="{ns}",status=~"5.."}}[5m]))'
+    r = requests.get(f"{PROMETHEUS_URL}/api/v1/query", params={"query": q}).json()
+    state["metrics"] = r["data"]["result"]
+    return state
+
+def diagnose(state: IncidentState) -> IncidentState:
+    response = llm.invoke(f"""
+Alert: {json.dumps(state['alert'])}
+K8s diagnostics: {state['k8s_analysis']}
+Error rate metrics: {json.dumps(state['metrics'])}
+
+Identify root cause and provide:
+- root_cause: one sentence
+- confidence: float 0.0–1.0
+- remediation: kubectl command if safe, else null
+Output as JSON.
+""")
+    parsed = json.loads(response.content)
+    state["root_cause"] = parsed["root_cause"]
+    state["confidence"] = parsed["confidence"]
+    state["remediation"] = parsed.get("remediation")
+    return state
+
+def remediate(state: IncidentState) -> IncidentState:
+    if state["confidence"] >= 0.85 and state.get("remediation"):
+        result = subprocess.run(state["remediation"].split(), capture_output=True, text=True)
+        state["action_taken"] = f"Auto-remediated: {state['remediation']}"
+    else:
+        state["action_taken"] = "Escalated to on-call (confidence too low for auto-remediation)"
+    return state
+
+def should_auto_remediate(state: IncidentState) -> str:
+    return "remediate" if state["confidence"] >= 0.85 else "escalate"
+
+graph = StateGraph(IncidentState)
+graph.add_node("gather", gather_context)
+graph.add_node("diagnose", diagnose)
+graph.add_node("remediate", remediate)
+graph.add_node("escalate", lambda s: {**s, "action_taken": "Paged on-call"})
+
+graph.set_entry_point("gather")
+graph.add_edge("gather", "diagnose")
+graph.add_conditional_edges("diagnose", should_auto_remediate, {"remediate": "remediate", "escalate": "escalate"})
+graph.add_edge("remediate", END)
+graph.add_edge("escalate", END)
+
+sre_agent = graph.compile()
+```
+
+```bash
+# Deploy via kubectl (GitOps-compatible)
+kubectl apply -f kagent-sre-agent.yaml
+
+# View agent status like any K8s resource
+kubectl get agents -n ai-ops
+kubectl describe agent sre-incident-responder -n ai-ops
+kubectl logs -n ai-ops -l app=kagent-agent --follow
+```
+
+**Key Win**: AI agents managed with existing K8s tooling (kubectl, GitOps, Helm); SREs don't need to learn new platforms. P1 incidents auto-remediated in <2 min; 50% MTTR reduction. $100k–$400k engagement size.
+
+---
+
 ## Pattern Selection Guide
 
 | Client Situation | Start With | Why |
@@ -487,3 +710,5 @@ migration_graph = graph.compile()
 | Data science team needs structure | Pattern 6 (MLOps) | Reproducibility + experiment ROI |
 | Documentation always stale | Pattern 7 (Auto Docs) | Quick win, high perceived value by non-tech |
 | Legacy modernization project | Pattern 8 (Migration Agent) | Reduce migration cost by 40-60% |
+| AI in prod with no visibility | Pattern 9 (LLM Observability) | Langfuse self-hosted; EU AI Act readiness |
+| K8s platform + AI agents | Pattern 10 (kagent platform) | GitOps-native agent deployment; SRE + AI bundled |

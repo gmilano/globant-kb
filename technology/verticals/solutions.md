@@ -2,7 +2,7 @@
 
 > Existing open source platforms that technology companies and dev teams run.
 > The play: deploy these as the base, add an AI agent layer on top.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-08 v3
 
 ## DevOps & CI/CD Platforms
 
@@ -43,11 +43,70 @@
 
 | Platform | License | Repo | Stack | Use Case |
 |----------|---------|------|-------|----------|
-| MLflow | Apache-2.0 | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Python | Experiment tracking, model registry, deployment, evaluation — the MLOps backbone |
+| MLflow | Apache-2.0 | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Python | Experiment tracking, model registry, deployment, evaluation; v3.x adds LLM tracing + agent observability |
 | Kubeflow | Apache-2.0 | [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Python, Go, K8s | End-to-end ML on Kubernetes; pipelines, hyperparameter tuning, model serving |
 | BentoML | Apache-2.0 | [bentoml/bentoml](https://github.com/bentoml/bentoml) | Python | Build and deploy ML model APIs; Kubernetes-native, supports any framework |
 | vLLM | Apache-2.0 | [vllm-project/vllm](https://github.com/vllm-project/vllm) | Python, CUDA | High-throughput LLM inference server; the standard for self-hosting open LLMs at scale |
 | Ollama | MIT | [ollama/ollama](https://github.com/ollama/ollama) | Go | Run LLMs locally on any machine; Mac/Linux/Windows, GGUF model support, REST API |
+
+## LLM Observability Platforms
+
+| Platform | License | Repo | Stack | Use Case |
+|----------|---------|------|-------|----------|
+| Langfuse | MIT | [langfuse/langfuse](https://github.com/langfuse/langfuse) | TypeScript, Python | Self-hosted LLM observability: traces, eval datasets, prompt versioning, user sessions; 28k stars Jul 2026 |
+| Opik | Apache-2.0 | [comet-ml/opik](https://github.com/comet-ml/opik) | Python | LLM evaluation platform; CI/CD eval integration, hallucination scoring, annotation workflows |
+| Arize Phoenix | Elastic-2.0 | [Arize-ai/phoenix](https://github.com/Arize-ai/phoenix) | Python | ML-grade LLM observability; OpenInference traces, embeddings drift, built on OpenTelemetry |
+
+### Langfuse Quick Setup (Docker Compose)
+
+```yaml
+# docker-compose.yml
+version: "3.8"
+services:
+  langfuse-server:
+    image: langfuse/langfuse:3
+    ports: ["3000:3000"]
+    environment:
+      DATABASE_URL: "postgresql://langfuse:secret@db/langfuse"
+      NEXTAUTH_SECRET: "your-secret"
+      NEXTAUTH_URL: "http://localhost:3000"
+    depends_on: [db]
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: langfuse
+      POSTGRES_USER: langfuse
+      POSTGRES_PASSWORD: secret
+    volumes: [postgres_data:/var/lib/postgresql/data]
+volumes:
+  postgres_data:
+```
+
+```python
+# Instrument any LLM call
+from langfuse import Langfuse
+from langfuse.decorators import observe
+from anthropic import Anthropic
+
+langfuse = Langfuse(host="http://localhost:3000")
+client = Anthropic()
+
+@observe()  # automatically traces this function
+def ask_agent(question: str) -> str:
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": question}]
+    )
+    return response.content[0].text
+```
+
+## Internal Developer Platforms
+
+| Platform | License | Repo | Stack | Use Case |
+|----------|---------|------|-------|----------|
+| Backstage | Apache-2.0 | [backstage/backstage](https://github.com/backstage/backstage) | TypeScript | Spotify's developer portal; software catalog, TechDocs, scaffolding — AI plugin layer on top |
+| OpenChoreo | Apache-2.0 | [wso2/choreo](https://github.com/wso2/choreo) | Go, TypeScript | CNCF Sandbox IDP (Jan 2026); exposes MCP servers so AI agents deploy components and reason about platform state; built-in SRE LLM agent |
 
 ## Secrets & Config Management
 

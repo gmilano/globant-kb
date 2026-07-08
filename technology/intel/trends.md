@@ -1,7 +1,7 @@
 # 📡 Trends — Technology Industry
 
 > Current AI trends reshaping software development, DevOps, and technology operations.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-08 v3
 
 ## Macro Trends (2026)
 
@@ -32,10 +32,11 @@ SRE teams using AI to handle the alert fatigue problem at scale.
 - "Agent-friendly CLI" design pattern emerging: dtctl, k8sgpt designed for both humans and AI callers
 
 ### 5. MCP Protocol as the Integration Standard
-Model Context Protocol (Anthropic, 2024) becoming the universal AI-tool integration layer.
-- 1,000+ MCP servers in 6 months; GitHub's official MCP server has 60+ tools
-- Every major dev platform adding MCP: GitHub, GitLab, Jira, Confluence, Docker, VS Code
-- DevOps tools being built "MCP-first": new CLIs expose MCP endpoints alongside human CLI
+Model Context Protocol (Anthropic, 2024) has become the universal AI-tool integration layer.
+- **5,000+ MCP servers** available by Jul 2026; adopted by Anthropic, OpenAI, Google DeepMind, Microsoft
+- **2026-07-28 Release Candidate** (largest revision since launch): stateless core for HTTP-scale deployment, MCP Apps (server-rendered UIs in AI responses), Tasks extension (long-running work), OAuth/OIDC alignment
+- Every major AI coding tool (Claude Code, Cursor, Windsurf, VS Code Copilot) supports MCP natively
+- DevOps tools being built "MCP-first": kagent, kubernetes-mcp-server, semgrep-mcp
 - MCP replacing custom LangChain tools for infrastructure tasks; reduces integration boilerplate 90%
 
 ### 6. Private AI Development Environments
@@ -68,17 +69,35 @@ Terraform/Ansible + LLM = agents that understand AND manage infrastructure.
 
 ### 10. Benchmark-Driven Agent Development
 SWE-bench (Princeton) is becoming the de facto standard for evaluating coding agents.
-- Every major coding agent reports SWE-bench score; scores above 50% now expected for production
-- Open source agents catching up to proprietary: OpenHands at ~45%, Aider at ~43%
-- SWE-bench Verified and SWE-bench Multimodal variants released 2026
-- Clients starting to ask vendors: "what's your SWE-bench score?"
+- Claude Mythos 5 leads SWE-bench Verified at **95.5%** (Jul 6, 2026); Claude Fable 5 leads SWE-bench Pro at **80.3%**
+- Open source best: OpenHands at **72%** (v1.6.0, Mar 2026) — the target for open-source deployments
+- SWE-bench Pro (harder, no ground-truth leakage) is now the more trusted enterprise benchmark
+- Clients starting to ask vendors: "what's your SWE-bench score?" — procurement language shifting
+- **OpenHands Index** (Jan 2026): first live leaderboard evaluating LLMs on broad software engineering tasks
+
+### 11. LLM Observability — The New Mandatory Layer
+Just as Prometheus became mandatory for microservices, LLM observability is becoming mandatory for AI systems.
+- **Langfuse** (MIT, 28k stars) is the category leader: traces, evals, datasets, prompt versioning, self-hostable
+- **Opik** (Apache-2.0) challenger: strong CI/CD eval integration, hallucination scoring workflows
+- **Arize Phoenix** (Elastic-2.0): ML-grade rigor, drift detection, embeddings analysis
+- **MLflow 3.x** expanded into LLM tracing + agent observability — leverages existing enterprise MLflow deployments
+- Pattern: every production AI agent now needs trace → eval → prompt version control loop
+- EU AI Act (Aug 2, 2026 deadline) requires documentation of AI system behavior → LLM observability as compliance tooling
+
+### 12. Small Language Models (SLMs) for Agent Workloads
+NVIDIA position paper (2026): serving 7B SLMs is 10–30x cheaper in latency, energy, and FLOPs vs 70–175B LLMs for agentic tasks.
+- Most agent sub-tasks are schema- and API-constrained — SLMs are sufficient AND cheaper
+- On-device SLMs (Phi-3, Gemma 3, Qwen2.5-Coder-7B via Ollama) enabling air-gapped agent deployments
+- LATAM organizations especially benefit: GPU costs prohibitive; SLMs via Ollama unlock AI coding without cloud dependencies
+- Pattern: SLM for sub-tasks (code completion, JSON extraction), frontier model (Claude) for orchestration
 
 ## Near-Term Signals (Next 90 Days)
 
 | Signal | What to Watch | Implication for Globant |
 |--------|--------------|------------------------|
-| AutoGen v1.0 stable release | Microsoft committing to enterprise-grade multi-agent | Accelerates enterprise multi-agent proposals |
-| Dify self-hosted enterprise tier | Visual workflow builder hitting regulated industries | New entry point for FS/healthcare tech engagements |
-| k8sgpt v1.0 | AIOps tooling maturing; production-ready | SRE transformation offering strengthened |
-| SWE-bench 60%+ scores | Coding agent quality threshold crossing | More tasks can be fully delegated to agents |
-| OpenTofu 2.0 | IaC-native AI integration | AI infrastructure management becomes plug-and-play |
+| MCP 2026-07-28 RC stable | Stateless MCP + Tasks extension GA | MCP becomes the primary integration layer; retire custom LangChain tool wrappers |
+| Langfuse v3 enterprise features | Self-hosted LLM observability with RBAC + SSO | New $50k–$150k engagement type: "AI observability foundation" |
+| kagent v1.0 | Kubernetes-native agent runtime production-ready | SRE/platform eng + AI agents bundled offering |
+| SWE-bench Pro 90%+ | Coding agent quality threshold for complex enterprise tasks | More enterprise tasks fully delegatable to agents |
+| OpenTofu 2.0 | IaC-native AI integration + MCP servers | AI infrastructure management becomes plug-and-play |
+| EU AI Act enforcement (Aug 2) | LLM observability becomes compliance requirement | Langfuse/Opik deployments as compliance tool — new LATAM angle |
