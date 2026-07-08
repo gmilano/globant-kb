@@ -1,128 +1,87 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-07 | v2
+> Investigación curada con datos verificados. Última actualización: 2026-07-08
 
 ## Tendencias confirmadas (alta confianza)
 
 ### 1. Ecosistema Godot como plataforma AI-first
-Godot (MIT, 112k+ stars) emergió como el engine open source con el ecosistema AI más rico:
+Godot (MIT, 112k stars) emergió como el engine open source con el ecosistema AI más rico:
 - **LimboAI** (MIT, 2.8k stars): BTs + Hierarchical State Machines. Stack NPC AI maduro.
 - **Beehave** (MIT, 3.2k stars): behavior trees componibles en el scene tree de Godot.
-- **godot-ai** (MIT, 805 stars, abr 2026): MCP server, 120+ operaciones, conecta Claude/Codex al editor en vivo. Listado en Godot Asset Library jul 2026.
+- **godot-ai** (MIT, 805 stars, abr 2026): MCP server, 120+ operaciones, conecta Claude/Codex al editor en vivo.
 - **godot_rl_agents** (MIT, 900+ stars): wrappers para 4 frameworks RL (SB3, Sample Factory, RLLib, CleanRL).
 - **NobodyWho** (EUPL, ver licencia): NPCs con LLM local, instalación 1-click en Godot AssetLib (jun 2026).
 - **NVIDIA fork Godot** con path tracing (MIT) lanzado en GDC 2026.
-- **GodotPrompter** (MIT): 51 agentic skills para AI coding agents en Godot 4.
 
 **Oportunidad Globant**: "Godot + AI" como alternativa open source a Unity sin controversias de pricing.
 
-### 2. Unity MCP Ecosystem — cuatro servidores compiten, uno domina
-En 2026 el ecosistema Unity MCP replicó y superó al Godot MCP:
-- **CoplayDev/unity-mcp** (MIT, **5.8k stars**): 47 herramientas, el más adoptado. Claude/Codex/Copilot/LLMs locales.
-- **IvanMurzak/Unity-MCP** (MIT, 3.4k stars): cualquier método C# → herramienta con una línea.
-- **CoderGamester/mcp-unity** (MIT, 1.8k stars): Node.js bridge para IDEs (Cursor, Windsurf, Claude Code).
-- **AnkleBreaker-Studio/unity-mcp-server** (MIT, 278 stars): 268 herramientas, mayor cobertura.
-
-Señal: >11k stars en Unity MCP en 2026. AI-assisted dev en Unity ya no es opcional.
-
-### 3. LLM NPCs — de demo a producción + Long-Term Memory (breakthrough 2026)
+### 2. LLM NPCs — de demo a producción
 En 2026, NPCs con LLMs pasaron a producción en títulos comerciales:
 - Segmento NPCs + Digital Humans: **28.6% del mercado total AI gaming** (mayor segmento).
 - Impacto medido: +40% immersion scores, +28% session time en RPGs.
-- **Breakthrough 2026 — Long-Term Memory (LTM)**: vector databases permiten NPCs que recuerdan acciones pasadas del jugador, tono de voz, alineación moral. Personajes que evolucionan.
-- Arquitectura ganadora: BT (estructura reactiva) + LLM (diálogo generativo) + Vector Store (memoria) + LTM.
+- Arquitectura ganadora: BT (estructura reactiva) + LLM (diálogo generativo) + Vector Store (memoria).
 - **Inworld AI** (cerrado) + **NVIDIA ACE**: stack propietario dominante en AAA.
 - Alternativa OSS: Interactive LLM NPCs (MIT, 716 stars) + LimboAI + Ollama.
 - **LLMUnity** (Apache-2.0, 1.7k stars): LLMs locales o cloud directamente en Unity.
-- **openNPC** (MIT): NPC autónomo sin LLM requerido en runtime — diferenciador para indie.
 
-### 4. COCOS 4 — MIT license unlock (enero 2026)
-COCOS 4 adoptó MIT en enero 2026 eliminando todas las restricciones comerciales.
-
-> "AI can better understand open code and guide the engine to evolve in AI-friendly directions." — Equipo COCOS
-
-Impacto estratégico:
-- COCOS domina mobile gaming en Asia → ahora accesible para LATAM sin licensing fees
-- Filosofía AI-native: código abierto permite a AI tools razonar y modificar el engine directamente
-- NPUs en móviles (2026) + ONNX models → AI on-device en COCOS sin servidor
-- Para Globant: oportunidad en studios mobile LATAM con presupuesto ajustado
-
-### 5. GameCoder LLMs especializados
+### 3. GameCoder LLMs especializados
 - **OpenGame / GameCoder-27B** (Apache-2.0, abr 2026): primer LLM open source entrenado en código de juegos via RL orientado a ejecución. Genera juegos web end-to-end.
 - **Roblox CUBE 3D** (1.8B params, mar 2025): genera objetos 3D desde texto on-platform.
 - Tendencia: modelos especializados en game dev superan a modelos generales en tareas de código de juego.
 
-### 6. RL para testing automatizado y balance
+### 4. RL para testing automatizado y balance
 - **godot_rl_agents** activo con 4 frameworks RL.
 - Agentes RL entrenados para exploración de nivel → detectan bugs edge-case que QA manual no encuentra.
 - Balance detection: agentes que encuentran estrategias dominantes (exploits) antes del launch.
 - **GameStudio Subagents**: equipo de agentes multi-rol (dev, QA, artist) en terminal.
-- Datos AAA: ahorro promedio $10M/título. Dev cycles 24 meses → 12 meses.
 - Reducción estimada de QA manual: 60-70% en proyectos con RL QA implementado.
 
-### 7. Nakama como backend universal para proyectos OSS
+### 5. Nakama como backend universal para proyectos OSS
 - 12.8k stars, Apache-2.0, SDK oficial Godot, Unreal, Unity.
 - 500k devs, 1B+ players en producción.
 - Adoptado como backend por defecto en proyectos Godot+AI.
 - Extensible: hooks en Go/TypeScript/Lua para añadir AI server-side.
+- Nakama vs Managed (2026): mayoría de proyectos mid-size prefieren self-host para control de datos.
 
-### 8. Analytics predictivo — churn y LTV
+### 6. AI asistido en el desarrollo (tooling)
+- **Unity AI** (v6.2, mid-2025): suite integrada en editor. Assistant (docs/code), Generators (texturas/sprites), Inference Engine (on-device).
+- **Godot + godot-ai**: Claude Code/Cursor conectados al editor via MCP. 120+ operaciones: build scenes, edit scripts, wire signals.
+- **Unreal — Aura** (Ramen VR, ene 2026): agente editor + coding. Caso: *Zombonks* lanzado en 5 meses (mitad del tiempo).
+- Adopción: 87% de estudios ya usa AI agents en workflows (Google Cloud survey, jun-jul 2025).
+
+### 7. Analytics predictivo — churn y LTV
 - GNNs (Graph Neural Networks) sobre comportamiento + red social: 75.83 AUROC vs 62.44 LightGBM flat-table.
 - Predicción de churn 14 días en adelante.
 - Señales más fuertes: amigos que se van, difficulty walls, session lengths declining.
 - F2P mobile dominante en LATAM → retención es crítica → oportunidad.
-- Herramientas: PyTorch Geometric (PyG) para GNNs, PostHog (MIT, 23k stars) para events.
+- Herramientas: PyTorch Geometric (PyG) para GNNs, PostHog (MIT, 23k stars) para events, Grafana (Apache-2.0) para dashboards.
 
-### 9. Anti-cheat con ML conductual
+### 8. Anti-cheat con ML conductual
 - Shift de detección por firmas (binarios) a detección por comportamiento (server-side ML).
 - Ventaja: no se puede bypassear con ofuscación; detecta cheaters nuevos sin actualizar reglas.
+- **OACS** (MIT): framework Python para anomaly detection server-side.
+- **UltimateAntiCheat** (AGPL-3.0): referencia educativa C++ client-side.
 - GNNs para detectar redes coordinadas (boosting, account sharing, fraud en iGaming).
 - Driver LATAM: regulación iGaming Brasil 2025 exige sistemas anti-fraud activos.
 
-### 10. Tensión de adopción: studios SÍ, gamers NO
-Una tensión estructural emergió en 2026 que define el approach correcto:
+### 9. Carbon Engine open source — base AAA sin royalties (1 julio 2026)
+El engine de EVE Online se liberó bajo MIT. Este es el primer motor AAA profesional de MMO en open source con 20+ años de producción demostrada.
 
-| Lado | Dato | Implicación |
-|------|------|-------------|
-| Studios (adopción) | 36% usa GenAI personalmente; 87% usa AI en workflows | AI es parte del toolkit estándar |
-| Studios (sentimiento) | **52% ve GenAI negativamente** (vs 30% en 2025) | Backlash interno creciente por calidad/empleos |
-| Gamers | **85% actitudes negativas** hacia AI en juegos | AI visible = rechazo de mercado |
-| Steam | 7,300+ juegos declaran uso de AI | Mercado más grande de lo que parece |
+- **Trinity renderer**: visuales del espacio EVE para juegos de espacio/sci-fi
+- **CarbonIO**: networking probado para 500k+ jugadores simultáneos
+- **Python scripting hooks**: extensible con AI via Python (LangChain, Claude SDK, etc.)
+- **Por qué importa**: elimina la necesidad de royalties de engine para proyectos enterprise de espacio/MMO. Globant puede ofrecer proyectos basados en Carbon + AI sin lock-in.
 
-**Conclusión estratégica**: el éxito está en **"AI invisible"** — usar AI para producción (QA, assets, dev tooling) sin exponer la "AI-ness" al jugador final. Los NPCs AI funcionan CUANDO el jugador no sabe que habla con AI.
+### 10. GDC 2026 paradox — el mercado crece aunque los devs estén en contra
+La tensión más importante de la industria en 2026: 52% de devs rechazan GenAI, pero los estudios la adoptan de todos modos.
 
-### 11. Game Foundation Models — era post-NitroGen (diciembre 2025)
+**¿Por qué?** Los decisores (CTOs, PMs) ven el ROI; los ejecutores (artists, writers, programmers) ven la amenaza a sus roles. El resultado es adopción "invisible": AI en pipelines backend que los devs no ven directamente.
 
-La publicación de NitroGen marca el inicio de la era de foundation models especializados en gaming:
-
-- **NitroGen** ([MineDojo/NitroGen](https://github.com/MineDojo/NitroGen), NVIDIA+Stanford, dic 2025): 500M params SigLip2+DiT, entrenado en 40K horas de gameplay en 1000+ juegos. 52% mejora en juegos no vistos. Research only.
-- **Genie 3** (Google DeepMind): world model para generar entornos interactivos desde texto/imagen. Genera juegos completos, no solo assets.
-- **Roblox CUBE 3D** (1.8B params): genera objetos 3D on-platform desde texto (mar 2025).
-- **Tendencia**: modelos especializados en gameplay superan a GPT/Claude en tareas de game AI con datasets pequeños.
-- **Para Globant**: NitroGen como base para fine-tuning de agentes de QA (testing coverage, exploit detection) — sin costo de API si se hace on-premise.
-
-### 12. Agones → CNCF (marzo 2026) — game infra cloud-native madura
-
-- Agones (Apache-2.0, [googleforgames/agones](https://github.com/googleforgames/agones)) fue aceptado en CNCF Sandbox en marzo 2026.
-- Originalmente co-desarrollado por Google + Ubisoft. El ingreso al CNCF lo hace neutral y enterprise-ready.
-- Impacto: los stacks cloud-native para gaming (Agones + Nakama + Open Match) ahora tienen endorsement de infraestructura equivalente a Kubernetes mismo.
-- Para Globant: propuesta diferenciada: "stack cloud-native CNCF para gaming" — Agones + Nakama + Open Match sobre GKE/EKS = no lock-in de plataforma.
-
-### 13. Wanderfolk — pgvector en producción, patrón recomendado (mayo 2026)
-
-Wanderfolk (Steam, mayo 2026) validó en producción el siguiente patrón simplificado:
-
-```
-Antes (teórico): Godot + ChromaDB + Redis + PostgreSQL (3 sistemas separados)
-Ahora (validado): Motor del juego + Supabase (PostgreSQL + pgvector) (1 sistema)
-```
-
-El juego usa:
-- pgvector para embeddings de memoria de NPC — retrieval por cosine similarity (lo relevante, no lo reciente)
-- PostgreSQL estándar para social graph (gossip entre NPCs), reputación (-100 a +100), inventarios
-- Supabase como BaaS: auth + storage + realtime + edge functions
-
-**Conclusión**: pgvector sobre Supabase es suficiente para NPCs con Long-Term Memory en producción. ChromaDB solo justificado si el volumen de vectores supera lo que PostgreSQL puede manejar (raro en juegos).
+**Implicación estratégica**: Globant debe framear los servicios de AI gaming como "herramientas que dan superpoderes al dev", no "AI que reemplaza al dev". El posicionamiento correcto es:
+- ❌ "AI que genera assets"
+- ✅ "AI que automatiza QA para que tu equipo de arte se enfoque en calidad"
+- ❌ "NPCs generados por AI"  
+- ✅ "AI que ayuda a tu equipo a crear más personajes con más profundidad"
 
 ---
 
@@ -130,18 +89,13 @@ El juego usa:
 
 | Tendencia | Señal | ETA |
 |-----------|-------|-----|
-| **AI-native games** (world models) | Yuan-ManX/AI-Native-Game tracker activo. Genie 3 (Google). | 2026-2027 |
-| **Mind-Studio: Executable World Models** | arXiv:2606.16070 (jun 2026): World Models con lookahead evaluation para juegos parcialmente observables. | Research 2026 |
-| **Agentic AI RPG frameworks** | Frameworks en jun 2026 donde narración, NPCs, lore y personajes son plugin agents autónomos. Soporte DeepSeek/OpenAI/Anthropic/Qwen. | En adopción indie |
+| **Carbon Engine ecosistema** | Primera semana post-launch. Comunidad formándose. | Próximos 3-6 meses |
+| **COCOS 4 AI-native extensions** | MIT + SUD backing + roadmap AI explícito | 2026 Q3-Q4 |
+| **AI-native games** (world models) | Yuan-ManX/AI-Native-Game tracker activo. LingBot-World Apache-2.0 (procedural AI world). | 2026-2027 |
 | **Gemma 3n on-device NPCs** | Demostrado en Godot sin API. Offline-first gaming. | Ya disponible en beta |
-| **Villanos adaptativos** | Aivill (SKYHUBDev): villanos que aprenden del jugador. | Concepto emergente |
-| **AI game masters** | VirtualGameMaster (MIT, 300 stars): GM automático para RPGs. | En adopción indie |
+| **openNPC LOD engine** | Arquitectura heuristic→RL según importancia narrativa. No requiere LLM en runtime. | Adopción creciente |
 | **PCG con diffusion models** | Generación de assets (texturas, música, diálogos) in-pipeline. | Parcialmente productivo ya |
-| **Agentic PCG** | LLMs que usan WFC/otros como tools (Zehua Jiang, 2025). Validado en Zelda/Sokoban. | Research → producción 2027 |
-| **gamescom latam** | Primer evento dedicado LATAM 2026. Signal de regionalización. | Continuo |
-| **COCOS 4 AI community** | MIT unlock ene 2026. Comunidad OSS AI sobre COCOS por desarrollar. | Oportunidad 2026-2027 |
+| **Supabase para game backends** | Alternativa PostgreSQL a Firebase/Nakama para juegos asíncronos. | Adopción creciente 2026 |
 
 ---
-*v3 (2026-07-08): añadidas tendencias 11 (Foundation Models gaming), 12 (Agones CNCF), 13 (Wanderfolk pgvector producción). Radar actualizado con Mind-Studio arXiv:2606.16070 y Agentic AI RPG frameworks jun 2026.*
-*v2 (2026-07-07): añadido Unity MCP ecosystem (#2), COCOS 4 MIT (#4), Tensión studios/gamers (#10), LTM NPCs, datos GDC 2026 SOTI.*
-*Fuentes: GDC 2026 SOTI, GitHub (verificado 2026-07-08), agentmarketcap.ai, aivexify.com, solidaitech.com, cncf.io (mar 2026), wanderfolk.ai, arXiv:2606.16070*
+*Fuentes: GitHub (verificado 2026-07-08), agentmarketcap.ai, solidaitech.com, snsinsider.com, market.us, gdconf.com/GDC-2026-SOTI, fenris.com, opensourceforu.com*

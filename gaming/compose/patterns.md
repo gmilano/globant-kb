@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-07 | v2 — añadida Receta 7 (Unity MCP) y Receta 8 (COCOS 4 Mobile)
+> Última actualización: 2026-07-08
 
 ## Patrón base
 
@@ -28,7 +28,7 @@ Godot 4 (MIT)                          ← engine del juego
     └── BTState con trigger HTTP         ← dispara llamada al LLM
         └── Claude / GPT-4o / Ollama    ← LLM (cloud o local)
             └── pre-conversation.json   ← personalidad + conocimiento del personaje
-                └── ChromaDB / Qdrant   ← vector store para memoria episódica + LTM
+                └── ChromaDB / Qdrant   ← vector store para memoria episódica
 ```
 
 **Repos**:
@@ -42,8 +42,7 @@ Godot 4 (MIT)                          ← engine del juego
 2. Crear un BTAction `LLMDialogue` que envía POST al endpoint LLM con: `{character: "...", player_input: "...", memory: [...últimos N eventos...]}`.
 3. La respuesta del LLM vuelve como texto → animación de lip sync + texto en UI.
 4. Guardar el intercambio en el memory store (ChromaDB vía API HTTP o SQLite local).
-5. Para Long-Term Memory (breakthrough 2026): añadir campo `moral_alignment` y `tone` que se actualiza con cada interacción y se incluye en el prompt del NPC.
-6. Opción local sin internet: usar Ollama con Llama 3.1 8B o Gemma 3n on-device.
+5. Opción local sin internet: usar Ollama con Llama 3.1 8B o Gemma 3n on-device.
 
 **Tiempo estimado**: 2-3 semanas para MVP funcional con voz.
 **Costo cloud**: ~$0.01-0.05 por conversación con Claude Haiku / GPT-4o-mini.
@@ -78,7 +77,7 @@ Godot 4 (MIT)                           ← juego a testear como entorno RL
 5. El agente entrenado se convierte en un "explorador" que corre el juego 24/7 detectando regresiones.
 
 **Tiempo estimado**: 1-2 semanas para primer agente; 3-4 semanas para sistema de QA completo.
-**ROI**: reducción de 60-70% en QA manual. AAA studios reportan ahorro $10M/título en QA+localization+assets AI.
+**ROI**: reducción de 60-70% en QA manual según benchmarks de la industria.
 
 ---
 
@@ -134,6 +133,7 @@ Godot 4 (MIT) — runtime del juego
     └── PCG de assets:
         └── Stable Diffusion (API) para texturas procedurales
             └── [o opcional] AI-generated music con MusicGen (MIT)
+
 ```
 
 **Repos**:
@@ -174,8 +174,16 @@ FastAPI server (Python)
 - [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars. RAG + agentes sobre datos propios.
 - [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector database para embeddings.
 
-**Tiempo estimado**: 1-2 semanas para MVP funcional.
+**Cómo conectar**:
+1. Preparar el corpus del juego: manual, patch notes, FAQs, descripciones de ítems → convertir a Markdown.
+2. Indexar en ChromaDB con LlamaIndex usando embeddings de OpenAI o Sentence Transformers (MIT).
+3. FastAPI expone endpoint POST `/ask` que recibe pregunta del jugador.
+4. LlamaIndex recupera chunks relevantes (top-5 por similitud coseno).
+5. LLM recibe chunks + pregunta → genera respuesta natural en el tono del juego.
+6. Godot muestra respuesta en UI in-game con animación.
+
 **Costo**: ~$0.001-0.003 por pregunta con Claude Haiku. Para volumen alto: Llama 3.1 8B local en servidor.
+**Tiempo estimado**: 1-2 semanas para MVP funcional.
 
 ---
 
@@ -197,8 +205,8 @@ Godot 4 Editor (MIT)                   ← editor abierto
 ```
 
 **Repos**:
-- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. 120+ operaciones, ~41 MCP tools. Listado en Godot Asset Library jul 2026.
-- [jame581/GodotPrompter](https://github.com/jame581/GodotPrompter) — MIT. 51 agentic skills para Godot 4.x incluyendo PCG.
+- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. 120+ operaciones, ~41 MCP tools.
+- [FlamxGames/godot-ai-assistant-hub](https://github.com/FlamxGames/godot-ai-assistant-hub) — MIT. Alternativa con Ollama/Gemini/OpenRouter.
 
 **Cómo configurar**:
 1. Instalar godot-ai desde Godot Asset Library o GitHub.
@@ -210,346 +218,240 @@ Godot 4 Editor (MIT)                   ← editor abierto
 
 ---
 
-## Receta 7: Unity MCP Dev Tooling (nuevo — julio 2026)
+---
 
-**Caso de uso**: Studio con codebase Unity que quiere AI-assisted development. La opción recomendada para clientes Unity.
+## Receta 7: NPC con voz completo — Mantella-pattern (STT → LLM → TTS)
+
+**Caso de uso**: NPC conversacional con voz, memoria y personalidad en cualquier juego (no solo mods). Basado en la arquitectura de Mantella (Skyrim/Fallout 4) adaptada a producción propia.
 
 **Stack**:
 ```
-Claude Code / Cursor / Copilot / cualquier MCP client
-    ↕ Model Context Protocol
-CoplayDev/unity-mcp (MIT, 5.8k stars)  ← MCP bridge más adoptado
-    ↕ Unity Editor API (C#)
-Unity 6.2 Editor                        ← editor abierto
-    ├── Gestión de assets desde lenguaje natural
-    ├── Control de scenes: crear, modificar, eliminar GameObjects
-    ├── Edición de scripts C# con contexto del proyecto
-    ├── Ejecución de tests
-    └── [Opcional] IvanMurzak/Unity-MCP (MIT) ← exposición de métodos C# custom
+Juego (Godot 4 / Unity / motor propio)
+    ↕ HTTP / WebSocket local
+Pipeline de NPC AI (Python FastAPI)
+    ├── STT: Moonshine (MIT) / faster-whisper (MIT)
+    │   └── Audio del micrófono → texto
+    ├── LLM Context Builder
+    │   ├── pre_conversation.json  ← personalidad, backstory, voz del personaje
+    │   ├── memory_store (ChromaDB / SQLite)  ← recuerdos episódicos
+    │   └── game_context.json  ← estado actual del mundo/misión
+    ├── LLM: Claude Haiku / Llama 3.1 8B (Ollama local)
+    │   └── Genera respuesta en carácter + markup de emoción
+    └── TTS: Piper (MIT) / Kokoro (Apache-2.0)
+        └── Audio → jugador
 ```
 
-**Repos**:
-- [CoplayDev/unity-mcp](https://github.com/CoplayDev/unity-mcp) — MIT, **5.8k stars**. 47 herramientas. El más adoptado.
-- [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) — MIT, 3.4k stars. Extensible: cualquier método C# → herramienta.
-- [CoderGamester/mcp-unity](https://github.com/CoderGamester/mcp-unity) — MIT, 1.8k stars. Node.js bridge para IDEs.
-- [AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server) — MIT, 278 stars. 268 tools: Shader Graph, NavMesh, MPPM multiplayer.
+**Repos clave**:
+- [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) — MIT. Referencia de implementación completa.
+- [moonshine (Useful Sensors)](https://github.com/usefulsensors/moonshine) — Apache-2.0. STT on-device rápido.
+- [rhasspy/piper](https://github.com/rhasspy/piper) — MIT. TTS neural offline, 900+ voces.
+- [thewh1teagle/kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx) — Apache-2.0. TTS alta calidad ONNX.
+- [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector store para memoria.
 
-**Cómo configurar**:
+**Código esqueleto (FastAPI)**:
+```python
+from fastapi import FastAPI
+import json, chromadb
+from anthropic import Anthropic
+
+app = FastAPI()
+client = Anthropic()
+db = chromadb.Client()
+collection = db.get_or_create_collection("npc_memory")
+
+@app.post("/npc/speak")
+async def npc_speak(player_text: str, npc_id: str, game_context: dict):
+    # Recuperar memoria episódica del NPC
+    memories = collection.query(
+        query_texts=[player_text],
+        where={"npc_id": npc_id},
+        n_results=5
+    )
+    
+    # Cargar personalidad del personaje
+    with open(f"characters/{npc_id}.json") as f:
+        character = json.load(f)
+    
+    # Construir contexto
+    system = f"""Eres {character['name']}, {character['description']}.
+    
+Recuerdos recientes de tu interacción con el jugador:
+{chr(10).join([m for m in memories['documents'][0]])}
+
+Contexto actual: {json.dumps(game_context)}
+
+Responde en carácter. Añade [emoción] al inicio: [alegre|triste|enojado|neutral|sorprendido]."""
+
+    # Llamar LLM
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=200,
+        messages=[{"role": "user", "content": player_text}],
+        system=system
+    )
+    
+    npc_text = response.content[0].text
+    
+    # Guardar en memoria
+    collection.add(
+        documents=[f"Jugador: {player_text} | NPC: {npc_text}"],
+        metadatas=[{"npc_id": npc_id, "timestamp": "now"}],
+        ids=[f"{npc_id}_{hash(player_text)}"]
+    )
+    
+    return {"text": npc_text, "npc_id": npc_id}
+```
+
+**Tiempo estimado**: 2-3 semanas para MVP con voz. Pipeline local 100% posible (Ollama + Whisper + Piper).
+**Costo cloud**: ~$0.002 por conversación con Claude Haiku. Local: $0.
+**Deal size típico**: $60k-200k (implementación completa para estudio con 5-10 NPCs principales)
+
+---
+
+## Receta 8: Unity AI Dev Workflow — 268 tools MCP
+
+**Caso de uso**: Estudio Unity que quiere multiplicar productividad de devs con AI-assisted development. Alternativa a GitHub Copilot embedded: más control + más tools + sin suscripción adicional.
+
+**Stack**:
+```
+Claude Code / Cursor / Copilot (cualquier cliente MCP)
+    ↕ Model Context Protocol (Local)
+unity-mcp-server (MIT, 268 tools)
+    ↕ Unity Editor API
+Unity 6.2 Editor (propietario, pero sin lock-in del MCP layer)
+    ├── Scene management (crear, modificar, eliminar escenas)
+    ├── GameObjects (crear, manipular, componentes)
+    ├── Builds (trigger, config, profiling)
+    ├── Shader Graph (crear materiales AI-described)
+    ├── Terrain (heightmaps, textures desde prompts)
+    ├── Physics (configurar RigidBodies, Colliders desde texto)
+    ├── NavMesh (configurar pathfinding desde descripción)
+    ├── Animation (crear clips, state machines desde texto)
+    └── MPPM Multiplayer (configurar sesiones multiplayer)
+```
+
+**Setup (5 minutos)**:
 ```bash
-# 1. Instalar CoplayDev/unity-mcp via Package Manager de Unity
-#    (UPM: https://github.com/CoplayDev/unity-mcp)
+# 1. Clonar el servidor
+git clone https://github.com/AnkleBreaker-Studio/unity-mcp-server
+cd unity-mcp-server && npm install
 
-# 2. En settings de Claude Code:
+# 2. Instalar Unity MCP Plugin (UPM)
+# En Unity: Window → Package Manager → + → Add package from git URL
+# https://github.com/AnkleBreaker-Studio/unity-mcp-plugin.git
+
+# 3. Configurar en Claude Code (~/.claude/mcp_servers.json)
 {
-  "mcpServers": {
-    "unity": {
-      "command": "npx",
-      "args": ["unity-mcp-server"]
-    }
+  "unity": {
+    "command": "node",
+    "args": ["path/to/unity-mcp-server/index.js"]
   }
 }
-
-# 3. Abrir Unity Editor y el MCP server levanta automáticamente
 ```
 
-**Ejemplo de uso**:
+**Prompts de ejemplo en Claude Code**:
 ```
-Claude Code: "Crea un sistema de inventario con UI para el player prefab"
-  → unity-mcp crea el script C#, lo adjunta al prefab, crea el Canvas UI
-  → Unity muestra los cambios en tiempo real
-
-Claude Code: "El character controller tiene un bug con pendientes de >45 grados"
-  → Inspecciona el CharacterController, modifica el slopeLimit, corre el test suite
+"Crea una escena de combate con terreno, 2 spawn points de enemigos y un checkpoint"
+"Añade un NavMesh Agent al Player con velocidad 5 y radio de avoidance 0.5"
+"Configura un Shader Graph para un material de agua con reflexión y distorsión"
+"Genera el loop de animación de ataque con blend tree para 4 direcciones"
 ```
 
-**Para exponer lógica custom** (IvanMurzak/Unity-MCP):
-```csharp
-// Una línea convierte cualquier método en herramienta MCP
-[McpPluginTool]
-public static string GetPlayerStats(string playerId) {
-    // Unity logic...
-    return JsonUtility.ToJson(stats);
-}
-```
+**Repos**:
+- [AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server) — MIT, 268 tools
+- [AnkleBreaker-Studio/unity-mcp-plugin](https://github.com/AnkleBreaker-Studio/unity-mcp-plugin) — MIT, UPM package
+- [CoplayDev/unity-mcp](https://github.com/CoplayDev/unity-mcp) — MIT, 5.8k stars, alternativa más enfocada (47 tools)
 
-**Tiempo estimado**: Setup en 1 día. ROI inmediato para cualquier studio Unity.
-**Ventaja diferencial**: CoplayDev/unity-mcp > godot-ai en stars (5.8k vs 805) — señal de adopción masiva en Unity.
+**Tiempo estimado**: 1 día setup, ROI inmediato en velocidad de desarrollo.
+**Deal size típico**: $20k-80k (setup + training + customización para estudio mediano)
 
 ---
 
-## Receta 8: COCOS 4 + AI para mobile gaming LATAM (nuevo — julio 2026)
+## Receta 9: Carbon Engine + AI — MMO/Espacio con Python hooks
 
-**Caso de uso**: Studio mobile LATAM que quiere añadir AI features sin costo de engine license. COCOS 4 pasó a MIT en enero 2026.
+**Caso de uso**: Proyecto de juego de espacio/MMO enterprise usando el engine de EVE Online, con capa AI para NPCs de facción, economía procedural y soporte de jugador.
 
 **Stack**:
 ```
-COCOS 4 (MIT, mobile-first)            ← engine del juego
-    ├── TypeScript/JavaScript lógica
-    │   └── Claude Haiku API          ← NPC diálogo, $0.25/MTok input
-    ├── ONNX modelo exportado          ← AI on-device (NPU en móviles 2026)
-    │   └── Clasificador churn         ← sin costo de API, privacidad
-    └── Supabase (Apache-2.0)          ← backend + pgvector
-        ├── pgvector                   ← RAG sobre lore del juego sin ChromaDB
-        └── Edge Functions (Deno)      ← trigger AI en eventos del juego
+Carbon Engine (MIT, github.com/orgs/carbonengine)
+    ├── Trinity renderer ← visuales de espacio AAA
+    ├── CarbonIO ← networking para MMO
+    └── Python scripting hooks ← punto de integración AI
+        ├── NPC Faction AI
+        │   └── LangGraph (MIT) + Claude Sonnet ← agentes de facción con memoria
+        ├── Procedural Economy
+        │   └── Reglas económicas generadas por LLM + validadas con reglas fijas
+        └── Game Support Agent
+            └── LlamaIndex (MIT) + ChromaDB ← RAG sobre lore del juego
 ```
 
-**Repos**:
-- [cocos/cocos-engine](https://github.com/cocos/cocos-engine) — MIT (desde ene 2026). ~18k stars.
-- [supabase/supabase](https://github.com/supabase/supabase) — Apache-2.0. 80k stars. pgvector incluido.
-
-**Implementación NPC diálogo en COCOS 4**:
-```typescript
-// En COCOS TypeScript, llamada al LLM desde el evento de interacción
-import { _decorator, Component } from 'cc';
-
-@ccclass('NPCDialogue')
-export class NPCDialogue extends Component {
-    private characterId = 'village_elder';
-    
-    async onPlayerInteract(playerInput: string) {
-        const memory = await this.getPlayerMemory();  // pgvector lookup
-        
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-                'x-api-key': process.env.CLAUDE_API_KEY,
-                'anthropic-version': '2023-06-01',
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: 'claude-haiku-4-5-20251001',
-                max_tokens: 150,
-                system: `Eres ${this.characterId}. El jugador te ha ayudado ${memory.questsCompleted} veces. Su alineación es ${memory.moralAlignment}.`,
-                messages: [{ role: 'user', content: playerInput }]
-            })
-        });
-        
-        const data = await response.json();
-        this.showDialogue(data.content[0].text);
-        
-        // Guardar en Supabase pgvector para LTM
-        await this.updatePlayerMemory(playerInput, data.content[0].text);
-    }
-}
-```
-
-**Costo por conversación**: ~$0.003 con Claude Haiku. Para 10k DAU con 3 interacciones/sesión: ~$90/día.
-**Alternativa on-device**: ONNX model exportado desde Ollama/llama.cpp → sin costo de API, funciona offline.
-**Tiempo estimado**: 3-5 semanas para MVP completo con NPC diálogo + analytics básico.
-
----
-
----
-
-## Receta 9: Wanderfolk Pattern — NPC pgvector + Gossip Social Graph (nuevo — julio 2026)
-
-**Caso de uso**: RPG o juego social donde los NPCs recuerdan al jugador, evolucionan con el tiempo, y se comunican entre sí. Patrón validado en producción por Wanderfolk (Steam, mayo 2026).
-
-**Stack** (simplificado vs stack anterior):
-
-```
-Motor del juego (Godot / Unity / COCOS 4)
-    ↓ interacción del jugador con NPC
-Supabase (Apache-2.0)                   ← un solo backend para todo
-    ├── PostgreSQL
-    │   ├── Tabla npc_memories          ← historial de interacciones resumidas
-    │   ├── Tabla npc_social_graph      ← quién le cuenta qué a quién (gossip)
-    │   └── Tabla player_reputation     ← escala -100 a +100 por NPC/facción
-    ├── pgvector extension
-    │   └── Embeddings de memorias      ← retrieval cosine similarity (relevante, no reciente)
-    └── Edge Functions (Deno/TypeScript)
-        └── Llama llamada al LLM con contexto recuperado
-xAI Grok / Claude Haiku / Llama local   ← generación de diálogo contextual
-```
-
-**Diferencia clave vs patrón anterior**:
-
-| Antes (stack complejo) | Ahora (Wanderfolk pattern) |
-|------------------------|---------------------------|
-| ChromaDB para vectores | **pgvector en Supabase** |
-| Redis para caché de estado | **PostgreSQL estándar** |
-| Servicio de reputation separado | **Tabla en el mismo PostgreSQL** |
-| 3 sistemas distintos que sincronizar | **1 solo backend** |
-
-**Implementación Python — servidor de memoria NPC**:
-
+**Ejemplo de Python hook para NPC de facción**:
 ```python
-from supabase import create_client
+# carbon_npc_hook.py — se registra como hook en el Carbon Engine
+from langgraph.graph import StateGraph
 from anthropic import Anthropic
-import numpy as np
+import json
 
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-claude = Anthropic()
+client = Anthropic()
 
-class NPCMemorySystem:
-    def __init__(self, npc_id: str):
-        self.npc_id = npc_id
-
-    def get_relevant_memories(self, player_input: str, top_k: int = 5) -> list[dict]:
-        """Retrieval por relevancia (cosine similarity), no por recencia."""
-        # 1. Embedir el input del jugador
-        embedding_response = claude.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=1,
-            system="Return only the embedding vector as JSON array.",
-            messages=[{"role": "user", "content": f"embed: {player_input}"}]
-        )
-        # En producción: usar text-embedding-3-small de OpenAI o Voyage AI
-        # claude.messages no produce embeddings directamente
-        
-        # 2. Query pgvector — recupera lo relevante, no lo más reciente
-        result = supabase.rpc('match_npc_memories', {
-            'npc_id': self.npc_id,
-            'query_embedding': player_input_embedding,  # del paso anterior
-            'match_count': top_k,
-            'match_threshold': 0.7
-        }).execute()
-        return result.data
-
-    def get_player_reputation(self, player_id: str) -> dict:
-        """Reputación -100 a +100 con tier label."""
-        result = supabase.table('player_reputation') \
-            .select('score, tier, last_action') \
-            .eq('npc_id', self.npc_id) \
-            .eq('player_id', player_id) \
-            .single() \
-            .execute()
-        
-        score = result.data.get('score', 0)
-        tier = self._score_to_tier(score)
-        return {'score': score, 'tier': tier}
-
-    def _score_to_tier(self, score: int) -> str:
-        tiers = [(-100,-70,'Hostile'), (-70,-30,'Disliked'), (-30,-10,'Cool'),
-                 (-10,10,'Neutral'), (10,40,'Warm'), (40,70,'Friendly'), (70,100,'Beloved')]
-        for low, high, name in tiers:
-            if low <= score <= high:
-                return name
-        return 'Neutral'
-
-    def get_gossip_context(self, player_id: str) -> list[str]:
-        """Lo que otros NPCs le han dicho a este NPC sobre el jugador."""
-        result = supabase.table('npc_social_graph') \
-            .select('from_npc, message, importance') \
-            .eq('to_npc', self.npc_id) \
-            .eq('about_player', player_id) \
-            .order('importance', desc=True) \
-            .limit(3) \
-            .execute()
-        return [row['message'] for row in result.data]
-
-    async def generate_dialogue(self, player_id: str, player_input: str) -> str:
-        """Genera diálogo contextual usando memorias, reputación y gossip."""
-        memories = self.get_relevant_memories(player_input)
-        reputation = self.get_player_reputation(player_id)
-        gossip = self.get_gossip_context(player_id)
-
-        memory_context = "\n".join([m['content'] for m in memories])
-        gossip_context = "\n".join([f"- {g}" for g in gossip]) if gossip else "Nada relevante"
-
-        response = claude.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=200,
-            system=f"""Eres {self.npc_id}, un personaje en este mundo.
-
-RECUERDAS sobre este jugador:
-{memory_context}
-
-TU REPUTACIÓN CON ELLOS: {reputation['tier']} ({reputation['score']}/100)
-- Si es Hostile: sé frío y desconfiado
-- Si es Neutral: sé reservado pero educado  
-- Si es Beloved: sé cálido y generoso con información
-
-LO QUE OTROS TE HAN CONTADO:
-{gossip_context}
-
-Responde en personaje. Máximo 2 frases. Usa la reputación para determinar el tono.""",
-            messages=[{"role": "user", "content": player_input}]
-        )
-        
-        dialogue = response.content[0].text
-        
-        # Guardar la interacción en memoria
-        await self._save_memory(player_id, player_input, dialogue)
-        
-        return dialogue
-
-    async def _save_memory(self, player_id: str, player_input: str, npc_response: str):
-        """Resume e indexa la interacción para retrieval futuro."""
-        summary = f"El jugador dijo: '{player_input}'. Yo respondí: '{npc_response}'"
-        # En producción: resumir con LLM para extraer puntos clave
-        
-        supabase.table('npc_memories').insert({
-            'npc_id': self.npc_id,
-            'player_id': player_id,
-            'content': summary,
-            # 'embedding': vector  ← generar con text-embedding-3-small
-            'importance': 0.5  # ajustar según la acción del jugador
-        }).execute()
-```
-
-**SQL: pgvector function para retrieval**:
-```sql
--- Crear en Supabase: Settings → SQL Editor
-CREATE OR REPLACE FUNCTION match_npc_memories(
-  npc_id TEXT, query_embedding vector(1536),
-  match_count INT DEFAULT 5, match_threshold FLOAT DEFAULT 0.7
-)
-RETURNS TABLE (id UUID, content TEXT, similarity FLOAT) AS $$
-  SELECT id, content, 1 - (embedding <=> query_embedding) AS similarity
-  FROM npc_memories
-  WHERE npc_memories.npc_id = match_npc_memories.npc_id
-    AND 1 - (embedding <=> query_embedding) > match_threshold
-  ORDER BY embedding <=> query_embedding
-  LIMIT match_count;
-$$ LANGUAGE sql;
-```
-
-**Gossip propagation** (cuando el jugador completa una quest):
-```python
-def propagate_gossip(player_id: str, from_npc: str, event: str, importance: float = 0.8):
-    """Cuando un NPC es testigo de algo, puede contárselo a otros."""
-    # Encontrar NPCs en el mismo pueblo/zona
-    nearby_npcs = get_nearby_npcs(from_npc)
+def faction_npc_respond(player_input: str, faction_id: str, 
+                         npc_state: dict, faction_context: dict) -> dict:
+    """Hook que Carbon Engine llama cuando un jugador interactúa con un NPC."""
     
-    for target_npc in nearby_npcs:
-        supabase.table('npc_social_graph').insert({
-            'from_npc': from_npc,
-            'to_npc': target_npc,
-            'about_player': player_id,
-            'message': f"Vi al jugador {event}",
-            'importance': importance
-        }).execute()
+    system = f"""Eres un representante de la facción {faction_context['name']}.
+    
+Ideología: {faction_context['ideology']}
+Relación actual con el jugador (reputación {npc_state['player_reputation']}/100):
+{'Neutral' if npc_state['player_reputation'] < 50 else 'Amistoso' if npc_state['player_reputation'] < 80 else 'Aliado'}
+
+Misiones activas con esta facción: {json.dumps(npc_state.get('active_missions', []))}
+
+Responde coherentemente con la ideología y relación actual. Máximo 3 oraciones."""
+
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=150,
+        system=system,
+        messages=[{"role": "user", "content": player_input}]
+    )
+    
+    return {
+        "dialogue": response.content[0].text,
+        "reputation_delta": _calculate_reputation_delta(player_input, faction_context),
+        "available_missions": _get_contextual_missions(npc_state, faction_context)
+    }
+
+def _calculate_reputation_delta(player_input: str, faction_context: dict) -> int:
+    """Lógica de reputación basada en palabras clave + faction ideology."""
+    # Simplificado — en prod usar clasificador ML
+    positive_keywords = faction_context.get('positive_keywords', [])
+    return 1 if any(kw in player_input.lower() for kw in positive_keywords) else 0
 ```
 
 **Repos**:
-- [supabase/supabase](https://github.com/supabase/supabase) — Apache-2.0, 80k stars. PostgreSQL + pgvector + Edge Functions + Auth + Realtime.
+- [carbonengine (org)](https://github.com/orgs/carbonengine) — MIT. Engine base.
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT, 110k stars. Para agentes con estado.
+- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT. RAG sobre lore.
 
-**Costo**:
-- Supabase: gratis hasta 500MB DB / 2GB storage. Pro: $25/mes para producción.
-- Claude Haiku: ~$0.003 por conversación (input $0.25/MTok + output $1.25/MTok).
-- Para 1,000 DAU × 5 conversaciones/día: ~$15/día en LLM.
-
-**Tiempo estimado**: 2-3 semanas para MVP. Semanas 1-2: DB schema + retrieval function + API. Semana 3: gossip propagation + reputation tiers.
-
-**Ventaja vs patrón anterior**: 1 sistema (Supabase) vs 3 (ChromaDB + Redis + PostgreSQL). Menos infraestructura = menos puntos de falla, menos costo, más rápido de iterar.
+**Tiempo estimado**: 3-6 meses para producción (engine es complejo, requiere expertise C++).
+**Deal size típico**: $300k-1.5M (proyecto AAA enterprise)
+**Ventaja Globant**: Propuesta diferenciada — "MMO sin royalties de engine, con AI nativa en Python hooks"
 
 ---
 
 ## Tabla resumen
 
-| Patrón | Stack principal | Esfuerzo | ROI esperado |
-|--------|----------------|---------|---------------|
-| NPC con LLM (Godot) | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion (datos industria) |
-| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual; $10M/título AAA |
-| Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención |
-| Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability |
-| Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual |
-| AI Dev Tooling (Godot) | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
-| AI Dev Tooling (Unity) | CoplayDev/unity-mcp + Claude Code | 1 día setup | 2-3x velocidad; 5.8k stars adopción masiva |
-| COCOS 4 + AI mobile LATAM | COCOS 4 (MIT) + Supabase + Claude | 3-5 semanas | AI features sin license fees |
-| **Wanderfolk pgvector + Gossip** | **Supabase pgvector + Claude Haiku** | **2-3 semanas** | **NPC LTM validado en producción; stack simplificado** |
+| Patrón | Stack principal | Esfuerzo | Deal size típico |
+|--------|----------------|---------|-----------------|
+| NPC con LLM (Godot) | Godot + LimboAI + Ollama/Claude | 2-3 semanas | $40k-150k |
+| NPC con voz (Mantella-pattern) | Godot + Whisper + Claude Haiku + Piper | 2-3 semanas | $60k-200k |
+| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | $50k-150k |
+| Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | $80k-250k |
+| Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | $100k-400k |
+| Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | $20k-80k |
+| AI Dev Tooling (Godot) | godot-ai + Claude Code/Cursor | 1 día setup | $20k-50k |
+| AI Dev Tooling (Unity 268 tools) | unity-mcp-server + Claude Code | 1 día setup | $20k-80k |
+| Carbon Engine + AI (MMO/espacio) | Carbon Engine + LangGraph + Claude | Meses | $300k-1.5M |
 
 ---
-*v3 (2026-07-08): añadida Receta 9 (Wanderfolk Pattern — pgvector + gossip social graph, validado en producción mayo 2026). Código Python + SQL completo. Repos verificados en GitHub.*
-*v2 (2026-07-07): añadidas Receta 7 (Unity MCP — stack con código, 4 repos) y Receta 8 (COCOS 4 mobile LATAM — código TypeScript). Repos verificados en GitHub.*
+*Repos verificados en GitHub 2026-07-08. URLs directas incluidas.*
