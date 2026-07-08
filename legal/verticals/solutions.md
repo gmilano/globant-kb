@@ -2,9 +2,34 @@
 
 > Plataformas verticales existentes, customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-08 (v3)
+> Última actualización: 2026-07-08 (v4)
 
-## Plataformas recomendadas
+## Plataformas Self-hosted Legal AI (nuevo 2026)
+
+Las plataformas completas de legal AI open source que emergieron en mayo 2026 — diseñadas para ser clonadas, modificadas y desplegadas por el cliente:
+
+| Plataforma | Licencia | URL | Arquitectura | Ventaja Globant |
+|------------|----------|-----|--------------|-----------------|
+| [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | willchen96/mike | Next.js + Express + Supabase + R2 | Fork, personaliza por jurisdicción LATAM, despliega en AWS/GCP del cliente |
+| [Suzie Law](https://github.com/firelex/suzielaw) | Apache-2.0 | firelex/suzielaw | Node.js + React + PostgreSQL | 160+ workflows como base, extiende con Claude Code para área de práctica específica |
+| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | anthropics/claude-for-legal | Plugin SDK + Managed Agents API | Integra con stack existente del cliente (Ironclad, iManage, Everlaw) sin reemplazarlo |
+
+### Cuándo usar cada uno
+
+```
+Mike:           Cliente quiere plataforma ALL-IN-ONE propia, financiero para hosting.
+                AGPL-3.0 = ok si el cliente no distribuye comercialmente.
+
+Suzie Law:      Cliente quiere base extensible, prefiere Apache-2.0 permisivo.
+                Ideal para construir verticales específicas (M&A, laboral, tributario).
+
+claude-for-legal: Cliente ya tiene stack (iManage, Ironclad, DocuSign) y quiere
+                  añadir AI sin reemplazar plataformas existentes.
+```
+
+---
+
+## Plataformas verticales establecidas (customizables con AI)
 
 | Plataforma | Licencia | URL | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
@@ -23,6 +48,25 @@
 
 ## Cómo customizar con AI — Guía rápida
 
+### Patrón 0: Despliegue de Mike auto-hosted (plataforma completa)
+```bash
+# Fork y deploy de Mike: plataforma legal AI completa
+git clone https://github.com/willchen96/mike.git my-legal-ai
+cd my-legal-ai
+
+# Configurar API key del cliente (multi-modelo)
+cp .env.example .env
+# Editar: ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_KEY, R2_BUCKET
+
+# Deploy en Railway / Fly.io / AWS
+npm install
+npm run build
+npm start
+
+# Personalización para LATAM: agregar jurisdicción y práctica local
+# Editar: src/personas/latam-laboral.ts, src/personas/tributario-br.ts
+```
+
 ### Patrón 1: Docassemble + LLM (entrevistas legales inteligentes)
 ```
 1. Fork jhpyle/docassemble
@@ -38,10 +82,27 @@ Stack: Docassemble + Anthropic API + Tesseract OCR + weasyprint
 2. Agente consulta 8M+ opiniones + citas en lenguaje natural
 3. Síntesis de precedentes con análisis IRAC automatizado
 4. Output: memo legal con citas verificadas
-Stack: CourtListener MCP + Claude claude-sonnet-5 + LangGraph
+Stack: CourtListener MCP + Claude Sonnet 5 + LangGraph
 ```
 
-### Patrón 3: OpenLawOffice + AI (ERP despacho)
+### Patrón 3: claude-for-legal + stack enterprise (integración sin reemplazar)
+```python
+# Usar plugins de claude-for-legal sobre stack existente del cliente
+# anthropics/claude-for-legal — Apache 2.0
+
+# Plugin /review-contract sobre Ironclad
+curl -X POST "https://api.anthropic.com/v1/messages" \
+  -H "x-api-key: $ANTHROPIC_API_KEY" \
+  -d '{
+    "model": "claude-sonnet-5",
+    "max_tokens": 8192,
+    "system": "You are a legal AI assistant using the claude-for-legal contract review plugin.",
+    "tools": [{"type": "computer_use"}, {"name": "ironclad_get_contract"}],
+    "messages": [{"role": "user", "content": "/review-contract --contract-id CLO-2026-4821"}]
+  }'
+```
+
+### Patrón 4: OpenLawOffice + AI (ERP despacho)
 ```
 1. Fork NodineLegal/OpenLawOffice
 2. Añadir módulo AI: transcripción de llamadas (Whisper), resumen de casos (LLM)
@@ -61,3 +122,16 @@ Stack: OpenLawOffice + Whisper + Anthropic API + React dashboard
 | LexisNexis Protégé Work | Agentic layer + Shepard's Verify | Mayo 2026 |
 | Enter (Brasil) | Mass litigation agent platform | Unicornio LATAM $100M mayo 2026 |
 | RivoLegal (Argentina) | LegalTech integrado al sistema judicial argentino | Referencia local LATAM |
+| HAQQ Legal OS | AI OS para despachos, MENA + civil law | Referencia jurisdicciones árabes y civil law |
+
+---
+
+## Landscape LATAM — Plataformas por país
+
+| País | Plataforma judicial | Gap actual | Solución recomendada |
+|------|---------------------|-----------|---------------------|
+| Brasil | PJe / e-SAJ (integración parcial) | Reforma tributaria IBS/CBS; volumen litigios masivos | Suzie Law fork + API PJe + Claude |
+| Argentina | CEJAT / presentaciones electrónicas | 69% abogados sin software; 82.6M casos pendientes | OpenLawOffice fork + integración CEJAT |
+| México | FIREL / e-JUICIO | Reforma judicial 2025; digitalización en curso | Docassemble + API SCJN + claude-for-legal |
+| Colombia | Expediente Judicial Electrónico (EJE) | Gap en AI sobre EJE | Mike fork + integración EJE Colombia |
+| Chile | IURIS / SINAM | Mayor adopción tech; falta LLM español jurídico | Suzie Law + fine-tune español jurídico |
