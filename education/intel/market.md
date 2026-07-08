@@ -1,76 +1,113 @@
 # 🗺️ Market Map — Education AI
 
 > Players, opportunities, positioning. Focus: LATAM + global.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-08 (v2)
 
 ## Market Size
 
-| Segment | 2025 | 2026E | 2030P | CAGR |
-|---------|------|-------|-------|------|
-| AI in Education (global) | $7.05B | $12.3B | $136B | ~35% |
-| EdTech (global) | $340B | — | $605B | 12% |
-| Open Source LMS market | $1.0B | $1.5B | $3.9B | 15% |
-| LATAM EdTech | $10.2B | ~$11.5B | $22.5B | 14% |
-| LATAM AI in Education | — | — | $1.5B (2030) | 32.4% |
+| Segment | 2025 | 2026E | 2030P | 2034P | CAGR |
+|---------|------|-------|-------|-------|------|
+| AI in Education (global) | $7.57B | $9.58B | ~$50B | $136.79B | 34.52% |
+| EdTech (global) | — | $404B | $580B | — | 16.3% |
+| AI Tutors market | $3.55B | — | $6.45B | — | ~13% |
+| Open Source LMS market | $1.0B | $1.5B | $3.9B | — | 15% |
+| LATAM EdTech | $16.26B (2024) | ~$18B | ~$35B | $50.44B | 12.4% |
+| LATAM E-learning | $37.97B | — | — | $131.32B | 16.78% |
+| LATAM AI in Education | — | — | $1.5B | — | 32.4% |
+| Enterprise Learning (Workforce) | — | $178M (8 deals in 12mo) | — | — | Growing fastest |
+
+*Sources: Grand View Research, IMARC Group, HolonIQ, ThirdRockTechkno, MarketDataForecast 2026.*
+
+## Venture Capital Signals (2025–2026)
+
+- **$4.2 billion** in AI-focused EdTech VC in 2025 — **62% of all EdTech funding** (FE International 2026)
+- **Workforce Learning Software**: $178.08M raised across 8 deals in 12 months — highest capital-to-deal ratio in EdTech
+- **Series A hot round**: $22M for Gizmo AI (AI-native EdTech, 2026)
+- **Enterprise LMS leading**: Companies training employees on AI tools and automating workflow raised $50M Series B (Feb 2026)
+- **UK workforce AI training**: £70M Growth round (May 2026) for apprenticeship-model enterprise AI training
+- **LATAM seed**: Elevify (Brazil) raised $1.35M seed (Newtopia) for AI education marketplace global expansion
 
 ## Global Players
 
 | Company / Platform | Type | Strength | Weakness |
 |-------------------|------|----------|----------|
-| **Coursera** | Commercial | Scale, brand, employer partnerships | High cost, limited LMS customisation |
-| **Khan Academy / Khanmigo** | Non-profit | AI tutor at global scale, free | English-first, limited institutional features |
-| **Google for Education** | Commercial | Workspace integration, Gemini in Classroom | Vendor lock-in, data privacy concerns |
-| **Microsoft / Copilot for Education** | Commercial | Office 365 integration, school licenses | Requires M365 stack |
-| **Duolingo** | Commercial | AI-powered language learning, massive scale | Single domain (language) |
-| **Chegg / Chegg AI** | Commercial | Homework help, textbooks | Controversy over academic integrity |
-| **2U / edX** | Commercial | University partnerships | Expensive for LATAM |
-| **Moodle** | Open source | 400M users, 150k sites, 240 countries | PHP/older UX; heavy setup |
-| **Open edX** | Open source | Enterprise-grade, MIT-backed, extensible | DevOps-heavy (Tutor helps) |
-| **Frappe LMS** | Open source | MIT license, modern UX, easy deploy | Smaller community vs Moodle |
+| **Google for Education** | Commercial | Classroom MCP server, Gemini LTI for Moodle, 150M users, Workspace | Vendor lock-in, data privacy in EU/BR |
+| **Microsoft / Copilot for Education** | Commercial | Khan Academy Phi-3 offline SLM partnership, Office 365, Azure OpenAI | Requires M365 stack |
+| **Khan Academy / Khanmigo** | Non-profit | AI tutor reimagined summer 2026 for all district partners; Phi-3 offline exploration | Struggling adoption (some market "RIP Khanmigo" signals), English-first |
+| **Coursera** | Commercial | Scale, brand, employer partnerships, AI certifications | High cost, limited LMS customisation |
+| **Duolingo** | Commercial | AI-powered language learning, massive LATAM scale, 500M+ users | Single domain (language) |
+| **2U / edX** | Commercial | University partnerships, MicroMasters | Expensive for LATAM |
+| **Moodle** | Open source | 400M users, 150k sites, 240 countries, Gemini LTI native | PHP/older UX; AI features lag commercial |
+| **Open edX** | Open source | Enterprise-grade, Harvard/MIT-backed, extensible, XBlock ecosystem | DevOps-heavy (Tutor helps) |
+| **Frappe LMS** | Open source | Modern UX, Python/Vue, AGPL-3.0, easy deploy | Smaller community vs Moodle, AGPL license |
+| **Chamilo** | Open source | Dominant in LATAM Spanish markets, 30M users | Limited AI subsystem |
 
 ## LATAM Deep Dive
 
-### Market Leaders in Latin America
+### Market Size & Growth
+- **LATAM EdTech**: $16.26B (2024) → $50.44B (2033), CAGR 12.4%
+- **LATAM E-learning**: $37.97B (2026) → $131.32B (2034), CAGR 16.78%
+- **LATAM AI in Education**: $1.5B by 2030, CAGR 32.4%
+- **Brazil**: Expected highest CAGR in LATAM for AI in education 2025–2030 (Grand View Research)
+- **AI adoption in LATAM higher ed**: 92% of students and 79% of faculty using AI (survey: 30k+ responses, 29 institutions, Digital Education Council 2026)
+
+### Key Initiatives
+| Initiative | Details |
+|-----------|---------|
+| **Google.org $4.6M** | AI education rollout across Argentina, Brazil, Chile, Colombia, Dominican Republic, El Salvador, Mexico, Peru, Uruguay. Target: 1.25M students by 2028 |
+| **Brazil $5B** | Government digital school infrastructure investment, "One Computer per Student Program" |
+| **Mexico SEP** | Ministry of Economy + Kyndryl Digital Education program, free workshops and virtual training |
+| **IDB "193 AI solutions"** | Inter-American Development Bank study: 193 AI solutions transforming education in LATAM/Caribbean |
+
+### LATAM Market Leaders
+
 | Company | Country | Focus | Notes |
 |---------|---------|-------|-------|
-| **Duolingo** | US (huge LATAM user base) | Language learning | Portuguese/Spanish dominant |
-| **Platzi** | Colombia | Tech skills, Spanish | 5M+ students, profitable |
-| **Coursera** | US | Higher ed certificates | Growing via uni partnerships |
-| **UNIR** | Spain/LATAM | Online university | Expanding aggressively |
-| **Descomplica** | Brazil | K-12 + university prep | $200M+ raised |
-| **Teachable / Hotmart** | US / Brazil | Course marketplace | Hotmart: major LATAM creator economy |
-| **Bett Brasil** | Brazil | EdTech infrastructure | Major annual conference |
+| **Platzi** | Colombia | Tech skills, Spanish | 5M+ students, profitable, AI-focused courses |
+| **Descomplica** | Brazil | K-12 + university prep | $200M+ raised, leading LATAM EdTech brand |
+| **Hotmart** | Brazil | Course marketplace | Major LATAM creator economy platform |
+| **Duolingo** | US (huge LATAM base) | Language learning | Portuguese/Spanish dominant use case |
+| **UNIR** | Spain/LATAM | Online university | Expanding aggressively across LATAM |
+| **Coursera** | US | Higher ed certificates | Growing via university partnerships |
+| **Bett Brasil** | Brazil | EdTech infrastructure | Major annual EdTech conference |
 
 ### LATAM-Specific Dynamics
-- **Brazil**: Dominant market — $5B government digital infrastructure investment, 900k+ tech workers, LGPD data privacy law (like GDPR) applies to student data
-- **Mexico**: 130M population, growing k-12 EdTech; SEP (Education Ministry) digitisation programs
-- **Argentina**: High education attainment, but economic instability → open source/low-cost solutions favoured
-- **Colombia**: Growing startup scene (Platzi proof-point), Spanish-language content premium
-- **Chile**: High smartphone penetration, university innovation focus
+- **Brazil**: Dominant market — LGPD data privacy law applies to student data (local hosting required for schools). $5B government digital infrastructure.
+- **Mexico**: 130M population, SEP digitisation programs, Google.org investment in AI education rollout.
+- **Argentina**: High education attainment, economic instability → open-source/low-cost solutions favoured. Chamilo/Moodle dominant.
+- **Colombia**: Growing startup scene (Platzi, Tyba, Alegra), Spanish-language content premium. Google.org coverage.
+- **Chile**: High smartphone penetration, university innovation focus, Canvas adoption.
 
 ### LATAM Gaps & Opportunities
-1. **Spanish/Portuguese AI tutors at scale** — Khanmigo is English-first; massive gap for quality AI tutors in Spanish/Portuguese
-2. **LGPD-compliant self-hosted LMS** — Brazilian schools need local data hosting; Open edX + Tutor deployed in Brazil is a strong play
-3. **Vocational AI training** — Governments investing in reskilling for AI economy; no dominant open-source vocational AI trainer
-4. **Rural/offline education** — Low-bandwidth adaptive tutoring; local-first LLMs (Ollama + Phi-mini) could serve underserved areas
-5. **University SIS integration** — Many LATAM universities use legacy SIS; AI + ERP migration (Frappe Education) is greenfield
+
+| Gap | Market Signal | Globant Entry Point | Build On | Deal Size |
+|-----|--------------|---------------------|---------|-----------|
+| Spanish/Portuguese AI tutors at scale | Khanmigo English-only; Google.org $4.6M underinvestment | AI tutor platform + WhatsApp delivery | Open-TutorAI CE + Claude | $150k–$500k |
+| LGPD-compliant self-hosted LMS for Brazil | LGPD legal risk for cloud AI in education | Infra + AI services for schools | Open edX + Tutor + local LLM | $200k–$1M |
+| Classroom MCP integration for schools | Google Classroom MCP server launching 2026 | First-mover MCP integration for LATAM schools | Google Classroom MCP + LangGraph | $50k–$200k |
+| Vocational AI training | Governments investing in reskilling for AI economy | Frappe LMS + AI certification workflow | Frappe LMS + CrewAI | $100k–$400k |
+| Rural/offline education | Low-bandwidth, no cloud access | Local-first LLM tutoring (Phi-4/Gemma on device) | Ollama + Phi-4 + Open-TutorAI | $80k–$300k |
+| University SIS integration | Legacy SIS, no AI | AI + ERP migration with LMS modernisation | Frappe Education + AI layer | $300k–$1M |
 
 ## Globant Positioning
 
 ### Where Globant Can Win
 | Opportunity | Entry Point | Build On | Time to Market |
 |-------------|-------------|---------|----------------|
-| AI tutoring layer for Moodle/Canvas clients | Consulting + LTI tool | OATutor + DeepTutor patterns | 4–8 weeks POC |
-| LGPD-compliant self-hosted edtech for Brazil | Infra + AI services | Open edX + Tutor + local LLM | 3–6 months |
+| AI tutor layer for Moodle/Canvas clients (US/EU) | Consulting + LTI tool | OATutor + DeepTutor patterns | 4–8 weeks POC |
+| LGPD-compliant self-hosted EdTech for Brazil | Infra + AI services | Open edX + Tutor + local LLM | 3–6 months |
+| Google Classroom MCP integration | First-mover MCP + AI agent | Classroom MCP + LangGraph | 2–4 weeks |
 | Skills AI platform for corporate training | Platform build | Frappe LMS + CrewAI agents | 2–4 months |
 | University AI advisor / degree planner | Agent build | LangGraph + university SIS API | 6–12 weeks |
 | AI quiz/assessment engine as-a-service | Product | DeepTutor + studyield + LM-Eval | 4–8 weeks |
+| WhatsApp AI tutor for LATAM governments | Gov contract | Claude Haiku + WhatsApp Business | 3–6 weeks |
 
 ### Globant Differentiators vs. Competitors
 - **Scale + AI expertise** — can build enterprise-grade AI on top of open source faster than boutique firms
-- **LATAM presence** — offices in Brazil/Argentina/Colombia = trust + data residency capability
+- **LATAM presence** — offices in Brazil/Argentina/Colombia = trust + data residency capability + LGPD expertise
 - **Multi-industry patterns** — education AI patterns developed for one client reused across studios
 - **Open source first** — clients avoid vendor lock-in; Globant provides integration services
+- **MCP readiness** — Google Classroom MCP is a 2026 first-mover opportunity Globant can lead
 
 ---
-*Data sources: Grand View Research, IMARC Group, HolonIQ, GitHub, DemandsageAI.*
+*Data sources: Grand View Research, IMARC Group, HolonIQ, MarketDataForecast, FE International, Digital Education Council, IDB 2026.*

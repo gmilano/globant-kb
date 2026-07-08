@@ -1,7 +1,7 @@
 # 🧩 Composition Patterns — Education AI
 
 > Concrete recipes: named repos + agents + wiring code.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-08 (v2)
 
 ## Architecture Baseline
 
@@ -664,6 +664,318 @@ async def verify_webhook(request: Request):
 ngrok http 8000
 # Set webhook URL in Meta Business Manager: https://<ngrok-url>/webhook
 ```
+
+---
+
+## Pattern 9: Google Classroom MCP AI Tutor Agent (2026)
+
+**Goal**: Build an AI tutoring agent that reads Google Classroom context (roster, assignments, grades) via MCP and delivers personalised help to students.
+**Stack**: Google Classroom MCP server + LangGraph + Anthropic Claude + FastAPI
+**Time**: 2–4 weeks
+**Why now**: Google launched Classroom MCP at ISTE 2026 — first-mover opportunity before every vendor builds this.
+
+```python
+# classroom_mcp_tutor.py
+# Uses MCP client to connect to Google Classroom MCP server (Google, 2026)
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langgraph.prebuilt import create_react_agent
+from langchain_anthropic import ChatAnthropic
+from typing import Any
+
+# MCP client configuration for Google Classroom
+MCP_CONFIG = {
+    "classroom": {
+        "url": "https://classroom.googleapis.com/mcp",  # Google Classroom MCP endpoint
+        "transport": "streamable-http",
+        "headers": {"Authorization": f"Bearer {GOOGLE_ACCESS_TOKEN}"}
+    }
+}
+
+async def build_classroom_agent(student_id: str, course_id: str):
+    """Build a LangGraph agent with Classroom context via MCP."""
+    async with MultiServerMCPClient(MCP_CONFIG) as mcp_client:
+        tools = mcp_client.get_tools()
+        
+        llm = ChatAnthropic(model="claude-haiku-4-5-20251001", max_tokens=1024)
+        
+        # React agent with Classroom MCP tools
+        agent = create_react_agent(
+            llm,
+            tools,
+            state_modifier=f"""You are a helpful AI tutor for student {student_id} in course {course_id}.
+            
+            Use the Google Classroom tools to:
+            1. Check what assignments the student has due
+            2. Look at their recent grades to identify weak areas
+            3. Access course materials for context
+            4. Provide targeted, personalised help
+            
+            Teaching style:
+            - Socratic: guide with questions, don't give direct answers
+            - Reference specific assignments/materials from their Classroom
+            - Keep responses concise (this is embedded in a chat widget)
+            """
+        )
+        
+        return agent
+
+async def tutor_chat(student_id: str, course_id: str, question: str) -> str:
+    """Handle a student tutoring session with Classroom context."""
+    agent = await build_classroom_agent(student_id, course_id)
+    
+    result = await agent.ainvoke({
+        "messages": [{"role": "user", "content": question}]
+    })
+    
+    return result["messages"][-1].content
+
+# FastAPI endpoint for embedding in school portal
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI(title="Classroom MCP AI Tutor")
+
+class TutorRequest(BaseModel):
+    student_id: str
+    course_id: str
+    question: str
+    google_token: str  # OAuth2 token from Google SSO
+
+@app.post("/tutor/ask")
+async def ask_tutor(req: TutorRequest):
+    global GOOGLE_ACCESS_TOKEN
+    GOOGLE_ACCESS_TOKEN = req.google_token
+    
+    response = await tutor_chat(req.student_id, req.course_id, req.question)
+    return {"response": response, "student_id": req.student_id}
+```
+
+```bash
+# Quick deploy — requires Google Workspace for Education account
+pip install langchain-mcp-adapters langgraph langchain-anthropic fastapi uvicorn
+
+# Environment variables
+export ANTHROPIC_API_KEY=sk-...
+export GOOGLE_OAUTH_CLIENT_ID=...
+
+# Run
+uvicorn classroom_mcp_tutor:app --host 0.0.0.0 --port 8080
+
+# Integrate into any web portal with 3 lines of JS:
+# const resp = await fetch('/tutor/ask', {method:'POST', body: JSON.stringify({
+#   student_id: userId, course_id: courseId, question: userInput, google_token: gToken
+# })})
+```
+
+**Effort**: 2–4 weeks. **Revenue**: $50k–$200k POC → $200k–$500k production  
+**Who buys**: K-12 districts, universities using Google Workspace for Education  
+**Differentiator**: First-mover on Google Classroom MCP; no vendor has this in LATAM yet.
+
+---
+
+## Pattern 10: Offline SLM Campus Tutor (No Cloud, LGPD/FERPA-Compliant)
+
+**Goal**: Full AI tutoring system running entirely on-premises using small language models — for schools with LGPD/FERPA restrictions or no reliable internet.
+**Stack**: Ollama + Phi-4 (14B) or Gemma 3 (12B) + Open-TutorAI CE + FastAPI + Qdrant (local vector DB)
+**Time**: 2–3 weeks (software) + hardware procurement
+**Inspired by**: Khan Academy + Microsoft Phi-3 SLM partnership for offline school deployment
+
+```yaml
+# docker-compose.yml — Complete offline AI tutor stack
+# ALL data stays on school servers. Zero cloud dependency.
+version: '3.8'
+
+services:
+  # Small Language Model server (Ollama)
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "11434:11434"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]  # Optional: 4x faster with GPU
+    restart: unless-stopped
+
+  # Local vector database for RAG
+  qdrant:
+    image: qdrant/qdrant:latest
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - "6333:6333"
+    restart: unless-stopped
+
+  # Tutor backend API
+  tutor_api:
+    build: ./tutor_api
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - QDRANT_URL=http://qdrant:6333
+      - TUTOR_MODEL=phi4:latest        # 14B — best STEM reasoning in SLM range
+      - EMBED_MODEL=nomic-embed-text    # 768-dim embeddings for RAG
+      - STUDENT_DATA_DIR=/data/students # All data stays local
+    volumes:
+      - student_data:/data/students
+      - course_content:/data/courses
+    ports:
+      - "8080:8080"
+    depends_on: [ollama, qdrant]
+    restart: unless-stopped
+
+  # Open-TutorAI CE frontend (forked, configured for local Ollama)
+  tutor_frontend:
+    build: ./open-tutor-ai-CE  # Fork of github.com/Open-TutorAi/open-tutor-ai-CE
+    environment:
+      - NEXT_PUBLIC_API_URL=http://tutor_api:8080
+      - NEXT_PUBLIC_OLLAMA_URL=http://ollama:11434
+      - NEXT_PUBLIC_INSTITUTION_NAME="Escuela Nacional"
+      - NEXT_PUBLIC_SUPPORTED_LANGUAGES=es,pt,en
+    ports:
+      - "3000:3000"
+    depends_on: [tutor_api]
+    restart: unless-stopped
+
+volumes:
+  ollama_models:
+  qdrant_data:
+  student_data:      # LGPD/FERPA: all student data in local volume
+  course_content:
+```
+
+```python
+# tutor_api/app/main.py — Socratic tutor using local Phi-4
+from fastapi import FastAPI
+from pydantic import BaseModel
+from langchain_ollama import ChatOllama, OllamaEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from langchain.chains import RetrievalQA
+from langchain.prompts import ChatPromptTemplate
+import os
+
+app = FastAPI(title="Offline Campus AI Tutor")
+
+OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
+QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
+MODEL = os.getenv("TUTOR_MODEL", "phi4:latest")
+
+llm = ChatOllama(base_url=OLLAMA_URL, model=MODEL, temperature=0.1)
+embeddings = OllamaEmbeddings(base_url=OLLAMA_URL, model="nomic-embed-text")
+
+SOCRATIC_PROMPT = ChatPromptTemplate.from_messages([
+    ("system", """Eres un tutor socrático experto en {subject}.
+    
+    Reglas estrictas:
+    1. NUNCA des la respuesta directa — guía con preguntas
+    2. Si el estudiante está bloqueado (3+ intentos fallidos), da UNA pista específica
+    3. Cita el material del curso cuando sea relevante: {context}
+    4. Responde en el mismo idioma que el estudiante (español/portugués/inglés)
+    5. Respuestas cortas: máximo 4 oraciones
+    
+    Historial: {history}
+    """),
+    ("human", "{question}")
+])
+
+class TutorRequest(BaseModel):
+    student_id: str
+    subject: str
+    question: str
+    course_id: str
+    history: list = []
+
+@app.post("/tutor/ask")
+async def ask_tutor(req: TutorRequest):
+    """Socratic tutoring with local RAG — fully offline."""
+    vectorstore = QdrantVectorStore.from_existing_collection(
+        embedding=embeddings,
+        url=QDRANT_URL,
+        collection_name=f"course_{req.course_id}"
+    )
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    docs = retriever.invoke(req.question)
+    context = "\n".join([d.page_content for d in docs])
+    
+    chain = SOCRATIC_PROMPT | llm
+    response = chain.invoke({
+        "subject": req.subject,
+        "context": context,
+        "history": req.history[-6:],
+        "question": req.question
+    })
+    
+    return {
+        "response": response.content,
+        "student_id": req.student_id,
+        "model": MODEL,
+        "cloud_used": False  # Compliance proof
+    }
+
+@app.post("/ingest/course")
+async def ingest_course_material(course_id: str, pdf_path: str):
+    """Load course PDFs into local Qdrant vector store."""
+    from langchain_community.document_loaders import PyPDFLoader
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+    
+    loader = PyPDFLoader(pdf_path)
+    docs = loader.load()
+    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    chunks = splitter.split_documents(docs)
+    
+    QdrantVectorStore.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+        url=QDRANT_URL,
+        collection_name=f"course_{course_id}"
+    )
+    return {"ingested": len(chunks), "course_id": course_id, "stored": "local_only"}
+```
+
+```bash
+# One-time setup (on school server)
+docker compose up -d
+
+# Download models (8–14GB, run once)
+docker exec ollama ollama pull phi4:latest
+docker exec ollama ollama pull nomic-embed-text
+
+# Ingest course materials
+curl -X POST "http://localhost:8080/ingest/course?course_id=mat101&pdf_path=/data/cursos/matematica1.pdf"
+
+# Student access via browser: http://school-server:3000
+# Teacher dashboard: http://school-server:3000/teacher
+
+# Hardware requirements:
+# Minimum: 8-core CPU, 32GB RAM, 100GB SSD → phi4 works (slower)
+# Recommended: 8-core CPU, 32GB RAM, NVIDIA RTX 3080/4080 → 5-10x faster
+# Cost: ~$1,500 (CPU) or ~$3,500 (GPU server) per school
+```
+
+**Effort**: 2–3 weeks. **Revenue**: $80k–$300k per school deployment  
+**Who buys**: Schools with LGPD/FERPA constraints, rural schools, government education departments  
+**LATAM fit**: Brazil (LGPD mandates), government-run schools, remote/rural areas without reliable internet
+
+---
+
+## Pattern Selection Matrix
+
+| Pattern | Use Case | LMS | Time | Budget | LATAM Fit |
+|---------|----------|-----|------|--------|-----------|
+| P1: XBlock AI Tutor | Cloud university | Open edX | 2–3w | $30k–100k | Medium |
+| P2: Quiz Generator | Any LMS | Moodle | 1–2w | $15k–50k | High |
+| P3: FSRS API | Flashcard app | None | 1w | $10k–30k | High |
+| P4: L&D AI Agent | Corporate | Frappe LMS | 3–4w | $50k–150k | High |
+| P5: LTI Assessment | Any LMS | Any | 2w | $20k–60k | High |
+| P6: Local-First Tutor | Privacy schools | None | 1–2w | $30k–80k | Very High |
+| P7: Analytics Dashboard | Teacher tool | Moodle | 3–4w | $40k–120k | High |
+| P8: WhatsApp Tutor | Mobile-first | None | 2–3w | $25k–80k | Very High |
+| P9: Classroom MCP Agent | Google Workspace | Google Classroom | 2–4w | $50k–200k | High (new) |
+| P10: Offline SLM Campus | LGPD/no-cloud | None (on-prem) | 2–3w | $80k–300k | Very High |
 
 ---
 
