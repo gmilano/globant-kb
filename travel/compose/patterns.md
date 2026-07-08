@@ -1,7 +1,7 @@
 # Composition Patterns — Travel & Hospitality AI
 
 > Concrete recipes using real repos. Build times for 2-3 dev Globant team.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08 (v2)
 
 ## Pattern 1: Hotel AI Concierge (WhatsApp + QloApps + Claude)
 
@@ -35,7 +35,11 @@ concierge = Agent(
     name="Hotel Concierge",
     model="claude-sonnet-5",
     tools=[check_room_availability, create_reservation],
-    instructions="Warm hotel concierge. Confirm price+dates before booking. Match guest language."
+    instructions=(
+        "Warm hotel concierge. Confirm price+dates before booking. "
+        "Match guest language (English/Spanish/Portuguese for LATAM). "
+        "Always confirm: name, email, check-in, check-out, total price before final booking."
+    )
 )
 ```
 
@@ -58,7 +62,8 @@ amadeus = Client(client_id="...", client_secret="...")
 TRAVEL_POLICY = {
     "max_hotel_per_night": 285,
     "max_flight_economy": 520,
-    "approved_airlines": ["AA", "UA", "DL", "LH", "IB"],
+    "max_flight_international": 2000,
+    "approved_airlines": ["AA", "UA", "DL", "LH", "IB", "LA", "G3", "AD"],  # includes LATAM, Gol, Azul
     "approval_thresholds": {"auto": 500, "manager": 2000, "finance": float("inf")}
 }
 
@@ -76,10 +81,22 @@ def check_policy_compliance(flight_price: float, airline: str) -> dict:
     """Validate against corporate travel policy"""
     violations = []
     if float(flight_price) > TRAVEL_POLICY["max_flight_economy"]:
-        violations.append(f"Flight ${flight_price} exceeds limit")
+        violations.append(f"Flight ${flight_price} exceeds ${TRAVEL_POLICY['max_flight_economy']} limit")
     if airline not in TRAVEL_POLICY["approved_airlines"]:
-        violations.append(f"Airline {airline} not approved")
-    return {"compliant": not violations, "violations": violations}
+        violations.append(f"Airline {airline} not on approved list")
+    total = float(flight_price)
+    approval = "auto" if total < 500 else "manager" if total < 2000 else "finance"
+    return {"compliant": not violations, "violations": violations, "approval_level": approval}
+
+@tool
+def find_cheapest_dates(origin: str, destination: str, month: str) -> dict:
+    """Use Amadeus cheapest dates to find best week to fly"""
+    response = amadeus.shopping.flight_offers_search.get(
+        originLocationCode=origin, destinationLocationCode=destination,
+        departureDate=f"{month}-01", adults=1, nonStop=True)
+    sorted_offers = sorted(response.data, key=lambda x: float(x["price"]["total"]))
+    return {"cheapest_date": sorted_offers[0]["itineraries"][0]["segments"][0]["departure"]["at"],
+            "price": sorted_offers[0]["price"]["total"]} if sorted_offers else {}
 ```
 
 **Workflow**: Request → Search Agent → Policy Check → Approval Router ($500 auto/$500-2k manager/$2k+ finance) → Book → Expense Record
@@ -96,84 +113,293 @@ def check_policy_compliance(flight_price: float, airline: str) -> dict:
 
 ```
 User: "Plan 5-day trip to Buenos Aires for 2, budget $3000, from NYC"
-  1. FlightAgent → Amadeus → JFK-EZE $580 RT/person
-  2. HotelAgent → Amadeus/DIDA → Palermo hotels $120-180/night
-  3. RoutingAgent → OpenTripPlanner → daily transit routes
-  4. ActivityAgent → Amadeus Activities → Tango show, Tigre Delta, winery
-  5. BudgetAgent → $1160 + $700 + $400 = $2260 ✓
-  6. SynthesisAgent → formatted itinerary with map links
+
+  Agent orchestration via LangGraph:
+  1. FlightAgent → Amadeus → JFK-EZE $580 RT/person (LA 8512)
+  2. HotelAgent → DIDA hotel MCP → Palermo SoHo $130-160/night
+  3. RoutingAgent → OpenTripPlanner (Buenos Aires GTFS) → daily Subte + bus routes
+  4. ActivityAgent → Amadeus Activities API → Tango show ($45), Tigre Delta ($35), Winery tour ($60)
+  5. BudgetAgent → $1160 flights + $650 hotel + $420 activities = $2230 ✓ under $3000
+  6. SynthesisAgent → formatted PDF itinerary with maps, booking links, and packing list
 ```
 
-**Build time**: 6-8 weeks | **Deliverable**: Embeddable widget for tourism boards
+**Key**: OpenTripPlanner requires Buenos Aires GTFS feed (publicly available from BA government open data portal).
+
+**Build time**: 6-8 weeks | **Deliverable**: Embeddable widget for tourism boards | **Target clients**: LATAM tourism boards, DMOs
 
 ---
 
-## Pattern 4: Flight Deal Discovery (Duffel NDC-First)
+## Pattern 4: Flight Deal Discovery — Zero API Key Stack (trvl)
+
+**Stack**: trvl MCP server + Claude + LangGraph + PostgreSQL + WhatsApp/email alerts
+
+**Repos**: [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) + [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)
+
+The key insight: `trvl` gives Claude access to Google Flights, Trivago, Airbnb, Booking.com, Hostelworld, Ferryhopper, and European ground transport with **zero API keys** — using a single MCP tool (65 aliases, 378 tokens).
+
+```python
+# Claude Desktop / Cursor config
+{
+  "mcpServers": {
+    "trvl": {
+      "command": "trvl",
+      "args": ["mcp"]
+    }
+  }
+}
+
+# Claude can now answer:
+# "Find the cheapest week to fly SAO to LIS in October, including stopovers"
+# "Search hotels in Medellín for 5 nights, 2 adults, $80-120/night"
+# "Get ferry options from Split to Dubrovnik"
+# "Find award flights New York to Tokyo on United miles, business class"
+# "What's the baggage allowance on Copa Airlines economy?"
+```
+
+**For Globant — custom price alert system on top:**
+```python
+import anthropic
+import json
+
+client = anthropic.Anthropic()
+
+def check_route_price(origin: str, destination: str, date: str, target_price: float):
+    """Use trvl MCP to check if a route has dropped to target price"""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        system="Search flights and return JSON with {price, airline, departure_time, direct}.",
+        messages=[{"role": "user",
+                   "content": f"Find cheapest flight {origin} to {destination} on {date}. Return JSON only."}]
+    )
+    # Parse response, compare to target_price, send WhatsApp alert if under threshold
+    result = json.loads(response.content[0].text)
+    if float(result["price"]) < target_price:
+        send_whatsapp_alert(f"Price alert: {origin}→{destination} now ${result['price']}!")
+    return result
+```
+
+**Build time**: 2-3 weeks (vs 6-8 weeks for GDS integration) | **Cost**: $0 API keys for discovery layer
+
+---
+
+## Pattern 5: NDC-First Flight Deal System (Duffel)
 
 **Stack**: Duffel API (400+ airlines, NDC-first) + LangGraph + PostgreSQL + WhatsApp notifications
 
 **Key insight**: Duffel gives direct airline pricing (no GDS markup) — how LetsFG achieved $116 savings vs Google Flights.
+
+**Repos**: [duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) + Reference: [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG)
 
 ```python
 from duffel_api import Duffel
 
 client = Duffel(access_token="...")
 
-def search_route(origin: str, destination: str, date: str) -> dict:
+def search_route_ndc(origin: str, destination: str, date: str) -> dict:
+    """NDC-first flight search via Duffel — direct airline pricing"""
     offer_requests = client.offer_requests.create({
         "slices": [{"origin": origin, "destination": destination, "departure_date": date}],
-        "passengers": [{"type": "adult"}], "cabin_class": "economy"})
+        "passengers": [{"type": "adult"}], "cabin_class": "economy",
+        "max_connections": 0  # non-stop only for apples-to-apples comparison
+    })
     offers = list(client.offers.list(offer_requests.id))
-    return min(offers, key=lambda o: float(o.total_amount))
+    best = min(offers, key=lambda o: float(o.total_amount))
+    return {
+        "price": best.total_amount,
+        "currency": best.total_currency,
+        "airline": best.slices[0].segments[0].marketing_carrier.name,
+        "departure": best.slices[0].segments[0].departing_at,
+        "arrival": best.slices[0].segments[-1].arriving_at
+    }
+
+def compare_vs_gds(route: dict, amadeus_price: float) -> dict:
+    """Compare NDC price vs GDS to show savings"""
+    ndc_price = float(route["price"])
+    savings = amadeus_price - ndc_price
+    return {"ndc_price": ndc_price, "gds_price": amadeus_price, "savings": savings,
+            "savings_pct": round((savings / amadeus_price) * 100, 1)}
 ```
 
-**Repos**: [duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) + Reference: [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG)
-
-**Build time**: 3-4 weeks | **Margin**: Affiliate/white-label for travel agencies
+**Build time**: 3-4 weeks | **Margin**: Affiliate/white-label for travel agencies | **Impact**: 5-15% savings demonstrated to end users
 
 ---
 
-## Pattern 5: LATAM Tour Operator CRM + AI Agent
+## Pattern 6: LATAM Tour Operator CRM + AI Agent
 
-**Stack**: ExcursioX (MIT) + OpenAI Agents SDK + Claude + Twilio WhatsApp + Google Sheets (migration)
+**Stack**: ExcursioX (MIT) + OpenAI Agents SDK + Claude + Twilio WhatsApp + Yatra (WordPress) for booking pages
 
-**Repos**: [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) + [openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+**Repos**: [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) + [openai/openai-agents-python](https://github.com/openai/openai-agents-python) + [mantrabrain/yatra](https://github.com/mantrabrain/yatra)
 
 ```
-WhatsApp inquiry
-  → Lead Qualification Agent (budget? dates? group size? interests?)
-  → Quote Generation Agent → ExcursioX pricing API → PDF quote
-  → Follow-up Agent → 24h follow-up → objection handling
-  → Booking Confirmation Agent → ExcursioX booking → confirmation
-  → Pre-departure Agent → 48h before: packing list + meeting point + weather
+WhatsApp message: "Quero fazer um tour em Paraty para 4 pessoas em setembro"
+  ↓
+Lead Qualification Agent (Portuguese)
+  → "Ótimo! Para montar o roteiro ideal: qual data exata? Quantos adultos/crianças?"
+  → "Qual é o orçamento por pessoa?"
+  ↓
+Quote Generation Agent → ExcursioX pricing API → PDF quote in 30 seconds
+  ↓
+Follow-up Agent → 24h: "Oi! Viu nossa proposta? Tem alguma dúvida?"
+  → Objection handling scripts (price / dates / group size)
+  ↓
+Booking Confirmation Agent
+  → PIX payment link (Brazil) / MercadoPago (Argentina/Colombia)
+  → ExcursioX booking created automatically
+  ↓
+Pre-departure Agent (48h before)
+  → Lista de bagagem + ponto de encontro + previsão do tempo
+  → WhatsApp reminder with exact meeting location on Google Maps
 ```
 
-**Build time**: 3-4 weeks | **Impact**: 3-5x faster quotes, -40-60% admin | **Lift**: 20-30% more bookings
+**Build time**: 3-4 weeks | **Impact**: 3-5x faster quotes, -40-60% admin | **Lift**: 20-30% more bookings | **LATAM languages**: Portuguese (Brazil), Spanish (LATAM)
 
 ---
 
-## Pattern 6: Hotel Revenue Management AI Agent
+## Pattern 7: Hotel Revenue Management AI (QloApps + Competitive Rate Intel)
 
 **Stack**: QloApps (historical data) + DIDA hotel MCP (competitor rates) + darts (forecasting) + Claude
 
 **Repos**: [Qloapps/QloApps](https://github.com/Qloapps/QloApps) + [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) + [unit8co/darts](https://github.com/unit8co/darts) (Apache 2.0)
 
 ```python
-async def daily_pricing_review():
-    occupancy = forecast_occupancy(qlo_booking_history, horizon_days=30)
-    comp_rates = await dida_mcp.search_hotels(location=HOTEL_LOCATION, date=tomorrow)
-    events = scrape_local_events_calendar(city=HOTEL_CITY, days=30)
-    rec = claude.messages.create(
+import anthropic
+from darts import TimeSeries
+from darts.models import ExponentialSmoothing
+
+client = anthropic.Anthropic()
+
+async def daily_pricing_review(hotel_id: str):
+    # 1. Forecast occupancy with darts
+    historical_occupancy = get_qlo_booking_history(hotel_id, days=365)
+    ts = TimeSeries.from_values(historical_occupancy)
+    model = ExponentialSmoothing()
+    model.fit(ts)
+    forecast = model.predict(30)  # 30-day occupancy forecast
+
+    # 2. Get competitor rates via DIDA MCP
+    comp_rates = await dida_mcp.search_hotels(
+        location=get_hotel_location(hotel_id), date=tomorrow_str())
+
+    # 3. Get local events that affect demand
+    events = get_local_events(city=get_hotel_city(hotel_id), days=30)
+
+    # 4. Claude generates rate recommendations
+    rec = client.messages.create(
         model="claude-sonnet-5",
+        max_tokens=2048,
         messages=[{"role": "user", "content": f"""
-        Hotel: {HOTEL_NAME}, current rate: ${current_rate}/night
-        Occupancy forecast: {occupancy}% | Competitor rates: {comp_rates} | Events: {events}
-        Recommend rate adjustments for next 30 days with exact dollar amounts.
+        Hotel revenue management recommendations.
+        Current rate: ${get_current_rate(hotel_id)}/night
+        30-day occupancy forecast: {forecast.values().tolist()}
+        Competitor rates (check-in {tomorrow_str()}): {comp_rates}
+        Local events next 30 days: {events}
+
+        Recommend daily rate adjustments for the next 30 days.
+        Format as JSON: [{{"date": "YYYY-MM-DD", "recommended_rate": NNN, "reason": "..."}}]
         """}])
-    post_to_slack(rec.content[0].text)
+
+    recommendations = parse_rate_recommendations(rec.content[0].text)
+    post_to_slack(f"Rate recommendations for {hotel_id}: {len(recommendations)} adjustments")
+    apply_rates_to_qlo(hotel_id, recommendations)
+    return recommendations
 ```
 
 **Build time**: 4-5 weeks | **Impact**: 8-15% RevPAR improvement | **vs IDeaS G3 RMS**: ~$50k/yr commercial alternative
 
 ---
-*Updated: 2026-07-07*
+
+## Pattern 8: Medical Tourism Platform (Yatra-Vritta Pattern)
+
+**Stack**: Yatra-Vritta base + Claude + FastAPI + destination scoring API + partner hospital integrations
+
+**Repos**: [Vipul-Mhatre/Yatra-Vritta](https://github.com/Vipul-Mhatre/Yatra-Vritta) + [openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+
+```python
+from agents import Agent, tool
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+
+# Destination scoring matrix (weights from Yatra-Vritta methodology)
+SCORING_WEIGHTS = {
+    "medical_quality": 0.30,      # JCI accreditation, specialist density
+    "cost_vs_origin": 0.25,        # treatment cost relative to patient's home country
+    "accessibility": 0.20,         # flight connections, visa ease
+    "safety": 0.15,               # political stability, crime index
+    "tourism_infrastructure": 0.10 # hotels near hospitals, recovery facilities
+}
+
+@tool
+def rank_destinations_for_procedure(procedure: str, budget_usd: float,
+                                     origin_country: str) -> list:
+    """Rank global medical tourism destinations for a specific procedure"""
+    destinations = get_medical_destinations_data(procedure)  # from Yatra-Vritta dataset
+    scored = []
+    for dest in destinations:
+        score = sum(dest[k] * w for k, w in SCORING_WEIGHTS.items())
+        scored.append({**dest, "score": round(score, 3)})
+    return sorted(scored, key=lambda x: x["score"], reverse=True)[:5]
+
+@tool
+def build_medical_itinerary(destination: str, procedure: str,
+                              recovery_days: int) -> dict:
+    """Build full medical + tourism itinerary"""
+    return {
+        "hospital": get_top_hospital(destination, procedure),
+        "accommodation": get_recovery_hotels(destination, budget="medical"),
+        "post_recovery_activities": get_light_activities(destination, recovery_days),
+        "travel_logistics": get_flight_options(destination),
+        "total_cost_estimate": estimate_total_cost(procedure, destination, recovery_days)
+    }
+
+medical_agent = Agent(
+    name="Medical Tourism Advisor",
+    model="claude-sonnet-5",
+    tools=[rank_destinations_for_procedure, build_medical_itinerary],
+    instructions=(
+        "You are a medical tourism advisor. Never give medical advice. "
+        "Help patients understand destination options, costs, and logistics. "
+        "Always recommend consulting with their doctor before traveling for treatment. "
+        "Focus on: cost savings, quality indicators (JCI accreditation), accessibility."
+    )
+)
+```
+
+**Build time**: 6-8 weeks | **Target**: Healthcare networks, insurance companies, medical brokers | **Market**: $100B+ global medical tourism market
+
+---
+
+## Pattern 9: Zero-Key Travel Assistant (trvl + Claude — Quickest to Deploy)
+
+This is the fastest pattern to production: no API keys, no GDS contract, no setup beyond a Go binary.
+
+```bash
+# Install trvl (single Go binary)
+go install github.com/MikkoParkkola/trvl@latest
+
+# Start as MCP server
+trvl mcp
+
+# Claude Desktop config (~/.claude/settings.json)
+{
+  "mcpServers": {
+    "travel": {
+      "command": "trvl",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+**What Claude can now do with zero API keys:**
+- "Find flights from GRU to MAD in November, cheapest option"
+- "Hotels near Ipanema beach September 15-20, under $120/night"
+- "Ferry from Lisbon to Sesimbra"
+- "What's the baggage policy on LATAM Airlines economy?"
+- "Award flights Buenos Aires to Miami on American miles"
+- "Compare hotel prices Airbnb vs Booking.com for Medellín"
+
+**Build time**: 2 hours to demo | **Production readiness**: 1-2 weeks (add conversation persistence, user auth, WhatsApp integration)
+
+---
+*Updated: 2026-07-08*

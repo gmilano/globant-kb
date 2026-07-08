@@ -1,45 +1,81 @@
 # AI Agents — Travel & Hospitality
 
 > Top open source AI agents and tools for the travel industry. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08 (v2)
 
 ## Top Agents & Tools
 
 | Name | License | Stars | Description |
 |------|---------|-------|-------------|
-| [openai-agents-travel-graph](https://github.com/BjornMelin/openai-agents-travel-graph) | MIT | ~120★ | State-of-the-art multi-agent travel planner: OpenAI Agents SDK + LangGraph orchestration + Stagehand/Playwright browser automation + Supabase persistence + Firecrawl/Tavily research |
-| [Production-Ready-TripPlanner-Multi-AI-Agents](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) | MIT | 74★ | Production-grade multi-agent trip planner with specialized agents for flights, hotels, activities, weather, and budget optimization |
-| [Multi-Agent-AI-Travel-Advisor](https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor) | MIT | 53★ | 7 specialized agents with RAG (retrieval-augmented generation) + tool-calling for personalized itinerary, visa info, currency, and packing advice |
-| [travel-agent (CrewAI)](https://github.com/MozartofCode/travel-agent) | MIT | ~30★ | CrewAI-powered multi-agent travel orchestrator: transportation finder, accommodation agent, activities agent, weather advisor, destination historian |
-| [ai-travelassistant](https://github.com/bala-ceg/ai-travelassistant) | MIT | ~25★ | Full-stack travel assistant integrating LangChain + Apify (flight search) + OpenAI, generates structured itineraries with real-time pricing |
-| [travel-booking-agents](https://github.com/jongalloway/travel-booking-agents) | MIT | ~40★ | Corporate travel booking and policy approval workflow agent: validates per-diem limits ($195-$285/night hotels, $395-$520 flights), budget compliance automation |
-| [Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~80★ | MCP server for hotel booking: 2M+ hotels via DIDA B2B API (world's 3rd largest travel B2B), real-time inventory/pricing, search by location/date/stars/guests |
-| [mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | 6★ | MCP Travel Concierge Server with Google Maps integration for itinerary planning, POI discovery, and distance calculations |
-| [concierge-ai](https://github.com/kimeshan/concierge-ai) | MIT | 8★ | Personal travel concierge that learns preferences, suggests destinations and routes, conversational booking assistant |
-| [yay-travel-agent](https://github.com/Prosusware/yay-travel-agent) | Apache-2.0 | 7★ | Raise Your Hack Paris winner — concierge AI travel agent with multi-provider search and booking orchestration |
+| [trvl](https://github.com/MikkoParkkola/trvl) | MIT | ~400★ | MCP super-server + CLI: 1 smart tool exposing 65 aliases covering Google Flights, Google Hotels, Trivago, Airbnb, Booking.com, Hostelworld, Ferryhopper, European ground transport, award sweet spots, airport lounges, baggage rules, weather, price alerts. No API keys. Single Go binary. Token-efficient design: 378 tokens vs 33,500 for 65 separate tools (98.9% smaller context footprint). Updated April 2026. |
+| [openai-agents-travel-graph](https://github.com/BjornMelin/openai-agents-travel-graph) | MIT | ~150★ | State-of-the-art multi-agent travel planner: OpenAI Agents SDK + LangGraph orchestration + Stagehand/Playwright browser automation + Supabase persistence + Firecrawl/Tavily research |
+| [Production-Ready-TripPlanner-Multi-AI-Agents](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) | MIT | ~90★ | Production-grade multi-agent trip planner with specialized agents for flights, hotels, activities, weather, and budget optimization |
+| [Multi-Agent-AI-Travel-Advisor](https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor) | MIT | ~65★ | 7 specialized agents with RAG (retrieval-augmented generation) + tool-calling for personalized itinerary, visa info, currency, and packing advice |
+| [travel-booking-agents](https://github.com/jongalloway/travel-booking-agents) | MIT | ~50★ | Corporate travel booking and policy approval workflow agent: validates per-diem limits ($195-$285/night hotels, $395-$520 flights), budget compliance, manager approval workflows |
+| [travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) | MIT | ~45★ | Multi-API MCP server for travel aggregation: Amadeus GDS (flights + hotels) + AviationStack (real-time flight tracking). Finds cheapest travel dates, searches multi-city, tracks live flight status |
+| [amadeus-mcp-server-standalone](https://github.com/privilegemendes/amadeus-mcp-server-standalone) | MIT | ~35★ | Full Amadeus MCP server: flight search, price analysis (high/low indicator vs historical), cheapest dates finder, airport search, detailed offer retrieval. Production-ready |
+| [mcp-amadeus](https://github.com/donghyun-chae/mcp-amadeus) | MIT | ~30★ | Community Amadeus MCP server integrating with Amadeus Flight Offers Search API. Natural language flight queries → structured results |
+| [Travel-Yathri](https://github.com/EmmanuelSibi/Travel-Yathri) | MIT | ~20★ | AI-powered WhatsApp chatbot for trip planning. NLP + flight/hotel/POI data integration + PDF itinerary generation. Designed for WhatsApp-first markets (LATAM, India, Middle East) |
+| [Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~85★ | MCP server for hotel booking: 2M+ hotels via DIDA B2B API (world's 3rd largest travel B2B), real-time inventory/pricing, search by location/date/stars/guests. Free, no rate limit |
+| [mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | ~10★ | MCP Travel Concierge Server with Google Maps integration for itinerary planning, POI discovery, and distance calculations |
+| [Yatra-Vritta](https://github.com/Vipul-Mhatre/Yatra-Vritta) | MIT | ~15★ | AI platform for specialized travel verticals: medical tourism (KNN-based destination ranking by medical quality + affordability + accessibility + safety), MICE events, destination weddings. Multi-criteria decision models + min-max normalization + regression predictions |
+| [yay-travel-agent](https://github.com/Prosusware/yay-travel-agent) | Apache-2.0 | ~10★ | Raise Your Hack Paris winner — concierge AI travel agent with multi-provider search and booking orchestration |
 
 ## Agent Protocol Compatibility
 
 | Agent | MCP | OpenAI Agents SDK | LangGraph | CrewAI | Notes |
 |-------|-----|-------------------|-----------|--------|-------|
-| openai-agents-travel-graph | — | ✅ | ✅ | — | Most sophisticated stack |
-| Dida-hotel-MCP-CN | ✅ | — | — | — | Drop-in MCP tool for any agent |
-| mcp-travel-assistant | ✅ | — | — | — | Google Maps + travel MCP |
-| Multi-Agent-AI-Travel-Advisor | — | — | ✅ | — | RAG-enhanced |
+| trvl | ✅ (65 aliases, 1 endpoint) | — | — | — | Most token-efficient MCP option |
+| openai-agents-travel-graph | — | ✅ | ✅ | — | Most sophisticated orchestration stack |
+| Dida-hotel-MCP-CN | ✅ | — | — | — | Drop-in hotel inventory MCP |
+| travel-mcp-server | ✅ | — | — | — | Amadeus + AviationStack dual-API |
+| amadeus-mcp-server-standalone | ✅ | — | — | — | Richest Amadeus MCP feature set |
+| mcp-amadeus | ✅ | — | — | — | Lightweight community Amadeus MCP |
+| mcp-travel-assistant | ✅ | — | — | — | Google Maps routing + POI |
+| Multi-Agent-AI-Travel-Advisor | — | — | ✅ | — | RAG-enhanced 7-agent system |
 | travel-agent (CrewAI) | — | — | — | ✅ | Role-based agent orchestration |
 | travel-booking-agents | — | ✅ | — | — | Corporate / approval workflow |
+| Travel-Yathri | — | — | — | — | WhatsApp-native standalone |
+| Yatra-Vritta | — | — | — | — | Medical tourism / MICE specialist |
 
 ## Key Capabilities Matrix
 
 | Capability | Best Agent(s) |
 |-----------|---------------|
-| Real-time flight search | ai-travelassistant (Apify), travel-booking-agents |
-| Hotel booking / MCP | Dida-hotel-MCP-CN, mcp-travel-assistant |
+| Multi-platform flight search (no API key) | trvl (Google Flights, Trivago, Booking.com) |
+| Real-time flight search via GDS | travel-mcp-server (Amadeus), amadeus-mcp-server-standalone |
+| Hotel inventory depth | Dida-hotel-MCP-CN (2M+ hotels B2B pricing) |
+| Hotel search breadth | trvl (Airbnb, Booking.com, Hostelworld, Trivago) |
+| Ground transport (trains, ferries, buses) | trvl (Ferryhopper, European rail — only option) |
+| Award travel + lounge intel | trvl (award sweet spots, lounge access data) |
 | Full itinerary generation | openai-agents-travel-graph, Production-Ready-TripPlanner |
 | Corporate policy enforcement | travel-booking-agents |
+| Price intelligence (high/low, cheapest dates) | amadeus-mcp-server-standalone, travel-mcp-server |
+| Live flight tracking | travel-mcp-server (AviationStack) |
 | Multi-agent orchestration | travel-agent (CrewAI), Multi-Agent-AI-Travel-Advisor |
 | Visa / regulatory info | Multi-Agent-AI-Travel-Advisor |
 | Browser automation (real booking) | openai-agents-travel-graph (Stagehand/Playwright) |
+| WhatsApp-native travel | Travel-Yathri |
+| Medical tourism / MICE | Yatra-Vritta |
+
+## MCP Travel Ecosystem — Current State (July 2026)
+
+MCP has become the de facto integration layer for travel data. The ecosystem:
+
+| MCP Server | Data Source | Coverage | API Key Required |
+|-----------|-------------|----------|-----------------|
+| trvl | Google Flights, Hotels, Trivago, Airbnb, Booking.com, Hostelworld, Ferryhopper | Flights + Hotels + Ground | No (zero keys) |
+| Dida-hotel-MCP-CN | DIDA B2B (2M+ hotels) | Hotels only | DIDA B2B account |
+| travel-mcp-server | Amadeus + AviationStack | Flights + Hotels + Tracking | Amadeus + AviationStack keys |
+| amadeus-mcp-server-standalone | Amadeus GDS | Flights + price analysis | Amadeus key |
+| mcp-amadeus | Amadeus GDS | Flight search | Amadeus key |
+| mcp-travel-assistant | Google Maps | POI + routing | Google Maps key |
+
+**Recommended MCP composition for production:**
+- Layer 1 (discovery, zero keys): `trvl` for flights/hotels/transport/awards
+- Layer 2 (depth + B2B pricing): `Dida-hotel-MCP-CN` for hotel inventory
+- Layer 3 (GDS validation + cheapest dates): `amadeus-mcp-server-standalone`
+- Layer 4 (live status): `travel-mcp-server` for real-time flight tracking
 
 ---
 *Auto-updated by ingest pipeline.*
