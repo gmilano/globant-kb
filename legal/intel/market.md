@@ -1,92 +1,66 @@
-# Mapa de mercado — Legal AI
+# Mapa de mercado — Legal Services
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v3)
 
-## Tamaño de mercado
+## Tamaño de mercado (2026)
 
-| Métrica | Valor 2026 | Proyección | CAGR |
-|---------|-----------|------------|------|
-| Legal AI Software (global) | $2.67B | $40B+ (2030) | ~28-35% |
-| LATAM Legal Tech (total) | $1.7B (2024) | $4.8B (2033) | 11.12% |
-| Contract Analytics (global) | $1.1B | $5.2B (2030) | 25% |
-| E-Discovery AI (global) | $2.1B | $8.3B (2030) | 21% |
-| Firmas usando AI activamente | 60%+ | 85% (2027) | — |
+| Segmento | 2025/2026 | Proyección | CAGR | Fuente |
+|----------|-----------|-----------|------|--------|
+| Legal AI Software (global) | $2.75B (2026) | $6.3B (2034) | ~11% | MarketsandMarkets |
+| LegalTech (global) | $35.4B (2025) | $78.1B (2036) | 7.4% | Future Market Insights |
+| AI LegalTech (Technavio) | Referencia 2026 | +$4.28B (2026-2030) | Acelerada | Technavio |
+| LATAM LegalTech | ~$1.2B est. 2026 | $4.8B (2033) | 11.12% | IMARC Group |
 
----
+## Players globales
 
-## Players globales — competidores y ecosystem
+| Empresa | Tipo | Fortaleza | Posición 2026 |
+|---------|------|-----------|---------------|
+| Harvey | Startup AI legal | LAB benchmark, 24 áreas de práctica, respaldo NVIDIA/OpenAI/Anthropic | Referencia agéntica; $200M+ valoración |
+| Thomson Reuters | Enterprise | CoCounsel + Westlaw; Deep Research agéntico Q1 2026 | Líder enterprise; incumbente consolidado |
+| LexisNexis | Enterprise | Protégé + Shepard's; Protégé Work agéntico mayo 2026 | Co-líder enterprise con TR |
+| Clio | SaaS PME | Líder global en gestión de despachos; integración AI 2026 | Dominante en firmas medianas |
+| Relativity | E-discovery | Líder e-discovery; AI review de documentos | Especialista litigation support |
+| Ironclad | CLM | Contract lifecycle management enterprise | Especialista contratos corporativos |
+| Enter (Brasil) | Startup LATAM | Primer unicornio legal-AI LATAM; $100M Founders Fund + Sequoia | Referencia LATAM — mayo 2026 |
 
-### Plataformas AI legales (comerciales)
-| Empresa | Tipo | Fortaleza | Debilidad |
-|---------|------|-----------|----------|
-| Harvey AI | AI para Big Law | Calidad, adopción AmLaw 100 | Caro, no personalizable, no open source |
-| Clio | Practice management | 150k+ firmas, ecosystem amplio | No AI-native, integración superficial |
-| Kira Systems (LITERA) | Contract review | Accuracy contrastada | Caro para midmarket |
-| Relativity | E-discovery | Estándar de industria | $$$, curva de aprendizaje |
-| Ironclad | Contract lifecycle | UX excelente | Vendor lock-in, no customizable |
-| Lexis+ AI | Research | Dataset propietario enorme | No LATAM, no español |
-| Westlaw AI | Research | Thomson Reuters, edge data | No LATAM, muy caro |
-| Juro | Contract management | Midmarket focus | Funcionalidades limitadas |
+## Oportunidades AI en LATAM
 
-### Open source / customizable
-| Proyecto | Tipo | Adopción | Posicionamiento |
-|----------|------|----------|------------------|
-| Docassemble | Document automation | US courts, legal aid orgs, firmas SMB | El Odoo de legal doc assembly |
-| OpenContracts | Contract DMS + AI | Growing: builders y hackathons | Harvey open source self-hosted |
-| OpenSign | E-signature | 6.3k+ ★, empresas midmarket | DocuSign killer |
-| lavern | Multi-agent law firm | Firmas experimentando con AI | AutoGen para legal |
-| SaulLM | Legal LLM | Fine-tuning base en producción | Llama para derecho |
+### Métricas clave de adopción (2026)
+- Corporates AI legal: 23% (2025) → **52% adopción** (2026) — duplicó en 1 año
+- 64% de equipos in-house esperan depender **menos de outside counsel** por AI interna
+- Brasil: 66 sistemas AI asistiendo **82.6M casos pendientes** en tribunales (2023)
+- Argentina: 69% de abogados aún usa **Excel / carpetas físicas** para gestión de casos (2026)
+- LATAM CAGR LegalTech: 11.12% (2025-2033) → $4.8B por 2033
 
----
+### Gaps y oportunidades por país
 
-## Mapa LATAM
+| País | Gap identificado | Oportunidad Globant |
+|------|-----------------|---------------------|
+| Brasil | Reforma tributaria 2026 (IBS/CBS) genera demanda masiva de análisis fiscal + litigios | Agente de análisis reforma tributaria + automatización litigios laborales/consumidor |
+| Argentina | 69% abogados sin software; RivoLegal único player con integración judicial nativa | ERP legal AI-native en español con integración Poder Judicial Argentina |
+| México | Reforma judicial 2025; digitalización de juzgados en curso | Plataforma de e-filing + análisis de precedentes vía RAG sobre Suprema Corte |
+| Colombia | Expediente Judicial Electrónico (EJE) implementándose; gap en AI sobre él | Agente EJE: análisis de expedientes, alertas de vencimientos, resumen automático |
+| Chile | Mayor adopción tech en región; falta de LLMs en español jurídico | LLM fine-tuned en jurisprudencia chilena; asistente para firmas boutique |
 
-### Brasil — mercado dominante
-- Mercado legal LATAM más grande (40%+ del total regional)
-- 1.2M+ abogados registrados (OAB) — más que EE.UU. en proporción
-- Tribunales digitalizados: STJ, TRF, TRT usan sistemas electrónicos nativos
-- Reforma tributária 2024-2026 (IBS, CBS) genera enorme demanda de asesoría
-- **Stack recomendado:** Docassemble (PT) + SaulLM fine-tuned en PT jurídico + direito-familiar-imobiliario
+### Enter (Brasil) — Caso de referencia LATAM
+- **Qué**: plataforma de agentes IA para litigios masivos (consumidor + laboral)
+- **Ronda**: $100M Founders Fund + Sequoia Capital — mayo 2026
+- **Hito**: primer unicornio legal-AI de LATAM
+- **Patrón replicable**: automatización de demandas repetitivas a escala; LLM + RAG + integración sistema judicial
+- Fuente: [getenter.ai](https://www.getenter.ai/en)
 
-### México — segundo mercado
-- Nearshoring boom: contratos internacionales US-MX en record
-- CDMX como hub fintech con necesidad de compliance legal
-- **Stack recomendado:** lavern + OpenContracts + vaquill-mcp (US side) + módulo MX custom
+## Posicionamiento Globant AI Studios — Legal
 
-### Argentina
-- Desregulación post-2023: DNU y reforma legal masiva crea demanda de re-documentación
-- Oportunidades: actualización contractual en masa, due diligence SA→SAS
+### Ventaja competitiva
+1. **Presencia en LATAM**: conocimiento de jurisdicciones locales (AR, BR, MX, CO, CL) que Harvey/TR no tienen natively
+2. **Stack open source**: construir sobre Docassemble + CourtListener + OpenContracts reduce TTM vs. licenciar Harvey
+3. **Integración sistemas legados**: experiencia de Globant en ERP/legacy modernization aplica a despachos con sistemas judiciales propietarios
+4. **EU AI Act compliance**: necesidad global de auditoría de sistemas AI en contexto legal — servicio de advisory diferenciado
 
-### Colombia
-- Hub regional para legal services BPO
-- Compliance para minería y energía (sectores regulados con alta demanda)
-
-### Chile
-- Inversión minera y energética exige contratos internacionales
-- Contract management para proyectos mineros (inglés/español)
-
----
-
-## 5 Gaps en LATAM — oportunidades para Globant
-
-| # | Gap | Tamaño estimado |
-|---|-----|------------------|
-| 1 | **Docassemble en español** — Fork mantenido + templates para jurisdicciones LATAM | Alto |
-| 2 | **Legal RAG jurisdiccional** — No existe CourtListener para LATAM (STJ, SCJN, CSJ sin API) | Muy alto |
-| 3 | **Contract review bilingüe** — CUAD y claude-legal-skill son US/EN-only | Alto |
-| 4 | **Legal aid automation** — 400M personas sin acceso a abogados en LATAM | Social + comercial |
-| 5 | **Compliance tributario** — IBS/CBS Brasil, reformas Argentina: alert agents necesarios | Alto |
-
----
-
-## Posicionamiento Globant
-
-**GTM tabla:**
-
-| Segmento | Pain point | Solución Globant | Deal size |
-|----------|-----------|------------------|----------|
-| Firma mediana BR/MX | Harvey es muy caro | Suzie Law + SaulLM customizado | $150k-500k |
-| In-house corporativo | Contract review manual | OpenContracts + claude-legal-skill + OpenSign | $200k-800k |
-| Legal aid ONG | Sin herramientas para escalar | Docassemble ES/PT + Opennyai-like | $50k-200k |
-| Compliance consultora | EU AI Act tracking | EU-Compliance-MCP + LangGraph | $100k-400k |
+### Servicios prioritarios para clientes legales
+1. **Agente de investigación legal** (RAG sobre jurisprudencia local + CourtListener MCP)
+2. **Automatización de contratos** (revisión CUAD + redlines + negociación asistida)
+3. **LegalOps ERP AI-enhanced** (OpenLawOffice fork + facturación predictiva + alertas procesales)
+4. **Mass litigation platform** (patrón Enter: LangGraph + PostgreSQL + integración judicial API)
+5. **EU AI Act compliance auditor** (para clientes con sistemas AI en contexto legal — deadline ago 2026)

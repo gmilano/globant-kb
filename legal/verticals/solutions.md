@@ -1,85 +1,63 @@
-# Verticales de partida — Legal
+# Verticales de partida — Legal Services
 
-> Plataformas verticales existentes customizables con AI.
+> Plataformas verticales existentes, customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v3)
 
 ## Plataformas recomendadas
 
 | Plataforma | Licencia | URL | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
-| [Docassemble](https://github.com/jhpyle/docassemble) | MIT | docassemble.org | Python/YAML/Markdown | Document automation, guided interviews, court forms — el Odoo del legal doc assembly |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | opensource.legal | Django, React, PostgreSQL, pgvector | DMS agéntico con MCP server, annotation, vector search, AI agents integrados |
-| [OpenSign](https://github.com/OpenSignLabs/OpenSign) | AGPL-3.0 | opensignlabs.com | Parse Server, React | E-signature completo: alternativa self-hosted a DocuSign. 6.3k+ estrellas |
-| [ArkCase](https://www.arkcase.com) | Apache-2.0 | arkcase.com | Java/Spring, Angular | Case management adaptativo: FOIA, complaint management, legal aid. FedRAMP ready |
-| [CourtListener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | courtlistener.com | Django, Elasticsearch | Archivo court data: 9M+ opiniones, RECAP/PACER, oral arguments, API REST |
-| [FreeEed](https://freeeed.org) | Apache-2.0 | freeeed.org | Java, Lucene | AI-enabled e-discovery con OCR y metadata extraction. Alternativa a Relativity |
-| [ClinicCases](https://github.com/judsonmitchell/ClinicCases) | GPL-3.0 | clinicases.com | PHP | Case management para law school clinics y legal aid orgs. Probado en producción |
-| [Wraft](https://github.com/wraft/wraft) | Apache-2.0 | wraft.co | Elixir/Phoenix, React | Document lifecycle management con version control y workflows legales |
-| [Suzie Law](https://github.com/firelex/suzielaw) | Apache-2.0 | — | Next.js, Python | Alternativa self-hostable a Harvey: 12 personas legales, 160+ workflows, multi-jurisdicción |
-| [J-Lawyer](https://www.j-lawyer.org) | AGPL-3.0 | j-lawyer.org | Java/Swing | Practice management completo para firmas alemanas — adaptable a LATAM |
-| [Juriscraper](https://github.com/freelawproject/juriscraper) | Apache-2.0 | free.law | Python | Scraper para 400+ cortes US + PACER. Base para cualquier pipeline de datos legales |
-| [CommonAccord](https://github.com/CommonAccord/Cmacc-Org) | Apache-2.0 | commonaccord.org | JavaScript/Markdown | Smart contracts como datos linkables. Accord Project ecosystem |
+| [Docassemble](https://github.com/jhpyle/docassemble) | MIT | jhpyle/docassemble | Python + YAML + Django | Entrevistas guiadas, formularios legales, ensamblado de documentos PDF/DOCX; base de Suffolk LIT Lab y juzgados de Massachusetts |
+| [CourtListener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | freelawproject/courtlistener | Django + Elasticsearch + PostgreSQL | Archivo judicial EE.UU.: 8M+ opiniones, PACER, citas, jueces; API REST + MCP connector para Claude (mayo 2026) |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Apache-2.0 | Open-Source-Legal/OpenContracts | Python + React + GraphQL | DMS para inteligencia documental: anotación de contratos, análisis semántico colaborativo, exportación JSON/CSV |
+| [OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | Apache-2.0 | NodineLegal/OpenLawOffice | ASP.NET + SQL Server | Gestión de despacho legal: casos, facturación, tareas, clientes; base ERP para despachos pequeños y medianos |
+| [ArkCase](https://www.arkcase.com/product/arkcase-open-source-case-management-platform/) | LGPL | ArkCase Community Edition | Java + Spring + Angular | Gestión de casos FedRAMP + HIPAA; OCR integrado, gestión de tiempo/gastos, localización, API; enfocado en gobierno y compliance |
+| [RECAP Archive](https://github.com/freelawproject/recap) | BSD-3 | freelawproject/recap | Python + Django | Extensión browser para liberar documentos PACER (tribunales EE.UU.) al dominio público; archivo de millones de expedientes federales |
+| [OpenNyAI](https://github.com/OpenNyAI/Opennyai) | MIT | OpenNyAI/Opennyai | Python + spaCy + Transformers | NLP end-to-end para documentos legales indios: NER, etiquetado retórico, sumarización; base para asistentes legales en India y LATAM civil law |
+| [Bots.law](https://github.com/freelawproject/bots.law) | Apache-2.0 | freelawproject/bots.law | Python + Playwright | Automatización de acceso a datos judiciales; scrapers para múltiples sistemas judiciales estatales |
+| [Blackstone](https://github.com/ICLRandD/Blackstone) | Apache-2.0 | ICLRandD/Blackstone | Python + spaCy | NLP especializado para texto legal inglés; modelo preentrenado ICLR & D para análisis de sentencias y contratos |
+| [legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) | MIT | zeroentropy-ai/legalbenchrag | Python + FAISS + Qdrant | Benchmark + corpus RAG legal (NDAs, M&A, contratos); base para construir y evaluar sistemas de recuperación legal |
 
 ---
 
-## Plataformas de gestión para firmas — mapa
+## Cómo customizar con AI — Guía rápida
 
-### Para firmas pequeñas/medianas
+### Patrón 1: Docassemble + LLM (entrevistas legales inteligentes)
 ```
-ClinicCases (GPL)     → Case tracking básico + AI layer encima
-    ↓ integrar con
-Docassemble (MIT)     → Document automation (forms, contratos)
-    ↓ integrar con
-OpenSign (AGPL)       → E-signature de documentos generados
-    ↓ resultado
-Firma full-stack open source por < $5k setup
+1. Fork jhpyle/docassemble
+2. Añadir API call al LLM en cada paso de la entrevista (validación, sugerencia de respuesta)
+3. Auto-rellenar campos del formulario con datos extraídos de documentos subidos (RAG)
+4. Generar PDF final con firma digital integrada
+Stack: Docassemble + Anthropic API + Tesseract OCR + weasyprint
 ```
 
-### Para e-discovery / litigación
+### Patrón 2: CourtListener + Claude MCP (investigación legal)
 ```
-FreeEed (Apache-2.0)  → Ingesta y procesamiento de documentos
-    ↓
-OpenContracts (MIT)   → Annotation + AI analysis + MCP interface
-    ↓
-CourtListener MCP     → Research de precedentes y case law
-    ↓ resultado
-E-discovery pipeline completo sin Relativity ni Kira
+1. Conectar CourtListener MCP a Claude Desktop o Claude Code
+2. Agente consulta 8M+ opiniones + citas en lenguaje natural
+3. Síntesis de precedentes con análisis IRAC automatizado
+4. Output: memo legal con citas verificadas
+Stack: CourtListener MCP + Claude claude-sonnet-5 + LangGraph
 ```
 
-### Para contratos corporativos / in-house
+### Patrón 3: OpenLawOffice + AI (ERP despacho)
 ```
-OpenContracts (MIT)   → DMS agéntico + annotation
-    ↓
-claude-legal-skill    → CUAD risk detection + redlines
-    ↓
-adeu (MIT)            → Track Changes en Word via MCP
-    ↓
-OpenSign (AGPL)       → E-signature final
-    ↓ resultado
-Contract lifecycle completo: draft → review → sign → archive
+1. Fork NodineLegal/OpenLawOffice
+2. Añadir módulo AI: transcripción de llamadas (Whisper), resumen de casos (LLM)
+3. Alertas proactivas: vencimientos de plazos procesales via agente calendario
+4. Dashboard de rentabilidad por cliente/caso con predicción de facturación
+Stack: OpenLawOffice + Whisper + Anthropic API + React dashboard
 ```
 
 ---
 
-## Cómo customizar con AI
+## Plataformas comerciales de referencia (para benchmarking)
 
-1. **Fork del repo base** — Docassemble, ArkCase o OpenContracts según el caso
-2. **Añadir MCP layer** — vaquill-mcp + courtlistener-mcp para datos jurisdiccionales
-3. **Integrar LLM** — SaulLM-7B (MIT) para legal-domain fine-tuning, o Claude API vía MCP
-4. **Wrappear flujos con agentes** — LangGraph o lavern para orquestación multi-step
-5. **UI conversacional** — Dify (Apache) o custom React sobre el sistema base
-6. **Compliance audit trail** — Logging de todas las decisiones AI con human-in-the-loop gates
-
----
-
-## Plataformas relevantes para LATAM
-
-| País | Plataforma | Contexto |
-|------|-----------|----------|
-| Brasil | Docassemble + módulos portugués | Tribunais usam guided interviews para formularios. Hay adaptaciones brasileñas activas. |
-| Brasil | [direito-familiar-imobiliario](https://github.com/maiconfuhr/direito-familiar-imobiliario) | MIT, mayo 2026 — civil law BR actual (inmuebles, divorcios, herencias) |
-| México | ArkCase Community | Para organizaciones de legal aid y servicios de defensa pública |
-| Argentina | CommonAccord | Adaptaciones de civil law. Smart contracts en contratos inmobiliarios |
-| Colombia/Chile | OpenSign | e-signature que reemplaza DocuSign sin costo de licencia por firma |
-| LATAM general | Suzie Law | Multi-jurisdicción por diseño. Instrucciones en español disponibles |
+| Plataforma | Tipo | Referencia |
+|------------|------|------------|
+| Harvey | Agentic legal research | Referencia de mercado; LAB benchmark mayo 2026 |
+| Thomson Reuters CoCounsel | Document review + Deep Research agéntico | Q1 2026, integrado en Westlaw |
+| LexisNexis Protégé Work | Agentic layer + Shepard's Verify | Mayo 2026 |
+| Enter (Brasil) | Mass litigation agent platform | Unicornio LATAM $100M mayo 2026 |
+| RivoLegal (Argentina) | LegalTech integrado al sistema judicial argentino | Referencia local LATAM |

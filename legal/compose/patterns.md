@@ -1,272 +1,398 @@
-# Patrones de composición — Legal AI
+# Patrones de composición — Legal Services
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v3)
 
 ## Arquitectura base
 
 ```
-[Plataforma vertical base (open source)]     [Legal data layer — MCP servers]
-  Docassemble / OpenContracts / ArkCase        CourtListener / Vaquill / EU-Compliance
-          ↓                                              ↓
-   [Capa de integración AI]  ←────────────────────────────
-     LangGraph / lavern / CrewAI
+[Plataforma vertical base (open source)]      [MCP servers legales]
+          ↓                                           ↓
+[Capa de integración AI / LangGraph]  ←────  [CourtListener / Vaquill]
           ↓
-   [Agentes especializados legales]
-     Contract Reviewer · Due Diligence · Compliance Monitor · Research Agent
+[Agentes especializados: review, research, compliance]
           ↓
-   [UI + outputs legales]
-     DOCX redlines (adeu) · PDF reports · OpenSign e-signature · Human review gate
+[Human-in-the-loop gates + trazabilidad EU AI Act]
+          ↓
+[UI conversacional / API REST para el cliente]
 ```
 
 ---
 
-## Receta 1: AI Contract Review System
-**Tiempo estimado: 4-6 semanas | Complejidad: Media**
+## Patrón 1: Agente de investigación legal (RAG multi-jurisdiccional)
 
-**Stack:**
-```
-OpenContracts (MIT)      → DMS: upload, versioning, annotation
-claude-legal-skill (MIT) → CUAD 41-category risk detection + redlines
-adeu (MIT)               → MCP: inyecta Track Changes en Word
-LangGraph (MIT)          → Orchestration + human-in-the-loop gate
-OpenSign (AGPL)          → E-signature final del contrato aprobado
-```
+**Caso de uso**: Associates de firma de abogados buscan precedentes relevantes en múltiples jurisdicciones vía chat.  
+**Stack**: CourtListener MCP + Claude claude-sonnet-5 + LangGraph + LegalBench-RAG corpus
 
 ```python
+from anthropic import Anthropic
 from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
+from typing import TypedDict
 
 client = Anthropic()
 
-def cuad_risk_detection(state):
-    risks = []
-    for clause in state["clauses"]:
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=2000,
-            messages=[{
-                "role": "user",
-                "content": f"CUAD risk analysis for clause: {clause['text']}\n"
-                           f"Identify: termination, IP ownership, liability caps, "
-                           f"non-compete, governing law, dispute resolution, "
-                           f"auto-renewal, change of control. Flag risks."
-            }]
-        )
-        risks.append({"clause": clause, "analysis": response.content[0].text})
-    return {"risks": risks}
+class ResearchState(TypedDict):
+    query: str
+    jurisdiction: str
+    precedents: list[dict]
+    memo: str
 
-def human_review_gate(state):
-    return {"status": "awaiting_human_review"}
-
-def esign_finalization(state):
-    if state["human_approved"]:
-        opensign.send_for_signature(
-            doc_path=state["approved_path"],
-            signers=state["signers"]
-        )
-    return {"status": "sent_for_signature"}
-
-graph = StateGraph(dict)
-graph.add_node("ingest", lambda s: {"clauses": opencontracts.extract_clauses(opencontracts.upload(s["file_path"]))})
-graph.add_node("cuad_analysis", cuad_risk_detection)
-graph.add_node("redlines", lambda s: {"redlines_path": adeu_mcp.generate_redlines(s["doc_id"], s["risks"])})
-graph.add_node("human_gate", human_review_gate)
-graph.add_node("esign", esign_finalization)
-graph.set_entry_point("ingest")
-graph.add_edge("ingest", "cuad_analysis")
-graph.add_edge("cuad_analysis", "redlines")
-graph.add_edge("redlines", "human_gate")
-graph.add_conditional_edges("human_gate", lambda s: "esign" if s.get("human_approved") else END)
-graph.add_edge("esign", END)
-app = graph.compile()
-```
-
-**Diferenciador vs Harvey:** Self-hosted, 0 vendor lock-in, datos nunca salen del cliente.
-
----
-
-## Receta 2: Legal Research Assistant Multi-Jurisdiccional
-**Tiempo estimado: 3-5 semanas | Complejidad: Media**
-
-**Stack:**
-```
-CourtListener MCP (MIT)  → 9M+ US opinions, semantic search
-EU-Compliance-MCP (MIT)  → 61 EU regs, 4,095 artículos
-Vaquill MCP              → 8M+ US federal/state opinions, US Code, CFR
-[MCP jurisdiccional]     → BR: direito-familiar / EU: legifrance-mcp
-LangGraph agent          → Routing + multi-source synthesis
-Claude API               → Synthesis con citations verificadas
-```
-
-```python
-from anthropic import Anthropic
-client = Anthropic()
-
-async def legal_research_agent(question, jurisdictions):
-    tools = []
-    if "us" in jurisdictions:
-        tools.extend(await mcp_client.load("courtlistener-mcp"))
-        tools.extend(await mcp_client.load("vaquill-mcp"))
-    if "eu" in jurisdictions:
-        tools.extend(await mcp_client.load("eu-compliance-mcp"))
-    if "br" in jurisdictions:
-        tools.extend(await mcp_client.load("direito-familiar-mcp"))
-
-    messages = [{"role": "user", "content": question}]
-    while True:
-        response = client.messages.create(
-            model="claude-sonnet-5", max_tokens=4096, tools=tools, messages=messages,
-            system="Always cite specific cases, statutes, regulations with exact references. Search multiple sources."
-        )
-        if response.stop_reason == "end_turn":
-            return response.content[0].text
-        tool_results = await process_tool_calls(response.content, mcp_client)
-        messages.extend([{"role": "assistant", "content": response.content},
-                         {"role": "user", "content": tool_results}])
-```
-
----
-
-## Receta 3: Agentic Law Firm Core (lavern pattern)
-**Tiempo estimado: 6-10 semanas | Complejidad: Alta**
-
-**Stack:** lavern (Apache-2.0) + SaulLM-7B (MIT) + CrewAI + OpenContracts + OpenSign
-
-```python
-from crewai import Agent, Task, Crew
-
-contract_reviewer = Agent(
-    role="Contract Review Specialist",
-    goal="Identify all risks and non-standard clauses in the contract",
-    backstory="Expert in M&A contract review with 15+ years experience",
-    llm="claude-sonnet-5"
-)
-devils_advocate = Agent(
-    role="Devil's Advocate",
-    goal="Challenge every finding by the contract reviewer, find counterarguments",
-    backstory="Senior partner who questions all assumptions",
-    llm="claude-sonnet-5"
-)
-synthesis_judge = Agent(
-    role="Senior Partner Judge",
-    goal="Synthesize debate between agents into final recommendation",
-    backstory="Managing partner who makes final calls based on risk/reward",
-    llm="claude-sonnet-5"
-)
-
-review_task = Task(
-    description="Review contract: {contract_text}. Identify risks using CUAD framework.",
-    agent=contract_reviewer
-)
-challenge_task = Task(
-    description="Challenge the findings. Find overstatements or missing context.",
-    agent=devils_advocate, context=[review_task]
-)
-final_synthesis = Task(
-    description="Synthesize review and challenge into final recommendation with confidence score.",
-    agent=synthesis_judge, context=[review_task, challenge_task], human_input=True
-)
-
-crew = Crew(agents=[contract_reviewer, devils_advocate, synthesis_judge],
-            tasks=[review_task, challenge_task, final_synthesis], verbose=True)
-```
-
----
-
-## Receta 4: M&A Due Diligence Pipeline (dd-agents pattern)
-**Tiempo estimado: 8-14 semanas | Complejidad: Muy alta**
-
-**Stack:** dd-agents (Apache-2.0) + OpenContracts (MIT) + ContextGem (Apache-2.0) + CourtListener MCP + SEC EDGAR MCP + LangGraph + Claude API (200K context)
-
-**Pipeline de 38 pasos (5 fases):**
-```python
-DD_PIPELINE = [
-    # Phase 1: Document Collection (1-5)
-    "ingest_data_room", "classify_documents", "extract_entities",
-    "build_citation_graph", "identify_gaps",
-    # Phase 2: Legal Analysis (6-15)
-    "analyze_material_contracts",  # CUAD on top 20 contracts
-    "review_IP_portfolio", "check_litigation_history",  # CourtListener
-    "employment_law_review", "regulatory_compliance",   # EU-Compliance-MCP
-    # ... 5 more legal steps
-    # Phase 3: Financial Legal Review (16-25)
-    "review_financial_contracts", "sec_filing_analysis",  # SEC EDGAR MCP
-    "tax_structure_review",  # ... 7 more steps
-    # Phase 4: Risk Synthesis (26-35)
-    "identify_deal_breakers", "quantify_risk_exposure", "benchmark_against_market",
-    # Phase 5: Report Generation (36-38)
-    "generate_executive_summary", "generate_detailed_report", "human_review_and_approval"
-]
-```
-
----
-
-## Receta 5: EU AI Act Compliance Monitor
-**Tiempo estimado: 3-5 semanas | Complejidad: Media**
-
-**Stack:** EU-Compliance-MCP (MIT) + LangGraph + Blackstone (Apache-2.0) + OpenContracts + Claude API
-
-```python
-from anthropic import Anthropic
-client = Anthropic()
-
-def assess_ai_system(state):
-    eu_tools = eu_compliance_mcp.get_tools()
+def search_precedents(state: ResearchState) -> ResearchState:
     response = client.messages.create(
-        model="claude-sonnet-5", max_tokens=8000, tools=eu_tools,
-        messages=[{"role": "user", "content": f"""Assess AI system against EU AI Act:
-            System: {state['ai_system_description']}
-            Check: 1) Risk category, 2) Conformity assessment, 3) Documentation (Art 11),
-            4) Data governance (Art 10), 5) Transparency (Art 13), 6) Human oversight (Art 14)
-            Cite specific articles."""}],
-        system="You are an EU AI Act compliance specialist. Always cite specific articles."
+        model="claude-sonnet-5-20261001",
+        max_tokens=4096,
+        system="Asistente de investigación legal. Análisis IRAC. Verifica citas.",
+        messages=[{"role": "user",
+                   "content": f"Busca precedentes para: {state['query']}\nJurisdicción: {state['jurisdiction']}\nÚltimos 5 años."}]
     )
-    return {"compliance_report": response.content}
+    state["precedents"] = [{"content": response.content[0].text}]
+    return state
 
-def weekly_compliance_check(client_systems):
-    for system in client_systems:
-        result = assess_ai_system({"ai_system_description": system})
-        store_in_opencontracts(result)
-        if result.get("critical_gaps"):
-            send_alert(system["owner"], result["critical_gaps"])
+def analyze_precedents(state: ResearchState) -> ResearchState:
+    response = client.messages.create(
+        model="claude-sonnet-5-20261001",
+        max_tokens=8192,
+        messages=[{"role": "user",
+                   "content": f"Analiza precedentes para: {state['query']}\n\n{state['precedents']}\n\nMemo legal: resumen ejecutivo, precedentes clave, tendencia, recomendación, riesgos."}]
+    )
+    state["memo"] = response.content[0].text
+    return state
+
+graph = StateGraph(ResearchState)
+graph.add_node("search", search_precedents)
+graph.add_node("analyze", analyze_precedents)
+graph.add_edge("search", "analyze")
+graph.add_edge("analyze", END)
+graph.set_entry_point("search")
+research_agent = graph.compile()
+
+result = research_agent.invoke({
+    "query": "responsabilidad civil por uso de AI en decisiones medicas",
+    "jurisdiction": "Argentina", "precedents": [], "memo": ""
+})
+print(result["memo"])
 ```
+
+**Tiempo estimado**: 2-3 semanas
 
 ---
 
-## Receta 6: LATAM Legal Aid Automation
-**Tiempo estimado: 5-8 semanas | Complejidad: Media**
+## Patrón 2: Revisión automática de contratos con redlines
 
-**Stack:** Docassemble (MIT) + SaulLM-7B (MIT) fine-tuned en LATAM jurisprudence + direito-familiar-imobiliario + LangGraph + Opennyai (MIT) + OpenSign (AGPL) + WhatsApp/Telegram bot
+**Caso de uso**: Legal counsel corporativo detecta riesgos y genera redlines automáticos.  
+**Stack**: claude-legal-skill + OpenContracts + CUAD dataset + Anthropic API
 
-**Flujo:**
+```python
+import anthropic, json
+from pathlib import Path
+
+client = anthropic.Anthropic()
+CUAD_RISK_CLAUSES = ["Non-Compete", "IP Ownership", "Limitation of Liability",
+                     "Termination for Convenience", "Change of Control", "Audit Rights"]
+
+def review_contract(contract_text: str, perspective: str = "buyer") -> dict:
+    response = client.messages.create(
+        model="claude-sonnet-5-20261001",
+        max_tokens=8192,
+        system=f"Abogado corporativo experto. Perspectiva: {perspective}. "
+               f"Por cláusula: tipo CUAD, riesgo ALTO/MEDIO/BAJO, explicación, redline. "
+               f"Prioriza: {', '.join(CUAD_RISK_CLAUSES)}",
+        messages=[{"role": "user",
+                   "content": f"Revisa:\n\n{contract_text}\n\nJSON: {{resumen_ejecutivo, nivel_riesgo_global, clausulas: [{{tipo, riesgo, explicacion, redline}}], recomendacion}}"}]
+    )
+    content = response.content[0].text
+    try:
+        return json.loads(content[content.find('{'):content.rfind('}')+1])
+    except json.JSONDecodeError:
+        return {"raw": content}
+
+analysis = review_contract(Path("contrato.txt").read_text(encoding="utf-8"))
+print(f"Riesgo global: {analysis.get('nivel_riesgo_global')}")
 ```
-Usuario: "Quiero divorciarme pero no sé por dónde empezar"
-    ↓
-LangGraph clarification agent
-    → "¿Tienen hijos menores?" → "¿Bienes en común?" → "¿Acuerdo mutuo?"
-    ↓
-Docassemble interview generator
-    → Genera formulario guiado para jurisdicción
-    ↓
-SaulLM-7B → Explica cada paso, revisa consistencia
-    ↓
-Output: Documentos listos para tribunal + OpenSign para firma
-```
 
-**Jurisdicciones priorizadas:** Brasil (PT, divorcios/herencias/laborales), México (ES, STPS), Colombia (ES, laboral), Argentina (ES, divorcios express ley 26.994)
-
-**Impacto:** ~400M personas en LATAM sin acceso a servicios legales. 10k+ casos/mes con 2 abogados supervisores.
+**Tiempo estimado**: 1-2 semanas
 
 ---
 
-## Tabla resumen de patrones
+## Patrón 3: Entrevista legal guiada con Docassemble + AI
 
-| Patrón | Repos core | Semanas | Segmento |
-|--------|-----------|---------|----------|
-| AI Contract Review | OpenContracts + claude-legal-skill + adeu + LangGraph | 4-6 | In-house counsel, M&A |
-| Legal Research | CourtListener MCP + Vaquill MCP + LangGraph | 3-5 | Firmas de litigación |
-| Agentic Law Firm | lavern + CrewAI + SaulLM + OpenContracts | 6-10 | Firmas medianas |
-| M&A Due Diligence | dd-agents + OpenContracts + ContextGem + EDGAR MCP | 8-14 | PE, M&A boutiques |
-| EU AI Act Compliance | EU-Compliance-MCP + LangGraph + Blackstone | 3-5 | Empresas con ops en EU |
-| LATAM Legal Aid | Docassemble + SaulLM + Opennyai + OpenSign | 5-8 | NGOs, gobiernos |
+**Caso de uso**: Ciudadanos de bajos recursos acceden a asistencia legal gratuita via chat que genera formularios judiciales.  
+**Stack**: Docassemble (MIT) + Claude Haiku + DocuSign
+
+```yaml
+# entrevista_demanda_laboral.yml
+metadata:
+  title: Demanda Laboral — Asistente AI
+---
+modules:
+  - .ai_helper
+---
+question: |
+  Bienvenido. ¿Cuál es tu problema laboral?
+fields:
+  - Descripción: problema_descripcion
+    datatype: area
+---
+code: |
+  clasificacion = ai_classify_legal_issue(problema_descripcion)
+  tipo_demanda = clasificacion["tipo"]
+  documentos_necesarios = clasificacion["documentos"]
+```
+
+```python
+# ai_helper.py
+import anthropic, json
+client = anthropic.Anthropic()
+
+def ai_classify_legal_issue(descripcion: str) -> dict:
+    r = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=512,
+        system="Clasifica problema laboral. JSON: {tipo, urgencia, documentos, plazo_prescripcion_dias}",
+        messages=[{"role": "user", "content": descripcion}]
+    )
+    return json.loads(r.content[0].text)
+```
+
+**Tiempo estimado**: 3-4 semanas
+
+---
+
+## Patrón 4: Plataforma de litigios masivos (patrón Enter)
+
+**Caso de uso**: Firma escala de 100 a 10,000 demandas/mes (consumidor/laboral) con el mismo equipo.  
+**Stack**: FastAPI + LangGraph + PostgreSQL + pgvector + API judicial
+
+```python
+from fastapi import FastAPI, BackgroundTasks
+from langchain_anthropic import ChatAnthropic
+from langgraph.graph import StateGraph
+from typing import TypedDict
+
+app = FastAPI()
+llm = ChatAnthropic(model="claude-sonnet-5-20261001")
+
+class LitigioState(TypedDict):
+    cliente_id: str
+    tipo_demanda: str
+    hechos: str
+    monto_reclamado: float
+    demanda_draft: str
+    probabilidad_exito: float
+
+async def extraer_hechos(state):
+    await llm.ainvoke(f"Estructura hechos {state['tipo_demanda']}: {state['hechos']}")
+    return state
+
+async def evaluar_viabilidad(state):
+    await llm.ainvoke(f"Evalúa viabilidad {state['tipo_demanda']} jurisprudencia argentina. Probabilidad 0-1.")
+    state["probabilidad_exito"] = 0.75
+    return state
+
+async def redactar_demanda(state):
+    r = await llm.ainvoke(
+        f"Demanda formal {state['tipo_demanda']} Poder Judicial Argentina.\n"
+        f"Hechos: {state['hechos']}\nMonto: ${state['monto_reclamado']}\n"
+        f"Incluye: encabezado, hechos, derecho, petitorio, firma."
+    )
+    state["demanda_draft"] = r.content
+    return state
+
+graph = StateGraph(LitigioState)
+for name, fn in [("extraer_hechos", extraer_hechos), ("evaluar_viabilidad", evaluar_viabilidad), ("redactar_demanda", redactar_demanda)]:
+    graph.add_node(name, fn)
+graph.add_edge("extraer_hechos", "evaluar_viabilidad")
+graph.add_edge("evaluar_viabilidad", "redactar_demanda")
+graph.set_entry_point("extraer_hechos")
+pipeline = graph.compile()
+
+@app.post("/litigio/iniciar")
+async def iniciar(cliente_id: str, tipo: str, hechos: str, monto: float, bg: BackgroundTasks):
+    state = LitigioState(cliente_id=cliente_id, tipo_demanda=tipo, hechos=hechos,
+                         monto_reclamado=monto, demanda_draft="", probabilidad_exito=0.0)
+    bg.add_task(pipeline.ainvoke, state)
+    return {"status": "procesando", "id": f"LIT-{cliente_id}"}
+```
+
+**Tiempo estimado**: 6-8 semanas (MVP con integración judicial básica)
+
+---
+
+## Patrón 5: EU AI Act Compliance Auditor para sistemas legales
+
+**Caso de uso**: Firma europea audita sus sistemas AI antes del deadline 2 agosto 2026.  
+**Stack**: Anthropic API + LangGraph + OpenMetadata + OPA
+
+```python
+import anthropic
+from datetime import date
+
+client = anthropic.Anthropic()
+DEADLINE = date(2026, 8, 2)
+
+def audit_ai_system(system_info: dict) -> dict:
+    days_left = (DEADLINE - date.today()).days
+    r = client.messages.create(
+        model="claude-sonnet-5-20261001",
+        max_tokens=4096,
+        system="""Experto EU AI Act (UE 2024/1689). Sistemas legales = Anexo III alto riesgo.
+        Checklist: registro EU, doc técnica (Art.11), supervisión humana (Art.14),
+        transparencia (Art.13), riesgos (Art.9), datos (Art.10), logs (Art.12), conformidad (Art.43).
+        Penalidad: €35M o 7% ingresos globales.""",
+        messages=[{"role": "user", "content":
+            f"Audita: {system_info}\n\nGenera: clasificación riesgo, checklist, "
+            f"gaps críticos ({days_left} días al deadline), plan de acción priorizado."}]
+    )
+    return {"report": r.content[0].text, "days_to_deadline": days_left}
+
+audit = audit_ai_system({
+    "nombre": "Legal Research Assistant v2",
+    "descripcion": "Asiste a jueces en análisis de precedentes",
+    "modelo": "claude-sonnet-5", "nivel_autonomia": "recomendaciones",
+    "usuarios": "jueces", "jurisdiccion": "España, Italia, Francia"
+})
+print(f"{audit['days_to_deadline']} días al deadline EU AI Act")
+```
+
+**Tiempo estimado**: 2-3 semanas
+
+---
+
+## Patrón 6: Multi-jurisdicción Legal RAG con Vaquill MCP
+
+**Caso de uso**: Firma con clientes en EE.UU., India y Canadá necesita investigación jurisdiccional paralela.  
+**Stack**: Claude + Vaquill MCP (US + India + CanLII) + asyncio
+
+```python
+import anthropic, asyncio
+
+client = anthropic.Anthropic()
+
+SYSTEM = "Experto en derecho comparado. Por jurisdicción: regla aplicable, precedentes clave, tiempo de resolución."
+
+def research_jurisdiction(question: str, jurisdiction: str) -> str:
+    r = client.messages.create(
+        model="claude-sonnet-5-20261001", max_tokens=2048, system=SYSTEM,
+        messages=[{"role": "user", "content": f"Investiga en {jurisdiction}: {question}"}]
+    )
+    return r.content[0].text
+
+async def research_multi(question: str, jurisdictions: list[str]) -> dict:
+    loop = asyncio.get_event_loop()
+    tasks = [loop.run_in_executor(None, research_jurisdiction, question, j) for j in jurisdictions]
+    results = await asyncio.gather(*tasks)
+    by_j = dict(zip(jurisdictions, results))
+
+    memo = client.messages.create(
+        model="claude-sonnet-5-20261001", max_tokens=4096,
+        messages=[{"role": "user",
+                   "content": f"Síntesis comparativa:\n{by_j}\n\nTabla comparativa + jurisdicción recomendada."}]
+    )
+    return {"by_jurisdiction": by_j, "comparative_memo": memo.content[0].text}
+
+result = asyncio.run(research_multi(
+    "patent infringement liability for AI-generated prior art",
+    ["United States", "India", "Canada"]
+))
+print(result["comparative_memo"])
+```
+
+**Tiempo estimado**: 1-2 semanas
+
+---
+
+## Patrón 7: Asistente LegalOps para despacho (OpenLawOffice + AI)
+
+**Caso de uso**: Despacho LATAM moderniza su ERP con alertas de vencimientos, transcripción y resumen de audiencias.  
+**Stack**: OpenLawOffice (fork Apache-2.0) + Whisper (MIT) + Claude Haiku + FastAPI
+
+```python
+import anthropic, json
+from datetime import datetime
+
+client = anthropic.Anthropic()
+
+def transcribe_audiencia(audio_path: str) -> str:
+    import whisper
+    return whisper.load_model("medium").transcribe(audio_path, language="es")["text"]
+
+def resumir_audiencia(transcripcion: str, caso_id: str) -> dict:
+    r = client.messages.create(
+        model="claude-haiku-4-5-20251001", max_tokens=1024,
+        messages=[{"role": "user",
+                   "content": f"Resumen audiencia {caso_id}:\n{transcripcion[:8000]}\n\n"
+                              f"JSON: {{tipo_audiencia, partes_presentes, resoluciones, proxima_fecha, tareas_pendientes}}"}]
+    )
+    return json.loads(r.content[0].text)
+
+def alertas_vencimientos(casos: list[dict]) -> list[dict]:
+    alertas = []
+    for c in casos:
+        dias = (datetime.fromisoformat(c["proximo_vencimiento"]) - datetime.now()).days
+        nivel = "CRITICO" if dias <= 5 else "URGENTE" if dias <= 15 else "PREVENTIVO" if dias <= 30 else None
+        if nivel:
+            alertas.append({"caso_id": c["id"], "nivel": nivel, "dias": dias, "accion": c["tipo_vencimiento"]})
+    return sorted(alertas, key=lambda x: x["dias"])
+
+from fastapi import FastAPI
+app = FastAPI()
+
+@app.post("/audiencia/procesar")
+async def procesar(audio_path: str, caso_id: str):
+    return {"caso_id": caso_id, "resumen": resumir_audiencia(transcribe_audiencia(audio_path), caso_id)}
+```
+
+**Tiempo estimado**: 4-5 semanas
+
+---
+
+## Patrón 8: Benchmark de agentes legales con Harvey LAB
+
+**Caso de uso**: Globant evalúa LLMs en tareas legales reales (Harvey LAB) antes de comprometer con un cliente.  
+**Stack**: Harvey LAB + Claude Sonnet 5 + evaluador automatizado
+
+```python
+import anthropic, json
+
+client = anthropic.Anthropic()
+# Harvey LAB: https://www.harvey.ai/blog/introducing-harveys-legal-agent-benchmark
+# 1,200+ tasks, 24 practice areas, 75k+ rubric criteria
+
+def run_lab_task(task: dict, model: str = "claude-sonnet-5-20261001") -> dict:
+    r = client.messages.create(
+        model=model, max_tokens=8192,
+        system=f"Agente legal experto en {task['practice_area']}. Razona paso a paso.",
+        messages=[{"role": "user",
+                   "content": f"LAB #{task['id']} — {task['practice_area']}\n{task.get('context','')}\n{task['instruction']}"}]
+    )
+    return {"task_id": task["id"], "model": model, "response": r.content[0].text,
+            "tokens": r.usage.input_tokens + r.usage.output_tokens}
+
+def evaluate_with_rubric(result: dict, rubric: list[str]) -> float:
+    r = client.messages.create(
+        model="claude-sonnet-5-20261001", max_tokens=512,
+        system="Evalúa agente legal. JSON: {scores: [0|1,...], total: int}",
+        messages=[{"role": "user",
+                   "content": f"Output: {result['response'][:4000]}\n\nCriterios: {json.dumps(rubric)}"}]
+    )
+    data = json.loads(r.content[0].text)
+    return data["total"] / len(rubric)
+
+task = {
+    "id": "LAB-CONTRACT-042", "practice_area": "Contract Law",
+    "instruction": "Review this NDA and identify the 5 highest-risk clauses for a startup target",
+    "context": "Target is a Series A startup; acquirer is Fortune 500",
+    "rubric_criteria": [
+        "Identifies IP assignment clause as high risk",
+        "Flags non-compete scope and duration",
+        "Notes absence of survival clause for confidentiality",
+        "Highlights data processing obligations under GDPR",
+        "Identifies indemnification asymmetry"
+    ]
+}
+result = run_lab_task(task)
+score = evaluate_with_rubric(result, task["rubric_criteria"])
+print(f"Puntuación LAB: {score:.2%} — {result['model']}")
+```
+
+**Tiempo estimado**: 1 semana (setup + 50-100 tareas por modelo)

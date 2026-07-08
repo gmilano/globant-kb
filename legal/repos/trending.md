@@ -1,33 +1,19 @@
-# Repos trending — Legal AI
+# Repos trending — Legal Services
 
-> GitHub trending para legal AI. Última actualización: 2026-07-07
-
-## Repos calientes esta semana
+> GitHub trending esta semana. Última actualización: 2026-07-08 (v3)
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | MCP server: 17 tools wrapeando 41 APIs del gobierno coreano. Statute, case law, ordinances con hallucination verification. TypeScript. | ~2.2k |
-| [claude-fuer-deutsches-recht](https://github.com/Klotzkette/claude-fuer-deutsches-recht) | MIT | Skill collection para derecho alemán: laboral, corporativo, insolvencia, data protection. Python. Momentum por EU AI Act. | ~1.3k |
-| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 specialist agents, debate multi-agente, human gates, 10-pass verification. TypeScript. | ~268 |
-| [claude-for-legal-ZH](https://github.com/CSlawyer1985/claude-for-legal-ZH) | MIT | Chinese law adaptation: agents, skills y MCP connectors para derecho chino. | ~536 |
-| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Curated list: plataformas, AI models, MCP servers, companies, datasets para el ecosistema legal global. | ~400 |
-| [EU-Compliance-MCP](https://github.com/Ansvar-Systems/EU_compliance_MCP) | MIT | 61 regulaciones EU (GDPR, AI Act, DORA, NIS2) con 4,095 artículos y comparación cross-regulation. | ~80 |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Document intelligence platform con MCP server, vector search, annotation y AI agents. Self-hostable. | ~400 |
-| [dd-agents](https://github.com/zoharbabin/due-diligence-agents) | Apache-2.0 | M&A due diligence: 13 AI agents, pipeline de 38 pasos para análisis completo de transacciones. | ~120 |
-| [lawyer-llama](https://github.com/AndrewZhe/lawyer-llama) | MIT | LLaMA-13B para tareas legales chinas. De Universidad de Fudan. NLP legal adaptado. | ~994 |
-| [CSHaitao/Awesome-LegalAI-Resources](https://github.com/CSHaitao/Awesome-LegalAI-Resources) | MIT | Colección de datos, herramientas y recursos para Legal AI e intelligent justice systems. | ~500 |
-
----
-
-## Repos de nicho con momentum
-
-| Nombre | Notas |
-|--------|-------|
-| [direito-familiar-imobiliario](https://github.com/maiconfuhr/direito-familiar-imobiliario) | MIT, Brasil civil law, actualizado mayo 2026 — relevante para LATAM |
-| [pasal](https://github.com/ilhamfp/pasal) | MIT, 40k+ regulaciones Indonesia via MCP + REST + web — modelo replicable para LATAM |
-| [contract-review-agent](https://github.com/kipeum86/contract-review-agent) | MIT, local-first, clause-level analysis con tracked-change DOCX redlines |
-| [ContextGem](https://github.com/shcherbak-ai/contextgem) | Apache-2.0, LLM extraction con schemas declarativos, momentum en contract analytics |
-| [adeu](https://github.com/dealfluence/adeu) | MIT, MCP server para inyectar Track Changes en Word — gap crítico que faltaba |
+| [courtlistener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | Archivo judicial EE.UU.: 8M+ opiniones + PACER + citas; MCP connector para Claude lanzado mayo 2026 — principal catalizador de agentes legales actuales | 2.1k |
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 agentes especialistas, debate multi-evidencia, human gates, 10-pass loop; arquitectura de referencia trending en comunidad LegalTech | 267 |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Apache-2.0 | DMS agéntico open: anotación semántica, análisis colaborativo, API REST; en ascenso con integración Claude + MCP | 390 |
+| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada 2026: MCP servers legales (US/India/Canadá), plataformas, benchmarks, datasets globales | 185 |
+| [claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | MIT | Contract review CUAD + redlines .docx + memos negociación; 26+ herramientas compatibles | 355 |
+| [LegalAgentBench](https://github.com/CSHaitao/LegalAgentBench) | MIT | Benchmark agentes LLM chino: 17 corpus, 37 herramientas, 300 tareas multi-hop — paper ICLR 2025 | 420 |
+| [courtlistener-api-client](https://github.com/freelawproject/courtlistener-api-client) | Apache-2.0 | Python SDK oficial CourtListener: opiniones, dockets, jueces, citas; actualizado con MCP | 120 |
+| [legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) | MIT | Benchmark RAG legal: 6,858 query-answer sobre 79M chars de contratos — evalúa chunking y retrieval | 280 |
+| [uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | MCP server USPTO Final Petition Decisions; análisis de patentes con contexto reducido | 28 |
+| [Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI) | MIT | Análisis reforma tributaria Brasil 2026 (IBS/CBS) con IA + web; trending en LATAM por reforma fiscal activa | 8 |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

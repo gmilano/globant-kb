@@ -1,44 +1,43 @@
-# Trending esta semana — Legal AI
+# Repos trending — Legal AI
 
-> Última actualización: 2026-07-07
+> Novedades destacadas en GitHub. Última actualización: 2026-07-08 (v3)
 
-## Señales de calor esta semana
+## Nuevos y en ascenso (julio 2026)
 
-### 1. MCP servers legales — explosión jurisdiccional
-El ecosistema MCP para legal ha explotado en 2026. Solo en el último mes se publicaron servidores para Korean law (2.2k estrellas en pocas semanas), German law, Turkish law, Australian law, Indonesian law, French law y Brazilian civil law. Patrón: cada jurisdicción está construyendo su "legal API layer" para LLMs. Esto crea una oportunidad de integración: wrappers regionales sobre Claude/GPT que sirven como abogados locales virtuales.
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 agentes especialistas, debate multi-evidencia, human gates obligatorios, 10-pass verification loop; arquitectura de referencia para firmas de abogados IA | 267 |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Apache-2.0 | DMS agéntico para inteligencia documental: anotación semántica, análisis colaborativo, exportación JSON/CSV; en ascenso tras integración con Claude MCP | 390 |
+| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada 2026: plataformas, MCP servers (US/India/Canadá), benchmarks y datasets globales para el ecosistema legal — mayor repositorio de recursos LegalTech open source | 185 |
+| [courtlistener-api-client](https://github.com/freelawproject/courtlistener-api-client) | Apache-2.0 | Python SDK oficial para CourtListener: acceso a millones de opiniones judiciales, dockets, jueces, citas; actualizado mayo 2026 con soporte MCP nativo | 120 |
+| [claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | MIT | Contract review + CUAD risk detection + redlines .docx + memos de negociación; funciona con Claude Code, Cursor, Codex y 26+ herramientas | 355 |
+| [LegalAgentBench](https://github.com/CSHaitao/LegalAgentBench) | MIT | Benchmark LLM multi-hop para dominio legal chino: 17 corpus, 37 herramientas, 300 tareas; paper de referencia ICLR 2025 | 420 |
+| [uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | MCP server de alta performance para USPTO Final Petition Decisions; análisis de patentes con reducción de contexto y campos personalizables | 28 |
+| [nl-rag-qdrant-legal](https://github.com/kjgdgch65g/nl-rag-qdrant-legal) | MIT | RAG para Q&A sobre documentos legales usando Qdrant como vector store; demo con NDAs y contratos comerciales | 6 |
+| [Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI) | MIT | Análisis de la Reforma Tributaria brasileña 2026 (IBS, CBS) con IA + datos web en tiempo real; relevante para clientes LATAM post-reforma | 8 |
+| [uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | Apache-2.0 | UK Legal AI Agents 2026: automatización de compliance, contratos y litigios bajo derecho inglés | 12 |
 
-**Repos calientes:**
-- [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) — 2.2k estrellas, 17 tools, 41 APIs gubernamentales
-- [claude-fuer-deutsches-recht](https://github.com/Klotzkette/claude-fuer-deutsches-recht) — 1.3k estrellas, derecho laboral/corporativo/insolvencia alemán
-- [direito-familiar-imobiliario](https://github.com/maiconfuhr/direito-familiar-imobiliario) — MIT, Brasil, actualizado mayo 2026
+---
 
-### 2. EU AI Act compliance tooling — deadline agosto 2026
-Las obligaciones core del EU AI Act entran en vigencia en agosto 2026. Esto ha desatado una ola de herramientas de compliance:
-- [EU-Compliance-MCP](https://github.com/Ansvar-Systems/EU_compliance_MCP) — 61 regulaciones EU, 4,095 artículos, cross-regulation comparison
-- Credo AI — plataforma de AI governance con EU AI Act policy packs
-- Herramientas de auditoría automática de sistemas de AI de alto riesgo
+## Hitos de la semana en Legal AI
 
-### 3. lavern — el "agentic law firm" framework
-[lavern](https://github.com/AnttiHero/lavern) sigue ganando tracción: 67 agentes especializados que simulan una firma legal completa, con debate multi-agente, mandatory human gates y 10-pass verification. Apache 2.0. Creciendo semana a semana como referencia de cómo estructurar AI legal workflows.
+### CourtListener → Claude MCP (12 mayo 2026)
+Free Law Project lanzó el conector MCP oficial: Claude y otros agentes AI tienen ahora acceso nativo a 8M+ opiniones judiciales, datos PACER, análisis de citas y transcripciones de argumentos orales.  
+Fuente: [free.law/2026/05/12/courtlistener-is-now-available-inside-claude](https://free.law/2026/05/12/courtlistener-is-now-available-inside-claude/)
 
-### 4. Vaquill AI — awesome-legaltech curation + MCP
-[Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) se convirtió en el repositorio de referencia para el ecosistema. 80+ tools catalogadas: plataformas, MCP servers, LLMs, datasets, frameworks. Se usa como punto de entrada para cualquier proyecto legaltech.
+### Harvey LAB Benchmark (mayo 2026)
+Primer benchmark open-source de largo horizonte para agentes legales: 1,200+ tareas, 24 áreas de práctica, avalado por OpenAI/Anthropic/Mistral/NVIDIA.  
+Fuente: [harvey.ai/blog/legal-agent-benchmark-initial-results](https://www.harvey.ai/blog/legal-agent-benchmark-initial-results)
 
-### 5. dd-agents — M&A due diligence como producto
-[zoharbabin/due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) — 13 AI agents en pipeline de 38 pasos para M&A. Ganando atención de firmas de private equity y M&A boutiques como alternativa open source a Harvey y Kira.
+### Enter (Brasil) — Primer unicornio legal-AI de LATAM (mayo 2026)
+$100M ronda Founders Fund + Sequoia; plataforma de agentes IA para litigios masivos de consumo y laboral; referencia para escalar soluciones legales en LATAM.  
+Fuente: [getenter.ai](https://www.getenter.ai/en)
 
-### 6. SaulLM avanzando — LLM legal fundacional
-SaulLM-7B (MIT) y sus variantes 54B/141B son ahora la base para fine-tuning legal en inglés. Pre-entrenado en 30B+ tokens legales, supera a Llama-base en tareas legales. Se usa como base para fine-tuning con datos propios de firmas.
+### LexisNexis Protégé Work (mayo 2026)
+Capa agéntica sobre Protégé: planning multi-step, ejecución autónoma sobre habilidades legales, Shepard's Verify para validar citas en tiempo real.
 
-## Comparativa de agentes trending
-
-| Nombre | Semana pasada | Esta semana | Delta | Por qué |
-|--------|--------------|-------------|-------|----------|
-| [lavern](https://github.com/AnttiHero/lavern) | ~250 | ~268 | +7% | GitHub front page feature |
-| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | ~1.8k | ~2.2k | +22% | Post en r/MachineLearning viral |
-| [claude-fuer-deutsches-recht](https://github.com/Klotzkette/claude-fuer-deutsches-recht) | ~900 | ~1.3k | +44% | EU AI Act news cycle |
-| [EU-Compliance-MCP](https://github.com/Ansvar-Systems/EU_compliance_MCP) | ~40 | ~80 | +100% | Empresas buscando compliance antes de agosto 2026 |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | ~360 | ~400 | +11% | MCP server announcement |
+### EU AI Act — Deadline 2 agosto 2026
+Aplicación completa para sistemas de alto riesgo (Anexo III incluye aplicaciones legales). Penalidad: hasta €35M o 7% de ingresos globales.
 
 ---
 *Pipeline automático — se actualiza cada hora.*
