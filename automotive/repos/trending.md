@@ -1,35 +1,62 @@
-# GitHub Trending — Automotive AI (2026-07-07)
+# Repos trending — Automotive AI
 
-> Repos gaining momentum this week. Signals of what builders are excited about.
+> Lo que está ganando estrellas y atención en julio 2026.
+> Última actualización: 2026-07-08
 
-## High-Velocity Repos
+## Trending por categoría
 
-| Repo | License | Stars | Velocity | Why It's Trending |
-|------|---------|-------|----------|-------------------|
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | ↑ active | Core Autoware component gaining forks after Mobileye integration announcement; new ROS 2 Humble releases |
-| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | 11.8k | ↑ +200/wk | Updated June 25 2026; SDV wave driving evaluations by OEMs |
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~52k | ↑ steady | NVIDIA Alpamayo announcement triggering community discussion on next-gen ADAS |
-| [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | ~26k | ↑ active | Updated April 2026; new routing + prediction module commits |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | ↑ new | Framework for testing autonomous agents in CARLA — agentic sim-testing pattern gaining attention |
-| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | — | new | ↑ rising | Cloud-edge multi-agent system for smart cockpits; LLM planning + vehicle control + HMI streaming |
-| [zubairm8580/InterFuser-UI](https://github.com/zubairm8580/InterFuser-UI) | Apache-2.0 | 1 | ↑ new | Real-time CARLA driving visualization with Pygame — useful for AD research dashboards |
-| [vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture](https://github.com/vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture) | — | new | ↑ interest | Deep-dive into BYD's SDV + AI-DV strategy; referenced in automotive AI circles |
-| [Eloquent-Algorithmics/Automotive-AI](https://github.com/Eloquent-Algorithmics/Automotive-AI) | Apache-2.0 | growing | ↑ new | Hands-free AI for mobile automotive diagnostic businesses; integrates APIs for 2-way interaction while driving |
-| [Divyeshpratap/A.I.-AutoInspector](https://github.com/Divyeshpratap/A.I.-AutoInspector) | MIT | ~180 | ↑ stable | CV + Gen AI damage assessment; consistently cited in automotive insurance AI discussions |
+### Conducción Autónoma — LLM/VLM
 
-## Emerging Signals
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [openpilot](https://github.com/commaai/openpilot) | MIT | 60.8k | OS robótico para ADAS — 325+ modelos soportados. 100M+ millas. Activo jul 2026. |
+| [apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | 26.7k | Plataforma AV Baidu. Apollo 11.0 (jun 2026): menor threshold hardware. |
+| [Awesome-LLM4AD](https://github.com/Thinklab-SJTU/Awesome-LLM4AD) | MIT | 2.1k | Lista curada LLM para AV. +50 repos nuevos en 2026. Referencia investigación. |
+| [DriveLM](https://github.com/OpenDriveLab/DriveLM) | Apache-2.0 | 1.8k | Graph VQA para driving. Nueva tracción por integración en CARLA 2026. |
+| [autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | Core activo Autoware. Actualizaciones semanales en 2026. |
+| [DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache-2.0 | 850 | LLM multimodal para AV close-loop. Crecimiento sostenido post-ECCV. |
 
-### Signal 1: Smart Cockpit Agents (2026 breakout theme)
-The `cockpit-agent` pattern — cloud-edge multi-agent with LLM planning + in-vehicle control execution — is being replicated by multiple teams in China (BYD, SAIC) and Europe (Bosch, Continental). Expect this to become a standard architecture pattern by Q4 2026.
+### Simulación
 
-### Signal 2: CARLA-as-Agent-Testbed
-Repos pairing CARLA with LangGraph or CrewAI for agentic scenario testing (PCLA, carla-agent-benchmark forks) are multiplying. The pattern: LLM agent drives scenario design → CARLA executes → vision model evaluates outcomes.
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [carla](https://github.com/carla-simulator/carla) | MIT | 14.1k | Simulador AV estándar industria. CARLA 0.10 con nuevos assets urbanos 2026. |
+| [InterFuser-UI](https://github.com/zubairm8580/InterFuser-UI) | Apache-2.0 | 1 | UI Pygame para InterFuser en CARLA — cámaras, LiDAR, velocidad, control en tiempo real. Proyecto educativo. |
+| [PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | Testing de agentes en CARLA. CI/CD para AV: escenarios + métricas seguridad. |
 
-### Signal 3: CAN Bus × MCP Experiments
-Several labs are publishing experiments connecting Model Context Protocol (MCP) servers to vehicle OBD-II/CAN bus. The goal: expose vehicle telemetry as tool-calls so an LLM agent can reason about vehicle state in real language. Still early (< 100 stars each) but conceptually important.
+### Fleet Management y EV
 
-### Signal 4: Open-Source BEV Perception Models
-Bird's-eye-view (BEV) perception models (NuScenes-trained) are moving from research to repo. Multiple Apache/MIT releases enabling camera-only L2+ perception without expensive LiDAR — directly relevant to retrofitting AI onto commercial fleets.
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [traccar](https://github.com/traccar/traccar) | Apache-2.0 | 5.2k | GPS tracking — mayor release en 2025: API GraphQL + WebSocket streaming. |
+| [fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | 900 | OS de logística modular — creciendo post BYD LATAM expansion 2026. |
+| [ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | MIT | 20 | Simulación de rutas de carga óptima para EVs. Python. |
+
+### SDV / Cockpit Inteligente
+
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | ? | 1 | Multi-Agent system para cabina inteligente. Edge intent + cloud LLM planning + HMI streaming. |
+| [autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | N/A | Stack ADAS L2 E2E open source de Autoware Foundation. Anunciado abr 2026. |
+
+### MCP Servers (nuevos jul 2026)
+
+| Nombre | Descripción |
+|--------|-------------|
+| mcp-servers/traccar | Telemetría de flota GPS via MCP para agentes Claude |
+| NVIDIA DriveOS MCP | CAN bus + sensores vehiculares como herramientas MCP |
 
 ---
-*Auto-updated by the ingest pipeline.*
+
+## Señales a monitorear
+
+| Señal | Qué observar |
+|-------|--------------|
+| openpilot 0.10 | Soporte de nuevos modelos 2025/2026 + integración LLM cockpit |
+| Autoware 2.0 | Fecha de release del stack L4 completo con E2E AI |
+| Apollo 12.0 | Integración LLM en planning (rumoreado 2026) |
+| BYD SDV stack | Si BYD abre su plataforma SDV (actualmente propietaria) |
+| NVIDIA DRIVE OS 7.0 | Nuevas APIs para agentes agenticos in-vehicle |
+
+---
+*Pipeline automático — se actualiza cada hora.*

@@ -1,67 +1,50 @@
-# Foundational Repos — Automotive
+# Repos fundacionales — Automotive
 
-> The bedrock repositories to build on. Open license, active community, production-proven.
-> Last updated: 2026-07-07
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-08
 
-## Autonomous Driving & Simulation
+## Simulación y Testing
 
-| Repo | License | Stars | Description | Build-on potential |
-|------|---------|-------|-------------|-------------------|
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~52k | Operating system for robotics / ADAS. Runs on 300+ vehicle models. Production-grade lane keeping + adaptive cruise. Python core. | High — add LLM-powered scene narration, driver monitoring agents |
-| [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | ~26k | Baidu's L4 autonomous driving platform. Full perception → planning → control pipeline. Cyber RT middleware. | High — extend with LLM-based mission planning and edge cases |
-| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | ~11.8k | World's leading open-source AD stack, built on ROS 2. Production-deployed in 30+ vehicle types across 20 countries. | High — ROS 2 ecosystem; add AI planners via ROS nodes |
-| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | ~14.1k | Open-source autonomous driving simulator in Unreal Engine. Photorealistic environments, Python+C++ API, sensor suite. | High — primary training/validation platform; pair with openpilot or Autoware |
-| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | ~637 | ROS/ROS 2 bridge for CARLA. Connects simulation sensors (camera, LiDAR, radar) to ROS 2 nodes. | Medium — glue layer for CARLA + Autoware integration |
-| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | ~534 | Modular AD platform running on CARLA and real-world vehicles. Separates perception, prediction, planning, control into composable components. | High — good reference architecture for modular AI agent composition |
+| Repo | Licencia | Stars | Descripción | Base para AI? |
+|------|----------|-------|-------------|---------------|
+| [carla](https://github.com/carla-simulator/carla) | MIT | 14.1k | Simulador fotorrealista AV en Unreal Engine. RGB/LiDAR/Radar/IMU. Python/C++ API. Integra ROS, Autoware, Apollo. | Sí — el estándar |
+| [ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | 637 | Bridge ROS para CARLA. Conecta CARLA a ROS stack (Autoware, CARMA, etc.). | Sí |
+| [gym-carla](https://github.com/cjy1992/gym-carla) | MIT | 620 | OpenAI Gym wrapper para CARLA. Entrenamiento de agentes RL en simulador. | Sí — RL training |
+| [PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | Framework de testing de agentes en CARLA. Escenarios parametrizables + métricas seguridad. | Sí — CI/CD para AV |
+| [pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | 534 | Plataforma modular AV sobre CARLA + real. Percepción/predicción/planning modulares. | Sí |
 
-## Fleet Management & Telematics
+## Stacks de Conducción Autónoma
 
-| Repo | License | Stars | Description | Build-on potential |
-|------|---------|-------|-------------|-------------------|
-| [traccar/traccar](https://github.com/traccar/traccar) | Apache-2.0 | ~5.2k | Real-time GPS tracking server. 200+ protocols, 2000+ device models, REST API, geofencing, trip reporting. Java backend. | High — add ML anomaly detection, route optimization AI, predictive alerts |
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | ~1.1k | Modular logistics + fleet OS. Fleet management, route optimization, warehouse ops, e-commerce delivery. Laravel + Vue.js. | High — add AI dispatching agents, ETA prediction, cost forecasting |
+| Repo | Licencia | Stars | Descripción | Base para AI? |
+|------|----------|-------|-------------|---------------|
+| [openpilot](https://github.com/commaai/openpilot) | MIT | 60.8k | OS de robótica automotriz. ADAS L2+ en 325+ autos. Python. Probado con 100M+ millas reales. | Sí — más maduro |
+| [autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | 10k+ | Stack AV más adoptado por industria. ROS 2 nativo. 100+ empresas. Modular: perception/planning/control/localization. | Sí — industria |
+| [autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | Core activo de Autoware. Planning, perception, control. El repo principal. | Sí |
+| [apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | 26.7k | Plataforma AV de Baidu. Apollo 11.0 (2026). C++. Perception/localization/planning/control completo. | Sí — más completo |
+| [carma-platform](https://github.com/usdot-fhwa-stol/carma-platform) | Apache-2.0 | 312 | USDOT Cooperative Driving Automation. SAE L2, ROS2. V2X. Plugin API. | Sí — V2X focus |
 
-## Computer Vision & Inspection
+## Datasets y Benchmarks
 
-| Repo | License | Stars | Description | Build-on potential |
-|------|---------|-------|-------------|-------------------|
-| [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics) | AGPL-3.0 | ~45k | YOLOv8/v11 — fastest production-grade object detection. Runs on edge (Jetson, RPi). | High — power automotive visual inspection; detects defects, pedestrians, road signs |
-| [Divyeshpratap/A.I.-AutoInspector](https://github.com/Divyeshpratap/A.I.-AutoInspector) | MIT | ~180 | Vehicle damage assessment via CV + Gen AI chatbot. YOLO-based defect localization + GPT-powered Q&A on damage reports. | High — extend with multi-car batch processing, insurance API integration |
+| Repo | Licencia | Descripción | Uso |
+|------|----------|-------------|-----|
+| [nuscenes-devkit](https://github.com/nutonomy/nuscenes-devkit) | Apache-2.0 | SDK para nuScenes dataset: 1000 escenas, 1.4M anotaciones 3D, Boston+Singapur. | Evaluación percepción |
+| [waymo-open-dataset](https://github.com/waymo-research/waymo-open-dataset) | Apache-2.0 | 1000+ segmentos LiDAR + cámara, 12M+ objetos 3D anotados. Estado del arte. | Benchmark percepción |
+| [Awesome-LLM4AD](https://github.com/Thinklab-SJTU/Awesome-LLM4AD) | MIT | Lista curada LLM/VLM/VLA/World Models para AV. Actualización continua SJTU. | Research reference |
+| [DriveLM](https://github.com/OpenDriveLab/DriveLM) | Apache-2.0 | Dataset VQA + baseline VLM end-to-end para AV. ECCV 2024 Oral. | LLM driving eval |
 
-## EV & Energy Infrastructure
+## Fleet Management y Telemática
 
-| Repo | License | Stars | Description | Build-on potential |
-|------|---------|-------|-------------|-------------------|
-| [TUMFTM/REVOL-E-TION](https://github.com/TUMFTM/REVOL-E-TION) | Apache-2.0 | ~16 | Site-level energy system optimization for EV fleet charging. Investigates charging strategies and grid impact. Python. | High — add RL-based smart charging agent; connect to real grid API |
-| [philippnormann/ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | MIT | ~20 | RL simulation for finding shortest charging routes for EVs. Gym-compatible environment. | Medium — baseline for routing agent development |
+| Repo | Licencia | Stars | Descripción | Base para AI? |
+|------|----------|-------|-------------|---------------|
+| [traccar](https://github.com/traccar/traccar) | Apache-2.0 | 5.2k | GPS tracking: 200+ protocolos, 2000+ dispositivos. Java backend. Dashboard web + API REST. | Sí — telemetría base |
+| [fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | 900 | OS modular de logística + supply chain. Fleet, fulfillment, warehouse. No per-driver fees. REST API. | Sí — plataforma base |
 
-## Manufacturing & Robotics
+## AI / LLM Infra para Automotive
 
-| Repo | License | Stars | Description | Build-on potential |
-|------|---------|-------|-------------|-------------------|
-| [microsoft/agentic-factory-hack](https://github.com/microsoft/agentic-factory-hack) | MIT | ~60 | Multi-agent predictive maintenance orchestration with LangGraph + Azure AI. Reference architecture for factory AI agents. | High — adapt to automotive body-shop or press-shop equipment monitoring |
-
-## Dependency Map (Quick-Start Stack)
-
-```
-Autonomous Driving Stack
-├── carla-simulator/carla          ← simulation environment
-│   └── carla-simulator/ros-bridge ← ROS 2 bridge
-├── autowarefoundation/autoware    ← full AD software stack
-│   └── erdos-project/pylot        ← modular perception/planning research
-└── commaai/openpilot              ← consumer ADAS (MIT, deployable today)
-
-Fleet Ops Stack
-├── traccar/traccar                ← GPS backbone
-│   └── [LangGraph agent layer]   ← add AI anomaly detection here
-└── fleetbase/fleetbase            ← logistics OS
-    └── [route optimization AI]   ← add ML dispatch agents here
-
-Visual Inspection Stack
-├── ultralytics/ultralytics        ← YOLO object detection
-├── A.I.-AutoInspector             ← end-to-end damage assessment demo
-└── [agentic-factory-hack pattern] ← multi-agent orchestration for inspection lines
-```
+| Repo | Licencia | Stars | Descripción |
+|------|----------|-------|-------------|
+| [TensorRT](https://github.com/NVIDIA/TensorRT) | Apache-2.0 | 10.5k | SDK de inferencia NVIDIA. TensorRT Edge-LLM para automotive embedded. Bosch+MediaTek usan esto. |
+| [DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache-2.0 | 850 | Framework multimodal LLM para AV close-loop. Behavior planning + sensor input. OpenGVLab. |
 
 ---
-*See also: `verticals/solutions.md` for full vertical platforms.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*

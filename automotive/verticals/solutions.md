@@ -1,122 +1,138 @@
-# Vertical Solutions — Automotive
+# Verticales de partida — Automotive
 
-> Full vertical platforms — real systems to fork and add an AI layer on top.
-> Model: start from something functional, add an agentic layer above it.
-> Last updated: 2026-07-07
+> Plataformas verticales existentes customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica arriba.
+> Última actualización: 2026-07-08
 
-## Recommended Platforms
+## Fleet Management y Telemática
 
-| Platform | License | Repo / URL | Stack | Use Case |
-|----------|---------|------------|-------|----------|
-| [Traccar](https://github.com/traccar/traccar) | Apache-2.0 | github.com/traccar/traccar | Java + React | Real-time GPS fleet tracking; add AI anomaly detection + predictive alerts |
-| [Fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | github.com/fleetbase/fleetbase | Laravel + Vue.js | Full logistics OS: fleet, warehouse, delivery; add AI dispatching agents |
-| [Odoo Fleet](https://github.com/odoo/odoo) | LGPL-3.0 | github.com/odoo/odoo | Python + PostgreSQL | ERP-integrated fleet: contracts, fuel, maintenance; add AI cost forecasting |
-| [Autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | github.com/autowarefoundation/autoware | C++ + ROS 2 | Full autonomous driving stack for L4; add LLM mission planners |
-| [openpilot](https://github.com/commaai/openpilot) | MIT | github.com/commaai/openpilot | Python + C++ | ADAS OS for consumer vehicles; extend with LLM co-pilot features |
-| [CARLA Simulator](https://github.com/carla-simulator/carla) | MIT | github.com/carla-simulator/carla | C++ + Python | Autonomous driving sim; build AI agent training/eval pipelines on top |
-| [OpenGTS](http://www.opengts.org) | Apache-2.0 | sourceforge.net/projects/opengts | Java | Web-based GPS fleet tracking; mature, enterprise-proven; add ML alerts |
-| [DMS via Frappe](https://github.com/frappe/frappe) | MIT | github.com/frappe/frappe | Python + MariaDB | Frappe framework used as base for open-source DMS; add AI inventory + CRM agents |
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| **Traccar** | Apache-2.0 | [github.com/traccar/traccar](https://github.com/traccar/traccar) | Java + MySQL/PostgreSQL + Web UI | GPS tracking de flota: 2000+ dispositivos, 200+ protocolos. REST API + WebSocket. |
+| **Fleetbase** | AGPL-3.0 | [github.com/fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | PHP/Laravel + Vue.js + PostgreSQL | OS modular de logística: fleet, fulfillment, warehouse. No per-driver fee. |
+| **OpenGTS** | Apache-2.0 | [opengts.org](http://www.opengts.org) | Java + MySQL + Tomcat | Fleet tracking web clásico. Maduro, estable. Base para tracking legacy. |
+| **Fleetdm** | MIT | [github.com/fleetdm/fleet](https://github.com/fleetdm/fleet) | Go + MySQL + React | MDM open source para computadoras en flotas. Parches + vuln management. |
+
+## ERP / DMS (Dealer Management System)
+
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| **Odoo** | LGPL-3.0 | [github.com/odoo/odoo](https://github.com/odoo/odoo) | Python + PostgreSQL + JS | Módulos: Ventas, CRM, Inventario, Taller, Compras. Ideal DMS con AI layer. |
+| **ERPNext** | GPL-3.0 | [github.com/frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe + MariaDB + Vue | Módulo Service Management para talleres. LATAM popular (Spanish UI). |
+| **Apache OFBiz** | Apache-2.0 | [github.com/apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java + Derby/PostgreSQL | ERP maduro con módulos CRM, inventory, manufactura. Customizable. |
+| **Flectra** | LGPL | [flectrahq.com](https://flectrahq.com/industry/open-source-solution-for-automotive-industry-107) | Python/Odoo fork | Fork Odoo con vertical automotriz preconfigurado. Taller, ventas, CRM. |
+
+## Diagnóstico y OBD
+
+| Plataforma | Licencia | URL | Descripción |
+|------------|----------|-----|-------------|
+| **pyobd** | GPL-2.0 | [github.com/barracuda-fsh/pyobd](https://github.com/barracuda-fsh/pyobd) | Python library para leer datos OBD-II desde ECU. Diagnóstico vehicular. |
+| **python-OBD** | GPL-3.0 | [github.com/brendan-w/python-OBD](https://github.com/brendan-w/python-OBD) | Async OBD-II + ELM327. DTCs, sensores en tiempo real. Base para AI predictive maintenance. |
+| **freediag** | GPL-2.0 | [github.com/fenugrec/freediag](https://github.com/fenugrec/freediag) | Herramienta de diagnóstico vehicular multi-protocolo. C. Linux/macOS/Windows. |
+
+## Simulación AV (para testing)
+
+| Plataforma | Licencia | URL | Descripción |
+|------------|----------|-----|-------------|
+| **CARLA** | MIT | [github.com/carla-simulator/carla](https://github.com/carla-simulator/carla) | Simulador AV fotorrealista. Unreal Engine. 14.1k★. |
+| **LGSVL/SVL** | Apache-2.0 | [github.com/lgsvl/simulator](https://github.com/lgsvl/simulator) | Simulador AV de LG Electronics. Unity. Integra ROS/Autoware. |
+| **AirSim** | MIT | [github.com/microsoft/AirSim](https://github.com/microsoft/AirSim) | Simulador Microsoft para drones y vehículos. Unreal/Unity. |
+
+## EV y Carga
+
+| Plataforma | Licencia | URL | Descripción |
+|------------|----------|-----|-------------|
+| **OCPP** (Open Charge Point Protocol) | Apache-2.0 | [github.com/nickvdyck/OCPP.Net](https://github.com/nickvdyck/OCPP.Net) | Protocolo abierto estándar para EV charging stations. Base para redes de carga. |
+| **OpenEVSE** | MIT | [github.com/OpenEVSE/ESP32_WiFi_V4.x](https://github.com/OpenEVSE/ESP32_WiFi_V4.x) | Controlador EVSE (Electric Vehicle Supply Equipment) open source. ESP32. |
+| **RISE-V2G** | MIT | [github.com/SwitchEV/RISE-V2G](https://github.com/SwitchEV/RISE-V2G) | Implementación V2G (Vehicle-to-Grid) ISO 15118. Bidirectional charging. |
 
 ---
 
-## Platform Deep Dives
+## Cómo customizar con AI
 
-### 1. Traccar — AI-Enhanced Fleet Tracking
+### Estrategia 1: Traccar + Claude MCP para Fleet Intelligence
+```python
+# traccar_mcp.py — MCP server sobre API Traccar
+from mcp.server import FastMCP
+import httpx
 
-**What it does:** GPS tracking for vehicle fleets. Supports 200+ GPS protocols, 2000+ device models. Geofencing, trip reporting, driver behavior scoring, maintenance reminders.
+mcp = FastMCP("traccar-fleet")
+TRACCAR_URL = "http://localhost:8082/api"
 
-**AI integration points:**
+@mcp.tool()
+async def get_fleet_positions() -> dict:
+    """Obtiene posiciones actuales de toda la flota."""
+    async with httpx.AsyncClient() as client:
+        r = await client.get(f"{TRACCAR_URL}/positions",
+                           auth=("admin", "admin"))
+        return r.json()
+
+@mcp.tool()
+async def get_device_events(device_id: int, days: int = 7) -> list:
+    """Historial de eventos de un vehículo."""
+    async with httpx.AsyncClient() as client:
+        r = await client.get(
+            f"{TRACCAR_URL}/events",
+            params={"deviceId": device_id, "type": "alarm"},
+            auth=("admin", "admin")
+        )
+        return r.json()
 ```
-Traccar REST API
-    ↓
-LangGraph agent (polling vehicle telemetry every 30s)
-    ↓
-Anomaly detection model (abnormal speed, fuel consumption, route deviation)
-    ↓
-Alert → Slack / email / dashboard
+
+### Estrategia 2: Odoo DMS + AI para Taller Automotriz
+```python
+# odoo_workshop_agent.py — AI agent sobre Odoo taller
+import xmlrpc.client
+from anthropic import Anthropic
+
+ODOO_URL = "http://localhost:8069"
+client = Anthropic()
+
+def get_service_orders(uid, models, password):
+    """Obtiene órdenes de servicio abiertas de Odoo."""
+    return models.execute_kw(
+        'mydb', uid, password,
+        'repair.order', 'search_read',
+        [[['state', '=', 'confirmed']]],
+        {'fields': ['name', 'vehicle_id', 'partner_id', 'operations']}
+    )
+
+def ai_diagnostic_assistant(vehicle_symptoms: str) -> str:
+    """Asistente de diagnóstico con Claude."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": f"Síntomas vehiculares: {vehicle_symptoms}\n\nSugiere diagnóstico diferencial y próximos pasos."
+        }]
+    )
+    return response.content[0].text
 ```
 
-**What to add:**
-- Predictive maintenance: vibration + temp anomalies → predict breakdown 48-72h ahead
-- Route optimization: LLM agent re-routes dynamically based on traffic + fuel cost
-- Driver coaching: NLP analysis of trip patterns → personalized driving tips
-- Carbon reporting: auto-generate Scope 3 emissions reports from trip data
+### Estrategia 3: python-OBD + LLM para Predictive Maintenance
+```python
+# obd_agent.py — Lee OBD-II y consulta LLM para mantenimiento predictivo
+import obd
+from anthropic import Anthropic
 
-**LATAM angle:** Large logistics operators (Mercado Libre, DHL LATAM, Rappi) run fleets of 10k+ vehicles. AI on top of Traccar = real differentiation vs. generic fleet SaaS.
+client = Anthropic()
 
----
+def read_vehicle_diagnostics():
+    """Lee DTCs y sensores del vehículo via OBD-II."""
+    connection = obd.OBD()
+    dtcs = connection.query(obd.commands.GET_DTC).value
+    rpm = connection.query(obd.commands.RPM).value.magnitude
+    coolant_temp = connection.query(obd.commands.COOLANT_TEMP).value.magnitude
+    return {"dtcs": dtcs, "rpm": rpm, "coolant_temp": coolant_temp}
 
-### 2. Fleetbase — AI Logistics OS
-
-**What it does:** Modular LSOS (Logistics + Supply Chain OS). Fleet management, driver apps, route optimization, warehouse management, e-commerce delivery fulfillment, developer API. Multi-tenant, self-hosted or cloud.
-
-**AI integration points:**
+def predictive_maintenance_agent(diagnostics: dict) -> str:
+    """Analiza diagnósticos y recomienda mantenimiento."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        system="Eres un mecánico experto. Analiza datos de diagnóstico OBD-II y recomienda acciones de mantenimiento preventivo y correctivo.",
+        messages=[{"role": "user", "content": str(diagnostics)}]
+    )
+    return response.content[0].text
 ```
-Fleetbase Webhooks / REST API
-    ↓
-LangGraph multi-agent orchestrator
-    ├── Dispatch agent (optimal driver assignment)
-    ├── ETA prediction agent (ML model on historical trip data)
-    ├── Cost optimization agent (fuel + toll + driver time)
-    └── Exception handler (weather, traffic, vehicle breakdown)
-```
-
-**What to add:**
-- Real-time dispatch: LLM agent considers driver skills, vehicle load, traffic → optimal assignment
-- Customer comms: auto-send ETA updates and delay alerts via WhatsApp (common in LATAM)
-- Fleet health scoring: aggregate all vehicle telemetry → health score → proactive maintenance
-
----
-
-### 3. Autoware — Open AD Stack for Commercial Fleets
-
-**What it does:** Production-ready autonomous driving software stack on ROS 2. Used in automated shuttle buses, last-mile delivery robots, airport tugs. Commercial-grade SLAM, object detection, path planning.
-
-**AI integration points:**
-```
-Autoware Core
-    ├── Perception (object detection, lane detection) → add foundation model fine-tuning
-    ├── Prediction (agent behavior forecasting) → add LLM-based scenario reasoning
-    └── Planning (route + trajectory) → add LLM mission planner for edge cases
-```
-
-**Best fit for Globant engagements:** Smart city pilots (closed-campus autonomous shuttles), port/mine/airport logistics autonomy projects.
-
----
-
-### 4. Odoo Fleet + AI
-
-**What it does:** Fleet module within Odoo ERP. Vehicle registry, contract management, fuel tracking, maintenance scheduling, cost analysis. Integrates with HR, accounting, procurement.
-
-**AI integration points:**
-- Predictive maintenance scheduler: ML model on maintenance history → predict next service date
-- AI-assisted procurement: agent suggests tire/part orders based on fleet usage patterns
-- Cost forecasting: LLM generates fleet cost forecasts for finance teams
-- Compliance agent: auto-generate regulatory compliance reports (LATAM varies by country)
-
----
-
-## Selection Guide
-
-| Scenario | Recommended Platform | AI Layer |
-|----------|---------------------|----------|
-| Fleet of 50-500 vehicles, SMB | Traccar + LangGraph | Anomaly + maintenance alerts |
-| Enterprise logistics / delivery | Fleetbase + CrewAI | Multi-agent dispatch + ETA |
-| ERP-first client | Odoo Fleet | Predictive maintenance + cost AI |
-| Autonomous shuttle/delivery pilot | Autoware + ROS 2 | LLM mission planner |
-| Vehicle inspection at scale | A.I.-AutoInspector + YOLO | CV damage + LLM report |
-| Consumer ADAS upgrade | openpilot fork | LLM scene narrator + co-pilot |
-
----
-
-## How to Add AI to Any Platform
-
-1. **Fork the base repo** — keep a clean upstream remote for security patches
-2. **Expose a data API** — most platforms have REST hooks; capture telemetry events
-3. **Add an agent orchestration layer** — LangGraph or CrewAI wrapping the platform's API
-4. **Wire in LLM inference** — Anthropic Claude API or local Ollama (for data-sensitive clients)
-5. **Add a conversational UI** — React chat panel or WhatsApp webhook for LATAM markets
-6. **Instrument with Langfuse** — trace agent calls, costs, and quality for ongoing improvement
-
----
-*Auto-updated by the ingest pipeline.*

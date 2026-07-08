@@ -1,52 +1,61 @@
-# Trending — Automotive AI (Week of 2026-07-07)
+# Trending esta semana — Automotive AI
 
-> What's new, breaking, and gaining momentum in automotive AI this week.
+> Señales de lo que está ganando tracción en julio 2026.
+> Última actualización: 2026-07-08
 
-## Breaking Signals
+## Señales principales
 
-### 1. NVIDIA Alpamayo — 10B-param L4 Autonomy Model
-NVIDIA unveiled Alpamayo, a 10-billion-parameter model designed specifically for Level 4 autonomy at scale. Early users include Jaguar Land Rover, Lucid, and Uber. Uber reiterated 2026 robotaxi deployment plans using Alpamayo as the inference backbone. This is the clearest sign yet that LLM-scale thinking is entering the autonomous driving stack.
+### 1. NVIDIA TensorRT Edge-LLM para vehículos (CES 2026)
+Bosch, ThunderSoft y MediaTek presentaron en CES 2026 sus productos basados en NVIDIA TensorRT Edge-LLM para inferencia de LLMs y VLMs en hardware automotriz embebido. Habilita razonamiento on-device sin latencia de nube, crítico para ADAS.
 
-### 2. Autoware + Mobileye Integration Expands
-In February 2026, Elektrobit integrated EB corbos Linux for Safety Applications into Mobileye Drive — a scalable end-to-end L4 self-driving system now available as an OEM platform. Autoware-based stacks are being evaluated as a software layer on top of Mobileye hardware by Tier-1 suppliers.
+- **Repo**: [NVIDIA TensorRT](https://github.com/NVIDIA/TensorRT) | Apache-2.0 | 10.5k★
+- **Blog**: developer.nvidia.com/blog/accelerating-llm-and-vlm-inference-for-automotive-and-robotics
 
-### 3. Stellantis × Qualcomm Snapdragon Ride Pilot (May 2026)
-Stellantis and Qualcomm expanded their multi-year collaboration to integrate Snapdragon Digital Chassis solutions across next-generation vehicle architectures. Snapdragon Ride Pilot (ADAS SoC) is now the official platform for Stellantis SDVs.
+### 2. Autoware Vision Pilot — L2 ADAS End-to-End AI (2026)
+La Autoware Foundation lanzó `autoware_vision_pilot`, un stack ADAS L2 completamente open source y production-ready basado en IA End-to-End. Primera alternativa OSS seria a Tesla FSD para OEMs.
 
-### 4. Software-Defined Vehicles Dominate CES 2026
-CES 2026 was dominated by SDV announcements. Bosch highlighted AI-driven cockpit systems, motion control, and by-wire technologies — electronic controls replacing mechanical connections. Every major OEM announced a software architecture refresh timeline.
+- **Repo**: [autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0
+- **Signal**: "Free self-driving car stack — fully open-source ADAS"
 
-### 5. Edge AI Displacing Cloud AI In-Cabin
-The industry is shifting from cloud-dependent AI to edge AI running inside the vehicle. The consensus architecture: edge handles real-time/safety-critical decisions, cloud handles complex reasoning and model updates. Reduces latency from 100-300ms (cloud round-trip) to <10ms (on-chip inference).
+### 3. BYD SDV Architecture Deep-Dive (comunidad, jul 2026)
+Repositorio de análisis de la arquitectura SDV de BYD se volvió viral en la comunidad (0★ → trending). BYD lidera LATAM con 100k+ órdenes BR+MX+AR. Interés en reverse-engineering su stack de software.
 
-### 6. Computer Vision Defect Detection at Production Quality
-Deep learning CNN architectures for in-line defect detection reached 95–100% accuracy in live production environments as GPU inference hardware hit sub-200ms latency at cost-effective price points. Quality inspection AI is now a line-item in every greenfield plant build.
+- **Repo**: [Deconstructing-BYD-Technology-Architecture](https://github.com/vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture)
+- **Signal**: BYD = primer OEM chino con plataforma SDV en LATAM a escala
 
-### 7. AI Dealership Conversions Measured at Scale
-Dealerships running AI across the full customer lifecycle (lead scoring → personalization → follow-up → service recovery) are showing:
-- +27% internet lead conversion
-- +33% lapsed customer recovery
-- +24% vehicle repurchase lift
+### 4. cockpit-agent — Multi-Agent en Cabina Inteligente
+Sistema cloud-edge multi-agent para cockpit inteligente (中文). Intent rápido en edge, planificación LLM en cloud, orquestación cross-domain, ejecución segura VAL, streaming HMI. Primer repo OSS con arquitectura completa de cabina agentica.
 
-This is moving AI from "interesting" to "KPI-proven" in automotive retail.
+- **Repo**: [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) — trending en comunidad china
+- **Signal**: El cockpit agentico reemplaza interfaces rule-based — Qualcomm Snapdragon confirma dirección
 
-## GitHub Repos Gaining Stars This Week
+### 5. DriveLM + Graph VQA — Conducción con LLM razonamiento
+DriveLM (ECCV 2024 Oral) ganó tracción nueva con integraciones en Autoware y apollo en 2026. El approach de Graph VQA permite al vehículo responder "por qué frenar aquí" — clave para EU AI Act explicabilidad.
 
-| Repo | Movement | Why |
-|------|----------|-----|
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | ↑ 1.7k★ active | Core component of Autoware stack — Mobileye integration driving forks |
-| [commaai/openpilot](https://github.com/commaai/openpilot) | ↑ steady | Community exploring Alpamayo model integration with ADAS pipelines |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | ↑ new | Framework for testing autonomous agents in CARLA — agentic sim testing |
-| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | ↑ rising | Cloud-edge multi-agent system for smart cockpits, LLM planning + HMI |
-| [automotive-ai/ReplicaR-lite](https://github.com/automotive-ai) | ↑ new | Traffic simulation from AAI GmbH — rising interest in synthetic data gen |
+- **Repo**: [DriveLM](https://github.com/OpenDriveLab/DriveLM) | Apache-2.0 | 1.8k★
+- **Signal**: EU AI Act Art. 13 exige transparencia en AI de alto riesgo → VQA como solución
 
-## Trends to Watch
+### 6. Agentic Cockpit Revolution — Qualcomm Snapdragon
+Qualcomm posiciona Snapdragon como base para "vehicle intelligence agentic en tiempo real" — sistemas que actúan independientemente con base en contexto. L1 → L3 escalable.
 
-- **MCP servers for CAN bus**: Early experiments connecting Claude/GPT agents to vehicle CAN bus data streams via MCP — enabling natural language vehicle diagnostics
-- **Digital twin + LLM co-pilots**: Plant simulation + LLM = engineers can ask "what happens if I increase line speed by 10%?" and get a simulated answer in seconds
-- **Agentic supply chain**: Multi-agent systems coordinating production planning, logistics, and procurement in real time across Tier-1/Tier-2 suppliers
-- **Battery AI**: ML models predicting cell degradation from charge cycles — enabling predictive battery replacement scheduling
-- **SDV app stores**: OEMs building in-vehicle app ecosystems; AI agents that help drivers discover/configure vehicle capabilities via voice
+- **Referencia**: iptechblog.com/2026/04/the-automotive-agentic-ai-revolution/
+- **Signal**: El cockpit ya no es UI, es agente autónomo
 
 ---
-*Auto-updated by the ingest pipeline.*
+
+## Timeline de eventos (2025–2026)
+
+| Fecha | Evento |
+|-------|--------|
+| Jul 2026 | NVIDIA TensorRT Edge-LLM GA para automotive embedded |
+| Jul 2026 | BYD 100k+ órdenes LATAM (BR+MX+AR) reportado por LatamMobility |
+| Jun 2026 | Apollo 11.0 release — menor threshold hardware para AV deployment |
+| Abr 2026 | Autoware Vision Pilot anunciado (L2 ADAS E2E open source) |
+| Ene 2026 | CES 2026: Qualcomm agentic cockpit + Bosch TensorRT Edge-LLM showcase |
+| Ene 2026 | Mexico VEMO $1.5B inversión en charging + 55k EVs |
+| Nov 2025 | openpilot supera 100M millas acumuladas en usuarios reales |
+| Sep 2025 | DriveLM integrado en CARLA Leaderboard 2.0 |
+| Ago 2025 | EU AI Act: sistemas AI en vehículos clasificados como alto riesgo (Annex I) |
+
+---
+*Pipeline automático — se actualiza cada hora.*

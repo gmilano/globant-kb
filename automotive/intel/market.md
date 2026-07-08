@@ -1,127 +1,72 @@
-# Market Map — Automotive AI (2026-07-07)
+# Mapa de mercado — Automotive AI
 
-> Key players, competitive landscape, LATAM opportunity, Globant positioning.
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-08
 
-## Global Market Size
+## Tamaño de mercado global
 
-| Segment | 2026 | 2034 | CAGR |
-|---------|------|------|------|
-| Automotive AI (total) | $14.99B | $51.68B | 16.7% |
-| Autonomous Driving Software | $8.2B | $38.4B | 21.3% |
-| Automotive Computer Vision | $3.1B | $18.7B | 25.0% |
-| Fleet Management AI | $2.1B | $9.8B | 21.1% |
-| Automotive AI Chips | $4.8B | $22.3B | 21.2% |
+| Mercado | 2025/2026 | 2030 | CAGR | Fuente |
+|---------|-----------|------|------|--------|
+| AI in Automotive (global) | ~$21B | $38.45B | ~12% | nextmsc.com 2026 |
+| LATAM Automotive AI | $193.5M | $1,260.9M | ~30.5% | nextmsc.com 2026 |
+| LATAM Electric Vehicles | $56.41B (2025) | $321.56B (2034) | 21.34% | gminsights.com 2026 |
+| LATAM Automotive (total) | $148B | $203B (2034) | ~4.5% | marketdataforecast.com |
 
----
+## Players globales
 
-## Competitive Map: Autonomous Driving Platforms
+| Empresa | Tipo | Fortaleza | Debilidad |
+|---------|------|-----------|-----------|
+| **Tesla** | OEM + stack propio | FSD más maduro del mercado. Vertical completo. | Propietario total, no customizable. |
+| **Waymo (Google)** | Robotaxi L4 | Líder en millas autónomas reales. Partenariados Uber. | Solo US, propietario, alto costo. |
+| **Baidu Apollo** | Stack AV + plataforma | 26.7k★ en GitHub. Abierto + ecosistema China. | Integración compleja fuera de China. |
+| **NVIDIA** | Hardware + software | Drive AGX, TensorRT Edge-LLM. CES 2026 showcase. | Licencia comercial para hardware. |
+| **Qualcomm** | SoC automotriz | Snapdragon agentic cockpit. L1→L3 escalable. | Propietario. |
+| **Mobileye (Intel)** | ADAS chips | EyeQ6 — 90M+ vehiculos desplegados. | No open source. |
+| **Autoware Foundation** | Stack AV open source | 100+ empresas, 30 vehículos. Apache 2.0. | Menos producción masiva que players propietarios. |
+| **comma.ai** | ADAS consumer | 60.8k★. MIT. 325+ autos soportados. 100M+ millas. | Solo L2. Hardware propio (comma 3X). |
+| **BYD** | OEM chino | Líder EV LATAM. 100k+ órdenes BR+MX+AR 2026. | SDV stack propietario (cerrado). |
+| **Honda / Mercedes / VW** | OEM traditional | Embedding LLMs para in-car queries, maintenance, energy. | Ciclos lentos, compliance EU AI Act. |
 
-| Player | Type | AD Level | Open Source? | Key Strength |
-|--------|------|----------|--------------|--------------|
-| **Waymo** | Pure-play AD | L4 | No | 40M+ autonomous miles; best safety record |
-| **Tesla FSD** | OEM-embedded | L3→L4 | No | Massive fleet data (6M+ cars); neural net approach |
-| **Baidu Apollo** | Platform + OEM | L4 | Yes (Apache-2.0) | Largest China robotaxi deployment; open platform |
-| **Mobileye** | Tier-1 / Platform | L2→L4 | Partial | 125M+ EyeQ chips shipped; Mobileye Drive |
-| **NVIDIA DRIVE** | AI Hardware + SW | L2→L5 | Partial | Alpamayo model; Orin SoC; dominant in OEM design wins |
-| **Autoware (Foundation)** | Open-source stack | L4 | Yes (Apache-2.0) | 100+ companies, global deployments, ROS 2 ecosystem |
-| **comma.ai (openpilot)** | Consumer ADAS | L2 | Yes (MIT) | 300+ car models; hack-friendly; passionate community |
-| **Qualcomm Snapdragon Ride** | SoC + SW | L2→L3 | Partial | Stellantis partnership; Snapdragon Digital Chassis |
-| **Bosch** | Tier-1 | L2→L4 | No | AI cockpit systems, by-wire tech, global OEM relationships |
-| **Continental** | Tier-1 | L2→L3 | No | SurroundView, camera AI, ADAS sensor fusion |
+## LATAM — Oportunidades AI
 
----
+### Brasil
+- **Contexto**: BYD Dolphin Mini = auto más vendido (4,100 unidades/mes, feb 2026). Primero en que EV + marca china lidera.
+- **Oportunidad AI**: Diagnóstico OBD + mantenimiento predictivo para flotas BYD/EV. Dashboard de energía + inteligencia de carga.
+- **Deal size Globant**: $200k-600k — Fleet AI + EV management para concesionarios BYD Brasil.
+- **LGPD**: Datos de telemetría vehicular son datos personales → on-premise o privacidad diferencial requerida.
 
-## Competitive Map: Fleet Management AI
-
-| Player | Type | Stars / Scale | Open Source? | Key Strength |
-|--------|------|---------------|--------------|----|
-| **Samsara** | SaaS fleet | ~200 enterprise clients | No | AI dashcam + telematics at scale |
-| **Geotab** | SaaS fleet | 3.5M+ connected vehicles | No | Largest open telematics platform; SDK |
-| **Fleetcomplete** | SaaS fleet | 500k+ assets | No | AI-powered maintenance + compliance |
-| **Traccar** | Open source | 5.2k★ GitHub | Yes (Apache-2.0) | 200+ protocols; self-hostable; customizable |
-| **Fleetbase** | Open source | 1.1k★ GitHub | Yes (AGPL-3.0) | Full logistics OS; developer-first |
-| **Odoo Fleet** | Open source ERP | 45k★ (Odoo repo) | Yes (LGPL-3.0) | ERP-integrated; finance + HR context |
-
----
-
-## Competitive Map: Manufacturing AI
-
-| Player | Type | Key Application |
-|--------|------|-----------------|
-| **Landing AI** | AI platform | Visual inspection for manufacturing; LandingLens CV platform |
-| **Cognex** | Machine vision | Industrial cameras + AI vision for automotive inspection |
-| **Keyence** | Machine vision | Sensors + cameras; Toyota, BMW supplier |
-| **Microsoft** | AI platform | Factory AI (agentic-factory-hack reference); Azure IoT + AI |
-| **Siemens** | Digital twin | Xcelerator platform; factory simulation + AI |
-| **Dassault** | Digital twin | 3DEXPERIENCE; virtual production twin |
-| **Open source** | Various | YOLO (ultralytics), OpenCV, PyTorch — combine for custom inspection |
-
----
-
-## LATAM Market Opportunity
-
-### Brazil — Largest Market
-
-| Opportunity | Size | AI Application |
-|-------------|------|----------------|
-| Logistics / last-mile delivery | 850k+ delivery vehicles | AI-optimized fleet dispatch + routing |
-| Auto manufacturing (ABC Paulista) | Stellantis, VW, GM, Toyota plants | CV quality inspection + predictive maintenance |
-| EV charging network (2025-2028) | $2B government mandate | Smart charging optimization |
-| Dealership network (auto retail) | 100k+ dealerships | AI lead scoring + customer experience |
-
-**Key players:** Mercado Livre logistics, iFood delivery, DHL Brasil, Volkswagen do Brasil, Stellantis Brasil
-
-### Mexico — Manufacturing Hub
-
-| Opportunity | Size | AI Application |
-|-------------|------|----------------|
-| Auto manufacturing | 4th largest auto exporter globally | CV inspection, predictive maintenance, digital twin |
-| Cross-border logistics | $50B+ US-Mexico auto parts trade | Agentic supply chain coordination |
-| Dealership AI | 20k+ dealerships | Lead scoring, service scheduling AI |
-
-**Key plants:** Ford Hermosillo, GM Silao, BMW San Luis Potosí, Audi San José Chiapa, Stellantis Toluca
+### México
+- **Contexto**: VEMO $1.5B inversión 55k EVs + charging (feb 2026). Nearshoring automotriz con US → hub de manufactura.
+- **Oportunidad AI**: Gestión de flotas EV corporativas, integración MES/ERP para planta, cobots en línea de ensamble.
+- **Deal size Globant**: $300k-1M — Smart factory AI + EV fleet management.
+- **Foco**: Proveedores Tier 1 (Bosch MX, Continental MX, Aptiv MX) + VEMO.
 
 ### Argentina
+- **Contexto**: +874% adopción EV (ene-abr 2026 vs 2025). Bill en mayo 2026 para 2,500 charging points y 10% EVs nuevos en 2030.
+- **Oportunidad AI**: Charging network intelligence, route optimization para EVs, CRM dealerships.
+- **Deal size Globant**: $80k-250k — EV charging optimization + fleet management.
 
-| Opportunity | Size | AI Application |
-|-------------|------|----------------|
-| Auto manufacturing | VW, Toyota, Renault plants | Quality inspection AI |
-| Fleet operators | Large rural distances | Route + fuel optimization AI |
+### Chile y Colombia
+- **Contexto**: Líderes en políticas de electromovilidad LATAM. Colombia: +78% ventas EV 2025-2026.
+- **Oportunidad AI**: Flotas de transporte público EV (Transantiago, TransMilenio), predictive maintenance.
 
-### Chile
+## Brechas específicas de mercado
 
-| Opportunity | Size | AI Application |
-|-------------|------|----------------|
-| EV adoption | Government pushing EV mandate | Smart charging, fleet electrification planning |
-| Mining fleet | Large autonomous mining trucks | Autonomous haulage AI; safety monitoring |
+| Brecha | Descripción | Urgencia |
+|--------|-------------|----------|
+| EV Fleet Intelligence LATAM | BYD+Chery+SAIC no tienen software de gestión local. Gap enorme. | Alta |
+| Predictive Maintenance IA en Español | Soluciones en inglés no sirven para talleres LATAM. | Alta |
+| DMS con AI para concesionarios BYD | BYD crece 10x — concesionarios necesitan DMS + AI para gestión. | Alta |
+| Cockpit AI en Español | Siri/Alexa en autos no hablan bien español LATAM. Oportunidad NLP. | Media |
+| Charging Network Optimization | México necesita inteligencia de red para 55k EVs VEMO + expansión. | Alta |
+| EU AI Act Compliance para OEMs | Annex I → sistemas AI en vehículos = alto riesgo. Auditoría requerida. | Alta (ago 2026) |
 
----
+## Posicionamiento Globant
 
-## LATAM-Specific Gaps (Globant can address)
-
-1. **Spanish-language in-vehicle AI assistants** — No major OEM has a well-tuned Spanish LA (Latin American) voice assistant for vehicles.
-2. **AI-powered fleet management in Portuguese/Spanish** — Traccar/Fleetbase in English; LATAM fleet operators need localized AI agents.
-3. **Compliance AI for LATAM vehicle regulations** — DENATRAN (Brazil), SCT (Mexico), SEC (Chile) have complex vehicle compliance rules; AI compliance agents don't exist.
-4. **EV charging network optimization for LATAM grid** — LATAM grids are unstable; smart charging agents that handle blackouts and partial power are needed.
-5. **Used car AI inspection** — Semi-informal used car market in LATAM (OLX, MercadoLibre Autos); CV damage inspection + price estimation agent = clear value.
-
----
-
-## Globant Positioning
-
-| Dimension | Globant Advantage | Recommended Play |
-|-----------|-------------------|------------------|
-| Talent scale | 30k+ engineers across LATAM + US + EU | Staff autonomous driving AI projects for OEMs and Tier-1s |
-| LATAM depth | On-ground in Brazil, Mexico, Argentina, Colombia, Chile | Fleet AI + EV charging AI for LATAM operators |
-| Open source expertise | Strong Python/ML engineering; Odoo + ROS experience | Build on Autoware / Traccar / Fleetbase; add AI layer |
-| Manufacturing AI | Plants in Brazil, Mexico are clients | CV inspection + predictive maintenance delivery |
-| Digital transformation | Existing OEM + Tier-1 relationships | SDV digital transformation: migrate to software-defined architectures |
-| AI Studio | Specialized AI agents team | Smart cockpit AI, diagnostics agents, supply chain orchestration |
-
-### Key Differentiator vs. Big 4 Consulting
-- Globant *builds* software, not just advises — critical for automotive AI where working demos close deals
-- LATAM-native: language, regulation, and cultural context
-- Open source first: lower cost-to-pilot for OEM innovation labs
-
----
-*Auto-updated by the ingest pipeline.*
+| Acelerador | Descripción | Propuesta de valor |
+|------------|-------------|-------------------|
+| **Traccar + Claude** | Fleet AI sobre GPS tracking open source | "Fleet Intelligence en 4 semanas" — $150k-400k |
+| **Odoo DMS + AI** | Dealership Management con asistente de taller IA | "AI-powered DMS" para concesionarios BYD/EV — $200k-600k |
+| **Autoware + LLM** | Stack AV customizado para clientes OEM | "AV stack consulting" para Tier 1 suppliers — $500k-2M |
+| **OBD AI Agent** | Predictive maintenance para flotas | "Mantenimiento predictivo en español" — $100k-350k |
+| **EV Charging Intelligence** | Optimización de red de carga via LLM | "Smart Charging Network" para operadores — $250k-800k |

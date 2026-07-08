@@ -1,130 +1,86 @@
-# Trends — Automotive AI (2026-07-07)
+# Tendencias — Automotive AI
 
-> Current technology and market trends shaping AI in the automotive industry.
+> Tendencias que dan forma al mercado en 2026.
+> Última actualización: 2026-07-08
 
-## Major Trends
+## Tendencias principales
 
-### Trend 1: Software-Defined Vehicles (SDV) — The Platform Shift 🔴 Breaking
-**Status:** Actively transforming every OEM's roadmap
+### Trend 1: LLM en Vehículos — De General a Dominio-Específico
+Fabricantes como Honda, Mercedes-Benz y Volkswagen están abandonando los LLMs genéricos e integrando modelos dominio-específicos entrenados con datos de navegación, controles de vehículo y reglas de seguridad. La fiabilidad supera al modelo general-purpose.
 
-Every major OEM announced a software architecture refresh at CES 2026. The shift: from hardware-differentiated vehicles to software-differentiated platforms.
-- Vehicles become programmable platforms where AI features can be deployed OTA
-- New revenue model: subscription-based AI features (autopilot, in-cabin assistant, predictive diagnostics)
-- Bosch, Continental, and Aptiv competing to own the "automotive AI middleware" layer
-- Qualcomm Snapdragon Ride Pilot now deployed across Stellantis lineup
+- **Signal**: Honda + Mercedes + VW embedding domain-LLMs 2026 (netguru.com)
+- **Oportunidad Globant**: Fine-tuning de LLMs verticales automotrices para clientes OEM
 
-**Timeline:** 2024-2025: SDV decisions made → 2026: First platforms ship with OTA AI updates → 2027-2028: In-vehicle app stores
+### Trend 2: Cockpit Agentico — De UI a Agente Autónomo
+El cockpit automotriz está pasando de interfaces rule-based a sistemas agénticos multimodales capaces de razonar, planificar y actuar. Qualcomm Snapdragon posicionado como base de esta revolución (L1→L3 escalable).
 
----
+- **Signal**: Qualcomm "automotive agentic AI" announcement (abr 2026, iptechblog.com)
+- **Paradigma**: Voz + visión + contexto → el cockpit responde al estado del conductor, tráfico, destino
 
-### Trend 2: Edge AI Displacing Cloud AI In-Vehicle 🔴 Active
-**Status:** Architectural shift underway
+### Trend 3: Software-Defined Vehicles (SDV) — El Auto como Plataforma
+Los vehículos modernos tienen 100M+ líneas de código. La industria pivota a arquitecturas SDV donde el software define funcionalidades OTA. BYD es el líder en LATAM con este approach.
 
-Latency physics forcing a move to edge inference:
-- Safety-critical decisions need <10ms — cloud round-trip is 100-300ms
-- Privacy regulations (GDPR, LGPD) restrict sending interior camera data to cloud
+- **Signal**: BYD SDV architecture deconstructed community analysis (trending GitHub jul 2026)
+- **Implicación**: Los autos necesitan CI/CD, testing de agentes, governance de modelos AI
 
-**2026 consensus architecture:**
-```
-Edge (on-chip): Real-time perception, lane keeping, emergency braking
-Cloud: Complex reasoning, model updates, route optimization, fleet analytics
-Hybrid sync: Continuous model improvement via federated learning
-```
-Hardware winners: NVIDIA DRIVE Orin, Qualcomm Snapdragon Ride, Mobileye EyeQ6
+### Trend 4: Edge AI para AV — Inferencia sin Nube
+NVIDIA TensorRT Edge-LLM permite ejecutar LLMs y VLMs directamente en hardware automotriz embebido. Bosch, ThunderSoft, MediaTek ya tienen productos basados en esto (CES 2026).
 
----
+- **Signal**: NVIDIA TensorRT Edge-LLM GA para automotive (developer.nvidia.com, jul 2026)
+- **Implicación**: Los agentes AI en vehículo no necesitan latencia de nube → ADAS más seguros
 
-### Trend 3: LLM-Powered Autonomous Driving Models 🟡 Emerging
-**Status:** Research → early production (2026)
+### Trend 5: LLM-Powered Autonomous Driving — El reboot del AV
+Tras una década de fracasos, la industria AV se reinventa con técnicas LLM/VLM. DriveVLM, DriveLM, DriveMLM son la nueva generación. Promesa de "world model" que entiende semántica del tráfico.
 
-NVIDIA Alpamayo (10B params): LLMs being adapted for AD decision-making, not just NLP.
-- Long-horizon reasoning about novel traffic situations
-- Natural language explanation of driving decisions (regulatory compliance)
-- Zero-shot generalization to new road types/weather/countries
+- **Signal**: Survey ScienceDirect 2026 "LLM-Powered Autonomous Driving" (sciencedirect.com 2026)
+- **Referencia**: Awesome-LLM4AD tiene 300+ repos curados. Campo explota en 2025-2026.
 
-Open source: UniAD (Huawei/NeurIPS 2023), VAD (ICLR 2024) gaining traction.
+### Trend 6: EV Fleet Management AI — BYD LATAM como Catalizador
+BYD superó 100k órdenes en Brasil+México+Argentina. Los concesionarios y operadores de flota necesitan urgentemente software de gestión que entienda las particularidades del EV (range anxiety, charging, battery health).
 
----
+- **Signal**: BYD Americas 100k orders (latamobility.com, jul 2026)
+- **Oportunidad**: Traccar + AI layer para EV metrics: SOC, degradación batería, rutas de carga óptimas
 
-### Trend 4: AI Quality Inspection in Manufacturing 🟢 Proven ROI
-**Status:** Production-deployed at scale
+### Trend 7: EU AI Act — Vehículos como Sistemas de Alto Riesgo
+El Annex I del EU AI Act clasifica los sistemas AI que interactúan con funciones de seguridad vehicular como "alto riesgo". Auditores, evidencia de conformidad y certificación requeridos. Deadline agosto 2026.
 
-- CNN-based defect detection: 95-100% accuracy in live production (2025-2026)
-- Sub-200ms GPU inference at cost-effective hardware price points
-- 40-60% reduction in manufacturing defects (McKinsey)
+- **Signal**: "Under Annex I of EU AI Act, in-vehicle AI = high-risk" (tandfonline.com 2026)
+- **Urgencia**: OEMs europeos (VW, Mercedes, BMW) en validación cycles — oportunidad para compliance consulting
 
-```
-Line camera → YOLO inference → defect classification → auto-reject or flag
-                                                      → root cause analysis AI
-                                                      → SPC update
-```
+### Trend 8: Cooperative Driving (V2X) — La Red de Vehículos Conectados
+V2X (Vehicle-to-Everything) permite que vehículos cooperen con infraestructura, otros vehículos y peatones. CARMA Platform del USDOT es la implementación open source de referencia para US.
 
----
+- **Signal**: CARMA Platform 4.0 → ROS2 + V2X (usdot-fhwa-stol, 2025)
+- **Implicación**: Nueva capa de datos (tráfico en tiempo real, emergencias) disponible para agentes AI
 
-### Trend 5: Predictive Maintenance with Agentic AI 🟢 Proven ROI
-**Status:** Actively deployed, strong ROI evidence
+### Trend 9: Predictive Maintenance via AI + OBD-II
+Los sensores OBD-II en vehículos modernos generan terabytes de datos. Los LLMs pueden analizar patrones para predecir fallos antes de que ocurran. Mercado: talleres + flotas corporativas.
 
-AI agents monitoring factory equipment via vibration/temp/current/acoustic sensors, predicting failure 48-72h in advance. New in 2026: agentic pattern — agent also schedules repair, orders parts, notifies shift manager.
+- **Signal**: agentic-factory-hack (Microsoft MIT) — predictive maintenance orchestration
+- **Stack**: python-OBD + Claude API + time series (darts o Prophet) → alertas proactivas
 
----
+### Trend 10: Conducción Autónoma con Explicabilidad (XAI)
+El EU AI Act requiere explicabilidad (Art. 13) para sistemas AI de alto riesgo. El approach de Graph VQA (DriveLM) permite que el vehículo responda "¿por qué tomaste esa decisión?" — clave para certificación.
 
-### Trend 6: AI in Automotive Retail (Dealerships) 🟢 Measured Impact
-**Status:** Quantified results, rapid adoption
+- **Signal**: DriveLM Graph VQA — ECCV 2024 Oral, integración en CARLA 2026
+- **Referencia**: "Agent2Agent Threats Safety-Critical LLM Assistants" taxonomy (arXiv 2026)
 
-- Lead scoring + personalization: +27% internet lead conversion
-- Lapsed customer recovery: +33% win-back rate
-- Vehicle repurchase rate: +24% improvement
-- Service scheduling + upsell: 15-20% service revenue lift
+### Trend 11: LATAM Electromovilidad — La Ventana de 18 Meses
+Brasil, México, Argentina, Chile y Colombia están en el punto de inflexión para EVs. El software aún va muy atrás. La ventana para soluciones locales (en español, con LGPD/PDPA compliance) es ahora.
+
+- **Signal**: Argentina +874% EV (ene-abr 2026), México VEMO $1.5B, Brasil BYD lider
+- **Ventana**: 12-18 meses antes que players globales localicen soluciones LATAM-específicas
 
 ---
 
-### Trend 7: EV Charging Infrastructure Intelligence 🟡 Emerging
-**Status:** Growing, driven by EV adoption in LATAM
+## Señales a monitorear
 
-- RL agents managing grid load vs. fleet demand
-- Smart charging scheduling (off-peak hours)
-- Battery degradation prediction from charge cycles
-
----
-
-## Key Numbers Table
-
-| Metric | Value | Source |
-|--------|-------|--------|
-| Global Automotive AI Market (2026) | $14.99B | Fortune Business Insights |
-| Global Automotive AI Market (2034) | $51.68B | Fortune Business Insights |
-| CAGR 2026-2034 | 16.7% | Fortune Business Insights |
-| CV defect detection accuracy | 95-100% | Automotive Mfg Solutions, 2026 |
-| Manufacturing defect reduction | 40-60% | McKinsey |
-| Lead conversion lift (dealership AI) | +27% | Impel AI |
-| Lapsed customer recovery (dealer AI) | +33% | Impel AI |
-| AI use for vehicle autonomy (industry) | 42% | Industry survey 2026 |
-| Autoware deployments | 30+ vehicles, 20+ countries | Autoware Foundation |
-| openpilot supported cars | 300+ | commaai.com |
-
----
-
-## Technology Timeline
-
-| Year | Milestone |
-|------|----------|
-| 2023-2024 | LLM fine-tuning for AD (UniAD, VAD published) |
-| 2024-2025 | SDV architecture decisions; edge AI hardware matures |
-| 2025 | CV defect detection reaches production quality (95%+) |
-| 2026 | NVIDIA Alpamayo; Stellantis-Qualcomm SDV platforms ship |
-| 2026 | Dealership AI KPIs measured; agentic factory AI standard |
-| 2027 | First mass-market L3 (eyes-off highway); LLM AD co-pilot |
-| 2028 | L4 robotaxis in 10+ LATAM cities; open AD stack in fleets |
-
----
-
-## Watch List
-
-1. **NVIDIA Alpamayo adoption** — which OEMs/robotaxi operators go live in H2 2026?
-2. **Autoware + Mobileye integration** — will this become the de-facto open AD reference stack?
-3. **CAN bus × MCP experiments** — if LLM agents can natively read vehicle telemetry, diagnostics changes fundamentally
-4. **LATAM EV charging network** — Brazil and Chile EV mandates accelerating infrastructure build
-5. **Open-source BEV perception models** — camera-only L2+ without LiDAR could democratize ADAS
-
----
-*Auto-updated by the ingest pipeline.*
+| Señal | Por qué importa | Frecuencia |
+|-------|-----------------|------------|
+| openpilot releases | Primera ADAS open source en producción masiva | Mensual |
+| Apollo versioning | Baidu AV stack = standard industry China | Mensual |
+| Autoware Foundation announcements | Stack AV open source más adoptado | Semanal |
+| BYD LATAM sales data | Catalizador del mercado EV LATAM | Mensual |
+| EU AI Act guidance updates | Compliance vehicular = nuevo negocio | Quincenal |
+| NVIDIA DRIVE OS releases | Determina capacidades edge AI en autos | Trimestral |
+| CARLA Leaderboard 2.0 | Benchmark de estado del arte en AV | Semanal |

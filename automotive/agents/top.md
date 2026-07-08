@@ -1,45 +1,47 @@
-# AI Agents & Tools — Automotive
+# Agentes AI — Automotive
 
-> Open source AI agents and frameworks for the automotive vertical. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Last updated: 2026-07-07
+> Agentes y herramientas AI open source para la industria automotriz. Foco: MIT / Apache 2.0.
+> Última actualización: 2026-07-08
 
-## Top Agents & Frameworks
+## Agentes y herramientas destacadas
 
-| Name | License | Stars | Description |
-|------|---------|-------|-------------|
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~52k | Operating system for robotics / ADAS. Upgrades driver assistance on 300+ supported car models. Production-grade lane centering and adaptive cruise control. |
-| [ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | ~26k | Baidu's open autonomous driving platform targeting L4 autonomy. Full perception → planning → control pipeline. Used in robotaxi deployments. |
-| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | ~11.8k | World's leading open-source AD software stack built on ROS 2. Commercial deployments in 100+ companies across 20+ countries. |
-| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | ~14.1k | Open-source autonomous driving simulator. Python + C++ API. Photorealistic urban/highway environments. Primary testbed for training and validation of AD models. |
-| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | ~534 | Modular autonomous driving platform running on CARLA and real-world vehicles. Perception, prediction, planning and control agents. |
-| [traccar/traccar](https://github.com/traccar/traccar) | Apache-2.0 | ~5.2k | Real-time GPS fleet tracking server. Supports 200+ GPS protocols and 2000+ device models. REST API. Ready for AI anomaly detection layers. |
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | ~1.1k | Modular logistics + fleet operating system. Fleet management, route optimization, warehouse ops, e-commerce delivery on one platform. |
-| [Divyeshpratap/A.I.-AutoInspector](https://github.com/Divyeshpratap/A.I.-AutoInspector) | MIT | ~180 | AI-powered vehicle visual damage assessment. Integrates computer vision (YOLO-based) with generative AI chatbot for technical manual queries and damage reports. |
-| [microsoft/agentic-factory-hack](https://github.com/microsoft/agentic-factory-hack) | MIT | ~60 | Multi-agent predictive maintenance orchestration using Azure AI + LangGraph. Reference architecture for factory AI agents — adaptable to automotive manufacturing lines. |
-| [philippnormann/ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | MIT | ~20 | RL-based simulation for finding shortest charging routes for EVs. Baseline for charging network agent development. |
-| [TUMFTM/REVOL-E-TION](https://github.com/TUMFTM/REVOL-E-TION) | Apache-2.0 | ~16 | Site-level energy system optimization toolbox for EV fleet charging — investigates charging strategies and grid impact. |
-| [juhyeonkim95/TaxiSimulatorOnGraph](https://github.com/juhyeonkim95/TaxiSimulatorOnGraph) | MIT | ~38 | Large-scale fleet management optimization on graphs. Reference implementation for dispatch and routing agent development. |
-
-## Key Use Cases by Category
-
-### Autonomous Driving / ADAS
-- **openpilot** → production ADAS on consumer vehicles
-- **Apollo** → L4 robotaxi platform
-- **Autoware** → ROS 2 full AD stack
-- **CARLA** → simulation and training environment
-- **Pylot** → modular research platform
-
-### Fleet Operations & Telematics
-- **Traccar** → GPS tracking backbone (add AI anomaly detection)
-- **Fleetbase** → logistics OS (add route optimization AI)
-
-### Manufacturing & Quality
-- **agentic-factory-hack** → predictive maintenance agent pattern
-- **A.I.-AutoInspector** → visual damage/defect inspection
-
-### EV & Energy
-- **ev-charging-optimization** → EV routing agents
-- **REVOL-E-TION** → charging fleet energy optimization
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [openpilot](https://github.com/commaai/openpilot) | MIT | 60.8k | Sistema operativo de robótica para vehículos — ADAS nivel 2+ en 325+ modelos de autos. 100M+ millas acumuladas. STT+control+planning end-to-end. |
+| [apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | 26.7k | Plataforma autónoma abierta de Baidu. Percepción, localización, planning, control. Apollo 11.0 (2026): bajo threshold de hardware. C++/Python/ROS. |
+| [autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | 10k+ | El stack AV open source más usado del mundo (100+ empresas, 30 vehículos, 20 países). ROS 2 nativo. Autoware Foundation. |
+| [carla](https://github.com/carla-simulator/carla) | MIT | 14.1k | Simulador fotorrealista de conducción autónoma basado en Unreal Engine. RGB/LiDAR/Radar/IMU. Integra con ROS, Autoware, Apollo. |
+| [Awesome-LLM4AD](https://github.com/Thinklab-SJTU/Awesome-LLM4AD) | MIT | 2.1k | Lista curada de LLM/VLM/VLA/World Models para conducción autónoma. Actualización continua. SJTU Thinklab. |
+| [DriveLM](https://github.com/OpenDriveLab/DriveLM) | Apache-2.0 | 1.8k | Graph Visual Question Answering para driving. Baseline VLM end-to-end. ECCV 2024 Oral. OpenDriveLab. |
+| [DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache-2.0 | 850 | Framework LLM para conducción autónoma close-loop. Multimodal + behavior planning con reglas de tráfico + sensor input. OpenGVLab. |
+| [traccar](https://github.com/traccar/traccar) | Apache-2.0 | 5.2k | Sistema GPS tracking open source. 200+ protocolos, 2000+ modelos de dispositivos. Backend Java, dashboard web. Flota, logística. |
+| [carma-platform](https://github.com/usdot-fhwa-stol/carma-platform) | Apache-2.0 | 312 | Plataforma USDOT para Cooperative Driving Automation (CDA). SAE L2, ROS2. V2X infrastructure communication. Plugin API para algoritmos propios. |
+| [pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | 534 | Plataforma modular AV sobre CARLA + vehículos reales. Percepción, predicción, planning independientes. Python. |
+| [autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | Core de Autoware: planning, perception, control, localization. El repo activo principal de Autoware Foundation. |
+| [PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | Framework de testing de agentes autónomos en CARLA. Escenarios parametrizables, métricas de seguridad. |
 
 ---
-*Auto-updated by the ingest pipeline.*
+
+## MCP Servers para Automotive
+
+| Servidor MCP | Descripción | Fuente |
+|--------------|-------------|--------|
+| NVIDIA DriveOS MCP | APIs de vehículo (CAN bus, sensores, actuadores) via MCP para agentes in-vehicle | NVIDIA Developer Blog 2026 |
+| Traccar MCP | Telemetría GPS de flota via MCP — posición, velocidad, fuel, alertas | Comunidad |
+| HERE Maps MCP | Routing, traffic, EV charging stations via MCP | HERE Technologies |
+| OBD-II Bridge MCP | Diagnóstico vehicular (DTCs, sensor data) via MCP + Bluetooth OBD adapter | OSS |
+
+---
+
+## Benchmarks Automotrices
+
+| Benchmark | Descripción | Referencia |
+|-----------|-------------|------------|
+| nuScenes | Dataset 3D perception + tracking (1000 escenas, Boston+Singapur) | nuScenes.org |
+| Waymo Open Dataset | 1000+ segmentos 3D LiDAR + cámara, 12M objetos 3D | waymo.com/open |
+| CARLA Leaderboard 2.0 | Benchmark AV en CARLA simulador: route completion + infractions | carla.org |
+| DriveLM-Challenge | VLM driving challenge CVPR 2024 | OpenDriveLab |
+| Agent2Agent Safety Taxonomy | Vulnerabilidades en LLM assistants automotrices (arXiv 2026) | arXiv |
+
+---
+*Actualizado automáticamente por el pipeline de ingest.*
