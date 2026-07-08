@@ -1,19 +1,26 @@
 # Market Intelligence — Enterprise AI
 
 > Key players, market sizing, competitive landscape, and LATAM opportunity mapping.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08
 
 ## Global Market Sizing
 
 | Segment | 2026 Value | 2030 / 2034 Target | CAGR | Source |
 |---------|------------|---------------------|------|--------|
-| AI Agent Market (Global) | ~$8B | $52.63B (2030) | 46.3% | Multiple analysts |
-| Enterprise Agentic AI | ~$4B | $30B+ (2030) | 50%+ | Gartner / Deloitte |
-| Enterprise Generative AI | ~$40B | $450B (2035) | 35%+ | Gartner |
+| AI Agent Market (Global) | ~$9–11B | $52.63B (2030) | 46.3% | Gartner / IDC / Multiple analysts |
+| Agentic AI Spending (total enterprise) | **$201.9B** (2026) | — | 141% YoY | Multiple analysts |
+| Enterprise Agentic AI (pure-play) | $9.14–$10.86B | $30B+ (2030) | 50%+ | Gartner / Deloitte |
+| Enterprise Generative AI | ~$40B | $450B (2035) | 35%+ | Gartner best-case |
 | LATAM AI Market (total) | $40.50B | $225B+ (2034) | 37.07% | Market Data Forecast |
 | LATAM Enterprise GenAI | ~$100M | $304.7M (2030) | 33.8% | Grand View Research |
+| Open-source ERP market | $5.31B | ~$8.4B (2031) | 9.66% | Mordor Intelligence |
 
-**Key adoption stat**: 40% of enterprise applications will feature task-specific AI agents by end 2026 (up from <5% in 2025). — Gartner, August 2025.
+**Key adoption stats (July 2026)**:
+- 40% of enterprise apps will feature task-specific AI agents by end 2026 (up from <5% in 2025) — Gartner
+- 79% of enterprises claim AI agent adoption — but only 11% run them in true production — Accelirate
+- 40% of Global 2000 roles will directly engage AI agents by end 2026 — IDC
+- 40% of agentic AI projects will be canceled by 2027 (costs, unclear ROI, governance gaps) — Gartner warning
+- Only 21% of organizations have a mature AI governance model — Deloitte
 
 **ROI benchmarks**: Average agentic AI ROI = 171% (U.S. enterprises: 192%). Time-to-ROI: 2 weeks (customer service) to 12 months (supply chain). — OneReach AI Stats 2026.
 
@@ -50,13 +57,23 @@
 
 ### Country-Level Enterprise AI Adoption
 
-| Country | AI Maturity | Key Sectors | Enterprise AI Gaps | Opportunity |
-|---------|-------------|-------------|---------------------|-------------|
-| **Brazil** | High | Financial services, Agritech, Energy, Retail | Compliance-grade AI governance; multi-language RAG; regulatory automation | $15B+ AI market; 50%+ of LATAM GDP |
-| **Mexico** | Medium-High | Manufacturing, Nearshoring, Telecom, Retail | AI integration in legacy ERP systems; supply chain AI; bilingual (ES/EN) agents | USMCA proximity driving AI investment from US companies |
-| **Argentina** | Medium | Technology services, E-commerce, Fintech | Cost-effective AI (devaluation pressure); LLM hosting compliance; talent arbitrage | Strong technical talent; AI product export potential |
-| **Colombia** | Medium | Financial services, BPO, Healthcare | ITSM modernization; call center AI; healthcare workflow automation | BPO sector ($2B+) ripe for agentic AI |
-| **Chile** | Medium | Mining, Finance, Public Sector | Predictive maintenance AI; procurement automation; regulatory compliance | Government AI mandates driving adoption |
+| Country | AI Readiness Score | Key Sectors | Enterprise AI Gaps | Opportunity |
+|---------|-------------------|-------------|---------------------|-------------|
+| **Brazil** | 65.89 (global top 50) | Financial services, Agritech, Energy, Retail | Compliance-grade AI governance; LGPD-compliant self-hosted stacks; multi-language RAG | $15B+ AI market; 50%+ of LATAM GDP; LGPD compliance creates governance demand |
+| **Chile** | 63.19 (global top 50) | Mining, Finance, Public Sector | Predictive maintenance AI; procurement automation; regulatory compliance | Government AI mandates; regional fintech hub |
+| **Uruguay** | 62.21 (global top 50) | Tech outsourcing, Financial services | High developer density; Globant presence | Strong delivery center potential |
+| **Mexico** | ~56 | Manufacturing, Nearshoring, Telecom, Retail | AI integration in legacy ERP systems; supply chain AI; bilingual (ES/EN) agents | USMCA proximity driving AI investment from US companies; manufacturing AI boom |
+| **Argentina** | ~58 | Technology services, E-commerce, Fintech | Cost-effective AI (devaluation pressure); LLM hosting compliance; talent arbitrage | Strong technical talent; AI product export potential |
+| **Colombia** | ~54 | Financial services, BPO, Healthcare | ITSM modernization; call center AI; healthcare workflow automation | BPO sector ($2B+) ripe for agentic AI |
+
+**LATAM Macro Stats (July 2026)**:
+- **47%** enterprise AI deployment rate across LATAM (vs. global avg ~57%)
+- **97%** of LATAM organizations planning to increase AI budgets (avg +14% growth)
+- **75%** of LATAM business leaders expect autonomous agents by end 2026
+- **80%** interannual growth in agentic adoption expected
+- **67%** of large LATAM enterprises have at least one AI project in production
+- Only **23%** report measurable business impact (the value realization gap)
+- Only **20%** have solid AI governance + security foundations
 
 ### LATAM-Specific Gaps (Globant Opportunity)
 

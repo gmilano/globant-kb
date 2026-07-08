@@ -1,4 +1,4 @@
-# Trending Enterprise AI — Week of 2026-07-07
+# Trending Enterprise AI — Week of 2026-07-08
 
 > What's moving fast right now in enterprise AI open source.
 
@@ -38,15 +38,34 @@ n8n has crossed 150,000 GitHub stars, cementing its position as the most-starred
 ### 7. Hybrid RPA + Agentic AI Stacks
 2026's winning enterprise architecture: **RPA for predictable volume, agentic AI for dynamic cognition, Microsoft Power Platform as the connective tissue**. Traditional RPA vendors (UiPath, Automation Anywhere) are embedding agentic capabilities, while open-source stacks (n8n + LangGraph + CrewAI) are gaining ground in mid-market where licensing costs matter.
 
-## 📊 Star Growth Leaders (Enterprise AI, June–July 2026)
+### 8. MCP Donated to Linux Foundation — Enterprise Connectivity Standard Locked In
+Model Context Protocol transferred to the Agentic AI Foundation (AAIF) under the Linux Foundation in December 2025 — co-founded by Anthropic, Block, and OpenAI. As of July 2026: **97M monthly SDK downloads**, **10,000+ active MCP servers in production**. Amazon and Uber both presented enterprise deployment case studies at the MCP Dev Summit (NYC, April 2026). MCP is now the enterprise connectivity standard — the HTTP of agent-to-system communication.
+- GitHub: [github.com/modelcontextprotocol](https://github.com/modelcontextprotocol)
+
+### 9. AG2 — AutoGen Community Fork Gaining Traction
+AG2 (formerly AutoGen, now at [ag2ai/ag2](https://github.com/ag2ai/ag2), Apache-2.0, 22k★) is the active community continuation of AutoGen. While Microsoft moved features to the Agent Framework, AG2 positions itself as the "Open-Source AgentOS" with independent feature development. Teams that don't want to follow the Microsoft Agent Framework migration path are consolidating on AG2.
+
+### 10. Agentic AI Spending Surge: $201.9B in 2026 (141% YoY)
+Multiple analysts confirm agentic AI spending hit **$201.9B in 2026** — a 141% year-over-year surge, making it the fastest-growing AI category. Yet the production gap persists: **79%** of enterprises claim adoption, but only **11%** run agents in production. Gartner warns **40% of agentic AI projects will be canceled by 2027** due to cost overruns, unclear ROI, and governance failures. The "execution gap" is the consulting opportunity of 2026.
+
+### 11. LATAM Agentic AI: 80% Interannual Growth Expected
+- **47%** enterprise AI deployment rate across LATAM (vs. global avg ~57%)
+- **97%** of LATAM organizations planning to increase AI budgets (avg +14% growth)
+- **75%** of LATAM business leaders expect autonomous agents by end 2026
+- **80%** interannual agentic AI adoption growth projected for LATAM
+- Only **20%** of LATAM companies have solid AI governance foundations → biggest gap to fill
+
+## 📊 Star Growth Leaders (Enterprise AI, July 2026)
 
 | Repo | Stars | Weekly Growth |
 |------|-------|---------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | 144k | ~800/week |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | 150k+ | ~600/week |
+| [langgenius/dify](https://github.com/langgenius/dify) | 145k | ~800/week |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | 90k+ | ~600/week |
 | [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | 73k | ~500/week |
 | [twentyhq/twenty](https://github.com/twentyhq/twenty) | 45k | ~300/week |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 52k | ~250/week |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 52.8k | ~250/week |
+| [ag2ai/ag2](https://github.com/ag2ai/ag2) | 22k | ~200/week |
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | 18k | ~400/week |
 
 ---
-*Sources: GitHub, Gartner, Deloitte Agentic AI Report 2026, OneReach AI Stats 2026*
+*Sources: GitHub, Gartner, IDC, Deloitte Agentic AI Report 2026, OneReach AI Stats 2026, Accelirate Agentic AI Statistics 2026, VuraOS LATAM AI Map 2026*

@@ -2,7 +2,7 @@
 
 > Core platforms and frameworks for building enterprise AI solutions.
 > Priority: MIT / Apache 2.0 / LGPL — safe for commercial customization.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08
 
 ## Enterprise Platforms (ERP / CRM / Collaboration)
 
@@ -39,8 +39,11 @@
 
 | Repo | License | Stars | Description | AI Readiness |
 |------|---------|-------|-------------|--------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Visual GenAI application platform — workflow builder, RAG pipelines, prompt management, multi-model support. Deploy as self-hosted or cloud. REST API for embedding in enterprise systems. | Purpose-built for enterprise AI |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | AGPL-3.0 | 150k+ | Self-hosted workflow automation with 400+ integrations and native AI nodes (ReAct agents, memory, LLM chains). The integration glue between enterprise systems and AI models. | Native AI nodes, self-hosted |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 145k | Visual GenAI application platform — workflow builder, RAG pipelines, prompt management, multi-model support. Deploy as self-hosted or cloud. REST API for embedding in enterprise systems. 1M+ apps deployed in production. | Purpose-built for enterprise AI |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | 90k | Self-hosted workflow automation with 400+ integrations and native AI nodes (ReAct agents, memory, LLM chains). The integration glue between enterprise systems and AI models. | Native AI nodes, self-hosted |
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Reference MCP server implementations: PostgreSQL, filesystem, Slack, GitHub, Google Drive. The connectivity standard for enterprise AI — 97M monthly downloads, Linux Foundation governance. | Native MCP protocol |
+| [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 6k | Open Context Layer for Data and AI. 130+ connectors, data lineage, business glossary, and built-in MCP server. Gives AI agents semantic understanding of enterprise data — critical for high-quality RAG. | MCP server, REST API, AI-native |
+| [ag2ai/ag2](https://github.com/ag2ai/ag2) | Apache-2.0 | 22k | AutoGen community fork positioned as the "Open-Source AgentOS." Active feature development independent of Microsoft. Choose when AutoGen paradigm is wanted without Microsoft stack dependency. | Apache-2.0; multi-agent native |
 
 ---
 *See also: `verticals/solutions.md` for full platform profiles with customization guides.*

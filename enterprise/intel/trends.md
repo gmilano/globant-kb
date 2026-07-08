@@ -1,7 +1,7 @@
 # Current Trends — Enterprise AI (July 2026)
 
 > The signals shaping enterprise AI decisions right now.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08
 
 ## Macro Trend: The Agentic Enterprise Tipping Point
 
@@ -86,7 +86,7 @@ n8n / LangGraph   → Connective tissue (in open-source stacks)
 
 ## Trend 5: EU AI Act Compliance Forcing Governance Tooling Adoption
 
-**Timeline**: EU AI Act obligations begin **August 2026** for high-risk AI applications.
+**⚠️ DEADLINE IN 25 DAYS**: EU AI Act full obligations begin **August 2, 2026** for high-risk AI applications. As of July 8, 2026, organizations have 25 days to achieve compliance or face enforcement.
 
 **What enterprises must have**:
 - Risk classification system for AI use cases
@@ -119,14 +119,15 @@ n8n / LangGraph   → Connective tissue (in open-source stacks)
 
 ## Trend 7: MCP (Model Context Protocol) as the Enterprise Integration Standard
 
-**What's happening**: MCP has become the de facto protocol for connecting AI agents to enterprise systems. Every major enterprise platform is adding MCP support:
+**What's happening**: MCP has become the de facto protocol for connecting AI agents to enterprise systems. In December 2025, Anthropic donated MCP to the Agentic AI Foundation (AAIF) under the Linux Foundation — co-founded by Anthropic, Block, and OpenAI. As of July 2026: **97M monthly SDK downloads**, **10,000+ active MCP servers in production**. Every major enterprise platform is adding MCP support:
 - Twenty CRM: native MCP server
-- ERPNext: community MCP server (rakeshgangwar/erpnext-mcp-server)
+- ERPNext: community MCP server (rakeshgangwar/erpnext-mcp-server, MIT)
+- OpenMetadata: built-in MCP server (AI agents get data catalog access)
 - Odoo: community MCP modules emerging
 - GLPI: API-to-MCP wrapper pattern
 - Microsoft products: built into MAF 1.0
 
-**Why this matters**: MCP reduces AI integration cost from "custom API development" to "configure MCP server." A Dify or Claude-powered agent can operate any MCP-enabled system via natural language within days, not months.
+**Why this matters**: MCP reduces AI integration cost from "custom API development" to "configure MCP server." A Dify or Claude-powered agent can operate any MCP-enabled system via natural language within days, not months. The Linux Foundation governance gives enterprises the open-standard confidence needed for long-term investment.
 
 ---
 
@@ -135,10 +136,21 @@ n8n / LangGraph   → Connective tissue (in open-source stacks)
 | Stat | Value | Source |
 |------|-------|--------|
 | Enterprise apps with AI agents (end 2026) | 40% | Gartner |
+| Global 2000 roles engaging with agents (end 2026) | 40% | IDC |
+| Agentic AI spending 2026 | **$201.9B** (141% YoY surge) | Multiple analysts |
+| Agentic AI market (pure-play enterprise) | $9.14–$10.86B | Gartner / IDC |
+| Enterprises claiming AI agent adoption | 79% | Accelirate |
+| Enterprises actually in production | 11% | Accelirate |
+| Agentic projects canceled by 2027 (Gartner warning) | 40% | Gartner |
 | Average agentic AI ROI | 171% (US: 192%) | OneReach |
 | Klarna AI agent savings | $60M, 853 FTE equivalent | Klarna Q3 2025 |
 | Enterprises with mature AI governance | 21% | Deloitte |
 | LATAM AI market 2026 | $40.5B | MarketDataForecast |
+| LATAM enterprise AI deployment rate | 47% | IDC / Numoru |
+| LATAM orgs planning AI budget increase | 97% (+14% avg) | IDC LATAM 2026 |
+| LATAM interannual agentic growth expected | 80% | IDC |
+| MCP monthly SDK downloads | 97M | Anthropic / Linux Foundation |
+| Active MCP servers in production | 10,000+ | Linux Foundation AAIF |
 | Time savings from agentic AI | 65–86% vs human-only | Stanford HAI / MIT CSAIL |
 | McKinsey projected US AI economic value (2030) | $2.9T/year | McKinsey |
 

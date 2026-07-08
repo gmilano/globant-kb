@@ -1,6 +1,6 @@
 # Trending Repos — Enterprise AI (July 2026)
 
-> Repos with strong momentum this week. Updated: 2026-07-07
+> Repos with strong momentum this week. Updated: 2026-07-08
 
 ## 🚀 Breakout Growth
 

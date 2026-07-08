@@ -2,7 +2,7 @@
 
 > Concrete recipes: which repos, which agents, how to wire them, estimated effort.
 > All patterns use only MIT/Apache/AGPL-licensed components.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08
 
 ## Architecture Stack (Reference)
 
@@ -385,6 +385,187 @@ erpnext-mcp start --url http://erp:8000 --api-key $ERP_API_KEY
 # 7. Connect n8n to all services
 # → n8n UI > Credentials > Add Dify, ERPNext, GLPI credentials
 ```
+
+---
+
+## Pattern 7: EU AI Act Compliance Agent (⚠️ Deadline Aug 2, 2026)
+
+**Goal**: Automated AI governance — classify AI systems by risk level, generate compliance documentation, create audit trails before the August 2 EU AI Act deadline.
+
+**Stack**:
+- **OpenMetadata** (github.com/open-metadata/OpenMetadata, Apache-2.0) — AI system registry + lineage
+- **LangGraph** (github.com/langchain-ai/langgraph, MIT) — compliance assessment workflow
+- **LangFuse** (github.com/langfuse/langfuse, MIT) — audit trails and decision logging
+- **Open Policy Agent** (github.com/open-policy-agent/opa, Apache-2.0) — policy enforcement
+- **Claude claude-sonnet-5** — risk assessment reasoning
+
+**Architecture**:
+```python
+from langgraph.graph import StateGraph, END
+from langchain_anthropic import ChatAnthropic
+from typing import TypedDict, List
+
+class ComplianceState(TypedDict):
+    system_name: str
+    description: str
+    use_case: str
+    processes_eu_data: bool
+    risk_level: str          # UNACCEPTABLE/HIGH/LIMITED/MINIMAL
+    required_controls: List[str]
+    documentation: dict
+    gaps: List[str]
+
+llm = ChatAnthropic(model="claude-sonnet-5")
+
+EU_AI_ACT_CLASSIFIER = """
+Classify this AI system under EU AI Act risk categories:
+
+System: {system_name}
+Description: {description}  
+Use case: {use_case}
+
+UNACCEPTABLE: real-time biometric in public, social scoring, manipulation of vulnerable groups
+HIGH: HR/recruitment, credit scoring, law enforcement, critical infrastructure, education assessment
+LIMITED: chatbots, emotion recognition (transparency required)
+MINIMAL: spam filters, AI games, recommendation systems
+
+Required controls by level:
+- HIGH: conformity assessment, technical documentation, human oversight, incident reporting, registration in EU database
+- LIMITED: disclosure to users that they're interacting with AI
+- MINIMAL: voluntary codes of conduct
+
+Respond as JSON: {{"risk_level": "...", "required_controls": [...], "documentation_needed": [...]}}
+"""
+
+def classify_risk(state: ComplianceState) -> ComplianceState:
+    response = llm.invoke(EU_AI_ACT_CLASSIFIER.format(**state))
+    import json
+    data = json.loads(response.content)
+    state["risk_level"] = data["risk_level"]
+    state["required_controls"] = data["required_controls"]
+    state["documentation"] = {"needed": data["documentation_needed"]}
+    return state
+
+def audit_current_state(state: ComplianceState) -> ComplianceState:
+    gaps = []
+    if "human_oversight" in state["required_controls"]:
+        gaps.append("No human-in-the-loop mechanism documented")
+    if "technical_documentation" in state["required_controls"]:
+        gaps.append("Model card and training data provenance not available")
+    if "incident_reporting" in state["required_controls"]:
+        gaps.append("No incident reporting workflow configured")
+    state["gaps"] = gaps
+    return state
+
+graph = StateGraph(ComplianceState)
+graph.add_node("classify", classify_risk)
+graph.add_node("audit", audit_current_state)
+graph.add_edge("classify", "audit")
+graph.add_edge("audit", END)
+graph.set_entry_point("classify")
+compliance_app = graph.compile()
+
+# Run for each AI system
+systems = [
+    {"system_name": "Loan Approval Agent", "use_case": "credit_scoring", "processes_eu_data": True},
+    {"system_name": "HR Resume Screener", "use_case": "recruitment", "processes_eu_data": True},
+    {"system_name": "Customer Support Bot", "use_case": "chatbot", "processes_eu_data": True},
+]
+for system in systems:
+    result = compliance_app.invoke(system)
+    print(f"{system['system_name']}: {result['risk_level']} — {len(result['gaps'])} gaps")
+```
+
+**Effort**: 2–3 weeks | Globant package: AI Act Compliance Sprint
+**LATAM note**: Add LGPD checks for Brazil — personal data processing by AI agents requires legal basis documentation
+
+---
+
+## Pattern 8: LATAM LGPD-Compliant Self-Hosted AI Stack
+
+**Goal**: Full on-premise enterprise AI for regulated LATAM clients (Brazil LGPD, Argentina Ley de Datos). Zero data egress — all LLM processing stays within client network.
+
+**Stack**:
+- **Ollama** (github.com/ollama/ollama, MIT) — local LLM (Llama 3.1 70B or Qwen2.5 72B)
+- **Dify self-hosted** (github.com/langgenius/dify, Apache-2.0) — agentic platform
+- **pgvector** (github.com/pgvector/pgvector, MIT) — vector store in PostgreSQL
+- **ERPNext** (github.com/frappe/erpnext, GPL-3.0) — on-premise ERP
+- **Rocket.Chat** (github.com/RocketChat/Rocket.Chat, MIT) — self-hosted messaging
+- **Keycloak** (github.com/keycloak/keycloak, Apache-2.0) — identity/SSO
+
+**Docker Compose**:
+```yaml
+version: "3.9"
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes: [ollama_data:/root/.ollama]
+    ports: ["11434:11434"]
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+  dify-api:
+    image: langgenius/dify-api:latest
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - OPENAI_API_BASE=http://ollama:11434/v1
+      - OPENAI_API_KEY=ollama
+      - DATABASE_URL=postgresql://dify:${DB_PASS}@postgres/dify
+      - REDIS_URL=redis://redis:6379/0
+    depends_on: [postgres, redis, ollama]
+
+  dify-web:
+    image: langgenius/dify-web:latest
+    environment:
+      - NEXT_PUBLIC_API_PREFIX=http://dify-api:5001/v1
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes: [pg_data:/var/lib/postgresql/data]
+
+  redis:
+    image: redis:7-alpine
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KC_PASS}
+
+volumes:
+  ollama_data:
+  pg_data:
+```
+
+**Model pull on first run**:
+```bash
+docker exec ollama ollama pull llama3.1:70b    # Portuguese/Spanish capable
+docker exec ollama ollama pull nomic-embed-text  # Embeddings for RAG
+```
+
+**LGPD Checklist**:
+- [x] All processing on-premise (no external API calls)
+- [x] Audit logs in local PostgreSQL with 5-year retention
+- [x] Keycloak RBAC ensures only authorized personnel access AI outputs
+- [x] Data subject rights handled via ERPNext contacts module
+- [ ] Data Protection Officer (DPO) documentation required
+- [ ] ROPA (Records of Processing Activities) to be maintained
+
+**Effort**: 3–4 weeks infrastructure + 2–4 weeks application layer
+**Target clients**: Brazilian financial services, healthcare, government, regulated telcos
+
+---
 
 **LangFuse for observability** (add to any pattern):
 ```python

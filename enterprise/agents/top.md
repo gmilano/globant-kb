@@ -2,7 +2,7 @@
 
 > Open-source AI agents and orchestration tools for enterprise automation.
 > Focus: MIT / Apache 2.0 / AGPL — licensable for commercial builds.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08
 
 ## Core Orchestration Frameworks
 
@@ -25,6 +25,8 @@
 |------|---------|--------|-------|-------------|
 | [ERPNext MCP Server](https://github.com/rakeshgangwar/erpnext-mcp-server) | MIT | github.com/rakeshgangwar/erpnext-mcp-server | 104 | Exposes ERPNext/Frappe as an MCP server — lets any AI assistant (Claude, GPT, Cursor) create invoices, purchase orders, and query ERP data via natural language. |
 | [OpenManus](https://github.com/mannaandpoem/OpenManus) | MIT | github.com/mannaandpoem/OpenManus | 10k+ | Open-source implementation of Manus general-purpose computer-use agent. Executes browser, terminal, and API tasks autonomously. Enterprise automation without proprietary lock-in. |
+| [AG2 / ag2ai](https://github.com/ag2ai/ag2) | Apache-2.0 | github.com/ag2ai/ag2 | 22k | AutoGen community fork positioned as the "Open-Source AgentOS." Active feature development separate from Microsoft Agent Framework. Choose AG2 when you want AutoGen's paradigm without Microsoft stack dependency. |
+| [MCP Servers](https://github.com/modelcontextprotocol/servers) | MIT | github.com/modelcontextprotocol/servers | 18k | Reference MCP server implementations: PostgreSQL, filesystem, Slack, GitHub, Google Drive, and more. Foundation for enterprise AI connectivity. 97M monthly SDK downloads across all MCP clients. |
 
 ---
 *Updated automatically by the ingest pipeline.*

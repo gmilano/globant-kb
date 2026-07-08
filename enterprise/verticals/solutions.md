@@ -2,7 +2,7 @@
 
 > Real platforms Globant can fork, customize, and layer AI on top of.
 > Model: start with a functional system → add agentic layer → build vertical solution.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08
 
 ## ERP (Enterprise Resource Planning)
 
