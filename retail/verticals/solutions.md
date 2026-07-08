@@ -1,91 +1,82 @@
-# 🏭 Verticales de partida — Retail & Consumer
+# 🏭 Verticales de partida — Retail & E-Commerce
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v6)
 
-## Plataformas recomendadas
+## Plataformas E-Commerce headless (punto de partida preferido)
 
-| Plataforma | Licencia | URL | Stars | Stack | Caso de uso principal |
-|------------|----------|-----|-------|-------|----------------------|
-| **Medusa.js** | MIT | [medusajs/medusa](https://github.com/medusajs/medusa) | 31k | Node.js / TypeScript | Commerce platform "for agents & developers"; API-first, módulos desacoplados, MCP server disponible; mejor opción para proyectos AI-native |
-| **Saleor** | BSD-3-Clause | [saleor/saleor](https://github.com/saleor/saleor) | 23k | Python / Django / GraphQL | Multi-channel, MACH architecture; GraphQL-first ideal para integraciones AI; fuerte en enterprise LATAM |
-| **Vendure** | MIT | [vendure-ecommerce/vendure](https://github.com/vendure-ecommerce/vendure) | 6.9k | TypeScript / NestJS | Plugin architecture robusta; TypeScript end-to-end; ideal para equipos que vienen de NestJS |
-| **WooCommerce** | GPL-2.0 | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | 10.1k | PHP / WordPress | 28% del ecommerce mundial; enorme ecosistema; ideal para retailers PYME existentes que quieren añadir AI |
-| **PrestaShop** | OSL-3.0 | [PrestaShop/PrestaShop](https://github.com/PrestaShop/PrestaShop) | 8.7k | PHP | Dominante en Europa + LATAM (Brasil, Argentina, Colombia); v9 lanzada 2025 con mejoras de performance |
-| **OpenCart** | MIT | [opencart/opencart](https://github.com/opencart/opencart) | 7.9k | PHP | Ligero, fácil install; licencia MIT máxima flexibilidad; bueno para retailers PYME; multistore out-of-the-box |
-| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | 40k | Python | ERP completo: ecommerce + POS + CRM + inventario + contabilidad; Community Edition libre; mayor ERP open source |
-| **Bagisto** | MIT | [bagisto/bagisto](https://github.com/bagisto/bagisto) | 15k | Laravel / PHP | Ecommerce multi-vendor; Laravel ecosystem; bueno para marketplaces; soporte nativo multi-canal |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | 700 | Java | ERP enterprise completo: inventario, CRM, contabilidad, ecommerce, POS; ideal para retailers grandes con equipos Java |
+| Plataforma | Repo | Licencia | Stars | Stack | Por qué usarla |
+|------------|------|----------|-------|-------|----------------|
+| **Medusa.js** | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31k★ | Node.js/TypeScript | Headless modular, MCP server, ideal para D2C y marketplaces. Base para aceleradores Globant. |
+| **Saleor** | [saleor/saleor](https://github.com/saleor/saleor) | Apache-2.0 | 23k★ | Python/Django + GraphQL | GraphQL-first, multi-canal, multi-warehouse. Ecosystem de apps activo. |
+| **Vendure** | [vendure-ecommerce/vendure](https://github.com/vendure-ecommerce/vendure) | MIT | 6k★ | TypeScript/NestJS | TypeScript-native, plugin architecture. Para equipos TS puros. |
+| **WooCommerce** | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.5k★ | PHP/WordPress | 28% del ecommerce mundial. MCP nativo v10.3. Mercado LATAM enorme. |
+| **Bagisto** | [bagisto/bagisto](https://github.com/bagisto/bagisto) | OSL-3.0 | 15k★ | PHP/Laravel | Multi-inventory, multi-currency, multi-canal. Para equipos PHP Laravel. |
 
----
+## ERP con módulo E-Commerce
 
-## Análisis de decisión: ¿cuál plataforma elegir?
+| Plataforma | Repo | Licencia | Stars | Descripción | Cuándo usarlo |
+|------------|------|----------|-------|-------------|---------------|
+| **Odoo** | [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 40k★ | ERP+CRM+ecommerce todo-en-uno. AI integrado. | Cliente quiere todo integrado: ventas, inventario, contabilidad + tienda online |
+| **Apache OFBiz** | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 1.2k★ | ERP enterprise Java completo: accounting, manufacturing, HR, inventory, CRM, catalog, ecommerce | Enterprise grande con procesos complejos |
+| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 22k★ | ERP open source completo basado en Python/Frappe. Popular en PyMEs de retail LATAM | PyME retail con presupuesto limitado |
+| **Dolibarr** | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | GPL-3.0 | 5.3k★ | ERP+CRM simple para pequeños negocios: facturas, inventario, proyectos, clientes | Pequeño retailer que necesita ERP + CRM básico |
 
-### Por tipo de cliente
+## Motores de búsqueda y catálogo
 
-```
-Retailer PYME (~$1M-$10M GMV):
-  ├─ Nuevo proyecto: Medusa.js (MIT, headless, AI-native)
-  ├─ Ya en WordPress: WooCommerce + WP AI plugins
-  └─ LATAM / Europa: PrestaShop (comunidad local fuerte)
+| Plataforma | Repo | Licencia | Stars | Descripción |
+|------------|------|----------|-------|-------------|
+| **Meilisearch** | [meilisearch/meilisearch](https://github.com/meilisearch/meilisearch) | MIT | 50k★ | Motor de búsqueda Rust ultra-rápido. Typo-tolerance, facets, filtros. Reemplazo de Elasticsearch para retail. |
+| **Typesense** | [typesense/typesense](https://github.com/typesense/typesense) | GPL-3.0 | 21k★ | Motor de búsqueda open source. AI search + reranking. Self-hosted alternativa a Algolia. |
+| **Weaviate** | [weaviate/weaviate](https://github.com/weaviate/weaviate) | BSD-3 | 12k★ | Vector DB + semantic search. Para búsqueda visual/semántica de productos. |
+| **Qdrant** | [qdrant/qdrant](https://github.com/qdrant/qdrant) | Apache-2.0 | 22k★ | Vector search engine. Para recomendaciones basadas en embeddings de imágenes y texto. |
 
-Retailer Mid-market (~$10M-$100M GMV):
-  ├─ Multi-channel / omnichannel: Saleor (GraphQL MACH)
-  ├─ Team TypeScript: Vendure
-  └─ Necesita ERP integrado: Odoo Community
+## Analytics y BI
 
-Enterprise (~$100M+ GMV):
-  ├─ Best-of-breed / composable: Saleor + Gorse + LangGraph
-  └─ Suite completa: Odoo Enterprise o Apache OFBiz + AI layer
-```
+| Plataforma | Repo | Licencia | Stars | Descripción |
+|------------|------|----------|-------|-------------|
+| **Apache Superset** | [apache/superset](https://github.com/apache/superset) | Apache-2.0 | 63k★ | BI moderno. Dashboards de ventas, inventario, comportamiento de usuario para retail. |
+| **Metabase** | [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 39k★ | Analytics self-hosted con AI query. Fácil para equipos no-técnicos de retail. |
 
-### Por objetivo AI
+## Cómo añadir capa AI a cada plataforma
 
-```
-AI Shopping Assistant:
-  └─ Medusa.js + NVIDIA Retail Shopping Assistant blueprint
-
-AI Recommendations:
-  └─ Cualquier plataforma + Gorse (REST API) o Microsoft Recommenders
-
-AI Customer Support:
-  └─ Cualquier plataforma + retailGPT + multi-agent-rag
-
-Dynamic Pricing AI:
-  └─ Cualquier plataforma + tensor-house DQN pricing notebooks
-
-Visual Search:
-  └─ Medusa.js o Saleor + modelo CLIP/ViT + endpoint REST
-```
-
----
-
-## Cómo customizar con AI
-
-### Paso a paso genérico
-
-1. **Elige la plataforma base** según el análisis de arriba
-2. **Expón APIs necesarias**: catálogo, búsqueda, inventario, órdenes
-3. **Conecta un sistema de recomendación**: Gorse para producción, RecBole para research
-4. **Añade AI conversacional**: retailGPT o LangGraph-based multi-agent
-5. **Implementa UCP** (Universal Commerce Protocol de Google) para compatibilidad con agentes AI externos (ChatGPT, Perplexity, etc.)
-6. **Monitorea con ML**: tensor-house para pricing, forecasting, LTV
-
-### Medusa.js + AI: quick start
+### Medusa.js + AI (recomendado para nuevos proyectos)
 
 ```bash
-# 1. Instalar Medusa
-npx create-medusa-app@latest my-retail-store
+# 1. Setup Medusa base
+npx create-medusa-app@latest my-store
 
-# 2. Añadir MCP server (para integración con Claude/AI agents)
-cd my-retail-store/backend
-npm install medusa-mcp  # github.com/SGFGOV/medusa-mcp
+# 2. Instalar MCP server
+npm install @sgfgov/medusa-mcp
 
-# 3. Iniciar Gorse (recomendaciones)
-docker run -p 8087:8087 zhenghaoz/gorse-in-one
+# 3. Añadir Gorse para recomendaciones
+docker run -d -p 8088:8088 zhenghaoz/gorse-in-one
 
-# 4. Conectar NVIDIA Shopping Assistant blueprint
-git clone https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant
-# Configurar CATALOG_API_URL → Medusa API
+# 4. Conectar Claude como agente de soporte
+# Ver compose/patterns.md Patrón 1
 ```
+
+### WooCommerce + AI (para clientes WordPress existentes)
+
+```bash
+# 1. Actualizar a WooCommerce 10.3+
+# 2. MCP ya disponible nativamente
+# 3. Configurar Claude Desktop o cualquier cliente MCP
+# 4. Conectar al endpoint MCP del store
+```
+
+### Odoo + AI (para clientes enterprise)
+
+```python
+# Odoo expone un RPC API completo
+import xmlrpc.client
+url = 'https://myodoo.com'
+db = 'mydb'
+
+# Wrappear con agente LangGraph
+# Ver compose/patterns.md Patrón 6
+```
+
+---
+*Ver también: `repos/foundations.md` para repos de infraestructura AI.*

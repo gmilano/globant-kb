@@ -1,96 +1,77 @@
-# 🗺️ Mapa de mercado — Retail & Consumer AI
+# 🗺️ Mapa de mercado — Retail & E-Commerce AI
 
-> Players globales, oportunidades LATAM, posicionamiento Globant.
-> Última actualización: 2026-07-07
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-08 (v6)
 
-## Tamaño del mercado (2026)
+## Tamaño de mercado
 
-| Segmento | Valor 2026 | Proyección | CAGR |
-|----------|-----------|------------|------|
-| AI en retail (global) | $45B+ | — | — |
-| Agentic AI en retail/ecommerce | $60.43B | $218.37B (2031) | 29.29% |
-| AI platforms en US ecommerce | $20.9B (1.5% del total US) | — | — |
-| LATAM ecommerce total | $200B+ | — | ~15% YoY |
+| Segmento | 2026 | 2031 | CAGR |
+|----------|------|------|------|
+| AI en Retail (global) | $18.64B | $82.72B | 34.7% |
+| Agentic AI en Retail + eCommerce | $60.43B | $218.37B | 29.29% |
+| eCommerce LATAM (total) | $215B+ | — | crecimiento sostenido |
+| AI en LATAM (total) | $40.50B | $504.71B | 37.07% |
 
-**Datos clave de adopción:**
-- 89% de retailers usando o probando AI activamente (NVIDIA survey 2026)
-- 58% ya en despliegue completo (vs. experimental)
-- Amazon: 35% de ventas desde recomendaciones AI
-- Shopify: órdenes desde búsqueda AI crecieron 15x YoY
+Fuentes: Mordor Intelligence 2026, Fortune Business Insights, Market Data Forecast.
 
----
+**Dato clave**: 89% de retailers usan o prueban AI activamente; 58% en deployment activo (NVIDIA State of AI Retail 2026).
 
-## Players globales
+## Players globales en AI Retail
 
-| Empresa | Tipo | Fortaleza | Posición 2026 |
-|---------|------|-----------|----------------|
-| **Amazon** | Retailer + Plataforma | AWS AI services, recomendaciones, Alexa, Just Walk Out | Líder indiscutido; 35% ventas por AI recoms |
-| **Shopify** | Plataforma SaaS | Shopify Magic AI, 1M+ merchants, plugins ecosystem | Dominante PYME; AI baked into core product |
-| **Salesforce** | CRM + Commerce Cloud | Einstein AI, Agentforce Commerce, 150k clientes | Enterprise; fuerte en omnichannel B2B+B2C |
-| **Adobe** | Commerce (ex-Magento) + Marketing | Firefly, AI-native marketing suite, Sensei AI | Enterprise; fuerte en D2C grandes marcas |
-| **Commercetools** | SaaS headless | MACH architecture, composable commerce, 340+ merchants | Enterprise européo; referencia técnica MACH |
-| **Bloomreach** | Discovery + CMS | Loomi AI, personalización en tiempo real | Search & Discovery especializado |
-| **NVIDIA** | Chips + Blueprints | Retail Blueprints, NIM microservices, AI hardware | Infraestructura; define el stack de referencia |
-| **Google** | Search + AI | Shopping AI, UCP protocol, Gemini para retail | Distribución masiva; dueño del discovery intent |
-
-### Actores open source clave
-
-| Proyecto | Modelo | Relevancia Globant |
-|----------|--------|--------------------|
-| Medusa.js | MIT, VC-backed | Plataforma base recomendada para proyectos nuevos |
-| Saleor | BSD-3, VC-backed | Alternativa Python; fuerte en LATAM enterprise |
-| Odoo | LGPL Community | ERP completo; alta demanda de implementadores en LATAM |
-| WooCommerce / Automattic | GPL | 28% mercado mundial; gigantesca oportunidad de AI add-ons |
-
----
+| Empresa | Tipo | Fortaleza AI | Posición Open Source |
+|---------|------|-------------|---------------------|
+| **MercadoLibre** | Plataforma LATAM | Recomendación + logística AI propia | Propietario; integra herramientas OS |
+| **Shopify** | SaaS ecommerce | 4 MCP servers, co-autor UCP, Sidekick AI | Parcial open source; ecosistema apps |
+| **NVIDIA** | Infraestructura AI | Blueprints retail open source (Apache-2.0) | Fuerte — referencia arquitectónica |
+| **Google** | Plataforma/Search | UCP spec, AI Mode Shopping, Gemini Commerce | Apache-2.0 UCP spec |
+| **Stripe** | Pagos | MCP server producción, co-autor ACP | Parcial; SDK open |
+| **Walmart** | Retailer enterprise | Co-autor UCP, AI supply chain | Propietario interno |
+| **Target** | Retailer | Co-autor UCP, recomendaciones AI | Propietario interno |
+| **Salesforce Commerce Cloud** | SaaS enterprise | Einstein AI, Agentforce Retail | Propietario |
+| **Algolia** | Search/Rec SaaS | AI search + NLP + personalization | SDKs open source |
+| **Gorgias** | CX/Support AI | Agentic customer service para DTC brands | Propietario |
 
 ## Oportunidades AI en LATAM
 
-### Contexto LATAM
+### Mercados principales
 
-- **LATAM ecommerce**: $200B+ en GMV 2026, crecimiento ~15% YoY (LATAM el de más rápido crecimiento global)
-- **MercadoLibre**: Dominante; Meli AI incorporando recomendaciones personalizadas masivas
-- **Falabella, Liverpool, Walmart LATAM**: Grandes inversiones en AI para personalización y predicción de demanda
-- **PYME digital**: Millones de merchants en WhatsApp/Instagram/TikTok Shop sin herramientas AI básicas
+| País | Mercado eCommerce | Madurez AI | Gap / Oportunidad |
+|------|-------------------|------------|-------------------|
+| **Brasil** | #1 LATAM, $90B+ | Media-alta | LGPD compliance + AI; WhatsApp Commerce; Pix AI |
+| **México** | #2 LATAM, $45B+ | Media | Agentic commerce first-mover; retail chains (Liverpool, Elektra) |
+| **Argentina** | #3 LATAM, $25B+ | Media | Inestabilidad cambiaria → pricing dinámico AI urgente |
+| **Colombia** | Creciendo | Baja-media | D2C marcas + marketplace AI (Falabella, Rappi) |
+| **Chile** | Penetración alta | Media | Falabella.com + CMR Falabella, Cornershop |
 
-### Gaps específicos donde Globant puede entrar
+### Brechas específicas (donde Globant puede entrar)
 
-| Oportunidad | Dolor actual | Solución AI open source | Esfuerzo |
-|-------------|-------------|------------------------|----------|
-| **Personalización para PYME** | Plataformas básicas sin recomendaciones | Gorse + Medusa/WooCommerce | 4-6 semanas |
-| **Chatbot de soporte en español/portugués** | Bots básicos, sin RAG sobre catálogo | retailGPT + multilingual LLM | 3-4 semanas |
-| **Demanda forecasting regional** | Excel o ERP sin ML | tensor-house + Odoo API | 6-8 semanas |
-| **Visual search para moda** | Búsqueda solo textual | CLIP + Medusa/Saleor | 4-6 semanas |
-| **WhatsApp commerce agent** | Pedidos manuales por WhatsApp | LangGraph + Twilio + Medusa | 3-4 semanas |
-| **Dynamic pricing** | Precios estáticos vs. competencia | tensor-house DQN + scraping | 6-8 semanas |
-| **Agentic checkout UCP** | No indexados en ChatGPT/Perplexity | Implementar Google UCP | 2-3 semanas |
-
----
+1. **Agentic commerce en LATAM**: Ningún retailer regional tiene UCP/ACP implementado. Window 12-18 meses.
+2. **Recomendaciones AI para PyMEs**: Gorse + Medusa para small/medium retailers sin recursos para Salesforce.
+3. **WhatsApp Commerce + AI**: Brasil y México con 95%+ penetración. Agentes conversacionales sobre catálogo.
+4. **Pricing dinámico con volatilidad cambiaria (Argentina)**: Tensor-House pricing notebooks + AI rules engine.
+5. **Catálogo enrichment en español/portugués**: NVIDIA Catalog Enrichment + Claude para LATAM retailers con catálogos deficientes.
+6. **Supply chain / last-mile AI**: Logística LATAM caótica — NVIDIA Warehouse Blueprint adaptado a condiciones locales.
 
 ## Posicionamiento Globant
 
-### Propuesta de valor diferencial
+### Propuesta de valor
 
-```
-Globant AI Studios — Retail Practice
-├── Speed: blueprints NVIDIA + open source → PoC en 2-3 semanas
-├── Scale: experiencia LATAM + nearshore
-├── Open: MIT/Apache stack → sin vendor lock-in
-└── Agentic-ready: UCP + MCP + LangGraph desde el día 1
-```
+**"AI Retail Accelerators"** — Paquetes pre-construidos sobre open source (Apache-2.0/MIT) que reducen time-to-value de 12 meses a 6-8 semanas:
 
-### Clientes objetivo en LATAM
+| Acelerador | Base OS | Deal Size LATAM | Time-to-Market |
+|------------|---------|-----------------|----------------|
+| Agentic Checkout (UCP/ACP) | NVIDIA Retail-Agentic-Commerce | $150k-400k | 6-8 sem |
+| AI Shopping Assistant | NVIDIA retail-shopping-assistant + Medusa | $100k-300k | 4-6 sem |
+| Smart Recommender | Gorse + Medusa + pgvector | $80k-200k | 3-5 sem |
+| Catalog Enrichment AI | NVIDIA Catalog-Enrichment + Claude Vision | $60k-150k | 3-4 sem |
+| WhatsApp Commerce Agent | Medusa MCP + Claude + WhatsApp API | $80k-200k | 4-6 sem |
+| Supply Chain Intelligence | NVIDIA Warehouse + Odoo | $200k-500k | 8-12 sem |
 
-1. **Retailers mid-market** ($10M-$500M GMV): necesitan personalización nivel enterprise sin costos enterprise
-2. **Fabricantes con canal D2C**: añadir AI sobre ERP existente (Odoo, SAP)
-3. **Marketplaces regionales**: recomendaciones + fraud + pricing
-4. **Retailers brick-and-mortar** con digitalización pendiente: POS AI, shelf intelligence, demand forecasting
+### Diferencial
 
-### Competencia directa (system integrators)
+- Stack 100% Apache-2.0/MIT: sin royalties, sin vendor lock-in.
+- Expertise LATAM: compliance LGPD/LFPDPPP, multilingual (ES/PT), integraciones locales (Pix, SPEI, MercadoPago).
+- NVIDIA partnership: acceso a blueprints y early releases.
 
-| Competidor | Fortaleza | Debilidad vs. Globant |
-|------------|-----------|----------------------|
-| Accenture / McKinsey | Marca, enterprise relationships | Caro, lento, no open source first |
-| TOTVS (LATAM) | ERP install base regional | Limitado en AI nativo |
-| Nuvemshop / Tiendanube | PaaS para PYME | Sin servicios de AI customizados |
-| Agencias locales | Precio bajo | Sin AI expertise, sin escala |
+---
+*Pipeline automático — se actualiza cada hora.*

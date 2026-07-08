@@ -1,127 +1,71 @@
-# 📡 Tendencias — Retail AI 2026
+# 📡 Tendencias — Retail & E-Commerce AI
 
-> Lo que está definiendo el mercado este año.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v6)
 
-## Tendencias principales 2026
+## 10 tendencias clave (2026)
 
----
+### 1. Agentic Commerce — el nuevo paradigma del retail
+- Los agentes AI actúan como proxies de compradores: ejecutan el ciclo completo de compra (discovery → autorización → pago → fulfillment) desde un objetivo en lenguaje natural.
+- Protocolos en producción: **UCP** (Google + Shopify + Target + Walmart, ene-2026), **ACP** (OpenAI + Stripe), **A2A** (Google → Linux Foundation).
+- Dato: retailers con AI agent integration mostraron **~7x mejor crecimiento de ventas** en Cyber Week 2025 vs los sin AI (Salesforce).
+- Acción Globant: proponer "Agentic Commerce Accelerator" basado en NVIDIA-AI-Blueprints/Retail-Agentic-Commerce.
 
-### 1. Agentic Commerce: El cambio definitivo
+### 2. Zero-Click Commerce — compras sin abrir el sitio web
+- Los consumidores (y agentes AI en su nombre) compran sin visitar el sitio del retailer.
+- Los merchants deben optimizar para AEO (Answer Engine Optimization), feeds estructurados y MCP servers.
+- ~33% de consumidores ya están dispuestos a dejar que un AI compre por ellos (Morgan Stanley).
+- Impacto: SEO tradicional muere, los feeds de datos + esquemas de producto = nuevo SEO.
 
-El retail AI en 2026 ya no asiste decisiones — **las toma**. Agentes autónomos perciben, razonan y actúan a lo largo de todo el customer journey.
+### 3. MCP como infraestructura de e-commerce (2026)
+- WooCommerce (10.3, oct-2025): primer MCP nativo — cualquier agente Claude/Cursor puede leer/escribir datos.
+- Shopify: 4 MCP servers oficiales. Stripe: mcp.stripe.com. PayPal: 2025. Medusa: comunidad.
+- Pattern emergente: **"store-as-context"** — todo el catálogo, pedidos e inventario disponible para LLMs.
 
-- OpenAI Instant Checkout: compra directa desde ChatGPT (Stripe-powered)
-- Google AI Mode: agentes que comparan y recomiendan de catálogos reales
-- Perplexity Shop: discovery conversacional con checkout integrado
-- 64% de consumidores planean usar chatbots AI para compras en 2026
-- **Implicación**: retailers que no sean "AI-agent-readable" quedarán fuera de estos canales
+### 4. Personalización predictiva — del reactivo al proactivo
+- Transición de personalización reactiva a motores predictivos que analizan datos en tiempo real (clima, eventos locales, inventario) para anticipar intención del cliente.
+- Incremento en AOV (Average Order Value): **+10% a +15%** con AI recommendations (NVIDIA State of AI Retail 2026).
+- LightFM + Gorse + RecBole como stack open source para cold-start + producción.
 
----
+### 5. LLM Rankers en sistemas de recomendación
+- Gorse v0.5+ integra LLM rankers + multimodal embeddings (texto+imagen+video).
+- Microsoft Recommenders: best practices actualizadas para LLM-enhanced rec systems.
+- Abandono del filtering clásico hacia retrieval+reranking con embeddings semánticos.
 
-### 2. Universal Commerce Protocol (UCP)
+### 6. AI para enriquecimiento de catálogo
+- Retailers con catálogos "sparse" (imágenes incompletas, descripciones inconsistentes) usan GenAI para completarlos automáticamente.
+- NVIDIA Retail Catalog Enrichment (Apache-2.0): pipeline de referencia con imágenes → contenido rico, estructurado, localizado.
+- Acelerador directo para clientes con catálogos de miles de SKUs (moda, electrónica, hogar).
 
-Google anunció en enero 2026 el **UCP**: estándar open source REST/JSON-RPC para que agentes AI se conecten a cualquier catálogo.
+### 7. LATAM — window de 12-18 meses en agentic commerce
+- Mercado LATAM ecommerce: **>$215B en 2026**, liderado por MercadoLibre. CAGR AI en LATAM: 37.07%.
+- Adopción de protocolos agentic (UCP/ACP) casi nula en LATAM — ventana de first-mover.
+- WhatsApp como canal principal: Brasil y México son mobile-first, WhatsApp >95% de penetración.
+- MercadoLibre, Rappi, Falabella, Liverpool: primeras en mover ficha en AI retail LATAM.
 
-- Co-desarrollado con Target, Wayfair, Etsy
-- Permite a cualquier AI agent: navegar catálogo → añadir al carrito → checkout
-- Análogo a lo que el sitemap.xml fue para el SEO: una interfaz estándar para agentes
-- **Implicación**: UCP será table stakes para retailers antes del Q4 2026
+### 8. AI en supply chain y warehouse — el ROI más rápido
+- NVIDIA Multi-Agent Intelligent Warehouse: blueprint open source para WMS/ERP/Robotics.
+- Casos de uso: forecasting de demanda, optimización de rutas, compliance de seguridad, procesamiento de documentos.
+- ROI típico: 15-25% reducción de costos operativos en warehouse en 6-9 meses.
 
----
+### 9. Visual Search + AI Shopping — convergencia
+- NVIDIA Retail Shopping Assistant: búsqueda visual + conversacional integrada (LangGraph multi-agente).
+- Alibaba/Pinterest/Google Lens como referencia; open source: CLIP + pgvector + Gorse.
+- El 57% de los consumidores (Gen Z) prefiere buscar productos por imagen antes que por texto (Insider One 2026).
 
-### 3. Personalización Predictiva (de reactiva a predictiva)
+### 10. Confianza y privacidad — el freno principal
+- Solo el 40% de usuarios confían plenamente en AI para transacciones autónomas (Retailer Customer Experience 2026).
+- LATAM: LGPD (Brasil) + leyes similares en AR, MX, CO — datos locales son requisito.
+- Stack defensivo: Ollama local + Medusa self-hosted + LightFM on-premise para clientes con datos sensibles.
 
-Los retailers líderes han pasado de personalizar *en respuesta* a comportamientos a **predecir necesidades** antes de que el consumidor las articule.
+## Tabla de monitoreo de señales
 
-- Análisis en tiempo real: historial de compras + clima + eventos locales + nivel de inventario
-- Amazon: 35% de ventas via recomendaciones AI
-- Reducción del 60-70% en tiempo de decisión de compra con agentes
-- **Stack open source**: tensor-house LTV + Gorse + datos propios
-
----
-
-### 4. Visual Search y Multimodal AI Mainstream
-
-La búsqueda visual pasó de feature premium a expectativa de los consumidores.
-
-- "Foto un producto → encontrar donde comprar" es viral en redes sociales
-- Google Lens procesa miles de millones de búsquedas visuales mensuales
-- Modelos open source: CLIP, ViT, Florence-2 permiten implementar sin costos de API
-- **Implicación**: cualquier retailer de moda/decoración/electrónica necesita visual search
-
----
-
-### 5. Livestream Shopping
-
-- Número de compradores en livestream creció +21% YoY en 2025
-- TikTok Shop: $20B+ en GMV esperados para 2026 solo en US
-- China: $600B+ en livestream commerce
-- LATAM: crecimiento acelerado en Instagram Live + WhatsApp
-- **Implicación**: integración AI para recomendaciones en tiempo real durante streams
-
----
-
-### 6. Shelf Intelligence: AI en el Edge (tienda física)
-
-El siguiente gran frente de AI en retail no es el ecommerce — es la **tienda física**.
-
-- Auditoría de planograma en tiempo real con visión computacional
-- Detección de out-of-stock antes de que el cliente llegue al lineal
-- Análisis de tráfico y conversión por zona de tienda
-- Herramientas: shelfops (GitHub), retail-ai-store-level-intelligence
-- **Implicación**: retailers con tiendas físicas tienen enorme gap no cubierto
+| Señal | Fuente | Impacto | Urgencia |
+|-------|--------|---------|----------|
+| UCP + ACP en producción (20+ retailers) | NRF 2026 / NVIDIA | Muy alto | Inmediata |
+| WooCommerce MCP nativo (28% de tiendas) | WooCommerce Blog | Alto | Q3 2026 |
+| Cyber Week AI 7x ROI | Salesforce 2025 | Alto | Caso de venta |
+| LATAM ecommerce >$215B | MercadoLibre / Mordor | Muy alto | Pipeline |
+| 33% consumidores → AI compras autónomas | Morgan Stanley 2026 | Muy alto | Propuesta estratégica |
 
 ---
-
-### 7. WhatsApp Commerce (LATAM-specific)
-
-En LATAM, WhatsApp es el canal de ventas principal para millones de PYME.
-
-- Brasil: 98% de penetración de WhatsApp; comercio via chat es dominante
-- México, Colombia, Argentina: similarmente alto
-- Oportunidad: agentes LangGraph + WhatsApp Business API + Medusa.js
-- Dolor: pedidos manuales, sin inventario en tiempo real, sin checkout automático
-
----
-
-### 8. Resale / Recommerce + AI
-
-El mercado de segunda mano creció un 15%+ en 2026 impulsado por AI.
-
-- AI para pricing automático de items usados (condición → precio de mercado)
-- Authenticación de lujo con visión computacional
-- Plataformas: ThredUp, Vinted, Mercado Libre con módulos de recommerce
-- **Implicación**: nuevos modelos de negocio donde AI es el diferenciador core
-
----
-
-### 9. Supply Chain AI: De Forecasting a Orquestación
-
-El supply chain evolucionó de forecasting estadístico a **orquestación multi-agente**.
-
-- NVIDIA Multi-Agent Intelligent Warehouse: picking optimizer + inventory real-time
-- tensor-house supply chain RL: agentes que optimizan inventario y reorden
-- Integración directa con ERP (Odoo, SAP) via APIs
-- Reducción de stockouts: 20-40% con modelos bien calibrados
-
----
-
-### 10. Confianza y Humano-en-el-Loop
-
-A pesar del entusiasmo, la confianza es la barrera principal.
-
-- 55% de consumidores NO cómodos con compras autónomas sin aprobación (Riskified Q1 2026)
-- 50% cuentan como cautious sobre AI fully autonomous
-- Mejor práctica: agentic AI con "human in the loop" para órdenes > $X umbral
-- **Implicación**: diseñar flujos con puntos de confirmación explícita del usuario
-
----
-
-## Señales a seguir (próximas 4-8 semanas)
-
-- Adopción de Google UCP por plataformas open source (Medusa, Saleor)
-- Lanzamiento de Shopify Sidekick V2 (agentic commerce nativo)
-- Expansión de TikTok Shop a nuevos mercados LATAM
-- Nuevos blueprints NVIDIA para retail vertical (fashion, grocery, electronics)
-- Regulaciones de IA en compras autónomas (UE AI Act impacto en ecommerce)
+*Pipeline automático — se actualiza cada hora.*

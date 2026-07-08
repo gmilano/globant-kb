@@ -1,39 +1,43 @@
-# 🎯 Agentes AI — Retail & Consumer
+# 🎯 Agentes AI — Retail & E-Commerce
 
-> Agentes y herramientas AI open source para la industria retail. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-07 (quinto pase — agentic commerce, NVIDIA Blueprints, UCP)
+> Agentes y herramientas AI open source para la industria. Foco: MIT / Apache 2.0.
+> Última actualización: 2026-07-08 (v6 — pase completo)
 
 ## Agentes y herramientas destacadas
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [NVIDIA Retail Shopping Assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | Blueprint multi-agente (LangGraph) para advisor de compras: visual search, cart management, streaming responses, 5 agentes especializados (Planner→Product Search→Cart→Q&A→Checkout) | ~400 |
-| [gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | Motor de recomendación en Go con soporte para LLM rankers, embeddings multimodales (texto, imagen, video), classical CF; REST API lista para producción | 9.6k |
-| [Microsoft Recommenders](https://github.com/recommenders-team/recommenders) | MIT | Best practices para sistemas de recomendación: 100+ algoritmos (ALS, SAR, NCF, xDeepFM, LightGBM), notebooks Jupyter, benchmarks | 20k |
-| [RecBole](https://github.com/RUCAIBox/RecBole) | MIT | Framework unificado PyTorch para 94 algoritmos de recomendación (CF, content-based, knowledge-aware, sequential); 44 benchmarks incluidos | 3.5k |
-| [tensor-house](https://github.com/ikatsov/tensor-house) | MIT | Colección de notebooks ML para enterprise: pricing con DQN RL, supply chain optimization, marketing mix, LTV prediction con BTYD, demand forecasting | 1.8k |
-| [retailGPT](https://github.com/unicamp-dl/retailGPT) | MIT | Chatbot RAG para e-commerce: retrieval sobre catálogo de productos, LLM para respuestas conversacionales, integración con bases de datos de inventario | 180 |
-| [multi-agent-rag-customer-support](https://github.com/ro-anderson/multi-agent-rag-customer-support) | MIT | Sistema multi-agente de soporte al cliente con LangChain + LangGraph: routing de intenciones, RAG sobre FAQs/políticas, escalamiento a humano | 120 |
-| [NVIDIA Multi-Agent Intelligent Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | Apache-2.0 | Blueprint multi-agente para logística: optimización de picking, gestión de inventario en tiempo real, integración con sistemas WMS/ERP | ~300 |
-| [LightFM](https://github.com/lyst/lightfm) | Apache-2.0 | Recomendador híbrido (colaborativo + content-based) en Python/Cython: escalable, soporta cold start, usado en producción por múltiples retailers | 4.7k |
-| [shelfops](https://github.com/IFAKA/shelfops) | MIT | Auditoría de estantería retail con visión: compara inferencia Cerebras Gemma 4 vs. Gemma local; detecta gaps, productos fuera de lugar, planogramas | ~30 |
-| [retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Inteligencia a nivel de tienda: análisis de tráfico, patrones de compra, optimización de layout usando ML; demo con datos sintéticos realistas | ~10 |
-| [ikatsov/algorithmic-marketing](https://github.com/ikatsov/algorithmic-marketing) | MIT | Notebooks de marketing algorítmico: atribución multi-touch, optimización de presupuesto, modelos de uplift, bid optimization para ads retail | 900 |
+| Nombre | Repo | Licencia | Stars | Descripción |
+|--------|------|----------|-------|-------------|
+| NVIDIA Retail Shopping Assistant | [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | ~800★ | Blueprint multi-agente con LangGraph: búsqueda visual, carrito inteligente, streaming en tiempo real |
+| NVIDIA Retail Agentic Commerce | [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~600★ | Implementación de referencia ACP + UCP — checkout AI-to-AI sin fricciones con control del merchant |
+| NVIDIA Retail Catalog Enrichment | [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~500★ | GenAI para catálogos: transforma imágenes básicas en contenido rico, estructurado y localizado |
+| NVIDIA Multi-Agent Intelligent Warehouse | [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | Apache-2.0 | ~700★ | Capa AI sincronizada sobre WMS/ERP/Robotics — agentes para equipos, tareas, seguridad, forecasting |
+| Gorse — AI Recommender Engine | [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | 9.7k★ | Motor de recomendación en Go con LLM rankers + embeddings multimodales (texto, imagen, video) |
+| Microsoft Recommenders | [recommenders-team/recommenders](https://github.com/recommenders-team/recommenders) | Apache-2.0 | 20k★ | Mejores prácticas Linux Foundation: 50+ algoritmos, notebooks, utilities para producción |
+| RecBole | [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 3.5k★ | Librería unificada PyTorch: 94 algoritmos (CF, sequential, knowledge-enhanced). Benchmark estándar. |
+| LightFM | [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | 4.9k★ | Algoritmo híbrido CF+content-based. Ideal para cold-start. Probado en producción en Lyst/Zalando. |
+| Tensor-House | [ikatsov/tensor-house](https://github.com/ikatsov/tensor-house) | MIT | 3.1k★ | Notebooks de referencia: pricing dinámico, forecasting de demanda (DeepAR/LSTM), marketing mix, supply chain |
+| Skyvern — Browser Agent | [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | AGPL-3.0 | 20k★ | Agente de automatización de navegador: checkout automático, extracción de datos, RPA. SOTA en WebVoyager. |
+| Universal Commerce Protocol (UCP) | [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp) | Apache-2.0 | ~1k★ | Spec open source Google+Shopify+Target+Walmart (NRF ene-2026) para agentic commerce end-to-end |
+| 500 AI Agents Projects | [ashishpatel26/500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects) | MIT | 32k★ | Colección curada 500+ casos de uso de agentes AI por industria con links a implementaciones |
 
 ---
 
-## Cuándo usar cada uno
+## Notas de licencia
 
-| Caso de uso | Agente recomendado |
-|-------------|-------------------|
-| Shopping assistant conversacional | NVIDIA Retail Shopping Assistant |
-| Recomendaciones en producción (API) | Gorse |
-| Investigación/prototipo de recomendaciones | Microsoft Recommenders o RecBole |
-| Cold start + hybrid recommendations | LightFM |
-| Pricing dinámico / supply chain | tensor-house |
-| Chatbot de soporte al cliente | retailGPT + multi-agent-rag-customer-support |
-| Auditoría de estantería con visión | shelfops |
-| Logística / warehouse management | NVIDIA Multi-Agent Intelligent Warehouse |
+- **Skyvern (AGPL-3.0)**: Uso en proyectos internos / SaaS requiere abrir el código derivado. Para productos cliente usar la API cloud o negociar licencia comercial.
+- **NVIDIA Blueprints (Apache-2.0)**: Totalmente libres para producción. Base ideal para aceleradores Globant.
+- **Gorse / Recommenders / LightFM (Apache-2.0)**: Libres en productos comerciales.
+- **RecBole / Tensor-House (MIT)**: Sin restricciones.
+
+## MCP Servers para Retail (2026)
+
+| Server | Repo / URL | Plataforma |
+|--------|-----------|------------|
+| WooCommerce MCP | nativo desde v10.3 | WooCommerce (WordPress) |
+| Medusa MCP | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | Medusa.js |
+| Shopify MCP | oficial (4 servers) | Shopify |
+| Stripe MCP | mcp.stripe.com | Stripe |
+| UCP Merchant sandbox | [steven2030/ucp-merchant](https://github.com/steven2030/ucp-merchant) | UCP spec open source |
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*

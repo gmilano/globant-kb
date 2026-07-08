@@ -1,34 +1,49 @@
-# 📈 Agentes AI trending — Retail & Consumer
+# 📈 Agentes en tendencia — Retail & E-Commerce
 
-> Novedades esta semana en la intersección retail + AI.
-> Última actualización: 2026-07-07
+> Señales esta semana. Última actualización: 2026-07-08
 
-## Qué está ganando tracción (julio 2026)
+## Señales clave
 
-| Repo | Licencia | Por qué es relevante | Stars |
-|------|----------|---------------------|-------|
-| [NVIDIA Retail Shopping Assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | Blueprint de referencia para agentic shopping: LangGraph + visual search + cart management. Conectado a Shopware 6 por la comunidad | ~400 |
-| [NVIDIA Multi-Agent Intelligent Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | Apache-2.0 | Warehouse intelligence con multi-agent: picking optimizer, real-time inventory, integración WMS | ~300 |
-| [shelfops](https://github.com/IFAKA/shelfops) | MIT | Shelf audit con vision LLMs (Cerebras Gemma 4 vs. local): detecta gaps en planograma, OOS, facings incorrectos | ~30 |
-| [retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Demostración de que la mayor oportunidad de AI en retail está en la tienda, no en headquarters | ~10 |
-| [gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | Añadió soporte LLM ranker + embeddings multimodales en 2026; aún el recomendador open source más completo en Go | 9.6k |
-| [retailGPT](https://github.com/unicamp-dl/retailGPT) | MIT | RAG-chatbot ecommerce por Unicamp; creciendo como referencia para LATAM Portuguese | 180 |
+### 1. NVIDIA Retail Agentic Commerce — ACP + UCP en producción (ene-2026)
+- **Repo**: [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce)
+- **Licencia**: Apache-2.0
+- **Señal**: NVIDIA lanzó implementación de referencia del Agentic Commerce Protocol (ACP) y Universal Commerce Protocol (UCP) en enero 2026. Incluye checkout AI-to-AI sin fricción y mantiene el control del merchant sobre precios y políticas.
+- **Relevancia Globant**: Base para propuestas de "agentic checkout" a retailers latinoamericanos en 2H 2026.
 
-## Movimiento de la industria esta semana
+### 2. Universal Commerce Protocol (UCP) — open spec Apache-2.0 (ene-2026)
+- **Repo**: [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp)
+- **Anuncio**: Sundar Pichai en NRF 2026 (ene-11). Co-developers: Shopify, Etsy, Wayfair, Target, Walmart.
+- **Señal**: El UCP define el stack completo para agentic commerce: discovery de productos, negociación de capacidades, checkout, post-compra. Apache-2.0 — compatible con Globant builds.
+- **Acción**: Leer specs en ucp.dev + fork del repo de referencia.
 
-### Google Universal Commerce Protocol (UCP)
-Google anunció en enero 2026 el **Universal Commerce Protocol** (UCP): estándar open source sobre REST/JSON-RPC para que agentes AI se conecten a cualquier catálogo de merchant, inicien checkout y gestionen órdenes. Co-desarrollado con Target, Wayfair y Etsy.
+### 3. WooCommerce v10.3 — MCP nativo (oct-2025, producción activa)
+- **Señal**: WooCommerce 10.3 shippe ó el primer MCP interface nativo. Cualquier cliente Claude / Cursor / VS Code puede leer y escribir datos de la tienda directamente. 28% de todas las tiendas online = mercado enorme para integraciones AI.
+- **Relevancia**: Habilita patrones de "store-as-context" para agentes de soporte, merchandising y forecasting.
 
-**Implicación**: Las plataformas ecommerce necesitan implementar endpoints UCP para ser "AI-agent-ready". Medusa.js y Saleor ya están trabajando en plugins de compatibilidad.
+### 4. Gorse v0.5+ — LLM Rankers + Multimodal Embeddings
+- **Repo**: [gorse-io/gorse](https://github.com/gorse-io/gorse)
+- **Señal**: Gorse agregó soporte para LLM rankers y embeddings multimodales (texto, imagen, video) en releases recientes. 9.7k★, Apache-2.0, drop-in replacement de motores de recomendación legacy.
+- **Relevancia**: Para retailers con catálogos visuales (moda, hogar, electrónica).
 
-### OpenAI Instant Checkout en ChatGPT
-OpenAI integró Instant Checkout directamente en ChatGPT (powered by Stripe), permitiendo a 700M+ usuarios semanales comprar sin salir del chat. Los retailers que no tengan integración AI-native quedarán fuera de este canal.
+### 5. Agentic Commerce — 7x mejor desempeño en Cyber Week 2025
+- **Dato**: Retailers con AI agent integration mostraron ~7x mejor crecimiento de ventas durante Cyber Week 2025 vs los sin AI.
+- **Señal del mercado**: Zero-click commerce emerge: compradores usan agentes para hacer compras sin visitar el sitio. Implica necesidad de feeds estructurados, MCP servers y AEO (Answer Engine Optimization).
 
-### Agentic Commerce: cifras clave
-- Mercado agentic AI en retail: **$60.43B en 2026** → $218.37B en 2031 (CAGR 29.29%)
-- 89% de retailers usando o probando AI activamente (NVIDIA survey 2026)
-- 64% de consumidores planean usar chatbots AI para compras en 2026
-- Shopify: órdenes desde búsqueda AI crecieron 15x YoY
+### 6. LATAM — eCommerce supera $215B en 2026
+- **Datos**: MercadoLibre lidera un mercado LATAM de ecommerce proyectado a superar $215B en 2026. CAGR AI en LATAM: 37.07%.
+- **Brechas**: Adopción de agentic commerce (UCP/ACP) casi nula en LATAM — window de oportunidad 12-18 meses.
+- **Señal**: Brasil y México son los mercados más listos para AI retail (mobile-first + WhatsApp adoption alta).
+
+## Repos trending esta semana
+
+| Repo | Licencia | Por qué está trending |
+|------|----------|----------------------|
+| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | Primer impl. de referencia ACP+UCP |
+| [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | Blueprint multi-agente con LangGraph |
+| [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp) | Apache-2.0 | Spec del protocolo del futuro del ecommerce |
+| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | LLM + multimodal embeddings en v0.5+ |
+| [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | AGPL-3.0 | 20k★ — mejor agente de browser automation para checkout |
+| [recommenders-team/recommenders](https://github.com/recommenders-team/recommenders) | Apache-2.0 | 20k★ Linux Foundation — estándar de facto |
 
 ---
 *Pipeline automático — se actualiza cada hora.*
