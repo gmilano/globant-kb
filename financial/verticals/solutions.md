@@ -1,89 +1,102 @@
-# Verticales de partida — Financial AI
+# 🏭 Verticales de partida — Financial Services
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-07
+> Plataformas verticales open source customizables con AI. Modelo: partir de algo funcional + añadir capa agéntica.
+> Última actualización: 2026-07-08
 
-## Plataformas recomendadas
+---
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
+## 1. Core Banking & Microfinance
+
+| Plataforma | Licencia | Repo | Stack | Caso de uso |
+|------------|----------|------|-------|-------------|
+| **Apache Fineract** | Apache-2.0 | [apache/fineract](https://github.com/apache/fineract) | Java/Spring Boot, REST API | Core banking para microfinanzas, cooperativas, digital banks en 80+ países. 2B unbanked como mercado objetivo |
+| **Mifos X** | MPL-2.0 | [openMF/mifos-mobile](https://github.com/openMF/mifos-mobile) | Android/iOS Kotlin | Mobile banking app para microfinanzas construida sobre Apache Fineract |
+| **open-bank-oss** | Apache-2.0 | [JiRaska/open-bank-oss](https://github.com/JiRaska/open-bank-oss) | Kotlin/Quarkus + Next.js + event-driven microservices | Retail banking platform reference implementation cloud-native |
+
+**Setup rápido Apache Fineract + AI layer:**
+```bash
+# Fineract en Docker
+git clone https://github.com/apache/fineract
+cd fineract && docker-compose up -d
+
+# Exponemos la API REST de Fineract
+# Luego wire-up con Claude para consultas de crédito
+curl http://localhost:8443/fineract-provider/api/v1/clients \
+  -H "Authorization: Basic ..."
+```
+
+---
+
+## 2. ERP & Contabilidad Financiera
+
+| Plataforma | Licencia | Repo | Stack | Caso de uso |
+|------------|----------|------|-------|-------------|
+| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python/OWL | ERP completo: contabilidad, facturación, nómina, CRM, tesorería. 12M+ empresas |
+| **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe | ERP SMB: contabilidad multi-moneda, impuestos, presupuestos, GST/VAT |
+| **Dolibarr** | GPL-3.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | ERP/CRM modular: facturas, pedidos, stock, contabilidad, RRHH |
+| **LedgerSMB** | GPL-2.0 | [ledgersmb/LedgerSMB](https://github.com/ledgersmb/LedgerSMB) | Perl/PostgreSQL | Accounting ERP para SMB: doble entrada, multi-moneda, auditoría |
+
+---
+
+## 3. Plataformas de Datos & Analytics Financieros
+
+| Plataforma | Licencia | Repo | Stack | Caso de uso |
+|------------|----------|------|-------|-------------|
+| **OpenBB** | AGPLv3 | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | Python | Open Data Platform: 30+ providers (Bloomberg, Polygon, FRED, SEC). MCP server nativo para AI agents |
+| **Apache Superset** | Apache-2.0 | [apache/superset](https://github.com/apache/superset) | Python/React | BI y visualización financiera. Dashboards interactivos sobre cualquier base de datos |
+| **Metabase** | AGPL-3.0 | [metabase/metabase](https://github.com/metabase/metabase) | Clojure/React | Analytics self-service para equipos de finanzas. Natural language queries |
+
+---
+
+## 4. RegTech & Compliance
+
+| Plataforma | Licencia | Org | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
-| [OpenBB](https://github.com/OpenBB-finance/OpenBB) | MIT | openbb.co | Python, FastAPI, MCP | Investment research platform para analistas, quants y AI agents. MCP server nativo. Alternativa open source a Bloomberg Terminal. |
-| [LEAN Engine](https://github.com/QuantConnect/Lean) | Apache-2.0 | quantconnect.com | C#, Python | Motor de trading algorítmico de producción: backtest + live trading. 180+ contribuidores, 300k+ usuarios. Mia AI agent integrado. |
-| [FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | finrl.org | Python, Stable Baselines 3 | Librería de DRL para trading: DOW30, crypto, HFT, portfolio. Train-test-trade pipeline en 3 archivos. |
-| [Marble](https://github.com/checkmarble/marble) | BSL-1.1 | checkmarble.com | Go, React | Motor de decisión para AML y fraud: transaction monitoring, sanctions screening, case management. 15+ países, SOC 2 Type II. |
-| [Jube](https://github.com/jube-home/aml-fraud-transaction-monitoring) | AGPL-3.0 | jube.io | .NET, Docker | AML/fraud con ML, reglas, velocity checks, case management con audit trail. Multi-tenant, Kubernetes. |
-| [Apache Fineract](https://github.com/apache/fineract) | Apache-2.0 | fineract.apache.org | Java/Spring | Core banking para microfinanzas y neobancos: cuentas, préstamos, ahorros. Base de Mifos. Muy usado en LATAM. |
-| [ERPNext/Frappe](https://github.com/frappe/erpnext) | GPL-3.0 | erpnext.com | Python/Frappe, Vue | ERP con módulo financiero completo: accounting, AP/AR, fixed assets, payroll. Alternativa a SAP. |
-| [GnuCash](https://github.com/Gnucash/gnucash) | GPL-2.0 | gnucash.org | C/C++, Guile | Contabilidad de doble entrada para SMBs. Estándar en organizaciones sin fines de lucro y firmas pequeñas. |
-| [Akaunting](https://github.com/akaunting/akaunting) | GPL-3.0 | akaunting.com | PHP/Laravel | Contabilidad online open source: facturas, gastos, reportes. 100k+ empresas. App ecosystem. |
-| [zipline-reloaded](https://github.com/stefan-jansen/zipline-reloaded) | Apache-2.0 | ml4trading.io | Python | Fork mantenido de Zipline (Robinhood). Backtesting event-driven; integra con pyfolio para reporting. |
-| [Hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | hummingbot.io | Python | Market making y arbitraje automatizados en crypto. 40+ exchanges. High-frequency trading open source. |
-| [Rotki](https://github.com/rotki/rotki) | AGPL-3.0 | rotki.com | Python, Vue.js | Portfolio tracker y contabilidad de crypto con privacidad (datos locales). Tax reporting automático. |
+| **FINOS RegTech SIG** | Apache-2.0 | [finos/open-regtech-sig](https://github.com/finos/open-regtech-sig) | Multi-lang | Soluciones open source para AML, KYC, reporting regulatorio en FS |
+| **FINOS CDM** | Apache-2.0 | [finos/common-domain-model](https://github.com/finos/common-domain-model) | Java/Rosetta | Common Domain Model: representación canónica de contratos financieros (ISDA, DTCC) |
+| **FINOS FDC3** | Apache-2.0 | [finos/FDC3](https://github.com/finos/FDC3) | TypeScript | Financial Desktop Connectivity 3.0 — interop estándar cross-firm para apps financieras |
 
 ---
 
-## Mapas de stack por tipo de proyecto
+## 5. Plataformas de Trading Algorítmico
 
-### Para trading algorítmico / quant research
-```
-OpenBB (MIT)         → Datos: equities, crypto, macro, fundamentals
-    ↓
-LEAN Engine (Apache) → Motor de ejecución: backtest + live trading
-    ↓
-FinRL (MIT)          → Agentes DRL: A2C/PPO/SAC para estrategias RL
-    ↓
-TradingAgents (Apache) → Orquestación LLM: analistas + debate + portfolio manager
-    ↓ resultado
-Plataforma quant completa: investigación → estrategia → ejecución → performance analytics
-```
-
-### Para compliance financiero / AML
-```
-Marble (BSL)         → Transaction monitoring en tiempo real + screening
-    ↓
-LangGraph (MIT)      → Orquestación de alertas y escalamiento automático
-    ↓
-Jube (AGPL)         → Case management + audit trail + ML risk scoring
-    ↓
-OpenSign (AGPL)      → Firma de reportes de compliance y actas de investigación
-    ↓ resultado
-Pipeline AML completo: detección → investigación → reporte → archivo
-```
-
-### Para neobancos y banca digital (LATAM)
-```
-Apache Fineract (Apache-2.0)  → Core banking: cuentas, préstamos, ahorros
-    ↓
-FinGPT fine-tuned (MIT)       → Credit scoring con datos alternativos
-    ↓
-Marble (BSL)                  → AML/KYC en tiempo real
-    ↓
-OpenBB MCP (MIT)              → Análisis macroeconómico para risk management
-    ↓ resultado
-Neobank stack completo: core → credit → compliance → analytics
-```
+| Plataforma | Licencia | Repo | Stack | Caso de uso |
+|------------|----------|------|-------|-------------|
+| **hummingbot** | Apache-2.0 | [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Python | Market making + trading algorítmico: 100+ conectores de exchanges, estrategias pluggable |
+| **zipline** | Apache-2.0 | [quantopian/zipline](https://github.com/quantopian/zipline) | Python | Backtesting algorítmico — el estándar de la industria quant |
+| **jesse** | MIT | [jesse-ai/jesse](https://github.com/jesse-ai/jesse) | Python | Crypto trading bot avanzado con backtesting y live trading |
 
 ---
 
-## Cómo customizar con AI
+## Landscape LATAM por país
 
-1. **Fork del repo base** — OpenBB, Fineract o LEAN según el caso
-2. **Añadir MCP layer** — sec-edgar-mcp + openbb-mcp + alpha-vantage-mcp para datos financieros
-3. **Integrar LLM** — FinGPT fine-tuned en datos del cliente, o Claude API vía MCP
-4. **Wrappear flujos con agentes** — LangGraph o TradingAgents pattern para orquestación multi-step
-5. **UI conversacional** — OpenBB Workspace (enterprise) o custom React/Next.js sobre el sistema base
-6. **Compliance audit trail** — Logging de todas las decisiones AI con human-in-the-loop gates (crítico para BCBS 239, Basel IV, EU AI Act)
+| País | Plataformas dominantes | Oportunidad AI |
+|------|----------------------|----------------|
+| **Brasil** | Totvs (dominante), SAP B1, Oracle | Fineract-based digital bank para micro-empresas; Open Finance BCB 300+ fintechs |
+| **México** | SAP B1, Microsiga, Aspel | ERPNext+AI para PYMES CFDI; SPEI/CoDi automation |
+| **Argentina** | Tango Gestión, Bejerman, Odoo | Odoo+AI para contabilidad multi-moneda/inflación; facturación AFIP |
+| **Colombia** | Siigo (dominant ERP), World Office | Apache Fineract para fintechs tipo Nequi/Daviplata clones |
+| **Chile** | ERP local + SAP | CMF Open Banking pilot; APF (Administradoras de Fondos) AI agents |
 
 ---
 
-## Plataformas relevantes para LATAM
+## Arquitectura de referencia: Fineract + AI Agents
 
-| País | Plataforma | Contexto |
-|------|-----------|----------|
-| Brasil | Apache Fineract + FinGPT PT-BR | BCB Open Finance mandatado. Fineract como core de neobancos. FinGPT fine-tuneado en documentos BCB y CVM. |
-| Brasil | Marble | Compliance BACEN: prevenção à lavagem de dinheiro (PLD). Transaction monitoring para PIX e TED de alto volumen. |
-| México | LEAN + TradingAgents | Nearshoring boom: fondos de inversión MX necesitan backtest + live trading. CNBV compliance integrado. |
-| Argentina | zipline-reloaded + FinRL | Volatilidad e inflación: estrategias de hedge automatizadas. Contratos indexados requieren modelos sofisticados. |
-| Colombia | Jube (AML) | Hub de legal BPO: compliance de operaciones para sectores minería y energía con alta regulación. |
-| LATAM general | Apache Fineract | 70%+ de adultos en LATAM sin acceso bancario tradicional. Fineract como base para fintech de inclusión financiera. |
+```
+┌─────────────────────────────────────────────────────┐
+│              Apache Fineract (Core Banking)         │
+│   Clientes │ Créditos │ Ahorros │ Pagos │ Accounting│
+└─────────────────────┬───────────────────────────────┘
+                      │ REST API
+┌─────────────────────▼───────────────────────────────┐
+│           AI Orchestration Layer (LangGraph)        │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────┐ │
+│   │ Credit Agent │  │ KYC/AML Agent│  │Risk Agent│ │
+│   └──────────────┘  └──────────────┘  └──────────┘ │
+└─────────────────────────────────────────────────────┘
+                      │ Claude (Haiku for ops / Sonnet for analysis)
+┌─────────────────────▼───────────────────────────────┐
+│     MCP Servers: OpenBB + financial-datasets +      │
+│     yahoo-finance + FINOS CDM schema validator      │
+└─────────────────────────────────────────────────────┘
+```

@@ -1,515 +1,384 @@
-# Patrones de composición — Financial AI
+# 🧩 Patrones de composición — Financial Services
 
-> Recetas de arquitectura listas para implementar.
-> Repos específicos, timelines, código de orquestación.
-> Última actualización: 2026-07-08 (v2)
+> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Última actualización: 2026-07-08
+
+---
 
 ## Arquitectura base
 
 ```
-MCP Layer (datos financieros):
-  openbb-mcp (equities/crypto/macro) + sec-edgar-mcp (filings) + alpha-vantage-mcp
-         ↓
-Agentes especializados:
-  TradingAgents pattern | FinRobot (research) | FinGPT (sentiment/NLP) | FinRL (DRL execution)
-         ↓
-Orquestación (LangGraph / CrewAI):
-  Stateful workflows + checkpoints + human-in-the-loop gates
-         ↓
-Plataformas base:
-  OpenBB (research) | LEAN (trading) | Fineract (banking) | Marble (compliance)
+[Plataforma vertical base (Fineract / Odoo / OpenBB)]
+          ↓
+[MCP Servers: financial-datasets + OpenBB + alpaca]
+          ↓
+[Orquestación LangGraph + Claude Haiku (ops) / Sonnet (análisis)]
+          ↓
+[UI conversacional / API / WhatsApp Gateway para el cliente]
 ```
 
 ---
 
-## Receta 1: AI Trading Research Platform (4-6 semanas)
+## Patrón 1 — Multi-Agent Trading Desk (AI4Finance stack)
 
-**Objetivo:** Plataforma de investigación de inversiones con multi-agent analysis y debate estructurado.
-**Stack:** TradingAgents + OpenBB MCP + SEC EDGAR MCP + LangGraph + FinGPT sentiment
+**Objetivo**: Plataforma de research + trading con múltiples agentes que debaten antes de ejecutar.
 
+**Repos**:
+- [TauricResearch/TradingAgents](https://github.com/tauricresearch/tradingagents) — MIT (framework base)
+- [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) — AGPLv3 (datos)
+- [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) — Apache-2.0 (ejecución)
+
+**Arquitectura**:
 ```python
-# Patrón basado en TradingAgents (Apache-2.0, 91.6k★)
-from langgraph.graph import StateGraph, END
-from langchain_anthropic import ChatAnthropic
+# TradingAgents v0.3.1 + Claude Sonnet 5
+from tradingagents import TradingAgentsGraph
+from openbb import obb
 
-llm = ChatAnthropic(model="claude-sonnet-5")
-
-# Equipo de analistas — ejecutan en paralelo
-async def fundamentals_analyst(state: dict) -> dict:
-    """Analiza P&L, balance, flujos de caja con SEC EDGAR MCP"""
-    filing = await mcp_client.call("sec-edgar-mcp", "get_latest_10k", {"ticker": state["ticker"]})
-    analysis = await llm.ainvoke(f"Analiza los fundamentales de {state['ticker']}: {filing}")
-    return {**state, "fundamentals": analysis.content}
-
-async def sentiment_analyst(state: dict) -> dict:
-    """Analiza sentimiento de noticias y Reddit/StockTwits con FinGPT"""
-    sentiment_score = await fingpt_sentiment(state["ticker"])
-    return {**state, "sentiment": sentiment_score}
-
-async def technical_analyst(state: dict) -> dict:
-    """Analiza MACD, RSI, Bollinger con OpenBB MCP"""
-    tech_data = await mcp_client.call("openbb-mcp", "get_technical_indicators", {
-        "symbol": state["ticker"], "indicators": ["macd", "rsi", "bbands"]
-    })
-    return {**state, "technicals": tech_data}
-
-# Researchers en debate (patrón bull/bear)
-async def bullish_researcher(state: dict) -> dict:
-    prompt = f"""Construye el caso ALCISTA más sólido para {state['ticker']}.
-    Fundamentales: {state['fundamentals']}
-    Sentimiento: {state['sentiment']}
-    Técnicos: {state['technicals']}
-    Cita evidencia específica. Sé persuasivo pero honesto sobre riesgos."""
-    response = await llm.ainvoke(prompt)
-    return {**state, "bull_case": response.content}
-
-async def bearish_researcher(state: dict) -> dict:
-    prompt = f"""Construye el caso BAJISTA más sólido contra {state['ticker']}.
-    Bull case a refutar: {state['bull_case']}
-    Identifica falacias, riesgos ocultos, y escenarios de downside."""
-    response = await llm.ainvoke(prompt)
-    return {**state, "bear_case": response.content}
-
-async def portfolio_manager(state: dict) -> dict:
-    """Síntesis final: BUY/HOLD/SELL con sizing"""
-    prompt = f"""Como Portfolio Manager, evalúa {state['ticker']}:
-    BULL: {state['bull_case']}
-    BEAR: {state['bear_case']}
-    
-    Decide: acción (BUY/HOLD/SELL), tamaño de posición (% del portfolio), 
-    stop-loss, take-profit, y timeframe de inversión."""
-    response = await llm.ainvoke(prompt)
-    return {**state, "recommendation": response.content, "requires_human_approval": True}
-
-# Human gate — obligatorio para decisiones de capital
-async def human_approval_gate(state: dict):
-    if state.get("requires_human_approval"):
-        return "human_review"
-    return "execute"
-
-# Grafo LangGraph con patrón fan-out para analistas paralelos
-graph = StateGraph(dict)
-graph.add_node("fundamentals", fundamentals_analyst)
-graph.add_node("sentiment", sentiment_analyst)
-graph.add_node("technicals", technical_analyst)
-graph.add_node("bull_research", bullish_researcher)
-graph.add_node("bear_research", bearish_researcher)
-graph.add_node("portfolio_decision", portfolio_manager)
-graph.add_node("human_review", human_review_interrupt)
-
-graph.add_edge("fundamentals", "bull_research")
-graph.add_edge("sentiment", "bull_research")
-graph.add_edge("technicals", "bull_research")
-graph.add_edge("bull_research", "bear_research")
-graph.add_edge("bear_research", "portfolio_decision")
-graph.add_conditional_edges("portfolio_decision", human_approval_gate)
-```
-
-**Entregables:** Research report en PDF/HTML, recommendation con evidencia trazable, audit log de todas las decisiones.
-**Timeline:** 4-6 semanas. Deal size estimado: $150k-400k.
-
----
-
-## Receta 2: Agentic Hedge Fund — 19 Investor Personas (6-10 semanas)
-
-**Objetivo:** Sistema de análisis multi-perspectiva con inversores legendarios + ejecutor de trades.
-**Stack:** ai-hedge-fund pattern (MIT, 60.9k★) + FinRL + LEAN + OpenBB MCP
-
-```python
-# Patrón ai-hedge-fund (MIT)
-from crewai import Agent, Task, Crew
-
-warren_buffett = Agent(
-    role="Warren Buffett - Value Investor",
-    goal="Find quality businesses at fair prices. Focus on moats, ROE, FCF",
-    backstory="""You think like Warren Buffett: long-term owner mentality, 
-    competitive moats, management quality. You hate complexity and love 
-    businesses you can understand in 5 minutes.""",
-    llm="claude-sonnet-5"
+# Inicializar el grafo de agentes (bull, bear, fundamentals, technicals, risk, portfolio)
+graph = TradingAgentsGraph(
+    llm="claude-sonnet-5",   # o claude-fable-5 para mayor calidad
+    debate_rounds=2,
+    risk_tolerance="medium"
 )
 
-michael_burry = Agent(
-    role="Michael Burry - Deep Value Contrarian",
-    goal="Find severely undervalued assets the market is ignoring or misunderstanding",
-    backstory="""You think like Michael Burry: contrarian, patient, willing to be 
-    early (and look wrong) before being right. You love misunderstood complexity.""",
-    llm="claude-sonnet-5"
-)
+# Obtener datos vía OpenBB
+stock_data = obb.equity.price.historical("AAPL", provider="polygon")
+fundamentals = obb.equity.fundamental.income("AAPL", provider="fmp")
 
-nassim_taleb = Agent(
-    role="Nassim Taleb - Tail Risk Analyst",
-    goal="Identify hidden tail risks and fragilities that could destroy the thesis",
-    backstory="""You think like Taleb: Black Swans lurk everywhere. Optionality matters.
-    Fragile vs robust. The downside is always underestimated. Skin in the game.""",
-    llm="claude-sonnet-5"
+# Correr el debate multi-agente
+result = graph.run(
+    ticker="AAPL",
+    current_date="2026-07-08",
+    market_data=stock_data,
+    fundamentals=fundamentals
 )
-
-risk_manager = Agent(
-    role="Risk Manager",
-    goal="Ensure position sizing respects portfolio risk limits and correlation constraints",
-    llm="claude-sonnet-5"
-)
-
-portfolio_manager_agent = Agent(
-    role="Portfolio Manager",
-    goal="Synthesize all perspectives into a final actionable recommendation with sizing",
-    llm="claude-sonnet-5",
-)
-
-final_decision = Task(
-    description="Based on all analyses, provide BUY/HOLD/SELL with position size and rationale",
-    agent=portfolio_manager_agent,
-    human_input=True  # Mandatory gate before capital deployment
-)
-
-crew = Crew(
-    agents=[warren_buffett, michael_burry, nassim_taleb, risk_manager, portfolio_manager_agent],
-    tasks=[],  # Un task por agente
-    process="hierarchical",
-    manager_llm="claude-sonnet-5"
-)
+print(result["final_decision"])  # BUY/SELL/HOLD con justificación multi-agente
 ```
 
-**Extensión con FinRL para ejecución:**
+**Wire-up con Hummingbot para ejecución**:
 ```python
-# FinRL (MIT, 15.7k★) para ejecución algorítmica después de aprobación humana
-from finrl.agents.stablebaselines3.models import DRLAgent
-
-env_train = StockTradingEnv(df=historical_data)
-agent = DRLAgent(env=env_train)
-model_ppo = agent.get_model("ppo")
-trained_ppo = agent.train_model(model=model_ppo, tb_log_name="ppo", total_timesteps=50000)
+# Cuando el agente decide BUY, Hummingbot ejecuta
+from hummingbot.connector.exchange.binance import BinanceExchange
+if result["action"] == "BUY" and result["confidence"] > 0.75:
+    hb.place_order(symbol="BTCUSDT", side="buy", amount=result["size"])
 ```
 
-**Timeline:** 6-10 semanas. Deal size estimado: $300k-1M.
+**Tiempo estimado**: 4-6 semanas | **Deal size**: $150k-500k
 
 ---
 
-## Receta 3: AML / Compliance Pipeline (4-7 semanas)
+## Patrón 2 — Financial Research Automation (Dexter + FinSight + OpenBB)
 
-**Objetivo:** Sistema de detección de lavado de dinero con AI que cumple BACEN/CNBV/EU.
-**Stack:** Marble (BSL-1.1) + LangGraph + FinGPT + OpenSign (AGPL, firma de reportes)
+**Objetivo**: Agente autónomo que genera reportes de due diligence o equity research en minutos.
 
-```python
-from langgraph.graph import StateGraph
+**Repos**:
+- [virattt/dexter](https://github.com/virattt/dexter) — MIT (research agent base)
+- [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) — Apache-2.0 (report generation)
+- [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) — MIT (datos MCP)
 
-async def transaction_monitor(state: dict) -> dict:
-    result = await marble_client.evaluate_transaction(
-        transaction=state["transaction"],
-        ruleset="latam_aml_v2"
-    )
-    return {**state, "risk_score": result.score, "triggered_rules": result.rules}
-
-async def sanctions_screener(state: dict) -> dict:
-    hits = await marble_client.screen_sanctions(
-        entity=state["transaction"]["counterparty"],
-        lists=["ofac", "un", "eu", "bcb_lista_pld"]
-    )
-    return {**state, "sanctions_hits": hits}
-
-async def ai_investigation_agent(state: dict) -> dict:
-    if state["risk_score"] < 70 and not state["sanctions_hits"]:
-        return {**state, "disposition": "clear", "requires_human": False}
-    
-    narrative = await llm.ainvoke(f"""
-    Analiza esta transacción sospechosa para reporte SAR/ROS:
-    Transacción: {state['transaction']}
-    Risk score: {state['risk_score']} (razones: {state['triggered_rules']})
-    Hits de sanctions: {state['sanctions_hits']}
-    
-    Genera: (1) Resumen ejecutivo, (2) Indicadores de lavado detectados,
-    (3) Recomendación de acción (SAR/ROS filing, enhanced due diligence, freeze),
-    (4) Próximos pasos para el investigador.
-    Cumple con requisitos GAFI/FATF Recomendación 16.""")
-    
-    return {**state, "investigation_narrative": narrative.content, "requires_human": True}
-
-async def compliance_report_generator(state: dict) -> dict:
-    report = generate_sar_report(state)
-    signed_doc = await opensign_client.create_signing_request(
-        document=report,
-        signers=["compliance_officer@bank.com"],
-        expiry_hours=24
-    )
-    return {**state, "report_url": signed_doc.url, "status": "pending_signature"}
-
-graph = StateGraph(dict)
-graph.add_node("monitor", transaction_monitor)
-graph.add_node("screen", sanctions_screener)
-graph.add_node("investigate", ai_investigation_agent)
-graph.add_node("report", compliance_report_generator)
-graph.add_node("human_review", human_interrupt)
-
-graph.add_edge("monitor", "screen")
-graph.add_edge("screen", "investigate")
-graph.add_conditional_edges(
-    "investigate",
-    lambda s: "human_review" if s["requires_human"] else "clear_transaction"
-)
-graph.add_edge("human_review", "report")
+**Flujo**:
+```
+Usuario: "Analiza NVDA antes de la junta del Q2"
+    ↓
+Dexter: descompone la tarea en subtareas
+    ├── Fetch financials (financial-datasets MCP)
+    ├── Fetch news (finance-news MCP)
+    ├── Fetch SEC filings (OpenBB MCP)
+    └── Self-validates cada hallazgo
+    ↓
+FinSight CAVM: genera el reporte PDF/Markdown
+    ├── Code Agent ejecuta análisis cuantitativo
+    ├── VLM genera y critica gráficos
+    └── Multi-agent review loop
+    ↓
+Output: PDF publication-ready con gráficos y citations
 ```
 
-**Métricas:** 85%+ reducción de falsos positivos vs reglas estáticas; audit trail completo por transacción.
-**Timeline:** 4-7 semanas. Deal size estimado: $200k-600k.
+**Setup rápido**:
+```bash
+# Dexter
+git clone https://github.com/virattt/dexter
+cd dexter && pip install -r requirements.txt
+export ANTHROPIC_API_KEY=sk-ant-...
 
----
+# FinSight
+git clone https://github.com/RUC-NLPIR/FinSight
+cd FinSight && pip install -r requirements.txt
 
-## Receta 4: M&A Financial Due Diligence (8-14 semanas)
-
-**Objetivo:** Pipeline completo de due diligence financiero con AI: de documentos a investment memo.
-**Stack:** FinRobot (Apache-2.0) + SEC EDGAR MCP + dd-agents pattern + OpenBB MCP
-
-```python
-FINANCIAL_DD_PIPELINE = [
-    # Fase 1: Recolección de datos (paralela)
-    {"step": "sec_filings_pull", "tool": "sec-edgar-mcp", "docs": ["10-K", "10-Q", "8-K", "DEF14A"]},
-    {"step": "news_sentiment", "tool": "openbb-mcp", "data": "news_last_12m"},
-    {"step": "comparable_companies", "tool": "openbb-mcp", "screen": "SIC_code_peers"},
-    {"step": "institutional_holdings", "tool": "isofinancial-mcp", "data": "13F_filings"},
-    # Fase 2: Análisis financiero (FinRobot pipeline agents)
-    {"step": "income_statement_analysis", "agent": "FinRobot.AnalysisAgent"},
-    {"step": "balance_sheet_deep_dive", "agent": "FinRobot.ModelingAgent"},
-    {"step": "cash_flow_quality", "agent": "FinRobot.AnalysisAgent"},
-    # Fase 3: Valuación
-    {"step": "dcf_model", "agent": "FinRobot.ModelingAgent", "model": "DCF"},
-    {"step": "comparable_comps", "agent": "FinRobot.ModelingAgent", "model": "EV/EBITDA"},
-    {"step": "lbo_analysis", "agent": "FinRobot.ModelingAgent", "model": "LBO"},
-    {"step": "monte_carlo_simulation", "agent": "FinRobot.ModelingAgent", "runs": 10000},
-    # Fase 4: Bull/Bear debate
-    {"step": "bull_investment_thesis", "agent": "FinRobot.BullAgent"},
-    {"step": "bear_risk_case", "agent": "FinRobot.BearAgent"},
-    {"step": "judge_synthesis", "agent": "FinRobot.JudgeAgent"},
-    # Fase 5: Reporte (human gate obligatorio)
-    {"step": "investment_memo_draft", "agent": "FinRobot.ReportAgent"},
-    {"step": "human_partner_review", "gate": "human_in_the_loop"},
-    {"step": "final_investment_committee_presentation", "agent": "FinRobot.ReportAgent"},
-]
-
-async def run_financial_dd(target_company: str, target_ticker: str) -> dict:
-    state = {"company": target_company, "ticker": target_ticker}
-    for step in FINANCIAL_DD_PIPELINE:
-        if step.get("gate") == "human_in_the_loop":
-            await interrupt_for_partner_review(state)
-            continue
-        state = await execute_step(step, state)
-    return state
+# MCP server de datos financieros
+pip install financial-datasets-mcp
 ```
 
-**Output:** Investment memo con DCF + comps + LBO + bull/bear case (30-50 páginas).
-**Tiempo:** M&A DD de 3-4 semanas → 2-3 días con este pipeline.
-**Timeline:** 8-14 semanas para implementar. Deal size estimado: $400k-1.2M.
+**Tiempo estimado**: 3-5 semanas | **Deal size**: $100k-400k
 
 ---
 
-## Receta 5: Credit Scoring para Desbancarizados LATAM (5-8 semanas)
+## Patrón 3 — Open Finance Platform LATAM (OpenBB MCP + Apache Fineract)
 
-**Objetivo:** Sistema de crédito alternativo para 170M+ adultos sin historial bancario formal en LATAM.
-**Stack:** FinGPT fine-tuned PT-BR/ES + Apache Fineract + OpenBB MCP (macro) + Marble (fraud)
+**Objetivo**: Plataforma de aggregación de datos financieros Open Banking + agente de asesoría para consumidores LATAM.
 
-```python
-class LatamAlternativeCreditScorer:
-    def __init__(self):
-        self.fingpt_model = load_fingpt_latam("fingpt-latam-credit-v1")
-        self.fraud_checker = MarbleClient(config="latam_fraud_rules")
-    
-    async def score_applicant(self, applicant_data: dict) -> CreditDecision:
-        features = await self.extract_alternative_features(applicant_data)
-        text_features = await self.fingpt_model.analyze(
-            documents=applicant_data.get("documents", []),
-            task="credit_risk_assessment",
-            language=applicant_data["country_code"]
-        )
-        macro_risk = await openbb_mcp.get_macro_indicators(
-            country=applicant_data["country"],
-            indicators=["gdp_growth", "unemployment", "inflation", "default_rate"]
-        )
-        fraud_check = await self.fraud_checker.check_applicant(applicant_data)
-        decision = await llm.ainvoke(f"""
-        Evalúa solicitud de crédito:
-        Datos alternativos: {features}
-        Análisis documental FinGPT: {text_features}  
-        Contexto macro: {macro_risk}
-        Risk score fraude Marble: {fraud_check}
-        
-        Genera: (1) Score crediticio 0-1000 con componentes explicados,
-        (2) Decisión (APROBADO/RECHAZADO/MANUAL) con límite y tasa,
-        (3) Justificación en lenguaje simple para el solicitante (regulatorio),
-        (4) Factores que mejorarían el score para el futuro.
-        Cumple: BCB Resolução 96 (BR) / CNBV Circular 3/2015 (MX) sobre explicabilidad.""")
-        return CreditDecision.from_llm_response(decision, fraud_check)
-    
-    async def extract_alternative_features(self, data: dict) -> dict:
-        return {
-            "pix_transaction_frequency": data.get("pix_history", {}).get("monthly_avg"),
-            "pix_avg_transaction_size": data.get("pix_history", {}).get("avg_amount"),
-            "utility_payment_consistency": data.get("utility_bills", {}).get("on_time_pct"),
-            "phone_usage_stability": data.get("telecom", {}).get("months_same_number"),
-            "ecommerce_order_history": data.get("marketplace", {}).get("total_orders"),
-            "open_finance_debt_ratio": data.get("open_finance", {}).get("debt_to_income"),
-        }
-```
+**Repos**:
+- [apache/fineract](https://github.com/apache/fineract) — Apache-2.0 (core banking + cuentas)
+- [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) — AGPLv3 (datos de mercado)
+- LangGraph + Claude Haiku (ops baratas) / Sonnet (análisis profundo)
 
-**Impacto:** 3-5x más préstamos sin incrementar default rate. 170M+ clientes potenciales.
-**Timeline:** 5-8 semanas. Deal size estimado: $200k-600k.
-
----
-
-## Receta 6: RegTech AI Compliance Monitor (3-5 semanas)
-
-**Objetivo:** Monitoreo continuo de cambios regulatorios financieros con alertas automáticas.
-**Stack:** LangGraph + OpenBB MCP + sec-edgar-mcp + BCB/CNBV regulatory feeds + FinGPT
-
-```python
-async def financial_regulatory_monitor(client_config: dict) -> None:
-    new_regulations = await gather_regulatory_updates(client_config["jurisdictions"])
-    for reg in new_regulations:
-        impact = await llm.ainvoke(f"""
-        Nueva regulación/circular detectada:
-        Fuente: {reg['source']} (ej: BCB, CNBV, ESMA, FCA)
-        Texto: {reg['text']}
-        Cliente: {client_config['name']}
-        Modelos AI en producción: {client_config['ai_models']}
-        
-        Analiza:
-        1. ¿Esta regulación aplica a este cliente? (sí/no/parcialmente)
-        2. Si aplica: ¿Qué cambios operativos o de modelo son requeridos?
-        3. ¿Cuál es el plazo de cumplimiento?
-        4. ¿Hay riesgo de sanción si no se actúa? (estimado en $)
-        5. Acción recomendada con prioridad (P1/P2/P3).
-        Sé específico. Cita artículos exactos de la regulación.""")
-        if impact.priority in ["P1", "P2"]:
-            await send_compliance_alert(client_config["compliance_team"], reg, impact)
-
-async def gather_regulatory_updates(jurisdictions: list) -> list:
-    updates = []
-    if "US" in jurisdictions:
-        updates.extend(await sec_edgar_mcp.get_new_rulemaking(days=7))
-    if "BR" in jurisdictions:
-        updates.extend(await bcb_scraper.get_new_circulares(days=7))
-    if "EU" in jurisdictions:
-        updates.extend(await eu_compliance_mcp.get_financial_updates(days=7))
-    return updates
-```
-
-**Timeline:** 3-5 semanas. Deal size estimado: $100k-300k (SaaS recurrente natural).
-
----
-
----
-
-## Receta 7: RegTech Multi-Jurisdiccional LATAM (4-6 semanas)
-
-**Objetivo:** Agente de compliance que entiende simultáneamente BCB Brasil + CNBV México + SFC Colombia + EU AI Act.
-**Stack:** LangGraph + pgvector + RAG sobre textos regulatorios + Claude Haiku (velocidad) + Sonnet 5 (análisis complejo)
-
-```python
-from langgraph.graph import StateGraph
-from langchain_anthropic import ChatAnthropic
-import psycopg2
-
-# pgvector store con textos regulatorios actualizados
-async def update_regulatory_corpus(jurisdictions: list[str]) -> None:
-    sources = {
-        "BR": "https://www.bcb.gov.br/api/circulares",
-        "MX": "https://www.cnbv.gob.mx/circulares",
-        "CO": "https://www.superfinanciera.gov.co/normativa",
-        "EU": "eu-ai-act-mcp://latest"
-    }
-    for j in jurisdictions:
-        docs = await fetch_regulatory_updates(sources[j])
-        await embed_and_store(docs, metadata={"jurisdiction": j, "date": today()})
-
-async def jurisdiction_classifier(state: dict) -> dict:
-    """Identifica qué jurisdicciones aplican a esta operación."""
-    llm = ChatAnthropic(model="claude-haiku-4-5-20251001")
-    response = await llm.ainvoke(
-        f"¿Qué marcos regulatorios aplican a: {state['operation_description']}?\n"
-        f"Países involucrados: {state['countries']}\n"
-        "Responde con lista de códigos: [BR, MX, CO, EU, US]"
-    )
-    return {**state, "applicable_jurisdictions": parse_jurisdictions(response.content)}
-
-async def regulatory_rag_agent(state: dict) -> dict:
-    """RAG sobre textos regulatorios para cada jurisdicción aplicable."""
-    llm = ChatAnthropic(model="claude-sonnet-5")
-    findings = []
-    for jurisdiction in state["applicable_jurisdictions"]:
-        # Recuperar fragmentos regulatorios relevantes via pgvector
-        relevant_regs = await vector_store.similarity_search(
-            query=state["operation_description"],
-            filter={"jurisdiction": jurisdiction},
-            k=5
-        )
-        analysis = await llm.ainvoke(
-            f"Analiza el cumplimiento de esta operación bajo {jurisdiction}:\n"
-            f"Operación: {state['operation_description']}\n"
-            f"Regulaciones aplicables:\n{format_regs(relevant_regs)}\n\n"
-            "Responde: (1) ¿Cumple? (2) Gaps encontrados (3) Acciones requeridas (4) Plazo"
-        )
-        findings.append({"jurisdiction": jurisdiction, "analysis": analysis.content})
-    return {**state, "compliance_findings": findings}
-
-async def conflict_detector(state: dict) -> dict:
-    """Detecta conflictos entre requisitos de distintas jurisdicciones."""
-    if len(state["applicable_jurisdictions"]) < 2:
-        return {**state, "conflicts": []}
-    
-    llm = ChatAnthropic(model="claude-sonnet-5")
-    response = await llm.ainvoke(
-        f"Analiza si hay conflictos regulatorios entre:\n{format_findings(state['compliance_findings'])}\n"
-        "¿Algún requisito de una jurisdicción contradice a otra? ¿Cómo resolver?"
-    )
-    return {**state, "conflicts": parse_conflicts(response.content)}
-
-async def compliance_report_generator(state: dict) -> dict:
-    """Genera reporte ejecutivo multi-jurisdiccional."""
-    report = {
-        "operation": state["operation_description"],
-        "jurisdictions_checked": state["applicable_jurisdictions"],
-        "findings_by_jurisdiction": state["compliance_findings"],
-        "cross_jurisdiction_conflicts": state["conflicts"],
-        "overall_status": determine_overall_status(state),
-        "required_actions": extract_actions(state),
-        "deadline": calculate_nearest_deadline(state)
-    }
-    return {**state, "report": report, "requires_compliance_officer_review": True}
-
-graph = StateGraph(dict)
-graph.add_node("classify", jurisdiction_classifier)
-graph.add_node("rag_analysis", regulatory_rag_agent)
-graph.add_node("conflict_check", conflict_detector)
-graph.add_node("generate_report", compliance_report_generator)
-graph.add_node("human_review", human_compliance_officer_gate)
-
-graph.add_edge("classify", "rag_analysis")
-graph.add_edge("rag_analysis", "conflict_check")
-graph.add_edge("conflict_check", "generate_report")
-graph.add_conditional_edges("generate_report",
-    lambda s: "human_review" if s["requires_compliance_officer_review"] else END)
-```
-
-**Jurisdicciones soportadas:** BCB Brasil (Res. 96/2021, LGPD), CNBV México (Ley Fintech), SFC Colombia, Superfinanciera Chile, EU AI Act (agosto 2026), OCC/FDIC US.
-**Timeline:** 4-6 semanas. Deal size estimado: $150k-500k (SaaS recurrente natural con actualizaciones regulatorias).
-
----
-
-## Receta 8: Reconciliación Bancaria con Claude Vision (3-5 semanas)
-
-**Objetivo:** Automatizar reconciliación de estados de cuenta bancarios en PDF con el ERP (Odoo/ERPNext).
-**Stack:** Claude Vision (PDF parsing) + pandas + Odoo External API + LangGraph
-
+**Arquitectura**:
 ```python
 import anthropic
-import pandas as pd
-import xmlrpc.client
-import base64
+from langgraph.graph import StateGraph
+from openbb import obb
 
 client = anthropic.Anthropic()
 
-async def extract_bank_transactions_from_pdf(pdf_path: str) -> list[dict]:
-    """Claude Vision lee PDFs de bancos LATAM (Itaú, BBVA, Santander, Bancolombia)."""
-    with open(pdf_path, "rb") as f:
-        pdf_data = base64.standard_b64encode(f.read()).decode("utf-8")
+# MCP servers disponibles para el agente
+mcp_tools = [
+    {"name": "openbb_financial_data", "server": "openbb_mcp_server"},
+    {"name": "fineract_accounts", "server": "fineract_mcp_proxy"},
+    {"name": "market_news", "server": "finance-news-mcp"}
+]
+
+def financial_advisor_agent(user_query: str, user_id: str):
+    """Agente de asesoría financiera personalizado"""
+    # 1. Obtener contexto del usuario desde Fineract
+    user_accounts = fineract_client.get_client_accounts(user_id)
+    
+    # 2. Analizar con Claude usando MCP tools
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",  # Haiku para ops económicas
+        max_tokens=2048,
+        tools=mcp_tools,
+        messages=[{
+            "role": "user",
+            "content": f"Usuario tiene: {user_accounts}. Pregunta: {user_query}"
+        }]
+    )
+    return response
+```
+
+**Tiempo estimado**: 6-10 semanas | **Deal size**: $150k-600k
+
+---
+
+## Patrón 4 — Core Banking AI Layer (Credit + KYC con LangGraph)
+
+**Objetivo**: Añadir capa agéntica sobre Apache Fineract para automatizar crédito, KYC y AML.
+
+**Repos**:
+- [apache/fineract](https://github.com/apache/fineract) — Apache-2.0
+- [finos/open-regtech-sig](https://github.com/finos/open-regtech-sig) — Apache-2.0
+- LangGraph para orquestación multi-agente
+
+**Grafo de agentes**:
+```python
+from langgraph.graph import StateGraph, END
+import anthropic
+
+def build_credit_graph():
+    graph = StateGraph(CreditApplicationState)
+    
+    # Agente 1: KYC/AML verification
+    graph.add_node("kyc_agent", kyc_verification_node)
+    
+    # Agente 2: Credit scoring alternativo (bureau + datos alternativos)
+    graph.add_node("credit_agent", credit_scoring_node)
+    
+    # Agente 3: Risk assessment
+    graph.add_node("risk_agent", risk_assessment_node)
+    
+    # Agente 4: Compliance check (LGPD/GDPR/EU AI Act)
+    graph.add_node("compliance_agent", compliance_check_node)
+    
+    # Human-in-the-loop para decisiones >$50k (EU AI Act requirement)
+    graph.add_node("human_review", human_review_node)
+    
+    graph.add_edge("kyc_agent", "credit_agent")
+    graph.add_edge("credit_agent", "risk_agent")
+    graph.add_conditional_edges(
+        "risk_agent",
+        lambda s: "human_review" if s["loan_amount"] > 50000 else "compliance_agent"
+    )
+    return graph.compile()
+
+# Usar Claude Sonnet para análisis complejo
+def credit_scoring_node(state):
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": f"Analiza riesgo crediticio: {state['application']}"}]
+    )
+    return {"credit_score": response.content[0].text, "confidence": 0.87}
+```
+
+**Tiempo estimado**: 8-14 semanas | **Deal size**: $200k-800k
+
+---
+
+## Patrón 5 — RegTech EU AI Act Compliance (URGENTE — deadline ago-2, 2026)
+
+**Objetivo**: Auditoría rápida + documentación de sistemas AI financieros para cumplir EU AI Act.
+
+**Repos**:
+- [finos/common-domain-model](https://github.com/finos/common-domain-model) — Apache-2.0 (schema)
+- [finos/open-regtech-sig](https://github.com/finos/open-regtech-sig) — Apache-2.0
+
+**Entregables en 3-4 semanas**:
+```yaml
+eu_ai_act_checklist:
+  high_risk_systems:
+    - credit_scoring_models: ✅ inventariados
+    - aml_transaction_monitoring: ✅ documentados  
+    - insurance_underwriting: ✅ auditados
+    
+  technical_requirements:
+    - transparency_report: generado con Claude (explainability per decision)
+    - risk_management_system: LangGraph audit trail habilitado
+    - human_oversight_mechanism: HITL mandatory para decisiones >threshold
+    - data_governance_log: FINOS CDM para trazabilidad de datos
+    
+  documentation:
+    - conformity_assessment: Claude genera informe XAI por sistema
+    - technical_file: registro de versiones + cambios de modelo
+    - instructions_for_use: documento para operadores
+```
+
+**Script de auditoría**:
+```python
+import anthropic
+
+def audit_ai_system(system_name: str, system_docs: str) -> dict:
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=4096,
+        messages=[{
+            "role": "user",
+            "content": f"""Analiza este sistema AI bajo EU AI Act Annex III:
+            
+Sistema: {system_name}
+Documentación: {system_docs}
+
+Determina:
+1. ¿Es high-risk bajo Annex III? (credit scoring / AML / insurance)
+2. Brechas de cumplimiento identificadas
+3. Pasos específicos para cumplir antes de ago-2, 2026
+4. Riesgo de multa estimado si no cumple (hasta €30M o 6% facturación global)
+
+Formato: JSON con risk_level, gaps[], action_items[], timeline_weeks"""
+        }]
+    )
+    return response
+
+# Correr para cada sistema AI del cliente
+for system in client_ai_systems:
+    audit = audit_ai_system(system["name"], system["docs"])
+    print(audit)
+```
+
+**Tiempo estimado**: 3-4 semanas | **Deal size**: $80k-300k (urgente)
+
+---
+
+## Patrón 6 — AI Hedge Fund Clone (ai-hedge-fund como base)
+
+**Objetivo**: Fork y customización de `virattt/ai-hedge-fund` para cliente de family office o fund manager.
+
+**Repos**:
+- [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) — MIT (18 agentes: 12 personas + 6 especialistas)
+- [PyPortfolioOpt/PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) — MIT (optimización)
+- [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) — MIT (datos)
+
+**Customizaciones para cliente**:
+```python
+# Agregar persona personalizada del cliente
+CUSTOM_ANALYSTS = {
+    "client_cio": {
+        "name": "Chief Investment Officer (Cliente)",
+        "prompt": """Eres el CIO de {client_name}. 
+        Tu tesis de inversión: {client_thesis}.
+        Universo permitido: {client_universe}.
+        Restricciones: {client_restrictions} (por estatutos del fondo)""",
+        "weight": 0.3  # Peso en el debate multi-agente
+    }
+}
+
+# Reemplazar Yahoo Finance con datos premium del cliente
+def get_market_data(ticker: str, date: str):
+    # Primero bloomberg si disponible, sino financial-datasets MCP
+    if bloomberg_available:
+        return bloomberg_mcp.get_historical(ticker, date)
+    else:
+        return financial_datasets_mcp.get_prices(ticker, date)
+```
+
+**Tiempo estimado**: 4-8 semanas | **Deal size**: $150k-500k
+
+---
+
+## Patrón 7 — RegTech Multi-Jurisdiccional LATAM (LangGraph + RAG regulatorio)
+
+**Objetivo**: Agente que responde preguntas de cumplimiento regulatorio para bancos operando en múltiples países LATAM.
+
+**Repos**:
+- LangGraph (orquestación)
+- pgvector (base vectorial para regulaciones)
+- Claude Sonnet para razonamiento complejo
+- OpenBB MCP para datos de referencia
+
+**Arquitectura**:
+```python
+# RAG sobre regulaciones por país
+REGULATORY_DOCS = {
+    "brasil": ["Resolução BCB 4.966", "LGPD", "Circular CMN 3.978 AML"],
+    "mexico": ["CNBV LRITF", "LFPIORPI AML", "Ley FinTech 2018"],
+    "colombia": ["Decreto 1842 Open Banking", "SARLAFT AML"],
+    "chile": ["Ley 21.521 Fintech", "Norma CMF para IA"],
+    "peru": ["Resolución SBS 3274 Open Banking", "Circular AML"]
+}
+
+def regulatory_agent(query: str, jurisdictions: list):
+    """Responde preguntas de compliance multi-jurisdicción"""
+    # 1. Retrieval de regulaciones relevantes
+    relevant_regs = vector_db.similarity_search(
+        query, 
+        filter={"jurisdiction": {"$in": jurisdictions}}
+    )
+    
+    # 2. Claude Sonnet analiza y responde
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        messages=[{
+            "role": "user",
+            "content": f"Pregunta: {query}\n\nRegulaciones relevantes:\n{relevant_regs}"
+        }]
+    )
+    return response
+```
+
+**Tiempo estimado**: 6-10 semanas | **Deal size**: $150k-500k
+
+---
+
+## Patrón 8 — Bank Reconciliation con Claude Vision (Odoo + PDF bancarios)
+
+**Objetivo**: Agente que procesa extractos bancarios en PDF y los reconcilia automáticamente en Odoo.
+
+**Repos**:
+- [odoo/odoo](https://github.com/odoo/odoo) — LGPL-3.0 (ERP destino)
+- Claude Vision (extracción de datos de PDFs bancarios)
+
+```python
+import anthropic
+import base64
+from pathlib import Path
+
+def reconcile_bank_statement(pdf_path: str, odoo_client):
+    """Lee extracto bancario PDF y reconcilia en Odoo"""
+    client = anthropic.Anthropic()
+    
+    # Leer PDF como imagen para Claude Vision
+    pdf_data = Path(pdf_path).read_bytes()
     
     response = client.messages.create(
         model="claude-sonnet-5",
@@ -519,120 +388,51 @@ async def extract_bank_transactions_from_pdf(pdf_path: str) -> list[dict]:
             "content": [
                 {
                     "type": "document",
-                    "source": {"type": "base64", "media_type": "application/pdf", "data": pdf_data}
+                    "source": {"type": "base64", "media_type": "application/pdf", "data": base64.b64encode(pdf_data).decode()}
                 },
                 {
                     "type": "text",
-                    "text": """Extrae TODAS las transacciones de este estado de cuenta bancario.
-                    Para cada transacción devuelve JSON con:
-                    - date (YYYY-MM-DD)
-                    - description (texto original del banco)
-                    - amount (positivo=crédito, negativo=débito)
-                    - balance_after (saldo después de la transacción)
-                    - reference (número de referencia/operación si existe)
-                    Devuelve lista JSON. Sin markdown, solo JSON puro."""
+                    "text": """Extrae todas las transacciones bancarias en JSON:
+[{"date": "YYYY-MM-DD", "description": "...", "amount": 0.00, "currency": "BRL", "type": "debit|credit"}]
+Solo JSON, sin texto adicional."""
                 }
             ]
         }]
     )
-    return parse_json_response(response.content[0].text)
-
-async def get_odoo_accounting_entries(odoo_config: dict, date_range: tuple) -> pd.DataFrame:
-    """Obtiene asientos contables de Odoo para el período del estado de cuenta."""
-    url, db, username, password = (odoo_config[k] for k in ["url", "db", "username", "password"])
-    common = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/common")
-    uid = common.authenticate(db, username, password, {})
-    models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
     
-    entries = models.execute_kw(db, uid, password, "account.move.line", "search_read",
-        [[["date", ">=", date_range[0]], ["date", "<=", date_range[1]],
-          ["account_id.code", "like", "1%"]]],  # Cuentas de activo (bancarias)
-        {"fields": ["date", "name", "debit", "credit", "ref", "move_id"], "limit": 1000}
-    )
-    return pd.DataFrame(entries)
-
-async def reconcile_transactions(bank_txns: list[dict], odoo_entries: pd.DataFrame) -> dict:
-    """Concilia transacciones banco vs ERP con AI para los casos difíciles."""
-    bank_df = pd.DataFrame(bank_txns)
+    # Parsear transacciones extraídas
+    transactions = json.loads(response.content[0].text)
     
-    # Matching automático por fecha+monto (casos simples)
-    exact_matches = []
-    unmatched_bank = []
-    unmatched_odoo = []
-    
-    for _, bank_txn in bank_df.iterrows():
-        mask = (
-            (odoo_entries["date"] == bank_txn["date"]) &
-            (abs(odoo_entries["debit"] - odoo_entries["credit"] - bank_txn["amount"]) < 0.01)
+    # Crear líneas de conciliación en Odoo
+    for tx in transactions:
+        odoo_client.create_bank_statement_line(
+            journal_id=bank_journal_id,
+            date=tx["date"],
+            name=tx["description"],
+            amount=tx["amount"]
         )
-        matches = odoo_entries[mask]
-        if len(matches) == 1:
-            exact_matches.append({"bank": bank_txn.to_dict(), "odoo": matches.iloc[0].to_dict()})
-        else:
-            unmatched_bank.append(bank_txn.to_dict())
     
-    # AI para casos difíciles (descripción diferente, múltiples asientos, comisiones)
-    if unmatched_bank:
-        llm_response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=2048,
-            messages=[{
-                "role": "user",
-                "content": f"""Concilia estas transacciones bancarias con asientos de Odoo.
-                Sin conciliar del banco: {unmatched_bank[:20]}
-                Asientos Odoo disponibles: {odoo_entries[["date","name","debit","credit","ref"]].to_dict("records")[:50]}
-                
-                Para cada transacción bancaria:
-                1. ¿Existe un asiento Odoo correspondiente? (busca por monto, fecha cercana, descripción similar)
-                2. Si hay match probable: indica el move_id y tu nivel de confianza (alto/medio/bajo)
-                3. Si no hay match: clasifica como (falta_registro / diferencia_FX / comisión_banco / error)
-                Devuelve JSON."""
-            }]
-        )
-        ai_matches = parse_json_response(llm_response.content[0].text)
-    
-    return {
-        "exact_matches": exact_matches,
-        "ai_suggested_matches": ai_matches if unmatched_bank else [],
-        "unreconciled_bank": [t for t in unmatched_bank if t not in [m["bank"] for m in ai_matches]],
-        "unreconciled_odoo": unmatched_odoo,
-        "reconciliation_rate": len(exact_matches) / len(bank_txns) if bank_txns else 0
-    }
+    return f"Reconciliadas {len(transactions)} transacciones en Odoo"
 
-async def generate_reconciliation_report(result: dict) -> str:
-    """Genera reporte ejecutivo de reconciliación para el contador."""
-    total = len(result["exact_matches"]) + len(result["ai_suggested_matches"])
-    rate = result["reconciliation_rate"]
-    
-    report = f"""
-    REPORTE DE RECONCILIACIÓN BANCARIA
-    ===================================
-    Tasa de conciliación automática: {rate:.1%}
-    Matches exactos: {len(result['exact_matches'])}
-    Matches sugeridos por AI (requieren aprobación): {len(result['ai_suggested_matches'])}
-    Sin conciliar (requieren acción): {len(result['unreconciled_bank'])}
-    
-    ITEMS PENDIENTES DE REVISIÓN:
-    {format_unreconciled(result['unreconciled_bank'])}
-    """
-    return report
+# Uso: procesar todos los PDFs bancarios del mes
+for pdf in Path("/bank_statements/").glob("*.pdf"):
+    result = reconcile_bank_statement(str(pdf), odoo)
+    print(result)
 ```
 
-**Bancos LATAM soportados:** Itaú, BBVA, Santander, Bancolombia, Banco do Brasil, HSBC MX, Banorte — cualquier PDF de estado de cuenta.
-**Impacto:** Reconciliación manual de 2-3 días/mes → 30 minutos + revisión humana de excepciones.
-**Timeline:** 3-5 semanas. Deal size estimado: $80k-250k (alto ROI inmediato para CFOs).
+**Tiempo estimado**: 3-5 semanas | **Deal size**: $80k-250k
 
 ---
 
-## Tabla resumen de recetas
+## Matriz de selección de patrón
 
-| Receta | Stack principal | Semanas | Deal size | ROI del cliente |
-|--------|----------------|---------|-----------|----------------|
-| Trading Research Platform | TradingAgents + OpenBB MCP + LangGraph | 4-6 | $150k-400k | Research de días → horas |
-| Agentic Hedge Fund (19 personas) | ai-hedge-fund + FinRL + LEAN | 6-10 | $300k-1M | 50-person quant team → AI |
-| AML / Compliance Pipeline | Marble + LangGraph + FinGPT | 4-7 | $200k-600k | 85% menos falsos positivos |
-| M&A Financial Due Diligence | FinRobot + SEC EDGAR MCP + OpenBB | 8-14 | $400k-1.2M | DD de semanas → días |
-| Credit Scoring Desbancarizados LATAM | FinGPT fine-tune + Fineract + Marble | 5-8 | $200k-600k | 3-5x más préstamos |
-| RegTech Compliance Monitor | LangGraph + BCB/CNBV feeds + EU MCP | 3-5 | $100k-300k | Evitar multas; SaaS recurrente |
-| RegTech Multi-Jurisdiccional LATAM | LangGraph + pgvector + RAG regulatorio | 4-6 | $150k-500k | Compliance automático multi-país |
-| Reconciliación Bancaria Claude Vision | Claude Vision PDF + pandas + Odoo API | 3-5 | $80k-250k | 2-3 días/mes → 30 minutos |
+| Si el cliente es... | Y necesita... | Usa Patrón |
+|--------------------|---------------|------------|
+| Asset manager / hedge fund | Trading algorítmico + research | P1 + P6 |
+| Investment bank / sellside | Equity research automation | P2 |
+| Fintech LATAM | Open Finance + asesoría consumidores | P3 |
+| Banco tradicional | Crédito + KYC automatizado | P4 |
+| Banco europeo | EU AI Act compliance urgente (ago-2026) | P5 |
+| Family office LATAM | Agente de inversión personalizado | P6 |
+| Banco multi-país LATAM | Compliance regulatorio multi-jurisdicción | P7 |
+| PYME / contabilidad | Conciliación bancaria automática | P8 |

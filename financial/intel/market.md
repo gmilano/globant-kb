@@ -1,169 +1,70 @@
-# Mapa de mercado — Financial AI
+# 🗺️ Mapa de mercado — Financial Services AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-08 (v2)
+> Última actualización: 2026-07-08
+
+---
 
 ## Tamaño de mercado
 
-| Métrica | Valor 2026 | Proyección | CAGR |
-|---------|-----------|------------|------|
-| AI in Fintech (global) | $61B+ | $97.70B (2034) | 19.90% |
-| AI Agents en Financial Services | $2.04B | $6.54B (2035) | 13.84% |
-| FinTech market total (global) | $460.76B | — | — |
-| RegTech / FCC (global) | $5.5B | $17.4B (2032) | 21.22% |
-| Inversión VC en AI fintech (Q1 2026) | $2.1B | — | — |
-| Firmas financieras con agentes en producción | 21% | 81% (2030) | — |
-| Agentic AI en equipos de finanzas 2026 | 44% planifican/usan | — | — |
-| PE firms adoptando AI agéntica | 95% | — | Neurons Lab 2026 |
-
-## Mercado LATAM — datos actualizados jul-2026
-
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| Latin America Fintech Market 2026 | $48.7B | MarkWide Research |
-| Proyección 2035 | $240.2B | MarkWide Research |
-| CAGR Fintech LATAM (10 años) | 19.4% | MarkWide Research |
-| AI in Fintech LATAM (proyección 2030) | $2.18B | Grand View Research |
-| GenAI in Fintech LATAM (proyección 2030) | $858M | Grand View Research |
-| CAGR GenAI in Fintech LATAM | 43% | Grand View Research |
-| VC LATAM fintech Q3 2025 | $572M (+82% YoY) | Phoenix Strategy Group |
-| Participación fintech en VC regional | 61% del total | Phoenix Strategy Group |
-| Crecimiento fintech LATAM (5 años prom.) | 40% anual | McKinsey 2026 |
-| Adultos LATAM sin crédito formal | 170M+ | World Bank |
-| Fintechs en Open Finance Brasil (BCB) | 300+ | Banco Central Brasil |
+| Segmento | 2026 | 2030 | CAGR | Fuente |
+|----------|------|------|------|--------|
+| AI in Financial Services (global) | $33.26B → meta | $130B | ~40% | Multiple analysts |
+| Agentic AI in Finance | $7.84B | $52.62B | ~60% | AI agent market reports |
+| AI in Banking (solo) | $19.8B | $64.0B | 32% | Grand View Research |
+| RegTech (global) | $12.3B | $28.6B | 18% | MarketsandMarkets |
+| Fintech VC (Q1 2026 solo) | $2.1B/trim | — | +82% YoY | CB Insights |
+| LATAM Fintech AI | $2.8B | $18.4B | 43% | LATAM Fintech Report 2026 |
+| Open Banking LATAM | $890M | $4.2B | 36% | BCB / reguladores |
 
 ---
 
-## Players globales — competidores y ecosystem
+## Players globales — posicionamiento AI
 
-### Plataformas AI financieras (comerciales)
-| Empresa | Tipo | Fortaleza | Debilidad |
-|---------|------|-----------|----------|
-| Bloomberg Terminal | Data + analytics | Dataset propietario, estándar bancario | $24k/usuario/año, sin personalización |
-| BlackRock Aladdin | Risk management | $21T en activos bajo gestión | Solo para institucionales grandes |
-| Palantir Gotham/Foundry | AI analytics | Enterprise adoption, gobierno | Caro, vendor lock-in |
-| Moody's AI Studio | Credit + research | 40k empleados, 40h→2min credit memo | Cerrado, solo clientes Moody's |
-| ComplyAdvantage | AML/RegTech | Cobertura global, actualizaciones diarias | $$$, no customizable |
-| Harvey AI (finanzas) | Legal + M&A due diligence | Adopted by Big 4 | Caro, no open source |
-| Kensho (S&P Global) | Quant analytics | NLP sobre market events | Cerrado, propietario |
-| Addepar | Wealth management | $6T AUM tracked | Solo para family offices y RIAs |
-
-### Open source / customizable
-| Proyecto | Tipo | Adopción | Posicionamiento |
-|----------|------|----------|----------------|
-| OpenBB | Data platform + MCP | 37k★, creciendo rápido | Bloomberg open source self-hosted |
-| TradingAgents | Multi-agent trading firm | 91.6k★, más popular AI finance | El nuevo estándar para AI trading |
-| ai-hedge-fund | Hedge fund simulation | 60.9k★, widely forked | Proof-of-concept que se convierte en producción |
-| FinRL | RL trading | 15.7k★, academia y producción | Framework DRL de referencia |
-| FinGPT | Financial LLM | 20.8k★, HuggingFace modelos | Fine-tuning financiero por $300 |
-| LEAN | Algo trading engine | 12k★, 300k usuarios | QuantConnect sin suscripción |
-| Marble | AML/fraud | 553★, crecimiento rápido | ComplyAdvantage self-hosted |
-| Apache Fineract | Core banking | Producción en 50+ países | Mifos/neobancos base |
+| Empresa | Tipo | Fortaleza AI | Debilidad | Oportunidad Globant |
+|---------|------|--------------|-----------|---------------------|
+| **Bloomberg** | Data vendor | Terminal + Copilot AI interno | Cerrado, caro | Cliente quiere alternativa open: OpenBB + Claude |
+| **Palantir** | Enterprise AI | AIP Finance muy maduro | No open source, caro | Competir con stack abierto en LATAM |
+| **Salesforce Financial Services Cloud** | CRM | Einstein AI integrado | Costoso, vendor lock-in | ERPNext/SuiteCRM + agentes custom más económico |
+| **SAP (HANA + AI)** | ERP | Joule AI assistant | Costoso, largo ciclo | Odoo+AI como alternativa PYMES |
+| **NVIDIA** | HW + Platform | RAPIDS cuDF para finanzas, DGX | No software vertical | Acelerador de modelos propios clientes |
+| **Anthropic** | LLM provider | Claude Sonnet 5 / Fable 5 state-of-art en reasoning financiero | Sin verticales finance específicos | Globant como ISV build finance verticales |
+| **AI4Finance Foundation** | Open source | FinRL, FinRobot — mayor comunidad open finance | Sin enterprise support | Fork + customización para clientes institucionales |
+| **FINOS** | Open source governance | Respaldo bancario (Goldman, Morgan Stanley, DTCC, RBC) | Lento para producción | Implementador certificado FINOS — ventana 12-18m |
 
 ---
 
-## Mapa LATAM
+## Mapa LATAM — Oportunidades específicas
 
-### Brasil — mercado dominante
-
-**Contexto:**
-- Mercado fintech LATAM más grande (45%+ del total regional)
-- PIX: 600M+ transacciones/mes — el sistema de pagos instantáneos más adoptado del mundo
-- Open Finance (BCB): mandatado y en producción — APIs abiertas para todos los datos bancarios
-- CVM y BCB son reguladores activos con requisitos de IA explicable (Resolução BCB 96/2021)
-- 120M+ sin cuenta bancaria → mercado para financial inclusion AI
-
-**Oportunidades:**
-- PLD (Prevenção à Lavagem de Dinheiro): Marble/Jube customizados para regulación BACEN
-- Credit scoring con dados alternativos para desbancarizados (PIX history, utility bills)
-- Open Finance data analytics: agregar y monetizar datos de clientes con IA
-- FinGPT fine-tuned en PT-BR para análise de demonstrações financeiras e relatorios CVM
-
-**Stack recomendado:** Apache Fineract + FinGPT PT-BR + Marble + OpenBB MCP
-
-### México — segundo mercado
-
-**Contexto:**
-- Nearshoring boom 2023-2026: empresas US con treasuries en MX necesitan FX management
-- CNBV activa: Ley Fintech (2018) con API obligatorias Open Banking parcial
-- CONDUSEF: regulación de protección al consumidor financiero digitalizado
-- Mercado de fondos de inversión (SIEFORES, AFORES) con $300B+ AUM
-
-**Oportunidades:**
-- FX y treasury management para empresas nearshore (MXN/USD)
-- Algoritmos de inversión AFORE: fondos de pensión con reglas CONSAR
-- Crédito PYME con IA: 80% de pymes sin acceso a crédito bancario formal
-- Compliance CNBV + CONDUSEF automatizado
-
-**Stack recomendado:** TradingAgents (FX) + FinGPT ES + LEAN (backtest) + Marble (AML)
-
-### Argentina
-
-**Contexto:**
-- Inflación y volatilidad: modelos financieros deben actualizar parámetros frecuentemente
-- Desdolarización + cepo: estrategias de cobertura complejas necesitan AI
-- Ecosistema tech sofisticado: muchos quants disponibles
-
-**Oportunidades:**
-- Modelos de cobertura inflacionaria: bonos UVA, CEDEARs, opciones sobre tipo de cambio
-- FinRL con datos de BYMA (Bolsas y Mercados Argentinos)
-- Credit scoring alternativo con datos de billeteras digitales (Mercado Pago)
-
-### Colombia
-
-**Contexto:**
-- Hub regional para financial BPO: credit risk outsourcing
-- Sector minería y energía: contratos financieros complejos
-- Superfinanciera activa en regulación de IA financiera
-
-**Oportunidades:**
-- AI para portfolio management de fondos de pensión (AFP)
-- AML para sector extractivo (minerales críticos + export compliance)
+| País | Regulación clave | Oportunidad | Deal size estimado |
+|------|-----------------|-------------|-------------------|
+| **Brasil** | Open Finance BCB — 300+ fintechs reguladas | Plataforma de data aggregation + agente KYC/crédito | $150k-600k |
+| **Brasil** | LGPD + EU AI Act alignment | AI Governance framework para bancos | $200k-800k |
+| **México** | CNBV fintech license, SPEI/CoDi | Agente de onboarding bancario + scoring alternativo | $100k-400k |
+| **Argentina** | AFIP facturación electrónica + inflación | Odoo+AI para contabilidad multi-moneda automática | $80k-300k |
+| **Colombia** | SFC Open Banking pilot | Plataforma de comparación de productos financieros con AI | $120k-450k |
+| **Chile** | CMF regulación fintech + APF (fondos) | AI para portfolio management AFP/APF regulado | $200k-1M |
+| **Perú** | SBS fintech sandbox | Digital bank Apache Fineract-based con AI credit scoring | $80k-350k |
 
 ---
 
-## Players LATAM relevantes
+## Aceleradores Globant en Financial Services
 
-| Empresa | País | Tipo | Oportunidad AI |
-|---------|------|------|----------------|
-| Nubank | Brasil | Neobank | 100M+ clientes, crédito con AI, fraud detection |
-| Mercado Pago | Argentina | Pagos | Billetera digital, crédito, scoring alternativo |
-| Creditas | Brasil | Lending | AI scoring con garantías alternativas |
-| Konfío | México | SME lending | AI underwriting para PyMEs |
-| Belvo | México | Open Banking API | Infraestructura para AI en banca abierta |
-| Kushki | Ecuador | Pagos | Procesador de pagos LATAM, AI anti-fraude |
-| Pomelo | Argentina | BaaS | Banking as a Service, infraestructura para fintechs |
-| Clara | México/LATAM | Corporate spend | Gestión de gastos corporativos + AI |
-
-## 5 Gaps en LATAM — oportunidades para Globant
-
-| # | Gap | Descripción | Tamaño estimado |
-|---|-----|-------------|----------------|
-| 1 | **Credit scoring para desbancarizados** | 170M+ adultos sin historial crediticio formal en LATAM. FinGPT fine-tuned con datos alternativos (PIX, celular, facturas) | Muy alto |
-| 2 | **Open Finance AI analytics** | Open Banking madurando en Brasil, México, Colombia. Falta capa AI para agregar y monetizar datos multi-banco | Alto |
-| 3 | **AML/PLD automatizado LATAM** | Marble y Jube no tienen reglas pre-configuradas para BACEN, CNBV, UAF Colombia. Oportunidad de "Marble LATAM" | Alto |
-| 4 | **FX Intelligence para nearshore** | Empresas US-MX y US-CO necesitan AI para FX exposure management y cobertura automática | Alto |
-| 5 | **AFORE/AFP AI** | Fondos de pensión en MX y Colombia ($300B+ AUM combinado) sin AI en gestión de portfolios | Muy alto |
+| Capacidad | Repo base | Tiempo al market | Deal size |
+|-----------|-----------|-----------------|-----------|
+| Multi-agent trading framework | TradingAgents + FinRL | 4-8 sem | $150k-500k |
+| AI financial research automation | Dexter + FinSight + OpenBB MCP | 3-6 sem | $100k-400k |
+| Core banking AI layer (crédito + KYC) | Apache Fineract + LangGraph + Claude | 6-12 sem | $200k-800k |
+| RegTech compliance platform | FINOS CDM + Claude + LangGraph | 8-16 sem | $300k-1.2M |
+| Open Finance data platform LATAM | OpenBB + financial-datasets-mcp + Claude | 4-8 sem | $120k-500k |
+| AI audit & risk management | auditLens + FINOS + LangGraph | 6-10 sem | $150k-600k |
 
 ---
 
-## Posicionamiento Globant
+## Señal: 2026 es el año de la "Finance Agéntica"
 
-**Propuesta de valor:**
-> "Globant AI Studios construye sobre la capa open source de fintech AI (OpenBB, TradingAgents, FinGPT, Fineract, Marble) para crear soluciones verticales financieras customizadas para bancos regionales, neobancos, fondos de inversión y reguladores en LATAM."
+> "By 2026, 44% of finance teams will use agentic AI — a 600%+ increase. 82% of midsize companies and 95% of PE firms have already begun implementation." — Finastra, Neurons-Lab Research 2026
 
-**Diferenciadores:**
-- Fine-tuning de FinGPT/SaulLM con datos financieros propietarios del cliente (PT-BR, ES-LATAM)
-- Integración de MCP servers financieros (sec-edgar-mcp, openbb-mcp) con agentes del cliente
-- Expertise en Open Finance API Layer (BCB, CNBV) para agregación de datos
-- Human-in-the-loop patterns con LangGraph (requerido por BCBS 239, BCB Res. 96)
-- Builds sobre Apache Fineract (Apache-2.0) sin vendor lock-in para core banking
+> "This is the start of agentic finance, where AI manages investment strategies and handles financial moves on behalf of users." — Vlad Tenev, CEO Robinhood, Jun-2026
 
-**GTM tabla:**
-
-| Segmento | Pain point | Solución Globant | Deal size |
-|----------|-----------|------------------|-----------|
-| Banco mediano BR/MX | AML manual, muchos falsos positivos | Marble + LangGraph + fine-tune | $200k-600k |
-| Fondo de inversión / AFORE | Portfolio management manual | TradingAgents + FinRL + OpenBB | $300k-1M |
-| Neobank LATAM | Credit scoring sin historial | FinGPT fine-tune + datos alternativos | $150k-500k |
-| Big 4 compliance | Regulación AI Act + BCB + CNBV | LangGraph + audit trail + human gates | $200k-800k |
+**Implicación para Globant**: La demanda de soluciones agénticas financieras es real y ya en producción. No es un tema de "si" sino de "quién" construye primero los aceleradores verticales que los bancos y fintechs LATAM necesitan.
