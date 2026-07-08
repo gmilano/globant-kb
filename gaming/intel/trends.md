@@ -91,13 +91,48 @@ Una tensión estructural emergió en 2026 que define el approach correcto:
 
 **Conclusión estratégica**: el éxito está en **"AI invisible"** — usar AI para producción (QA, assets, dev tooling) sin exponer la "AI-ness" al jugador final. Los NPCs AI funcionan CUANDO el jugador no sabe que habla con AI.
 
+### 11. Game Foundation Models — era post-NitroGen (diciembre 2025)
+
+La publicación de NitroGen marca el inicio de la era de foundation models especializados en gaming:
+
+- **NitroGen** ([MineDojo/NitroGen](https://github.com/MineDojo/NitroGen), NVIDIA+Stanford, dic 2025): 500M params SigLip2+DiT, entrenado en 40K horas de gameplay en 1000+ juegos. 52% mejora en juegos no vistos. Research only.
+- **Genie 3** (Google DeepMind): world model para generar entornos interactivos desde texto/imagen. Genera juegos completos, no solo assets.
+- **Roblox CUBE 3D** (1.8B params): genera objetos 3D on-platform desde texto (mar 2025).
+- **Tendencia**: modelos especializados en gameplay superan a GPT/Claude en tareas de game AI con datasets pequeños.
+- **Para Globant**: NitroGen como base para fine-tuning de agentes de QA (testing coverage, exploit detection) — sin costo de API si se hace on-premise.
+
+### 12. Agones → CNCF (marzo 2026) — game infra cloud-native madura
+
+- Agones (Apache-2.0, [googleforgames/agones](https://github.com/googleforgames/agones)) fue aceptado en CNCF Sandbox en marzo 2026.
+- Originalmente co-desarrollado por Google + Ubisoft. El ingreso al CNCF lo hace neutral y enterprise-ready.
+- Impacto: los stacks cloud-native para gaming (Agones + Nakama + Open Match) ahora tienen endorsement de infraestructura equivalente a Kubernetes mismo.
+- Para Globant: propuesta diferenciada: "stack cloud-native CNCF para gaming" — Agones + Nakama + Open Match sobre GKE/EKS = no lock-in de plataforma.
+
+### 13. Wanderfolk — pgvector en producción, patrón recomendado (mayo 2026)
+
+Wanderfolk (Steam, mayo 2026) validó en producción el siguiente patrón simplificado:
+
+```
+Antes (teórico): Godot + ChromaDB + Redis + PostgreSQL (3 sistemas separados)
+Ahora (validado): Motor del juego + Supabase (PostgreSQL + pgvector) (1 sistema)
+```
+
+El juego usa:
+- pgvector para embeddings de memoria de NPC — retrieval por cosine similarity (lo relevante, no lo reciente)
+- PostgreSQL estándar para social graph (gossip entre NPCs), reputación (-100 a +100), inventarios
+- Supabase como BaaS: auth + storage + realtime + edge functions
+
+**Conclusión**: pgvector sobre Supabase es suficiente para NPCs con Long-Term Memory en producción. ChromaDB solo justificado si el volumen de vectores supera lo que PostgreSQL puede manejar (raro en juegos).
+
 ---
 
 ## En el radar (emergente, 2026-2027)
 
 | Tendencia | Señal | ETA |
 |-----------|-------|-----|
-| **AI-native games** (world models) | Yuan-ManX/AI-Native-Game tracker activo. Genie 2 (Google). | 2026-2027 |
+| **AI-native games** (world models) | Yuan-ManX/AI-Native-Game tracker activo. Genie 3 (Google). | 2026-2027 |
+| **Mind-Studio: Executable World Models** | arXiv:2606.16070 (jun 2026): World Models con lookahead evaluation para juegos parcialmente observables. | Research 2026 |
+| **Agentic AI RPG frameworks** | Frameworks en jun 2026 donde narración, NPCs, lore y personajes son plugin agents autónomos. Soporte DeepSeek/OpenAI/Anthropic/Qwen. | En adopción indie |
 | **Gemma 3n on-device NPCs** | Demostrado en Godot sin API. Offline-first gaming. | Ya disponible en beta |
 | **Villanos adaptativos** | Aivill (SKYHUBDev): villanos que aprenden del jugador. | Concepto emergente |
 | **AI game masters** | VirtualGameMaster (MIT, 300 stars): GM automático para RPGs. | En adopción indie |
@@ -107,5 +142,6 @@ Una tensión estructural emergió en 2026 que define el approach correcto:
 | **COCOS 4 AI community** | MIT unlock ene 2026. Comunidad OSS AI sobre COCOS por desarrollar. | Oportunidad 2026-2027 |
 
 ---
+*v3 (2026-07-08): añadidas tendencias 11 (Foundation Models gaming), 12 (Agones CNCF), 13 (Wanderfolk pgvector producción). Radar actualizado con Mind-Studio arXiv:2606.16070 y Agentic AI RPG frameworks jun 2026.*
 *v2 (2026-07-07): añadido Unity MCP ecosystem (#2), COCOS 4 MIT (#4), Tensión studios/gamers (#10), LTM NPCs, datos GDC 2026 SOTI.*
-*Fuentes: GDC 2026 SOTI, GitHub (verificado 2026-07-07), agentmarketcap.ai, aivexify.com, solidaitech.com*
+*Fuentes: GDC 2026 SOTI, GitHub (verificado 2026-07-08), agentmarketcap.ai, aivexify.com, solidaitech.com, cncf.io (mar 2026), wanderfolk.ai, arXiv:2606.16070*

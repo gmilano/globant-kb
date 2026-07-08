@@ -54,11 +54,32 @@
 | WorldX | [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) | MIT | Generación procedural de mundos con AI (TypeScript) | 1.1k |
 | gdquest-demos/godot-4-procedural-generation | [gdquest-demos/godot-4-procedural-generation](https://github.com/gdquest-demos/godot-4-procedural-generation) | MIT | Algoritmos PCG y demos para Godot 4. Base del curso "Godot PCG Secrets". | ~800 |
 
+## Modding AI — NPC dialogue para juegos existentes
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| Mantella | [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) | MIT | Mod open source para Skyrim Special Edition y Fallout 4. STT (Moonshine/Whisper) + LLM + TTS (Piper/xVASynth/XTTS). Habla naturalmente con ~2,500 NPCs del juego. Completamente local o cloud API. Activo en 2026. | 3k+ |
+| Pantella | [Pathos14489/Pantella](https://github.com/Pathos14489/Pantella) | MIT | Fork de Mantella con soporte extendido a más juegos. Pipeline STT → LLM → TTS con memoria persistente. | ~500 |
+
+## Modelos fundacionales para gaming (research, verificar licencia comercial)
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| NitroGen | [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) | Research/non-commercial | NVIDIA + Stanford. Modelo visión-acción 500M params (SigLip2 + DiT). Entrenado en 40K horas de gameplay en 1000+ juegos. 52% mejora vs modelos entrenados desde cero en juegos no vistos. Weights en HuggingFace. arXiv:2601.02427 | ~800 |
+
+## NPC AI toolkit
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| npc-engine | [npc-engine/npc-engine](https://github.com/npc-engine/npc-engine) | MIT | Deep learning y NLP toolkit para IA de NPCs. Chatbot dialogue system, semantic similarity, TTS. Diseñado para integrar en cualquier engine. | ~600 |
+
 ## ⚠️ Licencias a tener en cuenta
 
 | Nombre | Licencia | Restricción |
 |--------|----------|-------------|
 | NobodyWho | EUPL-1.2 | **Copyleft** — requiere que derivados sean open source. No usar en soluciones propietarias. |
+| NitroGen | Research only | No comercial sin autorización. Útil para demos y benchmarks internos. Verificar antes de usar en producción con clientes. |
 
 ---
-*Actualización v2 (2026-07-07): añadido ecosistema Unity MCP (4 repos, líder CoplayDev/unity-mcp 5.8k stars), openNPC, OpenSpiel, GodotPrompter, PCG godot-4-procedural-generation.*
+*v3 (2026-07-08): añadido Mantella + Pantella (NPC dialogue OSS para mods), NitroGen (NVIDIA/Stanford 500M foundation model gaming, dic 2025), npc-engine (NLP toolkit). Fuentes: github.com/art-from-the-machine/Mantella, github.com/MineDojo/NitroGen, arXiv:2601.02427.*
+*v2 (2026-07-07): añadido ecosistema Unity MCP (4 repos, líder CoplayDev/unity-mcp 5.8k stars), openNPC, OpenSpiel, GodotPrompter, PCG godot-4-procedural-generation.*

@@ -38,13 +38,28 @@
 | [recastnavigation/recastnavigation](https://github.com/recastnavigation/recastnavigation) | Zlib | Estándar de industria navmesh. Ya en Godot, Unity, UE. Combinable con RL agents para navegación híbrida. | 7.8k |
 | [Mugen87/yuka](https://github.com/Mugen87/yuka) | MIT | Game AI primitives JS: steering behaviors, pathfinding, FSM | 1.4k |
 
+## Infraestructura cloud gaming
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [googleforgames/agones](https://github.com/googleforgames/agones) | Apache-2.0 | Hosting, escalado y orquestación de servidores dedicados para juegos multijugador sobre Kubernetes. Co-desarrollo Google + Ubisoft. Aceptado en **CNCF Sandbox (mar 2026)**. SDK: Go, Rust, C++, C#, Unity, Unreal. Estándar cloud-native para game servers. | 6.3k |
+| [googleforgames/open-match](https://github.com/googleforgames/open-match) | Apache-2.0 | Framework matchmaking de Google. Combina con Agones: Open Match decide los jugadores, Agones provisiona el servidor. gRPC + Kubernetes nativo. | 1.5k |
+
 ## Analytics y Observability
 
 | Repo | Licencia | Descripción | Stars |
 |------|----------|-------------|-------|
 | [grafana/grafana](https://github.com/grafana/grafana) | Apache-2.0 | Dashboards player analytics en tiempo real | 67k |
 | [PostHog/posthog](https://github.com/PostHog/posthog) | MIT | Product analytics self-hosted. Player behavior analysis, churn prediction pipelines. | 23k |
+| [pyg-team/pytorch_geometric](https://github.com/pyg-team/pytorch_geometric) | MIT | PyTorch Geometric — GNNs sobre grafos. Estándar para churn prediction con red social de jugadores. 75.83 AUROC vs 62.44 LightGBM flat-table (benchmark RelBench). | 22k |
+
+## Modelos AI para gaming (research)
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) | Research/non-commercial | Modelo fundacional visión-acción 500M params (NVIDIA+Stanford). Entrenado en 40K horas + 1000 juegos. Base para game agents generalistas. arXiv:2601.02427 | ~800 |
 
 ---
+*v3 (2026-07-08): añadido Agones (Apache-2.0, CNCF Sandbox mar 2026), Open Match, PyTorch Geometric (GNN churn), NitroGen (NVIDIA research). Verificado GitHub.*
 *v2 (2026-07-07): añadido COCOS 4 (MIT desde ene 2026), Stride, OpenSpiel, Supabase. Verificado GitHub.*
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

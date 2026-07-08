@@ -41,10 +41,23 @@
 | **LlamaIndex** | [run-llama/llama_index](https://github.com/run-llama/llama_index) | MIT | ~40k | RAG sobre datos propios. Para NPCs con conocimiento del lore del juego. |
 | **CrewAI** | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~52k | Multi-agente con roles. Para QA pipelines, PCG con agentes especializados. |
 
+## 🚀 Nuevos en julio 2026
+
+| Repo | Licencia | Descripción | Stars | Señal |
+|------|----------|-------------|-------|-------|
+| [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) | MIT | Mod open source para Skyrim/Fallout 4: STT + LLM + TTS para hablar con ~2,500 NPCs. 100% local posible (Whisper + Ollama + Piper). Activo 2026. | 3k+ | Prueba de concepto validada en juegos existentes sin tocar el motor |
+| [Pathos14489/Pantella](https://github.com/Pathos14489/Pantella) | MIT | Fork de Mantella con más juegos soportados. Pipeline NPC dialogue genérico. | ~500 | Expansión del ecosistema Mantella |
+| [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) | Research | NVIDIA+Stanford: 500M params DiT+SigLip2, 40K horas, 1000+ juegos. Primer foundation model para gaming agents. arXiv:2601.02427 | ~800 | Hito en game AI: foundation models llegan a gaming |
+| [googleforgames/agones](https://github.com/googleforgames/agones) | Apache-2.0 | K8s game server orchestration. **Entró a CNCF Sandbox en marzo 2026.** Estándar cloud-native para hosting multiplayer. SDK Unity/Unreal/C++/Rust. | 6.3k | CNCF = estándar de industria neutral. Madurez enterprise confirmada. |
+| [npc-engine/npc-engine](https://github.com/npc-engine/npc-engine) | MIT | Deep learning + NLP toolkit para IA de NPCs en cualquier engine. Dialogue, semantic similarity, TTS. | ~600 | Alternativa ligera a Mantella para devs que construyen desde cero |
+
 ## Señales de mercado a seguir
 
 - **COCOS 4 MIT (ene 2026)**: abre el motor mobile #1 de Asia al mercado global sin restricciones — impacto en LATAM mobile gaming aún subestimado.
 - **Unity MCP ecosystem**: 4 servidores MCP con >11k stars agregados en 2026. AI-assisted dev en Unity es ya el default.
+- **Agones → CNCF Sandbox (mar 2026)**: hito de madurez. Game server infra cloud-native se vuelve estándar de industria.
+- **NitroGen** (dic 2025): foundation model para game agents. El inicio de la era de modelos especializados en gaming como GPT-4 lo fue para texto.
+- **Wanderfolk pgvector pattern**: pgvector sobre PostgreSQL es suficiente para NPC Long-Term Memory. Stack simplificado: Supabase reemplaza ChromaDB + Redis.
 - **Roblox OpenGameEval** (dic 2025): benchmark OSS para evaluar AI en juegos. 47 escenarios: code gen, tool use, 3D reasoning, multiplayer.
 - **Unity AI Inference Engine**: permite correr LLMs/modelos ML directamente en el runtime Unity sin servidor. Tendencia hacia AI on-device.
 - **NVIDIA ACE SDK**: SDK para Unreal/Unity. NPCs con ASR + NLP + TTS + animación facial en tiempo real. Tracción en demos AAA.
@@ -52,4 +65,5 @@
 - **gamescom latam 2026**: primer evento de gamescom dedicado a LATAM — señal de que la región es estratégica para la industria global.
 
 ---
+*v3 (2026-07-08): añadidos Mantella (MIT, 3k+ stars), NitroGen (NVIDIA research), Agones CNCF (mar 2026), npc-engine, Pantella. Señales de mercado actualizadas.*
 *v2 (2026-07-07): añadido ecosistema Unity MCP completo (4 repos), openNPC, COCOS 4 signal, gamescom latam.*

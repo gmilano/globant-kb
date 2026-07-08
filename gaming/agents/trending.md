@@ -91,6 +91,49 @@ Patrón emergente: BT como esqueleto de control → LLM como módulo de diálogo
 | **openNPC** | [balaraj74/openNPC](https://github.com/balaraj74/openNPC) | NPC autónomo sin LLM en runtime, Python, MIT |
 | **Aivill** | [SKYHUBDev/Aivill](https://github.com/SKYHUBDev/Aivill) | Villanos adaptativos que aprenden del comportamiento del jugador |
 
+### 11. NitroGen — primer modelo fundacional para gaming agents (diciembre 2025)
+
+NVIDIA + Stanford (MineDojo) publicaron NitroGen: el primer modelo visión-acción open source diseñado específicamente para agentes de juego generalistas.
+
+- **Arquitectura**: SigLip2 (visual encoder) + Diffusion Matching Transformer (DiT), 500M parámetros.
+- **Dataset**: 40K horas de gameplay en 1,000+ juegos, construido automáticamente desde videos públicos.
+- **Rendimiento**: 52% mejora relativa en task success rate vs modelos entrenados desde cero en juegos no vistos.
+- **Aplicaciones**: combate en 3D action games, control de precisión en 2D platformers, exploración en mundos procedurales.
+- **Licencia**: research only (no comercial). Weights en HuggingFace (nvidia/NitroGen). GitHub: [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen). arXiv:2601.02427.
+- **Señal estratégica**: marca el inicio de la era de "foundation models para gaming" — igual que GPT-4 lo fue para texto.
+
+**Para Globant**: usar para demos de QA bots y game AI research. Verificar licencia antes de cualquier uso comercial con clientes.
+
+### 12. Agones → CNCF Sandbox (marzo 2026) — nueva era en infraestructura gaming
+
+Agones, el motor de hosting de servidores dedicados sobre Kubernetes, fue aceptado en el CNCF (Cloud Native Computing Foundation) Sandbox en marzo 2026. Originalmente co-desarrollado por Google y Ubisoft.
+
+- **GitHub**: [googleforgames/agones](https://github.com/googleforgames/agones) (ahora también agones-dev/agones) — Apache-2.0.
+- **Qué hace**: permite escalar y orquestar game servers dedicados sobre K8s. Matchmaker puede interactuar directamente con K8s API para provisionar servidores.
+- **Soporte**: Kubernetes 1.33-1.35. SDK: Go, Rust, C++, C#, Unreal, Unity.
+- **Importancia del CNCF**: señal de madurez enterprise. Agones pasa de ser un proyecto Google a estándar de industria neutral.
+- **Para Globant**: stack cloud-native para backends gaming: Agones (server orchestration) + Nakama (game logic) + Open Match (matchmaking) sobre GKE/EKS/AKS.
+
+### 13. Wanderfolk — validación en producción del patrón pgvector NPC (mayo 2026)
+
+Wanderfolk (medieval RPG, Steam, lanzado mayo 2026) validó en producción el patrón pgvector + gossip social graph para NPCs:
+
+- **NPC memory**: cada conversación es resumida, embebida y almacenada en **PostgreSQL + pgvector**. Retrieval por cosine similarity — no recupera lo más reciente sino lo más contextualmente relevante.
+- **Social graph**: los NPCs se cuentan entre sí lo que el jugador hizo. Gossip real que afecta precios, diálogo, acceso a quests.
+- **Reputation system**: escala -100 a +100 en tiers discretos (Hostile → Disliked → Cool → Neutral → Warm → Friendly → Beloved). El tier controla precios, trabajos, quests. A -90: el jugador es expulsado del pueblo.
+- **LLM**: xAI Grok para generación de diálogo.
+- **Implicación técnica**: **pgvector sobre Supabase es suficiente** para NPC LTM en juegos — no hace falta ChromaDB o Pinecone separados. Un solo backend relacional maneja memoria + social + datos del juego.
+- **Para Globant**: patrón de referencia producción: `Supabase (PostgreSQL + pgvector) + LLM API` reemplaza el stack `ChromaDB + Redis + PostgreSQL`.
+
+### 14. Modding AI — NPC dialogue para juegos existentes (señal de mercado)
+
+Mantella ([art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella), MIT) demuestra que NPCs AI conversacionales son posibles sobre juegos existentes sin reescribir el motor:
+
+- STT (Moonshine/Whisper) + LLM + TTS (Piper/xVASynth/XTTS).
+- Soporte a ~2,500 NPCs de Skyrim/Fallout 4 sin modificar el código del juego.
+- **100% local**: no sale data del PC si se usa Ollama/Whisper local.
+- Señal: si un mod OSS puede hacer NPCs AI en Skyrim (2011), lo mismo en juegos 2025+ es trivial técnicamente.
+
 ## Señal de mercado — adopción (julio 2026)
 
 - **36%** de profesionales del juego usa GenAI tools personalmente (GDC 2026 SOTI survey)
@@ -99,12 +142,14 @@ Patrón emergente: BT como esqueleto de control → LLM como módulo de diálogo
 - **7,300+** juegos en Steam declarando aplicaciones AI
 - **52%** de profesionales ve GenAI negativamente (vs 30% en 2025) — backlash creciente
 - **85%** de gamers mantiene actitudes negativas hacia AI en juegos
-- **AI in Gaming market**: $10.1B en 2026 → $75.1B en 2033, CAGR 33.2%
-- **Generative AI in Gaming**: $1.79B en 2026, CAGR 23.2%
+- **AI in Games (global)**: $10.1B en 2026 → $75.1B en 2033, CAGR 33.2% (Technavio)
+- **Generative AI in Gaming**: $1.79B (2025) → **$2.21B (2026)**, CAGR 23.1% (BusinessResearchCompany, 3-jul-2026) → $5.09B en 2030
 - **NPC AI market**: $2.44B en 2026, CAGR 31.4%
+- **Impacto en producción**: AI tools reducen tiempo de creación de assets **70-90%**, ahorros **$100K-$500K por título** (GDC 2026)
 
 > ⚠️ **Tensión de mercado**: 87% de estudios usa AI internamente pero 85% de gamers lo rechaza en los juegos finales.
 > El éxito está en **AI-invisible**: usar AI para producción sin exponer la "AI-ness" al jugador.
 
 ---
-*Fuentes: GDC 2026 SOTI, agentmarketcap.ai, solidaitech.com, aivexify.com, GitHub (verificado 2026-07-07)*
+*v3 (2026-07-08): añadidas tendencias 11-14: NitroGen (NVIDIA/Stanford foundation model), Agones→CNCF Sandbox, Wanderfolk pgvector pattern en producción, Mantella modding. Market data actualizado con BusinessResearchCompany jul-2026.*
+*Fuentes: GDC 2026 SOTI, agentmarketcap.ai, solidaitech.com, aivexify.com, thebusinessresearchcompany.com (2026-07-03), cncf.io/blog/2026/03/23, github.com/MineDojo/NitroGen, wanderfolk.ai, GitHub (verificado 2026-07-08)*

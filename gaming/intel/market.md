@@ -7,9 +7,9 @@
 
 | Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte |
 |----------|------------|------------|------|----------|
-| AI in Games (global, amplio) | — | $10.1B | 33.2% | → $75.1B en 2033 |
+| AI in Games (global, amplio) | — | $10.1B | 33.2% | → $75.1B en 2033 (Technavio) |
 | AI in Gaming (core estimate) | $2.87B | $3.4B | 18.5% | 2025-2026 |
-| Generative AI in Gaming | $1.79B | — | 23.2% | 2026 base |
+| **Generative AI in Gaming** | **$1.79B** | **$2.21B** | **23.1%** | → $5.09B en 2030 (BusinessResearchCompany, jul-2026) |
 | NPC Generation AI market | $1.86B | $2.44B | 31.4% | → $7.22B en 2030 |
 | AI Game Assets Generator | — | $2.08B | — | → $10.73B en 2035 |
 | NPCs + Digital Humans | — | 28.6% del total AI gaming | — | mayor segmento |
@@ -18,6 +18,11 @@
 | LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad |
 
 **Adopción**: 87% de estudios ya usa AI agents en sus workflows (Google Cloud survey, 615 developers, jun-jul 2025). 50%+ de estudios AAA. **36%** de profesionales usa GenAI personalmente (GDC 2026 SOTI).
+
+**Impacto en producción** (dato nuevo, GDC 2026):
+- AI tools reducen tiempo de creación de assets: **70-90%**
+- Ahorro de costos por título: **$100K-$500K** — accesible para studios mid-size y indie
+- Dev cycles: 24 meses → 12 meses en AAA con AI pipelines completos
 
 **Impacto en producción**: AAA studios ahorran promedio **$10M por título** via AI-assisted QA, localización, NPC behavior y asset generation. Dev cycles: 24 meses → 12 meses.
 
@@ -117,6 +122,17 @@
 - **Studios locales** (Aquiris Brasil, Luderia México): potenciales clientes más que competidores
 - **Inworld/Convai**: plataformas cerradas caras → Globant puede ofrecer alternativa OSS consultiva
 
+## Hitos de infraestructura 2026 (señales de madurez)
+
+| Evento | Fecha | Importancia |
+|--------|-------|-------------|
+| **Agones → CNCF Sandbox** | Marzo 2026 | Game server infra K8s se vuelve estándar neutral de industria |
+| **COCOS 4 → MIT** | Enero 2026 | Engine mobile #1 de Asia accesible sin licensing fees |
+| **NitroGen publicado** | Dic 2025 | Primer foundation model visión-acción para gaming (500M params, 40K horas) |
+| **Wanderfolk en Steam** | Mayo 2026 | Primer RPG con pgvector + gossip graph en producción |
+| **gamescom latam 2026** | 2026 | Primera edición LATAM del evento gaming más grande del mundo |
+
 ---
+*v3 (2026-07-08): actualizado GenAI in Gaming $1.79B→$2.21B (BusinessResearchCompany jul-2026). Añadido impacto producción (70-90% assets), tabla hitos infra 2026 (Agones CNCF, NitroGen, Wanderfolk, COCOS 4).*
 *v2 (2026-07-07): añadido COCOS 4, gamescom latam 2026, LATAM Video Game Dev market $123.7M→$438.6M, NPC AI market $2.44B, tabla por país más granular, Unity MCP en competitive landscape.*
-*Fuentes: marketresearchfuture.com, snsinsider.com, marketdataforecast.com, imarcgroup.com, GDC 2026 SOTI, intelligentcio.com/latam (2026-07-07)*
+*Fuentes: marketresearchfuture.com, snsinsider.com, marketdataforecast.com, imarcgroup.com, GDC 2026 SOTI, thebusinessresearchcompany.com (2026-07-03), cncf.io/blog/2026/03/23, intelligentcio.com/latam (2026-07-08)*

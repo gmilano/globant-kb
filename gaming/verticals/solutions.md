@@ -4,9 +4,9 @@
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
 > Última actualización: 2026-07-07 | v2
 
-## Stack recomendado: Godot + Nakama
+## Stack recomendado: Godot + Nakama + Agones
 
-La combinación más potente disponible en open source hoy para juegos online:
+La combinación más potente disponible en open source hoy para juegos online con infraestructura cloud-native:
 
 ```
 Godot (MIT) — motor del juego
@@ -14,10 +14,12 @@ Godot (MIT) — motor del juego
     + godot_rl_agents — entrenamiento RL de agentes
     + godot-ai — MCP server para AI-assisted dev
     ↕ nakama-godot SDK (Apache-2.0)
-Nakama (Apache-2.0) — backend multiplayer
+Nakama (Apache-2.0) — backend multiplayer (lógica, social, auth)
     + TypeScript/Go hooks — lógica server-side con AI
     + Open Match (Apache-2.0) — matchmaking enchufable
     + PostHog (MIT) — analytics de jugador
+Agones (Apache-2.0, CNCF) — orquestación de dedicated servers sobre K8s
+    + integración: Open Match provee los jugadores, Agones provisiona el servidor
 ```
 
 ## Stack alternativo: Unity + unity-mcp (para clientes Unity)
@@ -46,7 +48,8 @@ Nakama (Apache-2.0) — backend multiplayer compartido
 | **Colyseus** | MIT | [colyseus/colyseus](https://github.com/colyseus/colyseus) | 6.2k | Node.js/TypeScript | Servidor multiplayer web. Ideal para browser games y webapps. |
 | **MonoGame** | MIT | [MonoGame/MonoGame](https://github.com/MonoGame/MonoGame) | 11k | C# | Framework C# cross-platform. Para devs .NET que quieren añadir AI. |
 | **Stride** | MIT | [stride3d/stride](https://github.com/stride3d/stride) | 7.7k | C# | Engine .NET maduro (ex-Xenko). Alternativa seria a Unity sin controversy de pricing. |
-| **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. pgvector para RAG. |
+| **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. **pgvector para NPC Long-Term Memory** (validado en Wanderfolk, mayo 2026). |
+| **Agones** | Apache-2.0 | [googleforgames/agones](https://github.com/googleforgames/agones) | 6.3k | Go + K8s | Orquestación de dedicated game servers sobre Kubernetes. **CNCF Sandbox (mar 2026)**. SDK Unity/Unreal/C#/Rust. Estándar cloud-native para multiplayer a escala. |
 
 ---
 
@@ -194,16 +197,19 @@ AWS Rekognition                        ← moderación de contenido UGC
 | Caso de uso | Plataforma base | Capa AI | Esfuerzo |
 |-------------|----------------|---------|----------|
 | NPC con LLM local | Godot | LimboAI + Ollama | 2-3 semanas |
-| NPC con memoria persistente | Godot | Generative Agents pattern + Claude API | 3-4 semanas |
+| NPC con memoria persistente (Wanderfolk pattern) | Godot/COCOS + Supabase pgvector | pgvector + Claude Haiku | 2-3 semanas |
 | AI dev tooling (Godot) | Godot + godot-ai | Claude Code / Cursor via MCP | 1 día setup |
 | AI dev tooling (Unity) | Unity + CoplayDev/unity-mcp | Claude Code / Cursor / Copilot | 1 día setup |
 | Multiplayer backend inteligente | Nakama | ONNX hooks + PostHog | 3-4 semanas |
+| Multiplayer cloud-native escalable | Nakama + Agones + Open Match | K8s + ONNX matchmaking | 4-6 semanas |
 | Backend social/persistente + AI | Supabase | Edge Functions + pgvector + LLM | 2-3 semanas |
 | RL training / QA automatizado | Godot + godot_rl_agents | SB3 + PPO | 2-4 semanas |
 | Mobile gaming + AI (LATAM) | COCOS 4 | ONNX on-device + Supabase pgvector | 3-5 semanas |
 | Juego AAA con AI cloud | O3DE | AWS Bedrock / GameLift | Meses (enterprise) |
 | RPG con PCG y narrativa generativa | Luanti fork + Godot | Concordia + LlamaIndex + LLM | 6-10 semanas |
+| NPC dialogue en juego existente (mod-style) | Skyrim/cualquier juego | Mantella pattern: Whisper+Ollama+Piper | 1-2 semanas |
 
 ---
+*v3 (2026-07-08): Agones añadido a la tabla (CNCF Sandbox mar 2026), stack recomendado actualizado con Agones, Wanderfolk pattern en tabla fit, Mantella pattern añadido, nota pgvector en Supabase.*
 *v2 (2026-07-07): añadido COCOS 4 (MIT ene 2026), Stride, Unity MCP stack, nueva tabla fit con Unity MCP.*
-*Fuentes: heroiclabs.com, supabase.com, godotengine.org, o3de.org, cocos.com, GitHub (verificado 2026-07-07)*
+*Fuentes: heroiclabs.com, supabase.com, godotengine.org, o3de.org, cocos.com, agones.dev, wanderfolk.ai, GitHub (verificado 2026-07-08)*
