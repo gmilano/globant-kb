@@ -1,6 +1,6 @@
 # Trends — Travel & Hospitality AI
 
-> Current trends. Updated: 2026-07-08 (v3)
+> Current trends. Updated: 2026-07-08 (v4)
 
 ## Key Numbers
 
@@ -12,7 +12,7 @@
 | Agentic booking market CAGR 2026–2034 | 22.5% | MarketIntelo |
 | IDC: AI agent share of bookings by 2030 | **30%** | IDC FutureScape |
 | Execs deploying agentic booking | **80% planning** | Hospitality.today |
-| Consumers ready for fully autonomous booking | 2–7% | Multiple surveys |
+| Leisure consumers ready for fully autonomous booking | **2%** | Multiple surveys 2026 — revised down |
 | Millennials/Gen Z willing to delegate planning | 61% | Survey 2026 |
 | AI booking completion vs traditional OTA funnel | +38% | Industry pilots |
 | Traveler awareness of AI trip planning tools | **90%** | Hotel Management Jun 2026 |
@@ -215,16 +215,96 @@ Amadeus and Microsoft co-published a joint AI agents report and announced the fi
 | Mar 2026 | OAG: "The Month Agentic Travel Gets Real" — first scale transactions |
 | Apr 2026 | McKinsey "Remapping Travel with Agentic AI" published |
 | Apr 2026 | trvl MCP super-server updated: 65 aliases, 8 platforms, zero keys |
-| Jun 2026 | LetsFG: $116 savings verified vs Google Flights (5 routes, same day) |
+| Feb 2026 | Sabre + PayPal + MindTrip announce strategic partnership | End-to-end agentic booking pipeline |
+| May 6, 2026 | MindTrip Flights launches — Sabre Mosaic + PayPal | First complete agentic flight booking in single chat session (search → select → pay) |
+| May 2026 | Expedia Explore 2026: Claude integration + Expedia × Meta announced | OTA + LLM provider convergence; social + AI planning merge |
+| Jun 2026 | LetsFG: $116 savings verified vs Google Flights (5 routes, same day) | NDC-first is verifiably cheaper |
+| Jun 2026 | Google confirms AI Mode travel booking partners (Booking.com, Expedia, Marriott, IHG, etc.) — not yet live | Google as discovery layer, partners as transaction layer |
 | Jun 2026 | Booking.com debuts agentic AI innovations (Trips feature) |
 | Jul 2026 | DIDA hotel MCP server public (2M+ hotels, free, MIT) |
 | Jul 2026 | 3 community Amadeus MCP servers published |
 | Jul 2026 | Amadeus × Microsoft co-publish AI agents report, announce 6 AI agents |
 | Jul 2026 | HarimxChoi/langgraph-travel-agent published — first Hotelbeds+Amadeus+Twilio LangGraph agent |
-| 2026 H2 | Expected: Amadeus official MCP, Duffel MCP |
+| Jul 2026 | Fieldy76/Agentic-Travel-Planner + embabel/tripper published — framework-free + Airbnb integration |
+| 2026 H2 | Expected: Amadeus official MCP, Duffel MCP, Google AI Mode Travel launch |
 | 2027 | Expected: Booking.com / Expedia MCP servers |
 | 2028 | Predicted: consumer autonomous booking trust at 15-20% |
 | 2030 (est) | IDC: 30% of all travel bookings by AI agents |
 
 ---
-*Updated: 2026-07-08 (v3)*
+
+## Trend 12: Sabre Mosaic + MindTrip + PayPal — The Complete Agentic Stack Is Live
+
+**May 6, 2026**: The industry's first complete end-to-end agentic flight booking experience launched, combining:
+- **MindTrip** — conversational AI planning interface (OpenAI partnership, 11M+ points of interest)
+- **Sabre Mosaic™** — enterprise "agentic-ready" Air APIs providing real-time GDS inventory
+- **PayPal** — inline payment with Buy Now Pay Later (Pay in 4 + Pay Monthly) without redirect
+
+**Why this is the defining commercial milestone:**
+1. It eliminates the redirect: booking happens inside the conversation
+2. It shows GDS + AI can work together without replacing each other
+3. Sabre positions as infrastructure, not competitor to AI platforms
+4. PayPal's "agentic commerce API" may become the standard for in-chat payments
+
+**The pattern it proves:**
+```
+Conversational AI + Enterprise GDS + In-Chat Payment = Complete Booking
+```
+
+This pattern is recreatable for LATAM with: Claude/custom LLM + Amadeus (or Sabre if enterprise) + PayPal / MercadoPago / PIX integration.
+
+**Signal**: Every major GDS (Sabre, Amadeus, Travelport) will launch an "agentic-ready API" by 2027. The race is to be the preferred GDS backend for AI travel platforms.
+
+---
+
+## Trend 13: Expedia × Claude — The OTA + LLM Integration Blueprint
+
+**Expedia Explore 2026 (May 2026)**: Expedia announced a Claude integration allowing U.S. travelers to search for flights and hotels in natural language within Claude, then click through to Expedia to complete booking.
+
+**What Expedia built (multi-pronged AI strategy):**
+- Claude integration for discovery (→ drives qualified traffic to Expedia)
+- Expedia × Meta: AI conversations on travel ads (start planning from a social ad)
+- AI Property Compare via Hotels.com (natural language hotel comparison)
+- Package Price Insights: "Is this price typical or lower than usual?" (coming 2026)
+- 30%+ of self-serve customer support handled by AI
+
+**The pattern Globant can replicate for LATAM OTAs:**
+1. Partner with Claude (or build with Anthropic SDK) for discovery layer
+2. Keep booking on OTA platform (traffic + data control)
+3. Add AI Package Price Insights (Amadeus historical pricing API already supports this)
+4. AI Property Compare = GPT-4V/Claude Vision comparing hotel photos + specs
+
+**Why this matters**: The "discovery via AI, booking on OTA" model is the sustainable OTA play against Google AI Mode. Expedia is showing OTAs don't have to build a full AI platform — integrate a discovery layer, own the booking.
+
+**Globant pitch**: "We'll give your travel platform what Expedia just built — in 4-6 weeks."
+
+---
+
+## Trend 14: The Consumer Trust Gap Is Deeper Than Expected
+
+Updated data (2026): Only **2%** of leisure consumers are willing for AI to book travel completely autonomously — down from the 2-7% range previously estimated.
+
+**Why the gap persists:**
+1. No clear consumer protection framework for AI booking errors (wrong dates, wrong names)
+2. Liability: who is responsible when AI books the wrong thing?
+3. Credit card chargeback ambiguity for AI-made purchases
+4. Travelers have been burned by chatbot errors (wrong hotel, missed connections)
+
+**Business travel is different** (rapidly adopting):
+- Corporate policies provide the protection framework AI needs
+- Employees already delegate bookings to travel desks (AI is just a better desk)
+- Clear approval workflows provide human oversight
+- ROI is directly measurable (policy violations caught, admin hours saved)
+
+**Design principle that follows:**
+> "Trust is granted to AI in inverse proportion to financial risk and reversibility."
+
+- Trusted: "Tell me cheap weeks to fly GRU-MIA" (advisory, no commitment)
+- Trusted: "Find me hotels near the Ipanema" (research, no commitment)
+- Low trust: "Book the cheapest option" (financial commitment, limited reversibility)
+- Untrusted: "Book and pay without showing me the price" (autonomous payment)
+
+**Implication for product design**: Present AI as a "shortlisting and recommendation" agent; keep the final booking confirmation always human-initiated. This builds trust faster than trying to hide the human confirmation step.
+
+---
+*Updated: 2026-07-08 (v4)*

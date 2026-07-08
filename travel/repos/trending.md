@@ -1,7 +1,7 @@
 # Trending Repos — Travel & Hospitality
 
 > GitHub velocity this week. Mix of production-grade and experiment-grade repos.
-> Last updated: 2026-07-08 (v3)
+> Last updated: 2026-07-08 (v4)
 
 ## Velocity Table (Stars / Momentum)
 
@@ -21,6 +21,8 @@
 | [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~120★ | 🔥🔥🔥 | **NEW Jul-2026** — Production LangGraph travel agent. Amadeus + Hotelbeds + Twilio + HubSpot. Budget/Balanced/Premium package generation. First repo to integrate Hotelbeds with LangGraph. |
 | [abh2050/langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | MIT | ~35★ | 🔥🔥 | LangGraph + Gemini Flash 2.0 multi-agent travel. Three planning modes. Good architecture reference. |
 | [pesanio/pesan-pms](https://github.com/pesanio/pesan-pms) | MIT | ~80★ | 🔥🔥 | **NEW 2026** — MIT-licensed open source PMS from Pesan.io. Multi-property, Docker-ready. First MIT PMS that Globant can fork without license friction (vs QloApps OSL-3.0 or HotelDruid AGPL-3.0). |
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | ~60★ | 🔥🔥 | **NEW Jul-2026** — Framework-free agentic travel planner using pure Python + MCP. No LangGraph/CrewAI. Shows production-grade agents without heavy frameworks. MCP server covers flights, hotels, cars, weather, payments. |
+| [embabel/tripper](https://github.com/embabel/tripper) | Apache-2.0 | ~55★ | 🔥 | **NEW Jul-2026** — Travel planner with web search, mapping, and Airbnb integration via Embabel Agent Platform (Spring AI). First open-source agent with direct Airbnb data access. Good for Java/enterprise teams. |
 | [mantrabrain/yatra](https://github.com/mantrabrain/yatra) | GPL-2.0 | ~300★ | → | WordPress travel booking plugin, 700+ active sites, WhatsApp notifications, Viator/GetYourGuide OTA distribution |
 | [esradag/LangChain-TravelPlanner](https://github.com/esradag/LangChain-TravelPlanner) | MIT | ~40★ | → | GPT-4 + Google Maps + Folium interactive map. Clean demo code |
 | [Vipul-Mhatre/Yatra-Vritta](https://github.com/Vipul-Mhatre/Yatra-Vritta) | MIT | ~15★ | ↗ | Medical tourism AI: KNN destination ranking by medical quality/affordability. MICE event management |
@@ -44,6 +46,23 @@ LetsFG is the first repo showing *verified* price savings over Google Flights. T
 
 **6. Specialized verticals getting AI-native**
 `Yatra-Vritta` shows medical tourism and MICE as adjacent markets with AI-specific requirements (destination quality scoring, vendor coordination) that general travel tools don't address.
+
+**7. Framework-free agents challenging the orthodoxy (Fieldy76)**
+`Agentic-Travel-Planner` demonstrates that travel agents with full booking capability can be built without LangGraph or CrewAI. The pattern: Python + direct MCP tool calls + a loop. Fewer dependencies, easier to debug, faster to deploy. Signal: framework adoption in travel is bifurcating between heavy orchestration (multi-agent parallel workflows) and lightweight MCP-native patterns (single conversational agents).
+
+**8. Airbnb data enters open source agent ecosystem (embabel/tripper)**
+`tripper` is the first open-source travel agent incorporating real Airbnb listing data. The Airbnb distribution partnership ecosystem is opening up to AI agents — signal that accommodation platforms beyond Booking.com and DIDA will follow.
+
+## Commercial Platform Velocity (Jul-2026)
+
+| Platform | Signal | Travel AI Milestone |
+|----------|--------|---------------------|
+| Sabre | Mosaic API → Mindtrip launch May 6, 2026 | First complete agentic booking stack (GDS + conversational AI + payment) |
+| Expedia | Claude integration, Explore 2026 May 2026 | OTA + LLM provider partnership model |
+| Booking.com | Confirmed Google AI Mode partner | Positioned as agentic booking executor |
+| Google | AI Mode travel (flights + hotels) — no launch date | Discovery layer; will reshape OTA traffic |
+| PayPal | Agentic commerce API (Buy Now Pay Later in chat) | Payment in chat without redirect — industry first |
+| MindTrip | Flights live May 6, 2026 — Sabre + PayPal powered | Template for conversational travel booking UX |
 
 ---
 *Pipeline auto-update — refreshed daily.*

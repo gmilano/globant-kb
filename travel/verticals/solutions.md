@@ -1,7 +1,7 @@
 # Vertical Solutions — Travel & Hospitality
 
 > Real open-source platforms to fork and add AI on top.
-> Last updated: 2026-07-08 (v3)
+> Last updated: 2026-07-08 (v4)
 
 ## Hotel Property Management Systems (PMS)
 
@@ -58,15 +58,27 @@
 |----------|---------|--------|-------|----------|-------|
 | **Mews Fiscalizations** | MIT | [MewsSystems/fiscalizations](https://github.com/MewsSystems/fiscalizations) | .NET | Fiscal compliance for hotel invoicing across 15+ countries including Czech Republic, Portugal, Spain, Italy | ~62★ |
 
+## AI-Native Travel Agents (Framework-Free / Minimal-Framework)
+
+New category (Jul-2026): production-ready travel agents without heavy orchestration frameworks.
+
+| Platform | License | GitHub | Stack | Use Case | Stars |
+|----------|---------|--------|-------|----------|-------|
+| **Agentic-Travel-Planner** | MIT | [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | Python + MCP | Framework-free agentic workflow. MCP server exposes flights, hotels, cars, weather, payments. No LangGraph/CrewAI needed. Fastest path from idea to production agent. | ~60★ |
+| **tripper** | Apache-2.0 | [embabel/tripper](https://github.com/embabel/tripper) | Java / Spring AI | Travel planner with web search + mapping + Airbnb integration. Built on Embabel Agent Platform. First open-source agent with real Airbnb data. Good for enterprise Java teams. | ~55★ |
+| **KaibanJS** | MIT | [kaiban-ai/KaibanJS](https://github.com/kaiban-ai/KaibanJS) | JavaScript/TypeScript | JS-native multi-agent with Kanban coordination. Demonstrated for travel: City Selector + Local Expert + Travel Concierge agents. Best for React/Next.js/Node.js travel platforms. | ~5.2k★ |
+
 ## Commercial Travel Management (Open API / SDK)
 
 These are commercial platforms but publish open-source SDKs (MIT/Apache) that Globant agents can build on:
 
 | Platform | Open Component | License | Stars | Notes |
 |----------|---------------|---------|-------|-------|
-| **Amadeus** | [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | ~800★ | 30 APIs: flights, hotels, activities, predictions. GDS #2 globally |
-| **Duffel** | [duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) | MIT | ~200★ | NDC-first, 400+ airlines. Better for agentic flows than GDS |
-| **DIDA** | [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~85★ | B2B hotel MCP: 2M+ hotels. World's 3rd largest B2B travel API |
+| **Amadeus** | [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | ~800★ | 30 APIs: flights, hotels, activities, predictions. GDS #2 globally. Community MCP: 3 implementations. Official MCP expected H2 2026. |
+| **Duffel** | [duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) | MIT | ~200★ | NDC-first, 400+ airlines. Better for agentic flows than GDS. LetsFG uses this pattern for $116 savings vs Google Flights. |
+| **DIDA** | [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~85★ | B2B hotel MCP: 2M+ hotels. World's 3rd largest B2B travel API. Zero rate limit, free. |
+| **Sabre Mosaic** | No open SDK | Enterprise | N/A | "Agentic-ready Air APIs" — GDS #1 globally. Powers MindTrip Flights + PayPal (launched May 6, 2026). Contact Sabre for enterprise access. Use Amadeus community MCP for same pattern at lower cost. |
+| **MindTrip** | No SDK (B2C product) | N/A | N/A | Reference implementation: Sabre Mosaic + PayPal agentic checkout. 11M+ POI database. OpenAI partnership. The UX blueprint for "book in chat without redirect." |
 
 ---
 

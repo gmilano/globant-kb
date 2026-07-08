@@ -1,7 +1,7 @@
 # Composition Patterns — Travel & Hospitality AI
 
 > Concrete recipes using real repos. Build times for 2-3 dev Globant team.
-> Last updated: 2026-07-08 (v2)
+> Last updated: 2026-07-08 (v4)
 
 ## Pattern 1: Hotel AI Concierge (WhatsApp + QloApps + Claude)
 
@@ -563,7 +563,229 @@ print(result["itinerary"])  # SMS-ready itinerary
 
 ---
 
-## Pattern Selection Matrix (Updated v3)
+## Pattern 11: OTA × Claude Discovery Layer (Expedia Blueprint)
+
+**Stack**: Claude claude-sonnet-5 + Anthropic SDK tool use + Client OTA booking engine + Amadeus (for price history)
+
+**Repos**: [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | **Model**: `claude-sonnet-5`
+
+**The Expedia pattern, recreatable for any LATAM OTA:**
+
+```python
+import anthropic
+import json
+
+client = anthropic.Anthropic()
+
+# Tool definitions — Claude calls these, then routes to OTA checkout
+tools = [
+    {
+        "name": "search_flights",
+        "description": "Search available flights between two cities for given dates",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "origin": {"type": "string", "description": "IATA code (e.g. GRU, MIA)"},
+                "destination": {"type": "string", "description": "IATA code"},
+                "depart_date": {"type": "string", "description": "YYYY-MM-DD"},
+                "return_date": {"type": "string", "description": "YYYY-MM-DD, optional"},
+                "adults": {"type": "integer", "default": 1}
+            },
+            "required": ["origin", "destination", "depart_date"]
+        }
+    },
+    {
+        "name": "search_hotels",
+        "description": "Search hotels in a city for given dates",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "city_code": {"type": "string", "description": "IATA city code"},
+                "check_in": {"type": "string"},
+                "check_out": {"type": "string"},
+                "adults": {"type": "integer", "default": 1},
+                "max_price": {"type": "number", "description": "Maximum price per night in USD"}
+            },
+            "required": ["city_code", "check_in", "check_out"]
+        }
+    },
+    {
+        "name": "check_price_intelligence",
+        "description": "Check if a flight or hotel price is typical, high, or low vs historical data",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "type": {"type": "string", "enum": ["flight", "hotel"]},
+                "origin": {"type": "string"},
+                "destination": {"type": "string"},
+                "price": {"type": "number"},
+                "travel_date": {"type": "string"}
+            },
+            "required": ["type", "destination", "price", "travel_date"]
+        }
+    },
+    {
+        "name": "generate_booking_link",
+        "description": "Generate a deep link to the OTA checkout page for a selected option",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "option_id": {"type": "string"},
+                "option_type": {"type": "string", "enum": ["flight", "hotel", "package"]}
+            },
+            "required": ["option_id", "option_type"]
+        }
+    }
+]
+
+def run_ota_discovery_agent(user_message: str, conversation_history: list) -> dict:
+    """OTA discovery layer: Claude searches, user chooses, OTA closes the sale."""
+    conversation_history.append({"role": "user", "content": user_message})
+    
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        system=(
+            "You are a friendly travel planning assistant for {CLIENT_OTA_NAME}. "
+            "Help travelers find great flights and hotels. "
+            "Always use price intelligence to tell travelers if a price is typical, high, or low. "
+            "When the traveler is ready to book, use generate_booking_link to send them to checkout. "
+            "Never complete the booking yourself — always generate a booking link for the traveler to confirm. "
+            "Respond in the traveler's language (Spanish or Portuguese for LATAM, English by default)."
+        ),
+        tools=tools,
+        messages=conversation_history
+    )
+    
+    # Handle tool calls
+    if response.stop_reason == "tool_use":
+        tool_results = []
+        for block in response.content:
+            if block.type == "tool_use":
+                result = execute_tool(block.name, block.input)  # call Amadeus / OTA APIs
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": json.dumps(result)
+                })
+        
+        conversation_history.append({"role": "assistant", "content": response.content})
+        conversation_history.append({"role": "user", "content": tool_results})
+        
+        # Get final response with tool results
+        final_response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=2048,
+            system=response.system,
+            tools=tools,
+            messages=conversation_history
+        )
+        return {"text": final_response.content[-1].text, "history": conversation_history}
+    
+    return {"text": response.content[-1].text, "history": conversation_history}
+
+# Example usage — LATAM OTA integration
+history = []
+result = run_ota_discovery_agent(
+    "Quero ir de São Paulo para Cancún para o carnaval, quero hotéis na praia", history)
+print(result["text"])
+# Claude searches flights GRU→CUN, searches beach hotels Cancún, checks prices,
+# then generates deep link to OTA checkout with pre-filled parameters
+```
+
+**Key difference from full autonomous booking**: `generate_booking_link` sends the traveler to a checkout page they confirm. Claude never completes payment.
+
+**Build time**: 3-4 weeks | **Target**: LATAM OTAs wanting AI discovery without building full AI platform | **Deal size**: $60-200k | **Model**: Referral traffic improvement + conversion lift
+
+---
+
+## Pattern 12: Framework-Free MCP Travel Agent (Minimal Dependencies)
+
+**Stack**: Python + MCP client (no LangGraph, no CrewAI) + travel-mcp-server + Claude
+
+**Repos**: [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | [lev-corrupted/travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server)
+
+**When to use**: Quick deployment, small team, want to avoid framework lock-in, or the task is conversational (not parallelizable).
+
+```python
+import anthropic
+import asyncio
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+async def travel_agent(user_request: str) -> str:
+    """Framework-free travel agent: direct MCP tool calls in a Python loop."""
+    
+    server_params = StdioServerParameters(
+        command="python",
+        args=["travel_mcp_server.py"],  # or use lev-corrupted/travel-mcp-server
+    )
+    
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            
+            # Get available tools from MCP server
+            tools_result = await session.list_tools()
+            tools = [
+                {
+                    "name": t.name,
+                    "description": t.description,
+                    "input_schema": t.inputSchema
+                }
+                for t in tools_result.tools
+            ]
+            
+            client = anthropic.Anthropic()
+            messages = [{"role": "user", "content": user_request}]
+            
+            # Agent loop: no framework, just Python
+            while True:
+                response = client.messages.create(
+                    model="claude-haiku-4-5-20251001",  # Use Haiku for cost efficiency
+                    max_tokens=4096,
+                    tools=tools,
+                    messages=messages
+                )
+                
+                if response.stop_reason == "end_turn":
+                    return response.content[-1].text
+                
+                # Process all tool calls
+                tool_results = []
+                for block in response.content:
+                    if block.type == "tool_use":
+                        result = await session.call_tool(block.name, block.input)
+                        tool_results.append({
+                            "type": "tool_result",
+                            "tool_use_id": block.id,
+                            "content": str(result.content[0].text if result.content else "")
+                        })
+                
+                messages.append({"role": "assistant", "content": response.content})
+                messages.append({"role": "user", "content": tool_results})
+
+# Run
+result = asyncio.run(travel_agent(
+    "Find the cheapest week to fly from Buenos Aires to Miami in October. "
+    "Also find 3-star hotels under $100/night near South Beach."
+))
+print(result)
+```
+
+**Framework comparison for travel agents:**
+| Approach | Best For | Overhead | Debuggability |
+|----------|----------|----------|---------------|
+| Framework-free (this pattern) | Linear tasks, quick PoC, small teams | Minimal | Excellent |
+| LangGraph | Parallel agents, complex state machines | Medium | Good |
+| CrewAI | Role-based delegation, longer pipelines | Medium | Good |
+| OpenAI Agents SDK | OpenAI-native teams, MCP integration | Low | Good |
+
+**Build time**: 1-2 weeks | **Dependencies**: anthropic + mcp Python packages only | **Cost**: ~$0.001-0.005/query with Haiku
+
+---
+
+## Pattern Selection Matrix (Updated v4)
 
 | Situation | Pattern | Stack | Build Time | Deal Size |
 |-----------|---------|-------|------------|-----------|
@@ -577,6 +799,8 @@ print(result["itinerary"])  # SMS-ready itinerary
 | Client needs medical tourism platform | P8 | Yatra-Vritta + Claude | 6-8 weeks | $100-250k |
 | Zero-key proof of concept | P9 | trvl MCP | 2 hours | Demo |
 | OTA / agency needs full package builder | P10 | LangGraph + Amadeus + Hotelbeds | 3-4 weeks | $60-200k |
+| LATAM OTA wants "Expedia × Claude" pattern | P11 | Claude SDK + Amadeus + OTA checkout | 3-4 weeks | $60-200k |
+| Small team, fast deployment, no framework | P12 | Python + MCP + Claude Haiku | 1-2 weeks | $30-80k |
 
 ---
 *Updated: 2026-07-08 (v3)*

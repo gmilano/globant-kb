@@ -1,7 +1,7 @@
 # AI Agents — Travel & Hospitality
 
 > Top open source AI agents and tools for the travel industry. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Last updated: 2026-07-08 (v3)
+> Last updated: 2026-07-08 (v4)
 
 ## Top Agents & Tools
 
@@ -22,6 +22,9 @@
 | [yay-travel-agent](https://github.com/Prosusware/yay-travel-agent) | Apache-2.0 | ~10★ | Raise Your Hack Paris winner — concierge AI travel agent with multi-provider search and booking orchestration |
 | [langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~120★ | **NEW Jul-2026** — Production-ready LangGraph multi-agent system. Async parallel orchestration across Amadeus (flights), Hotelbeds (hotels), Amadeus Activities, Twilio (SMS), HubSpot (CRM). Generates Budget / Balanced / Premium travel packages. |
 | [langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | MIT | ~35★ | Multi-agent travel planning system using LangGraph + Gemini Flash 2.0 + DuckDuckGo Search. Three planning modes: single-agent, multi-agent, and collaborative. Clean reference architecture for LangGraph-based travel agents. |
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | ~60★ | **NEW Jul-2026** — Production-ready, framework-free agentic workflow for travel planning built with Python and MCP. No LangGraph/CrewAI dependency. MCP server exposes flights, hotels, cars, weather, and payment tools as a clean interface. Demonstrates that agent orchestration can be built without heavy frameworks. |
+| [embabel/tripper](https://github.com/embabel/tripper) | Apache-2.0 | ~55★ | **NEW Jul-2026** — Travel planner agent with web search, mapping, and Airbnb integration. Built on the Embabel Agent Platform (Spring AI). Creates personalized itineraries combining search + real Airbnb listings. First open-source travel agent with direct Airbnb data access. |
+| [kaiban-ai/KaibanJS](https://github.com/kaiban-ai/KaibanJS) | MIT | ~5.2k★ | JavaScript-native multi-agent framework using Kanban-inspired coordination. HuggingFace tutorial uses KaibanJS for travel planning with City Selector Agent + Local Expert Agent + Travel Concierge Agent. Ideal for Node.js/frontend travel agent implementations. |
 
 ## Agent Protocol Compatibility
 
@@ -38,6 +41,9 @@
 | travel-agent (CrewAI) | — | — | — | ✅ | Role-based agent orchestration |
 | langgraph-travel-agent | — | — | ✅ | — | Amadeus + Hotelbeds + Twilio + HubSpot async orchestration |
 | langgraph_multi_agent_ai_travel_agent | — | — | ✅ | — | Three planning modes, Gemini Flash 2.0 |
+| Agentic-Travel-Planner (Fieldy76) | ✅ (framework-free) | — | — | — | No framework dependency, pure MCP |
+| tripper (embabel) | — | — | — | — | Spring AI / Embabel platform, Airbnb data |
+| KaibanJS | — | ✅-compatible | ✅-compatible | ✅-compatible | JavaScript-native, Kanban coordination |
 | travel-booking-agents | — | ✅ | — | — | Corporate / approval workflow |
 | Travel-Yathri | — | — | — | — | WhatsApp-native standalone |
 | Yatra-Vritta | — | — | — | — | Medical tourism / MICE specialist |
@@ -74,6 +80,15 @@ MCP has become the de facto integration layer for travel data. The ecosystem:
 | amadeus-mcp-server-standalone | Amadeus GDS | Flights + price analysis | Amadeus key |
 | mcp-amadeus | Amadeus GDS | Flight search | Amadeus key |
 | mcp-travel-assistant | Google Maps | POI + routing | Google Maps key |
+
+## Commercial Platform SDKs (Agentic-Ready, MIT Licensed)
+
+| Platform | SDK Repo | License | Notes |
+|----------|----------|---------|-------|
+| Sabre Mosaic | No open SDK (enterprise contract) | Proprietary | Sabre Mosaic™ — "agentic-ready Air APIs". Powers Mindtrip + PayPal end-to-end agentic booking (launched May 6, 2026). Contact Sabre for enterprise access. |
+| Amadeus Self-Service | [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | 30 APIs: flights, hotels, activities, AI predictions. GDS #2 globally. Community MCP servers active. |
+| Duffel | [duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) | MIT | NDC-first, 400+ airlines. LetsFG uses this pattern for $116 savings over Google Flights. |
+| Expedia | No open SDK | Proprietary | Expedia's Claude integration (announced Explore 2026, May 2026): U.S. travelers search flights/hotels via Claude in natural language → click through to Expedia to book. Affiliate/white-label API available. |
 
 **Recommended MCP composition for production:**
 - Layer 1 (discovery, zero keys): `trvl` for flights/hotels/transport/awards

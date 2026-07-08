@@ -1,6 +1,6 @@
 # Trending in Travel AI — Week of 2026-07-08
 
-> What's hot this week in travel AI agents and tooling. v3 update: 2026-07-08.
+> What's hot this week in travel AI agents and tooling. v4 update: 2026-07-08.
 
 ## Breakout Repos This Week
 
@@ -15,6 +15,8 @@
 | [EmmanuelSibi/Travel-Yathri](https://github.com/EmmanuelSibi/Travel-Yathri) | ~20★ | AI-powered WhatsApp chatbot for trip planning. NLP + flight/hotel/POI data + PDF itinerary. First WhatsApp-native open source travel AI |
 | [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | ~120★ | **NEW Jul-2026** — Production LangGraph multi-agent system with async parallel orchestration: Amadeus (flights+hotels+activities), Hotelbeds (hotel inventory), Twilio (SMS), HubSpot (CRM). Generates Budget / Balanced / Premium packages. First open-source agent integrating Hotelbeds API. |
 | [abh2050/langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | ~35★ | LangGraph + Gemini Flash 2.0 + DuckDuckGo Search. Three planning modes: single-agent, multi-agent, collaborative. Good reference for teams evaluating LangGraph-based orchestration for travel. |
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | ~60★ | **NEW Jul-2026** — Framework-free agentic travel planner using pure Python + MCP. No LangGraph, no CrewAI. Proves that production MCP agents don't need heavy orchestration frameworks. MCP server exposes flights, hotels, cars, weather, payments as tools. |
+| [embabel/tripper](https://github.com/embabel/tripper) | ~55★ | **NEW Jul-2026** — Travel planner with web search + mapping + Airbnb integration. First open-source travel agent with direct Airbnb data. Built on Embabel Agent Platform (Spring AI / Java). Good reference for enterprise Java-based agent implementations. |
 
 ## Trend 1: The Token-Efficient MCP Design Pattern (trvl)
 
@@ -118,5 +120,128 @@ New recommended three-layer hotel stack for production agentic travel:
 
 **Takeaway**: The 96% repeat-use rate among AI travel planners is the key signal. The trust gap (2-7% willing for fully autonomous booking) is closing fast when users experience the value firsthand. The <10% current scale rate + 40% hotel chain implementation target for 2026 means the implementation window is NOW.
 
+## Trend 8: Sabre Mosaic + MindTrip + PayPal — First Complete Agentic Booking Stack (May 2026)
+
+**Launched May 6, 2026**: The travel industry's first complete end-to-end agentic flight booking experience went live.
+
+**The stack:**
+- **MindTrip** — conversational AI travel planning interface (OpenAI partnership, 11M+ POI database)
+- **Sabre Mosaic™** — "agentic-ready Air APIs" providing real-time flight inventory from the #1 GDS globally
+- **PayPal** — agentic commerce services enabling in-chat payment, including Buy Now Pay Later (Pay in 4 + Pay Monthly)
+
+**What makes it notable:**
+```
+User: "I need to fly from SFO to JFK next Tuesday, morning departure"
+  → MindTrip presents options in conversational UI (Sabre real-time inventory)
+  → User selects flight within the chat
+  → PayPal checkout appears inline — no redirect, no new tab
+  → Booking confirmed in the same conversation thread
+```
+
+This eliminates the 5-step OTA funnel (search → results → select → redirect to payment → confirm) into a single conversation. The commercial validation that agentic booking is ready.
+
+**Signal for Globant:** Sabre Mosaic's "agentic-ready APIs" means Sabre is positioning as an AI infrastructure layer, not just a GDS. Globant with enterprise Sabre relationships can build Mindtrip-style interfaces for LATAM airlines and OTAs.
+
 ---
-*Updated: 2026-07-08 (v3)*
+
+## Trend 9: Expedia × Claude — OTA + LLM Provider Integration Pattern
+
+**Announced Expedia Explore 2026 (May 2026):** Expedia announced Claude integration for U.S. travelers — natural language flight and hotel search within Claude AI, with click-through to Expedia to complete the booking.
+
+**Other Expedia AI announcements (May 2026):**
+- Expedia × Meta: AI conversations on ads (traveler can start planning a trip directly from an ad)
+- AI Property Compare (Hotels.com): AI compares hotel properties via natural language
+- Package Price Insights (coming 2026): "Is this package price typical or lower than usual?"
+- 30%+ of Expedia self-serve customer support now handled by AI
+
+**Why this matters for Globant**: The Expedia × Claude integration is a **reference architecture** for how any LATAM OTA can integrate Claude as a discovery layer while keeping the booking on their own platform. Recreatable with Claude's tool use API + an OTA's booking engine.
+
+```python
+# Recreatable pattern: OTA × Claude discovery → OTA checkout
+client = anthropic.Anthropic()
+
+response = client.messages.create(
+    model="claude-sonnet-5",
+    max_tokens=2048,
+    tools=[search_flights_tool, search_hotels_tool],
+    system="You are a travel assistant. Search available flights and hotels and present options. "
+           "When the user chooses, return a booking link to {CLIENT_OTA_URL}/checkout.",
+    messages=[{"role": "user", "content": "Find flights from GRU to MIA next Friday"}]
+)
+# Tool use response calls search_flights_tool → returns Amadeus/Duffel results
+# Claude presents options → generates booking link to client OTA
+```
+
+**Build time for LATAM OTA integration**: 3-4 weeks | **Deal size**: $60-200k
+
+---
+
+## Trend 10: Google AI Mode Travel — The Imminent Disruption (Not Yet Live, Jun 2026)
+
+Google announced agentic flight and hotel booking for AI Mode in Nov 2025. As of June 2026, it has not launched, but the confirmed details are significant:
+
+**Confirmed partners:** Booking.com, Expedia, Choice Hotels, IHG, Marriott, Wyndham
+**Google's role:** Discovery only — Google will **NOT** be the merchant of record
+**Partner's role:** Partners manage transaction, charge card, hold booking, service it
+**Status:** No public launch date announced, still in testing
+
+**What this means when it launches:**
+- Google will capture the discovery phase (traveler states "I want to fly to X")
+- Bookings will complete on partner platforms (OTAs, hotel chains)
+- Traditional OTA traffic from Google Search will decline dramatically
+- OTAs that are NOT partners risk losing Google-referred traffic
+
+**Globant play:** Help LATAM OTAs and hotel chains become Google AI Mode partners, or build their own discovery interfaces (Claude, Perplexity) to capture travelers before Google does.
+
+---
+
+## Trend 11: Framework-Free Agent Pattern (Fieldy76)
+
+`Fieldy76/Agentic-Travel-Planner` challenges the orthodoxy that production travel agents need LangGraph, CrewAI, or AutoGen. The key insight:
+
+```python
+# Framework-free: direct MCP tool calls + Python loop
+# No LangGraph state machines, no CrewAI roles, no AutoGen conversations
+
+async def travel_agent_loop(user_request: str):
+    mcp_tools = load_mcp_server("travel-mcp-server")  # flights, hotels, cars, weather, payments
+    
+    # Simple Python loop: model calls tools until task complete
+    messages = [{"role": "user", "content": user_request}]
+    while True:
+        response = await claude.messages.create(model="claude-sonnet-5", tools=mcp_tools, messages=messages)
+        if response.stop_reason == "end_turn":
+            return response.content[-1].text
+        # Handle tool calls natively — no framework abstraction
+        tool_results = await execute_tools(response.content)
+        messages.append({"role": "assistant", "content": response.content})
+        messages.append({"role": "user", "content": tool_results})
+```
+
+**When to use framework-free vs. LangGraph:**
+| Situation | Use Framework-Free | Use LangGraph |
+|-----------|-------------------|---------------|
+| Linear task (search → select → book) | ✅ | Overkill |
+| Parallel agents (flights + hotels + weather simultaneously) | — | ✅ |
+| Complex state machine with branching | — | ✅ |
+| Quick PoC / demo | ✅ | Too heavy |
+| Team unfamiliar with LangGraph | ✅ | — |
+
+---
+
+## Updated Traveler Adoption Data (Jul-2026)
+
+| Stat | Value | Source | Change |
+|------|-------|--------|--------|
+| Travelers aware of AI trip planning tools | **90%** | Hotel Management Jun 2026 | Same |
+| Among AI users: use for most/every trip | **63%** | Hotel Management Jun 2026 | Same |
+| Among AI users: will use again | **96%** | Hotel Management Jun 2026 | Same |
+| **Consumers willing for FULLY autonomous booking** | **2%** | Multiple surveys 2026 | ↓ Revised down from 2-7% range |
+| Business travelers embracing agentic AI | Growing rapidly | Skift Mar 2026 | ↑ |
+| IDC: bookings by AI agents by 2030 | 30% | IDC FutureScape | Same |
+| Expedia self-serve support handled by AI | **30%+** | Expedia Explore 2026 | NEW |
+
+**Key insight on the 2% number**: The consumer trust gap is more severe than previously estimated. The 2% figure (vs 2-7% in earlier estimates) is specifically for *leisure* travelers. Business travelers are more accepting due to corporate protections and policy frameworks that reduce liability concerns. This explains why corporate travel is the first production beachhead.
+
+---
+*Updated: 2026-07-08 (v4)*

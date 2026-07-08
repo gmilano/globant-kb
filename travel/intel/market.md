@@ -1,7 +1,7 @@
 # Market Map — Travel & Hospitality AI
 
 > Key players, market sizing. Focus: LATAM + global agentic AI.
-> Last updated: 2026-07-08 (v3)
+> Last updated: 2026-07-08 (v4)
 
 ## Market Sizing
 
@@ -21,7 +21,7 @@
 | Travel execs planning agentic AI deployment at scale | **80%** | Hospitality.today 2026 |
 | Hotel chains planning AI agent implementation in 2026 | **40%** | IDC FutureScape 2026 |
 | Travel companies with AI agents at scale by end-2025 | **<10%** | IDC FutureScape 2026 |
-| US consumers willing for fully autonomous booking | **2–7%** | Multiple surveys 2026 |
+| US consumers (leisure) willing for fully autonomous booking | **2%** | Multiple surveys 2026 — revised down from 2-7% estimate |
 | Millennials/Gen Z willing to delegate planning to AI | **61%** | Survey 2026 |
 | LATAM online booking penetration | **74%** | Statista 2026 |
 | Travelers aware of AI tools for trip planning | **90%** | Hotel Management Report Jun 2026 |
@@ -48,6 +48,8 @@ This date marks the transition from "agentic travel is coming" to "agentic trave
 | **Booking.com** | OTA | No | First major OTA to launch agentic AI (Trips feature). Published agentic AI innovations Jun 2026. |
 | **Expedia** | OTA | No | Integrated into Google AI Mode agentic booking. Building own agent capabilities. |
 | **Amadeus** | GDS/Tech | SDKs (MIT) | Core infrastructure layer. 30 APIs. Community MCP servers proliferating. Official MCP expected H2 2026. |
+| **Sabre** | GDS/Tech | Mosaic APIs (enterprise) | Sabre Mosaic™ positions as "agentic-ready" GDS. Powers MindTrip Flights (launched May 6, 2026) with PayPal inline payment. First complete enterprise agentic booking stack. |
+| **MindTrip** | AI Travel Platform | No | Launched agentic flight booking May 6, 2026 powered by Sabre + PayPal. OpenAI partnership, 11M+ POI database. Reference for conversational booking UX. |
 | **Duffel** | Modern GDS | SDKs (MIT) | NDC-first, 400+ airlines. Preferred for agentic flows (no legacy GDS overhead). |
 | **TripActions/Navan** | Corporate travel | No | Dominant in corporate travel AI agents. Direct competitor to Globant corporate AI offerings. |
 | **SAP Concur** | Corporate travel ERP | No | Largest enterprise corporate travel. Building AI agents. AI automation is existential threat to manual Concur workflows. |
@@ -64,8 +66,13 @@ This date marks the transition from "agentic travel is coming" to "agentic trave
 | Mar 2026 | OAG: "The Month Agentic Travel Gets Real" | First autonomous transactions at scale |
 | Apr 2026 | McKinsey "Remapping Travel with Agentic AI" | Winners are mastering back-end data, not the agent layer |
 | Jun 2026 | LetsFG proves $116 savings vs Google Flights | NDC-first is now verifiably cheaper than search aggregators |
+| Feb 2026 | Sabre + PayPal + MindTrip announce strategic partnership | End-to-end agentic booking pipeline announced |
+| May 6, 2026 | MindTrip Flights launches — Sabre Mosaic + PayPal | Industry's first complete agentic flight booking in chat (no redirect to checkout page) |
+| May 2026 | Expedia Explore 2026 — Claude integration announced | U.S. travelers search flights/hotels via Claude → click-through to Expedia |
+| May 2026 | Expedia × Meta: AI conversations on travel ads | Planning starts directly from social media ads |
 | Jul 2026 | Amadeus × Microsoft publish joint AI agents report | 6 AI agents across Amadeus portfolio announced |
 | 2026 H2 | Amadeus official MCP server expected | GDS will become agent-native |
+| TBD 2026 | Google AI Mode — flights + hotels live | No launch date; confirmed partners: Booking.com, Expedia, Marriott, IHG, Choice, Wyndham |
 
 ## The MCP Platform Race
 
@@ -75,9 +82,11 @@ Travel data providers are launching MCP servers:
 |----------|-----------|-------|
 | DIDA (B2B hotels) | ✅ Live (MIT) | 2M+ hotels |
 | Amadeus | Community (3 implementations) | Official MCP expected H2 2026 |
+| Sabre Mosaic | Agentic APIs (not MCP) | Enterprise only — powers MindTrip Flights; contact Sabre for access |
 | Google Flights | Via trvl / community | Skywork AI Google Flights MCP server |
 | Google Travel Impact Model | ✅ Official (Google for Developers) | Flight carbon emissions MCP |
-| Booking.com | Not yet | Expected 2026-2027 |
+| Expedia | Claude integration (SDK partnership) | Not MCP — direct API partnership with Anthropic |
+| Booking.com | Not yet | Expected 2026-2027; confirmed Google AI Mode partner |
 | Duffel | Not yet | Expected 2026 |
 | AviationStack | Via travel-mcp-server | Real-time flight tracking |
 

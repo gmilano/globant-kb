@@ -1,7 +1,7 @@
 # Foundational Repos — Travel & Hospitality
 
 > Base infrastructure to build on. Open license, active community.
-> Last updated: 2026-07-08 (v3)
+> Last updated: 2026-07-08 (v4)
 
 ## Trip Planning & Routing Infrastructure
 
@@ -62,12 +62,15 @@
 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~11k★ | Graph-based agent orchestration. LangGraph 1.0 GA Oct 2025 — per-node timeouts, error handlers, DeltaChannel type, v2 streaming API. Best for multi-step booking state machines. | Use for complex booking state machines |
 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~27k★ | Role-based multi-agent orchestration. 5.2M monthly downloads. Natural fit for travel: Researcher, Booker, Advisor, Concierge roles | Use for role-based travel agent teams |
 
-## Production Travel Agent References (New Jul-2026)
+## Production Travel Agent References (Updated Jul-2026)
 
 | Repo | License | Stars | Description | Notes |
 |------|---------|-------|-------------|-------|
 | [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~120★ | Production-ready LangGraph travel planner. Async parallel orchestration across Amadeus, Hotelbeds, Twilio, HubSpot. First open-source agent using Hotelbeds API alongside Amadeus. | Best LangGraph travel reference 2026 |
 | [abh2050/langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | MIT | ~35★ | LangGraph + Gemini Flash 2.0 + DuckDuckGo. Three planning architectures in one repo (single/multi/collaborative). Good for teams evaluating agent architectures. | Good LangGraph comparison reference |
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | ~60★ | **NEW Jul-2026** — Framework-free agentic workflow for travel. Pure Python + MCP, no LangGraph/CrewAI dependency. MCP server exposes flights, hotels, cars, weather, payments. Shows you can build production travel agents without heavy frameworks. | Best framework-free MCP travel reference |
+| [embabel/tripper](https://github.com/embabel/tripper) | Apache-2.0 | ~55★ | **NEW Jul-2026** — Travel planner agent with web search + mapping + Airbnb integration. Built on Embabel Agent Platform (Spring AI). First open-source travel agent with direct Airbnb listing data. | Best for Java/Spring teams; first with Airbnb data |
+| [kaiban-ai/KaibanJS](https://github.com/kaiban-ai/KaibanJS) | MIT | ~5.2k★ | JavaScript-native multi-agent framework, Kanban-inspired. HuggingFace tutorial uses it for travel planning with specialized agents (City Selector + Local Expert + Travel Concierge). Natural fit for Node.js/TypeScript travel platforms. | Best for JS/TS frontend travel agent implementations |
 
 ---
 *See also: `verticals/solutions.md` for complete vertical platforms.*
