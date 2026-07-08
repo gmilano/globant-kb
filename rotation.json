@@ -1,10 +1,10 @@
 {
-  "next": 0,
+  "next": 1,
   "last_updated": "2026-07-08",
-  "last_industry": "enterprise",
+  "last_industry": "gaming",
   "last_status": "completed",
   "previous_industries": {
-    "gaming": "second pass completed 2026-07-07 - 8 files v2 pushed to globant-kb/gaming/",
+    "gaming": "v3 completed 2026-07-08 - 8 files updated in globant-kb/gaming/. Added: Mantella (MIT NPC dialogue mod Skyrim/Fallout4 STT+LLM+TTS), NitroGen (NVIDIA+Stanford 500M foundation model arXiv:2601.02427), Agones (Apache-2.0 CNCF Sandbox mar-2026), npc-engine, Pantella. Wanderfolk pgvector pattern (production validation May 2026). Market: GenAI Gaming $1.79B→$2.21B CAGR 23.1% (BusinessResearchCompany jul-2026). Receta 9: pgvector + gossip social graph with Python+SQL code. 367 lines added across 8 files.",
     "legal": "v2 completed 2026-07-07 - 8 files fully rewritten in globant-kb/legal/. 12 agents, 9 jurisdictional MCP servers, 12 vertical platforms, LATAM market analysis, 6 compose patterns with Python code.",
     "financial": "v1 completed 2026-07-07 - 8 files fully researched in globant-kb/financial/. 12 agents (TradingAgents 91.6k★, ai-hedge-fund 60.9k★, FinGPT, FinRL, OpenBB), 6 MCP servers, 12 platforms, LATAM gaps, 6 compose patterns.",
     "healthcare": "v2 completed 2026-07-07 - 8 files fully researched in globant-kb/healthcare/. 12 agents (OpenClaw-Medical-Skills 2.8k★, openmed-agent, openmed local-first 4k★, BioChatter, Multi-Agent-Medical-Assistant, medspaCy, cTAKES, torchio 2.4k★, hi-ml), 4 FHIR MCP servers, 8 vertical platforms, LATAM market+LGPD analysis, 6 compose patterns with Python code.",
