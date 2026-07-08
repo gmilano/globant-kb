@@ -1,10 +1,11 @@
 # Trending Signals — Energy AI (2026-07-08)
 
 > Breaking developments, fast-moving repos, and signals to watch.
+> Last updated: 2026-07-08 (v3)
 
 ---
 
-## Breaking Signals
+## Breaking Signals (v3 — July 2026)
 
 ### 1. PowerAgent (Harvard SEAS) — LLMs Enter Power Grid Operations 🔴 Breaking
 Harvard SEAS launched PowerAgent, the first open-source community dedicated to LLM-powered tools and agentic AI in power systems. Four repos now live: PowerMCP (LLM ↔ power simulator bridge via MCP), PowerFM (domain-tuned foundation models), PowerWorkflow (agentic grid automation), and PowerSkills (agent skill library for power system tasks). This is the clearest signal that LLM agents are moving from research curiosity to engineering tool in power systems.
@@ -74,28 +75,73 @@ Brazil's ANEEL is mandating national smart meter rollout (85M meters by 2028). S
 
 ---
 
+### 10. PowerDAG — 100% Success Rate on Distribution Grid Analysis 🔴 Breaking
+arXiv:2603.17418 (March 2026) introduced PowerDAG: an agentic AI system that achieves **100% success rate** on distribution grid analysis benchmarks using GPT-5.2, and 94.4–96.7% with open-source models. This massively outperforms ReAct (41–88%), LangChain (30–90%), and CrewAI (9–41%).
+
+The key innovations: **adaptive retrieval** (dynamically selects the most relevant context examples for each query) and **JIT supervision** (real-time correction of tool-usage violations during agent execution). JIT supervision is the critical differentiator — it catches errors before they propagate, enabling the agent to reliably handle real distribution grid complexity.
+
+**Why it's a signal:** This is the first published agentic AI system purpose-built for distribution grid engineering with verifiable reliability numbers. Distribution utilities evaluating AI agents will have a concrete baseline to compare against.
+
+**GitHub:** Power-Agent ecosystem (Harvard SEAS) — https://github.com/Power-Agent
+
+---
+
+### 11. Power Systems Agent Benchmark (PSAB) — Standardized AI Evaluation for Power Engineering 🔴 New
+arXiv:2606.20950 (June 2026): First executable benchmark for evaluating AI agents across comprehensive power engineering tasks. Agents actually run simulations and are measured on engineering correctness — not just text quality.
+
+**Significance:** PSAB for power agents = what RL2Grid did for grid RL. Creates a common evaluation language. Utilities evaluating AI vendors for power engineering applications will adopt PSAB scores as a procurement criterion by 2027. This is the benchmark that will drive investment toward the agents that score highest — PowerDAG, PowerMCP, and the PowerAgent ecosystem.
+
+---
+
+### 12. 2026 = The Year Utilities Transition Agentic AI to Production 🟡 Confirmed
+Industry analysis confirms 2026 as the year agentic AI in utilities moves from pilots to real operational deployments. Key signals:
+- Converging drivers: renewable integration pressure, aging infrastructure, talent shortages
+- Most deployments include approval layers and human-in-the-loop oversight (not fully autonomous)
+- "Governance is not a constraint — it is what makes autonomous grid operation safe and regulatorily defensible"
+- HVAC AI agents delivering **37% energy savings** in offices, 23% residential, 21% educational buildings
+- By 2026, half of advanced-market utilities using AI-powered systems to coordinate distributed energy resources
+
+**LATAM signal:** Brazil and Chile are entering this wave with key tailwinds — smart meter rollout (Brazil) and renewable curtailment challenge (Chile) both create forcing functions for AI adoption in 2026-2027.
+
+---
+
+### 13. OpenEMS Turns 10 — Apache 2.0 Milestone + Fraunhofer ISE Integration 🟡 Active
+April 24, 2026: OpenEMS Association celebrated its **10th anniversary**. Key 2026 developments:
+- Fraunhofer ISE, FENECON, and the OpenEMS Association jointly developing an open-source EMS reference implementation with Fraunhofer's communication protocol library integrated into OpenEMS
+- Focus shifting to large-scale C&I storage, smart meter gateway communication (§14a EnWG compliance in Germany)
+- OpenEMS represented at The Smarter E Europe 2026 in Munich
+- **Correction from v2:** OpenEMS dual-license is AGPL-3.0 (UI) / EPL-2.0 (Edge/Backend) — Apache 2.0 is *not* accurate; the Fraunhofer ISE library being integrated is Apache 2.0
+
+**Why it matters for Globant:** The Fraunhofer ISE protocol library integration (Apache 2.0) makes it easier to interface OpenEMS with third-party systems — cleaner AI integration point.
+
+---
+
 ## GitHub Trending Table
 
 | Repo | Stars | Velocity | Why Trending |
 |------|-------|----------|--------------|
-| Power-Agent/PowerMCP | ~178 | ↑↑↑ Breakout | First MCP for power grid software; Claude integration |
-| Grid2op/grid2op | ~700 | ↑↑ Growing | RL2Grid benchmark (2026) elevating Grid2Op to standard reference |
-| OpenEMS/openems | ~1.4k | ↑ Steady | 2026.7.0 released July 2026; active edge/cloud energy management |
-| intelligent-environments-lab/CityLearn | 621 | ↑↑ Growing | RL demand response reaching production maturity across EU/US |
+| Power-Agent/PowerMCP | ~178+ | ↑↑↑ Breakout | First MCP for power grid software; Harvard SEAS; Claude integration |
+| Grid2op/grid2op | ~700 | ↑↑ Growing | RL2Grid benchmark (2026) + PSAB elevating Grid2Op to standard reference |
+| OpenEMS/openems | ~1.4k | ↑ Steady | 10th anniversary April 2026; Fraunhofer ISE protocol integration |
+| intelligent-environments-lab/CityLearn | 621+ | ↑↑ Growing | RL demand response reaching production maturity across EU/US |
 | PyPSA/PyPSA | 2k | ↑ Steady | Power system optimization; PyPSA-Earth gaining LATAM traction |
 | OpenSTEF/openstef | ~180 | ↑↑ Growing | Alliander backing; AutoML for energy forecasting expanding beyond Netherlands |
 | AI4Electricity/Awesome-AI-for-Electricity | ~400 | ↑ Growing | Energy AI research compass gaining cross-domain traction |
+| PowerDAG (Power-Agent) | arXiv | ↑↑↑ New | 100% success rate on distribution grid analysis; JIT supervision; June 2026 |
+| PowerChain (Power-Agent) | arXiv | ↑↑ New | Verifiable agentic grid workflows; audit trail for regulatory compliance |
 
 ---
 
 ## Watch List — Next 6 Months
 
-1. **PowerAgent ecosystem growth** — will PowerMCP reach 1k★? Which power utilities integrate it first?
-2. **Eletrobras-C3.ai ROI results** — KPIs from "Eletro.ia" deployment expected in 2026 annual report
-3. **Brazil smart meter AI stack** — which vendor (Itron, Landis+Gyr, or open source) wins the 85M meter analytics layer?
-4. **RL2Grid leaderboard** — first industrial deployment of a Grid2Op-benchmarked RL agent by a TSO or ISO
-5. **OpenG2G production deployment** — first LATAM data center using AI-driven grid coordination to avoid peak demand charges
-6. **Siemens/Schneider vs OpenEMS** — will the April 2026 AI enhancements accelerate OpenEMS adoption as the open-source alternative?
+1. **PowerAgent ecosystem growth** — will PowerMCP reach 1k★? EPE (Electric Power Engineers) joined Harvard SEAS PAI in March 2026 — which other engineering firms integrate it?
+2. **PSAB adoption** — will PSAB (arXiv:2606.20950) become the standard AI agent evaluation for power engineering by end of 2026?
+3. **PowerDAG production pilots** — which distribution utility (LATAM or EU) deploys PowerDAG-pattern automated analysis first?
+4. **Eletrobras-C3.ai ROI results** — KPIs from "Eletro.ia" deepened deployment expected in 2026 annual report
+5. **Brazil smart meter AI stack** — which vendor (Itron, Landis+Gyr, or open source) wins the 85M meter analytics contract? Brazil smart grid market: $1.58B (2024) → $5.8B (2033)
+6. **Amazon $4B Chile AWS region** (late 2026) — who provides the AI-driven grid coordination for renewable energy matching in Chile?
+7. **RL2Grid leaderboard** — first industrial deployment of a Grid2Op-benchmarked RL agent by a TSO or ISO
+8. **OpenEMS + Fraunhofer ISE protocol** — when will the joint open-source EMS reference implementation ship? This could be a catalyst for OpenEMS adoption in regulatory-compliance contexts.
 
 ---
 *Auto-updated by the ingest pipeline.*

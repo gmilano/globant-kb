@@ -2,7 +2,7 @@
 
 > Full vertical platforms — real systems to fork and add an AI layer on top.
 > Model: start from something functional, add an agentic layer above it.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-08 (v3)
 
 ## Recommended Platforms
 
@@ -24,9 +24,15 @@
 
 ## Platform Deep Dives
 
-### 1. OpenEMS — AI-Enhanced Energy Management
+### 1. OpenEMS — AI-Enhanced Energy Management (10th Anniversary, April 2026)
 
 **What it does:** Modular IoT platform for managing energy storage, renewables, EV chargers, heat pumps, and grid tariffs. Three-tier architecture: Edge (on-site PLC-like control, 15-min cycle), UI (real-time web dashboard), Backend (cloud aggregation). Used by utilities, building operators, and industrial sites across Europe. Latest release: 2026.7.0 (July 2026, 138 total releases).
+
+**2026 milestones:**
+- **10th anniversary** celebrated April 24, 2026 at The Smarter E Europe conference in Munich
+- **Fraunhofer ISE integration**: Fraunhofer Institute for Solar Energy Systems ISE, FENECON, and OpenEMS Association jointly developing an open-source EMS reference implementation integrating Fraunhofer's Apache 2.0 communication protocol library — advancing digitalization of energy systems and improving interoperability
+- **Focus areas**: Large-scale C&I (commercial & industrial) storage, smart meter gateway communication, §14a EnWG compliance (Germany), and complex regulatory landscapes
+- **License note**: OpenEMS itself is AGPL-3.0 (UI) / EPL-2.0 (Edge/Backend); Fraunhofer ISE protocol library being integrated is **Apache 2.0** — this is the path for cleaner AI integration layers
 
 **AI integration points:**
 ```

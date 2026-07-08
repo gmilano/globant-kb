@@ -1,7 +1,7 @@
 # Foundation Repositories — Energy AI
 
 > Core open-source libraries, platforms, and tools for building AI energy solutions.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-08 (v3)
 
 ---
 
@@ -144,6 +144,32 @@
 
 ---
 
+## Category 8: Agentic AI Research (2026)
+
+### PowerDAG — Adaptive Retrieval + JIT Supervision for Grid Analysis
+- **Paper:** arXiv:2603.17418 (March 2026)
+- **License:** Open source (Power-Agent ecosystem)
+- **Stack:** Python, pandapower/PyPSA (via PowerMCP), LLM (Claude/GPT/open-source)
+- **What it does:** Agentic AI system for automating distribution grid analysis with two reliability mechanisms:
+  - **Adaptive retrieval**: similarity-decay cutoff algorithm selects only the most relevant annotated examples as context — prevents irrelevant exemplars from degrading agent performance
+  - **Just-in-time (JIT) supervision**: actively intercepts and corrects tool-usage violations during execution — catches errors before they propagate
+- **Performance:** 100% success on GPT-5.2; 94.4–96.7% with smaller open-source models; outperforms ReAct/LangChain/CrewAI by 6–50 pp
+- **AI integration:** The JIT supervision pattern is extractable — applicable to any agentic system that calls external tools (not just power engineering). For Globant: pattern for reliable agentic workflows in regulated industries (energy, healthcare, financial)
+
+### PowerChain — Verifiable Agentic Grid Workflows
+- **Paper:** arXiv:2508.17094 (2026)
+- **License:** Open source (Power-Agent ecosystem)
+- **What it does:** Extends PowerDAG with verifiability — full audit trail of tool calls, parameters, and intermediate results for each distribution grid analysis workflow. Enables regulatory-grade AI: ANEEL (Brazil) and CNE (Chile) mandate explainable AI for grid-affecting decisions.
+- **Key design principle:** Every tool call is logged with input/output — the agent cannot take a grid action without the step being traceable. This is the foundation for regulatory approval of AI in grid operations.
+
+### Power Systems Agent Benchmark (PSAB)
+- **Paper:** arXiv:2606.20950 (June 2026)
+- **License:** Open source
+- **What it does:** First standardized executable benchmark for evaluating AI agents on comprehensive electric power engineering tasks. Agents actually run simulations; evaluated on engineering correctness, not text quality.
+- **Why foundational:** Benchmark maturity = accelerating adoption cycle. PSAB will drive investment toward agents that score highest (PowerDAG, PowerMCP) and become the standard procurement criterion for utilities evaluating AI vendors by 2027.
+
+---
+
 ## Dependency Map — Quick Start Stacks
 
 ```
@@ -156,7 +182,7 @@ CityLearn (RL env) → Stable-Baselines3 (training) → production BMS/EMS
 OpenEMS (real-time data) → RL agent (action) → OpenEMS (device control)
 
 ## Stack C: Grid Operations RL (research → production)
-Grid2Op (simulation) → RL agent training → pilot with TSO/ISO
+Grid2Op (simulation) → RL agent training → RL2Grid benchmark → PSAB evaluation → TSO/ISO pilot
 
 ## Stack D: Energy Management Platform
 OpenEMS (IoT stack) → LangGraph agent layer → Claude (anomaly + advice)
@@ -164,6 +190,12 @@ Emoncms (metering data) → OpenSTEF (forecast) → EMS optimizer
 
 ## Stack E: LLM Grid Planning
 PyPSA-Earth (grid model) → PowerMCP (MCP tools) → Claude (scenario analysis)
+
+## Stack F: Agentic Distribution Grid Analysis (PowerDAG pattern)
+pandapower (simulation) → PowerMCP (MCP) → PowerDAG (adaptive retrieval + JIT) → Claude → PowerChain (audit log) → ANEEL/CNE compliant report
+
+## Stack G: Chile Curtailment Minimization
+OpenSTEF (solar forecast + DMC Chile weather) → CityLearn RL (battery dispatch) → CEN API (market signals) → Claude (strategy) → SCADA commands
 ```
 
 ---

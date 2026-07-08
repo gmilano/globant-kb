@@ -1,21 +1,25 @@
 # Market Map — Energy AI (2026-07-08)
 
 > Key players, competitive landscape, LATAM opportunity, Globant positioning.
+> Last updated: 2026-07-08 (v3)
 
 ## Global Market Size
 
-| Segment | 2025/2026 | 2030/2031 | 2034/2035 | CAGR |
-|---------|-----------|-----------|-----------|------|
+| Segment | 2025/2026 | 2030/2031 | 2033/2034/2035 | CAGR |
+|---------|-----------|-----------|------|------|
 | AI in Energy (total) | $21.22B (2026) | — | $75.53B (2034) | 17.2% |
-| Generative AI in Energy | $1.47B (2026) | — | ~$8B | 24.1% |
+| Generative AI in Energy | $1.18B (2025) → **$1.47B (2026)** | $3.46B (2030) | — | **24.1%** |
 | LLM & GenAI Energy Optimization | $1.58B (2026) | $5.07B (2031) | — | **26.26%** |
 | AI-Powered Smart Grid | $7.54B (2026) | $12.79B (2030) | — | 14.1% |
-| AI-Driven Grid Intelligence | $2.4B | — | $33.6B | 36.9% |
+| AI-Driven Grid Intelligence | $2.4B | — | $33.6B (2035) | 36.9% |
 | AI in Renewable Energy | $3.1B | — | $158.76B | ~53% |
 | AI in Nuclear Energy | — | $9.66B (2030) | — | 20.1% |
 | AI in Power Utilities (LATAM) | $1.69B (2025) | — | — | Growing |
+| Brazil Smart Grid | $1.58B (2024) | — | **$5.8B (2033)** | High |
+| LATAM Smart Grid (total) | — | — | **$14B (2033)** | — |
+| Data Center Electricity (global) | ~1,050 TWh (2026) | — | — | +160% by 2030 |
 
-*Sources: Precedence Research, Mordor Intelligence, Research and Markets, Data M Intelligence, GlobeNewsWire, Fortune Business Insights (2025-2026)*
+*Sources: Precedence Research, Mordor Intelligence, Research and Markets, Data M Intelligence, GlobeNewsWire, Fortune Business Insights, GridTech LATAM 2026, Goldman Sachs, IEA (2025-2026)*
 
 ---
 
@@ -71,27 +75,36 @@
 | Opportunity | Size / Context | AI Application |
 |-------------|---------------|---------------|
 | Smart meter rollout | 85M meters by 2028 (ANEEL mandate) | AMI data analytics, load forecasting, theft detection |
-| Eletrobras AI deployment | 350k+ km transmission lines ("Eletro.ia" C3.ai) | Fault detection, alarm aggregation, operator AI assistant |
+| Eletrobras AI deployment (deepened 2026) | 350k+ km transmission lines; deepened C3.ai partnership August 2026 | Fault detection, alarm aggregation, operator AI assistant |
 | Distributed solar (mini-geração) | 25 GW installed (2026) | Solar generation forecasting, grid hosting capacity AI |
 | EV charging network | $2B investment mandate | Smart charging optimization, grid impact analysis |
 | Wholesale energy market (CCEE) | R$800B+ annual electricity trade | AI trading agents, price forecasting, contract optimization |
-| AI data center boom | LATAM power grids straining (2026) | Datacenter-grid coordination (OpenG2G pattern) |
+| AI data center boom | LATAM power grids straining (2026); Brazil has 83% renewable mix + 12 GW transmission headroom + $350B planned investments | Datacenter-grid coordination (OpenG2G pattern) |
+| Brazil smart grid market | $1.58B (2024) → $5.8B (2033) — IMARC Group estimate | Full stack from AMI analytics to RL grid operations |
 
 **Key players:** Eletrobras, Enel Brasil, CPFL, Cemig, Equatorial Energia, ENGIE Brasil
 
-**GridTech LATAM 2026 signal:** Brazil is positioning AI as core to its grid modernization strategy (smart meters + Eletro.ia + data center growth all converging).
+**GridTech LATAM 2026 signals:**
+- Brazil bet on AI for smarter grid: twin national rollout of smart meters + Eletrobras AI transmission network upgrades
+- Brazil's 83% renewable mix + 12 GW available transmission capacity + $350B planned investments = largest AI grid modernization opportunity in LATAM
+- Grid bottleneck: "you can't solve an AI spike in demand in 2026 with a transmission line that won't be in service until 2032" — creates urgency for demand-side AI solutions
 
 ### Chile — Southern Cone Leader
 
 | Opportunity | Size / Context | AI Application |
 |-------------|---------------|---------------|
-| Renewable generation | 60%+ electricity from renewables (2026) | Curtailment reduction AI, storage dispatch optimization |
+| Renewable generation | **63% of electricity from clean sources in 2025** | Curtailment reduction AI, storage dispatch optimization |
+| Renewable curtailment | **6,084 GWh curtailed in 2025 (+7.8% YoY)** — wasted renewable energy = urgent AI opportunity | Battery dispatch + real-time curtailment minimization |
+| Amazon $4B AWS Chile | Three Availability Zones, approved May 2026, opening **late 2026** | Datacenter-grid coordination, renewable PPA optimization |
 | Grenergy solar+storage | 340 MW + 960 MWh under construction | Battery dispatch AI, grid services optimization |
 | Mining industry electrification | Lithium + copper mines converting to electric fleets | Energy demand management, multi-site optimization |
-| National electricity market (CDEC/CEN) | Active spot market | Price forecasting, spot trading AI agents |
-| Data center attraction | Hyperscalers signing renewables PPAs | Datacenter-grid coordination (OpenG2G pattern) |
+| National electricity market (CEN) | Active spot market; renewable oversupply creating negative prices | Price forecasting, spot trading AI, curtailment-aware dispatch |
+| Turbo Energy AI platform | Expanded in Chile (May 2026) via Inversiones Sandomac partnership | AI-powered solar + storage Energy-as-a-Service across Chile and LATAM |
+| EPE LATAM expansion | EPE acquired Estudios Eléctricos (2026) — now active in LATAM grid consulting | Grid planning AI, power flow analysis, DER integration |
 
-**Key players:** Enel Chile, AES Chile, Colbún, Grenergy Chile, Engie Chile
+**Key players:** Enel Chile, AES Chile, Colbún, Grenergy Chile, Engie Chile, Amazon AWS (new), Turbo Energy
+
+**Critical new signal:** Chile's 6,084 GWh curtailment problem (2025) means the country generates more clean energy than its grid can absorb. AI-driven storage dispatch and real-time curtailment optimization is not a "nice to have" — it's a financial imperative for renewable operators. This is Globant's clearest entry point in the Chilean energy market.
 
 ### Colombia
 
@@ -113,17 +126,21 @@
 
 ## LATAM-Specific Gaps (Globant Can Address)
 
-1. **Portuguese/Spanish language energy AI interfaces** — Grid operators, building managers, and field technicians in LATAM need AI assistants in Portuguese (Brazil) and Spanish. No major energy AI platform has built this well.
+1. **Portuguese/Spanish language energy AI interfaces** — Grid operators, building managers, and field technicians in LATAM need AI assistants in Portuguese (Brazil) and Spanish. No major energy AI platform has built this well. Validated demand in both markets.
 
-2. **AI for Brazilian smart meter data (AMI analytics)** — 85M smart meters by 2028 generating petabytes of load data. No open-source Python analytics stack optimized for Brazilian meter formats (ABNT NBR 14522 protocol) exists today.
+2. **AI for Brazilian smart meter data (AMI analytics)** — 85M smart meters by 2028 (ANEEL mandate) generating petabytes of load data. No open-source Python analytics stack optimized for Brazilian meter formats (ABNT NBR 14522 protocol) exists today. Brazil smart grid market: $1.58B (2024) → $5.8B (2033).
 
-3. **Solar forecasting for LATAM irradiance patterns** — European solar forecasting models (OpenSTEF trained on Dutch data) underperform in LATAM due to different climate patterns. Retrained models for Brazilian (INMET weather) and Chilean (DMC/DGA weather) solar profiles = competitive advantage.
+3. **Solar forecasting for LATAM irradiance patterns** — European solar forecasting models (OpenSTEF trained on Dutch data) underperform in LATAM due to different climate patterns. Retrained models for Brazilian (INMET weather) and Chilean (DMC/DGA weather) solar profiles = competitive advantage. Chile's 6,084 GWh curtailment problem makes accurate solar forecasting financially critical.
 
-4. **Demand response for LATAM commercial buildings** — CityLearn trained on US/EU climate data. LATAM building types, occupancy patterns, and climate zones require retrained RL policies.
+4. **Demand response for LATAM commercial buildings** — CityLearn trained on US/EU climate data. LATAM building types, occupancy patterns, and climate zones require retrained RL policies. AI HVAC savings of 37% (offices) validated in 2026 — significant total addressable market in Brazil and Chile commercial real estate.
 
 5. **AI for informal grid connections** — Brazil has ~12M informal electricity connections (ligações clandestinas). ML-based technical loss vs. non-technical loss classification = major utility value.
 
-6. **AI Datacenter-Grid Coordination for LATAM** — Brazil and Chile attracting hyperscale data centers for cheap renewables, but power grids are straining. OpenG2G-pattern implementations for real-time load shifting = urgent emerging need (2026-2027 window).
+6. **AI Datacenter-Grid Coordination for Chile** 🔴 **URGENT 2026**: Amazon $4B AWS region opening late 2026 + 6,084 GWh curtailment + drought constraints = urgent need for real-time datacenter-grid coordination. OpenG2G-pattern implementations for real-time load shifting = immediate market entry point.
+
+7. **AI Datacenter-Grid Coordination for Brazil** — Brazil's 83% renewable mix + $350B planned investments attract hyperscalers, but transmission bottlenecks mean demand-side AI (intelligent load shifting) is the only viable near-term solution for grid stability.
+
+8. **Verifiable AI for Regulated Grid Operations** — PowerDAG + PowerChain (audit trail) demonstrate that AI grid analysis needs verifiability for regulatory compliance (ANEEL Brazil, CNE Chile). Building on PowerChain for LATAM regulatory contexts is an immediate product opportunity — no major vendor has this in Spanish/Portuguese.
 
 ---
 

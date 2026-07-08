@@ -2,7 +2,7 @@
 
 > Concrete recipes for building AI solutions using the identified repos + agents.
 > Each pattern names the specific repos, shows how to wire them, and gives a delivery estimate.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-08 (v3)
 
 ---
 
@@ -559,18 +559,258 @@ def suggest_grid_action(obs, lang: str = "pt-BR") -> dict:
 
 ---
 
-## Pattern Selection Guide
+## Pattern 9: PowerDAG-Based Distribution Grid Analysis Agent
 
-| Client scenario | Pattern | Time | Complexity |
-|----------------|---------|------|------------|
-| Building / campus energy management | Pattern 1: Smart Grid Anomaly Detection | 3-5 wk | Low |
-| Commercial building demand response | Pattern 2: CityLearn RL Agent | 5-8 wk | Medium |
-| Distribution utility (AMI rollout) | Pattern 3: Load Forecasting Agent | 4-6 wk | Medium |
-| Grid planning / regulatory | Pattern 4: PyPSA + PowerMCP | 4-6 wk | Medium |
-| Wind / solar farm O&M | Pattern 5: Predictive Maintenance | 6-9 wk | Medium |
-| Data center / large industrial (PPA) | Pattern 6: Procurement Optimizer | 6-10 wk | High |
-| AI data center grid coordination | Pattern 7: Datacenter-Grid AI | 4-7 wk | Medium |
-| TSO/ISO grid operations pilot | Pattern 8: RL Grid Operations | 8-12 wk | High |
+**Use case:** A distribution utility or engineering firm needs to automate complex distribution grid analysis tasks — power flow studies, contingency analysis, fault analysis — that currently require senior power engineers to manually drive simulator software. PowerDAG enables LLMs to perform these analyses reliably with JIT supervision.
+
+**Context:** PowerDAG (arXiv:2603.17418, March 2026) achieves 100% success rate on distribution grid analysis benchmarks — the first agentic system designed specifically for the reliability constraints of power distribution engineering. LATAM utility context: ANEEL (Brazil) and CNE (Chile) require explainable, auditable AI for grid operations decisions.
+
+**Stack:**
+- `Power-Agent/PowerMCP` — MCP servers for power system software (MIT); provides the tool layer
+- `Power-Agent/PowerSkills` — domain skill library for power system reasoning (MIT)
+- `e2nIEE/pandapower` — power flow and distribution analysis (BSD-3)
+- `Power-Agent/PowerFM` or open-source LLM — foundation model for power domain (MIT)
+- Anthropic Claude API (`claude-sonnet-5`) — LLM reasoning engine with PowerMCP tools
+- FastAPI + React — engineer-facing interface with audit trail (PowerChain pattern)
+- Langfuse — trace agent tool calls for regulatory audit log
+
+**Architecture (PowerDAG pattern):**
+```
+Distribution grid query (engineer, Portuguese/Spanish)
+    ↓
+Agent orchestrator (PowerDAG pattern: adaptive retrieval + JIT supervision)
+    ├── retriever: select most relevant annotated examples for this query type
+    │   (similarity-decay cutoff algorithm — prevents irrelevant context contamination)
+    ├── JIT supervisor: validate each tool call before execution
+    │   (intercepts tool misuse: wrong parameters, invalid grid topology, unsafe operations)
+    ├── pandapower/PyPSA tool calls (via PowerMCP MCP interface)
+    │   ├── run_power_flow(grid_model, scenario)
+    │   ├── analyze_contingency(line_outage, topology)
+    │   ├── compute_voltage_profile(bus_list)
+    │   └── identify_overloads(thermal_limits)
+    └── result_agent: Claude interprets simulation output → engineering narrative + recommendations
+    ↓
+PowerChain audit log: full trace of tool calls + intermediate results
+    ↓
+Engineer report (Portuguese/Spanish) + ANEEL/CNE compliant documentation
+```
+
+**Key code — PowerDAG Pattern Implementation:**
+```python
+from anthropic import Anthropic
+import pandapower as pp
+from langfuse import Langfuse
+
+client = Anthropic()
+langfuse = Langfuse()
+
+# JIT supervisor: validates tool calls before execution
+def jit_supervisor(tool_call: dict, grid_context: dict) -> dict:
+    """Intercept and validate tool calls before they reach the power system."""
+    validations = {
+        "run_power_flow": lambda t: t.get("net") is not None,
+        "create_line": lambda t: t.get("from_bus") != t.get("to_bus"),
+        "create_load": lambda t: t.get("p_mw", 0) >= 0,
+        "set_bus_type": lambda t: t.get("type") in ["b", "m", "n"],
+    }
+    tool_name = tool_call.get("name")
+    if tool_name in validations and not validations[tool_name](tool_call.get("parameters", {})):
+        return {"error": f"JIT supervision blocked invalid {tool_name} call", "blocked": True}
+    return {"allowed": True, "tool_call": tool_call}
+
+# PowerDAG adaptive retrieval: select relevant exemplars
+def adaptive_retrieval(query: str, exemplar_library: list, cutoff: float = 0.7) -> list:
+    """Select exemplars above similarity-decay cutoff to avoid irrelevant context."""
+    from sklearn.metrics.pairwise import cosine_similarity
+    import numpy as np
+    # Simplified: in production, use PowerFM embeddings
+    similarities = [compute_similarity(query, ex["query"]) for ex in exemplar_library]
+    # Apply decay cutoff: only include exemplars above threshold
+    selected = [ex for ex, sim in zip(exemplar_library, similarities) if sim >= cutoff]
+    return selected[:5]  # max 5 exemplars
+
+def run_distribution_analysis(
+    query: str,
+    grid_model_path: str,
+    lang: str = "pt-BR",
+    trace_id: str = None
+) -> dict:
+    """PowerDAG-pattern distribution grid analysis with full audit trail."""
+
+    trace = langfuse.trace(id=trace_id, name="distribution_grid_analysis")
+    audit_log = []
+
+    system_map = {
+        "pt-BR": """Você é um especialista em sistemas de distribuição de energia elétrica.
+        Use as ferramentas PowerMCP para realizar análises precisas de rede de distribuição.
+        Cada passo deve ser documentado para conformidade regulatória ANEEL.""",
+        "es": """Eres un especialista en sistemas de distribución de energía eléctrica.
+        Usa las herramientas PowerMCP para realizar análisis precisos de red de distribución.
+        Cada paso debe ser documentado para cumplimiento regulatorio."""
+    }
+
+    # Load pandapower network
+    net = pp.from_json(grid_model_path)
+
+    # Run power flow via PowerMCP (MCP tool interface)
+    # In production: Claude calls these via MCP; here shown as direct calls for clarity
+    pp.runpp(net)
+    audit_log.append({"step": "power_flow", "converged": net.converged, "params": grid_model_path})
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2000,
+        system=system_map.get(lang, system_map["pt-BR"]),
+        messages=[{"role": "user", "content": f"""
+        Query: {query}
+
+        Power flow results:
+        - Converged: {net.converged}
+        - Bus voltages (pu): {net.res_bus['vm_pu'].describe().to_dict()}
+        - Overloaded lines (loading > 90%): {net.res_line[net.res_line['loading_percent'] > 90][['loading_percent', 'p_from_mw']].to_dict()}
+        - Transformer loading: {net.res_trafo[['loading_percent']].to_dict() if len(net.res_trafo) > 0 else 'No transformers'}
+
+        Provide: (1) Analysis of current grid state, (2) Risk assessment, (3) Recommended corrective actions.
+        Format for ANEEL regulatory documentation.
+        """}]
+    )
+
+    audit_log.append({"step": "llm_analysis", "model": "claude-sonnet-5", "tokens": response.usage.input_tokens})
+    trace.span(name="powerdag_complete", metadata={"audit_log": audit_log})
+
+    return {
+        "analysis": response.content[0].text,
+        "audit_log": audit_log,
+        "grid_state": {"converged": net.converged, "overloads": len(net.res_line[net.res_line['loading_percent'] > 90])}
+    }
+
+# Usage
+result = run_distribution_analysis(
+    query="Análise o impacto da integração de 50 MW de geração solar distribuída no alimentador A-3",
+    grid_model_path="/data/feeder_A3.json",
+    lang="pt-BR",
+    trace_id="analysis-001"
+)
+```
+
+**Delivery estimate:** 4-8 weeks (includes grid model integration, JIT supervisor tuning, ANEEL documentation format)
+**Target clients:** CPFL, Cemig, Enel Brasil (distribution grid analysis automation); ANEEL pilot projects; Chilean distribution utilities (Enel Chile Distribución, CGE)
+**LATAM fit:** Very High — Brazilian and Chilean distribution utilities managing large numbers of DERs (solar + storage + EVs) need automated analysis tools; ANEEL and CNE regulatory requirements for audit-traceable AI decisions are met by the PowerChain audit log
+**Deal size:** $120k–$600k (depending on grid size, number of feeders, regulatory documentation scope)
+
+---
+
+## Pattern 10: Chile Renewable Curtailment Minimization Agent
+
+**Use case:** Chilean renewable energy operators (solar + wind + storage) are wasting 6,084 GWh/year in curtailment (2025 data, +7.8% YoY). An AI agent that monitors CEN (Coordinador Eléctrico Nacional) signals and dynamically adjusts storage dispatch and flexible loads can capture significant revenue from curtailed energy.
+
+**Context:** Chile has 63% clean electricity but a grid that cannot absorb all renewable generation. Amazon's $4B AWS region (late 2026) will add new demand that needs to be matched intelligently. Turbo Energy is already deploying AI solar+storage in Chile (May 2026).
+
+**Stack:**
+- `PyPSA/PyPSA` — power system modeling for curtailment scenarios (MIT)
+- `intelligent-environments-lab/CityLearn` — RL for battery dispatch optimization (MIT)
+- `Stable-Baselines3` — RL training (MIT)
+- CEN market API (Chilean grid operator real-time signals)
+- Anthropic Claude API (`claude-sonnet-5`) — strategy reasoning + operator reports in Spanish
+- `OpenSTEF/openstef` — renewable generation forecasting (Apache-2.0)
+
+**Architecture:**
+```
+CEN real-time signals (spot price, curtailment alerts, frequency deviation)
+    +
+OpenSTEF solar/wind generation forecast (next 4-48h)
+    +
+Battery SoC + flexible load availability
+    ↓
+LangGraph Curtailment Minimizer
+    ├── forecast_agent: predict solar/wind generation next 48h (OpenSTEF + DMC Chile weather)
+    ├── market_agent: read CEN spot prices + curtailment risk signals
+    ├── rl_dispatch: CityLearn-trained RL policy → battery charge/discharge schedule
+    ├── flexible_load_agent: shift deferrable loads to peak-curtailment periods
+    └── strategy_agent: Claude generates daily operational plan in Spanish
+    ↓
+SCADA commands: battery charge/discharge + flexible load schedule
+    ↓
+CEN dispatch notification + operator dashboard (Spanish)
+```
+
+**Key code — Curtailment Detection + Dispatch:**
+```python
+from anthropic import Anthropic
+from stable_baselines3 import SAC
+import pandas as pd
+
+client = Anthropic()
+
+def curtailment_response_strategy(
+    cen_signals: dict,
+    forecast: pd.DataFrame,
+    battery_state: dict,
+    flexible_loads: list
+) -> dict:
+    """Generate curtailment minimization strategy using CEN signals + forecast."""
+
+    # RL dispatch: CityLearn-trained SAC policy
+    # (trained offline on Chilean grid data + CityLearn RL environment)
+    model = SAC.load("chile_battery_dispatch_policy")
+    obs = build_observation(cen_signals, forecast, battery_state)
+    action, _ = model.predict(obs, deterministic=True)
+    battery_schedule = interpret_battery_action(action)
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1000,
+        system="""Eres un analista de operaciones de energía renovable en Chile.
+        Optimiza el despacho de almacenamiento y cargas flexibles para minimizar el vertimiento.
+        Considera los señales del CEN, pronósticos de generación y disponibilidad de almacenamiento.""",
+        messages=[{"role": "user", "content": f"""
+        Señales CEN actuales:
+        - Precio spot: ${cen_signals['spot_price_clp_mwh']:,.0f} CLP/MWh (umbral vertimiento: ${cen_signals['curtailment_threshold_clp']:,.0f})
+        - Alerta vertimiento: {cen_signals['curtailment_alert']}
+        - Reserva del sistema: {cen_signals['system_reserve_pct']}%
+
+        Pronóstico generación solar (próximas 8h, MW): {forecast['solar_mw'].values[:8].tolist()}
+
+        Estado batería: {battery_state['soc_pct']}% SoC, {battery_state['capacity_mwh']} MWh total
+
+        Despacho RL propuesto: {battery_schedule}
+
+        Cargas flexibles disponibles: {flexible_loads}
+
+        Plan de acción: ¿Cómo maximizamos el aprovechamiento de la energía renovable evitando el vertimiento?
+        Explica en términos de operaciones para el equipo técnico de planta.
+        """}]
+    )
+
+    return {
+        "battery_schedule": battery_schedule,
+        "strategy": response.content[0].text,
+        "estimated_curtailment_avoided_mwh": estimate_curtailment_avoided(battery_schedule, forecast, cen_signals),
+        "revenue_recovered_clp": estimate_revenue(battery_schedule, cen_signals)
+    }
+```
+
+**Delivery estimate:** 5-8 weeks (includes CEN API integration, RL training on Chilean data, operator dashboard in Spanish)
+**ROI baseline:** Chile curtailed 6,084 GWh in 2025; at average spot price of $50/MWh, reducing curtailment by 10% = $30M+ in recovered revenue across the national fleet
+**Target clients:** Grenergy Chile (340 MW solar + 960 MWh storage under construction), Colbún, AES Chile, Engie Chile, Turbo Energy, Amazon AWS Chile (demand side)
+**Deal size:** $150k–$800k per renewable operator + potential % of recovered revenue
+
+---
+
+## Pattern Selection Guide (v3)
+
+| Client scenario | Pattern | Time | Complexity | Deal Size |
+|----------------|---------|------|------------|-----------|
+| Building / campus energy management | Pattern 1: Smart Grid Anomaly Detection | 3-5 wk | Low | $60k-200k |
+| Commercial building demand response | Pattern 2: CityLearn RL Agent | 5-8 wk | Medium | $100k-400k |
+| Distribution utility (AMI rollout) | Pattern 3: Load Forecasting Agent | 4-6 wk | Medium | $80k-300k |
+| Grid planning / regulatory | Pattern 4: PyPSA + PowerMCP | 4-6 wk | Medium | $100k-400k |
+| Wind / solar farm O&M | Pattern 5: Predictive Maintenance | 6-9 wk | Medium | $150k-600k |
+| Data center / large industrial (PPA) | Pattern 6: Procurement Optimizer | 6-10 wk | High | $200k-800k |
+| AI data center grid coordination | Pattern 7: Datacenter-Grid AI | 4-7 wk | Medium | $150k-600k |
+| TSO/ISO grid operations pilot | Pattern 8: RL Grid Operations | 8-12 wk | High | $300k-1.5M |
+| Distribution utility analysis automation | Pattern 9: PowerDAG Grid Analysis | 4-8 wk | Medium | $120k-600k |
+| Chilean renewable curtailment | Pattern 10: Curtailment Minimizer | 5-8 wk | Medium | $150k-800k |
 
 ---
 *Auto-updated by the ingest pipeline.*
