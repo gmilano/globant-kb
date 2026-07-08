@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Healthcare
 
 > Agentes y herramientas AI open source para la industria de salud. Foco: MIT / Apache 2.0 / BSD.
-> Última actualización: 2026-07-07 (v2 — investigación profunda)
+> Última actualización: 2026-07-08 (v3 — FDA clearance, MedRAX, FHIR-AgentBench)
 
 ## Agentes y herramientas destacadas
 
@@ -19,6 +19,8 @@
 | [hi-ml](https://github.com/microsoft/hi-ml) | MIT | Toolbox de Microsoft para deep learning en imágenes médicas e integración Azure: preprocesamiento, entrenamiento distribuido, métricas clínicas validadas, MLflow tracking para experimentos radiológicos. | 308 |
 | [Healthcare-AI-CDSS-LangGraph](https://github.com/SayamAlt/Healthcare-AI-Clinical-Decision-Support-System-using-LangGraph) | MIT | CDSS con LangGraph + GPT-4o-mini + PubMed: estratificación de riesgo en tiempo real, recomendaciones basadas en evidencia, roadmaps clínicos personalizados, validación de interacciones medicamentosas. | ~100 |
 | [MedLLMsPracticalGuide](https://github.com/AI-in-Health/MedLLMsPracticalGuide) | Apache-2.0 | Guía práctica curada (publicada en Nature Reviews Bioengineering) de aplicación de LLMs en medicina: árbol de modelos, tablas comparativas, papers. Referencia esencial para proyectos médicos con AI. | ~2k |
+| [MedRAX](https://github.com/bowang-lab/MedRAX) | Apache-2.0 | Medical Reasoning Agent for Chest X-ray (ICML 2025). Primer agente AI versátil que integra herramientas de análisis CXR y LLMs multimodales en un framework unificado. Incluye ChestAgentBench: 2,500 consultas médicas complejas en 7 categorías. | ~1.2k |
+| [awesome-medical-ai](https://github.com/JuneYaooo/awesome-medical-ai) | MIT | Lista curada de proyectos AI médicos y de salud: LLMs, imágenes médicas, sistemas multi-agente, software clínico. Referencia integral del ecosistema 2025-2026. | ~400 |
 
 ---
 
@@ -40,11 +42,25 @@
 | Prior auth / revenue cycle automation | openmed-agent |
 | NLP sobre notas clínicas / EHR text | medspaCy + cTAKES |
 | Diagnóstico multi-especialidad | Multi-Agent-Medical-Assistant + OpenClaw-Medical-Skills |
-| Imágenes médicas (MRI, CT, PET) | torchio + hi-ml |
+| Radiología chest X-ray (ICML 2025) | MedRAX (bowang-lab) |
+| Imágenes médicas 3D (MRI, CT, PET) | torchio + hi-ml |
 | Knowledge graph biomédico + LLM | BioChatter + BioCypher |
 | CDSS con evidencia PubMed en tiempo real | Healthcare-AI-CDSS-LangGraph |
 | On-device / HIPAA / LGPD privacidad total | openmed (local-first) |
 | Skills especializados por dominio médico | OpenClaw-Medical-Skills (869 módulos) |
+| Pathway FDA-cleared clinical LLM (SaMD) | openmed-agent + FHIR MCP + validación clínica |
+
+---
+
+## Benchmarks de referencia (2025–2026)
+
+| Benchmark | Arxiv / Fuente | Qué mide | Mejor modelo |
+|-----------|---------------|----------|-------------|
+| MedAgentBench | NEJM AI / Stanford | 300 tareas FHIR en EHR virtual, 100 pacientes, 700k+ elementos | Claude 3.5 Sonnet v2 — 69.67% |
+| FHIR-AgentBench | arXiv:2509.19319 | 2,931 preguntas clínicas reales en HL7 FHIR; razonamiento multi-step | Varios — métricas por estrategia |
+| PhysicianBench | arXiv:2605.02240 | Agentes LLM en EHR de mundo real (nivel médico) | Claude — SOTA reportado |
+| ChestAgentBench | bowang-lab/MedRAX | 2,500 consultas diagnósticas CXR en 7 categorías | MedRAX (Apache-2.0) |
+| CHI-Bench | AgenticHealthAI | Flujos de trabajo healthcare end-to-end | OpenClaw-based agents |
 
 ---
 *Actualizado por el pipeline de ingest — v2 investigación profunda 2026-07-07.*

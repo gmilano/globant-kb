@@ -1,7 +1,7 @@
 # 📡 Tendencias — Healthcare AI 2026
 
 > Señales de mercado, tecnológicas y regulatorias. Basado en investigación profunda.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v3 — Trend 7: FDA SaMD, Trend 8: MedAgentBench era, Trend 9: LATAM AI medical trials)
 
 ## 🔥 Tendencia #1: Agentic AI pasa de piloto a empresa
 
@@ -99,8 +99,73 @@ Papers clave (Mar 2026):
 
 ---
 
+---
+
+## 🔥 Tendencia #7: FDA SaMD pathway — LLMs como dispositivos médicos (LANDMARK)
+
+**Señal**: UpDoc FDA 510(k) K253281 — anunciado 25 jun 2026 — **primer SaMD con LLM patient-facing aprobado** por la FDA.
+
+**Detalle técnico**:
+- Indicación: titulación de insulina para adultos con T2DM
+- Predicado 510(k): calculadora de dosis de insulina (predicate device)
+- Evidencia: Stanford insulin titration trial
+- EHR-integrado: cada acción visible y auditable por el clínico
+- Modo: voz o texto → orientación de dosis
+- Despliegues iniciales: Cleveland Clinic, AHN, UCSF
+
+**Por qué es un hito histórico**:
+- FDA había aprobado 1,000+ AI/ML devices — todos eran "locked algorithms" (no-generativos)
+- UpDoc es el primero con **LLM generativo** interactuando directamente con pacientes
+- Abre el pathway para: medication management, chronic disease titration, triage scoring, mental health
+
+**Patrón de diseño requerido**:
+```
+Indicación estrecha + Predicado 510(k) + Evidencia clínica + Sandboxing estricto + Audit trail
+```
+
+**Implicación para Globant**: Cualquier proyecto de AI clínica con pacientes en EEUU tiene precedente. El camino está pavimentado.
+
+---
+
+## 🔥 Tendencia #8: MedAgentBench + FHIR-AgentBench — la era de la evaluación rigurosa
+
+**Señal**: Dos benchmarks de clase mundial publicados en semanas:
+- **MedAgentBench** (publicado en NEJM AI, Stanford): 300 tareas FHIR-compliant, 100 pacientes virtuales, 700k+ data elements. Claude 3.5 Sonnet v2 → 69.67% de éxito.
+- **FHIR-AgentBench** (arXiv:2509.19319): 2,931 preguntas clínicas reales en HL7 FHIR. Evalúa razonamiento multi-step sobre historias clínicas complejas.
+
+**Qué miden**:
+- ¿Puede el agente navegar un EHR real y tomar decisiones clínicas?
+- ¿Puede hacer multi-step reasoning sobre miles de recursos FHIR?
+- ¿Maneja correctamente preguntas que requieren integrar datos de múltiples encuentros?
+
+**Implicación**: Los proyectos healthcare AI deben incluir evaluación rigurosa usando estos benchmarks antes de ir a producción. Claude-based agents lideran en ambos.
+
+---
+
+## 🔥 Tendencia #9: LATAM como "testing ground" para AI médico
+
+**Señal** (Medical Device Online, 2026): Latin America is becoming the testing ground for AI-enabled medical device clinical trials.
+
+**Razones**:
+- Diversidad genética y epidemiológica única
+- Costos de ensayo clínico menores que en EEUU/Europa
+- Regulaciones más rápidas en países como Colombia, Brasil (ANVISA track)
+- Alta penetración de telemedicina (46.7% del revenue digital health)
+- Ecosistemas emergentes: Bogotá (Colombia), São Paulo (Brasil), Santiago (Chile)
+
+**Oportunidades específicas**:
+- AI para TB, Chagas, dengue (epidemiología regional)
+- Telemedicina para poblaciones rurales dispersas (Chile, Perú, Colombia)
+- Diagnóstico asistido donde hay escasez de especialistas (radiología, dermatología)
+- Prior authorization en sistemas de salud pública (SUS, IMSS, FONASA)
+
+**Para Globant**: Ser partner de referencia de startups healthtech LATAM que necesitan AI + delivery + compliance. Deal size $150k–$800k.
+
+---
+
 ## Repos más activos esta semana (señal GitHub)
 
+- [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) — radiología AI con agentes (ICML 2025), acelerando en adopción hospitalaria
 - [FreedomIntelligence/OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) — 869 skills médicos, explosión de tracción
 - [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) — curación activa, papers 2026
 - [the-momentum/fhir-mcp-server](https://github.com/the-momentum/fhir-mcp-server) — estándar emergente FHIR↔LLM

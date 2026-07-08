@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Healthcare
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa, producción-ready.
-> Última actualización: 2026-07-07 (v2 — investigación profunda)
+> Última actualización: 2026-07-08 (v3 — beda-software/fhir-emr MIT, MedRAX ICML 2025)
 
 ## Plataformas y frameworks base
 
@@ -17,6 +17,8 @@
 | [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | La implementación FHIR en Java más completa y madura: FHIR server, validation, client library. Base de Microsoft Azure Health Data Services. | FHIR server para conectar cualquier EHR con agentes AI |
 | [microsoft/fhir-server](https://github.com/microsoft/fhir-server) | MIT | FHIR server de Microsoft: Azure-native, high-performance, soporte para FHIR R4 y R4B, integrable con HealthLake. Opción enterprise para clientes Azure. | Backend FHIR enterprise para despliegues hospitalarios |
 | [biocypher/biochatter](https://github.com/biocypher/biochatter) | MIT | Framework conversacional biomédico con LLMs: RAG sobre knowledge graphs, model chaining, benchmarking. Soporta Neo4j, ontologías biomédicas. Privacidad con Ollama. | Conversational AI sobre datos biomédicos estructurados |
+| [beda-software/fhir-emr](https://github.com/beda-software/fhir-emr) | MIT | EMR basado en FHIR como data model nativo. HL7 FHIR + SDC IG para gestión de formularios. Stack MIT ideal para proyectos Globant sin restricciones. | Base FHIR-native para EMR customizable con AI |
+| [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) | Apache-2.0 | Medical Reasoning Agent for Chest X-ray (ICML 2025). Framework de agentes para análisis radiológico con 2,500 benchmarks. Base para soluciones de diagnóstico por imagen. | Radiología AI con agentes especializados |
 
 ---
 
@@ -39,11 +41,12 @@ Capa 4 — Procesamiento especializado
 
 ## Stack mínimo viable para proyecto healthcare AI
 
-1. **EHR Base**: OpenEMR (US/LATAM) o OpenMRS (LATAM low-resource / global)
-2. **FHIR Layer**: HAPI FHIR o fhir-mcp-server (Momentum)
+1. **EHR Base**: OpenEMR (US/LATAM) o OpenMRS (LATAM low-resource / global) o beda-software/fhir-emr (greenfield FHIR-native)
+2. **FHIR Layer**: HAPI FHIR o fhir-mcp-server (Momentum) — nodo de interoperabilidad AI↔EHR
 3. **NLP clínico**: medspaCy para notas; cTAKES para codificación SNOMED/ICD
 4. **Agente principal**: openmed-agent (workflows clínicos) o BioChatter (conocimiento biomédico)
-5. **UI**: Ottehr (React moderno) o módulo web OpenMRS
+5. **Imágenes médicas**: MedRAX (radiología CXR) + torchio (3D MRI/CT)
+6. **UI**: Ottehr (React moderno) o módulo web OpenMRS
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

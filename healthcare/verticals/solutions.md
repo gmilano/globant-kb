@@ -1,7 +1,7 @@
 # 🏭 Verticales de partida — Healthcare
 
 > Plataformas verticales existentes customizables con AI. Modelo: partir de algo funcional y añadir capa agéntica.
-> Última actualización: 2026-07-07 (v2 — investigación profunda)
+> Última actualización: 2026-07-08 (v3 — beda-software/fhir-emr, FDA SaMD pathway, LATAM guide)
 
 ## Plataformas recomendadas
 
@@ -15,6 +15,7 @@
 | **care_fe (OHC Network)** | MIT | [github.com/ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | React + REST | Digital Public Good para entrega acelerada de atención. UI moderna sobre OpenMRS. Adoptado en India, expandiéndose globalmente. 611★ activos. |
 | **HAPI FHIR Server** | Apache-2.0 | [github.com/hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Java + Spring Boot | La implementación FHIR más completa: servidor, cliente, validador. Base de Azure Health Data Services. Estándar para interoperabilidad AI↔EHR. |
 | **Microsoft FHIR Server** | MIT | [github.com/microsoft/fhir-server](https://github.com/microsoft/fhir-server) | C# + Azure | FHIR server enterprise de Microsoft. FHIR R4 + R4B, high-performance, Azure native. Integrable con HealthLake MCP. Para clientes enterprise en Azure. |
+| **beda-software/fhir-emr** | MIT | [github.com/beda-software/fhir-emr](https://github.com/beda-software/fhir-emr) | TypeScript + FHIR | EMR FHIR-native con licencia MIT pura. Usa HL7 FHIR como data model y SDC IG para formularios. Ideal para proyectos Globant greenfield donde se quiere máxima flexibilidad sin restricciones de licencia. |
 
 ---
 
@@ -47,3 +48,40 @@
 3. **Clinical Decision Support**: diagnóstico diferencial + drug interactions (LangGraph + PubMed)
 4. **Predictive Risk**: readmission, sepsis early warning (XGBoost + LangGraph + FHIR)
 5. **NLP sobre EHR histórico**: extracción entidades clínicas → knowledge graph (medspaCy + BioCypher)
+6. **Radiología asistida por AI**: análisis CXR automatizado (MedRAX + torchio + Claude Vision)
+
+---
+
+## Regulatory Corner: FDA SaMD Pathway para Clinical LLMs (NEW — Jul 2026)
+
+**Hito regulatorio**: UpDoc Inc. recibió FDA 510(k) K253281 (dic 2025, anunciado jun 2026) — **primer LLM patient-facing clearado como Software as Medical Device (SaMD)**.
+
+### Cómo replicar el pathway:
+
+```
+1. Identificar indicación estrecha y bien definida
+   (ej: titulación de insulina en T2DM — no "asistente médico general")
+2. Encontrar predicado 510(k) existente
+   (UpDoc usó: calculadora de dosis de insulina)
+3. Construir evidencia clínica
+   (ensayo piloto controlado — UpDoc usó Stanford insulin trial)
+4. Sandboxing estricto: LLM opera SOLO dentro de parámetros clínicos pre-definidos
+5. EHR-integrated: acción del agente visible y auditada por el clínico
+6. Submission 510(k) al FDA con predicate claim
+```
+
+### Qué significa para proyectos Globant US:
+- **El precedente existe**: proyectos de AI clínica con pacientes en EEUU ahora tienen un modelo claro
+- **Foco en indicaciones estrechas** (chronic disease management, medication titration, triage scoring)
+- **Stack recomendado**: openmed-agent + HAPI FHIR local + audit logging completo + validación clínica
+- **Timeline**: 12-18 meses desde concepto hasta FDA clearance (510k) en indicaciones bien definidas
+
+### Plataformas LATAM — Mapa por País
+
+| País | EHR público | Regulación AI | Oportunidad |
+|------|------------|---------------|-------------|
+| Brasil | RNDS (FHIR) + prontuário eletrônico | ANVISA + LGPD | SUS 214M usuarios; prior auth FHIR-native |
+| México | IMSS/ISSSTE legacy + NOM-024 | Cofepris | 1DOC3-style telemedicina AI; IMSS modernización |
+| Colombia | RIPS + HC-3 | Minsalud | Bogotá healthtech hub; telemedicina rural |
+| Argentina | RUP (Registro Único de Personas) | ANMAT | OSDE/Swiss Medical prior auth automation |
+| Chile | FONASA/Isapre data | ISP | Isapre crisis → AI para gestión de prestaciones |

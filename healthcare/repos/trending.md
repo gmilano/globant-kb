@@ -1,12 +1,15 @@
 # 📈 Repos Healthcare trending — GitHub
 
 > Repos con mayor actividad y momentum en el ecosistema healthcare AI.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v3 — MedRAX, awesome-medical-ai, HealthcareAgent Pypi)
 
 ## Repos en ascenso
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
+| [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) | Apache-2.0 | Medical Reasoning Agent for Chest X-ray — ICML 2025. Integra LLMs multimodales con herramientas de análisis CXR. ChestAgentBench: 2,500 consultas diagnósticas complejas en 7 categorías. Primer framework unificado de agentes para radiología. | ~1.2k |
+| [JuneYaooo/awesome-medical-ai](https://github.com/JuneYaooo/awesome-medical-ai) | MIT | Lista curada de proyectos AI médicos y de salud: LLMs, imágenes, multi-agente, software clínico. Organización en 10+ categorías incluyendo drug discovery, genómica y salud pública. Referencia del ecosistema 2025-2026. | ~400 |
+| [AI-Hub-Admin/HealthcareAgent](https://github.com/AI-Hub-Admin/HealthcareAgent) | Apache-2.0 | Paquete Pypi con APIs comunes de agentes para healthcare + lista curada de proyectos agentic AI médicos. Interfaz unificada para integrar agentes clínicos en aplicaciones Python. | ~200 |
 | [FreedomIntelligence/OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) | Apache-2.0 | 869 skills médicos curados: clínica, genómica, fármacos, bioinformática, dispositivos. La explosión del framework OpenClaw (9k→188k★ en 60 días) hizo de este repo el más descargado en healthcare AI. | 2.8k |
 | [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY-4.0 | Curación activa de papers y proyectos de agentes AI para salud. Incluye benchmarks 2026: SEMA-RAG, CHI-Bench, DermAgent, MedMemoryBench. La lista curada más referenciada del área. | ~1.2k |
 | [the-momentum/fhir-mcp-server](https://github.com/the-momentum/fhir-mcp-server) | MIT | FHIR MCP Server de Momentum. Interfaz lenguaje natural para cualquier FHIR server. Se convirtió en el conector estándar AI↔EHR; compatible con Claude, Cursor, Windsurf. | ~500 |
@@ -36,6 +39,7 @@
 - Nuevo: integration con LLMs para NLP+reasoning híbrido
 
 ### Medical Imaging AI (investigación activa)
+- **MedRAX** (ICML 2025): primer framework unificado agente+herramientas para radiología CXR
 - torchio: 500+ papers; adopción universitaria global
 - hi-ml: Microsoft aumentando contribuciones en radiología multimodal
 

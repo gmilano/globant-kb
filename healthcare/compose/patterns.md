@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Healthcare AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-07 (v2 — patrones con código)
+> Última actualización: 2026-07-08 (v3 — P7 MedRAX radiología, P8 FDA SaMD clinical LLM)
 
 ## Arquitectura base
 
@@ -329,13 +329,267 @@ Respuesta con fuentes verificadas del knowledge graph
 
 ---
 
+---
+
+## Patrón 7: MedRAX Chest X-Ray Agent (ICML 2025)
+
+**Caso de uso**: Análisis automatizado de radiografías de tórax (CXR) para hospitales con backlog radiológico o escasez de especialistas.
+
+**Repos**: `bowang-lab/MedRAX` + `TorchIO-project/torchio` + `the-momentum/fhir-mcp-server`
+
+**Flujo**:
+```
+Chest X-ray DICOM recibido (HL7 ORU / PACS)
+    ↓ torchio (preprocesamiento: normalización, CropOrPad)
+Imagen preprocesada
+    ↓ MedRAX framework (LLM multimodal + herramientas CXR especializadas)
+        Tool 1: ChestXRay pathology detector (18 pathologies)
+        Tool 2: FHIR read → historial del paciente
+        Tool 3: Guidelines lookup (ATS/ERS/CHEST guidelines)
+Análisis con razonamiento paso a paso (Chain-of-Thought)
+    ↓ Claude claude-sonnet-5 (structured report generation)
+Reporte radiólogo preliminar (ACR format) → FHIR DiagnosticReport
+    ↓ fhir-mcp-server → write a PACS / EHR
+Radiólogo revisa y aprueba (Human-in-the-loop)
+```
+
+**Código mínimo (Python)**:
+```python
+import anthropic
+import torchio as tio
+import base64
+from pathlib import Path
+
+def analyze_chest_xray(dicom_path: str, patient_fhir_id: str) -> dict:
+    # 1. Preprocesar imagen
+    subject = tio.Subject(cxr=tio.ScalarImage(dicom_path))
+    transform = tio.Compose([
+        tio.RescaleIntensity(out_min_max=(0, 255)),
+        tio.CropOrPad((512, 512, 1)),
+    ])
+    processed = transform(subject)
+
+    # 2. Exportar como PNG para Claude Vision
+    png_path = "/tmp/cxr_processed.png"
+    processed.cxr.save(png_path)
+    with open(png_path, "rb") as f:
+        img_b64 = base64.b64encode(f.read()).decode()
+
+    # 3. Análisis con Claude multimodal (MedRAX-style)
+    client = anthropic.Anthropic()
+    tools = [
+        {
+            "name": "lookup_radiology_guideline",
+            "description": "Busca guía clínica ATS/ERS para hallazgo específico",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "finding": {"type": "string"},
+                    "severity": {"type": "string", "enum": ["mild", "moderate", "severe"]}
+                },
+                "required": ["finding"]
+            }
+        },
+        {
+            "name": "write_fhir_diagnostic_report",
+            "description": "Escribe reporte diagnóstico preliminar en EHR via FHIR",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "patient_id": {"type": "string"},
+                    "findings": {"type": "string"},
+                    "impression": {"type": "string"},
+                    "urgency": {"type": "string", "enum": ["routine", "urgent", "critical"]}
+                },
+                "required": ["patient_id", "findings", "impression", "urgency"]
+            }
+        }
+    ]
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        tools=tools,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "source": {"type": "base64", "media_type": "image/png", "data": img_b64}
+                },
+                {
+                    "type": "text",
+                    "text": f"""Analiza esta radiografía de tórax (CXR) como radiólogo experto.
+                    Patient FHIR ID: {patient_fhir_id}
+                    
+                    1. Describe hallazgos en formato ACR (Findings, Impression)
+                    2. Clasifica urgencia (routine/urgent/critical)
+                    3. Si encuentras hallazgos significativos, busca guías ATS/ERS relevantes
+                    4. Escribe el reporte preliminar en el EHR via FHIR
+                    
+                    IMPORTANTE: Este es un análisis preliminar que REQUIERE revisión por radiólogo certificado."""
+                }
+            ]
+        }]
+    )
+    return {"response": response, "patient_id": patient_fhir_id}
+
+# Uso
+result = analyze_chest_xray("patient_cxr.dcm", "Patient/FHIR-12345")
+```
+
+**Benchmarks disponibles**: ChestAgentBench (2,500 consultas diagnósticas CXR en 7 categorías) permite validar la solución antes de despliegue.
+
+**Time-to-value**: 10-14 semanas (incluye validación clínica + PACS integration). **Tamaño de deal**: $250k–$900k.
+
+---
+
+## Patrón 8: FDA SaMD Clinical LLM Agent (Chronic Disease Management)
+
+**Caso de uso**: Plataforma de gestión de enfermedades crónicas con LLM patient-facing, siguiendo el pathway FDA 510(k) establecido por UpDoc (K253281, jun 2026).
+
+**Indicación recomendada (seguir modelo UpDoc)**: Titulación de medicamentos en DM2, hipertensión o EPOC — indicación estrecha y bien definida.
+
+**Repos**: `openmed-labs/openmed-agent` + `hapifhir/hapi-fhir` + `openemr/openemr`
+
+**Arquitectura de compliance**:
+```
+Paciente interactúa (voz o texto)
+    ↓ Input validation: solo preguntas dentro del scope definido
+LLM Agent (Claude Haiku-4.5 — bajo costo, alta velocidad)
+    ↓ Reglas de sandboxing: NO responde fuera del protocolo clínico
+    ↓ Tool: read_fhir_patient_data() — última lectura glucosa/TA/SpO2
+    ↓ Tool: check_dose_boundaries() — límites clínicos definidos por médico
+    ↓ Tool: escalate_to_clinician() — si hay señales de alarma
+Respuesta estructurada dentro del protocolo
+    ↓ Audit log completo (inmutable) → HAPI FHIR AuditEvent
+    ↓ write_fhir_observation() — registro de interacción
+Clinician Dashboard: revisa interacciones, aprueba ajustes de dosis
+```
+
+**Código — sandboxing crítico para FDA compliance**:
+```python
+import anthropic
+from enum import Enum
+
+class ClinicalScope(Enum):
+    IN_SCOPE = "in_scope"
+    OUT_OF_SCOPE = "out_of_scope"
+
+ALLOWED_TOPICS = [
+    "insulin dose", "blood glucose", "A1C", "hypoglycemia symptoms",
+    "hyperglycemia symptoms", "injection technique", "glucose monitoring",
+    "medication schedule", "dose adjustment protocol"
+]
+
+def classify_query(query: str) -> ClinicalScope:
+    """Classifies if query is within the clinical scope — critical for FDA compliance."""
+    client = anthropic.Anthropic()
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",  # Fast + cheap for classification
+        max_tokens=64,
+        system="""You are a clinical scope classifier. Answer ONLY 'IN_SCOPE' or 'OUT_OF_SCOPE'.
+        IN_SCOPE: questions about insulin dosing, blood glucose, T2DM medication management.
+        OUT_OF_SCOPE: everything else including other medications, other diseases, general advice.""",
+        messages=[{"role": "user", "content": f"Classify: {query}"}]
+    )
+    text = response.content[0].text.strip().upper()
+    return ClinicalScope.IN_SCOPE if "IN_SCOPE" in text else ClinicalScope.OUT_OF_SCOPE
+
+def diabetes_agent(patient_id: str, query: str, glucose_reading: float) -> str:
+    scope = classify_query(query)
+    if scope == ClinicalScope.OUT_OF_SCOPE:
+        return "Esta consulta está fuera del alcance de este programa. Por favor contacte a su médico."
+
+    client = anthropic.Anthropic()
+    tools = [
+        {
+            "name": "read_fhir_observation",
+            "description": "Lee últimas lecturas de glucosa del paciente",
+            "input_schema": {
+                "type": "object",
+                "properties": {"patient_id": {"type": "string"}, "observation_type": {"type": "string"}},
+                "required": ["patient_id", "observation_type"]
+            }
+        },
+        {
+            "name": "check_dose_boundaries",
+            "description": "Verifica si ajuste de dosis está dentro de límites prescritos por médico",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "current_dose": {"type": "number"},
+                    "proposed_adjustment": {"type": "number"}
+                },
+                "required": ["current_dose", "proposed_adjustment"]
+            }
+        },
+        {
+            "name": "escalate_to_clinician",
+            "description": "Escala urgentemente al médico — usar si glucosa <70 o >400 mg/dL",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "reason": {"type": "string"},
+                    "glucose_level": {"type": "number"}
+                },
+                "required": ["reason"]
+            }
+        }
+    ]
+
+    system = """You are an FDA-cleared insulin titration assistant (K253281 pathway).
+    STRICT RULES:
+    1. ONLY advise on insulin dosing per the pre-defined clinical protocol
+    2. ALWAYS recommend confirming with physician before changing dose
+    3. If glucose < 70 mg/dL: immediately escalate_to_clinician
+    4. If glucose > 400 mg/dL: immediately escalate_to_clinician  
+    5. Document every interaction via FHIR AuditEvent
+    6. Never diagnose, never recommend new medications"""
+
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=512,
+        system=system,
+        tools=tools,
+        messages=[{
+            "role": "user",
+            "content": f"Patient {patient_id}. Current glucose: {glucose_reading} mg/dL. Query: {query}"
+        }]
+    )
+    return response.content[0].text if response.content else "Por favor contacte a su médico."
+
+# Uso
+answer = diabetes_agent("P-12345", "¿Debo ajustar mi dosis de insulina?", glucose_reading=185.0)
+```
+
+**Elementos de compliance FDA**:
+- Scope classifier antes de cada interacción (determina si dentro del scope aprobado)
+- Claude Haiku (rápido, determinístico, costo mínimo para clasificación)
+- Escalation automático a clínico si hay señales de alarma
+- FHIR AuditEvent para trail completo (inmutable)
+- Validación de límites prescritos por médico (no autorregulado)
+- Human-in-the-loop: clínico aprueba ajustes
+
+**Estrategia de evidence pre-lanzamiento** (siguiendo UpDoc):
+1. Ensayo piloto con 50-100 pacientes (IRB-approved)
+2. Comparar outcomes vs. control (titulación manual por enfermero)
+3. Medir: A1C reduction, hypoglycemic events, patient satisfaction
+4. Documentar adverse events (AE) con FHIR-compliant reporting
+
+**Time-to-value**: 12-18 meses (incluye ensayo clínico + FDA 510k submission). **Deal size**: $500k–$2M.
+
+---
+
 ## Resumen — Tiempo y complejidad por patrón
 
-| Patrón | Semanas | Complejidad | ROI principal |
-|--------|---------|-------------|---------------|
-| 1. Ambient Scribe | 4-6 | Media | 2-4h médico/día |
-| 2. Prior Authorization Agent | 6-8 | Media-Alta | 30-60% reducción tiempo PA |
-| 3. CDSS Multi-Agente | 8-12 | Alta | Reducción errores clínicos |
-| 4. EHR AI Nativo (OpenMRS) | 6-10 | Media | EHR completo sin licencias |
-| 5. Medical Imaging AI | 10-16 | Alta | Priorización radiología |
-| 6. Drug Discovery Assistant | 8-12 | Media-Alta | $50k+/año vs. propietarios |
+| Patrón | Semanas | Complejidad | ROI principal | Deal size |
+|--------|---------|-------------|---------------|-----------|
+| 1. Ambient Scribe | 4-6 | Media | 2-4h médico/día | $150k–$500k |
+| 2. Prior Authorization Agent | 6-8 | Media-Alta | 30-60% reducción tiempo PA | $200k–$800k |
+| 3. CDSS Multi-Agente | 8-12 | Alta | Reducción errores clínicos | $300k–$1.2M |
+| 4. EHR AI Nativo (OpenMRS) | 6-10 | Media | EHR completo sin licencias | $200k–$600k |
+| 5. Medical Imaging AI (torchio) | 10-16 | Alta | Priorización radiología | $200k–$700k |
+| 6. Drug Discovery Assistant | 8-12 | Media-Alta | $50k+/año vs. propietarios | $100k–$400k |
+| 7. MedRAX Chest X-Ray Agent | 10-14 | Alta | Backlog radiológico; escasez especialistas | $250k–$900k |
+| 8. FDA SaMD Clinical LLM | 52-78 (1-1.5y) | Muy Alta | Precedente K253281; chronic disease | $500k–$2M |
