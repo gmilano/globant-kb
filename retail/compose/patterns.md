@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Retail & E-Commerce AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-08 (v6 — reescritura completa)
+> Última actualización: 2026-07-08 (v7 — segunda pasada, +2 patrones)
 
 ## Arquitectura base
 
@@ -619,18 +619,229 @@ import subprocess
 
 ---
 
+---
+
+## Patrón 9 — On-Site Brand Agent (Trust Advantage, Bain 2026)
+
+**Caso de uso**: Agente embedded en la propia tienda del brand (no ChatGPT/Perplexity). Aprovecha el diferencial de confianza: 3x más confiado según Bain 2026. Ideal como contrapropuesta a "integrar con ChatGPT Checkout".
+
+**Stack**:
+- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — backend, datos propios del brand
+- [gorse-io/gorse](https://github.com/gorse-io/gorse) (Apache-2.0) — recomendaciones con historial propio
+- Claude claude-sonnet-5 via API (vía Anthropic managed agents) — LLM con personalidad del brand
+- Widget embedded en el frontend (React/Next.js) — no third-party iframe
+
+**Por qué on-site gana**:
+- Datos propios: el agente conoce el historial completo del cliente en el brand
+- Personalidad: responde como el brand, no como asistente genérico
+- Trust: consumidores confían 3x más (Bain 2026)
+- Data privacy: sin compartir datos con OpenAI/Perplexity
+
+**Tiempo estimado**: 3-5 semanas | **Deal size LATAM**: $80k-250k
+
+```python
+# brand_agent_server.py — On-Site Agent con personalidad del brand
+from anthropic import Anthropic
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import requests
+
+app = FastAPI()
+client = Anthropic()
+
+# Personalidad del brand (configurar por cliente)
+BRAND_CONFIG = {
+    "brand_name": "MiTienda",
+    "brand_voice": "amigable, experto en moda, usa español informal",
+    "brand_values": "sostenibilidad, calidad artesanal, precio justo",
+    "return_policy": "30 días sin preguntas",
+    "loyalty_program": "MiPuntos — 1 punto por cada $1 gastado",
+}
+
+class ChatRequest(BaseModel):
+    user_id: str
+    session_id: str
+    message: str
+    cart_id: str | None = None
+
+MEDUSA_URL = "http://localhost:9000"
+GORSE_URL = "http://localhost:8088"
+
+# Store chat histories per session
+sessions = {}
+
+@app.post("/chat")
+async def brand_chat(req: ChatRequest):
+    """Endpoint del agente embedded del brand."""
+    history = sessions.get(req.session_id, [])
+
+    # Enriquecer contexto con datos del cliente
+    customer_context = get_customer_context(req.user_id)
+    recs = get_recommendations(req.user_id)
+
+    system_prompt = f"""Eres el asistente personal de compras de {BRAND_CONFIG['brand_name']}.
+Personalidad: {BRAND_CONFIG['brand_voice']}.
+Valores del brand: {BRAND_CONFIG['brand_values']}.
+
+Información del cliente actual:
+{customer_context}
+
+Productos recomendados para este cliente:
+{recs[:3]}
+
+Política de devoluciones: {BRAND_CONFIG['return_policy']}
+Programa de fidelización: {BRAND_CONFIG['loyalty_program']}
+
+Sé el experto del brand — usa el conocimiento de la tienda y del cliente para dar recomendaciones genuinas.
+NUNCA menciones competidores ni otras plataformas de AI (ChatGPT, etc.)."""
+
+    history.append({"role": "user", "content": req.message})
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=768,
+        system=system_prompt,
+        messages=history
+    )
+
+    reply = response.content[0].text
+    history.append({"role": "assistant", "content": reply})
+    sessions[req.session_id] = history[-30:]  # últimos 30 turnos
+
+    return {
+        "reply": reply,
+        "session_id": req.session_id,
+        "recommendations": recs[:3]
+    }
+
+def get_customer_context(user_id: str) -> str:
+    """Carga historial y preferencias del cliente desde Medusa."""
+    try:
+        resp = requests.get(f"{MEDUSA_URL}/admin/customers/{user_id}",
+                           headers={"x-medusa-access-token": "..."})
+        c = resp.json().get("customer", {})
+        return (f"Nombre: {c.get('first_name', 'Cliente')}. "
+                f"Pedidos: {c.get('orders', {}).get('count', 0)}. "
+                f"Puntos de fidelización: {c.get('metadata', {}).get('loyalty_points', 0)}.")
+    except Exception:
+        return "Nuevo cliente — sin historial."
+
+def get_recommendations(user_id: str, n: int = 6) -> list:
+    """Recomendaciones personalizadas de Gorse."""
+    try:
+        resp = requests.get(f"{GORSE_URL}/api/recommend/{user_id}?n={n}")
+        return resp.json() if resp.status_code == 200 else []
+    except Exception:
+        return []
+```
+
+---
+
+## Patrón 10 — WooCommerce 10.9 Full Agentic Upgrade
+
+**Caso de uso**: Migrar tienda WooCommerce existente a "agentic-ready" usando las 7 abilities nativas de v10.9 + Claude Code como brain del agent. Para clientes con WooCommerce ya instalado (40% del retail LATAM).
+
+**Stack**:
+- WooCommerce 10.9+ (7 MCP abilities en core)
+- Claude Code + MCP adapter (ya conectado a WC 10.9)
+- [gorse-io/gorse](https://github.com/gorse-io/gorse) (Apache-2.0) — recomendaciones
+- [apache/superset](https://github.com/apache/superset) (Apache-2.0) — dashboards analytics
+
+**Por qué este patrón**:
+- WooCommerce 10.9 ya expone productos-query, product-create, product-update, product-delete, orders-query, order-update-status, order-add-note **sin código adicional**
+- Setup time: instalación de plugin + configurar Claude Code = 1-2 días
+- Roadmap WC Q3 2026: Checkout ability → primera tienda WC con agentic checkout completo
+
+**Tiempo estimado**: 2-3 semanas (con WC ya instalado) | **Deal size LATAM**: $30k-80k
+
+```bash
+# 1. Actualizar WooCommerce a 10.9+
+wp plugin update woocommerce
+
+# 2. Configurar MCP adapter en claude_desktop_config.json
+# (WC 10.9 expone nativo via WordPress MCP Adapter)
+
+# 3. Claude Code ya puede:
+# - "Lista los 10 productos más vendidos este mes"
+# - "Crea un producto nuevo: Camiseta Azul, $29.99, stock 50"
+# - "Actualiza el estado del pedido #1234 a 'enviado'"
+# - "Agrega nota al pedido #1234: 'paquete frágil, manejo especial'"
+```
+
+```python
+# wc_agentic_integration.py — Claude agent con WC 10.9 via MCP + Gorse recs
+from anthropic import Anthropic
+import subprocess
+import json
+
+client = Anthropic()
+
+# El MCP server de WC 10.9 ya expone los tools via Node.js adapter
+# Claude recibe automáticamente: products_query, product_create,
+# product_update, product_delete, orders_query, order_update_status, order_add_note
+
+WC_MCP_CONFIG = {
+    "mcpServers": {
+        "woocommerce": {
+            "command": "npx",
+            "args": ["@woocommerce/mcp-server"],
+            "env": {
+                "WOOCOMMERCE_URL": "https://mitienda.com",
+                "WOOCOMMERCE_KEY": "ck_...",
+                "WOOCOMMERCE_SECRET": "cs_..."
+            }
+        },
+        "gorse": {
+            "command": "python",
+            "args": ["gorse_mcp_bridge.py"],  # bridge personalizado
+            "env": {"GORSE_URL": "http://localhost:8088"}
+        }
+    }
+}
+
+# Con esta configuración, Claude puede responder:
+# "¿Qué productos tienen stock crítico (< 5 unidades)?"
+# → usa products_query con filter stock_quantity__lt=5
+#
+# "¿Cuál fue el revenue total esta semana?"
+# → usa orders_query con date_after=fecha_inicio_semana
+#
+# "Añade envío gratis al pedido #1234 como excepción"
+# → usa order_add_note + order_update_status
+
+def wc_ai_analytics_report(natural_language_question: str) -> str:
+    """Usa Claude + WC MCP para responder preguntas de analytics en NL."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        system="""Eres el analista de datos de una tienda WooCommerce.
+        Tienes acceso directo a todos los productos, pedidos e inventario.
+        Responde en español con datos precisos y recomendaciones accionables.""",
+        messages=[{"role": "user", "content": natural_language_question}]
+        # MCP tools disponibles automáticamente vía WC 10.9 adapter
+    )
+    return response.content[0].text
+
+# Ejemplo de uso:
+# reporte = wc_ai_analytics_report("¿Cuáles son los 5 productos con mayor abandono de carrito?")
+```
+
+---
+
 ## Tabla de selección de patrón
 
-| Si el cliente tiene... | Usa el Patrón | Stack principal |
-|------------------------|---------------|-----------------|
-| Tienda WooCommerce existente | P8 (MCP + Analytics) | WooCommerce MCP + Claude |
-| Retailer nuevo, headless | P1 (Shopping Assistant) | Medusa + Gorse + Claude |
-| Quiere AI agents comprando en su tienda | P2 (Agentic Checkout UCP) | NVIDIA Agentic-Commerce + UCP |
-| Catálogo de imágenes sin descripción | P4 (Catalog Enrichment) | Claude Vision + Medusa |
-| Mercado LATAM, WhatsApp-first | P5 (WhatsApp Commerce) | Medusa + Claude + WhatsApp API |
-| Precios inestables / alta competencia | P6 (Dynamic Pricing) | Tensor-House + Claude + Odoo |
-| Warehouse / supply chain complejo | P7 (Warehouse Intelligence) | NVIDIA Warehouse + LangGraph + Odoo |
-| Catálogo grande, recomendaciones | P3 (Hybrid Recommender) | Gorse + LightFM + pgvector |
+| Si el cliente tiene... | Usa el Patrón | Stack principal | Deal Size |
+|------------------------|---------------|-----------------|-----------|
+| Tienda WooCommerce 10.9+ existente | P10 (WC Agentic Upgrade) | WooCommerce MCP + Claude | $30k-80k |
+| Tienda WooCommerce, analytics básico | P8 (MCP + Analytics) | WooCommerce MCP + Superset | $20k-60k |
+| Retailer nuevo, headless | P1 (Shopping Assistant) | Medusa + Gorse + Claude | $100k-300k |
+| Quiere on-site agent de marca | P9 (Brand Agent) | Medusa + Gorse + Claude embedded | $80k-250k |
+| Quiere AI agents externos comprando | P2 (Agentic Checkout UCP) | NVIDIA Agentic-Commerce + UCP | $150k-400k |
+| Catálogo de imágenes sin descripción | P4 (Catalog Enrichment) | Claude Vision + Medusa | $60k-150k |
+| Mercado LATAM, WhatsApp-first | P5 (WhatsApp Commerce) | Medusa + Claude + WhatsApp API | $80k-200k |
+| Precios inestables / alta competencia | P6 (Dynamic Pricing) | Tensor-House + Claude + Odoo | $100k-250k |
+| Warehouse / supply chain complejo | P7 (Warehouse Intelligence) | NVIDIA Warehouse + LangGraph + Odoo | $200k-500k |
+| Catálogo grande, recomendaciones | P3 (Hybrid Recommender) | Gorse + LightFM + pgvector | $80k-200k |
 
 ---
 *Ver también: `agents/top.md` para lista completa de agentes y repos.*

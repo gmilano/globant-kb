@@ -1,20 +1,37 @@
 # 🗺️ Mapa de mercado — Retail & E-Commerce AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-08 (v6)
+> Última actualización: 2026-07-08 (v7 — segunda pasada)
 
 ## Tamaño de mercado
 
-| Segmento | 2026 | 2031 | CAGR |
-|----------|------|------|------|
-| AI en Retail (global) | $18.64B | $82.72B | 34.7% |
-| Agentic AI en Retail + eCommerce | $60.43B | $218.37B | 29.29% |
+| Segmento | 2026 | 2030-2031 | CAGR |
+|----------|------|-----------|------|
+| AI en Retail (global) | $18.4B - $18.64B | $82.72B (2031) | 34.7% |
+| Agentic AI en Retail + eCommerce | $60.43B | $218.37B (2031) | 29.29% |
+| AI en eCommerce (específico) | $9.70B | — | 25.7% |
 | eCommerce LATAM (total) | $215B+ | — | crecimiento sostenido |
+| Conversational Commerce LATAM | $18.2B (2025) | — | 35%/año |
 | AI en LATAM (total) | $40.50B | $504.71B | 37.07% |
 
-Fuentes: Mordor Intelligence 2026, Fortune Business Insights, Market Data Forecast.
+Fuentes: Mordor Intelligence 2026, Fortune Business Insights, Market Data Forecast, Scala Technologies.
 
-**Dato clave**: 89% de retailers usan o prueban AI activamente; 58% en deployment activo (NVIDIA State of AI Retail 2026).
+**Datos clave (actualizados v7)**:
+- 89% de retailers usan o prueban AI activamente; 58% en deployment activo (NVIDIA State of AI Retail 2026)
+- Tráfico AI a retail +393% YoY Q1 2026 / +693% en holiday 2025 (Salesforce/Adobe)
+- El tráfico de referencia AI convierte **42% mejor** que búsqueda tradicional
+- Perplexity shoppers: AOV **57% mayor** vs otras plataformas (Shopify Analytics)
+- Consumidores confían **3x más** en on-site AI agents vs ChatGPT/Perplexity (Bain 2026)
+
+## Proyecciones a largo plazo (agentic commerce)
+
+| Fuente | Proyección US 2030 | Proyección Global 2030 |
+|--------|-------------------|----------------------|
+| McKinsey 2026 | ~$1 trillion en revenue orquestado | $3-5 trillion |
+| Bain 2026 | $300-500B (15-25% del eCommerce total) | — |
+| Mordor Intelligence | — | $218.37B (agentic AI retail/ecom solo) |
+
+**Señal estratégica**: La ventana de diferenciación para implementar agentic commerce es 2026-2027. Los que logren integrar UCP/ACP + on-site agents en H2 2026 capturarán el "compound interest" del Q4 holiday 2026 cuando el tráfico AI vuelva a dispararse.
 
 ## Players globales en AI Retail
 

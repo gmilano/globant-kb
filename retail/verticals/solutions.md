@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-08 (v6)
+> Última actualización: 2026-07-08 (v7)
 
 ## Plataformas E-Commerce headless (punto de partida preferido)
 
@@ -11,7 +11,7 @@
 | **Medusa.js** | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31k★ | Node.js/TypeScript | Headless modular, MCP server, ideal para D2C y marketplaces. Base para aceleradores Globant. |
 | **Saleor** | [saleor/saleor](https://github.com/saleor/saleor) | Apache-2.0 | 23k★ | Python/Django + GraphQL | GraphQL-first, multi-canal, multi-warehouse. Ecosystem de apps activo. |
 | **Vendure** | [vendure-ecommerce/vendure](https://github.com/vendure-ecommerce/vendure) | MIT | 6k★ | TypeScript/NestJS | TypeScript-native, plugin architecture. Para equipos TS puros. |
-| **WooCommerce** | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.5k★ | PHP/WordPress | 28% del ecommerce mundial. MCP nativo v10.3. Mercado LATAM enorme. |
+| **WooCommerce** | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.5k★ | PHP/WordPress | 28% del ecommerce mundial. **v10.9 (jun-2026): 7 MCP abilities nativas** (products CRUD + orders). Checkout en preview Q3 2026. Mercado LATAM enorme. |
 | **Bagisto** | [bagisto/bagisto](https://github.com/bagisto/bagisto) | OSL-3.0 | 15k★ | PHP/Laravel | Multi-inventory, multi-currency, multi-canal. Para equipos PHP Laravel. |
 
 ## ERP con módulo E-Commerce
@@ -60,10 +60,18 @@ docker run -d -p 8088:8088 zhenghaoz/gorse-in-one
 ### WooCommerce + AI (para clientes WordPress existentes)
 
 ```bash
-# 1. Actualizar a WooCommerce 10.3+
-# 2. MCP ya disponible nativamente
+# 1. Actualizar a WooCommerce 10.9+ (jun-2026)
+wp plugin update woocommerce
+
+# 2. 7 MCP abilities disponibles nativamente:
+#    products-query, product-create, product-update, product-delete
+#    orders-query, order-update-status, order-add-note
+
 # 3. Configurar Claude Desktop o cualquier cliente MCP
-# 4. Conectar al endpoint MCP del store
+# 4. Conectar al endpoint MCP del store (vía WordPress MCP Adapter)
+# 5. Q3 2026: Checkout ability en preview → agentic checkout completo
+
+# Requisitos: WooCommerce 10.7+, WordPress 6.9+, Node.js 22+
 ```
 
 ### Odoo + AI (para clientes enterprise)

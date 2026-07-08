@@ -1,6 +1,6 @@
 # 📈 Repos en tendencia — Retail & E-Commerce
 
-> Repos activos esta semana en GitHub. Última actualización: 2026-07-08
+> Repos activos esta semana en GitHub. Última actualización: 2026-07-08 (v7)
 
 ## Top trending (jul-2026)
 
@@ -10,7 +10,7 @@
 | [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~600★ | Primera implementación open source de ACP + UCP para checkout AI |
 | [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~500★ | GenAI para enriquecer catálogos de producto automáticamente con imágenes + texto |
 | [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp) | Apache-2.0 | ~1k★ | El estándar del futuro: Google + Shopify + Target + Walmart en ene-2026 |
-| [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | AGPL-3.0 | 20k★ | Browser agent 2.0 (SOTA en WebVoyager): checkout automático en cualquier tienda |
+| [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | AGPL-3.0 | **21.9k★** | MCP server oficial 35 tools (mar-2026) + Route Memorization → scripts Playwright deterministas |
 | [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | 9.7k★ | LLM rankers + multimodal embeddings v0.5+ activo |
 | [recommenders-team/recommenders](https://github.com/recommenders-team/recommenders) | Apache-2.0 | 20k★ | Estándar de facto Linux Foundation para sistemas de recomendación en producción |
 | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31k★ | v2.x con MCP server y módulos componibles para headless commerce |
@@ -29,11 +29,21 @@
 
 ## Repositorios recientes de interés (Q2-Q3 2026)
 
-| Repo | Descripción |
-|------|-------------|
-| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | 10.5k★ GPL-2.0 — MCP nativo + AI roadmap activo (agentic commerce Q3 2026) |
-| [mall4j](https://github.com/gz-yami/mall4j) | 5.1k★ AGPL-3.0 — plataforma Java O2O cross-border, activa en mercado chino |
-| [odoo/odoo](https://github.com/odoo/odoo) | 40k★ LGPL — modulo ecommerce + CRM + inventario con AI integrado |
+| Repo | Stars | Descripción |
+|------|-------|-------------|
+| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | 10.5k★ | GPL-2.0 — **v10.9 (jun-2026): 7 canonical MCP abilities nativas** (products CRUD + orders) |
+| [mall4j](https://github.com/gz-yami/mall4j) | 5.1k★ | AGPL-3.0 — plataforma Java O2O cross-border, activa en mercado chino |
+| [odoo/odoo](https://github.com/odoo/odoo) | 40k★ | LGPL — modulo ecommerce + CRM + inventario con AI integrado |
+
+## Señales del ecosistema AI Shopping (jul-2026)
+
+| Plataforma | Señal | Impacto para Globant |
+|------------|-------|---------------------|
+| ChatGPT | Instant Checkout retirado (mar-2026, solo 30 merchants) | On-site agent > agente externo |
+| Perplexity | Shoppers con AOV 57% mayor (Shopify data) | PyMEs deben optimizar feeds estructurados |
+| Amazon | "Buy for Me" + Rufus + Alexa+ alineados | Diferenciarse en UX de marca |
+| Google | "Buy for Me" live en US retailers seleccionados | UCP se convierte en el protocolo prioritario |
+| Bain 2026 | 3x mayor confianza en on-site agents | Argumento de venta directo para P9 |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

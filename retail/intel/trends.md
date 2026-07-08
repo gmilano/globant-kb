@@ -1,6 +1,6 @@
 # 📡 Tendencias — Retail & E-Commerce AI
 
-> Última actualización: 2026-07-08 (v6)
+> Última actualización: 2026-07-08 (v7 — segunda pasada)
 
 ## 10 tendencias clave (2026)
 
@@ -52,6 +52,22 @@
 - Alibaba/Pinterest/Google Lens como referencia; open source: CLIP + pgvector + Gorse.
 - El 57% de los consumidores (Gen Z) prefiere buscar productos por imagen antes que por texto (Insider One 2026).
 
+### 11. Guerra de Plataformas AI Shopping — y por qué gana el on-site agent 🔴 NUEVO
+- ChatGPT Instant Checkout: solo 30 merchants en 6 meses → **retirado** (mar-2026). OpenAI pivotó a visual search + comparison.
+- Perplexity Shopping: AOV **57% más alto** que otras plataformas (dato Shopify). PayPal one-click.
+- Amazon "Buy for Me" + Rufus: dominante en productos físicos, fuerte en recompra.
+- **Bain 2026**: Consumidores confían **3x más** en agentes de la propia tienda vs ChatGPT/Perplexity.
+- **Conclusión estratégica para Globant**: No integrar ChatGPT checkout como primero paso. Construir el agente embedded en el propio brand del retailer. El valor diferencial está en la confianza de marca + datos propios.
+- **Tráfico AI +393% YoY** (Q1 2026) — el canal AI supera a social en volumen de referencia.
+
+### 12. WooCommerce 10.9 → Tiendas como MCP Endpoints Nativos 🔴 NUEVO
+- **Jun-23-2026**: WooCommerce 10.9 lanza 7 canonical abilities en core (products CRUD + orders management).
+- **Transport-neutral**: misma ability funciona vía MCP, REST API, WP-CLI, admin tooling.
+- **Arquitectura emergente**: "store-as-context" — todo el catálogo, pedidos e inventario disponible para LLMs sin code adicional.
+- **Roadmap Q3 2026**: Checkout ability en preview → primera tienda WooCommerce con checkout AI-nativo completo.
+- **Superficie LATAM**: ~40% de tiendas LATAM usan WooCommerce → enorme base para propuestas de AI retail sin migración de plataforma.
+- **Acción Globant**: Paquete "WooCommerce AI Upgrade" — instalar 10.9 + configurar Claude Code + Gorse + Superset en 2-3 semanas ($30-80k).
+
 ### 10. Confianza y privacidad — el freno principal
 - Solo el 40% de usuarios confían plenamente en AI para transacciones autónomas (Retailer Customer Experience 2026).
 - LATAM: LGPD (Brasil) + leyes similares en AR, MX, CO — datos locales son requisito.
@@ -62,10 +78,14 @@
 | Señal | Fuente | Impacto | Urgencia |
 |-------|--------|---------|----------|
 | UCP + ACP en producción (20+ retailers) | NRF 2026 / NVIDIA | Muy alto | Inmediata |
-| WooCommerce MCP nativo (28% de tiendas) | WooCommerce Blog | Alto | Q3 2026 |
+| WooCommerce 10.9 — 7 MCP abilities nativas (jun-2026) | WooCommerce Dev Blog | Muy alto | **Inmediata** |
 | Cyber Week AI 7x ROI | Salesforce 2025 | Alto | Caso de venta |
+| AI tráfico retail +393% YoY Q1 2026, convierte 42% mejor | Adobe / Salesforce | Muy alto | Caso de venta |
+| ChatGPT Checkout retirado — on-site agent 3x más confiado | Bain 2026 | Alto | Estrategia |
+| Perplexity shoppers: AOV 57% mayor | Shopify Analytics | Alto | Caso de venta |
+| McKinsey: $1T US agentic revenue 2030, $3-5T global | McKinsey 2026 | Muy alto | Visión CEO |
 | LATAM ecommerce >$215B | MercadoLibre / Mordor | Muy alto | Pipeline |
-| 33% consumidores → AI compras autónomas | Morgan Stanley 2026 | Muy alto | Propuesta estratégica |
+| LATAM conversational commerce $18.2B (2025) CAGR 35% | Scala Technologies | Alto | Pipeline |
 
 ---
 *Pipeline automático — se actualiza cada hora.*
