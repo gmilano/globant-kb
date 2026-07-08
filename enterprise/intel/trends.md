@@ -1,158 +1,134 @@
-# Current Trends — Enterprise AI (July 2026)
+# 📡 Tendencias — Enterprise AI
 
-> The signals shaping enterprise AI decisions right now.
-> Last updated: 2026-07-08
-
-## Macro Trend: The Agentic Enterprise Tipping Point
-
-April 2026 is widely cited as the inflection point where agentic AI moved from pilot to production at enterprise scale. Three factors converged:
-
-1. **Model capability crossed the enterprise reliability threshold** — Claude 3.7 / GPT-4.5 / Gemini 2.0 are reliable enough for multi-step autonomous workflows
-2. **MCP standardization** — Model Context Protocol became the de facto standard for agent-to-system integration, reducing integration cost from months to days
-3. **Framework maturity** — LangGraph, CrewAI, Dify, and n8n reached production stability with SLAs, observability, and rollback
-
-**Adoption snapshot (July 2026)**:
-- 57% of organizations have AI agents in production workflows
-- 84% plan to increase AI agent investment this year
-- 40% of enterprise apps projected to have task-specific agents by year-end
-- Average ROI: 171% from agentic AI deployments
+> Tendencias con evidencia real. Cada trend tiene un dato concreto y una implicación para Globant.
+> Última actualización: 2026-07-08
 
 ---
 
-## Trend 1: Microsoft Agent Framework Becomes the .NET Enterprise Standard
+## Trend 1: Agentic Arbitrage — $234B en SaaS en riesgo (Gartner Jul 2026)
+**Evidencia:** Gartner (Jul 1, 2026): hasta $234B en enterprise software SaaS spending expuesto a "agentic arbitrage" antes de 2030. Los agentes AI completan tareas cruzando sistemas sin interactuar con interfaces, rompiendo el modelo seat-based licensing.
 
-**What happened**: April 3, 2026 — Microsoft shipped MAF 1.0, merging AutoGen and Semantic Kernel into a unified SDK with production LTS APIs.
+**Impacto:** SAP, Salesforce, ServiceNow van a perder ingresos de licencias. Las empresas que adopten agentes pueden reducir costos de SaaS significativamente. Oportunidad: vender "la capa agentic" que reemplaza licencias.
 
-**Why it matters for Globant**:
-- Most LATAM enterprise clients run Microsoft 365 / Azure / .NET stacks
-- MAF gives a single, Microsoft-supported path from PoC to production
-- A2A (Agent-to-Agent) protocol + MCP support means MAF agents can orchestrate across Dify, n8n, and third-party tools
-- AutoGen will continue to receive security patches but no new features → migration window is now
-
-**What to watch**: MAF 2.0 roadmap includes autonomous agent fleet management and Azure AI Foundry deep integration.
+**Señal de monitoreo:** [Gartner Newsroom](https://www.gartner.com/en/newsroom/press-releases/2026-07-01-gartner-says-us-dollars-234-billion-in-enterprise-application-software-spend-is-at-risk-from-agentic-artificial-intelligence)
 
 ---
 
-## Trend 2: Hybrid RPA + Agentic AI Stacks
+## Trend 2: Consolidación de frameworks — Microsoft Agent Framework 1.0 (Apr 2026)
+**Evidencia:** Microsoft lanzó MAF 1.0 (Apr 3, 2026): AutoGen + Semantic Kernel unificados. Repositorio AG2 (ag2ai/ag2, Apache-2.0, 22k ★). Ahora hay 3 tier-1 frameworks: LangGraph (open-source leader), MAF (Microsoft enterprise), CrewAI (accessible mid-tier).
 
-**What's happening**: Traditional RPA (UiPath, Automation Anywhere, Blue Prism) is being augmented — not replaced — by agentic AI. The winning architecture in 2026:
+**Impacto:** Fin de la fragmentación AutoGen vs SK. Clientes .NET/Azure tienen ahora stack enterprise completo open-source. LangGraph consolida liderazgo en producción cross-cloud.
 
-```
-RPA bots          → Handle high-volume, deterministic tasks (form fill, data extract)
-Agentic AI        → Handle exception handling, dynamic reasoning, and cross-system orchestration
-Power Platform    → Connective tissue (in Microsoft stacks)
-n8n / LangGraph   → Connective tissue (in open-source stacks)
-```
-
-**Evidence**:
-- UiPath acquired Mindbridge AI (contract intelligence)
-- Automation Anywhere embedded LLM reasoning into its agent framework
-- Klarna replaced 700 Zendesk agents with AI — then re-hired humans for oversight
-
-**Globant opportunity**: Many enterprise clients have RPA investments they cannot abandon. A hybrid migration approach (RPA → Agentic AI for exceptions) is lower risk than full replacement.
+**Tech watch:** LangGraph v1.1 Jun 2026 (DeltaChannel, streaming v2), CrewAI v1.14 Jun 2026 (pluggable backends).
 
 ---
 
-## Trend 3: RAG as the Enterprise Memory Layer
+## Trend 3: Visual builders dominan el tier medio (2026)
+**Evidencia:** Langflow 146k ★, Dify 138k ★, Flowise 40k ★. CB Insights: >300k ★ combinados, mayoría del crecimiento últimos 18 meses. Dify $30M raised 2026. IBM adquiere Langflow via DataStax.
 
-**What's happening**: Enterprise knowledge bases are moving from static wikis to dynamic RAG systems that agents query in real-time.
+**Impacto:** Domain experts (ops managers, analistas financieros, RRHH) construyen agentes sin ML engineers. Esto democratiza pero también baja el valor percibido de "construir un agente". Globant debe subir la escalera hacia implementaciones complejas, gobernanza y producción.
 
-**Stack of choice (2026)**:
-- **RAGFlow** — for complex PDF/Word/Excel document parsing with table extraction
-- **Qdrant** (MIT) or **Weaviate** (BSD-3) — vector database layer
-- **LangGraph** — for stateful agent that queries RAG, acts, and updates memory
-
-**Key metric**: RAGFlow reached 73k stars with citation grounding (every answer shows the source document + page + paragraph). This is the differentiator for regulated industries (finance, legal, healthcare, government).
-
-**LATAM signal**: Spanish/Portuguese document ingestion is the untapped gap. RAGFlow + a Portuguese-language embedding model (e.g., from Maritaca AI) enables full LATAM enterprise deployment.
+**Señal clave:** n8n 2.0 (Jan 2026) — 70+ AI nodes, MCP nativo. El workflow automation y el agent builder convergen.
 
 ---
 
-## Trend 4: CRM Becoming AI-First
+## Trend 4: EU AI Act enforcement total Aug 2, 2026 (25 días)
+**Evidencia:** EU AI Act entra en vigencia plena el 2 de agosto de 2026. Sistemas high-risk (Annex III: empleos, crédito, salud, educación, biometría, infraestructura crítica) requieren: evaluación de conformidad, documentación técnica, gestión de riesgos continua, registro EU.
 
-**What's happening**: The CRM market is bifurcating:
-- **Salesforce Agentforce** — AI agents directly in Salesforce CRM (expensive, proprietary)
-- **Twenty CRM** — open-source CRM with native MCP, letting any AI agent read/write CRM records
+**Impacto:** Clientes europeos (y LATAM con operaciones en Europa) necesitan governance stack urgente. OpenMetadata + Langfuse + OPA = el stack OSS preferido para compliance. Ventana de proyectos urgentes en los próximos 25 días.
 
-**Why Twenty matters**:
-- 45k GitHub stars in 2 years — fastest-growing CRM
-- Native MCP server means Claude, GPT, and Gemini can operate the CRM without custom connectors
-- API-first GraphQL architecture is AI agent-friendly by design
-- AGPL-3.0 — self-hostable by clients for data privacy
-
-**Trend**: Companies that adopt AI-native CRM in 2026 will have a 2-year head start on competitors still customizing Salesforce.
+**Stack compliance:** OpenMetadata (data catalog) + Langfuse (audit trail LLM) + OPA (policy enforcement) + LangGraph (workflow con HITL).
 
 ---
 
-## Trend 5: EU AI Act Compliance Forcing Governance Tooling Adoption
+## Trend 5: MCP como estándar enterprise AI (2026)
+**Evidencia:** Model Context Protocol: 5000+ servers en ecosistema (Jul 2026 RC). 97M descargas/mes (modelcontextprotocol/servers MIT, 18k ★). Linux Foundation adoptó MCP. n8n 2.0 integra MCP nativo. Dify + Langflow adoptaron MCP 2026. Zapier MCP con 9000+ apps.
 
-**⚠️ DEADLINE IN 25 DAYS**: EU AI Act full obligations begin **August 2, 2026** for high-risk AI applications. As of July 8, 2026, organizations have 25 days to achieve compliance or face enforcement.
+**Impacto:** MCP se convierte en el "USB-C de la IA empresarial" — estándar de conexión entre agentes y herramientas enterprise. Cualquier sistema con MCP server puede ser orquestado por Claude, GPT-4, Gemini. ERPNext, Odoo, OpenMetadata ya tienen MCP servers.
 
-**What enterprises must have**:
-- Risk classification system for AI use cases
-- Audit logs for all AI-driven decisions
-- Human oversight mechanisms for high-stakes workflows
-- Model documentation (model cards, data provenance)
-- Data residency compliance (no EU data leaving EU)
-
-**Open-source governance stack**:
-- **LangFuse** (MIT) — LLM observability, traces, and audit logs
-- **MLflow** (Apache-2.0) — Model registry, experiment tracking, model cards
-- **Open Policy Agent** (Apache-2.0) — Policy enforcement for AI actions
-- **Arize Phoenix** (Apache-2.0) — AI evaluation and monitoring
-
-**Globant opportunity**: EU AI Act compliance as a packaged service — deploy the governance stack alongside any enterprise AI implementation for clients with EU presence.
+**Posicionamiento Globant:** Construir MCP servers para sistemas ERP/CRM legacy de clientes = diferenciador técnico de alto valor.
 
 ---
 
-## Trend 6: Self-Hosted AI Replacing Cloud AI for Data-Sensitive Enterprises
+## Trend 6: HITL (Human-in-the-Loop) mandatorio en enterprise (2026)
+**Evidencia:** En 2026, n8n, Dify, Flowise, LangFlow y Langchain todos añadieron soporte nativo HITL. EU AI Act Annex III exige aprobación humana para decisiones de alto riesgo. LangGraph añadió interrupt() y checkpointing en v1.0.
 
-**What's happening**: Enterprises with LGPD (Brazil), GDPR, HIPAA, or CCPA constraints are moving away from cloud LLMs to:
-- **Self-hosted Ollama** (MIT) — run Llama 3, Mistral, Qwen locally
-- **LM Studio** — developer-friendly local LLM runner
-- **vLLM** (Apache-2.0) — high-throughput LLM serving for on-premise deployment
-- **Dify self-hosted** + **local LLM** = full enterprise AI stack with zero data egress
+**Impacto:** Agentes en producción enterprise no corren en full-autopilot — tienen puntos de aprobación humana, especialmente en: contratación, crédito, diagnóstico médico, compliance. Los patrones de orquestación deben diseñarse con HITL desde el inicio.
 
-**LATAM signal**: Brazil's LGPD enforcement is tightening. Financial services and healthcare clients in Brazil increasingly require data residency. Self-hosted AI is becoming a sales advantage, not just a compliance checkbox.
+**Patrón arquitectónico:** LangGraph interrupt() → Slack/Teams webhook → aprobación humana → resume().
 
 ---
 
-## Trend 7: MCP (Model Context Protocol) as the Enterprise Integration Standard
+## Trend 7: LLM Observabilidad — de nice-to-have a mandatoria (2026)
+**Evidencia:** Langfuse 28k ★ (MIT), Opik 8.5k ★ (Apache-2.0), Arize Phoenix 7.2k ★. EU AI Act requiere audit trails. 57% organizations tienen AI agents en producción — sin observabilidad, es "black box" no auditable.
 
-**What's happening**: MCP has become the de facto protocol for connecting AI agents to enterprise systems. In December 2025, Anthropic donated MCP to the Agentic AI Foundation (AAIF) under the Linux Foundation — co-founded by Anthropic, Block, and OpenAI. As of July 2026: **97M monthly SDK downloads**, **10,000+ active MCP servers in production**. Every major enterprise platform is adding MCP support:
-- Twenty CRM: native MCP server
-- ERPNext: community MCP server (rakeshgangwar/erpnext-mcp-server, MIT)
-- OpenMetadata: built-in MCP server (AI agents get data catalog access)
-- Odoo: community MCP modules emerging
-- GLPI: API-to-MCP wrapper pattern
-- Microsoft products: built into MAF 1.0
+**Impacto:** Todo deployment enterprise en producción debe incluir LLM observabilidad desde día 1. Langfuse self-hosted es el estándar OSS: Docker Compose listo, integración con LangChain/Claude/OpenAI nativa.
 
-**Why this matters**: MCP reduces AI integration cost from "custom API development" to "configure MCP server." A Dify or Claude-powered agent can operate any MCP-enabled system via natural language within days, not months. The Linux Foundation governance gives enterprises the open-standard confidence needed for long-term investment.
+**Costo omitirlo:** Imposibilidad de compliance EU AI Act + ausencia de diagnóstico de fallos en producción.
 
 ---
 
-## Numbers to Quote in Client Conversations
+## Trend 8: Coding agents en producción enterprise (2026)
+**Evidencia:** OpenHands 70k ★, 72% SWE-bench Verified (Jun 2026). Claude Mythos 5 alcanzó 95.5% SWE-bench (Jul 6, 2026). OpenHands Software Agent SDK (MIT) lanzado para production deployments. Claude Code mandatory hiring requirement en BEON.tech.
 
-| Stat | Value | Source |
-|------|-------|--------|
-| Enterprise apps with AI agents (end 2026) | 40% | Gartner |
-| Global 2000 roles engaging with agents (end 2026) | 40% | IDC |
-| Agentic AI spending 2026 | **$201.9B** (141% YoY surge) | Multiple analysts |
-| Agentic AI market (pure-play enterprise) | $9.14–$10.86B | Gartner / IDC |
-| Enterprises claiming AI agent adoption | 79% | Accelirate |
-| Enterprises actually in production | 11% | Accelirate |
-| Agentic projects canceled by 2027 (Gartner warning) | 40% | Gartner |
-| Average agentic AI ROI | 171% (US: 192%) | OneReach |
-| Klarna AI agent savings | $60M, 853 FTE equivalent | Klarna Q3 2025 |
-| Enterprises with mature AI governance | 21% | Deloitte |
-| LATAM AI market 2026 | $40.5B | MarketDataForecast |
-| LATAM enterprise AI deployment rate | 47% | IDC / Numoru |
-| LATAM orgs planning AI budget increase | 97% (+14% avg) | IDC LATAM 2026 |
-| LATAM interannual agentic growth expected | 80% | IDC |
-| MCP monthly SDK downloads | 97M | Anthropic / Linux Foundation |
-| Active MCP servers in production | 10,000+ | Linux Foundation AAIF |
-| Time savings from agentic AI | 65–86% vs human-only | Stanford HAI / MIT CSAIL |
-| McKinsey projected US AI economic value (2030) | $2.9T/year | McKinsey |
+**Impacto:** Casos de uso enterprise: legacy migration (COBOL→Python, SAP→cloud), code review automatizado, test generation, refactoring. Reducción 30–50% en tiempo de desarrollo en proyectos piloto. Globant puede ofrecer "AI-accelerated software delivery" como servicio diferenciado.
+
+**Benchmark:** SWE-bench Verified evolución: 2024 ~20% → Jun 2026 72% (OpenHands) → Jul 2026 95.5% (Claude Mythos 5).
 
 ---
-*Sources: Gartner Hype Cycle for Agentic AI 2026, Deloitte "Agentic AI is Scaling Faster Than Guardrails", OneReach AI Agentic Stats 2026, Accelirate Agentic AI Statistics 2026, FifthRow Enterprise Tipping Point Report*
+
+## Trend 9: Hyperautomation enterprise — workflow + agent convergen (2026)
+**Evidencia:** n8n 2.0 (Jan 2026) unifica workflow automation + AI agents. 57% enterprises ya tienen agentes en production workflows. Deloitte Tech Trends 2026: "agentic AI strategy" como prioridad #1. Gartner predice que 40% enterprise apps tendrán agents para fin 2026.
+
+**Impacto:** El mercado de automation (RPA, BPM) se está comiendo el mercado de AI agents, y viceversa. Las plataformas de hyperautomation (n8n, Make.com) añaden AI; los frameworks de agentes añaden workflow. Clientes preguntan: "¿debo usar RPA o AI agents?" — la respuesta es: "ambos en capas".
+
+**Arquitectura ganadora:** RPA/automation (n8n) para tareas estructuradas → Agentes AI (LangGraph/CrewAI) para tareas semiestructuradas y razonamiento.
+
+---
+
+## Trend 10: LATAM como next wave enterprise AI (2026-2028)
+**Evidencia:** LATAM AI market $40.5B (2026) → $504.7B (2034) CAGR 37.07%. 47% enterprise deployment rate. 75% business leaders esperan agentes autónomos para fin 2026. 150k posiciones ML/AI shortage en LATAM.
+
+**Impacto:** LATAM está 18–24 meses detrás de US/EU en adopción enterprise AI — ventana de oportunidad. Brasil (LGPD) y Chile (Política AI) son los más maduros regulatoriamente. México tiene el mayor mercado sin regulación (riesgo pero también agilidad).
+
+**Brecha clave Globant:** La mayoría de frameworks y soluciones enterprise AI están en inglés, sin adaptación para regulación local ni integración con sistemas ERP/CRM locales (Tango, TOTVS, iDempiere). Globant puede ser el puente.
+
+---
+
+## Trend 11: SLMs (Small Language Models) para enterprise edge (2026)
+**Evidencia:** Microsoft Phi-4 (14B), Mistral 7B, Llama 3.2 (1B/3B). Beneficios: 10–30x más económicos que GPT-4/Claude para tareas simples, self-hosted para LGPD/compliance, latencia <100ms edge. Khan Academy + Phi-3 para tutoring offline.
+
+**Impacto enterprise:** Clasificación de tickets, extracción de datos de documentos, routing de workflows — estas tareas no necesitan frontier models. Stack recomendado: Haiku/Phi-4 para tasks simples, Claude Sonnet para reasoning, Claude Sonnet 5/Opus para tasks complejos.
+
+**Ahorro estimado:** 60–80% reducción en costos de inferencia usando SLM/small models para tareas simples + frontier model para reasoning.
+
+---
+
+## Trend 12: Agentic AI governance como disciplina emergente (2026)
+**Evidencia:** 40% de proyectos AI enterprise serán cancelados para 2027 por falta de governance (Gartner). EU AI Act Annex III activo. OpenMetadata + DataHub se posicionan como "AI system of record". OPA (Open Policy Agent, CNCF) para policy enforcement en pipelines agentic.
+
+**Impacto:** No es suficiente desplegar agentes — hay que gobernarlos: qué datos acceden, qué acciones pueden ejecutar, cómo se auditan las decisiones. El "AI Control Plane" emerge como capa mandatoria en enterprise deployments.
+
+**Stack governance:** OpenMetadata (catalog) + Langfuse (traces) + OPA (policies) + LangGraph (checkpointing/HITL) + Keycloak (AuthN/AuthZ).
+
+---
+
+## Timeline de señales clave 2026
+
+| Fecha | Evento | Impacto |
+|-------|--------|---------|
+| 2026-01 | n8n 2.0: 70+ AI nodes + MCP nativo | Workflow + AI convergence |
+| 2026-04-03 | Microsoft Agent Framework 1.0 GA | Framework consolidation |
+| 2026-04 | Dify $30M + 138k ★ | Visual builder maduration |
+| 2026-06-22 | LlamaIndex Workflows 1.0 | Ecosystem expansion |
+| 2026-06-23 | Pydantic AI v2 | Type-safe agents Python |
+| 2026-06-25 | AI agents dominate GitHub trending | Mass adoption signal |
+| 2026-07-01 | Gartner: $234B SaaS at risk | Enterprise disruption signal |
+| 2026-07-06 | Claude Mythos 5: 95.5% SWE-bench | Coding agents frontier |
+| 2026-07-08 | TODAY: 25 días para EU AI Act enforcement | Compliance urgency |
+| 2026-08-02 | EU AI Act full enforcement | Compliance deadline |
+| 2026-Q4 | Gartner target: 40% enterprise apps con AI agents | Adoption milestone |
+| 2027 | Agentic arbitrage impact visible en SaaS revenues | Market disruption |
+
+---
+*Actualizado por pipeline de ingest. Ver `intel/market.md` para datos de mercado.*

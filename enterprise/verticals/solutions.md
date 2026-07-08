@@ -1,146 +1,181 @@
-# Enterprise Vertical Solutions — AI-Ready Platforms
+# 🏭 Verticales de partida — Enterprise
 
-> Real platforms Globant can fork, customize, and layer AI on top of.
-> Model: start with a functional system → add agentic layer → build vertical solution.
-> Last updated: 2026-07-08
-
-## ERP (Enterprise Resource Planning)
-
-### Odoo
-- **Repo**: [github.com/odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52k stars
-- **Stack**: Python, PostgreSQL, OWL (JS framework), Docker
-- **Modules**: Accounting, Inventory, Manufacturing, CRM, HR, eCommerce, Project, Purchase, Sales
-- **AI Integration Points**:
-  - Odoo AI module (Odoo 18): CRM lead scoring, email summarization, chatbot builder
-  - REST/RPC API for agent-driven CRUD on any model
-  - n8n official Odoo node for workflow automation
-  - Custom module pattern: inherit `mail.thread` → inject LLM suggestions into chatter
-- **Globant Use Case**: Mid-market manufacturing/distribution ERP modernization with AI copilots
-- **LATAM Presence**: Strong Brazil, Mexico, Argentina deployments; 100+ Odoo partners in LATAM
-
-### ERPNext + Frappe
-- **Repo**: [github.com/frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k stars
-- **Stack**: Python (Frappe Framework), MariaDB, Redis, Vue.js
-- **Modules**: Accounting, HR, Payroll, Manufacturing, Supply Chain, CRM, Project
-- **AI Integration Points**:
-  - [ERPNext MCP Server](https://github.com/rakeshgangwar/erpnext-mcp-server) — expose ERP as MCP tools for Claude/GPT
-  - Frappe Framework API-first: every DocType auto-generates REST + Webhooks
-  - AI extensions available: frappe-ai (text generation), frappe-copilot (smart forms)
-  - LangChain integration via REST API and webhook triggers
-- **Globant Use Case**: SME ERP implementation with AI-driven procurement, invoicing, and supply chain agents
-- **LATAM Fit**: GPL-3.0 allows deployment; actively used in India + emerging markets; LATAM community growing
+> Plataformas enterprise open source customizables con AI.
+> Modelo: partir de algo funcional y probado, añadir capa agéntica arriba.
+> Última actualización: 2026-07-08
 
 ---
 
-## CRM (Customer Relationship Management)
+## 1. ERP (Enterprise Resource Planning)
 
-### Twenty CRM
-- **Repo**: [github.com/twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45k stars
-- **Stack**: TypeScript, React, Node.js, PostgreSQL, GraphQL
-- **AI Integration Points**:
-  - **Native MCP server** (Cloud) — AI agents read/write CRM records, pipelines, contacts via natural language
-  - GraphQL + REST API-first — every object queryable by AI agents
-  - Custom objects and fields with schema-driven AI form completion
-  - n8n integration for automated deal stage progressions
-- **Best For**: AI-native sales teams, startups, and enterprises wanting Salesforce alternatives
-- **Globant Use Case**: Build AI-augmented sales copilot on top of Twenty for client sales teams
+| Plataforma | Licencia | Stars | Stack | Caso de uso AI |
+|------------|----------|-------|-------|----------------|
+| [Odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52.8k | Python + OWL/JS | AI sobre ERP: chat con datos financieros, automatización compras, demand forecasting |
+| [ERPNext](https://github.com/frappe/erpnext) | GPL-3.0 | 36.4k | Python + Frappe framework | MCP server via erpnext-mcp-server; PYME LATAM con Claude |
+| [Apache OFBiz](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 1.1k | Java | Único ERP Apache-2.0 enterprise. AI agents sobre SCM, CRM, eCommerce |
+| [Dolibarr](https://github.com/Dolibarr/dolibarr) | GPL-3.0 | 5.3k | PHP | PYME Europa + LATAM. REST API para agentes AI. 600+ módulos. |
+| [iDempiere](https://github.com/idempiere/idempiere) | GPL-2.0 | 430 | Java OSGi | ERP en LATAM (Argentina, Colombia, Ecuador). Plugin-based. |
 
-### SuiteCRM
-- **Repo**: [github.com/salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4k stars
-- **Stack**: PHP, MySQL/MariaDB, Bootstrap
-- **Scale**: ~2M downloads, 5M active users globally
-- **AI Integration Points**:
-  - REST API v8 for agent-driven lead/contact/opportunity CRUD
-  - Logic Hooks (PHP callbacks) as agentic trigger points
-  - Email-to-case, call transcription → AI summary plugins
-  - Community AI modules for lead scoring via scikit-learn
-- **Globant Use Case**: Legacy SuiteCRM migration to AI-augmented CRM for large sales organizations
+### Setup rápido Odoo + AI Agent
+```python
+# Odoo 18 + Claude Agent via XML-RPC
+import xmlrpc.client
+import anthropic
 
----
+# Conectar a Odoo
+url = "http://localhost:8069"
+db, username, password = "mydb", "admin", "admin"
+uid = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/common").authenticate(db, username, password, {})
+models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
 
-## Collaboration & ITSM
-
-### Mattermost
-- **Repo**: [github.com/mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | 29k stars
-- **Stack**: Go (server), React (web), PostgreSQL/MySQL
-- **AI Integration Points**:
-  - Plugin system: deploy LLM agents as Mattermost bots (slash commands, auto-responses)
-  - Mattermost Copilot plugin (self-hosted): LLM-powered thread summarization and Q&A
-  - Webhook bots: agents receive events and post AI-generated responses
-  - Integration with n8n for multi-channel enterprise automation
-- **Globant Use Case**: Deploy AI team assistant bot in Mattermost for knowledge retrieval, meeting summaries, and ticket creation
-
-### GLPI
-- **Repo**: [github.com/glpi-project/glpi](https://github.com/glpi-project/glpi) | GPL-3.0 | 4k stars (200k+ production deployments)
-- **Stack**: PHP, MySQL/MariaDB
-- **Modules**: Ticketing, Asset Management, Change Management, CMDB, Service Catalog
-- **AI Integration Points**:
-  - REST API for agent-driven ticket creation, update, and resolution
-  - FusionInventory plugin for AI-driven asset discovery and cataloging
-  - Custom plugin pattern: AI ticket classifier (RAGFlow → GLPI category assignment)
-  - Webhook → n8n → LLM → GLPI for intelligent auto-routing
-- **Globant Use Case**: AI-augmented ITSM for large enterprises — intelligent ticket triage, KB article suggestions
-
----
-
-## HR & Payroll
-
-### Frappe HR (HRMS)
-- **Repo**: [github.com/frappe/hrms](https://github.com/frappe/hrms) | GPL-3.0 | 2k stars
-- **Stack**: Python (Frappe), MariaDB, Vue.js
-- **Modules**: Recruitment, Onboarding, Leave & Attendance, Expense Management, Payroll, Performance Reviews, Taxation
-- **AI Integration Points**:
-  - ERPNext MCP Server exposes all HR DocTypes to AI agents
-  - AI resume screening: hook recruitment workflow to LLM scoring
-  - Payroll Engine can call LLM for regulation interpretation
-  - n8n integration for onboarding workflow automation
-- **Globant Use Case**: AI-augmented HR platform for mid-market clients — resume screening, payroll anomaly detection
-
----
-
-## Business Intelligence
-
-### Metabase
-- **Repo**: [github.com/metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 38k stars
-- **Stack**: Clojure (server), React (frontend), H2/Postgres/MySQL (app DB)
-- **AI Integration Points**:
-  - Built-in NL query: "Show me revenue by country last quarter" → SQL
-  - Embedding API: embed AI-generated dashboards in enterprise portals
-  - REST API: agents can read questions, cards, and dashboards
-  - AI agents can generate Metabase questions via API and embed results in chat
-- **Globant Use Case**: Build AI analytics copilot on top of Metabase for client reporting teams
-
----
-
-## No-Code / Low-Code Enterprise Apps
-
-### NocoBase
-- **Repo**: [github.com/nocobase/nocobase](https://github.com/nocobase/nocobase) | Apache-2.0 | 15k stars
-- **Stack**: Node.js, React, PostgreSQL
-- **Best For**: Custom internal tools, CRM/ERP extensions, workflow apps without heavy dev
-- **AI Integration Points**:
-  - AI plugin system: embed LLM agents in workflow nodes
-  - Apache-2.0 license — cleanest for Globant to build commercial products
-  - REST API for all data models
-  - Use as frontend for ERPNext/Odoo with AI overlay layer
-- **Globant Use Case**: Rapid custom enterprise app development with AI-driven workflow automation
-
----
-
-## How to Layer AI on Any Platform
-
-```
-1. CONNECT: Expose platform via REST API / MCP server / Webhooks
-2. ORCHESTRATE: n8n (automation layer) or LangGraph (stateful agents) as middleware
-3. GENERATE: RAGFlow for document Q&A; Dify for GenAI workflows; Flowise for quick PoC
-4. ACT: Agents read platform state → reason → write back (create ticket, update CRM, post message)
-5. GOVERN: LangFuse for tracing; MLflow for model management; EU AI Act audit log
+# Agente Claude con tool call para Odoo
+client = anthropic.Anthropic()
+tools = [{
+    "name": "query_odoo",
+    "description": "Query Odoo ERP for business data",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "model": {"type": "string", "description": "Odoo model e.g. sale.order"},
+            "domain": {"type": "array", "description": "Search domain e.g. [['state','=','sale']]"},
+            "fields": {"type": "array", "description": "Fields to return"}
+        }
+    }
+}]
 ```
 
-### Stack Recommendation by Client Size
+---
 
-| Client Size | ERP | CRM | AI Layer | Automation |
-|-------------|-----|-----|----------|------------|
-| SME (<200 employees) | ERPNext + Frappe HR | Twenty CRM | Dify (self-hosted) | n8n |
-| Mid-market (200–2000) | Odoo | SuiteCRM or Twenty | Dify + RAGFlow | n8n + LangGraph |
-| Enterprise (2000+) | Odoo or SAP (custom) | SuiteCRM or Salesforce | MAF + RAGFlow | Microsoft Agent Framework + n8n |
+## 2. CRM (Customer Relationship Management)
+
+| Plataforma | Licencia | Stars | Stack | Caso de uso AI |
+|------------|----------|-------|-------|----------------|
+| [SuiteCRM](https://github.com/suitecrmio/suitecrm-core) | AGPL-3.0 | 4.2k | PHP | CRM feature-parity Salesforce. AI sobre pipeline de ventas, email scoring |
+| [EspoCRM](https://github.com/espocrm/espocrm) | GPL-3.0 | 2.5k | PHP + React | API REST nativa. Webhooks. Más liviano. AI sobre customer 360. |
+| [Twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 27k | TypeScript | CRM moderno open-source. Alternativa Notion/Salesforce. MCP en roadmap. |
+| [Monica](https://github.com/monicahq/monica) | AGPL-3.0 | 22k | PHP + Laravel | Personal CRM. Relaciones + contexto = base para AI relationship manager. |
+
+---
+
+## 3. ITSM / Helpdesk
+
+| Plataforma | Licencia | Stars | Stack | Caso de uso AI |
+|------------|----------|-------|-------|----------------|
+| [Zammad](https://github.com/zammad/zammad) | GPL-3.0 | 4.5k | Ruby on Rails | Helpdesk multi-canal. AI triage de tickets, clasificación auto, sugerencia respuestas. |
+| [Chatwoot](https://github.com/chatwoot/chatwoot) | MIT | 23k | Ruby + Vue | Customer support + live chat. MIT = ideal Globant. AI sobre conversaciones. |
+| [FreeScout](https://github.com/freescout-help-desk/freescout) | AGPL-3.0 | 3.1k | PHP + Laravel | Alternativa HelpScout. Email support. AI draft replies. |
+| [osTicket](https://github.com/osTicket/osTicket) | GPL-2.0 | 3.2k | PHP | Helpdesk clásico. Amplia base instalada LATAM. AI sobre base de conocimiento. |
+
+---
+
+## 4. Project Management / Colaboración
+
+| Plataforma | Licencia | Stars | Stack | Caso de uso AI |
+|------------|----------|-------|-------|----------------|
+| [OpenProject](https://github.com/opf/openproject) | GPL-3.0 | 10k | Ruby on Rails | PM enterprise completo. AI sobre planificación, risk assessment, retrospectivas. |
+| [Plane](https://github.com/makeplane/plane) | AGPL-3.0 | 34k | Python + React | Alternativa Linear/Jira. MCP server en roadmap. AI sobre issues + sprints. |
+| [Taiga](https://github.com/kaleidos-ventures/taiga-back) | AGPL-3.0 | 3.4k | Python + Django | Agile PM. REST API completa. AI sobre velocity + burndown. |
+
+---
+
+## 5. HR (Human Resources)
+
+| Plataforma | Licencia | Stars | Stack | Caso de uso AI |
+|------------|----------|-------|-------|----------------|
+| [OrangeHRM](https://github.com/orangehrm/orangehrm) | GPL-2.0 | 914 | PHP | HRMS global. 5M+ usuarios. AI sobre employee lifecycle, performance reviews. |
+| [iHRIS](https://github.com/iHRIS/iHRIS) | GPL-3.0 | 160 | PHP | HR para sector salud. ONG + gobierno. LATAM adopción. |
+
+---
+
+## 6. Visual AI Builders (No-Code/Low-Code)
+
+| Plataforma | Licencia | Stars | Stack | Caso de uso enterprise |
+|------------|----------|-------|-------|------------------------|
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | 138k | Python + Next.js | RAG + agents + HITL + multi-tenant. Mejor para enterprise no-devs. |
+| [Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 40k | Node.js | Visual canvas LangChain. Prototipos en horas. HITL 2026. |
+| [Langflow](https://github.com/langflow-ai/langflow) | MIT | 60k | Python + React | IBM/DataStax. MCP nativo. Visual + Python API. |
+| [n8n](https://github.com/n8n-io/n8n) | Sustainable Use | 56k | Node.js | Workflow automation enterprise. 1500+ integraciones. MCP nativo 2.0. |
+
+---
+
+## 7. Data Catalog / AI Governance
+
+| Plataforma | Licencia | Stars | Stack | Caso de uso AI |
+|------------|----------|-------|-------|----------------|
+| [OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 6k | Java + React | Data catalog + MCP server. EU AI Act compliance. 3000+ enterprise deploys. |
+| [DataHub](https://github.com/datahub-project/datahub) | Apache-2.0 | 10k | Python + React | LinkedIn-origin. Data lineage + governance. Agentic workflows 2026. |
+
+---
+
+## 8. Observabilidad LLM
+
+| Plataforma | Licencia | Stars | Stack | Caso de uso |
+|------------|----------|-------|-------|-------------|
+| [Langfuse](https://github.com/langfuse/langfuse) | MIT | 28k | TypeScript | LLM traces + evals + cost tracking. Self-hosted Docker. EU AI Act audit. |
+| [Opik](https://github.com/comet-ml/opik) | Apache-2.0 | 8.5k | Python | LLM evaluation + tracing. Alternativa OSS. |
+
+---
+
+## Estrategia de AI-ificación de Verticales
+
+### Estrategia 1: MCP over existing ERP
+```bash
+# 1. Deploy ERPNext (self-hosted)
+docker-compose up -d frappe
+
+# 2. Instalar erpnext-mcp-server
+pip install erpnext-mcp-server
+# Configura ERPNEXT_URL, ERPNEXT_API_KEY
+
+# 3. Claude desktop o LangGraph usa el MCP server
+# Claude puede ahora: crear facturas, consultar inventario, generar reportes
+```
+
+### Estrategia 2: Dify over existing business tools
+```yaml
+# docker-compose.dify.yml
+services:
+  dify:
+    image: langgenius/dify:latest
+    environment:
+      SECRET_KEY: your-secret-key
+      OPENAI_API_KEY: ${OPENAI_API_KEY}  # o ANTHROPIC_API_KEY
+    ports:
+      - "3000:3000"
+  # + PostgreSQL, Redis, Weaviate (vector store)
+```
+
+### Estrategia 3: Langfuse para compliance EU AI Act
+```python
+from langfuse import Langfuse
+from anthropic import Anthropic
+
+langfuse = Langfuse()  # self-hosted
+client = Anthropic()
+
+# Todo intercambio con LLM queda traced
+with langfuse.trace(name="eu-ai-act-high-risk-decision") as trace:
+    trace.metadata = {"risk_level": "high", "system": "HR-screening"}
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": "Evaluate candidate CV..."}]
+    )
+    trace.output = response.content[0].text
+# Audit trail completo para compliance EU AI Act Annex III
+```
+
+---
+
+## Landscape LATAM por País
+
+| País | ERP más usado | CRM líder | Regulación AI | Oportunidad Globant |
+|------|--------------|-----------|---------------|---------------------|
+| Brasil | Totvs/SAP + ERPNext | Salesforce/SuiteCRM | Marco legal AI 2024 (LGPD+) | AI sobre Totvs con Claude; LGPD compliance |
+| México | SAP/Odoo | Salesforce/Zoho | Sin ley AI (2026) | Odoo AI; sector manufactura y maquila |
+| Argentina | Tango/ERPNext/iDempiere | SuiteCRM/Zoho | En desarrollo | iDempiere AI; sector financiero y agro |
+| Colombia | World Office/ERPNext | HubSpot OSS | Marco sectorial | ERPNext AI; sector retail y servicios |
+| Chile | EasyFact/Bsale/ERPNext | Salesforce | Política AI 2023 | AI sobre ERPs locales; minería y energía |
+
+---
+*Ver también: `agents/top.md` para frameworks de agentes y `compose/patterns.md` para recetas concretas.*

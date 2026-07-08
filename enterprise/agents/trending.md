@@ -1,71 +1,77 @@
-# Trending Enterprise AI — Week of 2026-07-08
+# 📈 Agentes Enterprise Trending — Julio 2026
 
-> What's moving fast right now in enterprise AI open source.
-
-## 🔥 Top Signals This Week
-
-### 1. Microsoft Agent Framework 1.0 (GA — April 2026)
-AutoGen and Semantic Kernel officially merged into **Microsoft Agent Framework 1.0**. Production-ready SDK with stable LTS APIs, A2A (Agent-to-Agent) protocol support, MCP integration, and cross-runtime interoperability between .NET and Python runtimes. This is the new default for Microsoft-stack enterprise AI.
-- Repo: [github.com/microsoft/agent-framework](https://github.com/microsoft/agent-framework)
-- Impact: Teams building on AutoGen or SK should plan migration to MAF for production.
-
-### 2. RAGFlow July 2026 — BigQuery + Chat Channels
-RAGFlow shipped two major updates this month:
-- **BigQuery connector** — ingest enterprise data warehouses directly into RAG pipelines
-- **Multi-channel chat** — native Feishu, Discord, Telegram, and Line connectors for enterprise messaging
-- Stars: 73k+, growing ~500/week
-- Repo: [github.com/infiniflow/ragflow](https://github.com/infiniflow/ragflow)
-
-### 3. EU AI Act Obligations — August 2026
-Mandatory EU AI Act compliance begins August 2026. Enterprise AI deployments in EU must implement risk classification, logging, human-oversight mechanisms, and model documentation. Open-source governance frameworks (LangFuse, MLflow, Arize) are seeing surges in enterprise adoption as compliance tooling.
-- Affects all Globant clients with EU operations
-- Key gap: only 21% of enterprises currently have a mature AI governance model
-
-### 4. Gartner: 40% Enterprise Apps Will Have Task-Specific AI Agents by End 2026
-As of Q1 2026, fewer than 5% of enterprise applications have embedded agents. Gartner's August 2025 forecast projects a jump to 40% by end of 2026 — the fastest technology adoption curve they have ever measured. This validates the urgency of Globant's AI Studios vertical KB strategy.
-
-### 5. Agentic AI at the Enterprise Tipping Point (April 2026)
-April 2026 marked the inflection point when agentic AI moved from pilot to production at scale:
-- Average ROI: **171%** from agentic AI deployments (U.S. enterprises: 192%)
-- Time-to-ROI ranges: 2 weeks (customer service) to 12 months (supply chain)
-- Klarna AI agent: saved $60M, handled workload of 853 employees by Q3 2025
-- Petrobras: $1B+ in projected savings
-- 84% of enterprises plan to increase AI agent investments in 2026
-
-### 6. n8n Surpasses 150k Stars — Emerging Agentic Orchestrator
-n8n has crossed 150,000 GitHub stars, cementing its position as the most-starred self-hostable workflow automation platform. The addition of native AI nodes (ReAct agents, memory, sub-workflows) means n8n is increasingly used as the **glue layer** between enterprise systems and LLMs — without writing custom integration code.
-
-### 7. Hybrid RPA + Agentic AI Stacks
-2026's winning enterprise architecture: **RPA for predictable volume, agentic AI for dynamic cognition, Microsoft Power Platform as the connective tissue**. Traditional RPA vendors (UiPath, Automation Anywhere) are embedding agentic capabilities, while open-source stacks (n8n + LangGraph + CrewAI) are gaining ground in mid-market where licensing costs matter.
-
-### 8. MCP Donated to Linux Foundation — Enterprise Connectivity Standard Locked In
-Model Context Protocol transferred to the Agentic AI Foundation (AAIF) under the Linux Foundation in December 2025 — co-founded by Anthropic, Block, and OpenAI. As of July 2026: **97M monthly SDK downloads**, **10,000+ active MCP servers in production**. Amazon and Uber both presented enterprise deployment case studies at the MCP Dev Summit (NYC, April 2026). MCP is now the enterprise connectivity standard — the HTTP of agent-to-system communication.
-- GitHub: [github.com/modelcontextprotocol](https://github.com/modelcontextprotocol)
-
-### 9. AG2 — AutoGen Community Fork Gaining Traction
-AG2 (formerly AutoGen, now at [ag2ai/ag2](https://github.com/ag2ai/ag2), Apache-2.0, 22k★) is the active community continuation of AutoGen. While Microsoft moved features to the Agent Framework, AG2 positions itself as the "Open-Source AgentOS" with independent feature development. Teams that don't want to follow the Microsoft Agent Framework migration path are consolidating on AG2.
-
-### 10. Agentic AI Spending Surge: $201.9B in 2026 (141% YoY)
-Multiple analysts confirm agentic AI spending hit **$201.9B in 2026** — a 141% year-over-year surge, making it the fastest-growing AI category. Yet the production gap persists: **79%** of enterprises claim adoption, but only **11%** run agents in production. Gartner warns **40% of agentic AI projects will be canceled by 2027** due to cost overruns, unclear ROI, and governance failures. The "execution gap" is the consulting opportunity of 2026.
-
-### 11. LATAM Agentic AI: 80% Interannual Growth Expected
-- **47%** enterprise AI deployment rate across LATAM (vs. global avg ~57%)
-- **97%** of LATAM organizations planning to increase AI budgets (avg +14% growth)
-- **75%** of LATAM business leaders expect autonomous agents by end 2026
-- **80%** interannual agentic AI adoption growth projected for LATAM
-- Only **20%** of LATAM companies have solid AI governance foundations → biggest gap to fill
-
-## 📊 Star Growth Leaders (Enterprise AI, July 2026)
-
-| Repo | Stars | Weekly Growth |
-|------|-------|---------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | 145k | ~800/week |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | 90k+ | ~600/week |
-| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | 73k | ~500/week |
-| [twentyhq/twenty](https://github.com/twentyhq/twenty) | 45k | ~300/week |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 52.8k | ~250/week |
-| [ag2ai/ag2](https://github.com/ag2ai/ag2) | 22k | ~200/week |
-| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | 18k | ~400/week |
+> Señales calientes esta semana. Foco en novedades con impacto real para proyectos Globant.
+> Última actualización: 2026-07-08
 
 ---
-*Sources: GitHub, Gartner, IDC, Deloitte Agentic AI Report 2026, OneReach AI Stats 2026, Accelirate Agentic AI Statistics 2026, VuraOS LATAM AI Map 2026*
+
+## 🔥 Señales calientes — semana 2026-07-08
+
+### 1. Gartner: $234B en SaaS enterprise en riesgo por Agentic AI (Jul 1, 2026)
+**Señal:** Gartner publicó el 1 de julio 2026 que hasta USD $234 billion en enterprise SaaS spending estará expuesto a "agentic arbitrage" antes de 2030 — ~20% del gasto total en enterprise software.
+
+**Por qué importa:** Agentic arbitrage = agentes AI completan tareas cruzando múltiples sistemas, bypasseando interfaces tradicionales. Rompe el modelo seat-based licensing de SAP, Salesforce, ServiceNow. Oportunidad directa para Globant: vender "la capa agentic" que reemplaza N licencias SaaS.
+
+**Fuente:** [Gartner Press Release Jul 1 2026](https://www.gartner.com/en/newsroom/press-releases/2026-07-01-gartner-says-us-dollars-234-billion-in-enterprise-application-software-spend-is-at-risk-from-agentic-artificial-intelligence)
+
+---
+
+### 2. Microsoft Agent Framework 1.0 GA — AutoGen + Semantic Kernel unificados (Apr 3, 2026)
+**Señal:** Microsoft lanzó Microsoft Agent Framework 1.0 el 3 de abril de 2026, unificando AutoGen's multi-agent orchestration con Semantic Kernel's enterprise features (session state, middleware, telemetry, type safety) + graph-based workflows. Disponible Python + .NET.
+
+**Por qué importa:** Stack enterprise completo MIT en un solo SDK. Clientes con .NET shops (banca, seguros, manufactura) pueden adoptar sin fricciones. Reemplaza la fragmentación AutoGen vs SK.
+
+**Repo base:** [ag2ai/ag2](https://github.com/ag2ai/ag2) (Apache-2.0, 22k ★)
+
+---
+
+### 3. OpenHands cruza 70k ★ + SWE-bench 72% (Jun 2026)
+**Señal:** OpenHands (ex-OpenDevin) alcanzó 70k ★ y publicó 72% en SWE-bench Verified usando Claude Sonnet 4.5 + extended thinking. Lanzó OpenHands Software Agent SDK (MIT) como framework modular para production engineering agents.
+
+**Por qué importa:** Coding agents son ya production-ready. Oportunidades en DevOps automation, code review, legacy migration (COBOL→Python, SAP→cloud) para clientes enterprise.
+
+**Repo:** [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | [SDK](https://github.com/OpenHands/software-agent-sdk)
+
+---
+
+### 4. Dify $30M + 138k ★ — Visual AI builder lidera enterprise (2026)
+**Señal:** Dify cerró $30M en funding 2026 y superó 138k ★ en GitHub (Apr 2026). CB Insights: los 3 visual builders (Langflow 146k, Dify 138k, Flowise 40k) suman >300k ★ combinados — mayoría del crecimiento en los últimos 18 meses.
+
+**Por qué importa:** Los domain experts (ops leads, product managers) están construyendo agentes sin ML engineers. Globant puede vender implementación + customización enterprise de estas plataformas.
+
+---
+
+### 5. IBM adquiere DataStax + Langflow (2026)
+**Señal:** IBM adquirió DataStax (incluyendo Langflow) en 2026. n8n levantó $55M Series B 2024 y lanzó n8n 2.0 en enero 2026 con 70+ AI nodes y MCP nativo. El mercado de low-code AI automation entra en fase de consolidación.
+
+**Por qué importa:** Señal de madurez del mercado. Langflow se convierte en enterprise-ready bajo IBM. n8n 2.0 con MCP es el stack de automation más potente self-hostable.
+
+---
+
+### 6. EU AI Act: enforcement total Aug 2, 2026 (25 días)
+**Señal:** El EU AI Act entra en vigencia plena el 2 de agosto de 2026. Sistemas high-risk (Annex III) necesitan documentación de riesgo, audit trails, conformidad continua. OpenMetadata + DataHub se posicionan como "data catalog for AI compliance".
+
+**Por qué importa:** Clientes europeos (y LATAM con reguladores que miran a UE) necesitan governance stack urgente. Ventana de 25 días = proyectos urgentes de compliance.
+
+---
+
+### 7. Gartner Hype Cycle Agentic AI 2026: "Peak of Inflated Expectations"
+**Señal:** Gartner Hype Cycle 2026 for Agentic AI sitúa la tecnología en el Peak of Inflated Expectations. 79% enterprises dicen adoptar AI agents; solo 11% tienen en producción real. Gartner predice 40% enterprise apps tendrán task-specific agents para fin de 2026 (vs <5% en 2025).
+
+**Por qué importa:** Gap enorme entre intención y producción. Globant puede ser el partner que cierra ese gap — la firma que convierte pilotos en producción a escala.
+
+---
+
+## 📊 Tabla de señales de monitoreo
+
+| Señal | Fuente | Frecuencia | Alerta cuando |
+|-------|--------|-----------|---------------|
+| SWE-bench leaderboard | openai.com/leaderboard | Semanal | Nuevo agente >75% |
+| Gartner enterprise AI | gartner.com/newsroom | Mensual | Nuevo forecast o quadrant |
+| EU AI Act regulatory | eur-lex.europa.eu | Semanal | Nuevas obligaciones |
+| OpenHands releases | github.com/OpenHands | Semanal | Nueva versión mayor |
+| Dify/Langflow releases | GitHub | Semanal | Breaking changes enterprise |
+| LATAM AI regulation | reguladores.latam | Mensual | Nueva ley (Brasil, México, Colombia) |
+
+---
+*Pipeline automático — se actualiza cada hora.*

@@ -1,33 +1,58 @@
-# Trending Repos — Enterprise AI (July 2026)
+# 📈 Repos Trending — Enterprise AI (Julio 2026)
 
-> Repos with strong momentum this week. Updated: 2026-07-08
-
-## 🚀 Breakout Growth
-
-| Repo | License | Stars | Weekly Δ | Why It's Hot |
-|------|---------|-------|----------|--------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | +800 | #1 enterprise GenAI platform by stars. Visual workflow builder + RAG + multi-model hub. July update added MCP tool calling and improved agent execution tracing. |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | AGPL-3.0 | 150k+ | +600 | Crossed 150k stars. Enterprises adopting as AI integration layer replacing bespoke ETL + API glue code. New native AI nodes for sub-agent spawning. |
-| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | 73k | +500 | Enterprise document RAG. July 2026 added Google BigQuery ingest and multi-channel chat (Slack, Feishu, Discord). Best-in-class PDF table extraction. |
-| [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45k | +300 | CRM with native MCP server — AI agents can read/write CRM records. Growing as Salesforce open-source alternative for AI-native teams. |
-| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | 75k+ | +400 | MAF 1.0 launched April 2026, combining AutoGen + Semantic Kernel. Rapid growth from existing AutoGen/SK communities migrating to unified SDK. |
-
-## 📈 Established Giants (High Star Count, Steady Growth)
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52k | Perennial leader. Full business suite. Odoo 18 AI modules for CRM lead scoring, document AI, and chatbot builder now in stable. |
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k | Open-source ERP. Integration with ERPNext MCP server enables AI agents to operate ERP workflows via natural language. Active community. |
-| [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 38k | BI platform with NL query UI. Enterprises using as AI analytics layer — agents generate charts and reports from natural language questions. |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52k | Role-based multi-agent orchestration. 5.2M monthly downloads. Increasing enterprise use for document review, customer support, and sales automation agents. |
-
-## 🆕 New Projects to Watch
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | 75k+ | Production-ready successor to AutoGen + Semantic Kernel. .NET + Python, A2A + MCP, enterprise LTS. |
-| [nocobase/nocobase](https://github.com/nocobase/nocobase) | Apache-2.0 | 15k | No-code enterprise app builder with AI plugin support. Rapidly adopted for internal tools and custom business apps without custom dev. |
-| [Payroll-Engine/PayrollEngine](https://github.com/Payroll-Engine/PayrollEngine) | MIT | 1k | Regulation-driven payroll framework — multi-tenant, multi-country, API-first, with AI-scriptable rules engine. |
+> Repos con mayor momentum en el ecosistema enterprise AI esta semana.
+> Última actualización: 2026-07-08
 
 ---
-*Pipeline automatic — updated every hour.*
+
+## Top Repos por Momentum (Stars + Recientes)
+
+| Nombre | Licencia | Stars | Por qué está trending |
+|--------|----------|-------|-----------------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 138k | $30M raised, 138k ★ (Apr 2026). MCP nativo, HITL. El visual builder más adoptado enterprise. |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 60k | Adquirido por IBM/DataStax. MCP support 2026. Enterprise push post-adquisición. |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 110k+ | LangGraph v1.1 Jun 2026: DeltaChannel, streaming v2, per-node timeouts. Production líder. |
+| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | 70k | 72% SWE-bench Jun 2026. Software SDK lanzado. Coding agents en producción enterprise. |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | v1.14 Jun 2026: pluggable backends + Chat API. 5.2M downloads/mes. Crossover a enterprise. |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Crecimiento explosivo desde Jan 2025. MCP client nativo. HuggingFace backing. |
+| [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 6k | MCP server integrado v1.5+. EU AI Act compliance tooling. 3000+ enterprise deploys. |
+| [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) | MIT | 14k | v2 Jun 23 2026: harness-first redesign. Type-safe agents Python. Crecimiento rápido. |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | 56k | n8n 2.0 Jan 2026: 70+ AI nodes, MCP nativo. $55M Series B. Self-hosted enterprise standard. |
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52.8k | Odoo 18 (2025) + AI modules rolling out 2026. Mención en LATAM enterprise deals frecuente. |
+
+---
+
+## Repos Emergentes a Seguir
+
+| Nombre | Licencia | Stars | Señal |
+|--------|----------|-------|-------|
+| [ag2ai/ag2](https://github.com/ag2ai/ag2) | Apache-2.0 | 22k | Microsoft Agent Framework 1.0 base. Fork AutoGen activo. |
+| [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | 24k | Unificado con AutoGen en MAF 1.0 (Apr 3, 2026). .NET enterprise. |
+| [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | 28k | Observabilidad LLM self-hosted. EU AI Act audit trail. |
+| [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk) | MIT | — | Production-grade coding agent SDK. Stateless + event-sourced. |
+| [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10.4k | Framework ERP/CRM MIT. erpnext-mcp-server sobre él. LATAM adopción alta. |
+
+---
+
+## MCP Servers Trending (Protocolo de Integración)
+
+| Servidor | Licencia | Descripción |
+|----------|----------|-------------|
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k ★, 97M descargas/mes. Reference servers oficiales. RC Jul 2026. |
+| [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) | MIT | Claude/GPT → ERPNext. 104 ★ y creciendo. |
+| [infaton/MCP35](https://github.com/infaton/MCP35) | MIT | 51 tools para 1C:Enterprise ERP. Mercado EE. del Este + LATAM. |
+| n8n MCP nodes | Sustainable | n8n 2.0: MCP Server Trigger + MCP Client Tool nodes nativos. |
+| Zapier MCP | Proprietary | 9000+ apps vía MCP (vs n8n's 1500). Enterprise alternative. |
+
+---
+
+## Señales de Mercado Esta Semana
+
+- **Gartner Jul 1 2026**: $234B enterprise SaaS at risk from agentic AI by 2030
+- **Adoption**: 79% enterprises adopting AI agents; solo 11% en producción real
+- **Gartner**: 40% enterprise apps tendrán AI agents para fin 2026 (vs <5% en 2025)
+- **EU AI Act**: 25 días para enforcement total (Aug 2, 2026)
+- **LATAM**: 47% enterprise AI deployment, CAGR 37.07% ($40.5B → $504.7B 2026-2034)
+
+---
+*Pipeline automático — se actualiza cada hora.*

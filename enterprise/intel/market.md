@@ -1,113 +1,107 @@
-# Market Intelligence — Enterprise AI
+# 🗺️ Mapa de mercado — Enterprise AI
 
-> Key players, market sizing, competitive landscape, and LATAM opportunity mapping.
-> Last updated: 2026-07-08
-
-## Global Market Sizing
-
-| Segment | 2026 Value | 2030 / 2034 Target | CAGR | Source |
-|---------|------------|---------------------|------|--------|
-| AI Agent Market (Global) | ~$9–11B | $52.63B (2030) | 46.3% | Gartner / IDC / Multiple analysts |
-| Agentic AI Spending (total enterprise) | **$201.9B** (2026) | — | 141% YoY | Multiple analysts |
-| Enterprise Agentic AI (pure-play) | $9.14–$10.86B | $30B+ (2030) | 50%+ | Gartner / Deloitte |
-| Enterprise Generative AI | ~$40B | $450B (2035) | 35%+ | Gartner best-case |
-| LATAM AI Market (total) | $40.50B | $225B+ (2034) | 37.07% | Market Data Forecast |
-| LATAM Enterprise GenAI | ~$100M | $304.7M (2030) | 33.8% | Grand View Research |
-| Open-source ERP market | $5.31B | ~$8.4B (2031) | 9.66% | Mordor Intelligence |
-
-**Key adoption stats (July 2026)**:
-- 40% of enterprise apps will feature task-specific AI agents by end 2026 (up from <5% in 2025) — Gartner
-- 79% of enterprises claim AI agent adoption — but only 11% run them in true production — Accelirate
-- 40% of Global 2000 roles will directly engage AI agents by end 2026 — IDC
-- 40% of agentic AI projects will be canceled by 2027 (costs, unclear ROI, governance gaps) — Gartner warning
-- Only 21% of organizations have a mature AI governance model — Deloitte
-
-**ROI benchmarks**: Average agentic AI ROI = 171% (U.S. enterprises: 192%). Time-to-ROI: 2 weeks (customer service) to 12 months (supply chain). — OneReach AI Stats 2026.
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-08
 
 ---
 
-## Competitive Landscape — Enterprise AI Platforms
+## Cifras clave del mercado (2026)
 
-### Proprietary / Cloud Giants
-
-| Company | Product | Strength | Weakness |
-|---------|---------|----------|----------|
-| **Microsoft** | Copilot for M365, Azure AI Foundry, Agent Framework | Deep Office/Teams integration; MAF 1.0 unifies SK+AutoGen; largest enterprise install base | High licensing cost; Azure lock-in |
-| **Salesforce** | Einstein Copilot, Agentforce | Best CRM AI integration; large partner ecosystem; low-code Agent Studio | Salesforce platform lock-in; expensive |
-| **ServiceNow** | Now Assist, AI Agents | ITSM + AI deeply integrated; strong enterprise contracts | Very expensive; complex implementation |
-| **SAP** | Joule (AI Copilot), SAP AI Core | Deep ERP AI integration; S/4HANA advantage | SAP license costs prohibitive; slow release cycle |
-| **Oracle** | OCI Generative AI, Oracle Digital Assistant | Strong database + ERP integration | Complex stack; high cost |
-| **Google** | Vertex AI, Gemini for Workspace | Powerful models; strong cloud infrastructure | Workspace AI less mature than M365 Copilot |
-| **IBM** | watsonx.ai, watsonx Orchestrate | Strong enterprise governance; hybrid cloud | Heavy implementation; dated reputation |
-
-### Open-Source Challengers (Globant's Opportunity)
-
-| Product | License | Strength | LATAM Fit |
-|---------|---------|----------|-----------|
-| **Dify** | Apache-2.0 | Best visual GenAI platform; self-hostable; 144k stars | High — avoid cloud vendor lock-in |
-| **n8n** | AGPL-3.0 | 400+ integrations; self-hosted workflow automation | High — cost-effective for mid-market |
-| **ERPNext + Frappe** | GPL-3.0 | Full ERP + AI-ready API; large LATAM community | Very High — used across Brazil/Mexico/Argentina |
-| **Twenty CRM** | AGPL-3.0 | Native MCP + AI-first CRM; modern stack | Growing — early but promising |
-| **RAGFlow** | Apache-2.0 | Best document RAG for enterprise knowledge bases | High — language-agnostic, Spanish/Portuguese ready |
-| **Microsoft Agent Framework** | MIT | Enterprise-grade; .NET + Python; MCP/A2A | High — most LATAM enterprises run Microsoft stack |
+| Métrica | Valor | Fuente | Fecha |
+|---------|-------|--------|-------|
+| AI spending worldwide 2026 | $2.59T (+47% YoY) | Gartner | May 2026 |
+| Agentic AI enterprise market 2026 | $9.14B–$10.86B | Multiple analysts | 2026 |
+| Enterprise app software at risk from agentic AI (2030) | $234B | Gartner | Jul 1 2026 |
+| % enterprises adoptando AI agents | 79% | Accelirate 2026 | 2026 |
+| % enterprises con AI agents en producción real | 11% | Accelirate 2026 | 2026 |
+| % enterprise apps con task-specific agents por fin 2026 | 40% (vs <5% en 2025) | Gartner | Ago 2025 |
+| % Global 2000 roles con engagement directo a AI agents (fin 2026) | 40% | IDC | 2026 |
+| AI como % del total IT spend 2026 | ~41% (vs ~32% en 2025) | Gartner | 2026 |
+| Supply Chain Management software con Agentic AI (2030) | $53B | Gartner | Abr 2026 |
+| LATAM AI market 2026 | $40.50B | MarketDataForecast | 2026 |
+| LATAM AI market 2034 | $504.71B (CAGR 37.07%) | MarketDataForecast | 2026 |
+| LATAM enterprise AI deployment rate | 47% | Numoru State of Enterprise AI LATAM 2026 | 2026 |
+| LATAM ML/AI engineering shortage | 150,000 posiciones | Dice.com / regional studies | 2026 |
 
 ---
 
-## LATAM Market Map
+## Players globales Enterprise AI
 
-### Country-Level Enterprise AI Adoption
-
-| Country | AI Readiness Score | Key Sectors | Enterprise AI Gaps | Opportunity |
-|---------|-------------------|-------------|---------------------|-------------|
-| **Brazil** | 65.89 (global top 50) | Financial services, Agritech, Energy, Retail | Compliance-grade AI governance; LGPD-compliant self-hosted stacks; multi-language RAG | $15B+ AI market; 50%+ of LATAM GDP; LGPD compliance creates governance demand |
-| **Chile** | 63.19 (global top 50) | Mining, Finance, Public Sector | Predictive maintenance AI; procurement automation; regulatory compliance | Government AI mandates; regional fintech hub |
-| **Uruguay** | 62.21 (global top 50) | Tech outsourcing, Financial services | High developer density; Globant presence | Strong delivery center potential |
-| **Mexico** | ~56 | Manufacturing, Nearshoring, Telecom, Retail | AI integration in legacy ERP systems; supply chain AI; bilingual (ES/EN) agents | USMCA proximity driving AI investment from US companies; manufacturing AI boom |
-| **Argentina** | ~58 | Technology services, E-commerce, Fintech | Cost-effective AI (devaluation pressure); LLM hosting compliance; talent arbitrage | Strong technical talent; AI product export potential |
-| **Colombia** | ~54 | Financial services, BPO, Healthcare | ITSM modernization; call center AI; healthcare workflow automation | BPO sector ($2B+) ripe for agentic AI |
-
-**LATAM Macro Stats (July 2026)**:
-- **47%** enterprise AI deployment rate across LATAM (vs. global avg ~57%)
-- **97%** of LATAM organizations planning to increase AI budgets (avg +14% growth)
-- **75%** of LATAM business leaders expect autonomous agents by end 2026
-- **80%** interannual growth in agentic adoption expected
-- **67%** of large LATAM enterprises have at least one AI project in production
-- Only **23%** report measurable business impact (the value realization gap)
-- Only **20%** have solid AI governance + security foundations
-
-### LATAM-Specific Gaps (Globant Opportunity)
-
-1. **Spanish/Portuguese LLM Integration**: Most enterprise AI tools default to English. RAGFlow + Dify with Spanish/Portuguese prompting + local LLM models (Sabiá-3, etc.) is underserved.
-2. **LATAM ERP AI Overlay**: ERPNext is popular in LATAM SMEs but AI overlay (MCP server + Dify workflows) almost non-existent commercially.
-3. **Compliance-Grade AI Governance**: LGPD (Brazil), Ley de Datos (Colombia), AI Act analogues — enterprises need audit trails, explainability, data residency. Open-source governance stack (LangFuse + MLflow) on local cloud is a gap.
-4. **Legacy System Modernization AI**: Large LATAM enterprises (banks, telcos, governments) run COBOL/SAP/Oracle. AI agents that bridge legacy APIs with modern workflows are in high demand.
-5. **SME AI Productivity**: LATAM has 99%+ SMEs with no AI. ERPNext + Dify self-hosted bundle for $500/month is a viable product offer.
+| Empresa | Tipo | Fortaleza | Open Source Strategy | Debilidad |
+|---------|------|-----------|---------------------|-----------|
+| Microsoft | Platform + tools | Azure + MAF 1.0 + Copilot Studio | AG2 + SK (MIT) | Vendor lock-in Azure |
+| Salesforce | CRM + Agentforce | Agentforce platform, 150k+ clientes | Einstein (parcial) | Precios altos; LATAM penetración media |
+| ServiceNow | ITSM + platform | AI Now + automation workflows | Minimal | Solo ITSM; costoso para PYME |
+| SAP | ERP global | S/4HANA + Joule AI copilot | OpenUI5 | Implementaciones lentas y caras |
+| Google | Cloud + AI models | Vertex AI, Gemini, ADK (Apache-2.0) | Agent Development Kit MIT | Menos foco enterprise tradicional |
+| AWS | Cloud + AI services | Bedrock, agents, Q Business | Minimal | Servicios propietarios |
+| IBM | Legacy + AI | WatsonX, DataStax/Langflow acquisition | OpenProject, Langflow (MIT) | Reputación legacy |
+| Workday | HCM + Finance | Workday AI, agentic skills 2026 | None | Solo HCM/Finance |
+| Oracle | ERP + DB | Oracle AI Agents, 23c AI Vector | None | Costos y complejidad |
+| Anthropic | AI models | Claude (líder benchmarks), Claude Code | claude-code open protocols | Aún no plataforma enterprise completa |
 
 ---
 
-## Globant Positioning
+## LATAM — Estado del mercado enterprise 2026
 
-### Strengths
-- Deep expertise in enterprise software modernization (large clients: Google, Disney, Electronic Arts)
-- LATAM technical talent at competitive rates (Argentina, Colombia, Mexico, Chile delivery centers)
-- Existing relationships with Microsoft, Google, and AWS ecosystem partners
-- AI Studios vertical structure aligns with this KB strategy
+### Índices de AI readiness por país (Global top 50)
+| País | Score AI Readiness | Ranking Global | Notas |
+|------|-------------------|----------------|-------|
+| Brasil | 65.89 | Top 50 | Líder LATAM. AI Legal Framework 2024. |
+| Chile | 63.19 | Top 50 | Política Nacional AI 2023. Ecosistema startups fuerte. |
+| Uruguay | 62.21 | Top 50 | Pequeño pero muy digital. Agesic roadmap AI. |
+| Colombia | ~55 | Top 60 | Marco sectorial. FinTech y retail avanzados. |
+| México | ~52 | Top 65 | Sin ley AI (2026). Manufactura + maquila como palanca. |
+| Argentina | ~48 | Top 70 | Talento técnico excelente. Inestabilidad macro. |
 
-### Recommended GTM for Enterprise AI
+### Brechas específicas LATAM (oportunidades Globant)
 
-| Offer | Stack | Target | Timeline |
-|-------|-------|--------|----------|
-| **Enterprise AI Copilot** | Dify + RAGFlow + existing ERP | Mid-market enterprises with Odoo/ERPNext | 8-12 weeks |
-| **Agentic CRM** | Twenty + CrewAI + n8n | Sales teams replacing/augmenting Salesforce | 6-10 weeks |
-| **Intelligent ITSM** | GLPI + RAGFlow + LangGraph | Large enterprises with IT service desks | 10-14 weeks |
-| **HR Automation Platform** | Frappe HR + n8n + Dify | HR-heavy enterprises (BPO, manufacturing) | 8-12 weeks |
-| **Legacy Modernization Bridge** | n8n + MAF + API gateway | Enterprises with SAP/Oracle/COBOL systems | 12-20 weeks |
+| Brecha | Países afectados | Potencial | Deal size típico |
+|--------|-----------------|-----------|-----------------|
+| Agentic ERP (Odoo/ERPNext + AI) para PYME | MX, AR, CO, CL, PE | Alto | $80k–$500k |
+| AI sobre sistemas legacy (SAP, iDempiere, Tango) | BR, AR, MX | Muy alto | $300k–$2M |
+| Compliance AI EU Act / LGPD (data catalog + audit) | BR, CL, CO | Alto | $150k–$800k |
+| LATAM AI talent shortage (skills platform + AI tutor) | Todo LATAM | Alto | $50k–$300k |
+| Chatbot/agent CRM para ventas B2B LATAM | MX, CO, AR | Medio | $50k–$200k |
+| Workflow automation (n8n + AI) para ops teams | Todo LATAM | Alto | $30k–$150k |
 
-### Competitive Differentiation
-- **Open stack = no license cost** → lower total cost of ownership vs. Microsoft Copilot, Salesforce Einstein
-- **Data residency** → self-hosted on client's AWS/Azure/GCP account (LGPD, GDPR compliant)
-- **LATAM language support** → Spanish/Portuguese prompts, local compliance knowledge baked in
-- **Speed** → pre-built integration patterns in this KB → faster time-to-value
+### Contexto regulatorio LATAM
+- **Brasil**: LGPD (2020) + Marco Legal AI (2024). Legislación más madura de LATAM. Requiere self-hosted para datos sensibles.
+- **Chile**: Política Nacional de Inteligencia Artificial 2023. Comisión AI activa.
+- **Colombia**: Marco sectorial. Financiero y salud regulados.
+- **México**: Sin ley AI (2026). Oportunidad para implementar antes de regulación.
+- **Argentina**: Marco en desarrollo. Macroeconomía inestable pero talento técnico top LATAM.
 
 ---
-*Sources: Grand View Research, Gartner 2025-2026, MarketDataForecast, OneReach AI Stats 2026, JP Morgan LATAM GenAI Report, Numoru LATAM AI State 2026*
+
+## Aceleradores Globant para enterprise AI
+
+| Acelerador | Descripción | Deal size | Tiempo go-to-market |
+|------------|-------------|-----------|---------------------|
+| Agentic ERP Starter | Odoo/ERPNext + Claude + erpnext-mcp-server | $80k–$300k | 4–8 semanas |
+| Enterprise Compliance Stack | OpenMetadata + Langfuse + LangGraph + EU AI Act | $150k–$600k | 6–12 semanas |
+| Visual AI Builder | Dify/Langflow customizado + Claude + MCP tools | $50k–$250k | 3–6 semanas |
+| Multi-Agent Sales Intelligence | CrewAI + SuiteCRM + Claude | $100k–$400k | 4–8 semanas |
+| Legacy System AI Layer | LangGraph + MCP + existing ERP (SAP/Oracle) | $300k–$1.5M | 8–20 semanas |
+| LATAM LGPD Self-Hosted | Ollama + Dify + Keycloak + Langfuse Docker | $80k–$350k | 4–10 semanas |
+
+---
+
+## Hype Cycle Gartner 2026 — Agentic AI
+
+```
+Innovation   Peak of       Trough of     Slope of      Plateau of
+Trigger      Inflated      Disillusion   Enlightenment Productivity
+             Expectations
+                ↑
+          [AGENTIC AI]
+          [AI AGENTS]
+          [LLM ORCHESTRATION]
+          
+Plateau estimado: 2028–2030
+```
+
+**Implicación para Globant**: Estamos en el Peak. Los clientes tienen expectativas infladas pero pocos en producción real. Posicionarse ahora como la firma que "baja agentes a producción" = diferenciador clave para 2026–2027.
+
+---
+*Actualizado por pipeline de ingest. Ver `intel/trends.md` para tendencias detalladas.*

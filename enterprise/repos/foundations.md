@@ -1,49 +1,73 @@
-# Foundational Repos — Enterprise AI
+# 🏗️ Repos fundacionales — Enterprise
 
-> Core platforms and frameworks for building enterprise AI solutions.
-> Priority: MIT / Apache 2.0 / LGPL — safe for commercial customization.
-> Last updated: 2026-07-08
-
-## Enterprise Platforms (ERP / CRM / Collaboration)
-
-| Repo | License | Stars | Description | AI Readiness |
-|------|---------|-------|-------------|--------------|
-| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52k | Full business suite: CRM, inventory, accounting, HR, e-commerce, manufacturing. Modular architecture — add AI via Odoo Apps or custom modules. | REST API + webhooks; AI modules available |
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k | Free, open-source ERP covering accounting, inventory, HR, payroll, manufacturing, and supply chain. Built on Frappe Framework. MCP server (rakeshgangwar/erpnext-mcp-server) enables direct AI agent access. | MCP server, REST API, webhooks |
-| [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10k | Low-code Python + JS web framework powering ERPNext, Frappe HR, and 100+ Frappe Apps. DocType model makes schema changes AI-scriptable. | MIT license — best for AI integration layer |
-| [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45k | Modern open-source CRM with native MCP server (Cloud). GraphQL + REST API-first. AI agents can query, create, update CRM records via natural language. Top pick for AI-native CRM stack. | Native MCP, GraphQL, AI-first design |
-| [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4k | World's most-downloaded open-source CRM (~2M downloads, 5M users). Mature feature set: territory management, quote generation, advanced reporting. No native AI but strong REST API. | REST API; AI via custom modules |
-
-## Collaboration & Communication
-
-| Repo | License | Stars | Description | AI Readiness |
-|------|---------|-------|-------------|--------------|
-| [mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | 29k | Self-hosted team messaging platform. Slash commands, webhooks, plugin system. AI bots and agents can be deployed as plugins or webhook integrations. | Webhook bots, plugin AI agents |
-| [nextcloud/server](https://github.com/nextcloud/server) | AGPL-3.0 | 26k | Self-hosted file sync and collaboration. AI Assistant app (Nextcloud AI) integrates LLMs for document Q&A, summarization, and generation directly in the UI. | Native AI Assistant app |
-
-## ITSM & Operations
-
-| Repo | License | Stars | Description | AI Readiness |
-|------|---------|-------|-------------|--------------|
-| [glpi-project/glpi](https://github.com/glpi-project/glpi) | GPL-3.0 | 4k | Enterprise ITSM platform — ticketing, asset management, change management, CMDB. 200k+ active deployments. AI plugins for ticket classification and auto-assignment. | REST API; AI ticket routing plugins |
-| [frappe/hrms](https://github.com/frappe/hrms) | GPL-3.0 | 2k | Open-source HR and payroll system built on Frappe. Recruitment, onboarding, leave/attendance, expense management, payroll, performance reviews. AI-scriptable via ERPNext MCP server. | Frappe API; AI resume screening |
-
-## Business Intelligence & Data
-
-| Repo | License | Stars | Description | AI Readiness |
-|------|---------|-------|-------------|--------------|
-| [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 38k | Open-source BI and data visualization. Natural language queries ("ask a question") built in. Embed dashboards in enterprise portals. AI agents can query Metabase APIs. | NL queries built-in, REST API |
-| [nocobase/nocobase](https://github.com/nocobase/nocobase) | Apache-2.0 | 15k | No-code/low-code enterprise platform for building CRM, ERP, and workflow apps with a plugin architecture. AI-driven data model builder, embed LLM agents in workflows. | Apache-2.0; AI plugin system |
-
-## Agent Orchestration Layer
-
-| Repo | License | Stars | Description | AI Readiness |
-|------|---------|-------|-------------|--------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 145k | Visual GenAI application platform — workflow builder, RAG pipelines, prompt management, multi-model support. Deploy as self-hosted or cloud. REST API for embedding in enterprise systems. 1M+ apps deployed in production. | Purpose-built for enterprise AI |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | 90k | Self-hosted workflow automation with 400+ integrations and native AI nodes (ReAct agents, memory, LLM chains). The integration glue between enterprise systems and AI models. | Native AI nodes, self-hosted |
-| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Reference MCP server implementations: PostgreSQL, filesystem, Slack, GitHub, Google Drive. The connectivity standard for enterprise AI — 97M monthly downloads, Linux Foundation governance. | Native MCP protocol |
-| [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 6k | Open Context Layer for Data and AI. 130+ connectors, data lineage, business glossary, and built-in MCP server. Gives AI agents semantic understanding of enterprise data — critical for high-quality RAG. | MCP server, REST API, AI-native |
-| [ag2ai/ag2](https://github.com/ag2ai/ag2) | Apache-2.0 | 22k | AutoGen community fork positioned as the "Open-Source AgentOS." Active feature development independent of Microsoft. Choose when AutoGen paradigm is wanted without Microsoft stack dependency. | Apache-2.0; multi-agent native |
+> Bases sobre las cuales construir soluciones enterprise con AI. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-08
 
 ---
-*See also: `verticals/solutions.md` for full platform profiles with customization guides.*
+
+## Stack A: Orquestación de Agentes (Agent Frameworks)
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 110k+ | Graph-based stateful agent orchestration. GA Oct 2025. DeltaChannel + per-node timeouts v1.1. Powers Uber, LinkedIn. | ✅ — El framework production más maduro 2026 |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Multi-agent role-based collaboration. 5.2M downloads/mes. Pluggable backends + Chat API v1.14. | ✅ — Ideal para equipos de dominio (ventas, RRHH, finanzas) |
+| [ag2ai/ag2](https://github.com/ag2ai/ag2) | Apache-2.0 | 22k | Fork comunitario de AutoGen. Base del Microsoft Agent Framework 1.0. Conversational multi-agent. | ✅ — .NET shops y clientes Microsoft |
+| [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | 24k | Framework enterprise Microsoft. C#/Python/Java. Session state, middleware, telemetry. | ✅ — Enterprise .NET con compliance reqs |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimalista, CodeAgent nativo, MCP client. HuggingFace. Jan 2025 → crecimiento explosivo. | ✅ — Prototipos rápidos y researchers |
+| [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) | MIT | 14k | Type-safe agent framework Python. v2 Jun 23 2026. Claude/OpenAI/Gemini. | ✅ — Equipos Python-first, APIs tipadas |
+
+---
+
+## Stack B: Visual Builders / Low-Code AI
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 138k | Visual AI app builder. RAG nativo, HITL, multi-tenant, MCP 2026. $30M raised. | ✅ — Primer deployment enterprise para no-devs |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 40k | LangChain/LlamaIndex visual canvas. HITL añadido 2026. Auto-scaling nativo. | ✅ — Prototipos en horas, LangChain-compatible |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 60k | Visual builder adquirido por IBM/DataStax. MCP support 2026. | ✅ — Clientes IBM/DataStax, Python backend |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | 56k | Workflow automation con 1500+ integraciones. n8n 2.0 Jan 2026: 70+ AI nodes, MCP nativo. | ⚠️ — No MIT pero self-hostable; revisar con legal |
+
+---
+
+## Stack C: ERP / CRM Enterprise Open Source
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52.8k | ERP+CRM+eCommerce+HR todo-en-uno. Python+OWL. Community Edition gratuita. | ✅ — Base para AI-over-ERP patterns |
+| [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10.4k | Low-code web framework Python+JS. Base de ERPNext. REST API nativa, hooks system. | ✅ — Custom ERP/CRM con MCP server |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36.4k | ERP open source sobre Frappe. Manufacturing, HR, CRM, contabilidad. 15+ módulos. | ✅ — ERPNext + erpnext-mcp-server |
+| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 1.1k | Apache OFBiz: ERP+CRM+SCM+eCommerce. Java. Licencia Apache-2.0 = ideal Globant. | ✅ — Clientes Java enterprise legacy |
+| [suitecrmio/suitecrm-core](https://github.com/suitecrmio/suitecrm-core) | AGPL-3.0 | 4.2k | CRM open source PHP. Feature-parity con Salesforce. Plugin API robusto. | ✅ — CRM con AI on top (AGPL, revisar licensing) |
+| [espocrm/espocrm](https://github.com/espocrm/espocrm) | GPL-3.0 | 2.5k | CRM open source PHP moderno. API REST nativa, webhooks, custom entities. | ✅ — CRM más liviano que SuiteCRM |
+
+---
+
+## Stack D: Data Catalog / Governance
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 6k | Data catalog + data quality + MCP server. 3000+ enterprise deployments. EU AI Act compliance tooling. | ✅ — AI governance stack |
+| [datahub-project/datahub](https://github.com/datahub-project/datahub) | Apache-2.0 | 10k | Data discovery + lineage + governance. LinkedIn. Agentic workflows integración 2026. | ✅ — Data lineage para AI compliance |
+
+---
+
+## Stack E: Observabilidad LLM
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | 28k | LLM observability + tracing + evaluación. Self-hostable Docker. EU AI Act audit trail. | ✅ — Mandatorio para enterprise prod |
+| [comet-ml/opik](https://github.com/comet-ml/opik) | Apache-2.0 | 8.5k | LLM evaluation + tracing. Integra con LangChain/LlamaIndex. | ✅ — Alternativa OSS a Langfuse |
+| [Arize-ai/phoenix](https://github.com/Arize-ai/phoenix) | Elastic-2.0 | 7.2k | LLM tracing + evals + prompt management. Arize Phoenix. | ⚠️ — Elastic License (revisar con legal) |
+
+---
+
+## Stack F: Protocolos Enterprise AI
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Servidores MCP oficiales. 97M descargas/mes. Linux Foundation. 5000+ MCP servers ecosistema (Jul 2026 RC). | ✅ — Estándar de integración AI↔enterprise tools |
+| [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk) | MIT | - | SDK para production software agents. Stateless, event-sourced, composable. 4 packages. | ✅ — Coding agents enterprise |
+
+---
+
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
