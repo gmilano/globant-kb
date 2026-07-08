@@ -1,53 +1,28 @@
 # 📈 Trending Repos — Education
 
-> GitHub repos gaining momentum in EdTech / AI education space.
-> Last updated: 2026-07-06 (second pass)
+> Last updated: 2026-07-08
 
-## Breakout Repos (Past 30 Days)
+## GitHub Trending (Week of July 7–13, 2026)
 
-| Repo | License | Stars | Velocity | Why |
-|------|---------|-------|----------|-----|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache 2.0 | 22k+ | ▲▲▲ | v1.0 rewrite April 2026 — agent-native ITS with persistent learner memory. Most-starred edu AI project in 2026. |
-| [plastic-labs/tutor-gpt](https://github.com/plastic-labs/tutor-gpt) | MIT | 650+ | ▲▲ | Theory-of-Mind tutoring; cited in NeurIPS 2025; growing developer community |
-| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | 620+ | ▲▲ | New KT models + EDM 2026 dataset integrations; benchmark standard |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL 3.0 | 350+ | ▲▲ | AI quiz gen + video assessment; growing APAC user base |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | MIT | 320+ | ▲▲ | Ollama-first privacy-safe tutoring; schools adopting as local Khanmigo |
-| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | 280+ | ▲ | Spaced repetition + AI card generation; iOS/Android/Web; clean MIT |
-| [microsoft/moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) | MIT | 190+ | ▲ | Microsoft backing; reference RAG plugin for Moodle 4.5+ AI subsystem |
-| [zijinz456/OpenTutor](https://github.com/zijinz456/OpenTutor) | MIT | 180+ | ▲ | Block-based self-hosted; 10+ LLM providers; no server needed |
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | 120+ | ▲ | Gamified AI education for ages 4-16; Next.js 16 + Claude; APAC schools piloting |
-
-## Spaced Repetition & Memory Science (Rising)
-
-| Repo | License | Stars | Velocity | Why |
-|------|---------|-------|----------|-----|
-| [open-spaced-repetition/fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki) | MIT | 4k+ | ▲▲ | FSRS-6 in Anki 25.09; native on all platforms; 1.7B benchmark; production at MaiMemo 100M+ users |
-| [open-spaced-repetition/fsrs.js](https://github.com/open-spaced-repetition/fsrs.js) | MIT | 300+ | ▲▲ | JS FSRS for web LMS — every new flashcard app dropping SM-2 for this |
-| [open-spaced-repetition/srs-benchmark](https://github.com/open-spaced-repetition/srs-benchmark) | MIT | 200+ | ▲ | 1.7B-review benchmark dataset; reference for any SRS algorithm validation |
-
-## Offline-First Education (Rising)
-
-| Repo | License | Stars | Velocity | Why |
-|------|---------|-------|----------|-----|
-| [learningequality/kolibri](https://github.com/learningequality/kolibri) | MIT | 700+ | ▲▲ | Offline AI Phase 3 development; UNHCR + Vodafone partnerships; 220+ countries |
-| [learningequality/studio](https://github.com/learningequality/studio) | MIT | 200+ | ▲ | Content curation for custom Kolibri channels; government curriculum tooling |
-
-## Established Repos Worth Watching
-
-| Repo | License | Stars | Description |
+| Name | License | Stars | Description |
 |------|---------|-------|-------------|
-| [overhangio/tutor](https://github.com/overhangio/tutor) | AGPL 3.0 | 5.2k | Docker Open edX — steady 300+ new stars/month as edX.org enterprise adopters self-host |
-| [chamilo/chamilo-lms](https://github.com/chamilo/chamilo-lms) | GPL 3.0 | 820+ | Chamilo — dominant in LATAM universities; French/Spanish communities; AI plugin roadmap 2026 |
-| [saylordotorg/moodle-local_ai_course_assistant](https://github.com/saylordotorg/moodle-local_ai_course_assistant) | GPL 3.0 | 95+ | SOLA — multi-provider AI course assistant for Moodle; in production at Saylor.org |
-| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | 580+ | Curated LLM-in-education papers — new EDM 2026 + AIED 2026 papers added weekly |
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache 2.0 | 22k+ | Agent-native personalized tutoring. Graph-enhanced RAG. 6 learning modes. Launched Dec 2025 from HKUST. |
+| [open-spaced-repetition/fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki) | MIT | 3.8k | FSRS-7 now default Anki algorithm. ML-optimized scheduling. Ecosystem of 10+ language ports. |
+| [frappe/lms](https://github.com/frappe/lms) | MIT | 3k | 100% open-source LMS from Frappe. Fast-growing alternative to Open edX for SMB/startup EdTech. |
+| [studyield/studyield](https://github.com/studyield/studyield) | MIT | 60 | Apr 2026 launch. Self-hosted AI learning: exam cloning, knowledge graphs, teach-back eval. High fork velocity. |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | BSD-3 | 78 | High forks (173). Local Ollama RAG tutoring + avatar/voice. Teams shipping their own branded tutor on this. |
+| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3 | 14 | Early-stage e-learning: content delivery, learner tracking, assessments. To watch. |
+| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | — | — | AI Kids Academy: gamified learning for ages 4–16. Storytelling, coding, escape rooms. Claude + Next.js. |
+| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | 24 | AI-powered flashcards with spaced repetition. iOS/Android/web. Anki alternative. |
+| [ai-infra-curriculum/ai-infra-engineer-learning](https://github.com/ai-infra-curriculum/ai-infra-engineer-learning) | Apache 2.0 | 1.4k | AI Infrastructure curriculum (2–4 years exp). Production ML infra, MLOps, Kubernetes. Community-built. |
 
-## Infrastructure for AI EdTech Builders
+## Why These Are Moving
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache 2.0 | 500+ | Open edX plugin framework — the standard way to ship AI features to 140M learners |
-| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | 250+ | BKT adaptive ITS — deploy in 5 min; 550+ math problems; A/B testing built-in |
-| [CAHLR/pyBKT](https://github.com/CAHLR/pyBKT) | BSD 3-Clause | 300+ | Standard BKT library — any adaptive system needs this for skill mastery estimation |
+- **DeepTutor**: GraphRAG + Math Animator (step-by-step animated solutions) went viral — fills a gap nothing else in OSS covers
+- **FSRS momentum**: ML-optimized review scheduling is now table stakes. Every new flashcard/quiz app is FSRS-first
+- **Frappe LMS**: MIT license + Python/Vue stack = easy for dev shops to white-label. Growing in India/Southeast Asia
+- **studyield**: Quizlet-alternative positioning at zero-cost self-hosted resonating with universities post-Quizlet price hikes
+- **ai4kids**: First wave of children-specific AI education apps; parents/schools demanding age-appropriate alternatives to ChatGPT
 
 ---
-*Updated hourly by ingest pipeline. GitHub star counts approximate.*
+*Pipeline: auto-updated hourly.*

@@ -1,88 +1,68 @@
-# 🏭 Vertical Solutions — Education
+# 🏭 Vertical Platforms — Education
 
-> Real platforms to customize with AI. Build on proven foundations, add an agentic layer on top.
-> Strategy: fork a working platform → inject AI capabilities → deliver 10x faster than greenfield.
-> Last updated: 2026-07-06 (second pass)
+> Real platforms to customise with AI. Strategy: start from a working system, add agentic layer on top.
+> Last updated: 2026-07-08
 
-## Core LMS Platforms
+## Learning Management Systems (LMS)
 
-| Platform | License | Stars | URL | Stack | Best for |
-|----------|---------|-------|-----|-------|----------|
-| **Open edX** | Apache 2.0 | 8.1k | [github.com/openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Django/Python, React MFEs | Universities, MOOCs, corporate academies with 10k+ learners. 140M+ users globally. XBlock AI plugin system. |
-| **Moodle** | GPL 3.0 | 5.5k | [github.com/moodle/moodle](https://github.com/moodle/moodle) | PHP, Mustache templates | K-12 and higher education with existing Moodle installations. 300M+ users. Built-in AI subsystem in v4.5. |
-| **Canvas LMS** | AGPL 3.0 | 5.6k | [github.com/instructure/canvas-lms](https://github.com/instructure/canvas-lms) | Ruby on Rails, React | US higher education market (40% of universities). LTI 1.3 native. Strong accessibility (a11y). |
-| **Frappe LMS** | AGPL 3.0 | 2.1k | [github.com/frappe/lms](https://github.com/frappe/lms) | Python/Frappe, Vue.js | SMB corporate training, startups. Simple admin, ERPNext-compatible, easy Python scripting for AI. |
-| **ClassroomIO** | Apache 2.0 | 1.4k | [github.com/classroomio/classroomio](https://github.com/classroomio/classroomio) | SvelteKit, Supabase | Corporate L&D teams moving off Google Classroom/Thinkific. Beautiful UI, Apache-2.0 clean license. |
-| **Chamilo LMS** | GPL 3.0 | 820+ | [github.com/chamilo/chamilo-lms](https://github.com/chamilo/chamilo-lms) | PHP, Symfony | LATAM universities and governments — largest in Spanish-speaking markets. French + Spanish communities. |
+| Platform | License | GitHub | Users/Scale | Stack | AI Customisation Points |
+|----------|---------|--------|-------------|-------|------------------------|
+| **Moodle** | GPL v3 | [moodle/moodle](https://github.com/moodle/moodle) | 400M users, 150k sites | PHP + PostgreSQL/MySQL | Web Services API, plugin system (1,800+ plugins), AI subsystem (Moodle 4.x) |
+| **Open edX** | AGPLv3 | [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | 100M+ learners, Harvard/MIT/Google | Python/Django + React | XBlock API for custom AI components; Tutor plugin system; REST API |
+| **Frappe LMS** | MIT | [frappe/lms](https://github.com/frappe/lms) | SMB/startups, 3k stars | Python + Vue.js | Frappe framework hooks, REST API, Python extensible |
+| **Canvas LMS** | AGPLv3 | [instructure/canvas-lms](https://github.com/instructure/canvas-lms) | 30M+ users, US universities | Ruby on Rails + React | LTI 1.3 (AI tool integrations), REST API, GraphQL |
+| **Chamilo** | GPL v3 | [chamilo/chamilo-lms](https://github.com/chamilo/chamilo-lms) | 30M+ users, LATAM focus | PHP | Plugin system, REST API; strong in Spanish-speaking markets |
 
-## Deployment Infrastructure
+## School & University ERP
 
-| Platform | License | Stars | Description |
-|----------|---------|-------|-------------|
-| **Tutor (Open edX)** | AGPL 3.0 | 5.2k | [github.com/overhangio/tutor](https://github.com/overhangio/tutor) — Docker-based Open edX deployment. Install Open edX in 5 min. Plugin system. The standard self-hosted edX distribution. |
-| **Moodle Docker** | GPL 3.0 | 600+ | [github.com/moodlehq/moodle-docker](https://github.com/moodlehq/moodle-docker) — Official Moodle Docker containers. Instant dev environment, CI-friendly. |
+| Platform | License | GitHub | Description | AI Layer |
+|----------|---------|--------|-------------|----------|
+| **Frappe Education** | GPL v3 | [frappe/education](https://github.com/frappe/education) | Full school ERP on ERPNext: admissions, attendance, grades, fees, timetable | ERPNext AI, Python hooks |
+| **OpenEduCat** | LGPLv3 | [openeducat/openeducat_erp](https://github.com/openeducat/openeducat_erp) | Odoo-based education ERP: admissions, fees, library, exams, parent portal | Odoo AI extensions |
+| **Fedena** | Apache 2.0 | [projectfedena/fedena](https://github.com/projectfedena/fedena) | Ruby on Rails school management: attendance, grades, reports | REST API |
 
-## AI Plugins & Extensions (Plug Into Existing LMS)
+## Adaptive / Intelligent Tutoring
 
-| Plugin | License | Platform | Description |
-|--------|---------|----------|-------------|
-| [moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) | MIT | Moodle | Microsoft accelerator: floating chatbot, Azure OpenAI, RAG over course content |
-| [SOLA](https://github.com/saylordotorg/moodle-local_ai_course_assistant) | GPL 3.0 | Moodle | Multi-provider (Claude/OpenAI/Ollama), streaming, role-aware; in production May 2026 |
-| [moodle-block_openai_chat](https://github.com/Limekiller/moodle-block_openai_chat) | GPL 3.0 | Moodle | 24/7 AI chat support block; persona customization |
-| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache 2.0 | Open edX | Framework for custom learning components — embed AI tutors, adaptive problems |
+| Platform | License | GitHub | Description | AI Layer |
+|----------|---------|--------|-------------|----------|
+| **OATutor** | MIT | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | Berkeley open-source ITS with Bayesian Knowledge Tracing | BKT + LLM hint generation |
+| **studyield** | MIT | [studyield/studyield](https://github.com/studyield/studyield) | Self-hosted AI learning: multi-agent, knowledge graphs, teach-back | Multi-agent native |
+| **Open-TutorAI CE** | BSD-3 | [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | AI tutor with Ollama local RAG, avatars, voice, video | Fully AI-native |
 
-## Offline & Low-Connectivity Education
+## Content Portals & CMS
 
-| Platform | License | Stars | URL | Best for |
-|----------|---------|-------|-----|----------|
-| **Kolibri** | MIT | 700+ | [github.com/learningequality/kolibri](https://github.com/learningequality/kolibri) | Schools with no reliable internet. 220+ countries, 173+ languages, Raspberry Pi-ready. Offline AI Phase 3 (post-July 2026) adds on-device LLM tutoring. UNHCR refugee camps, rural LATAM. |
-| **Kolibri Studio** | MIT | 200+ | [github.com/learningequality/studio](https://github.com/learningequality/studio) | Content curation tool for Kolibri. Build custom offline content channels for specific national curricula. |
+| Platform | License | GitHub | Description | AI Layer |
+|----------|---------|--------|-------------|----------|
+| **Richie** | MIT | [openfun/richie](https://github.com/openfun/richie) | Django CMS for education portals: course catalog, search, enrollment | Search AI; course recommendation |
+| **DeepTutor** | Apache 2.0 | [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Document-centric tutoring: upload PDF → AI tutor across 6 modes | GraphRAG native |
 
-## Micro-credentials & Digital Badging
-
-| Platform | License | Stars | URL | Description |
-|----------|---------|-------|-----|-------------|
-| **Badgr Server** | Apache 2.0 | 300+ | [github.com/concentricsky/badgr-server](https://github.com/concentricsky/badgr-server) | Open Badges 3.0 issuing server. W3C Verifiable Credentials backed. Django/Python. Powers Canvas Credentials. Issue verifiable skill badges from any LMS. |
-| **Open Badges Validator** | MIT | 100+ | [github.com/1EdTech/openbadges-validator-core](https://github.com/1EdTech/openbadges-validator-core) | Reference OB3 validator from 1EdTech (IMS Global). Verify badge integrity and interoperability across Credly, Accredible, Canvas Credentials, etc. |
-
-> Open Badges 3.0 finalized June 2024 by 1EdTech. Built on W3C Verifiable Credentials. Google, IBM, Microsoft, Amazon now issue and recognize OB3 badges in recruitment.
-
-## Specialized Vertical Platforms
-
-| Platform | License | Description |
-|----------|---------|-------------|
-| **OpenMCT** (NASA) | Apache 2.0 | [github.com/nasa/openmct](https://github.com/nasa/openmct) — Mission control web framework. Used as base for advanced STEM education dashboards + learning analytics visualization. |
-| **H5P** | MIT | [github.com/h5p/h5p-php-library](https://github.com/h5p/h5p-php-library) — Interactive content framework (quizzes, interactive video, flashcards). Integrates with Moodle/Canvas/edX. 500+ content types. AI content generation layer being built on top. |
-| **BigBlueButton** | LGPL 3.0 | [github.com/bigbluebutton/bigbluebutton](https://github.com/bigbluebutton/bigbluebutton) — Open source virtual classroom. WebRTC video. AI transcription, note-taking, and engagement analytics plugins available. |
-
-## How to Add AI to Any Platform
+## How to Add AI to Any LMS
 
 ```
-1. Fork the platform repo (Open edX, Moodle, Chamilo, Kolibri, etc.)
-2. Pick your AI entry point:
-   - Open edX: build an XBlock with LangChain RAG
-   - Moodle: install SOLA plugin (GPL) or build local_* plugin
-   - Canvas: build an LTI 1.3 tool with AI backend
-   - Frappe LMS: write a Python frappe.whitelist() API + Vue frontend
-   - Kolibri: build a Kolibri plugin with offline LLM (Ollama) backend
-3. Connect to LLM:
-   - Cloud: OpenAI / Anthropic API
-   - On-premise: Ollama (MIT) running Llama 3.1 / Mistral 7B
-   - Ultra-low-power: Llama 3.2 3B on Raspberry Pi 5
-4. Add memory science:
-   - FSRS (MIT) for spaced repetition review scheduling post-concept
-   - pyBKT (BSD) for mastery-based problem selection
-5. Wrap with agents:
-   - Simple Q&A: LangChain + FAISS RAG
-   - Adaptive tutoring: pyBKT + OATutor BKT engine
-   - Persistent tutor: DeepTutor architecture reference
-6. Issue credentials:
-   - Badgr Server (Apache 2.0) for Open Badges 3.0 on skill milestones
-7. Deploy:
-   - Open edX: via Tutor plugin system
-   - Moodle: as local_* plugin (standard Moodle dir structure)
-   - Kolibri: as kolibri plugin (offline-safe)
+Strategy 1 — LTI Tool (works with Moodle, Canvas, Open edX)
+  1. Build AI tool as LTI 1.3 provider (FastAPI + PyLTI1p3)
+  2. Register tool in LMS admin
+  3. Embed AI tutor/quiz-gen/assessor as LMS activity
+  → Time: 1–2 weeks for POC
+
+Strategy 2 — Open edX XBlock
+  1. pip install -e ./my-ai-xblock
+  2. Register in INSTALLED_APPS + xblocks
+  3. AI component available in Studio (course authoring)
+  → Time: 2–3 weeks for first XBlock
+
+Strategy 3 — Frappe Hook (frappe/lms or frappe/education)
+  1. Create Frappe app: bench new-app my_edu_ai
+  2. Add document hooks: on_submit, on_update
+  3. Call AI agent (LangChain/CrewAI) from hook
+  → Time: 1 week for basic integration
+
+Strategy 4 — Moodle Plugin
+  1. PHP plugin in /local/ or /mod/ directory
+  2. Use Moodle AI subsystem (4.x) or Web Services API
+  3. AI assistant surfaces in course context
+  → Time: 2–3 weeks
 ```
 
 ---
-*See also: `agents/top.md` for the AI agents that go on top of these platforms.*
+*See `compose/patterns.md` for end-to-end architecture recipes.*
