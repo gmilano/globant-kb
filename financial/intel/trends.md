@@ -1,6 +1,6 @@
 # Tendencias — Financial AI 2026
 
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v2)
 
 ## 1. Agentic AI en producción: 21% de firmas financieras ya lo tienen
 
@@ -134,15 +134,87 @@ Trader Agent → Risk Manager → Portfolio Manager
 
 ---
 
-## Radar resumen julio 2026
+## 9. Open Banking LATAM madura — 300+ fintechs conectadas en Brasil
+
+**Qué está pasando:** Brasil tiene Open Finance regulado por el BCB desde 2021, con **300+ fintechs** ya conectadas al sistema. México acelerando implementación de la Ley Fintech. Colombia, Chile y Perú desarrollando marcos regulatorios. El resultado: datos bancarios de millones de clientes accesibles por API por primera vez.
+
+**Stack recomendado:**
+- Belvo API (capa de conectividad Open Banking LATAM) + AI overlay
+- Apache Fineract (core banking) + FinGPT fine-tuned + Marble (fraud)
+- pgvector para RAG sobre historial transaccional del cliente
+
+**Oportunidad Globant:** La "Open Finance AI Layer" que agrega, normaliza y analiza datos de APIs bancarias LATAM es la oportunidad de plataforma más grande en LATAM fintech 2026-2028. Globant tiene presencia física en todos los países relevantes.
+
+---
+
+## 10. Robo-Advisors conversacionales en español y portugués
+
+**Qué está pasando:** El mercado de gestión patrimonial LATAM es enorme y sub-servido: solo 5-15% de la clase media LATAM usa servicios de inversión formales. Los modelos fine-tuned en terminología financiera LATAM (impuestos Argentina vs Brasil, fondos CDI vs SELIC vs UF, AFORES vs AFP) son el producto más natural para IA conversacional financiera en la región.
+
+**Stack recomendado:**
+- OpenBB (datos de mercado locales: BM&FBovespa, BMV, BYMA)
+- TradingAgents (lógica multi-agente)
+- Claude Haiku (conversación fluida ES/PT)
+- Brokers locales vía MCP: XP Investimentos, Itaú, Banorte
+
+**Caso de uso concreto:** Un cliente pregunta en portugués "¿Vale la pena cambiar mis LCI por CDB ahora con la SELIC en X%?" — el robo-advisor calcula, compara, explica y propone rebalanceo con un click de confirmación.
+
+---
+
+## 11. Fraud Detection con LLM Reasoning — más allá de las reglas
+
+**Qué está pasando:** Los deep fakes financieros (voice cloning para autorizaciones bancarias, synthetic identity fraud) requieren LLM-powered fraud detection que vaya más allá de reglas y ML tradicional. Solo 2% de empresas financieras tenían guardrails AI adecuados en 2025.
+
+**Patrón emergente:**
+```
+Rule-based ML (River/scikit-learn) → alertas de anomalías
+    ↓
+LLM agent (Claude Haiku) → razona sobre el contexto
+  ¿Es normal este comportamiento para este cliente histórico?
+    ↓
+Human-in-the-loop → solo casos ambiguos llegan al analista
+```
+
+**Stack:** River (online ML, no batch) + Claude Haiku + LangGraph + Marble (reglas base)
+
+**Oportunidad:** Bancos LATAM medianos con fraude creciente pero sin equipos de data science grandes. "ML + LLM reasoning" es más explicable para reguladores que black-box solo.
+
+---
+
+## 12. AI para Stress Testing y Risk Management
+
+**Qué está pasando:** Los reguladores bancarios (Fed, ECB, BCB) requieren stress testing de portfolios. Los LLMs pueden generar escenarios adversos creativos que los modelos tradicionales no imaginan, calcular impacto con modelos cuantitativos, y generar reportes narrativos para el regulador.
+
+**Capacidades:**
+- Generación de escenarios: "¿Qué pasa si Argentina defaultea + inflación 200% + caída del real 30%?"
+- Cálculo de impacto: FinRL + tf-quant-finance como motor cuantitativo
+- Reporting narrativo: Claude genera el reporte para el regulador en el idioma requerido
+
+**Oportunidad:** Bancos LATAM medianos necesitan stress testing para cumplimiento regulatorio pero no pueden pagar proveedores institucionales. Costo de implementación: 10-20% de lo que cobran los vendors tradicionales.
+
+---
+
+## Radar resumen julio 2026 (v2)
 
 ```
 ADOPT NOW                TRIAL                  WATCH               HOLD
 ─────────────────────────────────────────────────────────────────
-TradingAgents (LangGraph) FinWorld (NTU)         Basel IV AI tools    Pure RL (sin LLM)
-OpenBB + MCP             FinRL-X (v3.0)          GPT-4o fine-tune    Black-box credit AI
-FinGPT fine-tuning       Marble AML               Hummingbot HFT      Full-auto trading
-Apache Fineract          sec-edgar-mcp            BCBS 239 AI audit   
-ai-hedge-fund pattern    Credit alt-data AI       FinBERT embeddings  
-LEAN backtesting                                                      
+TradingAgents (LangGraph) FinWorld (NTU)         Alpaca MCP live     Pure RL (sin LLM)
+OpenBB + MCP             FinRL-X (v3.0)          AI-Trader exec      Black-box credit AI
+FinGPT fine-tuning       Marble AML               FinSight reports    Full-auto trading
+Apache Fineract          Dexter audit trail       Open Finance MX     
+ai-hedge-fund pattern    Credit alt-data AI       Robo-Advisor ES/PT  
+LEAN backtesting         LLM Fraud reasoning      Stress testing AI   
+sec-edgar-mcp            RegTech multi-LATAM                         
 ```
+
+## Señales a monitorear
+
+| Señal | Por qué importa |
+|-------|----------------|
+| TradingAgents v0.4 (esperado Q3 2026) | Potencial soporte de live trading real vía Alpaca MCP |
+| EU AI Act enforcement (2 agosto 2026) | 25 días — sistemas crediticios = alto riesgo, multas |
+| Open Finance México implementación | Oportunidad de primera plataforma AI sobre datos BC México |
+| SEC regulación "agentic finance" | Impacto en clientes US de Globant con trading agents |
+| FinRL v3 (AI4Finance) | Nuevos environments RL multi-activo para LATAM |
+| BCB Open Finance expansión | Brasil extiende Open Finance a seguros y previsión |

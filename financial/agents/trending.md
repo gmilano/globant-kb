@@ -1,7 +1,7 @@
 # Agentes en tendencia — Financial AI
 
 > Señales calientes esta semana. Foco en momentum y velocidad de adopción.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v2)
 
 ## 6 señales más calientes
 
@@ -63,13 +63,49 @@ Tres repos de MCP server para SEC EDGAR aparecieron en H1 2026:
 
 ---
 
+### 🔥 7. TradingAgents v0.3.1 — release jul-2026 con Claude Sonnet 5 + Fable 5
+
+[TradingAgents v0.3.1](https://github.com/TauricResearch/TradingAgents) publicó release en jul-2026 con soporte nativo de **Claude Sonnet 5 y Fable 5**. Fixes clave: corrección de look-ahead bias en backtesting (bug crítico que inflaba resultados), mejoras de crash-safety en ejecución multi-agente, y mejor logging de debates bull/bear.
+
+**Implicación:** La migración a Sonnet 5 / Fable 5 como LLMs de producción es ya el default recomendado para TradingAgents. Los clientes en pilotos anteriores con Sonnet 4 deben actualizar.
+
+---
+
+### 🔥 8. Dexter (deep financial research) — 13k+ stars, explosión desde mayo 2026
+
+[Dexter](https://github.com/virattt/dexter) (MIT) de virattt alcanzó 13k+ estrellas con crecimiento explosivo desde mayo 2026. Propuesta única: agente autónomo de investigación financiera con **trail de tool usage auditabe en JSON**. Cada respuesta incluye exactamente qué fuentes consultó, qué herramientas ejecutó, y en qué orden.
+
+**Por qué importa:** El patrón de "respuestas auditables" de Dexter es el que los reguladores financieros (BCB Res. 96, EU AI Act) exigen para decisiones crediticias y de inversión. Adoptar este patrón desde el diseño evita deuda técnica regulatoria.
+
+---
+
+### 🔥 9. FinSight — ACL 2026 Main: "One ticker, one click, one publication-ready report"
+
+[FinSight](https://github.com/ai4finance-foundation/FinSight) (MIT) de AI4Finance Foundation apareció en ACL 2026 Main. Propuesta: un agente que genera un **reporte financiero listo para publicación** a partir de un ticker. Lee 10-K/10-Q de SEC EDGAR, calcula ratios, compara contra peers, detecta deterioro de métricas (EBITDA margin, FCF, working capital) y genera PDF con fuentes citadas.
+
+**Oportunidad Globant:** Template para CFO co-pilot en empresas LATAM medianas que no pueden pagar análisis de Bloomberg. Stack: FinSight + datos locales (CVM Brasil, BMV México) + Claude Haiku para generación en ES/PT.
+
+---
+
+### 🔥 10. Alpaca MCP Server — "killer app" de MCP en finanzas
+
+[alpaca-mcp-server](https://github.com/alpacahq/alpaca-mcp-server) (Apache-2.0) es el MCP server de Alpaca Markets — **trading real de acciones, ETFs, crypto y opciones vía lenguaje natural**. Un LLM puede ahora ejecutar "compra 100 acciones de AAPL con un stop-loss en $180" sin una línea de código de integración.
+
+**Delta:** Primer MCP server que cierra el loop completo: research → análisis → **ejecución real** en un solo flujo conversacional. Vibe-Trading y AI-Trader del equipo HKUDS ya lo integran.
+
+**Señal regulatoria:** SEC ya observa los "agentic finance" execution loops. Cualquier implementación necesita human-in-the-loop obligatorio antes de ejecución.
+
+---
+
 ## Tabla delta de momentum
 
-| Repo | Stars semana pasada | Stars hoy | Delta | Señal |
-|------|---------------------|-----------|-------|-------|
-| TradingAgents | ~85k | ~91.6k | +8% | 🔥🔥 explosivo |
-| ai-hedge-fund | ~58k | ~60.9k | +5% | 🔥 fuerte |
-| FinGPT | ~20k | ~20.8k | +4% | 📈 estable alto |
-| OpenBB | ~36k | ~37k | +3% | 📈 estable |
-| FinRL | ~15k | ~15.7k | +5% | 📈 sólido |
-| Marble AML | ~480 | ~553 | +15% | 🔥 emergente |
+| Repo | Stars jul-07 | Stars jul-08 | Delta 7d | Señal |
+|------|-------------|--------------|----------|-------|
+| TradingAgents | ~91.6k | ~91.6k+ | estable alto | 🔥🔥 referencia |
+| ai-hedge-fund | ~60.9k | ~60.9k+ | +5% sem | 🔥 fuerte |
+| Dexter | ~12k | ~13k+ | +8% sem | 🔥🔥 explosivo |
+| FinGPT | ~20.8k | ~20.8k | +4% sem | 📈 estable alto |
+| OpenBB | ~37k | ~40k+ | +8% sem | 🔥 acelerando |
+| FinRL | ~15.7k | ~15.7k | +5% sem | 📈 sólido |
+| Marble AML | ~553 | ~600+ | +10% sem | 🔥 emergente |
+| Vibe-Trading | nuevo | ~16.9k | entrada fuerte | 🔥 nuevo |

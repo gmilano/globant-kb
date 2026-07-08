@@ -1,18 +1,36 @@
 # Mapa de mercado — Financial AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v2)
 
 ## Tamaño de mercado
 
 | Métrica | Valor 2026 | Proyección | CAGR |
 |---------|-----------|------------|------|
-| AI in Fintech (global) | $20B+ | $97.70B (2034) | 19.90% |
+| AI in Fintech (global) | $61B+ | $97.70B (2034) | 19.90% |
 | AI Agents en Financial Services | $2.04B | $6.54B (2035) | 13.84% |
 | FinTech market total (global) | $460.76B | — | — |
 | RegTech / FCC (global) | $5.5B | $17.4B (2032) | 21.22% |
 | Inversión VC en AI fintech (Q1 2026) | $2.1B | — | — |
 | Firmas financieras con agentes en producción | 21% | 81% (2030) | — |
+| Agentic AI en equipos de finanzas 2026 | 44% planifican/usan | — | — |
+| PE firms adoptando AI agéntica | 95% | — | Neurons Lab 2026 |
+
+## Mercado LATAM — datos actualizados jul-2026
+
+| Métrica | Valor | Fuente |
+|---------|-------|--------|
+| Latin America Fintech Market 2026 | $48.7B | MarkWide Research |
+| Proyección 2035 | $240.2B | MarkWide Research |
+| CAGR Fintech LATAM (10 años) | 19.4% | MarkWide Research |
+| AI in Fintech LATAM (proyección 2030) | $2.18B | Grand View Research |
+| GenAI in Fintech LATAM (proyección 2030) | $858M | Grand View Research |
+| CAGR GenAI in Fintech LATAM | 43% | Grand View Research |
+| VC LATAM fintech Q3 2025 | $572M (+82% YoY) | Phoenix Strategy Group |
+| Participación fintech en VC regional | 61% del total | Phoenix Strategy Group |
+| Crecimiento fintech LATAM (5 años prom.) | 40% anual | McKinsey 2026 |
+| Adultos LATAM sin crédito formal | 170M+ | World Bank |
+| Fintechs en Open Finance Brasil (BCB) | 300+ | Banco Central Brasil |
 
 ---
 
@@ -103,6 +121,19 @@
 - AML para sector extractivo (minerales críticos + export compliance)
 
 ---
+
+## Players LATAM relevantes
+
+| Empresa | País | Tipo | Oportunidad AI |
+|---------|------|------|----------------|
+| Nubank | Brasil | Neobank | 100M+ clientes, crédito con AI, fraud detection |
+| Mercado Pago | Argentina | Pagos | Billetera digital, crédito, scoring alternativo |
+| Creditas | Brasil | Lending | AI scoring con garantías alternativas |
+| Konfío | México | SME lending | AI underwriting para PyMEs |
+| Belvo | México | Open Banking API | Infraestructura para AI en banca abierta |
+| Kushki | Ecuador | Pagos | Procesador de pagos LATAM, AI anti-fraude |
+| Pomelo | Argentina | BaaS | Banking as a Service, infraestructura para fintechs |
+| Clara | México/LATAM | Corporate spend | Gestión de gastos corporativos + AI |
 
 ## 5 Gaps en LATAM — oportunidades para Globant
 

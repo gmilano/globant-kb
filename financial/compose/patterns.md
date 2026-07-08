@@ -2,7 +2,7 @@
 
 > Recetas de arquitectura listas para implementar.
 > Repos específicos, timelines, código de orquestación.
-> Última actualización: 2026-07-07
+> Última actualización: 2026-07-08 (v2)
 
 ## Arquitectura base
 
@@ -395,6 +395,235 @@ async def gather_regulatory_updates(jurisdictions: list) -> list:
 
 ---
 
+---
+
+## Receta 7: RegTech Multi-Jurisdiccional LATAM (4-6 semanas)
+
+**Objetivo:** Agente de compliance que entiende simultáneamente BCB Brasil + CNBV México + SFC Colombia + EU AI Act.
+**Stack:** LangGraph + pgvector + RAG sobre textos regulatorios + Claude Haiku (velocidad) + Sonnet 5 (análisis complejo)
+
+```python
+from langgraph.graph import StateGraph
+from langchain_anthropic import ChatAnthropic
+import psycopg2
+
+# pgvector store con textos regulatorios actualizados
+async def update_regulatory_corpus(jurisdictions: list[str]) -> None:
+    sources = {
+        "BR": "https://www.bcb.gov.br/api/circulares",
+        "MX": "https://www.cnbv.gob.mx/circulares",
+        "CO": "https://www.superfinanciera.gov.co/normativa",
+        "EU": "eu-ai-act-mcp://latest"
+    }
+    for j in jurisdictions:
+        docs = await fetch_regulatory_updates(sources[j])
+        await embed_and_store(docs, metadata={"jurisdiction": j, "date": today()})
+
+async def jurisdiction_classifier(state: dict) -> dict:
+    """Identifica qué jurisdicciones aplican a esta operación."""
+    llm = ChatAnthropic(model="claude-haiku-4-5-20251001")
+    response = await llm.ainvoke(
+        f"¿Qué marcos regulatorios aplican a: {state['operation_description']}?\n"
+        f"Países involucrados: {state['countries']}\n"
+        "Responde con lista de códigos: [BR, MX, CO, EU, US]"
+    )
+    return {**state, "applicable_jurisdictions": parse_jurisdictions(response.content)}
+
+async def regulatory_rag_agent(state: dict) -> dict:
+    """RAG sobre textos regulatorios para cada jurisdicción aplicable."""
+    llm = ChatAnthropic(model="claude-sonnet-5")
+    findings = []
+    for jurisdiction in state["applicable_jurisdictions"]:
+        # Recuperar fragmentos regulatorios relevantes via pgvector
+        relevant_regs = await vector_store.similarity_search(
+            query=state["operation_description"],
+            filter={"jurisdiction": jurisdiction},
+            k=5
+        )
+        analysis = await llm.ainvoke(
+            f"Analiza el cumplimiento de esta operación bajo {jurisdiction}:\n"
+            f"Operación: {state['operation_description']}\n"
+            f"Regulaciones aplicables:\n{format_regs(relevant_regs)}\n\n"
+            "Responde: (1) ¿Cumple? (2) Gaps encontrados (3) Acciones requeridas (4) Plazo"
+        )
+        findings.append({"jurisdiction": jurisdiction, "analysis": analysis.content})
+    return {**state, "compliance_findings": findings}
+
+async def conflict_detector(state: dict) -> dict:
+    """Detecta conflictos entre requisitos de distintas jurisdicciones."""
+    if len(state["applicable_jurisdictions"]) < 2:
+        return {**state, "conflicts": []}
+    
+    llm = ChatAnthropic(model="claude-sonnet-5")
+    response = await llm.ainvoke(
+        f"Analiza si hay conflictos regulatorios entre:\n{format_findings(state['compliance_findings'])}\n"
+        "¿Algún requisito de una jurisdicción contradice a otra? ¿Cómo resolver?"
+    )
+    return {**state, "conflicts": parse_conflicts(response.content)}
+
+async def compliance_report_generator(state: dict) -> dict:
+    """Genera reporte ejecutivo multi-jurisdiccional."""
+    report = {
+        "operation": state["operation_description"],
+        "jurisdictions_checked": state["applicable_jurisdictions"],
+        "findings_by_jurisdiction": state["compliance_findings"],
+        "cross_jurisdiction_conflicts": state["conflicts"],
+        "overall_status": determine_overall_status(state),
+        "required_actions": extract_actions(state),
+        "deadline": calculate_nearest_deadline(state)
+    }
+    return {**state, "report": report, "requires_compliance_officer_review": True}
+
+graph = StateGraph(dict)
+graph.add_node("classify", jurisdiction_classifier)
+graph.add_node("rag_analysis", regulatory_rag_agent)
+graph.add_node("conflict_check", conflict_detector)
+graph.add_node("generate_report", compliance_report_generator)
+graph.add_node("human_review", human_compliance_officer_gate)
+
+graph.add_edge("classify", "rag_analysis")
+graph.add_edge("rag_analysis", "conflict_check")
+graph.add_edge("conflict_check", "generate_report")
+graph.add_conditional_edges("generate_report",
+    lambda s: "human_review" if s["requires_compliance_officer_review"] else END)
+```
+
+**Jurisdicciones soportadas:** BCB Brasil (Res. 96/2021, LGPD), CNBV México (Ley Fintech), SFC Colombia, Superfinanciera Chile, EU AI Act (agosto 2026), OCC/FDIC US.
+**Timeline:** 4-6 semanas. Deal size estimado: $150k-500k (SaaS recurrente natural con actualizaciones regulatorias).
+
+---
+
+## Receta 8: Reconciliación Bancaria con Claude Vision (3-5 semanas)
+
+**Objetivo:** Automatizar reconciliación de estados de cuenta bancarios en PDF con el ERP (Odoo/ERPNext).
+**Stack:** Claude Vision (PDF parsing) + pandas + Odoo External API + LangGraph
+
+```python
+import anthropic
+import pandas as pd
+import xmlrpc.client
+import base64
+
+client = anthropic.Anthropic()
+
+async def extract_bank_transactions_from_pdf(pdf_path: str) -> list[dict]:
+    """Claude Vision lee PDFs de bancos LATAM (Itaú, BBVA, Santander, Bancolombia)."""
+    with open(pdf_path, "rb") as f:
+        pdf_data = base64.standard_b64encode(f.read()).decode("utf-8")
+    
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=4096,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "document",
+                    "source": {"type": "base64", "media_type": "application/pdf", "data": pdf_data}
+                },
+                {
+                    "type": "text",
+                    "text": """Extrae TODAS las transacciones de este estado de cuenta bancario.
+                    Para cada transacción devuelve JSON con:
+                    - date (YYYY-MM-DD)
+                    - description (texto original del banco)
+                    - amount (positivo=crédito, negativo=débito)
+                    - balance_after (saldo después de la transacción)
+                    - reference (número de referencia/operación si existe)
+                    Devuelve lista JSON. Sin markdown, solo JSON puro."""
+                }
+            ]
+        }]
+    )
+    return parse_json_response(response.content[0].text)
+
+async def get_odoo_accounting_entries(odoo_config: dict, date_range: tuple) -> pd.DataFrame:
+    """Obtiene asientos contables de Odoo para el período del estado de cuenta."""
+    url, db, username, password = (odoo_config[k] for k in ["url", "db", "username", "password"])
+    common = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/common")
+    uid = common.authenticate(db, username, password, {})
+    models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
+    
+    entries = models.execute_kw(db, uid, password, "account.move.line", "search_read",
+        [[["date", ">=", date_range[0]], ["date", "<=", date_range[1]],
+          ["account_id.code", "like", "1%"]]],  # Cuentas de activo (bancarias)
+        {"fields": ["date", "name", "debit", "credit", "ref", "move_id"], "limit": 1000}
+    )
+    return pd.DataFrame(entries)
+
+async def reconcile_transactions(bank_txns: list[dict], odoo_entries: pd.DataFrame) -> dict:
+    """Concilia transacciones banco vs ERP con AI para los casos difíciles."""
+    bank_df = pd.DataFrame(bank_txns)
+    
+    # Matching automático por fecha+monto (casos simples)
+    exact_matches = []
+    unmatched_bank = []
+    unmatched_odoo = []
+    
+    for _, bank_txn in bank_df.iterrows():
+        mask = (
+            (odoo_entries["date"] == bank_txn["date"]) &
+            (abs(odoo_entries["debit"] - odoo_entries["credit"] - bank_txn["amount"]) < 0.01)
+        )
+        matches = odoo_entries[mask]
+        if len(matches) == 1:
+            exact_matches.append({"bank": bank_txn.to_dict(), "odoo": matches.iloc[0].to_dict()})
+        else:
+            unmatched_bank.append(bank_txn.to_dict())
+    
+    # AI para casos difíciles (descripción diferente, múltiples asientos, comisiones)
+    if unmatched_bank:
+        llm_response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2048,
+            messages=[{
+                "role": "user",
+                "content": f"""Concilia estas transacciones bancarias con asientos de Odoo.
+                Sin conciliar del banco: {unmatched_bank[:20]}
+                Asientos Odoo disponibles: {odoo_entries[["date","name","debit","credit","ref"]].to_dict("records")[:50]}
+                
+                Para cada transacción bancaria:
+                1. ¿Existe un asiento Odoo correspondiente? (busca por monto, fecha cercana, descripción similar)
+                2. Si hay match probable: indica el move_id y tu nivel de confianza (alto/medio/bajo)
+                3. Si no hay match: clasifica como (falta_registro / diferencia_FX / comisión_banco / error)
+                Devuelve JSON."""
+            }]
+        )
+        ai_matches = parse_json_response(llm_response.content[0].text)
+    
+    return {
+        "exact_matches": exact_matches,
+        "ai_suggested_matches": ai_matches if unmatched_bank else [],
+        "unreconciled_bank": [t for t in unmatched_bank if t not in [m["bank"] for m in ai_matches]],
+        "unreconciled_odoo": unmatched_odoo,
+        "reconciliation_rate": len(exact_matches) / len(bank_txns) if bank_txns else 0
+    }
+
+async def generate_reconciliation_report(result: dict) -> str:
+    """Genera reporte ejecutivo de reconciliación para el contador."""
+    total = len(result["exact_matches"]) + len(result["ai_suggested_matches"])
+    rate = result["reconciliation_rate"]
+    
+    report = f"""
+    REPORTE DE RECONCILIACIÓN BANCARIA
+    ===================================
+    Tasa de conciliación automática: {rate:.1%}
+    Matches exactos: {len(result['exact_matches'])}
+    Matches sugeridos por AI (requieren aprobación): {len(result['ai_suggested_matches'])}
+    Sin conciliar (requieren acción): {len(result['unreconciled_bank'])}
+    
+    ITEMS PENDIENTES DE REVISIÓN:
+    {format_unreconciled(result['unreconciled_bank'])}
+    """
+    return report
+```
+
+**Bancos LATAM soportados:** Itaú, BBVA, Santander, Bancolombia, Banco do Brasil, HSBC MX, Banorte — cualquier PDF de estado de cuenta.
+**Impacto:** Reconciliación manual de 2-3 días/mes → 30 minutos + revisión humana de excepciones.
+**Timeline:** 3-5 semanas. Deal size estimado: $80k-250k (alto ROI inmediato para CFOs).
+
+---
+
 ## Tabla resumen de recetas
 
 | Receta | Stack principal | Semanas | Deal size | ROI del cliente |
@@ -405,3 +634,5 @@ async def gather_regulatory_updates(jurisdictions: list) -> list:
 | M&A Financial Due Diligence | FinRobot + SEC EDGAR MCP + OpenBB | 8-14 | $400k-1.2M | DD de semanas → días |
 | Credit Scoring Desbancarizados LATAM | FinGPT fine-tune + Fineract + Marble | 5-8 | $200k-600k | 3-5x más préstamos |
 | RegTech Compliance Monitor | LangGraph + BCB/CNBV feeds + EU MCP | 3-5 | $100k-300k | Evitar multas; SaaS recurrente |
+| RegTech Multi-Jurisdiccional LATAM | LangGraph + pgvector + RAG regulatorio | 4-6 | $150k-500k | Compliance automático multi-país |
+| Reconciliación Bancaria Claude Vision | Claude Vision PDF + pandas + Odoo API | 3-5 | $80k-250k | 2-3 días/mes → 30 minutos |
