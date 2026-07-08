@@ -1,7 +1,7 @@
 # Trending Repos — Travel & Hospitality
 
 > GitHub velocity this week. Mix of production-grade and experiment-grade repos.
-> Last updated: 2026-07-08 (v2)
+> Last updated: 2026-07-08 (v3)
 
 ## Velocity Table (Stars / Momentum)
 
@@ -18,6 +18,9 @@
 | [privilegemendes/amadeus-mcp-server-standalone](https://github.com/privilegemendes/amadeus-mcp-server-standalone) | MIT | ~35★ | ↗ | Richest Amadeus MCP: flight search + price analysis + cheapest dates. Production-ready |
 | [EmmanuelSibi/Travel-Yathri](https://github.com/EmmanuelSibi/Travel-Yathri) | MIT | ~20★ | ↗ | First WhatsApp-native open source AI travel chatbot. PDF itinerary generation. LATAM-relevant |
 | [Vipul-Mhatre/Yatra-Vritta](https://github.com/Vipul-Mhatre/Yatra-Vritta) | MIT | ~15★ | ↗ | AI for specialized travel: medical tourism + MICE + destination weddings. KNN + multi-criteria ranking |
+| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~120★ | 🔥🔥🔥 | **NEW Jul-2026** — Production LangGraph travel agent. Amadeus + Hotelbeds + Twilio + HubSpot. Budget/Balanced/Premium package generation. First repo to integrate Hotelbeds with LangGraph. |
+| [abh2050/langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | MIT | ~35★ | 🔥🔥 | LangGraph + Gemini Flash 2.0 multi-agent travel. Three planning modes. Good architecture reference. |
+| [pesanio/pesan-pms](https://github.com/pesanio/pesan-pms) | MIT | ~80★ | 🔥🔥 | **NEW 2026** — MIT-licensed open source PMS from Pesan.io. Multi-property, Docker-ready. First MIT PMS that Globant can fork without license friction (vs QloApps OSL-3.0 or HotelDruid AGPL-3.0). |
 | [mantrabrain/yatra](https://github.com/mantrabrain/yatra) | GPL-2.0 | ~300★ | → | WordPress travel booking plugin, 700+ active sites, WhatsApp notifications, Viator/GetYourGuide OTA distribution |
 | [esradag/LangChain-TravelPlanner](https://github.com/esradag/LangChain-TravelPlanner) | MIT | ~40★ | → | GPT-4 + Google Maps + Folium interactive map. Clean demo code |
 | [Vipul-Mhatre/Yatra-Vritta](https://github.com/Vipul-Mhatre/Yatra-Vritta) | MIT | ~15★ | ↗ | Medical tourism AI: KNN destination ranking by medical quality/affordability. MICE event management |

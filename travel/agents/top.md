@@ -1,7 +1,7 @@
 # AI Agents — Travel & Hospitality
 
 > Top open source AI agents and tools for the travel industry. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Last updated: 2026-07-08 (v2)
+> Last updated: 2026-07-08 (v3)
 
 ## Top Agents & Tools
 
@@ -20,6 +20,8 @@
 | [mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | ~10★ | MCP Travel Concierge Server with Google Maps integration for itinerary planning, POI discovery, and distance calculations |
 | [Yatra-Vritta](https://github.com/Vipul-Mhatre/Yatra-Vritta) | MIT | ~15★ | AI platform for specialized travel verticals: medical tourism (KNN-based destination ranking by medical quality + affordability + accessibility + safety), MICE events, destination weddings. Multi-criteria decision models + min-max normalization + regression predictions |
 | [yay-travel-agent](https://github.com/Prosusware/yay-travel-agent) | Apache-2.0 | ~10★ | Raise Your Hack Paris winner — concierge AI travel agent with multi-provider search and booking orchestration |
+| [langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~120★ | **NEW Jul-2026** — Production-ready LangGraph multi-agent system. Async parallel orchestration across Amadeus (flights), Hotelbeds (hotels), Amadeus Activities, Twilio (SMS), HubSpot (CRM). Generates Budget / Balanced / Premium travel packages. |
+| [langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | MIT | ~35★ | Multi-agent travel planning system using LangGraph + Gemini Flash 2.0 + DuckDuckGo Search. Three planning modes: single-agent, multi-agent, and collaborative. Clean reference architecture for LangGraph-based travel agents. |
 
 ## Agent Protocol Compatibility
 
@@ -34,6 +36,8 @@
 | mcp-travel-assistant | ✅ | — | — | — | Google Maps routing + POI |
 | Multi-Agent-AI-Travel-Advisor | — | — | ✅ | — | RAG-enhanced 7-agent system |
 | travel-agent (CrewAI) | — | — | — | ✅ | Role-based agent orchestration |
+| langgraph-travel-agent | — | — | ✅ | — | Amadeus + Hotelbeds + Twilio + HubSpot async orchestration |
+| langgraph_multi_agent_ai_travel_agent | — | — | ✅ | — | Three planning modes, Gemini Flash 2.0 |
 | travel-booking-agents | — | ✅ | — | — | Corporate / approval workflow |
 | Travel-Yathri | — | — | — | — | WhatsApp-native standalone |
 | Yatra-Vritta | — | — | — | — | Medical tourism / MICE specialist |

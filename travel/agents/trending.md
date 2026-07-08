@@ -1,6 +1,6 @@
 # Trending in Travel AI — Week of 2026-07-08
 
-> What's hot this week in travel AI agents and tooling. Second-pass update.
+> What's hot this week in travel AI agents and tooling. v3 update: 2026-07-08.
 
 ## Breakout Repos This Week
 
@@ -13,6 +13,8 @@
 | [lev-corrupted/travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) | ~45★ | New: combines Amadeus GDS + AviationStack real-time tracking in one MCP server. Cheapest dates finder is the standout feature |
 | [jongalloway/travel-booking-agents](https://github.com/jongalloway/travel-booking-agents) | ~50★ | Corporate travel agent workflow with real policy enforcement — flight and hotel price validation built in |
 | [EmmanuelSibi/Travel-Yathri](https://github.com/EmmanuelSibi/Travel-Yathri) | ~20★ | AI-powered WhatsApp chatbot for trip planning. NLP + flight/hotel/POI data + PDF itinerary. First WhatsApp-native open source travel AI |
+| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | ~120★ | **NEW Jul-2026** — Production LangGraph multi-agent system with async parallel orchestration: Amadeus (flights+hotels+activities), Hotelbeds (hotel inventory), Twilio (SMS), HubSpot (CRM). Generates Budget / Balanced / Premium packages. First open-source agent integrating Hotelbeds API. |
+| [abh2050/langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | ~35★ | LangGraph + Gemini Flash 2.0 + DuckDuckGo Search. Three planning modes: single-agent, multi-agent, collaborative. Good reference for teams evaluating LangGraph-based orchestration for travel. |
 
 ## Trend 1: The Token-Efficient MCP Design Pattern (trvl)
 
@@ -79,17 +81,42 @@ WhatsApp (3B+ MAU) is the default travel interface across LATAM, Middle East, an
 | Corporate travel | Policy automation + approval routing | travel-booking-agents |
 | Adventure / outdoor | Permit availability + route planning | emerging |
 
-## Traveler Adoption Data (New as of June 2026)
+## Trend 6: Amadeus × Microsoft — 6 AI Agents for Travel (Jul-2026)
+
+Amadeus and Microsoft published a joint report and announced the first batch of **6 AI agents** across Amadeus's solution portfolio:
+- Agents targeting airlines, airports, travel sellers, and hospitality companies
+- Focus on operational efficiency: seat optimization, revenue management, guest service
+- Built on Azure OpenAI + Amadeus APIs
+- Signal for Globant: Amadeus is becoming an AI platform, not just a GDS. MCP will be the integration bridge.
+
+**Action**: Position Globant as the implementation partner for Amadeus AI agents in LATAM (Amadeus has strong LATAM presence with LATAM Airlines, Avianca, Copa).
+
+## Trend 7: Hotelbeds API Emerges as Agentic Hotel Layer
+
+`HarimxChoi/langgraph-travel-agent` is the first open-source agent using **Hotelbeds** as a hotel inventory source alongside Amadeus:
+- Hotelbeds: B2B hotel aggregator with 185k+ properties globally
+- Better pricing than OTAs for package-building agents (direct contract rates)
+- Complements Duffel (flights, NDC-first) + Amadeus (GDS flights+hotels) + Hotelbeds (hotel packages)
+
+New recommended three-layer hotel stack for production agentic travel:
+1. `trvl` MCP (zero-key discovery)
+2. `Dida-hotel-MCP-CN` (B2B pricing, 2M+ hotels)
+3. Hotelbeds API (package rates, 185k+ properties)
+
+## Traveler Adoption Data (Updated July 2026)
 
 | Stat | Value | Source |
 |------|-------|--------|
 | Traveler awareness of AI tools for trip planning | **90%** | Hotel Management Report Jun 2026 |
 | Among AI users: use it for most/every trip | **63%** | Hotel Management Report Jun 2026 |
 | Among AI users: will definitely/probably use again | **96%** | Hotel Management Report Jun 2026 |
+| Hotel chains planning AI agent implementation in 2026 | **40%** | IDC FutureScape 2026 |
+| Travel companies with AI agents at scale by 2025 | **<10%** | IDC FutureScape 2026 |
 | Corporate travel orgs with AI booking in production | growing rapidly | OAG March 2026 |
 | AI agents' projected share of bookings by 2030 | **30%** | IDC FutureScape 2026 |
+| Execs: chatbots/virtual assistants most impactful AI | **65%** | Travel industry survey 2026 |
 
-**Takeaway**: The 96% repeat-use rate among AI travel planners is the key signal. The trust gap (2-7% willing for fully autonomous booking) is closing fast when users experience the value firsthand.
+**Takeaway**: The 96% repeat-use rate among AI travel planners is the key signal. The trust gap (2-7% willing for fully autonomous booking) is closing fast when users experience the value firsthand. The <10% current scale rate + 40% hotel chain implementation target for 2026 means the implementation window is NOW.
 
 ---
-*Updated: 2026-07-08*
+*Updated: 2026-07-08 (v3)*

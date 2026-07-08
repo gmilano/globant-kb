@@ -1,6 +1,6 @@
 # Trends — Travel & Hospitality AI
 
-> Current trends. Updated: 2026-07-08 (v2)
+> Current trends. Updated: 2026-07-08 (v3)
 
 ## Key Numbers
 
@@ -21,6 +21,12 @@
 | Radisson Hotel Group: AI marketing productivity boost | **+50%** | Case study 2026 |
 | Radisson Hotel Group: AI-driven revenue increase | **+20%** | Case study 2026 |
 | Data/AI investment increase in hospitality/travel | +65% | IDC 2026 |
+| GenAI in travel market 2026 | **$1.27B** | Precedence Research 2026 |
+| GenAI in travel market 2035 | **$5.79B** | Precedence Research 2026 |
+| GenAI in travel CAGR 2026–2035 | **18.64%** | Precedence Research 2026 |
+| Hotel chains planning AI agents in 2026 | **40%** | IDC FutureScape 2026 |
+| Travel cos. with AI agents at scale (end-2025) | **<10%** | IDC FutureScape 2026 |
+| LATAM online booking penetration | **74%** | Statista 2026 |
 
 ---
 
@@ -167,11 +173,44 @@ McKinsey "Remapping Travel with Agentic AI" (Apr 2026):
 
 ---
 
+## Trend 10: The Era of Autonomous Agents Arrives in Travel (2026)
+
+The major travel industry forecast for 2026 (IDC, Hospitality Net, McKinsey): the industry shifts from "AI as chatbot" to "AI as autonomous system that does things."
+
+**Three phases of AI in travel:**
+1. **2023-2024 — Generative text**: AI answers questions, writes itineraries, powers chatbots
+2. **2025 — Agentic pilots**: AI executes searches, handles bookings in supervised workflows
+3. **2026 — Autonomous agents**: AI agents act as buyer proxies with transaction authority
+
+**The implementation gap is the opportunity**: <10% of travel companies had AI agents at scale by 2025, but 40% of hotel chains plan deployment in 2026. That gap = Globant's engagement pipeline.
+
+**What buyers need in 2026:**
+- Data infrastructure layer (PMS → clean API → agent-readable)
+- Agent orchestration (LangGraph / OpenAI Agents SDK)
+- Trust layer (human-in-the-loop for payment confirmation)
+- LATAM localization (PIX, SPEI, LGPD, WhatsApp, ES/PT)
+
+---
+
+## Trend 11: Amadeus × Microsoft — AI Agents Enter GDS (Jul-2026)
+
+Amadeus and Microsoft co-published a joint AI agents report and announced the first batch of **6 AI agents** across Amadeus's product portfolio:
+- Targets: airlines (seat optimization, revenue management), airports (passenger flow), travel sellers (booking automation), hospitality (guest services)
+- Technology stack: Azure OpenAI + Amadeus Self-Service APIs
+- Community MCP ecosystem (3+ implementations) bridges Amadeus data to Claude/GPT agents today
+
+**Globant play**: Position as the implementation partner for Amadeus AI agents in LATAM. Amadeus has deep LATAM relationships (LATAM Airlines, Avianca, Copa, Aeromexico). Globant's LATAM expertise + Amadeus AI blueprint = differentiated GTM.
+
+**NDC acceleration in LATAM (Dec 2024)**: Amadeus signed NDC content distribution deals with LATAM Airlines and Saudia. Direct pricing is now available for AI agents in LATAM — the GDS markup gap LetsFG demonstrated ($116 savings) applies to LATAM routes.
+
+---
+
 ## Timeline
 
 | Date | Event |
 |------|-------|
 | Nov 2025 | Google announces agentic flight/hotel booking for AI Mode |
+| Dec 2024 | Amadeus + LATAM Airlines sign NDC distribution deal — direct pricing in LATAM enabled |
 | Jan 2026 | Amadeus SDK updated, 30 Self-Service APIs, NDC compatibility |
 | Mar 2026 | OAG: "The Month Agentic Travel Gets Real" — first scale transactions |
 | Apr 2026 | McKinsey "Remapping Travel with Agentic AI" published |
@@ -180,10 +219,12 @@ McKinsey "Remapping Travel with Agentic AI" (Apr 2026):
 | Jun 2026 | Booking.com debuts agentic AI innovations (Trips feature) |
 | Jul 2026 | DIDA hotel MCP server public (2M+ hotels, free, MIT) |
 | Jul 2026 | 3 community Amadeus MCP servers published |
+| Jul 2026 | Amadeus × Microsoft co-publish AI agents report, announce 6 AI agents |
+| Jul 2026 | HarimxChoi/langgraph-travel-agent published — first Hotelbeds+Amadeus+Twilio LangGraph agent |
 | 2026 H2 | Expected: Amadeus official MCP, Duffel MCP |
 | 2027 | Expected: Booking.com / Expedia MCP servers |
 | 2028 | Predicted: consumer autonomous booking trust at 15-20% |
 | 2030 (est) | IDC: 30% of all travel bookings by AI agents |
 
 ---
-*Updated: 2026-07-08*
+*Updated: 2026-07-08 (v3)*

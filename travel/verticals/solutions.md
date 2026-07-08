@@ -1,7 +1,7 @@
 # Vertical Solutions — Travel & Hospitality
 
 > Real open-source platforms to fork and add AI on top.
-> Last updated: 2026-07-08 (v2)
+> Last updated: 2026-07-08 (v3)
 
 ## Hotel Property Management Systems (PMS)
 
@@ -9,10 +9,16 @@
 |----------|---------|--------|-------|----------|-------|
 | **QloApps** | OSL-3.0 | [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP/MySQL | Full hotel PMS + Booking Engine + Website. Complete hotel operations for independent hotels | ~1.4k★ |
 | **HotelDruid** | AGPL-3.0 | [digital-druid/hoteldruid](https://github.com/digital-druid/hoteldruid) | PHP | Advanced room allocation + scheduling. v3.0.8 (Dec 2025). Multi-language, customizable booking engine, occupancy/revenue reporting. Ideal for independent hotels + hostels needing flexible scheduling | ~200★ |
+| **Pesan PMS** | MIT | [pesanio/pesan-pms](https://github.com/pesanio/pesan-pms) | Node.js | **NEW 2026** — Open Source PMS from Pesan.io. Dashboard, booking management, guest management, room/unit management, staff management, multi-property support. Docker deployment. MIT license — most permissive of the three options. | ~80★ |
 
-**Comparison — QloApps vs HotelDruid:**
-- **QloApps**: Full stack (PMS + channel manager + website). Better for LATAM deployment (active community). OSL-3.0 allows commercial use with source disclosure.
-- **HotelDruid**: More flexible room management logic. AGPL-3.0 requires open sourcing modifications. Better for complex multi-property scheduling.
+**PMS Comparison — QloApps vs HotelDruid vs Pesan PMS:**
+| | QloApps | HotelDruid | Pesan PMS |
+|-|---------|-----------|-----------|
+| License | OSL-3.0 | AGPL-3.0 | MIT ✅ |
+| Stack | PHP/MySQL | PHP | Node.js |
+| Multi-property | No | No | Yes ✅ |
+| Docker-ready | Manual | Manual | Yes ✅ |
+| Best for | Full hotel site+booking | Complex room scheduling | Modern multi-property, Globant fork |
 
 ## Multi-Modal Trip Planning Infrastructure
 

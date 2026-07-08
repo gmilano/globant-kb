@@ -1,7 +1,7 @@
 # Market Map — Travel & Hospitality AI
 
 > Key players, market sizing. Focus: LATAM + global agentic AI.
-> Last updated: 2026-07-08 (v2)
+> Last updated: 2026-07-08 (v3)
 
 ## Market Sizing
 
@@ -10,14 +10,20 @@
 | AI in tourism market (2024) | **$2.95 billion** | MarketsandMarkets 2026 |
 | AI in tourism market (2030) | **$13.38 billion** | MarketsandMarkets 2026 |
 | CAGR 2024–2030 | **28.7%** | MarketsandMarkets 2026 |
+| GenAI in travel market (2026) | **$1.27 billion** | Precedence Research 2026 |
+| GenAI in travel market (2035) | **$5.79 billion** | Precedence Research 2026 |
+| GenAI in travel CAGR 2026–2035 | **18.64%** | Precedence Research 2026 |
 | Agentic AI travel booking market (2025) | $2.1 billion | MarketIntelo 2026 |
 | Agentic AI travel booking market (2034) | $12.1 billion | MarketIntelo 2026 |
 | Agentic booking CAGR 2026–2034 | 22.5% | MarketIntelo 2026 |
 | AI booking completion rate vs traditional OTA | +38% in pilots | Industry data 2026 |
 | IDC: % of bookings by AI agents by 2030 | **30%** | IDC FutureScape 2026 |
 | Travel execs planning agentic AI deployment at scale | **80%** | Hospitality.today 2026 |
+| Hotel chains planning AI agent implementation in 2026 | **40%** | IDC FutureScape 2026 |
+| Travel companies with AI agents at scale by end-2025 | **<10%** | IDC FutureScape 2026 |
 | US consumers willing for fully autonomous booking | **2–7%** | Multiple surveys 2026 |
 | Millennials/Gen Z willing to delegate planning to AI | **61%** | Survey 2026 |
+| LATAM online booking penetration | **74%** | Statista 2026 |
 | Travelers aware of AI tools for trip planning | **90%** | Hotel Management Report Jun 2026 |
 | AI travel users: rely on it for most/every trip | **63%** | Hotel Management Report Jun 2026 |
 | AI travel users: will definitely/probably use again | **96%** | Hotel Management Report Jun 2026 |
@@ -49,6 +55,17 @@ This date marks the transition from "agentic travel is coming" to "agentic trave
 | **AskSuite** | Hotel AI / WhatsApp | No | Omnichannel hotel inbox + booking AI. LATAM focus (Brazil). WhatsApp-native. Series B funding. |
 | **Visito** | Hotel AI / WhatsApp | No | AI agent with live PMS rates + Stripe bookings in WhatsApp chat. Growing in LATAM + US Sunbelt. |
 | **HiJiffy** | Hotel AI | No | European hotel AI chatbot, expanding to LATAM. Strong in Portugal/Spain hotel market. |
+
+## Key Milestones (v3 Additions)
+
+| Date | Event | Significance |
+|------|-------|-------------|
+| Dec 2024 | Amadeus signs NDC content deals with LATAM Airlines + Saudia | NDC accelerates in LATAM — direct pricing for AI agents becomes viable |
+| Mar 2026 | OAG: "The Month Agentic Travel Gets Real" | First autonomous transactions at scale |
+| Apr 2026 | McKinsey "Remapping Travel with Agentic AI" | Winners are mastering back-end data, not the agent layer |
+| Jun 2026 | LetsFG proves $116 savings vs Google Flights | NDC-first is now verifiably cheaper than search aggregators |
+| Jul 2026 | Amadeus × Microsoft publish joint AI agents report | 6 AI agents across Amadeus portfolio announced |
+| 2026 H2 | Amadeus official MCP server expected | GDS will become agent-native |
 
 ## The MCP Platform Race
 

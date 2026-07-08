@@ -402,4 +402,181 @@ trvl mcp
 **Build time**: 2 hours to demo | **Production readiness**: 1-2 weeks (add conversation persistence, user auth, WhatsApp integration)
 
 ---
-*Updated: 2026-07-08*
+
+## Pattern 10: Production LangGraph Travel Planner (Amadeus + Hotelbeds + Twilio)
+
+**Stack**: LangGraph + Amadeus Python SDK + Hotelbeds API + Twilio SMS + HubSpot CRM + Claude claude-sonnet-5
+
+**Repos**: [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) + [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python)
+
+**Why this pattern (Jul-2026)**: First open-source architecture combining Amadeus + Hotelbeds for professional travel package generation. Generates Budget/Balanced/Premium tiers automatically. Hotelbeds provides contracted B2B hotel rates below OTA pricing.
+
+```python
+from langgraph.graph import StateGraph, END
+from amadeus import Client as AmadeusClient
+from anthropic import Anthropic
+from typing import TypedDict, Annotated
+import operator
+import requests
+
+anthropic_client = Anthropic()
+amadeus = AmadeusClient(client_id="...", client_secret="...")
+HOTELBEDS_API = "https://api.test.hotelbeds.com/hotel-api/1.0"
+HOTELBEDS_KEY = "..."
+HOTELBEDS_SECRET = "..."
+
+class TravelState(TypedDict):
+    request: str
+    destination: str
+    check_in: str
+    check_out: str
+    origin: str
+    passengers: int
+    budget_usd: float
+    flights: Annotated[list, operator.add]
+    hotels: Annotated[list, operator.add]
+    activities: Annotated[list, operator.add]
+    packages: dict  # budget / balanced / premium
+    itinerary: str
+
+def parse_request_node(state: TravelState) -> TravelState:
+    """Use Claude to extract structured fields from natural language request"""
+    response = anthropic_client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=512,
+        messages=[{"role": "user", "content": f"""
+        Extract travel details from this request as JSON:
+        {state['request']}
+        Return: {{"destination": "", "origin": "", "check_in": "YYYY-MM-DD", 
+                  "check_out": "YYYY-MM-DD", "passengers": 1, "budget_usd": 0}}
+        """}]
+    )
+    import json
+    parsed = json.loads(response.content[0].text)
+    return {**state, **parsed}
+
+def search_flights_node(state: TravelState) -> TravelState:
+    """Search Amadeus for flights — NDC-aware pricing"""
+    try:
+        result = amadeus.shopping.flight_offers_search.get(
+            originLocationCode=state["origin"],
+            destinationLocationCode=state["destination"],
+            departureDate=state["check_in"],
+            adults=state["passengers"],
+            max=5,
+            currencyCode="USD"
+        )
+        flights = [{"price": float(o["price"]["total"]),
+                    "airline": o["validatingAirlineCodes"][0],
+                    "departure": o["itineraries"][0]["segments"][0]["departure"]["at"]}
+                   for o in result.data[:3]]
+    except Exception:
+        flights = []
+    return {**state, "flights": flights}
+
+def search_hotels_hotelbeds_node(state: TravelState) -> TravelState:
+    """Search Hotelbeds for contracted B2B hotel rates"""
+    import hashlib, time
+    timestamp = str(int(time.time()))
+    signature = hashlib.sha256(
+        f"{HOTELBEDS_KEY}{HOTELBEDS_SECRET}{timestamp}".encode()
+    ).hexdigest()
+    headers = {"Api-key": HOTELBEDS_KEY, "X-Signature": signature,
+               "Accept": "application/json"}
+    payload = {
+        "stay": {"checkIn": state["check_in"], "checkOut": state["check_out"]},
+        "occupancies": [{"rooms": 1, "adults": state["passengers"], "children": 0}],
+        "destination": {"code": state["destination"]},
+        "filter": {"maxHotels": 5, "maxRooms": 3}
+    }
+    try:
+        resp = requests.post(f"{HOTELBEDS_API}/hotels", json=payload, headers=headers)
+        hotels = [{"name": h["name"], "price": h["minRate"], "stars": h["categoryCode"]}
+                  for h in resp.json().get("hotels", {}).get("hotels", [])[:3]]
+    except Exception:
+        hotels = []
+    return {**state, "hotels": hotels}
+
+def generate_packages_node(state: TravelState) -> TravelState:
+    """Claude generates Budget / Balanced / Premium travel packages"""
+    response = anthropic_client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        messages=[{"role": "user", "content": f"""
+        Create 3 travel packages from these options:
+        Flights: {state['flights']}
+        Hotels (Hotelbeds B2B rates): {state['hotels']}
+        Budget: ${state['budget_usd']} total for {state['passengers']} passengers
+        
+        Generate Budget (minimize cost), Balanced (value/quality), Premium (best quality) packages.
+        For each: selected flight, selected hotel, estimated total, key inclusions, pros/cons.
+        Return JSON: {{"budget": {{}}, "balanced": {{}}, "premium": {{}}}}
+        """}]
+    )
+    import json
+    packages = json.loads(response.content[0].text)
+    return {**state, "packages": packages}
+
+def format_itinerary_node(state: TravelState) -> TravelState:
+    """Claude formats the recommended package as a readable itinerary"""
+    recommended = state["packages"].get("balanced", state["packages"])
+    response = anthropic_client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": f"""
+        Format this travel package as a friendly itinerary for WhatsApp/SMS:
+        {recommended}
+        Trip: {state['origin']} → {state['destination']}
+        Dates: {state['check_in']} to {state['check_out']}
+        Keep it concise, use emojis, under 500 chars for SMS.
+        """}]
+    )
+    return {**state, "itinerary": response.content[0].text}
+
+# Build the LangGraph state machine
+builder = StateGraph(TravelState)
+builder.add_node("parse", parse_request_node)
+builder.add_node("search_flights", search_flights_node)
+builder.add_node("search_hotels", search_hotels_hotelbeds_node)
+builder.add_node("generate_packages", generate_packages_node)
+builder.add_node("format_itinerary", format_itinerary_node)
+
+builder.set_entry_point("parse")
+builder.add_edge("parse", "search_flights")
+builder.add_edge("parse", "search_hotels")   # parallel with search_flights
+builder.add_edge("search_flights", "generate_packages")
+builder.add_edge("search_hotels", "generate_packages")
+builder.add_edge("generate_packages", "format_itinerary")
+builder.add_edge("format_itinerary", END)
+
+travel_graph = builder.compile()
+
+# Usage
+result = travel_graph.invoke({
+    "request": "Plan a 5-day trip to Buenos Aires for 2 people from São Paulo, budget $2500",
+    "flights": [], "hotels": [], "activities": [], "packages": {}, "itinerary": ""
+})
+print(result["itinerary"])  # SMS-ready itinerary
+```
+
+**Build time**: 3-4 weeks | **Target**: Travel agencies, tour operators, online travel portals | **Advantage vs Pattern 2**: Hotelbeds B2B rates give 10-20% price advantage over OTA rates shown by Amadeus hotel search
+
+---
+
+## Pattern Selection Matrix (Updated v3)
+
+| Situation | Pattern | Stack | Build Time | Deal Size |
+|-----------|---------|-------|------------|-----------|
+| LATAM hotel wants WhatsApp chatbot | P1 | QloApps + Claude + Twilio | 2-3 weeks | $30-80k |
+| Corporate travel needs policy automation | P2 | Amadeus + LangGraph + Slack | 4-6 weeks | $80-200k |
+| Tourism board wants destination planner | P3 | OpenTripPlanner + Amadeus | 6-8 weeks | $100-300k |
+| Client wants quick demo (no API keys) | P4 | trvl + Claude | 2-3 days | PoC |
+| Travel agency wants direct pricing | P5 | Duffel NDC + LangGraph | 3-4 weeks | $50-150k |
+| Tour operator has WhatsApp leads | P6 | ExcursioX + Claude + WhatsApp | 3-4 weeks | $40-120k |
+| Hotel wants dynamic pricing | P7 | QloApps + darts + Claude | 4-5 weeks | $60-180k |
+| Client needs medical tourism platform | P8 | Yatra-Vritta + Claude | 6-8 weeks | $100-250k |
+| Zero-key proof of concept | P9 | trvl MCP | 2 hours | Demo |
+| OTA / agency needs full package builder | P10 | LangGraph + Amadeus + Hotelbeds | 3-4 weeks | $60-200k |
+
+---
+*Updated: 2026-07-08 (v3)*
