@@ -1,7 +1,7 @@
 # 📡 Tendencias — Enterprise AI
 
 > Tendencias con evidencia real. Cada trend tiene un dato concreto y una implicación para Globant.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ---
 
@@ -113,6 +113,24 @@
 
 ---
 
+## Trend 13: Enterprise Coding Agents — Control Plane emergente (May–Jul 2026)
+**Evidencia:** OpenHands lanzó Enterprise Control Plane (May 6, 2026): 65k ★, RBAC, cost guardrails, audit trails, Docker/Kubernetes. El paper arxiv:2511.03690 (Software Agent SDK) demuestra reducción en system-attributable failures vs v0 con overhead mínimo. SWE-bench 72% (Jun 2026). Claude Mythos 5: 95.5% (Jul 6, 2026).
+
+**Impacto:** Los coding agents ya no son prototipos. Hay ahora un path production-ready: OpenHands Enterprise + LangGraph + Claude. Casos de uso enterprise con ROI medible: legacy migration ($300k-$2M), automated test generation (-40% tiempo QA), code review continuo (-30% bugs en PR).
+
+**Posicionamiento Globant:** Ofrecer "AI-Accelerated Software Delivery" — Globant construye y opera la infraestructura de coding agents para el cliente. Diferenciador único vs Big 4 consulting que solo habla de agentes pero no opera.
+
+---
+
+## Trend 14: 60% Governance Gap — El próximo campo de batalla enterprise (Jul 2026)
+**Evidencia:** Agentic AI Institute (Jul 2026): 72% enterprises en producción con agentes, pero solo 12% tienen governance adecuado. Gap del 60%. EU AI Act enforcement Aug 2 (24 días). McKinsey: $2.6-$4.4T valor de AI, pero 40% proyectos cancelados por governance insuficiente (Gartner 2027 forecast).
+
+**Impacto:** El governance gap es la mayor oportunidad de servicios de 2026-2027. Las empresas que lanzaron agentes en 2025 ahora necesitan urgentemente: data lineage, decision audit trails, policy enforcement, risk classification, HITL workflows. Stack OSS existe: OpenMetadata + Langfuse + OPA + LangGraph.
+
+**Posicionamiento Globant:** "Governance-First AI Studio" — el player que construye agentes Y los gobierna. Diferenciador frente a firmas que solo hacen el deployment inicial sin considerar lifecycle governance.
+
+---
+
 ## Timeline de señales clave 2026
 
 | Fecha | Evento | Impacto |
@@ -125,7 +143,8 @@
 | 2026-06-25 | AI agents dominate GitHub trending | Mass adoption signal |
 | 2026-07-01 | Gartner: $234B SaaS at risk | Enterprise disruption signal |
 | 2026-07-06 | Claude Mythos 5: 95.5% SWE-bench | Coding agents frontier |
-| 2026-07-08 | TODAY: 25 días para EU AI Act enforcement | Compliance urgency |
+| 2026-07-08 | Gartner: $234B SaaS at risk from agentic AI | Enterprise disruption signal |
+| 2026-07-09 | TODAY: 24 días para EU AI Act enforcement. Governance gap 60% | Compliance urgency |
 | 2026-08-02 | EU AI Act full enforcement | Compliance deadline |
 | 2026-Q4 | Gartner target: 40% enterprise apps con AI agents | Adoption milestone |
 | 2027 | Agentic arbitrage impact visible en SaaS revenues | Market disruption |

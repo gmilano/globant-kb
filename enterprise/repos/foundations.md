@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Enterprise
 
 > Bases sobre las cuales construir soluciones enterprise con AI. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ---
 

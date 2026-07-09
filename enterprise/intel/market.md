@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Enterprise AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ---
 
@@ -13,7 +13,8 @@
 | Agentic AI enterprise market 2026 | $9.14B–$10.86B | Multiple analysts | 2026 |
 | Enterprise app software at risk from agentic AI (2030) | $234B | Gartner | Jul 1 2026 |
 | % enterprises adoptando AI agents | 79% | Accelirate 2026 | 2026 |
-| % enterprises con AI agents en producción real | 11% | Accelirate 2026 | 2026 |
+| % enterprises con AI agents en producción real | 72% (Agentic AI Institute) / 11% full-scale | Agentic AI Institute + Accelirate | Jul 2026 |
+| % enterprises con governance frameworks adecuados | 12% (60% governance gap) | Agentic AI Institute | Jul 2026 |
 | % enterprise apps con task-specific agents por fin 2026 | 40% (vs <5% en 2025) | Gartner | Ago 2025 |
 | % Global 2000 roles con engagement directo a AI agents (fin 2026) | 40% | IDC | 2026 |
 | AI como % del total IT spend 2026 | ~41% (vs ~32% en 2025) | Gartner | 2026 |
@@ -38,7 +39,7 @@
 | IBM | Legacy + AI | WatsonX, DataStax/Langflow acquisition | OpenProject, Langflow (MIT) | Reputación legacy |
 | Workday | HCM + Finance | Workday AI, agentic skills 2026 | None | Solo HCM/Finance |
 | Oracle | ERP + DB | Oracle AI Agents, 23c AI Vector | None | Costos y complejidad |
-| Anthropic | AI models | Claude (líder benchmarks), Claude Code | claude-code open protocols | Aún no plataforma enterprise completa |
+| Anthropic | AI models + platform | Claude (líder benchmarks), Claude Code, **Azure GA + GB300 Blackwell Ultra (Jul 2026)** | claude-code open protocols | Ganando enterprise footprint vía Azure |
 
 ---
 

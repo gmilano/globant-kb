@@ -2,7 +2,7 @@
 
 > Recetas concretas para construir soluciones enterprise combinando repos + agentes + AI.
 > Cada patrón nombra repos específicos, licencias y cómo conectarlos.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ---
 
@@ -701,6 +701,101 @@ result = app.invoke({"messages": [
 
 ---
 
+## Patrón 11: Twenty CRM + Claude vía MCP Nativo
+**Caso de uso:** Equipo de ventas o customer success que quiere interactuar con su CRM en lenguaje natural: consultar pipeline, actualizar deals, crear contactos, generar reportes — directamente desde Claude o cualquier agente AI.
+
+**Stack:**
+- [twentyhq/twenty](https://github.com/twentyhq/twenty) (AGPL-3.0, 45.5k ★) — CRM moderno open source
+- [mhenry3164/twenty-crm-mcp-server](https://github.com/mhenry3164/twenty-crm-mcp-server) (MIT) — MCP server para self-hosted
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — orquestación
+- Claude Sonnet 5 — modelo
+
+```python
+# Opción A: Twenty Cloud (MCP server nativo incluido)
+# En Claude Desktop: Settings → MCP Servers → Twenty
+# URL: https://api.twenty.com/mcp/{workspace_id}
+# Autenticación: Twenty API key
+
+# Opción B: Twenty self-hosted + twenty-crm-mcp-server
+# pip install twenty-crm-mcp-server
+
+import anthropic
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+async def twenty_crm_agent(user_query: str):
+    """Agent con acceso nativo a Twenty CRM vía MCP"""
+    client = anthropic.Anthropic()
+    
+    server_params = StdioServerParameters(
+        command="twenty-mcp-server",
+        env={
+            "TWENTY_API_URL": "http://localhost:3000/api",
+            "TWENTY_API_KEY": "your-api-key"
+        }
+    )
+    
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            
+            # Listar tools disponibles del MCP server
+            tools = await session.list_tools()
+            mcp_tools = [
+                {
+                    "name": t.name,
+                    "description": t.description,
+                    "input_schema": t.inputSchema
+                }
+                for t in tools.tools
+            ]
+            
+            # Claude con acceso completo a CRM via MCP
+            response = client.messages.create(
+                model="claude-sonnet-5",
+                max_tokens=4096,
+                tools=mcp_tools,
+                messages=[{"role": "user", "content": user_query}],
+                system="""You are a CRM expert. Use Twenty CRM tools to:
+                - Query and update deals, contacts, companies
+                - Track pipeline stages and activities
+                - Generate sales reports and forecasts
+                Always confirm before creating or deleting records."""
+            )
+            
+            return response
+
+# Ejemplos de queries en lenguaje natural:
+queries = [
+    "¿Qué deals en pipeline tienen valor > $50k y lleven más de 30 días sin actividad?",
+    "Crea una nota de seguimiento para Empresa XYZ: 'Reunión programada para el 15-Jul'",
+    "Muestra el forecast de ventas de este trimestre por owner",
+    "¿Cuáles son los top 5 clientes por revenue en los últimos 90 días?",
+]
+
+# LangGraph wrapper para workflow multi-step
+from langgraph.graph import StateGraph, MessagesState
+from langfuse import Langfuse
+
+langfuse = Langfuse()  # Audit trail para compliance
+
+def crm_agent_node(state: MessagesState):
+    with langfuse.trace(name="twenty-crm-agent") as trace:
+        result = asyncio.run(twenty_crm_agent(state["messages"][-1]["content"]))
+        trace.output = result.content[0].text if result.content else ""
+    return {"messages": [result]}
+```
+
+**Ventajas vs Salesforce:**
+- Self-hosted: datos en tus servidores (LGPD/GDPR compliant)
+- MCP nativo: Claude accede directo sin middleware custom
+- 45.5k ★ creciendo: comunidad activa + Y Combinator backed
+- AGPL-3.0: revisar con legal si hay redistribución comercial
+
+**Tiempo estimado:** 2–4 semanas | **Deal size:** $50k–$250k
+
+---
+
 ## Matriz de selección de patrón
 
 | Si el cliente tiene... | Y necesita... | Recomienda Patrón |
@@ -715,6 +810,7 @@ result = app.invoke({"messages": [
 | Legacy code / deuda técnica | Coding automation | P6 (OpenHands + LangGraph) |
 | Stack Microsoft/.NET | Enterprise agents | P9 (MAF + SK) |
 | Cualquier ERP legacy | Data intelligence | P4 (OpenMetadata) |
+| CRM moderno + equipo ventas | AI sobre CRM en lenguaje natural | P11 (Twenty CRM + MCP) |
 
 ---
 *Ver también: `agents/top.md` para detalles de cada framework y `verticals/solutions.md` para plataformas base.*

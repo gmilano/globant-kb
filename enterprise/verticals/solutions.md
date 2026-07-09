@@ -2,7 +2,7 @@
 
 > Plataformas enterprise open source customizables con AI.
 > Modelo: partir de algo funcional y probado, añadir capa agéntica arriba.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ---
 
@@ -52,7 +52,7 @@ tools = [{
 |------------|----------|-------|-------|----------------|
 | [SuiteCRM](https://github.com/suitecrmio/suitecrm-core) | AGPL-3.0 | 4.2k | PHP | CRM feature-parity Salesforce. AI sobre pipeline de ventas, email scoring |
 | [EspoCRM](https://github.com/espocrm/espocrm) | GPL-3.0 | 2.5k | PHP + React | API REST nativa. Webhooks. Más liviano. AI sobre customer 360. |
-| [Twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 27k | TypeScript | CRM moderno open-source. Alternativa Notion/Salesforce. MCP en roadmap. |
+| [Twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45.5k | TypeScript | CRM moderno open-source. Alternativa Salesforce. **MCP server nativo en Cloud (2026)** — Claude/ChatGPT/Cursor acceden a CRM data directamente. [twenty-crm-mcp-server](https://github.com/mhenry3164/twenty-crm-mcp-server) para self-hosted. |
 | [Monica](https://github.com/monicahq/monica) | AGPL-3.0 | 22k | PHP + Laravel | Personal CRM. Relaciones + contexto = base para AI relationship manager. |
 
 ---

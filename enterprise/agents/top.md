@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Enterprise
 
 > Agentes y herramientas AI open source para la industria Enterprise. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ## Agentes y herramientas destacadas
 
@@ -10,7 +10,7 @@
 | [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | Framework de grafo para agentes stateful en producción. Powers Uber, LinkedIn, Klarna. GA Oct 2025; v1.1 Jun 2026 añade DeltaChannel y timeouts por nodo. | 110k+ |
 | [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | Orquestación de agentes multi-rol. 52.8k ★, 5.2M descargas/mes. Core OSS gratuito; UI/RBAC enterprise de pago. v1.14 May-Jun 2026. | 52.8k |
 | [AG2 / AutoGen](https://github.com/ag2ai/ag2) | Apache-2.0 | Fork comunitario de AutoGen de Microsoft. Conversational multi-agent framework. 22k ★. Base del Microsoft Agent Framework 1.0. | 22k |
-| [OpenHands](https://github.com/OpenHands/OpenHands) | MIT | Plataforma agentic de software engineering. 70k ★. 72% SWE-bench Verified con Claude Sonnet 4.5 + extended thinking. Web UI con VSCode integrado, RBAC, audit trails. | 70k |
+| [OpenHands](https://github.com/OpenHands/OpenHands) | MIT | Plataforma agentic de software engineering. 65k+ ★. 72% SWE-bench Verified. **Enterprise Control Plane GA May 6, 2026**: RBAC, cost guardrails, audit trails, Docker/K8s. | 65k+ |
 | [Dify](https://github.com/langgenius/dify) | Apache-2.0 | Visual AI app builder enterprise-grade. 138k ★ (Apr 2026). RAG nativo, MCP support, HITL, multi-tenant. $30M raised 2026. | 138k |
 | [Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | Drag-and-drop LangChain/LlamaIndex builder. 40k ★. HITL añadido 2026. Auto-scaling nativo. | 40k |
 | [Langflow](https://github.com/langflow-ai/langflow) | MIT | Visual builder adquirido por IBM/DataStax. 60k ★. MCP support 2026. 146k ★ en versión enterprise-fork. | 60k |

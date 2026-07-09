@@ -1,7 +1,7 @@
 # 📈 Repos Trending — Enterprise AI (Julio 2026)
 
 > Repos con mayor momentum en el ecosistema enterprise AI esta semana.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ---
 
@@ -31,6 +31,8 @@
 | [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | 28k | Observabilidad LLM self-hosted. EU AI Act audit trail. |
 | [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk) | MIT | — | Production-grade coding agent SDK. Stateless + event-sourced. |
 | [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10.4k | Framework ERP/CRM MIT. erpnext-mcp-server sobre él. LATAM adopción alta. |
+| [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45.5k | CRM open source. MCP server nativo en Cloud. 45.5k ★, Y Combinator S23. Alternativa Salesforce. |
+| [mhenry3164/twenty-crm-mcp-server](https://github.com/mhenry3164/twenty-crm-mcp-server) | MIT | — | MCP server para Twenty CRM self-hosted. CRUD + GraphQL schema discovery. |
 
 ---
 
@@ -49,9 +51,11 @@
 ## Señales de Mercado Esta Semana
 
 - **Gartner Jul 1 2026**: $234B enterprise SaaS at risk from agentic AI by 2030
-- **Adoption**: 79% enterprises adopting AI agents; solo 11% en producción real
+- **Agentic AI Institute Jul 2026**: 72% enterprises con agentes en producción; 60% governance gap
 - **Gartner**: 40% enterprise apps tendrán AI agents para fin 2026 (vs <5% en 2025)
-- **EU AI Act**: 25 días para enforcement total (Aug 2, 2026)
+- **EU AI Act**: **24 días** para enforcement total (Aug 2, 2026)
+- **Claude on Azure GA**: Claude disponible en Azure AI Foundry + NVIDIA GB300 Blackwell Ultra
+- **OpenHands Enterprise**: Control Plane GA May 6, 2026 — coding agents a escala enterprise
 - **LATAM**: 47% enterprise AI deployment, CAGR 37.07% ($40.5B → $504.7B 2026-2034)
 
 ---

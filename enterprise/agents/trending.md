@@ -1,11 +1,11 @@
 # 📈 Agentes Enterprise Trending — Julio 2026
 
 > Señales calientes esta semana. Foco en novedades con impacto real para proyectos Globant.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ---
 
-## 🔥 Señales calientes — semana 2026-07-08
+## 🔥 Señales calientes — semana 2026-07-09
 
 ### 1. Gartner: $234B en SaaS enterprise en riesgo por Agentic AI (Jul 1, 2026)
 **Señal:** Gartner publicó el 1 de julio 2026 que hasta USD $234 billion en enterprise SaaS spending estará expuesto a "agentic arbitrage" antes de 2030 — ~20% del gasto total en enterprise software.
@@ -59,6 +59,33 @@
 **Señal:** Gartner Hype Cycle 2026 for Agentic AI sitúa la tecnología en el Peak of Inflated Expectations. 79% enterprises dicen adoptar AI agents; solo 11% tienen en producción real. Gartner predice 40% enterprise apps tendrán task-specific agents para fin de 2026 (vs <5% en 2025).
 
 **Por qué importa:** Gap enorme entre intención y producción. Globant puede ser el partner que cierra ese gap — la firma que convierte pilotos en producción a escala.
+
+---
+
+### 8. Claude on Azure Foundry + NVIDIA GB300 Blackwell Ultra (Jul 2026)
+**Señal:** Anthropic anunció disponibilidad general de Claude en Microsoft Azure AI Foundry — el primer deployment de Claude en NVIDIA GB300 Blackwell Ultra GPUs con Quantum-X800 InfiniBand. Claude ahora disponible con la capa de compliance, seguridad y governance de Microsoft Azure Enterprise.
+
+**Por qué importa:** Clientes Microsoft/Azure enterprise pueden usar Claude sin salir del ecosistema Azure. El GB300 Blackwell Ultra es la GPU de nueva generación más potente para inference masiva. Azure compliance umbrella (SOC2, ISO27001, FedRAMP) = unlock para sectores regulados (banca, salud, gobierno).
+
+**Oportunidad Globant:** Empresas con inversión Azure existente ahora onboardean Claude sin fricción regulatoria. Acelera ventas en sectores regulados LATAM + US.
+
+---
+
+### 9. OpenHands Enterprise Control Plane — May 6, 2026
+**Señal:** OpenHands lanzó OpenHands Enterprise (May 6, 2026): control plane para correr coding agents a escala enterprise. Incluye visibility, access controls, audit trails, cost guardrails y política de ejecución centralizada. Se ejecuta en Docker/Kubernetes. 65k+ ★.
+
+**Por qué importa:** El gap entre "demo coding agent" y "coding agent en producción enterprise" tiene ahora solución concreta. Casos de uso: legacy migration (COBOL→Python), automated code review, test generation en escala — con RBAC, cost tracking y audit trail.
+
+**Repo:** [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) MIT | [Blog](https://www.openhands.dev/blog/openhands-enterprise-agent-control-plane)
+
+---
+
+### 10. Agentic AI: 72% producción real, 60% governance gap (Jul 2026)
+**Señal:** Reporte Agentic AI Institute (Jul 2026): 72% de enterprises tienen agentic AI en producción — pero solo 12% tienen governance frameworks adecuados. Gap del 60% entre deployment y governance = riesgo regulatorio masivo + EU AI Act exposure.
+
+**Por qué importa:** La velocidad de adopción supera la de governance. EU AI Act enforcement en **24 días** (Aug 2). Empresas con agentes en producción sin audit trails están en violación. Oportunidad urgente: governance retrofit para agentes existentes.
+
+**Señal de monitoreo:** [Agentic AI Institute](https://agenticaiinstitute.org/agentic-ai-enterprise-adoption-2026-governance-gap/)
 
 ---
 
