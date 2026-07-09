@@ -91,7 +91,7 @@ GDC State of AI Survey 2026: aunque el 52% de desarrolladores tiene visión nega
 La Godot Foundation actualizó su política de contribución el 1 de julio de 2026 prohibiendo casi todo uso de AI generativa en PRs:
 - ❌ Código generado por IA ("vibe coding"), PRs enviados por AI agents autónomos, texto generado por IA en discusiones human-to-human
 - ✅ Asistencia menor (autocomplete, regex, find-and-replace) con divulgación obligatoria
-- **Causa raíz**: avalancha de PRs de baja calidad por AI que sobrecárgó a los mantenedores voluntarios
+- **Causa raíz**: avalancha de PRs de baja calidad por AI que sobrecargó a los mantenedores voluntarios
 - **Señal de industria**: la reacción al ruido AI en OSS está generando un "premium de calidad humana". Proyectos que rechacen submissions AI-generated ganarán credibilidad de contribuidores. Godot sigue siendo MIT — solo cambian las reglas de contribución.
 - **Oportunidad Globant**: posicionarse como contribuidor de alta calidad humana en el ecosistema Godot, diferenciándose de la avalancha de AI-generated PRs.
 
