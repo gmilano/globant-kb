@@ -1,9 +1,29 @@
 # Agentes trending — Gaming AI
 
-> Tendencias activas en AI gaming. Última actualización: 2026-07-09
+> Tendencias activas en AI gaming. Última actualización: 2026-07-09 (v6)
 > Investigación manual curada — complementa el pipeline automático de top.md
 
-## Señales nuevas esta semana (2026-07-07 → 2026-07-09)
+## Señales nuevas esta semana (2026-07-09 → 2026-07-09)
+
+### S6: OmniGameArena — Benchmark UE5 para VLM Game Agents (jun 2026)
+[mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) — arXiv:2606.09826 (jun 2026). Benchmark unificado con 12 juegos construidos en **Unreal Engine 5** (7 Solo, 3 PvP, 2 Coop), interfaz de acciones uniforme para comparar VLMs comerciales (Claude, GPT, Gemini) con modelos especializados (NitroGen). Introduce **Improvement Dynamics Curve (IDC)**: un reflector LLM con herramientas refina automáticamente prompts de habilidad en múltiples rondas, midiendo mejora por reflexión además del score inicial.
+- Complementa GameDevBench (Godot) con evaluación en entornos UE5 de producción
+- NitroGen evaluado: modelo visión-acción entrenado en 40k horas / 1,000+ juegos
+- Señal: la evaluación de VLMs en entornos de juego 3D reales es el próximo estándar de benchmarking
+
+### S7: Godot Foundation prohíbe código AI — 1 jul 2026
+La Godot Foundation actualizó su política de contribución (1-2 jul 2026) prohibiendo **casi todo uso de IA generativa** en contribuciones al engine:
+- ❌ Código generado mayoritariamente por IA o "vibe coding"
+- ❌ Pull requests enviados por AI agents autónomos
+- ❌ Texto generado por IA en comunicaciones human-to-human
+- ✅ Asistencia menor (autocompletado, regex, find-and-replace) con divulgación
+- **Razón**: avalancha de PRs de baja calidad sobrecargando mantenedores voluntarios; "los LLMs no pueden aprender del feedback ni tomar responsabilidad por el código"
+- **Fuente**: [godotengine.org/article/contribution-policy-2026/](https://godotengine.org/article/contribution-policy-2026/)
+- **Implicación para Globant**: oportunidad competitiva — podemos posicionarnos como contribuidores humanos de alta calidad al ecosistema Godot, donde la IA-generada está prohibida.
+
+---
+
+## Señales anteriores esta semana (2026-07-07 → 2026-07-09)
 
 ### S1: Carbon Engine de EVE Online es MIT — 1 jul 2026
 Fenris Creations (CCP Games) abrió el código de **Carbon**, el engine que alimenta EVE Online y EVE Frontier, bajo licencia **MIT** (audio espacial: Apache-2.0; IO: Python Software Foundation). Disponible en GitHub desde el 1 de julio de 2026.
@@ -92,6 +112,7 @@ Patrón emergente: BT como esqueleto de control → LLM como módulo de diálogo
 | Proyecto | URL | Señal |
 |----------|-----|-------|
 | **Carbon Engine** | [github.com/orgs/carbonengine](https://github.com/orgs/carbonengine) | MIT desde 1-jul-2026. Engine AAA MMO open. Único en su clase. |
+| **OmniGameArena** | [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) | arXiv:2606.09826, MIT. Benchmark VLM en UE5 con IDC. Estándar emergente para 3D. |
 | **GamingAgent** | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | ICLR 2026, 947★. Leaderboard LLM gaming en crecimiento. |
 | **GameDevBench** | [waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) | Primer benchmark game dev agentico en Godot. Señal de madurez del campo. |
 | **Mantella** | [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) | MIT, stack STT+LLM+TTS para NPCs. Más completo que alternativas. |
@@ -104,10 +125,12 @@ Patrón emergente: BT como esqueleto de control → LLM como módulo de diálogo
 
 - 90% de desarrolladores integra AI en sus flujos de trabajo (2026)
 - 50% de estudios AAA usa AI en producción (no solo demos)
+- ChatGPT: 74% adopción en industria gaming; Google Gemini: 37%; Microsoft Copilot: 22%
+- AI in Gaming (broad): $10.1B (2026) → $75.1B (2033) CAGR 33.2% (Persistence Market Research)
 - Generative AI in Gaming: $2.21B en 2026, CAGR 23.1%
 - NPC Generation AI: $2.44B en 2026, CAGR 31.4%
 - AI Asset Generator: $2.08B en 2026 → $10.73B en 2035
-- AI in Games (broad): crecimiento $34B proyectado 2026-2030, CAGR 40.7%
+- 95%+ de jugadores califican experiencias con NPCs AI como "agradables o recompensantes" (2026)
 
 ---
-*Fuentes: GDC 2026, Research & Markets, arxiv.org, GitHub (verificado 2026-07-09)*
+*Fuentes: GDC 2026, Research & Markets, Persistence Market Research, arxiv.org, GitHub (verificado 2026-07-09)*

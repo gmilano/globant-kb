@@ -1,22 +1,23 @@
 # Mapa de mercado — Gaming AI
 
 > Players, tamaños, oportunidades. Foco LATAM + posicionamiento Globant.
-> Última actualización: 2026-07-09 (v5)
+> Última actualización: 2026-07-09 (v6)
 
 ## Tamaño de mercado global
 
-| Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte |
-|----------|------------|------------|------|-----------|
-| AI in Games (global) | $2.87B | $3.4B+ | 18.5% | 2025-2026 |
-| AI in Gaming (amplio, Technavio) | — | — | 40.7% | Crecimiento $34B proyectado 2026-2030 |
-| Generative AI in Gaming | $1.79B | $2.21B | 23.1% | → $5.09B en 2030 |
-| NPC Generation AI Market | $1.86B | $2.44B | 31.4% | ↑ YoY acelerado |
-| AI Game Assets Generator | $1.7B | $2.08B | ~20% | → $10.73B en 2035 |
-| NPCs + Digital Humans | — | 28.6% del total AI gaming | — | mayor segmento único |
-| LATAM Gaming market | $25.70B | $28.04B | 9.12% | 2026-2034 |
-| LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad |
+| Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte | Fuente |
+|----------|------------|------------|------|-----------|--------|
+| AI in Gaming (broad — Persistence MR) | — | **$10.1B** | **33.2%** | → **$75.1B en 2033** | Persistence Market Research |
+| AI in Games (segmento menor) | $2.87B | $3.4B+ | 18.5% | 2025-2026 | Technavio |
+| AI in Gaming (Technavio — amplio) | — | — | 40.7% | Crecimiento $34B proyectado 2026-2030 | Technavio |
+| Generative AI in Gaming | $1.79B | $2.21B | 23.1% | → $5.09B en 2030 | Research&Markets |
+| NPC Generation AI Market | $1.86B | $2.44B | 31.4% | ↑ YoY acelerado | Research&Markets |
+| AI Game Assets Generator | $1.7B | $2.08B | ~20% | → $10.73B en 2035 | Business Research Insights |
+| NPCs + Digital Humans | — | 28.6% del total AI gaming | — | mayor segmento único | Technavio |
+| LATAM Gaming market | $25.70B | $28.04B | 9.12% | 2026-2034 | GII Research |
+| LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad | — |
 
-**Adopción**: 90% de desarrolladores integra AI en workflows; 50% de estudios AAA usa AI en producción. Reducción de tiempo de creación de assets: 70-90%. Ahorro promedio: $100K-$500K por título.
+**Adopción**: 90% de desarrolladores integra AI en workflows; 50% de estudios AAA usa AI en producción. ChatGPT: 74% adopción en industria gaming; Google Gemini: 37%; Microsoft Copilot: 22%. Reducción de tiempo de creación de assets: 70-90%. Ahorro promedio: $100K-$500K por título. 95%+ de jugadores encuentran experiencias con NPCs AI "agradables o recompensantes" (2026).
 
 ---
 
@@ -106,4 +107,4 @@
 - **Inworld/Convai**: plataformas cerradas caras → Globant puede ofrecer alternativa OSS consultiva
 
 ---
-*Fuentes: Technavio, Research & Markets, Business Research Company, GlobEnewswire (jul 2026), GDC 2026 Survey (2026-07-09)*
+*Fuentes: Technavio, Research & Markets, Business Research Company, Persistence Market Research (jul 2026), GDC 2026 Survey (2026-07-09)*

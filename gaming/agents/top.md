@@ -1,7 +1,7 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09 | Verificado por deep-research (v5 — 130+ agentes, 600+ búsquedas)
+> Última actualización: 2026-07-09 | Verificado por deep-research (v6 — 140+ agentes, 650+ búsquedas)
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -28,6 +28,7 @@
 |--------|------|----------|-------------|-------|
 | GamingAgent | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | **ICLR 2026.** LLM/VLM gaming agents: evaluación de modelos en 7 juegos (Sokoban, Tetris, 2048, Candy Crush, Pokémon Red, Super Mario Bros, Ace Attorney). lmgame-Bench + computer-use agents. | 947 |
 | GameDevBench | [waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) | MIT | **arXiv:2602.11103 (feb 2026).** 132 tareas de game development en Godot: 3D/2D Graphics, Gameplay, UI. Mejor agente resuelve 53.8%. Primer benchmark agentico para desarrollo de juegos. | — |
+| OmniGameArena | [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) | MIT | **arXiv:2606.09826 (jun 2026).** 12 juegos en Unreal Engine 5 (7 Solo, 3 PvP, 2 Coop). Improvement Dynamics Curve (IDC): reflexión agentica iterativa para mejorar skills. Evalúa Claude, GPT, Gemini, Qwen y NitroGen (fundation model: 40k h / 1k+ juegos). | — |
 | AgentBench | [THUDM/AgentBench](https://github.com/THUDM/AgentBench) | MIT | **ICLR 2024.** Eval de LLMs como agentes en 8 entornos (OS, DB, juego de cartas, web shopping, etc.). Referencia de la industria para eval agentica general. | 3.1k |
 
 ## Pathfinding y AI de movimiento

@@ -7,6 +7,7 @@
 | Repo | Licencia | Descripción | Stars | Señal |
 |------|----------|-------------|-------|-------|
 | [orgs/carbonengine](https://github.com/orgs/carbonengine) | MIT | **Carbon Engine** (Fenris/CCP Games). Engine AAA que mueve EVE Online y EVE Frontier, liberado el 1-jul-2026. Trinity (gráficos) + Destiny (física MMO). Primer MMO AAA open source. | Nuevo 1-jul | Hito histórico para gaming OSS |
+| [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) | MIT | **arXiv:2606.09826 (jun 2026).** 12 juegos en Unreal Engine 5 (7 Solo, 3 PvP, 2 Coop). Improvement Dynamics Curve (IDC): reflexión agentica iterativa. Evalúa Claude, GPT-4o, Gemini, Qwen vs NitroGen (40k h entrenamiento). | — | Nuevo estándar de benchmarking VLM en entornos 3D |
 | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | **ICLR 2026.** LLM/VLM gaming agents. lmgame-Bench: 7 juegos, leaderboard público. Claude thinking-modes y GPT-4o-mini lideran en distintas categorías. | 947 | Benchmark estándar emergente |
 | [waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) | MIT | **arXiv:2602.11103.** 132 tareas de game dev en Godot (3D/2D gfx, Gameplay, UI). Best agent: 53.8%. Gap enorme en tareas multimodales. | — | Primer benchmark game dev agentico |
 
@@ -43,6 +44,7 @@
 ## Señales de mercado a seguir
 
 - **Carbon Engine (MIT, 1-jul-2026)**: primera vez que un engine AAA de MMO es open source. Base para proyectos de mundos persistentes a escala.
+- **OmniGameArena (MIT, jun-2026)**: benchmark VLM en 12 juegos UE5 con IDC. Nuevo estándar de evaluación para entornos 3D de producción.
 - **GamingAgent ICLR 2026**: leaderboard público de modelos en juegos. Claude thinking-mode lidera en estrategia.
 - **GameDevBench**: señal de madurez — los agentes aún fallan el 47% de tareas de game dev. Gap = oportunidad de servicio.
 - **Unity AI Inference Engine**: permite correr LLMs/modelos ML directamente en el runtime Unity sin servidor. Tendencia hacia AI on-device.

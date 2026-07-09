@@ -2,7 +2,8 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
-> Última actualización: 2026-07-09 (v5)
+> Última actualización: 2026-07-09 (v6)
+> ⚠️ NOTA (jul 2026): Godot Foundation **prohíbe contribuciones de código AI** desde 1-jul-2026. El engine sigue MIT — solo cambian las reglas de PR para el engine core. Los plugins/extensiones en repos externos no tienen esta restricción.
 
 ## Stack recomendado: Godot + Nakama
 

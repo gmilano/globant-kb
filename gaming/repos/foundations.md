@@ -1,7 +1,8 @@
 # 🏗️ Repos fundacionales — Gaming
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09 | Verificado con deep-research (v5)
+> Última actualización: 2026-07-09 | Verificado con deep-research (v6)
+> ⚠️ NOTA (jul 2026): Godot Foundation **prohíbe contribuciones de código AI** desde 1-jul-2026. El engine Godot sigue MIT — solo cambian las reglas de PR para el engine core. Los plugins/extensiones en repos externos no tienen esta restricción.
 
 ## Game Engines (Open Source)
 
