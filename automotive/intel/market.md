@@ -1,13 +1,15 @@
 # Mapa de mercado — Automotive AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ## Tamaño de mercado global
 
 | Mercado | 2025/2026 | 2030 | CAGR | Fuente |
 |---------|-----------|------|------|--------|
 | AI in Automotive (global) | ~$21B | $38.45B | ~12% | nextmsc.com 2026 |
+| AI in Automotive (alt) | $14.99B (2026) | $51.68B (2034) | 26.5% | Fortune Business Insights 2026 |
+| AI in Automotive (alt) | $27.33B (2026) | $78.09B (2030) | 28.76% | Precedence Research 2026 |
 | LATAM Automotive AI | $193.5M | $1,260.9M | ~30.5% | nextmsc.com 2026 |
 | LATAM Electric Vehicles | $56.41B (2025) | $321.56B (2034) | 21.34% | gminsights.com 2026 |
 | LATAM Automotive (total) | $148B | $203B (2034) | ~4.5% | marketdataforecast.com |
@@ -19,7 +21,7 @@
 | **Tesla** | OEM + stack propio | FSD más maduro del mercado. Vertical completo. | Propietario total, no customizable. |
 | **Waymo (Google)** | Robotaxi L4 | Líder en millas autónomas reales. Partenariados Uber. | Solo US, propietario, alto costo. |
 | **Baidu Apollo** | Stack AV + plataforma | 26.7k★ en GitHub. Abierto + ecosistema China. | Integración compleja fuera de China. |
-| **NVIDIA** | Hardware + software | Drive AGX, TensorRT Edge-LLM. CES 2026 showcase. | Licencia comercial para hardware. |
+| **NVIDIA** | Hardware + software + modelos | Drive AGX, TensorRT Edge-LLM, **Alpamayo-1 VLA** (Apache 2.0 open). CES 2026. Adoptado: Mercedes-Benz, JLR, Lucid, Uber. | Hardware comercial; modelos open. |
 | **Qualcomm** | SoC automotriz | Snapdragon agentic cockpit. L1→L3 escalable. | Propietario. |
 | **Mobileye (Intel)** | ADAS chips | EyeQ6 — 90M+ vehiculos desplegados. | No open source. |
 | **Autoware Foundation** | Stack AV open source | 100+ empresas, 30 vehículos. Apache 2.0. | Menos producción masiva que players propietarios. |

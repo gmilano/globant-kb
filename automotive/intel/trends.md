@@ -1,9 +1,19 @@
 # Tendencias — Automotive AI
 
 > Tendencias que dan forma al mercado en 2026.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ## Tendencias principales
+
+### Trend 0: NVIDIA Alpamayo — La Era del AV Razonador (NEW — CES 2026) ⭐
+NVIDIA lanzó Alpamayo en CES 2026 como el **primer modelo open source de razonamiento** para vehículos autónomos. Rompe con la era de redes neurales opacas: el vehículo piensa antes de actuar.
+
+- **Modelo**: 10B-param Vision-Language-Action (VLA), chain-of-thought, open en HuggingFace (Apache 2.0)
+- **Datos**: +1.700h de conducción real liberados públicamente
+- **Simulación**: AlpaSim — framework closed-loop para entrenamiento y stress-test
+- **Adopción**: Mercedes-Benz, JLR, Lucid, Uber ya integran Alpamayo-1
+- **EU AI Act**: La salida en lenguaje natural (chain-of-thought) satisface Art. 13 de explicabilidad
+- **Implicación para Globant**: Base para servicios de integración Alpamayo en OEMs y Tier 1 ($200k-800k)
 
 ### Trend 1: LLM en Vehículos — De General a Dominio-Específico
 Fabricantes como Honda, Mercedes-Benz y Volkswagen están abandonando los LLMs genéricos e integrando modelos dominio-específicos entrenados con datos de navegación, controles de vehículo y reglas de seguridad. La fiabilidad supera al modelo general-purpose.
@@ -53,6 +63,14 @@ V2X (Vehicle-to-Everything) permite que vehículos cooperen con infraestructura,
 - **Signal**: CARMA Platform 4.0 → ROS2 + V2X (usdot-fhwa-stol, 2025)
 - **Implicación**: Nueva capa de datos (tráfico en tiempo real, emergencias) disponible para agentes AI
 
+### Trend 8b: OBD-II + LLM = Nueva Categoría de Diagnóstico Agentico (NEW — jul 2026)
+La combinación de adaptadores ELM327 Bluetooth ($15) + APIs LLM ha creado diagnóstico vehicular conversacional: cualquier persona puede conectar su auto y recibir diagnósticos en lenguaje natural.
+
+- **Stack validado**: ELM327 → pyobd → Python MCP server (250 líneas) → Claude Haiku
+- **Repos**: open-mechanic (MIT), Vehicle-Diagnostic-Assistant (MIT), obd2-mcp-server (MIT)
+- **Oportunidad**: App white-label de diagnóstico para talleres independientes LATAM (en español)
+- **Tutorial viral**: bitvea.com/en/blog/claude-mcp-car-diagnostics-obd2
+
 ### Trend 9: Predictive Maintenance via AI + OBD-II
 Los sensores OBD-II en vehículos modernos generan terabytes de datos. Los LLMs pueden analizar patrones para predecir fallos antes de que ocurran. Mercado: talleres + flotas corporativas.
 
@@ -83,4 +101,5 @@ Brasil, México, Argentina, Chile y Colombia están en el punto de inflexión pa
 | BYD LATAM sales data | Catalizador del mercado EV LATAM | Mensual |
 | EU AI Act guidance updates | Compliance vehicular = nuevo negocio | Quincenal |
 | NVIDIA DRIVE OS releases | Determina capacidades edge AI en autos | Trimestral |
-| CARLA Leaderboard 2.0 | Benchmark de estado del arte en AV | Semanal |
+| CARLA Leaderboard 2.1 | Benchmark de estado del arte en AV (v2.1 mar 2026) | Semanal |
+| Alpamayo-1 / AlpaSim updates | Primer modelo VLA razonador para AVs — versiones futuras | Mensual |

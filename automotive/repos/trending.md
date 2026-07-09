@@ -1,7 +1,7 @@
 # Repos trending — Automotive AI
 
 > Lo que está ganando estrellas y atención en julio 2026.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09
 
 ## Trending por categoría
 
@@ -9,7 +9,11 @@
 
 | Nombre | Licencia | Stars | Descripción |
 |--------|----------|-------|-------------|
-| [openpilot](https://github.com/commaai/openpilot) | MIT | 60.8k | OS robótico para ADAS — 325+ modelos soportados. 100M+ millas. Activo jul 2026. |
+| [nvidia/alpamayo-1](https://huggingface.co/nvidia/alpamayo-1) | Apache-2.0 | — | **⭐ CES 2026** — Primer modelo VLA razonador para AVs. 10B params. Chain-of-thought. Adopción: Mercedes-Benz, JLR, Lucid, Uber. |
+| [NVlabs/alpasim](https://github.com/NVlabs/alpasim) | Apache-2.0 | — | Simulación closed-loop paired con Alpamayo-1. +1.700h datos reales. |
+| [kesai-labs/lead](https://github.com/kesai-labs/lead) | MIT | New | **CVPR 2026** — LEAD: nuevo SOTA en AD end-to-end. Minimiza asimetría learner-expert. |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | 800 | "Free self-driving car stack" — ADAS+AD open source, production-ready. Lanzado abr 2026. |
+| [openpilot](https://github.com/commaai/openpilot) | MIT | 63k | OS robótico para ADAS — 300+ modelos soportados. comma 4 hardware 2026. Activo. |
 | [apollo](https://github.com/ApolloAuto/apollo) | Apache-2.0 | 26.7k | Plataforma AV Baidu. Apollo 11.0 (jun 2026): menor threshold hardware. |
 | [Awesome-LLM4AD](https://github.com/Thinklab-SJTU/Awesome-LLM4AD) | MIT | 2.1k | Lista curada LLM para AV. +50 repos nuevos en 2026. Referencia investigación. |
 | [DriveLM](https://github.com/OpenDriveLab/DriveLM) | Apache-2.0 | 1.8k | Graph VQA para driving. Nueva tracción por integración en CARLA 2026. |
@@ -36,8 +40,16 @@
 
 | Nombre | Licencia | Stars | Descripción |
 |--------|----------|-------|-------------|
-| [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | ? | 1 | Multi-Agent system para cabina inteligente. Edge intent + cloud LLM planning + HMI streaming. |
-| [autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | N/A | Stack ADAS L2 E2E open source de Autoware Foundation. Anunciado abr 2026. |
+| [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | Apache-2.0 | 180 | Multi-Agent system para cabina inteligente. Edge intent + cloud LLM planning + HMI streaming. Interés de OEMs chinos creciente. |
+
+### Diagnóstico OBD2 + LLM (ola nueva — jul 2026)
+
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [speed785/open-mechanic](https://github.com/speed785/open-mechanic) | MIT | 120 | OBD-II + Claude API = diagnóstico en lenguaje natural. Tutorial viral en Bitvea. |
+| [castlebbs/Vehicle-Diagnostic-Assistant](https://github.com/castlebbs/Vehicle-Diagnostic-Assistant) | MIT | 200 | Agente LangChain+Claude para diagnóstico vehicular agentico por OBD2. |
+| [barracuda-fsh/pyobd](https://github.com/barracuda-fsh/pyobd) | GPL-2.0 | 1.8k | OBD-II diagnostic tool Python — base de datos para capa LLM. |
+| [provrb/obdium](https://github.com/provrb/obdium) | MIT | 400 | App OBD-II cross-platform (macOS/Win/Linux), VIN decoding. MIT = customizable. |
 
 ### MCP Servers (nuevos jul 2026)
 
