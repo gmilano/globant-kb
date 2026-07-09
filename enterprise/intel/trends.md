@@ -1,7 +1,7 @@
 # 📡 Tendencias — Enterprise AI
 
 > Tendencias con evidencia real. Cada trend tiene un dato concreto y una implicación para Globant.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 v3
 
 ---
 
@@ -131,20 +131,68 @@
 
 ---
 
+## Trend 15: CodeAct — el patrón de ejecución de agentes que reemplaza tool-calling clásico (Jun 2026)
+**Evidencia:** Microsoft Agent Framework BUILD 2026 lanzó CodeAct: en lugar de que el LLM llame una tool, espere resultado, llame otra — el modelo escribe un programa Python que llama TODAS las tools de una vez via `call_tool(...)`. Se ejecuta en un Hyperlight micro-VM (overhead <5ms, aislamiento de contenedor). Una sola llamada LLM → múltiples tool calls paralelos → resultado consolidado.
+
+**Impacto:** Reducción dramática de round-trips LLM en agentes multi-step. Para enterprise workflows complejos (consultar CRM + ERP + base de datos + generar reporte), CodeAct pasa de N llamadas a 1. Latencia y costo se reducen proporcionalmente. El patrón es reproducible en cualquier framework con sandbox Python.
+
+**Analogía:** CodeAct en MAF es para agentes lo que SQL fue para bases de datos: en lugar de loops imperativo sobre cada elemento, declaras el objetivo y el sistema lo ejecuta de forma eficiente.
+
+**Adopción esperada:** MAF es el primero en integrar el patrón; LangGraph y CrewAI lo adoptarán en H2 2026.
+
+---
+
+## Trend 16: Hosted Agent Runtimes — producción enterprise sin ops overhead (Jul 2026)
+**Evidencia:** Microsoft Foundry Agent Service GA (expected Jul 2026): agentes como containers, managed infrastructure, scale-to-zero, filesystem persistente entre scale-downs, identity built-in, observabilidad incluida. El modelo: `docker push agent-image → deploying → available` sin gestionar K8s.
+
+**Impacto:** El "last mile" de production para agentes enterprise dejó de ser el problema difícil. Antes: "¿cómo orquesto, escalo, persisto estado, gestiono identidad?" — todo custom. Ahora: el runtime lo resuelve. Esto libera a Globant para enfocarse en la lógica del agente (el valor diferenciador) en lugar de la infraestructura.
+
+**Señal complementaria:** AWS Bedrock Agents, Google Vertex AI Agents ya ofrecen hosting managed. El mercado converge: cada cloud major tiene su managed agent runtime. El diferenciador de Globant es la lógica de negocio + integración con sistemas legacy, no el runtime.
+
+**Posicionamiento:** "Hosted runtime + Globant implementation" = time-to-production 60% más rápido que custom K8s.
+
+---
+
+## Trend 17: Agentes en canales de mensajería como interfaz enterprise (2026)
+**Evidencia:** OpenClaw (MIT, 210k+ ★) creció de 9k a 210k+ ★ en pocas semanas — el crecimiento más rápido en historia de GitHub. El concepto: agente que vive donde el usuario ya pasa tiempo (WhatsApp, Teams, Slack, Telegram, iMessage). Anthropic Claude en Slack Teams Copilot. n8n 2.0 integra directamente Slack/Teams como trigger nodes con AI.
+
+**Impacto:** La interfaz enterprise del futuro no es una app nueva — es el canal de mensajería existente. Los usuarios no aprenden nuevas UIs; el agente llega a donde ya están. Para Globant: en lugar de construir una app web para el agente, construir un bot en Microsoft Teams o WhatsApp Business que actúa como interfaz del agente enterprise.
+
+**Patrón arquitectónico:** Teams/Slack webhook → n8n trigger → LangGraph agent → MCP tools (ERP/CRM) → respuesta en el canal.
+
+**Deal size típico:** $30k–$120k (menor que una app custom; ROI más rápido por adopción inmediata).
+
+---
+
+## Trend 18: ROI accountability — de proyectos a outcomes medibles (2026)
+**Evidencia:** Solo 41% de rollouts de agentes AI cruzan ROI positivo en 12 meses. 40% de proyectos AI serán cancelados para 2027 (Gartner). 39% de organizaciones reportan impacto EBIT medible. El gap: 171% ROI proyectado vs 39% que lo miden realmente. McKinsey: el problema no es el modelo — es la implementación sin métricas.
+
+**Impacto para Globant:** El mercado está madurando de "implementemos AI agents" a "prueba que genera ROI". Los clientes van a pedir SLAs de negocio, no solo técnicos. Diferenciador: Globant entrega agents WITH instrumentation desde día 1 — Langfuse traces vinculados a KPIs de negocio (tiempo de resolución, costo por transacción, revenue generado).
+
+**Stack "ROI-visible":** LangGraph (workflow) + Langfuse (traces) + Superset dashboard (KPIs) + OPA (governance). Cada agent call queda trazada con el outcome de negocio asociado.
+
+**Deal evolution:** Q1 2026: "construye el agente" ($100k). Q3 2026: "demuestra el ROI" ($50k adicional). 2027: "escala a producción si ROI confirmado" ($300k+).
+
+---
+
 ## Timeline de señales clave 2026
 
 | Fecha | Evento | Impacto |
 |-------|--------|---------|
 | 2026-01 | n8n 2.0: 70+ AI nodes + MCP nativo | Workflow + AI convergence |
-| 2026-04-03 | Microsoft Agent Framework 1.0 GA | Framework consolidation |
-| 2026-04 | Dify $30M + 138k ★ | Visual builder maduration |
+| 2026-04-02 | Microsoft Agent Framework 1.0 GA | Framework consolidation |
+| 2026-04 | Dify $30M + 138k ★ | Visual builder maturation |
+| 2026-04 | Google Gemini CLI GA (Apache-2.0, 80k+ ★) | Open-source CLI agent |
+| 2026-05-06 | OpenHands Enterprise Control Plane GA | Coding agents production-ready |
+| 2026-06 | MAF BUILD 2026: CodeAct + Hosted Agents | Agent runtime maturation |
 | 2026-06-22 | LlamaIndex Workflows 1.0 | Ecosystem expansion |
 | 2026-06-23 | Pydantic AI v2 | Type-safe agents Python |
 | 2026-06-25 | AI agents dominate GitHub trending | Mass adoption signal |
-| 2026-07-01 | Gartner: $234B SaaS at risk | Enterprise disruption signal |
-| 2026-07-06 | Claude Mythos 5: 95.5% SWE-bench | Coding agents frontier |
-| 2026-07-08 | Gartner: $234B SaaS at risk from agentic AI | Enterprise disruption signal |
+| 2026-07-01 | Gartner: $234B SaaS at risk from agentic AI | Enterprise disruption signal |
+| 2026-07-06 | Claude Fable 5: 95.5% SWE-bench | Coding agents frontier |
+| 2026-07-07 | OpenClaw: 210k+ ★ (fastest-growing repo ever) | Agent-on-messaging explosion |
 | 2026-07-09 | TODAY: 24 días para EU AI Act enforcement. Governance gap 60% | Compliance urgency |
+| 2026-early Jul | MAF Hosted Agents GA (Foundry Agent Service) | Managed agent runtime |
 | 2026-08-02 | EU AI Act full enforcement | Compliance deadline |
 | 2026-Q4 | Gartner target: 40% enterprise apps con AI agents | Adoption milestone |
 | 2027 | Agentic arbitrage impact visible en SaaS revenues | Market disruption |

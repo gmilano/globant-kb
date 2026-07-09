@@ -2,7 +2,7 @@
 
 > Plataformas enterprise open source customizables con AI.
 > Modelo: partir de algo funcional y probado, añadir capa agéntica arriba.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 v3
 
 ---
 
@@ -176,6 +176,19 @@ with langfuse.trace(name="eu-ai-act-high-risk-decision") as trace:
 | Argentina | Tango/ERPNext/iDempiere | SuiteCRM/Zoho | En desarrollo | iDempiere AI; sector financiero y agro |
 | Colombia | World Office/ERPNext | HubSpot OSS | Marco sectorial | ERPNext AI; sector retail y servicios |
 | Chile | EasyFact/Bsale/ERPNext | Salesforce | Política AI 2023 | AI sobre ERPs locales; minería y energía |
+
+---
+
+## 9. Agent Runtimes Managed (nuevo segmento 2026)
+
+| Plataforma | Licencia | Provider | Descripción | Caso de uso AI |
+|------------|----------|----------|-------------|----------------|
+| Azure Foundry Agent Service | Propietario | Microsoft | Hosted agents: containers managed, scale-to-zero, filesystem persistente. GA early Jul 2026. MAF-native. | Deploy de agentes .NET/Python enterprise sin gestionar infra |
+| AWS Bedrock Agents | Propietario | Amazon | Managed agents con knowledge bases, action groups, guardrails. Integra con Lambda. | Agentes con acceso a datos AWS + tools Lambda |
+| Google Vertex AI Agents | Propietario | Google | Managed agents Gemini + tools nativas GCP. Grounding en Google Search. | Agentes con Google Workspace + BigQuery |
+| [Kubernetes + KServe](https://github.com/kserve/kserve) | Apache-2.0 | Open Source | Model serving + inference scaling. Self-hosted. 4.2k ★. | Agentes self-hosted para compliance total (LGPD/EU AI Act) |
+
+> **Nota para Globant:** Para clientes que necesitan total control de datos (LGPD, EU AI Act, datos sensibles), la opción self-hosted (K8s + Dify + Langfuse) es la única viable. Para clientes que priorizan time-to-market, los managed runtimes son 60% más rápidos en producción.
 
 ---
 *Ver también: `agents/top.md` para frameworks de agentes y `compose/patterns.md` para recetas concretas.*

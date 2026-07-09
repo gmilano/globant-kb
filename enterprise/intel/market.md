@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Enterprise AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 v3
 
 ---
 
@@ -10,19 +10,39 @@
 | Métrica | Valor | Fuente | Fecha |
 |---------|-------|--------|-------|
 | AI spending worldwide 2026 | $2.59T (+47% YoY) | Gartner | May 2026 |
-| Agentic AI enterprise market 2026 | $9.14B–$10.86B | Multiple analysts | 2026 |
+| Agentic AI market 2025 (base) | $7.29B | Fortune Business Insights | 2026 |
+| Agentic AI market 2026 | $9.14B | Fortune Business Insights | 2026 |
+| Agentic AI market 2034 (proyección) | $139.19B (CAGR 40.50%) | Fortune Business Insights | 2026 |
 | Enterprise app software at risk from agentic AI (2030) | $234B | Gartner | Jul 1 2026 |
 | % enterprises adoptando AI agents | 79% | Accelirate 2026 | 2026 |
 | % enterprises con AI agents en producción real | 72% (Agentic AI Institute) / 11% full-scale | Agentic AI Institute + Accelirate | Jul 2026 |
 | % enterprises con governance frameworks adecuados | 12% (60% governance gap) | Agentic AI Institute | Jul 2026 |
-| % enterprise apps con task-specific agents por fin 2026 | 40% (vs <5% en 2025) | Gartner | Ago 2025 |
+| % enterprise apps con task-specific agents por fin 2026 | 40% (vs <5% en 2025) | Gartner | 2026 |
 | % Global 2000 roles con engagement directo a AI agents (fin 2026) | 40% | IDC | 2026 |
 | AI como % del total IT spend 2026 | ~41% (vs ~32% en 2025) | Gartner | 2026 |
 | Supply Chain Management software con Agentic AI (2030) | $53B | Gartner | Abr 2026 |
+| % proyectos agentic AI cancelados para 2027 | 40%+ | Gartner | 2026 |
+| % PoCs AI que nunca llegan a producción | 88% | IDC 2026 | 2026 |
 | LATAM AI market 2026 | $40.50B | MarketDataForecast | 2026 |
 | LATAM AI market 2034 | $504.71B (CAGR 37.07%) | MarketDataForecast | 2026 |
 | LATAM enterprise AI deployment rate | 47% | Numoru State of Enterprise AI LATAM 2026 | 2026 |
 | LATAM ML/AI engineering shortage | 150,000 posiciones | Dice.com / regional studies | 2026 |
+
+## ROI y Productividad — Enterprise Agentic AI 2026
+
+| Métrica | Dato | Notas |
+|---------|------|-------|
+| ROI promedio deployments exitosos | 171% (US: 192%) | ~3x retorno de automation tradicional |
+| Horas recuperadas por knowledge worker | 6.4h/semana mediana | Seniors: 10-12h; CS reps: 8-9h |
+| Costo ticket CS resuelto por agente | $0.46 | vs $4.18 humano (9x más barato) |
+| Costo code review por agente | $0.72 | vs $48 senior-engineer (66x más barato) |
+| Payback period — customer service | 4.1 meses | El caso de uso con ROI más rápido |
+| Payback period — marketing ops | 6.7 meses | |
+| Payback period — engineering | 9.3 meses | |
+| % rollouts con ROI positivo en 12 meses | 41% | 19% nunca llegan a break-even |
+| Klarna AI agent | $60M ahorrado + 853 FTEs equiv. | Q3 2025, público |
+| JPMorgan AI use cases en producción | 450+ diarios | Público |
+| % organizaciones con impacto EBIT medible | 39% | Gap vs 171% expectativa de ROI |
 
 ---
 
@@ -34,12 +54,12 @@
 | Salesforce | CRM + Agentforce | Agentforce platform, 150k+ clientes | Einstein (parcial) | Precios altos; LATAM penetración media |
 | ServiceNow | ITSM + platform | AI Now + automation workflows | Minimal | Solo ITSM; costoso para PYME |
 | SAP | ERP global | S/4HANA + Joule AI copilot | OpenUI5 | Implementaciones lentas y caras |
-| Google | Cloud + AI models | Vertex AI, Gemini, ADK (Apache-2.0) | Agent Development Kit MIT | Menos foco enterprise tradicional |
+| Google | Cloud + AI models + CLI | Vertex AI, Gemini, ADK (Apache-2.0), **Gemini CLI (Apache-2.0, 80k ★, Apr 2026)** | Gemini CLI Apache-2.0, ADK Apache-2.0 | CLI open-source atrae devs; fuerte en cloud |
 | AWS | Cloud + AI services | Bedrock, agents, Q Business | Minimal | Servicios propietarios |
 | IBM | Legacy + AI | WatsonX, DataStax/Langflow acquisition | OpenProject, Langflow (MIT) | Reputación legacy |
 | Workday | HCM + Finance | Workday AI, agentic skills 2026 | None | Solo HCM/Finance |
 | Oracle | ERP + DB | Oracle AI Agents, 23c AI Vector | None | Costos y complejidad |
-| Anthropic | AI models + platform | Claude (líder benchmarks), Claude Code, **Azure GA + GB300 Blackwell Ultra (Jul 2026)** | claude-code open protocols | Ganando enterprise footprint vía Azure |
+| Anthropic | AI models + platform | Claude (líder benchmarks), Claude Code, **Azure GA + GB300 Blackwell Ultra (Jul 2026)**. Claude Fable 5: 95.5% SWE-bench (Jul 6). | claude-code open protocols, MCP | Ganando enterprise footprint vía Azure + NVIDIA |
 
 ---
 

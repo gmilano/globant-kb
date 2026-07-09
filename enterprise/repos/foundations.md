@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Enterprise
 
 > Bases sobre las cuales construir soluciones enterprise con AI. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 v3
 
 ---
 
@@ -15,6 +15,8 @@
 | [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | 24k | Framework enterprise Microsoft. C#/Python/Java. Session state, middleware, telemetry. | ✅ — Enterprise .NET con compliance reqs |
 | [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimalista, CodeAgent nativo, MCP client. HuggingFace. Jan 2025 → crecimiento explosivo. | ✅ — Prototipos rápidos y researchers |
 | [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) | MIT | 14k | Type-safe agent framework Python. v2 Jun 23 2026. Claude/OpenAI/Gemini. | ✅ — Equipos Python-first, APIs tipadas |
+| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | 18k | MAF 1.0 GA Apr 2026. AutoGen + SK unificados. BUILD 2026: CodeAct (Hyperlight micro-VM), Hosted Agents (Foundry GA Jul 2026), Agent Harness. | ✅ — Clientes .NET/Azure enterprise |
+| [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | 80k+ | CLI agentico Google. Apr 2026. ReAct, MCP nativo, 1M context. Alternativa open-source a Claude Code. | ✅ — Equipos que prefieren Google Cloud o CLI open-source |
 
 ---
 
@@ -67,6 +69,7 @@
 |------|----------|-------|-------------|--------------|
 | [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Servidores MCP oficiales. 97M descargas/mes. Linux Foundation. 5000+ MCP servers ecosistema (Jul 2026 RC). | ✅ — Estándar de integración AI↔enterprise tools |
 | [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk) | MIT | - | SDK para production software agents. Stateless, event-sourced, composable. 4 packages. | ✅ — Coding agents enterprise |
+| [openclaw-org/openclaw](https://github.com/openclaw-org/openclaw) | MIT | 210k+ | Agente personal multi-canal. WhatsApp, Telegram, Discord, iMessage. Patrón para enterprise messaging agents. | ✅ — AI-on-messaging-channels |
 
 ---
 

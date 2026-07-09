@@ -1,7 +1,53 @@
 # 📈 Agentes Enterprise Trending — Julio 2026
 
 > Señales calientes esta semana. Foco en novedades con impacto real para proyectos Globant.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 v3
+
+---
+
+## 🔥 NUEVO — Señales adicionales semana 2026-07-09
+
+### 11. Microsoft Agent Framework BUILD 2026: CodeAct + Hosted Agents GA
+**Señal:** BUILD 2026 (Jun 2026): Microsoft lanzó tres adiciones críticas a MAF:
+- **CodeAct**: en lugar de elegir tools una por una, el modelo escribe un programa Python que llama todas las tools via `call_tool(...)`, lo ejecuta en un **Hyperlight micro-VM** aislado. Una sola llamada LLM, resultado consolidado. Overhead de aislamiento <5ms.
+- **Hosted Agents** (Foundry Agent Service, GA early Jul 2026): deploy de agentes como containers en infraestructura managed. Scale-to-zero, filesystem persistente entre scale-downs, identity built-in.
+- **Agent Harness**: capa shell + filesystem + HITL approval flows + context management para sesiones largas.
+
+**Por qué importa para Globant:** Clientes .NET/Azure tienen ahora stack enterprise completo: construir (MAF), desplegar (Foundry Agent Service), gobernar (Azure compliance). El patrón CodeAct reduce dramáticamente la latencia de agentes multi-step. Globant puede ofrecer "MAF Accelerator" para el segmento enterprise Microsoft.
+
+**Repo:** [microsoft/agent-framework](https://github.com/microsoft/agent-framework) MIT, 18k ★
+**Blog:** [BUILD 2026 announcement](https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-at-build-2026-announce/)
+
+---
+
+### 12. Google Gemini CLI — Apache-2.0, 80k ★ (Apr 2026)
+**Señal:** Google lanzó Gemini CLI en abril 2026: agente de terminal open source (Apache-2.0) con ReAct loop, soporte MCP nativo y 1M context window. Creció a 80k+ ★ en pocas semanas. Alternativa directa a Claude Code en la línea de comandos.
+
+**Por qué importa:** Primer CLI agentico de gran empresa de AI con licencia Apache-2.0. Competidor directo de Claude Code pero totalmente open source. Para clientes que prefieren Google Cloud o quieren alternativa open source, Gemini CLI + MCP es una stack viable. Integración posible con LangGraph como orquestador.
+
+**Repo:** [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) Apache-2.0, 80k+ ★
+
+---
+
+### 13. OpenClaw: 210k ★ — el repo de más rápido crecimiento de la historia de GitHub (2026)
+**Señal:** OpenClaw pasó de ~9k a 210k+ ★ en pocas semanas (2026), convirtiéndose en el proyecto de más rápido crecimiento en la historia de GitHub. Sam Altman endorsó públicamente. El concepto: agente personal que vive donde el usuario ya pasa tiempo — WhatsApp, Telegram, Signal, Discord, iMessage.
+
+**Por qué importa:** Señal masiva de que los usuarios quieren agentes en canales de mensajería, no en apps nuevas. Para enterprise: el patrón de agent-en-canal-corporativo (Teams, Slack) es el futuro de la interface de usuario AI. Globant puede construir versiones enterprise de este patrón sobre canales propietarios del cliente.
+
+**Repo:** [openclaw-org/openclaw](https://github.com/openclaw-org/openclaw) MIT, 210k+ ★
+
+---
+
+### 14. Agentic AI ROI: 171% promedio, pero solo 41% cruza break-even en 12 meses
+**Señal:** Datos agregados de 2026: ROI promedio de deployments exitosos = 171% (US: 192%). Sin embargo, solo 41% de rollouts cruzan ROI positivo en 12 meses, y 19% nunca llegan a break-even. Gap entre expectativas (171%) y realidad (41% exitosos) = el problema central.
+
+**Por qué importa para Globant:** El mensaje correcto no es "AI agents tienen 171% ROI" sino "con el implementation approach correcto, cruzas break-even en 4-9 meses". Globant puede diferenciarse por success rate, no por ROI proyectado. Case studies concretos (Klarna $60M, JPMorgan 450+ use cases) son los anchors de credibilidad.
+
+**Payback periods por vertical:**
+- Customer service: 4.1 meses (más rápido)
+- Marketing operations: 6.7 meses
+- Engineering/DevOps: 9.3 meses
+- Supply chain: 11+ meses
 
 ---
 

@@ -796,6 +796,170 @@ def crm_agent_node(state: MessagesState):
 
 ---
 
+## Patrón 12: Microsoft Agent Framework CodeAct + Hosted Agents (.NET Enterprise)
+**Caso de uso:** Cliente enterprise .NET/Azure que quiere agentes multi-step con ejecución de tools eficiente (CodeAct) desplegados en infraestructura managed (Foundry Hosted Agents) sin gestionar K8s.
+
+**Stack:**
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework) (MIT) — CodeAct + Agent Harness
+- Azure Foundry Agent Service — hosted runtime (GA early Jul 2026)
+- Claude Sonnet 5 / GPT-4o — modelo (MAF soporta ambos)
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — observabilidad (self-hosted o cloud)
+
+```python
+# MAF + CodeAct: una llamada LLM, múltiples tool calls paralelos
+# pip install agent-framework
+
+from agent_framework import Agent, tool, CodeActRunner
+from agent_framework.mcp import MCPClient
+import anthropic
+
+# Definir tools enterprise
+@tool
+def get_erp_orders(status: str, limit: int = 10) -> list:
+    """Get orders from ERP by status"""
+    # ... ERPNext/Odoo API call
+    return orders
+
+@tool
+def get_crm_pipeline(stage: str) -> list:
+    """Get CRM pipeline by stage"""
+    # ... SuiteCRM/Twenty API call
+    return deals
+
+@tool
+def generate_report(data: dict, format: str = "markdown") -> str:
+    """Generate formatted business report"""
+    # ... report generation
+    return report
+
+# CodeAct runner: el modelo escribe Python que llama TODAS las tools
+# en una sola ronda de inferencia → mucho más eficiente que tool-calling clásico
+runner = CodeActRunner(
+    model="claude-sonnet-5",
+    tools=[get_erp_orders, get_crm_pipeline, generate_report],
+    sandbox="hyperlight"  # micro-VM aislado por llamada, overhead <5ms
+)
+
+# Una sola llamada → el modelo escribe y ejecuta:
+# orders = call_tool("get_erp_orders", status="pending", limit=20)
+# deals = call_tool("get_crm_pipeline", stage="negotiation") 
+# report = call_tool("generate_report", data={"orders": orders, "deals": deals})
+result = runner.run(
+    "Dame un reporte ejecutivo de órdenes pendientes y deals en negociación"
+)
+print(result)  # Reporte completo en 1 round-trip LLM vs 3-4 en tool-calling clásico
+```
+
+```yaml
+# Despliegue en Azure Foundry Agent Service (Hosted Agents)
+# Dockerfile del agente
+FROM python:3.12-slim
+COPY requirements.txt .
+RUN pip install agent-framework langfuse anthropic
+COPY agent_app.py .
+CMD ["python", "agent_app.py"]
+
+# Deploy via Azure CLI
+# az foundry agent deploy \
+#   --image myregistry.azurecr.io/enterprise-agent:latest \
+#   --name enterprise-erp-agent \
+#   --scale-to-zero true \
+#   --session-persistence true  # filesystem persiste entre scale-downs
+```
+
+**Ventajas sobre K8s custom:**
+- Scale-to-zero automático (paga solo cuando el agente está activo)
+- Filesystem persistente entre scale-downs (el agente "recuerda" el contexto)
+- Identity, observabilidad, versioning incluidos
+- Time-to-production: 2-3 semanas vs 8-12 semanas con K8s custom
+
+**Tiempo estimado:** 4–8 semanas | **Deal size:** $150k–$600k
+
+---
+
+## Patrón 13: Agent-on-Messaging — Enterprise Bot en Teams/Slack
+**Caso de uso:** Equipo de ventas, finanzas u operaciones que quiere interactuar con agentes AI desde Microsoft Teams o Slack (donde ya trabajan) — sin aprender una nueva UI. El agente accede a ERP/CRM y responde en el canal.
+
+**Stack:**
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Sustainable Use) — trigger desde Teams/Slack + orquestación
+- Claude Haiku 4.5 — modelo (económico para mensajería, alta frecuencia)
+- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) (MIT) — tools ERP
+- [mhenry3164/twenty-crm-mcp-server](https://github.com/mhenry3164/twenty-crm-mcp-server) (MIT) — tools CRM
+
+```javascript
+// n8n workflow: Teams → Agent → MCP → respuesta Teams
+// Importar desde n8n UI
+
+const teamsAgentWorkflow = {
+  "name": "Enterprise Teams AI Agent",
+  "nodes": [
+    {
+      "name": "Teams Message Trigger",
+      "type": "n8n-nodes-base.microsoftTeamsTrigger",
+      "parameters": {
+        "event": "message",
+        "channelId": "sales-team-channel"
+      }
+    },
+    {
+      "name": "Route to Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "parameters": {
+        "agent": "conversationalAgent",
+        "model": {
+          "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+          "model": "claude-haiku-4-5"  // Haiku: económico + rápido para chat
+        },
+        "memory": {
+          "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+          "contextWindowLength": 10
+        },
+        "tools": [
+          {
+            "type": "@n8n/n8n-nodes-langchain.toolMcp",
+            "name": "ERP Tools",
+            "mcpEndpoint": "http://erpnext-mcp:8000/sse"
+          },
+          {
+            "type": "@n8n/n8n-nodes-langchain.toolMcp",
+            "name": "CRM Tools",
+            "mcpEndpoint": "http://twenty-mcp:8001/sse"
+          }
+        ],
+        "text": "={{ $json.body.value[0].body.content }}",
+        "systemMessage": "Eres el asistente de ventas enterprise. Accedes a ERP y CRM para responder preguntas del equipo de ventas en Teams. Responde en español, de forma concisa."
+      }
+    },
+    {
+      "name": "Reply in Teams",
+      "type": "n8n-nodes-base.microsoftTeams",
+      "parameters": {
+        "operation": "sendMessage",
+        "channelId": "={{ $('Teams Message Trigger').item.json.channelId }}",
+        "messageType": "reply",
+        "replyToId": "={{ $('Teams Message Trigger').item.json.id }}",
+        "message": "={{ $json.output }}"
+      }
+    }
+  ]
+}
+
+// Ejemplos de queries desde Teams:
+// "@AgentERP ¿cuáles son las órdenes sin facturar de esta semana?"
+// "@AgentERP ¿qué deals cerramos en junio?"
+// "@AgentERP crea una oportunidad de venta para Empresa XYZ por $150k"
+```
+
+**Por qué este patrón funciona:**
+- Adopción inmediata: el equipo ya usa Teams/Slack, no aprende nueva UI
+- Haiku 4.5 en lugar de Sonnet = 10x más económico para alto volumen de mensajes
+- n8n self-hosted = control total, compliance LGPD/GDPR
+- MCP tools reutilizables en otros agentes
+
+**Tiempo estimado:** 2–4 semanas | **Deal size:** $30k–$120k
+
+---
+
 ## Matriz de selección de patrón
 
 | Si el cliente tiene... | Y necesita... | Recomienda Patrón |
@@ -811,6 +975,23 @@ def crm_agent_node(state: MessagesState):
 | Stack Microsoft/.NET | Enterprise agents | P9 (MAF + SK) |
 | Cualquier ERP legacy | Data intelligence | P4 (OpenMetadata) |
 | CRM moderno + equipo ventas | AI sobre CRM en lenguaje natural | P11 (Twenty CRM + MCP) |
+| Stack .NET/Azure, quiere tools eficientes | Multi-step agent sin round-trips | P12 (MAF CodeAct + Hosted Agents) |
+| Equipo que ya usa Teams/Slack | Agent sin nueva UI, alta adopción | P13 (Agent-on-Messaging) |
+
+---
+
+## Quick-ROI matrix
+
+| Patrón | Payback estimado | Complejidad | Licencias |
+|--------|-----------------|-------------|-----------|
+| P8 (n8n + Claude ops) | 2-3 meses | Baja | Sustainable Use + Anthropic |
+| P13 (Teams/Slack agent) | 3-4 meses | Baja-Media | Sustainable Use + Anthropic |
+| P1 (ERPNext MCP) | 4-6 meses | Media | MIT + GPL-3.0 |
+| P3 (CrewAI + CRM) | 5-8 meses | Media | MIT + AGPL-3.0 |
+| P5 (EU AI Act compliance) | Compliance-driven | Alta | Apache-2.0 + MIT |
+| P12 (MAF CodeAct) | 6-9 meses | Alta | MIT |
+| P6 (OpenHands DevOps) | 9-12 meses | Alta | MIT |
+| P10 (Analytics + Governance) | 10-15 meses | Muy Alta | Apache-2.0 + MIT |
 
 ---
 *Ver también: `agents/top.md` para detalles de cada framework y `verticals/solutions.md` para plataformas base.*
