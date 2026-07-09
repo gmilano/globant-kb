@@ -1,6 +1,6 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-09 (v5)
+> Investigación curada con datos verificados. Última actualización: 2026-07-09 (v6)
 
 ## Tendencias confirmadas (alta confianza)
 
@@ -87,6 +87,19 @@ arXiv:2602.11103 reveló que el mejor agente resuelve solo el 53.8% de las 132 t
 ### T12: Sentimiento desarrollador — 52% anti-GenAI pero +11% NPC agentico
 GDC State of AI Survey 2026: aunque el 52% de desarrolladores tiene visión negativa de GenAI (preocupaciones laborales, calidad), la adopción de NPCs agenticos en producción creció +11% año a año. El gap entre sentimiento y adopción crea una ventana: los studios que SÍ implementan AI agentica para NPCs toman ventaja competitiva mientras sus pares vacilan.
 
+### T13: Godot Foundation prohíbe código AI — señal de calidad en OSS (1-jul-2026)
+La Godot Foundation actualizó su política de contribución el 1 de julio de 2026 prohibiendo casi todo uso de AI generativa en PRs:
+- ❌ Código generado por IA ("vibe coding"), PRs enviados por AI agents autónomos, texto generado por IA en discusiones human-to-human
+- ✅ Asistencia menor (autocomplete, regex, find-and-replace) con divulgación obligatoria
+- **Causa raíz**: avalancha de PRs de baja calidad por AI que sobrecárgó a los mantenedores voluntarios
+- **Señal de industria**: la reacción al ruido AI en OSS está generando un "premium de calidad humana". Proyectos que rechacen submissions AI-generated ganarán credibilidad de contribuidores. Godot sigue siendo MIT — solo cambian las reglas de contribución.
+- **Oportunidad Globant**: posicionarse como contribuidor de alta calidad humana en el ecosistema Godot, diferenciándose de la avalancha de AI-generated PRs.
+
+### T14: OmniGameArena — Benchmarking VLM en UE5 con reflexión agentica (jun 2026)
+arXiv:2606.09826: benchmark con 12 juegos construidos en Unreal Engine 5 para evaluar VLMs en entornos 3D reales de producción. Introduce **Improvement Dynamics Curve (IDC)**: un reflector LLM con herramientas refina prompts de habilidad en múltiples rondas — midiendo no solo el score frío sino la capacidad de mejora iterativa. Complementa GameDevBench (Godot 2D/Gameplay) con escenarios UE5 3D multiplayer.
+- Evalúa Claude, GPT-4o, Gemini, Qwen3 y NitroGen (modelo especializado, 40k h de gameplay en 1k+ juegos)
+- Señal: los modelos fundacionales de gaming (NitroGen-style) empiezan a competir con VLMs generalistas en tareas gaming específicas.
+
 ---
 
 ## En el radar (emergente, 2026-2027)
@@ -100,6 +113,8 @@ GDC State of AI Survey 2026: aunque el 52% de desarrolladores tiene visión nega
 | **Carbon Engine + AI** | Engine de EVE Online abierto → primeros proyectos MMO-AI OSS emergentes. | 2026-2027 |
 | **PCG con diffusion models** | Generación de assets (texturas, música, diálogos) in-pipeline. | Parcialmente productivo ya |
 | **Supabase para game backends** | Alternativa PostgreSQL a Firebase/Nakama para juegos asíncronos. | Adopción creciente 2026 |
+| **NitroGen-style foundation models** | Modelos visión-acción entrenados on-gameplay (40k h / 1k+ juegos). Competirán con VLMs en tasks gaming-specific. | 2026-2027 |
+| **AI-ban reacción en OSS** | Godot, y potencialmente otros motores OSS, endureciendo políticas anti-AI. Premium de calidad humana en contribuciones. | Presente |
 
 ---
-*Fuentes: GitHub (verificado 2026-07-09), GDC 2026 Survey, Technavio, Research & Markets, arXiv:2602.11103, ICLR 2026*
+*Fuentes: GitHub (verificado 2026-07-09), GDC 2026 Survey, Technavio, Research & Markets, arXiv:2602.11103, arXiv:2606.09826, ICLR 2026, godotengine.org/article/contribution-policy-2026/, Persistence Market Research*

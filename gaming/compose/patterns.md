@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-09 (v5 — 10 patrones)
+> Última actualización: 2026-07-09 (v6 — 11 patrones)
 
 ## Patrón base
 
@@ -412,10 +412,71 @@ def run_comparative_eval(game_env: CustomGameEnv):
 
 ---
 
+## Receta 11: OmniGameArena — Evaluación VLM en Entornos UE5 Realistas
+
+**Caso de uso**: Cliente con juego en Unreal Engine 5 quiere saber qué VLM (Claude, GPT-4o, Gemini) se desempeña mejor en sus mecánicas específicas, incluyendo escenarios PvP y Coop. Adaptar OmniGameArena a su juego para obtener datos de evaluación antes de integrar.
+
+**Stack**:
+```python
+# omni_eval.py — Adaptar OmniGameArena al juego UE5 propio
+# Basado en mxlin043/OmniGameArena (MIT, arXiv:2606.09826)
+
+from omni_game_arena import GameArena, IDCEvaluator
+import anthropic
+
+class ClientGameUE5(GameArena):
+    """Wrapper para el juego UE5 del cliente."""
+    
+    def capture_observation(self) -> dict:
+        """Screenshot de UE5 + estado del juego como observación VLM."""
+        frame = self.ue5_bridge.capture_frame()  # PIL Image desde UE5
+        state = self.ue5_bridge.get_game_state()  # dict: score, health, position
+        return {
+            "image": frame,
+            "state": state,
+            "valid_actions": self.ue5_bridge.get_action_space()
+        }
+    
+    def execute_action(self, action: str) -> float:
+        """Ejecutar acción en UE5 y devolver reward."""
+        self.ue5_bridge.send_action(action)
+        reward = self.ue5_bridge.get_reward()  # métrica de éxito definida por cliente
+        return reward
+
+# Evaluación con Improvement Dynamics Curve (IDC)
+# IDC mide no solo score frío sino cómo mejora el modelo con reflexión iterativa
+evaluator = IDCEvaluator(rounds=5)  # 5 rondas de reflexión agentica
+
+results = {}
+for model_name in ["claude-sonnet-5", "gpt-4o", "claude-haiku-4-5-20251001"]:
+    client_game = ClientGameUE5(model=model_name)
+    idc_score = evaluator.evaluate(client_game)  # → curva de mejora por ronda
+    results[model_name] = {
+        "cold_start": idc_score.round_0,
+        "after_5_reflections": idc_score.round_5,
+        "improvement_rate": idc_score.improvement_delta
+    }
+    print(f"{model_name}: {idc_score.round_0:.2f} → {idc_score.round_5:.2f} (Δ{idc_score.improvement_delta:.2f})")
+
+# Recomendación automática: usar el modelo con mejor cold_start para NPC reactivos
+# y mejor improvement_rate para agentes que requieren planificación iterativa
+```
+
+**Repos**:
+- [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) — MIT. arXiv:2606.09826 (jun 2026). Benchmark 12 juegos UE5.
+- [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — MIT. ICLR 2026. Complementar con evaluación en 7 juegos 2D.
+
+**Ventaja vs P10** (GamingAgent): OmniGameArena evalúa en entornos 3D UE5 de producción + escenarios multiplayer (PvP/Coop) + IDC para medir capacidad de mejora.
+
+**Tiempo estimado**: 2-3 semanas para adaptar al juego UE5 del cliente.
+**Deal size**: $25k-$80k como servicio de evaluación VLM para gaming UE5.
+
+---
+
 ## Tabla resumen
 
 | Patrón | Stack principal | Esfuerzo | ROI esperado | Deal size |
-|--------|----------------|---------|--------------|-----------|
+|--------|----------------|---------|--------------|----------|
 | P1: NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion | $40k-$150k |
 | P2: QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual | $60k-$200k |
 | P3: Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención | $80k-$250k |
@@ -425,7 +486,8 @@ def run_comparative_eval(game_env: CustomGameEnv):
 | P7: NPC con Voz Completa | Mantella + Faster-Whisper + Piper + LLM | 3-4 semanas | NPCs vivos sin Inworld/Convai | $80k-$200k |
 | P8: Unity MCP 268 Tools | Unity MCP Server + Claude Code | 1 día setup | 2-3x velocidad en Unity | $40k-$120k |
 | P9: Carbon Engine + LangGraph MMO | Carbon + LangGraph + Nakama | 3-6 meses | MMO persistent world OSS | $300k-$1.5M |
-| P10: GamingAgent Evaluation | lmgame-org + custom adapter | 1-2 semanas | Modelo correcto antes de integrar | $20k-$60k |
+| P10: GamingAgent Evaluation | lmgame-org + custom adapter (Godot/2D) | 1-2 semanas | Modelo correcto antes de integrar | $20k-$60k |
+| P11: OmniGameArena Evaluation (UE5) | OmniGameArena + IDC + UE5 bridge | 2-3 semanas | VLM correcto para entorno 3D/multiplayer | $25k-$80k |
 
 ---
-*Repos verificados en GitHub 2026-07-09. URLs directas incluidas. Carbon Engine añadido post open-source jul-2026.*
+*Repos verificados en GitHub 2026-07-09. URLs directas incluidas. OmniGameArena añadido jun-2026. Carbon Engine open-source jul-2026. Godot AI-ban jul-2026.*
