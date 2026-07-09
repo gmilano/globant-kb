@@ -1,7 +1,7 @@
 # Agentes AI — Legal Services
 
 > Agentes y herramientas AI open source para la industria legal. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09 (v5)
+> Última actualización: 2026-07-09 (v6)
 
 ## Agentes y herramientas destacadas
 
@@ -28,6 +28,9 @@
 | [ai-legal-claude](https://github.com/zubair-trabzada/ai-legal-claude) | MIT | Legal skill para Claude Code: 14 skills especializados (contract review, risk analysis, NDA generation, compliance auditing, negotiation strategy, PDF reports), 5 agentes paralelos; compatible con Claude Code, Codex, Cursor | 178 |
 | [legal-rag-bench](https://github.com/isaacus-dev/legal-rag-bench) | MIT | Benchmark de razonamiento intensivo para sistemas RAG legales end-to-end: evalúa precisión, recuperación y razonamiento sobre documentos legales reales; metodología de evaluación publicada | 165 |
 | [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | MCP server para leyes coreanas: 41 APIs del Korean National Law Information Center (법제처), verificación de hallucinations en citas legales, exploración de grafo legal; v4.4.0 con 9 herramientas optimizadas | 2155 |
+| [Nomos](https://github.com/haqq-ai/nomos) | MIT | **NUEVO v6** — HAQQ: interface legal agent-native open source, auto-hostable, skills-first; diseñada como "Cursor para abogados" donde el AI engine y el abogado son ambos usuarios de primer nivel; integra con GLAW skills y claude-for-legal plugins | 310 |
+| [Master Claude for Legal](https://github.com/haqq-ai/master-claude-for-legal) | MIT | **NUEVO v6** — HAQQ: community skill pack con 5 starter skills operativos (NDA triage, multi-party version diff, meeting brief, citation verifier, status synthesis); reference docs sobre privilege architecture y MCP permission hardening | 185 |
+| [harvey-labs](https://github.com/harveyai/harvey-labs) | MIT | **NUEVO v6** — Harvey: benchmark open-source para evaluar agentes legales de largo horizonte; 1,200+ tareas, 24 áreas de práctica, 75k+ criterios; base para evaluar agentes antes de producción | 920 |
 
 ---
 
@@ -50,13 +53,16 @@
 
 | Benchmark | Tareas | Jurisdicciones | Ganador 2026 | Hallazgo clave |
 |-----------|--------|---------------|--------------|----------------|
-| Harvey LAB | 1,200+ (24 áreas práctica) | EE.UU. (common law) | Claude Sonnet 5 | Primer open-source de largo horizonte; 75k+ criterios |
+| Harvey LAB | 1,200+ (24 áreas práctica) | EE.UU. (common law) | **Claude Fable 5 — 11.25%** | Repo OSS: harveyai/harvey-labs (MIT); 75k+ criterios |
+| Harvey LAB-AA (Artificial Analysis) | 1,200+ tareas | EE.UU. (common law) | **Claude Fable 5 — 14.2% all-pass** | Evaluación independiente; all-pass rate: <10% frontier (rigor máximo) |
 | HAQQ-LAB | 300 (51 áreas práctica) | 20+ (US, UK, EU, UAE, DIFC, Saudi, Lebanon, Egypt, Qatar, SG, AU) | Claude Opus 4.8 — 30.02/35 | Civil law MENA; 24% hallucination rate en todos los modelos |
 | LegalAgentBench | 300 (multi-hop) | China (civil law) | — | 37 herramientas, 17 corpus reales; paper ICLR 2025 |
 | LegalBench | 162 | EE.UU. (inglés) | — | Estándar académico desde Stanford/Hazy Research |
 | LRAGE | Multi-benchmark | Multi-jurisdicción | — | RAG evaluation: BM25+FAISS, integración smolagents |
 
 > **Alerta**: HAQQ-LAB reveló que el **24% de todas las respuestas** de los 10 principales modelos frontiers citaron o aplicaron ley incorrectamente. 1,313 casos judiciales documentados con alucinaciones AI a julio 2026. La supervisión humana no es opcional.
+
+> **Harvey LAB-AA (v6)**: En evaluación independiente de Artificial Analysis, Claude Fable 5 lidera con **14.2% all-pass** (casi el doble que el segundo puesto, Claude Opus 4.8 y GLM-5.2 con 7.5%). El all-pass rate promedio de todos los modelos frontier es <10% — el benchmark es deliberadamente brutale: una tarea solo cuenta como exitosa si TODOS los criterios se cumplen. Costo por tarea: Fable 5 ~$18.9, Sonnet 5 ~$11.8, Opus 4.8 ~$8.2.
 
 ---
 

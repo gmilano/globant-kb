@@ -1,7 +1,7 @@
 # Repos fundacionales — Legal Services
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09 (v5)
+> Última actualización: 2026-07-09 (v6)
 
 ## Plataformas y frameworks base
 
@@ -23,6 +23,8 @@
 | [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | MCP server para leyes coreanas (모범 de patrón jurisdiccional): 41 APIs del National Law Information Center, verificación anti-hallucination, grafo de impacto; 2.1k★ — modelo para replicar en LATAM | MCP — 2155★ |
 | [legal-rag-bench](https://github.com/isaacus-dev/legal-rag-bench) | MIT | Benchmark reasoning-intensive para RAG legal end-to-end: evalúa precisión, recuperación y razonamiento sobre documentos legales reales; complementa LegalBench (tareas) con evaluación de sistemas completos | Eval — 165★ |
 | [GLAW](https://github.com/lawve-ai/glaw) | MIT | Virtual law firm skill: 179 skills en 10 departamentos, pipeline completo con human gates; referencia de arquitectura para despachos virtuales AI; genera attorney work-product con supervisión | Arch — 340★ |
+| [harvey-labs](https://github.com/harveyai/harvey-labs) | MIT | **NUEVO v6** — Harvey: benchmark open-source para agentes legales de largo horizonte; 1,200+ tareas, 24 áreas de práctica, 75k+ criterios escritos por abogados reales; Claude Fable 5 lidera con 14.2% all-pass | Eval — 920★ |
+| [Nomos](https://github.com/haqq-ai/nomos) | MIT | **NUEVO v6** — HAQQ: "Cursor para abogados" — interface legal agent-native open source; self-hostable; integra GLAW skills + claude-for-legal plugins; diseñada para que AI engine y abogado sean co-primeros usuarios | Arch — 310★ |
 
 ---
 
@@ -50,6 +52,8 @@
 | F — Evaluation | LegalBench + HAQQ-LAB + LRAGE + legal-rag-bench | Evaluación de sistemas AI antes de producción |
 | G — Virtual Law Firm | GLAW + Claude Code + CourtListener MCP | Despacho virtual AI con 10 departamentos |
 | H — Jurisdicción-específica MCP | korean-law-mcp (patrón) + APIs locales LATAM | MCP legal para PJe/CEJAT/EJE/SCJN |
+| I — Nomos Workspace | Nomos (MIT) + GLAW skills + Master Claude for Legal | Despacho virtual self-hosted sin costo de licencia |
+| J — Evaluation Suite | harvey-labs (MIT) + HAQQ-LAB + LRAGE + legal-rag-bench | Quality gate completo antes de producción |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas. — v5 2026-07-09.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas. — v6 2026-07-09.*

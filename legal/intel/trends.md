@@ -1,6 +1,6 @@
 # Tendencias — Legal AI
 
-> Tendencias clave en AI legal. Última actualización: 2026-07-09 (v5)
+> Tendencias clave en AI legal. Última actualización: 2026-07-09 (v6)
 
 ## 1. Agentic AI reemplaza herramientas standalone (H1 2026)
 
@@ -147,14 +147,58 @@ El Korean Law MCP (2.1k★) demostró que un MCP servidor jurisdiccional especí
 
 **Próxima frontera LATAM**: quién construya primero MCP servers para PJe (Brasil), CEJAT (Argentina), SCJN (México) y EJE (Colombia) tendrá ventaja de first-mover significativa. Tamaño: $4.8B de mercado LATAM LegalTech para 2033.
 
+## 17. Nomos — "Cursor para abogados" (HAQQ, julio 2026) **NUEVO v6**
+
+HAQQ lanzó Nomos, una interface legal agent-native open source diseñada desde cero para que el abogado y el AI engine coexistan como usuarios de primer nivel:
+- Self-hostable, skills-first — el abogado lee, modifica y despliega skills directamente
+- Integra con GLAW (179 skills) y claude-for-legal plugins
+- Filosofía: la diferencia entre Cursor y VS Code es que Cursor fue diseñado con el agente AI como ciudadano de primera clase; Nomos hace lo mismo para el workspace legal
+
+**Para Globant**: Nomos es el "shell" ideal para empaquetar soluciones verticales (M&A, laboral, tributario LATAM) sin construir una UI desde cero.
+
+## 18. Harvey LAB-AA — Claude Fable 5 lidera benchmark legal (julio 2026) **NUEVO v6**
+
+Artificial Analysis evaluó independientemente el Harvey LAB:
+- **Claude Fable 5**: 14.2% all-pass — la primera vez que un modelo supera el 10%
+- **Opus 4.8 + GLM-5.2**: 7.5% all-pass — segundo puesto
+- El all-pass standard es brutal: cada criterio de una tarea debe cumplirse para contar
+- Resultado sistémico: frontier models aún no pueden completar la mayoría de tareas legales sin supervisión humana
+- Repositorio OSS: github.com/harveyai/harvey-labs (MIT) — disponible para evaluar agentes propios
+
+**Implicación**: legal AI agentica es still early — hay mercado disponible para integradores que aporten la supervisión que los modelos no proveen solos.
+
+## 19. LATAM AI Regulation Convergence (julio 2026) **NUEVO v6**
+
+Los tres mercados LATAM prioritarios están regulando AI simultáneamente:
+
+- **Brasil**: PL 2.338/2023 aprobado en Senado — pending Cámara. ANPD AI Sandbox (hasta dic 2026). Marco risk-based con arquitectura de supervisión
+- **Argentina**: Registro Nacional de Sistemas AI — obligatorio declarar propósito, estructura algorítmica, salvaguardas. Alignment with EU AI Act approach
+- **México**: Enmiendas laborales y de IP para regular image rights + AI en tránsito legislativo; opt-out en toma de decisiones automatizadas ya en ley de datos
+
+**La ventana Globant**: Los frameworks están en construcción ahora. Quien se posicione como el implementador de referencia de "AI legal compliance en LATAM" en los próximos 6-12 meses captura un mercado que se formalizará. Analogía: consultores de GDPR en 2018.
+
+## 20. EU AI Act — Propuesta de prórroga de 16 meses (julio 2026) **NUEVO v6**
+
+Digital AI Omnibus (Propuesta de la Comisión, mayo 2026):
+- Extiende 16 meses la aplicación para sistemas de alto riesgo Anexo III (HRAIS por uso)
+- Nueva fecha propuesta: 2 diciembre 2027 (desde 2 agosto 2026)
+- **ESTADO**: a junio 2026, NO está promulgado como ley — 2 agosto sigue siendo fecha operativa
+- 78% de organizaciones no han dado pasos hacia cumplimiento; 50%+ sin inventario AI
+- Oportunidad de advisory urgente independientemente de la prórroga: clientes que esperan asumen riesgo
+
+**Para Globant**: la prórroga propuesta crea una ventana de implementación más holgada — pero el servicio de auditoría legal AI sigue siendo urgente para clientes con exposición EU.
+
 ## Repos más activos esta semana
 
 - [anthropics/claude-for-legal](https://github.com/anthropics/claude-for-legal) — Suite oficial Anthropic. Apache 2.0. **8.7k★** (+9.8x en 2 meses)
-- [willchen96/mike](https://github.com/willchen96/mike) — Self-hostable Harvey alternative. AGPL-3.0. **3.9k★**
-- [chrisryugj/korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) — MCP server legal Korea (41 APIs). MIT. **2.1k★** — nuevo en v5
+- [willchen96/mike](https://github.com/willchen96/mike) — Self-hostable Harvey alternative. AGPL-3.0. **3.9k★** — **41.8/50 benchmark (supera Harvey)**
+- [harveyai/harvey-labs](https://github.com/harveyai/harvey-labs) — Harvey LAB OSS benchmark. MIT. **920★** — **NUEVO v6**
+- [haqq-ai/nomos](https://github.com/haqq-ai/nomos) — "Cursor para abogados". MIT. **310★** — **NUEVO v6**
+- [haqq-ai/master-claude-for-legal](https://github.com/haqq-ai/master-claude-for-legal) — Community skill pack. MIT. **185★** — **NUEVO v6**
+- [chrisryugj/korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) — MCP server legal Korea (41 APIs). MIT. **2.1k★**
 - [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) — 8M+ opiniones + MCP connector. Apache 2.0. 2.1k★
 - [firelex/suzielaw](https://github.com/firelex/suzielaw) — Suzie Law 160+ workflows. Apache 2.0. 800★
-- [lawve-ai/glaw](https://github.com/lawve-ai/glaw) — Virtual law firm skill: 179 skills, 10 depts. MIT. **340★** — nuevo en v5
+- [lawve-ai/glaw](https://github.com/lawve-ai/glaw) — Virtual law firm skill: 179 skills, 10 depts. MIT. **340★**
 - [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Agentic law firm: 67 agentes, debate multi-evidencia, human gates. Apache 2.0. 267★
 - [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS agéntico open + MCP server. Apache 2.0. 390★
 - [hoorangyee/LRAGE](https://github.com/hoorangyee/LRAGE) — RAG legal evaluation framework. MIT. 180★

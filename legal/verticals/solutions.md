@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes, customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-09 (v5)
+> Última actualización: 2026-07-09 (v6)
 
 ## Plataformas Self-hosted Legal AI (nuevo 2026)
 
@@ -14,12 +14,14 @@ Las plataformas completas de legal AI open source que emergieron en mayo 2026 �
 | [Suzie Law](https://github.com/firelex/suzielaw) | Apache-2.0 | firelex/suzielaw | Node.js + React + PostgreSQL | 160+ workflows como base, extiende con Claude Code para área de práctica específica |
 | [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | anthropics/claude-for-legal | Plugin SDK + Managed Agents API | Integra con stack existente del cliente (Ironclad, iManage, Everlaw) sin reemplazarlo. **8.7k★** |
 | [GLAW](https://github.com/lawve-ai/glaw) | MIT | lawve-ai/glaw | Skills SKILL.md + Claude Code + MCP | Virtual law firm completo — instalar como skill y adaptar depts por jurisdicción LATAM |
+| [Nomos](https://github.com/haqq-ai/nomos) | MIT | haqq-ai/nomos | Agent-native workspace + skills | **NUEVO v6** — "Cursor para abogados": AI engine + abogado como co-usuarios; integra GLAW + claude-for-legal; ideal como UI layer para soluciones verticales Globant |
 
 ### Cuándo usar cada uno
 
 ```
 Mike:           Cliente quiere plataforma ALL-IN-ONE propia, financiero para hosting.
                 AGPL-3.0 = ok si el cliente no distribuye comercialmente.
+                Benchmark 41.8/50 (supera Harvey en tests independientes).
 
 Suzie Law:      Cliente quiere base extensible, prefiere Apache-2.0 permisivo.
                 Ideal para construir verticales específicas (M&A, laboral, tributario).
@@ -30,6 +32,11 @@ claude-for-legal: Cliente ya tiene stack (iManage, Ironclad, DocuSign) y quiere
 GLAW:           Cliente quiere un despacho virtual completo operativo desde día 1.
                 MIT = máxima permisividad. Skills se extienden agregando SKILL.md.
                 Ideal para firmas pequeñas o especialización jurisdiccional rápida.
+
+Nomos (v6):     Cliente quiere un workspace donde el abogado Y el AI engine sean
+                ciudadanos de primera clase. "Cursor para abogados". Self-hosted MIT.
+                UI layer ideal para empaqueter soluciones Globant — sin construir UI.
+                Combinar con GLAW (skills) + Master Claude for Legal (starter skills).
 ```
 
 ---

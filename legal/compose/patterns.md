@@ -1,7 +1,7 @@
 # Patrones de composición — Legal Services
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-09 (v5)
+> Última actualización: 2026-07-09 (v6)
 
 ## Arquitectura base
 
@@ -750,3 +750,149 @@ if __name__ == "__main__":
 | Pre-venta: evaluar LLMs legales | Incluido | P8 Harvey LAB benchmark | Harvey LAB + Claude Opus 4.8 |
 | Firma pequeña/media quiere despacho virtual desde día 1 | $60k-250k | **P11 GLAW virtual law firm** | GLAW + Claude Code + MCP |
 | Globant quiere construir moat de datos LATAM | $40k-150k/jurisdicción | **P12 MCP jurisdiccional LATAM** | FastAPI + APIs judiciales + MCP SDK |
+| Firma quiere workspace donde abogado + AI sean co-usuarios | $50k-200k | **P13 Nomos self-hosted workspace** | Nomos + GLAW + Master Claude for Legal |
+| Antes de go-live: calidad gate para cualquier agente legal | $20k-80k | **P14 Harvey LAB quality gate** | harvey-labs + Claude Fable 5 + HAQQ-LAB |
+
+---
+
+## Patrón 13: Nomos Self-Hosted Workspace (v6)
+
+**Caso de uso**: Despacho o corporate legal quiere un workspace self-hosted donde el abogado y el AI engine son igualmente ciudadanos de primera clase (vs. un chatbot genérico).  
+**Stack**: Nomos (MIT) + GLAW skills + Master Claude for Legal + Anthropic API  
+**Tiempo estimado**: 2-3 semanas | **Deal size**: $50k-200k
+
+```bash
+# 1. Self-host Nomos (MIT)
+git clone https://github.com/haqq-ai/nomos.git my-legal-workspace
+cd my-legal-workspace
+cp .env.example .env
+# Editar: ANTHROPIC_API_KEY, POSTGRES_URL, S3_BUCKET
+
+# 2. Instalar skill pack de GLAW (179 skills en 10 departamentos)
+git submodule add https://github.com/lawve-ai/glaw ./skills/glaw
+# Adaptar: skills/glaw/departments/latam-laboral/ con legislación local
+
+# 3. Añadir starter skills de Master Claude for Legal
+git submodule add https://github.com/haqq-ai/master-claude-for-legal ./skills/master-claude
+# Incluye: NDA triage, citation verifier, status synthesis, meeting brief
+
+# 4. Levantar workspace
+docker-compose up -d
+# Nomos sirve el workspace en localhost:3000
+# El abogado accede como usuario; Claude opera como co-usuario con acceso a todas las skills
+```
+
+```python
+# Ejemplo: citation verifier skill (de Master Claude for Legal)
+import anthropic, httpx, json
+
+client = anthropic.Anthropic()
+
+def verify_legal_citation(citation: str, jurisdiction: str = "AR") -> dict:
+    """Verifica que una cita legal exista y sea correcta antes de incluirla en un documento."""
+    
+    # 1. Buscar en fuente oficial
+    endpoints = {
+        "AR": f"https://www.saij.gob.ar/busqueda?texto={citation}",
+        "BR": f"https://www.jusbrasil.com.br/busca?q={citation}",
+        "MX": f"https://sjf.scjn.gob.mx/sjfsist/Paginas/Resultados.aspx?q={citation}"
+    }
+    
+    try:
+        r = httpx.get(endpoints.get(jurisdiction, endpoints["AR"]), timeout=10.0)
+        found = r.status_code == 200 and len(r.text) > 1000
+    except Exception:
+        found = False
+    
+    # 2. Claude valida la cita en contexto
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=512,
+        system="Eres un verificador de citas legales. Analiza si la cita parece válida basándote en el formato y contexto jurídico.",
+        messages=[{"role": "user", 
+                   "content": f"Jurisdicción: {jurisdiction}\nCita: {citation}\nEncontrada en fuente oficial: {found}\n\nJSON: {{es_valida, confianza_0_1, advertencias, formato_correcto}}"}]
+    )
+    
+    result = json.loads(response.content[0].text)
+    result["source_found"] = found
+    return result
+
+# Uso en workflow de Nomos:
+citation = "CSJN, Fallos 344:120, 2021"
+verification = verify_legal_citation(citation, "AR")
+print(f"Válida: {verification['es_valida']} | Confianza: {verification['confianza_0_1']:.0%}")
+```
+
+---
+
+## Patrón 14: Harvey LAB Quality Gate (v6)
+
+**Caso de uso**: Antes de llevar un agente legal a producción con un cliente, evaluar su desempeño contra el benchmark de la industria y establecer un baseline documentado.  
+**Stack**: harvey-labs (MIT) + Claude Fable 5 / Opus 4.8 + HAQQ-LAB + LRAGE  
+**Tiempo estimado**: 1 semana | **Deal size**: $20k-80k (incluido en proyectos mayores)
+
+```python
+import subprocess, json, anthropic
+from pathlib import Path
+
+client = anthropic.Anthropic()
+
+def run_harvey_lab_eval(agent_func, task_sample_size: int = 50) -> dict:
+    """
+    Evalúa un agente legal contra una muestra del Harvey LAB benchmark.
+    Usa harvey-labs como referencia: github.com/harveyai/harvey-labs
+    """
+    
+    # Cargar tareas del benchmark (clonar harvey-labs previamente)
+    tasks_path = Path("./harvey-labs/tasks/")
+    tasks = []
+    for f in list(tasks_path.glob("**/*.json"))[:task_sample_size]:
+        tasks.append(json.loads(f.read_text()))
+    
+    results = {"passed": 0, "failed": 0, "scores": [], "task_details": []}
+    
+    for task in tasks:
+        # Ejecutar agente en la tarea
+        agent_response = agent_func(task["prompt"])
+        
+        # Evaluar con Claude como juez (all-pass standard)
+        judge_response = client.messages.create(
+            model="claude-fable-5",  # El mejor modelo para evaluación legal
+            max_tokens=1024,
+            system="Eres un juez de calidad legal. Evalúa si la respuesta cumple TODOS los criterios del Harvey LAB. "
+                   "Responde con JSON: {all_pass: bool, criteria_met: [str], criteria_failed: [str], score_0_10: float}",
+            messages=[{"role": "user", "content": 
+                       f"Tarea: {task['prompt']}\n\nRespuesta del agente: {agent_response}\n\n"
+                       f"Criterios a evaluar: {task.get('rubric', 'Ver taxonomía Harvey LAB')}"}]
+        )
+        
+        eval_result = json.loads(judge_response.content[0].text)
+        
+        if eval_result["all_pass"]:
+            results["passed"] += 1
+        else:
+            results["failed"] += 1
+        
+        results["scores"].append(eval_result["score_0_10"])
+        results["task_details"].append({
+            "task_id": task.get("id", "unknown"),
+            **eval_result
+        })
+    
+    total = results["passed"] + results["failed"]
+    results["all_pass_rate"] = results["passed"] / total if total > 0 else 0
+    results["avg_score"] = sum(results["scores"]) / len(results["scores"])
+    
+    # Comparar con benchmarks de referencia
+    print(f"\n=== Harvey LAB Quality Gate ===")
+    print(f"All-pass rate: {results['all_pass_rate']:.1%} (industria: <10%; Fable 5: 14.2%)")
+    print(f"Score promedio: {results['avg_score']:.1f}/10")
+    print(f"Tareas evaluadas: {total}")
+    
+    return results
+
+# Uso típico en due diligence pre-producción:
+# eval_results = run_harvey_lab_eval(my_legal_agent.run, task_sample_size=100)
+# if eval_results["all_pass_rate"] < 0.05:
+#     print("BLOQUEADO: calidad insuficiente para producción")
+```

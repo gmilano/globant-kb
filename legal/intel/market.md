@@ -1,7 +1,7 @@
 # Mapa de mercado — Legal Services
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09 (v5)
+> Última actualización: 2026-07-09 (v6)
 
 ## Tamaño de mercado (2026) — múltiples fuentes
 
@@ -23,7 +23,7 @@
 
 | Empresa | Tipo | Fortaleza | Posición 2026 |
 |---------|------|-----------|---------------|
-| Harvey | Startup AI legal | LAB benchmark, 24 áreas de práctica, respaldo NVIDIA/OpenAI/Anthropic | Referencia agéntica; bajo presión del open source |
+| Harvey | Startup AI legal | LAB benchmark, 24 áreas de práctica, respaldo NVIDIA/OpenAI/Anthropic; **$200M @ $11B (marzo 2026)** | Referencia agéntica; bajo presión del open source (Mike OS supera en benchmark) |
 | Thomson Reuters | Enterprise | CoCounsel + Westlaw; Deep Research agéntico Q1 2026 | Líder enterprise; incumbente consolidado |
 | LexisNexis | Enterprise | Protégé + Shepard's; Protégé Work agéntico mayo 2026 | Co-líder enterprise con TR |
 | Clio | SaaS PME | Líder global en gestión de despachos; integración AI 2026 | Dominante en firmas medianas |
@@ -55,9 +55,13 @@ La ola open source de mayo 2026 cambió la dinámica competitiva:
 ## Oportunidades AI en LATAM
 
 ### Métricas clave de adopción (2026)
-- Corporates AI legal: 23% (2024) → **54% adopción** (2025) — duplicó en 1 año (Thomson Reuters 2026 Legal Professionals Report)
+- Law firms con AI: 28% (2025) → **41%** (2026) — Bloomberg Law 2026
+- Corporate legal departments con AI: 23% (2025) → **47%** (2026) — Bloomberg Law 2026
+- Corporates AI legal: 23% (2024) → **54% adopción** (2025, Thomson Reuters) → adopción continúa acelerándose
+- **Legal tech spending**: +9.7% en 2026 (State of Legal Market report, LawSites ene 2026)
 - **77%** de profesionales esperan que agentic AI sea central a sus workflows en 2030
 - 64% de equipos in-house esperan depender **menos de outside counsel** por AI interna
+- **43%** de compradores cita "integración con workflows existentes" como criterio principal (vs features o calidad del modelo)
 - Brasil: 66 sistemas AI asistiendo **82.6M casos pendientes** en tribunales (2023)
 - Argentina: 69% de abogados aún usa **Excel / carpetas físicas** para gestión de casos (2026)
 - LATAM CAGR LegalTech: 11.12% (2025-2033) → $4.8B por 2033
