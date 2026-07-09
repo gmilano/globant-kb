@@ -1,1226 +1,528 @@
-# 🧩 Patrones de composición — Retail & E-Commerce AI
+# 🧩 Patrones de composición — Retail & eCommerce
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-08 (v7 — segunda pasada, +2 patrones)
+> Última actualización: 2026-07-09 (v9)
 
-## Arquitectura base
+## Stack base de referencia
 
 ```
-[Plataforma vertical (Medusa / WooCommerce / Odoo)]
-          ↓ MCP / REST / GraphQL
-[Capa de orquestación AI (LangGraph / Claude MCP)]
+[Plataforma vertical base (Medusa / WooCommerce / Shopify / Odoo)]
           ↓
-[Agentes especializados: Gorse / NVIDIA Blueprints / Skyvern]
+[MCP Server de la plataforma (medusa-mcp / WC MCP / Shopify AI Toolkit)]
           ↓
-[UI conversacional / WhatsApp / Agentic Checkout (UCP)]
+[Orquestador de agentes (Dify / n8n / código Python)]
+          ↓
+[Agentes especializados (pricing / inventory / recommendations / shelf)]
+          ↓
+[Canal conversacional (WhatsApp / chat widget / Slack / CLI)]
 ```
 
 ---
 
-## Patrón 1 — AI Shopping Assistant con Medusa + LangGraph + Gorse
+## P1 — Shopify Agentic Storefront (Claude + MCP)
 
-**Caso de uso**: Asistente de compras conversacional que recomienda productos, responde preguntas y completa el carrito.
-
-**Stack**:
-- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT, 31k★) — backend de comercio
-- [gorse-io/gorse](https://github.com/gorse-io/gorse) (Apache-2.0, 9.7k★) — motor de recomendación
-- [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) (Apache-2.0) — patrón de referencia
-- Claude Sonnet 5 via API Anthropic — LLM del agente
-
-**Tiempo estimado**: 4-6 semanas | **Deal size LATAM**: $100k-300k
+**Stack**: Shopify AI Toolkit (MIT) + shop-chat-agent (MIT) + Claude Sonnet  
+**Time-to-market**: 2-4 semanas  
+**Rango de precio**: $40k-$120k  
+**Caso de uso**: cualquier cliente sobre Shopify que quiera chat con checkout en conversación
 
 ```python
+# 1. Instalar Shopify AI Toolkit MCP
+# En Claude Code / Cursor:
+# settings.json → mcpServers → { "shopify": { "command": "npx", "args": ["@shopify/ai-toolkit"] } }
+
+# 2. El agente puede ahora:
+# - Buscar productos por descripción natural
+# - Aplicar descuentos y promociones
+# - Gestionar carritos y checkout
+# - Consultar políticas de devolución
+
+# 3. Embed del chat widget (basado en shop-chat-agent)
 from anthropic import Anthropic
-import requests
+import mcp
 
 client = Anthropic()
-MEDUSA_URL = "http://localhost:9000"
-GORSE_URL = "http://localhost:8088"
+shopify_mcp = mcp.connect("shopify://admin")
 
-def get_recommendations(user_id: str, n: int = 5) -> list:
-    """Obtiene recomendaciones de Gorse para el usuario."""
-    resp = requests.get(f"{GORSE_URL}/api/recommend/{user_id}?n={n}")
-    return resp.json()
-
-def search_products(query: str) -> list:
-    """Busca productos en Medusa."""
-    resp = requests.get(f"{MEDUSA_URL}/store/products?q={query}&limit=5")
-    return resp.json().get("products", [])
-
-def add_to_cart(cart_id: str, variant_id: str, quantity: int = 1) -> dict:
-    """Añade producto al carrito de Medusa."""
-    resp = requests.post(
-        f"{MEDUSA_URL}/store/carts/{cart_id}/line-items",
-        json={"variant_id": variant_id, "quantity": quantity}
+def handle_shopper_query(query: str, session_id: str) -> str:
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        tools=shopify_mcp.get_tools(),  # search_products, add_to_cart, checkout
+        messages=[
+            {"role": "user", "content": query}
+        ],
+        system="Eres un asistente de compras. Ayuda al cliente a encontrar productos, "
+               "responde preguntas sobre políticas y completa compras. "
+               "Confirma siempre antes de procesar el pago."
     )
-    return resp.json()
+    return response.content[0].text
 
-tools = [
-    {"name": "search_products", "description": "Busca productos por texto",
-     "input_schema": {"type": "object", "properties": {
-         "query": {"type": "string", "description": "Texto de búsqueda"}},
-         "required": ["query"]}},
-    {"name": "get_recommendations", "description": "Obtiene recomendaciones personalizadas",
-     "input_schema": {"type": "object", "properties": {
-         "user_id": {"type": "string"}, "n": {"type": "integer", "default": 5}},
-         "required": ["user_id"]}},
-    {"name": "add_to_cart", "description": "Añade producto al carrito",
-     "input_schema": {"type": "object", "properties": {
-         "cart_id": {"type": "string"}, "variant_id": {"type": "string"},
-         "quantity": {"type": "integer", "default": 1}},
-         "required": ["cart_id", "variant_id"]}}
-]
+# 4. Widget en Hydrogen (React)
+# app/components/ChatWidget.tsx → usa shop-chat-agent como base
+```
 
-def shopping_agent(user_message: str, user_id: str, cart_id: str):
-    messages = [{"role": "user", "content": user_message}]
-    system = f"""Eres un asistente de compras experto. Tienes acceso a:
-    - Búsqueda de productos en el catálogo
-    - Recomendaciones personalizadas para el usuario {user_id}
-    - Carrito de compras {cart_id}
-    Responde en español, sé conciso y útil."""
+**Output esperado**: +31% conversión vs organic. Time-to-checkout <2 minutos en chat.
 
-    while True:
+---
+
+## P2 — WooCommerce AI Assistant (LATAM, WhatsApp)
+
+**Stack**: WooCommerce (GPL-3.0) + WooCommerce REST API + n8n + Claude Haiku + WhatsApp Business API  
+**Time-to-market**: 4-6 semanas  
+**Rango de precio**: $30k-$80k  
+**Caso de uso**: SMBs LATAM (BR/MX/AR) con WooCommerce que quieren ventas por WhatsApp
+
+```python
+# n8n workflow (JSON exportable):
+# Trigger: WhatsApp Webhook → 
+# Node 1: Classify intent (Claude Haiku, ultra-low cost)
+# Node 2: Route to tool (search / order_status / cart / checkout)
+# Node 3: WooCommerce REST API call
+# Node 4: Format response → WhatsApp reply
+
+import anthropic
+import requests
+
+WC_URL = "https://tienda.ejemplo.com/wp-json/wc/v3"
+WC_AUTH = ("consumer_key", "consumer_secret")
+
+client = anthropic.Anthropic()
+
+def handle_whatsapp_message(phone: str, message: str) -> str:
+    # 1. Classify intent (Haiku = $0.00025/1k input tokens)
+    intent = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=50,
+        messages=[{"role": "user", "content": f"Classify: {message}"}],
+        system="Respond with ONE word: SEARCH, ORDER_STATUS, CART, CHECKOUT, or OTHER"
+    ).content[0].text.strip()
+    
+    if intent == "SEARCH":
+        # 2. Search WooCommerce
+        products = requests.get(
+            f"{WC_URL}/products",
+            params={"search": message, "per_page": 5},
+            auth=WC_AUTH
+        ).json()
+        
+        # 3. Generate response with Haiku
+        return client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=300,
+            messages=[{"role": "user", "content": f"Products found: {products}. Message: {message}"}],
+            system="Respond in Portuguese (BR) with product options, prices and links. Keep it concise for WhatsApp."
+        ).content[0].text
+    
+    # ... handlers para ORDER_STATUS, CART, CHECKOUT
+
+# Costo estimado: ~$0.002/conversación (20 mensajes avg), vs $4.18 agente humano
+```
+
+**Métricas esperadas**: ticket promedio +25%, tiempo de respuesta <5s, costo <$0.01/conversación.
+
+---
+
+## P3 — Dynamic Pricing Agent (Retail)
+
+**Stack**: retail-pricing-agent-ai (MIT) + browser-use (MIT) + stockpyl (MIT) + cualquier eCommerce API  
+**Time-to-market**: 6-10 semanas  
+**Rango de precio**: $80k-$200k  
+**Caso de uso**: retailers con 500+ SKUs que necesitan pricing competitivo en tiempo real
+
+```python
+import asyncio
+from browser_use import Agent, Controller
+from anthropic import Anthropic
+import stockpyl.supply_chain_node as scn
+
+client = Anthropic()
+
+class DynamicPricingPipeline:
+    """
+    Ciclo: competitor scraping → demand forecast → elasticity → price → sync
+    Basado en: samhaldia/retail-pricing-agent-ai (MIT)
+    """
+    
+    async def scrape_competitor_prices(self, sku: str) -> dict:
+        """Agent 1: Market Data Ingestion usando browser-use"""
+        agent = Agent(
+            task=f"Find current prices for '{sku}' on MercadoLibre, Amazon.com.br, and Magalu. Return JSON with {{'site': 'price'}}",
+            llm=client,
+        )
+        return await agent.run()
+    
+    def forecast_demand(self, sku: str, historical: list) -> float:
+        """Agent 2: Demand Forecasting con stockpyl + LLM synthesis"""
+        # stockpyl para math base
+        node = scn.SupplyChainNode(
+            echelon=0,
+            demand_type='N',
+            demand_mean=sum(historical[-30:]) / 30,
+            demand_sd=10
+        )
+        base_forecast = node.demand_source.demand_mean
+        
+        # LLM synthesis con señales externas
+        synthesis = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=100,
+            messages=[{"role": "user", "content": 
+                f"Base demand forecast: {base_forecast}. "
+                f"Adjust for: current season, local events, competitor pricing. "
+                f"Return adjusted demand as number only."}]
+        ).content[0].text
+        
+        return float(synthesis.strip())
+    
+    def generate_price(self, sku: str, cost: float, demand: float, competitor_prices: dict) -> float:
+        """Agent 3: Price Strategy Generation"""
         response = client.messages.create(
             model="claude-sonnet-5",
-            max_tokens=1024,
-            system=system,
-            tools=tools,
-            messages=messages
+            max_tokens=100,
+            messages=[{"role": "user", "content":
+                f"SKU: {sku}, Cost: ${cost}, Demand forecast: {demand} units/week, "
+                f"Competitors: {competitor_prices}. "
+                f"Target margin: 35%. Return optimal price as number only."}],
+            system="You are a retail pricing expert. Maximize margin while staying competitive."
         )
-        if response.stop_reason == "end_turn":
-            return response.content[0].text
-        # procesar tool calls
-        for block in response.content:
-            if block.type == "tool_use":
-                if block.name == "search_products":
-                    result = search_products(block.input["query"])
-                elif block.name == "get_recommendations":
-                    result = get_recommendations(block.input["user_id"])
-                elif block.name == "add_to_cart":
-                    result = add_to_cart(cart_id, block.input["variant_id"],
-                                         block.input.get("quantity", 1))
-                messages.extend([
-                    {"role": "assistant", "content": response.content},
-                    {"role": "user", "content": [
-                        {"type": "tool_result", "tool_use_id": block.id,
-                         "content": str(result)}]}
-                ])
-                break
+        return float(response.content[0].text.strip())
+    
+    async def sync_price(self, sku: str, new_price: float, platform: str = "medusa"):
+        """Agent 4: Price Synchronization"""
+        # Medusa API
+        import requests
+        requests.post(
+            f"https://store.example.com/admin/products/{sku}/variants",
+            json={"prices": [{"amount": int(new_price * 100), "currency_code": "BRL"}]},
+            headers={"Authorization": "Bearer TOKEN"}
+        )
+    
+    async def run_cycle(self, skus: list):
+        for sku in skus:
+            competitors = await self.scrape_competitor_prices(sku)
+            demand = self.forecast_demand(sku, historical=[])
+            new_price = self.generate_price(sku, cost=10.0, demand=demand, competitor_prices=competitors)
+            await self.sync_price(sku, new_price)
+            print(f"✅ {sku}: nuevo precio ${new_price:.2f}")
+
+# Ejecutar cada hora (cron o Dify scheduler)
+asyncio.run(DynamicPricingPipeline().run_cycle(skus=["SKU001", "SKU002"]))
 ```
+
+**ROI esperado**: +3-8% gross margin. Payback: 3-6 meses en retailers con 1k+ SKUs.
 
 ---
 
-## Patrón 2 — Agentic Checkout con UCP (Universal Commerce Protocol)
+## P4 — Shelf Audit CV + LLM (Retail Físico)
 
-**Caso de uso**: Implementar checkout compatible con AI agents (ChatGPT, Claude, Perplexity) que pueden comprar directamente en la tienda.
-
-**Stack**:
-- [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) (Apache-2.0) — impl. referencia ACP+UCP
-- [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp) (Apache-2.0) — spec
-- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — backend
-
-**Tiempo estimado**: 6-8 semanas | **Deal size LATAM**: $150k-400k
+**Stack**: shelfops (MIT) + Cerebras Gemma 4 inference + Claude Sonnet (reasoning) + Medusa/ERP API  
+**Time-to-market**: 4-8 semanas  
+**Rango de precio**: $60k-$150k  
+**Caso de uso**: cadenas de retail con tiendas físicas que quieren audit automatizado de góndolas
 
 ```python
-# ucp_merchant_server.py — servidor UCP sobre Medusa
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import requests
-
-app = FastAPI()
-MEDUSA_URL = "http://localhost:9000"
-
-class UCPProductQuery(BaseModel):
-    query: str
-    budget: float | None = None
-    currency: str = "USD"
-
-class UCPCheckoutRequest(BaseModel):
-    product_id: str
-    quantity: int
-    buyer_agent_id: str
-    payment_method: str
-
-@app.get("/.well-known/ucp-manifest")
-def ucp_manifest():
-    """UCP discovery endpoint — los agentes AI lo encuentran aquí."""
-    return {
-        "protocol": "ucp/1.0",
-        "merchant_id": "globant-demo-store",
-        "capabilities": ["product-search", "price-negotiation", "checkout", "fulfillment-status"],
-        "currency": "USD",
-        "languages": ["es", "pt", "en"],
-        "checkout_endpoint": "/ucp/checkout"
-    }
-
-@app.post("/ucp/search")
-def ucp_search(query: UCPProductQuery):
-    """Endpoint de búsqueda de productos para agentes AI."""
-    resp = requests.get(f"{MEDUSA_URL}/store/products",
-                        params={"q": query.query, "limit": 10})
-    products = resp.json().get("products", [])
-    # Filtrar por presupuesto si se especifica
-    if query.budget:
-        products = [p for p in products
-                    if any(v["prices"][0]["amount"] / 100 <= query.budget
-                           for v in p.get("variants", []))]
-    return {"products": products, "currency": query.currency}
-
-@app.post("/ucp/checkout")
-def ucp_checkout(checkout: UCPCheckoutRequest):
-    """Endpoint de checkout para agentes AI — compatible con UCP spec."""
-    # 1. Crear cart en Medusa
-    cart_resp = requests.post(f"{MEDUSA_URL}/store/carts")
-    cart_id = cart_resp.json()["cart"]["id"]
-    # 2. Añadir producto
-    requests.post(f"{MEDUSA_URL}/store/carts/{cart_id}/line-items",
-                  json={"variant_id": checkout.product_id,
-                        "quantity": checkout.quantity})
-    # 3. Completar pago (aquí iría integración con Stripe MCP o similar)
-    return {
-        "order_id": f"ORD-{cart_id[:8]}",
-        "status": "confirmed",
-        "agent_id": checkout.buyer_agent_id,
-        "estimated_delivery": "2026-07-15"
-    }
-```
-
----
-
-## Patrón 3 — Motor de Recomendación con Gorse + Cold-Start LightFM
-
-**Caso de uso**: Sistema de recomendaciones con LLM ranker para retailers con catálogos de moda/electrónica (imagen + texto).
-
-**Stack**:
-- [gorse-io/gorse](https://github.com/gorse-io/gorse) (Apache-2.0, 9.7k★) — motor principal
-- [lyst/lightfm](https://github.com/lyst/lightfm) (Apache-2.0, 4.9k★) — cold-start inicial
-- pgvector — embeddings de imágenes de productos
-
-**Tiempo estimado**: 3-5 semanas | **Deal size LATAM**: $80k-200k
-
-```python
-# recommender_pipeline.py
-import requests
-import numpy as np
-from lightfm import LightFM
-from lightfm.data import Dataset
-
-GORSE_URL = "http://localhost:8088"
-
-def cold_start_train(interactions: list, item_features: list) -> LightFM:
-    """Entrena LightFM para cold-start cuando Gorse aún no tiene datos."""
-    dataset = Dataset()
-    dataset.fit(
-        users=[i["user_id"] for i in interactions],
-        items=[i["item_id"] for i in interactions],
-        item_features=[f for item in item_features for f in item["features"]]
-    )
-    (interactions_matrix, weights) = dataset.build_interactions(
-        [(i["user_id"], i["item_id"], i.get("rating", 1.0)) for i in interactions]
-    )
-    item_features_matrix = dataset.build_item_features(
-        [(item["item_id"], item["features"]) for item in item_features]
-    )
-    model = LightFM(loss="warp", no_components=64)
-    model.fit(interactions_matrix, item_features=item_features_matrix, epochs=30)
-    return model, dataset
-
-def ingest_to_gorse(user_id: str, item_id: str, feedback_type: str = "click"):
-    """Ingesta feedback de usuario a Gorse para aprendizaje continuo."""
-    requests.post(f"{GORSE_URL}/api/feedback", json=[{
-        "FeedbackType": feedback_type,
-        "UserId": user_id,
-        "ItemId": item_id,
-        "Timestamp": "2026-07-08T00:00:00Z"
-    }])
-
-def get_hybrid_recommendations(user_id: str, model: LightFM, dataset,
-                                 n: int = 10) -> list:
-    """Combina Gorse (warm) con LightFM (cold-start)."""
-    # Primero intenta Gorse (tiene historial)
-    gorse_resp = requests.get(f"{GORSE_URL}/api/recommend/{user_id}?n={n}")
-    if gorse_resp.status_code == 200 and len(gorse_resp.json()) >= n // 2:
-        return gorse_resp.json()
-    # Fallback a LightFM cold-start
-    user_idx = dataset.mapping()[0].get(user_id)
-    if user_idx is None:
-        return []
-    n_items = dataset.interactions_shape()[1]
-    scores = model.predict(user_idx, np.arange(n_items))
-    top_items = np.argsort(-scores)[:n]
-    reverse_mapping = {v: k for k, v in dataset.mapping()[2].items()}
-    return [reverse_mapping[i] for i in top_items if i in reverse_mapping]
-
-# Docker Compose setup
-GORSE_COMPOSE = """
-version: '3'
-services:
-  gorse:
-    image: zhenghaoz/gorse-in-one
-    ports: ["8088:8088", "8087:8087"]
-    environment:
-      GORSE_DASHBOARD_USER: admin
-      GORSE_DASHBOARD_PASSWORD: password
-    volumes: ["gorse_data:/var/lib/gorse"]
-volumes:
-  gorse_data:
-"""
-```
-
----
-
-## Patrón 4 — Enriquecimiento de Catálogo con Claude Vision
-
-**Caso de uso**: Retailers con catálogos de imágenes sin descripción (frecuente en LATAM). GenAI genera títulos, descripciones, atributos, categorías.
-
-**Stack**:
-- [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) (Apache-2.0) — patrón referencia
-- Claude claude-sonnet-5 Vision API — análisis de imágenes
-- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — destino del catálogo
-
-**Tiempo estimado**: 3-4 semanas | **Deal size LATAM**: $60k-150k
-
-```python
-import anthropic
 import base64
-import requests
+import anthropic
 from pathlib import Path
 
 client = anthropic.Anthropic()
 
-def enrich_product_image(image_path: str, category_hint: str = "",
-                          language: str = "es") -> dict:
-    """Analiza imagen de producto y genera metadatos ricos."""
-    with open(image_path, "rb") as f:
-        image_data = base64.standard_b64encode(f.read()).decode("utf-8")
-    suffix = Path(image_path).suffix.lower()
-    media_type_map = {".jpg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}
-    media_type = media_type_map.get(suffix, "image/jpeg")
-
-    prompt = f"""Analiza esta imagen de producto de e-commerce y genera metadatos en {language}.
-    Categoría sugerida: {category_hint or 'detectar automáticamente'}
-    
-    Devuelve JSON con:
-    - title: título del producto (max 80 chars, SEO-optimizado)
-    - description: descripción detallada (150-300 palabras)
-    - short_description: resumen (max 50 chars)
-    - attributes: dict con color, material, talla/tamaño, marca (si visible)
-    - category: categoría principal
-    - subcategory: subcategoría
-    - keywords: lista de 10 keywords SEO
-    - condition: nuevo/usado (inferir)
+def audit_shelf(image_path: str, planogram: dict) -> dict:
     """
-    response = client.messages.create(
+    Detecta: SKUs faltantes, items fuera de lugar, oportunidades de reposición
+    Basado en: IFAKA/shelfops (MIT) con Cerebras Gemma 4 pattern
+    """
+    # 1. Encode image
+    with open(image_path, "rb") as f:
+        image_b64 = base64.standard_b64encode(f.read()).decode("utf-8")
+    
+    # 2. Vision + reasoning con Claude (mejor para planogram compliance)
+    audit_result = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{"role": "user", "content": [
-            {"type": "image", "source": {"type": "base64",
-             "media_type": media_type, "data": image_data}},
-            {"type": "text", "text": prompt}
-        ]}]
-    )
-    import json
-    text = response.content[0].text
-    # Extraer JSON del response
-    start = text.find("{")
-    end = text.rfind("}") + 1
-    return json.loads(text[start:end]) if start != -1 else {}
+        max_tokens=1000,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "source": {"type": "base64", "media_type": "image/jpeg", "data": image_b64}
+                },
+                {
+                    "type": "text",
+                    "text": f"""Analiza esta foto de góndola retail.
+                    
+Planograma esperado: {planogram}
 
-def bulk_enrich_catalog(product_images: list, medusa_url: str,
-                         api_key: str, language: str = "es"):
-    """Enriquece catálogo masivamente y sube a Medusa."""
-    results = []
-    for item in product_images:
-        metadata = enrich_product_image(item["image_path"], item.get("category", ""),
-                                         language)
-        if metadata:
-            # Actualizar producto en Medusa
-            resp = requests.post(
-                f"{medusa_url}/admin/products",
-                headers={"x-medusa-access-token": api_key},
-                json={
-                    "title": metadata["title"],
-                    "description": metadata["description"],
-                    "handle": metadata["title"].lower().replace(" ", "-"),
-                    "metadata": {
-                        "keywords": metadata.get("keywords", []),
-                        "attributes": metadata.get("attributes", {})
-                    }
+Detecta y reporta en JSON:
+{{
+  "missing_skus": ["SKU001", ...],
+  "misplaced_items": [{{"sku": "SKU002", "should_be": "shelf_2_pos_3", "is_at": "shelf_1_pos_1"}}],
+  "out_of_stock": ["SKU003"],
+  "facing_issues": [{{"sku": "SKU004", "current_facings": 1, "required_facings": 3}}],
+  "replenishment_tickets": [{{"sku": "SKU005", "quantity": 24, "priority": "high"}}],
+  "compliance_score": 0.87
+}}"""
                 }
-            )
-            results.append({"item": item, "status": resp.status_code,
-                            "metadata": metadata})
-    return results
+            ]
+        }]
+    )
+    
+    return audit_result.content[0].text
+
+def create_replenishment_ticket(audit: dict, store_id: str):
+    """Crea tickets automáticos en ERP/WMS"""
+    for ticket in audit.get("replenishment_tickets", []):
+        # POST a ERP (Odoo/ERPNext/custom)
+        print(f"🔄 Ticket: {ticket['sku']} × {ticket['quantity']} — prioridad {ticket['priority']}")
+
+# Uso: auditor corre app mobile, toma foto, el agente genera tickets en segundos
+result = audit_shelf("gondola_foto.jpg", planogram={"shelf_1": ["SKU001", "SKU002"], "shelf_2": ["SKU003"]})
+create_replenishment_ticket(result, store_id="TIENDA_001")
+
+# Costo: ~$0.01/foto (Claude Vision) vs $15-50 por audit manual
+# Frecuencia: 4x/día por góndola → detección temprana de stockouts
 ```
+
+**ROI esperado**: reducción stockouts 15-30%, mejora planogram compliance 40%, ahorro en mano de obra de audit 60%.
 
 ---
 
-## Patrón 5 — WhatsApp Commerce Agent (LATAM Focus)
+## P5 — Demand Sensing Dashboard (Supply Chain)
 
-**Caso de uso**: Agente de ventas por WhatsApp para retailers LATAM. Búsqueda de productos, carrito, pagos por Pix/SPEI.
-
-**Stack**:
-- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) + Medusa MCP
-- Claude claude-sonnet-5 API — agente conversacional
-- WhatsApp Business API (Meta) — canal
-- Stripe / MercadoPago — pagos
-
-**Tiempo estimado**: 4-6 semanas | **Deal size LATAM**: $80k-200k
+**Stack**: stockpyl (MIT) + TimesFM (Apache-2.0, Google) + Dify + retail-ai-store-level-intelligence (Apache-2.0)  
+**Time-to-market**: 8-12 semanas  
+**Rango de precio**: $100k-$300k  
+**Caso de uso**: retailers medianos/grandes que necesitan forecast de demanda con señales en tiempo real
 
 ```python
-from anthropic import Anthropic
-from flask import Flask, request, jsonify
-
-app = Flask(__name__)
-client = Anthropic()
-MEDUSA_URL = "http://localhost:9000"
-
-# Sesiones por número de WhatsApp
-sessions = {}
-
-@app.route("/webhook/whatsapp", methods=["POST"])
-def whatsapp_webhook():
-    data = request.json
-    phone = data["from"]
-    message = data["body"]
-    # Recuperar historial de conversación
-    history = sessions.get(phone, [])
-    history.append({"role": "user", "content": message})
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=512,
-        system="""Eres un asistente de ventas por WhatsApp para una tienda online.
-        Habla en español, sé amigable y conciso (máx 3 párrafos por respuesta).
-        Puedes: buscar productos, mostrar precios, crear pedidos, dar seguimiento.
-        Usa emojis ocasionalmente para ser amigable 🛍️""",
-        messages=history
-    )
-    reply = response.content[0].text
-    history.append({"role": "assistant", "content": reply})
-    sessions[phone] = history[-20:]  # mantener últimos 20 turnos
-    # Enviar respuesta por WhatsApp Business API
-    send_whatsapp_message(phone, reply)
-    return jsonify({"status": "ok"})
-
-def send_whatsapp_message(phone: str, message: str):
-    import requests
-    requests.post(
-        "https://graph.facebook.com/v18.0/FROM_PHONE_NUMBER_ID/messages",
-        headers={"Authorization": f"Bearer {WA_TOKEN}"},
-        json={"messaging_product": "whatsapp", "to": phone,
-              "type": "text", "text": {"body": message}}
-    )
-```
-
----
-
-## Patrón 6 — Pricing Dinámico con Tensor-House + LLM Rules Engine
-
-**Caso de uso**: Pricing dinámico basado en demanda, inventario, competencia y factores externos (Argentina: tipo de cambio).
-
-**Stack**:
-- [ikatsov/tensor-house](https://github.com/ikatsov/tensor-house) (MIT, 3.1k★) — modelos base
-- Claude claude-sonnet-5 — motor de reglas de negocio en lenguaje natural
-- [odoo/odoo](https://github.com/odoo/odoo) (LGPL-3.0) — sistema de precios destino
-
-**Tiempo estimado**: 4-6 semanas | **Deal size LATAM**: $100k-250k
-
-```python
+import stockpyl.supply_chain_node as scn
 import anthropic
-import pandas as pd
-import numpy as np
 
 client = anthropic.Anthropic()
 
-def dynamic_price_agent(product_id: str, current_price: float,
-                         inventory: int, demand_forecast: float,
-                         competitor_price: float | None,
-                         exchange_rate: float = 1.0,
-                         rules: str = "") -> dict:
+def demand_sensing_cycle(sku: str, store_id: str, context: dict) -> dict:
     """
-    Agente de pricing dinámico. Combina modelo estadístico + LLM para
-    decisiones de precio explicables y auditables.
+    Combina TimesFM forecast + LLM reasoning sobre señales externas
+    Equivale a 'demand sensing' vs demand planning tradicional
     """
-    context = f"""
-    Producto: {product_id}
-    Precio actual: ${current_price:.2f}
-    Inventario disponible: {inventory} unidades
-    Demanda pronosticada (próximos 7d): {demand_forecast:.0f} unidades
-    Precio de competencia: {f'${competitor_price:.2f}' if competitor_price else 'No disponible'}
-    Tipo de cambio (vs USD): {exchange_rate:.4f}
+    # 1. TimesFM: forecast de serie temporal (Google, Apache-2.0)
+    # pip install timesfm
+    # import timesfm
+    # tfm = timesfm.TimesFm(hparams=timesfm.TimesFmHparams(backend="cpu", per_core_batch_size=32, horizon_len=7))
+    # forecast = tfm.forecast_on_df(df, freq="D", value_name="sales", num_jobs=-1)
+    base_forecast = 100  # placeholder; reemplazar con TimesFM output
     
-    Reglas de negocio adicionales:
-    {rules or 'Ninguna específica'}
+    # 2. LLM sensing: ajusta por señales externas
+    sensing_prompt = f"""
+    SKU: {sku}, Tienda: {store_id}
+    Forecast base (7 días): {base_forecast} unidades
     
-    Historial de reglas de pricing dinámico (Tensor-House):
-    - Price elasticity estimada: -1.8
-    - Margen mínimo: 15%
-    - Rango de variación permitido: ±20% del precio base
+    Señales contextuales:
+    - Clima: {context.get('weather', 'normal')}
+    - Eventos locales: {context.get('local_events', 'ninguno')}
+    - Precio competidor: {context.get('competitor_price_delta', '0%')}
+    - Tendencias redes sociales: {context.get('social_trend', 'neutral')}
+    - Nivel de inventario actual: {context.get('current_stock', 0)} unidades
+    
+    Ajusta el forecast y recomienda acción (REORDER / MARKDOWN / HOLD / URGENT_REORDER).
+    JSON: {{"adjusted_forecast": N, "action": "...", "reason": "...", "reorder_quantity": N}}
     """
+    
     response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=512,
-        messages=[{"role": "user", "content": f"""
-        Eres un experto en pricing dinámico para retail.
-        Analiza la situación y recomienda:
-        1. Nuevo precio sugerido (justificado)
-        2. Confianza en la recomendación (0-100%)
-        3. Razón principal del cambio
-        4. Alerta si hay algo inusual
-        
-        Contexto:
-        {context}
-        
-        Responde en JSON: {{"price": 0.0, "confidence": 0, "reason": "", "alert": ""}}
-        """}]
+        max_tokens=200,
+        messages=[{"role": "user", "content": sensing_prompt}],
+        system="Eres un experto en supply chain retail. Analiza señales y optimiza inventario."
     )
-    import json
-    text = response.content[0].text
-    start = text.find("{")
-    end = text.rfind("}") + 1
-    result = json.loads(text[start:end]) if start != -1 else {}
-    result["original_price"] = current_price
-    result["price_change_pct"] = ((result.get("price", current_price) - current_price)
-                                   / current_price * 100)
-    return result
-```
-
----
-
-## Patrón 7 — Supply Chain Intelligence con NVIDIA Warehouse + Odoo
-
-**Caso de uso**: Capa AI sobre WMS/ERP existente para optimizar operaciones de warehouse: forecasting, rutas, seguridad, documentos.
-
-**Stack**:
-- [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) (Apache-2.0)
-- [odoo/odoo](https://github.com/odoo/odoo) (LGPL-3.0) — ERP backend
-- Claude claude-sonnet-5 — agente orquestador
-
-**Tiempo estimado**: 8-12 semanas | **Deal size LATAM**: $200k-500k
-
-```python
-# warehouse_orchestrator.py — LangGraph multi-agent sobre NVIDIA Warehouse Blueprint
-from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
-from typing import TypedDict, Annotated
-import operator
-
-client = Anthropic()
-
-class WarehouseState(TypedDict):
-    task: str
-    inventory_data: dict
-    alerts: Annotated[list, operator.add]
-    recommendations: Annotated[list, operator.add]
-    final_report: str
-
-def inventory_agent(state: WarehouseState) -> WarehouseState:
-    """Agente de inventario: detecta stockouts y excesos."""
-    response = client.messages.create(
-        model="claude-sonnet-5", max_tokens=512,
-        messages=[{"role": "user", "content": f"""
-        Analiza el inventario y detecta:
-        - Productos con stock crítico (<7 días de cobertura)
-        - Excesos de inventario (>90 días de cobertura)
-        Datos: {state['inventory_data']}
-        Responde en JSON: {{"critical": [], "excess": []}}
-        """}]
-    )
-    import json
-    alerts_text = response.content[0].text
-    start = alerts_text.find("{")
-    end = alerts_text.rfind("}") + 1
-    alerts = json.loads(alerts_text[start:end]) if start != -1 else {}
-    return {"alerts": [alerts]}
-
-def forecasting_agent(state: WarehouseState) -> WarehouseState:
-    """Agente de forecasting: predicciones de demanda."""
-    response = client.messages.create(
-        model="claude-sonnet-5", max_tokens=512,
-        messages=[{"role": "user", "content": f"""
-        Basado en el inventario y patrones históricos, genera forecast:
-        - Top 5 productos que necesitarán reposición en los próximos 14 días
-        - Cantidad sugerida de orden
-        Datos de inventario: {state['inventory_data']}
-        """}]
-    )
-    return {"recommendations": [response.content[0].text]}
-
-def report_agent(state: WarehouseState) -> WarehouseState:
-    """Consolida todos los insights en reporte ejecutivo."""
-    response = client.messages.create(
-        model="claude-sonnet-5", max_tokens=1024,
-        messages=[{"role": "user", "content": f"""
-        Genera un reporte ejecutivo de warehouse operations para el día de hoy.
-        Alertas: {state['alerts']}
-        Recomendaciones: {state['recommendations']}
-        Formato: bullet points en español, máximo 1 página.
-        """}]
-    )
-    return {"final_report": response.content[0].text}
-
-# Construir el grafo de agentes
-graph = StateGraph(WarehouseState)
-graph.add_node("inventory", inventory_agent)
-graph.add_node("forecasting", forecasting_agent)
-graph.add_node("report", report_agent)
-graph.set_entry_point("inventory")
-graph.add_edge("inventory", "forecasting")
-graph.add_edge("forecasting", "report")
-graph.add_edge("report", END)
-warehouse_app = graph.compile()
-```
-
----
-
-## Patrón 8 — Retail Analytics con WooCommerce MCP + Claude
-
-**Caso de uso**: Análisis de ventas conversacional para retailers con WooCommerce existente. Sin código para el cliente.
-
-**Stack**:
-- WooCommerce 10.3+ con MCP nativo
-- Claude Desktop o cualquier cliente MCP
-- [apache/superset](https://github.com/apache/superset) (Apache-2.0) — dashboards
-
-**Tiempo estimado**: 1-2 semanas | **Deal size LATAM**: $20k-60k
-
-```markdown
-# Configuración MCP para WooCommerce (claude_desktop_config.json)
-
-{
-  "mcpServers": {
-    "woocommerce": {
-      "command": "npx",
-      "args": ["@woocommerce/mcp-server"],
-      "env": {
-        "WOOCOMMERCE_URL": "https://mitienda.com",
-        "WOOCOMMERCE_KEY": "ck_...",
-        "WOOCOMMERCE_SECRET": "cs_..."
-      }
-    }
-  }
-}
-```
-
-```python
-# Ejemplo: Claude puede responder preguntas como:
-# "¿Cuáles son los 10 productos más vendidos este mes?"
-# "¿Qué clientes no han comprado en 90 días?"
-# "Muéstrame el revenue por categoría de los últimos 30 días"
-# "¿Cuál es el ticket promedio por país?"
-
-# Claude accede directamente a WooCommerce via MCP y responde con datos reales.
-# No requiere código adicional — la integración MCP lo maneja todo.
-
-# Para dashboards automáticos, exportar a Superset:
-import subprocess
-# wc-cli export → CSV → Superset dataset → auto-dashboard con AI
-```
-
----
-
----
-
-## Patrón 9 — On-Site Brand Agent (Trust Advantage, Bain 2026)
-
-**Caso de uso**: Agente embedded en la propia tienda del brand (no ChatGPT/Perplexity). Aprovecha el diferencial de confianza: 3x más confiado según Bain 2026. Ideal como contrapropuesta a "integrar con ChatGPT Checkout".
-
-**Stack**:
-- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — backend, datos propios del brand
-- [gorse-io/gorse](https://github.com/gorse-io/gorse) (Apache-2.0) — recomendaciones con historial propio
-- Claude claude-sonnet-5 via API (vía Anthropic managed agents) — LLM con personalidad del brand
-- Widget embedded en el frontend (React/Next.js) — no third-party iframe
-
-**Por qué on-site gana**:
-- Datos propios: el agente conoce el historial completo del cliente en el brand
-- Personalidad: responde como el brand, no como asistente genérico
-- Trust: consumidores confían 3x más (Bain 2026)
-- Data privacy: sin compartir datos con OpenAI/Perplexity
-
-**Tiempo estimado**: 3-5 semanas | **Deal size LATAM**: $80k-250k
-
-```python
-# brand_agent_server.py — On-Site Agent con personalidad del brand
-from anthropic import Anthropic
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import requests
-
-app = FastAPI()
-client = Anthropic()
-
-# Personalidad del brand (configurar por cliente)
-BRAND_CONFIG = {
-    "brand_name": "MiTienda",
-    "brand_voice": "amigable, experto en moda, usa español informal",
-    "brand_values": "sostenibilidad, calidad artesanal, precio justo",
-    "return_policy": "30 días sin preguntas",
-    "loyalty_program": "MiPuntos — 1 punto por cada $1 gastado",
-}
-
-class ChatRequest(BaseModel):
-    user_id: str
-    session_id: str
-    message: str
-    cart_id: str | None = None
-
-MEDUSA_URL = "http://localhost:9000"
-GORSE_URL = "http://localhost:8088"
-
-# Store chat histories per session
-sessions = {}
-
-@app.post("/chat")
-async def brand_chat(req: ChatRequest):
-    """Endpoint del agente embedded del brand."""
-    history = sessions.get(req.session_id, [])
-
-    # Enriquecer contexto con datos del cliente
-    customer_context = get_customer_context(req.user_id)
-    recs = get_recommendations(req.user_id)
-
-    system_prompt = f"""Eres el asistente personal de compras de {BRAND_CONFIG['brand_name']}.
-Personalidad: {BRAND_CONFIG['brand_voice']}.
-Valores del brand: {BRAND_CONFIG['brand_values']}.
-
-Información del cliente actual:
-{customer_context}
-
-Productos recomendados para este cliente:
-{recs[:3]}
-
-Política de devoluciones: {BRAND_CONFIG['return_policy']}
-Programa de fidelización: {BRAND_CONFIG['loyalty_program']}
-
-Sé el experto del brand — usa el conocimiento de la tienda y del cliente para dar recomendaciones genuinas.
-NUNCA menciones competidores ni otras plataformas de AI (ChatGPT, etc.)."""
-
-    history.append({"role": "user", "content": req.message})
-
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=768,
-        system=system_prompt,
-        messages=history
-    )
-
-    reply = response.content[0].text
-    history.append({"role": "assistant", "content": reply})
-    sessions[req.session_id] = history[-30:]  # últimos 30 turnos
-
-    return {
-        "reply": reply,
-        "session_id": req.session_id,
-        "recommendations": recs[:3]
-    }
-
-def get_customer_context(user_id: str) -> str:
-    """Carga historial y preferencias del cliente desde Medusa."""
-    try:
-        resp = requests.get(f"{MEDUSA_URL}/admin/customers/{user_id}",
-                           headers={"x-medusa-access-token": "..."})
-        c = resp.json().get("customer", {})
-        return (f"Nombre: {c.get('first_name', 'Cliente')}. "
-                f"Pedidos: {c.get('orders', {}).get('count', 0)}. "
-                f"Puntos de fidelización: {c.get('metadata', {}).get('loyalty_points', 0)}.")
-    except Exception:
-        return "Nuevo cliente — sin historial."
-
-def get_recommendations(user_id: str, n: int = 6) -> list:
-    """Recomendaciones personalizadas de Gorse."""
-    try:
-        resp = requests.get(f"{GORSE_URL}/api/recommend/{user_id}?n={n}")
-        return resp.json() if resp.status_code == 200 else []
-    except Exception:
-        return []
-```
-
----
-
-## Patrón 10 — WooCommerce 10.9 Full Agentic Upgrade
-
-**Caso de uso**: Migrar tienda WooCommerce existente a "agentic-ready" usando las 7 abilities nativas de v10.9 + Claude Code como brain del agent. Para clientes con WooCommerce ya instalado (40% del retail LATAM).
-
-**Stack**:
-- WooCommerce 10.9+ (7 MCP abilities en core)
-- Claude Code + MCP adapter (ya conectado a WC 10.9)
-- [gorse-io/gorse](https://github.com/gorse-io/gorse) (Apache-2.0) — recomendaciones
-- [apache/superset](https://github.com/apache/superset) (Apache-2.0) — dashboards analytics
-
-**Por qué este patrón**:
-- WooCommerce 10.9 ya expone productos-query, product-create, product-update, product-delete, orders-query, order-update-status, order-add-note **sin código adicional**
-- Setup time: instalación de plugin + configurar Claude Code = 1-2 días
-- Roadmap WC Q3 2026: Checkout ability → primera tienda WC con agentic checkout completo
-
-**Tiempo estimado**: 2-3 semanas (con WC ya instalado) | **Deal size LATAM**: $30k-80k
-
-```bash
-# 1. Actualizar WooCommerce a 10.9+
-wp plugin update woocommerce
-
-# 2. Configurar MCP adapter en claude_desktop_config.json
-# (WC 10.9 expone nativo via WordPress MCP Adapter)
-
-# 3. Claude Code ya puede:
-# - "Lista los 10 productos más vendidos este mes"
-# - "Crea un producto nuevo: Camiseta Azul, $29.99, stock 50"
-# - "Actualiza el estado del pedido #1234 a 'enviado'"
-# - "Agrega nota al pedido #1234: 'paquete frágil, manejo especial'"
-```
-
-```python
-# wc_agentic_integration.py — Claude agent con WC 10.9 via MCP + Gorse recs
-from anthropic import Anthropic
-import subprocess
-import json
-
-client = Anthropic()
-
-# El MCP server de WC 10.9 ya expone los tools via Node.js adapter
-# Claude recibe automáticamente: products_query, product_create,
-# product_update, product_delete, orders_query, order_update_status, order_add_note
-
-WC_MCP_CONFIG = {
-    "mcpServers": {
-        "woocommerce": {
-            "command": "npx",
-            "args": ["@woocommerce/mcp-server"],
-            "env": {
-                "WOOCOMMERCE_URL": "https://mitienda.com",
-                "WOOCOMMERCE_KEY": "ck_...",
-                "WOOCOMMERCE_SECRET": "cs_..."
-            }
-        },
-        "gorse": {
-            "command": "python",
-            "args": ["gorse_mcp_bridge.py"],  # bridge personalizado
-            "env": {"GORSE_URL": "http://localhost:8088"}
-        }
-    }
-}
-
-# Con esta configuración, Claude puede responder:
-# "¿Qué productos tienen stock crítico (< 5 unidades)?"
-# → usa products_query con filter stock_quantity__lt=5
-#
-# "¿Cuál fue el revenue total esta semana?"
-# → usa orders_query con date_after=fecha_inicio_semana
-#
-# "Añade envío gratis al pedido #1234 como excepción"
-# → usa order_add_note + order_update_status
-
-def wc_ai_analytics_report(natural_language_question: str) -> str:
-    """Usa Claude + WC MCP para responder preguntas de analytics en NL."""
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1024,
-        system="""Eres el analista de datos de una tienda WooCommerce.
-        Tienes acceso directo a todos los productos, pedidos e inventario.
-        Responde en español con datos precisos y recomendaciones accionables.""",
-        messages=[{"role": "user", "content": natural_language_question}]
-        # MCP tools disponibles automáticamente vía WC 10.9 adapter
-    )
+    
     return response.content[0].text
 
-# Ejemplo de uso:
-# reporte = wc_ai_analytics_report("¿Cuáles son los 5 productos con mayor abandono de carrito?")
+# Dashboard: Dify workflow llama esta función cada hora por tienda/SKU
+# Output: alertas de reposición, markdown automático, visualización por tienda
+result = demand_sensing_cycle(
+    sku="PROD-001",
+    store_id="BA-PALERMO",
+    context={
+        "weather": "lluvia intensa (impacta categoría paraguas +200%)",
+        "local_events": "partido Boca vs River mañana",
+        "competitor_price_delta": "-15% (MercadoLibre tiene descuento)",
+        "current_stock": 5
+    }
+)
 ```
 
 ---
 
-## Patrón 11 — AEO + Structured Data Agent (Answer Engine Optimization)
+## P6 — AEO + Structured Data Agent (Answer Engine Optimization)
 
-**Caso de uso**: Auditar y corregir automáticamente el catálogo de una tienda para hacerlo "agent-ready": structured data JSON-LD, schema.org, metadata completa. El catálogo invisible para ChatGPT/Claude/Perplexity pierde ventas — AEO lo corrige.
-
-**Por qué ahora**: 31.3% de americanos usan AI generativo para búsqueda (2026). ChatGPT ecommerce convierte 31% más que búsqueda orgánica. Pero la conversión AI es 86% peor que afiliados cuando el catálogo no tiene structured data. AEO cierra esa brecha.
-
-**Stack**:
-- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — backend headless con API de productos
-- Claude claude-sonnet-5 Vision API — análisis de imágenes + generación de structured data
-- [spatie/schema-org](https://github.com/spatie/schema-org) (MIT) — librería PHP/Python para schema.org
-- [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) (MIT) — skill `product-review-analysis` + `listing-audit`
-- WooCommerce 10.9 MCP (para clientes WC) — ingesta y update de productos directamente
-
-**Tiempo estimado**: 2-4 semanas | **Deal size LATAM**: $40k-$120k
+**Stack**: Claude Vision + Medusa (MIT) + schema.org JSON-LD + nexscope eCommerce Skills (MIT)  
+**Time-to-market**: 3-5 semanas  
+**Rango de precio**: $40k-$120k  
+**Caso de uso**: retailer que quiere ser mencionado por ChatGPT/Perplexity/Google AI cuando alguien pregunta por su categoría
 
 ```python
-# aeo_agent.py — AEO Audit + Remediation Agent
 import anthropic
 import json
-import requests
-from typing import Any
+from datetime import datetime
 
 client = anthropic.Anthropic()
-MEDUSA_URL = "http://localhost:9000"
 
-def audit_product_structured_data(product: dict) -> dict:
-    """Audita un producto y devuelve qué campos de schema.org faltan o son incorrectos."""
-    required_fields = {
-        "name": product.get("title"),
-        "description": product.get("description"),
-        "image": product.get("thumbnail"),
-        "sku": product.get("handle"),
-        "price": None,  # se extrae de variants
-        "availability": None,
-        "brand": product.get("metadata", {}).get("brand"),
-        "category": product.get("collection", {}).get("title") if product.get("collection") else None,
-        "keywords": product.get("metadata", {}).get("keywords", []),
-        "gtin": product.get("metadata", {}).get("gtin"),
-    }
-    # Precios de variantes
-    if product.get("variants"):
-        prices = product["variants"][0].get("prices", [])
-        if prices:
-            required_fields["price"] = prices[0]["amount"] / 100
-            required_fields["price_currency"] = prices[0]["currency_code"].upper()
-    
-    # Calcular score AEO
-    filled = sum(1 for v in required_fields.values() if v)
-    total = len(required_fields)
-    missing = [k for k, v in required_fields.items() if not v]
-    
-    return {
-        "product_id": product.get("id"),
-        "title": product.get("title"),
-        "aeo_score": round(filled / total * 100),
-        "filled_fields": filled,
-        "total_fields": total,
-        "missing_fields": missing,
-        "agent_ready": filled / total >= 0.85,
-    }
-
-def generate_schema_org_jsonld(product: dict, enriched_metadata: dict) -> dict:
-    """Genera JSON-LD schema.org Product para el producto."""
-    variants = product.get("variants", [{}])
-    prices = variants[0].get("prices", []) if variants else []
-    price = prices[0]["amount"] / 100 if prices else None
-    currency = prices[0]["currency_code"].upper() if prices else "USD"
-    
-    return {
-        "@context": "https://schema.org/",
-        "@type": "Product",
-        "name": enriched_metadata.get("title") or product.get("title"),
-        "description": enriched_metadata.get("description") or product.get("description", ""),
-        "image": [product.get("thumbnail")] if product.get("thumbnail") else [],
-        "sku": product.get("handle"),
-        "brand": {
-            "@type": "Brand",
-            "name": enriched_metadata.get("brand") or product.get("metadata", {}).get("brand", "")
-        },
-        "category": enriched_metadata.get("category") or "",
-        "keywords": enriched_metadata.get("keywords", []),
-        "offers": {
-            "@type": "Offer",
-            "price": str(price) if price else "",
-            "priceCurrency": currency,
-            "availability": "https://schema.org/InStock",
-            "url": f"https://mitienda.com/products/{product.get('handle', '')}"
-        } if price else {}
-    }
-
-def enrich_and_fix_product(product: dict, language: str = "es") -> dict:
-    """Usa Claude para enriquecer campos faltantes del producto."""
-    audit = audit_product_structured_data(product)
-    
-    if audit["agent_ready"]:
-        return {"product_id": product["id"], "status": "already_agent_ready",
-                "aeo_score": audit["aeo_score"]}
-    
-    # Preparar prompt para Claude
-    missing = audit["missing_fields"]
-    prompt = f"""Analiza este producto de e-commerce y genera los campos faltantes para AEO (Answer Engine Optimization).
-    
-Producto actual:
-- Título: {product.get('title', 'Sin título')}
-- Descripción: {product.get('description', 'Sin descripción')}
-- Categoría: {product.get('collection', {}).get('title', 'Sin categoría') if product.get('collection') else 'Sin categoría'}
-
-Campos AEO faltantes que debes generar: {missing}
-
-Idioma: {language}
-
-Responde en JSON con exactamente los campos listados en "missing_fields":
-{{"title": "...", "description": "...", "brand": "...", "category": "...", "keywords": ["kw1", "kw2", ...], "gtin": null}}
-
-Asegúrate que:
-1. La descripción sea de 150-300 palabras, factual, sin hipérboles
-2. Las keywords sean términos que un agente AI buscaría para encontrar este producto
-3. La categoría siga la taxonomía Google Product Category"""
-    
+def generate_product_aeo(product: dict) -> dict:
+    """
+    Genera structured data JSON-LD + copy optimizado para LLMs (AEO)
+    Adobe: 4,700% YoY de tráfico GenAI a retail; AEO = nuevo SEO
+    """
     response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{"role": "user", "content": prompt}]
+        max_tokens=1000,
+        messages=[{"role": "user", "content": f"Product data: {json.dumps(product)}"}],
+        system="""Generate AEO-optimized content for this product. Output JSON with:
+        1. "schema_org": valid schema.org/Product JSON-LD (name, description, offers, brand, review, aggregateRating)
+        2. "llm_summary": 2-sentence natural language summary optimized to be cited by ChatGPT/Perplexity 
+        3. "faq_pairs": 5 Q&A pairs about this product that LLMs can use to answer customer questions
+        4. "comparison_points": 3 bullet points vs competitors (why choose this)
+        5. "aeo_keywords": 10 natural language phrases customers use when asking AI assistants about this product category"""
     )
     
-    text = response.content[0].text
-    start, end = text.find("{"), text.rfind("}") + 1
-    enriched = json.loads(text[start:end]) if start != -1 else {}
-    
-    # Generar JSON-LD final
-    jsonld = generate_schema_org_jsonld(product, enriched)
-    
-    # Actualizar metadata en Medusa
-    update_resp = requests.post(
-        f"{MEDUSA_URL}/admin/products/{product['id']}",
-        headers={"x-medusa-access-token": "..."},
-        json={
-            "description": enriched.get("description", product.get("description", "")),
-            "metadata": {
-                **product.get("metadata", {}),
-                "brand": enriched.get("brand", ""),
-                "keywords": enriched.get("keywords", []),
-                "schema_org_jsonld": json.dumps(jsonld),
-                "aeo_score": audit["aeo_score"],
-                "aeo_updated_at": "2026-07-09"
-            }
-        }
+    return json.loads(response.content[0].text)
+
+def inject_schema_to_medusa(sku: str, aeo_data: dict):
+    """Inyecta JSON-LD en la página del producto via Medusa metadata"""
+    import requests
+    requests.post(
+        f"https://store.example.com/admin/products/{sku}",
+        json={"metadata": {"schema_org": aeo_data["schema_org"], "llm_summary": aeo_data["llm_summary"]}},
+        headers={"Authorization": "Bearer TOKEN"}
     )
-    
-    return {
-        "product_id": product["id"],
-        "title": product.get("title"),
-        "status": "enriched",
-        "aeo_score_before": audit["aeo_score"],
-        "missing_filled": missing,
-        "jsonld_generated": bool(jsonld),
-        "medusa_update_status": update_resp.status_code
-    }
 
-def run_aeo_audit(limit: int = 50, language: str = "es") -> dict:
-    """Ejecuta AEO audit sobre los primeros N productos del catálogo."""
-    # Obtener productos de Medusa
-    resp = requests.get(f"{MEDUSA_URL}/admin/products?limit={limit}",
-                        headers={"x-medusa-access-token": "..."})
-    products = resp.json().get("products", [])
-    
-    results = []
-    for product in products:
-        result = enrich_and_fix_product(product, language)
-        results.append(result)
-    
-    # Resumen ejecutivo
-    agent_ready = [r for r in results if r.get("status") == "already_agent_ready"]
-    enriched = [r for r in results if r.get("status") == "enriched"]
-    
-    return {
-        "total_audited": len(results),
-        "already_agent_ready": len(agent_ready),
-        "enriched": len(enriched),
-        "avg_aeo_score": sum(r.get("aeo_score", r.get("aeo_score_before", 0))
-                             for r in results) / len(results) if results else 0,
-        "results": results
-    }
-
-# Uso:
-# summary = run_aeo_audit(limit=100, language="es")
-# print(f"Productos agent-ready: {summary['already_agent_ready']}/{summary['total_audited']}")
-# print(f"AEO score promedio: {summary['avg_aeo_score']:.1f}%")
-```
-
-**Output del agente**:
-```json
-{
-  "total_audited": 100,
-  "already_agent_ready": 23,
-  "enriched": 77,
-  "avg_aeo_score": 91.4
+# Uso: correr para todos los productos del catálogo, luego monitorear AI citations
+product = {
+    "name": "Zapatillas Running ProFlow X1",
+    "price": 299.99,
+    "currency": "BRL",
+    "category": "calzado deportivo",
+    "brand": "ProFlow",
+    "features": ["amortiguación gel", "transpirable", "suela antideslizante"],
+    "rating": 4.7,
+    "reviews_count": 234
 }
+aeo = generate_product_aeo(product)
+inject_schema_to_medusa("PROD-SHOE-001", aeo)
 ```
 
 ---
 
-## Patrón 12 — Social Commerce AI (TikTok Shop + Shopify + WhatsApp)
+## P7 — TikTok Social Commerce + AI Campaigns (LATAM)
 
-**Caso de uso**: Agente orquestador que gestiona simultáneamente TikTok Shop, Shopify/WooCommerce y WhatsApp Business desde un único LLM. Para retailers LATAM Gen-Z que venden por múltiples canales.
-
-**Por qué ahora**: TikTok Ads MCP (may-2026) permite que agentes AI lancen y optimicen campañas autónomamente. TikTok Shop activo en Brasil y México. Gen Z impulse buying + 24/7 live streams = canal de alta conversión.
-
-**Stack**:
-- Claude claude-sonnet-5 via Anthropic API — agente orquestador
-- TikTok Ads MCP (may-2026) — campañas autónomas
-- [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) (MIT) — skill `tiktok-shop` + `social-commerce` + `product-review-analysis`
-- WooCommerce 10.9 MCP — backend de inventario y pedidos
-- WhatsApp Business API — canal conversacional LATAM
-- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — orquestación visual del workflow completo
-
-**Tiempo estimado**: 4-6 semanas | **Deal size LATAM**: $80k-$200k
+**Stack**: TikTok Ads MCP (Mayo 2026) + nexscope eCommerce Skills (MIT) + n8n + WooCommerce  
+**Time-to-market**: 4-6 semanas  
+**Rango de precio**: $60k-$160k  
+**Caso de uso**: retailers LATAM (BR/MX) que quieren presencia en TikTok Shop con campañas autónomas
 
 ```python
-# social_commerce_orchestrator.py — Agente multi-canal con MCP
-from anthropic import Anthropic
-from fastapi import FastAPI
-from pydantic import BaseModel
-import requests
+# n8n workflow + Claude:
+# 1. Trigger: nuevo producto añadido a WooCommerce
+# 2. Claude genera: TikTok video script + hashtags + caption en PT-BR/ES-MX
+# 3. TikTok Ads MCP: crea campaign automáticamente
+# 4. Monitor: analiza performance cada 6h, ajusta budget
 
-app = FastAPI()
-client = Anthropic()
+import anthropic
+import mcp  # TikTok Ads MCP (Mayo 2026)
 
-# El sistema de herramientas multi-canal
-OMNICHANNEL_TOOLS = [
-    {
-        "name": "get_inventory",
-        "description": "Consulta inventario real en WooCommerce vía MCP",
-        "input_schema": {
-            "type": "object",
-            "properties": {"product_id": {"type": "string"},
-                           "sku": {"type": "string"}},
-            "required": []
-        }
-    },
-    {
-        "name": "create_tiktok_campaign",
-        "description": "Crea campaña en TikTok Ads vía MCP (may-2026)",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "product_id": {"type": "string"},
-                "budget_daily": {"type": "number"},
-                "target_audience": {"type": "string"},
-                "ad_format": {"type": "string",
-                              "enum": ["in-feed", "top-view", "spark-ads"]}
-            },
-            "required": ["product_id", "budget_daily"]
-        }
-    },
-    {
-        "name": "send_whatsapp",
-        "description": "Envía mensaje por WhatsApp Business API",
-        "input_schema": {
-            "type": "object",
-            "properties": {"phone": {"type": "string"},
-                           "message": {"type": "string"}},
-            "required": ["phone", "message"]
-        }
-    },
-    {
-        "name": "analyze_tiktok_performance",
-        "description": "Obtiene métricas de campaña TikTok (views, clicks, CVR, ROAS)",
-        "input_schema": {
-            "type": "object",
-            "properties": {"campaign_id": {"type": "string"},
-                           "days": {"type": "integer", "default": 7}},
-            "required": ["campaign_id"]
-        }
-    }
-]
+client = anthropic.Anthropic()
 
-class OmnichannelRequest(BaseModel):
-    instruction: str          # "Lanza campaña TikTok para los 3 productos más vendidos esta semana"
-    channel: str = "all"      # "tiktok" | "whatsapp" | "woocommerce" | "all"
-    context: dict = {}
+def launch_tiktok_product_campaign(product: dict, market: str = "BR") -> dict:
+    lang = "Portuguese (Brazilian)" if market == "BR" else "Spanish (Mexican)"
+    
+    # 1. Generate content
+    content = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=500,
+        messages=[{"role": "user", "content": f"Product: {product}. Market: {market}"}],
+        system=f"""Generate TikTok campaign content in {lang}. JSON with:
+        - video_script: 30-second script for product demo
+        - hooks: 3 attention-grabbing opening lines
+        - hashtags: 10 relevant hashtags (mix trending + niche)
+        - caption: 150-char caption with call-to-action
+        - target_audience: TikTok audience targeting parameters
+        - budget_recommendation: daily budget in BRL/MXN"""
+    ).content[0].text
+    
+    # 2. Create TikTok campaign via MCP
+    # tiktok_mcp = mcp.connect("tiktok://ads")
+    # campaign = tiktok_mcp.call("create_campaign", {
+    #     "content": content,
+    #     "product_link": product["url"],
+    #     "budget": content["budget_recommendation"]
+    # })
+    
+    return {"content": content, "status": "campaign_created"}
 
-@app.post("/orchestrate")
-async def orchestrate(req: OmnichannelRequest):
-    """Orquestador multi-canal: TikTok + WooCommerce + WhatsApp."""
-    system = """Eres el orquestador de ventas omnicanal de una tienda.
-    Gestionas simultáneamente: TikTok Shop, WooCommerce, WhatsApp Business.
-    
-    Siempre:
-    1. Verifica inventario antes de crear campañas (no prometas lo que no hay)
-    2. Cuando lances una campaña en TikTok, notifica al equipo por WhatsApp
-    3. Prioriza productos con stock > 20 unidades para campañas
-    4. Responde en español, conciso y orientado a resultados."""
-    
-    messages = [{"role": "user", "content": req.instruction}]
-    if req.context:
-        messages[0]["content"] += f"\n\nContexto adicional: {req.context}"
-    
-    # Agentic loop
-    max_iterations = 5
-    for _ in range(max_iterations):
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=1024,
-            system=system,
-            tools=OMNICHANNEL_TOOLS,
-            messages=messages
-        )
-        
-        if response.stop_reason == "end_turn":
-            return {"status": "completed", "result": response.content[0].text}
-        
-        # Procesar tool calls
-        tool_results = []
-        for block in response.content:
-            if block.type == "tool_use":
-                result = dispatch_tool(block.name, block.input)
-                tool_results.append({
-                    "type": "tool_result",
-                    "tool_use_id": block.id,
-                    "content": json.dumps(result)
-                })
-        
-        messages.extend([
-            {"role": "assistant", "content": response.content},
-            {"role": "user", "content": tool_results}
-        ])
-    
-    return {"status": "max_iterations_reached", "messages": messages}
-
-def dispatch_tool(name: str, input_data: dict) -> Any:
-    """Dispatcher de tools — conecta con APIs reales."""
-    import json
-    
-    if name == "get_inventory":
-        # WooCommerce MCP (vía endpoint local del adapter)
-        resp = requests.get("http://localhost:3100/wc/products",
-                           params={"sku": input_data.get("sku", "")})
-        return resp.json() if resp.ok else {"error": "WC unreachable"}
-    
-    elif name == "create_tiktok_campaign":
-        # TikTok Ads MCP endpoint
-        resp = requests.post("http://localhost:3200/tiktok-mcp/campaigns",
-                            json=input_data)
-        return resp.json() if resp.ok else {"error": "TikTok MCP unreachable"}
-    
-    elif name == "send_whatsapp":
-        # WhatsApp Business API
-        requests.post(
-            "https://graph.facebook.com/v18.0/PHONE_ID/messages",
-            headers={"Authorization": "Bearer WA_TOKEN"},
-            json={"messaging_product": "whatsapp", "to": input_data["phone"],
-                  "type": "text", "text": {"body": input_data["message"]}}
-        )
-        return {"sent": True, "phone": input_data["phone"]}
-    
-    elif name == "analyze_tiktok_performance":
-        # TikTok Ads MCP — reportes
-        resp = requests.get(f"http://localhost:3200/tiktok-mcp/campaigns/{input_data['campaign_id']}/report",
-                           params={"days": input_data.get("days", 7)})
-        return resp.json() if resp.ok else {"error": "Report unavailable"}
-    
-    return {"error": f"Unknown tool: {name}"}
-```
-
-**Ejemplo de uso**:
-```python
-import httpx
-result = httpx.post("http://localhost:8000/orchestrate", json={
-    "instruction": "Verifica inventario de los tops de verano y si stock > 30 unidades, lanza campaña TikTok spark-ads con budget $50/día, luego notifica al equipo por WhatsApp al +5491122334455",
-    "channel": "all"
-}).json()
-print(result["result"])
+# Resultado: campaña activa en TikTok Shop en <5 minutos
+# vs. 2-4 horas de trabajo manual de equipo de marketing
 ```
 
 ---
 
-## Tabla de selección de patrón
+## P8 — Medusa + Dify: Agentic Commerce sin código (LATAM midmarket)
 
-| Si el cliente tiene... | Usa el Patrón | Stack principal | Deal Size |
-|------------------------|---------------|-----------------|-----------|
-| Tienda WooCommerce 10.9+ existente | P10 (WC Agentic Upgrade) | WooCommerce MCP + Claude | $30k-80k |
-| Tienda WooCommerce, analytics básico | P8 (MCP + Analytics) | WooCommerce MCP + Superset | $20k-60k |
-| Retailer nuevo, headless | P1 (Shopping Assistant) | Medusa + Gorse + Claude | $100k-300k |
-| Quiere on-site agent de marca | P9 (Brand Agent) | Medusa + Gorse + Claude embedded | $80k-250k |
-| Quiere AI agents externos comprando | P2 (Agentic Checkout UCP) | NVIDIA Agentic-Commerce + UCP | $150k-400k |
-| Catálogo de imágenes sin descripción | P4 (Catalog Enrichment) | Claude Vision + Medusa | $60k-150k |
-| Mercado LATAM, WhatsApp-first | P5 (WhatsApp Commerce) | Medusa + Claude + WhatsApp API | $80k-200k |
-| Precios inestables / alta competencia | P6 (Dynamic Pricing) | Tensor-House + Claude + Odoo | $100k-250k |
-| Warehouse / supply chain complejo | P7 (Warehouse Intelligence) | NVIDIA Warehouse + LangGraph + Odoo | $200k-500k |
-| Catálogo grande, recomendaciones | P3 (Hybrid Recommender) | Gorse + LightFM + pgvector | $80k-200k |
-| Catálogo invisible para AI (AEO) | P11 (AEO Agent) | Claude Vision + Medusa + schema.org | $40k-120k |
-| Vende en TikTok Shop + WooCommerce | P12 (Social Commerce AI) | Claude + TikTok MCP + WC MCP + nexscope | $80k-200k |
+**Stack**: Medusa 2.x (MIT) + medusa-mcp (MIT) + Dify (Apache-2.0) + nexscope eCommerce Skills (MIT)  
+**Time-to-market**: 8-12 semanas  
+**Rango de precio**: $80k-$200k  
+**Caso de uso**: retailer LATAM midmarket sin equipo técnico grande que quiere agentic commerce completo
+
+```yaml
+# Dify workflow (visual, exportable como YAML):
+name: "Retail Agent Completo"
+nodes:
+  - id: "intent_classifier"
+    type: "llm"
+    model: "claude-haiku-4-5-20251001"  # barato para classify
+    prompt: "Classify user intent: BROWSE | CART | ORDER | SUPPORT | PRICING"
+    
+  - id: "product_search"
+    type: "tool"
+    tool: "medusa_mcp.search_products"
+    condition: "intent == BROWSE"
+    
+  - id: "price_check"
+    type: "tool"
+    tool: "medusa_mcp.get_pricing"
+    condition: "intent == PRICING"
+    
+  - id: "cart_manager"
+    type: "tool"
+    tool: "medusa_mcp.manage_cart"
+    condition: "intent == CART"
+    
+  - id: "order_status"
+    type: "tool"
+    tool: "medusa_mcp.get_order"
+    condition: "intent == ORDER"
+    
+  - id: "response_generator"
+    type: "llm"
+    model: "claude-sonnet-5"
+    prompt: "Generate friendly response in Spanish. Include product details, prices, next steps."
+
+# Deploy: Dify → embed en WhatsApp + Web + app mobile
+# No requiere código custom: solo configuración visual en Dify
+```
+
+**Ventaja**: el equipo de negocio puede ajustar el workflow sin ingenieros. Reducción de TTM de 20 semanas a 8.
 
 ---
-*Ver también: `agents/top.md` para lista completa de agentes y repos.*
+
+## Matriz de selección rápida
+
+| Escenario del cliente | Patrón recomendado | TTM | Costo |
+|----------------------|-------------------|-----|-------|
+| Shopify, quiere chat+checkout | P1 | 2-4 sem | $40k-$120k |
+| WooCommerce LATAM, WhatsApp ventas | P2 | 4-6 sem | $30k-$80k |
+| Catalog grande, pricing competitivo | P3 | 6-10 sem | $80k-$200k |
+| Retail físico, stockouts en góndola | P4 | 4-8 sem | $60k-$150k |
+| Supply chain, demand forecast | P5 | 8-12 sem | $100k-$300k |
+| Visibilidad en AI search (AEO) | P6 | 3-5 sem | $40k-$120k |
+| TikTok Shop LATAM BR/MX | P7 | 4-6 sem | $60k-$160k |
+| Midmarket sin equipo técnico | P8 | 8-12 sem | $80k-$200k |

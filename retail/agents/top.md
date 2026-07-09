@@ -1,52 +1,46 @@
-# 🎯 Agentes AI — Retail & E-Commerce
+# 🎯 Agentes AI — Retail & eCommerce
 
-> Agentes y herramientas AI open source para la industria. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09 (v8 — AEO, Dify, nexscope-ai eCommerce-Skills, TikTok MCP)
+> Agentes y herramientas AI open source para retail y comercio electrónico. Foco: MIT / Apache 2.0.
+> Última actualización: 2026-07-09 (v9)
 
 ## Agentes y herramientas destacadas
 
-| Nombre | Repo | Licencia | Stars | Descripción |
-|--------|------|----------|-------|-------------|
-| NVIDIA Retail Shopping Assistant | [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | ~800★ | Blueprint multi-agente con LangGraph: búsqueda visual, carrito inteligente, streaming en tiempo real |
-| NVIDIA Retail Agentic Commerce | [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~600★ | Implementación de referencia ACP + UCP — checkout AI-to-AI sin fricciones con control del merchant |
-| NVIDIA Retail Catalog Enrichment | [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~500★ | GenAI para catálogos: transforma imágenes básicas en contenido rico, estructurado y localizado |
-| NVIDIA Multi-Agent Intelligent Warehouse | [NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse](https://github.com/NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse) | Apache-2.0 | ~700★ | Capa AI sincronizada sobre WMS/ERP/Robotics — agentes para equipos, tareas, seguridad, forecasting |
-| Gorse — AI Recommender Engine | [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | 9.7k★ | Motor de recomendación en Go con LLM rankers + embeddings multimodales (texto, imagen, video) |
-| Microsoft Recommenders | [recommenders-team/recommenders](https://github.com/recommenders-team/recommenders) | Apache-2.0 | 20k★ | Mejores prácticas Linux Foundation: 50+ algoritmos, notebooks, utilities para producción |
-| RecBole | [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 3.5k★ | Librería unificada PyTorch: 94 algoritmos (CF, sequential, knowledge-enhanced). Benchmark estándar. |
-| LightFM | [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | 4.9k★ | Algoritmo híbrido CF+content-based. Ideal para cold-start. Probado en producción en Lyst/Zalando. |
-| Tensor-House | [ikatsov/tensor-house](https://github.com/ikatsov/tensor-house) | MIT | 3.1k★ | Notebooks de referencia: pricing dinámico, forecasting de demanda (DeepAR/LSTM), marketing mix, supply chain |
-| Skyvern — Browser Agent | [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | AGPL-3.0 | 21.9k★ | Agente de automatización de navegador: checkout automático, extracción de datos, RPA. MCP server 35 tools (mar-2026). Route Memorization → scripts Playwright deterministas. |
-| Universal Commerce Protocol (UCP) | [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp) | Apache-2.0 | ~1k★ | Spec open source Google+Shopify+Target+Walmart (NRF ene-2026) para agentic commerce end-to-end |
-| 500 AI Agents Projects | [ashishpatel26/500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects) | MIT | 32k★ | Colección curada 500+ casos de uso de agentes AI por industria con links a implementaciones |
-| nexscope-ai eCommerce-Skills | [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202★ | 157 SKILL.md skills para agentes AI: product research, marketing, supply chain, analytics. Amazon, Shopify, TikTok Shop. Funciona con Claude Code / OpenClaw / Cursor. |
-| Dify | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 131k★ | Plataforma de orquestación agentic con workflow visual, RAG, MCP y observabilidad. 50+ herramientas built-in. Retail: automatización de flujos de soporte, catálogo y pedidos. |
+| Nombre | Licencia | Repo | Stars | Descripción |
+|--------|----------|------|-------|-------------|
+| [Shopify AI Toolkit](https://github.com/Shopify/Shopify-AI-Toolkit) | MIT | Shopify/Shopify-AI-Toolkit | ~4k | MCP server oficial de Shopify + agent skills + Claude Code plugin. Conecta Claude/Cursor/VS Code directamente a Shopify Admin API, GraphQL schemas, Liquid themes. Open-sourced Apr 9, 2026. |
+| [shop-chat-agent](https://github.com/Shopify/shop-chat-agent) | MIT | Shopify/shop-chat-agent | ~2.8k | App de referencia: chat widget en storefront con MCP; búsqueda de productos, políticas de envío, checkout completo en conversación. Hydrogen 2026.1.4 nativo. |
+| [nexscope eCommerce Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | nexscope-ai/eCommerce-Skills | ~202 | 157 SKILL.md para agentes AI: Amazon, Shopify, TikTok Shop, Etsy. Compatible con Claude Code, OpenClaw, Cursor. Cross-border price monitoring, batch product image generation. |
+| [retail-pricing-agent-ai](https://github.com/samhaldia/retail-pricing-agent-ai) | MIT | samhaldia/retail-pricing-agent-ai | ~340 | Sistema agentico completo: market data ingestion → demand forecasting → promotion strategy → price synchronization. Multi-agent pipeline con LangChain. |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | langgenius/dify | 144k | Plataforma agentic workflow con RAG, MCP server nativo, 50+ built-in tools, self-hosted. Ideal para orquestar agentes de retail sin código. |
+| [n8n](https://github.com/n8n-io/n8n) | fair-code | n8n-io/n8n | 97k | Workflow automation con 400+ integraciones y AI nativo. Shopify + WooCommerce + CRM + LLM en flows visuales. Self-hostable. |
+| [browser-use](https://github.com/browser-use/browser-use) | MIT | browser-use/browser-use | 93k | Agente que controla browser para tareas web. Price scraping, competitor monitoring, form filling, checkout automation. Default answer for browser-driven retail agents. |
+| [shelfops](https://github.com/IFAKA/shelfops) | MIT | IFAKA/shelfops | ~120 | Retail shelf audit con visión AI (Cerebras Gemma 4 vs local Gemma). Detecta gaps, SKUs faltantes, planogram compliance desde fotos de góndola. |
+| [retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Svyatoslavpech/retail-ai-store-level-intelligence | ~80 | Intelligence a nivel tienda: footfall, heatmaps, asociaciones de compra, alertas de stock por location. FastAPI + LLM reasoning. |
+| [stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | LarrySnyder/stockpyl | 164 | Python para inventory optimization y simulación: EOQ, SSMS, multi-echelon. Base sólida para demand forecasting con LLM encima. |
 
 ---
 
-## Notas de licencia
+## Agentes por caso de uso
 
-- **Skyvern (AGPL-3.0)**: Uso en proyectos internos / SaaS requiere abrir el código derivado. Para productos cliente usar la API cloud o negociar licencia comercial.
-- **NVIDIA Blueprints (Apache-2.0)**: Totalmente libres para producción. Base ideal para aceleradores Globant.
-- **Gorse / Recommenders / LightFM (Apache-2.0)**: Libres en productos comerciales.
-- **RecBole / Tensor-House (MIT)**: Sin restricciones.
+### 🛒 Agentic Storefront (compra autónoma)
+- **Shopify AI Toolkit** — MCP admin + storefront; 5.6M tiendas compatibles con ChatGPT/Copilot/Gemini
+- **shop-chat-agent** — referencia de chat widget MCP en Hydrogen
+- **nexscope eCommerce Skills** — skills reutilizables para cualquier marketplace
 
-## Notas adicionales de licencia (v8)
+### 💰 Pricing & Promotions
+- **retail-pricing-agent-ai** — pipeline completo market data → forecast → precio → sync
+- **browser-use** — scraping de precios de competidores en tiempo real
 
-- **nexscope-ai eCommerce-Skills (MIT)**: Skills como archivos markdown — sin binarios, sin claves API. Instalar = copiar SKILL.md al proyecto de Claude Code. Cross-border, dropshipping, PPC, listing audit, etc.
-- **Dify (Apache-2.0)**: Self-hostable. Integra con MCP, RAG, modelos locales y cloud. Interfaz no-code para que equipos de retail diseñen workflows sin escribir código.
+### 📦 Inventory & Supply Chain
+- **stockpyl** — modelos matemáticos de inventario (EOQ, safety stock, multi-echelon)
+- **retail-ai-store-level-intelligence** — inteligencia por tienda con LLM
 
-## MCP Servers para Retail (2026)
+### 👁️ Computer Vision Retail
+- **shelfops** — shelf audit: planogram compliance, out-of-stock detection
 
-| Server | Repo / URL | Plataforma | Estado |
-|--------|-----------|------------|--------|
-| WooCommerce MCP | nativo desde **v10.9** (jun-2026) | WooCommerce (WordPress) | **7 abilities en core — GA** |
-| WooCommerce Checkout MCP | roadmap Q3 2026 | WooCommerce | Developer Preview |
-| Medusa MCP | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | Medusa.js | Comunidad |
-| Shopify MCP | oficial (4 servers) | Shopify | GA |
-| Stripe MCP | mcp.stripe.com | Stripe | GA |
-| Skyvern MCP | oficial (35 tools) | Browser automation | GA (mar-2026) |
-| UCP Merchant sandbox | [steven2030/ucp-merchant](https://github.com/steven2030/ucp-merchant) | UCP spec open source | Experimental |
+### 🔄 Orquestación & Workflow
+- **Dify** — no-code agentic workflows con RAG
+- **n8n** — automation visual con 400+ conectores
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*

@@ -1,54 +1,29 @@
-# 📈 Repos en tendencia — Retail & E-Commerce
+# 📈 Repos trending — Retail & eCommerce
 
-> Repos activos esta semana en GitHub. Última actualización: 2026-07-09 (v8)
+> Última actualización: 2026-07-09 (v9)
 
-## Top trending (jul-2026)
+## Repos más activos / nuevos (Jul 2026)
 
-| Nombre | Licencia | Stars | Por qué está trending |
-|--------|----------|-------|----------------------|
-| [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | ~800★ | Blueprint multi-agente LangGraph lanzado en NRF-2026. Referencia para asistentes de compra enterprise. |
-| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~600★ | Primera implementación open source de ACP + UCP para checkout AI |
-| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~500★ | GenAI para enriquecer catálogos de producto automáticamente con imágenes + texto |
-| [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp) | Apache-2.0 | ~1k★ | El estándar del futuro: Google + Shopify + Target + Walmart en ene-2026 |
-| [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | AGPL-3.0 | **21.9k★** | MCP server oficial 35 tools (mar-2026) + Route Memorization → scripts Playwright deterministas |
-| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | 9.7k★ | LLM rankers + multimodal embeddings v0.5+ activo |
-| [recommenders-team/recommenders](https://github.com/recommenders-team/recommenders) | Apache-2.0 | 20k★ | Estándar de facto Linux Foundation para sistemas de recomendación en producción |
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31k★ | v2.x con MCP server y módulos componibles para headless commerce |
-| [saleor/saleor](https://github.com/saleor/saleor) | Apache-2.0 | 23k★ | GraphQL-first multi-canal, ecosistema apps activo |
-| [ashishpatel26/500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects) | MIT | 32k★ | Directorio curado de 500+ implementaciones de agentes AI por industria |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | **131k★** | Plataforma agentic workflow: visual builder, RAG, MCP, observabilidad. Self-hostable. Hot jul-2026. |
-| [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202★ | 157 SKILL.md skills para agentes AI en e-commerce (Amazon, Shopify, TikTok Shop, etc.) |
+| Nombre | Licencia | Stars | Señal |
+|--------|----------|-------|-------|
+| [Shopify/Shopify-AI-Toolkit](https://github.com/Shopify/Shopify-AI-Toolkit) | MIT | ~4k | Open-sourced Apr 9, 2026. MCP + agent skills + Claude Code plugin oficial Shopify. El kit más completo de agentic commerce. |
+| [Shopify/shop-chat-agent](https://github.com/Shopify/shop-chat-agent) | MIT | ~2.8k | App de referencia: AI chat en storefront con MCP. Búsqueda, políticas, checkout en conversación. Hydrogen 2026.1.4 nativo. |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Plataforma agentic workflow líder. Crecimiento explosivo. MCP nativo. 50+ built-in tools. |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | 93k | Agente browser. 93k★ en 8 meses. Default open-source para tareas web (price scraping, checkout). |
+| [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202 | 157 SKILL.md skills para AI agents: Amazon, Shopify, TikTok Shop, Etsy. Creciendo rápido post-lanzamiento. |
+| [samhaldia/retail-pricing-agent-ai](https://github.com/samhaldia/retail-pricing-agent-ai) | MIT | ~340 | Sistema agentico de dynamic pricing: ingestion → forecast → strategy → sync. Nuevo Jun 2026. |
+| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | ~120 | Shelf audit CV+LLM. Cerebras Gemma 4 inference ultrarrápida. Nuevo Jul 2026. |
+| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | ~80 | Store-level intelligence: footfall, heatmaps, compras asociadas, alertas de stock. |
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 32k+ | Medusa 2.x sigue creciendo. Posicionado explícitamente como "platform for agents and developers." |
+| [gz-yami/mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | 5.1k | Sistema de mall chino con AI integrado: mini-program + mobile + web. Referencia para LATAM multichannel. |
 
-## MCP Servers para ecommerce (trending jul-2026)
+## Repos a monitorear (señal alta, stars bajas)
 
-| Server | Repo | Descripción |
-|--------|------|-------------|
-| Medusa MCP | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MCP server para Medusa.js SDK — 65★ |
-| WooCommerce MCP | nativo v10.3 | Integración AI nativa con Claude/Cursor/VS Code |
-| Your Next Store MCP | /api/mcp (nativo) | Expuesto en cada store al endpoint /api/mcp |
-| Stripe MCP | mcp.stripe.com | Pagos + checkout desde cualquier agente |
-| steven2030/ucp-merchant | [steven2030/ucp-merchant](https://github.com/steven2030/ucp-merchant) | Primera impl. open source UCP como merchant — sandbox para AI shopping agents |
-
-## Repositorios recientes de interés (Q2-Q3 2026)
-
-| Repo | Stars | Descripción |
-|------|-------|-------------|
-| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | 10.5k★ | GPL-2.0 — **v10.9 (jun-2026): 7 canonical MCP abilities nativas** (products CRUD + orders) |
-| [mall4j](https://github.com/gz-yami/mall4j) | 5.1k★ | AGPL-3.0 — plataforma Java O2O cross-border, activa en mercado chino |
-| [odoo/odoo](https://github.com/odoo/odoo) | 40k★ | LGPL — modulo ecommerce + CRM + inventario con AI integrado |
-
-## Señales del ecosistema AI Shopping (jul-2026 actualizado v8)
-
-| Plataforma | Señal | Impacto para Globant |
-|------------|-------|---------------------|
-| ChatGPT | Instant Checkout retirado (mar-2026, solo 30 merchants) | On-site agent > agente externo |
-| Perplexity | Shoppers con AOV 57% mayor (Shopify data) | PyMEs deben optimizar feeds estructurados |
-| Amazon | "Buy for Me" + Rufus + Alexa+ alineados | Diferenciarse en UX de marca |
-| Google | "Buy for Me" live en US retailers seleccionados | UCP se convierte en el protocolo prioritario |
-| Bain 2026 | 3x mayor confianza en on-site agents | Argumento de venta directo para P9 |
-| TikTok | Ads MCP (may-2026): agentes autónomos para campañas | Social commerce AI: TikTok Shop + Claude agente |
-| Adyen survey | 51% de shoppers dejaría AI completar compra entera | Urgencia de agentic checkout (P2) |
-| Deloitte 2026 | 68% de retailers adoptarán AI en 2026 | Pipeline de deals enorme |
+| Nombre | Licencia | Señal |
+|--------|----------|-------|
+| [topics/agentic-commerce](https://github.com/topics/agentic-commerce) | varios | Topic GitHub: 60+ repos de commerce agentico, creciendo semanalmente. |
+| retail-ai-store-level-intelligence | Apache-2.0 | "La mayor oportunidad AI en retail no está en HQ, está en la tienda." Arquitectura edge AI por tienda. |
+| shelfops | MIT | Computer vision de góndola con LLM reasoning. Cerebras inference ~$0.001/foto. |
 
 ---
 *Pipeline automático — se actualiza cada hora.*
