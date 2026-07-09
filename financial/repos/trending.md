@@ -1,48 +1,47 @@
-# 📈 Repos en tendencia — Financial Services
+# 📈 Trending Repos — Financial Services
 
-> Repos con mayor tracción esta semana. Filtrado: >100★ o señal cualitativa fuerte.
-> Última actualización: 2026-07-08
+> Gaining momentum in Q2-Q3 2026. Includes both high-star repos and fast-rising newcomers.
+> Last updated: 2026-07-09
+
+## Breakout Repos (2026)
+
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|--------------|
+| [HKUDS/AI-Trader](https://github.com/HKUDS/AI-Trader) | Apache-2.0 | 20.6k | 100% agent-native trading from HKU; major modular rewrite Apr 2026; yfinance fallback Jun 2026; supports Claude Code, Codex, Cursor as agent runtimes |
+| [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | 16.9k | Personal trading agent; Jun 30 2026 shipped 16 message adapters (WhatsApp, Signal, Matrix, Teams, WeChat, Feishu, DingTalk, Telegram, Slack, Discord, QQ, email, Mochat) |
+| [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | 1.2k+ | ACL 2026 Main — multi-agent deep financial research; outperforms OpenAI Deep Research (8.09 vs 6.11) on structured reports |
+| [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | 80k+ | Crossed 80k — most-starred AI trading repo; LLM trading firm simulation with analyst, risk, PM, and fund manager agents |
+| [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 50k+ | 50k milestone; 14 legendary investor personas debating stock picks; backtesting module added |
+| [OpenBB-finance/agents-for-openbb](https://github.com/OpenBB-finance/agents-for-openbb) | MIT | growing | Custom AI agents for OpenBB Workspace; MCP server for agent data access; growing plugin ecosystem |
+| [microsoft/qlib](https://github.com/microsoft/qlib) | MIT | 44k+ | Integrated RD-Agent for automated quant R&D; now a full ML pipeline from idea to production |
+| [AloshkaD/AI_Agent_Trader](https://github.com/AloshkaD/AI_Agent_Trader) | MIT | growing | Multi-AI agent collaboration for trending stock financial analysis; lightweight entry point |
+
+## Repo Archetypes Emerging in 2026
+
+### 1. Agent-Native Trading (not wrappers)
+Repos where LLM agents are the primary architecture, not added on top:
+- AI-Trader, Vibe-Trading, TradingAgents
+- Key pattern: multi-agent debate → structured decision → execution → feedback loop
+
+### 2. Prediction Market Infrastructure
+- Unified Polymarket/Kalshi API (CCXT-style) repos emerging rapidly
+- 36GB Polymarket historical dataset fueling forecasting agent training
+
+### 3. MCP-First Financial Data
+- agents-for-openbb as MCP server
+- Financial data accessible to any MCP-compatible AI agent (Claude, GPT, Gemini)
+
+### 4. Audit & Compliance AI
+- auditLens pattern: LLM + RAG for internal bank product audit with cited references
+- EU AI Act Aug 2 2026 deadline driving AML/KYC agent development
+
+## GitHub Topics to Monitor
+
+- [finance-ai](https://github.com/topics/finance-ai)
+- [finance-agent](https://github.com/topics/finance-agent)
+- [trading-agent](https://github.com/topics/trading-agent)
+- [finrl](https://github.com/topics/finrl)
+- [openbb](https://github.com/topics/openbb)
 
 ---
-
-## 🔥 Top trending repos (julio 2026)
-
-| Nombre | Licencia | Stars | Descripción | Señal |
-|--------|----------|-------|-------------|-------|
-| [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 60.9k | 18-agent hedge fund sim (12 personas: Buffett, Munger, Lynch + specialists). React/FastAPI | Proyecto más estrellado en finance AI — record histórico |
-| [ccxt/ccxt](https://github.com/ccxt/ccxt) | MIT | 43.5k | Crypto trading API 100+ exchanges JS/Python/PHP | Estándar de facto crypto, crecimiento sostenido |
-| [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | 38.4k | Open data platform financiero + MCP server integrado | MCP extension viral — agentes ahora consumen datos financieros natively |
-| [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | 16.9k | Personal AI trading agent con graph-based market understanding | +400★/sem — crecimiento sostenido HKUDS lab |
-| [virattt/dexter](https://github.com/virattt/dexter) | MIT | 24.8k | Autonomous financial research agent (planning + self-validation + WhatsApp) | Pico viral: +3,108★/7d en may-2026; "Claude Code for finance" |
-| [TauricResearch/TradingAgents](https://github.com/tauricresearch/tradingagents) | MIT | 18.2k | Multi-agent LLM trading desk (LangGraph). v0.3.1 Claude Sonnet 5 / Fable 5 | Release jul-2026 reactivó interés, +600★/sem |
-| [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | 19.0k | Market making + trading algorítmico 100+ exchanges | Comunidad activa, integración con nuevos LLM backends |
-| [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | 11.8k | Financial RL framework — FinRL-X en producción | Crecimiento constante, papers mensuales |
-| [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | Apache-2.0 | 1.4k | ACL 2026 Main — multi-agent financial report generation (CAVM architecture) | Paper reciente + código abierto = crecimiento esperado |
-| [jon-becker/prediction-market-analysis](https://github.com/jon-becker/prediction-market-analysis) | MIT | 2.3k | 36GB Polymarket+Kalshi dataset, Bayesian multi-agent analysis | Nicho emergente: prediction markets como clase de activo para AI |
-
----
-
-## 🆕 Repos nuevos para monitorear (< 500★ pero señal fuerte)
-
-| Nombre | Licencia | Stars | Descripción |
-|--------|----------|-------|-------------|
-| [HiThink-Research/FinMTM](https://github.com/HiThink-Research/FinMTM) | MIT | 320 | ACL 2026 — Multi-turn Multimodal benchmark para agentes financieros (tablas + gráficos + texto) |
-| [LLMQuant/awesome-trading-agents](https://github.com/LLMQuant/awesome-trading-agents) | MIT | 890 | Curated list: LLM-driven trading agents, MCP servers, agent skills para market research |
-| [aarora4/Awesome-Prediction-Market-Tools](https://github.com/aarora4/Awesome-Prediction-Market-Tools) | MIT | 210 | Curated: AI Agents, APIs, analytics, dashboards para prediction markets |
-| [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) | MIT | 680 | MCP server para datos de mercado (income statements, balance sheets, precios, noticias) |
-| [massive-com/mcp_massive](https://github.com/massive-com/mcp_massive) | Apache-2.0 | 145 | MCP server para Massive.com financial data API (search + call + query) |
-
----
-
-## MCP Servers financieros emergentes
-
-| Servidor | Descripción | Caso de uso |
-|----------|-------------|-------------|
-| [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) | Stock market data API vía MCP | Due diligence automatizado con Claude |
-| [Alex2Yang97/yahoo-finance-mcp](https://github.com/Alex2Yang97/yahoo-finance-mcp) | Yahoo Finance: precios históricos, finanzas, opciones | Análisis de portafolio conversacional |
-| [djsamseng/blpapi-mcp](https://github.com/djsamseng/blpapi-mcp) | Bloomberg Terminal vía MCP | Research institucional con Bloomberg + Claude |
-| [alpacahq/alpaca-mcp-server](https://github.com/alpacahq/alpaca-mcp-server) | Alpaca brokerage: órdenes, posiciones, quotes | Trading execution via Claude |
-| OpenBB MCP | `openbb_mcp_server` — 30+ providers como tools MCP | El "hub" de datos financieros para agentes |
-
----
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated by the Globant AI Studios ingest pipeline.*

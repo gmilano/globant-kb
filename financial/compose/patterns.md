@@ -1,438 +1,449 @@
-# 🧩 Patrones de composición — Financial Services
+# 🧩 Composition Patterns — Financial Services AI
 
-> Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-08
-
----
-
-## Arquitectura base
-
-```
-[Plataforma vertical base (Fineract / Odoo / OpenBB)]
-          ↓
-[MCP Servers: financial-datasets + OpenBB + alpaca]
-          ↓
-[Orquestación LangGraph + Claude Haiku (ops) / Sonnet (análisis)]
-          ↓
-[UI conversacional / API / WhatsApp Gateway para el cliente]
-```
+> Concrete recipes for building financial AI solutions.
+> Each pattern names specific repos + agents + wiring.
+> Last updated: 2026-07-09
 
 ---
 
-## Patrón 1 — Multi-Agent Trading Desk (AI4Finance stack)
+## Pattern 1: AI Credit Scoring Agent on Apache Fineract
 
-**Objetivo**: Plataforma de research + trading con múltiples agentes que debaten antes de ejecutar.
+**Use case:** Microfinance / neobank — automated credit decisions for underserved populations (LATAM focus)
+**Repos:** [apache/fineract](https://github.com/apache/fineract) + [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) + Claude claude-haiku-4-5
+**License:** Apache-2.0 + MIT
+**Deal size:** $80k–$200k
+**Time:** 6–10 weeks
 
-**Repos**:
-- [TauricResearch/TradingAgents](https://github.com/tauricresearch/tradingagents) — MIT (framework base)
-- [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) — AGPLv3 (datos)
-- [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) — Apache-2.0 (ejecución)
+### Architecture
+```
+Loan Application (Fineract REST API)
+    │
+    ▼
+Feature Extraction Agent (LangChain tool)
+    ├── Alternative data: mobile usage, social, utility payments
+    ├── Fineract historical loan data
+    └── OpenBB macro data (BCB, CNBV indicators)
+    │
+    ▼
+Credit Scoring Agent (FinRL-trained model)
+    ├── DRL policy trained on Fineract loan outcomes
+    ├── Outputs: approved/rejected + probability + reasons
+    └── Explainability report (EU AI Act Article 13 compliant)
+    │
+    ▼
+Human Review Queue (edge cases only — score 0.4–0.6)
+    │
+    ▼
+Fineract Loan Decisioning API → Disbursement
+```
 
-**Arquitectura**:
+### Key code: FinRL environment for credit
 ```python
-# TradingAgents v0.3.1 + Claude Sonnet 5
-from tradingagents import TradingAgentsGraph
+from finrl.meta.env_portfolio_optimization import StockTradingEnv
+from finrl.agents.stablebaselines3.models import DRLAgent
+import fineract_client  # REST client from apache/fineract
+
+# Wrap Fineract loan outcomes as RL environment
+class CreditEnv(gym.Env):
+    def __init__(self, fineract_api):
+        self.api = fineract_api
+        self.action_space = spaces.Discrete(3)  # approve, reject, manual_review
+    
+    def step(self, action):
+        loan_outcome = self.api.get_loan_outcome(self.current_loan_id)
+        reward = 1.0 if action == loan_outcome else -1.0
+        return self.observe(), reward, done, {}
+
+agent = DRLAgent(env=CreditEnv(fineract_client))
+agent.get_model("ppo").learn(total_timesteps=100_000)
+```
+
+---
+
+## Pattern 2: Multi-Agent Equity Research Platform
+
+**Use case:** Asset manager / family office — automated equity research reports at scale
+**Repos:** [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) + [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) + [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund)
+**License:** MIT + AGPLv3 + MIT
+**Deal size:** $100k–$400k
+**Time:** 8–14 weeks
+
+### Architecture
+```
+Ticker Input (CLI / UI)
+    │
+    ▼
+OpenBB MCP Server
+    ├── Price data, fundamentals, earnings
+    ├── Macro indicators (interest rates, GDP)
+    └── News feeds (Reuters, Bloomberg summary)
+    │
+    ▼
+ai-hedge-fund Analyst Council (parallel agents)
+    ├── Bull Agent (growth catalysts, upside scenarios)
+    ├── Bear Agent (red flags, downside risks)
+    ├── Fundamentals Agent (P/E, FCF, debt ratios)
+    ├── Technicals Agent (RSI, MACD, support/resistance)
+    └── Risk Agent (portfolio-level impact, position sizing)
+    │
+    ▼
+FinSight Report Generator
+    ├── Synthesizes analyst council debate
+    ├── Generates professional charts
+    └── Publication-ready report (PDF/Markdown)
+    │
+    ▼
+Distribution via Vibe-Trading adapters (Slack, Teams, Email)
+```
+
+### Key wiring
+```python
 from openbb import obb
+from langchain_anthropic import ChatAnthropic
 
-# Inicializar el grafo de agentes (bull, bear, fundamentals, technicals, risk, portfolio)
-graph = TradingAgentsGraph(
-    llm="claude-sonnet-5",   # o claude-fable-5 para mayor calidad
-    debate_rounds=2,
-    risk_tolerance="medium"
-)
+# OpenBB as MCP data source
+data = obb.equity.price.historical(symbol="AAPL", start_date="2025-01-01")
+fundamentals = obb.equity.fundamental.ratios(symbol="AAPL")
 
-# Obtener datos vía OpenBB
-stock_data = obb.equity.price.historical("AAPL", provider="polygon")
-fundamentals = obb.equity.fundamental.income("AAPL", provider="fmp")
+# Feed to ai-hedge-fund analyst agents
+llm = ChatAnthropic(model="claude-haiku-4-5-20251001")
+bull_analysis = bull_agent.analyze(ticker="AAPL", data=data, fundamentals=fundamentals)
+bear_analysis = bear_agent.analyze(ticker="AAPL", data=data, fundamentals=fundamentals)
 
-# Correr el debate multi-agente
-result = graph.run(
-    ticker="AAPL",
-    current_date="2026-07-08",
-    market_data=stock_data,
-    fundamentals=fundamentals
-)
-print(result["final_decision"])  # BUY/SELL/HOLD con justificación multi-agente
+# FinSight synthesizes
+report = finsight.generate_report(ticker="AAPL", analyses=[bull_analysis, bear_analysis])
 ```
 
-**Wire-up con Hummingbot para ejecución**:
+---
+
+## Pattern 3: AI Trading Firm (LLM Simulation)
+
+**Use case:** Prop desk / family office — multi-agent trading firm with structured debate
+**Repos:** [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) + [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB)
+**License:** MIT + AGPLv3
+**Deal size:** $120k–$400k
+**Time:** 10–16 weeks
+
+### Agent Graph
+```
+Market Data (OpenBB MCP)
+    │
+    ▼
+[Fundamentals Analyst] [Technicals Analyst] [Sentiment Analyst] [News Analyst]
+         ↘                   ↘                  ↗                  ↗
+              ──────── Risk Manager ────────
+                            │
+                            ▼
+                   Portfolio Manager
+                            │
+                            ▼
+                     Fund Manager
+                     (Final decision)
+                            │
+                   ┌────────┴────────┐
+                   ▼                 ▼
+            Execute via        Log with reasoning
+           ccxt/hummingbot     (EU AI Act audit trail)
+```
+
+### Key code: TradingAgents setup
 ```python
-# Cuando el agente decide BUY, Hummingbot ejecuta
-from hummingbot.connector.exchange.binance import BinanceExchange
-if result["action"] == "BUY" and result["confidence"] > 0.75:
-    hb.place_order(symbol="BTCUSDT", side="buy", amount=result["size"])
-```
+from tradingagents.graph.trading_graph import TradingAgentsGraph
+from tradingagents.default_config import DEFAULT_CONFIG
 
-**Tiempo estimado**: 4-6 semanas | **Deal size**: $150k-500k
+config = DEFAULT_CONFIG.copy()
+config["llm_provider"] = "anthropic"
+config["deep_think_llm"] = "claude-opus-4-8"  # for Risk Manager + Fund Manager
+config["quick_think_llm"] = "claude-haiku-4-5-20251001"  # for analysts
+
+ta = TradingAgentsGraph(debug=True, config=config)
+
+# Run analysis
+_, decision = ta.propagate("AAPL", "2026-07-09")
+print(decision)  # BUY/SELL/HOLD with full reasoning chain
+```
 
 ---
 
-## Patrón 2 — Financial Research Automation (Dexter + FinSight + OpenBB)
+## Pattern 4: AML / KYC Automation Agent
 
-**Objetivo**: Agente autónomo que genera reportes de due diligence o equity research en minutos.
+**Use case:** Bank / neobank — automated anti-money laundering screening and KYC document processing
+**Repos:** Custom LLM agent + [apache/fineract](https://github.com/apache/fineract) + [apache/atlas](https://github.com/apache/atlas)
+**License:** Apache-2.0
+**Deal size:** $150k–$500k
+**Time:** 12–20 weeks
 
-**Repos**:
-- [virattt/dexter](https://github.com/virattt/dexter) — MIT (research agent base)
-- [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) — Apache-2.0 (report generation)
-- [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) — MIT (datos MCP)
-
-**Flujo**:
+### Architecture
 ```
-Usuario: "Analiza NVDA antes de la junta del Q2"
-    ↓
-Dexter: descompone la tarea en subtareas
-    ├── Fetch financials (financial-datasets MCP)
-    ├── Fetch news (finance-news MCP)
-    ├── Fetch SEC filings (OpenBB MCP)
-    └── Self-validates cada hallazgo
-    ↓
-FinSight CAVM: genera el reporte PDF/Markdown
-    ├── Code Agent ejecuta análisis cuantitativo
-    ├── VLM genera y critica gráficos
-    └── Multi-agent review loop
-    ↓
-Output: PDF publication-ready con gráficos y citations
+Customer Onboarding Event (Fineract webhook)
+    │
+    ▼
+Document Processing Agent (Claude claude-opus-4-8)
+    ├── OCR + extraction: ID docs, proof of address, source of funds
+    ├── Entity resolution against sanctions lists (OFAC, UN, EU)
+    └── PEP screening (Politically Exposed Persons)
+    │
+    ▼
+Risk Scoring Agent
+    ├── Behavioral pattern analysis (transaction velocity, counterparty graph)
+    ├── Geographic risk assessment (FATF list awareness)
+    └── Typology matching (structuring, layering, integration patterns)
+    │
+    ▼
+Decision Agent
+    ├── Low risk → auto-approve, log to Apache Atlas lineage
+    ├── Medium risk → enhanced due diligence queue
+    └── High risk → alert + freeze + compliance officer notification
+    │
+    ▼
+Apache Atlas (audit trail + data lineage)
+    └── EU AI Act Article 12: automated logs retained 10 years
 ```
-
-**Setup rápido**:
-```bash
-# Dexter
-git clone https://github.com/virattt/dexter
-cd dexter && pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-ant-...
-
-# FinSight
-git clone https://github.com/RUC-NLPIR/FinSight
-cd FinSight && pip install -r requirements.txt
-
-# MCP server de datos financieros
-pip install financial-datasets-mcp
-```
-
-**Tiempo estimado**: 3-5 semanas | **Deal size**: $100k-400k
 
 ---
 
-## Patrón 3 — Open Finance Platform LATAM (OpenBB MCP + Apache Fineract)
+## Pattern 5: SME AI CFO on ERPNext
 
-**Objetivo**: Plataforma de aggregación de datos financieros Open Banking + agente de asesoría para consumidores LATAM.
+**Use case:** SME / startup — conversational financial management, forecasting, tax optimization
+**Repos:** [frappe/erpnext](https://github.com/frappe/erpnext) + [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot)
+**License:** GPL-3.0 + Apache-2.0
+**Deal size:** $60k–$150k
+**Time:** 6–10 weeks
 
-**Repos**:
-- [apache/fineract](https://github.com/apache/fineract) — Apache-2.0 (core banking + cuentas)
-- [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) — AGPLv3 (datos de mercado)
-- LangGraph + Claude Haiku (ops baratas) / Sonnet (análisis profundo)
+### Features
+```
+ERPNext (accounting, invoicing, payroll, inventory)
+    │  REST API + webhooks
+    ▼
+FinRobot-style Orchestrator
+    ├── Cash Flow Agent: monitors AR/AP, forecasts 90-day cash position
+    ├── Tax Agent: identifies deductions, schedules payments, alerts deadlines
+    ├── Reconciliation Agent: auto-matches bank statement → ERPNext journal entries
+    ├── FX Agent: hedging recommendations for multi-currency SMEs (LATAM)
+    └── Anomaly Agent: flags unusual transactions, duplicate invoices, expense policy violations
+    │
+    ▼
+Conversational UI (Claude API + chat widget)
+    └── "What's my cash position next month?" → agent queries ERPNext → natural language answer
+```
 
-**Arquitectura**:
+### Key code: ERPNext agent tool
 ```python
 import anthropic
-from langgraph.graph import StateGraph
-from openbb import obb
+import frappe  # ERPNext's Python framework
 
 client = anthropic.Anthropic()
 
-# MCP servers disponibles para el agente
-mcp_tools = [
-    {"name": "openbb_financial_data", "server": "openbb_mcp_server"},
-    {"name": "fineract_accounts", "server": "fineract_mcp_proxy"},
-    {"name": "market_news", "server": "finance-news-mcp"}
-]
+def get_cash_position(days_ahead: int = 90) -> dict:
+    """Tool: get cash position forecast from ERPNext"""
+    ar = frappe.db.sql("""
+        SELECT SUM(outstanding_amount) FROM `tabSales Invoice`
+        WHERE due_date <= DATE_ADD(NOW(), INTERVAL %s DAY) AND status='Unpaid'
+    """, days_ahead)[0][0]
+    ap = frappe.db.sql("""
+        SELECT SUM(outstanding_amount) FROM `tabPurchase Invoice`  
+        WHERE due_date <= DATE_ADD(NOW(), INTERVAL %s DAY) AND status='Unpaid'
+    """, days_ahead)[0][0]
+    return {"receivables": float(ar or 0), "payables": float(ap or 0), "net": float((ar or 0) - (ap or 0))}
 
-def financial_advisor_agent(user_query: str, user_id: str):
-    """Agente de asesoría financiera personalizado"""
-    # 1. Obtener contexto del usuario desde Fineract
-    user_accounts = fineract_client.get_client_accounts(user_id)
-    
-    # 2. Analizar con Claude usando MCP tools
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",  # Haiku para ops económicas
-        max_tokens=2048,
-        tools=mcp_tools,
-        messages=[{
-            "role": "user",
-            "content": f"Usuario tiene: {user_accounts}. Pregunta: {user_query}"
-        }]
-    )
-    return response
+response = client.messages.create(
+    model="claude-haiku-4-5-20251001",
+    tools=[{"name": "get_cash_position", "description": "Get 90-day cash forecast", 
+            "input_schema": {"type": "object", "properties": {"days_ahead": {"type": "integer"}}}}],
+    messages=[{"role": "user", "content": "What's our cash position in 90 days?"}]
+)
 ```
-
-**Tiempo estimado**: 6-10 semanas | **Deal size**: $150k-600k
 
 ---
 
-## Patrón 4 — Core Banking AI Layer (Credit + KYC con LangGraph)
+## Pattern 6: Real-Time Fraud Detection Agent
 
-**Objetivo**: Añadir capa agéntica sobre Apache Fineract para automatizar crédito, KYC y AML.
+**Use case:** Neobank / fintech — real-time PIX/SPEI transaction fraud scoring
+**Repos:** [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) + custom streaming agent
+**License:** MIT
+**Deal size:** $150k–$400k
+**Time:** 10–16 weeks
 
-**Repos**:
-- [apache/fineract](https://github.com/apache/fineract) — Apache-2.0
-- [finos/open-regtech-sig](https://github.com/finos/open-regtech-sig) — Apache-2.0
-- LangGraph para orquestación multi-agente
-
-**Grafo de agentes**:
-```python
-from langgraph.graph import StateGraph, END
-import anthropic
-
-def build_credit_graph():
-    graph = StateGraph(CreditApplicationState)
-    
-    # Agente 1: KYC/AML verification
-    graph.add_node("kyc_agent", kyc_verification_node)
-    
-    # Agente 2: Credit scoring alternativo (bureau + datos alternativos)
-    graph.add_node("credit_agent", credit_scoring_node)
-    
-    # Agente 3: Risk assessment
-    graph.add_node("risk_agent", risk_assessment_node)
-    
-    # Agente 4: Compliance check (LGPD/GDPR/EU AI Act)
-    graph.add_node("compliance_agent", compliance_check_node)
-    
-    # Human-in-the-loop para decisiones >$50k (EU AI Act requirement)
-    graph.add_node("human_review", human_review_node)
-    
-    graph.add_edge("kyc_agent", "credit_agent")
-    graph.add_edge("credit_agent", "risk_agent")
-    graph.add_conditional_edges(
-        "risk_agent",
-        lambda s: "human_review" if s["loan_amount"] > 50000 else "compliance_agent"
-    )
-    return graph.compile()
-
-# Usar Claude Sonnet para análisis complejo
-def credit_scoring_node(state):
-    client = anthropic.Anthropic()
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{"role": "user", "content": f"Analiza riesgo crediticio: {state['application']}"}]
-    )
-    return {"credit_score": response.content[0].text, "confidence": 0.87}
+### Architecture
 ```
-
-**Tiempo estimado**: 8-14 semanas | **Deal size**: $200k-800k
+Payment Event Stream (Kafka / AWS EventBridge)
+    │ < 50ms window
+    ▼
+Feature Extraction (real-time)
+    ├── Transaction velocity (last 1h, 24h, 7d)
+    ├── Counterparty risk score
+    ├── Geographic distance from last transaction
+    └── Time-of-day and day-of-week patterns
+    │
+    ▼
+FinRL-trained Anomaly Model (< 10ms inference)
+    ├── DRL policy trained on labeled fraud data
+    └── Probability score 0-1
+    │
+    ▼
+Decision Logic
+    ├── Score < 0.3 → approve instantly
+    ├── Score 0.3–0.7 → 2FA challenge or step-up auth
+    └── Score > 0.7 → block + LLM explanation agent
+    │
+    ▼
+Explanation Agent (Claude Haiku, async)
+    └── Generates human-readable fraud explanation for compliance report
+```
 
 ---
 
-## Patrón 5 — RegTech EU AI Act Compliance (URGENTE — deadline ago-2, 2026)
+## Pattern 7: Trading Signal Distribution (Vibe-Trading)
 
-**Objetivo**: Auditoría rápida + documentación de sistemas AI financieros para cumplir EU AI Act.
+**Use case:** Quant fund / trading desk — distribute AI trading signals to multiple channels
+**Repos:** [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) + [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
+**License:** MIT
+**Deal size:** $40k–$100k
+**Time:** 3–6 weeks
 
-**Repos**:
-- [finos/common-domain-model](https://github.com/finos/common-domain-model) — Apache-2.0 (schema)
-- [finos/open-regtech-sig](https://github.com/finos/open-regtech-sig) — Apache-2.0
-
-**Entregables en 3-4 semanas**:
-```yaml
-eu_ai_act_checklist:
-  high_risk_systems:
-    - credit_scoring_models: ✅ inventariados
-    - aml_transaction_monitoring: ✅ documentados  
-    - insurance_underwriting: ✅ auditados
-    
-  technical_requirements:
-    - transparency_report: generado con Claude (explainability per decision)
-    - risk_management_system: LangGraph audit trail habilitado
-    - human_oversight_mechanism: HITL mandatory para decisiones >threshold
-    - data_governance_log: FINOS CDM para trazabilidad de datos
-    
-  documentation:
-    - conformity_assessment: Claude genera informe XAI por sistema
-    - technical_file: registro de versiones + cambios de modelo
-    - instructions_for_use: documento para operadores
+### Architecture
+```
+TradingAgents analysis (scheduled: 30min before market open)
+    │ Output: signal {ticker, direction, confidence, reasoning}
+    ▼
+Vibe-Trading Signal Formatter
+    │ Template: "🟢 BUY AAPL | Confidence: 78% | Bull catalyst: iPhone cycle + services growth"
+    ▼
+16 Adapters → Route by channel:
+    ├── Telegram → retail clients
+    ├── Slack → internal trading desk
+    ├── Teams → compliance and risk team
+    ├── Email → institutional clients
+    └── WhatsApp → LATAM clients (highest mobile penetration)
 ```
 
-**Script de auditoría**:
+---
+
+## Pattern 8: EU AI Act Compliance Audit Trail
+
+**Use case:** European bank or fintech — achieve compliance with EU AI Act high-risk AI obligations by Aug 2, 2026
+**Repos:** Custom + [great-expectations/great_expectations](https://github.com/great-expectations/great_expectations) + Apache Atlas + Claude Opus
+**License:** Apache-2.0
+**Deal size:** $50k–$200k
+**Time:** 4–10 weeks
+
+### Compliance Checklist (Article 12 + 13 + 14)
+```
+✅ Automated logging of all AI agent decisions (who, what data, what output, timestamp)
+✅ Risk management system documentation for each high-risk AI system
+✅ Data governance: training data lineage in Apache Atlas
+✅ Bias monitoring with Great Expectations data quality checks
+✅ Technical documentation: model card for each credit/fraud/insurance model
+✅ Human oversight: UI for compliance officer review of edge cases
+✅ Transparency: plain-language explanation of each AI decision for affected customers
+```
+
+### Key code: Audit logger
 ```python
 import anthropic
+from datetime import datetime
+import json
 
-def audit_ai_system(system_name: str, system_docs: str) -> dict:
-    client = anthropic.Anthropic()
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        messages=[{
-            "role": "user",
-            "content": f"""Analiza este sistema AI bajo EU AI Act Annex III:
-            
-Sistema: {system_name}
-Documentación: {system_docs}
-
-Determina:
-1. ¿Es high-risk bajo Annex III? (credit scoring / AML / insurance)
-2. Brechas de cumplimiento identificadas
-3. Pasos específicos para cumplir antes de ago-2, 2026
-4. Riesgo de multa estimado si no cumple (hasta €30M o 6% facturación global)
-
-Formato: JSON con risk_level, gaps[], action_items[], timeline_weeks"""
-        }]
-    )
-    return response
-
-# Correr para cada sistema AI del cliente
-for system in client_ai_systems:
-    audit = audit_ai_system(system["name"], system["docs"])
-    print(audit)
-```
-
-**Tiempo estimado**: 3-4 semanas | **Deal size**: $80k-300k (urgente)
-
----
-
-## Patrón 6 — AI Hedge Fund Clone (ai-hedge-fund como base)
-
-**Objetivo**: Fork y customización de `virattt/ai-hedge-fund` para cliente de family office o fund manager.
-
-**Repos**:
-- [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) — MIT (18 agentes: 12 personas + 6 especialistas)
-- [PyPortfolioOpt/PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) — MIT (optimización)
-- [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) — MIT (datos)
-
-**Customizaciones para cliente**:
-```python
-# Agregar persona personalizada del cliente
-CUSTOM_ANALYSTS = {
-    "client_cio": {
-        "name": "Chief Investment Officer (Cliente)",
-        "prompt": """Eres el CIO de {client_name}. 
-        Tu tesis de inversión: {client_thesis}.
-        Universo permitido: {client_universe}.
-        Restricciones: {client_restrictions} (por estatutos del fondo)""",
-        "weight": 0.3  # Peso en el debate multi-agente
-    }
-}
-
-# Reemplazar Yahoo Finance con datos premium del cliente
-def get_market_data(ticker: str, date: str):
-    # Primero bloomberg si disponible, sino financial-datasets MCP
-    if bloomberg_available:
-        return bloomberg_mcp.get_historical(ticker, date)
-    else:
-        return financial_datasets_mcp.get_prices(ticker, date)
-```
-
-**Tiempo estimado**: 4-8 semanas | **Deal size**: $150k-500k
-
----
-
-## Patrón 7 — RegTech Multi-Jurisdiccional LATAM (LangGraph + RAG regulatorio)
-
-**Objetivo**: Agente que responde preguntas de cumplimiento regulatorio para bancos operando en múltiples países LATAM.
-
-**Repos**:
-- LangGraph (orquestación)
-- pgvector (base vectorial para regulaciones)
-- Claude Sonnet para razonamiento complejo
-- OpenBB MCP para datos de referencia
-
-**Arquitectura**:
-```python
-# RAG sobre regulaciones por país
-REGULATORY_DOCS = {
-    "brasil": ["Resolução BCB 4.966", "LGPD", "Circular CMN 3.978 AML"],
-    "mexico": ["CNBV LRITF", "LFPIORPI AML", "Ley FinTech 2018"],
-    "colombia": ["Decreto 1842 Open Banking", "SARLAFT AML"],
-    "chile": ["Ley 21.521 Fintech", "Norma CMF para IA"],
-    "peru": ["Resolución SBS 3274 Open Banking", "Circular AML"]
-}
-
-def regulatory_agent(query: str, jurisdictions: list):
-    """Responde preguntas de compliance multi-jurisdicción"""
-    # 1. Retrieval de regulaciones relevantes
-    relevant_regs = vector_db.similarity_search(
-        query, 
-        filter={"jurisdiction": {"$in": jurisdictions}}
-    )
+class EUAIActAuditLogger:
+    def log_ai_decision(self, system_id: str, input_data: dict, 
+                         output: dict, model: str, confidence: float):
+        entry = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "ai_system_id": system_id,
+            "model": model,
+            "input_hash": hash(json.dumps(input_data, sort_keys=True)),
+            "output": output,
+            "confidence": confidence,
+            "human_override_available": True,
+        }
+        # Write to immutable audit log (append-only S3 / WORM storage)
+        self.audit_store.append(entry)
+        
+        # Generate explanation for affected person (Article 13)
+        if output.get("decision") == "rejected":
+            explanation = self._generate_explanation(input_data, output, model)
+            return {**entry, "customer_explanation": explanation}
     
-    # 2. Claude Sonnet analiza y responde
-    client = anthropic.Anthropic()
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        messages=[{
-            "role": "user",
-            "content": f"Pregunta: {query}\n\nRegulaciones relevantes:\n{relevant_regs}"
-        }]
-    )
-    return response
-```
-
-**Tiempo estimado**: 6-10 semanas | **Deal size**: $150k-500k
-
----
-
-## Patrón 8 — Bank Reconciliation con Claude Vision (Odoo + PDF bancarios)
-
-**Objetivo**: Agente que procesa extractos bancarios en PDF y los reconcilia automáticamente en Odoo.
-
-**Repos**:
-- [odoo/odoo](https://github.com/odoo/odoo) — LGPL-3.0 (ERP destino)
-- Claude Vision (extracción de datos de PDFs bancarios)
-
-```python
-import anthropic
-import base64
-from pathlib import Path
-
-def reconcile_bank_statement(pdf_path: str, odoo_client):
-    """Lee extracto bancario PDF y reconcilia en Odoo"""
-    client = anthropic.Anthropic()
-    
-    # Leer PDF como imagen para Claude Vision
-    pdf_data = Path(pdf_path).read_bytes()
-    
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        messages=[{
-            "role": "user",
-            "content": [
-                {
-                    "type": "document",
-                    "source": {"type": "base64", "media_type": "application/pdf", "data": base64.b64encode(pdf_data).decode()}
-                },
-                {
-                    "type": "text",
-                    "text": """Extrae todas las transacciones bancarias en JSON:
-[{"date": "YYYY-MM-DD", "description": "...", "amount": 0.00, "currency": "BRL", "type": "debit|credit"}]
-Solo JSON, sin texto adicional."""
-                }
-            ]
-        }]
-    )
-    
-    # Parsear transacciones extraídas
-    transactions = json.loads(response.content[0].text)
-    
-    # Crear líneas de conciliación en Odoo
-    for tx in transactions:
-        odoo_client.create_bank_statement_line(
-            journal_id=bank_journal_id,
-            date=tx["date"],
-            name=tx["description"],
-            amount=tx["amount"]
+    def _generate_explanation(self, input_data, output, model):
+        client = anthropic.Anthropic()
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            messages=[{"role": "user", "content": 
+                f"Generate a plain-language explanation for why this credit application was rejected. "
+                f"Decision factors: {output['factors']}. Must be: specific, actionable, non-discriminatory."}]
         )
-    
-    return f"Reconciliadas {len(transactions)} transacciones en Odoo"
-
-# Uso: procesar todos los PDFs bancarios del mes
-for pdf in Path("/bank_statements/").glob("*.pdf"):
-    result = reconcile_bank_statement(str(pdf), odoo)
-    print(result)
+        return response.content[0].text
 ```
-
-**Tiempo estimado**: 3-5 semanas | **Deal size**: $80k-250k
 
 ---
 
-## Matriz de selección de patrón
+## Pattern 9: Qlib + RD-Agent Automated Quant R&D
 
-| Si el cliente es... | Y necesita... | Usa Patrón |
-|--------------------|---------------|------------|
-| Asset manager / hedge fund | Trading algorítmico + research | P1 + P6 |
-| Investment bank / sellside | Equity research automation | P2 |
-| Fintech LATAM | Open Finance + asesoría consumidores | P3 |
-| Banco tradicional | Crédito + KYC automatizado | P4 |
-| Banco europeo | EU AI Act compliance urgente (ago-2026) | P5 |
-| Family office LATAM | Agente de inversión personalizado | P6 |
-| Banco multi-país LATAM | Compliance regulatorio multi-jurisdicción | P7 |
-| PYME / contabilidad | Conciliación bancaria automática | P8 |
+**Use case:** Quant fund — AI that generates, tests, and deploys trading strategies autonomously
+**Repos:** [microsoft/qlib](https://github.com/microsoft/qlib) + [microsoft/RD-Agent](https://github.com/microsoft/RD-Agent)
+**License:** MIT
+**Deal size:** $200k–$600k
+**Time:** 12–20 weeks
+
+### Automated Research Loop
+```
+RD-Agent (LLM-driven research automation)
+    │ Generates trading hypothesis
+    ▼
+Qlib Backtesting Engine
+    ├── 10+ years historical data
+    ├── Transaction cost modeling
+    └── Multi-asset evaluation
+    │ Returns: Sharpe, Calmar, drawdown
+    ▼
+RD-Agent Evaluation
+    ├── Hypothesis confirmed? → promote to paper trading
+    ├── Hypothesis rejected? → generate variant or new hypothesis
+    └── Top-N hypotheses → portfolio construction
+    │
+    ▼
+Qlib Production Pipeline
+    └── Live paper trading → live trading (after human approval)
+```
+
+---
+
+## Pattern 10: Open Finance Platform (Apache Fineract + Full AI Stack)
+
+**Use case:** Launch a new neobank or digital lender in LATAM — full stack open source + AI
+**Repos:** Fineract + ERPNext + FinRL + FinRobot + Vibe-Trading + Claude API
+**License:** Apache-2.0 + GPL-3.0 + MIT
+**Deal size:** $500k–$2M
+**Time:** 6–18 months
+
+### Full Stack
+```
+Mobile/Web App (React Native)
+    │
+    ▼
+API Gateway (Kong or AWS API Gateway)
+    │
+    ┌────────┬──────────────┬──────────────────┐
+    ▼        ▼              ▼                  ▼
+Apache    ERPNext      Credit Agent        AML Agent
+Fineract  (accounting) (FinRL + Claude)   (LLM + Atlas)
+(core     (GL, tax,    (auto-approve       (KYC, sanctions
+banking)  payroll)      microloans)         screening)
+    │        │              │                  │
+    └────────┴──────────────┴──────────────────┘
+                            │
+                            ▼
+                  Audit Trail (Apache Atlas)
+                  EU AI Act compliant logging
+                            │
+                            ▼
+                  Analytics Dashboard
+                  (OpenBB data + FinSight reports)
+                            │
+                            ▼
+                  Signal Distribution
+                  (Vibe-Trading 16 adapters → client notifications)
+```
+
+---
+*See `agents/top.md` for full agent details and `verticals/solutions.md` for platform details.*

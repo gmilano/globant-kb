@@ -1,124 +1,164 @@
-# 📡 Tendencias — Financial Services AI
+# 📡 Trends — Financial Services AI
 
-> Actualización 2026-07-08. Horizon: 12 meses.
+> Current movements shaping where financial AI is going. Updated with fresh signals.
+> Last updated: 2026-07-09
 
----
+## Macro Trend: Agentic Finance is Here
 
-## Trend 1 — "Agentic Finance" como categoría oficial (🔥 CRÍTICO)
-
-**Señal**: Robinhood CEO declara era de "agentic finance" (Jun-2026). 44% de equipos de finanzas adoptando AI agéntico en 2026 (+600% YoY). 95% de PE firms ya comenzaron implementación.
-
-**¿Qué significa en práctica?**
-- Agentes que ejecutan trades, rebalancean portafolios, completan formularios regulatorios **sin intervención humana**
-- TradingAgents v0.3.1 (Jul-2026) ya soporta Claude Sonnet 5 / Fable 5 para decisiones de trading
-- Los bancos deben implementar Human-in-the-Loop (HITL) mandatory según EU AI Act
-
-**Para Globant**: Primera categoría donde un cliente puede justificar $500k+ en un proyecto de 8 semanas
+2026 marks the inflection where financial AI moved from analytical copilots to **autonomous agents that act**:
+- Approving loans, reconciling transactions, flagging compliance risks, negotiating contract terms — all without human in the loop
+- 84% of visionary CFOs deployed autonomous agents for real-time treasury management (Gartner 2026)
+- 65% of financial institutions deployed AI tools for analytics, trading, or risk monitoring
 
 ---
 
-## Trend 2 — EU AI Act Deadline Aug-2, 2026 (⚠️ URGENTE — 25 días)
+## T1 — Agentic Treasury Management (84% CFO Adoption)
 
-**Señal**: Aug-2, 2026 es el deadline para que sistemas AI de alto riesgo en el sector financiero cumplan con el EU AI Act. Credit scoring, AML, KYC, seguros — todos calificados como "high risk" bajo Annex III.
+Gartner's 2026 FinTech Survey: 84% of visionary CFOs deployed autonomous agents for real-time treasury management. AI agents now monitor cash positions, execute FX hedges, and optimize short-term liquidity without human approval — within pre-approved parameters.
 
-**Requisitos obligatorios**:
-- Transparencia y explicabilidad (XAI) de decisiones de crédito
-- Trazabilidad completa de decisiones agénticas
-- Registro y auditoría de todos los modelos
-- Human oversight demostrable
-
-**Para Globant**: Clientes europeos (bancos, insurers) necesitan implementación urgente. Patrón P5 (RegTech EU AI Act) es el enganche más rápido. Timeline real: 3-4 semanas para audit + documentación si el sistema ya existe.
+**Key repos:** Qlib (strategy layer), OpenBB (data layer), QuantConnect Lean (execution)
 
 ---
 
-## Trend 3 — MCP se convierte en protocolo estándar para datos financieros
+## T2 — EU AI Act Aug 2, 2026 — Financial Services Compliance Deadline
 
-**Señal**: OpenBB lanzó `openbb_mcp_server` exponiendo 30+ providers de datos financieros (FMP, FRED, Yahoo Finance, Polygon, SEC) como MCP tools. Bloomberg MCP disponible vía `blpapi-mcp`. `financial-datasets/mcp-server` con 680★.
+The EU AI Act's high-risk provisions are live as of August 2, 2026. In scope for financial institutions:
+- Credit scoring and creditworthiness assessment of natural persons
+- Risk assessment and pricing in life and health insurance
+- AI systems evaluating financial standing of individuals (AML, fraud detection scores)
 
-**¿Qué cambia?**
-- Los agentes AI pueden ahora consultar datos financieros en tiempo real sin APIs custom
-- "Connect once, consume everywhere": un MCP server de OpenBB alimenta Claude Desktop, agentes LangGraph, VS Code, y REST APIs
+Penalties: €15M or 3% of global annual turnover. Requirements: automated logging, risk management, data governance, technical documentation, bias monitoring, human oversight.
 
-**Para Globant**: MCP es el integration layer que elimina el 40-60% del tiempo de integración de datos en proyectos finance. Usar como foundation en todos los patrones.
-
----
-
-## Trend 4 — Open Source "Agentic Finance" alcanza madurez productiva
-
-**Señal**:
-- `virattt/ai-hedge-fund`: 60.9k★, React frontend + FastAPI backend — producción lista
-- `virattt/dexter`: 24.8k★ con eval suite, self-validation, WhatsApp gateway
-- TradingAgents v0.3.1: soporte Claude Sonnet 5 / Fable 5 official
-
-**¿Qué significa?**: Por primera vez, un banco/fintech puede tomar un repo MIT y construir un producto de trading o research en 4-8 semanas sin partir de cero.
-
-**Para Globant**: El moat ya no es "saber hacer un trading agent". Es la integración con los sistemas legados del banco, el cumplimiento regulatorio, y el fine-tuning sobre datos propietarios del cliente.
+**Business opportunity:** Most compliance functions don't have an AI system inventory. Globant can deliver an "EU AI Act Readiness" accelerator.
 
 ---
 
-## Trend 5 — Open Finance + Open Banking LATAM — ventana 12-18 meses
+## T3 — Visa + Mastercard AI Agent Payment Authorization
 
-**Señal**: Brasil BCB Open Finance con 300+ fintechs reguladas. México CNBV fintech license en expansión. Colombia SFC Open Banking pilot. Chile CMF regulación fintech.
+Both Visa and Mastercard launched frameworks in 2026 enabling merchants to:
+- Verify AI agents as trusted payment initiators
+- Process payments autonomously without a human clicking "buy"
 
-**¿Qué significa?**: Los datos bancarios del consumidor latinoamericano son ahora accesibles via API estandarizadas. Esto es el combustible para agentes de crédito alternativo, asesoría financiera personalizada y comparadores de productos.
-
-**Para Globant**: Proyectos de $100k-$600k donde el diferenciador es entender la regulación local + construir el agente encima. Brasil y Colombia son los mercados más maduros para empezar.
-
----
-
-## Trend 6 — RegTech agéntico: de herramientas reactivas a sistemas proactivos
-
-**Señal**: "Always-on compliance" con agentic AI logra 89% de detección pre-deployment vs 43% convencional (Neurons-Lab 2026). FINOS lanza AI Fund + OSERA con los mayores bancos del mundo.
-
-**¿Qué cambia?**
-- AML/KYC ya no es batch semanal — es monitoreo continuo agéntico
-- SAR (Suspicious Activity Reports) ahora generados automáticamente por agentes
-- Gobernanza de modelos AI mandatoria: EU AI Act + SR 11-7 (Fed) + DORA (EU) + LGPD (Brasil)
-
-**Para Globant**: RegTech agéntico es la vertical más defensible — alta barrera de entrada, clientes con budget elevado ($300k-$1.2M), recurrente (compliance no es proyecto puntual).
+This unlocks true agentic commerce: AI assistants that book travel, purchase services, and execute B2B purchases end-to-end.
 
 ---
 
-## Trend 7 — LLM Reasoning para análisis financiero supera analistas humanos en benchmarks
+## T4 — Multi-Agent Trading Firm Simulation (80k★ TradingAgents)
 
-**Señal**: FinSight (ACL 2026) genera reportes financieros publication-ready. Claude Opus 4.8 gana HAQQ-LAB (hallucination rate 24% promedio — incluso frontier models). TradingAgents arxiv:2412.20138 muestra que multi-agent debate mejora señales de trading.
+TradingAgents crossed 80k GitHub stars, cementing multi-agent LLM simulation as the dominant architecture for AI trading:
+- Analyst agents (fundamentals, technicals, sentiment, news) work in parallel
+- Risk manager agent gates decisions
+- Portfolio manager synthesizes and positions
+- Fund manager sets strategy context
 
-**Advertencia crítica**: 24% hallucination rate en razonamiento financiero → mandatory human review para decisiones reguladas. Usar LLMs como "research assistant" no como "decision maker" en crédito/AML.
-
----
-
-## Trend 8 — Prediction Markets como nueva clase de activo para AI
-
-**Señal**: `jon-becker/prediction-market-analysis` — 36GB de datos Polymarket + Kalshi. Polymarket adquirió Dome (YC-backed cross-platform API). Opinion alcanzó 31% del volumen global ($8B+/mes).
-
-**Para Globant**: Hedge funds alternativos + fintech de datos buscan products que agreguen prediction markets + mercados tradicionales. Nicho emergente con alto margen.
+Pattern adopted from real trading desk org charts → simulated in LLM agent graph.
 
 ---
 
-## Trend 9 — SLMs para finanzas on-premise (privacidad de datos)
+## T5 — FinSight ACL 2026: AI Outperforms Commercial Deep Research
 
-**Señal**: 70%+ de banking firms usan AI agéntico pero con datos propietarios que no pueden salir a la nube. Phi-4, Mistral 7B, Llama 3.1 ofrecen capacidad de análisis financiero básico on-premise.
-
-**Para Globant**: Patrón "Ollama + Qdrant + LangGraph + Fineract on-premise" para bancos LATAM con restricciones LGPD/datos soberanos. Deal size $200k-800k por el componente de compliance.
-
----
-
-## Trend 10 — FinMTM: La era de los benchmarks especializados en finanzas
-
-**Señal**: FinMTM (ACL 2026) — primer benchmark multi-turn multimodal para agentes financieros. CLEF-2026 FinMMEval — multilingual + multimodal evaluation. El campo está madurando con estándares de evaluación.
-
-**Para Globant**: Incluir benchmarking en todos los deliverables de finance AI. Clientes quieren saber si su agente es mejor o peor que el promedio del mercado. FinMTM + FinSight evaluation suite como herramientas de validación.
+FinSight (ACL 2026 Main) from Renmin University:
+- Multi-agent pipeline: data collection → analysis → chart generation → publication-ready report
+- Scores 8.09 vs Gemini-2.5-Pro Deep Research (6.82) and OpenAI Deep Research (6.11)
+- Open source (MIT) — Globant can deploy this for equity research automation
 
 ---
 
-## Tabla de monitoreo — señales clave
+## T6 — HKUDS Vibe-Trading: 16 Messaging Adapters
 
-| Señal | Fuente | Frecuencia monitoreo |
-|-------|--------|---------------------|
-| EU AI Act enforcement actions | EUR-Lex, EBA | Semanal hasta ago-2026 |
-| FINOS AI Fund releases | github.com/finos | Quincenal |
-| TradingAgents releases | github.com/TauricResearch | Semanal |
-| OpenBB MCP server updates | github.com/OpenBB-finance | Quincenal |
-| Brasil Open Finance nuevas fintechs | BCB.gov.br | Mensual |
-| LLM reasoning en finance papers | arxiv cs.AI + q-fin | Semanal |
-| virattt repos (ai-hedge-fund, dexter) | github.com/virattt | Semanal |
+Vibe-Trading (16.9k★) represents the "trading signals as notifications" paradigm:
+- Agent analyzes market, executes analysis, pushes signal to any messaging platform
+- 16 adapters: WhatsApp, Signal, Matrix, Teams, WeChat, Feishu, DingTalk, Telegram, Slack, Discord, QQ/NapCat, WeCom, Lark, email, Mochat
+- Pattern: AI agent → any channel → human decision to confirm (or full auto)
+
+---
+
+## T7 — Embedded Finance Acceleration
+
+Non-financial platforms integrating financial capabilities directly into user experiences:
+- Lending, insurance, savings, payroll, wealth management inside non-fintech apps
+- Stripe + Airwallex enabling multi-card, multi-currency checkout orchestration
+- AI agents as the "finance layer" inside B2B SaaS products
+
+---
+
+## T8 — LATAM: Capital to Profitable Verticals (Not Neobanks)
+
+Fintech investment in LATAM is maturing:
+- 2026 capital flows: B2B payments, SME credit, embedded finance — not consumer neobanks
+- Brazil dominates: 4 of top 10 Q1 2026 fintech deals
+- Mexico: 77% AI adoption, 80% fintech-bank partnerships
+- Unit economics now matter; "users without profit" are no longer fundable
+
+**Globant angle:** SME AI CFO (ERPNext + LLM), credit agent for underserved (Fineract + FinRL), AML for Brazilian banks.
+
+---
+
+## T9 — KYC / AML Automation: Clearest ROI in LATAM
+
+KYC and AML automation identified as the clearest short-term ROI use cases in LATAM:
+- BCB (Brazil) and CNBV (Mexico) both require written model governance and human oversight on high-impact decisions
+- Document verification agents + AML transaction monitoring agents = immediate cost reduction
+- Pipeline: document ingestion → LLM extraction → risk scoring → human review on edge cases
+
+---
+
+## T10 — Microsoft Qlib + RD-Agent: Automated Quant R&D
+
+Microsoft Qlib now integrates RD-Agent, enabling automated quant research pipelines:
+- LLM generates trading hypotheses → backtests → evaluates → iterates
+- From idea to production-ready strategy without human quant analyst
+- 44k+ stars; MIT license; deployable on Azure
+
+---
+
+## T11 — Prediction Market AI Infrastructure
+
+The "CCXT for prediction markets" moment:
+- Polymarket and Kalshi getting unified API treatment
+- 36GB Polymarket historical dataset available for training forecasting agents
+- AI agents trading information markets — new category for hedge funds and macro traders
+
+---
+
+## T12 — OpenBB MCP Server: Financial Data for AI Agents
+
+OpenBB's MCP server integration means any MCP-compatible AI agent (Claude, GPT-4o, Gemini) can:
+- Query financial data (prices, fundamentals, earnings, macro) via natural language
+- Get standardized, cleaned data without writing custom connectors
+- Replaces Bloomberg Terminal for programmatic agent data needs
+
+---
+
+## T13 — Brazil's Fintech Dominance: 4/10 Top Q1 2026 Deals
+
+Brazil cements its position as LATAM's #1 fintech hub:
+- 14.92% of regional fintech investment share
+- PIX open banking API enables AI agent access to bank data with customer consent
+- Nubank (100M+ customers) setting AI-native credit scoring benchmark for region
+
+---
+
+## T14 — Agent-Native vs Tool-Using LLMs: Architecture Shift
+
+New architecture paradigm becoming standard in 2026:
+- **Old**: LLM with tool-use capabilities added on top of existing system
+- **New**: System designed from the ground up for LLM orchestration as the primary flow
+
+Repos demonstrating this: AI-Trader, Vibe-Trading, TradingAgents. Characteristics:
+- Multi-agent debate before any action
+- Continuous feedback loop from execution outcomes
+- Modular agent components, not monolithic prompts
+
+---
+
+## T15 — Autonomous Loan Approval + Contract Negotiation
+
+Moving beyond analytics into autonomous action:
+- AI agents proactively approving microloans (within credit policy bounds)
+- Contract negotiation agents in B2B lending and insurance
+- 58% of finance departments used AI agents in 2024 → estimated 75%+ in 2026
+
+---
+
+*Sources: Gartner 2026, Finastra, Mordor Intelligence, Innowise, Infutrix, Fintech.Global, Galileo-FT, EU AI Act Official Text, GitHub.*

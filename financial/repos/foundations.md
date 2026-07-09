@@ -1,71 +1,48 @@
-# 🏗️ Repos fundacionales — Financial Services
+# 🏗️ Foundation Repos — Financial Services
 
-> Bases sobre las cuales construir soluciones de AI financiero. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-08
+> Core open source libraries and platforms Globant can build AI solutions on top of.
+> Focus: active maintenance, permissive licenses, real production deployments.
+> Last updated: 2026-07-09
 
----
+## Core AI / Quant Finance Frameworks
 
-## Stack A — Plataformas de datos financieros
+| Repo | License | Stars | Description | Best For |
+|------|---------|-------|-------------|---------|
+| [microsoft/qlib](https://github.com/microsoft/qlib) | MIT | 44k+ | AI-oriented quant investment platform: data → signal → strategy → execution pipeline; RL, supervised, and market dynamics modeling; integrates RD-Agent for automated R&D | Quant research automation, AI strategy discovery |
+| [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | 12k | Financial reinforcement learning: PPO, SAC, TD3 agents for stocks, crypto, forex; Gymnasium-compatible env; multi-task support | Continuous RL trading strategies |
+| [quantopian/zipline](https://github.com/quantopian/zipline) | Apache-2.0 | 17k | Pythonic algorithmic trading backtester; event-driven; official fork: [stefan-jansen/zipline-reloaded](https://github.com/stefan-jansen/zipline-reloaded) | Backtesting before live deployment |
+| [QuantConnect/Lean](https://github.com/QuantConnect/Lean) | Apache-2.0 | 19.9k | Algorithmic trading engine (Python, C#); supports equities, crypto, forex, options, futures; cloud and local deploy | Production-grade multi-asset algo trading |
+| [google/tf-quant-finance](https://github.com/google/tf-quant-finance) | Apache-2.0 | 5.4k | High-performance TensorFlow library for quantitative finance: derivatives pricing, Monte Carlo, rate models | Derivatives, options, rate model pricing at scale |
+| [robertmartin8/PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | MIT | 5.8k | Portfolio optimization: mean-variance, Black-Litterman, HRP, CVaR; scikit-learn compatible | Portfolio construction with AI-generated signals |
+| [ccxt/ccxt](https://github.com/ccxt/ccxt) | MIT | 43.5k | Unified API for 100+ crypto exchanges (JS/Python/PHP); the de facto connector layer for crypto trading agents | Crypto exchange connectivity |
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | 38.4k | Open Data Platform: normaliza datos financieros de 30+ proveedores (FMP, FRED, Yahoo Finance, Polygon, SEC) en un único Python SDK. MCP server integrado | Sí — agentes pueden consultar cualquier dato vía MCP |
-| [ccxt/ccxt](https://github.com/ccxt/ccxt) | MIT | 43.5k | Crypto exchange unification: API para 100+ exchanges (Binance, Coinbase, Kraken) en JS/Python/PHP. El estándar de facto para crypto trading | Sí — wrapper para agentes de trading crypto |
-| [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | 11.8k | Financial reinforcement learning framework. Entornos backtesting, múltiples activos, agentes DRL listos | Sí — RL training foundation |
-| [AI4Finance-Foundation/FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading) | MIT | 3.1k | FinRL-X: next-gen AI-native modular trading, live deployment, production-focused | Sí — producción RL trading |
+## Core Banking & Financial Platforms (build AI on top)
 
----
+| Repo | License | Stars | Description | LATAM Relevance |
+|------|---------|-------|-------------|----------------|
+| [apache/fineract](https://github.com/apache/fineract) | Apache-2.0 | 2.3k | Cloud-ready core banking platform from Mifos Initiative; REST API; 400+ institutions; 20M+ customers; open banking APIs | High — widely used in emerging markets microfinance |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 21k+ | Full ERP with accounting, banking, payroll, GST/tax; Frappe Framework; Python + Vue | SME financial management platform |
+| [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | 19k | Open source market making and arbitrage bot; 40+ exchanges; scriptable strategies; deployable as AI agent | Crypto market making automation |
+| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 800+ | Enterprise ERP + CRM + accounting framework; Java; mature and extensible | Enterprise financial workflows |
 
-## Stack B — Quant Finance & Portfolio Optimization
+## Data & Infrastructure
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [quantopian/zipline](https://github.com/quantopian/zipline) | Apache-2.0 | 17.2k | Algorithmic trading library en Python — backtesting engine estándar de la industria quant | Sí — backtesting foundation |
-| [google/tf-quant-finance](https://github.com/google/tf-quant-finance) | Apache-2.0 | 5.4k | High-performance TensorFlow library para quantitative finance: opciones, derivados, tasas | Sí — pricing con GPU/TPU |
-| [PyPortfolioOpt/PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | MIT | 5.8k | Portfolio optimization en Python: Markowitz, Black-Litterman, HRP, CVaR | Sí — módulo de riesgo para agentes |
-| [dcajasn/Riskfolio-Lib](https://github.com/dcajasn/Riskfolio-Lib) | BSD-3-Clause | 4.3k | Portfolio optimization avanzado: HRP, HERC, NCO, factores de riesgo, backtesting | Sí — optimización multi-objetivo |
-| [avhz/RustQuant](https://github.com/avhz/RustQuant) | Apache-2.0 | 1.8k | Rust library para quant finance: opciones, stochastics, estadística — performance crítico | Sí — pricing de alta frecuencia |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | 38.4k | Open data platform; MCP server integration; connects analysts, quants, and AI agents to financial data sources |
+| [wilsonfreitas/awesome-quant](https://github.com/wilsonfreitas/awesome-quant) | — | 5k+ | Curated list of quant finance libraries; use as a discovery index |
+| [lballabio/QuantLib](https://github.com/lballabio/QuantLib) | BSD-3-Clause | 4k+ | C++ derivatives pricing library; Python bindings via QuantLib-SWIG; options, bonds, rates |
+| [avhz/RustQuant](https://github.com/avhz/RustQuant) | Apache-2.0 | 1.8k | Rust library for quantitative finance — growing community; high-perf option pricing |
 
----
+## Key Licenses at a Glance
 
-## Stack C — Core Banking & Microfinance
-
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [apache/fineract](https://github.com/apache/fineract) | Apache-2.0 | 1.4k | Apache Fineract: core banking open source para microfinanzas, cooperativas, digital banks en 80+ países. API-first, modular, REST | Sí — capa de data + workflows para agentes de crédito |
-| [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | 19.0k | Market making y trading algorítmico: 100+ conectores de exchanges, estrategias pluggable, backtesting | Sí — estrategia de ejecución para agentes |
-
----
-
-## Stack D — Compliance & RegTech
-
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [finos/open-regtech-sig](https://github.com/finos/open-regtech-sig) | Apache-2.0 | 280 | FINOS RegTech SIG: soluciones open source para compliance regulatorio en financial services. AML, KYC, reporting automatizado | Sí — base para RegTech agéntico |
-| [finos/fdc3](https://github.com/finos/FDC3) | Apache-2.0 | 580 | FDC3 3.0 — Financial Desktop Connectivity and Collaboration Standard. Cross-firm/industry interop para apps financieras | Sí — protocolo de integración |
-| [finos/common-domain-model](https://github.com/finos/common-domain-model) | Apache-2.0 | 140 | CDM: representación canónica de contratos financieros. Usado por DTCC, ISDA | Sí — schema de datos para compliance AI |
-
----
-
-## Stack E — Predicción & Análisis de Mercados
-
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [huseinzol05/Stock-Prediction-Models](https://github.com/huseinzol05/Stock-Prediction-Models) | Apache-2.0 | 9.4k | 30+ ML/DL models para predicción de precios: LSTM, GAN, Transformer, ensemble | Sí — modelos de señal para agentes |
-| [jon-becker/prediction-market-analysis](https://github.com/jon-becker/prediction-market-analysis) | MIT | 2.3k | 36GB dataset de Polymarket + Kalshi. Framework de análisis con Bayesian aggregation | Sí — datos de mercados de predicción |
-| [georgezouq/awesome-ai-in-finance](https://github.com/georgezouq/awesome-ai-in-finance) | MIT | 4.2k | Curated list: LLMs, deep learning, estrategias y tools en financial markets | Sí — mapa del ecosistema |
+| License | Repos | Commercial Use OK? |
+|---------|-------|-------------------|
+| MIT | FinRL, Qlib, CCXT, PyPortfolioOpt | ✅ Yes, including SaaS |
+| Apache-2.0 | Lean, Fineract, tf-quant-finance, OFBiz, hummingbot, zipline | ✅ Yes, patent protection included |
+| AGPLv3 | OpenBB | ⚠️ Copyleft — must open-source if serving over network; use OpenBB SDK under MIT for agent integrations |
+| GPL-3.0 | ERPNext | ⚠️ Copyleft — OK for on-premise client deployments |
+| BSD-3-Clause | QuantLib | ✅ Yes |
 
 ---
-
-## Cómo se conectan los stacks
-
-```
-Stack A (Datos)     →  OpenBB MCP  →  Agentes AI (Claude/LangGraph)
-Stack B (Quant)     →  Portfolio signal  →  Stack A data  →  Ejecución hummingbot
-Stack C (Banking)   →  Apache Fineract API  →  Agentes de crédito/KYC
-Stack D (Compliance) →  FINOS CDM / FDC3  →  RegTech agents
-Stack E (Predicción) →  señal  →  Stack B portfolio opt  →  Stack A ejecución
-```
-
----
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*See also: `verticals/solutions.md` for vertical platforms and `agents/top.md` for AI agents.*

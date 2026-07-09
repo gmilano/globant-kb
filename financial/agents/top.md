@@ -1,44 +1,41 @@
 # 🎯 Top AI Agents — Financial Services
 
-> Open-source AI agents & tools for the financial industry. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Última actualización: 2026-07-08
+> Open source AI agents and tools for financial industry verticals.
+> Focus: MIT / Apache 2.0 — licenses Globant can build on commercially.
+> Last updated: 2026-07-09
 
-## Core AI Agents
+## Top 10 AI Agents & Frameworks
 
-| Nombre | Repo | Licencia | Stars | Descripción |
-|--------|------|----------|-------|-------------|
-| **ai-hedge-fund** | [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 60.9k | Multi-agent hedge fund simulation: 18 agents (12 famous investor personas: Buffett, Munger, Lynch + 6 specialist agents for valuation, risk, sentiment, fundamentals). LangGraph + FastAPI backend |
-| **Dexter** | [virattt/dexter](https://github.com/virattt/dexter) | MIT | 24.8k | Autonomous financial research agent: task planning, self-reflection, real-time data fetching, self-validation, WhatsApp gateway, eval suite. "Claude Code for finance" |
-| **TradingAgents** | [TauricResearch/TradingAgents](https://github.com/tauricresearch/tradingagents) | MIT | 18.2k | Multi-agent LLM trading framework modelling a real trading desk: bull/bear analysts, fundamentals, technicals, risk manager, portfolio manager — all debate via LangGraph. v0.3.1 Jul-2026 adds Claude Sonnet 5 / Fable 5 support |
-| **FinRobot** | [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | Apache-2.0 | 3.2k | AI Agent platform for financial analysis unifying LLMs, RL, and quantitative analytics. Multi-agent workflows for investment research automation and algorithmic trading |
-| **FinRL** | [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | 11.8k | First open-source financial reinforcement learning framework. FinRL-X / FinRL-Trading is the next-gen production-ready evolution for live trading deployment |
-| **Vibe-Trading** | [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | 16.9k | "Your Personal Trading Agent" — LLM-powered trading with graph-based market understanding and multi-step reasoning |
-| **FinSight** | [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | Apache-2.0 | 1.4k | ACL 2026 Main — multi-agent framework generating publication-ready financial reports: one ticker → one click → full report. Code Agent with Variable Memory (CAVM) architecture, VLM chart generation with critique loops |
-| **prediction-market-analysis** | [jon-becker/prediction-market-analysis](https://github.com/jon-becker/prediction-market-analysis) | MIT | 2.3k | Largest public prediction market dataset (36GB) from Polymarket + Kalshi. Multi-agent Bayesian analysis, market microstructure research, 2 ACL papers published from this dataset |
-| **OpenBB** | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | 38.4k | Open Data Platform: normalizes financial data from 30+ providers (FMP, FRED, Yahoo Finance, Polygon, SEC) behind one Python SDK. MCP server extension exposes every endpoint as an MCP tool for AI agents |
-| **CCXT** | [ccxt/ccxt](https://github.com/ccxt/ccxt) | MIT | 43.5k | Cryptocurrency trading API supporting 100+ exchanges in JavaScript/Python/PHP. The universal crypto exchange connector |
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| TradingAgents | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | 80k+ | Multi-agent LLM framework that simulates a full trading firm: analysts, risk managers, portfolio managers, and fund manager as specialized agents collaborating via structured debate |
+| ai-hedge-fund | [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 50k+ | Multi-role AI hedge fund deploying 14 legendary investor personas (Buffett, Munger, Burry) plus analytical agents (bull, bear, fundamentals, technicals, risk) that debate stock picks |
+| OpenBB | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | 38.4k | Open Data Platform for analysts, quants, and AI agents — "connect once, consume everywhere" infrastructure exposing financial data to Python, Excel, MCP servers, and REST APIs |
+| Microsoft Qlib | [microsoft/qlib](https://github.com/microsoft/qlib) | MIT | 44k+ | AI-oriented Quant investment platform covering the full pipeline from research to production; supports supervised learning, market dynamics modeling, RL, and integrates RD-Agent for automated R&D |
+| CCXT | [ccxt/ccxt](https://github.com/ccxt/ccxt) | MIT | 43.5k | Unified crypto trading API connecting 100+ exchanges in JavaScript/Python/PHP; essential infrastructure layer for any crypto trading agent |
+| FinRobot | [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | Apache-2.0 | 3k+ | Multi-agent equity research platform where a Lead Agent orchestrates specialized agents (Data, Analysis, Modeling, Synthesis, Report, Bull, Bear, Judge) through a pipeline execution engine |
+| HKUDS AI-Trader | [HKUDS/AI-Trader](https://github.com/HKUDS/AI-Trader) | Apache-2.0 | 20.6k | 100% fully automated agent-native trading framework from HKU Data Science Lab; supports Claude Code, Codex, Cursor; yfinance fallback for live prices; highly modular |
+| FinSight | [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | 1.2k+ | ACL 2026 multi-agent deep research system: one ticker → one click → publication-ready report with charts; scores 8.09 vs OpenAI Deep Research 6.11 and Gemini-2.5-Pro 6.82 |
+| FinRL | [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | 12k | Financial reinforcement learning library: DRL algorithms (PPO, SAC, TD3) for trading, portfolio allocation, and risk management on stocks, crypto, and forex |
+| hummingbot | [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | 19k | Open source high-frequency market making and arbitrage trading bot; supports 40+ exchanges; deployable as agent with strategy scripts |
 
----
+## Agent Architecture Patterns
 
-## MCP Servers for Financial AI
+| Pattern | Repos | Use Case |
+|---------|-------|---------|
+| Analyst council | TradingAgents + ai-hedge-fund | Multiple LLM agents debate before trading |
+| Data layer + analysis | OpenBB + FinRobot | Standardized data feed → multi-agent research pipeline |
+| RL continuous optimization | FinRL + Qlib | Train and adapt strategies on live market data |
+| Agent-native trading | AI-Trader + Vibe-Trading | Fully autonomous execution with 16 message adapters |
+| Deep research reports | FinSight + OpenBB | Automated equity research reports, ACL 2026-grade quality |
 
-| Servidor | Repo | Descripción |
-|----------|------|-------------|
-| **financial-datasets-mcp** | [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) | Stock market data MCP: income statements, balance sheets, cash flows, prices, news — all via Claude |
-| **yahoo-finance-mcp** | [Alex2Yang97/yahoo-finance-mcp](https://github.com/Alex2Yang97/yahoo-finance-mcp) | Yahoo Finance MCP: historical prices, company info, financials, options, market news |
-| **blpapi-mcp** | [djsamseng/blpapi-mcp](https://github.com/djsamseng/blpapi-mcp) | Bloomberg Terminal MCP — requires BBComm locally; unlocks Bloomberg data for AI agents |
-| **OpenBB MCP** | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | `openbb_mcp_server` extension: 30+ provider endpoints as MCP tools |
-| **alpaca-mcp** | [alpacahq/alpaca-mcp-server](https://github.com/alpacahq/alpaca-mcp-server) | Alpaca brokerage MCP: place orders, check positions, stream quotes via Claude |
+## New Q2-Q3 2026 Agents
 
----
-
-## Benchmarks & Evaluation
-
-| Benchmark | Paper | Descripción |
-|-----------|-------|-------------|
-| **FinMTM** | [HiThink-Research/FinMTM](https://github.com/HiThink-Research/FinMTM) — ACL 2026 | Multi-Turn Multimodal benchmark for financial reasoning and agent evaluation |
-| **CLEF-2026 FinMMEval** | arXiv:2602.10886 | Multilingual + multimodal evaluation of financial AI systems across languages |
-| **TradingAgents Benchmark** | arXiv:2412.20138 | Multi-agent trading framework paper with reproducible backtests vs. baselines |
+| Name | Repo | What's New |
+|------|------|------------|
+| Vibe-Trading | [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | Personal trading agent with 16 built-in message adapters (WhatsApp, Slack, Discord, Telegram, WeChat, etc.) — ships trading signals to any channel |
+| agents-for-openbb | [OpenBB-finance/agents-for-openbb](https://github.com/OpenBB-finance/agents-for-openbb) | Custom agent plugins for OpenBB Workspace; MCP server integration for AI agent data access |
+| FinSight (ACL 2026) | [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | Published ACL 2026 Main — outperforms all commercial deep research systems on financial report quality |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Auto-updated by the Globant AI Studios ingest pipeline.*
