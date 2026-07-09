@@ -828,6 +828,383 @@ def wc_ai_analytics_report(natural_language_question: str) -> str:
 
 ---
 
+## Patrón 11 — AEO + Structured Data Agent (Answer Engine Optimization)
+
+**Caso de uso**: Auditar y corregir automáticamente el catálogo de una tienda para hacerlo "agent-ready": structured data JSON-LD, schema.org, metadata completa. El catálogo invisible para ChatGPT/Claude/Perplexity pierde ventas — AEO lo corrige.
+
+**Por qué ahora**: 31.3% de americanos usan AI generativo para búsqueda (2026). ChatGPT ecommerce convierte 31% más que búsqueda orgánica. Pero la conversión AI es 86% peor que afiliados cuando el catálogo no tiene structured data. AEO cierra esa brecha.
+
+**Stack**:
+- [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — backend headless con API de productos
+- Claude claude-sonnet-5 Vision API — análisis de imágenes + generación de structured data
+- [spatie/schema-org](https://github.com/spatie/schema-org) (MIT) — librería PHP/Python para schema.org
+- [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) (MIT) — skill `product-review-analysis` + `listing-audit`
+- WooCommerce 10.9 MCP (para clientes WC) — ingesta y update de productos directamente
+
+**Tiempo estimado**: 2-4 semanas | **Deal size LATAM**: $40k-$120k
+
+```python
+# aeo_agent.py — AEO Audit + Remediation Agent
+import anthropic
+import json
+import requests
+from typing import Any
+
+client = anthropic.Anthropic()
+MEDUSA_URL = "http://localhost:9000"
+
+def audit_product_structured_data(product: dict) -> dict:
+    """Audita un producto y devuelve qué campos de schema.org faltan o son incorrectos."""
+    required_fields = {
+        "name": product.get("title"),
+        "description": product.get("description"),
+        "image": product.get("thumbnail"),
+        "sku": product.get("handle"),
+        "price": None,  # se extrae de variants
+        "availability": None,
+        "brand": product.get("metadata", {}).get("brand"),
+        "category": product.get("collection", {}).get("title") if product.get("collection") else None,
+        "keywords": product.get("metadata", {}).get("keywords", []),
+        "gtin": product.get("metadata", {}).get("gtin"),
+    }
+    # Precios de variantes
+    if product.get("variants"):
+        prices = product["variants"][0].get("prices", [])
+        if prices:
+            required_fields["price"] = prices[0]["amount"] / 100
+            required_fields["price_currency"] = prices[0]["currency_code"].upper()
+    
+    # Calcular score AEO
+    filled = sum(1 for v in required_fields.values() if v)
+    total = len(required_fields)
+    missing = [k for k, v in required_fields.items() if not v]
+    
+    return {
+        "product_id": product.get("id"),
+        "title": product.get("title"),
+        "aeo_score": round(filled / total * 100),
+        "filled_fields": filled,
+        "total_fields": total,
+        "missing_fields": missing,
+        "agent_ready": filled / total >= 0.85,
+    }
+
+def generate_schema_org_jsonld(product: dict, enriched_metadata: dict) -> dict:
+    """Genera JSON-LD schema.org Product para el producto."""
+    variants = product.get("variants", [{}])
+    prices = variants[0].get("prices", []) if variants else []
+    price = prices[0]["amount"] / 100 if prices else None
+    currency = prices[0]["currency_code"].upper() if prices else "USD"
+    
+    return {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": enriched_metadata.get("title") or product.get("title"),
+        "description": enriched_metadata.get("description") or product.get("description", ""),
+        "image": [product.get("thumbnail")] if product.get("thumbnail") else [],
+        "sku": product.get("handle"),
+        "brand": {
+            "@type": "Brand",
+            "name": enriched_metadata.get("brand") or product.get("metadata", {}).get("brand", "")
+        },
+        "category": enriched_metadata.get("category") or "",
+        "keywords": enriched_metadata.get("keywords", []),
+        "offers": {
+            "@type": "Offer",
+            "price": str(price) if price else "",
+            "priceCurrency": currency,
+            "availability": "https://schema.org/InStock",
+            "url": f"https://mitienda.com/products/{product.get('handle', '')}"
+        } if price else {}
+    }
+
+def enrich_and_fix_product(product: dict, language: str = "es") -> dict:
+    """Usa Claude para enriquecer campos faltantes del producto."""
+    audit = audit_product_structured_data(product)
+    
+    if audit["agent_ready"]:
+        return {"product_id": product["id"], "status": "already_agent_ready",
+                "aeo_score": audit["aeo_score"]}
+    
+    # Preparar prompt para Claude
+    missing = audit["missing_fields"]
+    prompt = f"""Analiza este producto de e-commerce y genera los campos faltantes para AEO (Answer Engine Optimization).
+    
+Producto actual:
+- Título: {product.get('title', 'Sin título')}
+- Descripción: {product.get('description', 'Sin descripción')}
+- Categoría: {product.get('collection', {}).get('title', 'Sin categoría') if product.get('collection') else 'Sin categoría'}
+
+Campos AEO faltantes que debes generar: {missing}
+
+Idioma: {language}
+
+Responde en JSON con exactamente los campos listados en "missing_fields":
+{{"title": "...", "description": "...", "brand": "...", "category": "...", "keywords": ["kw1", "kw2", ...], "gtin": null}}
+
+Asegúrate que:
+1. La descripción sea de 150-300 palabras, factual, sin hipérboles
+2. Las keywords sean términos que un agente AI buscaría para encontrar este producto
+3. La categoría siga la taxonomía Google Product Category"""
+    
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    
+    text = response.content[0].text
+    start, end = text.find("{"), text.rfind("}") + 1
+    enriched = json.loads(text[start:end]) if start != -1 else {}
+    
+    # Generar JSON-LD final
+    jsonld = generate_schema_org_jsonld(product, enriched)
+    
+    # Actualizar metadata en Medusa
+    update_resp = requests.post(
+        f"{MEDUSA_URL}/admin/products/{product['id']}",
+        headers={"x-medusa-access-token": "..."},
+        json={
+            "description": enriched.get("description", product.get("description", "")),
+            "metadata": {
+                **product.get("metadata", {}),
+                "brand": enriched.get("brand", ""),
+                "keywords": enriched.get("keywords", []),
+                "schema_org_jsonld": json.dumps(jsonld),
+                "aeo_score": audit["aeo_score"],
+                "aeo_updated_at": "2026-07-09"
+            }
+        }
+    )
+    
+    return {
+        "product_id": product["id"],
+        "title": product.get("title"),
+        "status": "enriched",
+        "aeo_score_before": audit["aeo_score"],
+        "missing_filled": missing,
+        "jsonld_generated": bool(jsonld),
+        "medusa_update_status": update_resp.status_code
+    }
+
+def run_aeo_audit(limit: int = 50, language: str = "es") -> dict:
+    """Ejecuta AEO audit sobre los primeros N productos del catálogo."""
+    # Obtener productos de Medusa
+    resp = requests.get(f"{MEDUSA_URL}/admin/products?limit={limit}",
+                        headers={"x-medusa-access-token": "..."})
+    products = resp.json().get("products", [])
+    
+    results = []
+    for product in products:
+        result = enrich_and_fix_product(product, language)
+        results.append(result)
+    
+    # Resumen ejecutivo
+    agent_ready = [r for r in results if r.get("status") == "already_agent_ready"]
+    enriched = [r for r in results if r.get("status") == "enriched"]
+    
+    return {
+        "total_audited": len(results),
+        "already_agent_ready": len(agent_ready),
+        "enriched": len(enriched),
+        "avg_aeo_score": sum(r.get("aeo_score", r.get("aeo_score_before", 0))
+                             for r in results) / len(results) if results else 0,
+        "results": results
+    }
+
+# Uso:
+# summary = run_aeo_audit(limit=100, language="es")
+# print(f"Productos agent-ready: {summary['already_agent_ready']}/{summary['total_audited']}")
+# print(f"AEO score promedio: {summary['avg_aeo_score']:.1f}%")
+```
+
+**Output del agente**:
+```json
+{
+  "total_audited": 100,
+  "already_agent_ready": 23,
+  "enriched": 77,
+  "avg_aeo_score": 91.4
+}
+```
+
+---
+
+## Patrón 12 — Social Commerce AI (TikTok Shop + Shopify + WhatsApp)
+
+**Caso de uso**: Agente orquestador que gestiona simultáneamente TikTok Shop, Shopify/WooCommerce y WhatsApp Business desde un único LLM. Para retailers LATAM Gen-Z que venden por múltiples canales.
+
+**Por qué ahora**: TikTok Ads MCP (may-2026) permite que agentes AI lancen y optimicen campañas autónomamente. TikTok Shop activo en Brasil y México. Gen Z impulse buying + 24/7 live streams = canal de alta conversión.
+
+**Stack**:
+- Claude claude-sonnet-5 via Anthropic API — agente orquestador
+- TikTok Ads MCP (may-2026) — campañas autónomas
+- [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) (MIT) — skill `tiktok-shop` + `social-commerce` + `product-review-analysis`
+- WooCommerce 10.9 MCP — backend de inventario y pedidos
+- WhatsApp Business API — canal conversacional LATAM
+- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — orquestación visual del workflow completo
+
+**Tiempo estimado**: 4-6 semanas | **Deal size LATAM**: $80k-$200k
+
+```python
+# social_commerce_orchestrator.py — Agente multi-canal con MCP
+from anthropic import Anthropic
+from fastapi import FastAPI
+from pydantic import BaseModel
+import requests
+
+app = FastAPI()
+client = Anthropic()
+
+# El sistema de herramientas multi-canal
+OMNICHANNEL_TOOLS = [
+    {
+        "name": "get_inventory",
+        "description": "Consulta inventario real en WooCommerce vía MCP",
+        "input_schema": {
+            "type": "object",
+            "properties": {"product_id": {"type": "string"},
+                           "sku": {"type": "string"}},
+            "required": []
+        }
+    },
+    {
+        "name": "create_tiktok_campaign",
+        "description": "Crea campaña en TikTok Ads vía MCP (may-2026)",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "product_id": {"type": "string"},
+                "budget_daily": {"type": "number"},
+                "target_audience": {"type": "string"},
+                "ad_format": {"type": "string",
+                              "enum": ["in-feed", "top-view", "spark-ads"]}
+            },
+            "required": ["product_id", "budget_daily"]
+        }
+    },
+    {
+        "name": "send_whatsapp",
+        "description": "Envía mensaje por WhatsApp Business API",
+        "input_schema": {
+            "type": "object",
+            "properties": {"phone": {"type": "string"},
+                           "message": {"type": "string"}},
+            "required": ["phone", "message"]
+        }
+    },
+    {
+        "name": "analyze_tiktok_performance",
+        "description": "Obtiene métricas de campaña TikTok (views, clicks, CVR, ROAS)",
+        "input_schema": {
+            "type": "object",
+            "properties": {"campaign_id": {"type": "string"},
+                           "days": {"type": "integer", "default": 7}},
+            "required": ["campaign_id"]
+        }
+    }
+]
+
+class OmnichannelRequest(BaseModel):
+    instruction: str          # "Lanza campaña TikTok para los 3 productos más vendidos esta semana"
+    channel: str = "all"      # "tiktok" | "whatsapp" | "woocommerce" | "all"
+    context: dict = {}
+
+@app.post("/orchestrate")
+async def orchestrate(req: OmnichannelRequest):
+    """Orquestador multi-canal: TikTok + WooCommerce + WhatsApp."""
+    system = """Eres el orquestador de ventas omnicanal de una tienda.
+    Gestionas simultáneamente: TikTok Shop, WooCommerce, WhatsApp Business.
+    
+    Siempre:
+    1. Verifica inventario antes de crear campañas (no prometas lo que no hay)
+    2. Cuando lances una campaña en TikTok, notifica al equipo por WhatsApp
+    3. Prioriza productos con stock > 20 unidades para campañas
+    4. Responde en español, conciso y orientado a resultados."""
+    
+    messages = [{"role": "user", "content": req.instruction}]
+    if req.context:
+        messages[0]["content"] += f"\n\nContexto adicional: {req.context}"
+    
+    # Agentic loop
+    max_iterations = 5
+    for _ in range(max_iterations):
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=1024,
+            system=system,
+            tools=OMNICHANNEL_TOOLS,
+            messages=messages
+        )
+        
+        if response.stop_reason == "end_turn":
+            return {"status": "completed", "result": response.content[0].text}
+        
+        # Procesar tool calls
+        tool_results = []
+        for block in response.content:
+            if block.type == "tool_use":
+                result = dispatch_tool(block.name, block.input)
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": json.dumps(result)
+                })
+        
+        messages.extend([
+            {"role": "assistant", "content": response.content},
+            {"role": "user", "content": tool_results}
+        ])
+    
+    return {"status": "max_iterations_reached", "messages": messages}
+
+def dispatch_tool(name: str, input_data: dict) -> Any:
+    """Dispatcher de tools — conecta con APIs reales."""
+    import json
+    
+    if name == "get_inventory":
+        # WooCommerce MCP (vía endpoint local del adapter)
+        resp = requests.get("http://localhost:3100/wc/products",
+                           params={"sku": input_data.get("sku", "")})
+        return resp.json() if resp.ok else {"error": "WC unreachable"}
+    
+    elif name == "create_tiktok_campaign":
+        # TikTok Ads MCP endpoint
+        resp = requests.post("http://localhost:3200/tiktok-mcp/campaigns",
+                            json=input_data)
+        return resp.json() if resp.ok else {"error": "TikTok MCP unreachable"}
+    
+    elif name == "send_whatsapp":
+        # WhatsApp Business API
+        requests.post(
+            "https://graph.facebook.com/v18.0/PHONE_ID/messages",
+            headers={"Authorization": "Bearer WA_TOKEN"},
+            json={"messaging_product": "whatsapp", "to": input_data["phone"],
+                  "type": "text", "text": {"body": input_data["message"]}}
+        )
+        return {"sent": True, "phone": input_data["phone"]}
+    
+    elif name == "analyze_tiktok_performance":
+        # TikTok Ads MCP — reportes
+        resp = requests.get(f"http://localhost:3200/tiktok-mcp/campaigns/{input_data['campaign_id']}/report",
+                           params={"days": input_data.get("days", 7)})
+        return resp.json() if resp.ok else {"error": "Report unavailable"}
+    
+    return {"error": f"Unknown tool: {name}"}
+```
+
+**Ejemplo de uso**:
+```python
+import httpx
+result = httpx.post("http://localhost:8000/orchestrate", json={
+    "instruction": "Verifica inventario de los tops de verano y si stock > 30 unidades, lanza campaña TikTok spark-ads con budget $50/día, luego notifica al equipo por WhatsApp al +5491122334455",
+    "channel": "all"
+}).json()
+print(result["result"])
+```
+
+---
+
 ## Tabla de selección de patrón
 
 | Si el cliente tiene... | Usa el Patrón | Stack principal | Deal Size |
@@ -842,6 +1219,8 @@ def wc_ai_analytics_report(natural_language_question: str) -> str:
 | Precios inestables / alta competencia | P6 (Dynamic Pricing) | Tensor-House + Claude + Odoo | $100k-250k |
 | Warehouse / supply chain complejo | P7 (Warehouse Intelligence) | NVIDIA Warehouse + LangGraph + Odoo | $200k-500k |
 | Catálogo grande, recomendaciones | P3 (Hybrid Recommender) | Gorse + LightFM + pgvector | $80k-200k |
+| Catálogo invisible para AI (AEO) | P11 (AEO Agent) | Claude Vision + Medusa + schema.org | $40k-120k |
+| Vende en TikTok Shop + WooCommerce | P12 (Social Commerce AI) | Claude + TikTok MCP + WC MCP + nexscope | $80k-200k |
 
 ---
 *Ver también: `agents/top.md` para lista completa de agentes y repos.*

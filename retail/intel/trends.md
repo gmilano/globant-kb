@@ -1,6 +1,6 @@
 # 📡 Tendencias — Retail & E-Commerce AI
 
-> Última actualización: 2026-07-08 (v7 — segunda pasada)
+> Última actualización: 2026-07-09 (v8 — AEO, Social Commerce AI, Dify, consumer stats)
 
 ## 10 tendencias clave (2026)
 
@@ -68,6 +68,22 @@
 - **Superficie LATAM**: ~40% de tiendas LATAM usan WooCommerce → enorme base para propuestas de AI retail sin migración de plataforma.
 - **Acción Globant**: Paquete "WooCommerce AI Upgrade" — instalar 10.9 + configurar Claude Code + Gorse + Superset en 2-3 semanas ($30-80k).
 
+### 13. AEO (Answer Engine Optimization) — El Nuevo SEO del E-Commerce 🔴 NUEVO
+- La infraestructura del merchant fue construida para humanos, no para agentes. **Resultado**: 39% de adopción AI shopping pero conversión **86% peor que afiliados** porque los agentes no pueden leer datos inconsistentes.
+- AEO = optimizar tiendas para que agentes AI encuentren, entiendan y recomienden productos: structured data JSON-LD, schema.org flawless, catálogos "agent-ready", feeds en tiempo real.
+- **31.3%** de americanos usan generative AI para búsqueda en 2026. ChatGPT e-commerce traffic convierte **31% más alto** que búsqueda orgánica tradicional (ChatForest / Magebit 2026).
+- **Agentforce 2030**: proyecciones indican que agentic shoppers generarán **$385B en ecommerce US** — los merchants que no estén AEO-listos quedarán invisibles para esos agentes.
+- **Stack open source para AEO**: Medusa (MIT, JSON-LD nativo), [spatie/schema-org](https://github.com/spatie/schema-org) (MIT), Claude Vision para generar y validar structured data, Qdrant para embeddings semánticos.
+- **Servicio Globant**: "AEO Audit + Remediation" — auditar catálogos, corregir structured data, implementar agent-ready feeds. Deal size: $40k-$120k. Alta demanda H2 2026-2027.
+
+### 14. Social Commerce AI — TikTok Shop como canal principal 🔴 NUEVO
+- **TikTok Ads MCP** (mayo 2026): TikTok es la primera gran plataforma social en adoptar MCP. Agentes AI pueden planificar, lanzar y optimizar campañas de TikTok Ads de forma autónoma.
+- **TikTok Shop AI Tools**: Seller Assistant chatbot 24/7 (performance analytics, personalized recs), live stream 24/7 automation con AI hosts que muestran productos y responden comentarios en tiempo real.
+- **LATAM**: TikTok Shop activo en Brasil y México — Gen Z (mobile-first) + impulse buying = canal de alta conversión para moda, electrónica, cosméticos.
+- **nexscope-ai/eCommerce-Skills**: 157 SKILL.md skills incluyen expertise específico para TikTok Shop (listing optimization, PPC, creator matching, viral content).
+- **Patrón emergente**: "Omnichannel AI Agent" — un único agente orquestador (LangGraph + Claude) gestiona simultáneamente WooCommerce MCP + TikTok Ads MCP + MercadoLibre API + WhatsApp Business.
+- **Relevancia Globant**: Proponer "Social Commerce AI Bundle" — TikTok Shop + Shopify + WhatsApp + Claude orquestador. Deal size: $80k-$200k. Diferencial vs agencias digitales tradicionales.
+
 ### 10. Confianza y privacidad — el freno principal
 - Solo el 40% de usuarios confían plenamente en AI para transacciones autónomas (Retailer Customer Experience 2026).
 - LATAM: LGPD (Brasil) + leyes similares en AR, MX, CO — datos locales son requisito.
@@ -86,6 +102,11 @@
 | McKinsey: $1T US agentic revenue 2030, $3-5T global | McKinsey 2026 | Muy alto | Visión CEO |
 | LATAM ecommerce >$215B | MercadoLibre / Mordor | Muy alto | Pipeline |
 | LATAM conversational commerce $18.2B (2025) CAGR 35% | Scala Technologies | Alto | Pipeline |
+| **AEO**: 31.3% US usa AI search, ChatGPT convierte 31% más | Magebit / ChatForest 2026 | Muy alto | **Nuevo servicio** |
+| **51%** de shoppers dejaría AI completar compra entera | Adyen 2026 | Muy alto | Agentic checkout urgente |
+| TikTok Ads MCP (may-2026) — agentes autónomos en social | TikTok / PYMNTS 2026 | Alto | Social Commerce AI |
+| Dify 131k★ Apache-2.0 — orquestación agentic sin ML | langgenius/dify | Alto | Accelerator base |
+| 97% retailers aumentarán gasto AI next FY | ringly.io 2026 | Alto | Pipeline expansión |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

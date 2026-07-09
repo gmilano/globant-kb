@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Retail & E-Commerce
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-08 (v6)
+> Última actualización: 2026-07-09 (v8 — Dify añadido)
 
 ## Plataformas headless / e-commerce core
 
@@ -24,6 +24,12 @@
 | [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | 3.5k★ | Python/PyTorch | 94 algoritmos de recomendación unificados: CF, sequential, knowledge-enhanced. Benchmark estándar. |
 | [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | 4.9k★ | Python | Algoritmo híbrido CF+content-based. Ideal para cold-start. Usado en producción en Lyst/Zalando. |
 | [NicolasHug/Surprise](https://github.com/NicolasHug/Surprise) | BSD-3 | 6.5k★ | Python | Scikit para construir y analizar sistemas de recomendación. Simple, bien documentado. |
+
+## Plataformas de orquestación AI (nuevo v8)
+
+| Repo | Licencia | Stars | Stack | Descripción |
+|------|----------|-------|-------|-------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 131k★ | Python/TypeScript | Visual workflow builder + RAG + agents + MCP + observabilidad en una sola plataforma. Self-hostable. 50+ herramientas built-in. Ideal para tiendas que quieren AI sin equipo ML dedicado. |
 
 ## Analytics, forecasting, pricing
 

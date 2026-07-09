@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-08 (v7)
+> Última actualización: 2026-07-09 (v8 — Dify añadido, WooCommerce market share actualizado)
 
 ## Plataformas E-Commerce headless (punto de partida preferido)
 
@@ -11,7 +11,7 @@
 | **Medusa.js** | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31k★ | Node.js/TypeScript | Headless modular, MCP server, ideal para D2C y marketplaces. Base para aceleradores Globant. |
 | **Saleor** | [saleor/saleor](https://github.com/saleor/saleor) | Apache-2.0 | 23k★ | Python/Django + GraphQL | GraphQL-first, multi-canal, multi-warehouse. Ecosystem de apps activo. |
 | **Vendure** | [vendure-ecommerce/vendure](https://github.com/vendure-ecommerce/vendure) | MIT | 6k★ | TypeScript/NestJS | TypeScript-native, plugin architecture. Para equipos TS puros. |
-| **WooCommerce** | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.5k★ | PHP/WordPress | 28% del ecommerce mundial. **v10.9 (jun-2026): 7 MCP abilities nativas** (products CRUD + orders). Checkout en preview Q3 2026. Mercado LATAM enorme. |
+| **WooCommerce** | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.5k★ | PHP/WordPress | **37% del ecommerce mundial, 6.5M tiendas activas**. **v10.9 (jun-2026): 7 MCP abilities nativas** (products CRUD + orders). Checkout en preview Q3 2026. Mercado LATAM enorme. |
 | **Bagisto** | [bagisto/bagisto](https://github.com/bagisto/bagisto) | OSL-3.0 | 15k★ | PHP/Laravel | Multi-inventory, multi-currency, multi-canal. Para equipos PHP Laravel. |
 
 ## ERP con módulo E-Commerce
@@ -31,6 +31,13 @@
 | **Typesense** | [typesense/typesense](https://github.com/typesense/typesense) | GPL-3.0 | 21k★ | Motor de búsqueda open source. AI search + reranking. Self-hosted alternativa a Algolia. |
 | **Weaviate** | [weaviate/weaviate](https://github.com/weaviate/weaviate) | BSD-3 | 12k★ | Vector DB + semantic search. Para búsqueda visual/semántica de productos. |
 | **Qdrant** | [qdrant/qdrant](https://github.com/qdrant/qdrant) | Apache-2.0 | 22k★ | Vector search engine. Para recomendaciones basadas en embeddings de imágenes y texto. |
+
+## Plataformas de orquestación AI (nuevo v8)
+
+| Plataforma | Repo | Licencia | Stars | Descripción | Cuándo usarla |
+|------------|------|----------|-------|-------------|----------------|
+| **Dify** | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 131k★ | Visual workflow builder + RAG + agents + MCP + observabilidad. Self-hostable. 50+ built-in tools. | Retailers que quieren AI sin equipo ML. Conecta nativamente a WooCommerce MCP, Shopify, Stripe, WhatsApp. |
+| **nexscope-ai eCommerce-Skills** | [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202★ | 157 SKILL.md skills para agentes AI. Sin setup — solo markdown. | Dar expertise e-commerce especializado a Claude Code en proyectos existentes. |
 
 ## Analytics y BI
 

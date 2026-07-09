@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Retail & E-Commerce
 
 > Agentes y herramientas AI open source para la industria. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-08 (v7 — segunda pasada)
+> Última actualización: 2026-07-09 (v8 — AEO, Dify, nexscope-ai eCommerce-Skills, TikTok MCP)
 
 ## Agentes y herramientas destacadas
 
@@ -19,6 +19,8 @@
 | Skyvern — Browser Agent | [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | AGPL-3.0 | 21.9k★ | Agente de automatización de navegador: checkout automático, extracción de datos, RPA. MCP server 35 tools (mar-2026). Route Memorization → scripts Playwright deterministas. |
 | Universal Commerce Protocol (UCP) | [Universal-Commerce-Protocol/ucp](https://github.com/Universal-Commerce-Protocol/ucp) | Apache-2.0 | ~1k★ | Spec open source Google+Shopify+Target+Walmart (NRF ene-2026) para agentic commerce end-to-end |
 | 500 AI Agents Projects | [ashishpatel26/500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects) | MIT | 32k★ | Colección curada 500+ casos de uso de agentes AI por industria con links a implementaciones |
+| nexscope-ai eCommerce-Skills | [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202★ | 157 SKILL.md skills para agentes AI: product research, marketing, supply chain, analytics. Amazon, Shopify, TikTok Shop. Funciona con Claude Code / OpenClaw / Cursor. |
+| Dify | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 131k★ | Plataforma de orquestación agentic con workflow visual, RAG, MCP y observabilidad. 50+ herramientas built-in. Retail: automatización de flujos de soporte, catálogo y pedidos. |
 
 ---
 
@@ -28,6 +30,11 @@
 - **NVIDIA Blueprints (Apache-2.0)**: Totalmente libres para producción. Base ideal para aceleradores Globant.
 - **Gorse / Recommenders / LightFM (Apache-2.0)**: Libres en productos comerciales.
 - **RecBole / Tensor-House (MIT)**: Sin restricciones.
+
+## Notas adicionales de licencia (v8)
+
+- **nexscope-ai eCommerce-Skills (MIT)**: Skills como archivos markdown — sin binarios, sin claves API. Instalar = copiar SKILL.md al proyecto de Claude Code. Cross-border, dropshipping, PPC, listing audit, etc.
+- **Dify (Apache-2.0)**: Self-hostable. Integra con MCP, RAG, modelos locales y cloud. Interfaz no-code para que equipos de retail diseñen workflows sin escribir código.
 
 ## MCP Servers para Retail (2026)
 

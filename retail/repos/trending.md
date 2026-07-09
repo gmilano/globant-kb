@@ -1,6 +1,6 @@
 # 📈 Repos en tendencia — Retail & E-Commerce
 
-> Repos activos esta semana en GitHub. Última actualización: 2026-07-08 (v7)
+> Repos activos esta semana en GitHub. Última actualización: 2026-07-09 (v8)
 
 ## Top trending (jul-2026)
 
@@ -16,6 +16,8 @@
 | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31k★ | v2.x con MCP server y módulos componibles para headless commerce |
 | [saleor/saleor](https://github.com/saleor/saleor) | Apache-2.0 | 23k★ | GraphQL-first multi-canal, ecosistema apps activo |
 | [ashishpatel26/500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects) | MIT | 32k★ | Directorio curado de 500+ implementaciones de agentes AI por industria |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | **131k★** | Plataforma agentic workflow: visual builder, RAG, MCP, observabilidad. Self-hostable. Hot jul-2026. |
+| [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202★ | 157 SKILL.md skills para agentes AI en e-commerce (Amazon, Shopify, TikTok Shop, etc.) |
 
 ## MCP Servers para ecommerce (trending jul-2026)
 
@@ -35,7 +37,7 @@
 | [mall4j](https://github.com/gz-yami/mall4j) | 5.1k★ | AGPL-3.0 — plataforma Java O2O cross-border, activa en mercado chino |
 | [odoo/odoo](https://github.com/odoo/odoo) | 40k★ | LGPL — modulo ecommerce + CRM + inventario con AI integrado |
 
-## Señales del ecosistema AI Shopping (jul-2026)
+## Señales del ecosistema AI Shopping (jul-2026 actualizado v8)
 
 | Plataforma | Señal | Impacto para Globant |
 |------------|-------|---------------------|
@@ -44,6 +46,9 @@
 | Amazon | "Buy for Me" + Rufus + Alexa+ alineados | Diferenciarse en UX de marca |
 | Google | "Buy for Me" live en US retailers seleccionados | UCP se convierte en el protocolo prioritario |
 | Bain 2026 | 3x mayor confianza en on-site agents | Argumento de venta directo para P9 |
+| TikTok | Ads MCP (may-2026): agentes autónomos para campañas | Social commerce AI: TikTok Shop + Claude agente |
+| Adyen survey | 51% de shoppers dejaría AI completar compra entera | Urgencia de agentic checkout (P2) |
+| Deloitte 2026 | 68% de retailers adoptarán AI en 2026 | Pipeline de deals enorme |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

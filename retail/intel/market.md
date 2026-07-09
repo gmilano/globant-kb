@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Retail & E-Commerce AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-08 (v7 — segunda pasada)
+> Última actualización: 2026-07-09 (v8 — consumer adoption stats actualizados, Dify, TikTok MCP, AEO)
 
 ## Tamaño de mercado
 
@@ -16,12 +16,21 @@
 
 Fuentes: Mordor Intelligence 2026, Fortune Business Insights, Market Data Forecast, Scala Technologies.
 
-**Datos clave (actualizados v7)**:
-- 89% de retailers usan o prueban AI activamente; 58% en deployment activo (NVIDIA State of AI Retail 2026)
-- Tráfico AI a retail +393% YoY Q1 2026 / +693% en holiday 2025 (Salesforce/Adobe)
-- El tráfico de referencia AI convierte **42% mejor** que búsqueda tradicional
+**Datos clave (actualizados v8 — jul-2026)**:
+- **89%** de retailers usan o prueban AI activamente; **58%** en deployment activo (up +16 pts YoY) — NVIDIA / ringly.io 2026
+- **97%** de retailers planean aumentar gasto AI en próximo año fiscal (ringly.io 2026)
+- Tráfico AI a retail **+393% YoY** Q1 2026 / **+693%** en holiday 2025 (Salesforce/Adobe)
+- El tráfico de referencia AI convierte **42% mejor** que búsqueda tradicional (Adobe); ChatGPT convierte **31% más** que búsqueda orgánica
 - Perplexity shoppers: AOV **57% mayor** vs otras plataformas (Shopify Analytics)
 - Consumidores confían **3x más** en on-site AI agents vs ChatGPT/Perplexity (Bain 2026)
+- **70%** de shoppers ya usan herramientas AI en su journey de compra (ringly.io jul-2026)
+- **58%** de Gen Z/millennials confiarían en AI para comparar precios y recomendar productos
+- **51%** de shoppers permitiría que AI maneje el proceso COMPLETO incluyendo el pago final (Adyen 2026)
+- **31.3%** de americanos usan herramientas AI generativas para búsqueda en 2026 — AEO se vuelve crítico
+- WooCommerce: **37% market share / 6.5M active stores** (actualizado — antes se citaba 28%)
+- AI personalización genera **+10% a +15%** de revenue uplift promedio; retailers con AI: **2.9x mayor marketing ROI**
+- **68%** de retailers planean adoptar AI en 2026 (Deloitte Retail Outlook)
+- Retailers con AI agent integration mostraron **~7x mejor crecimiento** en Cyber Week 2025 (Salesforce)
 
 ## Proyecciones a largo plazo (agentic commerce)
 
@@ -47,6 +56,9 @@ Fuentes: Mordor Intelligence 2026, Fortune Business Insights, Market Data Foreca
 | **Salesforce Commerce Cloud** | SaaS enterprise | Einstein AI, Agentforce Retail | Propietario |
 | **Algolia** | Search/Rec SaaS | AI search + NLP + personalization | SDKs open source |
 | **Gorgias** | CX/Support AI | Agentic customer service para DTC brands | Propietario |
+| **TikTok Shop** | Social commerce | Ads MCP (may-2026), Seller Assistant AI, live stream 24/7 | Propietario; MCP open standard |
+| **Dify** | Orquestación AI | Self-hosted workflow builder + RAG + MCP, 131k★ | Apache-2.0 — open source |
+| **nexscope-ai** | Skills ecosystem | 157 SKILL.md skills para agentes AI en e-commerce | MIT — open source |
 
 ## Oportunidades AI en LATAM
 

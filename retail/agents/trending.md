@@ -1,6 +1,6 @@
 # 📈 Agentes en tendencia — Retail & E-Commerce
 
-> Señales esta semana. Última actualización: 2026-07-08 (v7 — segunda pasada)
+> Señales esta semana. Última actualización: 2026-07-09 (v8 — AEO, nexscope-ai, Dify, TikTok MCP, consumer stats actualizados)
 
 ## Señales clave
 
@@ -59,6 +59,45 @@
 - **Datos**: MercadoLibre lidera un mercado LATAM de ecommerce proyectado a superar $215B en 2026. CAGR AI en LATAM: 37.07%.
 - **Brechas**: Adopción de agentic commerce (UCP/ACP) casi nula en LATAM — window de oportunidad 12-18 meses.
 - **Señal**: Brasil y México son los mercados más listos para AI retail (mobile-first + WhatsApp adoption alta).
+
+### 7. nexscope-ai/eCommerce-Skills — 157 SKILL.md Skills para AI Agents (2026) 🔴 NUEVO
+- **Repo**: [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) — MIT, ~202★ (jul-2026)
+- **Qué hace**: 157 skills en formato SKILL.md que dan expertise especializado a cualquier agente AI: product research, marketing automation, supply chain optimization, business analytics, cross-border ecommerce, dropshipping, PPC campaigns, listing audit.
+- **Compatibilidad**: OpenClaw · Claude Code · Cursor · Windsurf · Codex — cualquier agente que soporte el formato Skills.
+- **Plataformas cubiertas**: Amazon, Shopify, Etsy, TikTok Shop, Walmart, eBay.
+- **Relevancia Globant**: Deployment instantáneo de expertise e-commerce en agentes existentes (Claude Code). Sin setup de infraestructura — solo markdown. Ideal para proyectos de consultoría donde el cliente quiere análisis en horas, no semanas.
+- **Acción**: Instalar en proyectos de retail como contexto de Claude Code + fork para añadir skills LATAM (MercadoLibre, Falabella, Rappi).
+
+### 8. TikTok Ads MCP — AI Agents Autónomos para Publicidad (may-2026) 🔴 NUEVO
+- **Anuncio**: TikTok lanzó su TikTok Ads MCP (Model Context Protocol) en su sexto ad summit global (mayo 2026).
+- **Qué permite**: Conectar agentes AI directamente a la plataforma de TikTok Ads — planificar, lanzar y optimizar campañas SIN intervención humana.
+- **Estándar**: MCP (Anthropic, nov-2024) como protocolo open. TikTok se convierte en el primer gran social media en adoptar MCP para su plataforma de ads.
+- **Social Commerce LATAM**: TikTok Shop activo en Brasil y México. Seller Assistant integrado en Seller Center (chatbot 24/7, performance analytics). AI 24/7 live stream automation para sellers.
+- **Relevancia Globant**: Propuesta "Social Commerce AI" — agentes que gestionan TikTok Shop + Shopify + MercadoLibre con un único orquestador (LangGraph + Claude + nexscope-ai/eCommerce-Skills).
+
+### 9. AEO (Answer Engine Optimization) — El Nuevo SEO del E-Commerce 🔴 NUEVO
+- **Qué es**: Answer Engine Optimization — optimizar tiendas para que agentes AI (ChatGPT, Perplexity, Claude) puedan descubrir, entender y recomendar productos de forma autónoma.
+- **Dato clave**: 31.3% de todos los americanos usan herramientas AI generativas para búsqueda en 2026. Tráfico ChatGPT convierte **31% más alto** que búsqueda orgánica tradicional.
+- **Qué requiere AEO**: Structured data flawless (JSON-LD, schema.org), metadata rica y consistente, catálogos "agent-ready" (no datos faltantes ni inconsistentes), APIs de inventario y precios en tiempo real.
+- **Problema del mercado**: 39% de adopción AI shopping, pero conversión **86% peor que afiliados** — porque la infraestructura del merchant no fue construida para agentes. AEO cierra esa brecha.
+- **Relevancia Globant**: Servicio de "AEO Audit + Remediation" — auditar catálogos, corregir structured data, implementar agent-ready feeds. Deal size: $40k-120k por cliente. Alta demanda en 2026-2027.
+- **Herramientas open source**: [spatie/schema-org](https://github.com/spatie/schema-org) (MIT), [JetBrains/mcp-schema](https://github.com/JetBrains/mcp-schema), Medusa (MIT) como headless con output JSON-LD nativo.
+
+### 10. Dify — 131k★, Apache-2.0, Plataforma de Workflows Agénticos (2026) 🔴 NUEVO
+- **Repo**: [langgenius/dify](https://github.com/langgenius/dify) — Apache-2.0, **131k★** (jul-2026), 22k forks, 800+ contributors.
+- **Qué hace**: Plataforma self-hostable para orquestación agentic: visual workflow builder, RAG pipeline, agentes con tools, API publishing, observabilidad — todo en uno.
+- **MCP nativo**: Dify integra nativo con servidores MCP (WooCommerce 10.9, Shopify, Stripe, Medusa) — conectar Dify al store WC en minutos.
+- **Retail use cases**: Soporte postventa automatizado, enriquecimiento de catálogo (RAG + LLM), workflows de gestión de pedidos, análisis de reviews de productos.
+- **Por qué relevante ahora**: 68% de retailers adoptarán AI en 2026 (Deloitte) — Dify es la plataforma no-code/low-code que les permite hacerlo SIN equipo de ML dedicado.
+- **Ventaja sobre n8n para retail**: Dify tiene RAG nativo + gestión de modelos + observabilidad + MCP out-of-box. n8n es más genérico. Para casos de uso retail con LLMs, Dify gana.
+
+### 11. Consumer Adoption — Estadísticas actualizadas (jul-2026) 🔴 NUEVO
+- **70%** de shoppers ya usan herramientas AI para asistir en su proceso de compra (ringly.io, jul-2026)
+- **58%** de Gen Z y millennials confían en agentes AI para comparar precios y recomendar productos
+- **51%** permitiría que la AI maneje el proceso **completo** incluyendo el pago final (Adyen survey)
+- **89%** de retailers activamente usan o prueban AI; **58%** en deployment activo (up 16 puntos YoY)
+- **97%** de retailers planean aumentar gasto en AI en próximo año fiscal
+- **WooCommerce** actualización: **37% market share / 6.5M active stores** (era 28% / 5.9M)
 
 ## Repos trending esta semana
 
