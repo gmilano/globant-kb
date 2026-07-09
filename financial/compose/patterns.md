@@ -2,7 +2,7 @@
 
 > Concrete recipes for building financial AI solutions.
 > Each pattern names specific repos + agents + wiring.
-> Last updated: 2026-07-09
+> Last updated: 2026-07-09 (v5)
 
 ---
 
@@ -37,13 +37,12 @@ Human Review Queue (edge cases only — score 0.4–0.6)
 Fineract Loan Decisioning API → Disbursement
 ```
 
-### Key code: FinRL environment for credit
+### Key code
 ```python
-from finrl.meta.env_portfolio_optimization import StockTradingEnv
 from finrl.agents.stablebaselines3.models import DRLAgent
 import fineract_client  # REST client from apache/fineract
+import gymnasium as gym
 
-# Wrap Fineract loan outcomes as RL environment
 class CreditEnv(gym.Env):
     def __init__(self, fineract_api):
         self.api = fineract_api
@@ -93,7 +92,7 @@ FinSight Report Generator
     └── Publication-ready report (PDF/Markdown)
     │
     ▼
-Distribution via Vibe-Trading adapters (Slack, Teams, Email)
+Distribution via Vibe-Trading adapters (Slack, Teams, Email, WhatsApp)
 ```
 
 ### Key wiring
@@ -101,22 +100,19 @@ Distribution via Vibe-Trading adapters (Slack, Teams, Email)
 from openbb import obb
 from langchain_anthropic import ChatAnthropic
 
-# OpenBB as MCP data source
 data = obb.equity.price.historical(symbol="AAPL", start_date="2025-01-01")
 fundamentals = obb.equity.fundamental.ratios(symbol="AAPL")
 
-# Feed to ai-hedge-fund analyst agents
 llm = ChatAnthropic(model="claude-haiku-4-5-20251001")
 bull_analysis = bull_agent.analyze(ticker="AAPL", data=data, fundamentals=fundamentals)
 bear_analysis = bear_agent.analyze(ticker="AAPL", data=data, fundamentals=fundamentals)
 
-# FinSight synthesizes
 report = finsight.generate_report(ticker="AAPL", analyses=[bull_analysis, bear_analysis])
 ```
 
 ---
 
-## Pattern 3: AI Trading Firm (LLM Simulation)
+## Pattern 3: AI Trading Firm (LLM Simulation) — TradingAgents v0.3.1
 
 **Use case:** Prop desk / family office — multi-agent trading firm with structured debate
 **Repos:** [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) + [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB)
@@ -126,7 +122,7 @@ report = finsight.generate_report(ticker="AAPL", analyses=[bull_analysis, bear_a
 
 ### Agent Graph
 ```
-Market Data (OpenBB MCP)
+Market Data (OpenBB MCP + FRED + Polymarket)
     │
     ▼
 [Fundamentals Analyst] [Technicals Analyst] [Sentiment Analyst] [News Analyst]
@@ -146,20 +142,20 @@ Market Data (OpenBB MCP)
            ccxt/hummingbot     (EU AI Act audit trail)
 ```
 
-### Key code: TradingAgents setup
+### Key code (v0.3.1 with Claude Fable 5)
 ```python
 from tradingagents.graph.trading_graph import TradingAgentsGraph
 from tradingagents.default_config import DEFAULT_CONFIG
 
 config = DEFAULT_CONFIG.copy()
 config["llm_provider"] = "anthropic"
-config["deep_think_llm"] = "claude-opus-4-8"  # for Risk Manager + Fund Manager
-config["quick_think_llm"] = "claude-haiku-4-5-20251001"  # for analysts
+config["deep_think_llm"] = "claude-fable-5"    # Risk Manager + Fund Manager
+config["quick_think_llm"] = "claude-haiku-4-5-20251001"  # Analyst agents
+config["ANTHROPIC_EFFORT"] = "high"  # configurable per v0.3.1
 
 ta = TradingAgentsGraph(debug=True, config=config)
-
-# Run analysis
 _, decision = ta.propagate("AAPL", "2026-07-09")
+report = ta.save_reports("./reports")  # v0.3.1 headless reporting
 print(decision)  # BUY/SELL/HOLD with full reasoning chain
 ```
 
@@ -227,15 +223,14 @@ Conversational UI (Claude API + chat widget)
     └── "What's my cash position next month?" → agent queries ERPNext → natural language answer
 ```
 
-### Key code: ERPNext agent tool
+### Key code
 ```python
 import anthropic
-import frappe  # ERPNext's Python framework
+import frappe
 
 client = anthropic.Anthropic()
 
 def get_cash_position(days_ahead: int = 90) -> dict:
-    """Tool: get cash position forecast from ERPNext"""
     ar = frappe.db.sql("""
         SELECT SUM(outstanding_amount) FROM `tabSales Invoice`
         WHERE due_date <= DATE_ADD(NOW(), INTERVAL %s DAY) AND status='Unpaid'
@@ -277,8 +272,6 @@ Feature Extraction (real-time)
     │
     ▼
 FinRL-trained Anomaly Model (< 10ms inference)
-    ├── DRL policy trained on labeled fraud data
-    └── Probability score 0-1
     │
     ▼
 Decision Logic
@@ -321,8 +314,8 @@ Vibe-Trading Signal Formatter
 
 ## Pattern 8: EU AI Act Compliance Audit Trail
 
-**Use case:** European bank or fintech — achieve compliance with EU AI Act high-risk AI obligations by Aug 2, 2026
-**Repos:** Custom + [great-expectations/great_expectations](https://github.com/great-expectations/great_expectations) + Apache Atlas + Claude Opus
+**Use case:** European bank or fintech — achieve compliance with EU AI Act high-risk AI obligations (Aug 2, 2026 deadline)
+**Repos:** Custom + [great-expectations/great_expectations](https://github.com/great-expectations/great_expectations) + Apache Atlas + Claude
 **License:** Apache-2.0
 **Deal size:** $50k–$200k
 **Time:** 4–10 weeks
@@ -345,8 +338,7 @@ from datetime import datetime
 import json
 
 class EUAIActAuditLogger:
-    def log_ai_decision(self, system_id: str, input_data: dict, 
-                         output: dict, model: str, confidence: float):
+    def log_ai_decision(self, system_id, input_data, output, model, confidence):
         entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "ai_system_id": system_id,
@@ -356,23 +348,19 @@ class EUAIActAuditLogger:
             "confidence": confidence,
             "human_override_available": True,
         }
-        # Write to immutable audit log (append-only S3 / WORM storage)
-        self.audit_store.append(entry)
+        self.audit_store.append(entry)  # append-only WORM storage
         
-        # Generate explanation for affected person (Article 13)
         if output.get("decision") == "rejected":
-            explanation = self._generate_explanation(input_data, output, model)
-            return {**entry, "customer_explanation": explanation}
+            return {**entry, "customer_explanation": self._explain(input_data, output)}
     
-    def _generate_explanation(self, input_data, output, model):
+    def _explain(self, input_data, output):
         client = anthropic.Anthropic()
-        response = client.messages.create(
+        return client.messages.create(
             model="claude-haiku-4-5-20251001",
             messages=[{"role": "user", "content": 
-                f"Generate a plain-language explanation for why this credit application was rejected. "
-                f"Decision factors: {output['factors']}. Must be: specific, actionable, non-discriminatory."}]
-        )
-        return response.content[0].text
+                f"Generate plain-language explanation for credit rejection. "
+                f"Decision factors: {output['factors']}. Be specific, actionable, non-discriminatory."}]
+        ).content[0].text
 ```
 
 ---
@@ -388,22 +376,20 @@ class EUAIActAuditLogger:
 ### Automated Research Loop
 ```
 RD-Agent (LLM-driven research automation)
-    │ Generates trading hypothesis
+    │ Generates trading hypothesis in natural language
     ▼
 Qlib Backtesting Engine
     ├── 10+ years historical data
     ├── Transaction cost modeling
-    └── Multi-asset evaluation
-    │ Returns: Sharpe, Calmar, drawdown
+    └── Multi-asset evaluation → Sharpe, Calmar, drawdown
     ▼
 RD-Agent Evaluation
     ├── Hypothesis confirmed? → promote to paper trading
     ├── Hypothesis rejected? → generate variant or new hypothesis
     └── Top-N hypotheses → portfolio construction
-    │
     ▼
 Qlib Production Pipeline
-    └── Live paper trading → live trading (after human approval)
+    └── Paper trading (2 weeks) → live trading (after human approval gate)
 ```
 
 ---
@@ -443,6 +429,143 @@ banking)  payroll)      microloans)         screening)
                             ▼
                   Signal Distribution
                   (Vibe-Trading 16 adapters → client notifications)
+```
+
+---
+
+## Pattern 11: x402 Agentic Payment Infrastructure (NEW v5)
+
+**Use case:** Fintech / B2B platform — enable AI agents to buy and sell services autonomously via stablecoin micropayments
+**Repos:** x402 SDK (Coinbase, MIT) + Coinbase Agentic Wallets + [apache/fineract](https://github.com/apache/fineract)
+**License:** MIT + Apache-2.0
+**Deal size:** $80k–$300k
+**Time:** 4–8 weeks
+
+### Architecture
+```
+AI Agent (any LLM runtime)
+    │ Needs: live financial data, compute, or service
+    ▼
+GET /premium-endpoint
+    │ HTTP 402 Payment Required
+    │ Response: {"amount": "0.10", "currency": "USDC", "address": "0x...", "chain": "base"}
+    ▼
+x402 Payment Middleware (agent auto-pays)
+    ├── Coinbase Agentic Wallet (non-custodial TEE)
+    ├── USDC transfer on Base (< 1 second, < $0.001 fee)
+    └── Proof-of-payment header: X-Payment: <signed receipt>
+    ▼
+GET /premium-endpoint with proof
+    │ 200 OK + content
+    ▼
+Agent receives: live price data, analytics report, execution signal
+```
+
+### Key code (TypeScript)
+```typescript
+import { createAgenticWallet } from "@coinbase/agentkit";
+import { x402Middleware } from "x402-client";
+
+// Create agent wallet with spending guardrails
+const wallet = await createAgenticWallet({
+  maxSpendPerTx: "1.00",  // USD in USDC
+  maxSpendPerDay: "50.00",
+  allowedMerchants: ["data.openbb.finance", "api.findata.com"],
+  auditLog: true,  // WORM log for EU AI Act compliance
+});
+
+// Wrap any fetch call with x402 auto-payment
+const fetch402 = x402Middleware(fetch, wallet);
+
+// Agent autonomously pays for premium financial data
+const data = await fetch402("https://data.openbb.finance/premium/AAPL/fundamentals");
+// → auto-detects 402 → pays 0.10 USDC → retries → gets response
+```
+
+### Fineract integration: AI agent-to-agent B2B payments
+```python
+import anthropic
+
+client = anthropic.Anthropic()
+
+tools = [{
+    "name": "initiate_x402_payment",
+    "description": "Pay for a service via x402 stablecoin micropayment",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "endpoint": {"type": "string"},
+            "max_amount_usdc": {"type": "number"}
+        },
+        "required": ["endpoint", "max_amount_usdc"]
+    }
+}]
+
+# Agent autonomously purchases market data for trading decision
+response = client.messages.create(
+    model="claude-haiku-4-5-20251001",
+    tools=tools,
+    messages=[{"role": "user", "content": 
+        "Get live AAPL fundamentals (spend up to $0.50 USDC) and give me a buy/sell recommendation"}]
+)
+```
+
+---
+
+## Pattern 12: FinClaw Multi-Market Analysis Agent (NEW v5)
+
+**Use case:** Hedge fund / trading desk — unified analysis across equities, A-shares, crypto, and prediction markets
+**Repos:** [Fin-Chelae/FinClaw](https://github.com/Fin-Chelae/FinClaw) + [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) + [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
+**License:** MIT
+**Deal size:** $60k–$150k
+**Time:** 4–8 weeks
+
+### Market Coverage Matrix
+```
+FinClaw unified agent
+    ├── US/Global equities    → Yahoo Finance (real-time)
+    ├── Chinese A-shares      → AKShare (SSE + SZSE + HK)
+    ├── Macro indicators      → FRED (Federal Reserve, 800k+ series)
+    ├── Crypto + DeFi         → DexScreener + CoinGecko (24h volume, liquidity)
+    └── Prediction markets    → Polymarket + Kalshi (information markets)
+    │
+    ▼
+TradingAgents Analyst Council
+    ├── Cross-market correlation analysis
+    ├── Prediction market sentiment as leading indicator
+    └── A-share momentum signal for global portfolio
+
+    ▼
+Signal Delivery (multi-channel)
+    ├── Telegram → retail clients (LATAM: BR, MX, AR)
+    ├── Slack → internal desk
+    └── Email → institutional
+```
+
+### Key pattern: Prediction markets as leading indicators
+```python
+import anthropic
+
+client = anthropic.Anthropic()
+
+# FinClaw pulls cross-market data
+context = {
+    "polymarket_election_odds": polymarket.get_market("US-GDP-Q3-2026"),
+    "kalshi_fed_rate_contract": kalshi.get_market("FED-RATE-SEP-2026"),
+    "aapl_price": yahoo.get_price("AAPL"),
+    "spx_futures": cme.get_future("ES"),
+    "cny_usd": aakshare.get_fx("CNYUSD"),
+}
+
+response = client.messages.create(
+    model="claude-fable-5",  # TradingAgents v0.3.1 preferred model
+    messages=[{
+        "role": "user",
+        "content": f"Given these cross-market signals, analyze: prediction market implies "
+                   f"{context['polymarket_election_odds']}% on GDP growth — "
+                   f"what does this mean for AAPL + SPX position sizing? Data: {context}"
+    }]
+)
 ```
 
 ---

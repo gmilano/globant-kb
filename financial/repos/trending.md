@@ -1,39 +1,56 @@
 # 📈 Trending Repos — Financial Services
 
-> Gaining momentum in Q2-Q3 2026. Includes both high-star repos and fast-rising newcomers.
-> Last updated: 2026-07-09
+> Gaining momentum in Q2-Q3 2026. High-star and fast-rising newcomers.
+> Last updated: 2026-07-09 (v5)
 
 ## Breakout Repos (2026)
 
 | Repo | License | Stars | Why Trending |
 |------|---------|-------|--------------|
-| [HKUDS/AI-Trader](https://github.com/HKUDS/AI-Trader) | Apache-2.0 | 20.6k | 100% agent-native trading from HKU; major modular rewrite Apr 2026; yfinance fallback Jun 2026; supports Claude Code, Codex, Cursor as agent runtimes |
-| [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | 16.9k | Personal trading agent; Jun 30 2026 shipped 16 message adapters (WhatsApp, Signal, Matrix, Teams, WeChat, Feishu, DingTalk, Telegram, Slack, Discord, QQ, email, Mochat) |
-| [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | 1.2k+ | ACL 2026 Main — multi-agent deep financial research; outperforms OpenAI Deep Research (8.09 vs 6.11) on structured reports |
-| [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | 80k+ | Crossed 80k — most-starred AI trading repo; LLM trading firm simulation with analyst, risk, PM, and fund manager agents |
-| [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 50k+ | 50k milestone; 14 legendary investor personas debating stock picks; backtesting module added |
-| [OpenBB-finance/agents-for-openbb](https://github.com/OpenBB-finance/agents-for-openbb) | MIT | growing | Custom AI agents for OpenBB Workspace; MCP server for agent data access; growing plugin ecosystem |
-| [microsoft/qlib](https://github.com/microsoft/qlib) | MIT | 44k+ | Integrated RD-Agent for automated quant R&D; now a full ML pipeline from idea to production |
-| [AloshkaD/AI_Agent_Trader](https://github.com/AloshkaD/AI_Agent_Trader) | MIT | growing | Multi-AI agent collaboration for trending stock financial analysis; lightweight entry point |
+| [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | 80k+ | Crossed 80k stars — most-starred AI trading repo; v0.3.1 Jul 2026: Claude Fable 5 + Bedrock + NVIDIA/Kimi/Groq/Mistral support; FRED + Polymarket data vendors; Alpha Vantage look-ahead fix; production-ready |
+| [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 50k+ | 50k milestone; new backtesting module; 14 legendary investor persona debate architecture; widely forked for bespoke quant funds |
+| [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | 16.9k | 16 message adapters (WhatsApp, Signal, Matrix, Teams, WeChat, Feishu, DingTalk, Telegram, Slack, Discord, QQ, email, Mochat + more); live signals to any channel |
+| [HKUDS/AI-Trader](https://github.com/HKUDS/AI-Trader) | Apache-2.0 | 20.6k | 100% agent-native trading; Jun 2026 yfinance fallback; Claude Code + Codex + Cursor runtime support; modular component architecture |
+| [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | 1.2k+ | ACL 2026 Main — SOTA financial research agent; one ticker → full report with charts; outperforms OpenAI + Gemini Deep Research |
+| [Fin-Chelae/FinClaw](https://github.com/Fin-Chelae/FinClaw) | MIT | growing | **NEW Jul 2026** — openclaw-style financial agent: US + A-shares + FRED + crypto + Polymarket/Kalshi; multi-channel delivery; MIT |
+| [OpenBB-finance/agents-for-openbb](https://github.com/OpenBB-finance/agents-for-openbb) | MIT | growing | Custom AI agent plugins for OpenBB Workspace; MCP server for AI agent financial data access; growing ecosystem |
+| [microsoft/qlib](https://github.com/microsoft/qlib) | MIT | 44k+ | RD-Agent integration: LLM generates quant hypotheses → backtests → iterates → promotes to live; full automated quant R&D |
+| [xpaysh/awesome-x402](https://github.com/xpaysh/awesome-x402) | MIT | growing | **NEW 2026** — x402 HTTP 402 payment protocol for AI agents; Python/TS/Rust SDKs; MCP integration; USDC micropayments |
 
 ## Repo Archetypes Emerging in 2026
 
-### 1. Agent-Native Trading (not wrappers)
-Repos where LLM agents are the primary architecture, not added on top:
-- AI-Trader, Vibe-Trading, TradingAgents
-- Key pattern: multi-agent debate → structured decision → execution → feedback loop
+### 1. Agent-Native Trading (not LLM wrappers)
+Repos where LLM orchestration is the primary architecture, not added on top:
+- AI-Trader, Vibe-Trading, TradingAgents, FinClaw
+- Key pattern: multi-agent debate → structured decision → execution → feedback loop → channel delivery
 
-### 2. Prediction Market Infrastructure
-- Unified Polymarket/Kalshi API (CCXT-style) repos emerging rapidly
-- 36GB Polymarket historical dataset fueling forecasting agent training
+### 2. Agentic Payment Infrastructure
+The most exciting new category: AI agents with native payment capability:
+- x402 (HTTP 402 protocol) — internet-native USDC payments for agents
+- Mastercard Agent Pay — tokenized agentic credentials, machine-speed settlement
+- Visa Intelligent Commerce MCP Server — any agent can query + initiate Visa transactions
+- All three are production-live and standards-backed in Jul 2026
 
 ### 3. MCP-First Financial Data
-- agents-for-openbb as MCP server
-- Financial data accessible to any MCP-compatible AI agent (Claude, GPT, Gemini)
+- agents-for-openbb: OpenBB as MCP server → any Claude/GPT/Gemini agent can query financial data
+- TradingAgents v0.3.1: FRED + Polymarket natively as MCP-compatible data vendors
+- FinClaw: prediction markets (Polymarket + Kalshi) as first-class data sources
 
-### 4. Audit & Compliance AI
+### 4. Prediction Market Infrastructure
+- FinClaw integrates Polymarket + Kalshi natively (CCXT-style)
+- TradingAgents v0.3.1 ships Polymarket data vendor
+- 36GB Polymarket historical dataset: training forecasting agents that reason across equities + info markets
+
+### 5. Benchmarking Infrastructure for Financial Agents
+Three production-quality 2026 benchmarks enable real quality gates:
+- **Herculean** (arXiv:2605.14355): agentic financial intelligence benchmark
+- **BigFinanceBench** (arXiv:2606.03829): workflow-grounded financial research evaluation
+- **FinDeepForecast** (arXiv:2601.05039): live weekly benchmark — 1,314 companies × 8 economies; public leaderboard
+
+### 6. Audit & Compliance AI
+- EU AI Act Aug 2 deadline → AML/KYC + explainable credit scoring demand
 - auditLens pattern: LLM + RAG for internal bank product audit with cited references
-- EU AI Act Aug 2 2026 deadline driving AML/KYC agent development
+- Great Expectations + Apache Atlas: data quality + lineage for AI Act Article 12 compliance
 
 ## GitHub Topics to Monitor
 
@@ -42,6 +59,17 @@ Repos where LLM agents are the primary architecture, not added on top:
 - [trading-agent](https://github.com/topics/trading-agent)
 - [finrl](https://github.com/topics/finrl)
 - [openbb](https://github.com/topics/openbb)
+- [quantitative-trading-tool](https://github.com/topics/quantitative-trading-tool)
+- [finance-agents](https://github.com/topics/finance-agents)
+
+## Curated Discovery Lists
+
+| Resource | Focus |
+|----------|-------|
+| [georgezouq/awesome-ai-in-finance](https://github.com/georgezouq/awesome-ai-in-finance) | LLMs + DL strategies + tools in financial markets |
+| [leoncuhk/awesome-quant-ai](https://github.com/leoncuhk/awesome-quant-ai) | Quantitative investment + trading with AI/ML |
+| [masamasa59/ai-agent-papers](https://github.com/masamasa59/ai-agent-papers) — finance-agents.md | Academic papers on finance-specific AI agents |
+| [LLMQuant](https://github.com/LLMQuant) | Organization focused on LLM applications in quantitative finance |
 
 ---
 *Auto-updated by the Globant AI Studios ingest pipeline.*
