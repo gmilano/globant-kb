@@ -1,7 +1,7 @@
 # Patrones de composición — Legal Services
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-08 (v4)
+> Última actualización: 2026-07-09 (v5)
 
 ## Arquitectura base
 
@@ -544,6 +544,196 @@ print(f"Hallucination Rate: {results['hallucination_rate']:.2%}")
 
 ---
 
+## Patrón 11: GLAW — Despacho virtual AI completo (patrón legal skills)
+
+**Caso de uso**: Firma quiere un despacho virtual operativo desde día 1, con 10 departamentos, pipeline de matters y human gates — sin construir desde cero.  
+**Stack**: GLAW (MIT) + Claude Code + CourtListener MCP + APIs locales LATAM  
+**Tiempo estimado**: 1-2 semanas (setup + localización LATAM) | **Deal size**: $60k-250k
+
+```bash
+# Paso 1: Instalar GLAW como skill en Claude Code
+# github.com/lawve-ai/glaw — MIT
+git clone https://github.com/lawve-ai/glaw .claude/skills/glaw
+
+# GLAW incluye 10 departamentos:
+# 1. Intake & Conflicts    2. Corporate & M&A      3. Litigation & Disputes
+# 4. Employment & Labor    5. Regulatory & Compliance  6. IP & Tech
+# 7. Real Estate           8. Finance & Tax         9. Privacy & Data
+# 10. Management & Billing
+```
+
+```python
+# Paso 2: Iniciar un matter con el pipeline hard-gated de GLAW
+import anthropic
+
+client = anthropic.Anthropic()
+
+def open_matter(client_name: str, matter_type: str, jurisdiction: str) -> dict:
+    """
+    GLAW hard-gated matter pipeline:
+    intake → conflicts check → assignment → work product → human gate → delivery
+    """
+    r = client.messages.create(
+        model="claude-opus-4-8",
+        max_tokens=4096,
+        system="""You are GLAW, a virtual law firm with 10 specialized departments.
+        Follow the hard-gated matter pipeline:
+        1. INTAKE: Capture matter details, client info, deadline
+        2. CONFLICTS: Check for conflicts of interest (flag if found → STOP for human review)
+        3. ASSIGN: Route to appropriate department based on matter_type
+        4. WORK PRODUCT: Draft deliverable (memo, contract, analysis)
+        5. HUMAN GATE: Flag for attorney review before delivery
+        Generate attorney work-product, not legal advice.
+        Always cite jurisdiction and applicable law.""",
+        messages=[{"role": "user",
+                   "content": f"Open matter: Client={client_name}, Type={matter_type}, Jurisdiction={jurisdiction}\n"
+                              f"Follow GLAW pipeline. Flag conflicts immediately. Generate work product."}]
+    )
+    return {"matter": f"GLAW-{client_name[:4].upper()}-001", "pipeline": r.content[0].text}
+
+# Paso 3: Extender GLAW con departamento LATAM específico
+latam_department_skill = """
+# LATAM-Laboral Department — GLAW Extension
+## Jurisdiction Coverage
+- Argentina: LCT Ley 20.744, Ley 24.013, paritarias sectoriales
+- Brasil: CLT, Reforma Trabalhista 2017, NR-1 atualizada 2025
+- México: LFT DOF 2021, NOM-035 STPS, reforma subcontratación
+- Colombia: CST, Decreto 2011/2017, normas de teletrabajo
+
+## Matter Types
+- wrongful-termination: calcular liquidación + probabilidad éxito + demanda draft
+- workplace-harassment: protocolo NOM-035 + denuncia + medidas cautelares
+- collective-bargaining: análisis paritarias + benchmarks sectoriales
+
+## Human Gates
+- Compensaciones > $50k USD → revisión senior obligatoria
+- Acciones colectivas (>20 trabajadores) → partner approval
+- Jurisdicción múltiple → specialist review en cada jurisdicción
+"""
+
+# Guardar como extensión de GLAW
+with open(".claude/skills/glaw/departments/latam-laboral.md", "w") as f:
+    f.write(latam_department_skill)
+```
+
+```python
+# Paso 4: Fraud dossier automático (feature nativa de GLAW)
+def generate_fraud_dossier(entity: str, transaction_data: dict) -> dict:
+    """GLAW incluye fraud dossier generation integrado."""
+    r = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=6144,
+        system="""GLAW Fraud & Compliance Department.
+        Generate structured fraud dossier: entity profile, red flags, transaction analysis,
+        regulatory exposure (FCPA, UK Bribery Act, ley anti-corrupción AR/BR/MX),
+        recommended actions, evidence preservation checklist.
+        Source-first bookkeeping: cite all data sources.""",
+        messages=[{"role": "user",
+                   "content": f"Fraud dossier: {entity}\nTransactions: {transaction_data}"}]
+    )
+    return {"entity": entity, "dossier": r.content[0].text, "status": "HUMAN_GATE_REQUIRED"}
+
+# Paso 5: OCR orchestration (GLAW integra OCR con Claude)
+def process_legal_document(pdf_path: str) -> dict:
+    """GLAW pipeline: OCR → extract → classify → route."""
+    import base64
+    with open(pdf_path, "rb") as f:
+        pdf_data = base64.standard_b64encode(f.read()).decode("utf-8")
+    
+    r = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=4096,
+        messages=[{"role": "user",
+                   "content": [
+                       {"type": "document", "source": {"type": "base64", "media_type": "application/pdf", "data": pdf_data}},
+                       {"type": "text", "text": "GLAW document intake: extract key data, classify document type, identify parties, extract deadlines, route to department."}
+                   ]}]
+    )
+    return {"document": pdf_path, "extraction": r.content[0].text}
+
+# Demo completo
+matter = open_matter("ACME Corp", "employment-dispute", "Argentina")
+print(f"Matter ID: {matter['matter']}")
+print(matter['pipeline'][:500])
+```
+
+---
+
+## Patrón 12: MCP Jurisdiccional LATAM (patrón Korean Law MCP)
+
+**Caso de uso**: Globant construye MCPs propios para sistemas judiciales LATAM — el primer paso para un moat de datos jurisdicional.  
+**Stack**: FastAPI + Claude + APIs judiciales locales + MCP SDK  
+**Tiempo estimado**: 2-3 semanas por jurisdicción | **Deal size**: $40k-150k (+ IP propio reutilizable)
+
+```python
+# Modelo: chrisryugj/korean-law-mcp (2.1k★) adaptado a LATAM
+# Misma arquitectura, distintas fuentes de datos
+
+# Paso 1: Estructura MCP servidor para Argentina (CEJAT)
+# Inspirado en korean-law-mcp: empezar con muchas tools y simplificar
+
+from mcp import Server
+from mcp.types import Tool, TextContent
+import httpx
+
+app = Server("cejat-argentina-mcp")
+
+@app.list_tools()
+async def list_tools():
+    return [
+        Tool(name="search_jurisprudencia", description="Busca jurisprudencia en CEJAT Argentina",
+             inputSchema={"type": "object", "properties": {
+                 "query": {"type": "string"}, "tribunal": {"type": "string"},
+                 "fecha_desde": {"type": "string"}, "fecha_hasta": {"type": "string"}}}),
+        Tool(name="get_expediente", description="Obtiene estado de expediente judicial",
+             inputSchema={"type": "object", "properties": {
+                 "numero_expediente": {"type": "string"}, "jurisdiccion": {"type": "string"}}}),
+        Tool(name="verify_cita", description="Verifica si una cita legal existe y es correcta (anti-hallucination)",
+             inputSchema={"type": "object", "properties": {
+                 "cita": {"type": "string"}, "tipo": {"type": "string"}}}),
+        Tool(name="get_plazo_procesal", description="Calcula plazos procesales con días hábiles",
+             inputSchema={"type": "object", "properties": {
+                 "fecha_inicio": {"type": "string"}, "tipo_proceso": {"type": "string"}}}),
+    ]
+
+@app.call_tool()
+async def call_tool(name: str, arguments: dict):
+    if name == "verify_cita":
+        # Anti-hallucination: verificar que la cita legal existe
+        async with httpx.AsyncClient() as http:
+            r = await http.get(
+                f"https://www.saij.gob.ar/busqueda?tipo-documento=jurisprudencia&texto={arguments['cita']}"
+            )
+        return [TextContent(type="text", text=f"Verificación SAIJ: {'ENCONTRADA' if r.status_code == 200 else 'NO ENCONTRADA'}\n{arguments['cita']}")]
+    # ... otras tools
+    return [TextContent(type="text", text=f"Tool {name} called")]
+
+# Ejecutar servidor MCP
+if __name__ == "__main__":
+    import asyncio
+    from mcp.server.stdio import stdio_server
+    asyncio.run(stdio_server(app))
+```
+
+```bash
+# Configurar en Claude Code / Claude Desktop
+# ~/.claude/claude_desktop_config.json
+{
+  "mcpServers": {
+    "cejat-argentina": {
+      "command": "python",
+      "args": ["/path/to/cejat_mcp_server.py"],
+      "env": {"CEJAT_API_KEY": "..."}
+    }
+  }
+}
+
+# Una vez configurado, Claude tiene acceso nativo a jurisprudencia argentina:
+# "Busca precedentes sobre responsabilidad civil por IA en los últimos 3 años en la CSJN"
+```
+
+---
+
 ## Matriz de selección de patrón
 
 | Situación del cliente | Deal size | Patrón recomendado | Stack clave |
@@ -555,6 +745,8 @@ print(f"Hallucination Rate: {results['hallucination_rate']:.2%}")
 | Investigación legal multi-jurisdicción | $50k-200k | P1 RAG multi-jurisdiction | CourtListener MCP + LangGraph |
 | Acceso a justicia / pro-bono | $80k-250k | P3 Docassemble + AI | Docassemble + Claude Haiku |
 | Despacho LATAM, modernizar ERP | $100k-400k | P7 LegalOps ERP | OpenLawOffice + Whisper |
-| Cliente UE, deadline EU AI Act (25 días) | $80k-300k | P5 EU AI Act auditor | Anthropic API + audit pipeline |
+| Cliente UE, deadline EU AI Act (**24 días**) | $80k-300k | P5 EU AI Act auditor | Anthropic API + audit pipeline |
 | Multi-jurisdicción internacional | $50k-200k | P6 Vaquill MCP | Vaquill US+India+CanLII |
 | Pre-venta: evaluar LLMs legales | Incluido | P8 Harvey LAB benchmark | Harvey LAB + Claude Opus 4.8 |
+| Firma pequeña/media quiere despacho virtual desde día 1 | $60k-250k | **P11 GLAW virtual law firm** | GLAW + Claude Code + MCP |
+| Globant quiere construir moat de datos LATAM | $40k-150k/jurisdicción | **P12 MCP jurisdiccional LATAM** | FastAPI + APIs judiciales + MCP SDK |

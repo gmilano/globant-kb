@@ -1,6 +1,6 @@
 # Tendencias — Legal AI
 
-> Tendencias clave en AI legal. Última actualización: 2026-07-08 (v4)
+> Tendencias clave en AI legal. Última actualización: 2026-07-09 (v5)
 
 ## 1. Agentic AI reemplaza herramientas standalone (H1 2026)
 
@@ -76,7 +76,7 @@ Sistemas de "alto riesgo" (Anexo III) incluyen aplicaciones legales:
 - Penalidades: hasta €35M o 7% de ingresos globales anuales
 - Requiere: registro EU, auditoría, supervisión humana, documentación técnica
 
-**Quedan 25 días. Toda firma que opere AI en contexto legal en la UE debe cumplir.**
+**Quedan 24 días. Toda firma que opere AI en contexto legal en la UE debe cumplir.**
 
 ## 9. Ola Open Source legal AI — Mayo 2026 como punto de inflexión
 
@@ -126,12 +126,35 @@ La implementación de IBS (Imposto sobre Bens e Serviços) y CBS (Contribuição
 - Litigios previsibles: estimado 50k+ demandas tributarias en 2026-2027
 - Oportunidad: agente de análisis de impacto de reforma + automatización de demandas
 
+## 15. Legal Skills Ecosystem — Nueva capa de infraestructura (julio 2026)
+
+La proliferación de "skills" portátiles (SKILL.md para Claude Code) está creando una nueva capa de infraestructura legal AI:
+
+- **Patrón SKILL.md**: cualquier abogado puede leer, modificar y desplegar — no requiere programar
+- **GLAW** (lawve-ai/glaw): el ejemplo más ambicioso — 179 skills en 10 departamentos, pipeline completo de un despacho virtual
+- **lawve-ai/awesome-legal-skills**: curación de skills legales emergentes (contrato, compliance, M&A, laboral)
+- **skala-io/legal-skills**: skills construidas por abogados activos, no solo devs
+- **harvard-lil**: el primer centro académico con infraestructura de skills legales AI
+
+**Implicación para Globant**: el valor en 2026-2027 no es el LLM ni el RAG genérico. Es la biblioteca de skills jurisdiccionales especializadas (AR/BR/MX/CO/CL) que ningún proveedor anglosajón tiene. Opportunity: construir `latam-legal-skills` como producto IP propio.
+
+## 16. MCP por jurisdicción — El nuevo patrón de moat (2026)
+
+El Korean Law MCP (2.1k★) demostró que un MCP servidor jurisdiccional específico puede ser un hit:
+- 41 APIs del gobierno coreano, verificación anti-hallucination, grafo legal
+- 4 versiones de simplificación iterativa: 89 tools → 9 tools (encontraron lo que la gente realmente usa)
+- Replicado rápidamente por al menos 5 repos adicionales
+
+**Próxima frontera LATAM**: quién construya primero MCP servers para PJe (Brasil), CEJAT (Argentina), SCJN (México) y EJE (Colombia) tendrá ventaja de first-mover significativa. Tamaño: $4.8B de mercado LATAM LegalTech para 2033.
+
 ## Repos más activos esta semana
 
-- [anthropics/claude-for-legal](https://github.com/anthropics/claude-for-legal) — Suite oficial Anthropic. Apache 2.0. 882★
-- [willchen96/mike](https://github.com/willchen96/mike) — Self-hostable Harvey alternative. AGPL-3.0. 2200★
+- [anthropics/claude-for-legal](https://github.com/anthropics/claude-for-legal) — Suite oficial Anthropic. Apache 2.0. **8.7k★** (+9.8x en 2 meses)
+- [willchen96/mike](https://github.com/willchen96/mike) — Self-hostable Harvey alternative. AGPL-3.0. **3.9k★**
+- [chrisryugj/korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) — MCP server legal Korea (41 APIs). MIT. **2.1k★** — nuevo en v5
+- [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) — 8M+ opiniones + MCP connector. Apache 2.0. 2.1k★
 - [firelex/suzielaw](https://github.com/firelex/suzielaw) — Suzie Law 160+ workflows. Apache 2.0. 800★
-- [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) — 8M+ opiniones + MCP connector mayo 2026. Apache 2.0. 2.1k★
+- [lawve-ai/glaw](https://github.com/lawve-ai/glaw) — Virtual law firm skill: 179 skills, 10 depts. MIT. **340★** — nuevo en v5
 - [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Agentic law firm: 67 agentes, debate multi-evidencia, human gates. Apache 2.0. 267★
-- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS agéntico open. Apache 2.0. 390★
+- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS agéntico open + MCP server. Apache 2.0. 390★
 - [hoorangyee/LRAGE](https://github.com/hoorangyee/LRAGE) — RAG legal evaluation framework. MIT. 180★

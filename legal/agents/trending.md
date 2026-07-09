@@ -1,19 +1,23 @@
 # Repos trending — Legal AI
 
-> Novedades destacadas en GitHub. Última actualización: 2026-07-08 (v4)
+> Novedades destacadas en GitHub. Última actualización: 2026-07-09 (v5)
 
 ## Nuevos y en ascenso (julio 2026)
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins por área práctica, 80+ agentes, 20+ MCP connectors; 882★ y 165 forks en las primeras 24h — record Anthropic open source | 882 |
-| [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | Plataforma legal AI self-hostable (Harvey alternativa): Next.js+Express+Supabase; 2.2k★ y 614 forks en 72h — mayor adopción de cualquier legaltech project en la historia | 2200 |
+| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins por área práctica, 80+ agentes, 20+ MCP connectors; **8.7k★ y 1.6k forks** en jul 2026 (9.8x vs lanzamiento mayo) | 8700 |
+| [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | Plataforma legal AI self-hostable (Harvey alternativa): Next.js+Express+Supabase; **3.9k★ y 900+ forks** — mayor adopción de cualquier legaltech project en la historia | 3900 |
+| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | **NUEVO v5**: MCP server para leyes coreanas — 41 APIs del National Law Information Center (법제처), verificación anti-hallucination de citas, grafo de impacto legal; v4.4.0 con 9 tools optimizadas; **2.1k★** | 2155 |
+| [GLAW](https://github.com/lawve-ai/glaw) | MIT | **NUEVO v5**: Virtual law firm skill self-contained — 10 departamentos, 179 source skills, 63 seated roles, hard-gated matter pipeline, fraud dossiers, OCR orchestration; genera work-product con supervisión humana integrada | 340 |
 | [Suzie Law](https://github.com/firelex/suzielaw) | Apache-2.0 | Harvey alternativa de Scissero: 160+ agentic workflows, 12 personas por área de práctica, 19 jurisdicciones; auto-migración hosted→self-hosted | 800 |
 | [lawglance](https://github.com/lawglance/lawglance) | MIT | RAG-based legal assistant gratuito open source; multi-jurisdicción; orientado a acceso democrático a asistencia legal | 150 |
 | [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 agentes especialistas, debate multi-evidencia, human gates obligatorios, 10-pass verification loop; arquitectura de referencia trending en comunidad LegalTech | 267 |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Apache-2.0 | DMS agéntico open: anotación semántica, análisis colaborativo, API REST; en ascenso con integración Claude + MCP | 390 |
-| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada 2026: MCP servers legales (US/India/Canadá), plataformas, benchmarks, datasets globales | 185 |
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Apache-2.0 | DMS agéntico open: anotación semántica, análisis colaborativa, API REST + MCP server propio; en ascenso | 390 |
+| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada 2026: MCP servers legales (US/India/Canadá/Korea), plataformas, benchmarks, datasets globales | 195 |
 | [claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | MIT | Contract review CUAD + redlines .docx + memos negociación; 26+ herramientas compatibles | 355 |
+| [ai-legal-claude](https://github.com/zubair-trabzada/ai-legal-claude) | MIT | **NUEVO v5**: 14 legal skills + 5 agentes paralelos; NDA generation, compliance auditing, negotiation strategy, PDF reports — compatible con Claude Code, Codex, Cursor | 178 |
+| [legal-rag-bench](https://github.com/isaacus-dev/legal-rag-bench) | MIT | **NUEVO v5**: Benchmark reasoning-intensive para RAG legal end-to-end; evalúa precisión + recuperación + razonamiento sobre documentos reales | 165 |
 | [LRAGE](https://github.com/hoorangyee/LRAGE) | MIT | Framework evaluación RAG legal: BM25+FAISS precompilados, integración smolagents, soporte LegalBench/LawBench/Pile-of-Law | 180 |
 | [courtlistener-api-client](https://github.com/freelawproject/courtlistener-api-client) | Apache-2.0 | Python SDK oficial CourtListener: opiniones, dockets, jueces, citas; actualizado con MCP mayo 2026 | 120 |
 
@@ -79,7 +83,46 @@ Capa agéntica sobre Protégé: planning multi-step, ejecución autónoma sobre 
 
 ### EU AI Act — Deadline 2 agosto 2026
 Aplicación completa para sistemas de alto riesgo (Anexo III incluye aplicaciones legales). Penalidad: hasta €35M o 7% de ingresos globales.  
-**Quedan 25 días. Si tu cliente tiene AI en contexto legal en la UE, debe actuar ahora.**
+**Quedan 24 días. Si tu cliente tiene AI en contexto legal en la UE, debe actuar ahora.**
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+
+### Legal Skills Ecosystem — Explosión julio 2026
+
+Una nueva capa de infraestructura legal AI emergió en forma de "skills" portátiles para Claude Code y agentes:
+
+| Repo | Tipo | Descripción |
+|------|------|-------------|
+| [lawve-ai/awesome-legal-skills](https://github.com/lawve-ai/awesome-legal-skills) | Curada | Lista de Agent Skills para automatizar trabajo legal — curatorial |
+| [skala-io/legal-skills](https://github.com/skala-io/legal-skills) | Skills | Skills legales construidas por abogados de Skala.io — revisión de contratos, due diligence |
+| [lawvable/agent-skills](https://github.com/lawvable/agent-skills) | Skills | Colección curada de Agent Skills para trabajo legal — multi-area |
+| [harvard-lil/skills-hub-demo](https://github.com/harvard-lil/skills-hub-demo) | Skills | Harvard Law Innovation Lab: skills de AI para educación legal y práctica |
+| [ai-legal-claude](https://github.com/zubair-trabzada/ai-legal-claude) | Skills | 14 skills + 5 agentes paralelos: NDA, compliance, contract review, PDF reports |
+| [GLAW](https://github.com/lawve-ai/glaw) | Virtual Firm | 179 skills, 10 departamentos: la skill más completa del ecosistema |
+
+**Patrón emergente**: Los "skills" (SKILL.md en Claude Code) democratizan el expertise legal — cualquier abogado puede leer, modificar y desplegar. El moat competitivo se desplaza hacia la calidad de la especialización jurisdiccional, no hacia el software.
+
+---
+
+### Korean Law MCP — Caso de estudio de expansión jurisdiccional (2026)
+
+chrisryugj/korean-law-mcp (2.1k★ MIT) demuestra el patrón de "jurisdicción-específica MCP":
+- 41 APIs del gobierno coreano (법제처) accesibles vía Claude/LangChain
+- Verificación de citas con anti-hallucination integrado
+- Grafo de impacto legal: ¿qué casos cita esta sentencia?
+- 4 versiones en 6 meses: 89 tools → 54 tools → 14 tools → 9 tools (simplificación agresiva)
+
+**Por qué importa para Globant**: el mismo patrón aplica para Argentina (CEJAT), Brasil (PJe), México (SCJN), Colombia (EJE) — jurisdicción-específica MCP es la próxima capa de diferenciación en LATAM legal AI.
+
+---
+
+### AI Legal Drafting Tools Market — Nuevo segmento confirmado (julio 2026)
+
+GlobeNewswire (7 julio 2026): El mercado de herramientas AI de redacción legal es un sub-segmento de $0.9B (2025) en fuerte crecimiento:
+- **2025**: $0.9B → **2026**: $1.17B → **2030**: $3.42B
+- CAGR 31% — el mismo ritmo que el mercado Legal AI completo
+- Drivers: demanda de redacción de contratos, cumplimiento regulatorio y automatización de documentos legales
+- Fuente: [GlobeNewswire 2026-07-07](https://www.globenewswire.com/news-release/2026/07/07/3323004/0/en/AI-Legal-Drafting-Tools-Market-Projected-to-Surge-from-0-9-Billion-in-2025-to-3-42-Billion-by-2030.html)
+
+---
+*Pipeline automático — se actualiza cada hora. v5 2026-07-09.*

@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes, customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-08 (v4)
+> Última actualización: 2026-07-09 (v5)
 
 ## Plataformas Self-hosted Legal AI (nuevo 2026)
 
@@ -12,7 +12,8 @@ Las plataformas completas de legal AI open source que emergieron en mayo 2026 �
 |------------|----------|-----|--------------|-----------------|
 | [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | willchen96/mike | Next.js + Express + Supabase + R2 | Fork, personaliza por jurisdicción LATAM, despliega en AWS/GCP del cliente |
 | [Suzie Law](https://github.com/firelex/suzielaw) | Apache-2.0 | firelex/suzielaw | Node.js + React + PostgreSQL | 160+ workflows como base, extiende con Claude Code para área de práctica específica |
-| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | anthropics/claude-for-legal | Plugin SDK + Managed Agents API | Integra con stack existente del cliente (Ironclad, iManage, Everlaw) sin reemplazarlo |
+| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | anthropics/claude-for-legal | Plugin SDK + Managed Agents API | Integra con stack existente del cliente (Ironclad, iManage, Everlaw) sin reemplazarlo. **8.7k★** |
+| [GLAW](https://github.com/lawve-ai/glaw) | MIT | lawve-ai/glaw | Skills SKILL.md + Claude Code + MCP | Virtual law firm completo — instalar como skill y adaptar depts por jurisdicción LATAM |
 
 ### Cuándo usar cada uno
 
@@ -25,6 +26,10 @@ Suzie Law:      Cliente quiere base extensible, prefiere Apache-2.0 permisivo.
 
 claude-for-legal: Cliente ya tiene stack (iManage, Ironclad, DocuSign) y quiere
                   añadir AI sin reemplazar plataformas existentes.
+
+GLAW:           Cliente quiere un despacho virtual completo operativo desde día 1.
+                MIT = máxima permisividad. Skills se extienden agregando SKILL.md.
+                Ideal para firmas pequeñas o especialización jurisdiccional rápida.
 ```
 
 ---

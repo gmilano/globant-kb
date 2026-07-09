@@ -1,20 +1,23 @@
 # Mapa de mercado — Legal Services
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-08 (v4)
+> Última actualización: 2026-07-09 (v5)
 
 ## Tamaño de mercado (2026) — múltiples fuentes
 
-| Segmento | Valor 2026 | Proyección | CAGR | Fuente |
-|----------|-----------|-----------|------|--------|
-| Legal AI Software (global) | $2.75B | $6.3B (2034) | 10.91% | MarketsandMarkets |
-| Legal AI Software (global) | $3.7B | $11.06B (2030) | 31.5% | Technavio |
-| Legal AI Software (global) | $5.21B | $40.94B (2034) | 29.40% | Fortune Business Insights |
-| Legal AI (Meticulous Research) | $6.72B | $42.18B (2036) | 20.2% | Meticulous Research |
-| LegalTech (global) | $35.4B (2025) | $78.1B (2036) | 7.4% | Future Market Insights |
-| LATAM LegalTech | ~$1.2B est. 2026 | $4.8B (2033) | 11.12% | IMARC Group |
+| Segmento | Valor 2025 | Valor 2026 | Proyección | CAGR | Fuente |
+|----------|-----------|-----------|-----------|------|--------|
+| Legal AI Software (global) | — | $2.75B | $6.3B (2034) | 10.91% | MarketsandMarkets |
+| Legal AI Software (global) | $2.82B | $3.7B | $11.06B (2030) | 31.5% | Technavio |
+| Legal AI Software (global) | — | $5.21B | $40.94B (2034) | 29.40% | Fortune Business Insights |
+| Legal AI (Meticulous Research) | — | $6.72B | $42.18B (2036) | 20.2% | Meticulous Research |
+| **AI Legal Drafting Tools** | **$0.9B** | **$1.17B** | **$3.42B (2030)** | **31%** | **GlobeNewswire, jul 2026** |
+| LegalTech (global) | $35.4B | — | $78.1B (2036) | 7.4% | Future Market Insights |
+| LATAM LegalTech | ~$1.1B | ~$1.2B est. | $4.8B (2033) | 11.12% | IMARC Group |
 
-> Rango más probable (consenso 2026): **$3.7B-$6.72B** en Legal AI Software; crecimiento YoY ~30%. La discrepancia refleja distintas definiciones del segmento (AI pura vs. LegalTech amplio).
+> Rango más probable (consenso 2026): **$3.7B-$6.72B** en Legal AI Software; crecimiento YoY ~31%. Sub-segmento de drafting tools ($0.9B→$3.42B, CAGR 31%) confirma automatización documental como categoría de alto crecimiento independiente.
+
+> **Fuente nueva**: GlobeNewswire 2026-07-07 — [AI Legal Drafting Tools Market $0.9B→$3.42B by 2030](https://www.globenewswire.com/news-release/2026/07/07/3323004/0/en/AI-Legal-Drafting-Tools-Market-Projected-to-Surge-from-0-9-Billion-in-2025-to-3-42-Billion-by-2030.html)
 
 ## Players globales
 
@@ -52,7 +55,8 @@ La ola open source de mayo 2026 cambió la dinámica competitiva:
 ## Oportunidades AI en LATAM
 
 ### Métricas clave de adopción (2026)
-- Corporates AI legal: 23% (2025) → **52% adopción** (2026) — duplicó en 1 año
+- Corporates AI legal: 23% (2024) → **54% adopción** (2025) — duplicó en 1 año (Thomson Reuters 2026 Legal Professionals Report)
+- **77%** de profesionales esperan que agentic AI sea central a sus workflows en 2030
 - 64% de equipos in-house esperan depender **menos de outside counsel** por AI interna
 - Brasil: 66 sistemas AI asistiendo **82.6M casos pendientes** en tribunales (2023)
 - Argentina: 69% de abogados aún usa **Excel / carpetas físicas** para gestión de casos (2026)

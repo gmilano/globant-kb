@@ -1,14 +1,14 @@
 # Agentes AI — Legal Services
 
 > Agentes y herramientas AI open source para la industria legal. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-08 (v4)
+> Última actualización: 2026-07-09 (v5)
 
 ## Agentes y herramientas destacadas
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins por área de práctica (Corporate, M&A, Employment, Privacy, IP, Litigation, AI Governance…), 80+ agentes especializados, 20+ conectores MCP (CourtListener, Ironclad, DocuSign, iManage, Everlaw); Managed Agents API para rutinas background sin intervención humana | 882 |
-| [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | Plataforma legal AI self-hostable (alternativa Harvey): Next.js + Express + Supabase; chat con documentos, redlines .docx, 12 personas por área de práctica, multi-modelo (Anthropic/Gemini/OpenAI); 2.2k★ y 614 forks en 72h del lanzamiento — récord legaltech | 2200 |
+| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins por área de práctica (Corporate, M&A, Employment, Privacy, IP, Litigation, AI Governance…), 80+ agentes especializados, 20+ conectores MCP (CourtListener, Ironclad, DocuSign, iManage, Everlaw); Managed Agents API para rutinas background sin intervención humana | 8700 |
+| [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | Plataforma legal AI self-hostable (alternativa Harvey): Next.js + Express + Supabase; chat con documentos, redlines .docx, 12 personas por área de práctica, multi-modelo (Anthropic/Gemini/OpenAI); 3.9k★ y 900+ forks — récord legaltech | 3900 |
 | [Suzie Law](https://github.com/firelex/suzielaw) | Apache-2.0 | Open-source Harvey alternativa de Scissero: 12 practice-area personas, 160+ agentic workflows, redlines DOCX, investigación legal en 19 jurisdicciones; migratable de hosted a self-hosted con un comando; base extensible con Claude Code | 800 |
 | [legalbench](https://github.com/HazyResearch/legalbench) | MIT | Benchmark colaborativo Stanford/Hazy Research: 162 tareas de razonamiento legal en inglés (IRAC, interpretación estatutaria, análisis contractual); estándar de evaluación de LLMs legales | 1.1k |
 | [DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | LLM legal chino (Fudan + Inspur + CUPL); fine-tuning sobre corpus judicial masivo; herramientas de búsqueda, consulta y razonamiento legal integradas | 937 |
@@ -23,7 +23,11 @@
 | [docassemble](https://github.com/jhpyle/docassemble) | MIT | Sistema experto open source para entrevistas guiadas y ensamblado de documentos legales; YAML + Python + Markdown, PDF/DOCX; usado por Suffolk LIT Lab y tribunales de MA | 926 |
 | [LRAGE](https://github.com/hoorangyee/LRAGE) | MIT | Framework de evaluación de pipelines RAG especializado en dominio legal: integra Pile-of-Law, LegalBench, LawBench, KBL; índices BM25+FAISS precompilados; integración smolagents para agentes LLM multi-step | 180 |
 | [OpenNyAI](https://github.com/OpenNyAI/Opennyai) | MIT | Pipeline NLP end-to-end para documentos legales indios (Supremo Tribunal): NER, etiquetado retórico, sumarización, QA; datasets de alta calidad incluidos | 310 |
-| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada 2026 de recursos LegalTech: plataformas open source, modelos AI, MCP servers (US, India, Canadá), datasets, benchmarks y herramientas globales | 185 |
+| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada 2026 de recursos LegalTech: plataformas open source, modelos AI, MCP servers (US, India, Canadá), datasets, benchmarks y herramientas globales | 195 |
+| [GLAW](https://github.com/lawve-ai/glaw) | MIT | Virtual law firm skill self-contained: 10 departamentos, 179 source skills, 63 seated roles, 177 mirrored commands, hard-gated matter pipeline, fraud dossiers, bookkeeping con Google Sheets + OCR orchestration; genera attorney work-product, no legal advice | 340 |
+| [ai-legal-claude](https://github.com/zubair-trabzada/ai-legal-claude) | MIT | Legal skill para Claude Code: 14 skills especializados (contract review, risk analysis, NDA generation, compliance auditing, negotiation strategy, PDF reports), 5 agentes paralelos; compatible con Claude Code, Codex, Cursor | 178 |
+| [legal-rag-bench](https://github.com/isaacus-dev/legal-rag-bench) | MIT | Benchmark de razonamiento intensivo para sistemas RAG legales end-to-end: evalúa precisión, recuperación y razonamiento sobre documentos legales reales; metodología de evaluación publicada | 165 |
+| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | MCP server para leyes coreanas: 41 APIs del Korean National Law Information Center (법제처), verificación de hallucinations en citas legales, exploración de grafo legal; v4.4.0 con 9 herramientas optimizadas | 2155 |
 
 ---
 
@@ -33,6 +37,8 @@
 |--------------|-----------|----------|
 | [CourtListener MCP](https://free.law/2026/05/12/courtlistener-is-now-available-inside-claude/) | 8M+ opiniones judiciales EE.UU., PACER, análisis de citas, jueces | Apache-2.0 |
 | [claude-for-legal MCP connectors](https://github.com/anthropics/claude-for-legal) | Ironclad, DocuSign, iManage, Everlaw, Slack, Google Drive, Box | Apache-2.0 |
+| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | 41 APIs legales del gobierno coreano; verificación de citas, grafo legal, anti-hallucination | MIT |
+| [LexLink-ko-mcp](https://github.com/rabqatab/LexLink-ko-mcp) | 54 herramientas MCP, Korean National Law Information Center: leyes, precedentes, interpretaciones | MIT |
 | [Vaquill AI MCP (US)](https://github.com/Vaquill-AI/awesome-legaltech) | 8M+ sentencias federales y estatales EE.UU. + US Code + CFR | Apache-2.0 |
 | [Vaquill AI MCP (India)](https://github.com/Vaquill-AI/awesome-legaltech) | 20M+ sentencias Supremo Tribunal, High Courts y Tribunales de India | Propietario con tier gratuito |
 | [CanLII MCP](https://github.com/Vaquill-AI/awesome-legaltech) | Base jurídica canadiense CanLII, búsqueda semántica + verificación de citas | Apache-2.0 |
@@ -63,4 +69,4 @@ Harvey lanzó el primer benchmark open-source para agentes legales de largo hori
 - Fuente: [harvey.ai/blog/introducing-harveys-legal-agent-benchmark](https://www.harvey.ai/blog/introducing-harveys-legal-agent-benchmark)
 
 ---
-*Actualizado automáticamente por el pipeline de ingest — v4 2026-07-08.*
+*Actualizado automáticamente por el pipeline de ingest — v5 2026-07-09.*

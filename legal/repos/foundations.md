@@ -1,13 +1,13 @@
 # Repos fundacionales — Legal Services
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-08 (v4)
+> Última actualización: 2026-07-09 (v5)
 
 ## Plataformas y frameworks base
 
 | Repo | Licencia | Descripción | Base para AI |
 |------|----------|-------------|-------------|
-| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins por área de práctica, 80+ agentes especializados, 20+ conectores MCP (CourtListener, Ironclad, DocuSign, iManage, Everlaw); Managed Agents API para rutinas background; lanzado mayo 2026 | Sí — 882★ |
+| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins por área de práctica, 80+ agentes especializados, 20+ conectores MCP (CourtListener, Ironclad, DocuSign, iManage, Everlaw); Managed Agents API para rutinas background; lanzado mayo 2026 | Sí — **8.7k★** |
 | [courtlistener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | Archivo indexable de datos judiciales EE.UU.: 8M+ opiniones, dockets PACER, transcripciones orales, jueces, citas; API REST + MCP para Claude (mayo 2026) | Sí — 2.1k★ |
 | [docassemble](https://github.com/jhpyle/docassemble) | MIT | Sistema experto YAML/Python para entrevistas guiadas y ensamblado de documentos legales; genera PDF/DOCX; base de Suffolk LIT Lab y courts estatales de Massachusetts | Sí — 926★ |
 | [legalbench](https://github.com/HazyResearch/legalbench) | MIT | Benchmark colaborativo Stanford: 162 tareas de razonamiento legal en inglés (IRAC, interpretación estatutaria, contratos, regulaciones); estándar de facto para evaluar LLMs legales | Sí — 1.1k★ |
@@ -20,6 +20,9 @@
 | [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Apache-2.0 | DMS open para el mundo agéntico: anotación semántica de documentos legales, análisis colaborativo, API REST; soporte para corpus masivos de contratos | Sí — 390★ |
 | [awesome-legal-nlp](https://github.com/maastrichtlawtech/awesome-legal-nlp) | MIT | Lista curada de recursos LegalNLP: datasets multilingues, modelos, benchmarks, papers; mantenida por Maastricht Law Tech — referencia para investigación | Ref — 331★ |
 | [LegalAgentBench](https://github.com/CSHaitao/LegalAgentBench) | MIT | Benchmark multi-hop para agentes en dominio legal chino: 17 corpus, 37 herramientas, 300 tareas anotadas de razonamiento y redacción; paper ICLR 2025 | Eval — 420★ |
+| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | MCP server para leyes coreanas (모범 de patrón jurisdiccional): 41 APIs del National Law Information Center, verificación anti-hallucination, grafo de impacto; 2.1k★ — modelo para replicar en LATAM | MCP — 2155★ |
+| [legal-rag-bench](https://github.com/isaacus-dev/legal-rag-bench) | MIT | Benchmark reasoning-intensive para RAG legal end-to-end: evalúa precisión, recuperación y razonamiento sobre documentos legales reales; complementa LegalBench (tareas) con evaluación de sistemas completos | Eval — 165★ |
+| [GLAW](https://github.com/lawve-ai/glaw) | MIT | Virtual law firm skill: 179 skills en 10 departamentos, pipeline completo con human gates; referencia de arquitectura para despachos virtuales AI; genera attorney work-product con supervisión | Arch — 340★ |
 
 ---
 
@@ -44,7 +47,9 @@
 | C — Mass Litigation | docassemble + FastAPI + LangGraph + pgvector | Litigios masivos escala LATAM |
 | D — Legal NLP Pipeline | Blackstone + OpenNyAI + LRAGE | NLP para texto legal inglés/indio/español |
 | E — Self-hosted Platform | Mike / Suzie Law + Anthropic API | Plataforma AI legal propia del cliente |
-| F — Evaluation | LegalBench + HAQQ-LAB + LRAGE | Evaluación de sistemas AI antes de producción |
+| F — Evaluation | LegalBench + HAQQ-LAB + LRAGE + legal-rag-bench | Evaluación de sistemas AI antes de producción |
+| G — Virtual Law Firm | GLAW + Claude Code + CourtListener MCP | Despacho virtual AI con 10 departamentos |
+| H — Jurisdicción-específica MCP | korean-law-mcp (patrón) + APIs locales LATAM | MCP legal para PJe/CEJAT/EJE/SCJN |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas. — v5 2026-07-09.*

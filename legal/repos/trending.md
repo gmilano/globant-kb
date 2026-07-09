@@ -1,11 +1,13 @@
 # Repos trending — Legal Services
 
-> GitHub trending esta semana. Última actualización: 2026-07-08 (v4)
+> GitHub trending esta semana. Última actualización: 2026-07-09 (v5)
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic legal AI: 12 plugins, 80+ agentes, 20+ MCP connectors; Apache 2.0 — usable comercialmente; 882★/165 forks en 24h | 882 |
-| [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | Harvey alternativa self-hostable — Next.js+Express+Supabase; ex-Latham lawyer Will Chen; 2.2k★ y 614 forks en 72h (récord legaltech) | 2200 |
+| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic legal AI: 12 plugins, 80+ agentes, 20+ MCP connectors; **8.7k★ y 1.6k forks** en jul 2026 (9.8x desde lanzamiento) | 8700 |
+| [Mike](https://github.com/willchen96/mike) | AGPL-3.0 | Harvey alternativa self-hostable — Next.js+Express+Supabase; ex-Latham lawyer Will Chen; **3.9k★ y 900+ forks** | 3900 |
+| [korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) | MIT | **NUEVO v5**: MCP server para legislación coreana — 41 APIs del gobierno, anti-hallucination de citas, grafo legal; v4.4.0; **2.1k★** | 2155 |
+| [GLAW](https://github.com/lawve-ai/glaw) | MIT | **NUEVO v5**: Virtual law firm skill — 10 departamentos, 179 source skills, matter pipeline hard-gated, fraud dossiers, OCR; genera attorney work-product | 340 |
 | [Suzie Law](https://github.com/firelex/suzielaw) | Apache-2.0 | Open-source Scissero: 160+ agentic workflows, 12 personas por área de práctica, investigación en 19 jurisdicciones; base para soluciones cliente | 800 |
 | [lawglance](https://github.com/lawglance/lawglance) | MIT | RAG-based legal assistant gratuito y open source; expansión multi-jurisdicción Canada/India | 150 |
 | [courtlistener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | Archivo judicial EE.UU.: 8M+ opiniones + PACER + citas; MCP connector para Claude lanzado mayo 2026 — principal catalizador de agentes legales actuales | 2.1k |
@@ -26,11 +28,16 @@
 
 | Señal | Impacto |
 |-------|---------|
-| **Ola open source mayo 2026** — Mike (2.2k★), Suzie Law, claude-for-legal (882★) en 1 semana | Presión de precio sobre Harvey, LexisNexis; commoditiza el "chat con documentos" |
-| **HAQQ-LAB 24% hallucination rate** | Compliance + supervision humana son requerimientos arquitecturales, no opcionales |
-| **EU AI Act deadline 2 agosto 2026** | Urgente: €35M penalidad; genera demanda de advisory y auditoría |
-| **Enter (Brasil) $100M mayo 2026** | Confirma LATAM como mercado prioritario para legal AI |
-| **Gartner 40% enterprise apps con agentes task-specific en 2026** | Window de oportunidad para Globant: primeros 6-12 meses son ventaja decisiva |
+| **claude-for-legal 8.7k★ (jul 2026)** — de 882 a 8.7k en 2 meses | Adopción masiva: Anthropic's legal suite se convierte en infraestructura base del sector |
+| **Korean Law MCP 2.1k★** (julio 2026) | Valida patrón "MCP jurisdiccional" — próxima frontera: PJe/CEJAT/EJE/SCJN para LATAM |
+| **AI Legal Drafting Tools $0.9B → $3.42B (2030)** (GlobeNewswire jul 7) | Sub-segmento de alto crecimiento — automatización documental es producto independiente |
+| **GLAW virtual law firm** (340★, julio 2026) | 179 skills en 10 depts: referencia de arquitectura para despacho virtual AI completo |
+| **Legal Skills Ecosystem**: lawve-ai, skala-io, harvard-lil, lawvable | Nueva capa de infraestructura — skills portátiles para democratizar expertise legal |
+| **Ola open source mayo 2026** — Mike (3.9k★), Suzie Law, claude-for-legal (8.7k★) | Commoditización de "chat con documentos"; moat se desplaza a jurisdicción + integración |
+| **HAQQ-LAB 24% hallucination rate** | Compliance + supervisión humana son requerimientos arquitecturales, no opcionales |
+| **EU AI Act deadline 2 agosto 2026** | **24 días restantes**: €35M penalidad; genera demanda urgente de advisory y auditoría |
+| **Enter (Brasil) $100M mayo 2026** | Primer unicornio LATAM legal AI — confirma mercado prioritario |
+| **Corporate AI legal 23% → 54% en 1 año** (Thomson Reuters 2026) | Adopción se aceleró — las firmas que no actúen ahora quedarán rezagadas |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline automático — se actualiza cada hora. v5 2026-07-09.*
