@@ -1,7 +1,7 @@
 # 📈 Repos Healthcare trending — GitHub
 
 > Repos con mayor actividad y momentum en el ecosistema healthcare AI.
-> Última actualización: 2026-07-08 (v3 — MedRAX, awesome-medical-ai, HealthcareAgent Pypi)
+> Última actualización: 2026-07-09 (v4 — Medplum FHIR platform, awesome-drug-discovery, NemoClaw enterprise)
 
 ## Repos en ascenso
 
@@ -20,6 +20,8 @@
 | [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | MIT | Care: Digital Public Good para entrega acelerada de atención médica. Desarrollo activo, adopción en India y en expansión. UI React moderno sobre OpenMRS. | 611 |
 | [baeseongsu/awesome-machine-learning-for-healthcare](https://github.com/baeseongsu/awesome-machine-learning-for-healthcare) | MIT | Colección curada de ML para healthcare: DL para imágenes, NLP clínico, predicción de riesgo, descubrimiento de fármacos. Mantenida activamente. | ~800 |
 | [kakoni/awesome-healthcare](https://github.com/kakoni/awesome-healthcare) | CC0-1.0 | Lista maestra de software open source para healthcare: EHR, FHIR, NLP, imaging, HL7, APIs de salud pública. El directorio más completo del ecosistema. | ~2k |
+| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Healthcare developer platform TypeScript. FHIR-native, HIPAA+SOC2, Bots, UI components. Full-stack (React + Node.js). La plataforma de más rápido crecimiento para construir apps healthcare AI en 2026. | 1.5k+ |
+| [yboulaamane/awesome-drug-discovery](https://github.com/yboulaamane/awesome-drug-discovery) | MIT | Curación de métodos computacionales para drug discovery: ML, molecular modeling, DL, proteínas. Ganó tracción post-NVIDIA Proteina-Complexa y la era clínica de AI drug discovery. | ~500 |
 
 ---
 
@@ -42,6 +44,19 @@
 - **MedRAX** (ICML 2025): primer framework unificado agente+herramientas para radiología CXR
 - torchio: 500+ papers; adopción universitaria global
 - hi-ml: Microsoft aumentando contribuciones en radiología multimodal
+
+### Healthcare Developer Platforms (explosión 2026)
+- **Medplum** (Apache-2.0): TypeScript FHIR-native, HIPAA+SOC2, Bots serverless. La plataforma más moderna para greenfield healthcare apps con AI. Alternativa a beda-software/fhir-emr.
+- TEFCA como infraestructura de datos: 1B+ intercambios → flujos de trabajo agénticos a escala nacional posibles
+
+### Drug Discovery AI (nuevo segmento activo)
+- **NVIDIA Proteina-Complexa**: 1M+ binders diseñados y validados → drug discovery deja de ser solo ML
+- **BioNeMo**: plataforma open AI para biología, química, genómica; NVIDIA GTC 2026
+- **awesome-drug-discovery**: curación post-AlphaFold; referencia del ecosistema computacional
+
+### Enterprise Security para Agentes Healthcare (emergente)
+- **NemoClaw** (NVIDIA, Apache-2.0): PHI router + sandbox para OpenClaw → HIPAA en agentes
+- Patrón PHI-local: Nemotron local para datos sensibles + Claude/GPT para reasoning = compliance sin sacrificar capacidad
 
 ---
 *Pipeline automático — se actualiza cada hora.*

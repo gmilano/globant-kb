@@ -1,7 +1,7 @@
 # 📡 Tendencias — Healthcare AI 2026
 
 > Señales de mercado, tecnológicas y regulatorias. Basado en investigación profunda.
-> Última actualización: 2026-07-08 (v3 — Trend 7: FDA SaMD, Trend 8: MedAgentBench era, Trend 9: LATAM AI medical trials)
+> Última actualización: 2026-07-09 (v4 — T10 TEFCA 1B, T11 NVIDIA 70% adoption + ROI, T12 NemoClaw enterprise, T13 Drug discovery clinical era)
 
 ## 🔥 Tendencia #1: Agentic AI pasa de piloto a empresa
 
@@ -163,6 +163,85 @@ Indicación estrecha + Predicado 510(k) + Evidencia clínica + Sandboxing estric
 
 ---
 
+---
+
+## 🔥 Tendencia #10: TEFCA supera 1 billón de intercambios — Infraestructura AI en salud alcanza escala
+
+**Señal**: HHS anuncia que TEFCA superó **1 billón de intercambios** de registros de salud (Jul 2026):
+- De 10 millones a 1 billón de intercambios en menos de 1 año — aceleración exponencial
+- HHS comprometió $1.3M adicionales para reforzar supervisión y confianza de la red
+- SSA se unió a TEFCA (spring 2026): reduce tiempos de procesamiento de discapacidad >50%
+- Declaración clave (Thomas Keane, HHS): "Cuando AI se aplica a salud, la liquidez de datos será la necesidad definitoria"
+
+**Por qué es un punto de inflexión para agentes AI**:
+- Un agente de prior authorization ahora puede autenticar y recuperar registros de cualquier organización participante
+- Un CDSS puede acceder a historial clínico cross-institucional en tiempo real
+- Workflows de coordinación de cuidados AI a escala nacional pasan de experimental a factible
+
+**Patrón habilitado**: `Agente AI → TEFCA → QHIN → Cualquier EHR en la red → Datos actualizados para decisión`
+
+---
+
+## 🔥 Tendencia #11: NVIDIA Survey — 70% de organizaciones healthcare usan AI y ven ROI real
+
+**Señal**: NVIDIA State of AI in Healthcare Report 2026 (600+ profesionales de la industria):
+- **70%** de organizaciones healthcare activamente usando AI (↑ de 63% en 2025)
+- **69%** dice que el workload más importante es **GenAI + LLMs**
+- **85%** de management reporta **mayor revenue** con AI; **80%** reporta **reducción de costos**
+- **Agentic AI** (debut en el survey): **47%** evaluando o usando ya; 4to lugar en adopción
+  - Pharma/biotech: **55%** usan agentic AI para revisión de literatura; **~50%** en drug discovery
+- **85%** planea aumentar presupuesto AI en 2026; casi la mitad espera crecimiento >10%
+
+**Top 3 ROI use cases**:
+1. Medical imaging analysis (radiology pre-read, pathology)
+2. Drug discovery & development (AI-designed molecules en trials)
+3. Clinical decision support (diagnóstico diferencial, drug interactions)
+
+**Implicación para Globant**: La industria ya no está en "piloto". El ROI está documentado y el 85% de organizaciones aumenta inversión. La oportunidad de ser "primer implementador" en hospitales mid-market no dura. Ventana: 12-18 meses.
+
+---
+
+## 🔥 Tendencia #12: NemoClaw — Enterprise Security para Agentes Healthcare (NVIDIA GTC 2026)
+
+**Señal**: NVIDIA lanza NemoClaw (16 mar 2026) en GTC 2026 — el "enterprise wrapper" para OpenClaw:
+
+**Tres controles críticos**:
+1. **Kernel-level sandbox**: deny-by-default; los agentes no pueden sobrepasar el policy engine
+2. **Privacy router**: PHI → modelos Nemotron locales; reasoning complejo → Claude/GPT (sin PHI)
+3. **RBAC + audit logging**: acceso granular por rol + trazabilidad inmutable para compliance
+
+**Patrón clave para HIPAA-compliance**:
+```
+Paciente input (PHI) → NemoClaw privacy router → Nemotron local (análisis PHI)
+                                                 ↓
+                     Claude/GPT-5 (reasoning no-PHI) ← contexto anonimizado
+                                                 ↓
+                                    Respuesta → Audit log FHIR AuditEvent
+```
+
+**Lo que resuelve**: El mayor bloqueador de ventas en healthcare enterprise — "no podemos enviar datos de pacientes a modelos en la nube." Con NemoClaw: PHI nunca sale del datacenter del hospital.
+
+**Implicación para Globant**: Permite propuestas con agentes OpenClaw a hospitales US grandes (VAs, sistemas académicos) que tienen políticas estrictas de datos. Early adopters incluyen healthcare + finserv.
+
+---
+
+## 🔥 Tendencia #13: Drug Discovery AI entra en "Era Clínica" — Moléculas sobre Modelos
+
+**Señal** (BIO USA 2026, jul 2026): El sector biotech AI pasa de "modelos fundacionales" a "moléculas que llegan a trials":
+- **NVIDIA Proteina-Complexa**: Modelo de razonamiento para diseño de proteínas; 1M+ binders diseñados, validados experimentalmente contra 130+ targets
+- **46%** de pharma/biotech reporta drug discovery como top ROI use case (NVIDIA Survey 2026)
+- Múltiples candidatos a fármacos diseñados por AI en milestones clínicos críticos durante 2026
+- BioNeMo expandido como plataforma open AI para biología, química, genómica
+
+**Herramientas open source emergentes**:
+- `yboulaamane/awesome-drug-discovery` (MIT): curación activa de métodos computacionales post-AlphaFold
+- `databricks-industry-solutions/ai-driven-drug-discovery` (MIT): pipelines end-to-end con LLMs
+- **AutoResearch AI** (arXiv:2605.23204): Automatización de investigación científica con AI
+
+**Implicación para Globant**: Laboratorios farmacéuticos y de biotecnología son un nuevo segmento de mercado. Deal sizes $300k–$1.5M. El stack: BioChatter + BioNeMo + NVIDIA NIM (drug discovery models) + LLM reasoning agent.
+
+---
+
 ## Repos más activos esta semana (señal GitHub)
 
 - [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) — radiología AI con agentes (ICML 2025), acelerando en adopción hospitalaria
@@ -171,3 +250,5 @@ Indicación estrecha + Predicado 510(k) + Evidencia clínica + Sandboxing estric
 - [the-momentum/fhir-mcp-server](https://github.com/the-momentum/fhir-mcp-server) — estándar emergente FHIR↔LLM
 - [openmed-labs/openmed-agent](https://github.com/openmed-labs/openmed-agent) — prior auth automation en auge
 - [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) — Digital Public Good en expansión global
+- [medplum/medplum](https://github.com/medplum/medplum) — Plataforma FHIR TypeScript enterprise; "Vercel para healthcare apps"
+- [yboulaamane/awesome-drug-discovery](https://github.com/yboulaamane/awesome-drug-discovery) — Curación activa post-NVIDIA Proteina-Complexa; drug discovery computational tools

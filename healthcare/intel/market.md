@@ -1,13 +1,14 @@
 # 🗺️ Mapa de mercado — Healthcare AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-08 (v3 — Agentic AI CAGR 45.6%, FDA SaMD, LATAM $5.6B)
+> Última actualización: 2026-07-09 (v4 — NVIDIA 70% adoption, GenAI HC $5.77B CAGR 43.4%, TEFCA 1B exchanges, NemoClaw)
 
 ## Tamaño de mercado
 
 | Segmento | 2026 | Proyección | CAGR | Fuente |
 |----------|------|-----------|------|--------|
 | AI en Healthcare (global) | $50.7B | $505.6B (2033) | 38.9% | Grand View Research 2026 |
+| GenAI en Healthcare (GlobeNewswire Jul 8, 2026) | $0.95B (2025) | **$5.77B (2030)** | **43.4%** | GlobeNewswire / Research Jul 2026 |
 | Agentic AI en Healthcare | $1.14B | $33.66B (2035) | **45.6%** | Toward Healthcare / Fortune Business Insights |
 | Agentic AI en Healthcare (alt.) | $1.83B | $19.71B (2034) | 34.6% | Grand View Research 2026 |
 | Digital Health LATAM | **$5.6B (2026)** | $66.40B (2033) | 20.05% | Market Data Forecast |
@@ -15,7 +16,11 @@
 
 **Señal clave (Deloitte, 2026)**: 80% de ejecutivos healthcare esperan valor significativo de agentes AI. Solo 3% tienen agentes en producción. → **Ventana de oportunidad masiva**: primero en llegar define el stack.
 
+**Señal clave (NVIDIA Survey 2026, 600+ profesionales)**: 70% de organizaciones healthcare usan AI (↑63%). 85% reporta mayor revenue; 80% menor costo. Agentic AI: 47% evaluando o usando. 85% aumentará presupuesto AI en 2026.
+
 **Señal regulatoria (FDA, Jun 2026)**: UpDoc K253281 — primer LLM patient-facing clearado como SaMD. De 1,000+ AI/ML devices aprobados, este es el primero con LLM generativo. Precedente para toda la industria.
+
+**Señal infraestructura (HHS, Jul 2026)**: TEFCA supera 1 billón de intercambios de registros de salud. De 10M a 1B en menos de 1 año. HHS invierte $1.3M en supervisión. La liquidez de datos es la condición necesaria para AI agéntica a escala.
 
 ## Players globales
 
@@ -31,6 +36,8 @@
 | **Bahmni (ThoughtWorks)** | Open source HIS | Hospital completo + bajo recurso, ONG/gobiernos | Requiere customización; soporte comunidad |
 | **UpDoc Inc.** | Clinical AI SaMD | Primer LLM FDA-cleared patient-facing (K253281); EHR-integrated, Cleveland Clinic + AHN + UCSF | Solo indicación estrecha; US only por ahora |
 | **Mediware / Nuvolo** | Specialty clinical | Especialidades clínicas propietarias | No AI-first |
+| **NVIDIA (healthcare)** | AI infrastructure | BioNeMo (drug discovery), NemoClaw (enterprise agents), NVIDIA MONAI (medical imaging), Clara (radiology AI). 70% orgs usan NVIDIA para AI. | No EHR; plataforma de infraestructura, no apps clínicas |
+| **Medplum** | Open source FHIR platform | FHIR-native TypeScript platform Apache-2.0, HIPAA+SOC2, usado para construir apps AI sobre FHIR. Y Combinator alum. | Sin EHR completo propio; developer platform, no solución lista |
 
 ## Mapa de oportunidades LATAM
 

@@ -1,7 +1,7 @@
 # 🏭 Verticales de partida — Healthcare
 
 > Plataformas verticales existentes customizables con AI. Modelo: partir de algo funcional y añadir capa agéntica.
-> Última actualización: 2026-07-08 (v3 — beda-software/fhir-emr, FDA SaMD pathway, LATAM guide)
+> Última actualización: 2026-07-09 (v4 — Medplum Apache-2.0 FHIR platform enterprise, NemoClaw HIPAA pattern)
 
 ## Plataformas recomendadas
 
@@ -15,12 +15,14 @@
 | **care_fe (OHC Network)** | MIT | [github.com/ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | React + REST | Digital Public Good para entrega acelerada de atención. UI moderna sobre OpenMRS. Adoptado en India, expandiéndose globalmente. 611★ activos. |
 | **HAPI FHIR Server** | Apache-2.0 | [github.com/hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Java + Spring Boot | La implementación FHIR más completa: servidor, cliente, validador. Base de Azure Health Data Services. Estándar para interoperabilidad AI↔EHR. |
 | **Microsoft FHIR Server** | MIT | [github.com/microsoft/fhir-server](https://github.com/microsoft/fhir-server) | C# + Azure | FHIR server enterprise de Microsoft. FHIR R4 + R4B, high-performance, Azure native. Integrable con HealthLake MCP. Para clientes enterprise en Azure. |
-| **beda-software/fhir-emr** | MIT | [github.com/beda-software/fhir-emr](https://github.com/beda-software/fhir-emr) | TypeScript + FHIR | EMR FHIR-native con licencia MIT pura. Usa HL7 FHIR como data model y SDC IG para formularios. Ideal para proyectos Globant greenfield donde se quiere máxima flexibilidad sin restricciones de licencia. |
+| **beda-software/fhir-emr** | MIT | [github.com/beda-software/fhir-emr](https://github.com/beda-software/fhir-emr) | TypeScript + FHIR | EMR FHIR-native con licencia MIT pura. Usa HL7 FHIR como data model y SDC IG para formularios. Ideal para proyectos greenfield donde se quiere máxima flexibilidad. |
+| **Medplum** | Apache-2.0 | [github.com/medplum/medplum](https://github.com/medplum/medplum) | TypeScript + React + Node.js + FHIR | Healthcare developer platform. FHIR-native, HIPAA+SOC2 out-of-box, "Bots" para server-side logic (similar a AWS Lambda), UI Component Library, Medplum App. Y Combinator alum. **Recomendado para greenfield 2026** — más completo que beda-software/fhir-emr para apps de producción. |
 
 ---
 
 ## Cómo customizar con AI — Receta estándar
 
+### Integración sobre EHR existente (clientes con sistema ya desplegado)
 ```
 1. Fork del repo base (OpenMRS / OpenEMR / Bahmni)
 2. Exponer datos vía FHIR R4 API (built-in en todos)
@@ -28,6 +30,16 @@
 4. Conectar agente (openmed-agent / Claude + MCP)
 5. Añadir NLP clínico sobre notas (medspaCy + cTAKES)
 6. Desplegar UI conversacional (React) sobre el sistema base
+```
+
+### Greenfield FHIR-native (proyecto nuevo — recomendado 2026)
+```
+1. Partir de Medplum (Apache-2.0) como FHIR server + platform
+2. Crear Medplum Bots para AI logic server-side (sin infra propia)
+3. Conectar fhir-mcp-server para exponer datos a Claude
+4. Configurar NemoClaw si el cliente requiere HIPAA estricto (PHI local)
+5. Añadir UI con Medplum React components + custom clinical views
+6. Desplegar en AWS/Azure con HIPAA Business Associate Agreement
 ```
 
 ## Mapa de selección por contexto
@@ -39,7 +51,9 @@
 | Red nacional de salud / epidemiología | OpenMRS + GNU Health |
 | Urgencias / telemedicina / startup | Ottehr |
 | Interoperabilidad FHIR enterprise | HAPI FHIR + Microsoft FHIR Server |
-| Plataforma AI nativa (greenfield) | Ottehr + fhir-mcp-server + openmed-agent |
+| Plataforma AI nativa (greenfield, TypeScript) | **Medplum** + fhir-mcp-server + openmed-agent |
+| HIPAA estricto + enterprise (hospital US grande) | Medplum + **NemoClaw** + openmed-agent |
+| AI clínica con PHI en datacenter propio | NemoClaw + Nemotron local + Claude (reasoning no-PHI) |
 
 ## Módulos AI más demandados sobre estas plataformas
 
@@ -69,6 +83,15 @@
 5. EHR-integrated: acción del agente visible y auditada por el clínico
 6. Submission 510(k) al FDA con predicate claim
 ```
+
+### TEFCA como infraestructura para agentes (jul 2026)
+
+TEFCA superó 1 billón de intercambios (HHS, jul 2026). Los proyectos US deben planificarse sobre TEFCA:
+- Agentic workflows de prior authorization: el agente se autentica en TEFCA → accede a cualquier EHR participante
+- Coordinación de cuidados AI: historial cross-institucional en tiempo real sin integraciones bilaterales
+- SSA en TEFCA (spring 2026): procesamiento de discapacidad >50% más rápido como caso de referencia
+
+---
 
 ### Qué significa para proyectos Globant US:
 - **El precedente existe**: proyectos de AI clínica con pacientes en EEUU ahora tienen un modelo claro

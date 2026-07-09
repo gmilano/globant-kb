@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Healthcare AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-08 (v3 — P7 MedRAX radiología, P8 FDA SaMD clinical LLM)
+> Última actualización: 2026-07-09 (v4 — P9 NemoClaw HIPAA enterprise, P10 Medplum full-stack FHIR AI)
 
 ## Arquitectura base
 
@@ -581,6 +581,221 @@ answer = diabetes_agent("P-12345", "¿Debo ajustar mi dosis de insulina?", gluco
 
 ---
 
+---
+
+## Patrón 9: NemoClaw + OpenClaw — Agentic Workflow HIPAA-Compliant (Enterprise US)
+
+**Caso de uso**: Hospitales US grandes (VAs, sistemas académicos) que requieren agentes AI pero tienen políticas de zero-data-out — ningún dato de paciente puede salir a modelos en la nube.
+
+**Repos**: NVIDIA NemoClaw (Apache-2.0) + OpenClaw-Medical-Skills (Apache-2.0) + HAPI FHIR + Claude API
+
+**Arquitectura**:
+```
+Clínico solicita análisis de caso (PHI: nombre, MRN, diagnósticos)
+    ↓ NemoClaw Privacy Router
+PHI → Nemotron local (análisis con datos sensibles, sin salir del datacenter)
+Contexto anonimizado → Claude via NemoClaw (razonamiento clínico complejo, no-PHI)
+    ↓ OpenClaw-Medical-Skills (869 skills médicos)
+Resultado del agente → NemoClaw audit logger → FHIR AuditEvent (inmutable)
+    ↓
+Respuesta estructurada al clínico (nota, diagnóstico diferencial, recomendación)
+```
+
+**Configuración Docker Compose**:
+```yaml
+version: "3.9"
+services:
+  nemoclaw:
+    image: nvidia/nemoclaw:latest
+    environment:
+      PHI_LOCAL_MODEL: nemotron-nano-4b
+      CLOUD_REASONING_ENDPOINT: https://api.anthropic.com/v1
+      RBAC_CONFIG: /config/rbac.yaml
+      AUDIT_FHIR_ENDPOINT: http://hapi-fhir:8080/fhir
+    volumes:
+      - ./nemoclaw-config:/config
+    ports: ["7777:7777"]
+
+  nemotron-local:
+    image: nvidia/nemotron:nano-4b-local
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+  hapi-fhir:
+    image: hapiproject/hapi:latest
+    ports: ["8080:8080"]
+```
+
+**Código mínimo (Python)**:
+```python
+import anthropic
+import requests
+
+NEMOCLAW_ENDPOINT = "http://nemoclaw:7777"
+HAPI_FHIR_ENDPOINT = "http://hapi-fhir:8080/fhir"
+
+def hipaa_compliant_clinical_agent(patient_fhir_id: str, clinical_query: str) -> str:
+    # 1. Leer datos FHIR del paciente
+    patient_response = requests.get(
+        f"{HAPI_FHIR_ENDPOINT}/Patient/{patient_fhir_id}",
+        headers={"Accept": "application/fhir+json"}
+    )
+    patient_data = patient_response.json()
+
+    # 2. NemoClaw enruta PHI a Nemotron local; reasoning a Claude
+    # El SDK de NemoClaw maneja el routing internamente
+    nemoclaw_response = requests.post(
+        f"{NEMOCLAW_ENDPOINT}/v1/agent",
+        json={
+            "patient_data": patient_data,    # PHI: queda local
+            "query": clinical_query,
+            "agent_skills": [
+                "differential_diagnosis",
+                "drug_interaction_check",
+                "guideline_lookup"
+            ],
+            "routing_policy": "phi_local",    # PHI nunca sale
+            "audit_enabled": True
+        }
+    )
+    return nemoclaw_response.json()["response"]
+
+# Uso con OpenClaw skills vía NemoClaw
+response = hipaa_compliant_clinical_agent(
+    patient_fhir_id="Patient-FHIR-12345",
+    clinical_query="""Paciente 67F con DM2, HTA, ERC estadio 3.
+    Ingresa con dolor torácico y disnea. ¿Diagnóstico diferencial y próximos pasos?"""
+)
+print(response)
+```
+
+**Por qué NemoClaw es diferente al Patrón 2 (Prior Auth)**:
+- En el Patrón 2, los datos pueden salir a la nube (clínicas mid-market sin BAA estricto)
+- En este patrón: hospital US grande, PHI zero-leakage policy, requiere audit inmutable
+- NemoClaw: PHI → Nemotron local; reasoning → Claude (con contexto anonimizado)
+
+**Compliance checklist**:
+- ✅ PHI permanece en datacenter del hospital (Nemotron local)
+- ✅ RBAC: solo roles autorizados pueden invocar el agente
+- ✅ Audit log inmutable: FHIR AuditEvent por cada interacción
+- ✅ Sandboxing: el agente no puede acceder a recursos fuera del scope definido
+- ✅ Claude recibe contexto anonimizado → no procesa PHI → no requiere BAA con Anthropic
+
+**Time-to-value**: 10-16 semanas (incluye configuración RBAC + audit + piloto clínico). **Deal size**: $400k–$1.5M.
+
+---
+
+## Patrón 10: Medplum + Claude Bots — Plataforma Healthcare AI Greenfield (TypeScript)
+
+**Caso de uso**: Startup healthtech o hospital que quiere lanzar una nueva app AI clínica (portal de pacientes, telemedicina, chronic care management) sin construir infraestructura FHIR desde cero.
+
+**Repos**: `medplum/medplum` (Apache-2.0) + `the-momentum/fhir-mcp-server` (MIT) + Claude API
+
+**Por qué Medplum como base**:
+- FHIR-native: todos los datos son recursos FHIR R4 out-of-box
+- "Bots" = funciones serverless dentro de Medplum para AI logic (similar a Lambda)
+- HIPAA+SOC2 listo sin configuración adicional
+- UI Component Library React: formularios clínicos, timelines, chat — no rebuilds
+
+**Flujo**:
+```
+Paciente interactúa via app (React con Medplum UI components)
+    ↓ Medplum FHIR Server (datos estructurados R4)
+Bot de Medplum disparado por evento FHIR (nuevo Observation, Encounter, etc.)
+    ↓ Claude API (análisis + recomendación)
+Bot escribe resultado como FHIR Observation/CommunicationRequest
+    ↓ Notificación al clínico (Medplum Subscription)
+Clínico revisa y aprueba vía Medplum App
+```
+
+**Código — Medplum Bot que llama a Claude**:
+```typescript
+import Anthropic from "@anthropic-ai/sdk";
+import { BotEvent, MedplumClient, Observation, Patient } from "@medplum/core";
+
+export async function handler(medplum: MedplumClient, event: BotEvent): Promise<void> {
+  // Triggered when a new glucose Observation is created
+  const observation = event.input as Observation;
+  const patientRef = observation.subject?.reference;
+  if (!patientRef) return;
+
+  // 1. Leer datos del paciente desde FHIR
+  const patient = await medplum.readReference<Patient>({ reference: patientRef });
+  const glucoseValue = observation.valueQuantity?.value ?? 0;
+  const glucoseUnit = observation.valueQuantity?.unit ?? "mg/dL";
+
+  // 2. Llamar a Claude para análisis clínico
+  const client = new Anthropic();
+  const message = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",  // Haiku: barato, rápido para triage
+    max_tokens: 512,
+    system: `Eres un asistente clínico de gestión de diabetes T2DM.
+Responde SOLO sobre manejo de glucosa e insulina. Siempre recomienda confirmar con médico.`,
+    messages: [{
+      role: "user",
+      content: `Paciente: ${patient.name?.[0]?.family}.
+Lectura de glucosa: ${glucoseValue} ${glucoseUnit}.
+¿Requiere alguna acción? ¿Alertar al médico?`
+    }]
+  });
+
+  const aiAnalysis = (message.content[0] as { text: string }).text;
+  const needsAlert = glucoseValue < 70 || glucoseValue > 300;
+
+  // 3. Escribir resultado como FHIR Observation
+  await medplum.createResource({
+    resourceType: "Observation",
+    status: "final",
+    code: { text: "AI Clinical Analysis" },
+    subject: { reference: patientRef },
+    valueString: aiAnalysis,
+    component: [{
+      code: { text: "Alert Required" },
+      valueBoolean: needsAlert
+    }]
+  });
+
+  // 4. Si alerta: crear CommunicationRequest al médico
+  if (needsAlert) {
+    await medplum.createResource({
+      resourceType: "Communication",
+      status: "completed",
+      subject: { reference: patientRef },
+      payload: [{ contentString: `⚠️ ALERTA: Glucosa ${glucoseValue} ${glucoseUnit}. ${aiAnalysis}` }]
+    });
+  }
+}
+```
+
+**Despliegue Medplum en AWS**:
+```bash
+# 1. Clonar y configurar
+git clone https://github.com/medplum/medplum
+cd medplum && npm install
+
+# 2. Variables de entorno (HIPAA)
+export ANTHROPIC_API_KEY=<your-key>
+export MEDPLUM_BASE_URL=https://your-medplum.example.com
+export AWS_REGION=us-east-1  # HIPAA BAA requerido con AWS
+
+# 3. Deploy Bot
+npx medplum deploy-bot --bot-name glucose-ai-analyzer --source bots/glucose-analyzer.ts
+
+# 4. Registrar Subscription FHIR (trigger on new Observation)
+curl -X POST "$MEDPLUM_BASE_URL/fhir/R4/Subscription" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"resourceType":"Subscription","status":"active",
+       "criteria":"Observation?code=15074-8",
+       "channel":{"type":"rest-hook","endpoint":"medplum-bot:glucose-ai-analyzer"}}'
+```
+
+**Time-to-value**: 3-5 semanas (vs 10+ semanas con EHR tradicional). **Deal size**: $80k–$400k (startup) / $200k–$800k (hospital).
+
+---
+
 ## Resumen — Tiempo y complejidad por patrón
 
 | Patrón | Semanas | Complejidad | ROI principal | Deal size |
@@ -593,3 +808,5 @@ answer = diabetes_agent("P-12345", "¿Debo ajustar mi dosis de insulina?", gluco
 | 6. Drug Discovery Assistant | 8-12 | Media-Alta | $50k+/año vs. propietarios | $100k–$400k |
 | 7. MedRAX Chest X-Ray Agent | 10-14 | Alta | Backlog radiológico; escasez especialistas | $250k–$900k |
 | 8. FDA SaMD Clinical LLM | 52-78 (1-1.5y) | Muy Alta | Precedente K253281; chronic disease | $500k–$2M |
+| 9. NemoClaw Enterprise HIPAA | 10-16 | Alta | PHI zero-leakage; hospitales US grandes | $400k–$1.5M |
+| 10. Medplum Greenfield AI | 3-5 | Media | Lanzamiento rápido; FHIR-native sin infra | $80k–$800k |

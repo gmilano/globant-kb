@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Healthcare
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa, producción-ready.
-> Última actualización: 2026-07-08 (v3 — beda-software/fhir-emr MIT, MedRAX ICML 2025)
+> Última actualización: 2026-07-09 (v4 — medplum Apache-2.0 FHIR platform, OpenAPS MIT diabetes)
 
 ## Plataformas y frameworks base
 
@@ -19,6 +19,8 @@
 | [biocypher/biochatter](https://github.com/biocypher/biochatter) | MIT | Framework conversacional biomédico con LLMs: RAG sobre knowledge graphs, model chaining, benchmarking. Soporta Neo4j, ontologías biomédicas. Privacidad con Ollama. | Conversational AI sobre datos biomédicos estructurados |
 | [beda-software/fhir-emr](https://github.com/beda-software/fhir-emr) | MIT | EMR basado en FHIR como data model nativo. HL7 FHIR + SDC IG para gestión de formularios. Stack MIT ideal para proyectos Globant sin restricciones. | Base FHIR-native para EMR customizable con AI |
 | [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) | Apache-2.0 | Medical Reasoning Agent for Chest X-ray (ICML 2025). Framework de agentes para análisis radiológico con 2,500 benchmarks. Base para soluciones de diagnóstico por imagen. | Radiología AI con agentes especializados |
+| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Plataforma healthcare developer full-stack TypeScript (React + Node.js). FHIR-native, HIPAA+SOC2 out-of-box, Bots para server-side logic, UI Component Library, Medplum App para gestión de datos. Y Combinator alum. La base más moderna para construir apps AI clínicas sobre FHIR sin partir de cero. | Healthcare app development: EHR greenfield, telehealth, patient portals, AI clinical workflows |
+| [openaps/oref0](https://github.com/openaps/oref0) | MIT | OpenAPS — Open Artificial Pancreas System reference implementation. CGM data → closed-loop insulin delivery algorithm → pump commands. 2,500+ pacientes T1D globalmente. Precedente para FDA Automated Insulin Delivery (AID) pathway. Dataset: 46k+ days, 10M+ CGM points (OpenAPS Data Commons). | Closed-loop medical device AI; automated therapy management; regulatory precedent AID |
 
 ---
 
@@ -41,12 +43,20 @@ Capa 4 — Procesamiento especializado
 
 ## Stack mínimo viable para proyecto healthcare AI
 
-1. **EHR Base**: OpenEMR (US/LATAM) o OpenMRS (LATAM low-resource / global) o beda-software/fhir-emr (greenfield FHIR-native)
-2. **FHIR Layer**: HAPI FHIR o fhir-mcp-server (Momentum) — nodo de interoperabilidad AI↔EHR
+### Opción A: Greenfield (nuevo sistema, TypeScript)
+1. **Platform Base**: Medplum (Apache-2.0) — FHIR-native, HIPAA+SOC2, Bots para logic
+2. **FHIR MCP**: fhir-mcp-server (Momentum MIT) — conector LLM↔FHIR
+3. **Agente principal**: openmed-agent + Claude via MCP
+4. **NLP clínico**: medspaCy (notas no estructuradas)
+5. **Enterprise security**: NemoClaw (PHI local) si el cliente es hospital US grande
+
+### Opción B: Integración sobre EHR existente
+1. **EHR Base**: OpenEMR (US/LATAM ambulatorio) o OpenMRS (LATAM hospital) o Bahmni (low-resource)
+2. **FHIR Layer**: HAPI FHIR o fhir-mcp-server (Momentum) — interoperabilidad AI↔EHR
 3. **NLP clínico**: medspaCy para notas; cTAKES para codificación SNOMED/ICD
 4. **Agente principal**: openmed-agent (workflows clínicos) o BioChatter (conocimiento biomédico)
 5. **Imágenes médicas**: MedRAX (radiología CXR) + torchio (3D MRI/CT)
-6. **UI**: Ottehr (React moderno) o módulo web OpenMRS
+6. **UI**: Ottehr (React moderno) o módulo web OpenMRS / Medplum App
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

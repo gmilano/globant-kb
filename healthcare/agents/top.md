@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Healthcare
 
 > Agentes y herramientas AI open source para la industria de salud. Foco: MIT / Apache 2.0 / BSD.
-> Última actualización: 2026-07-08 (v3 — FDA clearance, MedRAX, FHIR-AgentBench)
+> Última actualización: 2026-07-09 (v4 — NemoClaw enterprise, Medplum FHIR platform, NVIDIA survey 70% adoption)
 
 ## Agentes y herramientas destacadas
 
@@ -21,6 +21,8 @@
 | [MedLLMsPracticalGuide](https://github.com/AI-in-Health/MedLLMsPracticalGuide) | Apache-2.0 | Guía práctica curada (publicada en Nature Reviews Bioengineering) de aplicación de LLMs en medicina: árbol de modelos, tablas comparativas, papers. Referencia esencial para proyectos médicos con AI. | ~2k |
 | [MedRAX](https://github.com/bowang-lab/MedRAX) | Apache-2.0 | Medical Reasoning Agent for Chest X-ray (ICML 2025). Primer agente AI versátil que integra herramientas de análisis CXR y LLMs multimodales en un framework unificado. Incluye ChestAgentBench: 2,500 consultas médicas complejas en 7 categorías. | ~1.2k |
 | [awesome-medical-ai](https://github.com/JuneYaooo/awesome-medical-ai) | MIT | Lista curada de proyectos AI médicos y de salud: LLMs, imágenes médicas, sistemas multi-agente, software clínico. Referencia integral del ecosistema 2025-2026. | ~400 |
+| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Plataforma healthcare developer full-stack TypeScript. FHIR-native, HIPAA+SOC2 out-of-box, "Bots" para server-side logic sin infraestructura propia, UI components. El "Vercel for healthcare" — ideal para construir apps AI clínicas sobre FHIR sin partir de cero. | 1.5k+ |
+| [OpenAPS/oref0](https://github.com/openaps/oref0) | MIT | OpenAPS — artificial pancreas system open source. El primer sistema de closed-loop insulin delivery patientliderado. CGM → algoritmo de ajuste de dosis basal → pump. 2,500+ pacientes T1D globalmente. Referencia de FDA AID (Automated Insulin Delivery) pathway. | ~2k |
 
 ---
 
@@ -32,6 +34,7 @@
 | [wso2/fhir-mcp-server](https://github.com/wso2/fhir-mcp-server) | Apache-2.0 | FHIR MCP Server de WSO2: expone cualquier servidor o API FHIR como MCP Server. Puente entre herramientas AI/LLM y datos de salud empresariales. |
 | [xSoVx/fhir-mcp](https://github.com/xSoVx/fhir-mcp) | MIT | FHIR-MCP con PHI protection integrado, audit logging y operaciones token-eficientes. Interopera con HL7 terminology services y validación LOINC automática. |
 | [AWS HealthLake MCP](https://awslabs.github.io/mcp/servers/healthlake-mcp-server) | Apache-2.0 | MCP server open source de AWS para HealthLake FHIR resources. Interfaz lenguaje natural a datos de salud estructurados en AWS HealthLake. |
+| NemoClaw (NVIDIA) | Apache-2.0 | Enterprise security layer para OpenClaw (GTC 2026). PHI routing a modelos Nemotron locales + razonamiento complejo a Claude/cloud. Kernel-level sandbox, RBAC, audit logging. La solución HIPAA-by-design para agentes OpenClaw en healthcare. |
 
 ---
 
@@ -49,6 +52,9 @@
 | On-device / HIPAA / LGPD privacidad total | openmed (local-first) |
 | Skills especializados por dominio médico | OpenClaw-Medical-Skills (869 módulos) |
 | Pathway FDA-cleared clinical LLM (SaMD) | openmed-agent + FHIR MCP + validación clínica |
+| Plataforma AI healthcare greenfield (TypeScript) | medplum/medplum + fhir-mcp-server |
+| Agentes OpenClaw con HIPAA compliance (enterprise) | NemoClaw (NVIDIA) + OpenClaw-Medical-Skills |
+| Artificial Pancreas / diabetes closed-loop | OpenAPS + CGM integration + FHIR write |
 
 ---
 
@@ -61,6 +67,9 @@
 | PhysicianBench | arXiv:2605.02240 | Agentes LLM en EHR de mundo real (nivel médico) | Claude — SOTA reportado |
 | ChestAgentBench | bowang-lab/MedRAX | 2,500 consultas diagnósticas CXR en 7 categorías | MedRAX (Apache-2.0) |
 | CHI-Bench | AgenticHealthAI | Flujos de trabajo healthcare end-to-end | OpenClaw-based agents |
+| ABRA | AgenticHealthAI list (2026) | Benchmark de agentes AI para aplicaciones de radiología | Reportado 2026 |
+| AgentRx | AgenticHealthAI list (2026) | Multi-agente para predicción clínica multimodal | Reportado 2026 |
+| MedMemoryBench | AgenticHealthAI list | Benchmark de memoria de agentes en healthcare personalizada | 2026 |
 
 ---
-*Actualizado por el pipeline de ingest — v2 investigación profunda 2026-07-07.*
+*Actualizado por el pipeline de ingest — v4 investigación profunda 2026-07-09.*
