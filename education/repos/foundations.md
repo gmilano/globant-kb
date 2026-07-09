@@ -1,7 +1,7 @@
 # 🏗️ Foundational Repos — Education
 
 > Battle-tested open source bases to build on. Prioritising MIT / Apache 2.0 / BSD.
-> Last updated: 2026-07-09 (v3)
+> Last updated: 2026-07-09 (v4)
 
 ## LMS Platforms
 
@@ -72,6 +72,19 @@
 |------|---------|-------|-------------|
 | [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | 800+ | Curated academic papers: intelligent tutoring, automatic grading, question generation, knowledge tracing, dialogue systems. |
 | [Geralt-Targaryen/Awesome-Education-LLM](https://github.com/Geralt-Targaryen/Awesome-Education-LLM) | MIT | 400+ | Another curated list of LLM research and applications in education. Focus on STEM tutoring and assessment. |
+| [VoltAgent/awesome-ai-agent-papers](https://github.com/VoltAgent/awesome-ai-agent-papers) | MIT | — | Curated 2026 AI agent research papers — includes edu agentic papers. Updated weekly. |
+
+## Agentic Architecture References (NEW 2026)
+
+> Published research providing validated architectural blueprints. No code yet but implementable patterns.
+
+| Paper | arXiv | Date | Architecture | Performance |
+|-------|-------|------|-------------|-------------|
+| **LectūraAgents** | 2606.16428 | Jun 2026 | ProfessorAgent + 4 subordinate agents + TASA embodied teaching | SOTA across content/embodied/personalization |
+| **ALIGNAgent** | 2601.15551 | Jan 2026 | Skill Gap Agent + Recommender Agent; gradebook → gap → resource | Precision 0.87–0.90, F1 0.84–0.87 on CS courses |
+| **AgentCAT** | 2606.21832 | Jun 2026 | Student sim + item selector + ability estimator + item generator agents | Enables dynamic CAT without real examinee recruitment |
+| **Agentic AI for Education** | 2604.16566 | Apr 2026 | Unified multi-agent framework survey — hierarchical, memory-rich, neuroadaptive | Comprehensive state-of-the-art survey |
+| **Instructional Agents** | EACL 2026 | 2026 | LLM agents reduce teaching faculty workload via multi-agent instructional design | Peer-reviewed conference paper |
 
 ---
 *See `verticals/solutions.md` for complete vertical platforms.*

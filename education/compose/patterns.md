@@ -1,7 +1,7 @@
 # 🧩 Composition Patterns — Education AI
 
 > Concrete recipes: named repos + agents + wiring code.
-> Last updated: 2026-07-09 (v3)
+> Last updated: 2026-07-09 (v4)
 
 ## Architecture Baseline
 
@@ -1131,6 +1131,234 @@ uvicorn active_recall_pipeline:app --host 0.0.0.0 --port 8080
 
 ---
 
+## Pattern 12: ALIGNAgent-Style Precision Skill Gap + Learning Path (NEW v4)
+
+**Goal**: Two-agent pipeline that detects student knowledge gaps from quiz/gradebook data and recommends targeted resources — validated at 0.87–0.90 precision on real CS courses (arXiv:2601.15551).
+**Stack**: LangGraph + Anthropic claude-sonnet-5 + Qdrant (course resource vector store) + LMS Web Services API
+**Time**: 2–3 weeks
+**Revenue**: $40k–$150k as LMS plugin; $150k–$500k as institutional academic advising system
+**Who buys**: Universities, corporate L&D, national education ministries (early-warning system)
+
+```python
+# alignagent_pipeline.py
+# Based on: ALIGNAgent (arXiv:2601.15551) — Florida Polytechnic University, Jan 2026
+from langgraph.graph import StateGraph, END
+from anthropic import Anthropic
+from langchain_qdrant import QdrantVectorStore
+from langchain_ollama import OllamaEmbeddings
+from typing import TypedDict, List
+import json, requests
+
+client = Anthropic()
+
+class AlignState(TypedDict):
+    student_id: str
+    course_id: str
+    quiz_results: List[dict]        # [{question, topic, correct, student_answer}]
+    grade_history: List[dict]       # [{topic, score, date}]
+    learner_preferences: dict       # {learning_style, difficulty_preference, language}
+    proficiency_map: dict           # {topic: score} — output of Skill Gap Agent
+    identified_gaps: List[dict]     # [{topic, gap_level, misconceptions}]
+    recommended_resources: List[dict]  # [{topic, resource, url, type}]
+    intervention_plan: str          # final output
+
+def skill_gap_agent(state: AlignState) -> AlignState:
+    """
+    Agent 1: Skill Gap Agent
+    Processes quiz performance + grade history → concept-level proficiency map → identifies specific misconceptions.
+    Mirrors ALIGNAgent's Skill Gap Agent (arXiv:2601.15551).
+    """
+    prompt = f"""You are an educational Skill Gap Agent. Analyze this student's quiz performance and grade history
+to produce a concept-level proficiency map and identify specific knowledge gaps and misconceptions.
+
+STUDENT: {state['student_id']} — COURSE: {state['course_id']}
+QUIZ RESULTS: {json.dumps(state['quiz_results'], indent=2)}
+GRADE HISTORY: {json.dumps(state['grade_history'], indent=2)}
+
+Provide:
+1. A proficiency_map: dict mapping each topic to a score 0-10
+2. identified_gaps: list of {{topic, gap_level (low/medium/high), misconceptions (list of strings)}}
+3. reasoning: brief explanation of your diagnostic reasoning
+
+Return JSON:
+{{
+  "proficiency_map": {{"topic_name": score, ...}},
+  "identified_gaps": [
+    {{"topic": "...", "gap_level": "high|medium|low", "misconceptions": ["...", "..."]}}
+  ],
+  "reasoning": "..."
+}}"""
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    result = json.loads(response.content[0].text)
+    return {
+        **state,
+        "proficiency_map": result["proficiency_map"],
+        "identified_gaps": result["identified_gaps"]
+    }
+
+def recommender_agent(state: AlignState) -> AlignState:
+    """
+    Agent 2: Recommender Agent
+    Retrieves preference-aware learning resources aligned to diagnosed gaps.
+    Mirrors ALIGNAgent's Recommender Agent — RAG over course resource catalog.
+    """
+    # RAG: retrieve relevant course resources for each gap
+    embeddings = OllamaEmbeddings(model="nomic-embed-text")
+    vectorstore = QdrantVectorStore.from_existing_collection(
+        embedding=embeddings,
+        url="http://qdrant:6333",
+        collection_name=f"resources_{state['course_id']}"
+    )
+
+    all_resources = []
+    for gap in state["identified_gaps"]:
+        if gap["gap_level"] in ("high", "medium"):
+            query = f"{gap['topic']} {' '.join(gap['misconceptions'][:2])}"
+            docs = vectorstore.similarity_search(query, k=3)
+            for doc in docs:
+                all_resources.append({
+                    "topic": gap["topic"],
+                    "gap_level": gap["gap_level"],
+                    "resource": doc.metadata.get("title", doc.page_content[:80]),
+                    "url": doc.metadata.get("url", ""),
+                    "type": doc.metadata.get("type", "reading"),
+                    "estimated_minutes": doc.metadata.get("duration_min", 15)
+                })
+
+    # Use LLM to rank and filter by learner preferences
+    filter_prompt = f"""Filter and rank these resources for a student with these preferences:
+{json.dumps(state['learner_preferences'])}
+
+Resources: {json.dumps(all_resources, indent=2)}
+
+Return top 5 resources per gap (max 15 total) as JSON array, prioritizing
+resources that match the student's learning style and don't overwhelm.
+Keep format: [{{"topic": "...", "resource": "...", "url": "...", "type": "...", "why": "..."}}]"""
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        messages=[{"role": "user", "content": filter_prompt}]
+    )
+    filtered = json.loads(response.content[0].text)
+    return {**state, "recommended_resources": filtered}
+
+def intervention_planner(state: AlignState) -> AlignState:
+    """
+    Agent 3: Intervention Planner
+    Synthesizes gaps + resources into an actionable, time-bound intervention plan.
+    """
+    prompt = f"""Create a concise intervention plan for this student.
+
+SKILL GAPS: {json.dumps(state['identified_gaps'], indent=2)}
+RECOMMENDED RESOURCES: {json.dumps(state['recommended_resources'], indent=2)}
+LEARNER PREFERENCES: {json.dumps(state['learner_preferences'])}
+
+Write a 2-week intervention plan:
+- Week 1: Focus on highest-priority gap (one concept at a time)
+- Week 2: Secondary gaps + consolidation
+- Include specific resources with day-by-day schedule
+- Set a checkpoint: mini-quiz before advancing to next topic
+- Format as a teacher-friendly report (Markdown)
+- Language: match {state['learner_preferences'].get('language', 'English')}"""
+
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return {**state, "intervention_plan": response.content[0].text}
+
+# Build LangGraph workflow
+workflow = StateGraph(AlignState)
+workflow.add_node("skill_gap", skill_gap_agent)
+workflow.add_node("recommender", recommender_agent)
+workflow.add_node("planner", intervention_planner)
+workflow.set_entry_point("skill_gap")
+workflow.add_edge("skill_gap", "recommender")
+workflow.add_edge("recommender", "planner")
+workflow.add_edge("planner", END)
+align_app = workflow.compile()
+
+# FastAPI endpoint
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI(title="ALIGNAgent — Skill Gap & Learning Path")
+
+class StudentDiagnosticRequest(BaseModel):
+    student_id: str
+    course_id: str
+    quiz_results: List[dict]
+    grade_history: List[dict]
+    learner_preferences: dict = {"learning_style": "visual", "language": "English", "difficulty_preference": "medium"}
+
+@app.post("/align/diagnose")
+async def diagnose_and_recommend(req: StudentDiagnosticRequest):
+    """Run full ALIGNAgent pipeline: gap detection → resource recommendation → intervention plan."""
+    result = align_app.invoke({
+        "student_id": req.student_id,
+        "course_id": req.course_id,
+        "quiz_results": req.quiz_results,
+        "grade_history": req.grade_history,
+        "learner_preferences": req.learner_preferences,
+        "proficiency_map": {},
+        "identified_gaps": [],
+        "recommended_resources": [],
+        "intervention_plan": ""
+    })
+    return {
+        "student_id": result["student_id"],
+        "proficiency_map": result["proficiency_map"],
+        "identified_gaps": result["identified_gaps"],
+        "recommended_resources": result["recommended_resources"],
+        "intervention_plan": result["intervention_plan"]
+    }
+```
+
+```bash
+# Setup
+pip install langgraph langchain-anthropic langchain-qdrant langchain-ollama fastapi uvicorn
+
+# Start dependencies
+docker run -d -p 6333:6333 qdrant/qdrant
+docker run -d -p 11434:11434 ollama/ollama && docker exec <id> ollama pull nomic-embed-text
+
+# Ingest course resources into Qdrant (title, url, type, duration_min in metadata)
+# Each document = a course resource (video, reading, exercise, flashcard set)
+
+# Run
+uvicorn alignagent_pipeline:app --host 0.0.0.0 --port 8080
+
+# Example call
+curl -X POST http://localhost:8080/align/diagnose \
+  -H "Content-Type: application/json" \
+  -d '{
+    "student_id": "stu_001",
+    "course_id": "cs201",
+    "quiz_results": [
+      {"question": "What is Big-O of merge sort?", "topic": "Algorithms", "correct": false, "student_answer": "O(n²)"},
+      {"question": "What is a pointer?", "topic": "Memory", "correct": true, "student_answer": "variable storing address"}
+    ],
+    "grade_history": [
+      {"topic": "Algorithms", "score": 55, "date": "2026-07-01"},
+      {"topic": "Memory", "score": 82, "date": "2026-07-01"}
+    ],
+    "learner_preferences": {"learning_style": "visual", "language": "Spanish", "difficulty_preference": "step-by-step"}
+  }'
+```
+
+**Why this works**: ALIGNAgent's two-agent pipeline (gap detection → recommendation) achieves 0.87–0.90 precision validated against actual exam outcomes. The intervention closes the loop *before* advancing — preventing compounding misconceptions.
+
+**LATAM fit**: Language preference field (`"language": "Spanish"`) makes this immediately localisable. Strong fit for university academic advising (UBA, USP, UNAM), technical schools, and corporate L&D across LATAM.
+
+---
+
 ## Pattern Selection Matrix
 
 | Pattern | Use Case | LMS | Time | Budget | LATAM Fit |
@@ -1146,6 +1374,7 @@ uvicorn active_recall_pipeline:app --host 0.0.0.0 --port 8080
 | P9: Classroom MCP Agent | Google Workspace | Google Classroom | 2–4w | $50k–200k | High (new) |
 | P10: Offline SLM Campus | LGPD/no-cloud | None (on-prem) | 2–3w | $80k–300k | Very High |
 | P11: Active Recall Agent | Outcomes-driven | Any | 1–2w | $20k–80k | High |
+| P12: ALIGNAgent Skill Gap | Academic advising / L&D | Any (LMS API) | 2–3w | $40k–500k | Very High |
 
 ---
 

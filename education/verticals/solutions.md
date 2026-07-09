@@ -1,7 +1,7 @@
 # 🏭 Vertical Platforms — Education
 
 > Real platforms to customise with AI. Strategy: start from a working system, add agentic layer on top.
-> Last updated: 2026-07-09 (v3)
+> Last updated: 2026-07-09 (v4)
 
 ## Learning Management Systems (LMS)
 
@@ -13,6 +13,22 @@
 | **Canvas LMS** | AGPLv3 | [instructure/canvas-lms](https://github.com/instructure/canvas-lms) | 30M+ users, US universities | Ruby on Rails + React | LTI 1.3 (AI tool integrations), REST API, GraphQL |
 | **Chamilo** | GPL v3 | [chamilo/chamilo-lms](https://github.com/chamilo/chamilo-lms) | 30M+ users, **strong LATAM focus** | PHP | Plugin system, REST API; leading open-source LMS in Spanish-speaking markets |
 | **Google Classroom** | Proprietary + MCP | classroom.google.com | 150M+ students/teachers | Google Workspace | **Google Classroom MCP server** (ISTE 2026): external AI platforms can securely access Classroom context via MCP. Gemini AI tools at no cost. |
+
+## Microsoft Copilot LMS Integration (NEW v4 — 2026)
+
+> Structural change: Copilot is now embedded in all major commercial LMS platforms. Open-source alternative needed.
+
+| Platform | Integration Type | AI Features | Licensing |
+|----------|-----------------|-------------|-----------|
+| **Canvas LMS** | M365 LTI (Microsoft 365 Copilot) | Lesson plan gen, quiz creation, rubric dev, student feedback, content modification | Requires M365 Education license |
+| **PowerSchool Schoology** | M365 LTI | Same Copilot features: lesson plans, quizzes, rubrics, feedback | Requires M365 Education license |
+| **Blackboard Learn** | M365 LTI | Same Copilot AI features suite | Requires M365 Education license |
+| **Moodle** | M365 LTI + Gemini LTI (2026) | Copilot via LTI + Gemini/NotebookLM native | M365 license OR Google Workspace (Gemini) |
+| **D2L Brightspace** | M365 LTI | Same Copilot AI features suite | Requires M365 Education license |
+| **Microsoft Study and Learn Agent** | M365 Education (GA 2026) | Adaptive exercises, flashcards, quizzes — for students 13+; built on learning science | M365 Education GA — students |
+| **Microsoft Learning Agent** | M365 Enterprise (GA 2026) | Personalized AI upskilling for every employee | M365 Enterprise GA — corporate L&D |
+
+**Open-source alternative positioning**: Microsoft's LMS lock-in (requires M365 Education license) creates a clear Globant opportunity — offer **Open edX + Claude API + custom LTI tools** for institutions wanting data control, LGPD/FERPA compliance, and license independence. Especially strong in LATAM public education and government-run universities.
 
 ## AI-Native Course Creation (NEW 2026)
 

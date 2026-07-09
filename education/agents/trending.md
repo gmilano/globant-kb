@@ -1,6 +1,6 @@
 # 📡 Trending This Week — Education AI
 
-> Last updated: 2026-07-09 (v3)
+> Last updated: 2026-07-09 (v4)
 
 ## Breakout Repos (July 2026)
 
@@ -15,6 +15,42 @@
 | [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | 20+ | Early-stage but full e-learning: content delivery, learner tracking, assessment. AGPL-3.0. Watch for growth. |
 | [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | 200+ | LangGraph ReAct + RAG active recall platform. Proactive card generation during tutoring sessions. Growing steadily. |
 | [A-R007/Multi-Agent-Study-Assistant](https://github.com/A-R007/Multi-Agent-Study-Assistant) | 100+ | 6-agent Phidata study platform. Adaptive roadmaps + RAG Q&A. Built at Google × Kaggle Agents Intensive. |
+
+## NEW Signals (v4 — July 9, 2026)
+
+### LectūraAgents — Embodied Multi-Agent Teaching (arXiv:2606.16428, Jun 2026)
+The first multi-agent framework to combine **hierarchical orchestration with embodied teaching actions**. A ProfessorAgent coordinates specialized agents (Research, Planning, Review, Delivery) and executes **visible physical teaching actions** — highlight, underline, handwrite — via the TASA (Teaching Action-Speech Alignment) algorithm that temporally syncs actions to speech content. Learner-profiled delivery adapts to individual needs. Consistent gains over prior art across content quality, embodied quality, assessment, and personalization metrics.
+
+**Implication**: This is the architecture template for "digital professor" products — AI that doesn't just answer but actively teaches with pedagogy-aware multimodal output. High relevance for video-first EdTech and corporate training.
+
+### AgentCAT — Multi-Agent Computerized Adaptive Testing (arXiv:2606.21832, Jun 2026)
+LLM-based multi-agent system for **Computerized Adaptive Testing (CAT)** simulation. Prior CAT research was stuck in static offline paradigms; AgentCAT creates a dynamic, high-fidelity test environment using LLM agents (student simulator + item selector + ability estimator + item generator). Enables real-time item selection, realistic student behavior simulation, and holistic CAT system evaluation without real examinee recruitment.
+
+**Implication**: Foundation for AI-native assessments that dynamically adapt difficulty question-by-question — far more accurate than static tests. Strong fit for certification platforms, language proficiency tools, and LATAM public exam reform.
+
+### Microsoft Study and Learn Agent GA + Copilot in 5 LMS Platforms
+Two major platform signals from Microsoft in 2026:
+1. **Study and Learn Agent (GA)**: Built on learning-science principles for students 13+. Adaptive exercises, guided study, built-in flashcards, matching exercises, and quizzes. Now generally available — embedded in Microsoft 365 Education.
+2. **Microsoft Learning Agent GA**: Enterprise AI upskilling for every employee — generally available. Personalised AI coaching across the Microsoft 365 ecosystem.
+3. **Copilot in 5 LMS Platforms**: Microsoft 365 LTI integration now embeds Copilot into **Canvas, PowerSchool Schoology, Blackboard, Moodle, and D2L Brightspace** — lesson plan generation, quiz creation, rubric development, student feedback suggestions, and content modification directly in the LMS interface.
+
+**Implication**: The Microsoft LMS integration is a structural change — Copilot is now table-stakes for LMS clients. Globant differentiator: open-source alternative path (Open edX + Claude) for clients who want flexibility and data control.
+
+### ALIGNAgent — Precision Skill Gap Detection (arXiv:2601.15551, Jan 2026)
+Two-agent pipeline: **Skill Gap Agent** (concept-level diagnostic reasoning from quiz/gradebook data) → **Recommender Agent** (preference-aware resource retrieval). Continuous feedback loop: intervene before advancing to next topic. GPT-4o-based: **precision 0.87–0.90, F1 0.84–0.87** validated against real exam performance at Florida Polytechnic University (two undergrad CS courses). Jan 2026.
+
+**Implication**: A deployable, validated architecture for AI-powered academic advising and at-risk student early warning. Strong fit for university SIS integrations and enterprise L&D skills platforms.
+
+### Agentic AI University — Institutional Shift (UPCEA / Inside Higher Ed, Jan 2026)
+Higher education is crossing the threshold from AI as a tool to **AI as institutional infrastructure**:
+- **Northeastern University**: partnered with Anthropic to deploy Claude AI across all campuses
+- **Duke University**: gave every undergraduate GPT-4 access under university-managed license
+- **40%** of enterprise applications will embed task-specific AI agents by end 2026 (Gartner)
+- Agentic AI is reshaping advising, enrollment, learning support, and operations — not just teaching
+
+**Implication**: University partnerships with AI providers (Anthropic, OpenAI) are now a deal-level event. Globant can offer the **open-source alternative** (Claude API + open LMS) + expertise in institutional AI deployment and governance.
+
+---
 
 ## Key Signal: Google Classroom MCP Server (ISTE 2026)
 
@@ -66,6 +102,10 @@ The AI in personalized learning and education technology market is valued at **$
 - **Gemini LTI for Moodle** — Gemini + NotebookLM available directly in Moodle is a massive unlock
 - **HKUDS/LightRAG** — the graph RAG engine powering DeepTutor; standalone use in edu apps growing
 - **Pedagogy Benchmark (AI-for-Education)** — standardising pedagogical quality evaluation
+- **LectūraAgents code release** (arXiv:2606.16428) — embodied multi-agent teaching paper; code repo expected; watch for GitHub release
+- **AgentCAT** (arXiv:2606.21832) — CAT simulation framework; likely to release benchmark dataset and simulation environment
+- **ALIGNAgent** code (arXiv:2601.15551) — skill-gap detection; Florida Polytechnic repo release expected post-publication
+- **StudyAlpha** — intelligent multi-agent study coach with ML weakness prediction; track for star growth and OSS release signal
 
 ---
 *Pipeline: auto-updated hourly.*

@@ -1,6 +1,6 @@
 # 📡 Trends — Education AI
 
-> Current macro and micro trends shaping EdTech + AI. Last updated: 2026-07-09 (v3)
+> Current macro and micro trends shaping EdTech + AI. Last updated: 2026-07-09 (v4)
 
 ## Macro Trends (2026)
 
@@ -97,6 +97,49 @@ The AI personalized learning segment is the fastest-growing sub-market in all of
 
 For Globant: building AI personalized learning infrastructure now (not chatbots, but adaptive systems that measure outcomes) positions studios for the largest EdTech growth segment of the decade.
 
+### 16. Agentic AI University — AI as Institutional Infrastructure (UPCEA / Inside Higher Ed, Jan 2026)
+The defining 2026 higher-education shift: from AI as a classroom tool to AI as **university-wide infrastructure**. Agentic AI is reshaping advising, enrollment, financial aid, learning support, and operations — not just teaching.
+
+Evidence:
+- **Northeastern University** partnered with Anthropic to deploy Claude AI across all campuses (enterprise deal)
+- **Duke University** gave every undergraduate secure GPT-4 access under a university-managed license
+- **40%** of enterprise applications will embed task-specific AI agents by end 2026 (Gartner)
+- **Microsoft Study and Learn Agent** (GA 2026): adaptive exercises, flashcards, quizzes — built on learning science; for students 13+ in M365 Education
+- **Microsoft Learning Agent** (GA 2026): personalised AI upskilling for every employee in M365 enterprise
+- **Microsoft Copilot** now embedded in **Canvas, PowerSchool Schoology, Blackboard, Moodle, D2L Brightspace** via M365 LTI integration — lesson plans, quiz creation, rubric dev, student feedback
+
+**Implication**: Enterprise AI infrastructure is now an institutional purchase — CIO/Provost-level, not instructor-level. Globant should position for these large institutional deals with a governance-first, open-source-friendly, LGPD-compliant pitch, especially across LATAM where US vendor lock-in is a hard objection.
+
+### 17. Embodied Teaching AI — Physical Teaching Actions Aligned to Speech (LectūraAgents, Jun 2026)
+**LectūraAgents** (arXiv:2606.16428, Jun 2026) introduces embodied teaching: AI that not only lectures but also performs **physical teaching actions** (highlight, underline, handwrite on content) synchronized to what it's saying, calibrated to the learner's profile. The TASA (Teaching Action-Speech Alignment) algorithm uses salience-based heuristics and temporal semantic segmentation to produce coherent, pedagogically grounded action sequences.
+
+Results show consistent gains over text-only and prior multimodal approaches across:
+- Lecture content quality
+- Embodied teaching quality
+- Assessment quality
+- Personalization effectiveness
+
+**Implication**: This is the architectural template for premium AI tutoring products — "digital professor" experiences that go beyond chat. Patent risk: watch this paper's authors for IP activity. Build-on opportunity: implement TASA-style action alignment on top of LLM voice responses in video-capable tutoring UIs (WebRTC + Canvas + LLM).
+
+### 18. AgentCAT — AI-Native Computerized Adaptive Testing (arXiv:2606.21832, Jun 2026)
+Computerized Adaptive Testing (CAT) — which selects exam items dynamically based on real-time ability estimates — is being reinvented with multi-agent LLMs. **AgentCAT** creates a **high-fidelity simulation environment** for CAT research and development: a student simulator agent + item selector agent + ability estimator agent + item generator agent work together to test CAT algorithms without recruiting real examinees.
+
+Prior art: CAT research was stuck in static offline data; researchers degraded dynamic assessment to static sequence prediction. AgentCAT unlocks genuine dynamic simulation.
+
+**Implication**: Strong signal for the certification, language-proficiency (IELTS/TOEFL alternatives), and public-exam AI markets. LATAM public administrations (ENEM Brazil, ENAPP Argentina, COMIPEMS Mexico) are logical buyers of AI-native CAT systems built on open foundations. Deal potential: $200k–$1M for national-scale adaptive exam platforms.
+
+### 19. AI Precision Skill Gap Detection — ALIGNAgent Architecture (arXiv:2601.15551, Jan 2026)
+**ALIGNAgent** from Florida Polytechnic University (Jan 2026) validates a two-agent pipeline for precision academic support:
+1. **Skill Gap Agent**: processes quiz performance, gradebook data, and learner preferences → concept-level proficiency estimates with diagnostic reasoning → identifies specific misconceptions
+2. **Recommender Agent**: retrieves preference-aware learning materials aligned to diagnosed gaps → closes loop before advancing student to next topic
+
+Performance on two real undergrad CS courses:
+- **Precision**: 0.87–0.90
+- **F1**: 0.84–0.87
+- Validated against actual final exam outcomes
+
+**Implication**: This is the blueprint for AI-powered academic advising, early-warning systems, and corporate L&D skills alignment. Directly usable as a pattern for Globant's education AI engagements — see Pattern 12 in compose/patterns.md.
+
 ## Micro Trends (This Quarter)
 
 | Trend | Signal | Implication |
@@ -112,6 +155,12 @@ For Globant: building AI personalized learning infrastructure now (not chatbots,
 | **Active recall agents** | EduAgent + Multi-Agent-Study-Assistant | Proactive quiz/flashcard generation > passive chatbots for retention |
 | **$291.85B personalized learning** | InsightAce Analytic 2026 | Fastest-growing EdTech segment; adaptive systems justify investment |
 | **Open edX AI Course Creator** | openedx.org announcement 2026 | Plugin in Studio — AI generates complete course outlines from prompts |
+| **Agentic AI University** | UPCEA / Inside Higher Ed Jan 2026; Northeastern+Anthropic; Duke GPT-4 | Institutional AI as infrastructure — CIO/Provost-level deals |
+| **LectūraAgents embodied teaching** | arXiv:2606.16428 Jun 2026 | Physical teaching actions (highlight/write) synced to AI speech — new premium tier for tutoring |
+| **AgentCAT adaptive assessment** | arXiv:2606.21832 Jun 2026 | Multi-agent CAT simulation — path to AI-native national exams (ENEM/COMIPEMS) |
+| **ALIGNAgent skill gap precision** | arXiv:2601.15551 Jan 2026, 0.87–0.90 precision | Two-agent gap detection → validated blueprint for academic advising AI |
+| **Microsoft Copilot in 5 LMS** | Canvas, Schoology, Blackboard, Moodle, D2L via M365 LTI 2026 | Copilot now table-stakes in LMS; open-source alternative (Claude + Open edX) needed |
+| **AI in Education = $10.6B confirmed** | GlobeNewswire Apr 2026 — up from $7.52B in 2025 | 40.9% YoY growth; market accelerating faster than most 2025 forecasts predicted |
 
 ## Risks & Concerns
 

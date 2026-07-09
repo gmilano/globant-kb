@@ -1,6 +1,6 @@
 # 📈 Trending Repos — Education
 
-> Last updated: 2026-07-09 (v3)
+> Last updated: 2026-07-09 (v4)
 
 ## GitHub Trending (Week of July 7–13, 2026)
 
@@ -19,6 +19,15 @@
 | [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | 200+ | LangGraph ReAct + RAG active recall agent. Proactively generates quizzes and flashcards during tutoring. Growing community interest. |
 | [A-R007/Multi-Agent-Study-Assistant](https://github.com/A-R007/Multi-Agent-Study-Assistant) | MIT | 100+ | 6-agent Phidata study platform: adaptive roadmaps, quizzes, RAG Q&A, learning style adaptation. Google × Kaggle Agents Intensive project. |
 
+## NEW Repos This Week (v4)
+
+| Name | License | Stars | Description |
+|------|---------|-------|-------------|
+| [tmgthb/Autonomous-Agents](https://github.com/tmgthb/Autonomous-Agents) | MIT | 5k+ | Daily-updated list of autonomous LLM agent research papers — includes edu agent papers (ALIGNAgent, LectūraAgents, AgentCAT). Essential tracker for edu agent research. |
+| [VoltAgent/awesome-ai-agent-papers](https://github.com/VoltAgent/awesome-ai-agent-papers) | MIT | — | 2026 AI agent research paper curation: agent engineering, memory, evaluation, workflows, autonomous systems. Edu section growing fast. |
+| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | 50+ | AI Kids Academy: gamified AI learning for ages 4–16. Storytelling, coding, escape rooms. Claude + Next.js. Growing in children's AI education segment. |
+| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | 20+ | Full e-learning platform: content delivery, learner tracking, assessment. Early-stage but showing growth signal. |
+
 ## Platform News (Not GitHub But Critical)
 
 | Platform | Signal | Impact |
@@ -30,6 +39,14 @@
 | **AI VC record** | $4.2B in AI-focused education VC in 2025 (62% of all EdTech) | Enterprise workforce learning software getting biggest checks ($178M in 8 deals) |
 | **Open edX AI Course Creator** (2026) | Plugin in Open edX Studio — AI generates complete course from a prompt | Accelerates content production for Open edX clients (Harvard, MIT, NASA) |
 | **AI Personalized Learning market** | $9.15B (2025) → $291.85B (2035) CAGR 41.5% (InsightAce Analytic) | Fastest-growing EdTech sub-segment; adaptive outcome AI justifies investment |
+| **AI in Education = $10.6B** | GlobeNewswire Apr 2026 — confirmed current market size | 40.9% YoY growth; accelerating faster than most 2025 projections |
+| **Microsoft Copilot in 5 LMS** | Canvas, Schoology, Blackboard, Moodle, D2L via M365 LTI 2026 | Structural LMS shift: Copilot embedded in all major platforms; open alternative needed |
+| **Microsoft Study+Learn Agent GA** | M365 Education GA 2026 — adaptive exercises, flashcards, quizzes for students 13+ | First enterprise-grade adaptive study agent at scale in LMS ecosystem |
+| **Microsoft Learning Agent GA** | M365 enterprise GA 2026 — personalised AI upskilling for all employees | Corporate L&D transformation: AI coaching becomes standard employee benefit |
+| **LectūraAgents paper** | arXiv:2606.16428 Jun 2026 — embodied teaching with physical actions | New premium AI tutor category; TASA algorithm is build-on reference |
+| **AgentCAT paper** | arXiv:2606.21832 Jun 2026 — multi-agent adaptive testing | Opens path to AI-native national exam systems (ENEM, COMIPEMS) |
+| **ALIGNAgent paper** | arXiv:2601.15551 Jan 2026 — 0.87–0.90 precision skill-gap detection | Blueprint for academic early warning / enterprise skills gap analysis |
+| **Northeastern + Anthropic deal** | Enterprise Claude deployment across all campuses | University AI infrastructure deals emerging — Globant can capture LATAM equivalent |
 
 ## Why These Are Moving
 

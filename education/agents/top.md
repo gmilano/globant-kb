@@ -1,7 +1,7 @@
 # 🎯 AI Agents — Education
 
 > Open source AI agents and tools for EdTech. Focus: MIT / Apache 2.0 / BSD.
-> Last updated: 2026-07-09 (v3)
+> Last updated: 2026-07-09 (v4)
 
 ## Top AI Agents & Tools
 
@@ -21,6 +21,9 @@
 | [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | 800+ | Curated list of AI/LLM for education papers: tutoring systems, automatic grading, question generation, knowledge tracing, dialogue systems. |
 | [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | 200+ | EduAgent: LangGraph ReAct agent + RAG converts static course docs into adaptive tutoring. Active recall: auto-generates study plans, quizzes, flashcards, semantic mind maps. Proactive tutor surfaces cards during conversation. |
 | [A-R007/Multi-Agent-Study-Assistant](https://github.com/A-R007/Multi-Agent-Study-Assistant) | MIT | 100+ | 6-agent AI learning platform: Skills Analyser, Roadmap Planner, Tutor, Quiz, RAG Q&A, Learning Style Adapter. Built with Phidata + Streamlit + LangChain. |
+| [LectūraAgents](https://arxiv.org/abs/2606.16428) | Research (Jun 2026) | — | Hierarchical multi-agent framework: ProfessorAgent leads specialized agents for research, planning, review, and embodied delivery. TASA algorithm aligns teaching actions (highlight, underline, handwrite) with speech for personalized instruction. State-of-the-art personalization gains. arXiv:2606.16428 |
+| [ALIGNAgent](https://arxiv.org/abs/2601.15551) | Research (Jan 2026) | — | Adaptive Learner Intelligence for Gap Identification and Next-step guidance. Skill Gap Agent (concept-level diagnostic) + Recommender Agent (preference-aware). GPT-4o achieves 0.87–0.90 precision on CS student assessments. Florida Polytechnic. arXiv:2601.15551 |
+| [AgentCAT](https://arxiv.org/abs/2606.21832) | Research (Jun 2026) | — | Multi-Agent LLM Computerized Adaptive Testing simulator. High-fidelity dynamic benchmarking environment for CAT — moves beyond static sequence prediction using LLM agents. arXiv:2606.21832 |
 
 ## Agent Categories
 
@@ -51,6 +54,24 @@
 | EduAgent (StudentTraineeCenter) | LangGraph ReAct + RAG, proactive card generation | Self-hosted / API |
 | Multi-Agent-Study-Assistant (A-R007) | 6 specialised Phidata agents + RAG | Streamlit UI / API |
 | studyield | Multi-agent + teach-back evaluation | Self-hosted SaaS |
+
+### Skill Gap Analysis & Learning Path Generation (NEW 2026)
+| Agent | Approach | Integration |
+|-------|----------|-------------|
+| ALIGNAgent (arXiv:2601.15551) | Skill Gap Agent + Recommender Agent; quiz → proficiency → gap → resources | API / research reference |
+| Multi-Agent-Study-Assistant (A-R007) | Skills Analyser → Roadmap Planner → Tutor | Streamlit UI / API |
+
+### Embodied & Multimodal Teaching (NEW 2026)
+| Agent | Approach | Integration |
+|-------|----------|-------------|
+| LectūraAgents (arXiv:2606.16428) | ProfessorAgent + TASA: aligns highlights/underlines with speech for personalized delivery | Research reference |
+| DeepTutor Math Animator | Step-by-step animated math solutions via GraphRAG | API / self-hosted |
+
+### Adaptive Assessment & Computerized Testing (NEW 2026)
+| Agent | Approach | Integration |
+|-------|----------|-------------|
+| AgentCAT (arXiv:2606.21832) | Multi-Agent CAT simulation: dynamic item selection, LLM student simulation | Research reference |
+| OATutor | Bayesian Knowledge Tracing real-time | Embed in LMS |
 
 ### MCP & Integration Layer
 | Agent | Approach | Integration |

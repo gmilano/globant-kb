@@ -1,13 +1,14 @@
 # 🗺️ Market Map — Education AI
 
 > Players, opportunities, positioning. Focus: LATAM + global.
-> Last updated: 2026-07-09 (v3)
+> Last updated: 2026-07-09 (v4)
 
 ## Market Size
 
-| Segment | 2025 | 2026E | 2030P | 2034/35P | CAGR |
+| Segment | 2025 | 2026 | 2030P | 2034/35P | CAGR |
 |---------|------|-------|-------|---------|------|
-| AI in Education (global) | $7.57B | $9.58B | ~$50B | $136.79B | 34.52% |
+| **AI in Education (global)** | **$7.52B** | **$10.6B** ✅ confirmed | **$42.48B** | **$136.79B** | **40.9%** |
+| AI in Education (Grand View Research) | $11.4B | — | $57.2B (2033) | — | 25.9% |
 | **AI Personalized Learning** | **$9.15B** | ~$12B | ~$50B | **$291.85B (2035)** | **41.5%** |
 | EdTech (global) | — | $404B | $580B | — | 16.3% |
 | AI Tutors market | $3.55B | — | $6.45B | — | ~13% |
@@ -15,7 +16,7 @@
 | LATAM EdTech | $16.26B (2024) | ~$18B | ~$35B | $50.44B (2033) | 12.4% |
 | LATAM E-learning | $37.97B | — | — | $131.32B (2034) | 16.78% |
 | LATAM AI in Education | — | — | $1.5B (2030) | — | 32.4% |
-| Enterprise Learning (Workforce) | — | $178M (8 deals in 12mo) | — | — | Growing fastest |
+| Enterprise Learning (Workforce) | — | $178M VC (8 deals/12mo) | — | — | Growing fastest |
 
 **Key outcome statistics (2026 evidence base):**
 - **42%** improvement in learning outcomes from AI adaptive systems
@@ -24,8 +25,21 @@
 - **67%** of educators saving 10+ hours/week with AI tools
 - **92%** of LATAM university students using AI (Digital Education Council 2026, 30k+ survey)
 - **86%** of education orgs now use generative AI — highest adoption of any industry (Microsoft 2025)
+- **40%** of enterprise applications will embed task-specific AI agents by end 2026 (Gartner 2026)
 
-*Sources: Grand View Research, IMARC Group, HolonIQ, ThirdRockTechkno, MarketDataForecast, InsightAce Analytic, Microsoft Education, Digital Education Council 2026.*
+*Sources: GlobeNewswire Apr 2026, Grand View Research, IMARC Group, HolonIQ, ThirdRockTechkno, MarketDataForecast, InsightAce Analytic, Microsoft Education, Digital Education Council 2026.*
+
+## Agentic AI University — Platform Shift (2026)
+
+Key institutional AI deployments now being tracked as market signals (from UPCEA / Inside Higher Ed, Jan 2026):
+| Institution | Deployment | Notes |
+|------------|-----------|-------|
+| **Northeastern University** | Claude (Anthropic) across all campuses | Multi-campus enterprise Anthropic deal |
+| **Duke University** | GPT-4 for every undergrad (university-managed license) | Student AI access becoming standard |
+| **Microsoft partnership schools** | Copilot in Canvas, Moodle, Blackboard, Schoology, D2L | 5 LMS platforms via M365 LTI integration |
+| **40% of enterprise apps** | Task-specific AI agents embedded by end 2026 (Gartner) | Includes corporate LMS / L&D |
+
+The shift from AI as a tool to **AI as institutional infrastructure** is the defining 2026 higher-ed trend. Universities are partnering directly with AI providers rather than waiting for LMS vendors. This creates a window for Globant to position as the **open-source institutional AI partner** — Claude API + Open edX + LGPD-compliant hosting — especially in LATAM where US vendor deals don't land easily.
 
 ## Venture Capital Signals (2025–2026)
 
