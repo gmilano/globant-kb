@@ -1,7 +1,7 @@
 # 🎯 Top AI Agents & Tools — Media & Entertainment
 
 > Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0.
-> Last updated: 2026-07-08 (v7 — Wan 2.7 Thinking Mode, KrillinAI agentic dubbing added)
+> Last updated: 2026-07-09 (v8 — HunyuanVideo-Foley foley audio sync added; ComfyUI 106k★ milestone)
 
 ## Top 10 AI Agents & Tools
 
@@ -53,6 +53,14 @@
 | **Wan Video** | [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | ~12k | Apache 2.0 video gen, strong feature set: image conditioning, higher resolution, MoE architecture (Wan 2.2) |
 | **WhisperSpeech** | [WhisperSpeech/WhisperSpeech](https://github.com/WhisperSpeech/WhisperSpeech) | MIT | ~4k | Open-source TTS built by inverting Whisper; natural-sounding voices for broadcast automation and podcast generation |
 | **Coqui-ai/TTS** | [coqui-ai/TTS](https://github.com/coqui-ai/TTS) | MPL-2.0 | ~36k | Deep learning TTS library: 1100+ pretrained models, fine-tuning, voice cloning — production broadcast voiceover |
+
+## v8 Additions (July 9, 2026)
+
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| **HunyuanVideo-Foley** | [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) | Tencent Hunyuan Community† | ~2k | End-to-end video foley/SFX generation from Tencent. Multimodal Diffusion with Representation Alignment: takes video + text prompt → high-fidelity, frame-synchronized sound effects/music/vocals in one pass. 48kHz audio VAE. XL model (Sep 2025) adds offload inference. Best-in-class on audio quality, synchronization, and semantic alignment metrics. ComfyUI node: `vantagewithai/Vantage-HunyuanFoley`. |
+
+> †Tencent Hunyuan Community License: permissive for most commercial use; restrictions on EU deployment and competing AI model training. Suitable for client production — verify specific clauses with legal before shipping.
 
 ## MCP Servers for Media
 

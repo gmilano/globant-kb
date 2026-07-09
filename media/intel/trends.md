@@ -1,6 +1,6 @@
 # 📡 Trends — Media & Entertainment AI
 
-> Current trends shaping the industry. Updated: 2026-07-08 (v7 — Trends 17-18 added: Wan 2.7 Thinking Mode, Agentic Dubbing Wave)
+> Current trends shaping the industry. Updated: 2026-07-09 (v8 — Trends 19-20 added: Interactive CTV AI, Agentic Newsroom)
 
 ## Trend 1: Agentic Video Production (2025–2026 Inflection)
 **Signal**: OpenMontage viral launch + ViMax 1.1k★ in weeks; "agentic video" now a search category.
@@ -195,6 +195,56 @@ KrillinAI's `skills/` directory exposes each stage as a composable AI Agent skil
 - **Impact**: LATAM media companies can release multilingual on day 1 vs weeks of human production. Cost: ~$0.50/minute vs $20-40/minute human dubbing.
 - **Globant angle**: KrillinAI + Claude brand-voice layer = Pattern 4 upgrade. 2-3 week PoC for any client with multilingual distribution needs.
 
+## Trend 19: Interactive CTV AI — The $42B Second-Screen Activation Layer (July 2026)
+**Signal**: Versus AI (stealth → public July 2026) secures Disney+, Paramount+, HBO Max, NFL as clients. Global CTV ad spend $42B+ in 2026. Interactive/shoppable CTV converts at 5× standard video ads.
+
+The product category emerging is **real-time AI engagement overlays for streaming content**:
+- Viewer points phone at screen → AI generates contextual games, trivia, predictions, polls
+- Live leaderboards, prizes, social competition via mobile companion app
+- Personalizes in real time based on viewer data and content metadata
+- Versus AI's backers: Jeffrey Katzenberg, Eric Schmidt, Reid Hoffman, Kevin Mayer, Mark Burnett
+
+**Market context**:
+- Global CTV ad spend: $42B+ (2026); interactive/shoppable CTV grows 5× faster than standard video
+- Interactive CTV engagement rates: ~2% per impression (2026), vs. ~1% prior year
+- AI-adaptive CTV ads change storylines, voiceovers, CTAs in real time based on viewer response
+- Samsung + Amazon: shoppable CTV features launched at IAB NewFronts 2026
+
+**The open-source angle**: Versus AI is closed, but every component of their pattern is buildable on open infrastructure:
+
+| Versus AI capability | Open-source equivalent |
+|----------------------|------------------------|
+| Video content host | Owncast (MIT, live) / PeerTube (AGPL) |
+| Real-time AI generation | Claude API (trivia, games, polls from show metadata) |
+| Push to mobile | Redis pub/sub + WebSockets |
+| Viewer analytics | Owncast built-in / Plausible (AGPL) |
+
+- **Impact**: Every sports rights holder ($67B globally), FAST platform, and regional broadcaster will seek an interactive AI engagement layer by 2027. The market is creating a new service line.
+- **Globant angle**: Pattern 11 (compose/patterns.md) — LATAM interactive sports engagement. Build the open alternative to Versus AI for regional clients in 4-6 weeks. Brazilian soccer and Mexican Liga MX are ideal pilots (highest mobile viewing rates in LATAM).
+
+## Trend 20: Agentic Newsroom — AI Becomes Editorial Infrastructure (2026)
+**Signal**: CJR (Columbia Journalism Review) July 2026: "AI Agents Are Coming for News." AP's AI team reports agents sorting email pitches, auto-updating weather/public safety reports, transcribing meetings. MCP + Skill.md enabling publisher-controlled AI integrations.
+
+The shift: AI was a tool journalists used. Now AI agents are embedded **in the CMS and workflow** itself:
+- Agents automatically update stories as events evolve (sports scores, election results, financial data)
+- Email pitch sorting: agents classify inbound tips, flag high-priority items, route to relevant reporters
+- Source monitoring: CoJournalist ("scouts" monitoring social profiles, city councils, your beat)
+- AI-verified summaries served to AI agents instead of full article scraping
+
+**Open-source / open-protocol tools**:
+- **MCP (Model Context Protocol, Anthropic)**: Lets agents read/write CMS data with tool definitions
+- **Skill.md standard**: Publishers define editorial rules — tone, citation format, quoting standards — as AI-readable specs that agents follow when processing their content
+- **Really Simple Licensing (RSL)**: Open standard for publisher monetization from AI agent traffic
+- **Scourhead**: Free, open-source AI agent for web data aggregation → spreadsheet (newsroom research)
+
+**Industry adoption**:
+- AP: automated public safety incidents, weather alert translation, meeting transcript keyword alerts, video transcription
+- Reuters: C2PA adoption → 34% reduction in synthetic media reaching editorial queues
+- 17 Reuters Institute experts forecast "more agentic automation" as the top 2026–2027 newsroom AI trend
+
+- **Impact**: News organizations with 20+ person editorial teams can re-allocate ~30% of production capacity to investigative/creative work as AI handles monitoring, updating, and routine publishing.
+- **Globant angle**: 6-8 week engagement with any news publisher: build a Claude-powered editorial agent layer on top of Strapi (MIT, headless CMS) or Ghost (MIT, publishing) using MCP. Auto-update articles, sort pitches, monitor beats. Spanish/Portuguese Whisper ASR for LATAM radio/TV monitoring.
+
 ## Summary Timeline
 
 | Period | Development |
@@ -202,7 +252,7 @@ KrillinAI's `skills/` directory exposes each stage as a composable AI Agent skil
 | 2023 | Whisper open-sourced; Stable Diffusion image generation mainstream |
 | 2024 | AnimateDiff/SVD first viable open video; AudioCraft released |
 | 2025 | Faster-whisper production standard; first agentic media tools |
-| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; Podcastfy podcast AI proliferates; microdrama $14B by year-end; Wan 2.7 Thinking Mode (Apr 2026); KrillinAI 10k★ agentic dubbing; GenAI M&E $3.16B confirmed (Jul 7 Globe Newswire)** |
+| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; Podcastfy podcast AI proliferates; microdrama $14B by year-end; Wan 2.7 Thinking Mode (Apr 2026); KrillinAI 10k★ agentic dubbing; GenAI M&E $3.16B confirmed (Jul 7 Globe Newswire); Versus AI exits stealth (Jul 2026) with Disney+/HBO/NFL; Interactive CTV $42B+ ad market; ComfyUI crosses 100k★; HunyuanVideo-Foley synchronized foley audio; GenAI Content Creation $21.53B→$77.22B (2030) confirmed; Agentic newsrooms wave begins** |
 | 2026 H2 (projected) | LTX-2 becomes default for production; SkyReels-V3 multimodal SOTA; C2PA contractual in broadcast; interactive MAGI-1 streaming apps; $256B AI M&E by 2035 pathway confirmed |
 
 ## Q3 2026 Watch Signals
@@ -214,6 +264,11 @@ KrillinAI's `skills/` directory exposes each stage as a composable AI Agent skil
 | C2PA v2.1 finalization | Late 2026 expected — binding spec for hardware compliance | Accelerates contractual compliance demand |
 | Asport + NAB AI partnerships | Follow-on to NAB 2026 — sports broadcast AI deals Q3 | Live sports AI PoC pipeline opens |
 | Open-Generative-AI forks | Enterprise forks adding auth, logging, billing | White-label studio market maturing |
+| Versus AI public launch follow-through | Streaming platform deals beyond Disney+/HBO/NFL | Validates Interactive CTV AI as product category |
+| CTV interactive ad formats standardization | IAB/MRC measurement standards for interactive CTV | Unlocks programmatic interactive ad buying |
+| Agentic CMS adoption | Major news orgs deploying agents in CMS workflows | Triggers Globant newsroom AI service line |
+| HunyuanVideo-Foley ComfyUI ecosystem | Community nodes + fine-tuned models for genres | Matures into production-grade SFX automation |
+| Skill.md publisher adoption | Major news orgs publishing Skill.md definitions | Opens AI agent-publisher monetization ecosystem |
 
 ---
 *Updated 2026-07-07. Sources: Omdia, Grand View Research, ICLR 2026, industry coverage.*

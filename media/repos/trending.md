@@ -1,6 +1,6 @@
 # 📈 Trending Repos — Media & Entertainment
 
-> GitHub repos gaining momentum. Updated: 2026-07-08 (v7 — Wan 2.7 and KrillinAI added to velocity table)
+> GitHub repos gaining momentum. Updated: 2026-07-09 (v8 — HunyuanVideo-Foley added; ComfyUI 106k★ updated)
 
 ## Velocity Table (June–July 2026)
 
@@ -20,6 +20,8 @@
 | [vita-epfl/Stable-Video-Infinity](https://github.com/vita-epfl/Stable-Video-Infinity) | Apache-2.0 | ~2.5k | +180 | ICLR 2026 Oral — infinite-length video with error recycling |
 | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | ~13k | +150 | CogVideoX-1.5: best-documented open video gen model — steady accumulation |
 | [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper) | MIT | ~16k | +100 | Production standard for broadcast transcription; continued steady growth |
+| [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) | Tencent Community† | ~2k | +200 | **v8 addition** — video-synchronized foley audio generation; best-in-class sync metrics; ComfyUI nodes available |
+| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | **~106k** | milestone | **100k★ crossed July 2026** — de-facto open media AI workflow engine; every 2026 video model has ComfyUI nodes |
 
 ## v7 Breakout Analyses (July 8, 2026)
 

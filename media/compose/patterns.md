@@ -1,7 +1,7 @@
 # 🧩 Composition Patterns — Media & Entertainment
 
 > Concrete recipes combining real repos + agents + AI.
-> Updated: 2026-07-08 (v7 — Pattern 9: Wan 2.7 Storyboard-to-Video added; matrix updated)
+> Updated: 2026-07-09 (v8 — Pattern 10: HunyuanVideo-Foley SFX; Pattern 11: Interactive CTV Engagement; matrix updated)
 
 ## Pattern 1: AI Auto-Captioning Pipeline
 **Use case**: Broadcaster or OTT platform needs ADA/EU accessibility compliance + cost reduction vs manual captioning.
@@ -1468,6 +1468,342 @@ Video URL → KrillinAI skill:download → KrillinAI skill:transcribe
 
 ---
 
+## Pattern 10: HunyuanVideo-Foley — Automated Synchronized SFX for Short-Form Video
+**Use case**: Social media platform, production studio, or content agency needs to add professional synchronized sound effects to silent AI-generated or human-shot video — without a sound designer.
+**Repos**: `Tencent-Hunyuan/HunyuanVideo-Foley` + `comfy-org/comfyui` (`vantagewithai/Vantage-HunyuanFoley` node)
+**Build time**: 2-3 weeks | **Cost**: ~$0.02-0.10/video clip (GPU inference)
+**License**: Tencent Hunyuan Community License (permissive for most commercial use; verify EU + competitor restrictions)
+
+```python
+import anthropic
+import subprocess
+import json
+from pathlib import Path
+
+class FoleyAudioPipeline:
+    """
+    HunyuanVideo-Foley: video + text prompt → synchronized 48kHz foley audio.
+    One-step: no manual SFX library lookup, no timeline editing.
+    Best for: AI-generated video clips, social shorts, product demos, FAST content.
+    """
+    
+    def __init__(self, hunyuan_foley_path: str):
+        self.foley_path = hunyuan_foley_path  # /opt/HunyuanVideo-Foley
+        self.claude = anthropic.Anthropic()
+    
+    def generate_foley(self, video_path: str, sfx_hint: str = None) -> str:
+        """
+        Generate synchronized foley audio for a video clip.
+        sfx_hint: optional text guidance (e.g. "busy city street with crowd noise")
+        Returns: path to video with embedded foley audio
+        """
+        
+        # Step 1: Auto-describe the video with Claude Vision if no hint given
+        if not sfx_hint:
+            sfx_hint = self._describe_for_foley(video_path)
+        
+        # Step 2: Run HunyuanVideo-Foley inference
+        output_path = video_path.replace(".mp4", "_foley.mp4")
+        subprocess.run([
+            "python", "inference.py",
+            "--video_path", video_path,
+            "--text_prompt", sfx_hint,
+            "--output_path", output_path,
+            "--model_size", "XL",   # XL for best quality; base for speed
+            "--sample_rate", "48000",
+            "--device", "cuda"
+        ], check=True, cwd=self.foley_path)
+        
+        return output_path
+    
+    def _describe_for_foley(self, video_path: str) -> str:
+        """Use Claude to generate a foley-optimized description of video content."""
+        
+        # Extract first frame for vision analysis
+        frame_path = "/tmp/foley_frame.jpg"
+        subprocess.run([
+            "ffmpeg", "-i", video_path, "-vframes", "1",
+            "-ss", "00:00:01", frame_path, "-y"
+        ], capture_output=True, check=True)
+        
+        with open(frame_path, "rb") as f:
+            import base64
+            frame_b64 = base64.standard_b64encode(f.read()).decode()
+        
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",  # Fast + cheap for scene description
+            max_tokens=256,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {"type": "base64", "media_type": "image/jpeg", "data": frame_b64}
+                    },
+                    {
+                        "type": "text",
+                        "text": """Describe the sound environment for this video frame for AI foley audio generation.
+Focus ONLY on: ambient sounds, object sounds, character sounds, environmental audio.
+Be specific. Example: "footsteps on wooden floor, rain on window, distant traffic, paper rustling"
+Max 30 words. Do not describe visuals, only what should be HEARD."""
+                    }
+                ]
+            }]
+        )
+        
+        return response.content[0].text.strip()
+    
+    def batch_process(self, video_dir: str, output_dir: str, 
+                      scene_hints: dict = None) -> list[str]:
+        """
+        Process a batch of video clips (e.g. AI-generated short-form content).
+        scene_hints: dict mapping filename → sfx hint. Auto-describes if not provided.
+        """
+        from concurrent.futures import ThreadPoolExecutor
+        
+        videos = list(Path(video_dir).glob("*.mp4"))
+        Path(output_dir).mkdir(exist_ok=True)
+        
+        results = []
+        with ThreadPoolExecutor(max_workers=2) as executor:  # 2 concurrent GPU jobs
+            futures = {}
+            for video in videos:
+                hint = (scene_hints or {}).get(video.name)
+                futures[executor.submit(self.generate_foley, str(video), hint)] = video
+            
+            for future in futures:
+                try:
+                    result_path = future.result()
+                    # Move to output dir
+                    final_path = Path(output_dir) / Path(result_path).name
+                    Path(result_path).rename(final_path)
+                    results.append(str(final_path))
+                    print(f"✓ {futures[future].name} → {final_path.name}")
+                except Exception as e:
+                    print(f"✗ {futures[future].name}: {e}")
+        
+        return results
+
+# Usage — FAST platform short-form content pipeline
+pipeline = FoleyAudioPipeline("/opt/HunyuanVideo-Foley")
+
+# Single clip with auto-described foley
+output = pipeline.generate_foley(
+    video_path="/content/ai_generated_product_shot.mp4",
+    sfx_hint=None  # Claude Vision will auto-describe
+)
+
+# Batch for AI-generated content factory output
+results = pipeline.batch_process(
+    video_dir="/content/factory_output/",
+    output_dir="/content/factory_with_audio/",
+    scene_hints={
+        "urban_scene.mp4": "city street ambient, traffic, pedestrian crowd",
+        "kitchen_scene.mp4": "cooking sounds, sizzling, clattering utensils",
+        "forest_walk.mp4": "birds, wind through trees, footsteps on leaves"
+    }
+)
+print(f"Processed {len(results)} clips with synchronized foley")
+```
+
+**Architecture**:
+```
+Silent video clip → Claude Vision (auto-describe sound environment)
+    ↓ sfx_hint text
+HunyuanVideo-Foley (multimodal diffusion: video + text → 48kHz audio)
+    → video with synchronized foley audio embedded
+    → [optional] ffmpeg: merge into master delivery file
+```
+
+**Why HunyuanVideo-Foley matters for Pattern 2 (Content Factory)**:
+- Pattern 2 uses `AudioCraft/MusicGen` for background music — but BGM ≠ foley
+- Foley = synchronized SFX that match on-screen action (footsteps, impacts, ambient sound)
+- This pattern upgrades Pattern 2: after CogVideoX/Wan 2.7 generates the video clip, Foley adds synchronized audio before the final assembly step
+- For short-form content (social, FAST) this eliminates the dedicated sound designer role
+
+**Integration with Pattern 2 (upgrade)**:
+```python
+# In Pattern 2 produce_video(), after _generate_clip() for each shot:
+clip_with_foley = foley_pipeline.generate_foley(clip_path)  # Add Foley step
+video_clips.append(clip_with_foley)  # ← was clip_path before
+```
+
+---
+
+## Pattern 11: Interactive CTV Engagement Layer (Open-Source Versus AI Alternative)
+**Use case**: Sports broadcaster, FAST platform, or regional media group wants real-time AI-generated interactive experiences (trivia, predictions, polls, games) that viewers engage with via mobile while watching live content — the open-source equivalent of Versus AI.
+**Repos**: `owncast/owncast` (MIT) + Claude API + Redis (open) + `comfy-org/comfyui` (optional: live visual overlays)
+**Build time**: 4-6 weeks | **Cost**: ~$500-1,500/month infra + $0.003/interactive session (Claude API)
+**License**: MIT + Apache-2.0 — clean for commercial use
+
+```python
+import anthropic
+import asyncio
+import json
+import redis.asyncio as aioredis
+from dataclasses import dataclass, asdict
+from datetime import datetime
+
+@dataclass
+class InteractiveEvent:
+    event_id: str
+    event_type: str  # "trivia", "prediction", "poll", "challenge"
+    question: str
+    options: list[str]
+    correct_answer: str | None
+    sport_context: str
+    expires_at: float  # timestamp
+
+class InteractiveCTVEngine:
+    """
+    Real-time AI engagement overlay for live sports/streaming.
+    Pattern: Claude generates contextual games from live event metadata → 
+             Redis pub/sub pushes to mobile clients → WebSocket delivers to app.
+    
+    Inspired by Versus AI (stealth → public Jul 2026: Disney+/HBO/NFL partner).
+    Built on open-source components only.
+    """
+    
+    def __init__(self, redis_url: str = "redis://localhost:6379"):
+        self.claude = anthropic.Anthropic()
+        self.redis = aioredis.from_url(redis_url)
+    
+    async def process_game_event(self, event_metadata: dict) -> InteractiveEvent:
+        """
+        Given live game event metadata, generate an interactive engagement moment.
+        event_metadata: {"sport": "soccer", "event": "goal", "team": "Flamengo", 
+                          "minute": 73, "score": "2-1", "player": "Gabigol"}
+        """
+        
+        event_type = self._select_event_type(event_metadata)
+        
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",  # Fast (<1s) for real-time
+            max_tokens=512,
+            messages=[{
+                "role": "user",
+                "content": f"""Generate an interactive {event_type} for fans watching this live moment.
+
+Game context: {json.dumps(event_metadata)}
+Event type to generate: {event_type}
+
+Return JSON:
+{{
+    "question": "string (max 100 chars, engaging, present-tense for live feel)",
+    "options": ["A", "B", "C", "D"],
+    "correct_answer": "option text or null if poll/prediction",
+    "difficulty": "easy|medium|hard",
+    "time_limit_seconds": 15
+}}
+
+Guidelines:
+- Trivia: historical facts about teams/players ("Gabigol's career goals?")
+- Prediction: what happens next ("Will Flamengo score again before 90'?")  
+- Poll: fan opinion ("Man of the match so far?")
+- Portuguese if LATAM event, English otherwise."""
+            }]
+        )
+        
+        data = json.loads(response.content[0].text)
+        
+        event = InteractiveEvent(
+            event_id=f"{event_metadata.get('sport')}_{int(asyncio.get_event_loop().time())}",
+            event_type=event_type,
+            question=data["question"],
+            options=data["options"],
+            correct_answer=data.get("correct_answer"),
+            sport_context=f"{event_metadata.get('sport')} {event_metadata.get('event')}",
+            expires_at=asyncio.get_event_loop().time() + data.get("time_limit_seconds", 15)
+        )
+        
+        # Push to all connected mobile clients via Redis pub/sub
+        await self.redis.publish(
+            f"ctv:events:{event_metadata.get('stream_id', 'main')}",
+            json.dumps(asdict(event))
+        )
+        
+        return event
+    
+    async def submit_answer(self, event_id: str, viewer_id: str, 
+                             answer: str) -> dict:
+        """Record viewer answer and update leaderboard."""
+        
+        # Store answer in Redis (auto-expire after 24h)
+        await self.redis.hset(f"answers:{event_id}", viewer_id, answer)
+        await self.redis.expire(f"answers:{event_id}", 86400)
+        
+        # Update leaderboard (sorted set by score)
+        event_data_raw = await self.redis.get(f"event:{event_id}")
+        if event_data_raw:
+            event_data = json.loads(event_data_raw)
+            is_correct = answer == event_data.get("correct_answer")
+            if is_correct:
+                await self.redis.zincrby(f"leaderboard:{event_id[:8]}", 10, viewer_id)
+            return {"correct": is_correct, "points_earned": 10 if is_correct else 0}
+        
+        return {"correct": None, "points_earned": 0}
+    
+    def _select_event_type(self, metadata: dict) -> str:
+        """Select engagement type based on game event."""
+        event = metadata.get("event", "")
+        EVENT_TYPE_MAP = {
+            "goal": "trivia",         # Goal → player history trivia
+            "halftime": "prediction", # Break → predict second half
+            "foul": "poll",           # Controversial → fan opinion
+            "substitution": "trivia", # Player swap → roster knowledge
+            "kickoff": "prediction",  # Match start → score prediction
+        }
+        return EVENT_TYPE_MAP.get(event, "poll")
+
+# Usage — LATAM soccer broadcast
+async def main():
+    engine = InteractiveCTVEngine()
+    
+    # Triggered by sports data feed (Sportradar, Stats Perform, etc.)
+    goal_event = {
+        "stream_id": "copa_latam_semifinal",
+        "sport": "soccer", 
+        "event": "goal",
+        "team": "Flamengo",
+        "player": "Gabigol",
+        "minute": 73,
+        "score": "2-1",
+        "competition": "Copa Libertadores"
+    }
+    
+    interactive = await engine.process_game_event(goal_event)
+    print(f"Question pushed to {interactive.event_id} viewers:")
+    print(f"  '{interactive.question}'")
+    print(f"  Options: {interactive.options}")
+    # → Fans receive in <500ms via WebSocket → tap answer → see leaderboard
+
+asyncio.run(main())
+```
+
+**Architecture**:
+```
+Live sports data feed (Sportradar / XML / manual trigger)
+    ↓ game event (goal, halftime, foul, etc.)
+Claude Haiku (<1s) → contextual question/trivia/prediction in Portuguese/Spanish
+    ↓ JSON event object
+Redis pub/sub → WebSocket server → Mobile companion app (React Native / Flutter)
+    ↓ viewer answers (tap in app)
+Redis sorted set (leaderboard) → real-time ranking update
+    ↓ prizes / badges (integrate with client loyalty platform)
+[Optional] ComfyUI node → visual overlay on stream (scoreboard, timer countdown)
+```
+
+**Market context**:
+- Versus AI's approach (Disney+/HBO/NFL) is closed and proprietary
+- This pattern delivers the same product category on open infrastructure
+- Global CTV ad spend: $42B+ (2026); interactive converts 5× standard
+- LATAM fit: Brazil soccer + Mexico Liga MX have highest mobile viewing rates in region
+- Add shoppable layer: Claude generates product recommendations tied to team/player context
+
+**Globant angle**: 4-6 week PoC for any LATAM sports rights holder or FAST platform. Build the mobile app + Claude engine + Redis backbone. First client success story → productize as a platform offering.
+
+---
+
 ## Quick-Start Matrix
 
 | Client Type | Best Pattern | Time | Stack | Cost/Month |
@@ -1484,6 +1820,8 @@ Video URL → KrillinAI skill:download → KrillinAI skill:transcribe
 | **Film / Ad Agency (storyboard)** | Pattern 9 (Wan 2.7 Storyboard) | 2-4 wk | Wan 2.7 + Claude Vision | $400-800 GPU |
 | **LATAM Dubbing / Localization** | Pattern E (KrillinAI Agentic Dubbing) | 2-3 wk | KrillinAI + Claude brand layer | $200-400 API |
 | **Branded Content / Agency** | Pattern 2+6 (Studio+Highlights) | 6-8 wk | LTX-2 + OpenMontage + Claude | $800-2k GPU |
+| **Short-Form / AI Content Platform (SFX)** | Pattern 10 (HunyuanVideo-Foley) | 2-3 wk | HunyuanVideo-Foley + Claude Vision | $300-600 GPU |
+| **Sports Broadcaster / FAST (interactive)** | Pattern 11 (Interactive CTV) | 4-6 wk | Owncast + Claude Haiku + Redis | $500-1.5k/mo infra |
 
 ---
 *All patterns use MIT/Apache-2.0/MPL-2.0 licenses unless noted. Globant delivery estimates include deployment + testing.*

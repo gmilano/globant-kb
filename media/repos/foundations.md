@@ -1,7 +1,7 @@
 # 🏗️ Foundational Repos — Media & Entertainment
 
 > Core repositories to build on. Open licenses. Active communities.
-> Last updated: 2026-07-08 (v7 — Wan 2.7, KrillinAI, open-dubbing added; fish-speech noted non-commercial)
+> Last updated: 2026-07-09 (v8 — HunyuanVideo-Foley added; ComfyUI 75k→106k★ milestone)
 
 ## Speech & Transcription
 
@@ -20,6 +20,7 @@
 | [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | ~6.1k | Full-song music generation from lyrics (lyrics2song) — vocals + accompaniment, multi-minute output | Yes — original songs |
 | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Apache-2.0 | ~2k | Text-to-audio model with Block Flow Matching for parallel denoising; high-fidelity music from descriptions | Yes — music gen |
 | [souzatharsis/podcastfy](https://github.com/souzatharsis/podcastfy) | Apache-2.0 | ~3k | Multi-modal to multilingual podcast: URLs, PDFs, YouTube, text → AI audio conversation; 100+ LLM backends | Yes — content → podcast |
+| [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) | Tencent Hunyuan Community† | ~2k | Multimodal diffusion foley/SFX generation: video+text → synchronized 48kHz audio in one pass; XL model for offload inference. ComfyUI node: `vantagewithai/Vantage-HunyuanFoley`. Best-in-class sync metrics. | Yes — video SFX automation |
 | [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | ~9k | Hybrid Transformer Demucs v4: drums/bass/vocals/other separation, 9.20 dB SDR | Yes — stem separation |
 | [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Python audio effects library — VST3/AU support, 300× faster than other libs | Yes — audio ML pipeline |
 | [coqui-ai/TTS](https://github.com/coqui-ai/TTS) | MPL-2.0 | ~36k | Deep learning TTS: 1100+ models, voice cloning, multilingual (incl. Spanish/Portuguese) | Yes — broadcast voiceover |
@@ -37,7 +38,7 @@
 | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~4.5k | Infinite-length film via Autoregressive Diffusion-Forcing; V1 is human-centric on HunyuanVideo | Yes — long-form/character |
 | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | 24B autoregressive video (chunk-by-chunk, 24 frames/chunk); 4.5B variant for low-VRAM; streaming generation | Yes — streaming/interactive |
 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~22k | Ships full training pipeline + weights — data preprocessing, training scripts, eval tools all included | Yes — training/fine-tuning |
-| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | ~75k | Node-based GUI for all diffusion models; every major 2026 video model has ComfyUI nodes | Yes (backend API usable) |
+| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | **~106k** | Node-based GUI for all diffusion models; every major 2026 video model has ComfyUI nodes. Crossed 100k★ milestone July 2026 — reflects its position as the de-facto open media AI workflow engine. | Yes (backend API usable) |
 
 ## Media Distribution & Streaming
 
@@ -47,6 +48,8 @@
 | [owncast/owncast](https://github.com/owncast/owncast) | MIT | ~9.5k | Self-hosted live streaming + chat server (Go backend, React frontend) | Yes — AI moderation hooks |
 | [AzuraCast/AzuraCast](https://github.com/AzuraCast/AzuraCast) | Apache-2.0 | ~3.5k | Web radio management suite — stations, playlists, DJ accounts, analytics | AI playlist scheduling |
 | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | ~3.2k | Full-featured video & media CMS (Python/Django + React) with REST API | AI search, auto-tagging |
+
+> †Tencent Hunyuan Community License: permissive for most commercial use; restrictions on EU deployment and competitor AI training. Acceptable for client production builds — verify with legal.
 
 ## Self-Hosted AI Studio Platforms
 

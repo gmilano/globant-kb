@@ -1,6 +1,6 @@
 # 🗺️ Market Map — Media & Entertainment AI
 
-> Global players, market data, LATAM opportunities. Updated: 2026-07-08 (v7 — GenAI M&E sub-segment update, Morgan Stanley 30% cost savings)
+> Global players, market data, LATAM opportunities. Updated: 2026-07-09 (v8 — GenAI Content Creation market added; CTV $42B+ signal; Versus AI; ComfyUI 106k★)
 
 ## Global Market Size
 
@@ -10,15 +10,20 @@
 | AI Video Generation | $1.8B | $2.5B | $8.4B (2030) | 36.2% | Coherent Market Insights |
 | **Generative AI in M&E (specific)** | **$2.5B** | **$3.16B** | **$8.06B (2030)** | **26.4%** | **Globe Newswire Jul 7, 2026** |
 | Generative AI in M&E (long-range) | — | — | $21.2B (2035) | — | Precedence Research |
+| **GenAI Content Creation (broader)** | **$21.53B** | — | **$77.22B (2030)** | **29.2%** | **Globe Newswire Jul 7, 2026** |
 | AI Audio/Speech (Media) | $3.2B | $4.1B | $12B | ~28% | Multiple |
 | OTT streaming revenues (total) | $226.6B | $118.3B streaming | $213.5B streaming (2033) | 8.8% | Coherent Market Insights |
+| **Global CTV ad spend** | — | **$42B+** | — | — | **Interactive CTV Trends 2026** |
 | Global sports rights revenues | — | $67B+ | — | — | PwC Outlook 2026 |
 | Streaming sports spend | — | $14.2B (+7% YoY) | — | — | PwC Outlook 2026 |
 | Global E&M total advertising | ~$420B | ~$453B | $1.4T | 6.9% (US) | PwC Outlook 2026 |
 | Monthly active AI video users | — | 124M+ | — | — | Industry reports |
+| AI video production cost per minute | $4,500 (trad.) | **~$400 (AI, ↓91%)** | — | — | Industry 2026 |
 
 > **Key update (May 2026):** SNS Insider significantly raised the long-term AI in M&E forecast — from prior $99.48B by 2030 to $256B by 2035 — driven by rising demand for personalized content experiences and AI-powered media automation globally.
 > **Key update (Jul 7, 2026):** Globe Newswire confirms GenAI M&E sub-segment at $3.16B in 2026, reaching $8.06B by 2030 at 26.4% CAGR. Growth drivers: GenAI + VR/AR integration, cloud AI media services, real-time personalization. **Morgan Stanley estimate: AI could reduce TV/film production costs by up to 30%.**
+> **Key update (Jul 7, 2026):** GenAI Content Creation (broader category, incl. text/image/video/audio) confirmed at $21.53B (2025) → $77.22B by 2030 (CAGR 29.2%) — Globe Newswire. M&E is the 2nd largest vertical at 23.87% industry share (behind marketing/advertising at 33.88%).
+> **Key update (Jul 2026):** Global CTV ad spend crosses $42B in 2026. Interactive/shoppable CTV converts at 5× standard video ads. Versus AI (stealth → public Jul 2026) secures Disney+/HBO/Paramount+/NFL as clients for real-time AI engagement overlays.
 
 ## LATAM Media Market
 
@@ -56,6 +61,7 @@
 | **Lightricks** | LTX-Video | Lightricks/LTX-Video (Apache-2.0 ★6k) | Startup-scale support |
 | **Wan Video (Alibaba Tongyi Lab)** | Wan 2.7 (Thinking Mode) | Wan-Video/Wan2.2 (Apache-2.0 ~18k) | 24GB VRAM min; HuggingFace weights |
 | **Runway** | Gen-3 (closed) | None | No OSS path |
+| **Versus AI** | Interactive streaming overlay (AI engagement games/trivia/polls) | None (proprietary) | First-mover in AI "second-screen" engagement; stealth → public Jul 2026 |
 | **EBU** | Tech R&D | ebu/awesome-broadcasting | Standards org only |
 | **Spotify** | AI DJ, AI Voice Translation | spotify/pedalboard (GPL-3.0 ★5.5k) | GPL license |
 | **SYSTRAN** | Translation/ASR | SYSTRAN/faster-whisper (MIT ★15k) | Niche positioning |
@@ -99,6 +105,9 @@
 | **Live Sports AI Highlights** | Sports broadcasters | Auto-clip key moments, AI sports narrative | 3-5 weeks |
 | **4K AI Content Studio (LTX-2)** | Branded content, agencies | LTX-2 white-label studio for 4K output | 4-6 weeks |
 | **C2PA Provenance Tagging** | News orgs, studios | EU AI Act compliance + authenticity workflow | 3-4 weeks |
+| **Interactive CTV Engagement Layer** | Sports broadcasters, FAST platforms | AI-generated second-screen trivia/games/polls (Versus AI pattern, open-source) | 4-6 weeks |
+| **Agentic Newsroom CMS** | News publishers, media groups | AI agents embedded in CMS: auto-update stories, sort pitches, generate summaries | 6-8 weeks |
+| **HunyuanVideo-Foley Post-Production** | Production studios, social platforms | Automated synchronized SFX for short-form video; eliminates manual foley work | 2-3 weeks |
 
 ## Proprietary vs. Open Source Landscape
 

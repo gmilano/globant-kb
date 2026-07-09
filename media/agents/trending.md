@@ -1,6 +1,6 @@
 # 📈 Trending AI Agents — Media & Entertainment
 
-> What's new and gaining traction this week. Updated: 2026-07-08 (v7 — Wan 2.7 Thinking Mode, KrillinAI agentic dubbing, market update)
+> What's new and gaining traction this week. Updated: 2026-07-09 (v8 — HunyuanVideo-Foley, Versus AI interactive streaming, CTV market signal, ComfyUI 106k★)
 
 ## Breakout Projects (June–July 2026)
 
@@ -110,6 +110,26 @@
 - **What it is**: Multi-agent AI podcast studio where agents work as a team: analyst → writer → audio engineer. Each "worker" in the studio has a specialized role. Higher quality than single-agent approaches for complex content.
 - **Why it matters**: Complements Podcastfy for complex multi-segment shows. Good for client-facing demos of agent orchestration in media workflows.
 
+## v8 Breakouts (July 9, 2026)
+
+### 16. HunyuanVideo-Foley — Synchronized Foley Audio from Video
+- **Repo**: [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) (Tencent Hunyuan Community License)
+- **Stars**: ~2k (+ ComfyUI node repos: `vantagewithai/Vantage-HunyuanFoley`, `if-ai/ComfyUI_HunyuanVideoFoley`)
+- **Released**: Aug 2025 (base); Sep 2025 (XL model with offload)
+- **What it is**: Multimodal diffusion model that generates frame-synchronized, high-fidelity foley audio (SFX, music, vocals) from video + text prompt in a single pass. Self-developed 48kHz audio VAE achieves professional-grade quality. Benchmarks: best across ALL evaluation metrics vs. prior foley models. XL model supports GPU offload for lower-VRAM inference.
+- **Why it matters**: Closes the critical gap in the open-source media stack. Before Foley, the pipeline was: generate video → manually add SFX in DAW (expensive human labor) or use AudioCraft (not video-synchronized). Foley makes silent-video-to-finished-media a one-click operation for short-form content producers.
+- **ComfyUI integration**: `vantagewithai/Vantage-HunyuanFoley` is a ComfyUI custom node — plug-in to any existing ComfyUI video pipeline.
+- **Globant angle**: Use in Pattern 10 (see compose/patterns.md). Upgrade the short-form content factory (Pattern 2) from AudioCraft BGM to synchronized foley. Especially valuable for LATAM social media clients producing high-volume shorts where post-production audio is the cost bottleneck.
+
+### 17. Versus AI — Interactive AI Overlay for Streaming (Market Signal, Jul 2026)
+- **Company**: Versus AI (stealth → public July 2026)
+- **Status**: Proprietary, not open source — but important market intelligence
+- **Investors**: Jeffrey Katzenberg, former Google CEO Eric Schmidt, LinkedIn co-founder Reid Hoffman, former Disney exec & TikTok CEO Kevin Mayer, TV producer Mark Burnett
+- **Partners**: Disney+, Paramount+, HBO Max, NFL, Lionsgate, Reddit
+- **What it is**: AI overlay system for streaming — viewers point phone at screen to receive real-time interactive elements: games, trivia, polls, predictions, leaderboards, prizes. Works with live sports, series, digital content. "Second-screen" AI engagement layer built natively into streamer apps.
+- **Why it matters**: The $42B+ global CTV ad market (2026) is moving toward interactive AI formats. Shoppable/interactive CTV converts 5× better than standard video ads. Versus shows the product category: **real-time AI engagement layers over live and on-demand content**. As a closed product it's a competitive signal — but the pattern is buildable on open infrastructure.
+- **Globant angle**: Pattern 11 (compose/patterns.md) — build the open-source equivalent of Versus AI for LATAM sports/media clients using Owncast (live stream) + Claude API (trivia/game generation) + Redis pub/sub (real-time push to mobile app). PoC: 4-6 weeks.
+
 ## Audio Ecosystem Moves
 
 ### faster-whisper now default for production
@@ -137,11 +157,17 @@ Meta's AudioCraft (facebookresearch/audiocraft) seeing large spike in fine-tunin
 | OTT revenues 2025 | $226.6B (+13.9% YoY from $199B) | Industry tracking |
 | AI M&E market 2026 | $35.77B → $256B by 2035 | SNS Insider May 2026 |
 | **GenAI in M&E (specific) 2026** | **$3.16B → $8.06B by 2030, CAGR 26.4%** | **Globe Newswire Jul 7, 2026** |
+| **GenAI Content Creation (broader) 2025→2030** | **$21.53B → $77.22B (CAGR 29.2%)** | **Globe Newswire Jul 7, 2026** |
 | Morgan Stanley AI production cost savings | Up to 30% reduction in TV/film prod. costs | Morgan Stanley 2026 |
+| AI video production cost per minute | ~$400 (↓91% vs traditional) | Industry 2026 |
+| **Global CTV ad spend 2026** | **$42B+** | **Interactive CTV Trends 2026** |
+| **Interactive CTV conversion vs standard video** | **5× higher conversion rate** | **CTV advertising data 2026** |
 | KrillinAI stars (July 2026) | 10.4k | GitHub |
+| **ComfyUI stars (July 2026)** | **106k+** (↑ from 75k at v7) | **GitHub** |
 | Global sports rights revenue 2026 | $67B+ (streaming: $14.2B, +7% YoY) | PwC Outlook 2026 |
 | AI exhibitors at NAB 2026 | ~2× vs prior year | NAB 2026 show floor |
 | C2PA member organizations | 140+ (including Canon, Nikon, Leica) | C2PA Jan 2026 |
+| Versus AI streaming partners (Jul 2026) | Disney+, Paramount+, HBO Max, NFL | Deadline Jul 2026 |
 
 ---
 *Updated 2026-07-07. Focus on Apache 2.0 / MIT for commercial builds.*

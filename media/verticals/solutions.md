@@ -2,7 +2,7 @@
 
 > Real platforms to start from — fork, extend with AI, deliver to clients.
 > Model: working platform + AI layer on top = faster delivery.
-> Last updated: 2026-07-08 (v7 — Localization/Dubbing section, KrillinAI, open-dubbing, Wan 2.7)
+> Last updated: 2026-07-09 (v8 — Interactive CTV & Viewer Engagement section added; HunyuanVideo-Foley in post-production)
 
 ## Video Platforms & CMS
 
@@ -122,6 +122,37 @@ Video URL → KrillinAI skills (download + transcribe)
 ```
 
 ---
+
+## Interactive CTV & Viewer Engagement (v8 Addition)
+
+> **Market signal**: Versus AI (stealth → public Jul 2026) — Disney+, Paramount+, HBO Max, NFL client. Global CTV ad spend $42B+ (2026). Shoppable/interactive CTV converts 5× standard video. The product category: real-time AI engagement overlays for live and on-demand content. No open-source platform dominates yet — this is Globant's opportunity.
+
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **Owncast** | MIT | [owncast/owncast](https://github.com/owncast/owncast) | Go + React | Self-hosted live streaming + real-time chat; webhook events on viewer activity | Webhook triggers Claude for live trivia/prediction generation; Redis pub/sub to mobile |
+| **PeerTube** | AGPL-3.0 | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | TypeScript + Vue | Federated video; plugin API for custom viewers | Interactive overlay plugin; AI recommendation layer |
+| **Redis (open)** | BSD-3 | redis/redis | C | Sub-millisecond pub/sub for real-time event push to thousands of concurrent viewers | Central bus: live game events → Claude → viewer mobile apps; leaderboard sorted sets |
+
+### Interactive CTV Pattern (open-source Versus AI)
+See Pattern 11 in compose/patterns.md for the full implementation.
+
+**Quick reference**:
+```
+Live sports data feed → game event trigger
+    → Claude Haiku (<1s) → trivia/prediction/poll in pt-BR or es-MX
+    → Redis pub/sub → WebSocket → viewer mobile app
+    → tap answer → leaderboard update → prizes
+```
+**4-6 week PoC** | **$500-1,500/month infra** | **MIT + Apache-2.0 stack**
+
+## Post-Production AI Tools (v8 Addition)
+
+| Platform | License | Repo | Stack | Use Case | AI Integration Points |
+|----------|---------|------|-------|----------|----------------------|
+| **HunyuanVideo-Foley** | Tencent Hunyuan Community† | [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) | Python + PyTorch | Automated synchronized foley/SFX for video; 48kHz audio VAE; best-in-class sync metrics | Plug after any video generator (Wan 2.7, LTX-2, CogVideoX) to add SFX in one pass |
+| **ComfyUI** | GPL-3.0 | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | Python | Node-based workflow engine; 106k★ milestone (Jul 2026); Vantage-HunyuanFoley node available | Workflow orchestration for video → foley → output pipelines; no-code option for clients |
+
+> †Tencent Hunyuan Community License: permissive for most commercial uses; verify EU deployment and competitor training restrictions before production deployment.
 
 ## AI Video Generation Platforms (4th-Pass Additions)
 
