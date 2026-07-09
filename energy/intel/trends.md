@@ -1,49 +1,86 @@
-# 📡 Tendencias — Energy AI
+# Industry Trends — Energy AI (2026)
 
-> Última actualización: 2026-07-09
+> Current signals, inflection points, and what to watch.
+> Last updated: 2026-07-09 (v2)
 
-## Tendencias macro (2026)
+## Macro Context
 
-### T1 — IA para optimización de red reduce outages 30-50%
-AI-based fault detection puede identificar y aislar fallas de red en tiempo real, reduciendo la duración de interrupciones en 30-50% (IEA 2026). Topología optimization con RL (Grid2Op) en evaluación por TSOs europeos. **Oportunidad Globant**: agentes de diagnóstico de red para utilities LATAM.
+- **Renewables surpassed coal globally** for first time in 2025 (793 GW added; 83% solar)
+- **AI data centers are now a grid-level load** — 8-15% of US grid by 2026
+- **Agentic AI transition underway** — 2026 is the year energy AI shifts from forecasting tools to autonomous operators
+- **EU AI Act (Aug 2 2026 deadline)**: Grid control AI classified as high-risk
+- **Agentic AI in Energy market**: $897M (2026) → $14.9B (2035), CAGR 36.65%
 
-### T2 — Renovables superan carbón por primera vez
-793 GW de capacidad renovable agregados en 2025. Solar fotovoltaico = 83% del nuevo capacity. Renovables superan carbón en generación eléctrica global por primera vez (hito histórico). El forecasting AI de generación solar/eólica es ahora operativo crítico. **Oportunidad Globant**: plataformas de forecasting de generación con ML (PyPSA + Prophet/LSTM).
+---
 
-### T3 — Hybrid solar-plus-storage: 12% → 20% en un año
-Los proyectos híbridos solar + BESS pasaron del 12% al 20% de las simulaciones en Q4 2025 (RatedPower). Control óptimo de carga/descarga de baterías con RL es el siguiente problema. **Oportunidad Globant**: agentes RL para BESS sobre OpenEMS/sinergym.
+## T1: Agentic AI Replaces Rule-Based Grid Dispatch
+**Signal**: Grid-Agent (arXiv:2508.05702), X-GridAgent (arXiv:2512.20789), PowerDAG (arXiv:2603.17418) published 2025-2026. LLMs replacing rule-based SCADA dispatch in research, moving to pilot.
+**Impact**: Grid operators query grid state in natural language; LLM agents autonomously remediate violations.
+**Globant relevance**: Build Grid Copilots on open foundations — sell to utilities who can't afford Siemens/GE.
 
-### T4 — AI reduce exceso de renovables del 95% al 65%
-Usando AI para gestionar buffers de energía virtuales y peak shaving, se puede reducir el overprovisioning de renovables del 95% al 65% de la demanda máxima (IEA). Impacto masivo en CAPEX de parques solares/eólicos. **Oportunidad Globant**: optimización de diseño de parques con OSeMOSYS + ML.
+## T2: Virtual Power Plants (VPPs) as the New Business Model
+**Signal**: Enphase, Tesla, Sunrun, Enel AI VPP expansions. Brazil ANEEL published DER aggregation rules.
+**Impact**: Every EV, BESS, and solar inverter becomes an aggregatable asset.
+**Key open source**: MyEMS VPP module (MIT), VOLTTRON DR agents (Apache-2.0), OpenADR 2.0 stack.
+**Globant relevance**: VPP orchestration platform = $300k-$1.5M engagement.
 
-### T5 — Carbon-aware computing mainstream
-Carbon Aware SDK (Green Software Foundation, MIT, 1.5k★) adoptado por Microsoft Azure, Google Cloud. Scheduling de workloads AI según intensidad carbónica en tiempo real. WattTime API (nueva versión March 2026) ofrece datos históricos + forecast por región. **Oportunidad Globant**: plataformas cloud carbon-aware para clientes enterprise.
+## T3: LLM-Powered Grid Analysis Tools Go Enterprise
+**Signal**: X-GridAgent 3-layer architecture; Power Systems Agent Benchmark (arXiv:2606.20950) establishes first eval framework.
+**Impact**: Utility control room operators without grid modeling expertise can query complex scenarios.
+**Globant relevance**: Build the "Claude for grid operators" tool — enterprise license deal.
 
-### T6 — Virtual Power Plants (VPP) con AI
-Agregación de DERs (solar + BESS + EV + demanda flexible) en VPPs gestionados por AI. AutoGrid y otros actores creciendo rápido. OpenEMS + MyEMS soportan VPP. **Oportunidad Globant**: VPP-as-a-Service para utilities medianas en LATAM.
+## T4: AI Datacenter-Grid Coordination
+**Signal**: OpenG2G (arXiv:2605.05519) — first open platform for GPU workload-grid coordination. Cloud providers under EU/DOE pressure to publish grid impact.
+**Globant relevance**: Carbon-aware cloud migration + grid coordination advisory ($40k-$200k).
 
-### T7 — V2G (Vehicle-to-Grid) bidireccional
-Flotas EV como activos de storage para la red. Protocolos OCPP 2.0.1 + ISO 15118 (V2G). Demand response inteligente para flotas. **Oportunidad Globant**: EV Fleet AI Management con V2G para corporativos en Brasil/Chile/México.
+## T5: TimesFM 2.5 & WeatherNext 2 as Foundation Forecast Models
+**Signal**: NextEra Energy (largest US renewable operator) deployed Google TimesFM 2.5 for generation forecasting (Jun 2026).
+**Impact**: Zero-shot foundation models replace per-client ML training for 70-90% of forecasting tasks.
+**Globant relevance**: Replace custom ML with TimesFM wrapper + fine-tuning — faster delivery, higher margin.
 
-### T8 — Digital twins de sistemas energéticos
-Gemelos digitales de subestaciones, microgrids y plantas industriales para simulación y optimización. PyPSA, pandapower y Grid2Op son los motores de simulación open source. **Oportunidad Globant**: digital twin de activos energéticos para O&G y utilities.
+## T6: Carbon-Aware Computing Goes Mandatory
+**Signal**: EU CSRD + EU AI Act require AI compute carbon footprint measurement. Carbon Aware SDK adopted by GitHub Actions, Microsoft, Red Hat.
+**Timeline**: EU mandatory Jan 2026 (CSRD); Aug 2 2026 (AI Act).
+**Globant relevance**: Carbon Aware SDK integration = fast-close $40k-$150k engagement.
 
-### T9 — AI Data Center ↔ Grid coordination
-El consumo de data centers AI se vuelve crítico para la gestión de red (IEA: +3-4% demanda global para 2030). OpenG2G (Apache-2.0) introduce coordinación runtime entre data centers y la red. Los hyperscalers buscan socios para optimizar su huella energética. **Oportunidad Globant**: carbon-aware MLOps para clientes tech.
+## T7: Building-Grid Integration (Demand Response)
+**Signal**: AutoB2G (arXiv:2603.26005) LLM building-grid co-simulation. Buildrix (arXiv:2606.25139) building engineering AI skills platform.
+**EU timeline**: Energy Efficiency Directive mandates demand response for large buildings by 2027.
+**Globant relevance**: Building energy AI layer on OpenEMS or VOLTTRON — real estate clients.
 
-### T10 — Predictive maintenance con LLM
-Integrar datos de SCADA + vibración + corriente con LLMs para diagnóstico en lenguaje natural y generación de work orders automáticos. Reemplaza reglas estáticas por agentes que "leen" el estado del activo. **Oportunidad Globant**: agentes de mantenimiento predictivo para O&G, utilities y manufactura.
+## T8: Sector Coupling — Hydrogen + Power + Heat
+**Signal**: PyPSA 0.32 (Apr 2026) native hydrogen optimization. Chile H2Verde national program. Germany H2 imports.
+**Globant relevance**: OSeMOSYS + PyPSA H2 scenario planning tools for government/utility strategy.
 
-### T11 — EU AI Act Aug-2 2026 y energía
-El EU AI Act clasifica sistemas de IA en infraestructura crítica (redes eléctricas) como "High-Risk". Compliance obligatorio: documentación, auditoría, explicabilidad. **Impacto**: clientes europeos y de utilities multinacionales necesitan AI explicable y auditable. LLM wrappers sobre Grid2Op deben ser explicables.
+## T9: AI for Predictive Grid Maintenance
+**Signal**: US grid average age 41 years. AI predictive maintenance = top ROI use case (Gartner 2026). NextEra cited aging assets as primary AI driver.
+**Impact**: AI reduces unplanned outages by 30-50%. Condition-based replaces calendar-based maintenance.
+**Globant relevance**: Predictive maintenance AI = $80k-$250k per asset class.
 
-### T12 — LLMs para análisis de mercados energéticos
-Agentes AI para arbitraje de precios eléctricos spot, optimización de contratos de futuros y análisis de volatilidad de commodities energéticos (gas, petróleo). Modelos: FinRL, TradingAgents adaptados a mercados eléctricos.
+## T10: EU AI Act Compliance for Energy AI (HIGH-RISK)
+**Signal**: Grid control AI, energy trading AI, critical infrastructure monitoring = high-risk systems.
+**Deadline**: Aug 2 2026 (NOW). Requires: risk assessment, audit trails, explainability, human-in-the-loop override.
+**Globant relevance**: Compliance wrapper product for EU-operating energy clients.
 
-## Repos más activos esta semana
+## T11: V2G (Vehicle-to-Grid) AI Orchestration
+**Signal**: Brazil fleet electrification + Chile mining EV fleets. V2G-capable chargers entering market. OCPP 2.1 + OSCP enable AI-driven smart charging.
+**Globant relevance**: V2G AI orchestrator on OpenRemote + OCPP 2.1 — $80k-$350k.
 
-- [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) — commits diarios, v0.32 con sector-coupling mejorado
-- [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) — integración creciente con ML para state estimation
-- [emarche/RL2Grid](https://github.com/emarche/RL2Grid) — nuevo benchmark RL para grid, Jun 2026
-- [Green-Software-Foundation/carbon-aware-sdk](https://github.com/Green-Software-Foundation/carbon-aware-sdk) — WattTime API 2026-03-01 integrada
-- [Grid2op/grid2op](https://github.com/Grid2op/grid2op) — L2RPN 2026 competition en preparación
+## T12: Autonomous Self-Healing Grids
+**Signal**: Grid-Agent and PowerDAG demonstrate autonomous fault detection and rerouting. 30-50% outage reduction with AI-assisted fault isolation.
+**Globant relevance**: Self-healing grid agent MVP for mid-size utility = $200k engagement.
+
+---
+
+## Key Dates
+
+| Date | Event | Impact |
+|------|-------|--------|
+| Aug 2, 2026 | EU AI Act full enforcement | Energy AI high-risk; compliance mandatory NOW |
+| Q3 2026 | Grid-Agent / X-GridAgent code release | New open source LLM grid tools available |
+| Q4 2026 | Brazil ANEEL VPP framework | LATAM VPP market unlocks |
+| Q1 2027 | EU EED DR mandate | Building-grid integration mandatory for large buildings |
+| 2027 | US DOE AI Grid Initiative | $500M+ for grid AI projects |
+
+---
+*Updated by Globant AI Studios ingestion pipeline.*

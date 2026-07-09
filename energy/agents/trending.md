@@ -1,38 +1,63 @@
-# 📈 Trending esta semana — Energy AI
+# Trending AI Agents — Energy (Week of 2026-07-07)
 
-> Novedades de la semana en AI para el sector energético.
-> Última actualización: 2026-07-09
+> What's new and gaining momentum in energy AI this week.
+> Last updated: 2026-07-09 (v2)
 
-## Repos más activos esta semana
+## Hot This Week
 
-- [Grid2op/grid2op](https://github.com/Grid2op/grid2op) — RL2Grid benchmark (Jun 2026) estandariza evaluación de agentes RL para topología de redes. Nuevo paper arXiv 2503.23101.
-- [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) — v0.32 con mejoras en sector-coupling y MILP multi-período. Integración creciente con ML para forecasting de precios.
-- [Green-Software-Foundation/carbon-aware-sdk](https://github.com/Green-Software-Foundation/carbon-aware-sdk) — Integración activa con AI Datacenter orchestration (OpenG2G, Apache-2.0). Carbon-aware inference scheduling.
-- [emarche/RL2Grid](https://github.com/emarche/RL2Grid) — Nuevo benchmark 2025 sobre Grid2Op con PPO, SAC, TD3 y Lagrangian PPO baselines. AC power flow realista.
-- [openremote/openremote](https://github.com/openremote/openremote) — v1.5 actualización con asset AI predictive alerting y nuevas integraciones Modbus/IEC 61850.
+### 1. OpenG2G — AI Datacenter-Grid Runtime Coordination
+- **Repo**: https://github.com/gpu2grid/openg2g
+- **Paper**: arXiv:2605.05519 (May 2026)
+- **License**: Apache-2.0
+- **Why it matters**: As AI data centers account for 8-15% of grid load by 2026, OpenG2G provides the first open simulation platform for coordinating GPU workloads with real-time grid state. Modular: swap in any grid simulator (Pandapower, PyPSA) or AI scheduler. Microsoft and Google are building proprietary versions; this is the open alternative.
 
-## Tendencias de la semana
+### 2. Grid-Agent — LLM Multi-Agent for Grid Control
+- **Paper**: arXiv:2508.05702 (Aug 2025 → updated v3 2026)
+- **License**: Research (code in supplementary)
+- **Why it matters**: First published system combining LLM semantic reasoning with numerical power flow solvers for autonomous grid remediation. Outperforms classical rule-based dispatch on IEEE 118-bus scenarios. Foundation for enterprise grid copilots.
 
-### AI Datacenter ↔ Grid coordination
-OpenG2G (Apache-2.0, arxiv 2605.05519) introduce simulación de coordinación runtime entre centros de datos AI y la red eléctrica. El consumo energético de LLMs se vuelve un factor crítico de gestión de red.
+### 3. X-GridAgent — LLM Power Grid Analysis
+- **Paper**: arXiv:2512.20789 (Dec 2025)
+- **License**: Research
+- **Why it matters**: Three-layer hierarchical architecture (planning → coordination → action) for natural language power grid queries. Schema-adaptive hybrid RAG over large-scale grid datasets. Enables non-expert operators to query complex grid state in plain language.
 
-### Hybrid solar-plus-storage
-De 12% a 20% de proyectos solares incluyen storage (Q4 2025). PyPSA y OSeMOSYS están siendo usados para modelar estos sistemas híbridos en planificación CAPEX.
+### 4. PowerDAG — Agentic AI for Distribution Grids
+- **Paper**: arXiv:2603.17418 (Mar 2026)
+- **License**: Research
+- **Why it matters**: Reliable agentic AI for automating distribution grid analysis. DAG execution model for deterministic multi-step analysis pipelines. Addresses utility reliability requirements for AI in critical infrastructure.
 
-### Carbon-aware LLM inference scheduling
-Papers de 2026 (arXiv 2606.18851) proponen quantización dinámica de LLMs para flexibilidad de demanda en data centers. Carbon Aware SDK en el centro del debate.
+### 5. Buildrix — Agentic AI Skills for Building Engineering
+- **Paper**: arXiv:2606.25139 (Jun 2026)
+- **Platform**: Open community platform
+- **Why it matters**: SKILL.md-style open platform for sharing and benchmarking agentic AI skills specific to building engineering (HVAC, energy, BIM). Marks the beginning of a building+energy skills marketplace.
 
-### RL para grid control en producción
-RTE France usa Grid2Op + agentes RL en planificación operativa. L2RPN (L2 Reinforcement Learning for Power Networks) competitions activos en 2026.
+### 6. AutoB2G — LLM Building-Grid Co-Simulation
+- **Paper**: arXiv:2603.26005 (Mar 2026)
+- **License**: Research
+- **Why it matters**: LLM-driven framework for automated building-grid co-simulation. Bridges building energy management and grid optimization — critical for demand response and VPP aggregation.
 
-## Repos nuevos a seguir
+### 7. Power Systems Agent Benchmark
+- **Paper**: arXiv:2606.20950 (Jun 2026)
+- **License**: MIT (dataset + eval)
+- **Why it matters**: First executable benchmark for evaluating AI agents on real electric power engineering tasks. Like SWE-bench but for energy systems.
 
-| Nombre | Descripción | Stars |
-|--------|-------------|-------|
-| [emarche/RL2Grid](https://github.com/emarche/RL2Grid) | Benchmark RL estandarizado para operaciones de red eléctrica | 150+ |
-| [PNNL-Battelle/volttron-applications](https://github.com/PNNL-Battelle/volttron-applications) | Apps para VOLTTRON: demand response, AFDD, HVAC optimization | 100+ |
-| [ArsamAryandoust/awesome-ml-power-systems](https://github.com/ArsamAryandoust/awesome-ml-power-systems) | Colección curada de papers, datasets y software ML para power systems | 200+ |
-| [samuelrince/awesome-green-ai](https://github.com/samuelrince/awesome-green-ai) | Recursos para medir y reducir impacto ambiental de AI | 300+ |
+## Emerging Repos to Watch
+
+| Repo | Why Watch |
+|------|----------|
+| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | Curated list of AI for electricity — growing fast with 2026 papers |
+| [ps-wiki/best-of-ps](https://github.com/ps-wiki/best-of-ps) | Weekly-ranked open source power system tools |
+| [OpenEnergyPlatform/awesome-sustainable-technology](https://github.com/OpenEnergyPlatform/awesome-sustainable-technology) | Sustainability-focused open dev environments, active community |
+| [kaymen99/AI-for-energy-sector](https://github.com/kaymen99/AI-for-energy-sector) | Applied ML/DL models in energy — practical tutorials |
+| [AvansETI/SmartGridAI](https://github.com/AvansETI/SmartGridAI) | SmartGrid AI applied research, ML for energy management |
+
+## Key Signal: Energy AI Entering Agentic Phase (2026)
+
+- 2022-2024: ML models for forecasting (load, price, generation)
+- 2025: RL agents for single-system control (Grid2Op, sinergym)
+- **2026: LLM-powered multi-agent systems for autonomous grid operations** (Grid-Agent, X-GridAgent, PowerDAG)
+
+Energy sector is 12-18 months behind software in agent adoption — Globant has a **first-mover window** for enterprise energy agent deployments.
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Updated by Globant AI Studios ingestion pipeline.*
