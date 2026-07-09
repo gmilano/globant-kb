@@ -1,7 +1,7 @@
 # Agentes AI — Automotive
 
 > Agentes y herramientas AI open source para la industria automotriz. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 (v2 — OpenDriveVLA AAAI 2026, HERMES ICCV 2025, awesome-vla-for-ad)
 
 ## Agentes y herramientas destacadas
 
@@ -21,9 +21,22 @@
 | [pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | 534 | Plataforma modular AV sobre CARLA + vehículos reales. Percepción, predicción, planning independientes. Python. |
 | [autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | Core de Autoware: planning, perception, control, localization. El repo activo principal de Autoware Foundation. |
 | [PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | Framework de testing de agentes autónomos en CARLA. Escenarios parametrizables, métricas de seguridad. Alineado con CARLA Leaderboard 2.1 (mar 2026). |
+| [OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) | Apache-2.0 | 380 | **AAAI 2026** — End-to-end autonomous driving con Vision-Language Action Model. Alineación jerárquica visión-lenguaje: proyecta tokens 2D+3D a espacio semántico unificado. Condicionado en ego-state, comandos del conductor y percepción 3D del entorno. TUM. |
+| [HERMES](https://github.com/LMD0311/HERMES) | Apache-2.0 | 950 | **ICCV 2025** — World Model unificado para conducción autónoma: 3D scene understanding + future scene generation en un solo modelo. Pesos preentrenados open. Base para simulación agentica. |
 | [LEAD](https://github.com/kesai-labs/lead) | MIT | New | **CVPR 2026** — LEAD: minimiza la asimetría aprendiz-experto en conducción end-to-end. Nuevo SOTA en CARLA Leaderboard 2. kesai-labs. |
 | [Vehicle-Diagnostic-Assistant](https://github.com/castlebbs/Vehicle-Diagnostic-Assistant) | MIT | 200 | Agente LangChain + Claude que conecta directo al auto vía OBD2. Decodifica DTCs, VINs, busca tutoriales de reparación. Patrón MCP+OBD2 validado. |
 | [open-mechanic](https://github.com/speed785/open-mechanic) | MIT | 120 | OBD-II adapter + Claude API = diagnóstico en lenguaje natural. Retorna: severidad, causa raíz, pasos de reparación, costo estimado. Stack: pyobd + Anthropic SDK. |
+
+---
+
+## Surveys y Listas Curadas — VLA / World Models para AD
+
+| Repo | Licencia | Stars | Descripción |
+|------|----------|-------|-------------|
+| [awesome-vla-for-ad](https://github.com/worldbench/awesome-vla-for-ad) | MIT | 520 | Lista curada de VLA models para AD — dos paradigmas: End-to-End VLA y Dual-System VLA (VLM lento + planner rápido). worldbench. |
+| [Awesome-LLM4AD](https://github.com/Thinklab-SJTU/Awesome-LLM4AD) | MIT | 2.1k | Lista curada LLM/VLM/VLA/World Models para AV. Continually updated. SJTU Thinklab. 300+ repos. |
+| [World-Models-Autonomous-Driving-Survey](https://github.com/HaoranZhuExplorer/World-Models-Autonomous-Driving-Survey) | MIT | 680 | Survey exhaustivo de world models para AV: CoWorld-VLA, DriveFuture, GEM, Driver-WM. Actualizado 2026. |
+| [Awesome-World-Model](https://github.com/LMD0311/Awesome-World-Model) | MIT | 1.2k | World models para AD + robótica: papers, código, sitios. HERMES author. |
 
 ---
 

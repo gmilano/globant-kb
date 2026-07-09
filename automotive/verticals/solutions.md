@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09 (v2 — OpenRemote IoT fleet, Autoware Vision Pilot L2 production-ready)
 
 ## Fleet Management y Telemática
 
@@ -10,6 +10,7 @@
 |------------|----------|-----|-------|-------------|
 | **Traccar** | Apache-2.0 | [github.com/traccar/traccar](https://github.com/traccar/traccar) | Java + MySQL/PostgreSQL + Web UI | GPS tracking de flota: 2000+ dispositivos, 200+ protocolos. REST API + WebSocket. |
 | **Fleetbase** | AGPL-3.0 | [github.com/fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | PHP/Laravel + Vue.js + PostgreSQL | OS modular de logística: fleet, fulfillment, warehouse. No per-driver fee. |
+| **OpenRemote** | Apache-2.0 | [openremote.io/fleet-telematics-open-source](https://openremote.io/fleet-telematics-open-source/) | Java + TypeScript + TimescaleDB | Plataforma IoT open source 100% para fleet telematics: live tracking, geofences, trip reports, OBD-II integration, alertas. Self-hosted. |
 | **OpenGTS** | Apache-2.0 | [opengts.org](http://www.opengts.org) | Java + MySQL + Tomcat | Fleet tracking web clásico. Maduro, estable. Base para tracking legacy. |
 | **Fleetdm** | MIT | [github.com/fleetdm/fleet](https://github.com/fleetdm/fleet) | Go + MySQL + React | MDM open source para computadoras en flotas. Parches + vuln management. |
 
@@ -30,11 +31,18 @@
 | **python-OBD** | GPL-3.0 | [github.com/brendan-w/python-OBD](https://github.com/brendan-w/python-OBD) | Async OBD-II + ELM327. DTCs, sensores en tiempo real. Base para AI predictive maintenance. |
 | **freediag** | GPL-2.0 | [github.com/fenugrec/freediag](https://github.com/fenugrec/freediag) | Herramienta de diagnóstico vehicular multi-protocolo. C. Linux/macOS/Windows. |
 
+## ADAS / AD Stacks Production-Ready
+
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| **Autoware Vision Pilot** | Apache-2.0 | [github.com/autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | ROS 2 + E2E AI | Stack ADAS L2 completamente open source, production-ready (abr 2026). Primera alternativa OSS seria a Tesla FSD para OEMs. |
+| **openpilot** | MIT | [github.com/commaai/openpilot](https://github.com/commaai/openpilot) | Python + CAN bus | ADAS L2+ en 325+ vehículos. 100M+ millas acumuladas. Hardware: comma 4. |
+
 ## Simulación AV (para testing)
 
 | Plataforma | Licencia | URL | Descripción |
 |------------|----------|-----|-------------|
-| **CARLA** | MIT | [github.com/carla-simulator/carla](https://github.com/carla-simulator/carla) | Simulador AV fotorrealista. Unreal Engine. 14.1k★. |
+| **CARLA** | MIT | [github.com/carla-simulator/carla](https://github.com/carla-simulator/carla) | Simulador AV fotorrealista. Unreal Engine. 14.1k★. CARLA Leaderboard 2.1 (mar 2026). |
 | **LGSVL/SVL** | Apache-2.0 | [github.com/lgsvl/simulator](https://github.com/lgsvl/simulator) | Simulador AV de LG Electronics. Unity. Integra ROS/Autoware. |
 | **AirSim** | MIT | [github.com/microsoft/AirSim](https://github.com/microsoft/AirSim) | Simulador Microsoft para drones y vehículos. Unreal/Unity. |
 

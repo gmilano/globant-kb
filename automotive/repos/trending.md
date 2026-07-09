@@ -1,9 +1,18 @@
 # Repos trending — Automotive AI
 
 > Lo que está ganando estrellas y atención en julio 2026.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 (v2 — OpenDriveVLA, HERMES/HERMES++, World Models survey, DriveWorld-VLA)
 
 ## Trending por categoría
+
+### Conducción Autónoma — VLA y World Models (ola 2026)
+
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [DriveVLA/OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) | Apache-2.0 | 380 | **⭐ AAAI 2026** — VLA end-to-end para AD. Alineación jerárquica 2D+3D → espacio semántico unificado. Inference code open. TUM. |
+| [LMD0311/HERMES](https://github.com/LMD0311/HERMES) | Apache-2.0 | 950 | **ICCV 2025** — Unified driving world model: understanding + future generation. Pesos preentrenados open. Base para simulación agentica. |
+| [worldbench/awesome-vla-for-ad](https://github.com/worldbench/awesome-vla-for-ad) | MIT | 520 | Survey de VLA models para AD — E2E VLA vs Dual-System (VLM lento + planner rápido). En ascenso rápido. |
+| [HaoranZhuExplorer/World-Models-AD-Survey](https://github.com/HaoranZhuExplorer/World-Models-Autonomous-Driving-Survey) | MIT | 680 | Survey world models 2026: CoWorld-VLA, DriveFuture, GEM, Driver-WM. |
 
 ### Conducción Autónoma — LLM/VLM
 

@@ -1,7 +1,7 @@
 # Tendencias — Automotive AI
 
 > Tendencias que dan forma al mercado en 2026.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-09 (v2 — T12 VW+Qualcomm SDV, T13 NVIDIA L4 Ecosystem BYD/Geely, T14 Cockpit Market $7.1B, T15 World Models/VLA convergencia)
 
 ## Tendencias principales
 
@@ -88,6 +88,39 @@ Brasil, México, Argentina, Chile y Colombia están en el punto de inflexión pa
 
 - **Signal**: Argentina +874% EV (ene-abr 2026), México VEMO $1.5B, Brasil BYD lider
 - **Ventana**: 12-18 meses antes que players globales localicen soluciones LATAM-específicas
+
+### Trend 12: VW + Qualcomm — El SDV Europeo Toma Forma (NEW — ene 2026)
+Volkswagen Group firmó LoI con Qualcomm para Snapdragon Digital Chassis en su nueva arquitectura SDV zonal, con inicio 2027. El mayor OEM europeo por volumen compromete hardware único de cockpit agentico. Marca el fin de la era multi-ECU en VW.
+
+- **Deal**: VW + Qualcomm LoI ene 2026, Snapdragon Digital Chassis para infotainment + conectividad + AI cockpit
+- **Arquitectura**: Zonal SDV — de 100+ ECUs a 3-5 dominios zonales; CI/CD + OTA sobre Snapdragon
+- **Bosch**: Bosch AI-Cockpit (CES 2026) — NPU + voz + cara + gesto + predicción personalizada; basado en TensorRT
+- **Implicación Globant**: OEMs europeos en LATAM (VW Brasil, Mercedes Argentina) necesitarán integración AI layer sobre Snapdragon
+
+### Trend 13: NVIDIA DRIVE Hyperion L4 — Ecosistema Global (NEW — GTC mar 2026)
+GTC 2026 fue el mayor anuncio de AV L4 de la historia: BYD, Geely, Isuzu y Nissan adoptan DRIVE Hyperion para programas L4. NVIDIA se posiciona como el sistema nervioso central de la próxima generación de vehículos autónomos.
+
+- **Adopción**: BYD + Geely (China + LATAM) + Nissan (Japón + US) + Isuzu (Asia)
+- **NVIDIA Robotaxi + Uber**: 28 mercados globales 2027-2028; arranque LA + SF H1 2027
+- **Stack**: DRIVE Hyperion (compute + sensores + networking + safety) + Alpamayo-1 VLA + Drive AV SW
+- **Convergencia**: Mercedes CLA (2026) ya usa Alpamayo + Drive AV para L2++ address-to-address
+- **Implicación Globant**: BYD LATAM con DRIVE Hyperion → oportunidad de software layer (DMS + fleet AI) sobre stack NVIDIA validado
+
+### Trend 14: Agentic Cockpit Market — $7.1B y Creciendo al 22% (NEW)
+El segmento AI-powered in-vehicle cockpit & assistant alcanzó $7.1B en 2025, con CAGR 22.2% hasta 2035. El GenAI Copilot automotriz pasa de $1.64B (2025) a $14.89B (2035) a CAGR 24.9%. Es el segmento de mayor crecimiento en AI automotriz.
+
+- **Drivers**: Multimodal interaction (voz + cara + gesto), predicción personalizada, integración V2X
+- **Key products**: Bosch AI-Cockpit (CES 2026), Qualcomm Snapdragon Agentic, NVIDIA DRIVE Concierge
+- **Implicación Globant**: Cockpit AI en español = nicho no cubierto para LATAM. Siri/Alexa mal adaptadas → oportunidad de castellano nativo + contexto LATAM.
+
+### Trend 15: VLA + World Models — La Próxima Generación del AD (NEW — 2025-2026)
+El campo del AV converge hacia modelos que combinan Vision-Language-Action (VLA) con World Modeling: el vehículo no solo actúa, sino que "imagina" el futuro del tráfico antes de decidir.
+
+- **Modelos referencia**: OpenDriveVLA (AAAI 2026, Apache-2.0), HERMES (ICCV 2025, Apache-2.0), HERMES++ (arXiv 2026), DriveWorld-VLA (arXiv 2026)
+- **Surveys activos**: awesome-vla-for-ad (worldbench, MIT), World-Models-AD-Survey (Haoran Zhu, MIT)
+- **Paradigmas**: E2E VLA (Alpamayo, OpenDriveVLA) vs Dual-System VLA (VLM razonador lento + planner rápido seguro)
+- **EU AI Act**: La salida explicable de VLA (chain-of-thought) satisface Art. 13 explicabilidad → certificación más directa
+- **Implicación Globant**: Proyectos de consultoría AV para OEMs ahora requieren expertise en VLA + World Models, no solo CNN clásicas
 
 ---
 

@@ -1,7 +1,7 @@
 # Patrones de composición — Automotive
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09 (v2 — P9 OpenDriveVLA Evaluation Pipeline VLA+CARLA+Claude)
 
 ## Arquitectura base
 
@@ -722,15 +722,190 @@ print(report)
 
 ---
 
+## Patrón 9: OpenDriveVLA Evaluation Pipeline (VLA + CARLA + Claude)
+
+**Objetivo**: Pipeline para evaluar y comparar modelos VLA (OpenDriveVLA, Alpamayo-1) en CARLA Leaderboard 2.1 con análisis agéntico de resultados.
+
+**Stack**:
+- `DriveVLA/OpenDriveVLA` (Apache-2.0) — modelo VLA a evaluar
+- `carla-simulator/carla` (MIT) — simulador
+- `carla-simulator/leaderboard` (MIT) — benchmark CARLA Leaderboard 2.1
+- `anthropic/anthropic-sdk-python` — análisis de resultados y diagnóstico
+
+**Tiempo**: 4-6 semanas | **Costo estimado**: $100k-350k (+ GPU compute para inferencia VLA)
+
+```python
+# vla_eval_pipeline.py — Evaluación de VLA models en CARLA con análisis Claude
+import subprocess
+import json
+from pathlib import Path
+from anthropic import Anthropic
+
+client = Anthropic()
+
+class VLAEvaluationPipeline:
+    """
+    Pipeline para evaluar OpenDriveVLA u otro VLA en CARLA Leaderboard 2.1
+    y generar análisis agéntico de resultados con Claude.
+    """
+    def __init__(self, model_name: str, carla_port: int = 2000):
+        self.model_name = model_name
+        self.carla_port = carla_port
+        self.results_dir = Path(f"results/{model_name}")
+        self.results_dir.mkdir(parents=True, exist_ok=True)
+    
+    def run_leaderboard_route(self, route_file: str, scenario_file: str) -> dict:
+        """
+        Ejecuta una ruta de evaluación del CARLA Leaderboard 2.1.
+        En producción: usa leaderboard_evaluator.py del repo oficial.
+        """
+        cmd = [
+            "python", "leaderboard/leaderboard_evaluator.py",
+            "--routes", route_file,
+            "--scenarios", scenario_file,
+            "--agent", f"agents/{self.model_name}_agent.py",
+            "--checkpoint", f"checkpoints/{self.model_name}.pth",
+            "--port", str(self.carla_port),
+            "--trafficManagerPort", str(self.carla_port + 6000),
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=3600)
+        
+        # Parsear resultados del JSON de salida del leaderboard
+        results_file = self.results_dir / "results.json"
+        if results_file.exists():
+            with open(results_file) as f:
+                return json.load(f)
+        return {"error": result.stderr, "stdout": result.stdout}
+    
+    def parse_leaderboard_metrics(self, raw_results: dict) -> dict:
+        """Extrae métricas clave del formato CARLA Leaderboard 2.1."""
+        records = raw_results.get("_checkpoint", {}).get("records", [])
+        
+        metrics = {
+            "driving_score": 0.0,
+            "route_completion": 0.0,
+            "infraction_penalty": 1.0,
+            "collisions_layout": 0,
+            "collisions_pedestrian": 0,
+            "collisions_vehicle": 0,
+            "red_light_violations": 0,
+            "stop_sign_violations": 0,
+            "route_dev_count": 0,
+            "agent_blocked_count": 0,
+            "num_routes": len(records),
+        }
+        
+        if not records:
+            return metrics
+        
+        for record in records:
+            metrics["route_completion"] += record.get("scores", {}).get("score_route", 0)
+            infractions = record.get("infractions", {})
+            metrics["collisions_layout"] += len(infractions.get("collisions_layout", []))
+            metrics["collisions_pedestrian"] += len(infractions.get("collisions_pedestrian", []))
+            metrics["collisions_vehicle"] += len(infractions.get("collisions_vehicle", []))
+            metrics["red_light_violations"] += len(infractions.get("red_light", []))
+        
+        n = len(records)
+        metrics["route_completion"] /= n
+        metrics["driving_score"] = (
+            metrics["route_completion"] *
+            (0.65 ** (metrics["collisions_pedestrian"] / n)) *
+            (0.65 ** (metrics["red_light_violations"] / n))
+        )
+        return metrics
+
+    def analyze_with_claude(self, metrics: dict, model_card: str = "") -> str:
+        """Claude analiza métricas y genera diagnóstico del modelo VLA."""
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=2000,
+            system="""Eres un experto en evaluación de modelos de conducción autónoma.
+            Analizas métricas del CARLA Leaderboard 2.1 para identificar debilidades y
+            oportunidades de mejora en modelos VLA (Vision-Language-Action).
+            Estándares de referencia: ISO 26262, UNECE WP.29, EU AI Act Art. 13.""",
+            messages=[{
+                "role": "user",
+                "content": f"""
+Modelo evaluado: {self.model_name}
+{f"Model card: {model_card}" if model_card else ""}
+
+Métricas CARLA Leaderboard 2.1:
+{json.dumps(metrics, indent=2)}
+
+Genera:
+1. **Driving Score final** y comparación con SOTA (OpenDriveVLA baseline ~65%, Alpamayo-1 ~82%)
+2. **Debilidades críticas** (tipo de infracción más frecuente y causa probable)
+3. **Fortalezas** del modelo en este dataset
+4. **Recomendaciones de fine-tuning** priorizadas por impacto en seguridad
+5. **Conformidad EU AI Act**: ¿La salida chain-of-thought del VLA satisface Art. 13 explicabilidad?
+6. **Próximos pasos** para mejora iterativa
+"""
+            }]
+        )
+        return response.content[0].text
+    
+    def compare_models(self, model_results: dict) -> str:
+        """Compara múltiples modelos VLA y recomienda el mejor para producción."""
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=1500,
+            system="Eres consultor de selección de modelos AV para producción vehicular. Priorizas seguridad, explicabilidad y licencia open source.",
+            messages=[{
+                "role": "user",
+                "content": f"""
+Comparación de modelos VLA en CARLA Leaderboard 2.1:
+{json.dumps(model_results, indent=2)}
+
+Recomienda:
+1. Modelo ganador para producción (safety-first)
+2. Tabla comparativa con score, licencia, inferencia ms, EU AI Act readiness
+3. Modelo para MVP rápido vs producción de largo plazo
+4. Integración con Autoware/openpilot para el modelo ganador
+"""
+            }]
+        )
+        return response.content[0].text
+
+# Uso típico en proyecto Globant
+if __name__ == "__main__":
+    pipeline = VLAEvaluationPipeline("OpenDriveVLA")
+    
+    # Ejecutar evaluación en rutas de LATAM (custom: Brasil, México)
+    raw_results = pipeline.run_leaderboard_route(
+        route_file="routes/latam_urban_routes.xml",
+        scenario_file="scenarios/latam_traffic_scenarios.json"
+    )
+    
+    # Parsear métricas
+    metrics = pipeline.parse_leaderboard_metrics(raw_results)
+    print(f"Driving Score: {metrics['driving_score']:.3f}")
+    
+    # Análisis con Claude
+    diagnosis = pipeline.analyze_with_claude(metrics, model_card="OpenDriveVLA AAAI 2026, TUM, Apache-2.0")
+    print(diagnosis)
+    
+    # Comparar vs Alpamayo-1
+    comparison = pipeline.compare_models({
+        "OpenDriveVLA": metrics,
+        "Alpamayo-1": {"driving_score": 0.82, "route_completion": 0.91, "license": "Apache-2.0", "latency_ms": 45},
+        "LEAD (CVPR 2026)": {"driving_score": 0.78, "route_completion": 0.88, "license": "MIT", "latency_ms": 38},
+    })
+    print(comparison)
+```
+
+---
+
 ## Matriz de selección de patrón
 
 | Caso de uso | Patrón | Complejidad | Tiempo | Deal size LATAM |
 |-------------|---------|-------------|--------|-----------------|
-| Gestión de flota GPS | P1: Fleet Intelligence | Baja | 3-4s | $80k-250k |
-| Taller + diagnóstico | P2: Predictive Maintenance | Media | 4-6s | $150k-400k |
-| Testing AV | P3: AV Testing Pipeline | Alta | 6-8s | $250k-700k |
-| EV route planning | P4: EV Route Optimizer | Baja-Media | 3-5s | $100k-300k |
-| Concesionario BYD | P5: Dealership Assistant | Media | 4-6s | $150k-450k |
-| Cockpit inteligente | P6: Cockpit Assistant | Muy Alta | 8-12s | $400k-1.2M |
-| V2X cooperativo | P7: V2X Agent | Muy Alta | 10-14s | $500k-1.5M |
-| Flota EV LATAM | P8: EV Fleet Intelligence | Media | 6-8s | $200k-600k |
+| Gestión de flota GPS | P1: Fleet Intelligence | Baja | 3-4w | $80k-250k |
+| Taller + diagnóstico | P2: Predictive Maintenance | Media | 4-6w | $150k-400k |
+| Testing AV | P3: AV Testing Pipeline | Alta | 6-8w | $250k-700k |
+| EV route planning | P4: EV Route Optimizer | Baja-Media | 3-5w | $100k-300k |
+| Concesionario BYD | P5: Dealership Assistant | Media | 4-6w | $150k-450k |
+| Cockpit inteligente | P6: Cockpit Assistant | Muy Alta | 8-12w | $400k-1.2M |
+| V2X cooperativo | P7: V2X Agent | Muy Alta | 10-14w | $500k-1.5M |
+| Flota EV LATAM | P8: EV Fleet Intelligence | Media | 6-8w | $200k-600k |
+| Evaluación VLA / AV | P9: OpenDriveVLA Eval Pipeline | Alta | 4-6w | $100k-350k |

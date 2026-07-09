@@ -1,7 +1,7 @@
 # Repos fundacionales — Automotive
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09 (v2 — OpenDriveVLA, HERMES, World Models survey, DriveWorld-VLA)
 
 ## Simulación y Testing
 
@@ -45,6 +45,15 @@
 |------|----------|-------|-------------|
 | [TensorRT](https://github.com/NVIDIA/TensorRT) | Apache-2.0 | 10.5k | SDK de inferencia NVIDIA. TensorRT Edge-LLM para automotive embedded. Bosch+MediaTek usan esto. |
 | [DriveMLM](https://github.com/OpenGVLab/DriveMLM) | Apache-2.0 | 850 | Framework multimodal LLM para AV close-loop. Behavior planning + sensor input. OpenGVLab. |
+
+## VLA y World Models — Generación 2025-2026
+
+| Repo | Licencia | Stars | Descripción |
+|------|----------|-------|-------------|
+| [OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) | Apache-2.0 | 380 | **AAAI 2026** — VLA end-to-end para AD. Alineación jerárquica 2D+3D → espacio semántico unificado. Condicionado en percepción 3D + ego-state + comandos. TUM. |
+| [HERMES](https://github.com/LMD0311/HERMES) | Apache-2.0 | 950 | **ICCV 2025** — Unified driving world model: 3D scene understanding + future generation. Pesos preentrenados open. |
+| [World-Models-Autonomous-Driving-Survey](https://github.com/HaoranZhuExplorer/World-Models-Autonomous-Driving-Survey) | MIT | 680 | Survey curado de world models para AV: CoWorld-VLA, DriveFuture, GEM, Driver-WM. Actualizado 2026. |
+| [awesome-vla-for-ad](https://github.com/worldbench/awesome-vla-for-ad) | MIT | 520 | VLA models para AD — End-to-End VLA vs Dual-System VLA (VLM lento + planner rápido). worldbench. |
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*
