@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Healthcare
 
 > Agentes y herramientas AI open source para la industria de salud. Foco: MIT / Apache 2.0 / BSD.
-> Última actualización: 2026-07-09 (v4 — NemoClaw enterprise, Medplum FHIR platform, NVIDIA survey 70% adoption)
+> Última actualización: 2026-07-09 (v5 — CHI-Bench 72% failure, ARPA-H ADVOCATE, FDA CDS 2026, 81% physician adoption, MedAgentBench, HealthFlow, ColaCare)
 
 ## Agentes y herramientas destacadas
 
@@ -9,7 +9,7 @@
 |--------|----------|-------------|-------|
 | [OpenClaw-Medical-Skills](https://github.com/FreedomIntelligence/OpenClaw-Medical-Skills) | Apache-2.0 | La mayor librería de skills médicos open source: 869 módulos cubriendo clínica, genómica, descubrimiento de fármacos, bioinformática y dispositivos médicos. Transforma cualquier agente general en asistente médico especializado (OpenClaw/NanoClaw). | 2.8k |
 | [openmed-agent](https://github.com/openmed-labs/openmed-agent) | MIT | Asistente médico de terminal, privado y sandboxed: prior authorization, apelaciones, codificación ICD-10/CPT/SNOMED, coordinación de cuidados y flujos FHIR con artifacts auditables antes de cada acción. | ~800 |
-| [openmed (local-first)](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Healthcare AI 100% on-device: NER clínica + de-identificación HIPAA PII sin enviar datos al cloud. 1,000+ modelos médicos, 12 idiomas, Apple MLX + Python. | 4.0k |
+| [openmed (local-first)](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Healthcare AI 100% on-device: NER clínica + de-identificación HIPAA PII sin enviar datos al cloud. 1,000+ modelos médicos, 12 idiomas, Apple MLX + Python. No cloud, no patient data leaving your network. | 4.0k |
 | [BioChatter](https://github.com/biocypher/biochatter) | MIT | Framework open source para LLMs en biomedicina: integración de knowledge graphs, RAG, model chaining, benchmarking. Soporta LLMs locales (Ollama, Xinference) para privacidad total y compliance HIPAA/LGPD. | ~600 |
 | [Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant) | MIT | Chatbot multi-agente para diagnóstico y asistencia de investigación médica: recupera evidencia de literatura médica, analiza chest X-rays/MRI/lesiones cutáneas, responde preguntas clínicas con RAG + LangGraph. | ~400 |
 | [AI-Agents-for-Medical-Diagnostics](https://github.com/ahmadvh/AI-Agents-for-Medical-Diagnostics) | MIT | Sistema de agentes LLM especializados para análisis de casos médicos complejos. Integra perspectivas de múltiples especialidades (cardiólogo, radiólogo, internista) para evaluaciones comprensivas. | ~300 |
@@ -22,7 +22,21 @@
 | [MedRAX](https://github.com/bowang-lab/MedRAX) | Apache-2.0 | Medical Reasoning Agent for Chest X-ray (ICML 2025). Primer agente AI versátil que integra herramientas de análisis CXR y LLMs multimodales en un framework unificado. Incluye ChestAgentBench: 2,500 consultas médicas complejas en 7 categorías. | ~1.2k |
 | [awesome-medical-ai](https://github.com/JuneYaooo/awesome-medical-ai) | MIT | Lista curada de proyectos AI médicos y de salud: LLMs, imágenes médicas, sistemas multi-agente, software clínico. Referencia integral del ecosistema 2025-2026. | ~400 |
 | [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Plataforma healthcare developer full-stack TypeScript. FHIR-native, HIPAA+SOC2 out-of-box, "Bots" para server-side logic sin infraestructura propia, UI components. El "Vercel for healthcare" — ideal para construir apps AI clínicas sobre FHIR sin partir de cero. | 1.5k+ |
-| [OpenAPS/oref0](https://github.com/openaps/oref0) | MIT | OpenAPS — artificial pancreas system open source. El primer sistema de closed-loop insulin delivery patientliderado. CGM → algoritmo de ajuste de dosis basal → pump. 2,500+ pacientes T1D globalmente. Referencia de FDA AID (Automated Insulin Delivery) pathway. | ~2k |
+| [OpenAPS/oref0](https://github.com/openaps/oref0) | MIT | OpenAPS — artificial pancreas system open source. El primer sistema de closed-loop insulin delivery patient-liderado. CGM → algoritmo de ajuste de dosis basal → pump. 2,500+ pacientes T1D globalmente. Referencia de FDA AID (Automated Insulin Delivery) pathway. | ~2k |
+
+---
+
+## 🆕 v5 — Nuevos Agentes y Frameworks (Jul 2026)
+
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | Apache-2.0 | **Stanford** — Benchmark de agentes LLM en entorno EHR virtual realista: 300 tareas de physicans reales, 100 pacientes virtuales, 700k+ data elements. Claude 3.5 Sonnet v2 lidera con **69.67% success rate**. Publicado en NEJM AI. Estándar de evaluación para proyectos AI clínicos. | ~500 |
+| [MedAgentBoard](https://github.com/yhzhu99/MedAgentBoard) | MIT | Plataforma para benchmarking de colaboración multi-agente vs. métodos convencionales en tareas médicas diversas. Cubre datos multimodales, texto, imágenes. Datasets + code + resultados experimentales todos open-sourced. Referencia para evaluar diseños multi-agente en producción. | ~200 |
+| [HealthFlow](https://github.com/yhzhu99/HealthFlow) | MIT | **HealthFlow: Automating EHR analysis via a strategically self-evolving multi-agent framework.** Agentes especializados que se adaptan automáticamente a la complejidad de cada caso clínico. Evita el problema de agentes rígidos que fallan en casos complejos no vistos. | ~150 |
+| [ColaCare](https://github.com/yuliaaa31/ColaCare) | MIT | **ColaCare (WWW 2025)** — Mejora el modelado de EHR mediante colaboración multi-agente LLM: DoctorAgents + MetaAgent coordinados con RAG. Mejora generación de reportes EHR y planificación de tratamiento vs. baselines solo-LLM. | ~100 |
+| [chi-bench](https://github.com/actava-ai/chi-bench) | Apache-2.0 | **Χ-Bench (arXiv:2605.16679)** — El benchmark más exigente para agentes healthcare: 75 flujos de trabajo end-to-end, 20 apps hospitalarias reales, 87 MCP tools, manual de operaciones de 1,279 documentos. Coalición de 20+ instituciones (Johns Hopkins, Wellstar, Yale, Stanford, CMU, Oxford). **Mejor agente falla 72% de los casos reales.** Señal de hasta dónde faltan llegar los agentes. | ~300 |
+| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY-4.0 | Curación activa de los últimos avances en Agentic AI para salud: papers AAAI 2026, SynthAgent (simulación de pacientes), MedCoG (densidad de inferencia médica), whole-slide VLMs para patología, ColaCare, DynamiCare, SEMA-RAG. Referencia de investigación más citada del área. | ~1.2k |
+| [Meditron](https://github.com/epfLLM/meditron) | Apache-2.0 | **EPFL** — Suite de LLMs médicos open source. Meditron-7B y 70B adaptados de Llama-2 con pretraining continuo en 48B tokens médicos (PubMed papers, guías clínicas, datos generales). Referencia como LLM médico open source de clase mundial en benchmarks MedQA, MedMCQA, PubMedQA. | ~900 |
 
 ---
 
@@ -55,21 +69,9 @@
 | Plataforma AI healthcare greenfield (TypeScript) | medplum/medplum + fhir-mcp-server |
 | Agentes OpenClaw con HIPAA compliance (enterprise) | NemoClaw (NVIDIA) + OpenClaw-Medical-Skills |
 | Artificial Pancreas / diabetes closed-loop | OpenAPS + CGM integration + FHIR write |
+| EHR multi-agente modeling y treatment planning | ColaCare + HealthFlow |
+| Evaluación rigurosa pre-producción de agentes | MedAgentBench + MedAgentBoard + CHI-Bench |
+| LLM médico open source base (fine-tuning) | Meditron (7B o 70B, Apache-2.0) |
 
 ---
-
-## Benchmarks de referencia (2025–2026)
-
-| Benchmark | Arxiv / Fuente | Qué mide | Mejor modelo |
-|-----------|---------------|----------|-------------|
-| MedAgentBench | NEJM AI / Stanford | 300 tareas FHIR en EHR virtual, 100 pacientes, 700k+ elementos | Claude 3.5 Sonnet v2 — 69.67% |
-| FHIR-AgentBench | arXiv:2509.19319 | 2,931 preguntas clínicas reales en HL7 FHIR; razonamiento multi-step | Varios — métricas por estrategia |
-| PhysicianBench | arXiv:2605.02240 | Agentes LLM en EHR de mundo real (nivel médico) | Claude — SOTA reportado |
-| ChestAgentBench | bowang-lab/MedRAX | 2,500 consultas diagnósticas CXR en 7 categorías | MedRAX (Apache-2.0) |
-| CHI-Bench | AgenticHealthAI | Flujos de trabajo healthcare end-to-end | OpenClaw-based agents |
-| ABRA | AgenticHealthAI list (2026) | Benchmark de agentes AI para aplicaciones de radiología | Reportado 2026 |
-| AgentRx | AgenticHealthAI list (2026) | Multi-agente para predicción clínica multimodal | Reportado 2026 |
-| MedMemoryBench | AgenticHealthAI list | Benchmark de memoria de agentes en healthcare personalizada | 2026 |
-
----
-*Actualizado por el pipeline de ingest — v4 investigación profunda 2026-07-09.*
+*Actualizado automáticamente por el pipeline de ingest.*

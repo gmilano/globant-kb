@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Healthcare AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-09 (v4 — P9 NemoClaw HIPAA enterprise, P10 Medplum full-stack FHIR AI)
+> Última actualización: 2026-07-09 (v5 — P11 CHI-Bench evaluation harness, P12 ARPA-H ADVOCATE dual-agent supervisory, P13 HealthFlow self-evolving EHR — 13 patrones totales)
 
 ## Arquitectura base
 
@@ -810,3 +810,533 @@ curl -X POST "$MEDPLUM_BASE_URL/fhir/R4/Subscription" \
 | 8. FDA SaMD Clinical LLM | 52-78 (1-1.5y) | Muy Alta | Precedente K253281; chronic disease | $500k–$2M |
 | 9. NemoClaw Enterprise HIPAA | 10-16 | Alta | PHI zero-leakage; hospitales US grandes | $400k–$1.5M |
 | 10. Medplum Greenfield AI | 3-5 | Media | Lanzamiento rápido; FHIR-native sin infra | $80k–$800k |
+
+---
+
+## Patrón 11: CHI-Bench Evaluation Harness — Quality Gate antes de Producción
+
+**Caso de uso**: Validar un agente de prior authorization, utilization management o care coordination antes de despliegue en producción clínica real.
+
+**Por qué es crítico**: CHI-Bench (arXiv:2605.16679) demuestra que el mejor agente frontier falla 72% de los flujos clínicos reales. Sin un gate de evaluación riguroso, un proyecto healthcare AI puede pasar meses de desarrollo para fallar en producción.
+
+**Repos**: `actava-ai/chi-bench` (Apache-2.0) + `stanfordmlgroup/MedAgentBench` (Apache-2.0)
+
+**Flujo de evaluación**:
+```
+Agente candidato (Claude + tools clínicos)
+    ↓ CHI-Bench test suite (75 workflows, 3 dominios)
+        Domain 1: Prior Authorization (PA) — 25 casos
+        Domain 2: Utilization Management (UM) — 25 casos
+        Domain 3: Care Management (CM) — 25 casos
+    ↓ Puntuación por dominio
+Si PA score > 60%: desplegar en prior auth
+Si UM score > 60%: desplegar en utilization management
+Si CM score > 60%: desplegar en care coordination
+Si < 60% en cualquier dominio: iterar → re-evaluar
+    ↓ MedAgentBench — validación adicional con EHR virtual
+Decisión: go/no-go para producción
+```
+
+**Código — Evaluación automática con CHI-Bench**:
+```python
+import subprocess
+import json
+from anthropic import Anthropic
+
+def evaluate_clinical_agent_chi(agent_fn, benchmark_domain: str = "prior_auth") -> dict:
+    """
+    Evalúa un agente clínico contra CHI-Bench antes de producción.
+    Retorna métricas de pase/fallo por dominio.
+    """
+    client = Anthropic()
+
+    # Cargar test cases del dominio específico
+    # chi-bench provee 25 casos por dominio
+    with open(f"chi-bench/cases/{benchmark_domain}.jsonl") as f:
+        test_cases = [json.loads(line) for line in f]
+
+    results = []
+    for case in test_cases:
+        try:
+            # Ejecutar agente con el caso clínico
+            response = agent_fn(
+                clinical_case=case["scenario"],
+                patient_data=case["patient_context"],
+                policy_docs=case["relevant_policies"]  # 1,279-doc handbook subset
+            )
+
+            # Evaluar con Claude como juez
+            eval_response = client.messages.create(
+                model="claude-sonnet-5",  # Usar modelo más capaz como juez
+                max_tokens=256,
+                system="""You are a strict clinical workflow evaluator.
+                Score the agent's response: PASS or FAIL.
+                PASS: correct decision, proper documentation, followed all policies.
+                FAIL: any policy violation, incorrect clinical decision, missing required steps.""",
+                messages=[{
+                    "role": "user",
+                    "content": f"""Ground truth: {case['expected_outcome']}
+                    Agent response: {response}
+                    Required policies followed: {case['required_policies']}
+                    Score: PASS or FAIL?"""
+                }]
+            )
+
+            result = {
+                "case_id": case["id"],
+                "domain": benchmark_domain,
+                "passed": "PASS" in eval_response.content[0].text.upper(),
+                "agent_response": response[:200]  # Truncar para log
+            }
+            results.append(result)
+
+        except Exception as e:
+            results.append({"case_id": case["id"], "passed": False, "error": str(e)})
+
+    # Calcular métricas
+    total = len(results)
+    passed = sum(1 for r in results if r.get("passed", False))
+    pass_rate = passed / total if total > 0 else 0.0
+
+    summary = {
+        "domain": benchmark_domain,
+        "total_cases": total,
+        "passed": passed,
+        "failed": total - passed,
+        "pass_rate": f"{pass_rate:.1%}",
+        "ready_for_production": pass_rate >= 0.60,  # 60% mínimo recomendado
+        "benchmark_comparison": {
+            "best_frontier_agent": "~28% (CHI-Bench 2026)",
+            "our_agent": f"{pass_rate:.1%}",
+            "delta": f"{(pass_rate - 0.28):.1%} vs. best available"
+        }
+    }
+    return summary
+
+# Uso — Gate de calidad antes de deployment
+def prior_auth_agent(clinical_case: str, patient_data: dict, policy_docs: list) -> str:
+    """Agente de prior authorization a evaluar."""
+    client = Anthropic()
+    # ... implementación del agente
+    return "Authorization approved based on criteria XYZ"
+
+results = evaluate_clinical_agent_chi(prior_auth_agent, "prior_auth")
+print(json.dumps(results, indent=2))
+
+if not results["ready_for_production"]:
+    print("❌ AGENTE NO LISTO: iterar sobre política density y multi-role handoffs")
+else:
+    print(f"✅ AGENTE APROBADO para producción ({results['pass_rate']} pass rate)")
+```
+
+**Áreas de mejora cuando el agente falla** (basado en CHI-Bench findings):
+1. **Policy density**: incorporar el handbook del cliente como Skill.md (no en el system prompt — muy largo)
+2. **Multi-role**: separar agentes por rol (PA reviewer ≠ UM reviewer ≠ care coordinator)
+3. **Multilateral interaction**: incluir ejemplos few-shot de diálogos peer-to-peer en el entrenamiento
+
+**Time-to-value**: 2-4 semanas (como gate antes de producción de cualquier proyecto PA/UM/CM). **Costo**: bajo (evaluation suite open-source).
+
+---
+
+## Patrón 12: ARPA-H ADVOCATE Dual-Agent — Arquitectura Supervisora para Agentes Clínicos de Alto Riesgo
+
+**Caso de uso**: Desplegar agentes AI en áreas de alto riesgo clínico (cardiovascular, diabetes, psiquiatría) con arquitectura de supervisión dual aprobada por el modelo ARPA-H ADVOCATE.
+
+**Fuente**: ARPA-H ADVOCATE program (Jun 2026) — template para primer agente cardiovascular FDA-authorized.
+
+**Repos**: Claude API + `hapifhir/hapi-fhir` + `medplum/medplum` + FHIR AuditEvent
+
+**Arquitectura de referencia ADVOCATE**:
+```
+Paciente ──→ Agente Clínico Primario (clinical-agent)
+                    │
+                    ├──→ tools: read_patient_data, check_vitals, 
+                    │           recommend_medication, schedule_followup
+                    │
+                    ↓
+            Agente Supervisorio (safety-agent) ← monitorea toda acción
+                    │
+                    ├── Flag si: recomendación fuera de protocolo
+                    ├── Flag si: vitales en rango de alarma
+                    ├── Flag si: interacción medicamentosa detectada
+                    └── Escalation automático → clínico humano
+                    │
+                    ↓
+            Clínico Humano (in-the-loop)
+                    │
+                    └──→ Aprueba / Override / Escala
+                    │
+                    ↓
+            FHIR AuditEvent (log inmutable de toda decisión)
+```
+
+**Código — Implementación del patrón dual-agent**:
+```python
+import anthropic
+import json
+from datetime import datetime
+
+client = anthropic.Anthropic()
+
+CLINICAL_PROTOCOL = """
+You are a cardiovascular care AI assistant (ADVOCATE pattern).
+ALWAYS follow these rules:
+1. Never recommend medication changes without current vital signs
+2. ALWAYS call check_safety_supervisor before any clinical recommendation
+3. If HR > 120 or < 40, call escalate_to_clinician IMMEDIATELY
+4. If SBP > 180 or < 90, call escalate_to_clinician IMMEDIATELY
+5. Every action must be logged via write_fhir_audit_event
+"""
+
+SUPERVISOR_PROTOCOL = """
+You are a safety supervisor for a cardiovascular AI agent.
+Your job: identify any unsafe or non-compliant agent actions.
+Flag any: off-protocol recommendations, missed contraindications,
+inappropriate drug interactions, delayed escalation of critical vitals.
+Output: {safe: bool, concerns: [str], override_required: bool}
+"""
+
+def cardiovascular_care_agent(patient_id: str, chief_complaint: str, vitals: dict) -> dict:
+    """Agente primario de cuidado cardiovascular."""
+
+    # Tools disponibles para el agente primario
+    primary_tools = [
+        {
+            "name": "read_patient_history",
+            "description": "Lee historial cardíaco del paciente via FHIR",
+            "input_schema": {"type": "object",
+                           "properties": {"patient_id": {"type": "string"}},
+                           "required": ["patient_id"]}
+        },
+        {
+            "name": "check_medication_interactions",
+            "description": "Verifica interacciones medicamentosas con medicamentos actuales",
+            "input_schema": {"type": "object",
+                           "properties": {"medications": {"type": "array", "items": {"type": "string"}}},
+                           "required": ["medications"]}
+        },
+        {
+            "name": "recommend_care_action",
+            "description": "Genera recomendación de acción clínica (requiere aprobación supervisora)",
+            "input_schema": {"type": "object",
+                           "properties": {
+                               "action": {"type": "string"},
+                               "rationale": {"type": "string"},
+                               "urgency": {"type": "string", "enum": ["routine", "urgent", "emergent"]}
+                           },
+                           "required": ["action", "rationale", "urgency"]}
+        },
+        {
+            "name": "escalate_to_clinician",
+            "description": "Escala caso a clínico humano de forma urgente",
+            "input_schema": {"type": "object",
+                           "properties": {"reason": {"type": "string"}, "urgency": {"type": "string"}},
+                           "required": ["reason", "urgency"]}
+        }
+    ]
+
+    # Agente primario genera respuesta
+    primary_response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        system=CLINICAL_PROTOCOL,
+        tools=primary_tools,
+        messages=[{
+            "role": "user",
+            "content": f"""
+            Patient: {patient_id}
+            Chief complaint: {chief_complaint}
+            Current vitals: {json.dumps(vitals)}
+            Generate a care recommendation following cardiovascular protocol.
+            """
+        }]
+    )
+
+    # Extraer acciones propuestas por el agente primario
+    proposed_actions = []
+    for block in primary_response.content:
+        if block.type == "tool_use" and block.name == "recommend_care_action":
+            proposed_actions.append(block.input)
+
+    if not proposed_actions:
+        return {"status": "no_action_recommended", "primary_response": primary_response.content}
+
+    # === SUPERVISORY AGENT CHECK ===
+    supervisor_response = client.messages.create(
+        model="claude-sonnet-5",  # Mismo modelo, perspectiva diferente
+        max_tokens=512,
+        system=SUPERVISOR_PROTOCOL,
+        messages=[{
+            "role": "user",
+            "content": f"""
+            Patient vitals: {json.dumps(vitals)}
+            Proposed clinical actions: {json.dumps(proposed_actions)}
+            Patient medications from FHIR: ["aspirin 81mg", "metoprolol 25mg"]
+            
+            Evaluate safety and protocol compliance. Output JSON:
+            {{safe: bool, concerns: [str], override_required: bool}}
+            """
+        }]
+    )
+
+    # Parsear evaluación del supervisor
+    try:
+        safety_eval = json.loads(supervisor_response.content[0].text)
+    except:
+        safety_eval = {"safe": False, "concerns": ["Unable to parse safety evaluation"], "override_required": True}
+
+    # Escribir audit event en FHIR
+    audit_event = {
+        "resourceType": "AuditEvent",
+        "type": {"code": "ai-clinical-decision"},
+        "recorded": datetime.utcnow().isoformat() + "Z",
+        "agent": [{"name": "cardiovascular-ai-agent", "requestor": True}],
+        "entity": [{"reference": {"reference": f"Patient/{patient_id}"}}],
+        "outcome": "0" if safety_eval.get("safe") else "4",
+        "outcomeDesc": f"Safety check: {json.dumps(safety_eval)}"
+    }
+    # En producción: POST audit_event a HAPI FHIR
+
+    # Retornar resultado con supervisión
+    return {
+        "patient_id": patient_id,
+        "proposed_actions": proposed_actions,
+        "safety_evaluation": safety_eval,
+        "approved_for_action": safety_eval.get("safe", False) and not safety_eval.get("override_required", True),
+        "requires_clinician_review": safety_eval.get("override_required", True),
+        "audit_event": audit_event
+    }
+
+# Uso
+result = cardiovascular_care_agent(
+    patient_id="P-98765",
+    chief_complaint="Chest pain and dyspnea for 2 hours",
+    vitals={"hr": 105, "sbp": 165, "dbp": 95, "spo2": 96, "rr": 20}
+)
+
+if result.get("requires_clinician_review"):
+    print("⚠️ SUPERVISORY AGENT: Escalating to clinician — concerns:", result["safety_evaluation"]["concerns"])
+elif result.get("approved_for_action"):
+    print("✅ DUAL-AGENT APPROVED: Safe to proceed with recommendations")
+    print(result["proposed_actions"])
+```
+
+**Por qué esta arquitectura es clave post-ADVOCATE**:
+- **Agente primario**: optimizado para razonamiento clínico, puede aluciñar en casos raros
+- **Agente supervisor**: independiente, instrucciones distintas, detecta lo que el primario pierde
+- **Human-in-the-loop**: el clínico siempre puede override
+- **FHIR AuditEvent**: trazabilidad inmutable de toda acción para compliance y análisis post-hoc
+
+**Extensión al stack**:
+- Añadir MedAgentBench evaluación semanal: detecta si el agente empeora con updates del modelo
+- Integrar CHI-Bench: validar que pass rate > 60% antes de actualizar a producción
+- Alertas Slack/Teams: agente supervisor notifica equipo clínico directamente
+
+**Time-to-value**: 14-20 semanas (incluye validación clínica + piloto). **Deal size**: $500k–$2M.
+
+---
+
+## Patrón 13: HealthFlow Multi-Agente Self-Evolving — EHR Analysis con Complejidad Adaptativa
+
+**Caso de uso**: Análisis de EHR para pacientes complejos (comorbilidades múltiples, historial extenso) donde la complejidad del caso determina cuántos agentes y qué profundidad de razonamiento usar.
+
+**Repos**: `yhzhu99/HealthFlow` (MIT) + `yhzhu99/MedAgentBoard` (MIT) + `medplum/medplum` + Claude API
+
+**Problema que resuelve**: Los agentes clínicos con complejidad fija (siempre 3 agentes, siempre N pasos) son ineficientes:
+- Casos simples: desperdician recursos ejecutando 10 pasos cuando 2 bastan
+- Casos complejos: con 2 pasos llegan a conclusiones incorrectas
+
+**Patrón HealthFlow** — complejidad adaptativa:
+```
+Caso clínico → Complexity Classifier
+    ↓
+Si simple (score < 0.3): Single agent → diagnóstico directo
+Si moderado (0.3-0.7): 3 agentes especializados en paralelo → síntesis
+Si complejo (> 0.7): N agentes, self-evolving — agentes deciden cuándo parar
+    ↓
+Evaluación por MedAgentBoard → registro en FHIR Observation
+```
+
+**Código — HealthFlow adaptive orchestration**:
+```python
+import anthropic
+from typing import Literal
+
+client = anthropic.Anthropic()
+
+def classify_case_complexity(patient_summary: str, num_conditions: int, 
+                              medication_count: int) -> float:
+    """Clasifica complejidad del caso en 0.0 (simple) a 1.0 (muy complejo)."""
+    # Heurística simple: complejidad ∝ condiciones y medicamentos
+    base_score = min(num_conditions * 0.1 + medication_count * 0.05, 1.0)
+    
+    # Ajuste con LLM para detectar complejidad semántica (interacciones, contradicciones)
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",  # Haiku para clasificación rápida barata
+        max_tokens=64,
+        messages=[{
+            "role": "user",
+            "content": f"""Rate clinical complexity 0.0-1.0 based on:
+            Patient summary: {patient_summary[:200]}
+            Conditions: {num_conditions}, Medications: {medication_count}
+            Base score: {base_score:.2f}
+            Output only a number between 0.0 and 1.0."""
+        }]
+    )
+    try:
+        llm_score = float(response.content[0].text.strip())
+        return (base_score + llm_score) / 2  # Combinar heurística + LLM
+    except:
+        return base_score
+
+def healthflow_ehr_analysis(
+    patient_id: str,
+    patient_summary: str,
+    num_conditions: int = 3,
+    medication_count: int = 5
+) -> dict:
+    """
+    Analiza caso clínico con complejidad adaptativa (patrón HealthFlow).
+    """
+    complexity = classify_case_complexity(patient_summary, num_conditions, medication_count)
+    
+    if complexity < 0.3:
+        # CASO SIMPLE: agente único directo
+        tier = "simple"
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=512,
+            messages=[{"role": "user", "content": f"Brief clinical summary and recommendation for: {patient_summary}"}]
+        )
+        agents_used = 1
+        analysis = response.content[0].text
+
+    elif complexity < 0.7:
+        # CASO MODERADO: 3 agentes especializados
+        tier = "moderate"
+        import concurrent.futures
+
+        def diagnostic_agent(data):
+            r = client.messages.create(
+                model="claude-sonnet-5",
+                max_tokens=512,
+                system="You are a diagnostic specialist. Focus on differential diagnosis.",
+                messages=[{"role": "user", "content": f"Differential diagnosis: {data}"}]
+            )
+            return r.content[0].text
+
+        def treatment_agent(data):
+            r = client.messages.create(
+                model="claude-sonnet-5",
+                max_tokens=512,
+                system="You are a treatment planning specialist. Focus on evidence-based interventions.",
+                messages=[{"role": "user", "content": f"Treatment plan: {data}"}]
+            )
+            return r.content[0].text
+
+        def risk_agent(data):
+            r = client.messages.create(
+                model="claude-sonnet-5",
+                max_tokens=512,
+                system="You are a risk stratification specialist. Focus on complications and monitoring.",
+                messages=[{"role": "user", "content": f"Risk assessment: {data}"}]
+            )
+            return r.content[0].text
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+            f1 = executor.submit(diagnostic_agent, patient_summary)
+            f2 = executor.submit(treatment_agent, patient_summary)
+            f3 = executor.submit(risk_agent, patient_summary)
+            diag, treat, risk = f1.result(), f2.result(), f3.result()
+
+        # Síntesis final
+        synthesis = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=1024,
+            messages=[{"role": "user", "content":
+                f"Synthesize into unified clinical recommendation:\n"
+                f"Diagnosis: {diag}\nTreatment: {treat}\nRisk: {risk}"}]
+        )
+        agents_used = 4  # 3 + synthesis
+        analysis = synthesis.content[0].text
+
+    else:
+        # CASO COMPLEJO: self-evolving, agentes deciden cuándo parar
+        tier = "complex"
+        conversation = [{"role": "user", "content": patient_summary}]
+        analysis_rounds = []
+        max_rounds = 5  # Safety cap
+
+        for round_num in range(max_rounds):
+            response = client.messages.create(
+                model="claude-sonnet-5",
+                max_tokens=1024,
+                system="""You are a clinical specialist analyzing a complex case.
+                After each response, indicate if more analysis is needed:
+                [CONTINUE] if you need more information or analysis
+                [COMPLETE] if you have a confident comprehensive recommendation""",
+                messages=conversation
+            )
+
+            agent_text = response.content[0].text
+            analysis_rounds.append(agent_text)
+            conversation.append({"role": "assistant", "content": agent_text})
+
+            if "[COMPLETE]" in agent_text:
+                break
+            elif round_num < max_rounds - 1:
+                conversation.append({"role": "user",
+                                   "content": "Continue with deeper analysis or provide final recommendation."})
+
+        analysis = "\n---\n".join(analysis_rounds)
+        agents_used = round_num + 1
+
+    return {
+        "patient_id": patient_id,
+        "complexity_score": round(complexity, 2),
+        "tier": tier,
+        "agents_used": agents_used,
+        "analysis": analysis,
+        "benchmark_ready": True  # Compatible con MedAgentBoard evaluation
+    }
+
+# Uso
+result = healthflow_ehr_analysis(
+    patient_id="P-54321",
+    patient_summary="78F, DM2 x 20yr, HTA, CHF NYHA III, CKD stage 3. Presents with worsening dyspnea, LE edema. Current: metformin, lisinopril, furosemide, metoprolol, spironolactone, insulin.",
+    num_conditions=5,
+    medication_count=6
+)
+
+print(f"Complexity: {result['complexity_score']} ({result['tier']} tier)")
+print(f"Agents used: {result['agents_used']}")
+print(f"Analysis: {result['analysis'][:300]}...")
+```
+
+**Ventajas del patrón adaptativo**:
+- **Costo**: casos simples cuestan 10× menos (Haiku vs. Sonnet, 1 vs. 4 agentes)
+- **Latencia**: casos simples resueltos en <2s vs. 15-30s para complejos
+- **Calidad**: casos complejos obtienen profundidad necesaria sin limite arbitrario de pasos
+- **Evaluación**: compatible con MedAgentBoard para benchmarking periódico
+
+**Time-to-value**: 8-14 semanas. **Deal size**: $150k–$600k.
+
+---
+
+## Resumen — Tiempo y complejidad por patrón
+
+| Patrón | Semanas | Complejidad | ROI principal | Deal size |
+|--------|---------|-------------|---------------|-----------|
+| 1. Ambient Scribe | 4-6 | Media | 2-4h médico/día | $150k–$500k |
+| 2. Prior Authorization Agent | 6-8 | Media-Alta | 30-60% reducción tiempo PA | $200k–$800k |
+| 3. CDSS Multi-Agente | 8-12 | Alta | Reducción errores clínicos | $300k–$1.2M |
+| 4. EHR AI Nativo (OpenMRS) | 6-10 | Media | EHR completo sin licencias | $200k–$600k |
+| 5. Medical Imaging AI (torchio) | 10-16 | Alta | Priorización radiología | $200k–$700k |
+| 6. Drug Discovery Assistant | 8-12 | Media-Alta | $50k+/año vs. propietarios | $100k–$400k |
+| 7. MedRAX Chest X-Ray Agent | 10-14 | Alta | Backlog radiológico; escasez especialistas | $250k–$900k |
+| 8. FDA SaMD Clinical LLM | 52-78 (1-1.5y) | Muy Alta | Precedente K253281; chronic disease | $500k–$2M |
+| 9. NemoClaw Enterprise HIPAA | 10-16 | Alta | PHI zero-leakage; hospitales US grandes | $400k–$1.5M |
+| 10. Medplum Greenfield AI | 3-5 | Media | Lanzamiento rápido; FHIR-native sin infra | $80k–$800k |
+| 11. CHI-Bench Evaluation Gate | 2-4 | Baja | Prevenir fallos en producción clínica | Cross-cutting |
+| 12. ADVOCATE Dual-Agent | 14-20 | Muy Alta | Agentes alto riesgo (cardio, diabetes) | $500k–$2M |
+| 13. HealthFlow Self-Evolving | 8-14 | Alta | Análisis EHR adaptativo; optimización costo/calidad | $150k–$600k |

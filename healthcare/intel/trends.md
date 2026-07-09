@@ -1,7 +1,7 @@
 # 📡 Tendencias — Healthcare AI 2026
 
 > Señales de mercado, tecnológicas y regulatorias. Basado en investigación profunda.
-> Última actualización: 2026-07-09 (v4 — T10 TEFCA 1B, T11 NVIDIA 70% adoption + ROI, T12 NemoClaw enterprise, T13 Drug discovery clinical era)
+> Última actualización: 2026-07-09 (v5 — T14 CHI-Bench 72% failure, T15 ARPA-H ADVOCATE, T16 FDA CDS expansion, T17 physician adoption 81%)
 
 ## 🔥 Tendencia #1: Agentic AI pasa de piloto a empresa
 
@@ -89,15 +89,15 @@ Papers clave (Mar 2026):
 
 ## 🆕 Benchmarks emergentes (2026)
 
-| Benchmark | Qué mide |
-|-----------|----------|
-| CHI-Bench | Agentes AI en flujos de trabajo healthcare |
-| MedMemoryBench | Memoria de agentes en atención personalizada |
-| SEMA-RAG | Multi-agent RAG para razonamiento médico |
-| DermAgent | Agentes multimodal dermatología |
-| COTCAgent | Consulta preventiva chain-of-thought |
-
----
+| Benchmark | Arxiv | Qué mide | Key finding |
+|-----------|-------|----------|-------------|
+| χ-Bench (CHI-Bench) | 2605.16679 | Agentes en workflows healthcare end-to-end | Mejor agente: 72% falla en casos reales |
+| MedAgentBench (Stanford) | 2501.14654 | Agentes LLM en entorno EHR virtual realista | Claude 3.5 Sonnet v2: 69.67% success |
+| FHIR-AgentBench | 2509.19319 | Reasoning multi-step sobre historias FHIR | 2,931 preguntas clínicas reales |
+| ChestAgentBench (MedRAX) | ICML 2025 | Diagnóstico CXR con agentes LLM | 2,500 consultas diagnósticas CXR |
+| Medmarks | 2605.01417 | Benchmark comprehensivo LLM tareas médicas | Open-source benchmark suite |
+| PhysicianBench | 2605.02240 | Agentes LLM en EHR de mundo real | Evaluación nivel physician |
+| MedMemoryBench | AgenticHealthAI | Memoria de agentes en atención personalizada | — |
 
 ---
 
@@ -133,11 +133,6 @@ Indicación estrecha + Predicado 510(k) + Evidencia clínica + Sandboxing estric
 - **MedAgentBench** (publicado en NEJM AI, Stanford): 300 tareas FHIR-compliant, 100 pacientes virtuales, 700k+ data elements. Claude 3.5 Sonnet v2 → 69.67% de éxito.
 - **FHIR-AgentBench** (arXiv:2509.19319): 2,931 preguntas clínicas reales en HL7 FHIR. Evalúa razonamiento multi-step sobre historias clínicas complejas.
 
-**Qué miden**:
-- ¿Puede el agente navegar un EHR real y tomar decisiones clínicas?
-- ¿Puede hacer multi-step reasoning sobre miles de recursos FHIR?
-- ¿Maneja correctamente preguntas que requieren integrar datos de múltiples encuentros?
-
 **Implicación**: Los proyectos healthcare AI deben incluir evaluación rigurosa usando estos benchmarks antes de ir a producción. Claude-based agents lideran en ambos.
 
 ---
@@ -145,13 +140,6 @@ Indicación estrecha + Predicado 510(k) + Evidencia clínica + Sandboxing estric
 ## 🔥 Tendencia #9: LATAM como "testing ground" para AI médico
 
 **Señal** (Medical Device Online, 2026): Latin America is becoming the testing ground for AI-enabled medical device clinical trials.
-
-**Razones**:
-- Diversidad genética y epidemiológica única
-- Costos de ensayo clínico menores que en EEUU/Europa
-- Regulaciones más rápidas en países como Colombia, Brasil (ANVISA track)
-- Alta penetración de telemedicina (46.7% del revenue digital health)
-- Ecosistemas emergentes: Bogotá (Colombia), São Paulo (Brasil), Santiago (Chile)
 
 **Oportunidades específicas**:
 - AI para TB, Chagas, dengue (epidemiología regional)
@@ -163,20 +151,12 @@ Indicación estrecha + Predicado 510(k) + Evidencia clínica + Sandboxing estric
 
 ---
 
----
-
 ## 🔥 Tendencia #10: TEFCA supera 1 billón de intercambios — Infraestructura AI en salud alcanza escala
 
 **Señal**: HHS anuncia que TEFCA superó **1 billón de intercambios** de registros de salud (Jul 2026):
 - De 10 millones a 1 billón de intercambios en menos de 1 año — aceleración exponencial
-- HHS comprometió $1.3M adicionales para reforzar supervisión y confianza de la red
-- SSA se unió a TEFCA (spring 2026): reduce tiempos de procesamiento de discapacidad >50%
-- Declaración clave (Thomas Keane, HHS): "Cuando AI se aplica a salud, la liquidez de datos será la necesidad definitoria"
-
-**Por qué es un punto de inflexión para agentes AI**:
-- Un agente de prior authorization ahora puede autenticar y recuperar registros de cualquier organización participante
-- Un CDSS puede acceder a historial clínico cross-institucional en tiempo real
-- Workflows de coordinación de cuidados AI a escala nacional pasan de experimental a factible
+- HHS comprometió $1.3M adicionales para reforzar supervisión
+- SSA se unió a TEFCA → disability claims 50%+ más rápido
 
 **Patrón habilitado**: `Agente AI → TEFCA → QHIN → Cualquier EHR en la red → Datos actualizados para decisión`
 
@@ -184,29 +164,24 @@ Indicación estrecha + Predicado 510(k) + Evidencia clínica + Sandboxing estric
 
 ## 🔥 Tendencia #11: NVIDIA Survey — 70% de organizaciones healthcare usan AI y ven ROI real
 
-**Señal**: NVIDIA State of AI in Healthcare Report 2026 (600+ profesionales de la industria):
-- **70%** de organizaciones healthcare activamente usando AI (↑ de 63% en 2025)
-- **69%** dice que el workload más importante es **GenAI + LLMs**
+**Señal**: NVIDIA State of AI in Healthcare Report 2026 (600+ profesionales):
+- **70%** de organizaciones healthcare activamente usando AI
 - **85%** de management reporta **mayor revenue** con AI; **80%** reporta **reducción de costos**
 - **Agentic AI** (debut en el survey): **47%** evaluando o usando ya; 4to lugar en adopción
-  - Pharma/biotech: **55%** usan agentic AI para revisión de literatura; **~50%** en drug discovery
-- **85%** planea aumentar presupuesto AI en 2026; casi la mitad espera crecimiento >10%
 
 **Top 3 ROI use cases**:
 1. Medical imaging analysis (radiology pre-read, pathology)
 2. Drug discovery & development (AI-designed molecules en trials)
 3. Clinical decision support (diagnóstico diferencial, drug interactions)
 
-**Implicación para Globant**: La industria ya no está en "piloto". El ROI está documentado y el 85% de organizaciones aumenta inversión. La oportunidad de ser "primer implementador" en hospitales mid-market no dura. Ventana: 12-18 meses.
-
 ---
 
 ## 🔥 Tendencia #12: NemoClaw — Enterprise Security para Agentes Healthcare (NVIDIA GTC 2026)
 
-**Señal**: NVIDIA lanza NemoClaw (16 mar 2026) en GTC 2026 — el "enterprise wrapper" para OpenClaw:
+**Señal**: NVIDIA lanza NemoClaw (16 mar 2026) en GTC 2026:
 
 **Tres controles críticos**:
-1. **Kernel-level sandbox**: deny-by-default; los agentes no pueden sobrepasar el policy engine
+1. **Kernel-level sandbox**: deny-by-default
 2. **Privacy router**: PHI → modelos Nemotron locales; reasoning complejo → Claude/GPT (sin PHI)
 3. **RBAC + audit logging**: acceso granular por rol + trazabilidad inmutable para compliance
 
@@ -219,26 +194,113 @@ Paciente input (PHI) → NemoClaw privacy router → Nemotron local (análisis P
                                     Respuesta → Audit log FHIR AuditEvent
 ```
 
-**Lo que resuelve**: El mayor bloqueador de ventas en healthcare enterprise — "no podemos enviar datos de pacientes a modelos en la nube." Con NemoClaw: PHI nunca sale del datacenter del hospital.
-
-**Implicación para Globant**: Permite propuestas con agentes OpenClaw a hospitales US grandes (VAs, sistemas académicos) que tienen políticas estrictas de datos. Early adopters incluyen healthcare + finserv.
-
 ---
 
 ## 🔥 Tendencia #13: Drug Discovery AI entra en "Era Clínica" — Moléculas sobre Modelos
 
-**Señal** (BIO USA 2026, jul 2026): El sector biotech AI pasa de "modelos fundacionales" a "moléculas que llegan a trials":
-- **NVIDIA Proteina-Complexa**: Modelo de razonamiento para diseño de proteínas; 1M+ binders diseñados, validados experimentalmente contra 130+ targets
+**Señal** (BIO USA 2026): El sector biotech AI pasa de "modelos fundacionales" a "moléculas que llegan a trials":
+- **NVIDIA Proteina-Complexa**: 1M+ binders diseñados, validados experimentalmente contra 130+ targets
 - **46%** de pharma/biotech reporta drug discovery como top ROI use case (NVIDIA Survey 2026)
-- Múltiples candidatos a fármacos diseñados por AI en milestones clínicos críticos durante 2026
 - BioNeMo expandido como plataforma open AI para biología, química, genómica
 
 **Herramientas open source emergentes**:
-- `yboulaamane/awesome-drug-discovery` (MIT): curación activa de métodos computacionales post-AlphaFold
-- `databricks-industry-solutions/ai-driven-drug-discovery` (MIT): pipelines end-to-end con LLMs
+- `yboulaamane/awesome-drug-discovery` (MIT): curación activa post-AlphaFold
+- `databricks-industry-solutions/ai-driven-drug-discovery` (MIT): pipelines end-to-end
 - **AutoResearch AI** (arXiv:2605.23204): Automatización de investigación científica con AI
 
-**Implicación para Globant**: Laboratorios farmacéuticos y de biotecnología son un nuevo segmento de mercado. Deal sizes $300k–$1.5M. El stack: BioChatter + BioNeMo + NVIDIA NIM (drug discovery models) + LLM reasoning agent.
+---
+
+## 🆕 Tendencia #14: CHI-Bench — Los agentes aún fallan 72% de los casos clínicos reales
+
+**Señal** (arXiv:2605.16679, "χ-Bench: Can AI Agents Automate End-to-End, Long-Horizon, Policy-Rich Healthcare Workflows?"):
+
+**El benchmark más exigente publicado hasta la fecha para agentes en healthcare**:
+- **75 flujos de trabajo** end-to-end en prior authorization, utilization management, care management
+- **20 apps hospitalarias reales** simuladas, expuestas via **87 MCP tools**
+- **Manual de 1,279 documentos** de operaciones de managed care
+- **30 agentes frontier** evaluados de Anthropic, OpenAI, Google, xAI, DeepSeek, Z.ai
+- **Coalición de 20+ instituciones**: Johns Hopkins, Wellstar, Yale, Stanford, CMU, Oxford, USC, UCSD
+
+**Resultado crítico**: El mejor agente disponible falla aproximadamente 7 de cada 10 flujos de trabajo clínicos reales.
+
+**Las 3 capacidades que faltan**:
+1. **Policy density**: los agentes no logran seguir una biblioteca de 1,279 reglas simultáneamente
+2. **Multi-role composition**: una tarea requiere múltiples roles con handoffs — los agentes los confunden
+3. **Multilateral interaction**: diálogos multi-turno reales (peer-to-peer review, patient outreach) — colapsan
+
+**Para Globant**: Este benchmark define la brecha de implementación real. Los demos funcionan; los proyectos fallan. Globant debe:
+1. Usar CHI-Bench como gate de calidad antes de deploy en producción
+2. Especializar agentes por rol (prior auth agent ≠ utilization management agent ≠ care coordinator)
+3. Incorporar el handbook de operaciones del cliente como Skill.md / knowledge base del agente
+
+---
+
+## 🆕 Tendencia #15: ARPA-H ADVOCATE — El gobierno diseña el blueprint para agentes clínicos FDA-authorized
+
+**Señal** (Jun 2026): ARPA-H lanza ADVOCATE (Agentic AI-Enabled Cardiovascular Care Transformation):
+- **Objetivo**: primer agente AI con autorización FDA para cuidado cardiovascular 24/7
+- **Estructura**: agente clínico patient-facing + agente supervisorio de seguridad/efectividad
+- **Timeline**: selección de equipos en 6 meses, "down select" tras 1 año, FDA authorization en ~3 años
+- **Precedente**: ARPA-H negociará con FDA un marco regulatorio nuevo para GenAI de alto riesgo
+
+**Arquitectura de referencia que establece**:
+```
+Agente Primario (patient-facing)
+     ↕ supervisory protocol
+Agente Supervisorio (safety + efficacy monitor)
+     ↓ flags para revisión humana
+Clínico (validates + overrides)
+     ↓ FHIR AuditEvent
+Audit trail inmutable
+```
+
+**Para Globant**: ADVOCATE define la arquitectura estándar para cualquier agente clínico de alto riesgo. Los proyectos futuros de cardiovascular/diabetes/mental health AI deberán seguir este patrón: agente-primario + agente-supervisor + human-in-the-loop. Posicionarse como implementador del patrón ADVOCATE.
+
+---
+
+## 🆕 Tendencia #16: FDA CDS Guidance 2026 — La mayoría de CDSS AI son Non-Device si se diseñan bien
+
+**Señal**: FDA actualiza guía de Clinical Decision Support (Ene 2026):
+
+**El cambio clave**:
+- **Antes**: ambigüedad sobre qué AI/GenAI cae bajo regulación FDA
+- **Ahora**: AI que (1) provee una sola recomendación clínica apropiada + (2) permite al médico revisar la base independientemente → **Non-Device** → sin pathway 510(k) requerido
+
+**Frontera regulatoria clara**:
+- ✅ Non-Device: AI decisión-asistida + médico puede verificar lógica + datos accesibles → despliegue rápido
+- ❌ Device regulado: agentes autónomos + black-box + altamente influyente → 510(k) o De Novo requerido
+
+**Impacto práctico en proyectos Globant**:
+| Tipo de CDSS | Clasificación | Implicación |
+|-------------|---------------|-------------|
+| Drug interaction checker con justificación | Non-Device | Deploy sin FDA clearance |
+| Diagnóstico diferencial explicable con fuentes | Non-Device | Deploy sin FDA clearance |
+| Agente autónomo que prescribe sin revisión | Device | 510(k) o De Novo requerido |
+| Ambient scribe (documentación, no decisión) | Non-Device | Deploy sin FDA clearance |
+| Prior authorization automation (admin) | Non-Device | Deploy sin FDA clearance |
+
+**Para Globant**: Diseñar siempre con "explainability layer" + "clinician review step" desde el sprint 1. Estos dos elementos bastan para clasificar el CDSS como Non-Device y acelerar el time-to-market dramáticamente.
+
+---
+
+## 🆕 Tendencia #17: Adopción médica masiva — 81% de médicos US usan AI en 2026
+
+**Señal múltiple (2026)**:
+- **81%** de médicos US usan AI profesionalmente (vs. **38%** en 2023 — más del doble en 3 años)
+- **75%** de health systems US tienen al menos una app AI activa (vs. **59%** en 2024)
+- **25 líderes healthcare** predicen 2026 como el año de agentes en operaciones clínicas
+- **Deloitte 2026**: "Hybrid workforce AI+clinician" → cambio en operating model completo
+
+**Áreas de uso médico más frecuentes (2026)**:
+1. Documentación clínica (ambient scribe, 48%)
+2. Búsqueda de información / evidencia (44%)
+3. Apoyo diagnóstico (32%)
+4. Revisión de imágenes (21%)
+5. Gestión de medicación / drug interactions (19%)
+
+**El cambio de paradigma**: Los médicos ya no preguntan si usar AI — preguntan cuál usar. La demanda pasa de "experimentar AI" a "implementar AI confiable con evidencia clínica". El competidor ya no es "no AI" sino "AI de baja calidad."
+
+**Para Globant**: La venta ya no es "¿debería usar AI?" — es "¿por qué Globant frente a Epic/Nuance/startups?" La respuesta: open source + LATAM-native + compliance + evaluación rigurosa (CHI-Bench/MedAgentBench gate).
 
 ---
 
@@ -250,5 +312,7 @@ Paciente input (PHI) → NemoClaw privacy router → Nemotron local (análisis P
 - [the-momentum/fhir-mcp-server](https://github.com/the-momentum/fhir-mcp-server) — estándar emergente FHIR↔LLM
 - [openmed-labs/openmed-agent](https://github.com/openmed-labs/openmed-agent) — prior auth automation en auge
 - [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) — Digital Public Good en expansión global
-- [medplum/medplum](https://github.com/medplum/medplum) — Plataforma FHIR TypeScript enterprise; "Vercel para healthcare apps"
-- [yboulaamane/awesome-drug-discovery](https://github.com/yboulaamane/awesome-drug-discovery) — Curación activa post-NVIDIA Proteina-Complexa; drug discovery computational tools
+- [medplum/medplum](https://github.com/medplum/medplum) — Plataforma FHIR TypeScript enterprise
+- [actava-ai/chi-bench](https://github.com/actava-ai/chi-bench) — Benchmark 87 MCP tools, 72% failure rate — señal del estado real del arte
+- [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) — NEJM AI benchmark estándar EHR
+- [yhzhu99/HealthFlow](https://github.com/yhzhu99/HealthFlow) — Self-evolving multi-agent EHR framework

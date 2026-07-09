@@ -1,89 +1,102 @@
-# 🗺️ Mapa de mercado — Healthcare AI
+# 🗺️ Mapa de mercado — Healthcare AI 2026
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09 (v4 — NVIDIA 70% adoption, GenAI HC $5.77B CAGR 43.4%, TEFCA 1B exchanges, NemoClaw)
+> Última actualización: 2026-07-09 (v5 — market $36.67B→$194.79B, agentic $1.83B→$19.71B, 81% physician adoption, ARPA-H ADVOCATE, FDA CDS expansion)
 
-## Tamaño de mercado
+## Mercado Global — Tamaño y Proyecciones
 
 | Segmento | 2026 | Proyección | CAGR | Fuente |
-|----------|------|-----------|------|--------|
-| AI en Healthcare (global) | $50.7B | $505.6B (2033) | 38.9% | Grand View Research 2026 |
-| GenAI en Healthcare (GlobeNewswire Jul 8, 2026) | $0.95B (2025) | **$5.77B (2030)** | **43.4%** | GlobeNewswire / Research Jul 2026 |
-| Agentic AI en Healthcare | $1.14B | $33.66B (2035) | **45.6%** | Toward Healthcare / Fortune Business Insights |
-| Agentic AI en Healthcare (alt.) | $1.83B | $19.71B (2034) | 34.6% | Grand View Research 2026 |
-| Digital Health LATAM | **$5.6B (2026)** | $66.40B (2033) | 20.05% | Market Data Forecast |
-| Telemedicina LATAM | $3.46B | $12.34B (2034) | 17.23% | sector data |
+|----------|------|------------|------|--------|
+| AI en Healthcare (general) | $36.67B | $194.79B (2031) | 39.7% | MarketsandMarkets |
+| AI en Healthcare (Grand View) | $50.7B | $505.6B (2033) | 38.9% | Grand View Research |
+| Agentic AI en Healthcare | $1.83B | $19.71B (2034) | 34.61% | Fortune Business Insights |
+| Agentic AI en Healthcare (R&M) | $1.03B | $5.78B (2031) | 42.03% | Research and Markets |
+| GenAI en Healthcare | $0.95B | $5.77B (2030) | 43.4% | GlobeNewswire Jul 8, 2026 |
+| AI en Healthcare (Precedence) | $613.81B by 2034 | — | 43.96% | Precedence Research |
 
-**Señal clave (Deloitte, 2026)**: 80% de ejecutivos healthcare esperan valor significativo de agentes AI. Solo 3% tienen agentes en producción. → **Ventana de oportunidad masiva**: primero en llegar define el stack.
+## Estadísticas de adopción clave (2026)
 
-**Señal clave (NVIDIA Survey 2026, 600+ profesionales)**: 70% de organizaciones healthcare usan AI (↑63%). 85% reporta mayor revenue; 80% menor costo. Agentic AI: 47% evaluando o usando. 85% aumentará presupuesto AI en 2026.
+| Métrica | Valor 2026 | Comparación |
+|---------|-----------|-------------|
+| Sistemas de salud US usando AI | 75% | vs. 59% en 2024 |
+| Médicos US usando AI profesionalmente | **81%** | vs. 38% en 2023 (más del doble) |
+| Healthcare orgs con AI activa | 70% (NVIDIA Survey) | vs. 63% en 2025 |
+| Workload principal: GenAI + LLMs | 69% | — |
+| Management reporta mayor revenue | 85% | — |
+| Management reporta reducción costos | 80% | — |
+| Agentic AI: evaluando o usando | 47% | (nuevo en NVIDIA survey 2026) |
+| Budget AI aprobado para 2026 | 61% | BCG Ene 2026 |
+| Agentes AI en producción | solo 3% | Brecha masiva piloto→producción |
+| Orgs planean aumentar budget AI | 85% | NVIDIA Survey 2026 |
 
-**Señal regulatoria (FDA, Jun 2026)**: UpDoc K253281 — primer LLM patient-facing clearado como SaMD. De 1,000+ AI/ML devices aprobados, este es el primero con LLM generativo. Precedente para toda la industria.
-
-**Señal infraestructura (HHS, Jul 2026)**: TEFCA supera 1 billón de intercambios de registros de salud. De 10M a 1B en menos de 1 año. HHS invierte $1.3M en supervisión. La liquidez de datos es la condición necesaria para AI agéntica a escala.
-
-## Players globales
+## Players Globales
 
 | Empresa | Tipo | Fortaleza | Debilidad |
-|---------|------|-----------|----------|
-| **Epic Systems** | EHR propietario | 35% del mercado hospitalario US, AI scribe integrado | Lock-in extremo, sin API abierta real, caro |
-| **Cerner (Oracle Health)** | EHR propietario | Fuerte en hospitales grandes, VA/DoD | Post-adquisición Oracle caótico, integración lenta |
-| **Nuance (Microsoft)** | AI clínica | DAX Copilot (ambient scribe), integración Azure + Epic | Propietario, caro para mid-market |
-| **Tempus AI** | Oncología AI | Datos genómicos + AI para oncología, FDA cleared | Solo oncología, base de datos propietaria |
-| **Google Health** | Tech grande | DeepMind AlphaFold, Med-PaLM 2, Fitbit data | Privacidad cuestionada, proyectos discontinuados |
-| **Amazon HealthLake** | Cloud AI | FHIR nativo, HealthLake MCP, escala AWS | Dependencia AWS, costo en escala |
-| **OpenMRS Community** | Open source EHR | 50+ países, FHIR nativo, sin vendor lock-in | Recursos de desarrollo limitados |
-| **Bahmni (ThoughtWorks)** | Open source HIS | Hospital completo + bajo recurso, ONG/gobiernos | Requiere customización; soporte comunidad |
-| **UpDoc Inc.** | Clinical AI SaMD | Primer LLM FDA-cleared patient-facing (K253281); EHR-integrated, Cleveland Clinic + AHN + UCSF | Solo indicación estrecha; US only por ahora |
-| **Mediware / Nuvolo** | Specialty clinical | Especialidades clínicas propietarias | No AI-first |
-| **NVIDIA (healthcare)** | AI infrastructure | BioNeMo (drug discovery), NemoClaw (enterprise agents), NVIDIA MONAI (medical imaging), Clara (radiology AI). 70% orgs usan NVIDIA para AI. | No EHR; plataforma de infraestructura, no apps clínicas |
-| **Medplum** | Open source FHIR platform | FHIR-native TypeScript platform Apache-2.0, HIPAA+SOC2, usado para construir apps AI sobre FHIR. Y Combinator alum. | Sin EHR completo propio; developer platform, no solución lista |
+|---------|------|-----------|-----------|
+| Epic Systems | Propietario | EHR líder US, 250M+ pacientes, integra AI nativo (DAX Ambient) | Caro, cerrado, difícil customizar |
+| Oracle Health (Cerner) | Propietario | 5,500+ hospitales globales, Oracle Cloud AI | Migración compleja, atención post-adquisición |
+| Nuance/Microsoft | Propietario | DAX Copilot ambient scribe ($150M ARR), Azure AI HIPAA | Cloud-only, privacy concerns |
+| Google Health/DeepMind | Propietario | AlphaFold 3, MedGemini, Vertex AI for Healthcare | Privacy concerns, foco en investigación |
+| NVIDIA | Hardware + SW | GPU H100/H200, BioNeMo, NemoClaw, NIM for Healthcare, Proteina-Complexa | No es sistema clínico; enabler |
+| Medplum | Open Source (Apache-2.0) | FHIR-native TypeScript, startup-friendly, HIPAA+SOC2 incluido | Comunidad en crecimiento, menor que Epic |
+| OpenEMR | Open Source (GPL-2.0) | Más usado open source, 1,000+ implementaciones, FHIR 8.0 certificado | PHP legacy, deuda técnica |
+| OpenMRS | Open Source (MPL-2.0) | 42+ países, LATAM/África, FHIR R4 nativo, Digital Public Good | Optimizado para recursos limitados |
+| Harvey (legal AI) / equiv. | VC-backed | Fuerte en NLP médico + regulatory | Closed-source, vertical estático |
+| Abridge / Nabla / Suki | VC-backed | Ambient scribes médicos líderes | Closed, SaaS-only |
 
-## Mapa de oportunidades LATAM
+## Regulación — Puntos de inflexión 2026
 
-### Brasil (mercado líder)
-- **Tamaño**: Mayor mercado digital health LATAM (>40% del total regional); LATAM digital health $5.6B (2026)
-- **Driver**: Presidente Lula → Plan AI $4B en 4 años incluyendo salud pública (ya activo 2026)
-- **Oportunidad**: Sistema Único de Saúde (SUS) con 214M usuarios → enorme base para AI pública
-- **LGPD**: Ley brasileña de protección de datos equivalente a HIPAA → demanda LLMs on-premise / privacidad
-- **Tracción**: Telemedicina (tele-healthcare 46.7% del revenue digital health 2024); AI para TB screening con Awire Health
-- **AI startup**: Mevo (prescripción digital, $20M funding 2024)
+### FDA — Nuevas políticas clave
+| Evento | Fecha | Impacto |
+|--------|-------|---------|
+| UpDoc FDA 510(k) K253281 | Jun 25, 2026 | **Primer LLM patient-facing aprobado como SaMD** — pathway regulatorio validado |
+| FDA CDS Guidance actualizada | Ene 2026 | Non-Device CDS expandido: AI revisable por médico = sin regulación FDA |
+| ARPA-H ADVOCATE | Jun 2026 | Programa para primer agente cardiovascular FDA-authorized; 3-year timeline |
+| FDA agentic AI deployment | 2026 | FDA adopta agentic AI internamente — señal de legitimación regulatoria |
 
-### México
-- **Tamaño**: 2do mercado LATAM, parte del top-3 con >70% del share regional
-- **Driver**: Crecimiento clase media + seguro privado + turismo médico ($6B+/año)
-- **Oportunidad**: IMSS/ISSSTE con sistemas legacy → modernización con AI; hospitales privados compitiendo con AI scribe
-- **Gap**: Falta de EHR interoperables → Bahmni/OpenEMR + FHIR como oportunidad
+### HIPAA + Privacidad
+- HHS guidance 2026: PHI en AI modelos cloud → requires BAA + compliance audit
+- **NemoClaw** (NVIDIA) = solución enterprise: PHI never leaves hospital datacenter
+- Brasil: LGPD multas hasta 2% facturación → demanda on-premise fuerte en LATAM
 
-### Argentina
-- **CAGR más alto (2026-2031)** según Grand View Research
-- **Driver**: Crisis económica → telemedicina más económica que presencial; talento técnico de alto nivel
-- **Oportunidad**: Sector privado (OSDE, Swiss Medical) invirtiendo en AI para eficiencia operativa
-- **Gap**: Integración AI con prepagas (obra social) para automatización de autorizaciones médicas
+### TEFCA
+- 1 billón de intercambios en <1 año — infraestructura nacional madura
+- SSA se une → disability claims 50%+ más rápido
+- "La liquidez de datos es la necesidad definitoria cuando AI se aplica a salud" — Thomas Keane, HHS
 
-### Colombia / Chile / Perú
-- **Crecimiento acelerado** en telemedicina post-COVID
-- Colombia: Ecosistema healthtech Bogotá emergente; 1DOC3 usa AI para reducir tiempos y costos de consulta
-- Chile: Sistema dual público/privado (Fonasa/Isapre) → AI para optimización de beneficios; Isapre en crisis → eficiencia urgente
-- LATAM: Región emergiendo como "testing ground" para AI-enabled medical devices (meddeviceonline.com, 2026)
+## Oportunidades AI en LATAM
 
-## Oportunidades específicas para Globant AI Studios
+| País | Mercado | Driver | Oportunidad para Globant |
+|------|---------|--------|--------------------------|
+| Brasil | SUS 214M usuarios; Plan Lula $4B AI (4 años) | Salud pública + telemedicina + LGPD on-premise | Prior auth SUS; AI para diagnóstico comunitario; ambient scribe PT-BR |
+| Argentina | CAGR más alto 2026-2031 en digital health LATAM; crisis impulsa telemedicina | Ineficiencia del sistema → demanda de automatización | Autorización de coberturas AI; triage; gestión de turnos |
+| México | Turismo médico $6B/año; expansión seguro privado | Demanda de calidad hospitalaria; prior auth privado | Diagnóstico asistido; documentación clínica; prior authorization |
+| Colombia | Ecosistema healthtech Bogotá emergente; LATAM "testing ground" clínico | Regulación ágil; diversidad genética; costos de ensayo menores | Plataformas digitales salud; AI diagnóstico especialidades escasas |
+| Chile | Isapre en crisis → eficiencia con AI; penetración digital alta | Reforma sistema de salud → ventana de modernización | Gestión de prestaciones + AI; AI para Fonasa |
 
-| Oportunidad | Mercado | Stack recomendado | Tamaño deal estimado |
-|-------------|---------|-------------------|---------------------|
-| Prior Authorization AI | US (revenue cycle) | openmed-agent + LangGraph + FHIR MCP | $200k–$800k |
-| Ambient Scribe para clínicas LATAM | Brasil / México / Argentina | Whisper + Claude + FHIR write | $150k–$500k |
-| CDSS open source para hospitales públicos | Brasil (SUS) / México (IMSS) | OpenMRS + medspaCy + LangGraph | $300k–$1.2M |
-| Telemedicina AI (triage + diagnóstico) | LATAM broad | Ottehr + Multi-Agent-Medical-Assistant | $200k–$600k |
-| Drug discovery / investigación | Global / Universidades | BioChatter + BioCypher + LLMs locales | $100k–$400k |
-| Compliance LGPD/HIPAA on-premise | Brasil / US | openmed (local) + HAPI FHIR local | $150k–$500k |
-| Radiología AI asistida (CXR) | Hospitales US/LATAM | MedRAX + torchio + Claude Vision + PACS | $250k–$900k |
-| FDA SaMD pathway para chronic disease | US mercado privado | openmed-agent + HAPI FHIR + validación Stanford-style | $500k–$2M |
+**Drivers LATAM comunes**:
+- Escasez de especialistas (radiólogos, psiquiatras, dermatólogos) → diagnóstico AI
+- Alta penetración de telemedicina (46.7% del revenue digital health en LATAM)
+- Interoperabilidad limitada → oportunidad para FHIR + AI layers
+- LATAM = "testing ground" para AI medical device clinical trials (Medical Device Online 2026)
 
 ## Posicionamiento Globant
 
-**Ventaja diferencial**:
-- Delivery LATAM + presencia en US → único proveedor que puede entregar compliance LGPD+HIPAA
-- Expertise en plataformas open source (Bahmni, OpenMRS, OpenEMR) sin lock-in de vendor
-- Stack AI agéntico sobre EHR existente → time-to-value 6-12 semanas vs. 18 meses legacy
-- Talento en AI/ML + conocimiento regulatorio salud LATAM
+### Propuesta de valor diferencial
+1. **Open source first**: Globant construye sobre Medplum + OpenMRS + OpenClaw (no lock-in propietario)
+2. **Compliance embebido**: NemoClaw + FHIR audit trails → HIPAA/LGPD desde el día 1
+3. **Evaluación rigurosa**: MedAgentBench + CHI-Bench como gate de calidad antes de producción
+4. **LATAM native**: Spanish NLP (medspaCy en español) + LATAM regulaciones conocidas + presencia regional
+
+### Deal sizes estimados
+| Tipo de proyecto | Range | Duración |
+|-----------------|-------|----------|
+| CDSS Non-Device (revisable médico) | $80k–$300k | 8–16 semanas |
+| Prior Auth Automation (revenue cycle) | $150k–$500k | 12–20 semanas |
+| Ambient Scribe (Whisper + Claude + EHR) | $50k–$200k | 6–12 semanas |
+| Plataforma FHIR greenfield (Medplum) | $100k–$600k | 16–32 semanas |
+| NemoClaw enterprise (hospital US grande) | $400k–$1.5M | 20–40 semanas |
+| Drug Discovery AI stack (biotech/pharma) | $300k–$1.5M | 20–40 semanas |
+| LATAM digital health platform | $100k–$400k | 12–24 semanas |
+
+---
