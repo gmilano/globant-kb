@@ -2,7 +2,7 @@
 
 > Concrete recipes for building AI-powered solutions using the repos and agents in this KB.
 > Each pattern names specific repos + wiring + estimated time to first demo.
-> Last updated: 2026-07-08
+> Last updated: 2026-07-09 v4
 
 ---
 
@@ -698,17 +698,154 @@ kubectl logs -n ai-ops -l app=kagent-agent --follow
 
 ---
 
+---
+
+## Pattern 11: Gemini CLI + GitHub Actions Free AI CI (Zero-Cost Baseline)
+
+**Problem**: Client wants AI in CI/CD pipeline but can't justify per-seat licensing costs.  
+**Stack**: Gemini CLI GitHub Actions + claude-code-security-review + Semgrep  
+**Licenses**: Apache-2.0 (Gemini CLI, Semgrep LGPL-2.1) + MIT (claude-code-security-review)  
+**Time to demo**: 2 hours  
+**Deal size**: $40k–$120k (setup + customization)
+
+```yaml
+# .github/workflows/ai-ci-dual.yml
+name: AI CI Suite
+on: [pull_request]
+
+jobs:
+  gemini-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gemini CLI Code Review
+        uses: google-gemini/gemini-cli-action@v1
+        with:
+          google_api_key: ${{ secrets.GOOGLE_API_KEY }}
+          # Free with personal Google account API key
+          prompt: |
+            Review this PR diff for:
+            1. Logic errors and edge cases
+            2. Performance concerns
+            3. Code style and naming
+            Post a detailed review comment.
+
+  claude-security:
+    uses: anthropics/claude-code-security-review@v1
+    with:
+      anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+      # Reviews diff for OWASP top 10, secrets, injection vulnerabilities
+
+  semgrep-scan:
+    uses: semgrep/semgrep-action@v2
+    with:
+      config: auto  # OWASP + community rules, free tier available
+```
+
+**Dual-Agent Pattern**: Gemini CLI handles code quality + logic; Claude handles security. Different models catch different issues — higher combined catch rate than single model.
+
+**Key Win**: Zero per-seat cost for basic AI CI (Gemini free tier + Semgrep community); ~$40k engagement to customize rules, integrate with Jira, train team.
+
+---
+
+## Pattern 12: LATAM AI Nearshore Team Kit
+
+**Problem**: Client needs to scale AI development capacity without $146k+/year US AI engineer costs.  
+**Stack**: Ollama + Cline + LangGraph + Langfuse + GitHub Actions  
+**Licenses**: All MIT/Apache-2.0 — zero licensing cost  
+**Setup time**: 2-3 weeks  
+**Deal size**: $200k–$800k (team augmentation + tooling setup)
+
+```python
+# team_ai_kit/setup.py
+"""
+LATAM AI Nearshore Team Stack — standardizes tooling across 3-6 person LATAM squad.
+Cost model: ~$40,800/yr per LATAM AI engineer vs $146,714 US. Save ~$100k/engineer/yr.
+"""
+
+TEAM_STACK = {
+    "local_ai": {
+        "tool": "Ollama + Qwen2.5-Coder:32b",
+        "license": "MIT",
+        "cost": "$0/month (runs on team GPU server)",
+        "why": "Private coding AI — no code leaves org, no API costs for day-to-day dev",
+    },
+    "ide_agent": {
+        "tool": "Cline (VS Code) or Aider (terminal)",
+        "license": "Apache-2.0",
+        "why": "Each engineer gets personal AI pair-programmer; routes to Ollama server",
+    },
+    "orchestration": {
+        "tool": "LangGraph + CrewAI",
+        "license": "MIT",
+        "why": "Team builds agent workflows using same OSS stack as US-based AI shops",
+    },
+    "observability": {
+        "tool": "Langfuse (self-hosted Docker)",
+        "license": "MIT",
+        "cost": "$0 (self-hosted)",
+        "why": "All AI traces visible to client; EU AI Act + LGPD compliant; no data to third parties",
+    },
+    "ci_ai": {
+        "tool": "Gemini CLI GitHub Actions + claude-code-security-review",
+        "license": "Apache-2.0 + MIT",
+        "cost": "Free tier + API cost",
+        "why": "Automated quality gate — AI reviews every PR before human code review",
+    },
+}
+
+# Quick Ollama + Qwen team setup
+OLLAMA_SETUP = """
+# On team GPU server (A10G or similar)
+docker run -d --gpus all -v ollama:/root/.ollama -p 11434:11434 ollama/ollama
+ollama pull qwen2.5-coder:32b
+
+# Each team member's Cline config (VS Code settings.json)
+{
+  "cline.apiProvider": "ollama",
+  "cline.ollamaBaseUrl": "http://gpu-server.internal:11434",
+  "cline.ollamaModelId": "qwen2.5-coder:32b"
+}
+"""
+
+# Langfuse team observability
+LANGFUSE_DOCKER = """
+docker compose up -d  # standard langfuse docker-compose.yml
+# All agent traces from LATAM team visible to client dashboard
+# LGPD compliant: data stays in client's cloud (AWS São Paulo / GCP Chile)
+"""
+```
+
+**LATAM Region Guide**:
+
+| Country | Timezone vs US-East | English Level | AI Talent Pool | Best For |
+|---------|---------------------|---------------|----------------|----------|
+| Mexico | UTC-6 (1h behind ET) | High | Very deep, USMCA contracts | Full team; best overlap with US East |
+| Colombia | UTC-5 (same as ET) | High | Growing fast | Real-time collaboration; 20-30% cheaper than Mexico |
+| Argentina | UTC-3 (2h ahead ET) | High | Strong ML/data science | Complex AI/ML work; highest per-capita GitHub activity |
+| Brazil | UTC-3 | Medium | Deep pool | Large-scale; LGPD compliance experience |
+| Chile | UTC-4 | High | Fintech-focused | Regulated industries; strong English |
+
+**Key Win**: Save $100k/engineer/year vs US hire; team uses same OSS stack as top AI shops; Langfuse traces give client full visibility into LATAM team's AI-assisted output quality.
+
+---
+
 ## Pattern Selection Guide
 
-| Client Situation | Start With | Why |
-|-----------------|-----------|-----|
-| Wants to try AI coding | Pattern 1 (Private Copilot) | Zero risk, immediate dev productivity |
-| Security/compliance concern | Pattern 2 (AI Code Review) | Measurable security improvement, CI/CD native |
-| Bug backlog out of control | Pattern 3 (Autonomous Bug Fix) | Quantifiable ROI: bugs closed / sprint |
-| SRE team overwhelmed | Pattern 4 (AIOps) | MTTR reduction is easy to measure |
-| Platform engineering modernization | Pattern 5 (Dev Portal) | Developer experience transformation |
-| Data science team needs structure | Pattern 6 (MLOps) | Reproducibility + experiment ROI |
-| Documentation always stale | Pattern 7 (Auto Docs) | Quick win, high perceived value by non-tech |
-| Legacy modernization project | Pattern 8 (Migration Agent) | Reduce migration cost by 40-60% |
-| AI in prod with no visibility | Pattern 9 (LLM Observability) | Langfuse self-hosted; EU AI Act readiness |
-| K8s platform + AI agents | Pattern 10 (kagent platform) | GitOps-native agent deployment; SRE + AI bundled |
+| Client Situation | Start With | Why | Deal Size |
+|-----------------|-----------|-----|-----------|
+| Wants to try AI coding | Pattern 1 (Private Copilot) | Zero risk, immediate dev productivity | $60k–$200k |
+| Security/compliance concern | Pattern 2 (AI Code Review) | Measurable security improvement, CI/CD native | $40k–$120k |
+| Bug backlog out of control | Pattern 3 (Autonomous Bug Fix) | Quantifiable ROI: bugs closed / sprint | $80k–$250k |
+| SRE team overwhelmed | Pattern 4 (AIOps) | MTTR reduction is easy to measure | $100k–$400k |
+| Platform engineering modernization | Pattern 5 (Dev Portal) | Developer experience transformation | $150k–$500k |
+| Data science team needs structure | Pattern 6 (MLOps) | Reproducibility + experiment ROI | $120k–$350k |
+| Documentation always stale | Pattern 7 (Auto Docs) | Quick win, high perceived value by non-tech | $30k–$80k |
+| Legacy modernization project | Pattern 8 (Migration Agent) | Reduce migration cost by 40-60% | $200k–$800k |
+| AI in prod with no visibility | Pattern 9 (LLM Observability) | Langfuse self-hosted; EU AI Act readiness | $50k–$150k |
+| K8s platform + AI agents | Pattern 10 (kagent platform) | GitOps-native agent deployment; SRE + AI bundled | $100k–$400k |
+| Zero-cost AI CI/CD baseline | Pattern 11 (Gemini CLI Actions) | Free tier + Apache-2.0; great client POC entry | $40k–$120k |
+| Scale dev team without US cost | Pattern 12 (LATAM Nearshore Kit) | $100k/engineer savings; same OSS stack | $200k–$800k |

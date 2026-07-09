@@ -1,7 +1,7 @@
 # 🏗️ Foundational Repos — Technology Industry
 
 > The bedrock open source projects Globant can build on. Real stars, real licenses, active communities.
-> Last updated: 2026-07-08 v3
+> Last updated: 2026-07-09 v4
 
 ## Agent & LLM Frameworks
 
@@ -10,9 +10,10 @@
 | [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 100k+ | Composable LLM application framework; chains, tools, memory, RAG, agents — the de facto standard | Yes — core building block |
 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 13k | Stateful multi-agent graph orchestration on top of LangChain; 34.5M downloads/month | Yes — agent orchestration |
 | [run-llama/llama_index](https://github.com/run-llama/llama_index) | MIT | 37k | Data framework for LLM applications; RAG pipelines, structured data agents, 200+ data connectors | Yes — RAG layer |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 58.7k | Multi-agent conversation framework; async v0.4 rewrite stable, 856k downloads/month | Yes — multi-agent |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 58.7k | Multi-agent framework; merged with Semantic Kernel → Microsoft Agent Framework (GA Q1 2026); 856k downloads/month | Yes — multi-agent |
 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Role-based multi-agent crew orchestration; 5.2M downloads/month, strong LATAM community | Yes — agent crews |
 | [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimal code-first agent framework by Hugging Face; code-as-action, tool-calling, local model support | Yes — lightweight |
+| [geekan/MetaGPT](https://github.com/geekan/MetaGPT) | MIT | 50k+ | Assigns SOP roles (PM, architect, engineer) to LLMs, simulates a full software company; MGX platform for interactive agent dev teams | Yes — multi-agent SW company |
 
 ## MLOps & Model Lifecycle
 
@@ -60,5 +61,21 @@
 | [k8sgpt-ai/k8sgpt](https://github.com/k8sgpt-ai/k8sgpt) | Apache-2.0 | 6.5k | AI-native K8s diagnostics; scans clusters, triages issues, outputs plain-language remediation | Yes — AIOps foundation |
 | [argoproj/argo-cd](https://github.com/argoproj/argo-cd) | Apache-2.0 | 18k | GitOps continuous delivery for Kubernetes; declarative app deployment, drift detection, pairs with AI for auto-remediation | Yes — GitOps layer |
 
+## IaC & Cloud Automation
+
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | 23k | Community fork of Terraform under MPL-2.0; v1.8 feature-parity; Linux Foundation; AI IaC agents targeting OpenTofu | Yes — IaC layer |
+| [pulumi/pulumi](https://github.com/pulumi/pulumi) | Apache-2.0 | 22k | Infrastructure as Code using real languages (Python/TypeScript/Go); multi-cloud; Apache-2.0 core; AI agents can generate + apply Pulumi stacks | Yes — code-first IaC |
+| [wso2/choreo](https://github.com/wso2/choreo) | Apache-2.0 | 2k | CNCF Sandbox IDP (OpenChoreo); exposes MCP servers so AI agents deploy components; built-in SRE LLM agent | Yes — IDP + MCP |
+
+## Terminal AI Agents (Foundation Layer)
+
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | 80k+ | Google's open-source terminal AI agent; Gemini 2.5 Pro, MCP-native, GitHub Actions integration, free personal tier | Yes — terminal+CI |
+| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | 77k+ | $18.8M Series A; Kubernetes support; Planning Mode; 72% SWE-bench Verified; OpenHands Index live leaderboard | Yes — autonomous SW eng |
+| [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | Apache-2.0 | 48k | AI pair-programmer in terminal; multi-file edits via git diffs; supports 100+ LLMs; strongest all-around OSS coding agent | Yes — terminal coding |
+
 ---
-*Foundations = high-star, production-proven, MIT/Apache-2.0 preferred. Updated 2026-07-08 v3.*
+*Foundations = high-star, production-proven, MIT/Apache-2.0 preferred. Updated 2026-07-09 v4.*

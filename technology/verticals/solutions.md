@@ -2,7 +2,7 @@
 
 > Existing open source platforms that technology companies and dev teams run.
 > The play: deploy these as the base, add an AI agent layer on top.
-> Last updated: 2026-07-08 v3
+> Last updated: 2026-07-09 v4
 
 ## DevOps & CI/CD Platforms
 
@@ -13,6 +13,14 @@
 | Drone CI | Apache-2.0 | [harness/drone](https://github.com/harness/drone) | Go | Container-native CI/CD; plugin-per-step architecture makes it ideal for injecting AI steps |
 | Tekton | Apache-2.0 | [tektoncd/pipeline](https://github.com/tektoncd/pipeline) | Go, K8s | Kubernetes-native CI/CD pipelines; CNCF project, runs on any K8s cluster |
 | ArgoCD | Apache-2.0 | [argoproj/argo-cd](https://github.com/argoproj/argo-cd) | Go | GitOps continuous delivery for Kubernetes; declarative app deployment and drift detection |
+
+### AI-Augmented CI/CD Options (2026)
+
+| Tool | License | Cost | How It Works |
+|------|---------|------|--------------|
+| **Gemini CLI GitHub Actions** | Apache-2.0 | **Free** (personal Google account) | Autonomous agent for routine CI tasks + on-demand collaborator; `@gemini-bot` in issues/PRs triggers AI; runs as GitHub Action |
+| **claude-code-security-review** | MIT | API cost only | AI security review on every PR diff; posts inline comments; zero-config GitHub Action |
+| **Aider in CI** | Apache-2.0 | API cost only | `aider --review` in CI pipeline; code quality + maintainability scan per PR |
 
 ## Observability & Monitoring
 
@@ -114,6 +122,14 @@ def ask_agent(question: str) -> str:
 |----------|---------|------|-------|----------|
 | Vault (OpenBao) | MPL-2.0 | [openbao/openbao](https://github.com/openbao/openbao) | Go | Community fork of HashiCorp Vault post-BSL change; secrets management, dynamic credentials |
 | Infisical | MIT | [Infisical/infisical](https://github.com/Infisical/infisical) | TypeScript | Open-source secret management for teams; SDK integrations for AI apps needing API key rotation |
+
+## IaC & Multi-Cloud Platforms
+
+| Platform | License | Repo | Stack | Use Case |
+|----------|---------|------|-------|----------|
+| OpenTofu | MPL-2.0 | [opentofu/opentofu](https://github.com/opentofu/opentofu) | Go | Terraform fork; v1.8 feature-parity; Linux Foundation; preferred target for AI IaC agents |
+| Pulumi | Apache-2.0 | [pulumi/pulumi](https://github.com/pulumi/pulumi) | Go/Python/TS | Code-first IaC; AI agents generate and apply Pulumi stacks in real languages; Apache-2.0 |
+| Backplane | Apache-2.0 | [backplane-cloud/backplane](https://github.com/backplane-cloud/backplane) | Go | Open-source multi-cloud abstraction; unified API for AWS/Azure/GCP/OCI accounts, costs, access controls |
 
 ## How to Add AI on Top
 

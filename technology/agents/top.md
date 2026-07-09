@@ -2,19 +2,20 @@
 
 > Open source AI agents and tools for software development, DevOps, and technology operations.
 > Focus: MIT / Apache 2.0 licenses — safe for Globant client engagements.
-> Last updated: 2026-07-08 v3
+> Last updated: 2026-07-09 v4
 
 ## AI Coding Agents
 
 | Name | License | Repo | Stars | Description |
 |------|---------|------|-------|-------------|
-| OpenHands | MIT | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | 76k+ | v1.6.0 (Mar 2026): Kubernetes support + Planning Mode beta; 72% SWE-bench score; OpenHands Index launched Jan 2026 as live leaderboard |
-| Cline | Apache-2.0 | [cline/cline](https://github.com/cline/cline) | 59k | Autonomous coding agent for VS Code; creates/edits files, runs shell commands, uses browser — model-agnostic |
-| Aider | Apache-2.0 | [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | 47.1k | AI pair-programmer in the terminal; edits multi-file codebases via git-integrated diffs, supports 100+ LLMs |
-| SWE-agent | MIT | [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) | 14.5k | Princeton NLP lab agent that turns LLMs into software engineers; solves real GitHub issues autonomously |
-| OpenCode | MIT | [anomalyco/opencode](https://github.com/anomalyco/opencode) | 183k | Terminal-native coding agent, 75+ model providers, LSP integration, privacy-first design |
-| Codex CLI | Apache-2.0 | [openai/codex](https://github.com/openai/codex) | 95k | OpenAI's lightweight coding agent that runs in your terminal; sandboxed execution, multi-file edits |
-| Goose | Apache-2.0 | [block/goose](https://github.com/block/goose) | 18k | Extensible CLI agent by Block (Square); installs, executes, edits, and tests with any LLM; skill-based extensibility |
+| OpenHands | MIT | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | 77k+ | $18.8M Series A raised; v1.6.0 Kubernetes support + Planning Mode beta; 72% SWE-bench Verified; OpenHands Index live leaderboard |
+| Cline | Apache-2.0 | [cline/cline](https://github.com/cline/cline) | 61k | Autonomous coding agent for VS Code; creates/edits files, runs shell commands, uses browser — model-agnostic; 10k stars/month after Roo Code archived |
+| Aider | Apache-2.0 | [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | 48k | AI pair-programmer in the terminal; edits multi-file codebases via git-integrated diffs, supports 100+ LLMs; strongest all-around OSS agent in 2026 |
+| SWE-agent | MIT | [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) | 15k | Princeton NLP lab agent; Agent-Computer Interface (ACI) paradigm, solves real GitHub issues autonomously |
+| OpenCode | MIT | [anomalyco/opencode](https://github.com/anomalyco/opencode) | 185k | v1.17.14 (Jul 6 2026): added MCP adapter for confined orchestration scripts; 75+ model providers, LSP integration |
+| Gemini CLI | Apache-2.0 | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | 80k+ | Google's open-source terminal AI agent; Gemini 2.5 Pro free with personal Google account; MCP-native via ~/.gemini/settings.json; GitHub Actions integration |
+| Codex CLI | Apache-2.0 | [openai/codex](https://github.com/openai/codex) | 97k | OpenAI's lightweight coding agent; sandboxed execution, multi-file edits; spawned OpenClaw 210k+ fork ecosystem |
+| Goose | Apache-2.0 | [block/goose](https://github.com/block/goose) | 19k | Extensible CLI agent by Block (Square); installs, executes, edits, and tests with any LLM; skill-based + MCP-native |
 
 ## Agent Frameworks (Build Your Own)
 
@@ -44,15 +45,23 @@
 | Opik | Apache-2.0 | [comet-ml/opik](https://github.com/comet-ml/opik) | 8.5k | End-to-end LLM evaluation and tracing by Comet; Apache-2.0, integrates with any LLM SDK |
 | Arize Phoenix | Elastic-2.0 | [Arize-ai/phoenix](https://github.com/Arize-ai/phoenix) | 7.2k | ML-grade LLM observability; OpenTelemetry-native via OpenInference, embeddings drift detection |
 
+## MetaGPT — Multi-Agent Software Company
+
+| Name | License | Repo | Stars | Description |
+|------|---------|------|-------|-------------|
+| MetaGPT | MIT | [geekan/MetaGPT](https://github.com/geekan/MetaGPT) | 50k+ | Assigns SOP roles (PM, architect, engineer) to LLMs, simulates a full software company; MGX (MetaGPT X) platform launched 2025 for interactive collaborative agent dev teams |
+
 ## SWE-Bench Reference (Jul 2026)
 
-| Agent / Model | SWE-bench Verified | SWE-bench Pro | Notes |
-|--------------|-------------------|---------------|-------|
-| Claude Mythos 5 | **95.5%** | — | Leads verified leaderboard as of Jul 6, 2026 |
-| Claude Fable 5 | 95.0% | **80.3%** | Leads SWE-bench Pro as of Jul 7, 2026 |
-| Claude Opus 4.8 | 88.6% | 69.2% | Previous leader |
-| OpenHands + Claude | ~72% | — | Best open-source agent score (v1.6.0) |
-| Aider + GPT-4o | ~43% | — | Terminal-native; competitive on medium tasks |
+| Agent / Model | SWE-bench Verified | SWE-bench Lite | SWE-bench Pro | Notes |
+|--------------|-------------------|---------------|---------------|-------|
+| Claude Mythos 5 | **95.5%** | — | — | Leads Verified leaderboard as of Jul 6, 2026 |
+| Claude Fable 5 | 95.0% | — | **80.3%** | Leads SWE-bench Pro as of Jul 7, 2026 |
+| Claude Opus 4.8 | 88.6% | — | 69.2% | Previous leader |
+| Claude Opus 4.6 | — | **62.7%** | — | Leads SWE-bench Lite (Jul 5, 2026); 47 models evaluated, avg 28.1 |
+| Tencent Hy3 | — | — | 57.9% | New entrant (Jul 2026) — first major APAC model to crack top 5 on Pro |
+| OpenHands + Claude | ~72% | — | — | Best fully open-source agent score (v1.6.0, MIT) |
+| Aider + GPT-4o | ~43% | — | — | Terminal-native; competitive on medium tasks |
 
 ---
-*Auto-updated by ingest pipeline. Real repos, real licenses, verified on 2026-07-08 v3.*
+*Auto-updated by ingest pipeline. Real repos, real licenses, verified on 2026-07-09 v4.*
