@@ -1,6 +1,6 @@
 # 📈 Trending Repos — Media & Entertainment
 
-> GitHub repos gaining momentum. Updated: 2026-07-09 (v8 — HunyuanVideo-Foley added; ComfyUI 106k★ updated)
+> GitHub repos gaining momentum. Updated: 2026-07-09 (v9 — OpenMontage corrected calesthio/AGPL-3.0/36.2k★; DiffRhythm 2 + VoxCPM2 added; ComfyUI $30M/$500M milestone)
 
 ## Velocity Table (June–July 2026)
 
@@ -9,7 +9,7 @@
 | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~22.6k | +2k | Self-hosted 200-model studio (Image/Video/Lip Sync/Cinema); viral April 2026 +7.5k in days |
 | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) | Apache-2.0 | ~8k | +600 | First open-source 4K audio+video native; LTX-2.3 22B DiT; Jan 2026 launch |
 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~22k | +400 | Open-Sora 2.0: complete training pipeline + weights — unique in space |
-| [Open-Montage/OpenMontage](https://github.com/Open-Montage/OpenMontage) | MIT | ~4k | +350 | Agentic video production system — 12 pipelines, 52 tools, 500+ skills for Claude Code |
+| [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | **AGPL-3.0** | **~36.2k** | +2.5k | Agentic video production system — 12 pipelines, 52 tools, 500+ skills for Claude Code. **v9 correction**: prior entries had wrong URL + license. Real: calesthio/, AGPL-3.0, 36.2k★, hit #1 GitHub Trending Jun 20, 2026 |
 | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~4.5k | +300 | Infinite-length film via Autoregressive Diffusion-Forcing |
 | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | +250 | 24B autoregressive video; streaming output; T2V/I2V/V2V |
 | [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | ~6.1k | +300 | Full-song music generation: lyrics → complete song with vocals + accompaniment; open Suno.ai alternative |
@@ -21,7 +21,9 @@
 | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 | ~13k | +150 | CogVideoX-1.5: best-documented open video gen model — steady accumulation |
 | [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper) | MIT | ~16k | +100 | Production standard for broadcast transcription; continued steady growth |
 | [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) | Tencent Community† | ~2k | +200 | **v8 addition** — video-synchronized foley audio generation; best-in-class sync metrics; ComfyUI nodes available |
-| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | **~106k** | milestone | **100k★ crossed July 2026** — de-facto open media AI workflow engine; every 2026 video model has ComfyUI nodes |
+| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | **~106k** | milestone | **v9**: $30M raised @ $500M valuation (Apr 2026, Craft Ventures); 4M users; 60k+ community nodes; 150k+ daily downloads; first AI Super Bowl ad (SVEDKA 2026); de-facto open media AI workflow engine |
+| [ASLP-lab/DiffRhythm2](https://github.com/ASLP-lab/DiffRhythm2) | Apache-2.0 | ~500 | new | **v9 addition** — Block Flow Matching for fast full-length song generation; parallel block denoising; follow-on to DiffRhythm 1 (first open diffusion music model) |
+| [OpenBMB/VoxCPM](https://github.com/OpenBMB/VoxCPM) | Apache-2.0 | ~600 | new | **v9 addition** — VoxCPM2: tokenizer-free 2B TTS, 30 languages, 48kHz, true-to-life voice cloning; Apache-2.0 alternative to Coqui TTS (MPL-2.0) |
 
 ## v7 Breakout Analyses (July 8, 2026)
 

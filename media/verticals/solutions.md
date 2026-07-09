@@ -2,7 +2,7 @@
 
 > Real platforms to start from — fork, extend with AI, deliver to clients.
 > Model: working platform + AI layer on top = faster delivery.
-> Last updated: 2026-07-09 (v8 — Interactive CTV & Viewer Engagement section added; HunyuanVideo-Foley in post-production)
+> Last updated: 2026-07-09 (v9 — Open-Source Music Generation Platforms section added; OpenMontage corrected; ComfyUI $30M milestone)
 
 ## Video Platforms & CMS
 
@@ -378,6 +378,49 @@ clips = ltx2_script_to_screen(
 | Mexico | Canal Once digital stack | In-house | First Mexican broadcaster deploying AI transcription |
 | Mexico | Vix+ (TelevisaUnivision) | Proprietary | ~MXN 99/month streaming; AI personalization + FAST tier opportunity |
 | Regional | FAST platform builders | Apache | LATAM FAST is $152M+; open tools for free ad-supported tier |
+
+## Open-Source Music Generation Platforms (v9 Addition)
+
+> **Market context**: Sync licensing costs $500-$5k per track for short-form content. These Apache-2.0/MIT models enable zero-cost original music for every video, podcast, and campaign. Combined with Demucs (stem separation), they form a complete music AI stack.
+
+| Platform | License | Repo | Stack | Use Case | Quality Bar |
+|----------|---------|------|-------|----------|-------------|
+| **YuE** | Apache-2.0 | [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Python + autoregressive LLM | Full-song from lyrics: vocals + accompaniment, multi-minute, pt-BR/es supported | Highest — comparable to Suno.ai |
+| **DiffRhythm 2** | Apache-2.0 | [ASLP-lab/DiffRhythm2](https://github.com/ASLP-lab/DiffRhythm2) | Python + Block Flow Matching | Fast full-length song generation via parallel block denoising | High — fastest inference |
+| **AudioCraft / MusicGen** | MIT (code) | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | Python + PyTorch | Short BGM/SFX generation (30s-120s); most mature and documented | Medium — instrumental only |
+| **ACE-Step** | Apache-2.0 | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Python | Text-to-audio music, novel Block Flow architecture | Medium-high |
+| **Demucs** | MIT | [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | Python | Source separation: extract stems (vocals/drums/bass/other) from any track | Production-grade (9.20 dB SDR) |
+
+### Music Generation Workflow
+
+```
+YuE → brand lyrics + style prompt → full original song (vocals + accompaniment)
+    ↓ (optional)
+Demucs → separate stems → instrumental version for background use
+    ↓
+ffmpeg → mix into video/podcast/ad
+
+DiffRhythm 2 (alt for high-volume runs: 100+ tracks/day)
+    → same output, faster per track
+```
+
+**LATAM note**: YuE supports Portuguese and Spanish lyrics natively. Generate samba-inspired, funk-inspired, or regional styles for Brazilian campaigns. Unique capability vs stock music libraries.
+
+**Licensing note**: The music *output* from these models has no separate license beyond the model's own terms (Apache-2.0 / MIT = no restriction on outputs). Clients own the generated tracks — 100% of IP.
+
+## Agentic Video Production Tools (v9 Correction)
+
+> **OpenMontage correction**: Prior versions of this document listed `Open-Montage/OpenMontage` (MIT). The correct information is:
+> - **Real repo**: [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage)
+> - **License**: AGPL-3.0 (not MIT)
+> - **Stars**: ~36.2k (not 3-4k)
+> - **Peak**: #1 GitHub Trending June 20, 2026
+> - **AGPL-3.0 guidance**: For client builds, deploy as a backend microservice (network-as-a-service pattern). Modifications to OpenMontage itself must be published if you distribute; client application built *on top* does not require disclosure under AGPL's SaaS loophole. Confirm with legal.
+
+| Platform | License | Repo | Stars | Use Case |
+|----------|---------|------|-------|----------|
+| **OpenMontage** | AGPL-3.0 | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | ~36.2k | World's first agentic video production system; 12 pipelines, 52 tools, 500+ SKILL.md skills; works with Claude Code/Cursor/Copilot |
+| **ComfyUI** | GPL-3.0 | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | ~106k | Node-based workflow engine; $30M/$500M (Apr 2026); 4M users; 60k+ nodes; every 2026 video model has ComfyUI nodes |
 
 ## Build-vs-Buy Matrix
 

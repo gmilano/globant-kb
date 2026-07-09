@@ -1,6 +1,6 @@
 # 📈 Trending AI Agents — Media & Entertainment
 
-> What's new and gaining traction this week. Updated: 2026-07-09 (v8 — HunyuanVideo-Foley, Versus AI interactive streaming, CTV market signal, ComfyUI 106k★)
+> What's new and gaining traction this week. Updated: 2026-07-09 (v9 — OpenMontage corrected 36.2k★ AGPL-3.0 calesthio/; ComfyUI $30M/$500M/4M users; DiffRhythm 2 Block Flow Matching; VoxCPM2 48kHz; Disney vertical-video tool; AI video ad spend $9.1B)
 
 ## Breakout Projects (June–July 2026)
 
@@ -130,6 +130,44 @@
 - **Why it matters**: The $42B+ global CTV ad market (2026) is moving toward interactive AI formats. Shoppable/interactive CTV converts 5× better than standard video ads. Versus shows the product category: **real-time AI engagement layers over live and on-demand content**. As a closed product it's a competitive signal — but the pattern is buildable on open infrastructure.
 - **Globant angle**: Pattern 11 (compose/patterns.md) — build the open-source equivalent of Versus AI for LATAM sports/media clients using Owncast (live stream) + Claude API (trivia/game generation) + Redis pub/sub (real-time push to mobile app). PoC: 4-6 weeks.
 
+## v9 Breakouts (July 9, 2026 — second pass)
+
+### 18. OpenMontage — CORRECTION: AGPL-3.0, 36.2k Stars, calesthio/ (Not MIT / 3k)
+- **Correct repo**: [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) (AGPL-3.0)
+- **Stars**: ~36.2k (hit #1 GitHub Trending June 20, 2026 — not the 3-4k in prior entries)
+- **License note**: AGPL-3.0 — prior entries incorrectly listed MIT. AGPL-3.0 requires derivative network-deployed services to publish their modifications. For Globant client builds: deploy OpenMontage as a backend microservice (standard SaaS practice) — this avoids AGPL disclosure for the client's own application layer on top.
+- **Key capabilities**: 12 production pipelines (documentary, demo, LMS, short-form, social), 52 registered tools, 500+ SKILL.md agent skills. Works natively with Claude Code, Cursor, Copilot, Windsurf, Codex. Free/local workflows: Piper TTS + FFmpeg + Remotion + Archive.org/NASA/Wikimedia stock footage.
+- **Globant angle**: Now validated at 36k★ and #1 Trending — proven demand signal. The AGPL-3.0 change means pair with MIT/Apache-2.0 components for client-facing layers.
+
+### 19. ComfyUI — $30M Raised at $500M Valuation (April 2026)
+- **Repo**: [comfy-org/comfyui](https://github.com/comfy-org/comfyui) (GPL-3.0)
+- **Stars**: ~89-106k (April → July 2026 range)
+- **Funding**: $30M Series A at $500M valuation led by Craft Ventures (April 2026); Pace Capital, Chemistry, TruArrow participating
+- **Traction**: 4 million users, 60,000+ community-built nodes, 150,000+ daily downloads
+- **Enterprise adoption**: Silverside AI used ComfyUI to power SVEDKA's 2026 Super Bowl commercial — first primarily AI-generated Super Bowl ad. Agencies + ad studios now in production use.
+- **Impact**: ComfyUI's node-based model has become the interface layer for all major 2026 video models (LTX-2, Wan 2.7, MAGI-1, CogVideoX all have ComfyUI nodes). $500M valuation at GPL-3.0 shows OSS creative tools are infrastructure-grade businesses.
+- **Globant angle**: ComfyUI is the workflow layer for client studios (backend; don't distribute GPL binaries). The 60k+ community nodes mean rapid integration of new models — evaluate nodes before building custom pipelines.
+
+### 20. DiffRhythm 2 — Block Flow Matching for Parallel Song Generation
+- **Repo**: [ASLP-lab/DiffRhythm2](https://github.com/ASLP-lab/DiffRhythm2) (Apache-2.0)
+- **What it is**: Follow-on to DiffRhythm 1 (first widely-adopted open-source diffusion music model). DiffRhythm 2 introduces Block Flow Matching: splits the audio latent into ~2-second blocks, denoises blocks in parallel, and conditions each block on all prior clean blocks via KV-cached attention. Result: faster inference than autoregressive models (YuE, ACE-Step), comparable quality.
+- **Why it matters**: Three viable open-source full-song generation architectures now exist: YuE (autoregressive, lyrics2song), DiffRhythm 2 (parallel Block Flow, speed-focused), ACE-Step (architecturally novel). Each has trade-offs. DiffRhythm 2 wins on speed per song.
+- **Globant angle**: For high-volume branded content generation (100+ original BGM tracks/week), DiffRhythm 2's parallel denoising reduces GPU-hours vs YuE. Use YuE for quality-first projects, DiffRhythm 2 for volume.
+
+### 21. VoxCPM2 — 30-Language 48kHz TTS (Apache 2.0)
+- **Repo**: [OpenBMB/VoxCPM](https://github.com/OpenBMB/VoxCPM) (Apache-2.0)
+- **What it is**: 2B parameter tokenizer-free TTS model. 30 languages (includes Spanish, Portuguese), creative voice design (character/emotion control), and true-to-life voice cloning. 48kHz output — same audio quality level as HunyuanVideo-Foley. Developed by OpenBMB (Tsinghua + Renmin U).
+- **Why it matters**: Apache-2.0 vs Coqui TTS MPL-2.0 license. For projects where MPL-2.0 is a legal concern (some client IP policies), VoxCPM2 offers a clean Apache-2.0 alternative at comparable quality. 30-language coverage is broader than most open TTS models.
+- **Globant angle**: Evaluate as a Coqui TTS replacement for LATAM (pt-BR, es-MX) podcast and dubbing pipelines. Apache-2.0 = clean for commercial distribution. Test on Pattern 4 (LATAM Localization) and Pattern 8 (Podcast Studio).
+
+### 22. Disney Vertical Video AI — Archive-to-Mobile Conversion (January 2026 Signal)
+- **Company**: Disney (internal product, closed-source)
+- **Status**: Proprietary — market signal only
+- **What it is**: In January 2026, Disney unveiled an AI tool that converts horizontal video archives into vertical format for TikTok/mobile consumption. AI analyzes each frame for key action/characters and reframes for 9:16 aspect ratio intelligently (not just center-crop).
+- **Why it matters**: Every studio/broadcaster/OTT platform with 20+ years of horizontal 16:9 archive content is facing the same problem: 97% of younger audiences consume content on mobile, but archive content is the wrong aspect ratio. Disney's solution validates the product category.
+- **Open-source equivalent**: Buildable with `ffmpeg` + `Claude Vision` (frame-analysis for smart-reframe) + Wan 2.7 (re-render sections where simple crop destroys the shot composition). 2-3 week PoC.
+- **Globant angle**: High-value quick win for any LATAM broadcaster (Globo, Televisa, Caracol) with legacy archive. Archive-to-mobile is a "unlock existing value" pitch — not net-new AI investment.
+
 ## Audio Ecosystem Moves
 
 ### faster-whisper now default for production
@@ -164,6 +202,15 @@ Meta's AudioCraft (facebookresearch/audiocraft) seeing large spike in fine-tunin
 | **Interactive CTV conversion vs standard video** | **5× higher conversion rate** | **CTV advertising data 2026** |
 | KrillinAI stars (July 2026) | 10.4k | GitHub |
 | **ComfyUI stars (July 2026)** | **106k+** (↑ from 75k at v7) | **GitHub** |
+| **ComfyUI funding (Apr 2026)** | **$30M raised @ $500M valuation** | **TechCrunch Apr 2026** |
+| **ComfyUI users / nodes / downloads** | **4M users / 60k+ nodes / 150k+ daily DL** | **Craft Ventures Apr 2026** |
+| **OpenMontage stars (Jun 2026, corrected)** | **~36.2k** (AGPL-3.0, calesthio/) | **Trendshift Jun 2026** |
+| **OpenMontage GitHub Trending peak** | **#1 Jun 20, 2026** | **GitHub Trending** |
+| **AI video ad spend 2026** | **$9.1B globally** | **Industry 2026** |
+| **Ad buyers committing to GenAI media campaigns** | **78%** | **Industry 2026** |
+| **Orgs using GenAI for content creation** | **71%** | **Demandsage 2026** |
+| **Creative content workflows using GenAI** | **69%** | **Industry 2026** |
+| **GenAI M&E 2026→2035** | **$2.8B → $21.2B (CAGR 25.2%)** | **Precedence Research 2026** |
 | Global sports rights revenue 2026 | $67B+ (streaming: $14.2B, +7% YoY) | PwC Outlook 2026 |
 | AI exhibitors at NAB 2026 | ~2× vs prior year | NAB 2026 show floor |
 | C2PA member organizations | 140+ (including Canon, Nikon, Leica) | C2PA Jan 2026 |

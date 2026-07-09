@@ -1,7 +1,7 @@
 # 🎯 Top AI Agents & Tools — Media & Entertainment
 
 > Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0.
-> Last updated: 2026-07-09 (v8 — HunyuanVideo-Foley foley audio sync added; ComfyUI 106k★ milestone)
+> Last updated: 2026-07-09 (v9 — DiffRhythm 2 + VoxCPM2 added; OpenMontage repo/license corrected 36.2k★ AGPL-3.0; ComfyUI $30M/$500M funding milestone)
 
 ## Top 10 AI Agents & Tools
 
@@ -53,6 +53,15 @@
 | **Wan Video** | [Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1) | Apache-2.0 | ~12k | Apache 2.0 video gen, strong feature set: image conditioning, higher resolution, MoE architecture (Wan 2.2) |
 | **WhisperSpeech** | [WhisperSpeech/WhisperSpeech](https://github.com/WhisperSpeech/WhisperSpeech) | MIT | ~4k | Open-source TTS built by inverting Whisper; natural-sounding voices for broadcast automation and podcast generation |
 | **Coqui-ai/TTS** | [coqui-ai/TTS](https://github.com/coqui-ai/TTS) | MPL-2.0 | ~36k | Deep learning TTS library: 1100+ pretrained models, fine-tuning, voice cloning — production broadcast voiceover |
+
+## v9 Additions (July 9, 2026 — second pass)
+
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| **DiffRhythm 2** | [ASLP-lab/DiffRhythm2](https://github.com/ASLP-lab/DiffRhythm2) | Apache-2.0 | ~500 | Blazingly fast full-length song generation via Block Flow Matching — parallel latent block denoising, each block conditioned on all prior clean blocks via KV-cached attention. Produces broadcast-quality songs with vocals + accompaniment. Commercial-safe Apache-2.0. |
+| **VoxCPM2** | [OpenBMB/VoxCPM](https://github.com/OpenBMB/VoxCPM) | Apache-2.0 | ~600 | Tokenizer-free 2B TTS for multilingual speech generation (30 languages), creative voice design, and true-to-life cloning. Outputs 48kHz audio — matches HunyuanVideo-Foley's audio quality. Ideal for LATAM Spanish/Portuguese TTS without Coqui's MPL overhead. |
+
+> **OpenMontage URL correction (v9)**: Prior versions listed `Open-Montage/OpenMontage` (MIT). The correct repo is **[calesthio/OpenMontage](https://github.com/calesthio/OpenMontage)** (AGPL-3.0, ~36.2k★). License note: AGPL-3.0 requires network-deployed derivatives to open-source their modified code. For client builds, wrap OpenMontage as a backend service (not distributed binary) — this is standard SaaS pattern and avoids AGPL disclosure obligation.
 
 ## v8 Additions (July 9, 2026)
 

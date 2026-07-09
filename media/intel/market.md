@@ -1,6 +1,6 @@
 # 🗺️ Market Map — Media & Entertainment AI
 
-> Global players, market data, LATAM opportunities. Updated: 2026-07-09 (v8 — GenAI Content Creation market added; CTV $42B+ signal; Versus AI; ComfyUI 106k★)
+> Global players, market data, LATAM opportunities. Updated: 2026-07-09 (v9 — AI video ad spend $9.1B; GenAI M&E Precedence $2.8B→$21.2B; ComfyUI $30M/$500M; 71% orgs GenAI content creation; OpenMontage corrected 36.2k★)
 
 ## Global Market Size
 
@@ -19,6 +19,8 @@
 | Global E&M total advertising | ~$420B | ~$453B | $1.4T | 6.9% (US) | PwC Outlook 2026 |
 | Monthly active AI video users | — | 124M+ | — | — | Industry reports |
 | AI video production cost per minute | $4,500 (trad.) | **~$400 (AI, ↓91%)** | — | — | Industry 2026 |
+| **AI video ad spend** | — | **$9.1B** | — | — | **Industry 2026** |
+| **GenAI in M&E (long-range, Precedence)** | **$2.8B** | — | **$21.2B (2035)** | **25.2%** | **Precedence Research 2026** |
 
 > **Key update (May 2026):** SNS Insider significantly raised the long-term AI in M&E forecast — from prior $99.48B by 2030 to $256B by 2035 — driven by rising demand for personalized content experiences and AI-powered media automation globally.
 > **Key update (Jul 7, 2026):** Globe Newswire confirms GenAI M&E sub-segment at $3.16B in 2026, reaching $8.06B by 2030 at 26.4% CAGR. Growth drivers: GenAI + VR/AR integration, cloud AI media services, real-time personalization. **Morgan Stanley estimate: AI could reduce TV/film production costs by up to 30%.**
@@ -62,6 +64,7 @@
 | **Wan Video (Alibaba Tongyi Lab)** | Wan 2.7 (Thinking Mode) | Wan-Video/Wan2.2 (Apache-2.0 ~18k) | 24GB VRAM min; HuggingFace weights |
 | **Runway** | Gen-3 (closed) | None | No OSS path |
 | **Versus AI** | Interactive streaming overlay (AI engagement games/trivia/polls) | None (proprietary) | First-mover in AI "second-screen" engagement; stealth → public Jul 2026 |
+| **ComfyUI** | Node-based AI creative workflow engine (4M users, $30M/$500M Apr 2026) | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) (GPL-3.0) | Craft Ventures Series A; 60k+ community nodes; first primarily AI-generated Super Bowl ad (SVEDKA 2026) |
 | **EBU** | Tech R&D | ebu/awesome-broadcasting | Standards org only |
 | **Spotify** | AI DJ, AI Voice Translation | spotify/pedalboard (GPL-3.0 ★5.5k) | GPL license |
 | **SYSTRAN** | Translation/ASR | SYSTRAN/faster-whisper (MIT ★15k) | Niche positioning |
@@ -88,6 +91,9 @@
 | Synthetic voiceover / TTS | ~25% | High | Cost savings vs human VO |
 | Music/SFX generation | ~15% | Very high | License cost avoidance |
 | AI-generated short video | ~20% | Explosive | Social/FAST content at scale |
+| **GenAI for content creation** | **71% of orgs** | Mature | 40% productivity boost reported |
+| **Creative workflows using GenAI** | **69%** | Rapid | M&E is 2nd largest vertical (23.87% share) |
+| **AI in advertising campaigns** | **78% of ad buyers committed** | Very high | $9.1B AI video ad spend in 2026 |
 | Content recommendation AI | ~80% | Mature | Netflix, Spotify pioneered; now standard |
 | Automated transcription | ~75% of podcasts | Mature | Whisper ecosystem |
 

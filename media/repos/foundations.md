@@ -1,7 +1,7 @@
 # 🏗️ Foundational Repos — Media & Entertainment
 
 > Core repositories to build on. Open licenses. Active communities.
-> Last updated: 2026-07-09 (v8 — HunyuanVideo-Foley added; ComfyUI 75k→106k★ milestone)
+> Last updated: 2026-07-09 (v9 — DiffRhythm 2 + VoxCPM2 added; ComfyUI $30M/$500M funding; OpenMontage URL/license corrected)
 
 ## Speech & Transcription
 
@@ -19,6 +19,8 @@
 | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT* | ~22k | MusicGen (text→music), AudioGen (text→SFX), EnCodec tokenizer. *models CC-BY-NC | Yes — BGM/SFX generation |
 | [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | ~6.1k | Full-song music generation from lyrics (lyrics2song) — vocals + accompaniment, multi-minute output | Yes — original songs |
 | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Apache-2.0 | ~2k | Text-to-audio model with Block Flow Matching for parallel denoising; high-fidelity music from descriptions | Yes — music gen |
+| [ASLP-lab/DiffRhythm2](https://github.com/ASLP-lab/DiffRhythm2) | Apache-2.0 | ~500 | **v9 addition** — Block Flow Matching full-song generation: parallel block denoising with KV-cached inter-block attention; fastest full-song generation vs YuE | Yes — high-volume BGM |
+| [OpenBMB/VoxCPM](https://github.com/OpenBMB/VoxCPM) | Apache-2.0 | ~600 | **v9 addition** — VoxCPM2: tokenizer-free 2B TTS, 30 languages (incl. pt-BR, es), 48kHz, voice cloning. Apache-2.0 alternative to Coqui TTS (MPL-2.0) for commercial builds | Yes — LATAM TTS |
 | [souzatharsis/podcastfy](https://github.com/souzatharsis/podcastfy) | Apache-2.0 | ~3k | Multi-modal to multilingual podcast: URLs, PDFs, YouTube, text → AI audio conversation; 100+ LLM backends | Yes — content → podcast |
 | [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) | Tencent Hunyuan Community† | ~2k | Multimodal diffusion foley/SFX generation: video+text → synchronized 48kHz audio in one pass; XL model for offload inference. ComfyUI node: `vantagewithai/Vantage-HunyuanFoley`. Best-in-class sync metrics. | Yes — video SFX automation |
 | [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | MIT | ~9k | Hybrid Transformer Demucs v4: drums/bass/vocals/other separation, 9.20 dB SDR | Yes — stem separation |
@@ -38,7 +40,7 @@
 | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~4.5k | Infinite-length film via Autoregressive Diffusion-Forcing; V1 is human-centric on HunyuanVideo | Yes — long-form/character |
 | [SandAI-org/MAGI-1](https://github.com/SandAI-org/MAGI-1) | Apache-2.0 | ~3.5k | 24B autoregressive video (chunk-by-chunk, 24 frames/chunk); 4.5B variant for low-VRAM; streaming generation | Yes — streaming/interactive |
 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~22k | Ships full training pipeline + weights — data preprocessing, training scripts, eval tools all included | Yes — training/fine-tuning |
-| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | **~106k** | Node-based GUI for all diffusion models; every major 2026 video model has ComfyUI nodes. Crossed 100k★ milestone July 2026 — reflects its position as the de-facto open media AI workflow engine. | Yes (backend API usable) |
+| [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | **~106k** | Node-based GUI for all diffusion models; every major 2026 video model has ComfyUI nodes. Crossed 100k★ milestone July 2026. **v9**: $30M raised at $500M valuation (April 2026, Craft Ventures), 4M users, 60k+ community nodes, 150k+ daily downloads. First Super Bowl AI-generated ad produced with ComfyUI (SVEDKA 2026). | Yes (backend API usable) |
 
 ## Media Distribution & Streaming
 
@@ -77,7 +79,8 @@
 |----------|----------------------|-----|
 | Transcription / captions | SYSTRAN/faster-whisper | 4× faster, INT8, MIT license |
 | Music generation (BGM/SFX) | facebookresearch/audiocraft | Industry standard, MIT code |
-| Music generation (full songs) | multimodal-art-projection/YuE | Lyrics → complete song, Apache-2.0 |
+| Music generation (full songs, quality) | multimodal-art-projection/YuE | Lyrics → complete song, Apache-2.0, best quality |
+| Music generation (full songs, speed) | ASLP-lab/DiffRhythm2 | Block Flow Matching, parallel, high-throughput |
 | Podcast generation | souzatharsis/podcastfy | Apache-2.0, 100+ LLM backends, multilingual |
 | Source separation | facebookresearch/demucs | Best SDR, MIT, Python |
 | Video generation (general/default) | Wan-Video/Wan2.2 (Wan 2.7) | Thinking Mode + first/last frame + native audio, Apache-2.0 |
@@ -86,6 +89,7 @@
 | Long-form video | SkyworkAI/SkyReels-V2 | Infinite via ADF, Apache-2.0 |
 | Long-form video (alt) | vita-epfl/Stable-Video-Infinity | ICLR Oral, error recycling |
 | Streaming video (autoregressive) | SandAI-org/MAGI-1 | Chunk-by-chunk, streaming output |
+| TTS (multilingual, Apache-2.0) | OpenBMB/VoxCPM (VoxCPM2) | Apache-2.0 alt to Coqui; 30 languages, 48kHz, voice cloning |
 | Video translation/dubbing (agent) | krillinai/KrillinAI | Apache-2.0, AI-Agent-native, 100+ languages |
 | Video dubbing (local/LGPD) | Softcatala/open-dubbing | MIT, no cloud dependency, Coqui/NLLB |
 | Self-hosted studio | Anil-matcha/Open-Generative-AI | 200+ models, MIT, desktop installer |

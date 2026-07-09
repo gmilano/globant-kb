@@ -1,6 +1,6 @@
 # 📡 Trends — Media & Entertainment AI
 
-> Current trends shaping the industry. Updated: 2026-07-09 (v8 — Trends 19-20 added: Interactive CTV AI, Agentic Newsroom)
+> Current trends shaping the industry. Updated: 2026-07-09 (v9 — Trends 21-22 added: AI Video Advertising Wave, Open-Source Music Gen 2.0 maturation)
 
 ## Trend 1: Agentic Video Production (2025–2026 Inflection)
 **Signal**: OpenMontage viral launch + ViMax 1.1k★ in weeks; "agentic video" now a search category.
@@ -245,6 +245,69 @@ The shift: AI was a tool journalists used. Now AI agents are embedded **in the C
 - **Impact**: News organizations with 20+ person editorial teams can re-allocate ~30% of production capacity to investigative/creative work as AI handles monitoring, updating, and routine publishing.
 - **Globant angle**: 6-8 week engagement with any news publisher: build a Claude-powered editorial agent layer on top of Strapi (MIT, headless CMS) or Ghost (MIT, publishing) using MCP. Auto-update articles, sort pitches, monitor beats. Spanish/Portuguese Whisper ASR for LATAM radio/TV monitoring.
 
+## Trend 21: AI Video Advertising — $9.1B Spend and the 78% Commitment Wave (2026)
+**Signal**: AI video ad spend projected at $9.1B globally in 2026; 78% of ad buyers committing to generative AI in media campaigns; 71% of organizations using GenAI for content creation.
+
+The advertising industry has crossed from experimentation to budget allocation for AI-generated video:
+- **$9.1B AI video ad spend** (2026 global estimate) — up from minimal spend in 2024
+- **78% of ad buyers** say they are strengthening focus on generative AI in media campaigns
+- **31% of M&E organizations** have AI deployed in production (vs majority still pre-production)
+- Film/TV studios lead at 21.3% market share of GenAI M&E spend; advertising/marketing at 21.1%
+
+**The production cost collapse driving this**:
+- Traditional 30-sec TVC: $100k-$500k production
+- AI-generated equivalent (LTX-2 + Claude + Wan 2.7): $2k-$15k — a 20-100× cost reduction
+- AI video production cost per minute: ~$400 (↓91% vs $4,500 traditional)
+- Morgan Stanley estimate: AI could reduce TV/film production costs by up to 30%
+
+**Real deployment examples**:
+- SVEDKA Super Bowl 2026 commercial (first primarily AI-generated Super Bowl ad) produced using ComfyUI by Silverside AI
+- 95% of major advertising agencies now have internal AI video capabilities (2026 Q2)
+- Shoppable/interactive CTV ads (AI-generated per viewer) converting at 5× standard video
+
+**What changes for creative agencies**:
+1. Pitch decks now include AI-generated video mock-ups produced in hours, not weeks
+2. A/B testing at scale: test 50 video variants vs prior 2-3
+3. Hyper-personalization: regional/demographic variant generation per market
+4. Speed-to-market: concept → broadcast-ready spot in days, not months
+
+**Impact**: Ad agencies with AI video production capability are winning client pitches that traditional production studios can't compete on speed and cost. This is a $9B+ market shift in one year.
+**Globant angle**: Pattern 2 (Agentic Short-Form Content Factory) + Pattern 7 (C2PA Provenance) = complete AI advertising studio offering. Package as "Globant Creative AI Studio" for regional LATAM advertising agencies (Brazil, Mexico, Colombia).
+
+## Trend 22: Open-Source Music Generation 2.0 — The Full-Song Production Wave (Mid-2026)
+**Signal**: YuE (Apache-2.0, ~6.1k★), DiffRhythm 2 (Apache-2.0), ACE-Step (Apache-2.0, ~2k★) form a complete open-source music stack. First time commercial-quality full-song generation is achievable without Suno/Udio API costs.
+
+The music AI landscape before 2026:
+- AudioCraft/MusicGen (MIT): generates short instrumental clips (30s-120s). Good for BGM. Cannot produce full songs with vocals.
+- YuE changed everything in early 2025: first open-source model to generate complete multi-minute songs with vocal tracks + accompaniment from lyrics. But slow (autoregressive).
+
+By mid-2026, three production-grade architectures exist:
+
+| Model | Repo | Architecture | Strength | License |
+|-------|------|--------------|----------|---------|
+| **YuE** | multimodal-art-projection/YuE | Autoregressive (LLM-style) | Quality, long coherence, lyric fidelity | Apache-2.0 |
+| **DiffRhythm 2** | ASLP-lab/DiffRhythm2 | Block Flow Matching (parallel) | Speed, high throughput | Apache-2.0 |
+| **ACE-Step** | ace-step/ace-step | Block Flow Matching | Novel architecture, text-to-audio | Apache-2.0 |
+| **AudioCraft MusicGen** | facebookresearch/audiocraft | Autoregressive transformer | Short-form BGM, SFX, most mature | MIT (code) |
+
+**Why this matters for media production**:
+1. **Sync licensing cost avoidance**: Every short-form content piece (social, FAST, ads) needs music. Sync licenses: $500-$5k per track. YuE/DiffRhythm 2 = $0 per track for original compositions.
+2. **Brand-specific music**: Generate music that matches brand identity, campaign tone, regional feel — impossible with stock music.
+3. **Scale**: AI content factories (Pattern 2) can now generate 100 unique BGM tracks/day for high-volume short-form content platforms.
+4. **LATAM specific**: Brazilian Portuguese and Spanish lyric support in YuE makes it ideal for regional samba/funk/reggaeton-inspired branded content.
+
+**Practical workflow** (integrated into Pattern 2):
+```
+Claude → song brief + lyrics (brand tone, duration, style)
+    ↓ YuE (quality) or DiffRhythm 2 (speed)
+    → full song with vocals + accompaniment
+    ↓ Demucs (separate stems if need instrumental only)
+    → BGM track embedded in video via ffmpeg
+```
+
+**Impact**: Eliminates music sync licensing as a cost center for AI-generated content. First time agencies can own all IP in their AI-produced content (video + audio + script).
+**Globant angle**: Upgrade Pattern 2 (Content Factory) to use YuE/DiffRhythm 2 for original music instead of AudioCraft. Add "zero sync-license content factory" to the pitch deck — 100% IP-owned output.
+
 ## Summary Timeline
 
 | Period | Development |
@@ -252,7 +315,7 @@ The shift: AI was a tool journalists used. Now AI agents are embedded **in the C
 | 2023 | Whisper open-sourced; Stable Diffusion image generation mainstream |
 | 2024 | AnimateDiff/SVD first viable open video; AudioCraft released |
 | 2025 | Faster-whisper production standard; first agentic media tools |
-| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral; LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; Podcastfy podcast AI proliferates; microdrama $14B by year-end; Wan 2.7 Thinking Mode (Apr 2026); KrillinAI 10k★ agentic dubbing; GenAI M&E $3.16B confirmed (Jul 7 Globe Newswire); Versus AI exits stealth (Jul 2026) with Disney+/HBO/NFL; Interactive CTV $42B+ ad market; ComfyUI crosses 100k★; HunyuanVideo-Foley synchronized foley audio; GenAI Content Creation $21.53B→$77.22B (2030) confirmed; Agentic newsrooms wave begins** |
+| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral (36.2k★ #1 Trending Jun 20, AGPL-3.0); LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; DiffRhythm 2 Block Flow Matching; VoxCPM2 48kHz Apache-2.0 TTS; Podcastfy podcast AI proliferates; microdrama $14B by year-end; Wan 2.7 Thinking Mode (Apr 2026); KrillinAI 10k★ agentic dubbing; GenAI M&E $3.16B confirmed (Jul 7 Globe Newswire); Versus AI exits stealth (Jul 2026) with Disney+/HBO/NFL; Interactive CTV $42B+ ad market; ComfyUI crosses 100k★ + $30M raise @ $500M valuation + 4M users; HunyuanVideo-Foley synchronized foley audio; GenAI Content Creation $21.53B→$77.22B (2030) confirmed; AI video ad spend $9.1B; Disney vertical video archive AI; 71% orgs GenAI for content creation; Agentic newsrooms wave begins** |
 | 2026 H2 (projected) | LTX-2 becomes default for production; SkyReels-V3 multimodal SOTA; C2PA contractual in broadcast; interactive MAGI-1 streaming apps; $256B AI M&E by 2035 pathway confirmed |
 
 ## Q3 2026 Watch Signals

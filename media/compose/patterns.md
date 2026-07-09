@@ -1,7 +1,7 @@
 # 🧩 Composition Patterns — Media & Entertainment
 
 > Concrete recipes combining real repos + agents + AI.
-> Updated: 2026-07-09 (v8 — Pattern 10: HunyuanVideo-Foley SFX; Pattern 11: Interactive CTV Engagement; matrix updated)
+> Updated: 2026-07-09 (v9 — Pattern 12: YuE + DiffRhythm 2 Original Music Generation; Quick-Start Matrix updated)
 
 ## Pattern 1: AI Auto-Captioning Pipeline
 **Use case**: Broadcaster or OTT platform needs ADA/EU accessibility compliance + cost reduction vs manual captioning.
@@ -1804,6 +1804,314 @@ Redis sorted set (leaderboard) → real-time ranking update
 
 ---
 
+## Pattern 12: Zero-License-Cost Original Music Factory (YuE + DiffRhythm 2)
+**Use case**: Content agency, FAST platform, or brand needs original music for high-volume short-form content — eliminating sync licensing fees ($500-$5k/track) with Apache-2.0 AI-generated music.
+**Repos**: multimodal-art-projection/YuE + ASLP-lab/DiffRhythm2 + facebookresearch/demucs + Claude API
+**Build time**: 2-3 weeks | **Cost**: ~$0.05-0.20/track (GPU) vs $500-5000 sync license
+**License**: Apache-2.0 (YuE) + Apache-2.0 (DiffRhythm 2) + MIT (Demucs) — all clean for commercial use
+
+```python
+import anthropic
+import subprocess
+import json
+from pathlib import Path
+
+class OriginalMusicFactory:
+    """
+    Generates zero-cost original music for branded content.
+    Two modes: 
+    - Quality (YuE): autoregressive, best for hero campaigns, supports lyrics
+    - Speed (DiffRhythm 2): Block Flow Matching, best for volume (100+ tracks/day)
+    
+    Output: original tracks with 100% owned IP — no sync licensing, no royalties.
+    """
+    
+    def __init__(self):
+        self.claude = anthropic.Anthropic()
+        # YuE model path (download from multimodal-art-projection/YuE HuggingFace)
+        self.yue_path = "/opt/YuE"
+        # DiffRhythm 2 model path
+        self.diffrhythm_path = "/opt/DiffRhythm2"
+        self.demucs_available = True
+    
+    def generate_track(
+        self,
+        brief: str,
+        duration_sec: int = 30,
+        mode: str = "quality",  # "quality" (YuE) or "speed" (DiffRhythm 2)
+        with_lyrics: bool = False,
+        language: str = "en",  # "en", "pt", "es"
+        output_dir: str = "/output/music"
+    ) -> dict:
+        """
+        Generate an original music track from a creative brief.
+        Returns: {track_path, instrumental_path, metadata}
+        """
+        
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        
+        # Step 1: Claude generates music brief → structured generation prompt
+        music_plan = self._plan_music(brief, duration_sec, with_lyrics, language)
+        
+        # Step 2: Generate music
+        if mode == "quality" and with_lyrics:
+            # YuE: lyrics → full song with vocals (quality mode)
+            track_path = self._generate_yue(
+                music_plan["lyrics"],
+                music_plan["style_prompt"],
+                duration_sec,
+                output_dir,
+                language
+            )
+        elif mode == "quality":
+            # YuE: style-conditioned instrumental
+            track_path = self._generate_yue(
+                None,  # No lyrics = instrumental
+                music_plan["style_prompt"],
+                duration_sec,
+                output_dir,
+                language
+            )
+        else:
+            # DiffRhythm 2: fast generation for high volume
+            track_path = self._generate_diffrhythm(
+                music_plan["audio_description"],
+                duration_sec,
+                output_dir
+            )
+        
+        # Step 3: Extract instrumental stem with Demucs (if has vocals)
+        instrumental_path = None
+        if with_lyrics and mode == "quality" and self.demucs_available:
+            instrumental_path = self._extract_instrumental(track_path, output_dir)
+        
+        return {
+            "track_path": track_path,
+            "instrumental_path": instrumental_path or track_path,
+            "metadata": music_plan,
+            "license": "Apache-2.0 (original composition, no sync license needed)",
+            "ip_owner": "client"
+        }
+    
+    def _plan_music(self, brief: str, duration: int, 
+                    with_lyrics: bool, language: str) -> dict:
+        """Claude generates a structured music generation plan from creative brief."""
+        
+        lang_names = {"en": "English", "pt": "Brazilian Portuguese", "es": "Latin American Spanish"}
+        lang_label = lang_names.get(language, "English")
+        
+        prompt = f"""You are a music producer. Create a structured music generation plan.
+
+Creative brief: {brief}
+Target duration: {duration} seconds
+Has vocals/lyrics: {with_lyrics}
+Language: {lang_label}
+
+Return JSON:
+{{
+    "genre": "specific genre (e.g. 'tropical funk', 'samba-electro', 'upbeat pop')",
+    "mood": "3-5 descriptive words",
+    "tempo": "BPM estimate",
+    "instruments": ["list", "of", "key", "instruments"],
+    "style_prompt": "YuE style description — 50 words max, describe instrumentation + mood + tempo + genre",
+    "audio_description": "DiffRhythm/AudioCraft description — 30 words, focus on sonic characteristics",
+    "lyrics": {"verses": ["verse text if with_lyrics else null"], "chorus": "chorus text if with_lyrics else null"},
+    "use_cases": ["ideal video types this track fits"],
+    "brand_notes": "how this music serves the brief"
+}}"""
+        
+        response = self.claude.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        
+        return json.loads(response.content[0].text)
+    
+    def _generate_yue(self, lyrics: dict | None, style_prompt: str, 
+                      duration: int, output_dir: str, language: str) -> str:
+        """Generate full-length song with YuE (supports vocals + lyrics)."""
+        
+        output_path = str(Path(output_dir) / f"yue_track_{hash(style_prompt) % 100000}.mp3")
+        
+        # Write lyrics to temp file if provided
+        lyric_args = []
+        if lyrics:
+            lyric_file = "/tmp/yue_lyrics.json"
+            with open(lyric_file, "w") as f:
+                json.dump(lyrics, f)
+            lyric_args = ["--lyrics_file", lyric_file, "--language", language]
+        
+        subprocess.run([
+            "python", "inference/infer.py",
+            "--style_prompt", style_prompt,
+            "--output_path", output_path,
+            "--duration", str(duration),
+            "--model", "YuE-s2-s",  # s2-s = balanced quality/speed
+            "--genres", style_prompt,
+            *lyric_args
+        ], check=True, cwd=self.yue_path, timeout=300)
+        
+        return output_path
+    
+    def _generate_diffrhythm(self, audio_description: str, 
+                              duration: int, output_dir: str) -> str:
+        """Generate track with DiffRhythm 2 (fast Block Flow Matching)."""
+        
+        output_path = str(Path(output_dir) / f"dr2_track_{hash(audio_description) % 100000}.mp3")
+        
+        subprocess.run([
+            "python", "inference.py",
+            "--prompt", audio_description,
+            "--duration", str(duration),
+            "--output_path", output_path,
+            "--device", "cuda"
+        ], check=True, cwd=self.diffrhythm_path, timeout=120)
+        
+        return output_path
+    
+    def _extract_instrumental(self, track_path: str, output_dir: str) -> str:
+        """Use Demucs to extract instrumental (remove vocals) for clean BGM use."""
+        
+        # Demucs separates into stems/htdemucs_ft/<track_name>/
+        subprocess.run([
+            "python", "-m", "demucs.separate",
+            "-n", "htdemucs_ft",
+            "--out", output_dir,
+            track_path
+        ], check=True, timeout=120)
+        
+        track_name = Path(track_path).stem
+        instrumental = Path(output_dir) / "htdemucs_ft" / track_name / "no_vocals.mp4"
+        
+        if not instrumental.exists():
+            # Compose from non-vocal stems
+            drums = Path(output_dir) / "htdemucs_ft" / track_name / "drums.wav"
+            bass = Path(output_dir) / "htdemucs_ft" / track_name / "bass.wav"
+            other = Path(output_dir) / "htdemucs_ft" / track_name / "other.wav"
+            
+            instrumental_wav = str(Path(output_dir) / f"{track_name}_instrumental.wav")
+            subprocess.run([
+                "ffmpeg",
+                "-i", str(drums), "-i", str(bass), "-i", str(other),
+                "-filter_complex", "amix=inputs=3:duration=longest",
+                instrumental_wav, "-y"
+            ], check=True)
+            return instrumental_wav
+        
+        return str(instrumental)
+    
+    def batch_generate(
+        self,
+        briefs: list[dict],
+        mode: str = "speed",  # speed for volume; quality for hero pieces
+        output_dir: str = "/output/music_batch"
+    ) -> list[dict]:
+        """Generate multiple tracks in parallel for content factories."""
+        from concurrent.futures import ThreadPoolExecutor
+        
+        results = []
+        with ThreadPoolExecutor(max_workers=3) as executor:  # 3 concurrent GPU jobs
+            futures = {
+                executor.submit(
+                    self.generate_track,
+                    b["brief"],
+                    b.get("duration_sec", 30),
+                    mode,
+                    b.get("with_lyrics", False),
+                    b.get("language", "en"),
+                    output_dir
+                ): b for b in briefs
+            }
+            for future in futures:
+                try:
+                    result = future.result()
+                    result["brief"] = futures[future]["brief"]
+                    results.append(result)
+                    print(f"✓ Generated: {Path(result['track_path']).name}")
+                except Exception as e:
+                    print(f"✗ Failed: {futures[future]['brief'][:50]}: {e}")
+        
+        return results
+
+# Usage 1 — Single brand track (quality mode with lyrics)
+factory = OriginalMusicFactory()
+
+hero_track = factory.generate_track(
+    brief="Upbeat Brazilian funk-pop for a sports brand campaign. Energy, celebration, community. LATAM youth audience 18-30.",
+    duration_sec=30,
+    mode="quality",
+    with_lyrics=True,
+    language="pt",  # Brazilian Portuguese lyrics
+    output_dir="/output/brand_campaign"
+)
+print(f"Track: {hero_track['track_path']}")
+print(f"Instrumental: {hero_track['instrumental_path']}")
+print(f"IP: {hero_track['ip_owner']} — {hero_track['license']}")
+
+# Usage 2 — Batch for AI content factory (high-volume, speed mode)
+daily_tracks = factory.batch_generate(
+    briefs=[
+        {"brief": "Energetic 30s news intro", "duration_sec": 30, "language": "pt"},
+        {"brief": "Calm corporate background", "duration_sec": 60, "language": "en"},
+        {"brief": "Tropical upbeat social clip", "duration_sec": 15, "language": "es"},
+        {"brief": "Dramatic sports highlight sting", "duration_sec": 10, "language": "en"},
+        {"brief": "Podcast intro jingle, professional", "duration_sec": 10, "language": "pt"},
+    ],
+    mode="speed",  # DiffRhythm 2 for volume
+    output_dir="/output/daily_music_batch"
+)
+print(f"Generated {len(daily_tracks)} original tracks — $0 in sync licensing")
+```
+
+**Architecture**:
+```
+Creative brief → Claude Haiku (music plan: genre/mood/style/lyrics)
+    ↓
+YuE (quality: vocals + accompaniment from lyrics) 
+    OR DiffRhythm 2 (speed: Block Flow Matching, parallel, 3× faster)
+    → full-length original track
+    ↓ (if vocals present)
+Demucs (stem separation: extract no_vocals for BGM)
+    → instrumental.wav
+    ↓
+ffmpeg → embed in video (Pattern 2 content factory, Pattern 6 sports highlights)
+```
+
+**Why this beats AudioCraft for full-song use cases**:
+| Capability | AudioCraft/MusicGen | YuE | DiffRhythm 2 |
+|------------|--------------------|----|--------------|
+| Full song with vocals | ✗ | ✓ | ✓ |
+| Duration | 30-120s max | Minutes | Minutes |
+| Lyrics input | ✗ | ✓ (lyrics2song) | ✗ |
+| Speed | Medium | Slower (autoregressive) | Fast (parallel blocks) |
+| License | MIT (code) + CC-BY-NC (models) | Apache-2.0 | Apache-2.0 |
+| LATAM language support | Limited | pt-BR, es ✓ | Limited |
+
+**Cost comparison**:
+| Approach | Cost per track | IP ownership | Volume limit |
+|----------|--------------|--------------|-------------|
+| Sync licensing | $500-$5,000 | Rights holder | Per use |
+| YuE + GPU | ~$0.10-0.20 | Client (100%) | Unlimited |
+| DiffRhythm 2 + GPU | ~$0.05-0.10 | Client (100%) | Unlimited |
+| Suno / Udio API | ~$0.10-0.50 | Vendor ToS | API rate limits |
+
+**Integration with Pattern 2** (Content Factory upgrade):
+```python
+# In Pattern 2 produce_video(), replace _generate_bgm() with:
+music_factory = OriginalMusicFactory()
+track = music_factory.generate_track(
+    brief=f"{style} background music for {topic} video",
+    duration_sec=duration_sec,
+    mode="speed",  # High-volume: use DiffRhythm 2
+    with_lyrics=False
+)
+bgm_path = track["instrumental_path"]
+# ← was: model.generate([style_prompts.get(style)]) — now 0 sync licensing cost
+```
+
+---
+
 ## Quick-Start Matrix
 
 | Client Type | Best Pattern | Time | Stack | Cost/Month |
@@ -1822,6 +2130,7 @@ Redis sorted set (leaderboard) → real-time ranking update
 | **Branded Content / Agency** | Pattern 2+6 (Studio+Highlights) | 6-8 wk | LTX-2 + OpenMontage + Claude | $800-2k GPU |
 | **Short-Form / AI Content Platform (SFX)** | Pattern 10 (HunyuanVideo-Foley) | 2-3 wk | HunyuanVideo-Foley + Claude Vision | $300-600 GPU |
 | **Sports Broadcaster / FAST (interactive)** | Pattern 11 (Interactive CTV) | 4-6 wk | Owncast + Claude Haiku + Redis | $500-1.5k/mo infra |
+| **Agency / Creator Platform (zero-license music)** | Pattern 12 (Original Music Factory) | 2-3 wk | YuE + DiffRhythm 2 + Claude + Demucs | $200-400 GPU; $0 sync licensing |
 
 ---
 *All patterns use MIT/Apache-2.0/MPL-2.0 licenses unless noted. Globant delivery estimates include deployment + testing.*
