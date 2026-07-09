@@ -1,7 +1,30 @@
 # Agentes trending — Gaming AI
 
-> Tendencias activas en AI gaming. Última actualización: 2026-07-08
+> Tendencias activas en AI gaming. Última actualización: 2026-07-09
 > Investigación manual curada — complementa el pipeline automático de top.md
+
+## Señales nuevas esta semana (2026-07-07 → 2026-07-09)
+
+### S1: Carbon Engine de EVE Online es MIT — 1 jul 2026
+Fenris Creations (CCP Games) abrió el código de **Carbon**, el engine que alimenta EVE Online y EVE Frontier, bajo licencia **MIT** (audio espacial: Apache-2.0; IO: Python Software Foundation). Disponible en GitHub desde el 1 de julio de 2026.
+- **Trinity**: motor gráfico (rendering sweeping space aesthetics)
+- **Destiny**: física, colisiones, pathfinding para batallas MMO masivas
+- Implicación: primera vez que un engine AAA de MMO single-shard con miles de jugadores concurrentes es completamente open source. Base de código para proyectos de mundo persistente con AI agents.
+- GitHub: [github.com/orgs/carbonengine](https://github.com/orgs/carbonengine)
+
+### S2: GamingAgent — primer benchmark LLM/VLM para juegos (ICLR 2026)
+[lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) (MIT, 947★) publicó **lmgame-Bench** en ICLR 2026: evaluación de LLMs/VLMs en 7 juegos estándar. Resultado clave: Claude con thinking modes domina en juegos de estrategia; GPT-4o en velocidad de reacción. Primer benchmark con leaderboard público para gaming agents.
+
+### S3: GameDevBench — los agentes aún fallan el 46% de tareas de game dev (feb 2026)
+[waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) (arXiv:2602.11103): 132 tareas de game dev en Godot. Mejor resultado: 53.8%. La dificultad sube en tareas de gráficos 2D (33% success). Señal: AI-assisted dev es real pero el gap de los 47% es la oportunidad de servicio diferenciado de Globant.
+
+### S4: Mercado NPC Generation AI a $2.44B en 2026 (+31.4% YoY)
+Research & Markets (jul 2026): el mercado de AI para generación de NPCs crece de $1.86B (2025) a **$2.44B en 2026** con CAGR 31.4%. Impulsado por AI agentica, juegos AAA con NPCs conversacionales, y la explosión del mobile gaming con personajes generativos.
+
+### S5: 52% de devs ven GenAI negativamente — pero agentic NPC sube 11%
+GDC State of AI Survey 2026: 52% de desarrolladores de juegos tiene visión negativa de la IA generativa (sentimiento anti-GenAI). Sin embargo, la adopción de NPCs agenticos en producción subió +11% año a año. El gap indica oportunidad: los devs que SÍ adoptan AI agentica toman ventaja competitiva mientras sus pares dudan.
+
+---
 
 ## Tendencias principales en 2026
 
@@ -9,11 +32,12 @@
 La adopción de LLMs para NPCs pasó de prototipos a producción en 2026. El patrón dominante combina:
 - **LLM base** (GPT-4o, Claude 3.5, Llama 3.1 local) para generación de diálogo
 - **Vector store** (ChromaDB, Qdrant) para memoria episódica del personaje
-- **TTS/voz** (ElevenLabs, Kokoro TTS open source) para output de audio
+- **TTS/voz** (ElevenLabs, Kokoro TTS open source, Piper, xVASynth via Mantella)
 - **Reconocimiento de emoción** del jugador vía análisis de texto o cámara
 
 Impacto medido: NPCs AI aumentaron immersion scores 40% y session times 28% en RPGs.
 Segmento NPCs + Digital Humans: 28.6% del mercado total AI gaming en 2026.
+**Mantella** (MIT, art-from-the-machine): stack de referencia STT→LLM→TTS, 100% local o cloud.
 
 ### 2. NVIDIA ACE — Digital Humans en tiempo real
 NVIDIA ACE (Avatar Cloud Engine): ASR + NLP + TTS + animación facial para NPCs en tiempo real.
@@ -31,7 +55,8 @@ Repos derivados activos: Concordia (Google DeepMind, Apache 2.0), implementacion
 
 ### 4. AI integrado en engines — Unity 6.2, Godot MCP, Unreal Aura
 - **Unity AI** (v6.2, mid-2025): suite en editor sin suscripción separada. Módulos: Assistant (docs/code), Generators (texturas/sprites con difusión), Inference Engine (ML on-device).
-- **Godot MCP** ([hi-godot/godot-ai](https://github.com/hi-godot/godot-ai), abr 2026, MIT, 805 stars): 120+ operaciones, 41 tools MCP. Conecta Godot a Claude Code, Cursor, Codex.
+- **Godot MCP** ([hi-godot/godot-ai](https://github.com/hi-godot/godot-ai), abr 2026, MIT, 1.1k+ stars): 150+ operaciones, 41 tools MCP. Conecta Godot a Claude Code, Cursor, Codex.
+- **Unity MCP Server** ([AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server), MIT): 268 herramientas MCP para Unity Editor + Hub.
 - **Unreal Engine — Aura** (Ramen VR, ene 2026): agente con modos editor y coding. Caso Sinn Studio: lanzó *Zombonks* en 5 meses (~mitad del tiempo normal).
 - **Roblox AI Studio** (dic 2025): MCP client integrado + OpenGameEval OSS (47 escenarios de benchmark).
 
@@ -45,13 +70,14 @@ Repos derivados activos: Concordia (Google DeepMind, Apache 2.0), implementacion
 El ecosistema Godot consolidó el patrón Behavior Tree + LLM:
 - **Beehave** (MIT, 3.2k stars): BTs componibles en el scene tree de Godot. Lógica reactiva estructurada.
 - **LimboAI** (MIT, 2.8k stars): BTs + HSMs (Hierarchical State Machines) combinados.
-- **godot_rl_agents** (MIT, 900+ stars): RL sobre juegos Godot con SB3, Sample Factory, RLLib, CleanRL.
+- **godot_rl_agents** (MIT, 1.5k stars): RL sobre juegos Godot con SB3, Sample Factory, RLLib, CleanRL.
 
 Patrón emergente: BT como esqueleto de control → LLM como módulo de diálogo/decisión contextual.
 
 ### 7. AI QA automatizado — testing con agentes
 - Bots RL que juegan el juego para detectar bugs en casos edge-case (especialmente level design)
 - **GameStudio Subagents** ([pamirtuna/gamestudio-subagents](https://github.com/pamirtuna/gamestudio-subagents)): equipo de sub-agentes IA (dev, QA, artist, game designer) en terminal
+- **GamingAgent** (ICLR 2026, lmgame-org): framework de evaluación estandarizado que puede repropurposarse como QA automatizado
 - LLMs + Playwright + CrewAI para testing semántico de flujos de UI
 - Roblox OpenGameEval: benchmark que incluye escenarios de testing AI automatizado
 
@@ -61,67 +87,27 @@ Patrón emergente: BT como esqueleto de control → LLM como módulo de diálogo
 - Predicción de churn 14 días en adelante con señales: amigos que se van, difficulty walls, session length declining
 - F2P mobile en LATAM: driver crítico (retención > adquisición en costo)
 
-## 🔴 Señales nuevas — semana 2026-07-08
-
-### Carbon Engine (EVE Online) — open source MIT, 1 julio 2026
-**La señal más importante de esta semana.**
-Fenris Creations (creadores de EVE Online) liberaron el código fuente de Carbon Engine bajo MIT — el motor que ha impulsado EVE Online por más de dos décadas.
-
-- **Repos**: `github.com/orgs/carbonengine` (múltiples módulos)
-- **Licencia**: MIT (core), Apache-2.0 (audio module), PSF (IO module)
-- **Qué incluye**: Trinity (render engine, visual del espacio EVE), Core C++ modules, networking (CarbonIO), UI (CarbonUI), spatial audio, resource pipelines, Python scripting hooks.
-- **Por qué importa**: Primera vez que un engine profesional de MMO AAA se open-sources completamente. Base real para construir juegos de espacio con física MMO probada en producción.
-- **Restricción**: Los "key economy systems" (economía de EVE) siguen cerrados. Solo el engine.
-- **Oportunidad Globant**: Base AAA para propuestas de juegos de espacio / simulación / MMO sin royalties.
-
-### COCOS 4 — MIT license, enero 2026
-Motor de juegos móviles open source bajo MIT. Adquirido por SUD ($72M, nov 2025). Motivación explícita: "AI-native evolution requiere open source — los modelos AI entienden mejor el código abierto."
-
-- **Repo**: disponible en cocos.com + GitHub
-- **Licencia**: MIT (sin restricciones comerciales)
-- **Fortaleza**: Dominante en Asia (China/JP), mobile-first, cross-platform
-- **Módulos**: engine core, cross-platform code, COCOS CLI, IDE headless mode
-- **Oportunidad**: Juegos mobile con AI-native features para LATAM (mercado mobile-first)
-
-### Unity MCP Server — 268 tools, en ascenso
-AnkleBreaker Studio (Francia) publicó unity-mcp-server con 268 herramientas MCP para Unity. Es el servidor MCP más completo del ecosistema Unity.
-
-- **Repo**: [AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server) (MIT)
-- **Herramientas**: Scene management, GameObjects, Shader Graph, Amplify, terrain, NavMesh, MPPM multiplayer
-- **Competidor**: CoplayDev/unity-mcp (MIT, 5.8k stars, 47 tools enfocadas)
-- **Impacto**: Estudios Unity ahora tienen MCP parity con Godot para AI-assisted dev
-
-### GDC 2026 — El Paradox AI
-La encuesta GDC 2026 (2300+ profesionales) reveló la tensión central del sector:
-
-| Métrica | Valor | Cambio |
-|---------|-------|--------|
-| Devs con visión negativa de GenAI | **52%** | ↑ desde 30% en 2025 |
-| Devs que ven GenAI como positivo | **7%** | ↓ mínimo histórico |
-| Juegos con "Agentic NPC" frameworks | +11% YoY | ↑ en adopción real |
-| Uso real en producción (player-facing) | Minoritario | Backend sí, jugador no |
-
-**Conclusión para Globant**: La oportunidad es en backend AI (QA, analytics, matchmaking, development tooling) — no en NPCs player-facing que los devs rechazan políticamente. El framing "AI que ayuda al dev" es más vendible que "AI que reemplaza contenido".
-
 ## Proyectos a seguir
 
 | Proyecto | URL | Señal |
 |----------|-----|-------|
-| **godot_rl_agents** | [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) | RL sobre Godot con 4 frameworks, comunidad activa |
+| **Carbon Engine** | [github.com/orgs/carbonengine](https://github.com/orgs/carbonengine) | MIT desde 1-jul-2026. Engine AAA MMO open. Único en su clase. |
+| **GamingAgent** | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | ICLR 2026, 947★. Leaderboard LLM gaming en crecimiento. |
+| **GameDevBench** | [waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) | Primer benchmark game dev agentico en Godot. Señal de madurez del campo. |
+| **Mantella** | [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) | MIT, stack STT+LLM+TTS para NPCs. Más completo que alternativas. |
+| **godot_rl_agents** | [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) | RL sobre Godot con 4 frameworks, 1.5k★, comunidad activa |
 | **LLMUnity** | [undreamai/LLMUnity](https://github.com/undreamai/LLMUnity) | LLMs locales en Unity, 1.7k stars, creciendo |
 | **npcpy** | [NPC-Worldwide/npcpy](https://github.com/NPC-Worldwide/npcpy) | Python para NPCs multimodales, 1.4k stars |
 | **OpenGame** | [leigest519/OpenGame](https://github.com/leigest519/OpenGame) | Primer framework agentico OSS para generación de juegos web |
-| **Aivill** | [SKYHUBDev/Aivill](https://github.com/SKYHUBDev/Aivill) | Villanos adaptativos que aprenden del comportamiento del jugador |
 
 ## Señal de mercado — adopción
 
-- 87% de estudios usa AI agents en workflows (Google Cloud survey, 615 devs, jun-jul 2025)
-- 50%+ de estudios AAA usa AI en alguna capacidad
-- **AI in Gaming (broad): $10.1B en 2026** → $75.1B en 2033, CAGR 33.2% (Market.us, jul 2026)
-- Generative AI in Gaming: $1.79B (2025) → **$2.21B en 2026**, CAGR 23.1% (BusinessResearchCompany, jul 2026)
-- NPCs y Digital Humans: mayor segmento (28.6% del total AI gaming)
-- 62% de nuevos RPG/adventure games usan AI NPCs en 2026 (vs 8% en 2024)
-- Retención: juegos con PCG AI retienen 3x más jugadores a 6 meses; roguelikes: 500+ horas promedio vs 30h tradicional
+- 90% de desarrolladores integra AI en sus flujos de trabajo (2026)
+- 50% de estudios AAA usa AI en producción (no solo demos)
+- Generative AI in Gaming: $2.21B en 2026, CAGR 23.1%
+- NPC Generation AI: $2.44B en 2026, CAGR 31.4%
+- AI Asset Generator: $2.08B en 2026 → $10.73B en 2035
+- AI in Games (broad): crecimiento $34B proyectado 2026-2030, CAGR 40.7%
 
 ---
-*Fuentes: agentmarketcap.ai, solidaitech.com, aivexify.com, market.us, thebusinessresearchcompany.com, gdconf.com/GDC-2026-SOTI (verificado 2026-07-08)*
+*Fuentes: GDC 2026, Research & Markets, arxiv.org, GitHub (verificado 2026-07-09)*

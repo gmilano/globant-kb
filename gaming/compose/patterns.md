@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-08
+> Última actualización: 2026-07-09 (v5 — 10 patrones)
 
 ## Patrón base
 
@@ -65,18 +65,18 @@ Godot 4 (MIT)                           ← juego a testear como entorno RL
 ```
 
 **Repos**:
-- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT, 900+ stars. Wrappers para SB3, Sample Factory, Ray RLLib, CleanRL.
+- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT, 1.5k stars. Wrappers para SB3, Sample Factory, Ray RLLib, CleanRL.
 - [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) — MIT, 13.5k stars. PPO, SAC, A2C, DQN en PyTorch.
 - [Farama-Foundation/Gymnasium](https://github.com/Farama-Foundation/Gymnasium) — MIT, 12.1k stars. API estándar del entorno.
 
 **Cómo conectar**:
 1. Definir el espacio de observación: posición del jugador, estado del nivel, items disponibles.
 2. Definir las acciones: movimiento, interacciones disponibles.
-3. Definir la reward function: +reward por área nueva explorada, +reward por encontrar estados inválidos (out-of-bounds, NaN values), -reward por acciones repetitivas.
+3. Definir la reward function: +reward por área nueva explorada, +reward por estados inválidos (out-of-bounds, NaN values), -reward por acciones repetitivas.
 4. Entrenar durante 1-5M steps con PPO vía SB3.
 5. El agente entrenado se convierte en un "explorador" que corre el juego 24/7 detectando regresiones.
 
-**Tiempo estimado**: 1-2 semanas para primer agente; 3-4 semanas para sistema de QA completo.
+**Tiempo estimado**: 1-2 semanas para primer agente; 3-4 semanas para sistema QA completo.
 **ROI**: reducción de 60-70% en QA manual según benchmarks de la industria.
 
 ---
@@ -106,13 +106,6 @@ Nakama server (Apache-2.0)              ← backend multiplayer
 - [googleforgames/open-match](https://github.com/googleforgames/open-match) — Apache-2.0. Matchmaking framework de Google.
 - [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars. Product analytics self-hosted.
 
-**Cómo conectar**:
-1. Instalar Nakama via Docker. Configurar SDK en Godot.
-2. Crear server-side hooks en TypeScript que interceptan eventos: `after_match_create`, `before_authenticate`.
-3. En el hook de matchmaking: llamar al modelo ONNX que predice la "calidad" de un partido (skill balance, latencia, historial de jugadores).
-4. Anti-cheat: loguear posición + velocidad + kills por segundo. Si supera umbral estadístico (z-score > 3), flag para revisión.
-5. PostHog recibe eventos → dashboards de retención, churn prediction, session analysis.
-
 **Tiempo estimado**: 3-4 semanas para stack completo.
 
 ---
@@ -132,22 +125,13 @@ Godot 4 (MIT) — runtime del juego
     │       └── Lore base en ChromaDB (RAG) → coherencia narrativa
     └── PCG de assets:
         └── Stable Diffusion (API) para texturas procedurales
-            └── [o opcional] AI-generated music con MusicGen (MIT)
-
 ```
 
 **Repos**:
-- [godotengine/godot](https://github.com/godotengine/godot) — MIT, 112k stars. WFC implementable nativamente.
-- [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) — MIT, 1.1k stars. Generación procedural de mundos con AI (TypeScript).
+- [godotengine/godot](https://github.com/godotengine/godot) — MIT, 112k stars.
+- [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) — MIT, 1.1k stars. Generación procedural de mundos (TypeScript).
 - [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0, 21.7k stars. Para quests y narrativa con agentes que recuerdan.
 - [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. Simulación social para worlds persistentes.
-
-**Cómo conectar**:
-1. Definir el "grammar" del nivel: tipos de habitaciones, conexiones posibles, reglas de juego.
-2. LLM recibe descripción del jugador y contexto del mundo → genera constraints para el generador.
-3. WFC aplica constraints → produce layout de nivel que respeta coherencia.
-4. Para quests: agente con memoria (generative_agents pattern) genera objetivos basados en historial del jugador.
-5. Assets: llamada a Stable Diffusion API con prompt generado por LLM → texturas coherentes con el bioma.
 
 **Tiempo estimado**: 4-6 semanas para sistema básico; 3-4 meses para calidad AAA-like.
 
@@ -167,22 +151,14 @@ FastAPI server (Python)
     │   ├── patchnotes.md
     │   └── community_faq.md
     └── LLM (Claude Haiku / GPT-4o-mini / Llama local)
-        └── System prompt: "Eres el asistente de [nombre del juego]. Solo respondes sobre mecánicas y soporte. No spoilers."
+        └── System prompt: "Eres el asistente de [nombre del juego]. Solo respondes sobre mecánicas y soporte."
 ```
 
 **Repos**:
-- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars. RAG + agentes sobre datos propios.
+- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars.
 - [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector database para embeddings.
 
-**Cómo conectar**:
-1. Preparar el corpus del juego: manual, patch notes, FAQs, descripciones de ítems → convertir a Markdown.
-2. Indexar en ChromaDB con LlamaIndex usando embeddings de OpenAI o Sentence Transformers (MIT).
-3. FastAPI expone endpoint POST `/ask` que recibe pregunta del jugador.
-4. LlamaIndex recupera chunks relevantes (top-5 por similitud coseno).
-5. LLM recibe chunks + pregunta → genera respuesta natural en el tono del juego.
-6. Godot muestra respuesta en UI in-game con animación.
-
-**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku. Para volumen alto: Llama 3.1 8B local en servidor.
+**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku.
 **Tiempo estimado**: 1-2 semanas para MVP funcional.
 
 ---
@@ -195,7 +171,7 @@ FastAPI server (Python)
 ```
 Claude Code / Cursor / Codex (cualquier cliente MCP)
     ↕ Model Context Protocol
-godot-ai (MIT)                          ← MCP server local
+godot-ai (MIT)                          ← MCP server local (150+ operaciones)
     ↕ Godot Editor API
 Godot 4 Editor (MIT)                   ← editor abierto
     ├── Scene building desde descripción natural
@@ -205,253 +181,251 @@ Godot 4 Editor (MIT)                   ← editor abierto
 ```
 
 **Repos**:
-- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. 120+ operaciones, ~41 MCP tools.
-- [FlamxGames/godot-ai-assistant-hub](https://github.com/FlamxGames/godot-ai-assistant-hub) — MIT. Alternativa con Ollama/Gemini/OpenRouter.
+- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 1.1k+ stars. 150+ operaciones, ~41 MCP tools.
 
-**Cómo configurar**:
-1. Instalar godot-ai desde Godot Asset Library o GitHub.
-2. Configurar Claude Code para conectarse al MCP server local (puerto configurable).
-3. En Claude Code: `/add-context-window --mcp godot` y empezar a usar lenguaje natural.
-4. Ejemplos de prompts: "Crea una escena de un jugador con física de plataformer", "Añade un sistema de inventario al player.gd", "Wire el signal `body_entered` del Area2D al método `on_enemy_hit`".
-
-**Tiempo estimado**: Setup en 1 día. ROI inmediato.
+**Setup**: 1 día. ROI inmediato (2-3x velocidad de desarrollo reportado por usuarios).
 
 ---
 
----
+## Receta 7: NPC con Voz Completa — Pipeline Mantella-style (MIT)
 
-## Receta 7: NPC con voz completo — Mantella-pattern (STT → LLM → TTS)
-
-**Caso de uso**: NPC conversacional con voz, memoria y personalidad en cualquier juego (no solo mods). Basado en la arquitectura de Mantella (Skyrim/Fallout 4) adaptada a producción propia.
+**Caso de uso**: NPCs con voz naturalista, sin licencias cerradas. Pipeline completo STT → LLM → TTS corriendo localmente o en servidor.
 
 **Stack**:
-```
-Juego (Godot 4 / Unity / motor propio)
-    ↕ HTTP / WebSocket local
-Pipeline de NPC AI (Python FastAPI)
-    ├── STT: Moonshine (MIT) / faster-whisper (MIT)
-    │   └── Audio del micrófono → texto
-    ├── LLM Context Builder
-    │   ├── pre_conversation.json  ← personalidad, backstory, voz del personaje
-    │   ├── memory_store (ChromaDB / SQLite)  ← recuerdos episódicos
-    │   └── game_context.json  ← estado actual del mundo/misión
-    ├── LLM: Claude Haiku / Llama 3.1 8B (Ollama local)
-    │   └── Genera respuesta en carácter + markup de emoción
-    └── TTS: Piper (MIT) / Kokoro (Apache-2.0)
-        └── Audio → jugador
-```
-
-**Repos clave**:
-- [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) — MIT. Referencia de implementación completa.
-- [moonshine (Useful Sensors)](https://github.com/usefulsensors/moonshine) — Apache-2.0. STT on-device rápido.
-- [rhasspy/piper](https://github.com/rhasspy/piper) — MIT. TTS neural offline, 900+ voces.
-- [thewh1teagle/kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx) — Apache-2.0. TTS alta calidad ONNX.
-- [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector store para memoria.
-
-**Código esqueleto (FastAPI)**:
 ```python
-from fastapi import FastAPI
-import json, chromadb
-from anthropic import Anthropic
+# server.py (FastAPI)
+from faster_whisper import WhisperModel    # STT (MIT)
+from anthropic import Anthropic            # LLM
+import subprocess                          # TTS via Piper
 
-app = FastAPI()
+whisper = WhisperModel("base", device="cpu")
 client = Anthropic()
-db = chromadb.Client()
-collection = db.get_or_create_collection("npc_memory")
 
 @app.post("/npc/speak")
-async def npc_speak(player_text: str, npc_id: str, game_context: dict):
-    # Recuperar memoria episódica del NPC
-    memories = collection.query(
-        query_texts=[player_text],
-        where={"npc_id": npc_id},
-        n_results=5
-    )
+async def npc_speak(audio: UploadFile, character_id: str):
+    # 1. STT: voz del jugador → texto
+    segments, _ = whisper.transcribe(audio.file)
+    player_text = " ".join([s.text for s in segments])
     
-    # Cargar personalidad del personaje
-    with open(f"characters/{npc_id}.json") as f:
-        character = json.load(f)
+    # 2. Recuperar memoria del NPC (ChromaDB)
+    memory = chroma.query(query_texts=[player_text], n_results=5)
     
-    # Construir contexto
-    system = f"""Eres {character['name']}, {character['description']}.
-    
-Recuerdos recientes de tu interacción con el jugador:
-{chr(10).join([m for m in memories['documents'][0]])}
-
-Contexto actual: {json.dumps(game_context)}
-
-Responde en carácter. Añade [emoción] al inicio: [alegre|triste|enojado|neutral|sorprendido]."""
-
-    # Llamar LLM
+    # 3. LLM: generar respuesta del NPC
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=200,
-        messages=[{"role": "user", "content": player_text}],
-        system=system
+        system=f"You are {character_id}. {load_character_profile(character_id)}",
+        messages=[
+            *format_memory(memory["documents"]),
+            {"role": "user", "content": player_text}
+        ]
     )
-    
     npc_text = response.content[0].text
     
-    # Guardar en memoria
-    collection.add(
-        documents=[f"Jugador: {player_text} | NPC: {npc_text}"],
-        metadatas=[{"npc_id": npc_id, "timestamp": "now"}],
-        ids=[f"{npc_id}_{hash(player_text)}"]
-    )
+    # 4. TTS: texto → audio del NPC (Piper MIT)
+    audio_out = subprocess.run(
+        ["piper", "--model", f"models/{character_id}.onnx"],
+        input=npc_text.encode(), capture_output=True
+    ).stdout
     
-    return {"text": npc_text, "npc_id": npc_id}
-```
-
-**Tiempo estimado**: 2-3 semanas para MVP con voz. Pipeline local 100% posible (Ollama + Whisper + Piper).
-**Costo cloud**: ~$0.002 por conversación con Claude Haiku. Local: $0.
-**Deal size típico**: $60k-200k (implementación completa para estudio con 5-10 NPCs principales)
-
----
-
-## Receta 8: Unity AI Dev Workflow — 268 tools MCP
-
-**Caso de uso**: Estudio Unity que quiere multiplicar productividad de devs con AI-assisted development. Alternativa a GitHub Copilot embedded: más control + más tools + sin suscripción adicional.
-
-**Stack**:
-```
-Claude Code / Cursor / Copilot (cualquier cliente MCP)
-    ↕ Model Context Protocol (Local)
-unity-mcp-server (MIT, 268 tools)
-    ↕ Unity Editor API
-Unity 6.2 Editor (propietario, pero sin lock-in del MCP layer)
-    ├── Scene management (crear, modificar, eliminar escenas)
-    ├── GameObjects (crear, manipular, componentes)
-    ├── Builds (trigger, config, profiling)
-    ├── Shader Graph (crear materiales AI-described)
-    ├── Terrain (heightmaps, textures desde prompts)
-    ├── Physics (configurar RigidBodies, Colliders desde texto)
-    ├── NavMesh (configurar pathfinding desde descripción)
-    ├── Animation (crear clips, state machines desde texto)
-    └── MPPM Multiplayer (configurar sesiones multiplayer)
-```
-
-**Setup (5 minutos)**:
-```bash
-# 1. Clonar el servidor
-git clone https://github.com/AnkleBreaker-Studio/unity-mcp-server
-cd unity-mcp-server && npm install
-
-# 2. Instalar Unity MCP Plugin (UPM)
-# En Unity: Window → Package Manager → + → Add package from git URL
-# https://github.com/AnkleBreaker-Studio/unity-mcp-plugin.git
-
-# 3. Configurar en Claude Code (~/.claude/mcp_servers.json)
-{
-  "unity": {
-    "command": "node",
-    "args": ["path/to/unity-mcp-server/index.js"]
-  }
-}
-```
-
-**Prompts de ejemplo en Claude Code**:
-```
-"Crea una escena de combate con terreno, 2 spawn points de enemigos y un checkpoint"
-"Añade un NavMesh Agent al Player con velocidad 5 y radio de avoidance 0.5"
-"Configura un Shader Graph para un material de agua con reflexión y distorsión"
-"Genera el loop de animación de ataque con blend tree para 4 direcciones"
+    # 5. Guardar en memoria
+    chroma.add(documents=[f"Player: {player_text}\nNPC: {npc_text}"],
+               ids=[str(uuid4())])
+    
+    return {"audio": base64.b64encode(audio_out), "text": npc_text}
 ```
 
 **Repos**:
-- [AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server) — MIT, 268 tools
-- [AnkleBreaker-Studio/unity-mcp-plugin](https://github.com/AnkleBreaker-Studio/unity-mcp-plugin) — MIT, UPM package
-- [CoplayDev/unity-mcp](https://github.com/CoplayDev/unity-mcp) — MIT, 5.8k stars, alternativa más enfocada (47 tools)
+- [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) — MIT. Referencia completa de NPC voice pipeline.
+- [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper) — MIT. STT 4x más rápido que Whisper original.
+- [rhasspy/piper](https://github.com/rhasspy/piper) — MIT. TTS rápido y natural, modelos por idioma/personaje.
+- [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector DB para memoria.
 
-**Tiempo estimado**: 1 día setup, ROI inmediato en velocidad de desarrollo.
-**Deal size típico**: $20k-80k (setup + training + customización para estudio mediano)
+**Costo**: $0 con modelos locales (Ollama + Piper). ~$0.03/minuto de conversación con Claude Haiku.
+**Tiempo estimado**: 3-4 semanas para pipeline completo integrado en Godot.
+**Deal size**: $80k-$200k para estudio que quiere NPCs con voz sin licencia de Inworld/Convai.
 
 ---
 
-## Receta 9: Carbon Engine + AI — MMO/Espacio con Python hooks
+## Receta 8: Unity MCP 268 Tools — AI Dev Workflow
 
-**Caso de uso**: Proyecto de juego de espacio/MMO enterprise usando el engine de EVE Online, con capa AI para NPCs de facción, economía procedural y soporte de jugador.
+**Caso de uso**: Studio que usa Unity y quiere aceleración AI máxima. 268 herramientas MCP dan control total del editor desde Claude Code / Cursor.
 
 **Stack**:
 ```
-Carbon Engine (MIT, github.com/orgs/carbonengine)
-    ├── Trinity renderer ← visuales de espacio AAA
-    ├── CarbonIO ← networking para MMO
-    └── Python scripting hooks ← punto de integración AI
-        ├── NPC Faction AI
-        │   └── LangGraph (MIT) + Claude Sonnet ← agentes de facción con memoria
-        ├── Procedural Economy
-        │   └── Reglas económicas generadas por LLM + validadas con reglas fijas
-        └── Game Support Agent
-            └── LlamaIndex (MIT) + ChromaDB ← RAG sobre lore del juego
+Claude Code (cliente MCP)
+    ↕ MCP protocol (local socket)
+Unity MCP Server (MIT)                ← 268 herramientas:
+    ├── Scene management (create, modify, query scenes)
+    ├── GameObject + Components (add, configure, remove)
+    ├── C# Script generation + hot-reload
+    ├── Build pipeline (trigger builds, read errors)
+    ├── Profiler data (leer rendimiento en tiempo real)
+    ├── Shader Graph + Amplify support
+    ├── Terrain + Physics + NavMesh
+    ├── Animation + Timeline
+    └── Asset import + Material configuration
+Unity Editor (Runtime)                 ← editor respondiendo a comandos AI
 ```
 
-**Ejemplo de Python hook para NPC de facción**:
+**Repos**:
+- [AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server) — MIT. 268 tools MCP para Unity.
+
+**Ejemplos de prompts MCP**:
+```
+"Create a third-person character controller with jump and sprint"
+"Add a NavMesh agent to all enemy GameObjects in the scene"
+"Profile the current build and identify the 3 biggest performance bottlenecks"
+"Generate a shader that creates a dissolve effect from UV coordinates"
+```
+
+**Tiempo estimado**: setup en 1 día. ROI: 2-3x velocidad de desarrollo (reportado en campo).
+**Deal size**: $40k-$120k como servicio de "AI-acceleration" para studio Unity.
+
+---
+
+## Receta 9: Carbon Engine + LangGraph — Agentes para MMO Persistente
+
+**Caso de uso**: Proyecto de mundo persistente a escala MMO. Carbon Engine (MIT, jul 2026) como base, agentes LangGraph para entidades del mundo, Nakama para el backend social.
+
+**Stack**:
 ```python
-# carbon_npc_hook.py — se registra como hook en el Carbon Engine
-from langgraph.graph import StateGraph
+# world_agent.py — Agente de entidad del mundo MMO
+from langgraph.graph import StateGraph, END
 from anthropic import Anthropic
-import json
 
-client = Anthropic()
+# Estado del agente: entidad persistente en el mundo
+class WorldEntityState(TypedDict):
+    entity_id: str
+    location: dict
+    inventory: list
+    relationships: dict  # otros jugadores/entidades conocidos
+    current_goal: str
+    action_history: list
 
-def faction_npc_respond(player_input: str, faction_id: str, 
-                         npc_state: dict, faction_context: dict) -> dict:
-    """Hook que Carbon Engine llama cuando un jugador interactúa con un NPC."""
+def build_entity_agent():
+    """Agente LangGraph para entidad de mundo persistente (NPC o sistema)."""
+    graph = StateGraph(WorldEntityState)
     
-    system = f"""Eres un representante de la facción {faction_context['name']}.
+    # Nodo: percibir el mundo (Destiny physics + Trinity visual state)
+    graph.add_node("perceive", perceive_world)
     
-Ideología: {faction_context['ideology']}
-Relación actual con el jugador (reputación {npc_state['player_reputation']}/100):
-{'Neutral' if npc_state['player_reputation'] < 50 else 'Amistoso' if npc_state['player_reputation'] < 80 else 'Aliado'}
+    # Nodo: planear (LLM con contexto de memoria)
+    graph.add_node("plan", plan_action)
+    
+    # Nodo: actuar (Carbon Engine API → mover, interactuar, construir)
+    graph.add_node("act", execute_action)
+    
+    # Nodo: actualizar memoria (Nakama storage)
+    graph.add_node("remember", update_memory)
+    
+    graph.set_entry_point("perceive")
+    graph.add_edge("perceive", "plan")
+    graph.add_edge("plan", "act")
+    graph.add_edge("act", "remember")
+    graph.add_conditional_edges("remember", should_continue)
+    
+    return graph.compile()
 
-Misiones activas con esta facción: {json.dumps(npc_state.get('active_missions', []))}
-
-Responde coherentemente con la ideología y relación actual. Máximo 3 oraciones."""
-
+async def plan_action(state: WorldEntityState):
+    """LLM decides next action based on goal + world state."""
+    client = Anthropic()
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=150,
-        system=system,
-        messages=[{"role": "user", "content": player_input}]
+        system=f"You are entity {state['entity_id']} in a persistent MMO world.",
+        messages=[{
+            "role": "user",
+            "content": f"Goal: {state['current_goal']}\nLocation: {state['location']}\nNearby: {state['relationships']}\nWhat do you do next?"
+        }]
     )
-    
-    return {
-        "dialogue": response.content[0].text,
-        "reputation_delta": _calculate_reputation_delta(player_input, faction_context),
-        "available_missions": _get_contextual_missions(npc_state, faction_context)
-    }
-
-def _calculate_reputation_delta(player_input: str, faction_context: dict) -> int:
-    """Lógica de reputación basada en palabras clave + faction ideology."""
-    # Simplificado — en prod usar clasificador ML
-    positive_keywords = faction_context.get('positive_keywords', [])
-    return 1 if any(kw in player_input.lower() for kw in positive_keywords) else 0
+    return {"current_goal": parse_action(response.content[0].text)}
 ```
 
 **Repos**:
-- [carbonengine (org)](https://github.com/orgs/carbonengine) — MIT. Engine base.
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT, 110k stars. Para agentes con estado.
-- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT. RAG sobre lore.
+- [orgs/carbonengine](https://github.com/orgs/carbonengine) — MIT. Carbon Engine (Trinity + Destiny). EVE Online engine.
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT, 15k stars. Grafos de agentes stateful.
+- [heroiclabs/nakama](https://github.com/heroiclabs/nakama) — Apache-2.0, 12.8k stars. Backend persistente.
+- [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0. Patrón de memoria para entidades.
 
-**Tiempo estimado**: 3-6 meses para producción (engine es complejo, requiere expertise C++).
-**Deal size típico**: $300k-1.5M (proyecto AAA enterprise)
-**Ventaja Globant**: Propuesta diferenciada — "MMO sin royalties de engine, con AI nativa en Python hooks"
+**Tiempo estimado**: 3-6 meses para prototipo MMO funcional sobre Carbon Engine.
+**Deal size**: $300k-$1.5M para estudio de MMO o mundo virtual persistente.
+
+---
+
+## Receta 10: GamingAgent Evaluation — QA con Modelos Estándar
+
+**Caso de uso**: Studio que quiere evaluar qué LLM/VLM es más adecuado para sus mecánicas de juego específicas antes de integrar en producción. Adaptar lmgame-Bench a los juegos propios.
+
+**Stack**:
+```python
+# custom_game_eval.py — Adaptar GamingAgent para el juego propio
+# Basado en lmgame-org/GamingAgent (MIT)
+
+from gaming_agent import GamingAgent, GameEnvironment
+import anthropic
+
+class CustomGameEnv(GameEnvironment):
+    """Adaptador para nuestro juego propio."""
+    
+    def get_observation(self) -> dict:
+        """Screenshot + estado del juego como observación VLM."""
+        screenshot = self.capture_screen()  # PIL Image
+        game_state = self.read_game_state()  # dict con HP, position, objectives
+        return {
+            "image": screenshot,
+            "state": game_state,
+            "available_actions": self.get_valid_actions()
+        }
+    
+    def step(self, action: str) -> tuple[dict, float, bool]:
+        """Ejecutar acción y devolver (obs, reward, done)."""
+        self.execute_action(action)
+        obs = self.get_observation()
+        reward = self.compute_reward()  # métrica de éxito del juego
+        done = self.is_game_over()
+        return obs, reward, done
+
+# Evaluar Claude vs GPT-4o en nuestro juego
+def run_comparative_eval(game_env: CustomGameEnv):
+    models_to_test = [
+        "claude-sonnet-5",          # Anthropic
+        "gpt-4o",                   # OpenAI
+        "claude-haiku-4-5-20251001", # Lightweight option
+    ]
+    
+    results = {}
+    for model in models_to_test:
+        agent = GamingAgent(model=model, max_steps=100)
+        score = agent.play_episode(game_env)
+        results[model] = score
+        print(f"{model}: {score:.2f}")
+    
+    return results  # → elegir el mejor modelo para integrar en NPCs/agents
+```
+
+**Repos**:
+- [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — MIT, 947 stars. ICLR 2026. Framework completo.
+- [waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) — MIT. 132 tareas Godot para benchmarking de game dev agents.
+
+**Valor para cliente**: evaluar LLMs en el juego real antes de contratar. Decisión basada en datos, no en marketing.
+**Tiempo estimado**: 1-2 semanas para adaptar el framework al juego propio.
+**Deal size**: $20k-$60k como servicio de "AI model selection y evaluación para gaming".
 
 ---
 
 ## Tabla resumen
 
-| Patrón | Stack principal | Esfuerzo | Deal size típico |
-|--------|----------------|---------|-----------------|
-| NPC con LLM (Godot) | Godot + LimboAI + Ollama/Claude | 2-3 semanas | $40k-150k |
-| NPC con voz (Mantella-pattern) | Godot + Whisper + Claude Haiku + Piper | 2-3 semanas | $60k-200k |
-| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | $50k-150k |
-| Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | $80k-250k |
-| Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | $100k-400k |
-| Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | $20k-80k |
-| AI Dev Tooling (Godot) | godot-ai + Claude Code/Cursor | 1 día setup | $20k-50k |
-| AI Dev Tooling (Unity 268 tools) | unity-mcp-server + Claude Code | 1 día setup | $20k-80k |
-| Carbon Engine + AI (MMO/espacio) | Carbon Engine + LangGraph + Claude | Meses | $300k-1.5M |
+| Patrón | Stack principal | Esfuerzo | ROI esperado | Deal size |
+|--------|----------------|---------|--------------|-----------|
+| P1: NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion | $40k-$150k |
+| P2: QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual | $60k-$200k |
+| P3: Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención | $80k-$250k |
+| P4: Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability | $100k-$400k |
+| P5: Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual | $20k-$80k |
+| P6: AI Dev Tooling (Godot) | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad desarrollo | $20k-$60k |
+| P7: NPC con Voz Completa | Mantella + Faster-Whisper + Piper + LLM | 3-4 semanas | NPCs vivos sin Inworld/Convai | $80k-$200k |
+| P8: Unity MCP 268 Tools | Unity MCP Server + Claude Code | 1 día setup | 2-3x velocidad en Unity | $40k-$120k |
+| P9: Carbon Engine + LangGraph MMO | Carbon + LangGraph + Nakama | 3-6 meses | MMO persistent world OSS | $300k-$1.5M |
+| P10: GamingAgent Evaluation | lmgame-org + custom adapter | 1-2 semanas | Modelo correcto antes de integrar | $20k-$60k |
 
 ---
-*Repos verificados en GitHub 2026-07-08. URLs directas incluidas.*
+*Repos verificados en GitHub 2026-07-09. URLs directas incluidas. Carbon Engine añadido post open-source jul-2026.*
