@@ -1,76 +1,88 @@
-# Foundational Repos — Travel & Hospitality
+# 🏗️ Repos Fundacionales — Travel & Hospitality
 
-> Base infrastructure to build on. Open license, active community.
-> Last updated: 2026-07-08 (v4)
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-09 (v5)
 
-## Trip Planning & Routing Infrastructure
+## Plataformas y frameworks base
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) | LGPL-3.0 | ~5.5k★ | Open source multi-modal trip planner (public transit + walking + cycling + rideshare). Consumes GTFS + OpenStreetMap data. REST + GraphQL APIs. Java. | Yes — query via API, wrap as MCP tool |
-| [jpatokal/openflights](https://github.com/jpatokal/openflights) | Unlicense / CC | ~3.2k★ | Free database of 10,000+ airports, 5,700+ airlines, 67,000 routes worldwide. CSV/JSON. Used in ML training for flight recommendation models | Yes — reference data for flight agents |
-| [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | Apache-2.0 | ~800★ | IATA-aligned open travel data: Points of Reference (POR), airline codes, airport geolocations, schedule data. Maintained by travel industry contributors | Yes — ground truth for flight/routing agents |
-
-## Hotel & Property Management Systems
-
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | ~1.4k★ | Free, open-source hotel management system: Property Management System (PMS) + Booking Engine + hotel website. PHP/MySQL. Complete hotel operations. LATAM-deployable. | Yes — fork + add AI concierge layer |
-| [digital-druid/hoteldruid](https://github.com/digital-druid/hoteldruid) | AGPL-3.0 | ~200★ | HotelDruid v3.0.8 (Dec 2025): flexible open source hotel PMS for complex room allocation + scheduling. Multi-language support, customizable booking engine, automated email notifications, detailed occupancy/revenue reporting. PHP. | Yes — AI booking assistant wraps REST API |
-| [pesanio/pesan-pms](https://github.com/pesanio/pesan-pms) | MIT | ~80★ | **NEW 2026** — Open Source PMS from Pesan.io. Dashboard overview, booking management, guest management, room/unit management, staff management, multi-property support, responsive design. Docker deployment ready. MIT license — preferred for Globant forks. | Yes — MIT license ideal for commercial deployments |
-| [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | MIT | ~120★ | Open source Travel CRM with integrated ticketing, booking, and hotel management. Built for travel agencies and tour operators | Yes — CRM data for personalization agents |
-
-## GDS & Flight Booking APIs
-
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | ~800★ | Official Amadeus GDS Python SDK. Access to 30 Self-Service APIs: flight search, booking, hotel search, AI-powered predictions, trip purpose prediction, cheapest dates | Yes — primary GDS integration for Python agents |
-| [amadeus4dev/amadeus-node](https://github.com/amadeus4dev/amadeus-node) | MIT | ~600★ | Official Amadeus GDS Node.js SDK. Same 30 APIs. Updated Jan 2026. NDC-compatible | Yes — Node.js agent integration |
-| [amadeus4dev/amadeus-java](https://github.com/amadeus4dev/amadeus-java) | MIT | ~300★ | Official Amadeus GDS Java SDK. Requires Java 1.7+. 30 APIs including flight inspiration | Yes — JVM agent integration |
-| [duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) | MIT | ~200★ | Duffel API Python client. Access to 400+ airlines directly (NDC-first). Modern alternative to Amadeus for agent-native flight search. Better for agentic flows than traditional GDS | Yes — NDC-first, preferred for agentic booking |
-| [duffelhq/duffel-api-java](https://github.com/duffelhq/duffel-api-java) | MIT | ~80★ | Duffel API Java client. 400+ airlines, NDC-first | Yes — JVM Duffel integration |
-| [airheartdev/duffel](https://github.com/airheartdev/duffel) | Apache-2.0 | ~120★ | Go client for Duffel flights API. Community-maintained | Yes — Go agent integration |
-
-## Travel Booking Plugins & CMS
-
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [mantrabrain/yatra](https://github.com/mantrabrain/yatra) | GPL-2.0 | ~300★ | WordPress travel booking plugin for tour operators, travel agencies, and adventure businesses. 700+ active sites. 11 free features + 19 Pro modules: trips, departures, dynamic pricing, multi-gateway payments, WhatsApp notifications, OTA distribution (Viator + GetYourGuide). Active since 2018. | Yes — AI trip recommendations + chatbot layer on top |
-
-## MCP Travel Servers
-
-| Repo | License | Stars | Description | Notes |
-|------|---------|-------|-------------|-------|
-| [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) | MIT | ~400★ | MCP super-server: 1 smart tool covering Google Flights, Google Hotels, Trivago, Airbnb, Booking.com, Hostelworld, Ferryhopper, European ground transport. 65 aliases, zero API keys, 378-token context footprint | The recommended zero-key MCP entry point |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~85★ | Hotel MCP server. 2M+ hotels via DIDA B2B (world's 3rd largest travel B2B). Real-time inventory/pricing. Free, no rate limit | Best hotel inventory depth |
-| [lev-corrupted/travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) | MIT | ~45★ | Multi-API MCP: Amadeus (flights+hotels) + AviationStack (real-time tracking). Cheapest dates + flight status | Best for real-time + cheapest dates |
-| [privilegemendes/amadeus-mcp-server-standalone](https://github.com/privilegemendes/amadeus-mcp-server-standalone) | MIT | ~35★ | Full Amadeus MCP: search, price analysis (high/low), cheapest dates, airport search, detailed offers. Production-ready | Best Amadeus MCP feature set |
-| [donghyun-chae/mcp-amadeus](https://github.com/donghyun-chae/mcp-amadeus) | MIT | ~30★ | Lightweight community Amadeus MCP server. Natural language → flight results via Amadeus Flight Offers API | Simplest Amadeus MCP entry point |
-| [abhinavmathur-atlan/mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | ~10★ | MCP Travel Concierge: Google Maps API for itinerary, POI search, distance calculation | Lightweight travel MCP server |
-
-## Forecasting & Analytics (Travel Revenue Management)
-
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [unit8co/darts](https://github.com/unit8co/darts) | Apache-2.0 | ~8k★ | Python time series forecasting library: Exponential Smoothing, ARIMA, Prophet, LSTM, Transformer models. Used in Pattern 7 (Hotel Revenue Management) for occupancy forecasting. Self-contained, no external API needed. | Yes — drop-in for RevPAR forecasting |
-
-## AI Agent Frameworks (Travel-Compatible)
-
-| Repo | License | Stars | Description | Notes |
-|------|---------|-------|-------------|-------|
-| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~10k★ | OpenAI Agents SDK. MCP-compatible (v1.3+). Tool use, handoffs, guardrails, streaming. Best framework for travel agent orchestration | Foundation for all travel agent patterns |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~11k★ | Graph-based agent orchestration. LangGraph 1.0 GA Oct 2025 — per-node timeouts, error handlers, DeltaChannel type, v2 streaming API. Best for multi-step booking state machines. | Use for complex booking state machines |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~27k★ | Role-based multi-agent orchestration. 5.2M monthly downloads. Natural fit for travel: Researcher, Booker, Advisor, Concierge roles | Use for role-based travel agent teams |
-
-## Production Travel Agent References (Updated Jul-2026)
-
-| Repo | License | Stars | Description | Notes |
-|------|---------|-------|-------------|-------|
-| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~120★ | Production-ready LangGraph travel planner. Async parallel orchestration across Amadeus, Hotelbeds, Twilio, HubSpot. First open-source agent using Hotelbeds API alongside Amadeus. | Best LangGraph travel reference 2026 |
-| [abh2050/langgraph_multi_agent_ai_travel_agent](https://github.com/abh2050/langgraph_multi_agent_ai_travel_agent) | MIT | ~35★ | LangGraph + Gemini Flash 2.0 + DuckDuckGo. Three planning architectures in one repo (single/multi/collaborative). Good for teams evaluating agent architectures. | Good LangGraph comparison reference |
-| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | ~60★ | **NEW Jul-2026** — Framework-free agentic workflow for travel. Pure Python + MCP, no LangGraph/CrewAI dependency. MCP server exposes flights, hotels, cars, weather, payments. Shows you can build production travel agents without heavy frameworks. | Best framework-free MCP travel reference |
-| [embabel/tripper](https://github.com/embabel/tripper) | Apache-2.0 | ~55★ | **NEW Jul-2026** — Travel planner agent with web search + mapping + Airbnb integration. Built on Embabel Agent Platform (Spring AI). First open-source travel agent with direct Airbnb listing data. | Best for Java/Spring teams; first with Airbnb data |
-| [kaiban-ai/KaibanJS](https://github.com/kaiban-ai/KaibanJS) | MIT | ~5.2k★ | JavaScript-native multi-agent framework, Kanban-inspired. HuggingFace tutorial uses it for travel planning with specialized agents (City Selector + Local Expert + Travel Concierge). Natural fit for Node.js/TypeScript travel platforms. | Best for JS/TS frontend travel agent implementations |
+| Repo | Licencia | Stars | Stack | ¿Base para AI? |
+|------|----------|-------|-------|----------------|
+| [opentripplanner/OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) | LGPL-2.1 | 5.0k+ | Java, GraphQL, GTFS | Sí — router multimodal, expone GraphQL para LLM tool calls |
+| [OpenTravel/OpenTravel2-Model](https://github.com/OpenTravel/OpenTravel2-Model) | Apache-2.0 | ~200 | OpenAPI, JSON, XML | Sí — estándar de datos de viaje, schemas para validar responses de AI |
+| [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | Apache-2.0 | 600+ | Python, CSV, JSON | Sí — datos abiertos de aeropuertos, aerolíneas, países, rutas |
+| [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | 370+ | Python | Sí — SDK oficial Amadeus: flights, hotels, activities. Auth gratis dev tier |
+| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~200 | Python, LangGraph | Sí — arquitectura de referencia para producción con Amadeus + Hotelbeds |
+| [MewsSystems/fiscalizations](https://github.com/MewsSystems/fiscalizations) | MIT | 62 | .NET | Parcial — fiscalización hotelera, útil para LATAM compliance |
+| [MozartofCode/travel-agent](https://github.com/MozartofCode/travel-agent) | MIT | ~50 | Python, CrewAI | Sí — CrewAI multi-agent: transporte + alojamiento + actividades + clima |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~80 | TypeScript, MCP | Sí — MCP server 2M+ hoteles, integración directa con Claude |
 
 ---
-*See also: `verticals/solutions.md` for complete vertical platforms.*
+
+## Datos y estándares abiertos esenciales
+
+| Estándar | Tipo | URL | Uso en AI |
+|----------|------|-----|-----------|
+| GTFS (General Transit Feed Specification) | Spec | https://gtfs.org/ | Training data para routing agents; ingestión en OpenTripPlanner |
+| GTFS-Realtime | Spec | https://gtfs.org/realtime/ | Alertas de transporte en tiempo real para disruption agents |
+| OpenTravel 2.0 | Schema | https://opentravel.org/ | Schemas JSON/XML para validar responses de booking agents |
+| NDC (IATA New Distribution Capability) | Spec | https://www.iata.org/ndc | API estándar de distribución aérea; Amadeus ya soporta NDC |
+| OpenStreetMap | Data | https://www.openstreetmap.org/ | Base geográfica para routing; libre de uso con ODbL |
+
+---
+
+## Amadeus SDK (MIT) — código de arranque
+
+```python
+from amadeus import Client
+amadeus = Client(client_id='...', client_secret='...')
+
+# Tool function para LangGraph
+def search_flights(origin: str, destination: str, date: str) -> dict:
+    response = amadeus.shopping.flight_offers_search.get(
+        originLocationCode=origin,
+        destinationLocationCode=destination,
+        departureDate=date,
+        adults=1
+    )
+    return response.data[:5]  # top 5 offers
+```
+
+## OpenTripPlanner GraphQL
+
+```graphql
+{
+  plan(
+    from: {lat: -34.603, lon: -58.381}
+    to: {lat: -34.617, lon: -58.368}
+    numItineraries: 3
+  ) {
+    itineraries {
+      duration
+      legs { mode distance agency { name } }
+    }
+  }
+}
+```
+
+---
+
+## Arquitectura de referencia
+
+```
+┌─────────────────────────────────────────────────┐
+│              AI Travel Agent Stack               │
+├─────────────────────────────────────────────────┤
+│  LLM Layer: Claude Sonnet 5 / Haiku 4.5         │
+├─────────────────────────────────────────────────┤
+│  Orchestration: LangGraph / CrewAI              │
+├──────────────┬──────────────┬───────────────────┤
+│  Flights     │  Hotels      │  Routing           │
+│  Amadeus API │  DIDA MCP    │  OpenTripPlanner   │
+│  (SDK MIT)   │  (MIT free)  │  (LGPL-2.1)        │
+├──────────────┴──────────────┴───────────────────┤
+│  Data: OpenTravelData + GTFS + OpenStreetMap    │
+└─────────────────────────────────────────────────┘
+```
+
+---
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
