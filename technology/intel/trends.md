@@ -1,125 +1,77 @@
-# 📡 Trends — Technology Industry
+# Industry Trends — Technology / AI Software Development
 
-> Current AI trends reshaping software development, DevOps, and technology operations.
-> Last updated: 2026-07-09 v4
+> Current signals and shifts in AI-powered software development.
+> Updated: 2026-07-09.
 
-## Macro Trends (2026)
+## T1 — Agentic Session Length: 4 Minutes → 23 Minutes
+**Signal**: Average AI coding agent session length grew from 4 minutes (Q1 2025) to 23 minutes (Q1 2026).
+**Why it matters**: Agents are no longer doing one-off completions — they're executing multi-step engineering tasks (create feature branch, implement, write tests, fix errors, open PR) in a single session.
+**Action**: Design agent workflows with 20-45 minute autonomous windows and human checkpoints at PR creation. OpenHands and CrewAI both support this natively.
 
-### 1. Copilots → Autonomous Coding Agents
-The standard has shifted from AI suggesting code to AI **writing, testing, and deploying** code autonomously.
-- Claude Code reached #1 AI coding tool in 8 months, overtaking GitHub Copilot and Cursor
-- 55% of engineers now regularly use AI agents (staff+ engineers: 63.5%)
-- Anthropic 2026 report: teams using agentic tools ship **30% faster** (TELUS case: 500k hours saved)
-- Long-running autonomous workflows now standard: agents run overnight, researchers review in morning
+## T2 — MCP Becomes the Universal Integration Standard
+**Signal**: MCP 2026-07-28 RC drops with the largest revision since launch. 10,000+ public servers, 97M monthly SDK downloads, 41% of orgs in production.
+**Why it matters**: MCP is consolidating the AI tool integration market the way REST did for web APIs. Tools not exposing an MCP server will be invisible to AI agents.
+**Action**: Every client integration should expose an MCP server. Globant's MCP server factory (see `patterns.md` P3) is a defensible product.
 
-### 2. The 100M Citizen Developer Wave
-Deloitte Tech Trends 2026: number of people who can build software growing from 30M professional developers → 100M citizen developers by 2028.
-- Visual agent builders (Dify 136k★, Langflow 146k★) enable non-engineers to create agent pipelines
-- Drag-and-drop AI workflows becoming the new "no-code" — domain experts building their own tools
-- Platform engineering teams shifting from "build tools for developers" to "AI-assist everyone"
+## T3 — Developer Roles Shifting to Agent Orchestrators
+**Signal**: Anthropic's 2026 report: 75% of developers will spend more time orchestrating and reviewing agents than writing code by end of 2026.
+**Why it matters**: The SDLC is changing — developers become product/architect/QA hybrid roles. Training programs, tooling, and hiring criteria all change.
+**Action**: Globant delivery teams need internal upskilling on agent orchestration. TELUS case study: 30% faster shipping, 500k hours saved with Claude Code deployment.
 
-### 3. Multi-Agent Workflows in Production
-57% of organizations now deploy multi-step AI agent workflows in development processes.
-- Pattern: specialized sub-agents (planner, coder, tester, reviewer) vs. single monolithic AI
-- AutoGen v0.4 async rewrite optimized for this pattern; 856k downloads/month
-- CrewAI crews replacing single-model prompts for complex dev tasks; 5.2M downloads/month
+## T4 — Multi-Agent Dev Teams (Scrum-Style Agents)
+**Signal**: MetaGPT (67.9k★), CrewAI (52.8k★), and OpenHands Enterprise all support role-based agent teams. Organizations now deploy PM-agent + Architect-agent + Dev-agent + QA-agent in coordinated pipelines.
+**Why it matters**: Single-agent coding bottleneck is breaking. Teams are now building AI "squads" where each agent specializes (backend, frontend, security, test).
+**Action**: MetaGPT + CrewAI combined with Claude Opus 4.8 (SWE-bench 88.6%) is the 2026 recommended stack for autonomous software team projects.
 
-### 4. AIOps: AI-Native Infrastructure Operations
-SRE teams using AI to handle the alert fatigue problem at scale.
-- k8sgpt: Kubernetes issues diagnosed by AI, not humans staring at logs
-- Grafana AI Plugin GA (2026): anomaly detection built into dashboards
-- Mean Time To Resolution (MTTR) reduction of 40-60% reported by early AIOps adopters
-- "Agent-friendly CLI" design pattern emerging: dtctl, k8sgpt designed for both humans and AI callers
+## T5 — SWE-bench Pro: Contamination-Resistant Coding Benchmark
+**Signal**: Scale AI's SWE-bench Pro (1,865 real-world tasks, 41 professional repos) is replacing the original SWE-bench as the industry standard. Claude Opus 4.8 leads at 69.2%.
+**Why it matters**: The original SWE-bench has contamination concerns (models may have seen solutions in training). Pro is the new credible bar.
+**Action**: Use SWE-bench Pro scores when comparing model capabilities for engineering workloads. Fable 5 / Mythos 5 at 95%+ on Verified is noteworthy but Pro scores matter more for enterprise decisions.
 
-### 5. MCP Protocol as the Integration Standard
-Model Context Protocol (Anthropic, 2024) has become the universal AI-tool integration layer.
-- **5,000+ MCP servers** available by Jul 2026; adopted by Anthropic, OpenAI, Google DeepMind (Gemini CLI), Microsoft
-- **2026-07-28 Release Candidate** (largest revision since launch) — ships July 28:
-  - **Sessions removed** (SEP-2567): `Mcp-Session-Id` header gone — servers run behind plain load balancers
-  - **MCP Apps** (SEP-1865): servers ship sandboxed HTML UIs in AI tool responses
-  - **Tasks extension**: long-running work (hours) with `tasks/get`/`update`/`cancel`
-  - **Response caching** (SEP-2549): `ttlMs` + `cacheScope` on `tools/list`; clients cache tool lists
-  - **12-month deprecation policy**: protocol can evolve without breaking existing integrations
-- Every major AI coding tool (Claude Code, Cursor, Windsurf, VS Code Copilot, **Gemini CLI**) supports MCP natively
-- DevOps tools being built "MCP-first": kagent, kubernetes-mcp-server, semgrep-mcp
-- MCP replacing custom LangChain tools for infrastructure tasks; reduces integration boilerplate 90%
+## T6 — SpaceX-Cursor Acquisition Creates Open-Source Opportunity
+**Signal**: SpaceX announced $60B all-stock Cursor acquisition (June 16, 2026; closes Q3 2026). OpenCode (MIT, 181.5k★) and OpenHands are rising as alternatives.
+**Why it matters**: Enterprises are reconsidering Cursor lock-in post-acquisition. A model-agnostic open-source stack suddenly has a clear value proposition.
+**Action**: Position Globant as the "open-stack coding agent" integrator. OpenCode (CLI) + OpenHands (server) + MCP (integrations) + Claude (model) = vendor-diversified alternative.
 
-### 6. Private AI Development Environments
-Enterprise reluctance to send code to cloud APIs driving "on-prem AI coding" wave.
-- Ollama + Cline/OpenHands on internal servers = private GitHub Copilot alternative
-- Code Llama, DeepSeek Coder, Qwen2.5-Coder running locally via vLLM
-- Air-gapped environments: regulated industries (defense, finance, healthcare) can now use AI coding
-- Open source models reaching 90%+ of GPT-4 performance on coding benchmarks
+## T7 — Gemini CLI → Antigravity CLI Migration Window
+**Signal**: Google replaces Gemini CLI with Antigravity CLI. Individual tier ended June 18, 2026. Gemini CLI (Apache-2.0) remains open source.
+**Why it matters**: Short migration window creates developer friction. Gemini CLI's Apache-2.0 code is now a community asset to fork and extend.
+**Action**: For Google Cloud clients, assess Antigravity CLI migration. For on-prem clients, Gemini CLI forks (Apache-2.0) are viable with local Gemma models.
 
-### 7. Security Shift-Left with AI
-Security review moving from "human code review gate" to "AI continuous scanning in CI/CD".
-- claude-code-security-review: AI security review on every PR, zero config (5.4k stars in weeks)
-- Semgrep + LLM: AI writes new security rules from vulnerability descriptions
-- Trivy + AI: container scan results → auto-generated remediation PRs
-- OWASP AI Security Testing Guide published 2026; becoming compliance requirement
+## T8 — AI Code Quality Crisis: 1.7× Bug Multiplier Without Governance
+**Signal**: AI-assisted code can increase issue counts by ~1.7× and security findings if not paired with governance. Only 29% of developers trust AI output (down from 40% in 2024).
+**Why it matters**: "AI generates bugs faster" is becoming a real enterprise concern. Security reviews, code intelligence graphs, and model evaluation are now required investments.
+**Action**: Bundle claude-code-security-review + Evidently AI + SWE-bench Pro evaluation into every agentic coding engagement. This is a differentiated service.
 
-### 8. Open Source Infrastructure Resurgence
-HashiCorp BSL (2023) and Redis license changes triggered permanent OSS bifurcation.
-- OpenTofu (Terraform fork, MPL-2.0, Linux Foundation): 23k stars, enterprise adoption accelerating
-- Valkey (Redis fork, BSD-3): Linux Foundation project, Redis alternative
-- Grafana: still AGPL-3.0 but competitors watching; community vigilant about license risks
-- "License risk assessment" now standard in Globant tech selection criteria
+## T9 — EU AI Act Impact on Software Development Tools (August 2026)
+**Signal**: EU AI Act enforcement expands August 2, 2026. AI systems used in recruitment, credit scoring, CV screening → high-risk. AI-generated code review tools for financial/HR software → potential transparency obligations.
+**Why it matters**: LATAM enterprises selling into EU markets need to ensure their AI-generated code and AI tooling meets transparency + logging requirements.
+**Action**: Implement audit logging for AI coding agent outputs (who prompted what, what was generated, what was deployed) as a default in all engagements. MLflow + OpenTelemetry provides this out of the box.
 
-### 9. IaC + AI = Infrastructure Agents
-Terraform/Ansible + LLM = agents that understand AND manage infrastructure.
-- New pattern: natural language → Terraform plan → reviewed by human → applied
-- DevOpsGPT: requirements → code → IaC → deploy pipeline in one agent workflow
-- StackGen: AI layer on top of existing Terraform/Pulumi/Helm/ArgoCD stack
-- Prediction: "infrastructure chat" becomes standard for SRE teams by end 2026
+## T10 — Low-Code AI Agent Platforms Democratizing Dev
+**Signal**: Dify (Apache-2.0, 144k★) growing faster than any other agent platform. Non-technical users building production RAG pipelines and agents via visual canvas.
+**Why it matters**: AI agents are moving beyond the developer persona to power users, analysts, and operations teams.
+**Action**: Dify is the recommended platform for client-facing agent UIs. Replace custom Flask/FastAPI frontends for AI apps with Dify — 5-10× faster prototype to production.
 
-### 10. Benchmark-Driven Agent Development
-SWE-bench (Princeton) is becoming the de facto standard for evaluating coding agents.
-- Claude Mythos 5 leads SWE-bench Verified at **95.5%** (Jul 6, 2026); Claude Fable 5 leads SWE-bench Pro at **80.3%**
-- Open source best: OpenHands at **72%** (v1.6.0, Mar 2026) — the target for open-source deployments
-- SWE-bench Pro (harder, no ground-truth leakage) is now the more trusted enterprise benchmark
-- Clients starting to ask vendors: "what's your SWE-bench score?" — procurement language shifting
-- **OpenHands Index** (Jan 2026): first live leaderboard evaluating LLMs on broad software engineering tasks
+## T11 — SKILL.md Convention: Shareable, Versioned Agent Capabilities
+**Signal**: AGENTS.md (OpenAI), SKILL.md (community convention), DESIGN.md (VoltAgent) — declarative files that define agent capabilities as portable units.
+**Why it matters**: Agents are gaining a "package manager" paradigm. Skills become composable units like npm packages. The awesome-design-md repo (95.1k★) shows market appetite.
+**Action**: Build Globant-branded SKILL.md libraries for common enterprise tasks (SAP integration, Salesforce data sync, legacy API wrapping). License as MIT, publish on GitHub, use as lead-gen.
 
-### 11. LLM Observability — The New Mandatory Layer
-Just as Prometheus became mandatory for microservices, LLM observability is becoming mandatory for AI systems.
-- **Langfuse** (MIT, 28k stars) is the category leader: traces, evals, datasets, prompt versioning, self-hostable
-- **Opik** (Apache-2.0) challenger: strong CI/CD eval integration, hallucination scoring workflows
-- **Arize Phoenix** (Elastic-2.0): ML-grade rigor, drift detection, embeddings analysis
-- **MLflow 3.x** expanded into LLM tracing + agent observability — leverages existing enterprise MLflow deployments
-- Pattern: every production AI agent now needs trace → eval → prompt version control loop
-- EU AI Act (Aug 2, 2026 deadline) requires documentation of AI system behavior → LLM observability as compliance tooling
+## T12 — OpenHands Enterprise Control Plane: Production Multi-Agent
+**Signal**: OpenHands Enterprise Control Plane GA (May 6, 2026). RBAC, cost guardrails, audit trails, Docker/K8s. $18.8M Series A backed by engineers from AMD, Apple, Google.
+**Why it matters**: The first truly production-ready open-source coding agent platform with enterprise governance. Previously only Devin (Cognition AI) had this.
+**Action**: OpenHands Enterprise is the recommended self-hosted coding agent for enterprise LATAM clients requiring data residency. Globant can offer managed deployment on client K8s clusters.
 
-### 12. Small Language Models (SLMs) for Agent Workloads
-NVIDIA position paper (2026): serving 7B SLMs is 10–30x cheaper in latency, energy, and FLOPs vs 70–175B LLMs for agentic tasks.
-- Most agent sub-tasks are schema- and API-constrained — SLMs are sufficient AND cheaper
-- On-device SLMs (Phi-3, Gemma 3, Qwen2.5-Coder-7B via Ollama) enabling air-gapped agent deployments
-- LATAM organizations especially benefit: GPU costs prohibitive; SLMs via Ollama unlock AI coding without cloud dependencies
-- Pattern: SLM for sub-tasks (code completion, JSON extraction), frontier model (Claude) for orchestration
+## T13 — MCP 2026-07-28 RC: Stateless Core + Tasks Extension
+**Signal**: The biggest MCP revision since launch introduces stateless HTTP core (no WebSocket required), MCP Apps (server-rendered UIs), Tasks extension (long-running async work), and OAuth 2.1.
+**Why it matters**: Previous MCP required persistent WebSocket connections — hard to scale behind load balancers. Stateless HTTP unlocks horizontal scaling.
+**Action**: All new MCP server builds should target the 2026-07-28 spec. Existing WebSocket servers should plan migration. The Tasks extension enables patterns like "deploy and monitor" in a single agent session.
 
-### 13. Google Enters Open Terminal Agent Race (Gemini CLI)
-Google launches open-source terminal AI agent — first major competitor to Claude Code and OpenCode in fully open tier.
-- **Gemini CLI** (Apache-2.0, google-gemini/gemini-cli, 80k+ stars): Gemini 2.5 Pro free with personal Google account
-- **MCP-native**: configure MCP servers via `~/.gemini/settings.json` — fully pluggable
-- **Gemini CLI GitHub Actions**: zero-cost AI CI teammate for any GitHub repo; `@gemini-bot` in issues/PRs
-- **Strategic signal**: Google giving away terminal AI + CI tool free to capture mindshare vs Cursor ($50B) and Claude Code
-- **Implication for Globant**: Free tier = easy client POC; Apache-2.0 = safe to embed; GitHub Actions = new "AI CI audit" engagement hook
+## T14 — AI Model Evaluation as Engineering Discipline
+**Signal**: 62% of orgs experimenting with AI agents but only 23% scaling. The gap is evaluation — teams can't measure whether their AI stack is improving or regressing.
+**Why it matters**: Enterprise customers need "does this work?" answers before signing multi-year deals.
+**Action**: Offer AI evaluation audits as a Globant service. Stack: SWE-bench Pro harness + Evidently AI + custom domain evals. Positions Globant as the trusted third-party evaluator.
 
-### 14. AI Coding Tools Market Crosses $12.8B — Commoditization Accelerating
-Market doubled in 2 years ($5.1B 2024 → $12.8B 2026). Commoditization signals:
-- 90% of developers regularly use AI tools — saturation of awareness phase
-- 50%+ of GitHub code is AI-generated or AI-assisted — AI is now the norm, not the exception
-- Enterprise: 60% of revenue, 9 of 10 Fortune 100 paying — procurement mandates vs. individual experimentation
-- **Cursor $50B valuation signal**: even pure-OSS alternative (Gemini CLI, OpenHands) seen as commercially viable category
-- **Developer satisfaction paradox**: GitHub Copilot leads headcount (4.7M) but lowest satisfaction (9%); Claude Code leads satisfaction (46%) with far lower market share — quality gap = Globant opportunity
-
-## Near-Term Signals (Next 90 Days)
-
-| Signal | What to Watch | Implication for Globant |
-|--------|--------------|------------------------|
-| **MCP 2026-07-28 RC ships (Jul 28)** | Stateless MCP + Tasks + MCP Apps + caching GA | Sessions-removed breaks existing sticky-session MCP deployments; upgrade window = consulting opportunity |
-| Gemini CLI GitHub Actions adoption | How many orgs adopt zero-cost Google CI AI tier | New free baseline changes client ROI calc for AI-CI engagements |
-| Langfuse v3 enterprise features | RBAC + SSO + audit log in self-hosted | $50k–$150k "AI observability foundation" engagement now + EU AI Act compliance |
-| kagent v1.0 | Kubernetes-native agent runtime production-ready | SRE/platform eng + AI agents bundled offering |
-| SWE-bench Pro 90%+ | Coding agent quality threshold for complex enterprise tasks | More enterprise tasks fully delegatable to agents |
-| OpenTofu + Pulumi AI IaC | IaC agents target Apache/MPL-licensed tools | IaC modernization engagement: OpenTofu/Pulumi + AI generation |
-| EU AI Act enforcement (Aug 2) | LLM observability becomes compliance requirement | Langfuse/Opik as compliance tool; **LATAM EU-exposed clients need this urgently** |
+---
+*Sources: Anthropic Agentic Coding Trends Report 2026, McKinsey AI 2026 survey, Stacklok MCP Report, morphllm.com SWE-bench tracker, Scale AI SWE-bench Pro, The Business Research Company.*

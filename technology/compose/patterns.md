@@ -1,851 +1,667 @@
-# 🧩 Compose Patterns — Technology Industry
+# Composition Patterns — Technology / AI Software Development
 
-> Concrete recipes for building AI-powered solutions using the repos and agents in this KB.
-> Each pattern names specific repos + wiring + estimated time to first demo.
-> Last updated: 2026-07-09 v4
-
----
-
-## Pattern 1: Private AI Coding Assistant (On-Prem Copilot)
-
-**Problem**: Engineering teams want AI coding help but can't send code to external APIs (IP, compliance).  
-**Stack**: Ollama + vLLM + Cline + GitLab CE  
-**Licenses**: MIT (Ollama) + Apache-2.0 (vLLM) + Apache-2.0 (Cline) + MIT (GitLab CE)  
-**Time to demo**: 4 hours
-
-```
-[Engineer in VS Code]
-        ↓ Cline (VS Code extension, Apache-2.0)
-[Ollama / vLLM serving Qwen2.5-Coder or DeepSeek-Coder-V3]
-  (runs on internal GPU server, no data leaves org)
-        ↓ REST API
-[GitLab CE webhooks → Cline auto-PR reviews on push]
-        ↓
-[CI pipeline (Drone/Tekton) runs tests, reports back to Cline]
-```
-
-```bash
-# Quick start
-docker run -d -v ollama:/root/.ollama -p 11434:11434 ollama/ollama
-ollama pull qwen2.5-coder:32b
-
-# Configure Cline in VS Code: point to http://localhost:11434
-# Set model: qwen2.5-coder:32b
-```
-
-**Key Win**: 100% private, zero API costs, matches GPT-4 on coding benchmarks at 32B parameter size.
+> Concrete recipes for building AI-powered developer tools and platforms.
+> Each pattern names specific repos, wiring instructions, and deal sizing.
+> Updated: 2026-07-09.
 
 ---
 
-## Pattern 2: AI-Powered Code Review in CI/CD
+## P1 — AI-Augmented Internal Developer Platform (IDP)
 
-**Problem**: Security and quality reviews are a bottleneck; too slow, too inconsistent.  
-**Stack**: claude-code-security-review + Semgrep + GitLab CI / GitHub Actions  
-**Licenses**: MIT (claude-code-security-review) + LGPL-2.1 (Semgrep)  
-**Time to demo**: 2 hours
+**Goal**: A self-hosted DevOps platform where AI agents handle code review, deployment, and incident triage.
+
+**Stack**:
+- **GitLab CE** (MIT) — source control + CI/CD + MR workflows
+- **OpenHands Enterprise** (MIT) — autonomous coding agent (handles MR fixes, dependency updates)
+- **LangGraph** (MIT) — orchestration for multi-step agent flows
+- **Prometheus + Grafana** (Apache-2.0 / AGPL) — observability
+- **MCP Python SDK** (MIT) — glue between agents and GitLab API
+
+```python
+# LangGraph workflow: AI-driven MR triage
+from langgraph.graph import StateGraph, END
+from anthropic import Anthropic
+
+client = Anthropic()
+
+def classify_mr(state):
+    mr_diff = state["mr_diff"]
+    response = client.messages.create(
+        model="claude-opus-4-8-20261001",
+        max_tokens=512,
+        messages=[{
+            "role": "user",
+            "content": f"Classify this MR as: trivial/feature/bugfix/breaking. Diff:\n{mr_diff}"
+        }]
+    )
+    state["classification"] = response.content[0].text
+    return state
+
+def auto_assign_reviewer(state):
+    # Route to appropriate reviewer based on classification
+    if "breaking" in state["classification"]:
+        state["reviewer"] = "senior-architect"
+    elif "feature" in state["classification"]:
+        state["reviewer"] = "team-lead"
+    else:
+        state["reviewer"] = "auto-approve"
+    return state
+
+def security_scan(state):
+    # Call claude-code-security-review MCP server
+    import subprocess
+    result = subprocess.run(
+        ["npx", "claude-code-security-review", "--diff", state["mr_diff"]],
+        capture_output=True, text=True
+    )
+    state["security_findings"] = result.stdout
+    return state
+
+graph = StateGraph(dict)
+graph.add_node("classify", classify_mr)
+graph.add_node("assign", auto_assign_reviewer)
+graph.add_node("security", security_scan)
+graph.add_edge("classify", "security")
+graph.add_edge("security", "assign")
+graph.add_edge("assign", END)
+graph.set_entry_point("classify")
+
+workflow = graph.compile()
+```
+
+**Deal size**: $120k–$500k | **Timeline**: 8–14 weeks
+**LATAM fit**: Air-gapped Brazilian banks, Argentine telcos, Colombian government
+
+---
+
+## P2 — Multi-Agent Software Engineering Team (MetaGPT + CrewAI)
+
+**Goal**: Build software from a natural language specification using a coordinated AI team.
+
+**Stack**:
+- **MetaGPT** (MIT, 67.9k★) — PM + Architect + Engineer pipeline
+- **CrewAI** (MIT, 52.8k★) — additional QA and DevOps agents
+- **Claude Opus 4.8** — underlying model (SWE-bench 88.6%)
+- **Gitea** (MIT) — version control for the generated codebase
+
+```python
+from crewai import Agent, Task, Crew
+import anthropic
+
+# Claude Opus 4.8 as the model backend (via OpenAI-compatible endpoint)
+qa_agent = Agent(
+    role="QA Engineer",
+    goal="Review generated code for bugs and security issues",
+    backstory="Expert QA engineer specializing in automated testing and OWASP compliance",
+    llm="claude-opus-4-8-20261001",
+    tools=["code_reader", "test_runner", "security_scanner"],
+    verbose=True
+)
+
+devops_agent = Agent(
+    role="DevOps Engineer",
+    goal="Package and deploy validated code to Gitea and trigger CI",
+    backstory="Senior DevOps engineer experienced with GitOps and Kubernetes",
+    llm="claude-sonnet-5-20261001",  # Haiku for cheaper operational tasks
+    tools=["git_tool", "docker_builder", "k8s_deployer"]
+)
+
+qa_task = Task(
+    description="Review all Python files generated by MetaGPT. Run pytest. Flag any issues.",
+    agent=qa_agent,
+    expected_output="Test report with pass/fail status and security findings"
+)
+
+deploy_task = Task(
+    description="If QA passes: git push to Gitea, trigger CI pipeline, report deployment URL.",
+    agent=devops_agent,
+    expected_output="Deployment confirmation with URL and pipeline status",
+    context=[qa_task]
+)
+
+crew = Crew(
+    agents=[qa_agent, devops_agent],
+    tasks=[qa_task, deploy_task],
+    verbose=True
+)
+
+result = crew.kickoff(inputs={"project_spec": "Build a FastAPI REST API for user management"})
+```
+
+**Deal size**: $80k–$300k | **Timeline**: 6–10 weeks
+**Use cases**: Rapid prototyping for startups, legacy modernization blueprints
+
+---
+
+## P3 — MCP Server Factory (Enterprise Tool Integration)
+
+**Goal**: Expose any client internal system (SAP, Salesforce, legacy API) as an MCP server for AI agent consumption.
+
+**Stack**:
+- **MCP Python SDK** (MIT, 8.2k★) — server implementation
+- **FastAPI** (MIT) — HTTP transport layer (MCP 2026-07-28 RC: stateless HTTP native)
+- **Claude Sonnet 5** — agent consuming the server
+- **Pydantic** — schema validation for tool inputs/outputs
+
+```python
+from mcp.server import FastMCP
+import httpx
+
+mcp = FastMCP("salesforce-crm")
+
+@mcp.tool()
+async def get_account(account_id: str) -> dict:
+    """Retrieve a Salesforce account by ID."""
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(
+            f"https://{SF_INSTANCE}.salesforce.com/services/data/v60.0/sobjects/Account/{account_id}",
+            headers={"Authorization": f"Bearer {SF_TOKEN}"}
+        )
+        return resp.json()
+
+@mcp.tool()
+async def create_opportunity(
+    account_id: str,
+    name: str,
+    amount: float,
+    close_date: str,
+    stage: str
+) -> dict:
+    """Create a new sales opportunity in Salesforce."""
+    async with httpx.AsyncClient() as client:
+        resp = await client.post(
+            f"https://{SF_INSTANCE}.salesforce.com/services/data/v60.0/sobjects/Opportunity",
+            headers={"Authorization": f"Bearer {SF_TOKEN}"},
+            json={
+                "AccountId": account_id,
+                "Name": name,
+                "Amount": amount,
+                "CloseDate": close_date,
+                "StageName": stage
+            }
+        )
+        return resp.json()
+
+# Deploy: uvicorn server:mcp.app --host 0.0.0.0 --port 8000
+# Register in Claude Code / Cursor / any MCP client
+if __name__ == "__main__":
+    mcp.run(transport="streamable-http")  # MCP 2026-07-28 RC transport
+```
+
+**Template libraries**:
+- SAP RFC → MCP (via pyrfc)
+- Salesforce SOQL → MCP (via simple-salesforce)
+- SAP S/4HANA OData → MCP
+- Oracle EBS REST → MCP
+- Mainframe COBOL via CICS → MCP (via ibm-mq-python)
+
+**Deal size**: $40k–$150k per integration | **Timeline**: 2–4 weeks per MCP server
+**Revenue model**: Productize as a Globant MCP Connector Library — sell subscriptions
+
+---
+
+## P4 — AI Code Review & Security Pipeline
+
+**Goal**: Automatically review every PR for bugs, security issues, and code quality using AI.
+
+**Stack**:
+- **claude-code-security-review** (MIT, 5.4k★) — GitHub Action
+- **LangGraph** (MIT) — multi-pass review orchestration
+- **code-review-graph** (MIT, 19.1k★) — code intelligence MCP server
+- **Evidently AI** (Apache-2.0) — regression tracking over time
 
 ```yaml
 # .github/workflows/ai-review.yml
-name: AI Security Review
-on: [pull_request]
+name: AI Code Review
 
-jobs:
-  semgrep:
-    uses: semgrep/semgrep-action@v2
-    with:
-      config: auto
-
-  ai-security-review:
-    uses: anthropics/claude-code-security-review@v1
-    with:
-      anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
-      # Reviews diff, posts inline comments on security issues
-
-  ai-quality-review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run Aider code review
-        run: |
-          pip install aider-chat
-          aider --review --message "Review this PR for code quality, naming, and maintainability"
-```
-
-**Key Win**: Security issues caught before human review; reviewers focus on architecture, not OWASP top 10.
-
----
-
-## Pattern 3: Autonomous Bug-Fix Agent (SWE-agent Pattern)
-
-**Problem**: Backlog of known bugs that no one has time to fix.  
-**Stack**: OpenHands + SWE-agent + GitLab + Pytest  
-**Licenses**: MIT (OpenHands, SWE-agent)  
-**Time to demo**: 1 day
-
-```python
-# autonomous_bugfix.py
-from openhands import Agent, GitHubEnvironment
-
-agent = Agent(
-    llm="claude-sonnet-5",  # or local vLLM endpoint
-    environment=GitHubEnvironment(
-        repo="org/repo",
-        token=os.environ["GITHUB_TOKEN"]
-    )
-)
-
-# Pull open bugs tagged "ai-fixable" from GitLab
-issues = gitlab.issues.list(labels=["ai-fixable"], state="opened")
-
-for issue in issues[:10]:  # process 10 bugs per run
-    result = agent.solve(
-        task=f"Fix bug: {issue.title}\n\n{issue.description}",
-        constraints=[
-            "Must pass all existing tests",
-            "Must not change public API signatures",
-            "PR description must explain root cause"
-        ]
-    )
-    if result.tests_pass:
-        gitlab.mergerequests.create({
-            "source_branch": result.branch,
-            "target_branch": "main",
-            "title": f"fix: {issue.title} (AI-generated)",
-            "description": result.explanation,
-            "labels": ["ai-generated", "needs-human-review"]
-        })
-```
-
-**Key Win**: 10-40% of backlog bugs fixed autonomously; team focuses on complex issues and review.
-
----
-
-## Pattern 4: AIOps Platform (Kubernetes + AI Diagnostics)
-
-**Problem**: SRE team spends 60% of time on alert triage vs. proactive reliability work.  
-**Stack**: Prometheus + Grafana + k8sgpt + LangGraph  
-**Licenses**: Apache-2.0 (Prometheus, k8sgpt) + AGPL-3.0 (Grafana) + MIT (LangGraph)  
-**Time to demo**: 1 day
-
-```python
-# aiops_agent.py
-from langchain_anthropic import ChatAnthropic
-from langgraph.graph import StateGraph
-import subprocess
-
-llm = ChatAnthropic(model="claude-sonnet-5")
-
-def check_k8s(state):
-    # k8sgpt scans cluster and outputs issues as JSON
-    result = subprocess.run(
-        ["k8sgpt", "analyze", "--output", "json", "--explain"],
-        capture_output=True, text=True
-    )
-    state["k8s_issues"] = json.loads(result.stdout)
-    return state
-
-def query_prometheus(state):
-    # Query for anomalies in the last hour
-    query = 'rate(http_requests_total{status=~"5.."}[5m]) > 0.1'
-    response = requests.get(f"{PROMETHEUS_URL}/api/v1/query", params={"query": query})
-    state["error_rate_metrics"] = response.json()["data"]["result"]
-    return state
-
-def triage_and_route(state):
-    issues = state["k8s_issues"] + state["error_rate_metrics"]
-    analysis = llm.invoke(f"""
-    Analyze these infrastructure issues:
-    {json.dumps(issues, indent=2)}
-    
-    For each issue:
-    1. Severity (P1/P2/P3)
-    2. Root cause hypothesis
-    3. Recommended remediation steps
-    4. Auto-fix if safe (restart pod, scale deployment, etc.)
-    
-    Output JSON array of actions.
-    """)
-    state["actions"] = json.loads(analysis.content)
-    return state
-
-def execute_safe_remediations(state):
-    for action in state["actions"]:
-        if action["severity"] == "P1" and action["auto_fix"] and action["risk"] == "low":
-            subprocess.run(action["kubectl_command"], shell=True)
-            # Post to Slack: f"Auto-fixed P1: {action['description']}"
-    return state
-
-# Build the graph
-graph = StateGraph(dict)
-graph.add_node("k8s_check", check_k8s)
-graph.add_node("metrics_query", query_prometheus)
-graph.add_node("triage", triage_and_route)
-graph.add_node("remediate", execute_safe_remediations)
-
-graph.add_edge("k8s_check", "triage")
-graph.add_edge("metrics_query", "triage")
-graph.add_edge("triage", "remediate")
-
-aiops_agent = graph.compile()
-
-# Run every 5 minutes via cron
-if __name__ == "__main__":
-    aiops_agent.invoke({"k8s_issues": [], "error_rate_metrics": [], "actions": []})
-```
-
-**Key Win**: P1 incidents auto-remediated in <2 min; MTTR drops 50%; SREs focus on root cause, not firefighting.
-
----
-
-## Pattern 5: Agent-Powered Developer Portal (Backstage + CrewAI)
-
-**Problem**: Developers waste 2+ hours/day on boilerplate service setup, documentation lookup, platform navigation.  
-**Stack**: Backstage + CrewAI + GitHub MCP + Confluence MCP  
-**Licenses**: Apache-2.0 (Backstage, CrewAI)  
-**Time to demo**: 2 days
-
-```python
-# backstage_agent_crew.py
-from crewai import Agent, Task, Crew, Process
-from crewai_tools import MCPClientToolset
-
-# Connect to existing platform tools via MCP
-github_tools = MCPClientToolset(server_url="http://github-mcp:3000")
-jira_tools = MCPClientToolset(server_url="http://jira-mcp:3000")
-backstage_tools = MCPClientToolset(server_url="http://backstage-mcp:3000")
-
-# Define specialized agents
-architect = Agent(
-    role="Platform Architect",
-    goal="Design the new service scaffolding",
-    tools=[backstage_tools],
-    llm="claude-sonnet-5"
-)
-
-integrator = Agent(
-    role="Integration Specialist",
-    goal="Wire up the service to platform services (auth, logging, tracing)",
-    tools=[github_tools],
-    llm="claude-sonnet-5"
-)
-
-documenter = Agent(
-    role="Technical Writer",
-    goal="Generate TechDocs for Backstage catalog",
-    tools=[backstage_tools],
-    llm="claude-haiku-4-5"  # cheaper model for docs
-)
-
-# Developer says: "Create a new Python FastAPI service called payment-processor"
-user_request = "Create a new Python FastAPI service called payment-processor with JWT auth, Postgres, and Prometheus metrics"
-
-crew = Crew(
-    agents=[architect, integrator, documenter],
-    tasks=[
-        Task(agent=architect, description=f"Scaffold service: {user_request}"),
-        Task(agent=integrator, description="Create GitHub repo, add CI/CD workflow, wire service mesh"),
-        Task(agent=documenter, description="Write TechDocs, register in Backstage catalog")
-    ],
-    process=Process.sequential
-)
-
-result = crew.kickoff()
-# Result: complete repo, CI/CD, docs, Backstage entry — in 5 minutes vs 2 hours manual
-```
-
-**Key Win**: New service setup drops from 2 hours → 5 minutes; developer experience score (DX) improvement measurable.
-
----
-
-## Pattern 6: MLOps Experiment Agent
-
-**Problem**: ML team runs experiments ad-hoc; no reproducibility, results scattered, best model hard to find.  
-**Stack**: MLflow + ZenML + LangGraph + Ray  
-**Licenses**: Apache-2.0 (MLflow, ZenML, Ray) + MIT (LangGraph)  
-**Time to demo**: 3 days
-
-```python
-# mlops_experiment_agent.py
-import mlflow
-from zenml.pipelines import pipeline
-from zenml.steps import step
-from langchain_anthropic import ChatAnthropic
-
-llm = ChatAnthropic(model="claude-sonnet-5")
-
-@step
-def analyze_experiments(experiment_name: str) -> str:
-    """AI agent that reads MLflow experiments and suggests next run."""
-    client = mlflow.tracking.MlflowClient()
-    runs = client.search_runs(
-        experiment_ids=[client.get_experiment_by_name(experiment_name).experiment_id],
-        order_by=["metrics.val_accuracy DESC"],
-        max_results=20
-    )
-    
-    runs_summary = [
-        {
-            "run_id": r.info.run_id,
-            "params": r.data.params,
-            "metrics": r.data.metrics,
-            "status": r.info.status
-        }
-        for r in runs
-    ]
-    
-    suggestion = llm.invoke(f"""
-    You are an ML experiment optimizer. Analyze these experiment runs:
-    {json.dumps(runs_summary, indent=2)}
-    
-    Suggest the next 3 hyperparameter configurations to try.
-    Explain why based on the trends you observe.
-    Output as JSON array with keys: learning_rate, batch_size, epochs, rationale.
-    """)
-    
-    return suggestion.content
-
-@step
-def run_suggested_experiments(suggestions: str) -> dict:
-    """Launch Ray distributed training for suggested configs."""
-    configs = json.loads(suggestions)
-    
-    import ray
-    from ray import tune
-    
-    ray.init()
-    
-    analysis = tune.run(
-        train_fn,  # your training function
-        config={
-            "learning_rate": tune.grid_search([c["learning_rate"] for c in configs]),
-            "batch_size": tune.grid_search([c["batch_size"] for c in configs]),
-        },
-        num_samples=len(configs),
-        resources_per_trial={"cpu": 4, "gpu": 1}
-    )
-    
-    best_config = analysis.best_config
-    mlflow.log_params(best_config)
-    
-    return {"best_config": best_config, "best_metric": analysis.best_result["val_accuracy"]}
-
-@pipeline
-def mlops_agent_pipeline():
-    suggestions = analyze_experiments(experiment_name="churn-prediction")
-    results = run_suggested_experiments(suggestions=suggestions)
-```
-
-**Key Win**: AI suggests next experiments based on run history; 60% less human time on hyperparameter search.
-
----
-
-## Pattern 7: Automated Documentation Agent
-
-**Problem**: Code documentation is always out of date; engineers don't write it, PMs can't read the code.  
-**Stack**: Aider + OpenHands + GitHub Actions + MkDocs  
-**Licenses**: Apache-2.0 (Aider, OpenHands) + MIT (MkDocs)  
-**Time to demo**: 4 hours
-
-```yaml
-# .github/workflows/auto-docs.yml
-name: AI Documentation Update
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/**/*.py'
-      - 'src/**/*.ts'
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
-  update-docs:
+  security-review:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # get diff
+          fetch-depth: 0
 
-      - name: Install Aider
-        run: pip install aider-chat
-
-      - name: Detect changed files
-        id: changed
-        run: |
-          echo "files=$(git diff --name-only HEAD~1 HEAD | grep -E '\.(py|ts)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
-
-      - name: Update docs with Aider
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          aider --model claude-haiku-4-5 \
-                --message "Update the documentation in docs/ to reflect changes in: ${{ steps.changed.outputs.files }}. 
-                           Update API docs, add new function docs, update README if needed.
-                           Keep docs accurate to the actual code — never invent behavior." \
-                ${{ steps.changed.outputs.files }} docs/
-
-      - name: Build and deploy docs
-        run: |
-          pip install mkdocs mkdocs-material
-          mkdocs gh-deploy --force
-
-      - name: Open PR for doc changes
-        uses: peter-evans/create-pull-request@v6
+      - name: AI Security Review
+        uses: anthropics/claude-code-security-review@v2
         with:
-          title: "docs: auto-update for changes in ${{ steps.changed.outputs.files }}"
-          body: "AI-generated documentation update. Please review before merging."
-          branch: "auto-docs-${{ github.sha }}"
-          labels: "auto-docs,needs-review"
-```
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-8-20261001
+          review_types: "security,owasp,secrets,dependencies"
+          post_as_pr_comment: true
+          fail_on_critical: true
 
-**Key Win**: Docs update automatically on every merge; junior developers can understand codebase faster.
-
----
-
-## Pattern 8: Multi-Language Codebase Migration Agent
-
-**Problem**: Client has a large Java 8 / PHP 5 legacy codebase they need to migrate to modern stack.  
-**Stack**: OpenHands + SWE-agent + LangGraph + Pytest/JUnit  
-**Licenses**: MIT (OpenHands, SWE-agent, LangGraph)  
-**Time to first module migrated**: 1 week
-
-```python
-# migration_agent.py
-from openhands import Agent, LocalEnvironment
-from langgraph.graph import StateGraph
-
-def analyze_module(state):
-    """Analyze a legacy module: dependencies, complexity, test coverage."""
-    agent = Agent(llm="claude-sonnet-5", environment=LocalEnvironment())
-    analysis = agent.run(f"""
-    Analyze the legacy module: {state['module_path']}
-    
-    Report:
-    1. External dependencies (package versions)
-    2. Internal dependencies (other modules it calls)
-    3. Cyclomatic complexity per function
-    4. Existing test coverage (%)
-    5. Migration complexity: LOW / MEDIUM / HIGH
-    6. Suggested target stack (FastAPI/Spring Boot/NestJS)
-    """)
-    state['analysis'] = analysis
-    return state
-
-def write_tests_first(state):
-    """Generate characterization tests before migration — lock in current behavior."""
-    agent = Agent(llm="claude-sonnet-5", environment=LocalEnvironment())
-    agent.run(f"""
-    Write comprehensive characterization tests for: {state['module_path']}
-    
-    Rules:
-    - Tests must pass against the EXISTING code
-    - Cover all public functions/endpoints
-    - Include edge cases found in the code
-    - Output as pytest / JUnit format
-    - Place in tests/characterization/{state['module_name']}/
-    """)
-    return state
-
-def migrate_module(state):
-    """Migrate the module to modern stack, guided by characterization tests."""
-    agent = Agent(llm="claude-sonnet-5", environment=LocalEnvironment())
-    agent.run(f"""
-    Migrate {state['module_path']} to {state['analysis']['target_stack']}.
-    
-    Constraints:
-    - ALL characterization tests in tests/characterization/{state['module_name']}/ must pass
-    - Preserve the same public API contract
-    - Use modern patterns (async/await, type hints, dependency injection)
-    - Add proper error handling and logging
-    - Output to: src_new/{state['module_name']}/
-    """)
-    return state
-
-# LangGraph orchestration
-graph = StateGraph(dict)
-graph.add_node("analyze", analyze_module)
-graph.add_node("test", write_tests_first)
-graph.add_node("migrate", migrate_module)
-
-graph.add_edge("analyze", "test")
-graph.add_edge("test", "migrate")
-
-migration_graph = graph.compile()
-```
-
-**Key Win**: Characterization tests prevent regressions; agent handles boilerplate migration, humans handle architecture decisions.
-
----
-
----
-
-## Pattern 9: LLM Observability Foundation (Langfuse Self-Hosted)
-
-**Problem**: AI agents in production behave unexpectedly — hallucinations, high latency, prompt regressions — and there's no visibility into what's happening.  
-**Stack**: Langfuse + OpenTelemetry + Claude (Anthropic SDK) + PostgreSQL  
-**Licenses**: MIT (Langfuse) + Apache-2.0 (OpenTelemetry)  
-**Time to demo**: 4 hours
-
-```yaml
-# docker-compose.yml — self-hosted Langfuse
-version: "3.8"
-services:
-  langfuse-server:
-    image: langfuse/langfuse:3
-    ports: ["3000:3000"]
-    environment:
-      DATABASE_URL: "postgresql://langfuse:secret@db/langfuse"
-      NEXTAUTH_SECRET: "change-me-in-production"
-      NEXTAUTH_URL: "http://localhost:3000"
-      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "true"
-    depends_on: [db]
-  db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: langfuse
-      POSTGRES_USER: langfuse
-      POSTGRES_PASSWORD: secret
-    volumes: [postgres_data:/var/lib/postgresql/data]
-volumes:
-  postgres_data:
+      - name: Multi-Pass Quality Review
+        run: |
+          python review_orchestrator.py \
+            --pr ${{ github.event.pull_request.number }} \
+            --passes "correctness,performance,maintainability"
 ```
 
 ```python
-# agent_with_observability.py
-import os
-from langfuse import Langfuse
-from langfuse.decorators import observe, langfuse_context
+# review_orchestrator.py — LangGraph multi-pass review
+from langgraph.graph import StateGraph, END
 from anthropic import Anthropic
 
-langfuse = Langfuse(
-    host=os.environ["LANGFUSE_HOST"],       # http://localhost:3000
-    public_key=os.environ["LANGFUSE_PUBLIC_KEY"],
-    secret_key=os.environ["LANGFUSE_SECRET_KEY"],
+REVIEW_PASSES = ["correctness", "performance", "maintainability", "test_coverage"]
+
+def build_review_graph():
+    client = Anthropic()
+    graph = StateGraph(dict)
+
+    for pass_name in REVIEW_PASSES:
+        def make_reviewer(name):
+            def reviewer(state):
+                diff = state["pr_diff"]
+                response = client.messages.create(
+                    model="claude-sonnet-5-20261001",
+                    max_tokens=1024,
+                    system=f"You are a {name} expert reviewing a pull request. Be concise and actionable.",
+                    messages=[{"role": "user", "content": f"Review this diff for {name} issues:\n\n{diff}"}]
+                )
+                state[f"{name}_findings"] = response.content[0].text
+                return state
+            return reviewer
+        graph.add_node(pass_name, make_reviewer(pass_name))
+
+    # Chain passes sequentially
+    for i, pass_name in enumerate(REVIEW_PASSES[:-1]):
+        graph.add_edge(pass_name, REVIEW_PASSES[i + 1])
+    graph.add_edge(REVIEW_PASSES[-1], END)
+    graph.set_entry_point(REVIEW_PASSES[0])
+    return graph.compile()
+```
+
+**Deal size**: $60k–$200k | **Timeline**: 4–8 weeks
+**ROI story**: Catch critical bugs before prod. Average enterprise bug fix cost: $10k+ in prod vs $150 in PR review.
+
+---
+
+## P5 — Self-Hosted MLOps Platform with AI Pipeline Advisor
+
+**Goal**: Production ML platform with an AI agent that advises on experiments, detects drift, and suggests pipeline improvements.
+
+**Stack**:
+- **MLflow** (Apache-2.0, 20k★) — experiment tracking + model registry
+- **Kubeflow** (Apache-2.0, 14.5k★) — pipeline orchestration on K8s
+- **Evidently AI** (Apache-2.0, 6.5k★) — drift detection + monitoring
+- **DVC** (Apache-2.0, 14.2k★) — data versioning
+- **smolagents** (Apache-2.0, 27.7k★) — AI advisor agent (cheapest per-token)
+- **Claude Haiku 4.5** — fast inference for real-time monitoring queries
+
+```python
+from smolagents import CodeAgent, tool
+import mlflow
+import anthropic
+
+@tool
+def get_experiment_runs(experiment_name: str, limit: int = 10) -> list:
+    """Retrieve recent MLflow runs for an experiment."""
+    client = mlflow.tracking.MlflowClient()
+    experiment = client.get_experiment_by_name(experiment_name)
+    runs = client.search_runs(
+        experiment_ids=[experiment.experiment_id],
+        max_results=limit,
+        order_by=["start_time DESC"]
+    )
+    return [{"run_id": r.info.run_id, "metrics": r.data.metrics, "params": r.data.params} for r in runs]
+
+@tool
+def check_model_drift(model_name: str, reference_dataset: str, current_dataset: str) -> dict:
+    """Run Evidently drift detection between reference and current data."""
+    import pandas as pd
+    from evidently.report import Report
+    from evidently.metric_preset import DataDriftPreset
+
+    ref = pd.read_parquet(reference_dataset)
+    cur = pd.read_parquet(current_dataset)
+    report = Report(metrics=[DataDriftPreset()])
+    report.run(reference_data=ref, current_data=cur)
+    return report.as_dict()
+
+# MLOps advisor agent using smolagents + Claude Haiku (cheapest per-token)
+advisor = CodeAgent(
+    tools=[get_experiment_runs, check_model_drift],
+    model="claude-haiku-4-5-20251001",
+    max_steps=5
 )
+
+# Example query
+result = advisor.run(
+    "Check if the fraud_detection model has drifted in the last 7 days. "
+    "If drift detected, suggest hyperparameter adjustments based on last 10 runs."
+)
+print(result)
+```
+
+**Deal size**: $150k–$600k | **Timeline**: 10–16 weeks
+**Target**: LATAM banks and fintechs starting ML programs; pharma, retail analytics teams
+
+---
+
+## P6 — Autonomous DevOps Incident Response Agent
+
+**Goal**: AI agent that monitors observability stack, triages incidents, and auto-remediates known issues.
+
+**Stack**:
+- **Prometheus** (Apache-2.0, 58k★) — metrics source
+- **Grafana** (AGPL, 65k★) — alert management
+- **OpenTelemetry Collector** (Apache-2.0) — trace aggregation
+- **LangGraph** (MIT) — agent state machine (detect → classify → remediate → verify)
+- **Claude Sonnet 5** — reasoning for triage decisions
+- **MCP Python SDK** — tool integration with K8s, PagerDuty, Slack
+
+```python
+from langgraph.graph import StateGraph, END
+from anthropic import Anthropic
+import json
+
 client = Anthropic()
 
-@observe(name="code-review-agent")
-def review_pull_request(pr_diff: str, repo: str) -> dict:
-    """Review a PR diff for security and quality issues."""
-    langfuse_context.update_current_observation(
-        metadata={"repo": repo, "diff_lines": len(pr_diff.splitlines())}
+def detect_anomaly(state):
+    """Query Prometheus for metric anomalies."""
+    import httpx
+    resp = httpx.get(
+        "http://prometheus:9090/api/v1/query",
+        params={"query": "rate(http_requests_total[5m]) > 1000"}
     )
+    state["alerts"] = resp.json()["data"]["result"]
+    return state
 
+def triage_incident(state):
+    """Use Claude Sonnet to classify severity and probable cause."""
+    alerts_json = json.dumps(state["alerts"], indent=2)
     response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2048,
+        model="claude-sonnet-5-20261001",
+        max_tokens=1024,
         messages=[{
             "role": "user",
-            "content": f"""Review this PR diff for security vulnerabilities and code quality:
+            "content": f"""Triage these Prometheus alerts. Classify: severity (P1/P2/P3), 
+probable cause, and recommended immediate action.
 
-{pr_diff}
+Alerts:
+{alerts_json}
 
-Output JSON: {{"issues": [{{"severity": "HIGH|MEDIUM|LOW", "file": "...", "line": 0, "description": "..."}}], "overall_quality": "PASS|REVIEW|FAIL"}}"""
+Respond as JSON: {{"severity": "P1", "cause": "...", "action": "...", "auto_remediate": true/false}}"""
         }]
     )
+    state["triage"] = json.loads(response.content[0].text)
+    return state
 
-    result = response.content[0].text
-    langfuse_context.update_current_observation(
-        output=result,
-        usage={"input": response.usage.input_tokens, "output": response.usage.output_tokens}
-    )
-    return result
+def auto_remediate(state):
+    """Execute remediation if auto_remediate=true and severity P2/P3."""
+    triage = state["triage"]
+    if triage.get("auto_remediate") and triage.get("severity") in ["P2", "P3"]:
+        # Execute K8s rollout restart for the affected service
+        import subprocess
+        subprocess.run(["kubectl", "rollout", "restart", "deployment/api-service"])
+        state["remediated"] = True
+    return state
 
-# Run an eval pipeline on traced outputs
-def run_weekly_eval():
-    """Score recent traces for hallucination and quality."""
-    dataset = langfuse.get_dataset("pr-reviews-sample")
-    for item in dataset.items:
-        with item.observe(run_name="eval-run-2026-07") as trace_id:
-            result = review_pull_request(item.input["diff"], item.input["repo"])
-            item.link(trace_id, run_name="eval-run-2026-07")
-            langfuse.score(
-                name="format-correctness",
-                value=1.0 if "issues" in result else 0.0,
-                trace_id=trace_id
-            )
+def notify_team(state):
+    """Post to Slack/PagerDuty with triage result."""
+    import httpx
+    triage = state["triage"]
+    message = f"*{triage['severity']} Incident*\nCause: {triage['cause']}\nAction: {triage['action']}\nAuto-remediated: {state.get('remediated', False)}"
+    httpx.post(SLACK_WEBHOOK_URL, json={"text": message})
+    return state
+
+graph = StateGraph(dict)
+graph.add_node("detect", detect_anomaly)
+graph.add_node("triage", triage_incident)
+graph.add_node("remediate", auto_remediate)
+graph.add_node("notify", notify_team)
+graph.add_edge("detect", "triage")
+graph.add_edge("triage", "remediate")
+graph.add_edge("remediate", "notify")
+graph.add_edge("notify", END)
+graph.set_entry_point("detect")
+
+incident_agent = graph.compile()
+# Run every 60 seconds via cron or Kubernetes CronJob
 ```
 
-**Key Win**: Full trace visibility into every AI call; eval datasets catch prompt regressions; EU AI Act compliance documentation auto-generated from traces. $50k–$150k engagement size.
+**Deal size**: $80k–$350k | **Timeline**: 6–10 weeks
+**LATAM fit**: Brazilian and Argentine telcos, e-commerce (handling Black Friday traffic)
 
 ---
 
-## Pattern 10: Kubernetes AI Platform (kagent + k8sgpt + LangGraph)
+## P7 — Dify-Based Enterprise AI App Platform
 
-**Problem**: Platform engineering team wants to deploy AI agents to production on Kubernetes using the same GitOps workflow as all other workloads.  
-**Stack**: kagent + k8sgpt + LangGraph + Prometheus + Anthropic Claude  
-**Licenses**: Apache-2.0 (kagent, k8sgpt, LangGraph, Prometheus)  
-**Time to demo**: 1 day
+**Goal**: Self-hosted Dify deployment as the foundation for multiple AI applications (chatbots, RAG, agents) for a client organization.
 
-```yaml
-# kagent-sre-agent.yaml — deploy an AI agent as a K8s resource
-apiVersion: kagent.dev/v1alpha1
-kind: Agent
-metadata:
-  name: sre-incident-responder
-  namespace: ai-ops
-spec:
-  description: "Monitors cluster health, triages incidents, auto-remediates P1s"
-  systemPrompt: |
-    You are an SRE agent for our production Kubernetes cluster.
-    When given an alert, you must:
-    1. Query Prometheus for related metrics (last 30 min)
-    2. Run k8sgpt analyze to scan affected namespace
-    3. Determine root cause with confidence level
-    4. If confidence > 0.85 AND severity == P1 AND action is safe: execute remediation
-    5. Otherwise: create incident report and page on-call via PagerDuty MCP
-    Always log reasoning to Langfuse trace.
-  model:
-    apiKeySecret: anthropic-api-key
-    provider: anthropic
-    name: claude-sonnet-5
-  tools:
-    - type: MCPServer
-      mcpServer:
-        url: http://prometheus-mcp:8080   # Prometheus queries
-    - type: MCPServer
-      mcpServer:
-        url: http://k8sgpt-mcp:8080       # K8s diagnostics
-    - type: MCPServer
-      mcpServer:
-        url: http://pagerduty-mcp:8080    # incident management
-```
-
-```python
-# sre_langraph_brain.py — optional: LangGraph orchestration for complex multi-step incidents
-from langchain_anthropic import ChatAnthropic
-from langgraph.graph import StateGraph, END
-from typing import TypedDict
-import subprocess, json, requests
-
-class IncidentState(TypedDict):
-    alert: dict
-    k8s_analysis: str
-    metrics: list
-    root_cause: str
-    confidence: float
-    action_taken: str
-
-llm = ChatAnthropic(model="claude-sonnet-5")
-
-def gather_context(state: IncidentState) -> IncidentState:
-    ns = state["alert"].get("namespace", "default")
-    # k8sgpt analyze
-    k8s = subprocess.run(
-        ["k8sgpt", "analyze", "-n", ns, "--output", "json", "--explain"],
-        capture_output=True, text=True
-    )
-    state["k8s_analysis"] = k8s.stdout
-    # Prometheus — fetch error rate for namespace
-    q = f'sum(rate(http_requests_total{{namespace="{ns}",status=~"5.."}}[5m]))'
-    r = requests.get(f"{PROMETHEUS_URL}/api/v1/query", params={"query": q}).json()
-    state["metrics"] = r["data"]["result"]
-    return state
-
-def diagnose(state: IncidentState) -> IncidentState:
-    response = llm.invoke(f"""
-Alert: {json.dumps(state['alert'])}
-K8s diagnostics: {state['k8s_analysis']}
-Error rate metrics: {json.dumps(state['metrics'])}
-
-Identify root cause and provide:
-- root_cause: one sentence
-- confidence: float 0.0–1.0
-- remediation: kubectl command if safe, else null
-Output as JSON.
-""")
-    parsed = json.loads(response.content)
-    state["root_cause"] = parsed["root_cause"]
-    state["confidence"] = parsed["confidence"]
-    state["remediation"] = parsed.get("remediation")
-    return state
-
-def remediate(state: IncidentState) -> IncidentState:
-    if state["confidence"] >= 0.85 and state.get("remediation"):
-        result = subprocess.run(state["remediation"].split(), capture_output=True, text=True)
-        state["action_taken"] = f"Auto-remediated: {state['remediation']}"
-    else:
-        state["action_taken"] = "Escalated to on-call (confidence too low for auto-remediation)"
-    return state
-
-def should_auto_remediate(state: IncidentState) -> str:
-    return "remediate" if state["confidence"] >= 0.85 else "escalate"
-
-graph = StateGraph(IncidentState)
-graph.add_node("gather", gather_context)
-graph.add_node("diagnose", diagnose)
-graph.add_node("remediate", remediate)
-graph.add_node("escalate", lambda s: {**s, "action_taken": "Paged on-call"})
-
-graph.set_entry_point("gather")
-graph.add_edge("gather", "diagnose")
-graph.add_conditional_edges("diagnose", should_auto_remediate, {"remediate": "remediate", "escalate": "escalate"})
-graph.add_edge("remediate", END)
-graph.add_edge("escalate", END)
-
-sre_agent = graph.compile()
-```
+**Stack**:
+- **Dify** (Apache-2.0, 144k★) — visual AI app builder
+- **MCP Python SDK** — extend Dify with custom MCP tools
+- **Claude Sonnet 5** — primary model (best cost/performance in 2026)
+- **Qdrant** (Apache-2.0) — vector store for RAG
+- **PostgreSQL** — Dify metadata store
 
 ```bash
-# Deploy via kubectl (GitOps-compatible)
-kubectl apply -f kagent-sre-agent.yaml
+# Self-hosted Dify deployment
+git clone https://github.com/langgenius/dify.git
+cd dify/docker
+cp .env.example .env
 
-# View agent status like any K8s resource
-kubectl get agents -n ai-ops
-kubectl describe agent sre-incident-responder -n ai-ops
-kubectl logs -n ai-ops -l app=kagent-agent --follow
+# Configure .env:
+# ANTHROPIC_API_KEY=sk-ant-...
+# SECRET_KEY=<random-32-chars>
+# DB_HOST=postgres
+# VECTOR_STORE=qdrant
+# QDRANT_URL=http://qdrant:6333
+
+docker compose up -d
+
+# Access at http://localhost/
+# Build apps via visual canvas — no code required
 ```
 
-**Key Win**: AI agents managed with existing K8s tooling (kubectl, GitOps, Helm); SREs don't need to learn new platforms. P1 incidents auto-remediated in <2 min; 50% MTTR reduction. $100k–$400k engagement size.
+**Dify as Platform**:
+1. **Knowledge Base**: Upload PDFs, CSVs, web pages → auto-chunked RAG
+2. **Chatbot**: Customer support agent with retrieval over product docs
+3. **Agent**: Multi-tool agent with MCP servers for CRM, ERP, Slack
+4. **Workflow**: Visual multi-step pipelines (form → classify → route → respond)
+5. **API**: Every app gets a REST API — embed in any client UI
+
+**Deal size**: $50k–$200k platform setup + $30k–$80k/app | **Timeline**: 3–6 weeks platform + 1–2 weeks/app
+**LATAM fit**: Any enterprise replacing off-the-shelf chatbot vendors with a self-hosted, data-sovereign solution
 
 ---
 
----
+## P8 — Code Intelligence MCP Server for Existing Codebase
 
-## Pattern 11: Gemini CLI + GitHub Actions Free AI CI (Zero-Cost Baseline)
+**Goal**: Give AI coding agents deep understanding of a large, legacy codebase via an MCP server that builds and queries a code graph.
 
-**Problem**: Client wants AI in CI/CD pipeline but can't justify per-seat licensing costs.  
-**Stack**: Gemini CLI GitHub Actions + claude-code-security-review + Semgrep  
-**Licenses**: Apache-2.0 (Gemini CLI, Semgrep LGPL-2.1) + MIT (claude-code-security-review)  
-**Time to demo**: 2 hours  
-**Deal size**: $40k–$120k (setup + customization)
-
-```yaml
-# .github/workflows/ai-ci-dual.yml
-name: AI CI Suite
-on: [pull_request]
-
-jobs:
-  gemini-review:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-      - name: Gemini CLI Code Review
-        uses: google-gemini/gemini-cli-action@v1
-        with:
-          google_api_key: ${{ secrets.GOOGLE_API_KEY }}
-          # Free with personal Google account API key
-          prompt: |
-            Review this PR diff for:
-            1. Logic errors and edge cases
-            2. Performance concerns
-            3. Code style and naming
-            Post a detailed review comment.
-
-  claude-security:
-    uses: anthropics/claude-code-security-review@v1
-    with:
-      anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
-      # Reviews diff for OWASP top 10, secrets, injection vulnerabilities
-
-  semgrep-scan:
-    uses: semgrep/semgrep-action@v2
-    with:
-      config: auto  # OWASP + community rules, free tier available
-```
-
-**Dual-Agent Pattern**: Gemini CLI handles code quality + logic; Claude handles security. Different models catch different issues — higher combined catch rate than single model.
-
-**Key Win**: Zero per-seat cost for basic AI CI (Gemini free tier + Semgrep community); ~$40k engagement to customize rules, integrate with Jira, train team.
-
----
-
-## Pattern 12: LATAM AI Nearshore Team Kit
-
-**Problem**: Client needs to scale AI development capacity without $146k+/year US AI engineer costs.  
-**Stack**: Ollama + Cline + LangGraph + Langfuse + GitHub Actions  
-**Licenses**: All MIT/Apache-2.0 — zero licensing cost  
-**Setup time**: 2-3 weeks  
-**Deal size**: $200k–$800k (team augmentation + tooling setup)
+**Stack**:
+- **code-review-graph** (MIT, 19.1k★) — code intelligence graph builder
+- **MCP Python SDK** (MIT) — expose as MCP server
+- **Qdrant** (Apache-2.0) — semantic code search
+- **Claude Code** / **Cursor** — agent clients consuming the server
 
 ```python
-# team_ai_kit/setup.py
-"""
-LATAM AI Nearshore Team Stack — standardizes tooling across 3-6 person LATAM squad.
-Cost model: ~$40,800/yr per LATAM AI engineer vs $146,714 US. Save ~$100k/engineer/yr.
-"""
+# code_intel_mcp.py — code intelligence MCP server
+from mcp.server import FastMCP
+from pathlib import Path
+import ast, json
 
-TEAM_STACK = {
-    "local_ai": {
-        "tool": "Ollama + Qwen2.5-Coder:32b",
-        "license": "MIT",
-        "cost": "$0/month (runs on team GPU server)",
-        "why": "Private coding AI — no code leaves org, no API costs for day-to-day dev",
-    },
-    "ide_agent": {
-        "tool": "Cline (VS Code) or Aider (terminal)",
-        "license": "Apache-2.0",
-        "why": "Each engineer gets personal AI pair-programmer; routes to Ollama server",
-    },
-    "orchestration": {
-        "tool": "LangGraph + CrewAI",
-        "license": "MIT",
-        "why": "Team builds agent workflows using same OSS stack as US-based AI shops",
-    },
-    "observability": {
-        "tool": "Langfuse (self-hosted Docker)",
-        "license": "MIT",
-        "cost": "$0 (self-hosted)",
-        "why": "All AI traces visible to client; EU AI Act + LGPD compliant; no data to third parties",
-    },
-    "ci_ai": {
-        "tool": "Gemini CLI GitHub Actions + claude-code-security-review",
-        "license": "Apache-2.0 + MIT",
-        "cost": "Free tier + API cost",
-        "why": "Automated quality gate — AI reviews every PR before human code review",
-    },
-}
+mcp = FastMCP("code-intelligence")
 
-# Quick Ollama + Qwen team setup
-OLLAMA_SETUP = """
-# On team GPU server (A10G or similar)
-docker run -d --gpus all -v ollama:/root/.ollama -p 11434:11434 ollama/ollama
-ollama pull qwen2.5-coder:32b
+# Pre-built index: python code_review_graph.py --repo /path/to/codebase --output index.json
+with open("index.json") as f:
+    CODE_INDEX = json.load(f)
 
-# Each team member's Cline config (VS Code settings.json)
-{
-  "cline.apiProvider": "ollama",
-  "cline.ollamaBaseUrl": "http://gpu-server.internal:11434",
-  "cline.ollamaModelId": "qwen2.5-coder:32b"
-}
+@mcp.tool()
+def find_function(name: str) -> dict:
+    """Find a function definition by name across the codebase."""
+    results = []
+    for file_path, functions in CODE_INDEX["functions"].items():
+        for func in functions:
+            if name.lower() in func["name"].lower():
+                results.append({
+                    "file": file_path,
+                    "line": func["line"],
+                    "signature": func["signature"],
+                    "docstring": func.get("docstring", "")
+                })
+    return {"matches": results[:10]}
+
+@mcp.tool()
+def get_callers(function_name: str) -> list:
+    """Find all places in the codebase that call a given function."""
+    callers = CODE_INDEX["call_graph"].get(function_name, [])
+    return callers
+
+@mcp.tool()
+def get_module_summary(module_path: str) -> str:
+    """Get a natural language summary of a Python module."""
+    module_data = CODE_INDEX["modules"].get(module_path, {})
+    return f"""
+Module: {module_path}
+Classes: {', '.join(module_data.get('classes', []))}
+Functions: {', '.join(module_data.get('functions', [])[:10])}
+Imports: {', '.join(module_data.get('imports', [])[:10])}
+Lines: {module_data.get('lines', 'unknown')}
 """
 
-# Langfuse team observability
-LANGFUSE_DOCKER = """
-docker compose up -d  # standard langfuse docker-compose.yml
-# All agent traces from LATAM team visible to client dashboard
-# LGPD compliant: data stays in client's cloud (AWS São Paulo / GCP Chile)
-"""
+if __name__ == "__main__":
+    mcp.run(transport="streamable-http")
 ```
 
-**LATAM Region Guide**:
-
-| Country | Timezone vs US-East | English Level | AI Talent Pool | Best For |
-|---------|---------------------|---------------|----------------|----------|
-| Mexico | UTC-6 (1h behind ET) | High | Very deep, USMCA contracts | Full team; best overlap with US East |
-| Colombia | UTC-5 (same as ET) | High | Growing fast | Real-time collaboration; 20-30% cheaper than Mexico |
-| Argentina | UTC-3 (2h ahead ET) | High | Strong ML/data science | Complex AI/ML work; highest per-capita GitHub activity |
-| Brazil | UTC-3 | Medium | Deep pool | Large-scale; LGPD compliance experience |
-| Chile | UTC-4 | High | Fintech-focused | Regulated industries; strong English |
-
-**Key Win**: Save $100k/engineer/year vs US hire; team uses same OSS stack as top AI shops; Langfuse traces give client full visibility into LATAM team's AI-assisted output quality.
+**Deal size**: $40k–$120k | **Timeline**: 3–5 weeks
+**Use case**: Enable AI coding agents to navigate 500k+ LOC legacy codebases without hallucinating file paths and function names
 
 ---
 
-## Pattern Selection Guide
+## P9 — OpenHands Enterprise Deployment (LATAM Air-Gap)
 
-| Client Situation | Start With | Why | Deal Size |
-|-----------------|-----------|-----|-----------|
-| Wants to try AI coding | Pattern 1 (Private Copilot) | Zero risk, immediate dev productivity | $60k–$200k |
-| Security/compliance concern | Pattern 2 (AI Code Review) | Measurable security improvement, CI/CD native | $40k–$120k |
-| Bug backlog out of control | Pattern 3 (Autonomous Bug Fix) | Quantifiable ROI: bugs closed / sprint | $80k–$250k |
-| SRE team overwhelmed | Pattern 4 (AIOps) | MTTR reduction is easy to measure | $100k–$400k |
-| Platform engineering modernization | Pattern 5 (Dev Portal) | Developer experience transformation | $150k–$500k |
-| Data science team needs structure | Pattern 6 (MLOps) | Reproducibility + experiment ROI | $120k–$350k |
-| Documentation always stale | Pattern 7 (Auto Docs) | Quick win, high perceived value by non-tech | $30k–$80k |
-| Legacy modernization project | Pattern 8 (Migration Agent) | Reduce migration cost by 40-60% | $200k–$800k |
-| AI in prod with no visibility | Pattern 9 (LLM Observability) | Langfuse self-hosted; EU AI Act readiness | $50k–$150k |
-| K8s platform + AI agents | Pattern 10 (kagent platform) | GitOps-native agent deployment; SRE + AI bundled | $100k–$400k |
-| Zero-cost AI CI/CD baseline | Pattern 11 (Gemini CLI Actions) | Free tier + Apache-2.0; great client POC entry | $40k–$120k |
-| Scale dev team without US cost | Pattern 12 (LATAM Nearshore Kit) | $100k/engineer savings; same OSS stack | $200k–$800k |
+**Goal**: On-premise OpenHands deployment for an enterprise LATAM client requiring data residency.
+
+**Stack**:
+- **OpenHands Enterprise** (MIT, 79.6k★) — coding agent platform
+- **Kubernetes** — deployment target
+- **Claude API via AWS Bedrock** or **Anthropic private endpoint** — keeps data in-region
+- **Gitea** (MIT) — internal version control (no GitHub dependency)
+- **Harbor** (Apache-2.0) — private container registry
+
+```yaml
+# kubernetes/openhands-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openhands-server
+  namespace: ai-platform
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: openhands
+  template:
+    metadata:
+      labels:
+        app: openhands
+    spec:
+      containers:
+      - name: openhands
+        image: harbor.internal.company.com/ai/openhands:0.40
+        env:
+        - name: LLM_MODEL
+          value: "bedrock/anthropic.claude-opus-4-8-20261001-v1:0"
+        - name: LLM_AWS_REGION
+          value: "us-east-1"  # or sa-east-1 for Brazil
+        - name: SANDBOX_RUNTIME
+          value: "docker"
+        - name: ENABLE_RBAC
+          value: "true"
+        - name: AUDIT_LOG_LEVEL
+          value: "full"  # Required for EU AI Act compliance
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2"
+          limits:
+            memory: "8Gi"
+            cpu: "4"
+      imagePullSecrets:
+      - name: harbor-registry-secret
+```
+
+**Deal size**: $200k–$800k | **Timeline**: 10–16 weeks
+**LATAM fit**: Brazilian LGPD compliance, Argentine data localization, Colombian data sovereignty requirements
+
+---
+
+## P10 — SKILL.md Library for Enterprise Domain Agents
+
+**Goal**: Build a Globant-branded library of SKILL.md skills that any Claude Code / OpenCode / Hermes agent can load.
+
+**Concept**: SKILL.md files describe agent capabilities as composable, versionable units — the "npm packages" of the agent world.
+
+```markdown
+# SKILL: Salesforce Contact Sync
+# Description: Sync contacts between a CSV/database and Salesforce
+# License: MIT (Globant AI Studios)
+# Version: 1.0.0
+# Compatible-with: Claude Code, OpenCode, Hermes Agent
+
+## Prerequisites
+- Salesforce API credentials in env: SF_INSTANCE, SF_TOKEN
+- Python: simple-salesforce>=1.12
+
+## Usage
+Ask the agent: "Sync contacts from contacts.csv to Salesforce, dedup by email"
+
+## Tools Available
+- `sf_create_contact(email, first_name, last_name, account_id)` — Create SF contact
+- `sf_find_contact(email)` — Find contact by email
+- `sf_update_contact(contact_id, **fields)` — Update contact fields
+
+## Security
+- Never log SF_TOKEN
+- Validate email format before API calls
+- Rate limit: 100 calls/minute max
+```
+
+**SKILL library structure**:
+```
+globant-skills/
+├── crm/
+│   ├── salesforce-sync.md
+│   ├── hubspot-lead-enrich.md
+│   └── dynamics-opportunity.md
+├── erp/
+│   ├── sap-material-lookup.md
+│   └── odoo-invoice-create.md
+├── devops/
+│   ├── k8s-deployment-health.md
+│   └── github-pr-review.md
+└── data/
+    ├── postgres-query-agent.md
+    └── bigquery-analytics.md
+```
+
+**Deal size**: $30k–$80k per domain library | **Timeline**: 2–4 weeks
+**Revenue model**: License library to enterprise clients as annual subscription. Builds Globant's moat in agentic enterprise integrations.
+
+---
+
+## Quick-Start Matrix
+
+| Pattern | Stack | Timeline | Deal Size | Best Fit |
+|---------|-------|----------|-----------|----------|
+| P1: AI Internal Developer Platform | GitLab + OpenHands + LangGraph | 8–14w | $120k–$500k | Enterprise LATAM |
+| P2: Multi-Agent Software Team | MetaGPT + CrewAI + Claude Opus 4.8 | 6–10w | $80k–$300k | Startups, rapid proto |
+| P3: MCP Server Factory | MCP SDK + FastAPI | 2–4w/server | $40k–$150k | Any enterprise integration |
+| P4: AI Code Review Pipeline | claude-code-security-review + LangGraph | 4–8w | $60k–$200k | Any dev team |
+| P5: Self-Hosted MLOps + AI Advisor | MLflow + Kubeflow + smolagents | 10–16w | $150k–$600k | Banks, pharma, retail |
+| P6: Incident Response Agent | Prometheus + LangGraph + Claude | 6–10w | $80k–$350k | Telcos, e-commerce |
+| P7: Dify Enterprise AI Platform | Dify + MCP + Qdrant | 3–6w | $50k–$200k | Any enterprise chatbot |
+| P8: Code Intelligence MCP Server | code-review-graph + MCP SDK | 3–5w | $40k–$120k | Legacy codebase nav |
+| P9: OpenHands Air-Gap Deployment | OpenHands Enterprise + K8s | 10–16w | $200k–$800k | LATAM data sovereignty |
+| P10: SKILL.md Library | SKILL.md convention + MIT license | 2–4w | $30k–$80k | Cross-client reuse |
+
+---
+*All patterns use MIT/Apache-2.0/AGPL licensed foundations. Model: Claude Opus 4.8 for complex reasoning, Sonnet 5 for balanced cost/quality, Haiku 4.5 for high-volume ops.*

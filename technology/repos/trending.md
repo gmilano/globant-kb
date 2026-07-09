@@ -1,62 +1,40 @@
-# 📈 Trending Repos — Technology Industry
+# Trending GitHub Repos — Technology / AI Dev Tools
 
-> GitHub repos gaining momentum this week. High velocity = early signal of where the ecosystem is going.
-> Last updated: 2026-07-09 v4
+> What's gaining stars fast in the AI developer tools space.
+> Updated: 2026-07-09.
 
-## AI Coding Tools Market (July 2026)
+## High-Velocity Repos (June–July 2026)
 
-**$12.8B market in 2026 — doubled from $5.1B in 2024.**
+| Repo | License | Stars | Momentum | Why It's Trending |
+|------|---------|-------|----------|-------------------|
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | 181.5k | 🔥🔥🔥 | Cursor MIT alternative rising after SpaceX acquisition. Model-agnostic, terminal-first coding agent |
+| [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | 80k+ | 🔥🔥🔥 | Google's open-source terminal AI agent. Free tier via Gemini API. Apache-2.0 forkable |
+| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | MIT | 60k+ | 🔥🔥🔥 | 60k stars in <2 months. Skill.md-based personal+enterprise agent by Nous Research |
+| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | 79.6k | 🔥🔥 | Enterprise Control Plane GA, SWE-bench 77.6%, Series A $18.8M raised |
+| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | 95k | 🔥🔥 | OpenAI's terminal coding agent. Apache-2.0 so fully forkable. Benchmark reference tool |
+| [ultraworkers/claw-code](https://github.com/ultraworkers/claw-code) | MIT | 194.5k | 🔥🔥 | Agent-managed codebase, Rust ecosystem, LazyCode integration |
+| [ARUNAGIRINATHAN-K/awesome-ai-agents-2026](https://github.com/ARUNAGIRINATHAN-K/awesome-ai-agents-2026) | MIT | 12k+ | 🔥 | Curated 300+ AI agents for 2026. Top reference list for the ecosystem |
+| [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) | MIT | 8.2k | 🔥 | MCP RC 2026-07-28 released. Stateless core, OAuth 2.1, Tasks extension |
+| [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) | MIT | 19.1k | 🔥 | Local-first code intelligence graph. MCP server exposing codebase structure to AI coding tools |
+| [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | MIT | 5.4k | 📈 | GitHub Action for AI-powered security review. Drop-in SAST for any CI pipeline |
 
-| Signal | Data |
-|--------|------|
-| AI coding tools market | $12.8B (2026) vs $5.1B (2024) — 2.5x in 2 years |
-| Developer AI adoption | 90% of developers regularly use AI tools (up from 85% early 2026) |
-| GitHub AI code share | 50%+ of all code on GitHub is now AI-generated or AI-assisted |
-| Cursor ARR | $2B ARR (Feb 2026) → projects $6B by end 2026; seeking $50B valuation from a16z/Thrive/NVIDIA |
-| Cursor Fortune 1,000 | 70% of Fortune 1,000 are Cursor customers |
-| GitHub Copilot | 4.7M paid subscribers; 90% Fortune 100 adoption; 37% market share |
-| Claude Code awareness | 57% developer awareness (Jan 2026); 46% satisfaction rate (vs Copilot 9%, Cursor 19%) |
-| Enterprise shift | 60% of AI coding revenue now from enterprise — moved from dev experiments to org mandates |
-| GitHub AI repos | 4.3M AI-related repos on GitHub (Octoverse 2025) — 178% YoY jump |
+## Infrastructure & DevOps AI Tools
 
-## Trending by Stars (July 2026)
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | Apache-2.0 | 160 | CLI for Dynatrace, designed for humans and AI agents alike. MCP-compatible |
+| [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | Apache-2.0 | 12 | AI agent toolkit for Kapitan config management: MCP server + agent skills + rules for LLM coding agents |
+| [raas-dev/configent](https://github.com/raas-dev/configent) | LGPL-3.0 | 19 | One-command macOS/Linux laptop/VM/container bootstrapper. Useful for standardizing AI dev environments |
 
-| Repo | License | Stars | Trend | Why It's Moving |
-|------|---------|-------|-------|-----------------|
-| OpenClaw (openai/codex community fork) | Apache-2.0 | 210k+ | ↑↑↑ | Fastest-growing OSS project in GitHub history; surged 9k → 60k in days (Jan 2026), now 210k+ |
-| [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | 80k+ | ↑↑↑ NEW | Google's open-source terminal AI agent; Gemini 2.5 Pro free; MCP-native; GitHub Actions zero-cost CI |
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | 77k+ | ↑↑ | $18.8M Series A; v1.6.0 Kubernetes + Planning Mode; 72% SWE-bench; OpenHands Index |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 138k | ↑↑ | Dify 1.0 (Jan 2026) production-grade agent nodes; $30M raised; fastest-growing LLM platform |
-| [logspace-ai/langflow](https://github.com/logspace-ai/langflow) | MIT | 148k | ↑ | v1.4 agentic workflow nodes; IBM/DataStax partnerships; 5-min demo → production agent pipeline |
-| [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | 28k+ | ↑↑↑ | LLM observability leader; required for EU AI Act compliance; self-hosted Docker |
-| [cline/cline](https://github.com/cline/cline) | Apache-2.0 | 61k | ↑↑ | Roo Code archived May 2026; community migrating back to Cline 3.x — 10k stars/month |
-| [block/goose](https://github.com/block/goose) | Apache-2.0 | 19k | ↑↑ | Block's extensible CLI agent; skill-based; MCP-native |
-| [kagent-dev/kagent](https://github.com/kagent-dev/kagent) | Apache-2.0 | 3.2k | ↑↑ | Kubernetes-native agent framework; K8s CRDs for agents; GitOps-compatible |
-| [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | 23k | ↑↑ | OpenTofu v1.8 Terraform feature-parity; AI IaC agents target OpenTofu not Terraform |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | ↑↑ | "Build in 100 lines what others take 1,000 for" — viral; Hugging Face agents course |
+## Why OpenCode Is The Story of July 2026
 
-## Repos to Watch (Lower Stars, High Signal)
+With SpaceX's $60B acquisition of Cursor closing in Q3 2026, enterprises are reconsidering vendor lock-in risk for their primary coding agent. **OpenCode** (MIT, 181.5k★) emerged as the natural fallback:
+- Model-agnostic: works with Claude, GPT-5, Gemini, or any OpenAI-compatible endpoint
+- MIT license: full fork rights, no commercial restrictions
+- Terminal-first: same ergonomics as Cursor's agent mode
+- Community: OpenHands Enterprise is also MIT, providing the server-side complement
 
-| Repo | License | What To Watch |
-|------|---------|---------------|
-| [comet-ml/opik](https://github.com/comet-ml/opik) | Apache-2.0 | LLM eval + tracing challenger to Langfuse; Apache-2.0, strong CI/CD eval integration |
-| [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | MIT | AI security review as GitHub Action; becoming standard template for shift-left AI security |
-| [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) | MIT | The benchmark driving all coding agent improvements; 57 models now evaluated; 95.5% top score |
-| [pulumi/pulumi](https://github.com/pulumi/pulumi) | Apache-2.0 | Code-first IaC (Python/TS/Go); AI agents can generate Pulumi stacks directly; Apache-2.0 safer than Terraform |
-| [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | Apache-2.0 | IaC-native MCP server pattern — may become standard for Terraform/Helm agent integration |
-
-## Ecosystem Map: Where Stars Are Concentrating (Jul 2026)
-
-```
-Terminal Coding Agents  →  OpenClaw forks 210k+, OpenCode 185k, Gemini CLI 80k+, Cline 61k, OpenHands 77k+
-Visual Builders         →  Dify 138k, Langflow 148k — drag & drop wins non-engineers
-Agent Frameworks        →  AutoGen 58.7k, CrewAI 52.8k, MetaGPT 50k+, smolagents 27.7k, LangGraph 13k
-LLM Observability       →  Langfuse 28k+ (MIT), Opik 8.5k, Phoenix 7.2k — new mandatory category
-MLOps                   →  MLflow dominates; LLM tracing + eval in v3.x
-IaC                     →  OpenTofu / Pulumi winning post-Terraform controversy; AI agents target both
-K8s AI                  →  kagent (K8s-native agents) + k8sgpt (AIOps diagnostics) combo emerging
-CI/CD AI                →  Gemini CLI GitHub Actions (free) + claude-code-security-review (MIT) — two OSS CI options
-```
+The combination of **OpenCode** (coding agent) + **OpenHands Enterprise** (server-side execution) + **MCP SDK** (tool integration) is becoming the 2026 open-stack answer to Cursor Pro.
 
 ---
-*Pipeline auto-updated. High-velocity signals tracked via OSSInsight + GitHub Trending daily. Last refresh: 2026-07-09 v4.*
+*Updated 2026-07-09. Momentum icons: 🔥🔥🔥 viral / 🔥🔥 strong / 🔥 active / 📈 growing.*
