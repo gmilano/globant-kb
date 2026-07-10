@@ -1,111 +1,71 @@
-# 📡 Trending This Week — Education AI
+# 📡 Agentes trending — Education
 
-> Last updated: 2026-07-09 (v4)
+> Señales frescas esta semana. Última actualización: 2026-07-10
 
-## Breakout Repos (July 2026)
+## Señales de la semana (S1–S8)
 
-| Repo | Stars | What's happening |
-|------|-------|-----------------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | 22k+ | Still hottest edu AI repo of 2026. Paper published arXiv:2604.26962. Math Animator + LightRAG integration live. 10k stars in 39 days from Dec 2025 launch. |
-| [studyield/studyield](https://github.com/studyield/studyield) | 80+ | Growing steadily; teach-back evaluation becoming the de-facto OSS alternative to Quizlet. High fork velocity signals teams building on it. |
-| [open-spaced-repetition/fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki) | 3.8k | FSRS-7 now default Anki algorithm. 10+ language ports (Python, Rust, Go, JS, Swift, Kotlin). Every new flashcard app shipping FSRS-first. |
-| [microsoft/mcp-for-beginners](https://github.com/microsoft/mcp-for-beginners) | 10k+ | Open-source MCP curriculum exploding since Google Classroom MCP announcement. Reference for building EdTech tools on MCP standard. |
-| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | 800+ | Most comprehensive academic survey of AI/LLM for education research. Key reference for anyone building edu AI. |
-| [ai-infra-curriculum/ai-infra-engineer-learning](https://github.com/ai-infra-curriculum/ai-infra-engineer-learning) | 1.4k | AI infrastructure engineer curriculum; growing as enterprises invest in AI reskilling programs. Apache 2.0. |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | 20+ | Early-stage but full e-learning: content delivery, learner tracking, assessment. AGPL-3.0. Watch for growth. |
-| [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | 200+ | LangGraph ReAct + RAG active recall platform. Proactive card generation during tutoring sessions. Growing steadily. |
-| [A-R007/Multi-Agent-Study-Assistant](https://github.com/A-R007/Multi-Agent-Study-Assistant) | 100+ | 6-agent Phidata study platform. Adaptive roadmaps + RAG Q&A. Built at Google × Kaggle Agents Intensive. |
+### S1 — DeepTutor v1.0 GA: el tutor agentico open source de referencia (Apache-2.0, 23.7k★)
+**repo**: https://github.com/HKUDS/DeepTutor  
+**señal**: In April 2026, HKUDS (Data Intelligence Lab @ HKU) released DeepTutor v1.0 — a complete ground-up rewrite spanning 200k lines of code. Support for 30+ LLM providers (Claude, GPT-4o, Gemini, Ollama local). Dual-loop reasoning: outer loop adapts to the learner's evolving knowledge state; inner loop generates personalized explanations, exercises, and visual aids. Self-hostable via Docker Compose. 23.7k GitHub stars.
 
-## NEW Signals (v4 — July 9, 2026)
-
-### LectūraAgents — Embodied Multi-Agent Teaching (arXiv:2606.16428, Jun 2026)
-The first multi-agent framework to combine **hierarchical orchestration with embodied teaching actions**. A ProfessorAgent coordinates specialized agents (Research, Planning, Review, Delivery) and executes **visible physical teaching actions** — highlight, underline, handwrite — via the TASA (Teaching Action-Speech Alignment) algorithm that temporally syncs actions to speech content. Learner-profiled delivery adapts to individual needs. Consistent gains over prior art across content quality, embodied quality, assessment, and personalization metrics.
-
-**Implication**: This is the architecture template for "digital professor" products — AI that doesn't just answer but actively teaches with pedagogy-aware multimodal output. High relevance for video-first EdTech and corporate training.
-
-### AgentCAT — Multi-Agent Computerized Adaptive Testing (arXiv:2606.21832, Jun 2026)
-LLM-based multi-agent system for **Computerized Adaptive Testing (CAT)** simulation. Prior CAT research was stuck in static offline paradigms; AgentCAT creates a dynamic, high-fidelity test environment using LLM agents (student simulator + item selector + ability estimator + item generator). Enables real-time item selection, realistic student behavior simulation, and holistic CAT system evaluation without real examinee recruitment.
-
-**Implication**: Foundation for AI-native assessments that dynamically adapt difficulty question-by-question — far more accurate than static tests. Strong fit for certification platforms, language proficiency tools, and LATAM public exam reform.
-
-### Microsoft Study and Learn Agent GA + Copilot in 5 LMS Platforms
-Two major platform signals from Microsoft in 2026:
-1. **Study and Learn Agent (GA)**: Built on learning-science principles for students 13+. Adaptive exercises, guided study, built-in flashcards, matching exercises, and quizzes. Now generally available — embedded in Microsoft 365 Education.
-2. **Microsoft Learning Agent GA**: Enterprise AI upskilling for every employee — generally available. Personalised AI coaching across the Microsoft 365 ecosystem.
-3. **Copilot in 5 LMS Platforms**: Microsoft 365 LTI integration now embeds Copilot into **Canvas, PowerSchool Schoology, Blackboard, Moodle, and D2L Brightspace** — lesson plan generation, quiz creation, rubric development, student feedback suggestions, and content modification directly in the LMS interface.
-
-**Implication**: The Microsoft LMS integration is a structural change — Copilot is now table-stakes for LMS clients. Globant differentiator: open-source alternative path (Open edX + Claude) for clients who want flexibility and data control.
-
-### ALIGNAgent — Precision Skill Gap Detection (arXiv:2601.15551, Jan 2026)
-Two-agent pipeline: **Skill Gap Agent** (concept-level diagnostic reasoning from quiz/gradebook data) → **Recommender Agent** (preference-aware resource retrieval). Continuous feedback loop: intervene before advancing to next topic. GPT-4o-based: **precision 0.87–0.90, F1 0.84–0.87** validated against real exam performance at Florida Polytechnic University (two undergrad CS courses). Jan 2026.
-
-**Implication**: A deployable, validated architecture for AI-powered academic advising and at-risk student early warning. Strong fit for university SIS integrations and enterprise L&D skills platforms.
-
-### Agentic AI University — Institutional Shift (UPCEA / Inside Higher Ed, Jan 2026)
-Higher education is crossing the threshold from AI as a tool to **AI as institutional infrastructure**:
-- **Northeastern University**: partnered with Anthropic to deploy Claude AI across all campuses
-- **Duke University**: gave every undergraduate GPT-4 access under university-managed license
-- **40%** of enterprise applications will embed task-specific AI agents by end 2026 (Gartner)
-- Agentic AI is reshaping advising, enrollment, learning support, and operations — not just teaching
-
-**Implication**: University partnerships with AI providers (Anthropic, OpenAI) are now a deal-level event. Globant can offer the **open-source alternative** (Claude API + open LMS) + expertise in institutional AI deployment and governance.
+**Por qué importa para Globant**: Most robust open-source AI tutor in 2026. Directly forkable and deployable on top of edX/Moodle content. White-label or customize for enterprise training clients in LATAM.
 
 ---
 
-## Key Signal: Google Classroom MCP Server (ISTE 2026)
+### S2 — LectūraAgents: enseñanza encarnada multi-agente (arXiv:2606.16428, Jun 2026)
+**arxiv**: https://arxiv.org/abs/2606.16428  
+**señal**: ProfessorAgent leads a hierarchical team of subordinate agents (Research, Planning, Review) for end-to-end personalized lecture generation. TASA algorithm (Teaching Action-Speech Alignment) uses salience-based heuristics and temporal semantic segmentation to synchronize handwriting, highlighting, and underlining actions with the avatar teacher's speech. Evaluated across high school, undergraduate, and graduate levels by expert educators.
 
-**The biggest structural development in EdTech AI this month**: Google announced a Google Classroom MCP server at ISTE 2026, allowing external EdTech platforms to build secure connections to Classroom context. Simultaneously, Gemini LTI is launching for Moodle — bringing Gemini, NotebookLM, and AI Podcast Lessons directly into Moodle. This creates an open integration surface for AI agents to read/write Classroom data via standard protocols.
-
-**Impact**: Any AI agent that implements MCP can now access Google Classroom context natively. Globant teams building on MCP should evaluate Google Classroom MCP immediately.
-
-## Key Signal: Khan Academy + Microsoft Phi-3 Offline Tutoring
-
-Khan Academy announced summer 2026 rollout of reimagined Khanmigo to all district partners. More significant for open-source: Khan Academy and Microsoft are exploring small language models (SLMs) based on the Phi-3 family that run **locally on device** — targeting resource-constrained schools with no cloud access. This validates the local-first AI tutoring architecture trend (Ollama + Phi-4 pattern).
-
-**Contrasting signal**: A notable substack post "RIP Khanmigo" (Dan Meyer, 2026) signals growing skepticism about AI tutor business models — paid AI tutors struggling for adoption, while open-source alternatives thrive.
-
-## Key Signal: EduBench Era — Pedagogical Quality Benchmarking
-
-2026 is seeing the rise of education-specific LLM benchmarks that go beyond factual accuracy:
-- **EduBench** (arXiv:2505.16160): K-12 to postgrad, 4 evaluation dimensions
-- **EduGuardBench** (arXiv:2511.06890): Pedagogical fidelity AND adversarial safety testing
-- **L2-Bench** (Oxford University Press): First benchmark for second-language AI tutoring
-- **EduResearchBench** (arXiv:2602.15034): Full research lifecycle evaluation
-
-Implication: "Does the AI get the right answer?" is no longer the bar. "Does the AI teach well, safely, and without bias?" is the new evaluation standard.
-
-## Key Signal: AI Personalized Learning Market Explosion
-
-The AI in personalized learning and education technology market is valued at **$9.15 billion in 2025** and is projected to reach **$291.85 billion by 2035** at a **41.5% CAGR** (InsightAce Analytic, 2026). This is the highest projected CAGR of any education technology segment.
-
-**Evidence-backed outcomes** (2026):
-- **42% improvement** in learning outcomes from AI adaptive systems
-- **71% of higher education institutions** plan to deploy adaptive learning platforms by end 2026 (up from 34% in 2023)
-- **83%** of institutions plan AI teaching assistant deployment by end of 2026
-- **67%** of educators saving 10+ hours/week with AI tools
-
-**Implication for Globant**: The market is at an inflection point. Clients investing in AI tutoring infrastructure now will capture the learning-outcomes premium. The 71% → adaptive learning stat is a powerful sales argument for any AI-in-EdTech engagement.
-
-## Key Trends Driving Activity
-
-1. **Teach-back evaluation** — forcing learners to explain concepts back to the AI proves more effective than passive quizzes. studyield pioneered this in OSS.
-2. **FSRS algorithm adoption** — ML-based spaced repetition eating Leitner/SM-2. Every new flashcard/quiz app is FSRS-first.
-3. **Local-first tutors** — Ollama + small models (Gemma 3, Phi-4, Qwen2.5) enabling offline/privacy-safe tutors for FERPA/GDPR/LGPD-constrained schools.
-4. **MCP as EdTech integration layer** — Google Classroom MCP server and Gemini LTI for Moodle signal MCP becoming the standard way AI agents interact with LMS platforms.
-5. **Kids AI platforms** — ai4kids and YC-backed children's AI education apps; parents/schools demanding age-appropriate alternatives to ChatGPT.
-6. **Pedagogical benchmarking** — EduBench, EduGuardBench, L2-Bench establishing quality standards beyond factual accuracy.
-7. **Active recall agents** — EduAgent + Multi-Agent-Study-Assistant demonstrate proactive quiz/flashcard generation as the next evolution beyond passive RAG chatbots.
-
-## Repos to Watch (Next 30 Days)
-
-- **Google Classroom MCP server** (Google) — watch for OSS release of the MCP server spec
-- **Gemini LTI for Moodle** — Gemini + NotebookLM available directly in Moodle is a massive unlock
-- **HKUDS/LightRAG** — the graph RAG engine powering DeepTutor; standalone use in edu apps growing
-- **Pedagogy Benchmark (AI-for-Education)** — standardising pedagogical quality evaluation
-- **LectūraAgents code release** (arXiv:2606.16428) — embodied multi-agent teaching paper; code repo expected; watch for GitHub release
-- **AgentCAT** (arXiv:2606.21832) — CAT simulation framework; likely to release benchmark dataset and simulation environment
-- **ALIGNAgent** code (arXiv:2601.15551) — skill-gap detection; Florida Polytechnic repo release expected post-publication
-- **StudyAlpha** — intelligent multi-agent study coach with ML weakness prediction; track for star growth and OSS release signal
+**Por qué importa**: First framework to bring "embodied AI teacher" actions to multi-agent education. Enables avatar-based AI lectures for async courses — replaces expensive video production. Composable with D-ID or HeyGen for avatar rendering.
 
 ---
-*Pipeline: auto-updated hourly.*
+
+### S3 — Open TutorAI CE: plataforma de tutoring LLM-native (Apache-2.0)
+**repo**: https://github.com/Open-TutorAi/open-tutor-ai-CE  
+**paper**: https://arxiv.org/abs/2602.07176  
+**señal**: arXiv paper published Feb 2026 describing the full architecture. Community Edition now actively maintained. Features: RAG over course PDFs, adaptive hint generation, student progress tracking. Designed as a drop-in tutoring layer on top of any LMS.
+
+**Por qué importa**: Full data ownership alternative to Khanmigo. Directly integrable with Open edX or Moodle.
+
+---
+
+### S4 — Microsoft Moodle AI Assistant: accelerator de producción (MIT)
+**repo**: https://github.com/microsoft/moodle-ai-assistant  
+**señal**: Microsoft open-sourced a production-oriented Moodle AI Agent accelerator. RAG over course materials, FAQ agent, grading assistant. Configurable for Claude or local models (not tied to Azure). Updated May 2026.
+
+**Por qué importa**: Fastest path to "AI copilot on existing Moodle" for K-12 / university clients. MIT license — no restrictions. Globant can take this and customize without re-architecting.
+
+---
+
+### S5 — openedx-ai-extensions: plugin AI oficial de Open edX (Apache-2.0)
+**repo**: https://github.com/openedx/openedx-ai-extensions  
+**señal**: Official experimental plugin for Open edX; modular architecture allows swapping AI providers (OpenAI, Claude, Cohere). Features include grading hooks, recommendation engine slots, student-support chatbot entry points. Updated Jun 2026.
+
+**Por qué importa**: Safe extensibility point — won't break with Open edX upstream updates. The right architectural layer for production edX deployments.
+
+---
+
+### S6 — GenAI EdTech breakout: $0.76B (2026) → $3.22B (2030), CAGR 43.6%
+**fuente**: The Business Research Company / GlobeNewswire Jul 8 2026  
+**señal**: Generative AI in EdTech is the fastest-growing AI vertical by percentage. 86% of education organizations now use GenAI — the highest adoption rate of any industry (Microsoft Education Report 2025). Driven by virtual tutors, adaptive content, and automated grading.
+
+**Por qué importa**: Window is open NOW. Education clients already have budget and institutional mandate. First-mover integrators capture the market.
+
+---
+
+### S7 — LATAM education AI acceleration: Google.org $4.6M + 30k survey respondents
+**fuente**: EdTech Innovation Hub / Digital Education Council AI in Higher Education LATAM Survey 2026  
+**señal**: Google.org invested $4.6M specifically in AI education across Latin America (teacher training + 1.25M students). The Digital Education Council LATAM AI Survey 2026 gathered 30k+ responses from 29 higher education institutions across the region. LATAM AI in Education market: ~$420M (2026) → $1.5B by 2030 at 32.4% CAGR.
+
+**Por qué importa**: Globant has deep LATAM roots. EdTech AI is exploding in the region with real institutional demand and fresh capital flows.
+
+---
+
+### S8 — Agentic campus: el agente inicia, el estudiante responde
+**fuente**: UPCEA "Rise of the Agentic AI University 2026" / 8allocate.com / Gartner  
+**señal**: Universities moving from reactive chatbots to proactive agentic systems. By end 2026: 40% of enterprise applications embed task-specific AI agents. In education specifically, 80% of routine tasks (grading, basic explanations, progress tracking) handled by agents. The agent now detects at-risk students, sends personalized nudges, schedules tutoring sessions, and adjusts curricula — all without the student initiating anything.
+
+**Por qué importa**: Biggest design shift in EdTech since MOOCs. Requires multi-agent orchestration (LangGraph / CrewAI), persistent student state, and observability pipelines — all Globant strengths.
+
+---
+*Señales actualizadas semanalmente por el pipeline de ingest.*

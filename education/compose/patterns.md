@@ -1,1381 +1,498 @@
-# 🧩 Composition Patterns — Education AI
+# 🧩 Patrones de composición — Education
 
-> Concrete recipes: named repos + agents + wiring code.
-> Last updated: 2026-07-09 (v4)
+> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Última actualización: 2026-07-10
 
-## Architecture Baseline
+## Arquitectura base
 
 ```
-[LMS / ERP (Open edX / Moodle / Frappe)]
-              ↓ LTI 1.3 / REST API / Webhook
-[AI Orchestration Layer (LangGraph / CrewAI)]
-              ↓
-[Specialised Edu Agents]          [Knowledge Store]
-  ├── Tutor Agent (DeepTutor)       ├── Vector DB (Qdrant/ChromaDB)
-  ├── Quiz Agent (studyield)        ├── Knowledge Graph (NetworkX)
-  ├── Evaluator Agent               └── Course Content (PDF/SCORM)
-  └── Planner Agent
-              ↓
-[Student Interface: Chat / Voice / Dashboard]
-```
-
----
-
-## Pattern 1: AI Tutor XBlock for Open edX
-
-**Goal**: Drop an AI tutor into any Open edX course as an interactive activity.
-**Stack**: Open edX + XBlock SDK + DeepTutor API + LangChain
-**Time**: 2–3 weeks
-
-```python
-# my_ai_tutor/my_ai_tutor/xblock.py
-import pkg_resources
-from xblock.core import XBlock
-from xblock.fields import String, Scope
-from xblock.fragment import Fragment
-from langchain_anthropic import ChatAnthropic
-from langchain.memory import ConversationBufferMemory
-
-class AITutorXBlock(XBlock):
-    """AI Tutor embedded in Open edX course."""
-    
-    course_context = String(
-        default="", scope=Scope.content,
-        help="System context: what subject/chapter this tutor covers"
-    )
-    student_history = String(
-        default="", scope=Scope.user_state,
-        help="Student conversation history (JSON)"
-    )
-    
-    def student_view(self, context=None):
-        html = self.resource_string("static/html/tutor.html")
-        frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/tutor.css"))
-        frag.add_javascript(self.resource_string("static/js/tutor.js"))
-        frag.initialize_js('AITutorXBlock')
-        return frag
-    
-    @XBlock.json_handler
-    def ask_tutor(self, data, suffix=''):
-        """Handle student question."""
-        question = data.get("question", "")
-        llm = ChatAnthropic(model="claude-sonnet-5", max_tokens=1024)
-        
-        system = f"""You are a Socratic tutor for: {self.course_context}
-        Rules:
-        - Never give direct answers; guide with questions and hints
-        - If student is stuck after 3 hints, provide the answer with explanation
-        - Always relate back to the learning objective
-        """
-        messages = [
-            {"role": "system", "content": system},
-            {"role": "user", "content": question}
-        ]
-        response = llm.invoke(messages)
-        return {"response": response.content, "hint_level": 1}
-    
-    @staticmethod
-    def workbench_scenarios():
-        return [("AI Tutor", "<my_ai_tutor/>")]
-```
-
-```bash
-# Installation
-pip install -e ./my_ai_tutor
-# Add to Open edX INSTALLED_APPS in lms/envs/common.py:
-# 'my_ai_tutor'
-# Register in XBLOCK_MIXINS and XBLOCK_SELECT_FUNCTION
-tutor config save --set OPENEDX_EXTRA_PIP_REQUIREMENTS='["my-ai-tutor"]'
+[Plataforma vertical base (Moodle / Open edX / ClassroomIO)]
+          ↓
+[Plugin/Extension AI (openedx-ai-extensions / moodle-ai-assistant)]
+          ↓
+[Motor de tutoring (DeepTutor / Open TutorAI CE)]
+          ↓
+[Orquestador multi-agente (LangGraph / CrewAI)]
+          ↓
+[LLM Backend (Claude Sonnet 4.5 / Haiku 4.5 / Ollama local)]
+          ↓
+[Data pipeline (xAPI engagement events → alertas → analytics)]
 ```
 
 ---
 
-## Pattern 2: Multi-Agent Quiz Generator (Moodle + LangGraph)
+## P1: Moodle AI Copilot (Quick Start)
+**Tiempo**: 4–8 semanas | **Deal**: $80k–$250k | **Licencias**: MIT + GPL
 
-**Goal**: Automatically generate, validate, and import quizzes into Moodle from course material.
-**Stack**: Moodle Web Services + LangGraph + Claude claude-sonnet-5 + python-moodleapi
-**Time**: 1–2 weeks
+### Stack
+- **LMS base**: Moodle (GPL-3.0, 6.1k★)
+- **AI plugin**: microsoft/moodle-ai-assistant (MIT)
+- **LLM**: Claude Haiku 4.5 via Anthropic API (cost-efficient para volumen)
+- **RAG**: PDFs del curso → pgvector o Qdrant
 
+### Receta
 ```python
-# quiz_generator_agent.py
-from langgraph.graph import StateGraph, END
+# 1. Deploy Moodle via Docker Compose
+# 2. Install microsoft/moodle-ai-assistant plugin:
+#    git clone https://github.com/microsoft/moodle-ai-assistant moodle/local/aiassistant
+
 from anthropic import Anthropic
-from typing import TypedDict, List
-import requests, json
+import qdrant_client
 
 client = Anthropic()
+qdrant = qdrant_client.QdrantClient(url="http://localhost:6333")
 
-class QuizState(TypedDict):
-    course_text: str
-    raw_questions: List[dict]
-    validated_questions: List[dict]
-    moodle_import_xml: str
+def index_course_materials(course_id: str, pdf_paths: list[str]) -> None:
+    """Index Moodle course PDFs into Qdrant for RAG."""
+    for pdf_path in pdf_paths:
+        chunks = extract_and_chunk_pdf(pdf_path)
+        vectors = embed_chunks(chunks)  # via Claude or local model
+        qdrant.upsert(collection_name=f"course_{course_id}", points=vectors)
 
-def generate_questions(state: QuizState) -> QuizState:
-    """Agent 1: Generate draft questions from course content."""
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2048,
-        messages=[{
-            "role": "user",
-            "content": f"""Generate 10 multiple-choice questions from this content.
-Return JSON array: [{{"question": "...", "correct": "A", "options": {{"A": "...", "B": "...", "C": "...", "D": "..."}}}}]
-
-CONTENT:
-{state['course_text']}"""
-        }]
-    )
-    questions = json.loads(response.content[0].text)
-    return {**state, "raw_questions": questions}
-
-def validate_questions(state: QuizState) -> QuizState:
-    """Agent 2: Pedagogical validator — check difficulty, clarity, bias."""
-    validation_prompt = f"""Review these quiz questions for:
-1. Clarity (no ambiguous wording)
-2. Bloom's taxonomy level distribution
-3. No trick questions
-4. Factual accuracy
-
-Questions: {json.dumps(state['raw_questions'])}
-
-Return only the validated questions (remove/fix problematic ones) as JSON array."""
-    
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2048,
-        messages=[{"role": "user", "content": validation_prompt}]
-    )
-    validated = json.loads(response.content[0].text)
-    return {**state, "validated_questions": validated}
-
-def export_to_moodle_xml(state: QuizState) -> QuizState:
-    """Convert validated questions to Moodle XML Gift format."""
-    xml_lines = ['<?xml version="1.0" encoding="UTF-8"?>\n<quiz>']
-    for q in state['validated_questions']:
-        xml_lines.append(f"""
-  <question type="multichoice">
-    <name><text>{q['question'][:50]}</text></name>
-    <questiontext format="html"><text>{q['question']}</text></questiontext>
-    <answer fraction="100"><text>{q['options'][q['correct']]}</text></answer>
-    {''.join(f'<answer fraction="0"><text>{v}</text></answer>' for k, v in q['options'].items() if k != q['correct'])}
-  </question>""")
-    xml_lines.append('</quiz>')
-    return {**state, "moodle_import_xml": '\n'.join(xml_lines)}
-
-# Build LangGraph workflow
-workflow = StateGraph(QuizState)
-workflow.add_node("generate", generate_questions)
-workflow.add_node("validate", validate_questions)
-workflow.add_node("export", export_to_moodle_xml)
-workflow.set_entry_point("generate")
-workflow.add_edge("generate", "validate")
-workflow.add_edge("validate", "export")
-workflow.add_edge("export", END)
-app = workflow.compile()
-
-# Usage
-result = app.invoke({
-    "course_text": open("chapter3.txt").read(),
-    "raw_questions": [], "validated_questions": [], "moodle_import_xml": ""
-})
-# Import result["moodle_import_xml"] via Moodle Admin → Import Questions
-```
-
----
-
-## Pattern 3: FSRS-Powered Adaptive Flashcard API
-
-**Goal**: Add ML-based spaced repetition to any learning app using the FSRS algorithm.
-**Stack**: fsrs4anki algorithm + FastAPI + SQLite/PostgreSQL
-**Time**: 1 week
-
-```python
-# adaptive_review_api.py
-from fastapi import FastAPI
-from pydantic import BaseModel
-from datetime import datetime, timedelta
-import math
-
-app = FastAPI(title="FSRS Adaptive Review API")
-
-# Simplified FSRS-7 core parameters
-FSRS_DEFAULTS = {"w": [0.40255, 1.18385, 3.1262, 15.4722, 7.2102, 0.56]}
-
-def calculate_next_interval(stability: float, desired_retention: float = 0.9) -> int:
-    """FSRS interval formula: I(r,S) = S/r * ln(r) ≈ S * 9 for 90% retention."""
-    return max(1, round(stability * math.log(desired_retention) / math.log(0.9)))
-
-def update_stability(old_s: float, difficulty: float, rating: int) -> float:
-    """Update memory stability after review. Rating: 1=Again, 2=Hard, 3=Good, 4=Easy."""
-    w = FSRS_DEFAULTS["w"]
-    multipliers = {1: 0.4, 2: 0.65, 3: 1.0, 4: 1.3}
-    return old_s * multipliers.get(rating, 1.0) * (1 + w[4] * (1 - difficulty))
-
-class ReviewResult(BaseModel):
-    card_id: str
-    rating: int  # 1=Again, 2=Hard, 3=Good, 4=Easy
-    current_stability: float = 1.0
-    current_difficulty: float = 0.3
-
-class ScheduleResponse(BaseModel):
-    next_review: str
-    interval_days: int
-    new_stability: float
-    retention_estimate: float
-
-@app.post("/review", response_model=ScheduleResponse)
-def schedule_next_review(result: ReviewResult):
-    new_stability = update_stability(
-        result.current_stability, result.current_difficulty, result.rating
-    )
-    interval = calculate_next_interval(new_stability)
-    next_review = (datetime.utcnow() + timedelta(days=interval)).isoformat()
-    return ScheduleResponse(
-        next_review=next_review,
-        interval_days=interval,
-        new_stability=round(new_stability, 3),
-        retention_estimate=round(0.9 ** (1 / max(interval, 1)), 3)
-    )
-
-@app.get("/due-cards/{student_id}")
-def get_due_cards(student_id: str):
-    """Return cards due for review today (implement DB lookup)."""
-    # DB query: SELECT * FROM cards WHERE next_review <= NOW() AND student_id = ?
-    return {"student_id": student_id, "due_count": 0, "cards": []}
-```
-
----
-
-## Pattern 4: AI Teaching Assistant for Corporate LMS (Frappe LMS)
-
-**Goal**: AI assistant that answers HR/L&D questions, suggests courses, and generates learning paths.
-**Stack**: Frappe LMS + CrewAI + RAG (Qdrant) + Anthropic
-**Time**: 3–4 weeks
-
-```python
-# edu_crew.py
-from crewai import Agent, Task, Crew
-from crewai_tools import RagTool
-from anthropic import Anthropic
-
-# Initialize RAG tool with course catalog
-course_rag = RagTool(
-    config={"llm": {"provider": "anthropic", "config": {"model": "claude-sonnet-5"}},
-            "embedder": {"provider": "openai", "config": {"model": "text-embedding-3-small"}}},
-    description="Search the corporate course catalog and learning resources"
-)
-
-# Agent 1: Skills Gap Analyser
-skills_analyser = Agent(
-    role="Skills Gap Analyser",
-    goal="Identify skill gaps between employee current skills and role requirements",
-    backstory="Expert in competency frameworks and L&D strategy. You map job descriptions to skill taxonomies.",
-    tools=[course_rag],
-    llm="claude-sonnet-5",
-    verbose=True
-)
-
-# Agent 2: Learning Path Designer
-path_designer = Agent(
-    role="Learning Path Designer",
-    goal="Design a personalised 30/60/90-day learning path to close identified skill gaps",
-    backstory="Instructional designer with expertise in adult learning theory, microlearning, and ADDIE model.",
-    tools=[course_rag],
-    llm="claude-sonnet-5",
-    verbose=True
-)
-
-# Agent 3: Progress Coach
-progress_coach = Agent(
-    role="Learning Progress Coach",
-    goal="Check in on learner progress and adjust the learning path based on completion and assessment scores",
-    backstory="Supportive coach who motivates learners and adapts plans based on real progress data.",
-    tools=[course_rag],
-    llm="claude-haiku-4-5-20251001",  # cheaper for frequent check-ins
-    verbose=True
-)
-
-def create_learning_plan(employee_profile: dict) -> str:
-    gap_analysis_task = Task(
-        description=f"""Analyse skill gaps for:
-        Role: {employee_profile['role']}
-        Current skills: {employee_profile['current_skills']}
-        Career goal: {employee_profile['career_goal']}
-        
-        Identify top 5 skill gaps with priority ranking.""",
-        agent=skills_analyser,
-        expected_output="Prioritised list of 5 skill gaps with rationale"
-    )
-    
-    path_task = Task(
-        description="""Design a 90-day learning plan with:
-        - Week-by-week course recommendations from our catalog
-        - Mix of video (60%), practice (30%), assessment (10%)
-        - Estimated time commitment per week
-        - Success metrics""",
-        agent=path_designer,
-        expected_output="Structured 90-day learning plan with course links and weekly schedule",
-        context=[gap_analysis_task]
-    )
-    
-    crew = Crew(
-        agents=[skills_analyser, path_designer],
-        tasks=[gap_analysis_task, path_task],
-        verbose=True
-    )
-    return crew.kickoff()
-
-# Example usage
-plan = create_learning_plan({
-    "role": "Senior Data Engineer → ML Engineer",
-    "current_skills": ["Python", "SQL", "Spark", "dbt"],
-    "career_goal": "ML Engineer with LLMOps specialisation"
-})
-```
-
----
-
-## Pattern 5: LTI 1.3 AI Assessment Tool (Works with Any LMS)
-
-**Goal**: AI-powered essay grader + teach-back assessor as a plug-and-play LTI tool.
-**Stack**: FastAPI + PyLTI1p3 + Anthropic + any LMS (Moodle/Canvas/Open edX)
-**Time**: 2 weeks
-
-```python
-# lti_assessor.py — FastAPI LTI 1.3 Provider
-from fastapi import FastAPI, Request
-from pylti1p3.contrib.fastapi import FastApiOIDCLogin, FastApiMessageLaunch
-from anthropic import Anthropic
-from pydantic import BaseModel
-
-app = FastAPI(title="AI Assessment LTI Tool")
-client = Anthropic()
-
-class AssessmentRequest(BaseModel):
-    student_answer: str
-    rubric: str
-    learning_objective: str
-    mode: str = "essay"  # "essay" | "teach_back" | "code"
-
-@app.post("/assess")
-async def assess_student_work(req: AssessmentRequest):
-    """Multi-mode AI assessment: essay, teach-back, or code."""
-    
-    if req.mode == "teach_back":
-        prompt = f"""You are an educational assessor using teach-back evaluation.
-The student was asked to explain: {req.learning_objective}
-
-Student explanation: {req.student_answer}
-
-Assess:
-1. Conceptual accuracy (0-10)
-2. Completeness (0-10)  
-3. Use of examples (0-10)
-4. Identify misconceptions
-5. Provide specific, constructive feedback (3-5 sentences)
-6. Follow-up question to deepen understanding
-
-Return JSON: {{"accuracy": N, "completeness": N, "examples": N, "misconceptions": [], "feedback": "...", "follow_up": "..."}}"""
-    else:  # essay mode
-        prompt = f"""Grade this student essay according to the rubric.
-
-LEARNING OBJECTIVE: {req.learning_objective}
-RUBRIC: {req.rubric}
-
-STUDENT ANSWER: {req.student_answer}
-
-Return JSON: {{"score": N, "max_score": 10, "strengths": [], "improvements": [], "feedback": "...", "grade": "A/B/C/D/F"}}"""
-    
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",  # fast + cheap for high-volume grading
-        max_tokens=1024,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    import json
-    return json.loads(response.content[0].text)
-
-# LTI Launch endpoint (connects to Moodle/Canvas grade passback)
-@app.get("/lti/launch")
-async def lti_launch(request: Request):
-    """Handle LTI 1.3 launch from LMS."""
-    # PyLTI1p3 handles OIDC flow, grade passback (AGS), deep linking
-    # Full implementation: https://github.com/dmitry-viskov/pylti1.3
-    pass
-```
-
----
-
-## Pattern 6: Local-First Privacy AI Tutor (FERPA/LGPD-Compliant)
-
-**Goal**: Fully offline AI tutor for schools that cannot use cloud AI due to privacy regulations.
-**Stack**: Ollama + Phi-4 or Gemma 3 + Open-TutorAI CE + FastAPI
-**Time**: 1–2 weeks (hardware + software setup)
-
-```yaml
-# docker-compose.yml — Local AI Tutor Stack
-version: '3.8'
-services:
-  ollama:
-    image: ollama/ollama:latest
-    volumes:
-      - ollama_data:/root/.ollama
-    ports:
-      - "11434:11434"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]  # Optional: GPU acceleration
-
-  tutor_api:
-    image: python:3.12-slim
-    environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
-      - MODEL_NAME=phi4:latest  # 14B params, strong at reasoning
-      - DATA_DIR=/data/student_data  # All data stays local
-    volumes:
-      - ./tutor:/app
-      - student_data:/data/student_data
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8080
-
-  open_tutor_frontend:
-    # Open-TutorAI CE — fork and point to local Ollama
-    build: ./open-tutor-ai-CE
-    environment:
-      - NEXT_PUBLIC_API_URL=http://tutor_api:8080
-      - OLLAMA_ENDPOINT=http://ollama:11434
-    ports:
-      - "3000:3000"
-
-volumes:
-  ollama_data:
-  student_data:
-```
-
-```bash
-# Setup (run once)
-docker compose up -d
-docker exec ollama ollama pull phi4:latest        # 8GB download
-docker exec ollama ollama pull nomic-embed-text   # embeddings for RAG
-
-# Load course materials into local RAG
-curl -X POST http://localhost:8080/ingest \
-  -F "file=@course_materials.pdf" \
-  -F "course_id=math101"
-
-# Student access: http://localhost:3000
-# All data stays on premises — FERPA/LGPD compliant
-```
-
----
-
-## Pattern 7: Student Performance Dashboard (Multi-Agent Analytics)
-
-**Goal**: Multi-agent system that reads LMS data and generates personalised intervention recommendations for teachers.
-**Stack**: Moodle Web Services + LangGraph + Google ADK / CrewAI + Anthropic
-**Time**: 3–4 weeks
-
-```python
-# performance_dashboard_agents.py
-from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
-import requests
-from typing import TypedDict, List
-
-client = Anthropic()
-MOODLE_URL = "https://your-moodle.edu"
-MOODLE_TOKEN = "your_moodle_token"
-
-class StudentAnalyticsState(TypedDict):
-    course_id: int
-    students: List[dict]
-    grade_data: List[dict]
-    activity_data: List[dict]
-    at_risk_students: List[dict]
-    interventions: List[dict]
-
-def fetch_grade_data(state: StudentAnalyticsState) -> StudentAnalyticsState:
-    """Fetch grades from Moodle Web Services API."""
-    resp = requests.get(
-        f"{MOODLE_URL}/webservice/rest/server.php",
-        params={
-            "wstoken": MOODLE_TOKEN,
-            "wsfunction": "gradereport_user_get_grade_items",
-            "moodlewsrestformat": "json",
-            "courseid": state["course_id"]
-        }
-    )
-    return {**state, "grade_data": resp.json().get("usergrades", [])}
-
-def identify_at_risk(state: StudentAnalyticsState) -> StudentAnalyticsState:
-    """AI agent identifies at-risk students from grade patterns."""
+def answer_student_question(question: str, course_id: str) -> str:
+    context = retrieve_top_k_chunks(question, course_id, k=5)
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=2048,
+        max_tokens=1024,
+        system="You are a helpful course assistant. Answer using only the course materials provided.",
         messages=[{
             "role": "user",
-            "content": f"""Identify at-risk students from this grade data.
-At-risk criteria: grade < 60%, declining trend, missing 2+ assignments.
-
-Grade data: {state['grade_data'][:20]}  # limit context
-
-Return JSON: [{{"student_id": "...", "name": "...", "risk_level": "high/medium", "reason": "...", "grade_trend": "..."}}]"""
+            "content": f"Course materials:\n{context}\n\nStudent question: {question}"
         }]
     )
-    import json
-    at_risk = json.loads(response.content[0].text)
-    return {**state, "at_risk_students": at_risk}
-
-def generate_interventions(state: StudentAnalyticsState) -> StudentAnalyticsState:
-    """Generate personalised intervention recommendations per student."""
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=3000,
-        messages=[{
-            "role": "user",
-            "content": f"""Generate specific, actionable interventions for each at-risk student.
-For each student provide:
-1. Immediate action (this week)
-2. Medium-term support (this month)  
-3. Resource recommendations (specific materials/activities)
-4. Parent/guardian communication script
-
-At-risk students: {state['at_risk_students']}
-
-Return JSON array with detailed intervention plans."""
-        }]
-    )
-    import json
-    interventions = json.loads(response.content[0].text)
-    return {**state, "interventions": interventions}
-
-# Build workflow
-workflow = StateGraph(StudentAnalyticsState)
-workflow.add_node("fetch_grades", fetch_grade_data)
-workflow.add_node("identify_risk", identify_at_risk)
-workflow.add_node("generate_interventions", generate_interventions)
-workflow.set_entry_point("fetch_grades")
-workflow.add_edge("fetch_grades", "identify_risk")
-workflow.add_edge("identify_risk", "generate_interventions")
-workflow.add_edge("generate_interventions", END)
-
-analytics_app = workflow.compile()
-
-# Run weekly (cron)
-result = analytics_app.invoke({"course_id": 123, "students": [], "grade_data": [],
-                                "activity_data": [], "at_risk_students": [], "interventions": []})
+    return response.content[0].text
 ```
+
+### Cuándo usar
+Cliente universidad LATAM con Moodle existente que quiere añadir AI sin migrar la plataforma. Deploy en 4 semanas sobre infraestructura existente.
 
 ---
 
-## Pattern 8: WhatsApp AI Tutor for LATAM
+## P2: Open edX Personalized Learning Engine
+**Tiempo**: 10–16 semanas | **Deal**: $200k–$600k | **Licencias**: Apache-2.0
 
-**Goal**: AI tutor accessible via WhatsApp — critical for LATAM markets where WhatsApp is dominant.
-**Stack**: WhatsApp Business API (Meta) + FastAPI + Anthropic + Qdrant RAG
-**Time**: 2–3 weeks
+### Stack
+- **LMS base**: Open edX platform (Apache-2.0, 9.6k★)
+- **AI plugin**: openedx-ai-extensions (Apache-2.0)
+- **Tutoring engine**: HKUDS/DeepTutor (Apache-2.0, 23.7k★) vía REST API
+- **Orchestration**: LangGraph
+- **LLM**: Claude Sonnet 4.5 (tutoring) + Claude Haiku 4.5 (tareas rutinarias)
 
+### Receta
 ```python
-# whatsapp_tutor.py
-from fastapi import FastAPI, Request
+from langgraph.graph import StateGraph, END
 from anthropic import Anthropic
-import httpx, json, os
+from dataclasses import dataclass
 
-app = FastAPI(title="WhatsApp AI Tutor")
 client = Anthropic()
 
-WHATSAPP_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN")
-PHONE_ID = os.getenv("WHATSAPP_PHONE_ID")
+@dataclass
+class StudentLearningState:
+    student_id: str
+    course_id: str
+    current_topic: str
+    knowledge_gaps: list[str]
+    learning_style: str  # visual / reading / kinesthetic
+    progress_score: float
+    session_history: list[dict]
 
-# Simple in-memory session (use Redis in production)
-sessions = {}
-
-async def send_whatsapp_message(to: str, text: str):
-    async with httpx.AsyncClient() as http:
-        await http.post(
-            f"https://graph.facebook.com/v20.0/{PHONE_ID}/messages",
-            headers={"Authorization": f"Bearer {WHATSAPP_TOKEN}"},
-            json={
-                "messaging_product": "whatsapp",
-                "to": to,
-                "type": "text",
-                "text": {"body": text[:4000]}  # WhatsApp message limit
-            }
-        )
-
-@app.post("/webhook")
-async def whatsapp_webhook(request: Request):
-    data = await request.json()
-    
-    # Parse incoming message
-    entry = data.get("entry", [{}])[0]
-    change = entry.get("changes", [{}])[0]
-    message = change.get("value", {}).get("messages", [{}])[0]
-    
-    if not message:
-        return {"status": "no_message"}
-    
-    phone = message["from"]
-    text = message.get("text", {}).get("body", "")
-    
-    # Maintain conversation history per student
-    if phone not in sessions:
-        sessions[phone] = []
-    
-    sessions[phone].append({"role": "user", "content": text})
-    
-    # AI tutor response (in Spanish/Portuguese based on locale)
+def assess_knowledge(state: StudentLearningState) -> StudentLearningState:
+    """DeepTutor outer loop: assess current knowledge via adaptive questioning."""
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",  # fast responses for chat
-        max_tokens=512,
-        system="""Eres un tutor de IA amigable y paciente. Responde en el mismo idioma que el estudiante (español o portugués).
-        Reglas:
-        - Usa el método socrático: guía con preguntas, no des respuestas directas
-        - Respuestas cortas (máximo 3 párrafos) — esto es WhatsApp
-        - Si el estudiante está muy perdido, ofrece 3 pistas graduales
-        - Celebra el progreso con emojis apropiados 🎉
-        """,
-        messages=sessions[phone][-10:]  # last 10 turns
+        model="claude-sonnet-4-5",
+        max_tokens=1024,
+        system="You are a Socratic AI tutor. Identify knowledge gaps through targeted questions. Never give direct answers.",
+        messages=[{"role": "user", "content": f"Topic: {state.current_topic}. Quiz the student to find gaps."}]
     )
-    
-    reply = response.content[0].text
-    sessions[phone].append({"role": "assistant", "content": reply})
-    
-    await send_whatsapp_message(phone, reply)
-    return {"status": "sent"}
+    state.knowledge_gaps = parse_gaps_from_response(response.content[0].text)
+    return state
 
-@app.get("/webhook")
-async def verify_webhook(request: Request):
-    """WhatsApp webhook verification."""
-    params = dict(request.query_params)
-    if params.get("hub.verify_token") == os.getenv("VERIFY_TOKEN"):
-        return int(params["hub.challenge"])
-    return 403
+def generate_explanation(state: StudentLearningState) -> StudentLearningState:
+    """DeepTutor inner loop: generate personalized explanation for identified gaps."""
+    gaps_text = "\n".join(f"- {g}" for g in state.knowledge_gaps)
+    response = client.messages.create(
+        model="claude-sonnet-4-5",
+        max_tokens=2048,
+        system=f"Learning style: {state.learning_style}. Adapt explanation format to this style. Use analogies and examples from the student's context.",
+        messages=[{"role": "user", "content": f"Explain these gaps:\n{gaps_text}"}]
+    )
+    return state
+
+def check_mastery(state: StudentLearningState) -> str:
+    """Route: mastered → next topic; gap → re-assess."""
+    return "mastered" if state.progress_score >= 0.8 else "gap_found"
+
+# Build LangGraph workflow
+workflow = StateGraph(StudentLearningState)
+workflow.add_node("assess", assess_knowledge)
+workflow.add_node("explain", generate_explanation)
+workflow.add_node("quiz", generate_adaptive_quiz)
+workflow.add_node("next_topic", advance_curriculum)
+workflow.set_entry_point("assess")
+workflow.add_edge("assess", "explain")
+workflow.add_edge("explain", "quiz")
+workflow.add_conditional_edges("quiz", check_mastery, {
+    "mastered": "next_topic",
+    "gap_found": "assess"
+})
+workflow.add_edge("next_topic", END)
+
+tutor_app = workflow.compile()
 ```
 
-```bash
-# Quick deploy to Render/Railway (both free tier)
-# Environment vars needed:
-# WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_ID, VERIFY_TOKEN, ANTHROPIC_API_KEY
-
-# Test locally with ngrok:
-ngrok http 8000
-# Set webhook URL in Meta Business Manager: https://<ngrok-url>/webhook
-```
+### Cuándo usar
+MOOC corporativo con 1k–50k empleados. AI adapta el camino de aprendizaje por persona. Deals grandes ($200k+) con universidad o empresa Fortune 500 LATAM.
 
 ---
 
-## Pattern 9: Google Classroom MCP AI Tutor Agent (2026)
+## P3: LectūraAgents — AI Teacher Avatar para cursos asíncronos
+**Tiempo**: 8–14 semanas | **Deal**: $150k–$600k | **Licencias**: Research (Apache pending)
 
-**Goal**: Build an AI tutoring agent that reads Google Classroom context (roster, assignments, grades) via MCP and delivers personalised help to students.
-**Stack**: Google Classroom MCP server + LangGraph + Anthropic Claude + FastAPI
-**Time**: 2–4 weeks
-**Why now**: Google launched Classroom MCP at ISTE 2026 — first-mover opportunity before every vendor builds this.
+### Stack
+- **Framework**: LectūraAgents (arXiv:2606.16428) — implementar según paper
+- **Agentes**: ProfessorAgent + ResearchAgent + PlanningAgent + ReviewAgent
+- **Avatar rendering**: D-ID API o HeyGen (video avatar) o Three.js (avatar 2D web)
+- **LLM**: Claude Sonnet 4.5 (ProfessorAgent) + Claude Haiku 4.5 (subagentes)
+- **TASA**: Teaching Action-Speech Alignment algorithm (del paper)
 
+### Receta
 ```python
-# classroom_mcp_tutor.py
-# Uses MCP client to connect to Google Classroom MCP server (Google, 2026)
-from langchain_mcp_adapters.client import MultiServerMCPClient
-from langgraph.prebuilt import create_react_agent
-from langchain_anthropic import ChatAnthropic
-from typing import Any
+from anthropic import Anthropic
+import re
 
-# MCP client configuration for Google Classroom
-MCP_CONFIG = {
-    "classroom": {
-        "url": "https://classroom.googleapis.com/mcp",  # Google Classroom MCP endpoint
-        "transport": "streamable-http",
-        "headers": {"Authorization": f"Bearer {GOOGLE_ACCESS_TOKEN}"}
+client = Anthropic()
+
+class ResearchAgent:
+    def gather_content(self, topic: str) -> str:
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2048,
+            messages=[{"role": "user", "content": f"Research key concepts, definitions, and examples for: {topic}"}]
+        )
+        return response.content[0].text
+
+class PlanningAgent:
+    def create_lecture_plan(self, content: str, learner_profile: dict) -> str:
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            system=f"Create a lecture plan adapted for: grade={learner_profile.get('grade')}, style={learner_profile.get('learning_style')}",
+            messages=[{"role": "user", "content": f"Plan a 10-minute lecture on:\n{content}"}]
+        )
+        return response.content[0].text
+
+class ProfessorAgent:
+    """Orchestrator: generates embodied lecture with TASA teaching actions."""
+    
+    def __init__(self):
+        self.research = ResearchAgent()
+        self.planning = PlanningAgent()
+    
+    def generate_embodied_lecture(self, topic: str, learner_profile: dict) -> dict:
+        # Phase 1: Research
+        content = self.research.gather_content(topic)
+        
+        # Phase 2: Planning
+        plan = self.planning.create_lecture_plan(content, learner_profile)
+        
+        # Phase 3: Embodied lecture generation with TASA markers
+        response = client.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=4096,
+            system="""You are an embodied AI professor generating a lecture script.
+            
+Use TASA teaching action markers synchronized to speech:
+- [WRITE:text] — write text on board at this moment
+- [HIGHLIGHT:phrase] — highlight this phrase in the materials  
+- [UNDERLINE:concept] — underline this key concept
+- [PAUSE:seconds] — pause for student reflection
+
+Learner profile: {profile}. Adapt language, examples, and pacing.""".format(profile=learner_profile),
+            messages=[{"role": "user", "content": f"Topic: {topic}\nLecture plan:\n{plan}\n\nGenerate the full embodied lecture script."}]
+        )
+        
+        script = response.content[0].text
+        speech, actions = self._parse_tasa_markers(script)
+        
+        return {
+            "speech": speech,
+            "teaching_actions": actions,
+            "estimated_duration_min": len(speech.split()) / 150,  # ~150 wpm
+            "topic": topic
+        }
+    
+    def _parse_tasa_markers(self, script: str) -> tuple[str, list]:
+        """Extract teaching actions and generate timeline aligned to speech."""
+        actions = []
+        clean_speech = script
+        
+        for match in re.finditer(r'\[(WRITE|HIGHLIGHT|UNDERLINE|PAUSE):([^\]]+)\]', script):
+            action_type = match.group(1)
+            action_content = match.group(2)
+            char_position = match.start()
+            word_position = len(script[:char_position].split())
+            timestamp_seconds = word_position / 2.5  # ~150 wpm = 2.5 words/sec
+            actions.append({
+                "type": action_type,
+                "content": action_content,
+                "timestamp": timestamp_seconds
+            })
+        
+        clean_speech = re.sub(r'\[[^\]]+\]', '', script).strip()
+        return clean_speech, actions
+```
+
+### Cuándo usar
+Universidad o empresa que quiere cursos async de alta calidad con "profesor IA" que gesticula y adapta al estudiante. Reemplaza video production costosa ($50–$200/min → <$5/min con AI).
+
+---
+
+## P4: ClassroomIO + Claude — Corporate AI Training Platform
+**Tiempo**: 6–10 semanas | **Deal**: $100k–$400k | **Licencias**: MIT
+
+### Stack
+- **LMS base**: classroomio/classroomio (MIT, 1.5k★) — Svelte + Supabase
+- **AI layer**: Claude Sonnet 4.5 via Anthropic API (grading) + Claude Haiku 4.5 (quiz)
+- **Quiz generation**: Claude Haiku sobre contenido de los cursos
+- **Grading agent**: Claude Sonnet con tool use + XAI (explainable grading)
+
+### Receta
+```python
+from anthropic import Anthropic
+
+client = Anthropic()
+
+# --- Explainable AI Grading Agent ---
+grading_tool = {
+    "name": "grade_submission",
+    "description": "Grade a student submission with detailed, explainable feedback",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "score": {"type": "number", "description": "Score 0-100"},
+            "feedback": {"type": "string", "description": "Personalized feedback for the student"},
+            "strengths": {"type": "array", "items": {"type": "string"}, "description": "What the student did well"},
+            "improvements": {"type": "array", "items": {"type": "string"}, "description": "Areas to improve"},
+            "explanation": {"type": "string", "description": "Why this score was given (XAI — required for audit)"}
+        },
+        "required": ["score", "feedback", "explanation"]
     }
 }
 
-async def build_classroom_agent(student_id: str, course_id: str):
-    """Build a LangGraph agent with Classroom context via MCP."""
-    async with MultiServerMCPClient(MCP_CONFIG) as mcp_client:
-        tools = mcp_client.get_tools()
-        
-        llm = ChatAnthropic(model="claude-haiku-4-5-20251001", max_tokens=1024)
-        
-        # React agent with Classroom MCP tools
-        agent = create_react_agent(
-            llm,
-            tools,
-            state_modifier=f"""You are a helpful AI tutor for student {student_id} in course {course_id}.
-            
-            Use the Google Classroom tools to:
-            1. Check what assignments the student has due
-            2. Look at their recent grades to identify weak areas
-            3. Access course materials for context
-            4. Provide targeted, personalised help
-            
-            Teaching style:
-            - Socratic: guide with questions, don't give direct answers
-            - Reference specific assignments/materials from their Classroom
-            - Keep responses concise (this is embedded in a chat widget)
-            """
-        )
-        
-        return agent
-
-async def tutor_chat(student_id: str, course_id: str, question: str) -> str:
-    """Handle a student tutoring session with Classroom context."""
-    agent = await build_classroom_agent(student_id, course_id)
-    
-    result = await agent.ainvoke({
-        "messages": [{"role": "user", "content": question}]
-    })
-    
-    return result["messages"][-1].content
-
-# FastAPI endpoint for embedding in school portal
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-app = FastAPI(title="Classroom MCP AI Tutor")
-
-class TutorRequest(BaseModel):
-    student_id: str
-    course_id: str
-    question: str
-    google_token: str  # OAuth2 token from Google SSO
-
-@app.post("/tutor/ask")
-async def ask_tutor(req: TutorRequest):
-    global GOOGLE_ACCESS_TOKEN
-    GOOGLE_ACCESS_TOKEN = req.google_token
-    
-    response = await tutor_chat(req.student_id, req.course_id, req.question)
-    return {"response": response, "student_id": req.student_id}
-```
-
-```bash
-# Quick deploy — requires Google Workspace for Education account
-pip install langchain-mcp-adapters langgraph langchain-anthropic fastapi uvicorn
-
-# Environment variables
-export ANTHROPIC_API_KEY=sk-...
-export GOOGLE_OAUTH_CLIENT_ID=...
-
-# Run
-uvicorn classroom_mcp_tutor:app --host 0.0.0.0 --port 8080
-
-# Integrate into any web portal with 3 lines of JS:
-# const resp = await fetch('/tutor/ask', {method:'POST', body: JSON.stringify({
-#   student_id: userId, course_id: courseId, question: userInput, google_token: gToken
-# })})
-```
-
-**Effort**: 2–4 weeks. **Revenue**: $50k–$200k POC → $200k–$500k production  
-**Who buys**: K-12 districts, universities using Google Workspace for Education  
-**Differentiator**: First-mover on Google Classroom MCP; no vendor has this in LATAM yet.
-
----
-
-## Pattern 10: Offline SLM Campus Tutor (No Cloud, LGPD/FERPA-Compliant)
-
-**Goal**: Full AI tutoring system running entirely on-premises using small language models — for schools with LGPD/FERPA restrictions or no reliable internet.
-**Stack**: Ollama + Phi-4 (14B) or Gemma 3 (12B) + Open-TutorAI CE + FastAPI + Qdrant (local vector DB)
-**Time**: 2–3 weeks (software) + hardware procurement
-**Inspired by**: Khan Academy + Microsoft Phi-3 SLM partnership for offline school deployment
-
-```yaml
-# docker-compose.yml — Complete offline AI tutor stack
-# ALL data stays on school servers. Zero cloud dependency.
-version: '3.8'
-
-services:
-  # Small Language Model server (Ollama)
-  ollama:
-    image: ollama/ollama:latest
-    volumes:
-      - ollama_models:/root/.ollama
-    ports:
-      - "11434:11434"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]  # Optional: 4x faster with GPU
-    restart: unless-stopped
-
-  # Local vector database for RAG
-  qdrant:
-    image: qdrant/qdrant:latest
-    volumes:
-      - qdrant_data:/qdrant/storage
-    ports:
-      - "6333:6333"
-    restart: unless-stopped
-
-  # Tutor backend API
-  tutor_api:
-    build: ./tutor_api
-    environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
-      - QDRANT_URL=http://qdrant:6333
-      - TUTOR_MODEL=phi4:latest        # 14B — best STEM reasoning in SLM range
-      - EMBED_MODEL=nomic-embed-text    # 768-dim embeddings for RAG
-      - STUDENT_DATA_DIR=/data/students # All data stays local
-    volumes:
-      - student_data:/data/students
-      - course_content:/data/courses
-    ports:
-      - "8080:8080"
-    depends_on: [ollama, qdrant]
-    restart: unless-stopped
-
-  # Open-TutorAI CE frontend (forked, configured for local Ollama)
-  tutor_frontend:
-    build: ./open-tutor-ai-CE  # Fork of github.com/Open-TutorAi/open-tutor-ai-CE
-    environment:
-      - NEXT_PUBLIC_API_URL=http://tutor_api:8080
-      - NEXT_PUBLIC_OLLAMA_URL=http://ollama:11434
-      - NEXT_PUBLIC_INSTITUTION_NAME="Escuela Nacional"
-      - NEXT_PUBLIC_SUPPORTED_LANGUAGES=es,pt,en
-    ports:
-      - "3000:3000"
-    depends_on: [tutor_api]
-    restart: unless-stopped
-
-volumes:
-  ollama_models:
-  qdrant_data:
-  student_data:      # LGPD/FERPA: all student data in local volume
-  course_content:
-```
-
-```python
-# tutor_api/app/main.py — Socratic tutor using local Phi-4
-from fastapi import FastAPI
-from pydantic import BaseModel
-from langchain_ollama import ChatOllama, OllamaEmbeddings
-from langchain_qdrant import QdrantVectorStore
-from langchain.chains import RetrievalQA
-from langchain.prompts import ChatPromptTemplate
-import os
-
-app = FastAPI(title="Offline Campus AI Tutor")
-
-OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
-QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
-MODEL = os.getenv("TUTOR_MODEL", "phi4:latest")
-
-llm = ChatOllama(base_url=OLLAMA_URL, model=MODEL, temperature=0.1)
-embeddings = OllamaEmbeddings(base_url=OLLAMA_URL, model="nomic-embed-text")
-
-SOCRATIC_PROMPT = ChatPromptTemplate.from_messages([
-    ("system", """Eres un tutor socrático experto en {subject}.
-    
-    Reglas estrictas:
-    1. NUNCA des la respuesta directa — guía con preguntas
-    2. Si el estudiante está bloqueado (3+ intentos fallidos), da UNA pista específica
-    3. Cita el material del curso cuando sea relevante: {context}
-    4. Responde en el mismo idioma que el estudiante (español/portugués/inglés)
-    5. Respuestas cortas: máximo 4 oraciones
-    
-    Historial: {history}
-    """),
-    ("human", "{question}")
-])
-
-class TutorRequest(BaseModel):
-    student_id: str
-    subject: str
-    question: str
-    course_id: str
-    history: list = []
-
-@app.post("/tutor/ask")
-async def ask_tutor(req: TutorRequest):
-    """Socratic tutoring with local RAG — fully offline."""
-    vectorstore = QdrantVectorStore.from_existing_collection(
-        embedding=embeddings,
-        url=QDRANT_URL,
-        collection_name=f"course_{req.course_id}"
+def grade_assignment(submission: str, rubric: str) -> dict:
+    """Grade with full explainability for audit compliance."""
+    response = client.messages.create(
+        model="claude-sonnet-4-5",
+        max_tokens=2048,
+        tools=[grading_tool],
+        tool_choice={"type": "auto"},
+        messages=[{
+            "role": "user",
+            "content": f"Grade this submission according to the rubric.\n\nSubmission:\n{submission}\n\nRubric:\n{rubric}"
+        }]
     )
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-    docs = retriever.invoke(req.question)
-    context = "\n".join([d.page_content for d in docs])
-    
-    chain = SOCRATIC_PROMPT | llm
-    response = chain.invoke({
-        "subject": req.subject,
-        "context": context,
-        "history": req.history[-6:],
-        "question": req.question
-    })
-    
-    return {
-        "response": response.content,
-        "student_id": req.student_id,
-        "model": MODEL,
-        "cloud_used": False  # Compliance proof
-    }
+    for block in response.content:
+        if block.type == "tool_use" and block.name == "grade_submission":
+            return block.input
+    return {}
 
-@app.post("/ingest/course")
-async def ingest_course_material(course_id: str, pdf_path: str):
-    """Load course PDFs into local Qdrant vector store."""
-    from langchain_community.document_loaders import PyPDFLoader
-    from langchain_text_splitters import RecursiveCharacterTextSplitter
-    
-    loader = PyPDFLoader(pdf_path)
-    docs = loader.load()
-    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-    chunks = splitter.split_documents(docs)
-    
-    QdrantVectorStore.from_documents(
-        documents=chunks,
-        embedding=embeddings,
-        url=QDRANT_URL,
-        collection_name=f"course_{course_id}"
-    )
-    return {"ingested": len(chunks), "course_id": course_id, "stored": "local_only"}
-```
-
-```bash
-# One-time setup (on school server)
-docker compose up -d
-
-# Download models (8–14GB, run once)
-docker exec ollama ollama pull phi4:latest
-docker exec ollama ollama pull nomic-embed-text
-
-# Ingest course materials
-curl -X POST "http://localhost:8080/ingest/course?course_id=mat101&pdf_path=/data/cursos/matematica1.pdf"
-
-# Student access via browser: http://school-server:3000
-# Teacher dashboard: http://school-server:3000/teacher
-
-# Hardware requirements:
-# Minimum: 8-core CPU, 32GB RAM, 100GB SSD → phi4 works (slower)
-# Recommended: 8-core CPU, 32GB RAM, NVIDIA RTX 3080/4080 → 5-10x faster
-# Cost: ~$1,500 (CPU) or ~$3,500 (GPU server) per school
-```
-
-**Effort**: 2–3 weeks. **Revenue**: $80k–$300k per school deployment  
-**Who buys**: Schools with LGPD/FERPA constraints, rural schools, government education departments  
-**LATAM fit**: Brazil (LGPD mandates), government-run schools, remote/rural areas without reliable internet
-
----
-
----
-
-## Pattern 11: EduAgent Active Recall Pipeline
-
-**Goal**: Ingest course materials and proactively surface quizzes, flashcards, and mind maps to students during tutoring sessions — proven by the "42% outcomes" signal.
-**Stack**: edu-agent (StudentTraineeCenter) + LangGraph ReAct + Qdrant RAG + Anthropic + FastAPI
-**Time**: 1–2 weeks
-**Why now**: Active recall (force learner to retrieve, not just read) is the evidence-backed pedagogy behind the 42% learning improvement stat. OSS baseline: `github.com/StudentTraineeCenter/edu-agent`.
-
-```python
-# active_recall_pipeline.py
-# Based on: github.com/StudentTraineeCenter/edu-agent architecture
-from langgraph.graph import StateGraph, END
-from langgraph.prebuilt import ToolNode
-from langchain_anthropic import ChatAnthropic
-from langchain_qdrant import QdrantVectorStore
-from langchain_ollama import OllamaEmbeddings
-from langchain_core.tools import tool
-from typing import TypedDict, List, Annotated
-import operator, json
-
-# ---- State definition ----
-class RecallState(TypedDict):
-    student_id: str
-    course_id: str
-    session_turns: int
-    question: str
-    context_docs: List[str]
-    response: str
-    generated_cards: List[dict]  # flashcards generated this session
-    recall_triggered: bool       # True when proactive card generation fires
-
-# ---- Tools the ReAct agent can call ----
-@tool
-def search_course_material(query: str, course_id: str) -> str:
-    """Search course material for relevant passages."""
-    vectorstore = QdrantVectorStore.from_existing_collection(
-        embedding=OllamaEmbeddings(model="nomic-embed-text"),
-        url="http://qdrant:6333",
-        collection_name=f"course_{course_id}"
-    )
-    docs = vectorstore.similarity_search(query, k=4)
-    return "\n\n".join([d.page_content for d in docs])
-
-@tool
-def generate_flashcard(concept: str, course_id: str) -> dict:
-    """Generate a Leitner-style flashcard for a concept."""
-    from anthropic import Anthropic
-    client = Anthropic()
-    resp = client.messages.create(
+# --- Auto-quiz generation ---
+def generate_quiz(lesson_content: str, num_questions: int = 5) -> list[dict]:
+    """Auto-generate MCQ quiz from lesson content."""
+    response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=256,
-        messages=[{"role": "user", "content": f"""Create a flashcard for:
-CONCEPT: {concept}
-Return JSON: {{"front": "question", "back": "answer", "difficulty": "easy|medium|hard"}}"""}]
+        max_tokens=2048,
+        system="""Generate a JSON array of MCQ quiz questions from educational content.
+Format: [{"question": "...", "options": ["A", "B", "C", "D"], "correct": "A", "explanation": "..."}]""",
+        messages=[{
+            "role": "user",
+            "content": f"Generate {num_questions} questions from:\n{lesson_content}"
+        }]
     )
-    card = json.loads(resp.content[0].text)
-    card["concept"] = concept
-    card["course_id"] = course_id
-    return card
-
-@tool
-def generate_quiz(topic: str, num_questions: int = 3) -> List[dict]:
-    """Generate active recall quiz questions on a topic."""
-    from anthropic import Anthropic
-    client = Anthropic()
-    resp = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=512,
-        messages=[{"role": "user", "content": f"""Generate {num_questions} active recall questions on: {topic}
-Return JSON array: [{{"q": "...", "a": "...", "type": "recall"}}]"""}]
-    )
-    return json.loads(resp.content[0].text)
-
-# ---- LangGraph workflow ----
-def tutor_node(state: RecallState) -> RecallState:
-    """Main tutoring turn — Socratic response + proactive recall trigger."""
-    llm = ChatAnthropic(model="claude-haiku-4-5-20251001")
-    tools = [search_course_material, generate_flashcard, generate_quiz]
-    agent = llm.bind_tools(tools)
-    
-    # Proactive recall: every 3 turns, generate review cards
-    trigger_recall = (state["session_turns"] % 3 == 0 and state["session_turns"] > 0)
-    
-    system_msg = f"""You are a Socratic tutor for course {state['course_id']}.
-    
-    ALWAYS:
-    1. Use search_course_material to ground your answer in course content
-    2. Guide with questions — don't give direct answers
-    3. {"ALSO call generate_flashcard and generate_quiz on the topic of this question — it's time for active recall review!" if trigger_recall else ""}
-    
-    Student asks: {state['question']}"""
-    
-    result = agent.invoke([{"role": "user", "content": system_msg}])
-    
-    return {
-        **state,
-        "response": result.content,
-        "session_turns": state["session_turns"] + 1,
-        "recall_triggered": trigger_recall
-    }
-
-workflow = StateGraph(RecallState)
-workflow.add_node("tutor", tutor_node)
-workflow.add_node("tools", ToolNode([search_course_material, generate_flashcard, generate_quiz]))
-
-def should_use_tools(state: RecallState) -> str:
-    if hasattr(state.get("response", ""), "tool_calls"):
-        return "tools"
-    return END
-
-workflow.set_entry_point("tutor")
-workflow.add_conditional_edges("tutor", should_use_tools)
-workflow.add_edge("tools", "tutor")
-
-active_recall_app = workflow.compile()
-
-# FastAPI endpoint
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-app = FastAPI(title="Active Recall AI Tutor")
-
-class TutorRequest(BaseModel):
-    student_id: str
-    course_id: str
-    question: str
-    session_turns: int = 0
-
-@app.post("/tutor/ask")
-async def ask_with_recall(req: TutorRequest):
-    result = active_recall_app.invoke({
-        "student_id": req.student_id,
-        "course_id": req.course_id,
-        "question": req.question,
-        "session_turns": req.session_turns,
-        "context_docs": [], "response": "", "generated_cards": [], "recall_triggered": False
-    })
-    return {
-        "response": result["response"],
-        "recall_triggered": result["recall_triggered"],
-        "cards_generated": result["generated_cards"],
-        "session_turns": result["session_turns"]
-    }
+    import json
+    text = response.content[0].text
+    start = text.find('[')
+    end = text.rfind(']') + 1
+    return json.loads(text[start:end]) if start != -1 else []
 ```
 
-```bash
-# Setup
-pip install langgraph langchain-anthropic langchain-qdrant langchain-ollama fastapi uvicorn
-# Or clone and extend: git clone https://github.com/StudentTraineeCenter/edu-agent
-
-# Start Qdrant + Ollama (for local embeddings)
-docker run -d -p 6333:6333 qdrant/qdrant
-docker run -d -p 11434:11434 ollama/ollama
-docker exec <ollama-id> ollama pull nomic-embed-text
-
-# Ingest course material
-curl -X POST "http://localhost:8080/ingest?course_id=bio101" -F "file=@biology_chapter1.pdf"
-
-# Run tutor
-uvicorn active_recall_pipeline:app --host 0.0.0.0 --port 8080
-```
-
-**Effort**: 1–2 weeks. **Revenue**: $20k–80k standalone; $50k–200k as LMS plugin  
-**Why it works**: Active recall (forcing retrieval) produces 42% better outcomes vs. passive reading. Every 3 tutoring turns → auto-generate review cards = evidence-based pedagogy baked into the product.  
-**Differentiator vs. Pattern 1/2**: This is proactive — the AI surfaces learning moments without the teacher setting up quizzes manually.
+### Cuándo usar
+Empresa tech LATAM con 100–5000 empleados que quiere plataforma de AI training interna. MIT license → sin restricciones comerciales. Globant puede resellarlo como producto.
 
 ---
 
-## Pattern 12: ALIGNAgent-Style Precision Skill Gap + Learning Path (NEW v4)
+## P5: Agente Proactivo de Alerta Temprana (At-Risk Student Detection)
+**Tiempo**: 8–14 semanas | **Deal**: $120k–$450k | **Licencias**: Apache-2.0 + MIT
 
-**Goal**: Two-agent pipeline that detects student knowledge gaps from quiz/gradebook data and recommends targeted resources — validated at 0.87–0.90 precision on real CS courses (arXiv:2601.15551).
-**Stack**: LangGraph + Anthropic claude-sonnet-5 + Qdrant (course resource vector store) + LMS Web Services API
-**Time**: 2–3 weeks
-**Revenue**: $40k–$150k as LMS plugin; $150k–$500k as institutional academic advising system
-**Who buys**: Universities, corporate L&D, national education ministries (early-warning system)
+### Stack
+- **LMS**: Open edX (Apache-2.0) con xAPI events habilitados
+- **Data**: xAPI events → ClickHouse o PostgreSQL (engagement analytics)
+- **Agent**: Claude Haiku 4.5 (cost-efficient para volumen alto) + LangGraph scheduler
+- **Notifications**: Email / WhatsApp Business API / Moodle/edX notification system
 
+### Receta
 ```python
-# alignagent_pipeline.py
-# Based on: ALIGNAgent (arXiv:2601.15551) — Florida Polytechnic University, Jan 2026
-from langgraph.graph import StateGraph, END
 from anthropic import Anthropic
-from langchain_qdrant import QdrantVectorStore
-from langchain_ollama import OllamaEmbeddings
-from typing import TypedDict, List
-import json, requests
+import pandas as pd
+from datetime import datetime
 
 client = Anthropic()
 
-class AlignState(TypedDict):
-    student_id: str
-    course_id: str
-    quiz_results: List[dict]        # [{question, topic, correct, student_answer}]
-    grade_history: List[dict]       # [{topic, score, date}]
-    learner_preferences: dict       # {learning_style, difficulty_preference, language}
-    proficiency_map: dict           # {topic: score} — output of Skill Gap Agent
-    identified_gaps: List[dict]     # [{topic, gap_level, misconceptions}]
-    recommended_resources: List[dict]  # [{topic, resource, url, type}]
-    intervention_plan: str          # final output
+def calculate_risk_score(student_row: pd.Series) -> float:
+    """Simple risk score: 0.0 (no risk) to 1.0 (high risk)."""
+    score = 0.0
+    if student_row['days_since_login'] > 7:
+        score += 0.4
+    elif student_row['days_since_login'] > 3:
+        score += 0.2
+    if student_row['quiz_avg'] < 50:
+        score += 0.4
+    elif student_row['quiz_avg'] < 70:
+        score += 0.2
+    if student_row['video_completion'] < 0.25:
+        score += 0.2
+    return min(score, 1.0)
 
-def skill_gap_agent(state: AlignState) -> AlignState:
-    """
-    Agent 1: Skill Gap Agent
-    Processes quiz performance + grade history → concept-level proficiency map → identifies specific misconceptions.
-    Mirrors ALIGNAgent's Skill Gap Agent (arXiv:2601.15551).
-    """
-    prompt = f"""You are an educational Skill Gap Agent. Analyze this student's quiz performance and grade history
-to produce a concept-level proficiency map and identify specific knowledge gaps and misconceptions.
-
-STUDENT: {state['student_id']} — COURSE: {state['course_id']}
-QUIZ RESULTS: {json.dumps(state['quiz_results'], indent=2)}
-GRADE HISTORY: {json.dumps(state['grade_history'], indent=2)}
-
-Provide:
-1. A proficiency_map: dict mapping each topic to a score 0-10
-2. identified_gaps: list of {{topic, gap_level (low/medium/high), misconceptions (list of strings)}}
-3. reasoning: brief explanation of your diagnostic reasoning
-
-Return JSON:
-{{
-  "proficiency_map": {{"topic_name": score, ...}},
-  "identified_gaps": [
-    {{"topic": "...", "gap_level": "high|medium|low", "misconceptions": ["...", "..."]}}
-  ],
-  "reasoning": "..."
-}}"""
-
+def generate_personalized_nudge(student: pd.Series) -> str:
+    """Generate warm, personalized message for at-risk student."""
     response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2048,
-        messages=[{"role": "user", "content": prompt}]
+        model="claude-haiku-4-5-20251001",
+        max_tokens=256,
+        system="You are a caring, encouraging student success advisor. Write a warm, brief personalized message (2-3 sentences). Do not mention 'risk' or 'failing'. Be positive and specific.",
+        messages=[{
+            "role": "user",
+            "content": f"""Student: {student['first_name']}
+Last login: {student['days_since_login']} days ago
+Current topic: {student['current_topic']}
+Quiz average: {student['quiz_avg']}%
+Course: {student['course_name']}
+
+Write an encouraging message to bring them back."""
+        }]
     )
-    result = json.loads(response.content[0].text)
-    return {
-        **state,
-        "proficiency_map": result["proficiency_map"],
-        "identified_gaps": result["identified_gaps"]
-    }
+    return response.content[0].text
 
-def recommender_agent(state: AlignState) -> AlignState:
-    """
-    Agent 2: Recommender Agent
-    Retrieves preference-aware learning resources aligned to diagnosed gaps.
-    Mirrors ALIGNAgent's Recommender Agent — RAG over course resource catalog.
-    """
-    # RAG: retrieve relevant course resources for each gap
-    embeddings = OllamaEmbeddings(model="nomic-embed-text")
-    vectorstore = QdrantVectorStore.from_existing_collection(
-        embedding=embeddings,
-        url="http://qdrant:6333",
-        collection_name=f"resources_{state['course_id']}"
-    )
+def daily_at_risk_sweep(engagement_df: pd.DataFrame) -> list[dict]:
+    """Run daily. Detect and nudge at-risk students proactively."""
+    alerts = []
+    
+    for _, student in engagement_df.iterrows():
+        risk = calculate_risk_score(student)
+        
+        if risk >= 0.4:  # Threshold: medium+ risk
+            nudge = generate_personalized_nudge(student)
+            alerts.append({
+                "student_id": student['id'],
+                "email": student['email'],
+                "risk_score": risk,
+                "nudge_message": nudge,
+                "recommended_action": "schedule_tutoring" if risk >= 0.7 else "send_reminder",
+                "generated_at": datetime.utcnow().isoformat()
+            })
+    
+    return alerts
 
-    all_resources = []
-    for gap in state["identified_gaps"]:
-        if gap["gap_level"] in ("high", "medium"):
-            query = f"{gap['topic']} {' '.join(gap['misconceptions'][:2])}"
-            docs = vectorstore.similarity_search(query, k=3)
-            for doc in docs:
-                all_resources.append({
-                    "topic": gap["topic"],
-                    "gap_level": gap["gap_level"],
-                    "resource": doc.metadata.get("title", doc.page_content[:80]),
-                    "url": doc.metadata.get("url", ""),
-                    "type": doc.metadata.get("type", "reading"),
-                    "estimated_minutes": doc.metadata.get("duration_min", 15)
-                })
-
-    # Use LLM to rank and filter by learner preferences
-    filter_prompt = f"""Filter and rank these resources for a student with these preferences:
-{json.dumps(state['learner_preferences'])}
-
-Resources: {json.dumps(all_resources, indent=2)}
-
-Return top 5 resources per gap (max 15 total) as JSON array, prioritizing
-resources that match the student's learning style and don't overwhelm.
-Keep format: [{{"topic": "...", "resource": "...", "url": "...", "type": "...", "why": "..."}}]"""
-
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2048,
-        messages=[{"role": "user", "content": filter_prompt}]
-    )
-    filtered = json.loads(response.content[0].text)
-    return {**state, "recommended_resources": filtered}
-
-def intervention_planner(state: AlignState) -> AlignState:
-    """
-    Agent 3: Intervention Planner
-    Synthesizes gaps + resources into an actionable, time-bound intervention plan.
-    """
-    prompt = f"""Create a concise intervention plan for this student.
-
-SKILL GAPS: {json.dumps(state['identified_gaps'], indent=2)}
-RECOMMENDED RESOURCES: {json.dumps(state['recommended_resources'], indent=2)}
-LEARNER PREFERENCES: {json.dumps(state['learner_preferences'])}
-
-Write a 2-week intervention plan:
-- Week 1: Focus on highest-priority gap (one concept at a time)
-- Week 2: Secondary gaps + consolidation
-- Include specific resources with day-by-day schedule
-- Set a checkpoint: mini-quiz before advancing to next topic
-- Format as a teacher-friendly report (Markdown)
-- Language: match {state['learner_preferences'].get('language', 'English')}"""
-
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2048,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return {**state, "intervention_plan": response.content[0].text}
-
-# Build LangGraph workflow
-workflow = StateGraph(AlignState)
-workflow.add_node("skill_gap", skill_gap_agent)
-workflow.add_node("recommender", recommender_agent)
-workflow.add_node("planner", intervention_planner)
-workflow.set_entry_point("skill_gap")
-workflow.add_edge("skill_gap", "recommender")
-workflow.add_edge("recommender", "planner")
-workflow.add_edge("planner", END)
-align_app = workflow.compile()
-
-# FastAPI endpoint
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-app = FastAPI(title="ALIGNAgent — Skill Gap & Learning Path")
-
-class StudentDiagnosticRequest(BaseModel):
-    student_id: str
-    course_id: str
-    quiz_results: List[dict]
-    grade_history: List[dict]
-    learner_preferences: dict = {"learning_style": "visual", "language": "English", "difficulty_preference": "medium"}
-
-@app.post("/align/diagnose")
-async def diagnose_and_recommend(req: StudentDiagnosticRequest):
-    """Run full ALIGNAgent pipeline: gap detection → resource recommendation → intervention plan."""
-    result = align_app.invoke({
-        "student_id": req.student_id,
-        "course_id": req.course_id,
-        "quiz_results": req.quiz_results,
-        "grade_history": req.grade_history,
-        "learner_preferences": req.learner_preferences,
-        "proficiency_map": {},
-        "identified_gaps": [],
-        "recommended_resources": [],
-        "intervention_plan": ""
-    })
-    return {
-        "student_id": result["student_id"],
-        "proficiency_map": result["proficiency_map"],
-        "identified_gaps": result["identified_gaps"],
-        "recommended_resources": result["recommended_resources"],
-        "intervention_plan": result["intervention_plan"]
-    }
+# Run via cron / Open edX Celery task
+if __name__ == "__main__":
+    data = fetch_engagement_data(days_back=7)  # from xAPI events
+    alerts = daily_at_risk_sweep(data)
+    
+    for alert in alerts:
+        send_notification(alert['student_id'], alert['nudge_message'])
+        log_intervention_to_db(alert)
+    
+    print(f"[{datetime.utcnow().isoformat()}] Sent {len(alerts)} proactive nudges")
 ```
 
-```bash
-# Setup
-pip install langgraph langchain-anthropic langchain-qdrant langchain-ollama fastapi uvicorn
-
-# Start dependencies
-docker run -d -p 6333:6333 qdrant/qdrant
-docker run -d -p 11434:11434 ollama/ollama && docker exec <id> ollama pull nomic-embed-text
-
-# Ingest course resources into Qdrant (title, url, type, duration_min in metadata)
-# Each document = a course resource (video, reading, exercise, flashcard set)
-
-# Run
-uvicorn alignagent_pipeline:app --host 0.0.0.0 --port 8080
-
-# Example call
-curl -X POST http://localhost:8080/align/diagnose \
-  -H "Content-Type: application/json" \
-  -d '{
-    "student_id": "stu_001",
-    "course_id": "cs201",
-    "quiz_results": [
-      {"question": "What is Big-O of merge sort?", "topic": "Algorithms", "correct": false, "student_answer": "O(n²)"},
-      {"question": "What is a pointer?", "topic": "Memory", "correct": true, "student_answer": "variable storing address"}
-    ],
-    "grade_history": [
-      {"topic": "Algorithms", "score": 55, "date": "2026-07-01"},
-      {"topic": "Memory", "score": 82, "date": "2026-07-01"}
-    ],
-    "learner_preferences": {"learning_style": "visual", "language": "Spanish", "difficulty_preference": "step-by-step"}
-  }'
-```
-
-**Why this works**: ALIGNAgent's two-agent pipeline (gap detection → recommendation) achieves 0.87–0.90 precision validated against actual exam outcomes. The intervention closes the loop *before* advancing — preventing compounding misconceptions.
-
-**LATAM fit**: Language preference field (`"language": "Spanish"`) makes this immediately localisable. Strong fit for university academic advising (UBA, USP, UNAM), technical schools, and corporate L&D across LATAM.
+### Cuándo usar
+Universidad LATAM con 5k–50k estudiantes online. Reducir deserción 15–30% con intervención proactiva personalizada. ROI medible → deals grandes.
 
 ---
 
-## Pattern Selection Matrix
+## P6: LATAM AI Tutor en Español/Portugués (K-12)
+**Tiempo**: 10–16 semanas | **Deal**: $80k–$400k | **Licencias**: Apache-2.0
 
-| Pattern | Use Case | LMS | Time | Budget | LATAM Fit |
-|---------|----------|-----|------|--------|-----------|
-| P1: XBlock AI Tutor | Cloud university | Open edX | 2–3w | $30k–100k | Medium |
-| P2: Quiz Generator | Any LMS | Moodle | 1–2w | $15k–50k | High |
-| P3: FSRS API | Flashcard app | None | 1w | $10k–30k | High |
-| P4: L&D AI Agent | Corporate | Frappe LMS | 3–4w | $50k–150k | High |
-| P5: LTI Assessment | Any LMS | Any | 2w | $20k–60k | High |
-| P6: Local-First Tutor | Privacy schools | None | 1–2w | $30k–80k | Very High |
-| P7: Analytics Dashboard | Teacher tool | Moodle | 3–4w | $40k–120k | High |
-| P8: WhatsApp Tutor | Mobile-first | None | 2–3w | $25k–80k | Very High |
-| P9: Classroom MCP Agent | Google Workspace | Google Classroom | 2–4w | $50k–200k | High (new) |
-| P10: Offline SLM Campus | LGPD/no-cloud | None (on-prem) | 2–3w | $80k–300k | Very High |
-| P11: Active Recall Agent | Outcomes-driven | Any | 1–2w | $20k–80k | High |
-| P12: ALIGNAgent Skill Gap | Academic advising / L&D | Any (LMS API) | 2–3w | $40k–500k | Very High |
+### Stack
+- **Tutoring engine**: HKUDS/DeepTutor fork (Apache-2.0, 23.7k★)
+- **LMS**: Open edX (Apache-2.0) o Moodle (GPL)
+- **LLM**: Claude Sonnet 4.5 (español/portugués nativo, multilingüe)
+- **Curriculum**: SEP (México), BNCC (Brasil), NAP (Argentina), MEN (Colombia)
+
+### Receta
+```python
+from anthropic import Anthropic
+
+client = Anthropic()
+
+COUNTRY_CONFIGS = {
+    "MX": {"language": "español mexicano", "curriculum": "SEP", "grade_system": "primaria/secundaria/preparatoria"},
+    "BR": {"language": "português brasileiro", "curriculum": "BNCC", "grade_system": "ensino fundamental/médio"},
+    "AR": {"language": "español rioplatense", "curriculum": "NAP", "grade_system": "primaria/secundaria"},
+    "CO": {"language": "español colombiano", "curriculum": "MEN", "grade_system": "básica/media"},
+    "CL": {"language": "español chileno", "curriculum": "MINEDUC", "grade_system": "básica/media"},
+    "PE": {"language": "español peruano", "curriculum": "MINEDU", "grade_system": "primaria/secundaria"},
+}
+
+SOCRATIC_TUTOR_SYSTEM = """Eres un tutor de IA para estudiantes de {country}.
+Idioma: {language}
+Currículo oficial: {curriculum}
+Nivel educativo: {grade_level}
+
+Reglas pedagógicas:
+1. Usa el método socrático — guía, nunca des respuestas directas
+2. Adapta el lenguaje a la edad (nunca condescendiente)
+3. Usa ejemplos y contextos culturales de {country}
+4. Si el estudiante está frustrado, cambia de estrategia pedagógica
+5. Termina cada respuesta con una pregunta que invite a reflexionar
+6. Si hay error, explica POR QUÉ está mal antes de la respuesta correcta
+
+Alineamiento curricular: Sigue los estándares de aprendizaje del {curriculum}."""
+
+def tutor_session(
+    student: dict,
+    topic: str,
+    student_question: str,
+    conversation_history: list[dict]
+) -> str:
+    country = student.get('country', 'MX')
+    config = COUNTRY_CONFIGS.get(country, COUNTRY_CONFIGS['MX'])
+    
+    system_prompt = SOCRATIC_TUTOR_SYSTEM.format(
+        country=country,
+        language=config['language'],
+        curriculum=config['curriculum'],
+        grade_level=student.get('grade', 'secundaria')
+    )
+    
+    messages = conversation_history + [
+        {"role": "user", "content": f"Estoy estudiando: {topic}.\n{student_question}"}
+    ]
+    
+    response = client.messages.create(
+        model="claude-sonnet-4-5",
+        max_tokens=1024,
+        system=system_prompt,
+        messages=messages
+    )
+    
+    return response.content[0].text
+```
+
+### Cuándo usar
+Ministerio de Educación, edtech LATAM, o sistema escolar privado que quiere AI tutor culturalmente adaptado en español/portugués. Diferenciador frente a soluciones en inglés. Alineado al currículo local.
 
 ---
 
-*See `verticals/solutions.md` for platform setup guides.*
+## Quick-Start Matrix — Elegir el patrón correcto
+
+| Situación del cliente | Tiempo disponible | Budget | Patrón recomendado |
+|-----------------------|-------------------|--------|---------------------|
+| Ya tiene Moodle, quiere AI rápido | 4–8 sem | $80k–$250k | **P1: Moodle AI Copilot** |
+| MOOC corporativo >1k learners | 10–16 sem | $200k–$600k | **P2: Open edX Personalized Engine** |
+| Cursos async, reemplazar video | 8–14 sem | $150k–$600k | **P3: LectūraAgents Avatar** |
+| Corporate training greenfield | 6–10 sem | $100k–$400k | **P4: ClassroomIO + Claude** |
+| Universidad, retención estudiantes | 8–14 sem | $120k–$450k | **P5: At-Risk Alert Agent** |
+| K-12 / EdTech LATAM en español | 10–16 sem | $80k–$400k | **P6: LATAM AI Tutor** |
+
+---
+*Patrones actualizados por el pipeline de ingest. Última actualización: 2026-07-10.*
