@@ -1,86 +1,156 @@
-# Industry Trends — Energy AI (2026)
+# Trends — Energy AI (2026)
 
-> Current signals, inflection points, and what to watch.
-> Last updated: 2026-07-09 (v2)
-
-## Macro Context
-
-- **Renewables surpassed coal globally** for first time in 2025 (793 GW added; 83% solar)
-- **AI data centers are now a grid-level load** — 8-15% of US grid by 2026
-- **Agentic AI transition underway** — 2026 is the year energy AI shifts from forecasting tools to autonomous operators
-- **EU AI Act (Aug 2 2026 deadline)**: Grid control AI classified as high-risk
-- **Agentic AI in Energy market**: $897M (2026) → $14.9B (2035), CAGR 36.65%
+> Current trends shaping the energy AI landscape.
+> Last updated: 2026-07-10 (v3)
 
 ---
 
-## T1: Agentic AI Replaces Rule-Based Grid Dispatch
-**Signal**: Grid-Agent (arXiv:2508.05702), X-GridAgent (arXiv:2512.20789), PowerDAG (arXiv:2603.17418) published 2025-2026. LLMs replacing rule-based SCADA dispatch in research, moving to pilot.
-**Impact**: Grid operators query grid state in natural language; LLM agents autonomously remediate violations.
-**Globant relevance**: Build Grid Copilots on open foundations — sell to utilities who can't afford Siemens/GE.
+## T1: LLM-Native Grid Operations (Power-Agent Community)
 
-## T2: Virtual Power Plants (VPPs) as the New Business Model
-**Signal**: Enphase, Tesla, Sunrun, Enel AI VPP expansions. Brazil ANEEL published DER aggregation rules.
-**Impact**: Every EV, BESS, and solar inverter becomes an aggregatable asset.
-**Key open source**: MyEMS VPP module (MIT), VOLTTRON DR agents (Apache-2.0), OpenADR 2.0 stack.
-**Globant relevance**: VPP orchestration platform = $300k-$1.5M engagement.
-
-## T3: LLM-Powered Grid Analysis Tools Go Enterprise
-**Signal**: X-GridAgent 3-layer architecture; Power Systems Agent Benchmark (arXiv:2606.20950) establishes first eval framework.
-**Impact**: Utility control room operators without grid modeling expertise can query complex scenarios.
-**Globant relevance**: Build the "Claude for grid operators" tool — enterprise license deal.
-
-## T4: AI Datacenter-Grid Coordination
-**Signal**: OpenG2G (arXiv:2605.05519) — first open platform for GPU workload-grid coordination. Cloud providers under EU/DOE pressure to publish grid impact.
-**Globant relevance**: Carbon-aware cloud migration + grid coordination advisory ($40k-$200k).
-
-## T5: TimesFM 2.5 & WeatherNext 2 as Foundation Forecast Models
-**Signal**: NextEra Energy (largest US renewable operator) deployed Google TimesFM 2.5 for generation forecasting (Jun 2026).
-**Impact**: Zero-shot foundation models replace per-client ML training for 70-90% of forecasting tasks.
-**Globant relevance**: Replace custom ML with TimesFM wrapper + fine-tuning — faster delivery, higher margin.
-
-## T6: Carbon-Aware Computing Goes Mandatory
-**Signal**: EU CSRD + EU AI Act require AI compute carbon footprint measurement. Carbon Aware SDK adopted by GitHub Actions, Microsoft, Red Hat.
-**Timeline**: EU mandatory Jan 2026 (CSRD); Aug 2 2026 (AI Act).
-**Globant relevance**: Carbon Aware SDK integration = fast-close $40k-$150k engagement.
-
-## T7: Building-Grid Integration (Demand Response)
-**Signal**: AutoB2G (arXiv:2603.26005) LLM building-grid co-simulation. Buildrix (arXiv:2606.25139) building engineering AI skills platform.
-**EU timeline**: Energy Efficiency Directive mandates demand response for large buildings by 2027.
-**Globant relevance**: Building energy AI layer on OpenEMS or VOLTTRON — real estate clients.
-
-## T8: Sector Coupling — Hydrogen + Power + Heat
-**Signal**: PyPSA 0.32 (Apr 2026) native hydrogen optimization. Chile H2Verde national program. Germany H2 imports.
-**Globant relevance**: OSeMOSYS + PyPSA H2 scenario planning tools for government/utility strategy.
-
-## T9: AI for Predictive Grid Maintenance
-**Signal**: US grid average age 41 years. AI predictive maintenance = top ROI use case (Gartner 2026). NextEra cited aging assets as primary AI driver.
-**Impact**: AI reduces unplanned outages by 30-50%. Condition-based replaces calendar-based maintenance.
-**Globant relevance**: Predictive maintenance AI = $80k-$250k per asset class.
-
-## T10: EU AI Act Compliance for Energy AI (HIGH-RISK)
-**Signal**: Grid control AI, energy trading AI, critical infrastructure monitoring = high-risk systems.
-**Deadline**: Aug 2 2026 (NOW). Requires: risk assessment, audit trails, explainability, human-in-the-loop override.
-**Globant relevance**: Compliance wrapper product for EU-operating energy clients.
-
-## T11: V2G (Vehicle-to-Grid) AI Orchestration
-**Signal**: Brazil fleet electrification + Chile mining EV fleets. V2G-capable chargers entering market. OCPP 2.1 + OSCP enable AI-driven smart charging.
-**Globant relevance**: V2G AI orchestrator on OpenRemote + OCPP 2.1 — $80k-$350k.
-
-## T12: Autonomous Self-Healing Grids
-**Signal**: Grid-Agent and PowerDAG demonstrate autonomous fault detection and rerouting. 30-50% outage reduction with AI-assisted fault isolation.
-**Globant relevance**: Self-healing grid agent MVP for mid-size utility = $200k engagement.
+Harvard SEAS's PowerAgent community is establishing **LLM-native power system operations** as a production pattern:
+- PowerMCP (160★ in weeks) lets Claude/GPT-4 interact directly with PowerWorld, PSSE, OpenDSS via MCP tools
+- PowerWF provides pre-built agentic workflows for interconnection studies, contingency screening
+- PowerAgentBench standardizes evaluation — benchmarks power-system agents on multi-step operational tasks
+- **Implication**: The "AI copilot for grid operators" is no longer research — it's buildable today with open tools
 
 ---
 
-## Key Dates
+## T2: Open Power AI Consortium — Domain LLM for Utilities
 
-| Date | Event | Impact |
-|------|-------|--------|
-| Aug 2, 2026 | EU AI Act full enforcement | Energy AI high-risk; compliance mandatory NOW |
-| Q3 2026 | Grid-Agent / X-GridAgent code release | New open source LLM grid tools available |
-| Q4 2026 | Brazil ANEEL VPP framework | LATAM VPP market unlocks |
-| Q1 2027 | EU EED DR mandate | Building-grid integration mandatory for large buildings |
-| 2027 | US DOE AI Grid Initiative | $500M+ for grid AI projects |
+EPRI + NVIDIA + Articul8 launched the **Open Power AI Consortium** (GTC 2025, production 2026):
+- Domain-specific multimodal LLM trained on EPRI's proprietary library of power engineering knowledge
+- NVIDIA NIM microservice (early access) — can be deployed on-prem or private cloud for utility data security
+- Target: 5× reduction in interconnection study timelines (4 years → ~10 months)
+- **Implication**: Utility clients can now have a specialized energy LLM + PowerMCP + Claude multi-agent pattern that rivals Palantir Foundry at 1/10th the cost
+
+---
+
+## T3: Agentic AI for Renewable Energy Operations (Microsoft Signal, Apr 2026)
+
+Microsoft Cloud Blog (April 2026): agentic AI is entering production for renewable energy operations:
+- Autonomous systems managing wind/solar/battery/grid orchestration end-to-end
+- Self-healing grid patterns piloting at major utilities
+- NextEra Energy: TimesFM 2.5 + WeatherNext 2 for fleet-scale forecasting
+- **Signal**: Enterprise energy clients are now ready for agentic AI — design authority is the sales motion
+
+---
+
+## T4: AI-Datacenter Energy Paradox — Simultaneous Driver and Solution
+
+AI is simultaneously the world's most voracious energy consumer AND the grid's best optimizer:
+- A single AI data center consumes as much electricity as 100,000 households (2026)
+- AI-driven energy demand: 3-6% of total global energy demand by 2030, 40% CAGR
+- Capital spending by 5 large tech companies: >$400B in 2025, +75% more in 2026
+- This makes energy optimization a direct P&L line item for hyperscalers — not just CSR
+- **LLM Energy Optimization Software Market**: $1.28B (2025) → $5.07B (2031), CAGR 26.26% (Mordor)
+- **Enterprise Data Centers** fastest growing segment: 27.05% CAGR
+- **Implication**: Greenfield opportunity — carbon-aware compute scheduling + energy cost optimization for tech clients
+
+---
+
+## T5: Virtual Power Plant Maturity — 37.5 GW + Open Source Frameworks
+
+North American VPP capacity hit **37.5 GW** in 2025, but existing platforms lag conventional plant performance:
+- VPP-Sim (MIT, 2026): first modular open-source ML framework for VPP strategy development
+- VPP-Sim + VOLTTRON + LangGraph: complete open-source VPP stack
+- ANEEL (Brazil) VPP framework launching Q4 2026 — first in LATAM
+- Chile solar+BESS aggregation market: AES, Enel, Colbun VPP investments
+- GenX (MIT/Princeton): capacity expansion model for VPP investment planning
+- **Implication**: LATAM VPP market is 12-18 months from US maturity — first-mover advantage for Globant clients
+
+---
+
+## T6: Brazil Smart Meter National Rollout — Data Goldmine
+
+Brazil's Ministry of Mines and Energy launched 3.6M smart meter mandate (2026):
+- CPFL started large-scale rollout March 2026
+- 4% of customers year 1, full coverage target by 2030
+- South American smart meter market: $1.18B (2024) → $5.8B (2033), ~10% CAGR
+- 85M+ meters across LATAM by 2029
+- **AI unlocked**: Granular demand forecasting, electricity theft detection, ToU pricing optimization, predictive maintenance
+- **Implication**: Brazilian utilities will need AI data platforms for meter data lakes — urgent, large-scale opportunity
+
+---
+
+## T7: Building-to-Grid Flexibility (AutoB2G, Buildrix) — Emerging Pattern
+
+New arXiv papers (2026) define the B2G (building-to-grid) agentic pattern:
+- **AutoB2G** (arXiv:2603.26005): automated orchestration of building flexibility for grid services
+- **Buildrix** (arXiv:2606.25139): LLM advisor for commercial building energy retrofits
+- Commercial buildings can provide 10-20% of their peak load as grid flexibility
+- HVAC + BESS + EV charging coordinated by LLM agents participating in demand response markets
+- **sinergym + VOLTTRON + Claude** is the open-source implementation of this pattern
+
+---
+
+## T8: LLM-Electricity Contracts — Legal + Technical Automation
+
+TU Delft (IEEE Trans. Power Systems, 2026): LLMs automating electricity contract generation:
+- Integrates with power-system feasibility studies to validate contract conditions
+- Handles residential, SME, and transmission-level maintenance contracts
+- Contract negotiation workflows: proposal → feasibility check → legal review → execution
+- **Implication**: Globant can build contract automation for energy retailers and utilities — legal + tech convergence pattern similar to what we built for legal-kb
+
+---
+
+## T9: AI Predictive Maintenance — Grid Asset Health
+
+Aging grid infrastructure + AI = urgent predictive maintenance market:
+- Brazil: 41+ year average grid infrastructure age
+- Argentina: critical grid under infrastructure stress
+- Mexico: T&D losses >15%
+- Key models: transformer failure prediction (thermal imaging + sensor fusion + Claude Vision)
+- IBM rl-testbed-for-energyplus: proven 15-30% energy savings via RL-based HVAC control
+- VOLTTRON + Claude Vision thermal camera integration: transformer health monitoring pattern
+
+---
+
+## T10: Mining Electrification in Chile/Peru — Largest LATAM Energy AI Opportunity
+
+Chilean copper/lithium mines consume ~33% of national electricity:
+- Codelco, Antofagasta, BHP — all pursuing AI-based energy optimization
+- Mining loads are ideal VPP participants: process-interruptible, predictable, high-value
+- Solar + BESS + AI dispatch: H2 verde projects need energy forecasting AI
+- CEN open data portal provides training data
+- **Deal size**: $150k-$600k per mining operation; multiple mines per client
+
+---
+
+## T11: Carbon-Aware Computing — EU CSRD Compliance Driver
+
+EU Corporate Sustainability Reporting Directive (CSRD) mandating Scope 2 electricity reporting:
+- 50,000+ EU companies affected, including LATAM subsidiaries of EU multinationals
+- Carbon Aware SDK (MIT, 1.5k★): schedule CI/CD, batch jobs, ML training to low-carbon grid windows
+- Integration with WattTime, ElectricityMaps for real-time carbon intensity
+- GitHub Actions carbon-aware runner: already in production
+- **Implication**: Fast-close opportunity ($40k-$150k, 2-4 weeks) for any tech client with EU exposure
+
+---
+
+## T12: TimesFM + WeatherNext — Foundation Models for Energy
+
+Google's foundation models deployed at NextEra (largest US renewable operator):
+- **TimesFM 2.5** (Apache-2.0, 500M params): zero-shot time series forecasting; 48h renewable generation forecast
+- **WeatherNext 2**: AI-powered weather forecasting for solar/wind dispatch
+- Available as open source or Google Cloud API
+- **Pattern**: TimesFM for generation forecast + Claude for market bid strategy + VOLTTRON for dispatch
+
+---
+
+## Trend Radar
+
+| Trend | Time Horizon | LATAM Relevance | Globant Action |
+|-------|-------------|----------------|----------------|
+| LLM grid copilot (PowerMCP) | Now | High | Build with PowerMCP + Claude |
+| EPRI NIM microservice | Now (early access) | High | Pilot with BR utility |
+| Brazil smart meter AI | Now | Very High | Meter data platform proposal |
+| VPP ANEEL Q4 2026 | 6 months | Very High | VPP orchestrator with client |
+| B2G flexibility (AutoB2G) | 6-12 months | High | Building DR pilot |
+| Mining energy AI Chile | Now | Very High | Mining sector outreach |
+| LLM electricity contracts | 6-12 months | Medium | Legal-energy convergence |
+| CSRD carbon-aware compute | Now | Medium | Tech client fast-close |
+| AI datacenter energy opt | Now | Growing | Hyperscaler engagement |
+| V2G (vehicle-to-grid) | 12-24 months | Emerging | Watch Brazil EV ramp |
 
 ---
 *Updated by Globant AI Studios ingestion pipeline.*

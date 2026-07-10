@@ -1,71 +1,78 @@
-# Vertical Solutions — Energy
+# Vertical Solutions — Energy AI
 
-> Existing open source platforms that can be customized with an AI layer on top.
-> Model: start with something functional, add agentic layer above.
-> Last updated: 2026-07-09 (v2)
+> Existing platforms to customize with AI. Start from something working, add an agentic layer.
+> Last updated: 2026-07-10 (v3)
 
-## Recommended Platforms (Fork and Extend)
+## Energy Management Systems (EMS)
 
-| Platform | License | Stars | Stack | Primary Use Case | AI Layer Strategy |
-|----------|---------|-------|-------|-----------------|-------------------|
-| [OpenEMS](https://github.com/OpenEMS/openems) | Apache-2.0 | 500★ | Java/OSGi, TypeScript (React), REST | Residential/commercial EMS — solar, storage, EV, heat-pump | Add AI controller as OSGi bundle; LLM-driven schedule optimization via REST |
-| [MyEMS](https://github.com/MyEMS/myems) | MIT | 900+★ | Python Flask, React, MySQL/TimescaleDB | Industrial/commercial EMS — electricity, water, gas, ISO 50001 | REST API → Agent integration; AI anomaly detection, VPP module |
-| [OpenRemote](https://github.com/openremote/openremote) | AGPL-3.0 | 1.8k★ | Java, TypeScript, PostgreSQL, MQTT | IoT EMS / Energy Hub — industrial, airport, microgrid, EV fleet | Flow rules + AI agent via webhook/MCP; native MCP v5 |
-| [VOLTTRON](https://github.com/VOLTTRON/volttron) | Apache-2.0 | 560★ | Python, pub/sub, OpenADR 2.0, BACnet | Building-grid interaction, demand response | Python agent host — drop in ML/RL agents; integrates with OpenADR |
-| [Emoncms](https://github.com/emoncms/emoncms) | AGPL-3.0 | 1.5k★ | PHP, MySQL, MQTT, InfluxDB | Residential energy monitoring, OpenEnergyMonitor | InfluxDB → AI forecasting pipeline; anomaly detection |
-| [OpenDSS (py bindings)](https://github.com/dss-extensions/OpenDSSDirect.py) | BSD-3 | 200★ | Python bindings to EPRI OpenDSS | Distribution system simulator — utility-grade T&D analysis | Grid-Agent can use OpenDSS as its power flow backend |
-| [Node-RED](https://github.com/node-red/node-red) | Apache-2.0 | 20k★ | Node.js, visual flows, 5000+ nodes | IoT/SCADA orchestration — PLC, API, MQTT, Modbus | Add AI nodes (claude-node, langchain-node); visual agentic pipelines |
-| [HOPP (NREL)](https://github.com/NREL/HOPP) | BSD-3 | 300★ | Python, NREL hybrid plant optimization | Hybrid renewable + storage plant optimization | AI scenario generation feeding HOPP; LLM interpretation of results |
+| Platform | License | Repo | Stack | AI Customization Point |
+|----------|---------|------|-------|----------------------|
+| **MyEMS** | MIT | [MyEMS/myems](https://github.com/MyEMS/myems) | FastAPI + React + TimescaleDB | REST API; add LangGraph agent for anomaly detection, ISO 50001 reporting. Best for factories, hospitals, malls. |
+| **OpenEMS** | Apache-2.0 | [OpenEMS/openems](https://github.com/OpenEMS/openems) | Java OSGi + InfluxDB + Grafana | OSGi plugin API; add AI optimization controller for BESS/EV/heat pump dispatch. Carbon accounting module. |
+| **OpenRemote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java + Keycloak + Docker | MCP-native (2026); Groovy rules engine replaceable with LLM agent. Best for microgrid and smart building IoT. |
+| **Emoncms** | GPL-3.0 | [emoncms/emoncms](https://github.com/emoncms/emoncms) | PHP + MySQL + MQTT | REST API; feed-level anomaly detection. Lightweight for prosumer/community energy monitoring. |
 
-## Deep Dives: Top 3 for Globant Engagements
+## Power System Analysis & Planning
 
-### OpenEMS — Best for EU Residential/Commercial
-```
-OpenEMS Edge (on-site Java) <-> OpenEMS Backend (cloud Java) <-> OpenEMS UI (React)
-       |
-  AI Controller Bundle (Python REST bridge)
-  LLM Scheduling Service (Claude Sonnet / local Ollama)
-```
-- **Why**: Monthly releases, Odoo integration, active EU community
-- **Client fit**: EU utilities, ESCO companies, residential solar+BESS operators
-- **LATAM fit**: Moderate — EU-centric but architecturally sound for AR/BR solar+BESS
+| Platform | License | Repo | Stack | AI Customization Point |
+|----------|---------|------|-------|----------------------|
+| **PyPSA** | MIT | [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | Python + Pyomo/Gurobi | Network optimization object model; LLM can set constraints, interpret results. IEA/IRENA planning tool. |
+| **pandapower** | BSD-3 | [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | Python + NumPy/SciPy | PowerMCP wraps this for LLM-native tool calls. European DSO standard. |
+| **OpenDSS** | BSD-3 | [dss-extensions/OpenDSS](https://github.com/dss-extensions/OpenDSS) | Pascal/Python COM | PowerMCP exposes COM API to LLMs. EPRI-backed, used by 100+ US utilities. |
+| **OSeMOSYS** | Apache-2.0 | [OSeMOSYS/OSeMOSYS](https://github.com/OSeMOSYS/OSeMOSYS) | Python/MathProg | Long-term capacity planning. LLM for scenario input generation and result interpretation. |
 
-### MyEMS — Best for Industrial/LATAM
-```
-Data Collectors (Modbus/BACnet/MQTT) → TimescaleDB → Python API → React Dashboard
-                                                            |
-                                         AI Agent (LangGraph + Claude)
-                                         - Anomaly detection
-                                         - Optimization recommendations
-                                         - VPP aggregation
-```
-- **Why**: MIT license (cleanest for commercial), Python-native, ISO 50001 built-in
-- **Client fit**: Factories, malls, hospitals in LATAM; ISO 50001 certification projects
-- **LATAM fit**: High — multilingual, active in ASEAN + LATAM markets
+## Grid Control & Automation
 
-### OpenRemote — Best for Microgrid / EV Fleet
-```
-Assets (EV chargers, panels, meters) → OpenRemote IoT Platform → Rules Engine
-                                                 |
-                                  AI Agent via MCP / Webhook
-                                  - EV smart charging
-                                  - Microgrid balancing
-                                  - Predictive demand response
-```
-- **Why**: Native MCP support v5.x, best EV charging orchestration
-- **Client fit**: EV fleet operators, airports, industrial microgrids
-- **LATAM fit**: High — Brazil EV fleet growth + Chilean mining microgrids
+| Platform | License | Repo | Stack | AI Customization Point |
+|----------|---------|------|-------|----------------------|
+| **VOLTTRON** | Apache-2.0 | [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) | Python + MQTT + ZMQ | Agent marketplace; add LLM-powered control agents for OpenADR demand response and BESS dispatch. |
+| **Grid2Op** | LGPL-2.1 | [Grid2op/grid2op](https://github.com/Grid2op/grid2op) | Python + NumPy | RL environment; train PPO/SAC agents for topology optimization. LLM explains RL agent actions. |
+| **PowerMCP** | Apache-2.0 | [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | Python + MCP | Direct LLM-to-simulator bridge. LLMs drive PowerWorld, PSSE, OpenDSS. Harvard SEAS production. |
 
-## Custom AI Stack (Greenfield)
+## Building & HVAC
+
+| Platform | License | Repo | Stack | AI Customization Point |
+|----------|---------|------|-------|----------------------|
+| **sinergym** | MIT | [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | Python + EnergyPlus | Gymnasium interface; train and evaluate RL agents. Multi-zone, multi-agent HVAC. |
+| **EnergyPlus** | BSD-3 | [NREL/EnergyPlus](https://github.com/NREL/EnergyPlus) | C++ + Python API | Physics simulation; LLM generates optimization recommendations from simulation output. |
+
+## Virtual Power Plant (VPP)
+
+| Platform | License | Repo | Stack | AI Customization Point |
+|----------|---------|------|-------|----------------------|
+| **VPP-Sim** | MIT | [vpp-sim/vpp-sim](https://github.com/vpp-sim/vpp-sim) | Python + PyTorch | ML strategy framework. Add LLM market strategy agent on top of optimization core. |
+| **VOLTTRON** | Apache-2.0 | [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) | Python + OpenADR | Dispatch layer; LLM decides dispatch strategy, VOLTTRON executes via OpenADR/IEEE 2030.5. |
+
+## Carbon & Sustainability Tools
+
+| Platform | License | Repo | Stack | AI Customization Point |
+|----------|---------|------|-------|----------------------|
+| **Carbon Aware SDK** | MIT | [Green-Software-Foundation/carbon-aware-sdk](https://github.com/Green-Software-Foundation/carbon-aware-sdk) | C# / REST + CLI | Carbon signal API; schedule CI/CD workloads at cleanest grid time. Claude generates CSRD reports. |
+| **Electricity Maps API** | CC-BY-NC | [electricitymaps/electricitymaps-contrib](https://github.com/electricitymaps/electricitymaps-contrib) | Python | Real-time carbon intensity data; feeds Carbon Aware SDK and custom carbon-aware agents. |
+
+## AI Customization Stack
+
 ```
-Data Layer:      TimescaleDB / InfluxDB + PostgreSQL
-Protocol Layer:  VOLTTRON (grid-edge) or Node-RED (light)
-Simulation:      PyPSA (planning) + pandapower (real-time) + sinergym (optimization)
-AI Agent:        LangGraph + Claude Sonnet 5 + domain tools
-Forecast:        TimesFM 2.5 (zero-shot) or fine-tuned Chronos
-API/UI:          FastAPI + React (or OpenEMS UI fork)
+[Vertical Platform]        [Integration]         [AI Layer]
+MyEMS REST API        →    LangGraph             → Claude Sonnet 5
+OpenEMS OSGi Plugin   →    VOLTTRON Pub/Sub      → Anthropic Tool Use
+pandapower Python     →    PowerMCP (MCP tools)  → Claude + Tool calls
+sinergym Gymnasium    →    stable-baselines3     → PPO/SAC + LLM explain
+VPP-Sim ML framework  →    Custom FastAPI bridge → Claude VPP agent
 ```
-Time-to-MVP: 8-14 weeks | Deal size: $150k-$800k
+
+## Platform Selection Guide
+
+| Scenario | Recommended Platform | Rationale |
+|----------|---------------------|-----------|
+| Factory / hospital EMS | MyEMS | MIT, full-stack, ISO 50001, Docker |
+| Utility grid analytics | pandapower + PowerMCP | European DSO standard, LLM-native |
+| Smart microgrid IoT | OpenRemote | MCP-native, flexible, AGPL open |
+| HVAC RL optimization | sinergym | Best Gymnasium integration |
+| VPP aggregation | VOLTTRON + VPP-Sim | OpenADR + ML dispatch |
+| Long-term planning | PyPSA / OSeMOSYS | IEA/IRENA validated |
+| Carbon CI/CD | Carbon Aware SDK | Fast-close, 3-week delivery |
+| LLM grid copilot | PowerMCP + Grid2Op | Harvard SEAS production |
 
 ---
 *Updated by Globant AI Studios ingestion pipeline.*

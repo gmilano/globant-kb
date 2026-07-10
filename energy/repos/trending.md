@@ -1,41 +1,35 @@
-# Trending Repos — Energy (Week of 2026-07-07)
+# Trending Repos — Energy AI (Week of 2026-07-10)
 
-> GitHub activity, new papers, and repos gaining traction.
-> Last updated: 2026-07-09 (v2)
+> GitHub trending and new entries in energy AI this week.
+> Last updated: 2026-07-10 (v3)
 
-## Trending on GitHub (Energy / Grid / Sustainability)
+| Name | License | Stars | Trend | Description |
+|------|---------|-------|-------|-------------|
+| [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | Apache-2.0 | 160★ | 🔥 New | Harvard SEAS — MCP servers for power system software (PowerWorld, PSSE, OpenDSS). LLMs can run contingency analysis, OPF, fault detection via natural language. |
+| [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM) | Apache-2.0 | 43★ | 🔥 New | Foundation models for load forecasting, fault detection, grid simulation, and agent control in the power domain. |
+| [Power-Agent/PowerWF](https://github.com/Power-Agent/PowerWF) | Apache-2.0 | New | 🔥 New | Agentic workflows for power system applications — interconnection studies, contingency screening, capacity expansion analysis. |
+| [Power-Agent/PowerSkills](https://github.com/Power-Agent/PowerSkills) | Apache-2.0 | New | 🔥 New | Agent skills for power system analysis — SKILL.md format, works with Claude Code, Cursor, OpenClaw. |
+| [RedaElMakroum/agentic-ai-hems](https://github.com/RedaElMakroum/agentic-ai-hems) | MIT | New | 🔥 New | Agentic AI Home Energy Management System. LLM framework for residential load scheduling with specialist agents. |
+| [tsinghua-fib-lab/EnergyAgent](https://github.com/tsinghua-fib-lab/EnergyAgent) | MIT | New | 🔥 New | Tsinghua LLM agent for electric power time series modeling and reasoning. |
+| [TU-Delft-AI-Energy-Lab/LLM-Electricity-Contracts](https://github.com/TU-Delft-AI-Energy-Lab/LLM-Electricity-Contracts) | MIT | New | 🔥 New | LLM-based automation of electricity contracts with power-system feasibility checks. IEEE Trans. Power Systems 2026. |
+| [vpp-sim/vpp-sim](https://github.com/vpp-sim/vpp-sim) | MIT | New | 🔥 New | Modular open-source ML framework for Virtual Power Plant strategy development. Battery management, market bidding. |
+| [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) | Apache-2.0 | New | ↑ Rising | arXiv:2605.05519 — AI datacenter-grid coordination simulation. ML.ENERGY benchmark powered. |
+| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | 1.8k★ | ↑ Rising | 100% open IoT platform for energy management. MCP-native support added 2026. Smart microgrid and DER network focus. |
+| [grid-gym/grid-gym](https://github.com/pt9912/grid-gym) | MIT | New | ↑ New | Deterministic simulation for smart grid and EMS. Replay simulations, fault injection, multi-agent control, Modbus/MQTT telemetry. |
+| [GenXProject/GenX](https://github.com/GenXProject/GenX) | MIT | 500+★ | ↑ Rising | MIT/Princeton capacity expansion model. Julia-based. VPP and energy transition investment analysis. |
+| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | CC-BY | 300+★ | ↑ Rising | Curated list of AI papers, tools, and datasets for electricity systems — increasingly cited by researchers as the reference. |
 
-| Repo | License | Stars | Why Trending |
-|------|---------|-------|-------------|
-| [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) | Apache-2.0 | New | arXiv:2605.05519 May 2026 — AI datacenter-grid coordination. Explosive interest as AI energy demand becomes grid-level concern. |
-| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | 1.8k★ | v5.x surge with native MCP connector support. Growing for EV charging orchestration. |
-| [Green-Software-Foundation/carbon-aware-sdk](https://github.com/Green-Software-Foundation/carbon-aware-sdk) | MIT | 1.5k★ | Mandatory for EU Green Deal compliance. GitHub Actions carbon-aware CI runner integration driving star growth. |
-| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | MIT | Growing | Gaining commits weekly with 2026 LLM+grid papers. |
-| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | MIT | 2k★ | v0.32 (Apr 2026) adds native hydrogen + CO2 constraint optimization. Sector coupling momentum. |
-| [OpenEMS/openems](https://github.com/OpenEMS/openems) | Apache-2.0 | 500★ | Monthly releases (2026.x). Active EU residential solar adoption driving deployments. |
-| [MyEMS/myems](https://github.com/MyEMS/myems) | MIT | 900+★ | Added VPP module and AI optimization in 2026. Community edition stars growing with ASEAN/LATAM demand. |
-| [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) | Apache-2.0 | 560★ | v10 released with Python 3.12 support. DOE funding renewed for grid-edge AI agent research. |
+## Notable Research Papers (arXiv 2026)
 
-## New Papers with Upcoming Code Releases
-
-| Paper | arXiv | Expected Code | Relevance |
-|-------|-------|---------------|-----------|
-| Grid-Agent: LLM Multi-Agent Grid Control | 2508.05702 | 2026 Q3 | Autonomous grid violation remediation |
-| X-GridAgent: LLM Power Grid Analysis | 2512.20789 | 2026 Q3 | Natural language grid state querying |
-| PowerDAG: Distribution Grid Agent | 2603.17418 | 2026 Q3-Q4 | Reliable agentic distribution grid analysis |
-| AutoB2G: Building-Grid Co-Simulation | 2603.26005 | 2026 Q4 | LLM-driven demand response automation |
-| Buildrix: Building Engineering AI Skills | 2606.25139 | Active | Open platform for building AI skill sharing |
-| Power Systems Agent Benchmark | 2606.20950 | Jul 2026 | First benchmark for energy AI agents |
-
-## What's Gaining vs Falling
-
-| Gaining | Falling |
-|---------|---------|
-| LLM-based grid agents (Grid-Agent, X-GridAgent) | Pure RL without LLM interface |
-| Carbon-aware scheduling (Carbon Aware SDK) | Static rule-based SCADA add-ons |
-| VPP + AI agent aggregation | Siloed single-meter ML prediction |
-| Sector coupling (H2 + Power + Heat) | Single-vector energy modeling |
-| AI datacenter-grid coordination (OpenG2G) | Ignoring AI compute as grid load |
+| Paper | Key Contribution | Relevance |
+|-------|-----------------|-----------|
+| [arXiv:2605.05519](https://arxiv.org/abs/2605.05519) — OpenG2G | AI datacenter-grid runtime coordination simulation | Datacenter-energy co-design |
+| [arXiv:2508.05702](https://arxiv.org/abs/2508.05702) — Grid-Agent | LLM multi-agent for autonomous power grid control; BESS/switch/load curtailment | Grid LLM copilot |
+| [arXiv:2512.20789](https://arxiv.org/abs/2512.20789) — X-GridAgent | Cross-area grid coordination with LLM agents | Multi-utility orchestration |
+| [arXiv:2603.17418](https://arxiv.org/abs/2603.17418) — PowerDAG | Directed acyclic graph for power system AI task orchestration | Agent pipeline design |
+| [arXiv:2603.26005](https://arxiv.org/abs/2603.26005) — AutoB2G | Automated building-to-grid flexibility orchestration | Commercial building DR |
+| [arXiv:2606.20950](https://arxiv.org/abs/2606.20950) — Power Systems Agent Benchmark | Standardized benchmarks for power system AI agents | Evaluation baseline |
+| [arXiv:2606.25139](https://arxiv.org/abs/2606.25139) — Buildrix | LLM building retrofit advisor; multi-constraint optimization | Commercial real estate |
 
 ---
-*Updated by Globant AI Studios ingestion pipeline.*
+*Pipeline automático — se actualiza cada hora.*
