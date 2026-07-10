@@ -1,88 +1,98 @@
-# Mapa de mercado — Automotive AI
+# 🗺️ Market Map — Automotive AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-10 (v3 — Automotive AI Agents $4.01B→$10.31B FMI, Precedence $27.33B→$78.09B CAGR 23.37%, BMW Neue Klasse OS X, Stellantis STLA Brain, Toyota RAV4 Snapdragon, Deloitte 6%→24% agentic manufacturing)
+> Key players, market data, LATAM opportunities. Updated: 2026-07-10 (v4)
 
-## Tamaño de mercado global
+## Market Size
 
-| Mercado | 2025/2026 | 2030/2034/2035 | CAGR | Fuente |
-|---------|-----------|------|------|--------|
-| **Automotive AI Agents** | **$4.01B (2026)** | **$10.31B (2035)** | **11.06%** | Future Market Insights 2026 |
-| AI in Automotive (Precedence) | **$27.33B (2026)** | **$78.09B (2030)** | **23.37%** | Precedence Research 2026 |
-| AI in Automotive (MarketsAndMarkets) | $18.83B (2025) | $75.02B (2032) | 21.8% | MarketsAndMarkets 2026 |
-| AI in Automotive (Fortune BI) | $14.99B (2026) | $51.68B (2034) | 16.7% | Fortune Business Insights 2026 |
-| AI in Automotive (GrandView) | $4.29B (2024) | $14.92B (2030) | 23.4% | Grand View Research 2026 |
-| **AI-Powered Cockpit & Assistant** | **$7.1B (2025)** | — | **22.2% (2026-2035)** | GMInsights / ResearchAndMarkets 2026 |
-| **Automotive GenAI Copilot** | **$1.64B (2025)** | **$14.89B (2035)** | **24.9%** | InsightAceAnalytic 2026 |
-| **Software-Defined Vehicle (SDV)** | Crecimiento +$146.99B | 2026-2030 | **27.2%** | Technavio 2026 |
-| LATAM Automotive AI | $193.5M | $1,260.9M | ~30.5% | nextmsc.com 2026 |
-| LATAM Electric Vehicles | $56.41B (2025) | $321.56B (2034) | 21.34% | gminsights.com 2026 |
-| LATAM Automotive (total) | $148B | $203B (2034) | ~4.5% | marketdataforecast.com |
+| Segment | 2026 | 2030–2035 | CAGR | Source |
+|---------|------|-----------|------|--------|
+| Automotive AI (broad) | $14.99B | $51.68B (2034) | 16.7% | Fortune Business Insights |
+| Automotive AI Agents | $4.01B | $10.31B (2035) | 11.06% | Future Market Insights |
+| Automotive AI (Precedence) | $27.33B | $78.09B (2030) | 23.37% | Precedence Research |
+| AI-Powered Cockpit | $7.1B | — | 22.2% | — |
+| Automotive GenAI Copilot | $1.64B | $14.89B | 24.9% | — |
+| Vehicle Telematics AI | — | — | 33.8% (fastest segment) | Market Research Future |
+| LATAM Automotive AI | $193.5M | $1.26B | 30.5% | — |
+| Autonomous Driving Agents share | 45% of Automotive AI Agents | — | — | FMI 2026 |
+| Agentic AI in Automotive | — | — | 45.10% CAGR | Mordor Intelligence |
 
-## Players globales
+### Agentic AI Business Impact (2026)
+- **340% vehicle utilization** increase in early agentic deployments
+- **$2,400–$4,800** annual ancillary revenue per vehicle from AI-enabled services
+- **$22,000/minute** assembly-line downtime cost → immediate predictive maintenance ROI
+- **85% confidence** AI OBD diagnostic threshold crossed in 2026
 
-| Empresa | Tipo | Fortaleza | Debilidad |
-|---------|------|-----------|-----------|
-| **Tesla** | OEM + stack propio | FSD más maduro del mercado. Vertical completo. | Propietario total, no customizable. |
-| **Waymo (Google)** | Robotaxi L4 | Líder en millas autónomas reales. Partenariados Uber. | Solo US, propietario, alto costo. |
-| **Baidu Apollo** | Stack AV + plataforma | 26.7k★ en GitHub. Apollo 11.0 (jun 2026). Abierto + ecosistema China. | Integración compleja fuera de China. |
-| **NVIDIA** | Hardware + software + modelos | Drive AGX, TensorRT Edge-LLM, **Alpamayo-1 VLA** (Apache-2.0). **DRIVE Hyperion L4** (BYD+Geely+Nissan, GTC 2026). **Robotaxi Uber** 28 mercados 2027-28. | Hardware comercial; modelos open. |
-| **Qualcomm** | SoC automotriz | **Snapdragon Digital Chassis** — VW LoI ene 2026, Toyota RAV4 2026. Agentic cockpit L1→L3. | Propietario. |
-| **Mobileye (Intel)** | ADAS chips | EyeQ6 — 90M+ vehículos desplegados. | No open source. |
-| **Autoware Foundation** | Stack AV open source | 100+ empresas, 30 vehículos. Apache-2.0. **Autoware Vision Pilot** (L2 ADAS production-ready, abr 2026). | Menos producción masiva que players propietarios. |
-| **comma.ai** | ADAS consumer | 60.6k★. MIT. 325+ autos soportados. 300M+ millas. comma 4 (2026). | Solo L2. Hardware propio. |
-| **BYD** | OEM chino | Líder EV LATAM. 100k+ órdenes BR+MX+AR 2026. **Adopta DRIVE Hyperion L4** (GTC mar 2026). BYD Dolphin Mini = auto más vendido Brasil. | SDV stack propietario (aunque NVIDIA bridge). |
-| **Geely** | OEM chino global | Adopta DRIVE Hyperion L4 (GTC mar 2026). Lynk & Co, Volvo parent. | |
-| **VW Group** | OEM europeo | **Snapdragon Digital Chassis LoI** (ene 2026). SDV zonal 2027. | Ciclos lentos, EU AI Act compliance. |
-| **Mercedes-Benz** | OEM europeo premium | **Alpamayo-1 lead customer** — CLA con L2++ AD stack 2026. **MBUX Virtual Assistant** con Google Automotive AI Agent. | EU AI Act Annex I compliance cycles. |
-| **BMW** | OEM europeo premium | **Neue Klasse iX3 CES 2026**: OS X (cloud-native), Alexa+ AI assistant, L2+ 130km/h. Primer OEM en Alexa+ integrado. | Slow global rollout. |
-| **Stellantis** | OEM mega (14 marcas) | **STLA Brain + Applied Intuition**: Vehicle OS, Cabin Intelligence, autonomy systems. Primer OEM de volumen con AI-native vehicle OS. | Ejecución compleja (14 marcas: Jeep, Dodge, Fiat, etc.). |
-| **Toyota** | OEM japonés | **RAV4 2026 con Snapdragon Digital Chassis** (Qualcomm): cockpit AI nativo. | Roadmap SDV más lento que EV-first OEMs. |
-| **Applied Intuition** | SDV/AV software | **Vehicle OS** para Stellantis STLA Brain. Cabin Intelligence. Proveedor de AV testing/simulation. | Propietario, no OSS. |
-| **Eclipse Foundation** | OSS consortium | **SDV Stack**: KUKSA + Velocitas + Leda. Apache-2.0. Interoperabilidad entre OEMs. | Adopción todavía aceleración (2026 pivote). |
+---
 
-## Nuevos Deployments OEM — Q1/Q2 2026
+## Global Player Map
 
-| OEM | Solución | Cuándo | Detalles |
-|-----|---------|--------|---------|
-| BMW iX3 | OS X + Alexa+ + L2+ 130km/h | CES ene 2026 | Primera Neue Klasse. Cockpit cloud-native. Primer OEM con Alexa+ nativa. |
-| Toyota RAV4 2026 | Snapdragon Digital Chassis | 2026 | Cockpit AI nativo, Mapbox navigation. Qualcomm SoC. |
-| Stellantis STLA Brain | Applied Intuition Vehicle OS + Cabin Intelligence | 2026 expansion | 14 marcas (Jeep, Dodge, Chrysler, Fiat). Primer OEM de volumen con AI-native vehicle OS. |
-| BYD + Geely | NVIDIA DRIVE Hyperion L4 | GTC mar 2026 | BYD = lider EV LATAM adopta NVIDIA L4 stack. |
-| VW Group | Snapdragon Digital Chassis | LoI ene 2026, deploy 2027 | SDV zonal con AI cockpit agentico. |
-| Mercedes-Benz | Alpamayo-1 (NVIDIA VLA) | CES 2026 | Lead customer del VLA razonador 10B. CLA modelo. |
+### Open Source Ecosystem Leaders
 
-## LATAM — Oportunidades AI
+| Organization | Type | Key Assets | GitHub |
+|-------------|------|-----------|--------|
+| **Autoware Foundation** | OSS AV foundation | Autoware (11.7k★), 100+ companies, 20+ countries | [autowarefoundation](https://github.com/autowarefoundation) |
+| **Eclipse Foundation (SDV)** | OSS SDV governance | 50+ members, 32 MoU signatories, KUKSA/Velocitas/LMOS/Leda | [eclipse-kuksa](https://github.com/eclipse-kuksa) |
+| **comma.ai** | OSS ADAS startup | OpenPilot (56k★, MIT), 200+ vehicles, 80M+ real miles | [commaai](https://github.com/commaai) |
+| **IBM Research** | Enterprise AI | AssetOpsBench (MIT): 5-agent industrial maintenance benchmark | [IBM](https://github.com/IBM) |
 
-### Brasil
-- **Contexto**: BYD Dolphin Mini = auto más vendido (4,100 unidades/mes, feb 2026). Primer EV en liderar ventas.
-- **Oportunidad AI**: Diagnóstico OBD + mantenimiento predictivo para flotas BYD/EV. Dashboard de energía + inteligencia de carga.
-- **Deal size Globant**: $200k-600k — Fleet AI + EV management para concesionarios BYD Brasil.
-- **LGPD**: Datos de telemetría vehicular son datos personales → on-premise o privacidad diferencial.
+### Commercial OEM Technology Leaders
 
-### México
-- **Contexto**: VEMO $1.5B inversión 55k EVs + charging (feb 2026). Nearshoring automotriz con US → hub manufactura.
-- **Oportunidad AI**: Gestión de flotas EV corporativas, integración MES/ERP para planta, cobots en línea de ensamble.
-- **Deal size Globant**: $300k-1M — Smart factory AI + EV fleet management.
-- **Foco**: Tier 1 (Bosch MX, Continental MX, Aptiv MX) + VEMO.
+| Company | Platform | AI Differentiator | LATAM Footprint |
+|---------|----------|-------------------|-----------------|
+| **BMW** | OS X (iX3 Neue Klasse) | Alexa+ native, 20× compute, Symbiotic Drive | Brazil, Argentina, Mexico plants |
+| **Stellantis** | STLA Brain + Applied Intuition | Vehicle OS + Cabin Intelligence + autonomy; 14 brands | Largest LATAM OEM presence |
+| **Toyota** | Snapdragon Digital Chassis (RAV4 2026) | Qualcomm AI Hub edge inference | Brazil, Argentina, Colombia |
+| **BYD** | DRIVE Hyperion L4 (GTC Mar 2026) | NVIDIA NIM, L4 commercialization | Brazil fastest-growing EV market |
+| **Volkswagen** | Snapdragon Digital Chassis (LoI 2027) | Next-gen Golf/Tiguan platform | Brazil, Argentina |
+| **NVIDIA** | DRIVE Orin/Thor, NIM for Auto | End-to-end AV training + inference | Supply to all OEMs |
 
-### Argentina
-- **Contexto**: +874% adopción EV (ene-abr 2026 vs 2025). Bill mayo 2026 para 2,500 charging points + 10% EVs nuevos en 2030.
-- **Oportunidad AI**: Charging network intelligence, route optimization para EVs, CRM dealerships.
-- **Deal size Globant**: $80k-250k — EV charging optimization + fleet management.
+### Connected Car Infrastructure
 
-### Chile y Colombia
-- **Contexto**: Líderes en políticas de electromovilidad LATAM. Colombia: +78% ventas EV 2025-2026.
-- **Oportunidad AI**: Flotas de transporte público EV (Transantiago, TransMilenio), predictive maintenance.
-- **Deal size Globant**: $150k-400k — Fleet AI + transporte público EV.
+| Company | Technology | Scale |
+|---------|-----------|-------|
+| **EMQX** | MCP-over-MQTT for vehicles | 250k+ vehicles, 50k messages/sec; SAIC VW, Lotus, Geely |
+| **Cerence** | xUI + CaLLM (swappable LLM) | Deployed in BMW, Toyota, GM cockpits |
+| **Qualcomm** | Snapdragon Digital Chassis | Toyota RAV4 2026, VW LoI 2027; dominant cockpit SoC |
+| **comma.ai** | Comma 3X hardware ($1,199) | Consumer ADAS device for OpenPilot |
 
-## Posicionamiento Globant
+---
 
-| Propuesta | Stack | Mercado objetivo | Deal size |
-|-----------|-------|-----------------|-----------|
-| Fleet Intelligence AI | Traccar + LangGraph + Claude | Flotas LATAM BYD/EV | $80k-250k |
-| Predictive Maintenance Agentico | OBD + Claude + Prophet | Talleres + flotas | $150k-400k |
-| SDV Vehicle App | Eclipse KUKSA + Velocitas + Claude | OEMs Tier 1 | $300k-1M |
-| Cockpit Assistant (Alexa+ pattern) | OS X pattern + Claude API | OEMs premium | $400k-1.2M |
-| AV Testing Pipeline | CARLA + Autoware + Claude | AV startups + OEMs | $250k-700k |
-| EV Fleet Management | Fleetbase + Claude + Traccar | Flotas EV LATAM | $200k-600k |
+## OSS Benchmark Repos (Stars)
+
+| Repo | Stars | License | Significance |
+|------|-------|---------|-------------|
+| commaai/openpilot | 56k | MIT | Consumer ADAS — largest real-world OSS AV deployment |
+| carla-simulator/carla | 14.1k | MIT | De facto AV simulation standard |
+| autowarefoundation/autoware | 11.7k | Apache-2.0 | Commercial robotaxi + logistics AV standard |
+| fleetbase/fleetbase | 1.9k | AGPL-3.0 | Logistics/fleet OS — best OSS fleet platform |
+| eclipse-kuksa/kuksa-databroker | ~800 | Apache-2.0 | VSS data broker — in-vehicle signal standard |
+| eclipse-lmos | ~400 | Apache-2.0 | Multi-agent OS for SDV |
+
+---
+
+## LATAM Market Map
+
+| Country | Status | Globant Angle |
+|---------|--------|---------------|
+| **Brazil** | #1 LATAM automotive market; BYD EV expansion; 75% business leaders expect autonomous agents by end 2026; LGPD compliance required | Predictive maintenance at Stellantis/VW/Toyota plants; OBD AI for Denatran compliance; fleet AI for logistics |
+| **Argentina** | Only LATAM country with federal AV regulations (Traffic Law reform); Stellantis + VW + Toyota production | AV pilot site; SDV compliance readiness; Renault + VW connected car |
+| **Mexico** | USMCA manufacturing hub; Nissan/GM/Ford/BMW/Honda; AI adoption 77% enterprises | Supply chain agent (USMCA documentation, cross-border logistics); dealership AI |
+| **Colombia/Chile** | Growing MaaS + EV buses | Fleetbase + AI for electric bus fleet; EV charging optimization agents |
+
+---
+
+## Globant Positioning
+
+### Strengths
+- **Eclipse SDV integration**: Velocitas + KUKSA + LMOS expertise → Vehicle App development for OEMs
+- **LATAM automotive manufacturing** presence: Brazil, Argentina, Mexico plants of Stellantis, VW, Toyota
+- **MCP expertise**: OBD2 MCP + Tesla MCP + MCP-CAN → connected car AI services
+- **Predictive maintenance**: predictive-maintenance-mcp + IBM AssetOpsBench → factory + fleet maintenance
+
+### Key Opportunities (Ranked by deal size)
+1. **OEM SDV Integration** ($500k–$2M) — Eclipse SDV Vehicle Apps for Stellantis STLA Brain / Toyota Snapdragon
+2. **Smart Factory Predictive Maintenance** ($200k–$600k) — LangGraph + predictive-maintenance-mcp for assembly lines
+3. **Fleet AI Platform** ($150k–$400k) — Fleetbase + LangGraph for LATAM logistics operators
+4. **Dealership AI Copilot** ($80k–$250k) — Odoo Fleet + Claude + OBD2 MCP for service workflows
+5. **Connected Car MCP Layer** ($100k–$350k) — Tesla MCP / MCP-CAN integration for fleet telematics
+6. **Urban Traffic Intelligence** ($150k–$500k) — TrafficClaw + Claude for smart city contracts

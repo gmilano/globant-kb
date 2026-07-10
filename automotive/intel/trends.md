@@ -1,142 +1,99 @@
-# Tendencias — Automotive AI
+# 📡 Trends — Automotive AI
 
-> Tendencias que dan forma al mercado en 2026.
-> Última actualización: 2026-07-10 (v3 — T13 AI-Defined Vehicles shift CES 2026, T14 Eclipse SDV momentum, T15 $22k/min downtime agentic ROI, T16 BMW OS X + Alexa+ OEM template)
+> Signals, inflection points, and what to watch. Updated: 2026-07-10 (v4)
 
-## Tendencias principales
+## 🚨 Emerging (Added v4 — July 10, 2026)
 
-### Trend 0: NVIDIA Alpamayo — La Era del AV Razonador (CES 2026) ⭐
-NVIDIA lanzó Alpamayo en CES 2026 como el **primer modelo open source de razonamiento** para vehículos autónomos. Rompe con la era de redes neurales opacas: el vehículo piensa antes de actuar.
+### T15 — TrafficClaw: LLM Agents for Urban Traffic Control (Jun 2026)
+arXiv:2604.17456 — First generalizable LLM agent for unified urban traffic control. TrafficClaw operates across coupled urban dynamics (signals, pedestrians, incidents, parking); uses persistent spatiotemporal memory + multi-stage agentic RL. Tested across 3 metropolitan regions, 6 traffic-control tasks. Strong cross-subsystem coordination (signals + pedestrian + transit + incident response in one agent loop).
 
-- **Modelo**: 10B-param Vision-Language-Action (VLA), chain-of-thought, open en HuggingFace (Apache-2.0)
-- **Datos**: +1.700h de conducción real liberados públicamente
-- **Simulación**: AlpaSim — framework closed-loop para entrenamiento y stress-test
-- **Adopción**: Mercedes-Benz, JLR, Lucid, Uber ya integran Alpamayo-1
-- **EU AI Act**: La salida en lenguaje natural (chain-of-thought) satisface Art. 13 de explicabilidad
-- **Implicación Globant**: Base para servicios de integración Alpamayo en OEMs y Tier 1 ($200k-800k)
+**Globant angle:** Smart city contracts (municipalities) + OEM partnerships for connected infrastructure.
 
-### Trend 1: LLM en Vehículos — De General a Dominio-Específico
-Fabricantes como Honda, Mercedes-Benz y Volkswagen están abandonando los LLMs genéricos e integrando modelos dominio-específicos entrenados con datos de navegación, controles de vehículo y reglas de seguridad.
+### T16 — The Vehicle MCP Stack is Complete (Jun–Jul 2026)
+Three MCP servers now cover the full vehicle connectivity spectrum:
+- **Tesla MCP** (scald/tesla-mcp): Fleet API level — charge, location, climate, remote commands
+- **OBD2 MCP** (petrpatek/obd2-mcp-server): Diagnostic level — DTCs, live sensor data, $15 BT adapter
+- **MCP-CAN** (farzadnadiri/MCP-CAN): Bus level — raw ECU signals, DBC decoding, virtualizes CAN bus
 
-- **Signal**: Honda + Mercedes + VW embedding domain-LLMs 2026
-- **Oportunidad Globant**: Fine-tuning de LLMs verticales automotrices para clientes OEM
+Any Claude/GPT/Gemini agent can now interact with vehicles from cloud → diagnostic port → raw bus.
 
-### Trend 2: Cockpit Agentico — De UI a Agente Autónomo
-El cockpit automotriz está pasando de interfaces rule-based a sistemas agénticos multimodales. Qualcomm Snapdragon posicionado como base de esta revolución (L1→L3 escalable).
+### T17 — MCP-over-MQTT Hits 250k Vehicles (Q2 2026)
+EMQX encapsulated MCP inside MQTT (already used for automotive telematics). Production scale: 250,000+ vehicles, 50,000 messages/second. Major adopters: SAIC Volkswagen, Lotus, Geely. Pattern: MQTT broker (EMQX) → MCP tool-call gateway → LLM agent → vehicle action.
 
-- **Signal**: Qualcomm "automotive agentic AI" (abr 2026)
-- **Paradigma**: Voz + visión + contexto → el cockpit responde al estado del conductor, tráfico, destino
-
-### Trend 3: Software-Defined Vehicles (SDV) — El Auto como Plataforma
-Los vehículos modernos tienen 100M+ líneas de código. La industria pivota a arquitecturas SDV donde el software define funcionalidades OTA.
-
-- **Signal**: BYD SDV architecture analysis trending GitHub jul 2026
-- **Implicación**: Los autos necesitan CI/CD, testing de agentes, governance de modelos AI
-
-### Trend 4: Edge AI para AV — Inferencia sin Nube
-NVIDIA TensorRT Edge-LLM permite ejecutar LLMs y VLMs directamente en hardware automotriz embebido. Bosch, ThunderSoft, MediaTek ya tienen productos basados en esto (CES 2026).
-
-- **Signal**: NVIDIA TensorRT Edge-LLM GA para automotive (developer.nvidia.com, ene 2026)
-- **Implicación**: Los agentes AI en vehículo no necesitan latencia de nube → ADAS más seguros
-
-### Trend 5: LLM-Powered Autonomous Driving — El reboot del AV
-Tras una década de fracasos, la industria AV se reinventa con técnicas LLM/VLM. DriveVLM, DriveLM, DriveMLM, OpenDriveVLA son la nueva generación. Promesa de "world model" que entiende semántica del tráfico.
-
-- **Signal**: Survey ScienceDirect 2026 "LLM-Powered Autonomous Driving"
-- **Referencia**: Awesome-LLM4AD tiene 300+ repos curados. Campo explota en 2025-2026.
-
-### Trend 6: EV Fleet Management AI — BYD LATAM como Catalizador
-BYD superó 100k órdenes en Brasil+México+Argentina. Los concesionarios y operadores de flota necesitan urgentemente software de gestión que entienda las particularidades del EV.
-
-- **Signal**: BYD Dolphin Mini = auto más vendido Brasil (feb 2026)
-- **Oportunidad**: Traccar + AI layer para EV metrics: SOC, degradación batería, rutas de carga óptimas
-
-### Trend 7: EU AI Act — Vehículos como Sistemas de Alto Riesgo
-El Annex I del EU AI Act clasifica los sistemas AI que interactúan con funciones de seguridad vehicular como "alto riesgo". Deadline agosto 2026.
-
-- **Signal**: OEMs europeos (VW, Mercedes, BMW) en validación cycles — oportunidad para compliance consulting
-- **Urgencia**: Alpamayo-1 chain-of-thought satisface Art. 13 → diferenciador comercial para EU OEMs
-
-### Trend 8: Cooperative Driving (V2X) — La Red de Vehículos Conectados
-V2X (Vehicle-to-Everything) permite que vehículos cooperen con infraestructura, otros vehículos y peatones. CARMA Platform del USDOT es la implementación open source de referencia para US.
-
-- **Signal**: CARMA Platform 4.0 → ROS2 + V2X (usdot-fhwa-stol, 2025)
-- **Implicación**: Nueva capa de datos (tráfico en tiempo real, emergencias) disponible para agentes AI
-
-### Trend 8b: OBD-II + LLM = Nueva Categoría de Diagnóstico Agentico (jul 2026)
-La combinación de adaptadores ELM327 Bluetooth ($15) + APIs LLM ha creado diagnóstico vehicular conversacional. AI diagnostic assistant: **85% confidence** en diagnósticos complejos (P0420).
-
-- **Stack validado**: ELM327 → pyobd → Python MCP server → Claude Haiku
-- **Repos**: open-mechanic (MIT), Vehicle-Diagnostic-Assistant (MIT)
-- **Oportunidad**: App white-label de diagnóstico para talleres independientes LATAM (en español)
-
-### Trend 9: Predictive Maintenance via AI + OBD-II
-Los sensores OBD-II en vehículos modernos generan terabytes de datos. Los LLMs pueden analizar patrones para predecir fallos antes de que ocurran. Mercado: talleres + flotas corporativas.
-
-- **Stack**: python-OBD + Claude API + time series (darts o Prophet) → alertas proactivas
-
-### Trend 10: Conducción Autónoma con Explicabilidad (XAI)
-Los reguladores requieren que los sistemas AV sean explicables. DriveLM (VQA) + Alpamayo-1 (chain-of-thought) son las dos rutas OSS que satisfacen el Art. 13 del EU AI Act.
-
-- **Signal**: EU AI Act Art. 13 clasificación de "high-risk" para AV AI (vigor agosto 2026)
-- **Oportunidad**: Globant como consultor de EU AI Act compliance para OEMs europeos operando en LATAM
-
-### Trend 11: GTC 2026 — NVIDIA Domina el Stack L4
-En GTC 2026 (mar), NVIDIA anunció BYD, Geely, Isuzu y Nissan adoptando DRIVE Hyperion para L4. NVIDIA Robotaxi con Uber para 28 mercados (2027-28). NVIDIA intenta ser la plataforma de referencia del AV.
-
-### Trend 12: VW + Qualcomm SDV LoI — Snapdragon Digital Chassis 2027
-Volkswagen Group firmó LoI con Qualcomm en enero 2026 para Snapdragon Digital Chassis en su arquitectura SDV zonal con despliegue 2027. Toyota RAV4 2026 ya lo usa. Primer OEM europeo masivo comprometido.
+### T18 — Eclipse LMOS: Native MCP Multi-Agent OS for Automotive
+Eclipse LMOS (Language Model Operating System) has native MCP support — each LMOS agent is simultaneously an MCP server and client. Positions as the agentic orchestration layer above the Eclipse SDV data plane (KUKSA/Velocitas). 32 companies signed the Automotive OSS MoU; Hyundai Mobis joined bringing member count to 50+.
 
 ---
 
-### Trend 13: AI-Defined Vehicles — La Nueva Narrativa Post-SDV ⭐ NUEVO v3
-La industria se mueve de "Software-Defined Vehicle" (SDV) a **"AI-Defined Vehicle"** (ADV). El diferencial competitivo ya no es el hardware ni el software, sino la capacidad de:
-- Desplegar AI de forma segura a escala
-- Validar y certificar modelos (EU AI Act)
-- Actualizar y monitorear AI OTA en todo el ciclo de vida
-- **Monetizar** AI (suscripciones, features on-demand)
+## 🔥 Active (Added v3 — Jul 10, prior run)
 
-- **Signal**: CES 2026 — Automakers emphasize AI over electrification (S&P Global Automotive Insights)
-- **Signal**: Frost & Sullivan — "From Software to AI-Defined on Wheels" (ene 2026)
-- **Implicación Globant**: Posicionar propuestas como "AI Integration + MLOps para OEMs" — no solo software services
+### T10 — AI-Defined Vehicle Replaces Software-Defined Vehicle (CES 2026)
+Frost & Sullivan + CES 2026 industry consensus: competitive advantage is no longer "how much software runs on the vehicle" but "how well AI can be deployed, validated, monitored, updated, and monetized safely across the full vehicle lifecycle."
 
-### Trend 14: Eclipse SDV Ecosystem — Middleware Open Source para In-Vehicle AI ⭐ NUEVO v3
-La **Eclipse Foundation** construyó el stack que falta para el SDV: KUKSA (data broker VSS) + Velocitas (Vehicle App toolchain) + Leda (Linux SDV edge). En 2026, OEMs y Tier 1 europeos lo adoptan como estándar de interoperabilidad.
+### T11 — BMW iX3 Neue Klasse Sets the Production AI-Vehicle Bar
+BMW iX3 with OS X architecture = first OEM to ship Alexa+ as primary assistant + cloud-native OS + L2+ at 130km/h + 20× compute density (Symbiotic Drive). Every OEM now benchmarks against this reference.
 
-- **Por qué importa**: 100% Apache-2.0 → construir Vehicle Apps en cliente sin royalties
-- **Adopción**: OEMs europeos, startups SDV, proyectos de cockpit inteligente
-- **Integración AI**: KUKSA lee señales VSS → Velocitas Vehicle App → Claude API → alerta/acción
-- **Oportunidad Globant**: Desarrollar Vehicle Apps SDV para OEMs sobre Eclipse stack ($300k-1M)
+### T12 — Stellantis STLA Brain: AI Platform for 14 Brands
+Applied Intuition providing Vehicle OS for Stellantis STLA Brain covering Jeep, Dodge, Fiat, Citroën, Peugeot, Alfa Romeo, Maserati, RAM, Chrysler, Lancia, Opel/Vauxhall, Abarth, DS. Affects every Stellantis plant and partner network in LATAM.
 
-### Trend 15: $22,000/Minuto — ROI del Agentic Maintenance en Manufactura ⭐ NUEVO v3
-El costo de downtime en líneas de ensamble automotriz es **$22,000/minuto** (promedio industria). Los agentes AI de mantenimiento predictivo tienen ROI inmediato y cuantificable.
+### T13 — OBD AI Diagnostics: 85% Confidence Threshold (2026)
+AI-powered OBD diagnostic systems crossed 85% confidence for fault identification before physical inspection. Combined with the $22k/minute assembly-line downtime cost, predictive maintenance is now the fastest-ROI AI application in automotive.
 
-- **Deloitte**: Agentic AI en manufactura: 6% (2024) → 24% (2026) — cuádruple aumento
-- **LLM interest**: 16% → 35% en manufactura en un año (language-based diagnostic tools)
-- **Diferencia clave**: AI predictivo dice "bearing falla en 22 días". **Agente** también: redacta plan de reparación, checa inventario de piezas, agenda técnico, crea work order — sin intervención humana.
-- **Stack open**: python-OBD + LangGraph + Claude + Odoo API → agentic maintenance loop
-- **Oportunidad Globant**: Manufactura automotriz LATAM (Bosch MX, Continental, plantas VW/Toyota) = deals $200k-800k con ROI en días
-
-### Trend 16: BMW OS X + Alexa+ — El Template del Cockpit Agentico OEM ⭐ NUEVO v3
-BMW presentó en CES 2026 con el iX3 Neue Klasse el primer cockpit con:
-1. **BMW OS X** cloud-native para OTA updates rápidos
-2. **Alexa+** integrada nativamente (primer OEM global)
-3. **BMW Highway/Motorway Assistant** L2+ 130km/h — manos libres en autobahn certificado en Alemania
-4. **BMW Symbiotic Drive** — 20× poder de cómputo, ADAS + parking unificados
-
-- **Por qué importa**: BMW define el template del cockpit agentico para OEMs premium. Claude es la alternativa open para OEMs LATAM que no quieren Amazon lock-in.
-- **Pattern**: OEM Vehicle OS + LLM assistant + ADAS copilot = "AI-Defined cockpit" arquitectura
-- **Implicación Globant**: Construir el equivalente Claude para OEMs premium LATAM sobre Autoware + Claude API
+### T14 — 71% of Automotive Software Orgs Integrating AI (Eclipse SDV 2026 Report)
+Key stats from Eclipse SDV's 2026 State of Automotive Software Development:
+- 71% integrating AI in vehicles; 24% at vehicle design level; 47% at component level
+- Python now #1 language in automotive AI/ML at 48% of teams (+12% YoY, surpassed C++)
+- Cross-domain architectures (powertrain + ADAS + cockpit unified) becoming standard via Eclipse SDV
 
 ---
 
-### Radar de tendencias emergentes (6-12 meses)
+## ⬆️ Established (v1/v2 — Foundation Trends)
 
-| Señal | Probabilidad | Impacto | Acción |
-|-------|-------------|---------|--------|
-| Alexa+ en más OEMs (fuera de BMW) | Alta | Alto | Desarrollar alternativa Claude open para OEMs LATAM |
-| Eclipse SDV → estándar industria EU | Media-Alta | Alto | Invertir en competencia Eclipse KUKSA/Velocitas |
-| Agentes AI en líneas de manufactura | Alta | Muy alto | Propuesta $22k/min ROI para Tier 1 MX/BR |
-| V2X + agentes cloud (tráfico cooperativo) | Media | Alto | CARMA Platform integration services |
-| GenAI cockpit personalizado OTA | Alta | Alto | Cockpit assistant as-a-service para concesionarios |
-| Regulación AI en vehículos fuera de EU | Baja-Media | Medio | Monitorear LATAM regulación |
+### T1 — Autonomous Driving Agents Dominate (45% Market Share)
+Autonomous driving agents captured 45% of the Automotive AI Agents market share in 2026. Real-time perception + multi-step reasoning requirements drive this — regulatory clearance for L3+ depends on it.
+
+### T2 — Vehicle Telematics: Highest CAGR (33.8%)
+Within automotive AI segments, vehicle telematics AI is growing fastest at 33.8% CAGR (Market Research Future). Connected vehicle data streams → agentic analysis → fleet optimization.
+
+### T3 — L3 Autonomy: Fastest Growing Level (2025–2030)
+L3 conditional automation is the fastest-growing autonomy level — regulatory frameworks maturing in Germany (BMW iX3 certified), Japan, and select US states. LATAM expected to follow Argentina's federal framework.
+
+### T4 — Open Source AV: OpenPilot + Autoware Diverging Paths
+- **OpenPilot** (MIT, 56k★): consumer ADAS for 200+ vehicles, 80M+ real miles, comma 3X hardware ($1,199)
+- **Autoware** (Apache-2.0, 11.7k★): commercial robotaxi + logistics AV, 100+ companies using it
+These two complementary projects represent the two dominant OSS paths.
+
+### T5 — Eclipse SDV: Industry Standard for OEM Software Architecture
+Eclipse SDV ecosystem (KUKSA + Velocitas + Leda + LMOS + S-CORE) is being adopted by OEMs and Tier-1s as the interoperability standard. 50+ member companies, Apache-2.0 licensing, COVESA VSS compliance.
+
+### T6 — Predictive Maintenance AI at Assembly Lines
+Deloitte: agentic AI in manufacturing jumped from 6% to 24% deployment in 2026. LLM interest in manufacturing grew from 16% to 35% in one year. $22k/minute assembly-line downtime cost is the universal business case.
+
+### T7 — EV Charging Optimization Agents
+EV fleet growth (especially in Brazil with BYD expansion) drives demand for charging optimization agents: range prediction, optimal charging time, grid pricing arbitrage, multi-vehicle scheduling.
+
+### T8 — In-Vehicle Voice Assistants Shift to LLMs
+First-gen embedded assistants (Siri, Google, Alexa) being replaced or augmented by LLM-powered assistants: BMW Alexa+, Mercedes MBUX+GPT-4, Cerence CaLLM. The cockpit is becoming an agentic multimodal environment.
+
+### T9 — Digital Twins for Vehicle Development
+OEM use of digital twins (NVIDIA Omniverse + Ansys + Eclipse Leda) to simulate vehicle software before hardware is available. Cuts validation time by 40–60% for software updates.
+
+---
+
+## 📡 Radar
+
+| Trend | Status | Time Horizon | Globant Action |
+|-------|--------|-------------|----------------|
+| TrafficClaw urban traffic control | Emerging | 1–2 years to production | Smart city pilots in LATAM |
+| Vehicle MCP stack (Tesla/OBD2/CAN MCP) | Active | Now | Build MCP-first connected car services |
+| MCP-over-MQTT at fleet scale | Active | Now | EMQX partnership / fleet AI integration |
+| Eclipse LMOS multi-agent OS | Growing | 1–2 years | OEM SDV integration offering |
+| AI-Defined Vehicle platform wins | Active | Now | Eclipse SDV consulting + integration |
+| L3 autonomy regulatory expansion | Growing | 2–3 years | LATAM regulatory readiness advisory |
+| OpenPilot consumer ADAS expansion | Active | Now | 200-vehicle support base → AI add-ons |
+| Predictive maintenance MCP stack | Active | Now | Immediate dealership + factory deals |
+| MCP-over-MQTT fleet scale | Monitoring | 6–12 months | Partner with EMQX for LATAM fleets |
+| Python>C++ in automotive AI | Confirmed | Now | Staff vehicle app teams in Python |
+
+---
+*15 trends tracked across v1–v4. See `compose/patterns.md` for concrete implementation recipes.*

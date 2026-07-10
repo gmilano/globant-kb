@@ -1,895 +1,773 @@
-# Patrones de composición — Automotive
+# 🧩 Composition Patterns — Automotive AI
 
-> Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-10 (v3 — P10 Eclipse SDV Vehicle App, P11 Smart Dealership Agentic Maintenance)
+> Concrete recipes: which repos + agents + wiring. Updated: 2026-07-10 (v4)
+> 13 patterns | Deal sizes $30k–$2M | Stacks: Python, TypeScript
 
-## Arquitectura base
+---
+
+## Architecture Base
 
 ```
-[Plataforma vertical base (open source)]
-          ↓
-[Capa de integración AI (MCP / API / SDK)]
-          ↓
-[Agentes especializados (LangGraph / Claude)]
-          ↓
-[UI conversacional / API para el cliente]
+[Open Source Vertical Platform]     ←— Odoo / Fleetbase / Eclipse SDV / OpenPilot
+           ↓
+[Vehicle Data Layer]                ←— KUKSA Databroker / OBD2 MCP / MCP-CAN / EMQX
+           ↓
+[AI Agent Orchestration]            ←— LangGraph / Eclipse LMOS / CrewAI
+           ↓
+[LLM Reasoning]                     ←— Claude Sonnet (cloud) or Haiku (edge/in-vehicle)
+           ↓
+[UI / Action Layer]                 ←— Dashboard / WhatsApp / Vehicle HMI / OTA update
 ```
 
 ---
 
-## Patrón 1: Fleet Intelligence Agent (Traccar + Claude)
+## P1 — Smart Dealership Service Copilot
+**Stack:** Odoo Fleet + OBD2 MCP + Claude Sonnet  
+**Deal size:** $80k–$250k | **Timeline:** 4–6 weeks
 
-**Objetivo**: Asistente conversacional de gestión de flota sobre GPS tracking real.
+**Problem:** Service advisors manually translate OBD fault codes into repair orders. Errors, delays, upsell misses.
 
-**Stack**:
-- `traccar/traccar` (Apache-2.0) — backend GPS
-- `langchain-ai/langgraph` (MIT) — orquestación agente
-- `anthropic/anthropic-sdk-python` — Claude como LLM
-- MCP server sobre Traccar REST API
-
-**Tiempo**: 3-4 semanas | **Costo estimado**: $80k-250k
-
+**Solution:**
 ```python
-# fleet_intelligence_agent.py
-from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
-import httpx
-from typing import TypedDict
-
-client = Anthropic()
-TRACCAR_URL = "http://traccar:8082/api"
-AUTH = ("admin", "fleet_password")
-
-class FleetState(TypedDict):
-    query: str
-    fleet_data: dict
-    response: str
-
-def fetch_fleet_context(state: FleetState) -> FleetState:
-    """Obtiene contexto actual de la flota."""
-    with httpx.Client() as http:
-        positions = http.get(f"{TRACCAR_URL}/positions", auth=AUTH).json()
-        devices = http.get(f"{TRACCAR_URL}/devices", auth=AUTH).json()
-        events = http.get(
-            f"{TRACCAR_URL}/reports/events",
-            params={"from": "now-24h", "to": "now", "type": "alarm"},
-            auth=AUTH
-        ).json()
-    state["fleet_data"] = {
-        "active_vehicles": len(positions),
-        "devices": devices,
-        "recent_alarms": events[:10]
-    }
-    return state
-
-def generate_response(state: FleetState) -> FleetState:
-    """Claude genera respuesta basada en datos de flota."""
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=800,
-        system="Eres el asistente de gestión de flota. Analizas telemetría GPS y eventos para dar recomendaciones operativas.",
-        messages=[{
-            "role": "user",
-            "content": f"Datos de flota: {state['fleet_data']}\n\nConsulta: {state['query']}"
-        }]
-    )
-    state["response"] = response.content[0].text
-    return state
-
-# Graph
-graph = StateGraph(FleetState)
-graph.add_node("fetch_context", fetch_fleet_context)
-graph.add_node("generate", generate_response)
-graph.add_edge("fetch_context", "generate")
-graph.add_edge("generate", END)
-graph.set_entry_point("fetch_context")
-fleet_agent = graph.compile()
-```
-
----
-
-## Patrón 2: Predictive Maintenance Agent (OBD + Claude)
-
-**Objetivo**: Diagnóstico vehicular proactivo vía OBD-II + predicción de fallos.
-
-**Stack**:
-- `barracuda-fsh/pyobd` (GPL-2.0) — lectura OBD-II
-- `python-OBD` (GPL-3.0) — async sensor data
-- `prophet` (MIT) — predicción temporal
-- Claude Haiku — diagnóstico en lenguaje natural
-
-**Tiempo**: 4-6 semanas | **Costo estimado**: $150k-400k
-
-```python
-# predictive_maintenance.py
-import obd
-from anthropic import Anthropic
-from prophet import Prophet
-import pandas as pd
-from datetime import datetime
-
-client = Anthropic()
-
-class PredictiveMaintenance:
-    def __init__(self, port: str = "/dev/ttyUSB0"):
-        self.connection = obd.OBD(port)
-        self.history = []
-
-    def read_sensors(self) -> dict:
-        """Lee sensores OBD-II en tiempo real."""
-        sensors = {}
-        commands = [obd.commands.RPM, obd.commands.COOLANT_TEMP,
-                   obd.commands.ENGINE_LOAD, obd.commands.THROTTLE_POS,
-                   obd.commands.FUEL_STATUS, obd.commands.GET_DTC]
-        for cmd in commands:
-            response = self.connection.query(cmd)
-            if not response.is_null():
-                sensors[cmd.name] = response.value.magnitude if hasattr(response.value, 'magnitude') else str(response.value)
-        self.history.append({"timestamp": datetime.now(), **sensors})
-        return sensors
-
-    def predict_failures(self) -> dict:
-        """Usa Prophet para predicción temporal de fallos."""
-        if len(self.history) < 10:
-            return {}
-        df = pd.DataFrame(self.history)
-        predictions = {}
-        for col in ["COOLANT_TEMP", "ENGINE_LOAD"]:
-            if col in df.columns:
-                prophet_df = df[["timestamp", col]].rename(columns={"timestamp": "ds", col: "y"})
-                model = Prophet(changepoint_prior_scale=0.1)
-                model.fit(prophet_df)
-                future = model.make_future_dataframe(periods=24, freq="H")
-                forecast = model.predict(future)
-                predictions[col] = {
-                    "next_24h_max": forecast["yhat"].tail(24).max(),
-                    "trend": "increasing" if forecast["trend"].diff().tail(24).mean() > 0 else "stable"
-                }
-        return predictions
-
-    def diagnose(self, sensors: dict, predictions: dict) -> str:
-        """Claude analiza sensores y predicciones para diagnóstico."""
-        response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=400,
-            system="""Eres un mecánico experto. Analizas datos OBD-II para diagnosticar el estado del vehículo.
-            Indica: (1) Estado actual, (2) Problemas detectados con severidad, (3) Predicción de fallos,
-            (4) Acciones recomendadas por orden de urgencia. Responde en español.""",
-            messages=[{
-                "role": "user",
-                "content": f"Sensores actuales: {sensors}\n\nPredicciones próximas 24h: {predictions}"
-            }]
-        )
-        return response.content[0].text
-```
-
----
-
-## Patrón 3: AV Testing Pipeline (CARLA + Claude)
-
-**Objetivo**: Pipeline de testing de agentes autónomos en simulador + análisis inteligente de resultados.
-
-**Stack**:
-- `carla-simulator/carla` (MIT) — simulador
-- `carla-simulator/ros-bridge` (MIT) — ROS integration
-- Claude Sonnet — análisis de resultados
-
-**Tiempo**: 6-8 semanas | **Costo estimado**: $250k-700k
-
-```python
-# av_testing_pipeline.py
-import subprocess
-import json
-from pathlib import Path
-from anthropic import Anthropic
-
-client = Anthropic()
-
-class AVTestingPipeline:
-    def __init__(self, carla_path: str, agent_script: str):
-        self.carla_path = Path(carla_path)
-        self.agent_script = agent_script
-
-    def run_scenario(self, scenario: dict) -> dict:
-        """Ejecuta escenario de prueba en CARLA."""
-        cmd = [
-            "python3", self.agent_script,
-            "--host", "localhost",
-            "--port", "2000",
-            "--route", scenario["route_file"],
-            "--scenarios", scenario["scenario_file"],
-            "--output", f"/tmp/results_{scenario['name']}.json"
-        ]
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
-        with open(f"/tmp/results_{scenario['name']}.json") as f:
-            return json.load(f)
-
-    def analyze_results(self, results: dict, scenario_name: str) -> str:
-        """Claude analiza métricas de seguridad del agente AV."""
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=1500,
-            system="""Eres un experto en evaluación de sistemas de conducción autónoma.
-            Analizas métricas del CARLA Leaderboard 2.1. Estándares: ISO 26262, UNECE WP.29, EU AI Act Art. 13.
-            Driving Score = route_completion × (0.65^collisions) × (0.65^red_light_violations).""",
-            messages=[{
-                "role": "user",
-                "content": f"""
-Escenario: {scenario_name}
-Resultados: {json.dumps(results, indent=2)}
-
-Genera:
-1. Driving Score final vs SOTA (OpenDriveVLA ~65%, Alpamayo-1 ~82%)
-2. Debilidades críticas por tipo de infracción
-3. Conformidad EU AI Act Art. 13
-4. Recomendaciones de mejora priorizadas por seguridad
-"""
-            }]
-        )
-        return response.content[0].text
-```
-
----
-
-## Patrón 4: EV Route Optimizer (EV-specific Fleet)
-
-**Objetivo**: Planificación de rutas para flotas EV considerando rango, carga y degradación de batería.
-
-**Stack**:
-- `traccar/traccar` (Apache-2.0) — telemetría EV (SOC, temperatura)
-- `philippnormann/ev-charging-optimization` (MIT) — core de optimización
-- Claude Haiku — recomendaciones de carga
-
-**Tiempo**: 3-5 semanas | **Costo estimado**: $100k-300k
-
-```python
-# ev_fleet_optimizer.py
-from anthropic import Anthropic
-import httpx
-from typing import List
-
-client = Anthropic()
-
-def optimize_ev_routes(fleet_data: List[dict], charging_stations: List[dict]) -> str:
-    """Optimiza rutas EV con Claude considerando SOC y estaciones de carga."""
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=1000,
-        system="""Eres un optimizador de flotas EV. Calculas rutas considerando:
-        - SOC actual y mínimo de seguridad (20%)
-        - Tiempo de carga en cada estación (velocidad CCS/CHAdeMO)
-        - Degradación de batería por temperatura
-        - Ventanas de entrega del cliente
-        Responde en español con tabla de rutas optimizadas.""",
-        messages=[{
-            "role": "user",
-            "content": f"""
-Flota EV: {fleet_data}
-Estaciones de carga disponibles: {charging_stations}
-
-Optimiza rutas para minimizar tiempo total de entrega respetando restricciones de carga.
-Incluye: ruta, paradas de carga, tiempo estimado, SOC en cada punto.
-"""
-        }]
-    )
-    return response.content[0].text
-```
-
----
-
-## Patrón 5: Dealership AI Assistant (Odoo DMS + Claude)
-
-**Objetivo**: Asistente AI para concesionario que integra CRM, inventario, taller y ventas.
-
-**Stack**:
-- `odoo/odoo` (LGPL-3.0) — DMS base
-- Claude Haiku — asistente conversacional
-- MCP sobre Odoo XML-RPC API
-
-**Tiempo**: 4-6 semanas | **Costo estimado**: $150k-450k
-
-```python
-# dealership_assistant.py
+# OBD2 MCP → Claude → Odoo work order
+import anthropic
+from mcp import ClientSession
 import xmlrpc.client
-from anthropic import Anthropic
 
-client = Anthropic()
-ODOO_URL = "http://localhost:8069"
-DB = "automotive_dealership"
-USER = "admin"
-PASSWORD = "admin"
+client = anthropic.Anthropic()
 
-def get_odoo_context(query_type: str) -> dict:
-    """Obtiene contexto de Odoo según tipo de consulta."""
-    common = xmlrpc.client.ServerProxy(f"{ODOO_URL}/xmlrpc/2/common")
-    uid = common.authenticate(DB, USER, PASSWORD, {})
-    models = xmlrpc.client.ServerProxy(f"{ODOO_URL}/xmlrpc/2/object")
+# Step 1: Read vehicle via OBD2 MCP
+async def get_vehicle_diagnosis(mcp_session: ClientSession, vin: str):
+    dtcs = await mcp_session.call_tool("read_dtc_codes", {"connection": "obd2"})
+    live_data = await mcp_session.call_tool("read_live_data", {
+        "pids": ["ENGINE_COOLANT_TEMP", "RPM", "FUEL_PRESSURE", "O2_SENSORS"]
+    })
+    return {"dtcs": dtcs.content, "live": live_data.content, "vin": vin}
 
-    if query_type == "inventory":
-        return models.execute_kw(DB, uid, PASSWORD,
-            "product.template", "search_read",
-            [[["categ_id.name", "ilike", "vehicle"]]],
-            {"fields": ["name", "qty_available", "list_price"]}
-        )
-    elif query_type == "service_orders":
-        return models.execute_kw(DB, uid, PASSWORD,
-            "repair.order", "search_read",
-            [[["state", "in", ["under_repair", "ready"]]]],
-            {"fields": ["name", "partner_id", "product_id", "state"]}
-        )
-    elif query_type == "leads":
-        return models.execute_kw(DB, uid, PASSWORD,
-            "crm.lead", "search_read",
-            [[["stage_id.name", "!=", "Won"]]],
-            {"fields": ["partner_name", "name", "expected_revenue", "stage_id"]}
-        )
-    return {}
-
-def dealership_chat(query: str) -> str:
-    """Asistente conversacional para concesionario."""
-    # Determinar qué contexto necesitamos
-    context_needed = []
-    if any(w in query.lower() for w in ["inventario", "stock", "disponible", "vehículo"]):
-        context_needed.append("inventory")
-    if any(w in query.lower() for w in ["taller", "reparación", "servicio", "orden"]):
-        context_needed.append("service_orders")
-    if any(w in query.lower() for w in ["cliente", "lead", "venta", "cotización"]):
-        context_needed.append("leads")
-
-    context = {k: get_odoo_context(k) for k in context_needed}
-
+# Step 2: Claude interprets + recommends
+def interpret_diagnosis(diagnosis: dict) -> dict:
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=600,
-        system="""Eres el asistente AI del concesionario. Tienes acceso al sistema DMS (Odoo).
-        Ayudas con: inventario de vehículos, órdenes de taller, pipeline de ventas, clientes.
-        Responde en español, de forma concisa y útil para el equipo del concesionario.""",
-        messages=[{
-            "role": "user",
-            "content": f"Contexto del sistema: {context}\n\nConsulta: {query}"
-        }]
-    )
-    return response.content[0].text
-```
-
----
-
-## Patrón 6: Cockpit AI Assistant (In-Vehicle LLM)
-
-**Objetivo**: Asistente de voz/texto en el vehículo con contexto de conducción en tiempo real.
-
-**Stack**:
-- `commaai/openpilot` (MIT) — ADAS + datos de conducción
-- `eclipse-kuksa/kuksa.val` (Apache-2.0) — señales VSS del vehículo
-- Claude Haiku — razonamiento en lenguaje natural
-- Whisper (MIT) — STT para voz
-- Edge device (NVIDIA Jetson / Snapdragon) — inferencia local
-
-**Tiempo**: 8-12 semanas | **Costo estimado**: $400k-1.2M
-
-```python
-# cockpit_assistant.py
-import asyncio
-from anthropic import Anthropic
-import kuksa_client as kuksa
-
-client = Anthropic()
-
-class CockpitAssistant:
-    def __init__(self):
-        self.vehicle = kuksa.KuksaClientThread({
-            "ip": "127.0.0.1", "port": "8090", "protocol": "grpc"
-        })
-        self.context = {}
-
-    async def update_vehicle_context(self):
-        """Actualiza contexto del vehículo desde KUKSA VSS."""
-        signals = [
-            "Vehicle.Speed", "Vehicle.Powertrain.FuelSystem.Level",
-            "Vehicle.ADAS.LaneDepartureDetection.IsWarning",
-            "Vehicle.OBD.EngineLoad", "Vehicle.Cabin.HVAC.AmbientAirTemperature"
-        ]
-        for signal in signals:
-            val = self.vehicle.getValue(signal)
-            if val:
-                self.context[signal] = val["data"]["dp"]["value"]
-
-    async def respond(self, driver_query: str) -> str:
-        """Responde a consulta del conductor con contexto del vehículo."""
-        await self.update_vehicle_context()
-
-        response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=150,  # respuestas cortas para cockpit
-            system="""Eres el asistente AI del vehículo. Tienes datos en tiempo real del auto.
-            IMPORTANTE: Respuestas CORTAS (máx 2 frases). El conductor está manejando.
-            Prioriza seguridad. Nunca distraigas innecesariamente.""",
-            messages=[{
-                "role": "user",
-                "content": f"Estado vehículo: {self.context}\n\nConductor pregunta: {driver_query}"
-            }]
-        )
-        return response.content[0].text
-```
-
----
-
-## Patrón 7: V2X Cooperative Agent (CARMA + Claude)
-
-**Objetivo**: Agente de coordinación Vehicle-to-Everything para conducción cooperativa.
-
-**Stack**:
-- `usdot-fhwa-stol/carma-platform` (Apache-2.0) — V2X messaging
-- `autoware` (Apache-2.0) — ADAS stack
-- Claude — razonamiento semántico sobre mensajes V2X
-
-**Tiempo**: 10-14 semanas | **Costo estimado**: $500k-1.5M
-
-```python
-# v2x_cooperative_agent.py
-from anthropic import Anthropic
-import json
-
-client = Anthropic()
-
-def process_v2x_message(message_type: str, message_data: dict, vehicle_state: dict) -> dict:
-    """Procesa mensajes V2X y decide acción óptima con Claude."""
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=200,
-        system="""Eres el agente de coordinación V2X. Procesas mensajes BSM, SPAT, MAP, TIM
-        y decides acciones para el vehículo. SIEMPRE prioriza seguridad. Retorna JSON con:
-        {"action": str, "urgency": "immediate|normal|advisory", "speed_adjust_kmh": float, "reason": str}""",
-        messages=[{
-            "role": "user",
-            "content": f"""
-Mensaje V2X recibido:
-- Tipo: {message_type}
-- Datos: {json.dumps(message_data)}
-Estado actual del vehículo: {json.dumps(vehicle_state)}
-¿Qué acción debe tomar el vehículo?"""
-        }]
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        system="""You are an expert automotive diagnostics advisor.
+        Given OBD-II fault codes and live sensor data, provide:
+        1. Plain-English explanation of each fault
+        2. Root cause analysis (primary vs secondary faults)
+        3. Prioritized repair recommendations with urgency level (critical/soon/monitor)
+        4. Parts needed with estimated quantities
+        5. Labor time estimate
+        Return JSON with keys: explanation, root_cause, repairs[], parts[], labor_hours""",
+        messages=[{"role": "user", "content": f"Vehicle data: {diagnosis}"}]
     )
     return json.loads(response.content[0].text)
+
+# Step 3: Create Odoo work order automatically
+def create_odoo_work_order(interpretation: dict, vehicle_id: int, odoo_url: str, db: str, uid: int, pwd: str):
+    models = xmlrpc.client.ServerProxy(f"{odoo_url}/xmlrpc/2/object")
+    # Create maintenance request
+    order_id = models.execute_kw(db, uid, pwd, "fleet.vehicle.log.services", "create", [{
+        "vehicle_id": vehicle_id,
+        "description": interpretation["explanation"],
+        "cost": estimate_cost(interpretation["parts"], interpretation["labor_hours"]),
+        "note": "\n".join([f"• {r['repair']} [{r['urgency']}]" for r in interpretation["repairs"]])
+    }])
+    return order_id
 ```
+
+**Components:**
+- `petrpatek/obd2-mcp-server` — OBD data source
+- `odoo/odoo` Fleet module — work order management
+- Claude Sonnet — diagnosis interpretation
+- React dashboard for service advisor
 
 ---
 
-## Patrón 8: EV Fleet Intelligence (Fleetbase + Claude)
+## P2 — Predictive Maintenance for Assembly Lines
+**Stack:** predictive-maintenance-mcp + LangGraph + Claude + Odoo Manufacturing  
+**Deal size:** $200k–$600k | **Timeline:** 6–10 weeks
 
-**Objetivo**: Gestión inteligente de flota EV con análisis de salud de batería y planificación de carga.
+**Problem:** $22,000/minute assembly-line downtime. Manual inspection misses early bearing failure signals.
 
-**Stack**:
-- `fleetbase/fleetbase` (AGPL-3.0) — OS de logística
-- `traccar/traccar` (Apache-2.0) — telemetría en tiempo real
-- Claude Sonnet — análisis de flota y predicciones
-
-**Tiempo**: 6-8 semanas | **Costo estimado**: $200k-600k
-
+**Solution:**
 ```python
-# ev_fleet_intelligence.py
-from anthropic import Anthropic
+from langgraph.graph import StateGraph, END
+from typing import TypedDict
+
+class MaintenanceState(TypedDict):
+    asset_id: str
+    vibration_data: dict
+    fft_analysis: dict
+    diagnosis: str
+    action: str
+    work_order_id: int | None
+
+def build_maintenance_graph():
+    graph = StateGraph(MaintenanceState)
+
+    async def collect_vibration(state):
+        # predictive-maintenance-mcp tool call
+        fft = await mcp.call_tool("analyze_vibration_fft", {
+            "asset_id": state["asset_id"],
+            "duration_seconds": 10,
+            "sampling_rate": 25600
+        })
+        envelope = await mcp.call_tool("analyze_envelope", {
+            "signal": fft["raw_signal"],
+            "shaft_frequency": fft["shaft_rpm"] / 60
+        })
+        return {**state, "fft_analysis": {"fft": fft, "envelope": envelope}}
+
+    async def claude_diagnosis(state):
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=1024,
+            system="You are an industrial maintenance expert. Analyze vibration FFT data to diagnose bearing faults, imbalance, misalignment, or resonance. Classify severity: OK / WATCH / SOON / CRITICAL. Return JSON.",
+            messages=[{"role": "user", "content": f"Asset {state['asset_id']} FFT data: {state['fft_analysis']}"}]
+        )
+        result = json.loads(response.content[0].text)
+        return {**state, "diagnosis": result["diagnosis"], "action": result["recommended_action"]}
+
+    async def create_work_order(state):
+        if state["action"] in ["SOON", "CRITICAL"]:
+            wo_id = odoo.create_maintenance_request(
+                name=f"Predictive Maintenance - {state['asset_id']}",
+                description=state["diagnosis"],
+                priority="2" if state["action"] == "CRITICAL" else "1"
+            )
+            return {**state, "work_order_id": wo_id}
+        return state
+
+    graph.add_node("collect", collect_vibration)
+    graph.add_node("diagnose", claude_diagnosis)
+    graph.add_node("create_order", create_work_order)
+    graph.add_edge("collect", "diagnose")
+    graph.add_edge("diagnose", "create_order")
+    graph.add_edge("create_order", END)
+    return graph.compile()
+```
+
+**Components:**
+- `LGDiMaggio/predictive-maintenance-mcp` — vibration FFT analysis + ISO severity
+- LangGraph — agent orchestration
+- Claude Sonnet — diagnosis + action classification
+- Odoo Manufacturing — work order creation
+- PLC/IoT sensors via MQTT
+
+---
+
+## P3 — Eclipse SDV Vehicle App (OEM Integration)
+**Stack:** Eclipse KUKSA + Velocitas + Claude Haiku (edge) + LMOS  
+**Deal size:** $200k–$600k | **Timeline:** 5–8 weeks
+
+**Problem:** OEM wants AI-powered vehicle app — cabin assistant that reads vehicle signals, adapts to driver, sends insights to cloud.
+
+**Solution:**
+```python
+# Eclipse Velocitas Vehicle App with Claude Haiku
+from sdv.vdb.client import VehicleDataBrokerClient
+import asyncio
+
+# Vehicle App that runs on Eclipse SDV stack
+async def cabin_intelligence_app():
+    vdb_client = VehicleDataBrokerClient()
+    await vdb_client.connect()
+
+    # Subscribe to VSS signals via KUKSA Databroker
+    async for signal in vdb_client.subscribe([
+        "Vehicle.Speed",
+        "Vehicle.Cabin.Driver.HeartRate",          # if health sensors present
+        "Vehicle.ADAS.ActiveAutonomyLevel",
+        "Vehicle.Powertrain.FuelSystem.Level",
+        "Vehicle.OBD.EngineLoad",
+        "Vehicle.Exterior.AmbientAirTemperature"
+    ]):
+        state = {signal.path: signal.value for signal in signal.fields}
+
+        # Only call LLM on meaningful state changes (edge filtering)
+        if should_engage_ai(state):
+            response = client.messages.create(
+                model="claude-haiku-4-5-20251001",  # Haiku for edge latency
+                max_tokens=256,
+                system="""You are the vehicle cabin AI. Given vehicle state, determine if driver needs:
+                - A proactive alert (fatigue, fuel, maintenance)
+                - A helpful suggestion (route, charging stop, traffic)
+                - Nothing (most common — return null)
+                Respond with JSON: {action: "alert"|"suggest"|null, message: string|null}""",
+                messages=[{"role": "user", "content": f"Vehicle state: {state}"}]
+            )
+            result = json.loads(response.content[0].text)
+
+            if result["action"]:
+                # Send to HMI via VSS actuator
+                await vdb_client.set("Vehicle.Cabin.Infotainment.HMI.Notification",
+                                      result["message"])
+                # Sync to cloud via Eclipse LMOS
+                await lmos_agent.publish("cabin_event", result)
+```
+
+**Components:**
+- `eclipse-kuksa/kuksa-databroker` — VSS signal source
+- `eclipse-velocitas/vehicle-app-python-sdk` — Vehicle App container
+- `eclipse-lmos` — cloud multi-agent orchestration
+- Claude Haiku — edge inference (low latency, low cost)
+- Eclipse Leda — distro for target vehicle hardware
+
+---
+
+## P4 — Fleet Intelligence Platform
+**Stack:** Fleetbase + LangGraph + Claude Sonnet + WhatsApp Business  
+**Deal size:** $150k–$400k | **Timeline:** 6–8 weeks
+
+**Problem:** LATAM logistics operators (Brazil, Mexico, Colombia) manage 50–500 vehicle fleets with manual dispatch and reactive maintenance.
+
+**Solution:**
+```python
+# Fleetbase API → LangGraph agent → Claude → WhatsApp alerts
 import httpx
-from typing import List
+from langgraph.graph import StateGraph
+
+FLEETBASE_API = "https://api.fleetbase.io/v1"
+HEADERS = {"Authorization": f"Bearer {FLEETBASE_KEY}"}
+
+async def fetch_fleet_state():
+    """Get all vehicles, orders, drivers from Fleetbase."""
+    vehicles = httpx.get(f"{FLEETBASE_API}/fleets", headers=HEADERS).json()
+    orders = httpx.get(f"{FLEETBASE_API}/orders?status=active", headers=HEADERS).json()
+    return {"vehicles": vehicles["data"], "orders": orders["data"]}
+
+async def fleet_intelligence_agent(state):
+    """Claude analyzes fleet state and identifies issues."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        system="""You are a fleet operations intelligence agent. Analyze the fleet state and identify:
+        1. Vehicles at risk of late delivery (ETA vs SLA)
+        2. Drivers showing fatigue patterns (long shifts, many stops)
+        3. Vehicles due for maintenance (based on km/days since last service)
+        4. Route optimization opportunities
+        Return JSON with arrays: alerts[], suggestions[], maintenance_alerts[]""",
+        messages=[{"role": "user", "content": f"Current fleet state: {state}"}]
+    )
+    result = json.loads(response.content[0].text)
+
+    # Send critical alerts via WhatsApp Business API
+    for alert in result.get("alerts", []):
+        if alert["severity"] == "critical":
+            send_whatsapp(alert["driver_phone"],
+                         f"🚨 Alerta: {alert['message']}")
+    return result
+
+# Fleetbase webhook → LangGraph → Claude → Action
+async def handle_fleet_event(event: dict):
+    graph = build_fleet_graph()
+    state = await fetch_fleet_state()
+    result = await graph.ainvoke({**state, "trigger": event})
+    return result
+```
+
+**Components:**
+- `fleetbase/fleetbase` — Fleet OS (self-hosted AGPL or cloud)
+- LangGraph — agent state management
+- Claude Sonnet — fleet analysis
+- WhatsApp Business API — driver notifications (high adoption in LATAM)
+- Traccar (GPS) — real-time positioning
+
+---
+
+## P5 — Connected Car MCP Service Layer
+**Stack:** Tesla MCP + OBD2 MCP + MCP-CAN + Claude  
+**Deal size:** $100k–$350k | **Timeline:** 4–6 weeks
+
+**Problem:** OEM or fleet operator wants AI agents to interact with vehicles across the full stack (fleet cloud → diagnostic port → raw ECU).
+
+**Solution:**
+```python
+# Multi-MCP automotive agent using all three vehicle MCP servers
+from anthropic import Anthropic
+import asyncio
 
 client = Anthropic()
 
-def analyze_ev_fleet_health(vehicles: List[dict]) -> str:
-    """Analiza salud general de flota EV y genera recomendaciones."""
+AUTOMOTIVE_TOOLS = [
+    # Tesla Fleet API level
+    {
+        "name": "tesla_get_vehicle_state",
+        "description": "Get Tesla vehicle state: charge, range, location, climate, lock status",
+        "input_schema": {"type": "object", "properties": {"vehicle_id": {"type": "string"}}}
+    },
+    # OBD-II diagnostic level
+    {
+        "name": "obd2_read_dtc",
+        "description": "Read Diagnostic Trouble Codes from vehicle via OBD-II port",
+        "input_schema": {"type": "object", "properties": {"vehicle_id": {"type": "string"}}}
+    },
+    {
+        "name": "obd2_live_data",
+        "description": "Read live OBD-II sensor data: RPM, coolant temp, fuel pressure, O2 sensors",
+        "input_schema": {"type": "object", "properties": {
+            "vehicle_id": {"type": "string"},
+            "pids": {"type": "array", "items": {"type": "string"}}
+        }}
+    },
+    # CAN bus level
+    {
+        "name": "can_read_signal",
+        "description": "Read raw ECU signal from vehicle CAN bus via DBC file decoding",
+        "input_schema": {"type": "object", "properties": {
+            "signal_name": {"type": "string"},
+            "dbc_file": {"type": "string"}
+        }}
+    },
+    {
+        "name": "can_write_signal",
+        "description": "Write command to vehicle ECU via CAN bus (requires authorization)",
+        "input_schema": {"type": "object", "properties": {
+            "signal_name": {"type": "string"},
+            "value": {"type": "number"},
+            "authorization_token": {"type": "string"}
+        }}
+    }
+]
+
+async def vehicle_ai_agent(user_request: str, vehicle_id: str):
+    """Universal vehicle AI agent using full MCP stack."""
+    messages = [{"role": "user", "content": f"Vehicle {vehicle_id}: {user_request}"}]
+
+    while True:
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=4096,
+            system="""You are a vehicle AI agent with access to full automotive MCP stack.
+            You can read Tesla fleet data, OBD-II diagnostics, and CAN bus signals.
+            Be precise about which level you're accessing and why.
+            Prioritize non-destructive reads; only write CAN signals with explicit authorization.""",
+            tools=AUTOMOTIVE_TOOLS,
+            messages=messages
+        )
+
+        if response.stop_reason == "end_turn":
+            break
+
+        # Route tool calls to correct MCP server
+        tool_results = []
+        for block in response.content:
+            if block.type == "tool_use":
+                if block.name.startswith("tesla_"):
+                    result = await tesla_mcp.call_tool(block.name, block.input)
+                elif block.name.startswith("obd2_"):
+                    result = await obd2_mcp.call_tool(block.name, block.input)
+                elif block.name.startswith("can_"):
+                    result = await can_mcp.call_tool(block.name, block.input)
+                tool_results.append({"type": "tool_result", "tool_use_id": block.id, "content": str(result)})
+
+        messages.extend([{"role": "assistant", "content": response.content},
+                         {"role": "user", "content": tool_results}])
+
+    return response.content[-1].text
+```
+
+**Components:**
+- `scald/tesla-mcp` — Tesla Fleet API MCP
+- `petrpatek/obd2-mcp-server` — OBD-II MCP
+- `farzadnadiri/MCP-CAN` — CAN bus MCP
+- Claude Sonnet — reasoning + routing
+- FastAPI + React dashboard
+
+---
+
+## P6 — Autonomous Vehicle Evaluation with AgentDrive
+**Stack:** AgentDrive + CARLA + LangGraph + Claude  
+**Deal size:** $50k–$200k | **Timeline:** 3–5 weeks
+
+**Problem:** Client building AV features needs a systematic LLM evaluation harness before deploying to real vehicles.
+
+**Solution:**
+```python
+# AgentDrive + CARLA evaluation pipeline
+from langgraph.graph import StateGraph
+import subprocess
+
+async def run_av_evaluation(agent_under_test, scenario_set: str = "urban_mixed"):
+    """Run LLM AV agent against AgentDrive benchmark scenarios."""
+    # Load 300k scenario subset from AgentDrive
+    scenarios = load_agentdrive_scenarios(
+        scenario_type="urban",
+        difficulty=["medium", "hard"],
+        count=1000  # start with 1k; full eval = 300k
+    )
+
+    results = []
+    for scenario in scenarios:
+        # Launch CARLA with scenario
+        carla_proc = subprocess.Popen([
+            "python", "carla_runner.py",
+            "--scenario", json.dumps(scenario),
+            "--agent", agent_under_test
+        ])
+
+        # Evaluate via AgentDrive MCQ
+        mcq_question = scenario["evaluation_question"]
+        agent_answer = await agent_under_test.answer(mcq_question, scenario["context"])
+        correct = agent_answer == scenario["ground_truth"]
+
+        results.append({
+            "scenario_id": scenario["id"],
+            "dimensions": scenario["dimensions"],
+            "correct": correct,
+            "agent_reasoning": agent_answer
+        })
+
+    # Claude analyzes failure patterns
+    summary = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        system="Analyze autonomous driving agent evaluation results and identify failure patterns by dimension (scenario type, difficulty, traffic density, etc.). Provide specific improvement recommendations.",
+        messages=[{"role": "user", "content": f"Results: {json.dumps(results[:100])}"}]
+    )
+    return {"pass_rate": sum(r["correct"] for r in results) / len(results), "analysis": summary.content[0].text}
+```
+
+**Components:**
+- `maferrag/AgentDrive` — 300k AV scenarios + MCQ eval
+- `carla-simulator/carla` — simulation environment
+- LangGraph — evaluation pipeline orchestration
+- Claude Sonnet — failure pattern analysis
+- Python reporting + visualization
+
+---
+
+## P7 — Urban Traffic Intelligence (TrafficClaw Pattern)
+**Stack:** TrafficClaw + LangGraph + Claude Sonnet + city traffic APIs  
+**Deal size:** $150k–$500k | **Timeline:** 8–12 weeks
+
+**Problem:** City municipality wants AI-driven traffic signal control that reduces congestion, adapts to incidents, and coordinates across intersections.
+
+**Solution:**
+```python
+# TrafficClaw-inspired urban traffic control agent
+# Based on arXiv:2604.17456
+
+class TrafficControlState(TypedDict):
+    intersection_id: str
+    traffic_counts: dict          # {direction: vehicle_count}
+    incident_reports: list        # active incidents nearby
+    pedestrian_requests: list     # waiting pedestrians
+    neighboring_signals: dict     # phase of adjacent intersections
+    memory: dict                  # persistent spatiotemporal history
+    action: dict                  # signal phase decision
+
+async def traffic_perception_node(state: TrafficControlState):
+    """Collect real-time traffic data from city APIs."""
+    counts = await city_api.get_traffic_counts(state["intersection_id"])
+    incidents = await city_api.get_incidents(radius_km=0.5)
+    pedestrians = await city_api.get_pedestrian_requests(state["intersection_id"])
+    neighbors = await city_api.get_signal_phases(radius_intersections=3)
+
+    # Update persistent memory (TrafficClaw key insight: memory enables long-horizon adaptation)
+    updated_memory = update_spatiotemporal_memory(
+        state["memory"],
+        new_observation={"counts": counts, "time": time.time()}
+    )
+    return {**state, "traffic_counts": counts, "incident_reports": incidents,
+            "pedestrian_requests": pedestrians, "neighboring_signals": neighbors,
+            "memory": updated_memory}
+
+async def llm_traffic_planning(state: TrafficControlState):
+    """Claude plans optimal signal phase using TrafficClaw reasoning."""
     response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=1200,
-        system="""Eres el analista de flota EV. Evalúas:
-        - Salud de batería (degradación, temperatura, ciclos)
-        - Eficiencia energética (consumo kWh/km por vehículo)
-        - Riesgos de downtime (vehículos con SOC bajo o anomalías)
-        - Optimización de carga (cuándo y dónde cargar cada vehículo)
-        Responde en español con tabla resumen y 5 acciones prioritarias.""",
-        messages=[{
-            "role": "user",
-            "content": f"Datos de flota EV ({len(vehicles)} vehículos):\n{vehicles}"
-        }]
+        max_tokens=1024,
+        system="""You are an urban traffic signal control agent with spatiotemporal memory.
+        Optimize signal phases to minimize total vehicle delay while ensuring pedestrian safety
+        and coordinating with neighboring intersections.
+
+        Consider:
+        1. Current traffic volumes per direction
+        2. Active incidents that may increase flow on alternative routes
+        3. Neighboring signal phases (avoid creating stop-wave propagation)
+        4. Historical patterns from memory
+        5. Pedestrian waiting time (max 90 seconds)
+
+        Return JSON: {green_direction: "NS"|"EW", duration_seconds: int, reason: string}""",
+        messages=[{"role": "user", "content": f"""
+        Intersection: {state['intersection_id']}
+        Traffic counts: {state['traffic_counts']}
+        Incidents: {state['incident_reports']}
+        Pedestrian requests: {state['pedestrian_requests']}
+        Neighboring signal phases: {state['neighboring_signals']}
+        Recent history (last 30min): {state['memory'].get('recent', [])}
+        """}]
+    )
+    action = json.loads(response.content[0].text)
+    return {**state, "action": action}
+
+async def execute_signal_action(state: TrafficControlState):
+    """Send signal phase command to traffic controller hardware."""
+    await city_api.set_signal_phase(
+        intersection_id=state["intersection_id"],
+        phase=state["action"]["green_direction"],
+        duration=state["action"]["duration_seconds"]
+    )
+    return state
+
+# Build and run graph
+graph = StateGraph(TrafficControlState)
+graph.add_node("perceive", traffic_perception_node)
+graph.add_node("plan", llm_traffic_planning)
+graph.add_node("execute", execute_signal_action)
+graph.add_edge("perceive", "plan")
+graph.add_edge("plan", "execute")
+graph.add_edge("execute", "perceive")  # continuous loop
+traffic_controller = graph.compile()
+```
+
+**Components:**
+- TrafficClaw approach (arXiv:2604.17456) — persistent memory + agentic RL design
+- LangGraph — stateful agent graph with continuous loop
+- Claude Sonnet — traffic reasoning + phase planning
+- City traffic management API (Siemens / Kapsch / SCATS / SCOOT)
+- PostgreSQL — spatiotemporal memory store
+
+---
+
+## P8 — EV Fleet Charging Optimizer
+**Stack:** Fleetbase + LangGraph + Claude + EV charging APIs  
+**Deal size:** $80k–$250k | **Timeline:** 4–6 weeks
+
+**Problem:** EV fleet (Brazil BYD expansion, Colombia electric buses) needs intelligent charging scheduling to minimize costs, avoid grid peaks, and maximize vehicle availability.
+
+**Solution:**
+```python
+async def ev_charging_optimizer(fleet_state: dict, energy_prices: dict):
+    """Optimize EV charging schedule across fleet using Claude + LangGraph."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=2048,
+        system="""You are an EV fleet charging optimizer. Given:
+        - Fleet vehicles with current battery levels and next dispatch schedules
+        - Energy price forecast (hourly, next 24h)
+        - Charger availability (max simultaneous connections per depot)
+        - Grid demand response windows
+
+        Optimize: minimize energy cost while ensuring all vehicles are charged for next dispatch.
+        Constraints: no vehicle below 20% SoC, respect charger capacity limits.
+        Return JSON: {schedule: [{vehicle_id, start_time, end_time, target_soc, charger_id}]}""",
+        messages=[{"role": "user", "content": f"Fleet: {fleet_state}, Prices: {energy_prices}"}]
+    )
+    schedule = json.loads(response.content[0].text)
+
+    # Push schedule to Fleetbase + charger management
+    for entry in schedule["schedule"]:
+        await fleetbase.update_vehicle_schedule(entry["vehicle_id"], entry)
+        await charger_api.reserve_charger(entry["charger_id"], entry["start_time"], entry["end_time"])
+
+    return schedule
+```
+
+**Components:**
+- `fleetbase/fleetbase` — Fleet OS with vehicle + schedule data
+- Claude Sonnet — multi-constraint optimization
+- Energy/grid pricing API (ANEEL in Brazil, utility providers)
+- Charger management API (OCPP-compatible)
+- WhatsApp alerts to drivers (schedule notifications)
+
+---
+
+## P9 — Intelligent Cockpit Assistant (Cerence CaLLM Alternative)
+**Stack:** OpenPilot + Claude Haiku + Whisper + TTS  
+**Deal size:** $150k–$500k | **Timeline:** 8–12 weeks
+
+**Problem:** OEM or Tier-1 wants an open-source in-vehicle assistant that competes with Cerence CaLLM — without vendor lock-in.
+
+**Solution:**
+```python
+# Open-source vehicle voice assistant
+# OpenPilot perception data + Claude Haiku for assistant logic
+
+import whisper
+import anthropic
+from gtts import gTTS  # or ElevenLabs for higher quality
+
+asr_model = whisper.load_model("small")  # runs on car hardware
+client = anthropic.Anthropic()
+
+async def vehicle_assistant_turn(audio_input: bytes, vehicle_signals: dict) -> bytes:
+    # 1. Speech-to-text (local Whisper)
+    transcription = asr_model.transcribe(audio_input)
+    user_text = transcription["text"]
+
+    # 2. Route to Claude Haiku with vehicle context
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=256,
+        system=f"""You are the vehicle's AI assistant. Current state:
+        Speed: {vehicle_signals.get('Vehicle.Speed', 'unknown')} km/h
+        Fuel: {vehicle_signals.get('Vehicle.Powertrain.FuelSystem.Level', 'unknown')}%
+        ADAS: {vehicle_signals.get('Vehicle.ADAS.ActiveAutonomyLevel', 'unknown')}
+        Ambient temp: {vehicle_signals.get('Vehicle.Exterior.AmbientAirTemperature', 'unknown')}°C
+
+        Respond concisely (max 2 sentences). If speed>80 km/h, avoid complex tasks.
+        If ADAS is active, confirm it before driver takes action.""",
+        messages=[{"role": "user", "content": user_text}]
+    )
+    assistant_text = response.content[0].text
+
+    # 3. Text-to-speech (local or cloud)
+    tts = gTTS(text=assistant_text, lang="pt" if brazil_market else "es")
+    return tts_to_bytes(tts)
+```
+
+**Components:**
+- `commaai/openpilot` — ADAS perception + vehicle state
+- `eclipse-kuksa/kuksa-databroker` — vehicle signals
+- `openai/whisper` — local STT (MIT, no cloud dependency)
+- Claude Haiku — low-latency assistant reasoning
+- gTTS / ElevenLabs — TTS output
+- Runs on comma 3X hardware or automotive-grade SoC
+
+---
+
+## P10 — AI-Powered Automotive OEM CRM
+**Stack:** Odoo CRM + Claude + WhatsApp + OBD data  
+**Deal size:** $100k–$350k | **Timeline:** 6–8 weeks
+
+**Problem:** Dealership network (50+ locations) loses service revenue because vehicles reach customers 30+ days before proactive outreach. Manual CRM processes miss service windows.
+
+**Solution:**
+```python
+async def proactive_service_outreach_agent():
+    """Daily agent that identifies vehicles due for service and sends personalized outreach."""
+    # Get all vehicles from Odoo Fleet
+    vehicles = odoo.search_read("fleet.vehicle", domain=[("state_id.name", "=", "Active")],
+                                 fields=["name", "partner_id", "last_service_date", "current_mileage"])
+
+    for vehicle in vehicles:
+        # Determine if service due
+        days_since_service = (today - vehicle["last_service_date"]).days
+        if days_since_service > 150 or vehicle["current_mileage"] > vehicle["next_service_km"]:
+
+            # Personalize message with Claude
+            response = client.messages.create(
+                model="claude-haiku-4-5-20251001",
+                max_tokens=200,
+                system="Write a friendly WhatsApp message (max 3 sentences) in Brazilian Portuguese reminding a customer their vehicle is due for service. Be warm, not pushy. Include the specific service type.",
+                messages=[{"role": "user", "content": f"Vehicle: {vehicle['name']}, Days since service: {days_since_service}, Customer: {vehicle['partner_id'][1]}"}]
+            )
+
+            # Send via WhatsApp Business API
+            send_whatsapp(vehicle["partner_phone"], response.content[0].text)
+
+            # Log in Odoo CRM
+            odoo.create("crm.lead", {
+                "name": f"Service Due - {vehicle['name']}",
+                "partner_id": vehicle["partner_id"][0],
+                "tag_ids": [service_outreach_tag_id]
+            })
+```
+
+**Components:**
+- Odoo CRM + Fleet modules
+- Claude Haiku — personalized message generation
+- WhatsApp Business API — high-open-rate channel (Brazil: 99% WhatsApp penetration)
+- Scheduled LangGraph agent — daily batch
+
+---
+
+## P11 — Smart Factory Agentic Maintenance (IBM AssetOpsBench Pattern)
+**Stack:** IBM AssetOpsBench + Claude + Odoo Manufacturing  
+**Deal size:** $200k–$700k | **Timeline:** 8–14 weeks
+
+**Problem:** Automotive assembly plant (Stellantis, VW, Toyota in LATAM) needs to reduce unplanned downtime using a multi-agent maintenance system.
+
+**Architecture:**
+```
+Assembly Line Sensors (IoT / MQTT)
+           ↓
+AgentHive Orchestrator (IBM AssetOpsBench)
+    ↙    ↓    ↓    ↓    ↘
+ IoT   FMSR  TSFM  Work   Knowledge
+Agent  Agent Agent  Order  Agent
+           ↓
+     Claude Sonnet
+     (root cause + recommendation)
+           ↓
+   Odoo Manufacturing
+   (work order + parts request)
+```
+
+**IBM AssetOpsBench agents (all MIT):**
+- **IoT Agent**: reads sensor streams, detects anomalies
+- **FMSR Agent**: Failure Mode, Symptom, Root-cause analysis
+- **TSFM Agent**: Time Series Foundation Model for pattern detection
+- **Work Order Agent**: creates + assigns maintenance tasks
+- **Knowledge Agent**: queries maintenance manuals + parts catalog
+
+**Investment:** $200k–$700k | **Timeline:** 8–14 weeks | **ROI:** $22k/min downtime prevented
+
+---
+
+## P12 — LLM Evaluation for AV Teams (Claude vs GPT-5 vs Gemini)
+**Stack:** AgentDrive + CARLA + Claude + reporting  
+**Deal size:** $30k–$100k | **Timeline:** 2–3 weeks
+
+**Problem:** Client evaluating which LLM to use in their AV decision-making pipeline. Need systematic benchmark, not vibes.
+
+**Solution:** Run all three against AgentDrive MCQ benchmark (100k questions across 7 AV dimensions). Generate comparative analysis with Claude. Key findings: proprietary models dominate contextual/policy reasoning; open models (Qwen3, Llama-4) close the gap on structured + physics reasoning.
+
+**Deliverable:** Benchmark report + recommendation + AV-specific fine-tuning data (AgentDrive 300k scenarios).
+
+---
+
+## P13 — OBD2 Compliance Agent for LATAM Markets
+**Stack:** OBD2 MCP + Claude + local regulatory APIs + WhatsApp  
+**Deal size:** $30k–$80k | **Timeline:** 2–4 weeks
+
+**Problem:** Vehicles in Brazil (Denatran) and Argentina (RUPE) need emissions compliance verification. Manual process for fleet operators.
+
+**Solution:**
+```python
+async def latam_compliance_agent(vehicle_id: str, country: str):
+    """Check vehicle OBD compliance and generate regulatory report."""
+    # Read OBD data
+    dtcs = await obd2_mcp.call_tool("read_dtc_codes", {"vehicle_id": vehicle_id})
+    readiness = await obd2_mcp.call_tool("read_readiness_monitors", {"vehicle_id": vehicle_id})
+
+    # Claude generates compliance report
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1024,
+        system=f"""You are a vehicle emissions compliance specialist for {country}.
+        Analyze OBD readiness monitors and DTCs to determine:
+        1. Is the vehicle likely to pass emissions inspection?
+        2. Which monitors are incomplete (preventing inspection)?
+        3. Which faults need repair before inspection?
+        Generate a compliance report in Spanish/Portuguese appropriate for {country}.""",
+        messages=[{"role": "user", "content": f"DTCs: {dtcs}, Readiness monitors: {readiness}"}]
     )
     return response.content[0].text
 ```
 
----
-
-## Patrón 9: VLA Evaluation Pipeline (OpenDriveVLA + CARLA + Claude)
-
-**Objetivo**: Pipeline de evaluación de modelos VLA en CARLA Leaderboard 2.1 con análisis automático.
-
-**Stack**:
-- `DriveVLA/OpenDriveVLA` (Apache-2.0) — modelo VLA baseline
-- `carla-simulator/carla` (MIT) — simulador
-- `MasoudJTehrani/PCLA` (Apache-2.0) — testing framework
-- Claude Sonnet — análisis y comparación de modelos
-
-**Tiempo**: 4-6 semanas | **Costo estimado**: $100k-350k
-
-```python
-# vla_evaluation_pipeline.py
-import json
-import subprocess
-from anthropic import Anthropic
-
-client = Anthropic()
-
-class VLAEvaluationPipeline:
-    def __init__(self, model_name: str):
-        self.model_name = model_name
-
-    def parse_leaderboard_metrics(self, raw_output: str) -> dict:
-        """Parsea métricas del CARLA Leaderboard 2.1."""
-        metrics = {}
-        lines = raw_output.split("\n")
-        for line in lines:
-            if "Route Completion:" in line:
-                metrics["route_completion"] = float(line.split(":")[1].strip().replace("%","")) / 100
-            elif "Infraction Penalty:" in line:
-                metrics["infraction_penalty"] = float(line.split(":")[1].strip())
-            elif "Driving Score:" in line:
-                metrics["driving_score"] = float(line.split(":")[1].strip())
-        return metrics
-
-    def analyze_with_claude(self, metrics: dict, model_card: str = "") -> str:
-        """Claude analiza métricas y genera diagnóstico del modelo VLA."""
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=2000,
-            system="""Eres un experto en evaluación de modelos de conducción autónoma.
-            Analizas métricas del CARLA Leaderboard 2.1. Estándares: ISO 26262, UNECE WP.29, EU AI Act Art. 13.
-            Referencias: OpenDriveVLA ~65%, Alpamayo-1 ~82%, LEAD CVPR'26 ~78%.""",
-            messages=[{
-                "role": "user",
-                "content": f"""
-Modelo: {self.model_name}
-{f"Model card: {model_card}" if model_card else ""}
-
-Métricas CARLA Leaderboard 2.1:
-{json.dumps(metrics, indent=2)}
-
-Genera:
-1. Driving Score y comparación con SOTA
-2. Debilidades críticas (tipo de infracción más frecuente)
-3. Conformidad EU AI Act Art. 13 (¿chain-of-thought satisface explicabilidad?)
-4. Recomendaciones de fine-tuning por prioridad de seguridad
-5. Próximos pasos para mejora iterativa
-"""
-            }]
-        )
-        return response.content[0].text
-```
+**Components:**
+- `petrpatek/obd2-mcp-server` — OBD diagnostics
+- Claude Haiku — compliance analysis
+- DETRAN/Denatran API (Brazil) or RUPE (Argentina) — official registration lookup
+- WhatsApp — fleet operator notifications
 
 ---
 
-## Patrón 10: Eclipse SDV Vehicle App + AI (KUKSA + Velocitas + Claude) ⭐ NUEVO v3
+## Quick-Start Decision Matrix
 
-**Objetivo**: Vehicle App in-vehicle sobre Eclipse SDV stack que detecta anomalías y genera diagnósticos semánticos con Claude.
-
-**Stack**:
-- `eclipse-kuksa/kuksa.val` (Apache-2.0) — KUKSA Data Broker (señales VSS)
-- `eclipse-velocitas/vehicle-app-python-sdk` (Apache-2.0) — Vehicle App SDK
-- `eclipse-leda/leda-distro` (Apache-2.0) — Linux distro SDV edge
-- Claude Haiku — análisis semántico on-demand (edge o cloud)
-
-**Tiempo**: 5-8 semanas | **Costo estimado**: $200k-600k
-
-```python
-# ai_vehicle_app.py — Eclipse SDV Vehicle App con Claude
-# Instalar: pip install vehicle-app-sdk anthropic kuksa-client
-from sdv.vdb.vdb_client import VdbClient
-from sdv.vehicle import Vehicle
-from vehicle import VehicleApp
-from anthropic import Anthropic
-import asyncio
-import logging
-
-logger = logging.getLogger(__name__)
-client = Anthropic()
-
-# Thresholds configurables (ISO 26262 compliant)
-THRESHOLDS = {
-    "Vehicle.OBD.EngineLoad": {"warn": 85, "critical": 95},
-    "Vehicle.Powertrain.CombustionEngine.ECT": {"warn": 105, "critical": 115},  # °C
-    "Vehicle.Chassis.Brake.PedalPosition": {"rapid_change": 40},  # % per second
-}
-
-class AIVehicleApp(VehicleApp):
-    """
-    Vehicle App que combina Eclipse KUKSA + Claude para:
-    1. Monitoreo continuo de señales VSS
-    2. Detección de anomalías con thresholds configurables
-    3. Diagnóstico semántico con Claude cuando se detecta anomalía
-    4. Publicación de alertas estructuradas al fleet backend
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.vehicle = Vehicle()
-        self.alert_count = 0
-
-    async def on_start(self):
-        """Subscribe a señales VSS críticas."""
-        await self.vehicle.OBD.EngineLoad.subscribe(self.on_engine_load)
-        await self.vehicle.Powertrain.CombustionEngine.ECT.subscribe(self.on_coolant_temp)
-        await self.vehicle.ADAS.LaneDepartureDetection.IsWarning.subscribe(self.on_lane_departure)
-        logger.info("AI Vehicle App started — monitoring VSS signals")
-
-    async def on_engine_load(self, data):
-        """Detecta sobrecarga del motor."""
-        load = data.value
-        threshold = THRESHOLDS["Vehicle.OBD.EngineLoad"]
-        if load >= threshold["warn"]:
-            severity = "CRITICAL" if load >= threshold["critical"] else "WARNING"
-            await self.trigger_ai_diagnosis(
-                signal="EngineLoad",
-                value=f"{load}%",
-                severity=severity,
-                context="Engine operating above normal load range"
-            )
-
-    async def on_coolant_temp(self, data):
-        """Detecta sobrecalentamiento."""
-        temp = data.value
-        threshold = THRESHOLDS["Vehicle.Powertrain.CombustionEngine.ECT"]
-        if temp >= threshold["warn"]:
-            severity = "CRITICAL" if temp >= threshold["critical"] else "WARNING"
-            await self.trigger_ai_diagnosis(
-                signal="CoolantTemp",
-                value=f"{temp}°C",
-                severity=severity,
-                context="Engine cooling system stress detected"
-            )
-
-    async def on_lane_departure(self, data):
-        """Registra eventos de salida de carril."""
-        if data.value:
-            await self.publish_event("vehicle.adas.lane_departure", {
-                "timestamp": asyncio.get_event_loop().time(),
-                "severity": "WARNING",
-                "action": "Driver alert issued"
-            })
-
-    async def trigger_ai_diagnosis(self, signal: str, value: str, severity: str, context: str):
-        """Genera diagnóstico semántico con Claude para la anomalía detectada."""
-        self.alert_count += 1
-
-        # Obtener contexto adicional del vehículo
-        vehicle_context = {}
-        try:
-            vehicle_context = {
-                "speed_kmh": (await self.vehicle.Speed.get()).value,
-                "engine_rpm": (await self.vehicle.OBD.RPM.get()).value,
-                "odometer_km": (await self.vehicle.TravelledDistance.get()).value,
-            }
-        except Exception as e:
-            logger.warning(f"Could not fetch additional context: {e}")
-
-        # Diagnóstico con Claude (Haiku para latencia baja en edge)
-        diagnosis = self.client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=200,
-            system="""You are an in-vehicle AI diagnostic system. Analyze vehicle signals and provide:
-            1. Root cause (1 sentence)
-            2. Immediate driver action (1 sentence)
-            3. Service recommendation (1 sentence)
-            Be concise — this displays on the cockpit HMI.""",
-            messages=[{
-                "role": "user",
-                "content": f"""
-Signal: {signal} = {value} ({severity})
-Context: {context}
-Vehicle state: {vehicle_context}
-"""
-            }]
-        )
-
-        alert_payload = {
-            "alert_id": f"AI-{self.alert_count:04d}",
-            "signal": signal,
-            "value": value,
-            "severity": severity,
-            "diagnosis": diagnosis.content[0].text,
-            "vehicle_context": vehicle_context,
-            "timestamp": asyncio.get_event_loop().time()
-        }
-
-        # Publicar al fleet backend via KUKSA
-        await self.publish_event("vehicle.ai.diagnostic_alert", alert_payload)
-        logger.warning(f"[{severity}] {signal}={value}: {alert_payload['diagnosis'][:80]}...")
-
-# Deployment con Eclipse Velocitas CLI:
-# velocitas init --template python
-# velocitas deploy --target leda-edge
-```
-
-**Arquitectura de deployment**:
-```
-[CAN Bus / OBD]
-    → KUKSA Data Broker (VSS signals, gRPC port 8090)
-    → AI Vehicle App (Velocitas SDK, containerizado)
-        → Claude Haiku API (diagnóstico semántico)
-    → Publish alerts → Eclipse Leda → Fleet Backend (Fleetbase/Traccar)
-```
-
----
-
-## Patrón 11: Smart Dealership Agentic Maintenance (Odoo + OBD + Claude) ⭐ NUEVO v3
-
-**Objetivo**: Agente de mantenimiento predictivo para concesionarios que combina diagnóstico OBD-II, gestión de taller (Odoo) y work orders automáticos. ROI: $22,000/min en manufactura, equivalente en taller = prevención de garantías y clientes perdidos.
-
-**Stack**:
-- `barracuda-fsh/pyobd` (GPL-2.0) — diagnóstico OBD-II
-- `odoo/odoo` (LGPL-3.0) — DMS + taller + inventario
-- `langchain-ai/langgraph` (MIT) — orquestación agente
-- Claude Sonnet — razonamiento y planificación
-
-**Tiempo**: 6-8 semanas | **Costo estimado**: $200k-500k
-
-```python
-# smart_dealership_agent.py
-import obd
-import xmlrpc.client
-from anthropic import Anthropic
-from langgraph.graph import StateGraph, END
-from typing import TypedDict, Optional
-
-client = Anthropic()
-ODOO_URL = "http://localhost:8069"
-DB = "dealership"
-USER = "admin"
-PASSWORD = "admin"
-
-# Odoo connection
-common = xmlrpc.client.ServerProxy(f"{ODOO_URL}/xmlrpc/2/common")
-uid = common.authenticate(DB, USER, PASSWORD, {})
-models = xmlrpc.client.ServerProxy(f"{ODOO_URL}/xmlrpc/2/object")
-
-class MaintenanceState(TypedDict):
-    vin: str
-    obd_data: dict
-    dtcs: list
-    parts_available: bool
-    technician_available: bool
-    diagnosis: str
-    work_order_id: Optional[int]
-    customer_notification: str
-
-def scan_vehicle(state: MaintenanceState) -> MaintenanceState:
-    """Escanea OBD-II del vehículo recibido en taller."""
-    connection = obd.OBD()
-    state["obd_data"] = {
-        "engine_load": connection.query(obd.commands.ENGINE_LOAD).value.magnitude,
-        "coolant_temp": connection.query(obd.commands.COOLANT_TEMP).value.magnitude,
-        "rpm": connection.query(obd.commands.RPM).value.magnitude,
-    }
-    dtc_response = connection.query(obd.commands.GET_DTC)
-    state["dtcs"] = [str(code) for code in dtc_response.value] if dtc_response.value else []
-    return state
-
-def diagnose_with_claude(state: MaintenanceState) -> MaintenanceState:
-    """Claude genera diagnóstico completo y plan de reparación."""
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=800,
-        system="""Eres un mecánico experto en diagnóstico automotriz. Con datos OBD-II:
-        1. Identifica el problema principal y causa raíz
-        2. Lista piezas necesarias (nombre técnico + código OEM estimado)
-        3. Estima horas de mano de obra
-        4. Prioridad: URGENTE / NORMAL / PREVENTIVO
-        Responde en JSON: {problem, cause, parts: [{name, qty, oem_code}], labor_hours, priority, customer_explanation}""",
-        messages=[{
-            "role": "user",
-            "content": f"VIN: {state['vin']}\nOBD data: {state['obd_data']}\nDTCs: {state['dtcs']}"
-        }]
-    )
-    import json
-    state["diagnosis"] = response.content[0].text
-    return state
-
-def check_parts_inventory(state: MaintenanceState) -> MaintenanceState:
-    """Verifica disponibilidad de piezas en Odoo inventario."""
-    import json
-    diagnosis = json.loads(state["diagnosis"])
-    parts_needed = diagnosis.get("parts", [])
-    all_available = True
-    for part in parts_needed:
-        products = models.execute_kw(DB, uid, PASSWORD,
-            "product.template", "search_read",
-            [[["name", "ilike", part["name"]]]],
-            {"fields": ["name", "qty_available"], "limit": 1}
-        )
-        if not products or products[0]["qty_available"] < part["qty"]:
-            all_available = False
-            break
-    state["parts_available"] = all_available
-    return state
-
-def create_work_order(state: MaintenanceState) -> MaintenanceState:
-    """Crea orden de trabajo en Odoo taller automáticamente."""
-    import json
-    diagnosis = json.loads(state["diagnosis"])
-
-    # Crear repair.order en Odoo
-    work_order = models.execute_kw(DB, uid, PASSWORD,
-        "repair.order", "create",
-        [{
-            "name": f"AI-WO-{state['vin'][-6:]}",
-            "product_id": 1,  # vehículo genérico
-            "partner_id": 1,  # cliente a buscar por VIN
-            "internal_notes": f"AI Diagnosis:\n{diagnosis.get('problem', 'See OBD data')}\n\n"
-                             f"Root cause: {diagnosis.get('cause', 'N/A')}\n"
-                             f"Priority: {diagnosis.get('priority', 'NORMAL')}",
-        }]
-    )
-    state["work_order_id"] = work_order
-
-    # Notificación para el cliente
-    state["customer_notification"] = diagnosis.get("customer_explanation",
-        "Su vehículo ha sido diagnosticado. Le contactaremos con el presupuesto.")
-
-    return state
-
-def route_after_diagnosis(state: MaintenanceState) -> str:
-    """Decide siguiente paso según disponibilidad."""
-    if state["parts_available"]:
-        return "create_work_order"
-    else:
-        return "notify_parts_delay"
-
-def notify_parts_delay(state: MaintenanceState) -> MaintenanceState:
-    """Notifica retraso por falta de piezas y genera PO automática."""
-    state["customer_notification"] = "Diagnóstico completado. Algunas piezas requieren pedido especial (2-3 días). Le notificaremos cuando estén disponibles."
-    # Aquí se generaría purchase.order en Odoo automáticamente
-    return state
-
-# Construir grafo del agente
-graph = StateGraph(MaintenanceState)
-graph.add_node("scan", scan_vehicle)
-graph.add_node("diagnose", diagnose_with_claude)
-graph.add_node("check_inventory", check_parts_inventory)
-graph.add_node("create_work_order", create_work_order)
-graph.add_node("notify_parts_delay", notify_parts_delay)
-
-graph.set_entry_point("scan")
-graph.add_edge("scan", "diagnose")
-graph.add_edge("diagnose", "check_inventory")
-graph.add_conditional_edges("check_inventory", route_after_diagnosis, {
-    "create_work_order": "create_work_order",
-    "notify_parts_delay": "notify_parts_delay"
-})
-graph.add_edge("create_work_order", END)
-graph.add_edge("notify_parts_delay", END)
-
-maintenance_agent = graph.compile()
-
-# Uso:
-# result = maintenance_agent.invoke({"vin": "3VWFE21C04M000001", "obd_data": {}, "dtcs": [], ...})
-# print(result["customer_notification"])
-# print(f"Work Order created: {result['work_order_id']}")
-```
-
-**ROI Business Case** para concesionarios LATAM:
-- Tiempo diagnóstico: 45 min → 8 min (83% reducción)
-- Work orders manuales: $15-25/hora técnico → $0 (automatizado)
-- Tasa de garantías prevenidas: +35% (detección temprana)
-- Retención de clientes: +20% (diagnóstico proactivo en cada revisión)
-
----
-
-## Matriz de selección de patrón
-
-| Caso de uso | Patrón | Complejidad | Tiempo | Deal size LATAM |
-|-------------|---------|-------------|--------|-----------------|
-| Gestión de flota GPS | P1: Fleet Intelligence | Baja | 3-4w | $80k-250k |
-| Taller + diagnóstico | P2: Predictive Maintenance | Media | 4-6w | $150k-400k |
-| Testing AV | P3: AV Testing Pipeline | Alta | 6-8w | $250k-700k |
-| EV route planning | P4: EV Route Optimizer | Baja-Media | 3-5w | $100k-300k |
-| Concesionario BYD | P5: Dealership Assistant | Media | 4-6w | $150k-450k |
-| Cockpit inteligente | P6: Cockpit Assistant | Muy Alta | 8-12w | $400k-1.2M |
-| V2X cooperativo | P7: V2X Agent | Muy Alta | 10-14w | $500k-1.5M |
-| Flota EV LATAM | P8: EV Fleet Intelligence | Media | 6-8w | $200k-600k |
-| Evaluación VLA / AV | P9: OpenDriveVLA Eval Pipeline | Alta | 4-6w | $100k-350k |
-| Vehicle App in-vehicle SDV | P10: Eclipse SDV + Claude | Alta | 5-8w | $200k-600k |
-| Smart Dealership Agentic | P11: Odoo + OBD + Claude | Media-Alta | 6-8w | $200k-500k |
+| Client Scenario | Start Here | Stack | Time | Budget |
+|----------------|------------|-------|------|--------|
+| Dealership wants AI service advisor | P1 | Odoo + OBD2 MCP + Claude | 4–6w | $80k–$250k |
+| Manufacturing plant predictive maintenance | P2 | predictive-maintenance-mcp + LangGraph | 6–10w | $200k–$600k |
+| OEM wants SDV Vehicle App | P3 | Eclipse KUKSA + Velocitas + Claude Haiku | 5–8w | $200k–$600k |
+| LATAM fleet operator (logistics) | P4 | Fleetbase + LangGraph + WhatsApp | 6–8w | $150k–$400k |
+| Fleet wants full vehicle MCP layer | P5 | Tesla/OBD2/CAN MCP + Claude | 4–6w | $100k–$350k |
+| AV team needs LLM evaluation | P6 / P12 | AgentDrive + CARLA | 2–5w | $30k–$200k |
+| Smart city traffic contract | P7 | TrafficClaw + LangGraph + Claude | 8–12w | $150k–$500k |
+| EV fleet charging optimization | P8 | Fleetbase + Claude + charger API | 4–6w | $80k–$250k |
+| OEM open-source cockpit assistant | P9 | OpenPilot + KUKSA + Claude Haiku | 8–12w | $150k–$500k |
+| Dealership network CRM + service outreach | P10 | Odoo CRM + Claude + WhatsApp | 6–8w | $100k–$350k |
+| Factory multi-agent maintenance (Tier 1) | P11 | IBM AssetOpsBench + Claude + Odoo | 8–14w | $200k–$700k |
+| LATAM OBD compliance (Denatran/RUPE) | P13 | OBD2 MCP + Claude Haiku | 2–4w | $30k–$80k |

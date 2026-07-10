@@ -1,143 +1,84 @@
-# Verticales de partida — Automotive
+# 🏭 Vertical Solutions — Automotive
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-10 (v3 — Eclipse SDV Stack añadido como vertical SDV/in-vehicle, Fleetbase "best OSS 2026", BMW OS X referenciado)
+> Real platforms: start with something functional, add an AI agent layer on top.
+> Updated: 2026-07-10 (v4)
 
-## Fleet Management y Telemática
+## Recommended Platforms
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **Traccar** | Apache-2.0 | [github.com/traccar/traccar](https://github.com/traccar/traccar) | Java + MySQL/PostgreSQL + Web UI | GPS tracking de flota: 2000+ dispositivos, 200+ protocolos. REST API + WebSocket. |
-| **Fleetbase** | AGPL-3.0 | [github.com/fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | PHP/Laravel + Vue.js + PostgreSQL | Mejor plataforma OSS fleet management 2026 (Fleetbase Blog). OS modular de logística: fleet, fulfillment, warehouse. No per-driver fee. |
-| **OpenRemote** | Apache-2.0 | [openremote.io/fleet-telematics-open-source](https://openremote.io/fleet-telematics-open-source/) | Java + TypeScript + TimescaleDB | Plataforma IoT open 100% para fleet telematics: live tracking, geofences, trip reports, OBD-II, alertas. Self-hosted. |
-| **OpenGTS** | Apache-2.0 | [opengts.org](http://www.opengts.org) | Java + MySQL + Tomcat | Fleet tracking web clásico. Maduro, estable. Base para tracking legacy. |
-
-## ERP / DMS (Dealer Management System)
-
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **Odoo** | LGPL-3.0 | [github.com/odoo/odoo](https://github.com/odoo/odoo) | Python + PostgreSQL + JS | Módulos: Ventas, CRM, Inventario, Taller, Compras. Ideal DMS con AI layer. LATAM ampliamente adoptado. |
-| **ERPNext** | GPL-3.0 | [github.com/frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe + MariaDB + Vue | Módulo Service Management para talleres. LATAM popular (Spanish UI). |
-| **Apache OFBiz** | Apache-2.0 | [github.com/apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java + Derby/PostgreSQL | ERP maduro con módulos CRM, inventory, manufactura. Customizable. |
-| **Flectra** | LGPL | [flectrahq.com](https://flectrahq.com/industry/open-source-solution-for-automotive-industry-107) | Python/Odoo fork | Fork Odoo con vertical automotriz preconfigurado. Taller, ventas, CRM. |
-
-## Eclipse SDV Stack — Software Defined Vehicle (NUEVO v3)
-
-> Stack de middleware open source para crear Vehicle Apps containerizadas in-vehicle con AI. OEMs y Tier 1 lo adoptan en 2026 como estándar de interoperabilidad. 100% Apache-2.0.
-
-| Componente | Licencia | URL | Descripción |
-|-----------|----------|-----|-------------|
-| **Eclipse KUKSA** | Apache-2.0 | [eclipse-kuksa.github.io](https://eclipse-kuksa.github.io/kuksa-website/) | Data Broker de señales VSS. gRPC + MQTT. La "POSIX layer" del SDV — lee CAN bus, ADAS, sensores del vehículo. |
-| **Eclipse Velocitas** | Apache-2.0 | [eclipse.dev/velocitas](https://eclipse.dev/velocitas/) | Toolchain Vehicle Apps: templates, SDK Python/C++, CI/CD containerizado, Velocitas CLI. 28 repos. |
-| **Eclipse Leda** | Apache-2.0 | [eclipse-leda.github.io](https://eclipse-leda.github.io/leda/) | Distro Linux mínima para SDV edge. OTA updates, container orchestration, Fluentd logging. |
-| **Eclipse Autowrx / SDV Runtime** | Apache-2.0 | [github.com/eclipse-autowrx/sdv-runtime](https://github.com/eclipse-autowrx/sdv-runtime) | Runtime de referencia SDV para prototipado. KUKSA + Leda + Vehicle Apps. |
-| **SDV Blueprints** | Apache-2.0 | [github.com/eclipse-sdv-blueprints](https://github.com/eclipse-sdv-blueprints) | Blueprints E2E: in-vehicle edge → fleet backend con Eclipse SDV. |
-
-**Flujo de integración con AI**:
-```
-CAN Bus / Sensores → KUKSA Data Broker (VSS) → Vehicle App (Velocitas SDK)
-    → Claude API (análisis en edge o nube) → Alerta / Acción / HMI update
-```
-
-**Cuándo usar**: Cuando el cliente necesita construir software in-vehicle (no solo fleet mgmt externo). OEMs Tier 1, startups SDV, proyectos de cockpit inteligente.
-
-## Diagnóstico y OBD
-
-| Plataforma | Licencia | URL | Descripción |
-|------------|----------|-----|-------------|
-| **pyobd** | GPL-2.0 | [github.com/barracuda-fsh/pyobd](https://github.com/barracuda-fsh/pyobd) | Python library para leer datos OBD-II desde ECU. 1.8k★. Diagnóstico vehicular. |
-| **python-OBD** | GPL-3.0 | [github.com/brendan-w/python-OBD](https://github.com/brendan-w/python-OBD) | Async OBD-II + ELM327. DTCs, sensores en tiempo real. Base para AI predictive maintenance. |
-| **freediag** | GPL-2.0 | [github.com/fenugrec/freediag](https://github.com/fenugrec/freediag) | Herramienta de diagnóstico vehicular multi-protocolo. C. Linux/macOS/Windows. |
-
-## ADAS / AD Stacks Production-Ready
-
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **Autoware Vision Pilot** | Apache-2.0 | [github.com/autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | ROS 2 + E2E AI | Stack ADAS L2 completamente open source, production-ready (abr 2026). Primera alternativa OSS seria a Tesla FSD para OEMs. |
-| **openpilot** | MIT | [github.com/commaai/openpilot](https://github.com/commaai/openpilot) | Python + CAN bus | ADAS L2+ en 325+ vehículos. 300M+ millas acumuladas. Hardware: comma 4. |
-| **Apollo** | Apache-2.0 | [github.com/ApolloAuto/apollo](https://github.com/ApolloAuto/apollo) | C++/Python/ROS | Plataforma AV completa Baidu. Apollo 11.0 (jun 2026). Producción en China. |
-
-## Simulación AV (para testing)
-
-| Plataforma | Licencia | URL | Descripción |
-|------------|----------|-----|-------------|
-| **CARLA** | MIT | [github.com/carla-simulator/carla](https://github.com/carla-simulator/carla) | Simulador AV fotorrealista. Unreal Engine. 14.1k★. CARLA Leaderboard 2.1 (mar 2026). |
-| **LGSVL/SVL** | Apache-2.0 | [github.com/lgsvl/simulator](https://github.com/lgsvl/simulator) | Simulador AV de LG Electronics. Unity. Integra ROS/Autoware. |
-| **AirSim** | MIT | [github.com/microsoft/AirSim](https://github.com/microsoft/AirSim) | Simulador Microsoft para drones y vehículos. Unreal/Unity. |
-
-## EV y Carga
-
-| Plataforma | Licencia | URL | Descripción |
-|------------|----------|-----|-------------|
-| **OCPP** (Open Charge Point Protocol) | Apache-2.0 | [github.com/nickvdyck/OCPP.Net](https://github.com/nickvdyck/OCPP.Net) | Protocolo abierto estándar para EV charging stations. Base para redes de carga. |
-| **OpenEVSE** | MIT | [github.com/OpenEVSE/ESP32_WiFi_V4.x](https://github.com/OpenEVSE/ESP32_WiFi_V4.x) | Controlador EVSE open source. ESP32. Carga inteligente. |
-| **RISE-V2G** | MIT | [github.com/SwitchEV/RISE-V2G](https://github.com/SwitchEV/RISE-V2G) | Implementación V2G (Vehicle-to-Grid) ISO 15118. Bidirectional charging. |
+| Platform | License | Repo / URL | Stack | Use Case | AI Extension Point |
+|----------|---------|------------|-------|----------|--------------------|
+| **Odoo Fleet** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) — Fleet module | Python/OWL | Dealership ERP + Fleet management: vehicles, contracts, fuel, maintenance scheduling, driver mgmt | Add predictive maintenance agent (OBD → Odoo maintenance order); integrate Claude for NL service booking |
+| **Fleetbase** | AGPL-3.0 | [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | PHP/Laravel + Ember.js | Modular logistics & supply chain OS: fleet tracking, dispatch, delivery, warehouse, API platform | REST API + webhook hooks → LangGraph agent for route optimization, ETA prediction, anomaly detection |
+| **Traccar** | Apache-2.0 | [traccar/traccar](https://github.com/traccar/traccar) | Java | Open-source GPS tracking platform; 200+ GPS protocols; real-time position, geofencing, reports | Stream location events to LLM agent; add anomaly detection + predictive route failure |
+| **OpenPilot** | MIT | [commaai/openpilot](https://github.com/commaai/openpilot) | Python/C++ | Consumer ADAS platform; ACC + ALC + FCW + LDW; 200+ car makes | Add LLM-based intent prediction; voice command layer via MCP; fleet monitoring dashboard |
+| **Eclipse SDV Stack** | Apache-2.0 | [eclipse-kuksa](https://github.com/eclipse-kuksa) / [eclipse-velocitas](https://github.com/eclipse-velocitas) | Rust/Python/Java | OEM-grade Software-Defined Vehicle platform: in-vehicle apps, VSS data broker, OTA updates, cloud connectivity | KUKSA Databroker → MQTT → LangGraph agents; Eclipse LMOS multi-agent OS layer |
+| **Fleetms** | MIT | [jmnda-dev/fleetms](https://github.com/jmnda-dev/fleetms) | Full-stack JS | Open-source fleet maintenance & management: work orders, service records, fuel tracking | Lightweight: add Claude API for NL maintenance scheduling; integrate OBD2 MCP |
+| **DealerSocket / VinSolutions** | Commercial | — | Various | Industry-standard Dealer Management Systems (DMS); closed source but offer APIs | Build MCP server wrapper around DMS API; Claude agent for NL inventory search + lead scoring |
 
 ---
 
-## Cómo customizar con AI
+## How to Add an AI Layer
 
-### Estrategia 1: Traccar + Claude MCP para Fleet Intelligence
-```python
-# traccar_mcp.py — MCP server sobre API Traccar
-from mcp.server import FastMCP
-import httpx
-
-mcp = FastMCP("traccar-fleet")
-TRACCAR_URL = "http://localhost:8082/api"
-
-@mcp.tool()
-async def get_fleet_positions() -> dict:
-    """Obtiene posiciones actuales de toda la flota."""
-    async with httpx.AsyncClient() as client:
-        r = await client.get(f"{TRACCAR_URL}/positions", auth=("admin", "admin"))
-        return r.json()
-
-@mcp.tool()
-async def get_device_events(device_id: int, days: int = 7) -> list:
-    """Historial de eventos de un vehículo."""
-    async with httpx.AsyncClient() as client:
-        r = await client.get(
-            f"{TRACCAR_URL}/events",
-            params={"deviceId": device_id, "type": "alarm"},
-            auth=("admin", "admin")
-        )
-        return r.json()
+### Pattern A: Diagnostics-First (OBD + MCP → Platform)
 ```
-
-### Estrategia 2: Eclipse SDV Vehicle App + Claude para In-Vehicle AI
-```python
-# vehicle_ai_app.py — Vehicle App sobre Eclipse SDV (KUKSA + Velocitas)
-from vehicle import Vehicle, VehicleApp
-from sdv.vss import Vehicle as VSS
-from anthropic import Anthropic
-
-class AIVehicleApp(VehicleApp):
-    """Vehicle App que analiza señales del vehículo con Claude."""
-
-    def __init__(self):
-        super().__init__()
-        self.vehicle = Vehicle()
-        self.client = Anthropic()
-
-    async def on_start(self):
-        """Subscribe a señales VSS relevantes."""
-        await self.vehicle.OBD.EngineLoad.subscribe(self.on_engine_load_change)
-        await self.vehicle.Chassis.Brake.PedalPosition.subscribe(self.on_brake)
-
-    async def on_engine_load_change(self, data):
-        """Detecta anomalías en carga del motor."""
-        load = data.value
-        if load > 85:  # threshold configurable
-            diagnosis = await self.analyze_with_claude(f"Engine load: {load}%")
-            await self.publish_event("vehicle.ai.alert", {"diagnosis": diagnosis, "value": load})
-
-    async def analyze_with_claude(self, signal_context: str) -> str:
-        response = self.client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=200,
-            messages=[{"role": "user", "content": f"Vehicle signal anomaly: {signal_context}. Brief diagnosis (50 words):"}]
-        )
-        return response.content[0].text
+OBD-II adapter (ELM327)
+       ↓
+obd2-mcp-server (MIT)         ← $15 hardware, any car 1996+
+       ↓
+Claude / LLM agent             ← reads DTCs, sensor data
+       ↓
+Odoo/Fleetms work order        ← auto-creates maintenance ticket
+       ↓
+Technician dashboard
 ```
+**Time:** 2–4 weeks | **Cost:** $30k–$80k | **ROI:** $22k/min prevented downtime
+
+### Pattern B: SDV Vehicle App (Eclipse Stack)
+```
+Physical Vehicle
+       ↓
+KUKSA Databroker (VSS signals)
+       ↓
+Eclipse Velocitas Vehicle App (Python)
+       ↓
+LLM reasoning layer (Claude Haiku)
+       ↓
+Eclipse LMOS multi-agent orchestration
+       ↓
+Cloud dashboard / OTA actions
+```
+**Time:** 5–8 weeks | **Cost:** $200k–$600k | **Target:** OEM Tier-1 integration
+
+### Pattern C: Fleet Intelligence (Fleetbase + AI)
+```
+Fleetbase API (fleet position, orders, drivers)
+       ↓
+LangGraph agent (route optimizer + anomaly detector)
+       ↓
+Claude Sonnet (NL report generation)
+       ↓
+WhatsApp / Dashboard alerts
+```
+**Time:** 4–6 weeks | **Cost:** $80k–$200k | **Target:** LATAM logistics operators
+
+---
+
+## OEM Platforms to Know (Commercial — context for clients)
+
+| OEM Platform | AI Stack | What Globant Can Add |
+|--------------|----------|----------------------|
+| **BMW OS X** (iX3 Neue Klasse) | Alexa+ native, 20× compute | Eclipse LMOS integration, custom skill development |
+| **Stellantis STLA Brain** | Applied Intuition Vehicle OS | Cabin Intelligence customization, LATAM market personalization |
+| **Toyota Snapdragon Digital Chassis** | Qualcomm AI Hub | Edge inference Vehicle Apps, Japanese → LATAM localization |
+| **Cerence xUI / CaLLM** | Swappable LLM (Claude-compatible) | CaLLM → Claude swap, custom voice UX |
+
+---
+
+## LATAM Vertical Opportunity Map
+
+| Country | Automotive Base | AI Entry Point |
+|---------|----------------|----------------|
+| **Brazil** | VW, GM, Stellantis, Toyota plants | Predictive maintenance for assembly lines; OBD AI for Denatran compliance |
+| **Argentina** | Renault, VW, Toyota, Stellantis | First in LATAM with federal AV regulations → pilot site for AV agent testing |
+| **Mexico** | Nissan, GM, Ford, BMW, Honda | Supply chain agent (USMCA documentation + logistics) |
+| **Colombia/Chile** | Growing mobility-as-a-service | Fleetbase + AI for ride-hailing + electric bus fleet management |
