@@ -1,7 +1,83 @@
 # 📈 Agentes Enterprise Trending — Julio 2026
 
 > Señales calientes esta semana. Foco en novedades con impacto real para proyectos Globant.
-> Última actualización: 2026-07-09 v3
+> Última actualización: 2026-07-10 v4
+
+---
+
+## 🔥 NUEVO — Señales adicionales semana 2026-07-10 (v4)
+
+### 15. Deloitte State of AI Enterprise 2026 — El gap entre adopción y producción
+**Señal:** Deloitte publicó su reporte anual "State of AI in the Enterprise 2026". Principales hallazgos:
+- **60% del workforce** ahora tiene herramientas AI sancionadas (era <40% en 2025, +50% en un año)
+- Solo **25% de las organizaciones** han movido ≥40% de sus experimentos AI a producción
+- **77% factorean país de origen** del vendor AI en su selección (Sovereign AI es tendencia real, no solo discurso)
+- Solo **20% de las empresas** dicen que su talento está "altamente preparado" para AI
+- **85%** esperan customizar agentes AI para sus necesidades específicas de negocio
+- **58%** ya tienen algún uso de Physical AI; 80% lo tendrán en 2 años
+
+**Por qué importa para Globant:** El talento gap (20% "altamente preparado") es la ventana de oportunidad más clara. Globant puede posicionarse como el "equipo de ejecución AI-ready" que tienen los clientes que no pueden contratar. Los 3 gaps críticos: talent (20%), production scaling (25%), sovereign/data sovereignty (77%) son los 3 servicios diferenciadores de Globant.
+
+**Fuente:** [Deloitte State of AI Enterprise 2026](https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html)
+
+---
+
+### 16. IBM watsonx Orchestrate — Agentic Control Plane GA (Jun/Jul 2026)
+**Señal:** IBM lanzó el Agentic Control Plane dentro de watsonx Orchestrate (GA Jun 2026, disponible en AWS e IBM Cloud Jul 2026). La propuesta es radical: **un panel centralizado para operar, gobernar y escalar TODOS los agentes AI de la empresa**, sin importar con qué framework fueron construidos.
+
+Soporta nativamente: IBM native agents, Langflow agents, LangGraph agents, A2A protocol agents. Incluye:
+- Dashboard operacional con alertas priorizadas
+- Audit logging centralizado y policy enforcement
+- Catálogo compartido de agentes reutilizables
+- Scheduling nativo para agentes recurrentes
+- Natural language operations agent para diagnóstico
+
+**Por qué importa:** IBM tiene footprint enorme en enterprise legacy. Para clientes IBM, este es el path de menor fricción hacia agent governance. Para Globant: construir agentes (LangGraph, Langflow) que el cliente luego gestiona en watsonx Orchestrate reduce la carga de operaciones y acelera el deal close.
+
+**Fuente:** [IBM watsonx Orchestrate Agentic Control Plane](https://www.ibm.com/new/announcements/introducing-the-agentic-control-plane)
+
+---
+
+### 17. Sovereign AI — 77% de empresas factorean origen del vendor (Jul 2026)
+**Señal:** Deloitte 2026: **77% de las empresas** ahora incluyen el país de origen como criterio en la selección de vendors AI. Gartner Predicts 2026: para 2030, >75% de empresas europeas y de Medio Oriente geopatriarcalizarán sus cargas de trabajo AI para reducir riesgo geopolítico.
+
+**Economics de self-hosting** (arXiv 2026):
+- Inferencia self-hosted: **$0.001–$0.04 por millón de tokens** (en electricidad)
+- Cloud API (GPT-4/Claude): **$2.50–$15.00 por millón de tokens**
+- Diferencial: **75x–15,000x** más barato en self-hosted a escala
+
+**Por qué importa para Globant:** El driver de self-hosted no es solo compliance — también es económico. Para clientes con volumen alto (millones de requests/día), la ecuación cambia a favor de self-hosted a partir de ~$50k/mes de gasto en API. Globant puede ofrecer "Sovereign AI Stack": Ollama + Dify + Langfuse + Keycloak, todo on-premise o en cloud privado del cliente.
+
+**Stack OSS soberano:** Ollama (self-hosted models) + LiteLLM (proxy) + Dify (UI + workflows) + Langfuse (audit) + Keycloak (AuthN)
+
+---
+
+### 18. Vertical-First AI — Donde están los presupuestos enterprise (Jul 2026)
+**Señal:** Tech Radar Jul 2026 y múltiples reportes convergen: **"Vertical AI is where budgets are going"**. Tools específicas de industria (healthcare, finance, engineering, education, security) están ganando contra tools genéricas.
+
+Datos:
+- **95% pilotos AI en LATAM**, pero <25% a escala industrial (Tech Radar Jul 2026)
+- **78% adopción** pero **74% sin escalar** — el problema es la generalidad, no la tecnología
+- Enterprises donde el liderazgo senior moldea activamente la governance AI logran "significativamente mayor valor de negocio" (Deloitte)
+
+**Por qué importa:** El cliente quiere "agente para mi industria", no "agente genérico". Globant ya tiene verticales (financial services, healthcare, retail) — el mensaje correcto es "AI agents para TU industria, ya configurados con los workflows y compliance de tu sector", no "un framework de agentes que puedes customizar".
+
+**Señal Akeneo (Jul 8 2026):** Akeneo lanzó **Agentic Ziggy** — capa de orquestación agéntica para Product Cloud (PIM) con specialist agents para data modeling, schema mapping, enrichment y quality checks. Señal de que cada plataforma enterprise está añadiendo orchestración agéntica propia.
+
+---
+
+### 19. agentic-enterprise (Git-as-Control-Plane) — Nuevo patrón emergente
+**Señal:** El repo [wlfghdr/agentic-enterprise](https://github.com/wlfghdr/agentic-enterprise) (MIT) propone un operating model donde Git es el plano de control: "Observe → Decide → Execute → Ship → Learn → Repeat". Cada decisión empresarial es un PR merge; cada cambio es diffable, reversible y atribuible.
+
+**Por qué importa:** Este patrón tiene propiedades únicas para enterprise:
+- **Audit trail nativo**: Git history = audit log de decisiones
+- **Reversibilidad**: `git revert` revierte cualquier decisión de agente
+- **Atribución**: cada cambio tiene autor (humano o agente) y timestamp
+- **EU AI Act alineado**: Article 12 (event logging) satisfecho por Git history
+
+**Oportunidad Globant:** Para clientes que necesitan "AI governance from day 1", el patrón Git-as-control-plane es una propuesta diferenciadora. Se puede combinar con LangGraph (ejecución) + Langfuse (trazabilidad) + GitHub Actions (pipeline de CI/CD de decisiones).
+
+**Repo:** [wlfghdr/agentic-enterprise](https://github.com/wlfghdr/agentic-enterprise) MIT
 
 ---
 
@@ -94,7 +170,7 @@
 
 ---
 
-### 6. EU AI Act: enforcement total Aug 2, 2026 (25 días)
+### 6. EU AI Act: enforcement total Aug 2, 2026 (23 días)
 **Señal:** El EU AI Act entra en vigencia plena el 2 de agosto de 2026. Sistemas high-risk (Annex III) necesitan documentación de riesgo, audit trails, conformidad continua. OpenMetadata + DataHub se posicionan como "data catalog for AI compliance".
 
 **Por qué importa:** Clientes europeos (y LATAM con reguladores que miran a UE) necesitan governance stack urgente. Ventana de 25 días = proyectos urgentes de compliance.
@@ -132,6 +208,18 @@
 **Por qué importa:** La velocidad de adopción supera la de governance. EU AI Act enforcement en **24 días** (Aug 2). Empresas con agentes en producción sin audit trails están en violación. Oportunidad urgente: governance retrofit para agentes existentes.
 
 **Señal de monitoreo:** [Agentic AI Institute](https://agenticaiinstitute.org/agentic-ai-enterprise-adoption-2026-governance-gap/)
+
+---
+
+## 📊 Tabla de señales 2026-07-10
+
+| # | Señal | Fuente | Impacto Globant |
+|---|-------|--------|------------------|
+| S15 | Deloitte: 60% workforce con AI tools (+50% YoY); 20% talento preparado | Deloitte 2026 | Talent-gap como servicio |
+| S16 | IBM watsonx Orchestrate Agentic Control Plane GA (Jun/Jul 2026) | IBM Think 2026 | Clientes IBM: onboarding rápido |
+| S17 | Sovereign AI: 77% factorean origen de vendor; self-hosted 75x-15,000x más barato | Deloitte + arXiv | Stack soberano = propuesta diferenciadora |
+| S18 | Vertical-First AI gana vs genérico; 95% LATAM pilotando, <25% a escala | Tech Radar Jul 2026 | Go-to-market por verticales |
+| S19 | agentic-enterprise (MIT): Git como control plane de agentes + EU AI Act compliance nativo | GitHub 2026 | Patrón para clients regulados |
 
 ---
 

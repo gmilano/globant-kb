@@ -1,7 +1,7 @@
 # 📡 Tendencias — Enterprise AI
 
 > Tendencias con evidencia real. Cada trend tiene un dato concreto y una implicación para Globant.
-> Última actualización: 2026-07-09 v3
+> Última actualización: 2026-07-10 v4
 
 ---
 
@@ -32,7 +32,7 @@
 
 ---
 
-## Trend 4: EU AI Act enforcement total Aug 2, 2026 (25 días)
+## Trend 4: EU AI Act enforcement total Aug 2, 2026 (23 días)
 **Evidencia:** EU AI Act entra en vigencia plena el 2 de agosto de 2026. Sistemas high-risk (Annex III: empleos, crédito, salud, educación, biometría, infraestructura crítica) requieren: evaluación de conformidad, documentación técnica, gestión de riesgos continua, registro EU.
 
 **Impacto:** Clientes europeos (y LATAM con operaciones en Europa) necesitan governance stack urgente. OpenMetadata + Langfuse + OPA = el stack OSS preferido para compliance. Ventana de proyectos urgentes en los próximos 25 días.
@@ -175,10 +175,39 @@
 
 ---
 
+## Trend 19: Sovereign AI — Dato de Origen del Vendor como Criterio de Compra (Jul 2026)
+**Evidencia:** Deloitte State of AI Enterprise 2026: **77% de las empresas** incluyen el país de origen del vendor AI en sus criterios de selección. Gartner Predicts 2026: >75% de empresas europeas y Medio Oriente geopatriarán workloads AI antes de 2030 (desde <5% actual). arXiv 2026: self-hosted inference = $0.001–$0.04/M tokens vs cloud API $2.50–$15/M tokens (75x–15,000x más económico a escala).
+
+**Impacto:** El Sovereign AI no es solo un trend de seguridad — tiene un componente económico poderoso. A partir de ~$50k/mes de gasto en API, la ecuación de self-hosted se vuelve racional. Reguladores (LGPD, EU AI Act, DORA) son el catalizador legal; la economía es el catalizador de adopción masiva.
+
+**Stack Globant "Sovereign Enterprise AI":**
+- **Inferencia local:** Ollama (MIT) + LiteLLM proxy (MIT) — modelos Llama/Mistral/Phi en HW propio
+- **Workflow:** Dify self-hosted (Apache-2.0) + LangGraph (MIT)
+- **Observabilidad:** Langfuse self-hosted (MIT) — Art. 12 EU AI Act
+- **AuthN/AuthZ:** Keycloak (Apache-2.0)
+- **Data catalog:** OpenMetadata (Apache-2.0)
+
+**Deal size típico:** $150k–$600k (on-premise) | $80k–$300k (cloud privado del cliente)
+
+---
+
+## Trend 20: Vertical-First AI — El mercado premia especialización sobre genericidad (2026)
+**Evidencia:** Tech Radar Jul 2026: tools de AI específicas de industria (healthcare, finance, engineering, education, security) están ganando deals contra tools genéricas. Deloitte 2026: enterprises donde liderazgo senior moldea governance AI activamente logran "significativamente mayor valor de negocio". LATAM: 95% pilotando AI pero <25% a escala industrial — el gap NO es la tecnología, es la falta de especialización.
+
+**Impacto:** Los clientes enterprise quieren "agente para mi industria" configurado con sus workflows, compliance y terminología, no un framework que deben customizar ellos. Este shift favorece a firmas como Globant que ya tienen verticales construidas (financial services, healthcare, retail, automotive).
+
+**Señal adicional (Jul 8 2026):** Akeneo lanzó **Agentic Ziggy** — capa agéntica dentro de su Product Cloud (PIM líder de mercado) con specialist agents para data modeling, schema mapping, enrichment y quality checks. Señal de que cada plataforma SaaS vertical está añadiendo orquestación agéntica propia — y necesita socios de implementación.
+
+**Posicionamiento Globant:** "AI agents para TU industria" con aceleradores pre-configurados por vertical. No vender "un framework", sino "el agente de ventas para retail LATAM" o "el agente de compliance para banca regulada en Brasil". Los aceleradores verticales permiten go-to-market 40% más rápido.
+
+**KPI a rastrear:** % de propuestas Globant que llevan el nombre de la vertical del cliente en el título (vs "AI agent project"). Este KPI mide diferenciación efectiva.
+
+---
+
 ## Timeline de señales clave 2026
 
 | Fecha | Evento | Impacto |
-|-------|--------|---------|
+|-------|--------|--------|
 | 2026-01 | n8n 2.0: 70+ AI nodes + MCP nativo | Workflow + AI convergence |
 | 2026-04-02 | Microsoft Agent Framework 1.0 GA | Framework consolidation |
 | 2026-04 | Dify $30M + 138k ★ | Visual builder maturation |
@@ -191,7 +220,8 @@
 | 2026-07-01 | Gartner: $234B SaaS at risk from agentic AI | Enterprise disruption signal |
 | 2026-07-06 | Claude Fable 5: 95.5% SWE-bench | Coding agents frontier |
 | 2026-07-07 | OpenClaw: 210k+ ★ (fastest-growing repo ever) | Agent-on-messaging explosion |
-| 2026-07-09 | TODAY: 24 días para EU AI Act enforcement. Governance gap 60% | Compliance urgency |
+| 2026-07-09 | Agentic AI Institute: 72% en producción; 60% governance gap | Compliance urgency |
+| 2026-07-10 | TODAY: 23 días para EU AI Act enforcement. Deloitte: 20% talento preparado. Sovereign AI 77% orgs | Talent gap + Sovereignty |
 | 2026-early Jul | MAF Hosted Agents GA (Foundry Agent Service) | Managed agent runtime |
 | 2026-08-02 | EU AI Act full enforcement | Compliance deadline |
 | 2026-Q4 | Gartner target: 40% enterprise apps con AI agents | Adoption milestone |

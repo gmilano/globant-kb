@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Enterprise AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09 v3
+> Última actualización: 2026-07-10 v4
 
 ---
 
@@ -13,6 +13,8 @@
 | Agentic AI market 2025 (base) | $7.29B | Fortune Business Insights | 2026 |
 | Agentic AI market 2026 | $9.14B | Fortune Business Insights | 2026 |
 | Agentic AI market 2034 (proyección) | $139.19B (CAGR 40.50%) | Fortune Business Insights | 2026 |
+| AI Agents market 2033 (proyección) | $182.9B (CAGR 49.6% 2026-2033) | Grand View Research | Jul 2026 |
+| AI Agents market 2031 (Mordor) | $57.42B (CAGR 42.14%) | Mordor Intelligence | 2026 |
 | Enterprise app software at risk from agentic AI (2030) | $234B | Gartner | Jul 1 2026 |
 | % enterprises adoptando AI agents | 79% | Accelirate 2026 | 2026 |
 | % enterprises con AI agents en producción real | 72% (Agentic AI Institute) / 11% full-scale | Agentic AI Institute + Accelirate | Jul 2026 |
@@ -23,6 +25,12 @@
 | Supply Chain Management software con Agentic AI (2030) | $53B | Gartner | Abr 2026 |
 | % proyectos agentic AI cancelados para 2027 | 40%+ | Gartner | 2026 |
 | % PoCs AI que nunca llegan a producción | 88% | IDC 2026 | 2026 |
+| % workforce con AI tools sancionadas | 60% (vs <40% en 2025) | Deloitte State of AI 2026 | Mar 2026 |
+| % orgs con ≥40% experimentos AI en producción | 25% (54% en 3–6 meses) | Deloitte State of AI 2026 | Mar 2026 |
+| % empresas aumentando inversión AI | 84% | Deloitte State of AI 2026 | Mar 2026 |
+| % empresas con talento "altamente preparado" AI | 20% (el gap más grande) | Deloitte State of AI 2026 | Mar 2026 |
+| % orgs que factorean origen de vendor AI (Sovereign AI) | 77% | Deloitte State of AI 2026 | Mar 2026 |
+| LATAM: pilotos AI activos vs escala industrial | 95% pilotando; <25% a escala | Tech Radar Jul 2026 | Jul 2026 |
 | LATAM AI market 2026 | $40.50B | MarketDataForecast | 2026 |
 | LATAM AI market 2034 | $504.71B (CAGR 37.07%) | MarketDataForecast | 2026 |
 | LATAM enterprise AI deployment rate | 47% | Numoru State of Enterprise AI LATAM 2026 | 2026 |
@@ -43,20 +51,21 @@
 | Klarna AI agent | $60M ahorrado + 853 FTEs equiv. | Q3 2025, público |
 | JPMorgan AI use cases en producción | 450+ diarios | Público |
 | % organizaciones con impacto EBIT medible | 39% | Gap vs 171% expectativa de ROI |
+| Costo inferencia self-hosted vs cloud API | $0.001–$0.04/M tokens vs $2.50–$15/M | arXiv 2026 (75x–15,000x gap) |
 
 ---
 
 ## Players globales Enterprise AI
 
 | Empresa | Tipo | Fortaleza | Open Source Strategy | Debilidad |
-|---------|------|-----------|---------------------|-----------|
+|---------|------|-----------|---------------------|----------|
 | Microsoft | Platform + tools | Azure + MAF 1.0 + Copilot Studio | AG2 + SK (MIT) | Vendor lock-in Azure |
 | Salesforce | CRM + Agentforce | Agentforce platform, 150k+ clientes | Einstein (parcial) | Precios altos; LATAM penetración media |
 | ServiceNow | ITSM + platform | AI Now + automation workflows | Minimal | Solo ITSM; costoso para PYME |
 | SAP | ERP global | S/4HANA + Joule AI copilot | OpenUI5 | Implementaciones lentas y caras |
 | Google | Cloud + AI models + CLI | Vertex AI, Gemini, ADK (Apache-2.0), **Gemini CLI (Apache-2.0, 80k ★, Apr 2026)** | Gemini CLI Apache-2.0, ADK Apache-2.0 | CLI open-source atrae devs; fuerte en cloud |
 | AWS | Cloud + AI services | Bedrock, agents, Q Business | Minimal | Servicios propietarios |
-| IBM | Legacy + AI | WatsonX, DataStax/Langflow acquisition | OpenProject, Langflow (MIT) | Reputación legacy |
+| IBM | Legacy + AI | WatsonX, DataStax/Langflow acquisition. **watsonx Orchestrate Agentic Control Plane GA (Jun/Jul 2026)**: centraliza IBM+LangGraph+Langflow+A2A agents bajo un control plane. | OpenProject, Langflow (MIT) | Reputación legacy; pero Orchestrate es diferenciador real |
 | Workday | HCM + Finance | Workday AI, agentic skills 2026 | None | Solo HCM/Finance |
 | Oracle | ERP + DB | Oracle AI Agents, 23c AI Vector | None | Costos y complejidad |
 | Anthropic | AI models + platform | Claude (líder benchmarks), Claude Code, **Azure GA + GB300 Blackwell Ultra (Jul 2026)**. Claude Fable 5: 95.5% SWE-bench (Jul 6). | claude-code open protocols, MCP | Ganando enterprise footprint vía Azure + NVIDIA |
@@ -78,7 +87,7 @@
 ### Brechas específicas LATAM (oportunidades Globant)
 
 | Brecha | Países afectados | Potencial | Deal size típico |
-|--------|-----------------|-----------|-----------------|
+|--------|-----------------|-----------|------------------|
 | Agentic ERP (Odoo/ERPNext + AI) para PYME | MX, AR, CO, CL, PE | Alto | $80k–$500k |
 | AI sobre sistemas legacy (SAP, iDempiere, Tango) | BR, AR, MX | Muy alto | $300k–$2M |
 | Compliance AI EU Act / LGPD (data catalog + audit) | BR, CL, CO | Alto | $150k–$800k |
@@ -105,6 +114,9 @@
 | Multi-Agent Sales Intelligence | CrewAI + SuiteCRM + Claude | $100k–$400k | 4–8 semanas |
 | Legacy System AI Layer | LangGraph + MCP + existing ERP (SAP/Oracle) | $300k–$1.5M | 8–20 semanas |
 | LATAM LGPD Self-Hosted | Ollama + Dify + Keycloak + Langfuse Docker | $80k–$350k | 4–10 semanas |
+| Sovereign AI Enterprise Stack | Ollama + LiteLLM + LangGraph + Langfuse + OpenMetadata on-prem (EU AI Act Art.12 + LGPD) | $150k–$600k | 6–12 semanas |
+| Vertical AI Accelerator | Agentes pre-configurados por industria (retail/finance/healthcare) + MCP tools verticales | $100k–$400k | 4–8 semanas |
+| IBM watsonx Orchestrate Integration | LangGraph + Langflow agents desplegados y gobernados en watsonx Orchestrate para clientes IBM | $200k–$800k | 8–14 semanas |
 
 ---
 

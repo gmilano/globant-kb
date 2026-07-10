@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Enterprise
 
 > Agentes y herramientas AI open source para la industria Enterprise. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09 v3
+> Última actualización: 2026-07-10 v4
 
 ## Agentes y herramientas destacadas
 
@@ -22,6 +22,8 @@
 | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | Microsoft Agent Framework 1.0 GA (Apr 2, 2026). AutoGen + Semantic Kernel unificados. BUILD 2026 (Jun): CodeAct (Python in Hyperlight micro-VMs) + Hosted Agents GA. Python + .NET. | 18k |
 | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | Terminal agentic CLI de Google. Apr 2026. ReAct loop, MCP support nativo, 1M context window. Alternativa OSS a Claude Code. Crecimiento explosivo. | 80k+ |
 | [openclaw-org/openclaw](https://github.com/openclaw-org/openclaw) | MIT | Agente personal multi-canal (WhatsApp, Telegram, Discord, iMessage, Signal). Breakout 2026: de 9k a 210k+ ★ en semanas. Sam Altman endorsement. | 210k+ |
+| [wlfghdr/agentic-enterprise](https://github.com/wlfghdr/agentic-enterprise) | MIT | Operating model para correr una empresa con Git + Agents. Loop: Observe→Decide→Execute→Ship→Learn. Cada decisión es un PR merge; cada cambio es diffable, reversible y auditable. Ideal para compliance EU AI Act. | ★ emergente |
+| [MaxKB](https://github.com/1Panel-dev/MaxKB) | GPL-3.0 | Plataforma enterprise de Knowledge Base + Agents. RAG nativo, soporte multi-modelo (OpenAI/Anthropic/Ollama), self-hosted. Rápida adopción enterprise Asia + LATAM 2026. | 15k+ |
 
 ---
 
@@ -47,6 +49,7 @@
 | AgentBench Enterprise | Business process automation tasks | CrewAI + Claude 78% | Apr 2026 |
 | Microsoft Agent Framework | Multi-step enterprise workflows | MAF 1.0 production-validated | Apr 3 2026 |
 | MAF BUILD 2026 | CodeAct aislado en Hyperlight micro-VM | Isolation overhead <5ms por call | Jun 2026 |
+| Grand View Research — AI Agents Global | CAGR global mercado agentes | $10.9B (2026) → $182.9B (2033) CAGR 49.6% | Jul 2026 |
 
 ## ROI Enterprise — Datos concretos 2026
 
@@ -61,6 +64,14 @@
 | % rollouts con ROI positivo en 12 meses | 41% | Industry data 2026 |
 | Klarna AI agent savings | $60M + work of 853 FTEs (Q3 2025) | Public disclosure |
 | JPMorgan AI use cases en producción | 450+ diarios | Public disclosure |
+| % workforce con herramientas AI sancionadas (2026) | 60% (vs <40% en 2025, +50% YoY) | Deloitte State of AI Enterprise 2026 |
+| % orgs que movieron ≥40% experimentos AI a producción | 25% (54% espera hacerlo en 3–6 meses) | Deloitte State of AI Enterprise 2026 |
+| % organizaciones aumentando inversión AI | 84% | Deloitte State of AI Enterprise 2026 |
+| % empresas que esperan customizar agentes para su negocio | 85% | Deloitte State of AI Enterprise 2026 |
+| % que factorean país de origen en selección de vendor AI | 77% (Sovereign AI trend) | Deloitte State of AI Enterprise 2026 |
+| Talento AI "altamente preparado" en enterprise | solo 20% | Deloitte — el gap más grande |
+| Costo inferencia self-hosted vs cloud API | $0.001–$0.04/M tokens vs $2.50–$15/M | arXiv 2026 — Economics of self-hosted LLMs |
+| LATAM: pilotos AI en marcha | 95% pilotando, <25% en escala industrial | Tech Radar Jul 2026 |
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*
