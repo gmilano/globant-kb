@@ -1,103 +1,116 @@
-# 🗺️ Mapa de mercado — Retail & Consumer
+# Market Map — Retail & E-Commerce AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-10 (v10)
+> Key players, market structure, competitive landscape. Focus: LATAM + global.
+> Last updated: 2026-07-10
 
-## Tamaño de mercado AI en Retail
+## Market Size
 
-| Segmento | 2026 | Proyección | CAGR | Fuente |
-|----------|------|-----------|------|--------|
-| AI in Retail (global, broad) | $11.61B → $15.3B | $40.74B (2030) | 23.0% | Grand View Research / Mordor |
-| Agentic AI in Retail + eCommerce | **$60.43B** | $218.37B (2031) | 29.29% | Mordor Intelligence 2026 |
-| Agentic Commerce Market (narrow) | **$7.7B** | $65.5B (2033) | 35.7% | Grand View Research 2026 |
-| GenAI Traffic to Retail Sites | +4,700% YoY | — | — | Adobe Digital Insights 2025-2026 |
+| Segment | 2026 Value | 2030/2031 Projection | CAGR |
+|---------|-----------|----------------------|------|
+| Agentic AI in Retail & E-Commerce | $60.43B | $218.37B (2031) | 29.29% |
+| AI in Retail (broad) | $18.4B | ~$45B (2030) | ~25% |
+| AI platform retail spending | $20.9B | ~$80B (2030) | ~40% |
+| AI agent-redirected commerce | — | $3–5 trillion (2030) | — |
 
-> **Nota:** La diferencia entre $60.43B (Mordor "Agentic AI in Retail+eComm") y $7.7B (GVR "Agentic Commerce") refleja scope: Mordor incluye toda IA aplicada al sector retail incluyendo supply chain, inventory, fraud, workforce; GVR mide solo commerce-facing (search, checkout, personalization, shopping agents).
+**Key stat:** Morgan Stanley predicts ~50% of online shoppers will use AI shopping agents by 2030, accounting for ~25% of their total spend.
 
-## Predicciones clave 2026-2030
+---
 
-- **Morgan Stanley (2026)**: ~50% de compradores online usarán AI shopping agents para 2030, representando 25% del gasto total
-- **McKinsey (2026)**: agentic commerce podría generar $1 trillón en revenue retail US / $3-5 trillones globalmente para 2030
-- **Bain (2026)**: US agentic commerce $300-500B para 2030 = 15-25% de total eCommerce US
-- **J.P. Morgan (2026)**: agentic commerce representará hasta 25% de ventas online US para 2030
-- **IDC**: 30% de bookings/transacciones via AI agents para 2028 (retail + travel combinado)
-- **Stanford AI Index 2025**: 78% de orgs usando AI (vs 55% el año anterior)
+## Global Platform Players
 
-## Protocolo stack agentic commerce (consenso Jul 2026)
+| Company | Role | AI Capabilities | Open Source? |
+|---------|------|-----------------|--------------|
+| **Shopify** | #1 cloud e-commerce | AI Toolkit (Apr 2026), ACP-native, 1M+ merchants | MIT toolkit |
+| **Amazon** | #1 US retail | Alexa for Shopping (Alexa+), 3× purchase conversion vs. Rufus | Closed |
+| **Google** | AI shopping discovery | Gemini Checkout via ACP, Walmart integration live | ACP open |
+| **OpenAI** | AI shopping agent | ChatGPT Shopping runs on ACP, co-author of ACP spec | ACP open |
+| **Stripe** | Payments for agents | ACP co-author + delegated payment handler spec | ACP open |
+| **Meta** | Social commerce + ACP | ACP contributor, Instagram/WhatsApp shopping | ACP open |
+| **NVIDIA** | AI infrastructure | Retail Catalog Enrichment + Intelligent Warehouse blueprints (Jan 2026) | Apache 2.0 |
+| **Walmart** | Brick+click retail | Google Gemini integration live, Sam's Club | Closed |
+| **Perplexity** | AI search+buy | Perplexity Buy built on ACP | Closed |
+| **Microsoft** | AI shopping | Copilot Shopping (ACP-based) | Partial |
 
-| Protocolo | Creador | Función | Status |
-|-----------|---------|---------|--------|
-| **MCP** | Anthropic | Tool integration (agent↔tools) | RC spec Jul 28 2026, 10k+ servers |
-| **A2A** | Google | Agent-to-agent communication | v1.0, >500 orgs adoptaron |
-| **UCP** | Google / Shopify | Machine-to-machine checkout (Google checkout) | Live Google AI Mode + MS Copilot (Apr 2026) |
-| **AP2** | Google | Google's agentic commerce standard para payments | Live in Google AI Mode |
-| **ACP** | OpenAI + Stripe | Agent checkout protocol (Stripe checkout) | Beta → GA, live Etsy + 1M Shopify merchants |
-| **x402** | Cloudflare / 22 members | Agentic payments (crypto-native, B2B) | 22 miembros incl. Visa, Mastercard, Stripe |
+---
 
-> **Consenso de mercado**: "MCP for tool integration, A2A for agent communication, UCP+AP2 for Google commerce, ACP for Stripe/OpenAI commerce" (The Register, Jan 2026). Para un retail project completo se deben implementar al menos MCP + ACP.
+## Open Source Platform Leaders
 
-## Players globales
+| Platform | License | Stars | Market Position |
+|----------|---------|-------|-----------------|
+| Medusa | MIT | 31.3k | Fastest-growing headless commerce; agent-native positioning |
+| Saleor | Apache-2.0 | 21k | Strong in Europe; Python/Django; GraphQL |
+| WooCommerce | GPL-2.0 | 10.4k | ~27% of all online stores; huge installed base |
+| Vendure | MIT | 6.9k | TypeScript-native; developer experience focus |
+| Odoo | LGPL-3.0 | 41k | #1 open-source ERP globally; 7M+ users |
+| ERPNext | GPL-3.0 | 23k | Strong in India, Middle East, growing LATAM |
 
-| Empresa | Tipo | Fortaleza AI | Licencia ecosistema |
-|---------|------|-------------|---------------------|
-| **Shopify** | Plataforma | Agentic Storefronts GA (5.6M tiendas), AI Toolkit MIT, UCP protocol, partnerships ChatGPT/Copilot/Gemini | MIT (toolkit) |
-| **Amazon** | Retailer + Cloud | Rufus AI assistant, Just Walk Out stores (computer vision), Bedrock para clientes | Propietario |
-| **Alibaba** | Retailer + Cloud | Qwen LLMs open source, AI para Taobao/AliExpress, Tongyi para retail | Apache-2.0 (Qwen) |
-| **MercadoLibre** | LATAM dominant | Meili AI assistant, AI-powered fraud detection, seller tools | Propietario |
-| **Walmart** | Retailer + Tech | Walmart Luminate (data), AI Supply Chain, Text-to-Shop | Propietario |
-| **Salesforce Commerce** | SaaS | Agentforce para retail, Einstein AI | Propietario |
-| **Adobe Commerce** | Enterprise | Adobe AI Core (GenStudio), Magento Open Source foundation | OSL-3.0 (OS) |
-| **VTEX** | LATAM commerce | VTEX IO, AI-powered search, fuerte en BR/MX/AR | SaaS propietario |
-| **Tiendanube** | LATAM SMB | Platform LATAM (AR/BR/MX), AI tools emerging | SaaS propietario |
+---
 
-## LATAM — Mapa de oportunidades
+## Agentic Commerce Ecosystem
 
-| País | Plataforma dominante | Oportunidad AI | Timing |
-|------|---------------------|----------------|--------|
-| **Brasil** | MercadoLibre + Shopify + WooComm | Agentic storefront PT-BR, WhatsApp commerce | Ahora |
-| **México** | MercadoLibre + Shopify + VTEX | TikTok Shop + AI agents ES-MX, social commerce | Ahora |
-| **Argentina** | MercadoLibre (dominante) + Tiendanube | Dynamic pricing con inflación variable, demand sensing | Alta prioridad |
-| **Colombia** | Shopify + VTEX | Agentic checkout, demand forecasting | 2026-2027 |
-| **Chile** | Falabella Tech + Shopify | Enterprise retail AI, B2B commerce | 2026-2027 |
+```
+BUYER                    AGENT LAYER               MERCHANT
+  │                          │                         │
+  │ "Buy me running shoes     │                         │
+  │  under $120"              │                         │
+  └──────────────────────────►│                         │
+                      [ChatGPT / Gemini /               │
+                       Perplexity / Alexa+]             │
+                              │                         │
+                              │   ACP (Apache 2.0)      │
+                              ├──────────────────────►  │
+                              │  1. Browse catalog       │
+                              │  2. Create cart          │
+                              │  3. Get shipping options │
+                              │  4. Delegate payment     │
+                              │  5. Complete checkout    │
+                              │                         │
+                              │◄────────────────────── │
+                              │  Order confirmation     │
+```
 
-## ACP adoption tracker (Jul 2026)
+**Who implements ACP on the merchant side:** Shopify (built-in), Stripe checkout, Medusa (via ACP hooks), custom implementations using the open spec.
 
-| Merchant / Plataforma | Status | Volumen estimado |
-|-----------------------|--------|-----------------|
-| Etsy | Live ACP (Feb 2026) | >90M items disponibles para agentes |
-| Shopify (1M tiendas) | Live ACP (Q1 2026) | ~1M tiendas USA |
-| Walmart | ACP rollout en curso | TBD |
-| WooCommerce | Community UCP plugin (dev-preview) | 6.5M tiendas worldwide |
-| Magento / BigCommerce | 3rd-party UCP+MCP via Yottaa | Enterprise tier |
+---
 
-## Adopción AI en Retail (datos 2026)
+## LATAM Retail AI Landscape
 
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| Retailers usando/probando AI | 89% | NVIDIA Retail & CPG Survey 2026 |
-| Retailers aumentando presupuesto AI 2026 | 9 de cada 10 | NVIDIA Survey 2026 |
-| Aumento conversión AI shopping channel vs organic | +31% | Adobe / TikTok Shop data |
-| Reducción tiempo de decisión de compra | 60-70% | McKinsey |
-| Reducción touchpoints en journey | >80% | McKinsey |
-| Retailers que miden ROI AI | 41% | BCG Retail AI Survey |
-| Consumidores que confían totalmente en AI para compras | <40% | MetaRouter survey |
+### Market Context
+- LATAM e-commerce: $175B+ (2026), growing 20%+ YoY
+- Brazil: largest LATAM market; strong Shopify + WooCommerce adoption
+- Mexico: second-largest; TikTok Shop growing rapidly
+- Argentina: cost-conscious — open source preferred over SaaS
+- Colombia, Chile, Peru: fast-growing mid-market
 
-## Posicionamiento Globant — Retail AI Studio
+### Key LATAM Dynamics
+1. **Cash/PIX dominance:** ACP's payment delegation must handle PIX (Brazil), OXXO (Mexico), PSE (Colombia) — not just credit cards
+2. **Informal retail:** Large segment of brick-and-mortar without digital inventory — huge opportunity for AI catalog enrichment
+3. **Cross-border commerce:** US → LATAM dropshipping growing; Amazon Skills + nexscope tools relevant
+4. **Language:** Spanish + Portuguese catalogs essential — NVIDIA Catalog Enrichment's 50-language support is a differentiator
 
-### Propuesta de valor diferencial
+### LATAM Opportunities for Globant
+| Opportunity | Market | Solution Stack | Revenue Range |
+|------------|--------|---------------|---------------|
+| ACP Integration for Regional Retailers | Brazil, Mexico, Colombia | ACP + Medusa + PIX handler | $80k–$300k |
+| Catalog Enrichment for Mid-Market | All LATAM | NVIDIA Blueprint + Claude | $50k–$200k |
+| AI Inventory Optimization | All LATAM | InvAgent + InvenTree/Odoo | $60k–$250k |
+| Amazon Seller Acceleration | Brazil, Mexico | nexscope-ai/Amazon-Skills | $30k–$120k |
+| AI-Powered POS + Analytics | Brick-and-mortar | Odoo + AI agents | $100k–$500k |
 
-1. **Agentic Commerce implementor** — implementar Shopify AI Toolkit + UCP para retailers sobre Shopify (fastest time-to-market)
-2. **LATAM expertise** — WooCommerce + MercadoLibre + Tiendanube + WhatsApp commerce en ES/PT-BR
-3. **Demand Sensing** — ML + LLM para demand forecasting real-time (supply chain ROI más rápido)
-4. **Shelf Intelligence** — Computer vision + LLM para góndolas (retail físico, oportunidad underserved)
-5. **AEO Consulting** — Answer Engine Optimization (nuevo SEO para AI channels)
+---
 
-### Quick wins para propuestas
+## Competitive Moat for Globant in Retail AI
 
-| Solución | Time-to-market | Revenue range | Plataforma |
-|----------|---------------|---------------|------------|
-| Shopify Agentic Storefront | 2-4 semanas | $40k-$120k | Shopify |
-| WooCommerce AI Assistant | 4-6 semanas | $30k-$80k | WooCommerce |
-| Dynamic Pricing Agent | 6-10 semanas | $80k-$200k | Cualquiera |
-| Shelf Audit CV | 4-8 semanas | $60k-$150k | On-premise |
-| Demand Sensing Dashboard | 8-12 semanas | $100k-$300k | Cualquiera |
+**Strengths to build on:**
+1. Deep engineering capacity to customize Medusa/Saleor/Odoo at source level
+2. LATAM relationships and regional payment expertise (PIX, OXXO, etc.)
+3. Ability to host NVIDIA Retail Blueprints on-premise for privacy-conscious clients
+4. Can wire ACP to any existing retail platform — not dependent on Shopify/Stripe
+
+**Risks:**
+1. Shopify AI Toolkit commoditizes basic store management — focus on complex integrations
+2. ACP adoption moving fast — need to stay current on spec versions
+3. SMB clients may prefer SaaS over custom builds — target mid-market+
+
+---
+*Auto-updated by Globant AI Studios ingest pipeline.*

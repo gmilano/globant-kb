@@ -1,151 +1,123 @@
-# 📡 Tendencias — Retail & eCommerce
+# Trends — Retail & E-Commerce AI
 
-> Última actualización: 2026-07-10 (v10)
+> Current signals, emerging patterns, and directional bets. Updated: 2026-07-10
 
-## Tendencias activas (Jul 2026)
+## T1 — Agentic Commerce is the New Default Channel
 
-### T1 — Agentic Commerce: el mayor cambio desde el eCommerce móvil
+AI agents completing purchases (not just recommending) is the defining shift of 2026. ChatGPT Shopping, Google Gemini Checkout, Perplexity Buy, and Amazon Alexa+ all perform end-to-end purchasing. The **Agentic Commerce Protocol (ACP)** — open standard by OpenAI + Stripe + Meta — is the infrastructure. 1M+ merchants live.
 
-Agentic commerce = agentes AI autónomos que perciben, razonan, deciden y ejecutan transacciones en nombre de consumidores. Morgan Stanley proyecta que ~50% de compradores online usarán agentes para 2030 (25% del gasto total). McKinsey: $1T US / $3-5T global para 2030.
+**Signal:** AI-sourced traffic to retail sites up **+1,200% YoY**. Traditional organic search down 10%.
 
-**Señales concretas 2026:**
-- Shopify activó Agentic Storefronts por defecto para 5.6M tiendas (Mar 24, 2026)
-- ChatGPT, Copilot, Gemini ya pueden completar compras en tiendas Shopify
-- Universal Commerce Protocol (UCP) como estándar emergente de máquina-a-máquina
-
-### T2 — Zero-Click Commerce
-
-Evolución del agentic commerce: el consumidor no toca, no busca, no hace clic. Un agente detecta la necesidad (reposición de inventario personal, mejor precio disponible), construye el carrito, compara y completa la transacción. McKinsey: reducción de touchpoints >80%.
-
-**Bloqueador principal**: confianza del consumidor (<40% confía totalmente en AI para compras). Oportunidad: diseñar flujos de "human-in-the-loop" que reduzcan fricción gradualmente.
-
-### T3 — Shopify como protocolo, no como plataforma
-
-Shopify AI Toolkit (MIT, Apr 9, 2026) transforma a Shopify en infraestructura de agentes:
-- Cualquier LLM puede gestionar operaciones de tienda via MCP
-- Storefront se convierte en endpoint AI por defecto (Hydrogen 2026.1.4)
-- 5.6M tiendas = 5.6M endpoints agénticos disponibles
-
-**Implicación**: los integradores que dominen Shopify MCP tendrán ventaja competitiva masiva en 2026-2027.
-
-### T4 — MCP como estándar universal de commerce
-
-El ecosistema converge: **MCP (Anthropic) + A2A (Google) + UCP (Shopify) = stack de agentic commerce**.
-
-- Shopify MCP: Admin API + Storefront API + Liquid
-- WooCommerce MCP: en desarrollo (community)
-- VTEX MCP: pilots en Brasil
-- TikTok Ads MCP (Mayo 2026): primera red social con MCP oficial para campañas autónomas
-
-### T5 — AEO: Answer Engine Optimization (nuevo SEO)
-
-Con el 31.3% de US usando AI search (ChatGPT, Perplexity, Google AI Overviews), los retailers necesitan optimizar para ser mencionados por LLMs, no solo indexados por crawlers.
-
-- Adobe: 4,700% YoY de tráfico GenAI a retail sites
-- ChatGPT convierte 31% más que búsqueda orgánica para intent de compra alta
-- JSON-LD / structured data se vuelve crítico (es el "SEO" de los LLMs)
-- Nuevas métricas: AI Share of Voice, LLM citation rate
-
-### T6 — Demand Sensing > Demand Planning
-
-La IA está reemplazando el demand planning histórico (Excel/SAP) por demand sensing en tiempo real:
-- Inputs: weather, redes sociales, eventos locales, competitor pricing, inventory levels
-- AI predice intent antes de que el consumidor lo reconozca
-- NVIDIA Survey 2026: supply chain AI tiene el ROI más rápido (double-digit reduction en overstock/stockouts en 6 meses)
-- Python stack: TimesFM (Google), Chronos (Amazon), stockpyl + LLM reasoning
-
-### T7 — TikTok Shop como canal dominante LATAM (MX/BR)
-
-TikTok Shop está transformando social commerce en LATAM:
-- TikTok Ads MCP (Mayo 2026): campañas autónomas vía agente
-- Live shopping integrado: ver → comprar en segundos
-- AI generativa para creación de contenido de producto
-- Integración nativa con nexscope eCommerce Skills (157 skills)
-
-### T8 — Computer Vision para Retail Físico
-
-Shelf intelligence + planogram compliance + footfall analysis con CV + LLM:
-- Cerebras Gemma 4: inference ~20x más rápido que GPU standard, ~$0.001/foto
-- shelfops (MIT, Jul 2026): audit de góndola con reasoning LLM
-- retail-ai-store-level-intelligence (Apache-2.0): edge AI por tienda
-- ROI: reducción de stockouts 15-30%, mejora planogram compliance 40%
-
-### T9 — Personalización Predictiva (de reactiva a proactiva)
-
-2026 marca la transición de personalización reactiva (basada en historial) a predictiva (basada en contexto en tiempo real):
-- Weather + local events + inventory + competitor pricing → recommend antes de que el cliente pida
-- 40% más de revenue en empresas con AI personalization vs sin ella (McKinsey)
-- Herramientas: Dify RAG + customer data platform + LLM reasoning
-
-### T10 — WhatsApp Commerce en LATAM
-
-WhatsApp como canal de ventas con agentes AI:
-- 95%+ penetración en BR/MX/AR/CO
-- Integración con Medusa/WooCommerce vía API de WhatsApp Business
-- Agentes que manejan catálogo, precios, pedidos y pagos en chat
-- Sin app nativa = menor fricción de adopción para SMBs
-
-### T11 — Dynamic Pricing Agentico
-
-El pricing dinámico manual (reglas estáticas) está siendo reemplazado por agentes que optimizan en tiempo real:
-- retail-pricing-agent-ai (MIT, Jun 2026): primer repo open source con pipeline completo
-- Ciclo: competitor scraping → demand forecast → elasticidad → precio → sync
-- Casos de uso: perecederos, fashion (markdown optimization), electronics
-- ROI: +3-8% gross margin con dynamic pricing bien implementado
-
-### T12 — Open Source vs. Proprietary AI en Retail
-
-NVIDIA Survey 2026: 84% de retailers consideran el open source importante o muy importante. El stack ganador 2026:
-
-| Capa | Open Source leader | Stars |
-|------|-------------------|-------|
-| Plataforma commerce | Medusa (MIT) | 32k+ |
-| Agentic workflow | Dify (Apache-2.0) | 144k |
-| Browser automation | browser-use (MIT) | 93k |
-| Skills reutilizables | nexscope (MIT) | ~202 |
-| Inventory math | stockpyl (MIT) | 164 |
-
-### T13 — ACP en Producción: Checkout Agentico como Infraestructura
-
-El Agentic Commerce Protocol (ACP, mantenido por OpenAI + Stripe, Apache 2.0) ha salido de beta y procesa transacciones reales:
-- **Etsy** (Feb 2026): 90M+ items comprables directamente desde agentes AI
-- **Shopify 1M tiendas**: ACP activado por defecto en US
-- **Spec v2026-04-17**: cubre checkout, cart, feed, delegate payment (token seguro), OAuth 2.0, integración MCP nativa
-
-**Por qué importa para Globant**: ACP es el protocolo de la capa de transacción en agentic commerce. Si un cliente nos pide "hacer su tienda compatible con AI agents", ACP es el paso imprescindible. El NVIDIA Retail-Agentic-Commerce blueprint (Apache 2.0) provee la implementación de referencia lista para customizar.
-
-**Conversión 4.4x**: merchants con infraestructura de datos compatible con agentes (ACP + buena metadata de producto) convierten 4.4x más que los que no tienen ACP. La diferencia no es el agente — es si el merchant está preparado para recibir al agente.
-
-### T14 — Convergencia de Protocolos: El Stack Agentico Completo
-
-En Jul 2026 existe consenso en la industria sobre el stack de agentic commerce:
-
-```
-MCP      → Herramientas (inventory, search, CRM, logistics)
-A2A      → Comunicación entre agentes (buyer agent ↔ merchant agent)
-UCP/AP2  → Checkout vía Google AI Mode / Microsoft Copilot
-ACP      → Checkout vía ChatGPT / Shopify / Etsy
-x402     → Pagos machine-to-machine (crypto-native, B2B)
-```
-
-Ningún framework cubre todo — hay que componer. Una tienda "agentic-first" en 2026 necesita:
-1. MCP server (para que los agentes lean inventario, precios, políticas)
-2. ACP endpoint (para que los agentes completen transacciones)
-3. Schema.org / JSON-LD enriquecido (para AEO — que los LLMs citen la tienda)
-
-**Señal táctica**: Medusa 2.x + medusa-mcp (MCP) + ACP plugin = la combinación open source más AI-native disponible hoy. NVIDIA blueprint es la referencia enterprise.
+**Implication for Globant:** Every retail client needs ACP integration as baseline infrastructure.
 
 ---
 
-## Radar de señales emergentes
+## T2 — The "Invisible Merchant" Problem
 
-| Señal | Calor | Horizonte | Acción |
-|-------|-------|-----------|--------|
-| ACP checkout en producción (Etsy+Shopify) | 🔥🔥🔥 | Ahora | Implementar ACP en TODOS los proyectos eComm nuevos |
-| NVIDIA Retail blueprint (ACP+UCP ref impl) | 🔥🔥🔥 | Ahora | Usar como base para proposals enterprise |
-| Protocol convergence MCP+A2A+UCP+ACP | 🔥🔥🔥 | 0-3 meses | Arquitectar proyectos con todos los layers |
-| Shelf Vision AI (shelfops pattern) | 🔥🔥 | 6-12 meses | Build offering para retailers con tiendas físicas |
-| Zero-click commerce mainstream | 🔥🔥 | 6-18 meses | Diseñar UX de confianza progresiva + ACP integration |
-| LATAM VTEX MCP | 🔥🔥 | 6-12 meses | Monitorear; cuando salga, desarrollar integraciones |
-| AI pricing en LATAM (inflación AR) | 🔥🔥🔥 | Ahora | Proponer dynamic pricing como caso LATAM prioritario |
-| Amazon Marketplace AI (nexscope Amazon-Skills) | 🔥🔥 | Ahora | Pitch a sellers Amazon LATAM con 51 skills listas |
+Retailers without ACP-compatible product feeds are invisible to AI shopping agents. AI agents browse by semantic attributes (material, size, use case) — not SEO keywords. Retailers with poor structured data are being filtered out before the shopper even sees them.
+
+**Emerging pattern:** "AI SEO" — optimizing product catalog attributes, descriptions, and structured data for AI agent browsing, not human search.
+
+---
+
+## T3 — AI Catalog Enrichment at Scale
+
+NVIDIA's Retail Catalog Enrichment blueprint (NRF Jan 2026) enables: 1 product image → rich catalog entry with 3D model + 50-language descriptions + variant images + FAQ + ACP schema. Nemotron Nano Omni + FLUX Kontext + TRELLIS pipeline. Cost: fraction of human copywriting.
+
+**Who needs this:** Mid-market retailers with sparse catalogs. SMBs transitioning from brick-and-mortar to online. Cross-border merchants needing localized content.
+
+---
+
+## T4 — From Chatbot to Transaction: Alexa+ Effect
+
+Amazon replaced Rufus (Q&A chatbot) with Alexa for Shopping (Alexa+, May 2026). Result: **3× purchase completion rate**. This validates that the value of AI in retail is in completing transactions, not just answering questions.
+
+Corollary: retail AI investments that only add a chatbot are underperforming. The ROI is in the checkout completion, not the conversation.
+
+---
+
+## T5 — Shopify AI Toolkit Opens the Store to Agents
+
+Shopify's MIT-licensed AI Toolkit (Apr 2026) means Claude Code, Cursor, Codex can now run a Shopify store end-to-end: update inventory, set prices, process orders, customize storefronts. 16 skills. 1M+ Shopify merchants can now have AI operators.
+
+**Implication:** Shopify store management is becoming a commodity AI task. Value moves to strategy and differentiation, not operations.
+
+---
+
+## T6 — Social Commerce + AI Shopping = TikTok Shop Effect
+
+TikTok Shop growing rapidly in LATAM (Mexico, Brazil). AI agents that connect content discovery to purchase are emerging. Products featured in AI-summarized videos driving purchases without human review.
+
+**Open source angle:** nexscope-ai/ecommerce-skills covers TikTok Shop as a supported platform.
+
+---
+
+## T7 — Personalization via LLM Rankers Displaces Classic Collaborative Filtering
+
+Gorse (Apache 2.0) added LLM ranker support and multimodal embeddings in 2026. LLM-based rankers outperform collaborative filtering for cold-start users and long-tail products — the two hardest cases in retail recommendation.
+
+**Trend:** Moving from "users who bought X also bought Y" → "given this user's stated preferences and browsing context, what product best fits their intent?"
+
+---
+
+## T8 — Inventory Intelligence: From Reactive to Predictive to Autonomous
+
+Three generations running simultaneously in 2026:
+1. **Reactive:** Alerts when stock hits minimum threshold (legacy)
+2. **Predictive:** ML demand forecasting (mainstream)
+3. **Autonomous:** LLM multi-agent systems (InvAgent) that reason about demand, negotiate reorders, and execute procurement — zero-shot, no training data required
+
+The shift to autonomous (T3) is nascent but has documented cost reduction + stockout prevention results.
+
+---
+
+## T9 — ACP + PIX/OXXO = LATAM Agentic Commerce Gap
+
+ACP was designed around credit card + bank transfer flows common in the US/EU. LATAM's dominant payment rails (PIX in Brazil, OXXO in Mexico, PSE in Colombia, Mercado Pago across region) need ACP adapters. First movers building these adapters will own agentic commerce infrastructure for the region.
+
+**Opportunity signal:** No dominant open-source ACP-PIX / ACP-OXXO adapter exists yet as of Jul 2026.
+
+---
+
+## T10 — Shelf Intelligence: Computer Vision at the Edge
+
+Emerging pattern: edge AI cameras + local vision models auditing retail shelves for planogram compliance, out-of-stock detection, and pricing verification. Projects like shelfops (Cerebras vs. Gemma comparison) emerging.
+
+**Why now:** Cerebras inference + local Gemma/Llama models make real-time shelf vision economically viable without cloud API costs.
+
+---
+
+## T11 — B2B Commerce Gets AI-Native
+
+B2B e-commerce (procurement, wholesale, distributor ordering) is the next wave for ACP. B2B buyers want AI agents to handle RFQs, PO issuance, and inventory reordering autonomously. Medusa + ACP + ERPNext is a plausible stack.
+
+---
+
+## T12 — Open Source ERP Adoption Accelerated by License Cost Fatigue
+
+Open source ERP adoption grew **32% globally in 2026** driven by enterprise license fatigue from SAP/Oracle. Odoo (LGPL community) and ERPNext (GPL) benefiting most in mid-market. LATAM especially: cost sensitivity makes open source ERP + AI customization a strong value proposition vs. Salesforce Commerce Cloud.
+
+---
+
+## T13 — Trust Barrier: The Remaining Friction in Agentic Commerce
+
+Fewer than **40% of consumers** fully trust AI agents for autonomous purchasing decisions (as of mid-2026). Key friction: fear of wrong purchases, security concerns, lack of transparency.
+
+**Design implication:** Successful agentic commerce products include human approval gates for high-value transactions, receipts with agent audit trails, and easy cancellation flows.
+
+---
+
+## T14 — Multimodal Product Search Replacing Keyword Search
+
+AI-powered visual + semantic search (product image + natural language) replacing keyword search for product discovery. Retailers implementing embedding-based search seeing higher add-to-cart rates than keyword search.
+
+**Open source tooling:** pgvector + PostgreSQL (via Medusa/Saleor) + embedding models (OpenAI, Cohere, open models via Ollama) now production-viable.
+
+---
+
+## T15 — Retail Data Monetization via AI
+
+Retailers with rich customer behavior data are monetizing it as AI training datasets and retail media networks. Amazon's retail media ($40B+) is the model. Open source angle: data governance tools (Airbyte, dbt, OpenMetadata) enable smaller retailers to build similar data assets.
+
+---
+*Auto-updated by Globant AI Studios ingest pipeline.*

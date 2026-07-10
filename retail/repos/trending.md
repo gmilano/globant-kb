@@ -1,32 +1,39 @@
-# 📈 Repos trending — Retail & eCommerce
+# Trending Repos This Week — Retail AI
 
-> Última actualización: 2026-07-10 (v10)
+> GitHub trending + recent breakout projects. Updated: 2026-07-10
 
-## Repos más activos / nuevos (Jul 2026)
+## 🔥 Top Trending (Jul 2026)
 
-| Nombre | Licencia | Stars | Señal |
-|--------|----------|-------|-------|
-| [Shopify/Shopify-AI-Toolkit](https://github.com/Shopify/Shopify-AI-Toolkit) | MIT | ~4k | Open-sourced Apr 9, 2026. MCP + agent skills + Claude Code plugin oficial Shopify. El kit más completo de agentic commerce. |
-| [Shopify/shop-chat-agent](https://github.com/Shopify/shop-chat-agent) | MIT | ~2.8k | App de referencia: AI chat en storefront con MCP. Búsqueda, políticas, checkout en conversación. Hydrogen 2026.1.4 nativo. |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Plataforma agentic workflow líder. Crecimiento explosivo. MCP nativo. 50+ built-in tools. |
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | 93k | Agente browser. 93k★ en 8 meses. Default open-source para tareas web (price scraping, checkout). |
-| [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202 | 157 SKILL.md skills para AI agents: Amazon, Shopify, TikTok Shop, Etsy. Creciendo rápido post-lanzamiento. |
-| [samhaldia/retail-pricing-agent-ai](https://github.com/samhaldia/retail-pricing-agent-ai) | MIT | ~340 | Sistema agentico de dynamic pricing: ingestion → forecast → strategy → sync. Nuevo Jun 2026. |
-| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | ~120 | Shelf audit CV+LLM. Cerebras Gemma 4 inference ultrarrápida. Nuevo Jul 2026. |
-| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | ~80 | Store-level intelligence: footfall, heatmaps, compras asociadas, alertas de stock. |
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 32k+ | Medusa 2.x: "Open-Source Commerce Platform for Agents and Developers." Claude Code blog tutorial oficial (Jun 2026). |
-| [gz-yami/mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | 5.1k | Sistema de mall chino con AI integrado: mini-program + mobile + web. Referencia para LATAM multichannel. |
-| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~1.4k | ACP spec (OpenAI+Stripe). Live Etsy + 1M Shopify. Spec v2026-04-17. Checkout agentico. |
-| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~3.1k | Blueprint ACP+UCP con NIM. La referencia enterprise para agentic checkout. CLAUDE.md nativo. |
-| [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | ~85 | 51 skills FBA/PPC/listing Amazon. Claude Code + Cursor + Windsurf. Nuevo Jul 2026. |
-
-## Repos a monitorear (señal alta, stars bajas)
-
-| Nombre | Licencia | Señal |
-|--------|----------|-------|
-| [topics/agentic-commerce](https://github.com/topics/agentic-commerce) | varios | Topic GitHub: 60+ repos de commerce agentico, creciendo semanalmente. |
-| retail-ai-store-level-intelligence | Apache-2.0 | "La mayor oportunidad AI en retail no está en HQ, está en la tienda." Arquitectura edge AI por tienda. |
-| shelfops | MIT | Computer vision de góndola con LLM reasoning. Cerebras inference ~$0.001/foto. |
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|--------------|
+| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~1.8k | OpenAI + Stripe + Meta open standard. 1M+ merchants live. ChatGPT / Gemini / Perplexity Shopping all run on it. |
+| [Shopify/Shopify-AI-Toolkit](https://github.com/Shopify/Shopify-AI-Toolkit) | MIT | ~3.4k | Official Apr 2026 release. AI agents now run Shopify stores via Claude Code / Cursor / Codex. 16 skills. |
+| [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | ~2.1k | Free AI skills for Amazon sellers — keyword research, PPC, listing optimization. Works with any Skills-compatible agent. |
+| [nexscope-ai/ecommerce-skills](https://github.com/nexscope-ai/ecommerce-skills) | MIT | ~1.3k | Multi-platform version (Amazon + Shopify + Etsy + TikTok Shop). Growing fast alongside OpenClaw. |
+| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~900 | NRF Jan 2026 debut. Product image → 3D asset + localized rich content + ACP-ready schema. |
+| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | ~8.9k | Steady growth — LLM rankers addition and multimodal embeddings keeping it relevant for 2026 AI-native recommendations. |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+
+## 📊 Noteworthy Niche Projects
+
+| Repo | License | Stars | Notes |
+|------|---------|-------|-------|
+| [locus-technologies/agentic-commerce-protocol-demo](https://github.com/locus-technologies/agentic-commerce-protocol-demo) | Apache-2.0 | ~340 | Reference ACP implementation — good starting point for Globant demos |
+| [zefang-liu/InvAgent](https://github.com/zefang-liu/InvAgent) | Apache-2.0 | ~420 | LLM multi-agent supply chain inventory; AAAI 2025 workshop; steady academic citations |
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31.3k | Rebranded as "Commerce Platform for Agents and Developers" — medusa-mcp plugin enables agent access |
+| [saleor/saleor](https://github.com/saleor/saleor) | Apache-2.0 | 21k | Apache license + clean GraphQL API attracting agent-native storefronts |
+| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.4k | AI Engine (MCP) + StoreAgent plugins gaining traction; note GPL license |
+
+---
+
+## 🔭 Watching (Early Stage)
+
+| Repo | License | Stars | Notes |
+|------|---------|-------|-------|
+| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | ~50 | Store-level edge AI (shelf cameras + local models) — nascent but interesting for brick-and-mortar clients |
+| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | ~30 | Retail shelf audit using Cerebras vs. local Gemma — vision AI for planogram compliance |
+| [AdamJChen/inventory-optimization-ai](https://github.com/AdamJChen/inventory-optimization-ai) | MIT | ~280 | RL-based inventory control combining deep learning + operations research |
+
+---
+*Auto-updated by Globant AI Studios ingest pipeline.*
