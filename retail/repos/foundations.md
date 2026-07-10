@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Retail & eCommerce
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ## Plataformas eCommerce
 
@@ -30,6 +30,14 @@
 | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | 65 | MCP server para Medusa JS SDK — conecta Claude a admin Medusa |
 | [bidah/universal-medusa](https://github.com/bidah/universal-medusa) | MIT | 196 | Multi-platform: React Native + Next.js + Medusa.js |
 | [reorder-js/reorder](https://github.com/reorder-js/reorder) | MIT | 23 | Plugin de suscripciones para Medusa.js |
+
+## Protocolos Agentic Commerce (capa de transacción)
+
+| Repo | Licencia | Stars | Stack | Descripción |
+|------|----------|-------|-------|-------------|
+| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~1.4k | Spec + JSON | ACP spec mantenida por OpenAI + Stripe. Define checkout agentico, delegate payment, feed, cart, OAuth 2.0. Spec v2026-04-17. Live Etsy + 1M Shopify. |
+| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~3.1k | Python + NIM | Blueprint de referencia ACP+UCP con NIM microservices. CLAUDE.md nativo. Checkout negotiation + merchant control. Producción-ready. |
+| [topics/universal-commerce-protocol](https://github.com/topics/universal-commerce-protocol) | Apache-2.0 | — | Spec | UCP (Google/Shopify): machine-to-machine checkout. Live en Google AI Mode + Microsoft Copilot checkout (Apr 2026). |
 
 ## Infraestructura AI para Retail
 

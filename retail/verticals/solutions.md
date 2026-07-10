@@ -2,7 +2,7 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ## Plataformas eCommerce
 
@@ -23,6 +23,18 @@
 | **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | 24k | Retail POS, inventory, e-commerce integrado. Frappe framework | ★★ — Frappe framework permite AI hooks fácilmente. Open source puro (sin subscription). |
 | **Apache OFBiz** | Apache-2.0 | [apache/ofbiz](https://github.com/apache/ofbiz) | 700+ | ERP full customizable con módulo eCommerce. Java | ★★ — Apache 2.0 = máxima libertad de uso. Más customizable que Odoo. Mayor complejidad técnica. |
 
+## Protocolos Agentic Commerce (Jul 2026 — capa obligatoria)
+
+| Protocolo | Licencia | Repo | Función | Adoption |
+|-----------|----------|------|---------|----------|
+| **ACP** (Agentic Commerce Protocol) | Apache-2.0 | [agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Checkout agentico (OpenAI+Stripe side) | Etsy + 1M Shopify merchants. LIVE. |
+| **UCP** (Universal Commerce Protocol) | Apache-2.0 | [topics/universal-commerce-protocol](https://github.com/topics/universal-commerce-protocol) | Checkout agentico (Google side) | Google AI Mode + Microsoft Copilot. LIVE. |
+| **NVIDIA Blueprint** | Apache-2.0 | [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Ref implementation ACP+UCP | Enterprise-grade. NIM microservices. CLAUDE.md. |
+| **MCP** | MIT | Anthropic spec | Tool integration (inventory, search) | WooCommerce v10.3+, Shopify 4 servers, Medusa nativo |
+| **A2A** | Apache-2.0 | Google spec | Agent-to-agent | 500+ orgs. Buyer agent ↔ merchant agent |
+
+> **Regla**: un proyecto eCommerce agentico en 2026 necesita al mínimo MCP + ACP. Sin MCP, los agentes no leen la tienda. Sin ACP, los agentes no pueden comprar.
+
 ## Plataformas de Agentic Commerce
 
 | Plataforma | Licencia | Repo | Stars | Descripción |
@@ -37,24 +49,33 @@
 ¿Cuál plataforma elegir?
 
 Cliente SMB LATAM (< $5M GMV):
-  → WooCommerce + WooCommerce MCP + Claude
+  → WooCommerce + WooCommerce MCP (v10.3+) + ACP community plugin + Claude
   → Tiempo: 4-6 semanas, $30k-$80k
+  → Resultado: tienda comprable desde ChatGPT/Copilot/Google AI
 
 Cliente midmarket (B2C headless):
-  → Medusa 2.x + medusa-mcp + Shopify AI Toolkit pattern
+  → Medusa 2.x + medusa-mcp + ACP endpoint + nexscope skills
   → Tiempo: 8-12 semanas, $80k-$200k
+  → Resultado: plataforma 100% agentic-native (MCP + ACP + schema.org)
 
 Cliente enterprise Shopify:
-  → Shopify AI Toolkit + shop-chat-agent + nexscope skills
+  → Shopify AI Toolkit + ACP (ya nativo en Shopify) + shop-chat-agent
   → Tiempo: 2-4 semanas (ya en Shopify), $40k-$120k
+  → Resultado: agentic storefront en semanas; 4.4x conversion uplift
+
+Cliente enterprise nuevo (greenfield):
+  → NVIDIA Retail-Agentic-Commerce blueprint (ACP+UCP) + Medusa backend
+  → Tiempo: 12-16 semanas, $200k-$600k
+  → Resultado: referencia enterprise con NIM + checkout negotiation
 
 Cliente con back-office LATAM (ERP needs):
-  → Odoo (eCommerce + POS + Inventory) + Dify encima
+  → Odoo (eCommerce + POS + Inventory) + Dify encima + ACP plugin
   → Tiempo: 12-16 semanas, $150k-$400k
 
-Cliente B2B manufacturing/distribution:
-  → ERPNext + Medusa (eComm module) + agentes
-  → Tiempo: 16-24 semanas, $200k-$600k
+Cliente Amazon Marketplace:
+  → nexscope Amazon-Skills (51 skills) + Claude Code + nexscope eCommerce-Skills
+  → Tiempo: 2-4 semanas MVP, $20k-$60k
+  → Resultado: agente que gestiona listings, PPC, FBA autónomamente
 ```
 
 ## Cómo añadir AI a cualquier plataforma

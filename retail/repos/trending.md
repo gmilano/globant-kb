@@ -1,6 +1,6 @@
 # 📈 Repos trending — Retail & eCommerce
 
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ## Repos más activos / nuevos (Jul 2026)
 
@@ -14,8 +14,11 @@
 | [samhaldia/retail-pricing-agent-ai](https://github.com/samhaldia/retail-pricing-agent-ai) | MIT | ~340 | Sistema agentico de dynamic pricing: ingestion → forecast → strategy → sync. Nuevo Jun 2026. |
 | [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | ~120 | Shelf audit CV+LLM. Cerebras Gemma 4 inference ultrarrápida. Nuevo Jul 2026. |
 | [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | ~80 | Store-level intelligence: footfall, heatmaps, compras asociadas, alertas de stock. |
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 32k+ | Medusa 2.x sigue creciendo. Posicionado explícitamente como "platform for agents and developers." |
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 32k+ | Medusa 2.x: "Open-Source Commerce Platform for Agents and Developers." Claude Code blog tutorial oficial (Jun 2026). |
 | [gz-yami/mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | 5.1k | Sistema de mall chino con AI integrado: mini-program + mobile + web. Referencia para LATAM multichannel. |
+| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~1.4k | ACP spec (OpenAI+Stripe). Live Etsy + 1M Shopify. Spec v2026-04-17. Checkout agentico. |
+| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~3.1k | Blueprint ACP+UCP con NIM. La referencia enterprise para agentic checkout. CLAUDE.md nativo. |
+| [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | ~85 | 51 skills FBA/PPC/listing Amazon. Claude Code + Cursor + Windsurf. Nuevo Jul 2026. |
 
 ## Repos a monitorear (señal alta, stars bajas)
 

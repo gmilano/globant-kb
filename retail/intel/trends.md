@@ -1,6 +1,6 @@
 # 📡 Tendencias — Retail & eCommerce
 
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ## Tendencias activas (Jul 2026)
 
@@ -105,14 +105,47 @@ NVIDIA Survey 2026: 84% de retailers consideran el open source importante o muy 
 | Skills reutilizables | nexscope (MIT) | ~202 |
 | Inventory math | stockpyl (MIT) | 164 |
 
+### T13 — ACP en Producción: Checkout Agentico como Infraestructura
+
+El Agentic Commerce Protocol (ACP, mantenido por OpenAI + Stripe, Apache 2.0) ha salido de beta y procesa transacciones reales:
+- **Etsy** (Feb 2026): 90M+ items comprables directamente desde agentes AI
+- **Shopify 1M tiendas**: ACP activado por defecto en US
+- **Spec v2026-04-17**: cubre checkout, cart, feed, delegate payment (token seguro), OAuth 2.0, integración MCP nativa
+
+**Por qué importa para Globant**: ACP es el protocolo de la capa de transacción en agentic commerce. Si un cliente nos pide "hacer su tienda compatible con AI agents", ACP es el paso imprescindible. El NVIDIA Retail-Agentic-Commerce blueprint (Apache 2.0) provee la implementación de referencia lista para customizar.
+
+**Conversión 4.4x**: merchants con infraestructura de datos compatible con agentes (ACP + buena metadata de producto) convierten 4.4x más que los que no tienen ACP. La diferencia no es el agente — es si el merchant está preparado para recibir al agente.
+
+### T14 — Convergencia de Protocolos: El Stack Agentico Completo
+
+En Jul 2026 existe consenso en la industria sobre el stack de agentic commerce:
+
+```
+MCP      → Herramientas (inventory, search, CRM, logistics)
+A2A      → Comunicación entre agentes (buyer agent ↔ merchant agent)
+UCP/AP2  → Checkout vía Google AI Mode / Microsoft Copilot
+ACP      → Checkout vía ChatGPT / Shopify / Etsy
+x402     → Pagos machine-to-machine (crypto-native, B2B)
+```
+
+Ningún framework cubre todo — hay que componer. Una tienda "agentic-first" en 2026 necesita:
+1. MCP server (para que los agentes lean inventario, precios, políticas)
+2. ACP endpoint (para que los agentes completen transacciones)
+3. Schema.org / JSON-LD enriquecido (para AEO — que los LLMs citen la tienda)
+
+**Señal táctica**: Medusa 2.x + medusa-mcp (MCP) + ACP plugin = la combinación open source más AI-native disponible hoy. NVIDIA blueprint es la referencia enterprise.
+
 ---
 
 ## Radar de señales emergentes
 
 | Señal | Calor | Horizonte | Acción |
 |-------|-------|-----------|--------|
-| UCP/ACP como estándar checkout agentico | 🔥🔥🔥 | 0-6 meses | Implementar en proyectos Shopify/WooCommerce ahora |
+| ACP checkout en producción (Etsy+Shopify) | 🔥🔥🔥 | Ahora | Implementar ACP en TODOS los proyectos eComm nuevos |
+| NVIDIA Retail blueprint (ACP+UCP ref impl) | 🔥🔥🔥 | Ahora | Usar como base para proposals enterprise |
+| Protocol convergence MCP+A2A+UCP+ACP | 🔥🔥🔥 | 0-3 meses | Arquitectar proyectos con todos los layers |
 | Shelf Vision AI (shelfops pattern) | 🔥🔥 | 6-12 meses | Build offering para retailers con tiendas físicas |
-| Zero-click commerce mainstream | 🔥 | 12-24 meses | Diseñar UX de confianza progresiva |
+| Zero-click commerce mainstream | 🔥🔥 | 6-18 meses | Diseñar UX de confianza progresiva + ACP integration |
 | LATAM VTEX MCP | 🔥🔥 | 6-12 meses | Monitorear; cuando salga, desarrollar integraciones |
 | AI pricing en LATAM (inflación AR) | 🔥🔥🔥 | Ahora | Proponer dynamic pricing como caso LATAM prioritario |
+| Amazon Marketplace AI (nexscope Amazon-Skills) | 🔥🔥 | Ahora | Pitch a sellers Amazon LATAM con 51 skills listas |

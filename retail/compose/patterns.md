@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Retail & eCommerce
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ## Stack base de referencia
 
@@ -514,6 +514,167 @@ nodes:
 
 ---
 
+## P9 — ACP-First Checkout Integration (Agentic Commerce Protocol)
+
+**Stack**: ACP spec (Apache 2.0) + NVIDIA Retail-Agentic-Commerce blueprint (Apache 2.0) + Medusa (MIT) + Claude Sonnet  
+**Time-to-market**: 4-8 semanas  
+**Rango de precio**: $80k-$250k  
+**Caso de uso**: retailer que quiere que su tienda sea comprable directamente desde ChatGPT, Google AI Mode, y cualquier AI shopping agent
+
+```python
+"""
+Pattern P9: ACP-First Checkout Integration
+Basado en:
+- agentic-commerce-protocol/agentic-commerce-protocol (Apache 2.0, spec v2026-04-17)
+- NVIDIA-AI-Blueprints/Retail-Agentic-Commerce (Apache 2.0)
+- medusajs/medusa (MIT) como backend
+
+4.4x conversión para merchants con ACP vs sin ACP (MetaRouter 2026)
+"""
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import anthropic
+import requests
+
+app = FastAPI(title="ACP Commerce Endpoint")
+client = anthropic.Anthropic()
+
+# ACP Feed: producto catalog legible por agentes
+@app.get("/.well-known/acp.json")
+def acp_manifest():
+    """ACP Discovery: el agente del comprador descubre aquí que la tienda soporta ACP."""
+    return {
+        "version": "2026-04-17",
+        "merchant": {
+            "name": "Tienda Ejemplo",
+            "currency": "BRL",
+            "locale": "pt-BR"
+        },
+        "endpoints": {
+            "feed": "/acp/feed",
+            "cart": "/acp/cart",
+            "checkout": "/acp/checkout"
+        },
+        "payment_methods": ["stripe", "pix", "mercadopago"],
+        "capabilities": ["search", "cart", "checkout", "order_status"]
+    }
+
+class ProductQuery(BaseModel):
+    query: str
+    max_results: int = 10
+    
+@app.post("/acp/feed")
+def acp_feed(q: ProductQuery):
+    """ACP Feed: el agente busca productos en lenguaje natural."""
+    # 1. LLM convierte query natural → filtros estructurados
+    structured = client.messages.create(
+        model="claude-haiku-4-5-20251001",  # barato para parse
+        max_tokens=100,
+        messages=[{"role": "user", "content": q.query}],
+        system='Parse to JSON: {"category": "...", "price_max": N, "keywords": ["..."]}'
+    ).content[0].text
+    
+    import json
+    filters = json.loads(structured)
+    
+    # 2. Buscar en Medusa
+    products = requests.get(
+        "https://store.example.com/store/products",
+        params={
+            "q": " ".join(filters.get("keywords", [])),
+            "category_id": filters.get("category"),
+        }
+    ).json()
+    
+    # 3. Formatear para ACP (schema.org compatible)
+    return {
+        "type": "feed",
+        "items": [
+            {
+                "@type": "Product",
+                "name": p["title"],
+                "description": p["description"],
+                "offers": {
+                    "@type": "Offer",
+                    "price": p["variants"][0]["prices"][0]["amount"] / 100,
+                    "priceCurrency": "BRL",
+                    "availability": "InStock" if p["variants"][0]["inventory_quantity"] > 0 else "OutOfStock"
+                },
+                "sku": p["id"],
+                "url": f"https://store.example.com/products/{p['handle']}"
+            }
+            for p in products.get("products", [])[:q.max_results]
+        ]
+    }
+
+class CartRequest(BaseModel):
+    items: list  # [{"sku": "...", "quantity": N}]
+    session_id: str
+
+@app.post("/acp/cart")
+def acp_cart(req: CartRequest):
+    """ACP Cart: el agente construye el carrito en nombre del comprador."""
+    # Crear cart en Medusa
+    cart = requests.post(
+        "https://store.example.com/store/carts",
+        json={"items": req.items}
+    ).json()
+    
+    return {
+        "type": "cart",
+        "cart_id": cart["cart"]["id"],
+        "total": cart["cart"]["total"] / 100,
+        "currency": "BRL",
+        "items": req.items,
+        "checkout_url": f"https://store.example.com/checkout?cart={cart['cart']['id']}"
+    }
+
+class CheckoutRequest(BaseModel):
+    cart_id: str
+    delegate_payment_token: str  # ACP delegate payment — no expone datos de tarjeta
+    customer_email: str
+
+@app.post("/acp/checkout")
+def acp_checkout(req: CheckoutRequest):
+    """
+    ACP Checkout: el agente completa la compra con delegate payment token.
+    El token ACP nunca expone datos de tarjeta — el merchant solo recibe el token
+    y lo procesa via Stripe/Pix/MercadoPago.
+    """
+    # Verificar delegate payment token con ACP authority (Stripe/OpenAI)
+    # token_valid = verify_acp_token(req.delegate_payment_token)
+    
+    # Completar order en Medusa
+    order = requests.post(
+        f"https://store.example.com/store/carts/{req.cart_id}/complete",
+        json={"payment_token": req.delegate_payment_token}
+    ).json()
+    
+    return {
+        "type": "order",
+        "order_id": order.get("order", {}).get("id"),
+        "status": "confirmed",
+        "confirmation_email": req.customer_email,
+        "estimated_delivery": "3-5 días hábiles",
+        "tracking_url": f"https://store.example.com/orders/{order.get('order', {}).get('id')}"
+    }
+
+# Notas de deployment:
+# 1. Exponer /.well-known/acp.json para ACP discovery
+# 2. Registrar en ACP directory (agenticcommerce.dev)
+# 3. Verificar con Stripe ACP partner program
+# 4. Test: "compra zapatillas en store.example.com" desde ChatGPT → debería triggear ACP flow
+```
+
+**Output esperado**:
+- Tienda comprable desde ChatGPT, Google AI Mode, Microsoft Copilot, y cualquier ACP-compatible agent
+- 4.4x conversion uplift vs tiendas sin ACP (merchants con infraestructura agente-lista)
+- Zero PCI compliance overhead en el endpoint (delegate payment token nunca expone tarjeta)
+- Ticket ACP integration: 4-6 semanas dev + $80k-$150k; full Medusa greenfield: $150k-$250k
+
+---
+
 ## Matriz de selección rápida
 
 | Escenario del cliente | Patrón recomendado | TTM | Costo |
@@ -526,3 +687,4 @@ nodes:
 | Visibilidad en AI search (AEO) | P6 | 3-5 sem | $40k-$120k |
 | TikTok Shop LATAM BR/MX | P7 | 4-6 sem | $60k-$160k |
 | Midmarket sin equipo técnico | P8 | 8-12 sem | $80k-$200k |
+| Tienda comprable desde ChatGPT/Copilot | P9 | 4-8 sem | $80k-$250k |

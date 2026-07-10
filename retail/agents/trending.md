@@ -1,6 +1,6 @@
 # 📈 Señales trending — Retail & eCommerce
 
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ---
 
@@ -99,6 +99,37 @@ Adobe Digital Insights (Jul 2025, confirmado 2026):
 
 ---
 
+---
+
+## S9 — ACP (Agentic Commerce Protocol) LIVE — OpenAI + Stripe
+
+**Repo:** [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) (Apache 2.0)
+
+El Agentic Commerce Protocol — el equivalente a MCP pero para checkout — ya está procesando transacciones reales:
+- **Released**: Sep 29, 2025 (Apache 2.0)
+- **Spec actual**: v2026-04-17 (checkout, cart, feed, delegate payment, OAuth 2.0, MCP integration)
+- **Live deployments**: Etsy (Feb 2026) + expansión a 1M+ tiendas Shopify + Walmart
+- **Stack position**: ACP = "el MCP del checkout". MCP conecta agentes a herramientas, ACP conecta agentes a transacciones.
+
+**Implicación para Globant**: cualquier proyecto eCommerce que construyamos desde 2026 debería implementar ACP. El costo de no hacerlo: el agente del cliente no puede comprar en la tienda del cliente. Implementar ACP hoy = advantage de 12-18 meses sobre competidores que esperen.
+
+---
+
+## S10 — NVIDIA Retail Agentic Commerce Blueprint
+
+**Repo:** [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) (Apache 2.0)
+
+Blueprint enterprise de NVIDIA para agentic commerce con ACP + UCP:
+- Implementación de referencia para merchants medianos/grandes
+- NIM microservices (Nemotron-Nano-V3) + MIT embeddings (NV-EmbedQA-E5-v5)
+- Checkout negotiation con LLM manteniendo merchant control
+- Incluye CLAUDE.md nativo — diseñado para trabajar con Claude Code desde el inicio
+- **UCP spec** (Universal Commerce Protocol) versión 2026-01-11 incluida
+
+**Protocolo consenso 2026**: MCP (tools) + A2A (agent-to-agent) + UCP/AP2 (Google checkout) + ACP (Stripe/OpenAI checkout) = stack completo de agentic commerce. Ningún framework lo cubre todo — hay que componer.
+
+---
+
 ## Repos trending esta semana
 
 | Nombre | Licencia | Stars | Señal |
@@ -110,6 +141,9 @@ Adobe Digital Insights (Jul 2025, confirmado 2026):
 | [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | ~80 | Store-level AI |
 | [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202 | 157 SKILL.md skills |
 | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Agentic workflow platform |
+| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~1.4k | ACP spec — checkout agentico OpenAI+Stripe. Live Etsy+Shopify. |
+| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~3.1k | Blueprint ACP+UCP con NIM microservices. Producción-ready. |
+| [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | ~85 | 51 skills FBA/PPC/listing Amazon. Compatible Claude Code. |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

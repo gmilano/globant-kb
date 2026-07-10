@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Retail & eCommerce
 
 > Agentes y herramientas AI open source para retail y comercio electrónico. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ## Agentes y herramientas destacadas
 
@@ -17,6 +17,9 @@
 | [shelfops](https://github.com/IFAKA/shelfops) | MIT | IFAKA/shelfops | ~120 | Retail shelf audit con visión AI (Cerebras Gemma 4 vs local Gemma). Detecta gaps, SKUs faltantes, planogram compliance desde fotos de góndola. |
 | [retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Svyatoslavpech/retail-ai-store-level-intelligence | ~80 | Intelligence a nivel tienda: footfall, heatmaps, asociaciones de compra, alertas de stock por location. FastAPI + LLM reasoning. |
 | [stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | LarrySnyder/stockpyl | 164 | Python para inventory optimization y simulación: EOQ, SSMS, multi-echelon. Base sólida para demand forecasting con LLM encima. |
+| [agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | agentic-commerce-protocol/agentic-commerce-protocol | ~1.4k | Especificación ACP (Agentic Commerce Protocol) mantenida por OpenAI + Stripe. Define checkout agentico, cart, feed, delegate payment, OAuth 2.0 auth. Spec v2026-04-17. Live en Etsy + 1M tiendas Shopify. |
+| [NVIDIA Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | NVIDIA-AI-Blueprints/Retail-Agentic-Commerce | ~3.1k | Implementación de referencia de ACP + UCP. NIM microservices + LLM-powered checkout negotiation + merchant control layer. Blueprint listo para producción. Incluye CLAUDE.md nativo. |
+| [nexscope Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | nexscope-ai/Amazon-Skills | ~85 | 51 SKILL.md skills para vendedores Amazon: FBA, PPC, listing optimization, keyword research, competitor analysis. Hermano de eCommerce-Skills. Compatible con Claude Code, Cursor, Windsurf. |
 
 ---
 
@@ -26,6 +29,11 @@
 - **Shopify AI Toolkit** — MCP admin + storefront; 5.6M tiendas compatibles con ChatGPT/Copilot/Gemini
 - **shop-chat-agent** — referencia de chat widget MCP en Hydrogen
 - **nexscope eCommerce Skills** — skills reutilizables para cualquier marketplace
+- **nexscope Amazon-Skills** — 51 skills FBA/PPC/listing para Amazon specificamente
+
+### 🔌 Protocolos de Agentic Commerce
+- **ACP (OpenAI + Stripe)** — estándar open para checkout agentico; live en Etsy + 1M Shopify merchants
+- **NVIDIA Retail-Agentic-Commerce** — blueprint de referencia ACP+UCP con NIM microservices
 
 ### 💰 Pricing & Promotions
 - **retail-pricing-agent-ai** — pipeline completo market data → forecast → precio → sync

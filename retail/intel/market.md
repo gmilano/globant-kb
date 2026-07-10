@@ -1,23 +1,40 @@
 # 🗺️ Mapa de mercado — Retail & Consumer
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09 (v9)
+> Última actualización: 2026-07-10 (v10)
 
 ## Tamaño de mercado AI en Retail
 
 | Segmento | 2026 | Proyección | CAGR | Fuente |
 |----------|------|-----------|------|--------|
-| AI-enabled eCommerce (global) | $8.65B | $22.60B (2032) | 14.60% | Grand View Research |
-| AI in Retail (amplio) | $15.3B | $45.7B (2030) | 24.4% | Mordor Intelligence |
-| Agentic Commerce (emerging) | $2.1B | $31B (2030) | ~57% | estimado McKinsey/BCG |
-| GenAI Traffic to Retail Sites | +4,700% YoY | — | — | Adobe Digital Insights Jul 2025 |
+| AI in Retail (global, broad) | $11.61B → $15.3B | $40.74B (2030) | 23.0% | Grand View Research / Mordor |
+| Agentic AI in Retail + eCommerce | **$60.43B** | $218.37B (2031) | 29.29% | Mordor Intelligence 2026 |
+| Agentic Commerce Market (narrow) | **$7.7B** | $65.5B (2033) | 35.7% | Grand View Research 2026 |
+| GenAI Traffic to Retail Sites | +4,700% YoY | — | — | Adobe Digital Insights 2025-2026 |
+
+> **Nota:** La diferencia entre $60.43B (Mordor "Agentic AI in Retail+eComm") y $7.7B (GVR "Agentic Commerce") refleja scope: Mordor incluye toda IA aplicada al sector retail incluyendo supply chain, inventory, fraud, workforce; GVR mide solo commerce-facing (search, checkout, personalization, shopping agents).
 
 ## Predicciones clave 2026-2030
 
 - **Morgan Stanley (2026)**: ~50% de compradores online usarán AI shopping agents para 2030, representando 25% del gasto total
 - **McKinsey (2026)**: agentic commerce podría generar $1 trillón en revenue retail US / $3-5 trillones globalmente para 2030
+- **Bain (2026)**: US agentic commerce $300-500B para 2030 = 15-25% de total eCommerce US
+- **J.P. Morgan (2026)**: agentic commerce representará hasta 25% de ventas online US para 2030
 - **IDC**: 30% de bookings/transacciones via AI agents para 2028 (retail + travel combinado)
-- **Stanford AI Index 2024**: 78% de orgs usando AI (vs 55% el año anterior)
+- **Stanford AI Index 2025**: 78% de orgs usando AI (vs 55% el año anterior)
+
+## Protocolo stack agentic commerce (consenso Jul 2026)
+
+| Protocolo | Creador | Función | Status |
+|-----------|---------|---------|--------|
+| **MCP** | Anthropic | Tool integration (agent↔tools) | RC spec Jul 28 2026, 10k+ servers |
+| **A2A** | Google | Agent-to-agent communication | v1.0, >500 orgs adoptaron |
+| **UCP** | Google / Shopify | Machine-to-machine checkout (Google checkout) | Live Google AI Mode + MS Copilot (Apr 2026) |
+| **AP2** | Google | Google's agentic commerce standard para payments | Live in Google AI Mode |
+| **ACP** | OpenAI + Stripe | Agent checkout protocol (Stripe checkout) | Beta → GA, live Etsy + 1M Shopify merchants |
+| **x402** | Cloudflare / 22 members | Agentic payments (crypto-native, B2B) | 22 miembros incl. Visa, Mastercard, Stripe |
+
+> **Consenso de mercado**: "MCP for tool integration, A2A for agent communication, UCP+AP2 for Google commerce, ACP for Stripe/OpenAI commerce" (The Register, Jan 2026). Para un retail project completo se deben implementar al menos MCP + ACP.
 
 ## Players globales
 
@@ -42,6 +59,16 @@
 | **Argentina** | MercadoLibre (dominante) + Tiendanube | Dynamic pricing con inflación variable, demand sensing | Alta prioridad |
 | **Colombia** | Shopify + VTEX | Agentic checkout, demand forecasting | 2026-2027 |
 | **Chile** | Falabella Tech + Shopify | Enterprise retail AI, B2B commerce | 2026-2027 |
+
+## ACP adoption tracker (Jul 2026)
+
+| Merchant / Plataforma | Status | Volumen estimado |
+|-----------------------|--------|-----------------|
+| Etsy | Live ACP (Feb 2026) | >90M items disponibles para agentes |
+| Shopify (1M tiendas) | Live ACP (Q1 2026) | ~1M tiendas USA |
+| Walmart | ACP rollout en curso | TBD |
+| WooCommerce | Community UCP plugin (dev-preview) | 6.5M tiendas worldwide |
+| Magento / BigCommerce | 3rd-party UCP+MCP via Yottaa | Enterprise tier |
 
 ## Adopción AI en Retail (datos 2026)
 
