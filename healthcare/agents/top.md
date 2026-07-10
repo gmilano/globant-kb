@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Healthcare
 
 > Agentes y herramientas AI open source para la industria de salud. Foco: MIT / Apache 2.0 / BSD.
-> Última actualización: 2026-07-09 (v5 — CHI-Bench 72% failure, ARPA-H ADVOCATE, FDA CDS 2026, 81% physician adoption, MedAgentBench, HealthFlow, ColaCare)
+> Última actualización: 2026-07-10 (v6 — Ottehr AI-native EHR, scribeHC open scribe, QuarkMedSearch long-horizon, SEMA-RAG, OpenScribe, MARCH ACL 2026 radiology)
 
 ## Agentes y herramientas destacadas
 
@@ -23,6 +23,20 @@
 | [awesome-medical-ai](https://github.com/JuneYaooo/awesome-medical-ai) | MIT | Lista curada de proyectos AI médicos y de salud: LLMs, imágenes médicas, sistemas multi-agente, software clínico. Referencia integral del ecosistema 2025-2026. | ~400 |
 | [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Plataforma healthcare developer full-stack TypeScript. FHIR-native, HIPAA+SOC2 out-of-box, "Bots" para server-side logic sin infraestructura propia, UI components. El "Vercel for healthcare" — ideal para construir apps AI clínicas sobre FHIR sin partir de cero. | 1.5k+ |
 | [OpenAPS/oref0](https://github.com/openaps/oref0) | MIT | OpenAPS — artificial pancreas system open source. El primer sistema de closed-loop insulin delivery patient-liderado. CGM → algoritmo de ajuste de dosis basal → pump. 2,500+ pacientes T1D globalmente. Referencia de FDA AID (Automated Insulin Delivery) pathway. | ~2k |
+
+---
+
+## 🆕 v6 — Nuevos Agentes y Frameworks (Jul 10, 2026)
+
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [masslight/ottehr](https://github.com/masslight/ottehr) | MIT | **Ottehr** — El primer EHR open source 100% AI-native y FHIR-native. Incluye AI HPI chatbot, AI ambient scribe y AI coding assistant out-of-the-box. Stack React/Node.js, FHIR R4/R5, USCDI+ONC certified. Ideal para urgent care y healthtech. Reduce desarrollo de EHR custom en 95%. | ~189 |
+| [trevorpfiz/scribeHC](https://github.com/trevorpfiz/scribeHC) | MIT | App mobile de ambient scribe open source: Expo (iOS/Android) para grabar consultas + Next.js dashboard + FastAPI para generar notas SOAP automáticamente. Stack completo lista para customizar con Claude. | ~200 |
+| [Open-scribe/OpenScribe](https://github.com/Open-scribe/OpenScribe) | MIT | OpenScribe: AI scribe open source que graba encuentros de pacientes y genera notas clínicas estructuradas. Full control de datos, workflows y privacidad del paciente. Sin vendor lock-in. | ~150 |
+| [QuarkMedSearch](https://arxiv.org/abs/2604.12867) | Research | **QuarkMedSearch** (arXiv:2604.12867) — Agente de búsqueda médica de largo horizonte (long-horizon deep search) que combina knowledge graph médico + exploración online en tiempo real. SFT + RL en dos etapas. SOTA en modelos open-source de escala comparable. | — |
+| [SEMA-RAG](https://arxiv.org/abs/2605.17101) | Research | **SEMA-RAG** (arXiv:2605.17101) — Self-Evolving Multi-Agent RAG para razonamiento médico. Tres agentes especializados: I-Agent (schema interpretation), E-Agent (evidence exploration suficiencia-driven), A-Agent (evidence adjudication). De RAG estático a razonamiento clínico multi-etapa. | — |
+| [MARCH](https://arxiv.org/abs/2604.16175) | Research | **MARCH** (arXiv:2604.16175, ACL 2026) — Multi-Agent Radiology Clinical Hierarchy para CT report generation. Jerarquía médica real: Resident Agent (draft inicial) → Fellow Agents (RAG revision) → Attending Agent (consensus discourse iterativo). Supera SOTA en RadGenome-ChestCT en fidelidad clínica y precisión lingüística. | — |
+| [Evo-MedAgent](https://arxiv.org/search/?query=Evo-MedAgent) | Research | **Evo-MedAgent** — Beyond One-Shot Diagnosis with Agents That Remember, Reflect, and Improve. Agentes que mantienen memoria entre consultas, reflexionan sobre errores previos y mejoran su rendimiento diagnóstico de forma continua. | — |
 
 ---
 
@@ -72,6 +86,11 @@
 | EHR multi-agente modeling y treatment planning | ColaCare + HealthFlow |
 | Evaluación rigurosa pre-producción de agentes | MedAgentBench + MedAgentBoard + CHI-Bench |
 | LLM médico open source base (fine-tuning) | Meditron (7B o 70B, Apache-2.0) |
+| EHR greenfield AI-native + FHIR + scribe incluido | Ottehr (masslight/ottehr) — AI HPI + scribe + coder |
+| Ambient scribe open source (mobile + dashboard) | scribeHC o OpenScribe (sin vendor lock-in) |
+| Búsqueda médica long-horizon (knowledge graph + RAG) | QuarkMedSearch |
+| RAG médico multi-agente auto-evolvente | SEMA-RAG (I-Agent + E-Agent + A-Agent) |
+| CT report generation con jerarquía médica real | MARCH (Resident→Fellow→Attending Agent) |
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*

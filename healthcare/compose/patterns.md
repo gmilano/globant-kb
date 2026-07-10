@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Healthcare AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-09 (v5 — P11 CHI-Bench evaluation harness, P12 ARPA-H ADVOCATE dual-agent supervisory, P13 HealthFlow self-evolving EHR — 13 patrones totales)
+> Última actualización: 2026-07-10 (v6 — P14 MARCH hierarchical radiology multi-agent, P15 Open source ambient scribe LATAM — 15 patrones totales)
 
 ## Arquitectura base
 
@@ -1340,3 +1340,392 @@ print(f"Analysis: {result['analysis'][:300]}...")
 | 11. CHI-Bench Evaluation Gate | 2-4 | Baja | Prevenir fallos en producción clínica | Cross-cutting |
 | 12. ADVOCATE Dual-Agent | 14-20 | Muy Alta | Agentes alto riesgo (cardio, diabetes) | $500k–$2M |
 | 13. HealthFlow Self-Evolving | 8-14 | Alta | Análisis EHR adaptativo; optimización costo/calidad | $150k–$600k |
+| 14. MARCH Hierarchical Radiology | 10-16 | Alta | CT report con jerarquía médica real; menor hallucination rate | $250k–$900k |
+| 15. Open Source Scribe LATAM | 4-8 | Media | Ambient scribe ES/PT; alternativa open source a Nuance DAX | $50k–$200k |
+
+---
+
+## Patrón 14: MARCH Hierarchical Radiology Multi-Agent — CT Report con Jerarquía Médica Real (ACL 2026)
+
+**Caso de uso**: Generación automatizada de reportes de CT con arquitectura jerárquica que emula la supervisión real de departamentos de radiología (Resident→Fellow→Attending). Menor hallucination rate que agentes monolíticos.
+
+**Repos**: `bowang-lab/MedRAX` (base tools) + `OHIF/Viewers` (viewer DICOM) + `the-momentum/fhir-mcp-server` + Claude API
+
+**Por qué MARCH vs. agente monolítico**:
+- Agente monolítico (MedRAX v1): un solo LLM analiza todo → higher hallucination rate en CT
+- MARCH: tres capas supervisoras → cada agente revisa al anterior → consenso iterativo
+
+**Arquitectura MARCH adaptada (Python)**:
+```python
+import anthropic
+import base64
+from pathlib import Path
+
+client = anthropic.Anthropic()
+
+RESIDENT_SYSTEM = """You are a radiology resident doing an initial CT read.
+Generate a preliminary findings list. Be thorough but acknowledge uncertainty.
+Format: [FINDING 1: ...], [FINDING 2: ...], [UNCERTAIN: ...]"""
+
+FELLOW_SYSTEM = """You are a radiology fellow reviewing a resident's preliminary report.
+Cross-reference findings against similar cases from the knowledge base.
+Clarify uncertainties. Add context from radiology guidelines (ACR, Fleischner criteria).
+Format: [CONFIRMED: ...], [REVISED: ...], [ADDED: ...], [CONTEXT: ...]"""
+
+ATTENDING_SYSTEM = """You are the attending radiologist conducting final review.
+You received resident + fellow notes. Your job: 
+1. Adjudicate any discrepancies with stance-based reasoning
+2. Issue the final IMPRESSION (the most clinically important synthesis)
+3. Assign urgency: ROUTINE / URGENT / CRITICAL
+Format must follow ACR template: FINDINGS + IMPRESSION + URGENCY"""
+
+def resident_agent(ct_image_b64: str, patient_history: str) -> str:
+    """First layer: resident initial read with multi-scale feature extraction."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        system=RESIDENT_SYSTEM,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "source": {"type": "base64", "media_type": "image/png", "data": ct_image_b64}
+                },
+                {
+                    "type": "text",
+                    "text": f"CT scan for initial review.\nPatient history: {patient_history}\n"
+                            "Generate preliminary findings list."
+                }
+            ]
+        }]
+    )
+    return response.content[0].text
+
+def fellow_agent(resident_report: str, similar_cases: list[str]) -> str:
+    """Second layer: fellow reviews resident report with RAG over similar cases."""
+    similar_cases_text = "\n".join([f"- {case}" for case in similar_cases[:3]])
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        system=FELLOW_SYSTEM,
+        messages=[{
+            "role": "user",
+            "content": f"""Resident preliminary report:
+{resident_report}
+
+Similar cases from knowledge base:
+{similar_cases_text}
+
+Review and provide clarifications per ACR guidelines."""
+        }]
+    )
+    return response.content[0].text
+
+def attending_agent(resident_report: str, fellow_review: str, urgency_flags: dict) -> dict:
+    """Third layer: attending adjudicates and issues final report."""
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1500,
+        system=ATTENDING_SYSTEM,
+        messages=[{
+            "role": "user",
+            "content": f"""Resident report:
+{resident_report}
+
+Fellow review:
+{fellow_review}
+
+Clinical flags: {urgency_flags}
+
+Issue final ACR-format radiology report. Use stance-based discourse to resolve any discrepancies.
+IMPORTANT: This is a PRELIMINARY AI report that REQUIRES review and sign-off by the attending radiologist."""
+        }]
+    )
+    report_text = response.content[0].text
+    urgency = "CRITICAL" if "CRITICAL" in report_text else ("URGENT" if "URGENT" in report_text else "ROUTINE")
+    return {
+        "final_report": report_text,
+        "urgency": urgency,
+        "requires_radiologist_review": True
+    }
+
+def march_ct_pipeline(ct_dicom_path: str, patient_id: str, patient_history: str,
+                      similar_cases: list[str] = None) -> dict:
+    """
+    Full MARCH pipeline: Resident → Fellow → Attending.
+    Returns final report with urgency + FHIR DiagnosticReport payload.
+    """
+    # Load and encode CT image
+    with open(ct_dicom_path, "rb") as f:
+        ct_b64 = base64.b64encode(f.read()).decode()
+
+    # Stage 1: Resident initial read
+    print("→ Resident Agent: initial CT read...")
+    resident_report = resident_agent(ct_b64, patient_history)
+
+    # Stage 2: Fellow review with RAG
+    print("→ Fellow Agent: reviewing with case knowledge base...")
+    fellow_review = fellow_agent(resident_report, similar_cases or [])
+
+    # Stage 3: Attending consensus
+    print("→ Attending Agent: consensus adjudication...")
+    urgency_flags = {
+        "has_uncertainty": "UNCERTAIN" in resident_report,
+        "has_revision": "REVISED" in fellow_review
+    }
+    final = attending_agent(resident_report, fellow_review, urgency_flags)
+
+    # Build FHIR DiagnosticReport
+    fhir_report = {
+        "resourceType": "DiagnosticReport",
+        "status": "preliminary",  # Siempre preliminary hasta que radiólogo firme
+        "category": [{"coding": [{"system": "http://snomed.info/sct", "code": "168731009",
+                                   "display": "CT scan (procedure)"}]}],
+        "subject": {"reference": f"Patient/{patient_id}"},
+        "conclusion": final["final_report"][:500],  # Summary
+        "extension": [{
+            "url": "http://globant.com/ai/radiology-urgency",
+            "valueString": final["urgency"]
+        }, {
+            "url": "http://globant.com/ai/pipeline",
+            "valueString": "MARCH-v1 (Resident+Fellow+Attending)"
+        }]
+    }
+
+    return {
+        "patient_id": patient_id,
+        "resident_report": resident_report,
+        "fellow_review": fellow_review,
+        "final_report": final["final_report"],
+        "urgency": final["urgency"],
+        "requires_radiologist_sign": True,
+        "fhir_payload": fhir_report
+    }
+
+# Uso
+result = march_ct_pipeline(
+    ct_dicom_path="patient_chest_ct.png",
+    patient_id="P-12345",
+    patient_history="65M, smoker 40 pack-years, progressive dyspnea 3 months, weight loss 5kg",
+    similar_cases=[
+        "65M smoker: right upper lobe 2.3cm spiculated nodule → Stage IIA NSCLC, confirmed resection",
+        "70F smoker: bilateral ground glass opacity → NSIP, responded to steroids",
+        "60M ex-smoker: mediastinal LAP + hilar mass → SCLC, confirmed biopsy"
+    ]
+)
+
+print(f"Urgency: {result['urgency']}")
+print(f"Final Report:\n{result['final_report'][:400]}...")
+# POST result['fhir_payload'] to HAPI FHIR DiagnosticReport endpoint
+```
+
+**Por qué la arquitectura jerárquica reduce hallucinations**:
+- Resident puede equivocarse → Fellow lo detecta con evidencia de casos similares
+- Fellow puede confirmar error → Attending adjudica con stance-based discourse (no toma la primera versión)
+- Cada capa tiene un rol diferente → menor probabilidad de confirmation bias encadenado
+
+**Benchmarks**: MARCH supera SOTA en RadGenome-ChestCT en:
+- **Clinical fidelity**: más hallazgos clínicamente relevantes capturados
+- **Linguistic accuracy**: terminología radiológica más precisa
+
+**Time-to-value**: 10-16 semanas (incluye validación con radiólogos + PACS integration). **Deal size**: $250k–$900k.
+
+---
+
+## Patrón 15: Open Source Ambient Scribe LATAM — Alternativa a Nuance DAX con Español/Portugués
+
+**Caso de uso**: Hospital o clínica en LATAM (o US hispanohablante) que necesita ambient scribe sin pagar $500-3,000/médico/mes. Usa scribeHC como base, customiza para español médico, integra con EHR local via FHIR.
+
+**Repos**: `trevorpfiz/scribeHC` (MIT) + `Open-scribe/OpenScribe` (MIT) + `openai/whisper` (MIT) + `the-momentum/fhir-mcp-server` (MIT) + `openemr/openemr` o `openmrs/openmrs-core`
+
+**Arquitectura**:
+```
+Médico ← app móvil (Expo, scribeHC base)
+    ↓ graba audio de la consulta
+FastAPI endpoint (local o cloud)
+    ↓ Whisper (transcripción ASR → texto en español)
+Transcript en español
+    ↓ Claude API (generación de nota SOAP en español médico)
+Nota SOAP estructurada
+    ↓ fhir-mcp-server (write FHIR Encounter + DocumentReference)
+OpenMRS / OpenEMR / Medplum actualizado
+    ↓ Dashboard médico (Next.js, scribeHC base)
+Médico revisa → firma → guarda
+```
+
+**Código mínimo — Backend FastAPI con Whisper + Claude (español)**:
+```python
+from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import JSONResponse
+import whisper
+import anthropic
+import tempfile
+import os
+
+app = FastAPI()
+whisper_model = whisper.load_model("medium")  # medium: buen balance velocidad/precisión en español
+claude_client = anthropic.Anthropic()
+
+SOAP_SYSTEM_PROMPT = """Eres un asistente médico clínico especializado en documentación.
+Tu tarea: generar una nota SOAP en español médico profesional a partir de una transcripción de consulta.
+
+Formato exacto requerido:
+**SUBJETIVO**: (queja principal, historia de la enfermedad, síntomas según el paciente)
+**OBJETIVO**: (signos vitales si mencionados, hallazgos del examen físico)
+**ANÁLISIS**: (diagnóstico diferencial o impresión diagnóstica con códigos ICD-10)
+**PLAN**: (tratamiento, medicamentos, seguimiento, referidos)
+
+Reglas:
+- Usar terminología médica en español estándar (no informal)
+- Si el audio menciona datos que no corresponden a medicina, no los incluyas
+- Si faltan datos para alguna sección, indica: [No documentado en la consulta]
+- NO incluyas información no mencionada en la transcripción"""
+
+@app.post("/api/transcribe-and-soap")
+async def transcribe_and_generate_soap(audio: UploadFile = File(...)):
+    """
+    Recibe audio de consulta médica → transcripción → nota SOAP en español.
+    Compatible con scribeHC frontend.
+    """
+    # 1. Guardar audio temporalmente
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
+        content = await audio.read()
+        tmp.write(content)
+        tmp_path = tmp.name
+
+    try:
+        # 2. Transcribir con Whisper (detección automática de idioma)
+        result = whisper_model.transcribe(
+            tmp_path,
+            language="es",         # Forzar español para mejor precisión
+            task="transcribe",
+            fp16=False
+        )
+        transcript = result["text"].strip()
+
+        if not transcript or len(transcript) < 20:
+            return JSONResponse({"error": "Audio muy corto o sin contenido detectado"}, status_code=400)
+
+        # 3. Generar nota SOAP con Claude
+        message = claude_client.messages.create(
+            model="claude-haiku-4-5-20251001",  # Haiku: rápido + económico para notas estándar
+            max_tokens=1500,
+            system=SOAP_SYSTEM_PROMPT,
+            messages=[{
+                "role": "user",
+                "content": f"Transcripción de consulta médica:\n\n{transcript}\n\nGenera la nota SOAP."
+            }]
+        )
+        soap_note = message.content[0].text
+
+        return JSONResponse({
+            "transcript": transcript,
+            "soap_note": soap_note,
+            "model": "claude-haiku-4-5-20251001",
+            "language": result.get("language", "es"),
+            "requires_physician_review": True  # Siempre requerir revisión médica
+        })
+
+    finally:
+        os.unlink(tmp_path)  # Limpiar archivo temporal
+
+
+@app.post("/api/write-fhir-encounter")
+async def write_to_ehr(patient_id: str, soap_note: str, encounter_type: str = "consultation"):
+    """
+    Escribe la nota SOAP aprobada al EHR via FHIR MCP.
+    Llamar SOLO después de que el médico apruebe la nota.
+    """
+    import requests
+    
+    FHIR_MCP_URL = os.getenv("FHIR_MCP_URL", "http://fhir-mcp-server:3000")
+    
+    # Crear FHIR DocumentReference con la nota SOAP
+    fhir_doc = {
+        "resourceType": "DocumentReference",
+        "status": "current",
+        "type": {
+            "coding": [{
+                "system": "http://loinc.org",
+                "code": "11488-4",
+                "display": "Consult note"
+            }]
+        },
+        "subject": {"reference": f"Patient/{patient_id}"},
+        "content": [{
+            "attachment": {
+                "contentType": "text/plain",
+                "language": "es",
+                "data": soap_note.encode("utf-8").hex(),  # Base64 en prod
+                "title": f"Nota SOAP - {encounter_type}"
+            }
+        }]
+    }
+    
+    response = requests.post(
+        f"{FHIR_MCP_URL}/fhir/DocumentReference",
+        json=fhir_doc,
+        headers={"Content-Type": "application/fhir+json"}
+    )
+    
+    return JSONResponse({
+        "status": "written_to_ehr",
+        "fhir_id": response.json().get("id"),
+        "patient_id": patient_id
+    })
+```
+
+**Docker Compose — Stack completo LATAM**:
+```yaml
+version: "3.9"
+services:
+  scribe-api:
+    build: ./scribe-backend  # FastAPI + Whisper + Claude
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      FHIR_MCP_URL: http://fhir-mcp-server:3000
+    ports: ["8000:8000"]
+    volumes:
+      - /tmp/audio:/tmp/audio  # Carpeta temporal de audio (no persistir PHI)
+
+  fhir-mcp-server:
+    image: themomentum/fhir-mcp-server:latest
+    environment:
+      FHIR_BASE_URL: http://openmrs:8080/openmrs/ws/fhir2/R4
+    ports: ["3000:3000"]
+
+  openmrs:
+    image: openmrs/openmrs-reference-application-3-distro:nightly
+    ports: ["8080:8080"]
+    depends_on: [mysql]
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: openmrs
+    volumes:
+      - openmrs_data:/var/lib/mysql  # Persistir datos del EHR
+
+volumes:
+  openmrs_data:
+```
+
+**Costo total para hospital de 50 médicos**:
+| Componente | Costo mensual |
+|-----------|--------------|
+| API Claude (Haiku, ~20 min consulta/día/médico) | ~$150/mes para 50 médicos |
+| Infra cloud (VPS 8GB RAM, 4 CPU) | ~$50-100/mes |
+| Whisper (local, sin costo API) | $0 |
+| OpenMRS + FHIR MCP (open source) | $0 |
+| **Total** | **~$200-250/mes** vs $25,000-150,000/mes con Nuance DAX |
+
+**Customizaciones LATAM recomendadas**:
+1. **Español médico regional**: Whisper medium + fine-tuning con términos médicos ES-AR, ES-MX, ES-CO
+2. **Codes ICD-10 en español**: tabla de lookup local para terminar de mapear diagnósticos
+3. **CIE-10** (Clasificación Internacional de Enfermedades versión española): estándar en México, Colombia, Argentina
+4. **Terminología LGPD/LOPD**: en notas automáticas, asegurar que el transcript no se persiste en cloud
+
+**Time-to-value**: 4-8 semanas. **Deal size**: $50k–$200k implementación + $500-2,000/mes soporte.
+**ROI para cliente**: Ahorro de $25k–$150k/mes vs. soluciones propietarias.

@@ -1,13 +1,14 @@
 # 🏗️ Repos fundacionales — Healthcare AI
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09 (v5 — Medplum, OpenEMR 8.0, OpenMRS, HAPI FHIR, OpenAPS, GNU Health, Bahmni, OHIF, care_fe)
+> Última actualización: 2026-07-10 (v6 — Ottehr AI-native EHR, scribeHC, OpenScribe open scribes)
 
 ## Plataformas y frameworks base
 
 | Repo | Licencia | Descripción | ¿Base para AI? |
 |------|----------|-------------|----------------|
 | [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Plataforma healthcare developer full-stack TypeScript. FHIR R4/R5 nativo, HIPAA+SOC2 out-of-box, React UI component library, "Bots" serverless (server-side logic sin infraestructura), subscriptions en tiempo real. Stack ideal para greenfield AI healthcare. | ✅ IDEAL — FHIR-native con Bots serverless para AI logic |
+| [masslight/ottehr](https://github.com/masslight/ottehr) | MIT | **Ottehr** — El primer EHR open source AI-native + FHIR-native. Incluye AI HPI chatbot, AI ambient scribe y AI coding assistant out-of-the-box. React/Node.js, FHIR R4/R5, USCDI+ONC certified. Optimizado para urgent care. Reduce desarrollo de EHR custom en 95%. Alternativa moderna a Medplum para casos de urgent care. | ✅ AI-native desde el día 1 — scribe, HPI chatbot y coder incluidos |
 | [openemr/openemr](https://github.com/openemr/openemr) | GPL-2.0 | EHR/EMP más popular del mundo open source. PHP + MySQL. Versión 8.0.0 (Mar 2026): ONC Ambulatory EHR Certification, US Core 8.0, USCDI v5, SMART on FHIR v2.2.0. 1,000+ implementaciones globales. | ✅ Sólido — FHIR completo, pero PHP stack legacy |
 | [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) | MPL-2.0 | EHR open source líder para entornos de recursos limitados. Java, FHIR R4 nativo. Usado en 42+ países, África/Asia/LATAM. Digital Public Good. REST API + FHIR para extensiones AI. | ✅ Ideal para LATAM y recursos limitados |
 | [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | La implementación Java de HL7 FHIR más completa. Servidor FHIR standalone que puedes desplegar como backend de datos. Base para SMART on FHIR, CDS Hooks, subscriptions. Estándar de facto en hospitales académicos. | ✅ Capa de datos — cualquier agente FHIR se construye sobre esto |
@@ -19,6 +20,15 @@
 | [epfLLM/meditron](https://github.com/epfLLM/meditron) | Apache-2.0 | EPFL — Suite de LLMs médicos open source. Meditron-7B y 70B adaptados de Llama-2, pretraining en 48B tokens médicos (PubMed, guías clínicas, datos generales). Referencia en benchmarks MedQA, MedMCQA, PubMedQA. Fine-tunable para dominios específicos. | ✅ LLM médico base para fine-tuning o RAG |
 | [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Local-first healthcare AI: NER clínica + de-identificación HIPAA PII 100% on-device. 1,000+ modelos médicos, 12 idiomas, Apple MLX + Python. Zero cloud, zero PHI exposure. | ✅ Privacidad total — ideal para HIPAA/LGPD estricto |
 | [biocypher/biochatter](https://github.com/biocypher/biochatter) | MIT | Framework LLM para biomedicina: knowledge graphs, RAG, model chaining, soporta modelos locales Ollama. Base para chatbots médicos con privacidad y trazabilidad. | ✅ Knowledge graph + LLM en biomedical research |
+
+## Ambient Scribe Open Source (nuevo en v6)
+
+| Repo | Licencia | Descripción | Cuándo usar |
+|------|----------|-------------|------------|
+| [trevorpfiz/scribeHC](https://github.com/trevorpfiz/scribeHC) | MIT | Expo (mobile) + Next.js (dashboard) + FastAPI. Graba consulta médico-paciente → transcripción → SOAP note automática. Stack completo para customizar. | Startup / clínica que quiere mobile scribe + dashboard sin lock-in |
+| [Open-scribe/OpenScribe](https://github.com/Open-scribe/OpenScribe) | MIT | AI scribe open source full-stack: graba encuentros, genera notas estructuradas. Sin vendor lock-in. Full control de datos y workflows. | Hospital con requisitos de privacidad estrictos; alternativa a Nuance DAX |
+| [hutchpd/AI-Medical-Scribe](https://github.com/hutchpd/AI-Medical-Scribe) | MIT | Local-first, 100% browser-based usando Chrome built-in AI. Sin backend, sin cloud, sin PHI exposure. | Consultorios individuales; máxima privacidad; HIPAA sin infrastructure |
+| [aouabfeddali/FlowMemo](https://github.com/aouabfeddali/FlowMemo) | MIT | Open source AI ambient scribe. Alternativa ligera para healthcare workflows. | MVP rápido de scribe para evaluar ROI antes de solución completa |
 
 ---
 
@@ -52,6 +62,26 @@ Medplum (FHIR API + Bots + UI components)
      + LangGraph (orquestación agentes)
      + OpenAPS pattern (si hay devices)
 ```
+
+### Stack AI-Native Urgent Care (v6 — Ottehr)
+```
+Ottehr EHR (AI HPI chatbot + ambient scribe + AI coder, MIT)
+     + HAPI FHIR (backend standalone para interoperabilidad)
+     + fhir-mcp-server (Claude ↔ FHIR datos en tiempo real)
+     + Claude (reasoning complejo, non-PHI via NemoClaw si enterprise)
+     + LangGraph (workflows PA, referrals, care coordination)
+```
+*Time-to-market 95% más rápido que EHR custom. Deal size: $80k–$400k.*
+
+### Stack Ambient Scribe (v6 — open source)
+```
+scribeHC o OpenScribe (Expo + Next.js + FastAPI, MIT)
+     + Whisper (transcripción ASR local, sin cloud)
+     + Claude API (generación nota SOAP en español/inglés)
+     + fhir-mcp-server (write Encounter + DocumentReference al EHR)
+     + OpenEMR / OpenMRS / Medplum (EHR destino)
+```
+*Alternativa open source a Nuance DAX ($500-3,000/médico/mes). Deal size: $50k–$200k.*
 
 ### Stack Drug Discovery — Biotech/Pharma
 ```

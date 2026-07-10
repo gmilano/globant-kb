@@ -1,7 +1,7 @@
 # 📡 Tendencias — Healthcare AI 2026
 
 > Señales de mercado, tecnológicas y regulatorias. Basado en investigación profunda.
-> Última actualización: 2026-07-09 (v5 — T14 CHI-Bench 72% failure, T15 ARPA-H ADVOCATE, T16 FDA CDS expansion, T17 physician adoption 81%)
+> Última actualización: 2026-07-10 (v6 — T18 Back-office AI ROI masivo (UHG/HCA), T19 Open source scribe wave, T20 Hierarchical multi-agent radiology MARCH)
 
 ## 🔥 Tendencia #1: Agentic AI pasa de piloto a empresa
 
@@ -304,6 +304,89 @@ Audit trail inmutable
 
 ---
 
+---
+
+## 🆕 Tendencia #18: Back-office AI — El ROI más rápido en healthcare (Jul 2026)
+
+**Señal múltiple validada con datos reales**:
+- **UnitedHealth Group PreCheck Prior Authorization** (Optum Rx): **8+ horas → menos de 30 segundos** por aprobación de prescripción
+- **UnitedHealth AI investment**: $1.5B en 2026; proyecta ~$1B en savings; ROI 2:1 en 2-3 años
+- **HCA Healthcare**: $400M en savings proyectados — Nurse Handoff generative AI + revenue management
+- **Trase** ($107M seed, Jun 2026): agentes HIPAA+SOC2 para back-office; Duke Health: 5,000+ faxes/mes → automatizados
+- **xCures** ($46M Series B, Jun 2026): Clinical clarity engine — fragmentos de registros → decision-ready data en minutos
+
+**El patrón emergente**: Back-office → la entrada más rápida a healthcare AI porque:
+1. No requiere FDA clearance (no es decisión clínica directa)
+2. ROI tangible e inmediato (costos laborales reducidos vs. personal de PA, referrals, faxes)
+3. Genera el trust que desbloquea proyectos clínicos de mayor valor
+
+**Tipos de back-office AI con mayor momentum**:
+| Use case | ROI documentado | Deal size |
+|----------|-----------------|-----------|
+| Prior authorization automation | PA: 8h→30s (UHG) | $150k–$500k |
+| Fax routing + referral triage | 5k faxes/mes automatizados (Duke) | $100k–$400k |
+| Nurse handoff documentation | Reducción carga cognitiva (HCA) | $80k–$250k |
+| Revenue cycle AI | $400M ahorros (HCA escala) | $200k–$800k |
+| Clinical data normalization | Registros fragmentados → FHIR en minutos (xCures) | $150k–$500k |
+
+**Para Globant**: Entrar por back-office → demostrar ROI → escalar a clinical. Este es el "land and expand" de healthcare AI. UHG y HCA han validado el mercado. Globant puede replicar a hospital mid-market que no tiene el budget de UHG pero sí el problema.
+
+---
+
+## 🆕 Tendencia #19: Open Source Scribe Wave — El modelo SaaS propietario enfrenta presión real (Jul 2026)
+
+**Señal**: En julio 2026, al menos 4 proyectos open source de ambient scribe han emergido con bases de código maduras:
+- **scribeHC** (trevorpfiz/scribeHC, MIT): Expo + Next.js + FastAPI → SOAP notes
+- **OpenScribe** (Open-scribe/OpenScribe, MIT): full-stack, full control datos
+- **AI-Medical-Scribe** (hutchpd, MIT): browser-only, Chrome AI built-in, zero backend
+- **FlowMemo** (aouabfeddali, MIT): lightweight, ambulatorio
+
+**El contexto**: El mercado de scribes propietarios cobra $500-3,000/médico/mes:
+- Nuance DAX Copilot: $150M ARR
+- Abridge: $100M Series C (2025)
+- Nabla, Suki: decenas de millones en revenue
+
+**Por qué esto importa**: La brecha de costo entre propietario y open source se cierra rápidamente. Los modelos de audio (Whisper) y texto (Claude/GPT) son buenos enough para notas SOAP estándar. La diferencia está en soporte, integración, idioma.
+
+**La oportunidad para Globant**: Los proyectos open source de scribes son bases de código, no productos. Globant puede:
+1. Tomar scribeHC como base (MIT, ya tiene Expo + FastAPI)
+2. Customizar para español/portugués médico (LATAM)
+3. Integrar con OpenMRS/OpenEMR/Medplum via FHIR MCP
+4. Ofrecer como managed solution con soporte 24/7
+
+**Deal size**: $50k-$200k implementación + $500-2,000/mes soporte. Mucho más competitivo que DAX para hospitales LATAM o US mid-market.
+
+---
+
+## 🆕 Tendencia #20: Hierarchical Multi-Agent Radiology — De Agentes Monolíticos a Jerarquía Médica Real (ACL 2026)
+
+**Señal**: MARCH (arXiv:2604.16175, ACL 2026) — _"Multi-Agent Radiology Clinical Hierarchy for CT Report Generation"_
+
+**El cambio de paradigma**: Los agentes radiológicos de primera generación (MedRAX, etc.) usaban un LLM multimodal monolítico. MARCH introduce la jerarquía de departamentos reales de radiología:
+```
+Resident Agent → Draft inicial con extracción multi-escala de features CT
+    ↓
+Fellow Agent(s) → Revisión con RAG sobre casos similares
+    ↓
+Attending Agent → Consensus iterativo (stance-based discourse) → Reporte final
+```
+
+**Por qué esto supera al enfoque monolítico**:
+1. Hallazgos iniciales del Resident → revisados por Fellow RAG → resuelven ambigüedades con fuentes
+2. El Attending no aprueba automáticamente — genera un discourse iterativo hasta consenso
+3. Cada agente tiene su "especialización" y protocolo de deferencia (como la realidad hospitalaria)
+
+**Benchmarks**: Supera SOTA en RadGenome-ChestCT en fidelidad clínica + precisión lingüística.
+
+**Extensión al patrón**: La arquitectura jerárquica es generalizable más allá de radiología:
+- Patología: Resident Agent (slide review) → Fellow Agent (molecular context) → Attending Agent (tumor board consensus)
+- Cardiología: Residente (ECG reading) → Fellow (historia cardíaca) → Attending Agent (management plan)
+- Psiquiatría: Clinician Agent (síntomas) → Supervisor Agent (DSM criteria check) → Treatment Agent (plan)
+
+**Para Globant**: Cuando construyas agentes de diagnóstico, adoptar MARCH-style hierarchy en lugar de agentes monolíticos. Demostrable con datos: lower hallucination rate en reports, mejor fidelidad clínica, más aceptable para radiólogos revisores (emulan su workflow real).
+
+---
+
 ## Repos más activos esta semana (señal GitHub)
 
 - [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) — radiología AI con agentes (ICML 2025), acelerando en adopción hospitalaria
@@ -316,3 +399,6 @@ Audit trail inmutable
 - [actava-ai/chi-bench](https://github.com/actava-ai/chi-bench) — Benchmark 87 MCP tools, 72% failure rate — señal del estado real del arte
 - [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) — NEJM AI benchmark estándar EHR
 - [yhzhu99/HealthFlow](https://github.com/yhzhu99/HealthFlow) — Self-evolving multi-agent EHR framework
+- [masslight/ottehr](https://github.com/masslight/ottehr) — Primer EHR open source AI-native con ambient scribe integrado
+- [trevorpfiz/scribeHC](https://github.com/trevorpfiz/scribeHC) — Open source ambient scribe full-stack (Expo + FastAPI)
+- [Open-scribe/OpenScribe](https://github.com/Open-scribe/OpenScribe) — AI scribe open source sin vendor lock-in

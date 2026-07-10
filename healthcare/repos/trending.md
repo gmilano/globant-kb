@@ -1,7 +1,7 @@
 # 📈 Repos Healthcare trending — Julio 2026
 
 > Repos con mayor actividad, estrellas recientes y relevancia para proyectos AI en salud.
-> Última actualización: 2026-07-09 (v5 — CHI-Bench, MedAgentBench Stanford, HealthFlow, ColaCare, MedAgentBoard)
+> Última actualización: 2026-07-10 (v6 — Ottehr AI-native EHR, scribeHC, OpenScribe, QuarkMedSearch, SEMA-RAG)
 
 ## Top repos en tracción activa
 
@@ -22,6 +22,20 @@
 | [actava-ai/chi-bench](https://github.com/actava-ai/chi-bench) | Apache-2.0 | χ-Bench (arXiv:2605.16679): 75 workflows healthcare end-to-end, 87 MCP tools, 20 apps hospitalarias, manual 1,279 documentos. Coalición 20+ instituciones (JHU, Yale, Stanford, CMU, Oxford). Mejor agente: 72% falla. | ~300 |
 | [yhzhu99/MedAgentBoard](https://github.com/yhzhu99/MedAgentBoard) | MIT | Benchmarking multi-agent collaboration vs. métodos convencionales en tareas médicas diversas. Datasets + código + resultados experimentales open-sourced. Plataforma de evaluación multi-task. | ~200 |
 | [yhzhu99/HealthFlow](https://github.com/yhzhu99/HealthFlow) | MIT | HealthFlow: Automating EHR analysis via a strategically self-evolving multi-agent framework. Agentes que se adaptan automáticamente a la complejidad clínica del caso. | ~150 |
+
+---
+
+## 🆕 Repos nuevos en el radar (Jul 10, 2026 — v6)
+
+| Nombre | Licencia | Stars | Por qué importa |
+|--------|----------|-------|----------------|
+| [masslight/ottehr](https://github.com/masslight/ottehr) | MIT | ~189 | Primer EHR open source AI-native con ambient scribe + HPI chatbot + AI coder integrados. EHR development 95% más rápido. |
+| [trevorpfiz/scribeHC](https://github.com/trevorpfiz/scribeHC) | MIT | ~200 | Ambient scribe open source full-stack (Expo + Next.js + FastAPI). Base para LATAM scribe con español. |
+| [Open-scribe/OpenScribe](https://github.com/Open-scribe/OpenScribe) | MIT | ~150 | AI scribe open source: full control datos + workflows. Alternativa directa a Nuance DAX y Abridge. |
+| [hutchpd/AI-Medical-Scribe](https://github.com/hutchpd/AI-Medical-Scribe) | MIT | ~100 | Browser-only, Chrome AI built-in, zero backend. Máxima privacidad, PHI nunca sale del dispositivo. |
+| MARCH (arXiv:2604.16175) | Research | — | Multi-Agent Radiology Clinical Hierarchy (ACL 2026): Resident→Fellow→Attending Agent. Nuevo estándar para CT report generation. |
+| QuarkMedSearch (arXiv:2604.12867) | Research | — | Long-horizon medical search agent: knowledge graph + real-time exploration + SFT+RL. SOTA en modelos open-source. |
+| SEMA-RAG (arXiv:2605.17101) | Research | — | Self-Evolving Multi-Agent RAG médico: I-Agent + E-Agent + A-Agent. De RAG estático a razonamiento clínico multi-etapa. |
 
 ---
 

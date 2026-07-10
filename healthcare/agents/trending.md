@@ -1,7 +1,127 @@
 # 📈 Agentes Healthcare trending — Julio 2026
 
 > Qué está ganando tracción esta semana en el ecosistema AI de salud.
-> Última actualización: 2026-07-09 (v5 — CHI-Bench 72% clinical failure rate, ARPA-H ADVOCATE cardiovascular agentic AI, FDA CDS 2026 enforcement expansion, 81% physician adoption)
+> Última actualización: 2026-07-10 (v6 — Trase $107M seed regulado, xCures $46M, UHG PreCheck PA 8h→30s, IQVIA.ai 150+ agentes, NHS TrustX, MARCH ACL 2026, open source scribes)
+
+## 🆕 v6 — Señales críticas nuevas (Jul 10, 2026)
+
+---
+
+### Señal v6-1: Trase $107M seed — AI agents para back-office regulado (Jun 25, 2026)
+
+**Trase** ([MobiHealthNews](https://www.mobihealthnews.com/news/trase-lands-107m-scale-ai-agents-healthcare-and-high-stakes-industries)):
+- **$107M seed** liderado por ARCH Venture Partners + Red Cell Partners (total: $117.5M con pre-seed de $10.5M)
+- Producto: **Trase Origin** — plataforma de AI agents para industrias reguladas (HIPAA+SOC2)
+- Caso de uso en producción: **Duke University Health System** — cardiology procesa 5,000+ faxes mensuales automáticamente
+- Foco: healthcare + defense; áreas donde las empresas adoptan AI más lento por privacidad y seguridad
+
+**Para Globant**: Trase demuestra que el mercado paga $100M+ para back-office healthcare AI con compliance. Duke cardiology fax automation = prior auth + referral routing agéntico. Deal pattern replicable: ingresar por un flujo de back-office regulado, escalar a workflows clínicos.
+
+---
+
+### Señal v6-2: xCures $46M Series B — Clinical clarity engine (Jun 24, 2026)
+
+**xCures** ([Fierce Healthcare](https://www.fiercehealthcare.com/health-tech/fierce-healthcare-fundraising-tracker-26)):
+- **$46M Series B** liderado por Innovius Capital + iGrow + Spring Mountain Capital
+- Producto: **Clinical Clarity Engine** — transforma registros fragmentados de pacientes → datos decision-ready en minutos
+- El problema: información del paciente dispersa en múltiples sistemas → el agente clínico no puede razonar sin consolidación
+- xCures resuelve la capa de "datos listos para el agente" que es el bloqueador #1 de AI clínica en producción
+
+**Para Globant**: Clinical clarity engine es la capa de preprocesamiento antes de cualquier agente clínico. Patrón: fragmentos de EHR/faxes/labs dispersos → normalización → FHIR → agente. Globant puede construir esta capa con Medplum + Claude + FHIR MCP.
+
+---
+
+### Señal v6-3: UnitedHealth PreCheck PA — 8 horas → 30 segundos (2026)
+
+**UnitedHealth Group** ([PiTech](https://pitechsol.com/podcast/fdas-new-ai-rules-billion-dollar-ai-savings-ambient-documentation-and-cyber-resilience/)):
+- **$1.5B inversión AI en 2026** (conservador 2:1 ROI proyectado en 2-3 años)
+- **PreCheck Prior Authorization** (Optum Rx): reduce tiempo de aprobación de prescripciones de **8+ horas → menos de 30 segundos**
+- AI agents calling doctors' offices: automatización de scheduling de citas para pacientes (producción activa)
+- HCA Healthcare: **$400M en ahorros proyectados** — Generative AI Nurse Handoff tool reduce carga cognitiva en cambios de turno
+
+**Para Globant**: PA de 8h → 30s es el ROI más tangible de healthcare AI para cualquier cliente. UHG validó el patrón en escala nacional. Proyectos de prior authorization automation tienen benchmarks externos reales ahora.
+
+---
+
+### Señal v6-4: IQVIA.ai — 150+ agentes especializados en trials clínicos (Mar 2026)
+
+**IQVIA.ai** ([IQVIA](https://www.iqvia.com/newsroom/2026/03/iqvia-unveils-iqvia-ai-a-unified-agentic-ai-platform)):
+- Plataforma agentica unificada lanzada en **NVIDIA GTC Mar 2026**
+- **150+ agentes AI internos** + 100+ patentes AI filing
+- **19 de las 20 top pharma companies** incorporando agentes IQVIA en sus workflows
+- Tecnología: NVIDIA Nemotron + NeMo Agent Toolkit + Dynamo + LangChain
+- Caso de uso estrella: **clinical trial site selection** — proceso de 200 días → automatizado via agentes sub-especializados
+- Áreas: clinical, commercial, real-world data
+
+**Para Globant**: IQVIA.ai es el prototipo de plataforma agentica CRO/pharma. El patrón de sub-agentes especializados (protocolo → criterios → site feasibility → patient matching) es replicable para clientes biotech/CRO de menor escala que no tienen budget para IQVIA.
+
+---
+
+### Señal v6-5: NHS TrustX — Infraestructura de certificación para AI agéntico en UK (2026)
+
+**TrustX Initiative** ([Responsible AI Institute](https://www.responsible.ai/news/trustx-press-release/)):
+- UK: Responsible AI Institute + Health Innovation KSS
+- **"Trusted AI Technology" badge** — sello visible de evaluación y despliegue seguro de agentic AI en NHS
+- Alineado con NHS 10-Year Plan ("Fit for the Future") que llama a transformación digital masiva
+- Modelo: primero non-clinical use cases, diseñado para escalar a clinical decisions
+- Framework: evaluación rigurosa → certificación → despliegue
+
+**Para Globant**: NHS TrustX es el equivalente UK del FDA Non-Device CDS pathway. Para proyectos UK: obtener el TrustX badge es el camino más rápido hacia despliegue agéntico en NHS. Oportunidad similar a EU AI Act compliance como servicio.
+
+---
+
+### Señal v6-6: MARCH (ACL 2026) — Jerarquía médica real en agentes radiológicos
+
+**MARCH (arXiv:2604.16175)** — _"Multi-Agent Radiology Clinical Hierarchy for CT Report Generation"_:
+- Publicado en **ACL 2026**
+- Supera modelos monolíticos que son "cajas negras" en radiología 3D
+- **Arquitectura**: replica la jerarquía real de departamentos de radiología:
+  - **Resident Agent**: draft inicial con extracción multi-escala de features de CT
+  - **Fellow Agents**: revisión con retrieval-augmented generation
+  - **Attending Agent**: orquesta discourse iterativo basado en stance (consenso médico)
+- **Resultado**: supera SOTA en RadGenome-ChestCT en fidelidad clínica + precisión lingüística
+
+**Para Globant**: MARCH define el nuevo estándar arquitectónico para radiología AI. Los agentes radiológicos monolíticos (incluyendo MedRAX en ciertos casos) serán reemplazados por arquitecturas jerárquicas que emulan la supervisión real de departamentos de radiología.
+
+---
+
+### Señal v6-7: Ecosistema open source de ambient scribes explota (Jul 2026)
+
+**Nuevos repos de scribes open source**:
+- **scribeHC** ([trevorpfiz/scribeHC](https://github.com/trevorpfiz/scribeHC), MIT) — Expo mobile + Next.js + FastAPI; records consultas → SOAP notes
+- **OpenScribe** ([Open-scribe/OpenScribe](https://github.com/Open-scribe/OpenScribe), MIT) — full control datos, sin vendor lock-in
+- **AI-Medical-Scribe** ([hutchpd](https://github.com/hutchpd/AI-Medical-Scribe)) — local-first, browser-based, Chrome AI built-in, sin backend
+- **FlowMemo** ([aouabfeddali/FlowMemo](https://github.com/aouabfeddali/FlowMemo)) — open source AI ambient scribe
+
+**Señal**: El mercado de ambient scribes propietarios (Nuance DAX $150M ARR, Abridge, Nabla, Suki) enfrenta presión de alternativas open source reales que cualquier hospital puede desplegar. Los costos de licencia de $500-3,000/médico/mes se vuelven cuestionables.
+
+**Para Globant**: Opportunity clara — tomar scribeHC como base, customizar para LATAM (español/portugués + idiomas médicos locales), integrar con OpenMRS/OpenEMR via FHIR. Deal size: $50k-$200k para deployment + soporte. Mucho más rápido que construir desde cero.
+
+---
+
+## 🔥 Repos con mayor momentum (actualización v6)
+
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [masslight/ottehr](https://github.com/masslight/ottehr) | MIT | EHR AI-native + FHIR-native + ambient scribe incluido. Greenfield healthcare in a box. | ~189 |
+| [trevorpfiz/scribeHC](https://github.com/trevorpfiz/scribeHC) | MIT | Open source AI ambient scribe: Expo + Next.js + FastAPI → SOAP notes automáticas. | ~200 |
+| [Open-scribe/OpenScribe](https://github.com/Open-scribe/OpenScribe) | MIT | AI scribe open source full-stack. Sin vendor lock-in, datos del paciente bajo control. | ~150 |
+
+---
+
+## 📰 Señales de mercado esta semana (Jul 10, 2026)
+
+- **Trase $107M seed (Jun 25, 2026)**: ARCH Venture. Regulados back-office AI agents. Duke cardiology: 5k+ faxes/mes automatizados (HIPAA+SOC2).
+- **xCures $46M Series B (Jun 24, 2026)**: Clinical clarity engine — datos fragmentados → decision-ready en minutos.
+- **UnitedHealth PreCheck PA**: prior auth de prescripciones 8h → 30s. $1.5B inversión AI 2026.
+- **HCA Healthcare $400M AI savings**: Nurse Handoff generative AI, revenue cycle automation.
+- **IQVIA.ai (Mar 2026)**: 150+ agentes especializados. 19/20 top pharma adoptando. Site selection automation (200-day process).
+- **NHS TrustX Initiative (2026)**: "Trusted AI Technology" badge para agentic AI en NHS. Aligned con 10-Year Plan.
+- **MARCH (ACL 2026, arXiv:2604.16175)**: CT report multi-agent hierarchy (Resident→Fellow→Attending). SOTA en RadGenome-ChestCT.
+- **Open source scribe explosion (Jul 2026)**: scribeHC, OpenScribe, AI-Medical-Scribe, FlowMemo — 4 proyectos open en semanas. Alternativas a Nuance DAX aparecen.
+- **Ottehr (masslight/ottehr)**: primer EHR AI-native open source con scribe integrado. EHR development 95% más rápido.
+
+---
 
 ## 🚨 Señal crítica v4: primer LLM aprobado como dispositivo médico (FDA, Jun 2026)
 

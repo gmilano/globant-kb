@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Healthcare AI 2026
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09 (v5 — market $36.67B→$194.79B, agentic $1.83B→$19.71B, 81% physician adoption, ARPA-H ADVOCATE, FDA CDS expansion)
+> Última actualización: 2026-07-10 (v6 — Trase $107M+xCures $46M funding, UHG $1B savings, IQVIA.ai 150+ agents, NHS TrustX, open source scribe wave)
 
 ## Mercado Global — Tamaño y Proyecciones
 
@@ -29,6 +29,28 @@
 | Agentes AI en producción | solo 3% | Brecha masiva piloto→producción |
 | Orgs planean aumentar budget AI | 85% | NVIDIA Survey 2026 |
 
+## 🆕 Funding Round Tracker (v6 — Jul 2026)
+
+| Empresa | Ronda | Monto | Fecha | Producto | Inversor Lead |
+|---------|-------|-------|-------|----------|--------------|
+| Trase | Seed | **$107M** ($117.5M total) | Jun 25, 2026 | Trase Origin — AI agents para back-office regulado (HIPAA+SOC2). Duke Health: 5k+ faxes/mes automatizados. | ARCH Venture Partners |
+| xCures | Series B | **$46M** | Jun 24, 2026 | Clinical Clarity Engine — fragmentos de EHR → datos decision-ready en minutos. | Innovius Capital |
+| UpDoc | Seed | **$18M** | 2025 (anunciado Jun 2026) | Primer SaMD con LLM FDA-cleared (K253281). Insulin titration T2DM. Cleveland Clinic + UCSF. | American Diabetes Assoc. + Eli Lilly + Mayo Clinic |
+| IQVIA.ai | Platform launch (public) | — | Mar 2026 (GTC) | 150+ agentes especializados. 19/20 top pharma. Site selection automation (200-day process). | NVIDIA (partner) |
+
+## 🆕 ROI Benchmarks Validados por Grandes Actores (v6)
+
+| Caso de Uso | Actor | ROI Reportado |
+|-------------|-------|--------------|
+| Prior Authorization (Rx) | UnitedHealth (Optum Rx) | **8+ horas → <30 segundos** por aprobación |
+| AI savings general | UnitedHealth Group | **~$1B proyectado en 2026** ($1.5B inversión AI) |
+| Revenue management + AI | HCA Healthcare | **$400M proyectados en 2026** |
+| Fax routing / back-office | Duke University Health (via Trase) | 5,000+ faxes/mes automatizados |
+| Clinical trial site selection | IQVIA.ai | Proceso de 200 días → automatizado con sub-agentes |
+| Documentación clínica | Múltiples (Epic, Nuance) | 2-4 horas/médico/día ahorradas |
+
+---
+
 ## Players Globales
 
 | Empresa | Tipo | Fortaleza | Debilidad |
@@ -39,10 +61,13 @@
 | Google Health/DeepMind | Propietario | AlphaFold 3, MedGemini, Vertex AI for Healthcare | Privacy concerns, foco en investigación |
 | NVIDIA | Hardware + SW | GPU H100/H200, BioNeMo, NemoClaw, NIM for Healthcare, Proteina-Complexa | No es sistema clínico; enabler |
 | Medplum | Open Source (Apache-2.0) | FHIR-native TypeScript, startup-friendly, HIPAA+SOC2 incluido | Comunidad en crecimiento, menor que Epic |
+| **Ottehr** | Open Source (MIT) | **AI-native desde el día 1** — scribe + HPI chatbot + coding assistant. FHIR R4/R5. Urgent care. | ~189★, comunidad pequeña aún |
 | OpenEMR | Open Source (GPL-2.0) | Más usado open source, 1,000+ implementaciones, FHIR 8.0 certificado | PHP legacy, deuda técnica |
 | OpenMRS | Open Source (MPL-2.0) | 42+ países, LATAM/África, FHIR R4 nativo, Digital Public Good | Optimizado para recursos limitados |
-| Harvey (legal AI) / equiv. | VC-backed | Fuerte en NLP médico + regulatory | Closed-source, vertical estático |
-| Abridge / Nabla / Suki | VC-backed | Ambient scribes médicos líderes | Closed, SaaS-only |
+| **IQVIA.ai** | Enterprise/Proprietary | 150+ agentes especializados, 19/20 top pharma, NVIDIA NIM + LangChain | Solo para grandes pharma/CRO |
+| **Trase** | VC-backed ($117M) | AI agents para back-office regulado (HIPAA+SOC2). Duke Health en producción | Startup; back-office primero |
+| Abridge / Nabla / Suki | VC-backed | Ambient scribes médicos líderes | Closed, SaaS-only; presión de open source |
+| **scribeHC / OpenScribe** | Open Source (MIT) | Alternativas open source a scribes propietarios | Sin soporte enterprise propio |
 
 ## Regulación — Puntos de inflexión 2026
 
@@ -93,10 +118,25 @@
 |-----------------|-------|----------|
 | CDSS Non-Device (revisable médico) | $80k–$300k | 8–16 semanas |
 | Prior Auth Automation (revenue cycle) | $150k–$500k | 12–20 semanas |
-| Ambient Scribe (Whisper + Claude + EHR) | $50k–$200k | 6–12 semanas |
-| Plataforma FHIR greenfield (Medplum) | $100k–$600k | 16–32 semanas |
+| Ambient Scribe (scribeHC/OpenScribe + Claude + FHIR) | $50k–$200k | 4–8 semanas |
+| Ambient Scribe open source LATAM (ES/PT) | $50k–$150k | 4–6 semanas |
+| Plataforma FHIR greenfield (Medplum o Ottehr) | $80k–$600k | 8–32 semanas |
 | NemoClaw enterprise (hospital US grande) | $400k–$1.5M | 20–40 semanas |
 | Drug Discovery AI stack (biotech/pharma) | $300k–$1.5M | 20–40 semanas |
 | LATAM digital health platform | $100k–$400k | 12–24 semanas |
+| Clinical Trial AI (IQVIA.ai pattern, CRO mid-market) | $300k–$1.2M | 16–32 semanas |
+| NHS TrustX compliance + deployment UK | $150k–$600k | 12–24 semanas |
+| Back-office fax/referral automation (Trase pattern) | $100k–$400k | 8–16 semanas |
+
+## 🆕 Contexto Regulatorio UK + Global (v6)
+
+| Iniciativa | País | Estado | Implicación para Globant |
+|------------|------|--------|--------------------------|
+| NHS TrustX Badge | UK | Activo 2026 | Certificación visible para AI agéntico en NHS. Req. para proyectos NHS UK. |
+| FDA Non-Device CDS Pathway | US | Guidance Ene 2026 | CDSS revisable por médico = sin 510k. Diseñar con explainability layer. |
+| FDA SaMD LLM (K253281) | US | Aprobado Jun 2026 | Primer LLM patient-facing FDA-cleared. Pathway validado para chronic disease. |
+| ARPA-H ADVOCATE | US | En ejecución (3yr) | Blueprint dual-agent para cardiovascular/alto riesgo. |
+| LGPD | Brasil | Enforcement activo | PHI local-first (openmed / NemoClaw). Multas 2% facturación. |
+| EU AI Act (healthcare) | EU | Aug 2 2026 built-in | Credit scoring / AML / seguros → High Risk. Diseñar con audit trail inmutable. |
 
 ---
