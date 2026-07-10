@@ -1,14 +1,16 @@
 # 📡 Trends — Financial Services AI
 
-> Current movements shaping where financial AI is going. Updated with fresh signals.
-> Last updated: 2026-07-09 (v5)
+> Current movements shaping where financial AI is going.
+> Last updated: 2026-07-10 (v6)
 
 ## Macro Trend: Agentic Finance is Here
 
 2026 marks the inflection where financial AI moved from analytical copilots to **autonomous agents that act**:
-- 44% of finance teams using agentic AI in 2026 (Wolters Kluwer) — up 600% year-over-year
+- 44% of finance teams using agentic AI in 2026 (Wolters Kluwer) — up 600%+ year-over-year
 - 84% of financial services firms say open source is important to their AI strategy (NVIDIA Survey 2026)
 - $2.1B VC in AI fintech in Q1 2026 alone — largest single quarter ever
+- Average 2.3x ROI on agentic AI investments within 13 months (Accenture 2026)
+- 99% plan agents in production, only 11% have deployed = 88-point gap = Globant's revenue opportunity
 
 ---
 
@@ -16,13 +18,13 @@
 
 Gartner's 2026 FinTech Survey: 84% of visionary CFOs deployed autonomous agents for real-time treasury management. AI agents now monitor cash positions, execute FX hedges, and optimize short-term liquidity without human approval — within pre-approved parameters.
 
-**Key repos:** Qlib (strategy layer), OpenBB MCP (data layer), QuantConnect Lean (execution)
+**Key repos:** Qlib (strategy layer), OpenBB MCP (data layer), QuantConnect Lean (execution), ATLAS (self-improving regime detection)
 
 ---
 
-## T2 — EU AI Act Aug 2, 2026 — Financial Services Compliance Deadline
+## T2 — EU AI Act Aug 2, 2026 — Financial Services Compliance Deadline (~23 days)
 
-The EU AI Act's high-risk provisions are live as of August 2, 2026. In scope for financial institutions:
+High-risk provisions are live. In scope for financial institutions:
 - Credit scoring and creditworthiness assessment of natural persons (Annex III Point 5(b))
 - Risk assessment and pricing in life and health insurance
 - AI systems evaluating financial standing of individuals (AML, fraud detection scores)
@@ -35,26 +37,27 @@ The EU AI Act's high-risk provisions are live as of August 2, 2026. In scope for
 
 ---
 
-## T3 — Agentic Payments: Mastercard + Visa + x402
+## T3 — Agentic Payments: x402 Foundation Converges to 22 Members (NEW v6)
 
 **2026 is the year of agentic payments** (Fenwick, IMF Note 2026/004):
 
-**Mastercard Agent Pay for Machines** (launched June 10, 2026):
+**x402 Protocol + Foundation (22 members, Jul 2026):**
+- Full member list now includes: Adyen, AWS, American Express, Base, Circle, Cloudflare, Coinbase, Fiserv, Google, KakaoPay, Mastercard, Microsoft, Polygon Labs, PPRO, Shopify, Solana Foundation, Stripe, thirdweb, Vercel, Visa
+- 4 agentic payment protocols in play (x402, MPP, ACP, AP2) but x402 Foundation membership signals convergence
+- 165M+ transactions; $600M annualized volume; zero protocol fees
+
+**Mastercard Agent Pay for Machines (AP4M):**
 - Agentic Tokens: tokenized card credential bound to specific agent + merchant scope + consent policy
 - Machine-speed payment chains: agent buys data from agent buys compute from agent
 - 30+ first-wave partners: Adyen, Ant International, Stripe, Checkout.com, Global Payments, Cloudflare, Coinbase, OKX
-- No raw card number ever touches the model
+- **Collaborating with x402 Foundation on interoperability** — convergence, not competition
 
-**Visa Intelligent Commerce**:
+**Visa Intelligent Commerce:**
 - MCP Server for Visa APIs — any MCP agent (Claude, GPT, Gemini) can query + initiate Visa transactions
-- OpenAI strategic partnership: ChatGPT initiates Visa payments
-- Tokenization + real-time fraud monitoring for AI-initiated transactions at scale
+- Trusted Agent Protocol with Cloudflare: lets merchants distinguish legitimate agents from bots
+- **x402 interoperability collaboration** — aligning standards with Coinbase
 
-**x402 Protocol** (Coinbase + x402 Foundation):
-- HTTP 402 status code: server returns payment required → agent pays USDC → content unlocked
-- Apr 2026: 69k active agents, 165M+ transactions, $600M annualized volume, zero protocol fees
-- Jun 2026: AWS + Coinbase integrate x402 into CloudFront + WAF
-- Foundation members: Google, Visa, AWS, Circle, Anthropic, Vercel, Cloudflare
+**Signal:** Any financial AI agent built today should implement x402 as the baseline agentic payment method.
 
 ---
 
@@ -64,10 +67,8 @@ TradingAgents crossed 80k GitHub stars; v0.3.1 (Jul 2026) adds production harden
 - Claude Fable 5 + claude-sonnet-5 + Bedrock + NVIDIA + Kimi + Groq + Mistral support
 - FRED + Polymarket as native data vendors
 - Alpha Vantage look-ahead bias filtering (critical for audit compliance)
-- Configurable reasoning effort per provider (cost vs accuracy tradeoff)
 - Graph-shape-aware checkpoint resume (no restart from crash)
-
-Pattern: Fundamentals + Technicals + Sentiment + News analysts → Risk Manager → Portfolio Manager → Fund Manager → Execute via CCXT/hummingbot.
+- TradingAgents-CN fork: 16k★ milestone; localized for A-share market
 
 ---
 
@@ -80,152 +81,87 @@ FinSight (ACL 2026 Main) from Renmin University:
 
 ---
 
-## T6 — HKUDS Vibe-Trading: 16 Messaging Adapters
+## T6 — Self-Improving AI Trading Systems (NEW v6)
 
-Vibe-Trading (16.9k★) represents the "trading signals as notifications" paradigm:
-- Jun 30 2026: 16 adapters shipped — WhatsApp, Signal, Matrix, Teams, WeChat, Feishu, DingTalk, Telegram, Slack, Discord, QQ, email, Mochat, WeCom, Lark, and more
-- Pattern: AI agent analyzes market → executes → pushes signal to any messaging platform → human confirms or full-auto
-- LATAM angle: WhatsApp-first delivery for highest mobile penetration markets (Brazil, Mexico)
+**The new frontier: agents that evolve their own decision logic based on market performance.**
 
----
+ATLAS (General Intelligence Capital, MIT, 2k★) demonstrates the pattern:
+- **Agent prompts = model weights** — no GPU required for evolution
+- **Sharpe ratio = loss function** — market provides direct ground truth signal
+- **Darwinian selection**: 54 prompt modifications attempted, 16 survived (30% pass rate); the rest killed
+- **Autonomous spawning**: detected credit markets gap → created credit analyst agent; grew from 25 to 31 agents
+- **PRISM Regime Training**: separate agent cohorts trained on bull markets, crises, rate tightening, liquidity events
+- **Soros Reflexivity Engine**: models how price movements feed back into fundamentals and policy
+- **Results**: +22% 18-month backtest, +30% live performance
 
-## T7 — Embedded Finance Acceleration
+OpenFinClaw-CLI extends this pattern to individual quant research:
+- Self-writing skills at runtime: agent generates new analysis skills based on what it discovers it needs
+- 60-second setup in Claude Code; natural language → live strategy → paper trade
+- Community strategy leaderboard creates external selection pressure on strategies
 
-Non-financial platforms integrating financial capabilities directly into user experiences:
-- Lending, insurance, savings, payroll, wealth management inside non-fintech apps
-- Stripe + Airwallex enabling multi-card, multi-currency checkout orchestration
-- AI agents as the "finance layer" inside B2B SaaS products
-- x402 enables any web service to accept AI agent payments without a payment processor integration
-
----
-
-## T8 — LATAM: Capital to Profitable Verticals
-
-Fintech investment in LATAM is maturing:
-- 2026 capital flows: B2B payments, SME credit, embedded finance — not consumer neobanks
-- Brazil dominates: 4 of top 10 Q1 2026 fintech deals; 14.92% regional share
-- Mexico: 77% AI adoption, 80% fintech-bank partnerships
-- Unit economics matter; "users without profit" are no longer fundable
-- New angle: x402 stablecoin cross-border payments enable LATAM SMEs to bypass SWIFT friction
-
-**Globant angle:** SME AI CFO (ERPNext + LLM), credit agent for underserved (Fineract + FinRL), AML for Brazilian banks.
+**Globant implication:** Self-improving agents = lower maintenance cost over time. Once deployed, the system does its own prompt engineering. This dramatically changes the ROI calculation for financial AI products.
 
 ---
 
-## T9 — KYC / AML Automation: Clearest ROI in LATAM
+## T7 — FinAegis: AI-First Core Banking Goes Open Source (NEW v6)
 
-KYC and AML automation identified as clearest short-term ROI in LATAM:
-- BCB (Brazil) and CNBV (Mexico) require written model governance and human oversight
-- Document verification agents + AML transaction monitoring agents = immediate cost reduction
-- Pipeline: document ingestion → LLM extraction → risk scoring → human review on edge cases
-- EU AI Act Aug 2 deadline driving audit-trail demand in European banks
+FinAegis represents a qualitative shift in open source core banking: instead of banking software with AI bolted on, it is AI-first banking infrastructure:
 
----
+- **MCP server built in**: any LLM agent can create accounts, initiate loans, process transfers via tool calls
+- **x402/MPP native**: AI agents can autonomously execute settlements without human payment initiation
+- **Event sourcing + CQRS**: every financial event is an immutable audit log entry — native EU AI Act Article 12 compliance
+- **61 DDD bounded contexts**: fine-grained modularity means AI agents operate on well-defined financial domain objects
+- **Multi-LLM**: Claude + OpenAI supported natively; swap backends without code changes
+- **GraphQL API**: schema-first, introspectable — LLMs can self-discover what operations are available
 
-## T10 — Microsoft Qlib + RD-Agent: Automated Quant R&D
-
-RD-Agent integration makes Qlib a full automated research lab:
-- LLM generates trading hypotheses → backtests → evaluates → iterates automatically
-- From idea to production-ready strategy without human quant analyst
-- 44k+ stars; MIT license; deployable on Azure AI Foundry
+**Pattern shift:** With FinAegis, you don't build an AI layer on top of banking software. The banking software IS the AI infrastructure.
 
 ---
 
-## T11 — Prediction Market AI Infrastructure
+## T8 — Fraud Detection Remains the Anchor Use Case (UPDATED v6)
 
-The "CCXT for prediction markets" moment has arrived:
-- FinClaw integrates Polymarket + Kalshi natively
-- TradingAgents v0.3.1 ships Polymarket as native data vendor
-- 36GB Polymarket historical dataset available for training forecasting agents
-- AI agents trading information markets — new category for macro traders and hedge funds
+Fraud Detection & AML = 28.65% of agentic AI revenue in financial services (largest segment, Mordor 2026):
+- Real-time transaction scoring: millisecond inference on payment events (PIX, SPEI, RTP, FedNow)
+- AML pattern detection: multi-hop graph analysis across accounts and transactions
+- Synthetic identity fraud: LLMs now used for both generating and detecting synthetic identities
+- Key constraint: EU AI Act Aug 2 makes AML scoring systems "high-risk" → explainability + logging mandatory
 
----
-
-## T12 — OpenBB MCP Server: Financial Data for Any AI Agent
-
-OpenBB's MCP server means any MCP-compatible agent can:
-- Query financial data (prices, fundamentals, earnings, macro) via natural language
-- Get standardized, cleaned data without writing custom connectors
-- agents-for-openbb plugin system extends this to custom workflows
+**Open source stack**: FinRL (anomaly detection), Apache Atlas (audit logging), Great Expectations (data quality), Claude (explainability narration)
 
 ---
 
-## T13 — Brazil's Fintech Dominance
+## T9 — Virtual Assistants: Fastest Growing Application (35.91% CAGR)
 
-Brazil cements its position as LATAM's #1 fintech hub:
-- 14.92% of regional fintech investment share
-- PIX open banking API enables AI agent access to bank data with customer consent
-- Nubank (100M+ customers) setting AI-native credit scoring benchmark for region
-- BCB progressive stance: AI in credit scoring is accepted with documented governance
-
----
-
-## T14 — Agent-Native vs Tool-Using LLMs: Architecture Shift
-
-New architecture paradigm becomes standard in 2026:
-- **Old**: LLM with tool-use capabilities added on top of existing system
-- **New**: System designed from ground up for LLM orchestration as primary flow
-
-Exemplars: AI-Trader, Vibe-Trading, TradingAgents, FinClaw.
-Characteristics: multi-agent debate before any action; continuous feedback loop; modular agent components; channel-agnostic signal delivery.
+Virtual Assistants & Chatbots in FinServ: 35.91% CAGR through 2031 (fastest application segment, Mordor):
+- Conversational banking on WhatsApp/Telegram/Signal: Vibe-Trading model applied to customer service
+- Loan origination via conversation: Apache Fineract + Claude (or FinAegis MCP) + WhatsApp Business API
+- AI CFO for SMEs: ERPNext + FinRobot answering "how much cash do I have for payroll this month?"
 
 ---
 
-## T15 — Autonomous Loan Approval + Contract Negotiation
+## T10 — Asia-Pacific: 35.20% CAGR Through 2031 (Fastest Geography)
 
-Moving beyond analytics into autonomous action:
-- AI agents proactively approving microloans within credit policy bounds
-- Contract negotiation agents in B2B lending and insurance
-- 58% of finance departments used AI in 2024 → 44% using agentic AI in 2026 (600%+ growth)
+Asia-Pacific is the fastest-growing geography for agentic financial AI:
+- China: TradingAgents-CN fork (16k★), FinClaw A-share support, OpenFinClaw-CLI Alibaba A-share market
+- South Korea: KakaoPay joins x402 Foundation (first APAC payment network in the consortium)
+- Hong Kong: HKUDS AI-Trader + Vibe-Trading originated here; AI-Trader supports HK equities natively
+- India: Apache Fineract deployments for microfinance; ERPNext strong community
 
----
-
-## T16 — x402: Internet-Native Payments for AI Agents (NEW v5)
-
-The x402 protocol represents a paradigm shift — AI agents can now pay for services autonomously:
-
-```
-Traditional web payment flow:
-  Human → click → payment form → bank → merchant
-
-x402 agentic flow:
-  AI agent → GET /resource → 402 Payment Required (USDC amount, address)
-           → pay instantly via USDC on Base/Solana
-           → GET /resource with proof → 200 OK + content
-```
-
-- Apr 2026 stats: 69k active agents, 165M+ transactions, $600M annualized volume, zero protocol fees
-- AWS + CloudFront native (Jun 2026): any web service can become x402-enabled
-- x402 Foundation: Google, Visa, AWS, Circle, Anthropic, Vercel, Cloudflare
-- Coinbase Agent.market: first AI agent app store; apps sell to and buy from each other via x402
-- For financial services: enables AI agents to purchase data, analytics, and services autonomously
+**Globant LATAM-APAC parallel:** The LATAM underbanked opportunity (Fineract + FinRL for credit scoring) mirrors APAC fintech inclusion patterns. Learnings transfer across both regions.
 
 ---
 
-## T17 — Agentic AI Foundation (AAIF): Open Standards (NEW v5)
+## Trend Radar
 
-Block, Anthropic, and OpenAI (with Linux Foundation) announced AAIF to standardize agentic AI:
-- Common agent identity and trust verification (critical for payment authorization)
-- Standard audit logging schema (maps to EU AI Act Article 12)
-- Interoperability between agent runtimes, payment rails, and enterprise systems
-- Implications for financial services: verified AI agents → trusted autonomous transactions
-
----
-
-## T18 — Benchmarking Wars: Financial Agent Quality Gates (NEW v5)
-
-2026 sees rigorous benchmarks emerge for financial AI agents:
-
-| Benchmark | Focus | Why It Matters |
-|-----------|-------|----------------|
-| **Herculean** (arXiv:2605.14355) | Agentic financial intelligence | Multi-domain complex tasks; use as acceptance criteria for trading agents |
-| **BigFinanceBench** (arXiv:2606.03829) | Workflow-grounded research | Realistic financial research workflows, not just Q&A |
-| **FinDeepForecast** (arXiv:2601.05039) | Live forecasting accuracy | Weekly refresh; 1,314 companies × 8 economies; leaderboard for client demos |
-| **Look-Ahead-Bench** (arXiv:2601.13770) | Point-in-time bias detection | Critical for EU AI Act Article 12 audit compliance |
-| **FinRetrieval** (arXiv:2603.04403) | Data retrieval quality | Benchmark for OpenBB / financial data agent accuracy |
-
-Globant can use these benchmarks as part of **quality gates in delivery pipelines** — proving to clients that their custom agent meets or exceeds published baselines.
+| Signal | Maturity | Time to Revenue | Priority |
+|--------|---------|----------------|---------|
+| EU AI Act compliance assessment | Immediate | 0–3 months | 🔴 Urgent |
+| Fraud detection agentic replacement | Production-ready | 3–6 months | 🔴 High |
+| ATLAS self-improving trading system | Early production | 6–12 months | 🟡 Watch |
+| FinAegis MCP-native core banking | Available now | 3–9 months | 🟡 Evaluate |
+| x402 agentic payments integration | Production-ready | 3–6 months | 🟡 High |
+| Virtual assistant on Fineract + WhatsApp | Production-ready | 4–8 weeks | 🟢 Low-hanging |
+| OpenFinClaw-CLI quant PoC tool | Available now | Immediate (demo) | 🟢 Quick win |
 
 ---
-
-*Sources: Gartner 2026, Finastra, Mordor Intelligence, NVIDIA Survey 2026, Wolters Kluwer 2026, KPMG 2026, Innowise, Infutrix, Fintech.Global, Galileo-FT, EU AI Act Official Text, IMF Note 2026/004 (Agentic AI Reshaping Payments), Mastercard Press Jun 2026, Coinbase Developer Platform, GitHub.*
+*Auto-updated by the Globant AI Studios ingest pipeline.*
