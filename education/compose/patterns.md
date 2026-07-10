@@ -1,22 +1,22 @@
 # 🧩 Patrones de composición — Education
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-10
+> Última actualización: 2026-07-10 (v6)
 
 ## Arquitectura base
 
 ```
-[Plataforma vertical base (Moodle / Open edX / ClassroomIO)]
+[Plataforma vertical base (Moodle / Open edX / ClassroomIO / LearnHouse)]
           ↓
-[Plugin/Extension AI (openedx-ai-extensions / moodle-ai-assistant)]
+[Plugin/Extension AI (openedx-ai-extensions / moodle-ai-assistant / @classroomio/mcp)]
           ↓
-[Motor de tutoring (DeepTutor / Open TutorAI CE)]
+[Motor de tutoring (DeepTutor v1.5 / Open TutorAI CE / EduAdapt-AI RL)]
           ↓
 [Orquestador multi-agente (LangGraph / CrewAI)]
           ↓
 [LLM Backend (Claude Sonnet 4.5 / Haiku 4.5 / Ollama local)]
           ↓
-[Data pipeline (xAPI engagement events → alertas → analytics)]
+[Data pipeline (xAPI engagement events → alertas → analytics → Book Engine)]
 ```
 
 ---
@@ -74,7 +74,7 @@ Cliente universidad LATAM con Moodle existente que quiere añadir AI sin migrar 
 ### Stack
 - **LMS base**: Open edX platform (Apache-2.0, 9.6k★)
 - **AI plugin**: openedx-ai-extensions (Apache-2.0)
-- **Tutoring engine**: HKUDS/DeepTutor (Apache-2.0, 23.7k★) vía REST API
+- **Tutoring engine**: HKUDS/DeepTutor (Apache-2.0, 25.2k★) vía REST API
 - **Orchestration**: LangGraph
 - **LLM**: Claude Sonnet 4.5 (tutoring) + Claude Haiku 4.5 (tareas rutinarias)
 
@@ -189,13 +189,9 @@ class ProfessorAgent:
         self.planning = PlanningAgent()
     
     def generate_embodied_lecture(self, topic: str, learner_profile: dict) -> dict:
-        # Phase 1: Research
         content = self.research.gather_content(topic)
-        
-        # Phase 2: Planning
         plan = self.planning.create_lecture_plan(content, learner_profile)
         
-        # Phase 3: Embodied lecture generation with TASA markers
         response = client.messages.create(
             model="claude-sonnet-4-5",
             max_tokens=4096,
@@ -217,27 +213,23 @@ Learner profile: {profile}. Adapt language, examples, and pacing.""".format(prof
         return {
             "speech": speech,
             "teaching_actions": actions,
-            "estimated_duration_min": len(speech.split()) / 150,  # ~150 wpm
+            "estimated_duration_min": len(speech.split()) / 150,
             "topic": topic
         }
     
     def _parse_tasa_markers(self, script: str) -> tuple[str, list]:
-        """Extract teaching actions and generate timeline aligned to speech."""
         actions = []
-        clean_speech = script
-        
         for match in re.finditer(r'\[(WRITE|HIGHLIGHT|UNDERLINE|PAUSE):([^\]]+)\]', script):
             action_type = match.group(1)
             action_content = match.group(2)
             char_position = match.start()
             word_position = len(script[:char_position].split())
-            timestamp_seconds = word_position / 2.5  # ~150 wpm = 2.5 words/sec
+            timestamp_seconds = word_position / 2.5
             actions.append({
                 "type": action_type,
                 "content": action_content,
                 "timestamp": timestamp_seconds
             })
-        
         clean_speech = re.sub(r'\[[^\]]+\]', '', script).strip()
         return clean_speech, actions
 ```
@@ -252,8 +244,8 @@ Universidad o empresa que quiere cursos async de alta calidad con "profesor IA" 
 
 ### Stack
 - **LMS base**: classroomio/classroomio (MIT, 1.5k★) — Svelte + Supabase
+- **MCP**: @classroomio/mcp (npm) — AI-native integrations
 - **AI layer**: Claude Sonnet 4.5 via Anthropic API (grading) + Claude Haiku 4.5 (quiz)
-- **Quiz generation**: Claude Haiku sobre contenido de los cursos
 - **Grading agent**: Claude Sonnet con tool use + XAI (explainable grading)
 
 ### Receta
@@ -262,7 +254,6 @@ from anthropic import Anthropic
 
 client = Anthropic()
 
-# --- Explainable AI Grading Agent ---
 grading_tool = {
     "name": "grade_submission",
     "description": "Grade a student submission with detailed, explainable feedback",
@@ -296,7 +287,6 @@ def grade_assignment(submission: str, rubric: str) -> dict:
             return block.input
     return {}
 
-# --- Auto-quiz generation ---
 def generate_quiz(lesson_content: str, num_questions: int = 5) -> list[dict]:
     """Auto-generate MCQ quiz from lesson content."""
     response = client.messages.create(
@@ -375,11 +365,9 @@ Write an encouraging message to bring them back."""
 def daily_at_risk_sweep(engagement_df: pd.DataFrame) -> list[dict]:
     """Run daily. Detect and nudge at-risk students proactively."""
     alerts = []
-    
     for _, student in engagement_df.iterrows():
         risk = calculate_risk_score(student)
-        
-        if risk >= 0.4:  # Threshold: medium+ risk
+        if risk >= 0.4:
             nudge = generate_personalized_nudge(student)
             alerts.append({
                 "student_id": student['id'],
@@ -389,23 +377,19 @@ def daily_at_risk_sweep(engagement_df: pd.DataFrame) -> list[dict]:
                 "recommended_action": "schedule_tutoring" if risk >= 0.7 else "send_reminder",
                 "generated_at": datetime.utcnow().isoformat()
             })
-    
     return alerts
 
-# Run via cron / Open edX Celery task
 if __name__ == "__main__":
     data = fetch_engagement_data(days_back=7)  # from xAPI events
     alerts = daily_at_risk_sweep(data)
-    
     for alert in alerts:
         send_notification(alert['student_id'], alert['nudge_message'])
         log_intervention_to_db(alert)
-    
     print(f"[{datetime.utcnow().isoformat()}] Sent {len(alerts)} proactive nudges")
 ```
 
 ### Cuándo usar
-Universidad LATAM con 5k–50k estudiantes online. Reducir deserción 15–30% con intervención proactiva personalizada. ROI medible → deals grandes.
+Universidad LATAM con 5k–50k estudiantes online. Reducir deserción 15–30% con intervención proactiva personalizada. ROI medible: $2.3B ahorrados globalmente en dropout prevention (Evelyn Learning 2026). Argumento para rectores/ministros.
 
 ---
 
@@ -413,7 +397,7 @@ Universidad LATAM con 5k–50k estudiantes online. Reducir deserción 15–30% c
 **Tiempo**: 10–16 semanas | **Deal**: $80k–$400k | **Licencias**: Apache-2.0
 
 ### Stack
-- **Tutoring engine**: HKUDS/DeepTutor fork (Apache-2.0, 23.7k★)
+- **Tutoring engine**: HKUDS/DeepTutor fork (Apache-2.0, 25.2k★)
 - **LMS**: Open edX (Apache-2.0) o Moodle (GPL)
 - **LLM**: Claude Sonnet 4.5 (español/portugués nativo, multilingüe)
 - **Curriculum**: SEP (México), BNCC (Brasil), NAP (Argentina), MEN (Colombia)
@@ -444,42 +428,177 @@ Reglas pedagógicas:
 3. Usa ejemplos y contextos culturales de {country}
 4. Si el estudiante está frustrado, cambia de estrategia pedagógica
 5. Termina cada respuesta con una pregunta que invite a reflexionar
-6. Si hay error, explica POR QUÉ está mal antes de la respuesta correcta
+6. Si hay error, explica POR QUÉ está mal antes de la respuesta correcta"""
 
-Alineamiento curricular: Sigue los estándares de aprendizaje del {curriculum}."""
-
-def tutor_session(
-    student: dict,
-    topic: str,
-    student_question: str,
-    conversation_history: list[dict]
-) -> str:
+def tutor_session(student: dict, topic: str, student_question: str, conversation_history: list[dict]) -> str:
     country = student.get('country', 'MX')
     config = COUNTRY_CONFIGS.get(country, COUNTRY_CONFIGS['MX'])
-    
     system_prompt = SOCRATIC_TUTOR_SYSTEM.format(
         country=country,
         language=config['language'],
         curriculum=config['curriculum'],
         grade_level=student.get('grade', 'secundaria')
     )
-    
     messages = conversation_history + [
         {"role": "user", "content": f"Estoy estudiando: {topic}.\n{student_question}"}
     ]
-    
     response = client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=1024,
         system=system_prompt,
         messages=messages
     )
-    
     return response.content[0].text
 ```
 
 ### Cuándo usar
 Ministerio de Educación, edtech LATAM, o sistema escolar privado que quiere AI tutor culturalmente adaptado en español/portugués. Diferenciador frente a soluciones en inglés. Alineado al currículo local.
+
+---
+
+## P7: AUSS — Unified Campus Intelligence (Multi-Level Agentic System) (NEW v6)
+**Tiempo**: 20–30 semanas | **Deal**: $400k–$2M | **Licencias**: Apache-2.0 + MIT
+
+### Stack
+- **Arquitectura**: AUSS (arXiv:2604.16566) — 3 niveles de agentes
+- **LMS**: Open edX (Apache-2.0) con xAPI events + LMS APIs
+- **Orchestration**: LangGraph (multi-agent graph) + Celery (async tasks)
+- **LLM**: Claude Sonnet 4.5 (planning + reasoning) + Claude Haiku 4.5 (high-volume tasks)
+- **Analytics**: ClickHouse (event store) + Metabase (institutional dashboard)
+- **Notifications**: Email + WhatsApp Business API + LMS inbox
+
+### Receta
+```python
+from langgraph.graph import StateGraph, END
+from anthropic import Anthropic
+from dataclasses import dataclass, field
+from typing import Optional
+
+client = Anthropic()
+
+@dataclass
+class CampusIntelligenceState:
+    # Level 1: Student
+    student_id: str
+    engagement_signals: dict  # from xAPI: logins, quiz scores, video completion
+    knowledge_state: dict     # topics mastered / gaps
+    risk_score: float
+    # Level 2: Educator  
+    course_id: str
+    cohort_analytics: dict    # aggregated student data
+    pending_gradings: list[str]
+    # Level 3: Institution
+    enrollment_trends: dict
+    resource_bottlenecks: list[str]
+    curriculum_alerts: list[str]
+    actions_taken: list[dict] = field(default_factory=list)
+
+# --- Level 1: Student Personalization Agent ---
+def student_personalization_agent(state: CampusIntelligenceState) -> CampusIntelligenceState:
+    """Proactively personalizes learning path and generates at-risk interventions."""
+    signals = state.engagement_signals
+    
+    # Compute risk
+    state.risk_score = compute_risk(signals)
+    
+    if state.risk_score >= 0.6:
+        # Generate intervention
+        nudge = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=200,
+            system="Write a warm, encouraging 2-sentence nudge for a student. Be specific to their situation.",
+            messages=[{"role": "user", "content": f"Student signals: {signals}"}]
+        )
+        state.actions_taken.append({
+            "type": "student_nudge",
+            "student_id": state.student_id,
+            "message": nudge.content[0].text,
+            "risk_score": state.risk_score
+        })
+    
+    return state
+
+# --- Level 2: Educator Automation Agent ---
+def educator_automation_agent(state: CampusIntelligenceState) -> CampusIntelligenceState:
+    """Auto-grades, generates cohort insights, alerts educator about struggling groups."""
+    if state.pending_gradings:
+        grading_summary = client.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=1024,
+            system="You are an AI grading assistant. Grade and provide detailed feedback.",
+            messages=[{"role": "user", "content": f"Grade these submissions: {state.pending_gradings[:3]}"}]
+        )
+        state.actions_taken.append({
+            "type": "auto_grading",
+            "count": len(state.pending_gradings),
+            "summary": grading_summary.content[0].text
+        })
+    
+    # Cohort analytics
+    cohort_insight = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=512,
+        system="Analyze student cohort data and identify patterns the educator should act on.",
+        messages=[{"role": "user", "content": f"Cohort analytics: {state.cohort_analytics}"}]
+    )
+    state.actions_taken.append({
+        "type": "cohort_insight",
+        "insight": cohort_insight.content[0].text
+    })
+    return state
+
+# --- Level 3: Institutional Intelligence Agent ---
+def institutional_intelligence_agent(state: CampusIntelligenceState) -> CampusIntelligenceState:
+    """Optimizes resource allocation, identifies curriculum issues, enrollment trends."""
+    if state.resource_bottlenecks:
+        recommendation = client.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=1024,
+            system="You are an institutional AI advisor. Provide actionable resource optimization recommendations.",
+            messages=[{
+                "role": "user",
+                "content": f"Bottlenecks: {state.resource_bottlenecks}\nTrends: {state.enrollment_trends}"
+            }]
+        )
+        state.actions_taken.append({
+            "type": "institutional_recommendation",
+            "recommendation": recommendation.content[0].text
+        })
+    return state
+
+# --- AUSS LangGraph Orchestration ---
+auss_graph = StateGraph(CampusIntelligenceState)
+auss_graph.add_node("student_level", student_personalization_agent)
+auss_graph.add_node("educator_level", educator_automation_agent)
+auss_graph.add_node("institutional_level", institutional_intelligence_agent)
+
+auss_graph.set_entry_point("student_level")
+auss_graph.add_edge("student_level", "educator_level")
+auss_graph.add_edge("educator_level", "institutional_level")
+auss_graph.add_edge("institutional_level", END)
+
+campus_auss = auss_graph.compile()
+
+# --- Run daily (via Celery cron task) ---
+def daily_campus_intelligence_run(campus_id: str) -> dict:
+    state = CampusIntelligenceState(
+        student_id="batch",
+        engagement_signals=fetch_all_engagement_signals(campus_id),
+        knowledge_state={},
+        risk_score=0.0,
+        course_id="all",
+        cohort_analytics=fetch_cohort_analytics(campus_id),
+        pending_gradings=fetch_pending_gradings(campus_id),
+        enrollment_trends=fetch_enrollment_trends(campus_id),
+        resource_bottlenecks=detect_bottlenecks(campus_id),
+        curriculum_alerts=[]
+    )
+    result = campus_auss.invoke(state)
+    return {"actions": result.actions_taken, "timestamp": "now"}
+```
+
+### Cuándo usar
+Universidad grande (5k–100k+ estudiantes) o red de instituciones que quiere unificar AI en todos los niveles: estudiante, docente, e institución. Diferenciador vs. chatbots individuales: el campus como sistema inteligente unificado. ROI: reducción deserción 15–30% + eficiencia docente + decisiones institucionales basadas en datos. Deal más grande del portfolio educativo.
 
 ---
 
@@ -493,6 +612,7 @@ Ministerio de Educación, edtech LATAM, o sistema escolar privado que quiere AI 
 | Corporate training greenfield | 6–10 sem | $100k–$400k | **P4: ClassroomIO + Claude** |
 | Universidad, retención estudiantes | 8–14 sem | $120k–$450k | **P5: At-Risk Alert Agent** |
 | K-12 / EdTech LATAM en español | 10–16 sem | $80k–$400k | **P6: LATAM AI Tutor** |
+| Campus inteligente unificado (big deal) | 20–30 sem | $400k–$2M | **P7: AUSS Unified Campus Intelligence** |
 
 ---
-*Patrones actualizados por el pipeline de ingest. Última actualización: 2026-07-10.*
+*Patrones actualizados por el pipeline de ingest. Última actualización: 2026-07-10 (v6).*

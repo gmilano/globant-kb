@@ -1,71 +1,52 @@
-# 📡 Agentes trending — Education
+# 📈 Tendencias — Agentes AI Education (semana actual)
 
-> Señales frescas esta semana. Última actualización: 2026-07-10
+> Última actualización: 2026-07-10 (v6)
 
-## Señales de la semana (S1–S8)
+## Señales nuevas esta semana
 
-### S1 — DeepTutor v1.0 GA: el tutor agentico open source de referencia (Apache-2.0, 23.7k★)
-**repo**: https://github.com/HKUDS/DeepTutor  
-**señal**: In April 2026, HKUDS (Data Intelligence Lab @ HKU) released DeepTutor v1.0 — a complete ground-up rewrite spanning 200k lines of code. Support for 30+ LLM providers (Claude, GPT-4o, Gemini, Ollama local). Dual-loop reasoning: outer loop adapts to the learner's evolving knowledge state; inner loop generates personalized explanations, exercises, and visual aids. Self-hostable via Docker Compose. 23.7k GitHub stars.
+### S1 — DeepTutor v1.5.0 (Jul 4 2026): Agent-Native Book Engine
+**repo**: [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) — Apache-2.0 — 25.2k★  
+v1.5.0 closes out the entire v1.4 line. Agentes clave: Book Engine (chat history + notebooks + knowledge bases → structured "living books" interactivos), multi-user support (isolated workspaces, admin grants, auth routes), Book chat sessions persistentes por página. 20k★ en 111 días tras el launch. Arquitectura de referencia para tutoring agentico.
 
-**Por qué importa para Globant**: Most robust open-source AI tutor in 2026. Directly forkable and deployable on top of edX/Moodle content. White-label or customize for enterprise training clients in LATAM.
+### S2 — AUSS: Unified Multi-Agent Framework Education (arXiv:2604.16566, Apr 2026)
+**source**: arxiv.org/abs/2604.16566  
+Agentic Unified Student Support System — arquitectura multi-agente con 3 niveles integrados: (1) student-level personalization, (2) educator-level automation, (3) institutional-level intelligence. Usa LLMs + reinforcement learning + predictive analytics + rule-based reasoning. Critica que sistemas AI educativos existentes "operan reactivamente" — el AUSS propone proactividad multi-nivel. Referencia de arquitectura para propuestas Globant enterprise.
 
----
+### S3 — LearnHouse: Next-Gen OSS LMS con AI nativa y code execution
+**repo**: [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) — AGPL-3.0 — ~390★  
+Block-based content editor (como Notion pero para cursos), code execution con auto-grading en 30+ languages, collaborative whiteboards en tiempo real, AI-generated interactive elements, context-aware AI integrada. Stack: Next.js + FastAPI + Postgres. Self-hosted vía Docker + CLI oficial. Alternativa moderna a Moodle para startups EdTech.
 
-### S2 — LectūraAgents: enseñanza encarnada multi-agente (arXiv:2606.16428, Jun 2026)
-**arxiv**: https://arxiv.org/abs/2606.16428  
-**señal**: ProfessorAgent leads a hierarchical team of subordinate agents (Research, Planning, Review) for end-to-end personalized lecture generation. TASA algorithm (Teaching Action-Speech Alignment) uses salience-based heuristics and temporal semantic segmentation to synchronize handwriting, highlighting, and underlining actions with the avatar teacher's speech. Evaluated across high school, undergraduate, and graduate levels by expert educators.
+### S4 — EduAdapt-AI: RL para learning path optimization
+**repo**: [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) — MIT  
+Sistema de aprendizaje adaptativo que usa custom policy gradient methods para recomendar paths de aprendizaje óptimos. Combina knowledge tracing, content recommendation, y RL para optimizar outcomes. Adaptive quiz generation en tiempo real basado en performance. Integrable sobre Moodle/Open edX como capa de personalización.
 
-**Por qué importa**: First framework to bring "embodied AI teacher" actions to multi-agent education. Enables avatar-based AI lectures for async courses — replaces expensive video production. Composable with D-ID or HeyGen for avatar rendering.
+### S5 — AI Early-Warning Systems: predice deserción 85% antes
+**source**: Evelyn Learning / evelynlearning.com 2026  
+Sistemas AI de alerta temprana predicen dropout hasta 12 semanas antes usando engagement signals del LMS. Ahorran $2.3B anuales a instituciones universitarias globalmente. Universidad de Lynchburg: 47k interacciones de agentes para campus de 2.8k estudiantes. Los 5 dominios de riesgo: academic belonging, financial stress, institutional confidence, social integration, intentions.
 
----
+### S6 — AI in Education: $10.6B (2026) → $42.48B (2030), CAGR 41.5%
+**source**: GlobeNewswire Apr 7 2026  
+El mercado AI en educación cuadruplica en 4 años. CAGR 41.5% impulsado por: personalized learning, remote education models, adaptive learning systems, analytics de performance estudiantil. Es el forecast más citado en el sector para H2 2026.
 
-### S3 — Open TutorAI CE: plataforma de tutoring LLM-native (Apache-2.0)
-**repo**: https://github.com/Open-TutorAi/open-tutor-ai-CE  
-**paper**: https://arxiv.org/abs/2602.07176  
-**señal**: arXiv paper published Feb 2026 describing the full architecture. Community Edition now actively maintained. Features: RAG over course PDFs, adaptive hint generation, student progress tracking. Designed as a drop-in tutoring layer on top of any LMS.
+### S7 — Agentic AI University: 81.8% de interacciones estudiantiles via agentes
+**source**: Druid AI Benchmark 2026 / Inside Higher Ed Jan 2026  
+En deployments universitarios de agentic AI, el 81.8% del volumen de interacciones estudiantiles ya es manejado por agentes autónomos (sin humano en el loop). Los campus que no migran de chatbots a agentes están perdiendo 60-80% de eficiencia potencial. "Agentic AI University" es la narrativa dominante en higher ed para 2026-2027.
 
-**Por qué importa**: Full data ownership alternative to Khanmigo. Directly integrable with Open edX or Moodle.
-
----
-
-### S4 — Microsoft Moodle AI Assistant: accelerator de producción (MIT)
-**repo**: https://github.com/microsoft/moodle-ai-assistant  
-**señal**: Microsoft open-sourced a production-oriented Moodle AI Agent accelerator. RAG over course materials, FAQ agent, grading assistant. Configurable for Claude or local models (not tied to Azure). Updated May 2026.
-
-**Por qué importa**: Fastest path to "AI copilot on existing Moodle" for K-12 / university clients. MIT license — no restrictions. Globant can take this and customize without re-architecting.
-
----
-
-### S5 — openedx-ai-extensions: plugin AI oficial de Open edX (Apache-2.0)
-**repo**: https://github.com/openedx/openedx-ai-extensions  
-**señal**: Official experimental plugin for Open edX; modular architecture allows swapping AI providers (OpenAI, Claude, Cohere). Features include grading hooks, recommendation engine slots, student-support chatbot entry points. Updated Jun 2026.
-
-**Por qué importa**: Safe extensibility point — won't break with Open edX upstream updates. The right architectural layer for production edX deployments.
+### S8 — LectūraAgents arXiv:2606.16428 Jun 2026
+**source**: arxiv.org/abs/2606.16428  
+Multi-agent para enseñanza encarnada: ProfessorAgent orquesta ResearchAgent + PlanningAgent + ReviewAgent. TASA algorithm alinea acciones pedagógicas (escribir, subrayar, destacar) a speech del avatar. 0.87-0.95 success rate evaluado por expertos. Habilita video production a <$5/min vs $50-200/min tradicional.
 
 ---
 
-### S6 — GenAI EdTech breakout: $0.76B (2026) → $3.22B (2030), CAGR 43.6%
-**fuente**: The Business Research Company / GlobeNewswire Jul 8 2026  
-**señal**: Generative AI in EdTech is the fastest-growing AI vertical by percentage. 86% of education organizations now use GenAI — the highest adoption rate of any industry (Microsoft Education Report 2025). Driven by virtual tutors, adaptive content, and automated grading.
+## Repos más activos (engagement GitHub Jul 2026)
 
-**Por qué importa**: Window is open NOW. Education clients already have budget and institutional mandate. First-mover integrators capture the market.
-
----
-
-### S7 — LATAM education AI acceleration: Google.org $4.6M + 30k survey respondents
-**fuente**: EdTech Innovation Hub / Digital Education Council AI in Higher Education LATAM Survey 2026  
-**señal**: Google.org invested $4.6M specifically in AI education across Latin America (teacher training + 1.25M students). The Digital Education Council LATAM AI Survey 2026 gathered 30k+ responses from 29 higher education institutions across the region. LATAM AI in Education market: ~$420M (2026) → $1.5B by 2030 at 32.4% CAGR.
-
-**Por qué importa**: Globant has deep LATAM roots. EdTech AI is exploding in the region with real institutional demand and fresh capital flows.
+- [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) — 25.2k★ (+1.5k vs v5) v1.5.0 Book Engine + multi-user
+- [classroomio/classroomio](https://github.com/classroomio/classroomio) — 1.5k★ MCP server + @classroomio/mcp npm
+- [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) — 680★ 500+ papers
+- [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) — 320★ Ollama + OpenAI compat
+- [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) — ~390★ +NEW block-based LMS
+- [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) — MIT spaced repetition
+- [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) — AGPL-3.0 e-learning platform
 
 ---
-
-### S8 — Agentic campus: el agente inicia, el estudiante responde
-**fuente**: UPCEA "Rise of the Agentic AI University 2026" / 8allocate.com / Gartner  
-**señal**: Universities moving from reactive chatbots to proactive agentic systems. By end 2026: 40% of enterprise applications embed task-specific AI agents. In education specifically, 80% of routine tasks (grading, basic explanations, progress tracking) handled by agents. The agent now detects at-risk students, sends personalized nudges, schedules tutoring sessions, and adjusts curricula — all without the student initiating anything.
-
-**Por qué importa**: Biggest design shift in EdTech since MOOCs. Requires multi-agent orchestration (LangGraph / CrewAI), persistent student state, and observability pipelines — all Globant strengths.
-
----
-*Señales actualizadas semanalmente por el pipeline de ingest.*
+*Pipeline automático — se actualiza cada hora.*
