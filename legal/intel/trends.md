@@ -1,6 +1,6 @@
 # Tendencias — Legal AI
 
-> Tendencias clave en AI legal. Última actualización: 2026-07-09 (v6)
+> Tendencias clave en AI legal. Última actualización: 2026-07-10 (v7)
 
 ## 1. Agentic AI reemplaza herramientas standalone (H1 2026)
 
@@ -188,6 +188,98 @@ Digital AI Omnibus (Propuesta de la Comisión, mayo 2026):
 
 **Para Globant**: la prórroga propuesta crea una ventana de implementación más holgada — pero el servicio de auditoría legal AI sigue siendo urgente para clientes con exposición EU.
 
+## 21. EU AI Act Digital Omnibus — Ley confirmada, deadline extendido (julio 2026) **NUEVO v7**
+
+El Consejo de la UE aprobó el Digital AI Omnibus el **29 de junio de 2026** (Parlamento: 16 junio). El paquete de simplificación del EU AI Act es ya **derecho positivo europeo**.
+
+**Estructura definitiva de plazos**:
+
+| Categoría | Deadline anterior | Nuevo deadline | Impacto legal |
+|-----------|------------------|----------------|---------------|
+| HRAIS Anexo III "built-in" | 2 agosto 2026 | **2 agosto 2026 (sin cambio)** | Sistemas de IA que integran riesgo alto por diseño |
+| HRAIS Anexo III "por uso" | 2 agosto 2026 | **2 diciembre 2027** | +16 meses — sistemas legales, médicos, crédito |
+| Watermarking / transparencia IA generativa | 2 febrero 2027 | **2 diciembre 2026** | 3 meses antes de lo esperado |
+
+**Para Globant**:
+- La extensión crea 16 meses de ventana para implementar compliance — **pero el servicio de auditoría es urgente ahora**: los clientes necesitan saber en qué categoría quedan sus sistemas
+- Los sistemas de justicia y legales que son "por uso" (un abogado usa AI, el abogado es el profesional regulado) caen en la categoría extendida
+- El 78% de organizaciones no ha comenzado; la ventana de advisory tiene mayor duración pero igual urgencia comercial
+
+Fuentes: [DLA Piper GENIE](https://knowledge.dlapiper.com/dlapiperknowledge/globalemploymentlatestdevelopments/2026/The-Digital-AI-Omnibus-Proposed-deferral-of-high-risk-AI-obligations-under-the-AI-Act) · [Travers Smith](https://www.traverssmith.com/knowledge/knowledge-container/eu-agrees-to-delay-key-ai-act-compliance-deadlines/) · [Latham & Watkins](https://www.lw.com/en/insights/ai-act-update-eu-resolves-to-change-rules-and-extend-deadlines)
+
+## 22. Legal AI Investment Surge — mercado se duplicó en un año (julio 2026) **NUEVO v7**
+
+El legal AI market alcanzó un nuevo hito en H1 2026:
+
+| Métrica | H1 2025 | H1 2026 | Cambio |
+|---------|---------|---------|--------|
+| Capital captado | $538M | **$1.0B** | +86% |
+| Número de deals | 17 | 17 | mismo número, más capital por deal |
+| Deal más grande | — | **Harvey $200M @ $11B** (marzo 2026) | Valoración histórica legal AI |
+
+**Rondas más importantes 2026**:
+- **Harvey**: $200M @ $11B (marzo 2026) — 24 practice areas, LAB benchmark, NVIDIA/OpenAI/Anthropic
+- **Legora**: $550M @ $5.55B (marzo 2026) + adquisición Walter AI — Legora aOS lanzado mayo 2026
+- **Enter (Brasil)**: $100M (Founders Fund + Sequoia) — primer unicornio legal AI LATAM
+
+**Inversores activos 2026**: The LegalTech Fund, Sequoia, Kleiner Perkins, Menlo Ventures, First Round Capital, Bessemer Venture Partners, Founders Fund.
+
+**Signal para Globant**: 78% del capital fue a Legal AI Assistants (vs 29% de los deals) — los compradores institucionales están apostando por plataformas de AI asistida. La ventana de diferenciación para integración open source + especialización LATAM se está cerrando.
+
+## 23. "Year of Agents" — de copiloto a ejecución autónoma end-to-end (julio 2026) **NUEVO v7**
+
+Legora declaró 2026 "The Year of Agents in Legal AI" y lo respaldó con Legora aOS:
+
+**El cambio de paradigma**:
+- **Pre-2026**: AI como chatbot o copiloto (el abogado hace el trabajo, la AI sugiere)
+- **2026**: AI como ejecutor autónomo end-to-end con supervisión integrada
+
+**Legora aOS — anatomía del agente legal autónomo**:
+```
+Intake (Outlook) → Research (DMS) → Drafting (multi-document) → Review (blacklining) → Delivery (client reply)
+```
+Todo ejecutado por un único agente con "agent loop": reasoning → action → evaluation → iteration → completion.
+
+**Diferencia con asistentes anteriores**: el agente "decides what to do next, executes it, evaluates the result, and iterates — pulling in the right skills and context as the work demands."
+
+**Implicación para el open source**: GLAW (179 skills, 10 depts) ya implementa este patrón en MIT. La diferencia con Legora aOS es UX, soporte y marca — la arquitectura es replicable. Para Globant: el patrón P11 (GLAW Virtual Law Firm) es la versión open source del Legora aOS.
+
+Fuentes: [Legora — 2026: Year of Agents](https://legora.com/blog/2026-the-year-of-agents-in-legal-ai) · [Law.com — Legora aOS](https://www.law.com/legaltechnews/2026/05/07/legora-launches-agentic-ai-legal-operating-system-legora-aos/)
+
+## 24. FOLIO MCP — capa de ontología legal como infraestructura abierta (julio 2026) **NUEVO v7**
+
+La FOLIO (Federated Open Legal Information Ontology) tiene ahora un MCP server (MIT) que hace disponibles sus 18,000+ conceptos legales a cualquier agente AI:
+
+**Por qué importa como infraestructura**:
+- Un contrato o sentencia puede ahora ser clasificado automáticamente contra la ontología legal más completa del mundo — sin entrenamiento propio
+- Las etiquetas multilingues (EN/ES/FR/JA/ZH/HI) hacen de FOLIO el estándar global de clasificación legal abierta
+- Los 11 prompt templates permiten clasificación "off-the-shelf" sin ingeniería de prompts
+
+**Casos de uso para Globant**:
+1. **Triage de documentos entrantes**: un agente usa FOLIO MCP para clasificar tipo de documento → ruta al departamento correcto
+2. **Enriquecimiento de RAG**: antes de indexar un documento, etiquetar con FOLIO para retrieval semántico más preciso
+3. **Compliance taxonomy**: mapear cláusulas contractuales a categorías FOLIO → verificar cobertura de riesgo
+4. **LATAM específico**: etiquetas en español → clasificar jurisprudencia LATAM sin traducción manual
+
+Fuentes: [openlegalstandard.org/folio-mcp-server-ai-agents](https://openlegalstandard.org/folio-mcp-server-ai-agents/) · [PulseMCP](https://www.pulsemcp.com/servers/alea-institute-folio-mcp) · [mcpmarket.com](https://mcpmarket.com/server/folio)
+
+## 25. MCP como App Store de Legal AI — ecosistema de 200+ plugins en 39 jurisdicciones (julio 2026) **NUEVO v7**
+
+El ecosistema de MCP servers legales alcanzó masa crítica en julio 2026:
+
+**Infraestructura emergente**:
+- **Lawve.ai MCP Hub**: directorio de MCP servers legales por jurisdicción — el primer "app store" legal AI
+- **Vaquill.ai**: "The MCP Registry Is the New App Store for Legal AI" — guía pública de cómo usar el registry
+- **open-legal-skills**: 200+ plugins para 39 jurisdicciones bajo Apache-2.0 — el npm de legal skills
+- **Legal Data Hunter**: 108 países disponibles en una sola integración MCP
+
+**Cobertura jurisdiccional actual por MCP** (julio 2026):
+EE.UU., India, Canadá, Corea, Turquía, Taiwán, Alemania, Indonesia, Francia (DataGouv), más 100+ países vía Legal Data Hunter.
+
+**Para Globant**: la competencia de datos se está commoditizando (el acceso está disponible). La ventaja competitiva en 2026-2027 es la **integración con sistemas internos del cliente** (iManage, Aderant, Elite, sistemas judiciales locales) y la **especialización en workflows LATAM** que los MCPs globales no tienen.
+
+---
+
 ## Repos más activos esta semana
 
 - [anthropics/claude-for-legal](https://github.com/anthropics/claude-for-legal) — Suite oficial Anthropic. Apache 2.0. **8.7k★** (+9.8x en 2 meses)
@@ -202,3 +294,4 @@ Digital AI Omnibus (Propuesta de la Comisión, mayo 2026):
 - [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Agentic law firm: 67 agentes, debate multi-evidencia, human gates. Apache 2.0. 267★
 - [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS agéntico open + MCP server. Apache 2.0. 390★
 - [hoorangyee/LRAGE](https://github.com/hoorangyee/LRAGE) — RAG legal evaluation framework. MIT. 180★
+- [alea-institute/folio-mcp](https://github.com/alea-institute/folio-mcp) — FOLIO legal ontology MCP. MIT. **95★** — **NUEVO v7**

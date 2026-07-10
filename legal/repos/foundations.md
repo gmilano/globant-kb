@@ -1,7 +1,7 @@
 # Repos fundacionales — Legal Services
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09 (v6)
+> Última actualización: 2026-07-10 (v7)
 
 ## Plataformas y frameworks base
 
@@ -25,6 +25,8 @@
 | [GLAW](https://github.com/lawve-ai/glaw) | MIT | Virtual law firm skill: 179 skills en 10 departamentos, pipeline completo con human gates; referencia de arquitectura para despachos virtuales AI; genera attorney work-product con supervisión | Arch — 340★ |
 | [harvey-labs](https://github.com/harveyai/harvey-labs) | MIT | **NUEVO v6** — Harvey: benchmark open-source para agentes legales de largo horizonte; 1,200+ tareas, 24 áreas de práctica, 75k+ criterios escritos por abogados reales; Claude Fable 5 lidera con 14.2% all-pass | Eval — 920★ |
 | [Nomos](https://github.com/haqq-ai/nomos) | MIT | **NUEVO v6** — HAQQ: "Cursor para abogados" — interface legal agent-native open source; self-hostable; integra GLAW skills + claude-for-legal plugins; diseñada para que AI engine y abogado sean co-primeros usuarios | Arch — 310★ |
+| [folio-mcp](https://github.com/alea-institute/folio-mcp) | MIT | **NUEVO v7** — ALEA Institute: MCP server de FOLIO (Federated Open Legal Information Ontology); 18,000+ conceptos legales estructurados; etiquetas EN/ES/FR/JA/ZH/HI; 12 tools + 11 prompt templates; funciona con Claude Code, Cursor, Gemini CLI; ontología fundacional para clasificación y enriquecimiento de documentos legales | MCP+Ontology — 95★ |
+| [Legal Data Hunter](https://legaldatahunter.com) | Freemium | **NUEVO v7** — 18.6M+ documentos legales de 533 fuentes oficiales en 108 países: 13.4M+ decisiones judiciales, 4.6M+ leyes; MCP server con recuperación híbrida semántica+keyword; free tier; misión: "indexar cada fuente de derecho del planeta" — la capa de datos legal más completa en MCP | MCP+Data — global |
 
 ---
 
@@ -54,6 +56,8 @@
 | H — Jurisdicción-específica MCP | korean-law-mcp (patrón) + APIs locales LATAM | MCP legal para PJe/CEJAT/EJE/SCJN |
 | I — Nomos Workspace | Nomos (MIT) + GLAW skills + Master Claude for Legal | Despacho virtual self-hosted sin costo de licencia |
 | J — Evaluation Suite | harvey-labs (MIT) + HAQQ-LAB + LRAGE + legal-rag-bench | Quality gate completo antes de producción |
+| K — Global Legal Data | Legal Data Hunter MCP + FOLIO MCP + CourtListener | Acceso agéntico a 18.6M+ docs en 108 países + ontología |
+| L — Ontology Classification | folio-mcp (FOLIO ontología) + CUAD dataset + LangGraph | Clasificación y enriquecimiento automático de documentos legales |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas. — v6 2026-07-09.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas. — v7 2026-07-10.*

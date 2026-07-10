@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes, customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-09 (v6)
+> Última actualización: 2026-07-10 (v7)
 
 ## Plataformas Self-hosted Legal AI (nuevo 2026)
 
@@ -129,12 +129,28 @@ Stack: OpenLawOffice + Whisper + Anthropic API + React dashboard
 
 | Plataforma | Tipo | Referencia |
 |------------|------|------------|
-| Harvey | Agentic legal research | Referencia de mercado; LAB benchmark mayo 2026 |
+| Harvey ($11B) | Agentic legal research | LAB benchmark open-source; Claude Fable 5 lidera 14.2% all-pass |
+| **Legora ($5.55B) + aOS** | Agentic OS end-to-end | **NUEVO v7** — Mayo 2026: Outlook→DMS→draft→blackline→reply autónomo; adquirió Walter AI |
 | Thomson Reuters CoCounsel | Document review + Deep Research agéntico | Q1 2026, integrado en Westlaw |
 | LexisNexis Protégé Work | Agentic layer + Shepard's Verify | Mayo 2026 |
-| Enter (Brasil) | Mass litigation agent platform | Unicornio LATAM $100M mayo 2026 |
+| Enter (Brasil) | Mass litigation agent platform | Unicornio LATAM $100M mayo 2026; patrón replicable |
 | RivoLegal (Argentina) | LegalTech integrado al sistema judicial argentino | Referencia local LATAM |
 | HAQQ Legal OS | AI OS para despachos, MENA + civil law | Referencia jurisdicciones árabes y civil law |
+
+## Capa de datos legales via MCP (nueva infraestructura 2026) — NUEVO v7
+
+| Servicio MCP | Cobertura | Modelo | Cuándo usar |
+|--------------|-----------|--------|------------|
+| [Legal Data Hunter](https://legaldatahunter.com) | 108 países, 18.6M+ docs, 533 fuentes | Freemium | Investigación global; LATAM incluido |
+| [FOLIO MCP](https://github.com/alea-institute/folio-mcp) | 18,000+ conceptos, EN/ES/FR/JA/ZH | MIT / gratis | Clasificación y enriquecimiento de documentos |
+| [CourtListener MCP](https://free.law) | 8M+ opiniones EE.UU. + PACER | Apache-2.0 / gratis | Investigación jurisprudencial EE.UU. |
+| [Vaquill US MCP](https://github.com/Vaquill-AI/awesome-legaltech) | 8M+ sentencias + US Code + CFR | Apache-2.0 | EE.UU. federal y estatal |
+| [Vaquill India MCP](https://github.com/Vaquill-AI/awesome-legaltech) | 20M+ sentencias (Supremo, High Courts) | Freemium | India: tribunal y estatuto |
+| [Korean Law MCP](https://github.com/chrisryugj/korean-law-mcp) | 41 APIs gobierno coreano + anti-hallucination | MIT | Patrón modelo para LATAM MCPs |
+| [us-legal-mcp](https://github.com/JamesANZ/us-legal-mcp) | Congress bills + Federal Register + courts | MIT / gratis | US legislativo y regulatorio |
+| [open-legal-compliance-mcp](https://github.com/TCoder920x/open-legal-compliance-mcp) | US compliance vía APIs gobierno | MIT / gratis | Startups/compliance sin presupuesto para APIs |
+
+> **Nota Globant**: En julio 2026, un agente AI puede acceder a **108 países** de jurisprudencia vía una sola integración MCP. El diferenciador ya no es "tener los datos" — es **saber qué hacer con ellos** en el contexto jurisdiccional específico del cliente LATAM.
 
 ---
 

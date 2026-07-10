@@ -1,6 +1,6 @@
 # Repos trending — Legal AI
 
-> Novedades destacadas en GitHub. Última actualización: 2026-07-09 (v6)
+> Novedades destacadas en GitHub. Última actualización: 2026-07-10 (v7)
 
 ## Nuevos y en ascenso (julio 2026)
 
@@ -178,6 +178,103 @@ Los 3 mercados LATAM prioritarios para Globant están regulando AI:
 
 ---
 
+### S12: EU AI Act Digital Omnibus — CONFIRMADO COMO LEY (v7)
+
+El Consejo de la UE aprobó definitivamente el paquete de simplificación del EU AI Act el **29 de junio de 2026**, siguiendo la aprobación del Parlamento Europeo el 16 de junio. El Digital AI Omnibus es ahora **ley vigente** en la UE.
+
+**Cambios clave confirmados**:
+- **Anexo III HRAIS (uso-basado)**: deadline extendido de 2 agosto 2026 → **2 diciembre 2027** (16 meses más)
+- **Obligaciones de transparencia / watermarking AI**: reducido a 3 meses → nuevo deadline **2 diciembre 2026**
+- **Sistemas de alto riesgo integrados por diseño (Anexo III built-in)**: siguen con deadline original 2 agosto 2026
+
+**Implicación operativa para Globant**:
+- Aplicaciones legales en la UE que son "HRAIS por uso" (Anexo III) tienen hasta dic 2027 para cumplir
+- El advisory de compliance sigue siendo urgente: el 78% de organizaciones no ha comenzado
+- Los sistemas ya en producción deben validar si son "built-in" (2 ago) o "por uso" (2 dic 2027)
+- Oportunidad: posicionarse como el integrador que clarifica qué categoría aplica a cada sistema del cliente
+
+Fuentes: [DLA Piper GENIE — Digital AI Omnibus deferral](https://knowledge.dlapiper.com/dlapiperknowledge/globalemploymentlatestdevelopments/2026/The-Digital-AI-Omnibus-Proposed-deferral-of-high-risk-AI-obligations-under-the-AI-Act) · [Travers Smith — EU agrees to delay](https://www.traverssmith.com/knowledge/knowledge-container/eu-agrees-to-delay-key-ai-act-compliance-deadlines/) · [Latham & Watkins — AI Act Update](https://www.lw.com/en/insights/ai-act-update-eu-resolves-to-change-rules-and-extend-deadlines)
+
+---
+
+### S13: Legal Data Hunter — 18.6M documentos, 108 países, MCP nativo (v7)
+
+Legal Data Hunter lanzó su MCP server dando acceso a **18.6M+ documentos legales** de 533 fuentes oficiales de 108 países, convirtiendo a cualquier agente AI en un investigador legal global:
+- **13.4M+ decisiones judiciales** de tribunales nacionales e internacionales
+- **4.6M+ leyes y regulaciones** con actualización ~cada 30 minutos
+- **637K+ textos de doctrina** jurídica
+- Recuperación **híbrida semántica + keyword** con filtros por país, fuente y tribunal
+- MCP server disponible; free tier sin API key para volumen limitado
+- Blog post de referencia: [LexBlog — Claude Could Become a Lawyer's Portal to the Law](https://kevin.lexblog.com/2026/05/19/claude-could-become-a-lawyers-portal-to-the-law-look-at-legal-data-hunter/)
+
+**Por qué importa para Globant**: Legal Data Hunter es la primera capa de acceso legal verdaderamente global en MCP. Para clientes LATAM, incluye jurisprudencia de AR, BR, MX, CO, CL vía fuentes oficiales — sin construir scrapers propios. Reemplaza meses de trabajo de integración.
+
+---
+
+### S14: FOLIO MCP — Ontología legal universal con 18,000+ conceptos, multilingue (v7)
+
+ALEA Institute lanzó el FOLIO MCP server (MIT), haciendo accesible la **Federated Open Legal Information Ontology** a cualquier agente AI:
+- **18,000+ conceptos legales** cubriendo todas las áreas de práctica y tipos documentales
+- **12 tools** (search, browse, export, semantic connections, taxonomy traversal)
+- **11 prompt templates** para clasificación legal automatizada
+- **3 recursos** para browsing en profundidad
+- Etiquetas **multilingues**: EN / ES / FR / JA / ZH / HI
+- Funciona nativamente con Claude Code, Gemini CLI, OpenAI Codex, Cursor, VS Code
+
+**Por qué importa para LATAM**: las etiquetas en **español** hacen de FOLIO MCP la única ontología legal open source útil para clasificar documentos en AR/BR/MX/CO/CL sin traducción manual. Un agente puede clasificar un contrato o una sentencia y obtener el tipo legal exacto + sus relaciones semánticas — en español.
+
+Fuentes: [openlegalstandard.org — FOLIO MCP Server](https://openlegalstandard.org/folio-mcp-server-ai-agents/) · [GitHub alea-institute/folio-mcp](https://github.com/alea-institute/folio-mcp) · [aleainstitute.ai](https://aleainstitute.ai/blog/posts/folio-api-mcp-tools/)
+
+---
+
+### S15: Ola de MCP jurisdiccionales globales — el patrón se replica en 4 continentes (v7)
+
+En junio-julio 2026, el patrón del Korean Law MCP (2.1k★) se replicó en al menos 4 nuevas jurisdicciones simultáneamente:
+
+| Jurisdicción | Repo/Servicio | Cobertura |
+|--------------|---------------|-----------|
+| **Turquía** | Yargı MCP | Danıştay (Consejo de Estado) + Yargıtay (Tribunal de Casación) + leyes nacionales |
+| **Taiwán** | MCP Taiwan Legal DB | Yuan Judicial + leyes y regulaciones nacionales |
+| **Alemania** | ayunis-legal-mcp | BGB + HGB + StGB + DSGVO — códigos civiles y penales |
+| **Indonesia** | Pasal MCP | 40,000+ regulaciones nacionales y provinciales |
+| **Global** | Legal Data Hunter | 108 países, 533 fuentes, 18.6M+ docs |
+
+Adicionalmente, **Vaquill.ai** publicó "The MCP Registry Is the New App Store for Legal AI" — documentando cómo el MCP registry está funcionando como distribución de inteligencia legal jurisdiccional, similar a cómo npm distribuyó librerías JavaScript.
+
+**Para Globant**: La infraestructura de datos legales globales se está construyendo ahora, en abierto. El moat no es acceder a los datos — es la **integración profunda con los workflows del cliente** y la **especialización en jurisdicciones LATAM** que los MCPs globales no cubren en profundidad (PJe, CEJAT, EJE, SCJN).
+
+---
+
+### S16: Legora aOS + Walter AI — Harvey's main rival goes full agentic (v7)
+
+Legora ($550M, $5.55B valuation, marzo 2026) aceleró su posición:
+
+**Legora adquiere Walter AI** (Vancouver, Canadá) — marzo 2026:
+- Walter AI: startup de AI legal agéntico con relaciones en firmas canadienses major
+- Legora CEO Max Junestrand: "agent-native design... designing agents to handle real, end-to-end workflows"
+- Expansión al mercado canadiense + aceleración de capacidades agénticas
+
+**Legora aOS — Agentic Operating System** (mayo 7, 2026):
+- Un agente ejecuta workflows legales **end-to-end** sin intervención humana:
+  - Intake de Outlook → Research en DMS → Multi-document editing → Blacklining → Client reply
+- Philosophical shift: de "AI como copiloto" a "AI como ejecutor autónomo con supervisión integrada"
+- CEO: "Legal AI means agents completing complex, end-to-end legal work — autonomously, in context, with human oversight built in"
+
+**Mapa de poder legal AI (julio 2026)**:
+
+| Player | Valoración | Modelo | Diferenciador |
+|--------|-----------|--------|---------------|
+| Harvey | $11B | SaaS propietario | LAB benchmark líder; 24 practice areas; NVIDIA/OpenAI/Anthropic |
+| Legora | $5.55B | SaaS + agentic OS | End-to-end autonomous (aOS); Legora+Walter = Canadian market |
+| TR CoCounsel | Public (TR) | Embedded en Westlaw | Data moat: Westlaw 200+ años de jurisprudencia |
+| LexisNexis | Public (RELX) | Embedded en Lexis | Shepard's Verify + Protégé Work agéntico |
+
+**Para Globant**: El campo se consolida alrededor de aOS (Agentic Operating Systems) — plataformas que ejecutan workflows completos, no solo responden preguntas. El open source (Mike, Suzie Law, GLAW, Nomos) es la alternativa accesible para clientes medianos LATAM que no quieren pagar $1,200+/mes.
+
+Fuentes: [Legora blog — 2026: Year of Agents](https://legora.com/blog/2026-the-year-of-agents-in-legal-ai) · [Legora — acquires Walter AI](https://legora.com/newsroom/legora-acquires-walter-ai-to-expand-its-agentic-platform-for-legal-teams) · [Law.com — Legora aOS](https://www.law.com/legaltechnews/2026/05/07/legora-launches-agentic-ai-legal-operating-system-legora-aos/)
+
+---
+
 ### S11: Mike OS puntúa 41.8/50 — supera a Harvey en benchmark (v6)
 
 Mike OS (AGPL-3.0, willchen96/mike) alcanzó un benchmark promedio de 41.8/50, superando a Harvey según evaluaciones independientes. Harvey levantó $200M a una valoración de $11B en marzo 2026. La comparación:
@@ -190,4 +287,13 @@ Mike OS (AGPL-3.0, willchen96/mike) alcanzó un benchmark promedio de 41.8/50, s
 **Narrativa**: Mike, construido por un abogado de Latham & Watkins en 2 semanas, supera a Harvey en tests de razonamiento. El "moat" de Harvey está en los datos privados, la cuenta enterprise y el soporte — no en la calidad del modelo.
 
 ---
-*Pipeline automático — se actualiza cada hora. v6 2026-07-09.*
+---
+
+## Repos más activos esta semana (v7 additions)
+
+- [alea-institute/folio-mcp](https://github.com/alea-institute/folio-mcp) — FOLIO legal ontology MCP. MIT. **95★** — **NUEVO v7** — 18,000+ conceptos, ES/FR/JA
+- [legaldatahunter.com](https://legaldatahunter.com) — Legal Data Hunter MCP. Freemium. 18.6M+ docs, 108 países — **NUEVO v7**
+- [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) — ABA Rule 1.6 compliant workflow MCP. MIT. **78★** — **NUEVO v7**
+- [JamesANZ/us-legal-mcp](https://github.com/JamesANZ/us-legal-mcp) — US Congress + Federal Register + courts MCP. MIT. **62★** — **NUEVO v7**
+
+*Pipeline automático — se actualiza cada hora. v7 2026-07-10.*

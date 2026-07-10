@@ -1,7 +1,7 @@
 # Agentes AI — Legal Services
 
 > Agentes y herramientas AI open source para la industria legal. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09 (v6)
+> Última actualización: 2026-07-10 (v7)
 
 ## Agentes y herramientas destacadas
 
@@ -31,6 +31,10 @@
 | [Nomos](https://github.com/haqq-ai/nomos) | MIT | **NUEVO v6** — HAQQ: interface legal agent-native open source, auto-hostable, skills-first; diseñada como "Cursor para abogados" donde el AI engine y el abogado son ambos usuarios de primer nivel; integra con GLAW skills y claude-for-legal plugins | 310 |
 | [Master Claude for Legal](https://github.com/haqq-ai/master-claude-for-legal) | MIT | **NUEVO v6** — HAQQ: community skill pack con 5 starter skills operativos (NDA triage, multi-party version diff, meeting brief, citation verifier, status synthesis); reference docs sobre privilege architecture y MCP permission hardening | 185 |
 | [harvey-labs](https://github.com/harveyai/harvey-labs) | MIT | **NUEVO v6** — Harvey: benchmark open-source para evaluar agentes legales de largo horizonte; 1,200+ tareas, 24 áreas de práctica, 75k+ criterios; base para evaluar agentes antes de producción | 920 |
+| [folio-mcp](https://github.com/alea-institute/folio-mcp) | MIT | **NUEVO v7** — ALEA Institute: MCP server para FOLIO (Federated Open Legal Information Ontology); 18,000+ conceptos legales, 12 tools, 3 resources, 11 prompt templates; etiquetas multilingues EN/ES/FR/JA/ZH/HI; funciona con Claude Code, Gemini CLI, OpenAI Codex, Cursor; ideal para clasificación legal en LATAM | 95 |
+| [legal-mcp](https://github.com/agentic-ops/legal-mcp) | MIT | **NUEVO v7** — Agentic Ops: servidor MCP integral para workflows legales; cumplimiento ABA Model Rule 1.6 (confidencialidad) y ABA Formal Opinion 512 (2024) sobre AI ética; Python 3.10+; para firmas que necesitan AI con gobernanza ética explícita | 78 |
+| [us-legal-mcp](https://github.com/JamesANZ/us-legal-mcp) | MIT | **NUEVO v7** — Servidor MCP con datos legales federales EE.UU. completos: búsqueda en proyectos de ley del Congreso, documentos del Federal Register, opiniones de tribunales, comités; no requiere API key (acceso opcional para enhanced data) | 62 |
+| [open-legal-compliance-mcp](https://github.com/TCoder920x/open-legal-compliance-mcp) | MIT | **NUEVO v7** — Análisis de cumplimiento normativo vía APIs gratuitas del gobierno EE.UU.; cobertura federal + multi-state; orientado a compliance departments y startups que no quieren pagar APIs premium | 45 |
 
 ---
 
@@ -46,6 +50,14 @@
 | [Vaquill AI MCP (India)](https://github.com/Vaquill-AI/awesome-legaltech) | 20M+ sentencias Supremo Tribunal, High Courts y Tribunales de India | Propietario con tier gratuito |
 | [CanLII MCP](https://github.com/Vaquill-AI/awesome-legaltech) | Base jurídica canadiense CanLII, búsqueda semántica + verificación de citas | Apache-2.0 |
 | [USPTO FPD MCP](https://github.com/Tam1379/uspto_fpd_mcp) | USPTO Final Petition Decisions; análisis de patentes de alta performance | MIT |
+| [Legal Data Hunter MCP](https://legaldatahunter.com) | **NUEVO v7** — 18.6M+ documentos legales en 108 países / 533 fuentes oficiales; 13.4M+ decisiones judiciales + 4.6M+ leyes; recuperación semántica + keyword; free tier; actualización ~30min | Freemium |
+| [FOLIO MCP](https://github.com/alea-institute/folio-mcp) | **NUEVO v7** — ALEA Institute: 18,000+ conceptos legales (FOLIO ontología), etiquetas ES/FR/JA/ZH; 12 tools + 11 prompt templates; funciona con Claude Code/Cursor/Gemini CLI | MIT |
+| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | **NUEVO v7** — Workflow MCP con gobernanza ética explícita (ABA Rule 1.6 + Formal Opinion 512); para firmas con políticas de uso responsable de AI | MIT |
+| [JamesANZ/us-legal-mcp](https://github.com/JamesANZ/us-legal-mcp) | **NUEVO v7** — Datos legales EE.UU.: Congress bills, Federal Register, court opinions, comités; sin API key requerida | MIT |
+| [Yargı MCP](https://github.com/topics/yargi-mcp) | **NUEVO v7** — Bases de datos legales turcas: leyes, regulaciones, decisiones de tribunales superiores (Danıştay/Yargıtay) | MIT |
+| [MCP Taiwan Legal DB](https://github.com/topics/taiwan-legal-mcp) | **NUEVO v7** — Decisiones del Yuan Judicial de Taiwán; leyes y regulaciones nacionales | MIT |
+| [ayunis-legal-mcp](https://github.com/topics/ayunis-legal-mcp) | **NUEVO v7** — Códigos legales alemanes vía MCP; cobertura BGB, HGB, StGB, DSGVO | MIT |
+| [Pasal MCP](https://github.com/topics/pasal-mcp) | **NUEVO v7** — Acceso a 40,000+ regulaciones indonesias vía MCP; cobertura gobierno nacional + provincia | MIT |
 
 ---
 
@@ -75,4 +87,4 @@ Harvey lanzó el primer benchmark open-source para agentes legales de largo hori
 - Fuente: [harvey.ai/blog/introducing-harveys-legal-agent-benchmark](https://www.harvey.ai/blog/introducing-harveys-legal-agent-benchmark)
 
 ---
-*Actualizado automáticamente por el pipeline de ingest — v5 2026-07-09.*
+*Actualizado automáticamente por el pipeline de ingest — v7 2026-07-10.*

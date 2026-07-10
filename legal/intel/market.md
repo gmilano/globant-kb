@@ -1,7 +1,7 @@
 # Mapa de mercado — Legal Services
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09 (v6)
+> Última actualización: 2026-07-10 (v7)
 
 ## Tamaño de mercado (2026) — múltiples fuentes
 
@@ -21,16 +21,17 @@
 
 ## Players globales
 
-| Empresa | Tipo | Fortaleza | Posición 2026 |
+| Empresa | Valoración/Tipo | Fortaleza | Posición 2026 |
 |---------|------|-----------|---------------|
-| Harvey | Startup AI legal | LAB benchmark, 24 áreas de práctica, respaldo NVIDIA/OpenAI/Anthropic; **$200M @ $11B (marzo 2026)** | Referencia agéntica; bajo presión del open source (Mike OS supera en benchmark) |
+| Harvey | **$11B** (mar 2026) | LAB benchmark, 24 áreas de práctica, respaldo NVIDIA/OpenAI/Anthropic; $200M ronda | Referencia agéntica; bajo presión del open source (Mike OS supera en benchmark) |
+| **Legora** | **$5.55B** (mar 2026) | Legora aOS (mayo 2026): agente autónomo end-to-end; adquirió Walter AI (Canadá) | **NUEVO v7** — Harvey's main rival; "Year of Agents" — workflows end-to-end autónomos |
 | Thomson Reuters | Enterprise | CoCounsel + Westlaw; Deep Research agéntico Q1 2026 | Líder enterprise; incumbente consolidado |
 | LexisNexis | Enterprise | Protégé + Shepard's; Protégé Work agéntico mayo 2026 | Co-líder enterprise con TR |
 | Clio | SaaS PME | Líder global en gestión de despachos; integración AI 2026 | Dominante en firmas medianas |
 | Relativity | E-discovery | Líder e-discovery; AI review de documentos | Especialista litigation support |
 | Ironclad | CLM | Contract lifecycle management enterprise | Especialista contratos corporativos |
 | HAQQ Legal AI | Scale-up civil law | HAQQ-LAB benchmark (300 tareas/20+ jurisdicciones), Legal OS para MENA | Referencia civil law + MENA; escala global |
-| Enter (Brasil) | Startup LATAM | Primer unicornio legal-AI LATAM; $100M Founders Fund + Sequoia | Referencia LATAM — mayo 2026 |
+| Enter (Brasil) | **$100M** (may 2026) | Primer unicornio legal-AI LATAM; litigios masivos consumidor + laboral | Referencia LATAM — patrón replicable |
 
 ## Dinámica Open Source vs. Propietario (mayo 2026)
 
@@ -83,19 +84,46 @@ La ola open source de mayo 2026 cambió la dinámica competitiva:
 - **Patrón replicable**: automatización de demandas repetitivas a escala; LLM + RAG + integración sistema judicial
 - Fuente: [getenter.ai](https://www.getenter.ai/en)
 
+## Funding landscape Legal AI H1 2026 (v7)
+
+| Ronda | Empresa | Monto | Valoración | Mes | Inversores |
+|-------|---------|-------|-----------|-----|-----------|
+| Serie C+ | **Harvey** | $200M | $11B | Mar 2026 | NVIDIA, OpenAI, Sequoia, Kleiner |
+| Serie B | **Legora** | $550M | $5.55B | Mar 2026 | Menlo Ventures, First Round, Bessemer |
+| Serie A | **Enter (BR)** | $100M | unicornio | May 2026 | Founders Fund, Sequoia Capital |
+| Acquisition | **Walter AI** (por Legora) | — | — | Mar 2026 | — |
+| **TOTAL H1 2026** | — | **~$1.0B** | — | — | vs $538M H1 2025 (+86%) |
+
+> Fuente: [New Market Pitch — LegalTech Funding 2025-2026](https://newmarketpitch.com/blogs/news/legaltech-funding-analysis) · [PlatinumIDS — Billion Dollar Legal AI](https://blog.platinumids.com/blog/legal-ai-billion-dollar-arms-race-2026)
+
+## EU AI Act — Estado actualizado julio 2026 (v7)
+
+| Estado | Detalle |
+|--------|---------|
+| **Digital AI Omnibus** | **APROBADO** — Parlamento 16 jun / Consejo 29 jun 2026 |
+| Anexo III "built-in" | Deadline **2 agosto 2026** (sin cambio) |
+| Anexo III "por uso" | Deadline **2 diciembre 2027** (+16 meses) |
+| Watermarking/transparencia | Deadline **2 diciembre 2026** (adelantado 3 meses) |
+| % organizaciones sin compliance | **78%** no ha comenzado |
+| Oportunidad advisory | Auditorías para clasificar sistemas por categoría = servicio urgente |
+
+> La ventana se extendió pero la incertidumbre es mayor: los clientes necesitan saber si sus sistemas son "built-in" (ago 2026) o "por uso" (dic 2027). **Ese análisis = primera venta.**
+
 ## Posicionamiento Globant AI Studios — Legal
 
 ### Ventaja competitiva
-1. **Presencia en LATAM**: conocimiento de jurisdicciones locales (AR, BR, MX, CO, CL) que Harvey/TR no tienen natively
-2. **Stack open source**: construir sobre Mike/Suzie Law/claude-for-legal + CourtListener + OpenContracts reduce TTM vs. licenciar Harvey
+1. **Presencia en LATAM**: conocimiento de jurisdicciones locales (AR, BR, MX, CO, CL) que Harvey/TR/Legora no tienen natively
+2. **Stack open source**: construir sobre Mike/Suzie Law/claude-for-legal + CourtListener + OpenContracts reduce TTM vs. licenciar Harvey ($1,200+/mes)
 3. **Integración sistemas legados**: experiencia de Globant en ERP/legacy modernization aplica a despachos con sistemas judiciales propietarios
-4. **EU AI Act compliance**: necesidad global de auditoría de sistemas AI en contexto legal — servicio de advisory diferenciado (deadline 2 ago 2026)
+4. **EU AI Act compliance**: classificación HRAIS "built-in" vs "por uso" = servicio urgente de advisory (deadline 2 ago 2026 para built-in)
 5. **Civil law expertise**: HAQQ-LAB demuestra brecha en civil law; LATAM es civil law → ventaja diferenciada vs. players anglosajones
+6. **FOLIO + ontología en español**: FOLIO MCP con etiquetas ES permite clasificación legal LATAM sin entrenamiento propio
 
 ### Servicios prioritarios para clientes legales
-1. **Agente de investigación legal** (RAG sobre jurisprudencia local + CourtListener MCP + claude-for-legal)
+1. **Agente de investigación legal** (Legal Data Hunter MCP + CourtListener MCP + claude-for-legal + FOLIO MCP)
 2. **Automatización de contratos** (revisión CUAD + redlines + negociación asistida; Suzie Law como base)
 3. **Self-hosted Legal AI Platform** (fork Mike/Suzie Law para cliente con customización por jurisdicción)
 4. **Mass litigation platform** (patrón Enter: LangGraph + PostgreSQL + integración judicial API)
-5. **EU AI Act compliance auditor** (para clientes con sistemas AI en contexto legal — deadline ago 2026)
-6. **HAQQ-LAB quality gate** (antes de ir a producción: evaluar con benchmark + human review protocols)
+5. **EU AI Act compliance auditor** — clasificación HRAIS por uso vs built-in (deadline 2 ago para built-in)
+6. **HAQQ-LAB + Harvey LAB quality gate** (antes de ir a producción: evaluar con benchmarks + human review protocols)
+7. **LATAM MCP jurisdiccional** (construir MCPs para PJe/CEJAT/EJE/SCJN — moat de datos propio Globant)

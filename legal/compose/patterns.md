@@ -1,7 +1,7 @@
 # Patrones de composición — Legal Services
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-09 (v6)
+> Última actualización: 2026-07-10 (v7)
 
 ## Arquitectura base
 
@@ -216,41 +216,61 @@ async def iniciar(cliente_id: str, tipo: str, hechos: str, monto: float, bg: Bac
 
 ---
 
-## Patrón 5: EU AI Act Compliance Auditor para sistemas legales
+## Patrón 5: EU AI Act Compliance Auditor — Clasificación HRAIS (v7 updated)
 
-**Caso de uso**: Firma europea audita sus sistemas AI antes del deadline 2 agosto 2026.  
+**Caso de uso**: Firma audita sus sistemas AI para clasificar si son "Anexo III built-in" (deadline 2 ago 2026) o "Anexo III por uso" (deadline 2 dic 2027) — distinción crítica tras el Digital AI Omnibus (Consejo 29 jun 2026).  
 **Stack**: Anthropic API + LangGraph + OpenMetadata + OPA  
-**Tiempo estimado**: 2-3 semanas | **Deal size**: $80k-300k | **URGENTE: 25 días**
+**Tiempo estimado**: 2-3 semanas | **Deal size**: $80k-300k
 
 ```python
 import anthropic
 from datetime import date
 
 client = anthropic.Anthropic()
-DEADLINE = date(2026, 8, 2)
 
-def audit_ai_system(system_info: dict) -> dict:
-    days_left = (DEADLINE - date.today()).days
-    r = client.messages.create(
+DEADLINES = {
+    "built_in": date(2026, 8, 2),       # Anexo III por diseño — sin cambio
+    "per_use": date(2027, 12, 2),        # Anexo III por uso — Digital Omnibus +16 meses
+    "watermarking": date(2026, 12, 2),   # Transparencia IA generativa — adelantado 3 meses
+}
+
+def classify_and_audit_ai_system(system_info: dict) -> dict:
+    today = date.today()
+    
+    # Paso 1: Clasificar categoría HRAIS del sistema
+    classification = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=4096,
-        system="""Experto EU AI Act (UE 2024/1689). Sistemas legales = Anexo III alto riesgo.
-        Checklist: registro EU, doc técnica (Art.11), supervisión humana (Art.14),
-        transparencia (Art.13), riesgos (Art.9), datos (Art.10), logs (Art.12), conformidad (Art.43).
-        Penalidad: €35M o 7% ingresos globales.""",
+        max_tokens=2048,
+        system="""Experto EU AI Act (UE 2024/1689) y Digital AI Omnibus (Consejo 29-jun-2026).
+        
+        CLASIFICACIÓN HRAIS (Artículo 6):
+        - "built_in": el sistema tiene propósito de alto riesgo POR DISEÑO (ej: sistema de scoring judicial)
+        - "per_use": el sistema de propósito general se usa en contexto de alto riesgo (ej: abogado usa LLM general)
+        
+        DEADLINE built_in = 2 agosto 2026 (INMEDIATO)
+        DEADLINE per_use = 2 diciembre 2027 (+16 meses, Digital Omnibus aprobado)
+        
+        Clasifica el sistema y genera checklist de cumplimiento para su categoría.
+        JSON: {categoria, deadline, checklist_art, gaps_criticos, plan_priorizado}""",
         messages=[{"role": "user", "content":
-            f"Audita: {system_info}\n\nGenera: clasificación riesgo, checklist, "
-            f"gaps críticos ({days_left} días al deadline), plan de acción priorizado."}]
+            f"Clasifica y audita:\n{system_info}\n\n"
+            f"Fecha actual: {today.isoformat()}. Responde en JSON."}]
     )
-    return {"report": r.content[0].text, "days_to_deadline": days_left}
+    
+    import json
+    result = json.loads(classification.content[0].text)
+    deadline = DEADLINES.get(result.get("categoria", "per_use"), DEADLINES["per_use"])
+    result["days_to_deadline"] = (deadline - today).days
+    return result
 
-audit = audit_ai_system({
+audit = classify_and_audit_ai_system({
     "nombre": "Legal Research Assistant v2",
-    "descripcion": "Asiste a jueces en análisis de precedentes",
-    "modelo": "claude-sonnet-5", "nivel_autonomia": "recomendaciones",
-    "usuarios": "jueces", "jurisdiccion": "España, Italia, Francia"
+    "descripcion": "LLM de propósito general que los abogados usan para investigar precedentes",
+    "modelo": "claude-sonnet-5", "nivel_autonomia": "recomendaciones (requiere revisión abogado)",
+    "usuarios": "abogados de la firma", "jurisdiccion": "España, Italia, Francia",
+    "proposito_original": "asistente AI general — no diseñado específicamente para uso judicial"
 })
-print(f"{audit['days_to_deadline']} días al deadline EU AI Act")
+print(f"Categoría: {audit.get('categoria')} | Deadline: {audit.get('deadline')} | Días: {audit.get('days_to_deadline')}")
 ```
 
 ---
@@ -734,6 +754,222 @@ if __name__ == "__main__":
 
 ---
 
+---
+
+## Patrón 15: Legal Data Hunter — Investigación global en 108 países (v7)
+
+**Caso de uso**: Firma con presencia multinacional necesita investigar precedentes en múltiples jurisdicciones simultáneamente, incluyendo LATAM.  
+**Stack**: Legal Data Hunter MCP + Claude Sonnet 5 + LangGraph + FOLIO MCP  
+**Tiempo estimado**: 1-2 semanas | **Deal size**: $50k-150k
+
+```python
+import anthropic
+import asyncio
+
+client = anthropic.Anthropic()
+
+# Legal Data Hunter: 18.6M+ docs, 108 countries — legaldatahunter.com
+# FOLIO MCP: 18,000+ conceptos legales, etiquetas ES/FR/JA — github.com/alea-institute/folio-mcp
+
+SYSTEM_GLOBAL_RESEARCH = """Eres un investigador legal global con acceso a:
+- Legal Data Hunter: 18.6M+ documentos en 108 países (decisiones judiciales, leyes, regulaciones)
+- FOLIO Ontología: 18,000+ conceptos legales en EN/ES/FR/JA/ZH/HI
+- CourtListener: 8M+ opiniones EE.UU.
+
+Para cada jurisdicción consultada:
+1. Clasifica la pregunta legal usando FOLIO (identifica el área + tipo documental)
+2. Busca en Legal Data Hunter con filtros por país y tribunal
+3. Sintetiza con análisis comparativo
+4. Verifica citas antes de incluir (anti-hallucination)"""
+
+def research_global(query: str, countries: list[str], language: str = "es") -> dict:
+    country_filter = ", ".join(countries)
+    r = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=8192,
+        system=SYSTEM_GLOBAL_RESEARCH,
+        messages=[{"role": "user",
+                   "content": f"Query: {query}\nPaíses: {country_filter}\nIdioma de respuesta: {language}\n\n"
+                              f"1. Clasifica la consulta con FOLIO ontología\n"
+                              f"2. Busca en Legal Data Hunter filtrando por: {country_filter}\n"
+                              f"3. Sintetiza hallazgos comparativos\n"
+                              f"4. Identifica similitudes y divergencias entre jurisdicciones"}]
+    )
+    return {"query": query, "countries": countries, "synthesis": r.content[0].text}
+
+def research_latam_employment(query: str) -> dict:
+    """Investigación laboral LATAM: AR + BR + MX + CO + CL en español."""
+    return research_global(
+        query=query,
+        countries=["Argentina", "Brazil", "Mexico", "Colombia", "Chile"],
+        language="es"
+    )
+
+# Ejemplo: investigación de regulación de trabajo remoto en LATAM
+result = research_latam_employment(
+    "¿Cuáles son las obligaciones del empleador en trabajo remoto/teletrabajo? "
+    "Incluye plazos de notificación, cobertura de gastos y derecho a la desconexión."
+)
+print(result["synthesis"][:1000])
+```
+
+```python
+# Integración con FOLIO MCP para clasificación automática
+# Requiere: folio-mcp server corriendo (github.com/alea-institute/folio-mcp)
+
+def classify_and_route_legal_query(query: str, jurisdiction: str) -> dict:
+    """
+    Usa FOLIO MCP para clasificar la query y determinar qué tipo de búsqueda realizar.
+    Las etiquetas en español hacen de FOLIO ideal para LATAM.
+    """
+    classification = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=512,
+        system="""Usa la ontología FOLIO para clasificar esta consulta legal.
+        Identifica: area_de_practica, tipo_documental (sentencia/ley/reglamento/contrato),
+        especialidad_jurisdiccional.
+        JSON: {folio_concept_id, area_practica, tipo_documental, mcp_search_strategy}""",
+        messages=[{"role": "user",
+                   "content": f"Clasifica con FOLIO: '{query}' en jurisdicción {jurisdiction}"}]
+    )
+    
+    import json
+    folio_class = json.loads(classification.content[0].text)
+    
+    # Usar clasificación FOLIO para routing inteligente
+    strategy = folio_class.get("mcp_search_strategy", "legal_data_hunter")
+    
+    if strategy == "courtlistener":
+        mcp_note = "→ Route a CourtListener MCP (8M+ opiniones EE.UU.)"
+    elif strategy == "legal_data_hunter":
+        mcp_note = f"→ Route a Legal Data Hunter MCP (buscar: {jurisdiction})"
+    else:
+        mcp_note = "→ Route a FOLIO + búsqueda general"
+    
+    return {**folio_class, "routing": mcp_note, "jurisdiction": jurisdiction}
+
+# Demo
+classification = classify_and_route_legal_query(
+    "responsabilidad civil del empleador por accidentes de teletrabajo",
+    "Argentina"
+)
+print(f"FOLIO concept: {classification.get('folio_concept_id')}")
+print(f"Área: {classification.get('area_practica')}")
+print(f"Routing: {classification.get('routing')}")
+```
+
+---
+
+## Patrón 16: FOLIO MCP Ontology — Clasificación legal automática en español (v7)
+
+**Caso de uso**: Pipeline de intake de documentos legales que clasifica automáticamente contratos, sentencias y regulaciones usando la ontología FOLIO — sin entrenamiento propio y con etiquetas en español para LATAM.  
+**Stack**: FOLIO MCP (MIT) + Claude Haiku + OpenContracts + LangGraph  
+**Tiempo estimado**: 1-2 semanas | **Deal size**: $30k-100k (incluido en proyectos mayores)
+
+```python
+import anthropic
+import json
+from pathlib import Path
+
+client = anthropic.Anthropic()
+
+# FOLIO MCP: github.com/alea-institute/folio-mcp (MIT)
+# 18,000+ conceptos, etiquetas EN/ES/FR/JA/ZH/HI
+# 12 tools: search_concepts, browse_taxonomy, get_concept_details, find_semantic_connections
+# 11 prompt templates para clasificación legal
+
+FOLIO_CLASSIFICATION_PROMPT = """Usando la ontología FOLIO (Federated Open Legal Information Ontology) con sus 18,000+ conceptos legales:
+
+1. IDENTIFICA el tipo documental FOLIO más preciso para este texto legal
+2. DETERMINA el área de práctica principal y sub-áreas relacionadas
+3. EXTRAE las partes principales y sus roles legales según FOLIO
+4. LISTA conceptos FOLIO relevantes para indexación (máx 5, en español)
+5. ASIGNA nivel de riesgo para revisión humana: BAJO/MEDIO/ALTO
+
+Responde en JSON con etiquetas en español (FOLIO soporta etiquetas ES):
+{
+  "folio_tipo_documental": "string",
+  "area_practica_principal": "string", 
+  "sub_areas": ["string"],
+  "partes_identificadas": [{"rol": "string", "nombre": "string si visible"}],
+  "conceptos_folio_es": ["string"],
+  "nivel_riesgo": "BAJO|MEDIO|ALTO",
+  "requiere_revision_humana": bool,
+  "routing_departamento": "string"
+}"""
+
+def classify_legal_document(text: str, jurisdiction: str = "Argentina") -> dict:
+    """
+    Clasifica un documento legal usando FOLIO ontología.
+    Útil como primer paso en cualquier pipeline de intake documental.
+    """
+    r = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1024,
+        system=f"Eres un clasificador legal especializado en jurisdicción {jurisdiction}. " + FOLIO_CLASSIFICATION_PROMPT,
+        messages=[{"role": "user",
+                   "content": f"Clasifica este documento legal:\n\n{text[:4000]}"}]
+    )
+    
+    try:
+        return json.loads(r.content[0].text)
+    except json.JSONDecodeError:
+        raw = r.content[0].text
+        return {"raw": raw, "folio_tipo_documental": "PENDIENTE", "nivel_riesgo": "ALTO"}
+
+def batch_classify_intake(documents: list[dict], jurisdiction: str = "Argentina") -> list[dict]:
+    """
+    Clasifica un batch de documentos entrantes y los enruta.
+    FOLIO classification es el primer paso del pipeline de intake.
+    """
+    results = []
+    for doc in documents:
+        classification = classify_legal_document(doc["content"], jurisdiction)
+        
+        routing = {
+            "id": doc["id"],
+            "filename": doc.get("filename", "unknown"),
+            "classification": classification,
+            "action": "HUMAN_REVIEW" if classification.get("requiere_revision_humana") else "AUTO_PROCESS",
+            "department": classification.get("routing_departamento", "GENERAL")
+        }
+        results.append(routing)
+        
+        print(f"[{doc['id']}] {doc.get('filename')} → {classification.get('folio_tipo_documental')} "
+              f"| {classification.get('area_practica_principal')} | Riesgo: {classification.get('nivel_riesgo')}")
+    
+    return results
+
+# Demo de pipeline de intake con FOLIO classification
+sample_docs = [
+    {
+        "id": "DOC-001",
+        "filename": "NDA_ACME_2026.pdf",
+        "content": """ACUERDO DE CONFIDENCIALIDAD Y NO DIVULGACIÓN
+        Entre ACME S.A. (Divulgante) y XYZ Corp (Receptor).
+        El Receptor se obliga a mantener confidencialidad sobre toda información...
+        Plazo: 5 años. Penalidad por incumplimiento: USD 500,000."""
+    },
+    {
+        "id": "DOC-002",
+        "filename": "sentencia_laboral_camara.pdf",
+        "content": """CÁMARA NACIONAL DE APELACIONES DEL TRABAJO - SALA III
+        Causa: González, María c/ Empresa SA s/ despido
+        La actora reclama indemnización por despido sin causa...
+        Resuelve: Confirmar la sentencia de primera instancia..."""
+    }
+]
+
+results = batch_classify_intake(sample_docs, jurisdiction="Argentina")
+
+# Estadísticas del batch
+total = len(results)
+requires_human = sum(1 for r in results if r["action"] == "HUMAN_REVIEW")
+print(f"\nBatch: {total} docs | Revisión humana: {requires_human} | Auto-proceso: {total - requires_human}")
+```
+
+---
+
 ## Matriz de selección de patrón
 
 | Situación del cliente | Deal size | Patrón recomendado | Stack clave |
@@ -745,13 +981,15 @@ if __name__ == "__main__":
 | Investigación legal multi-jurisdicción | $50k-200k | P1 RAG multi-jurisdiction | CourtListener MCP + LangGraph |
 | Acceso a justicia / pro-bono | $80k-250k | P3 Docassemble + AI | Docassemble + Claude Haiku |
 | Despacho LATAM, modernizar ERP | $100k-400k | P7 LegalOps ERP | OpenLawOffice + Whisper |
-| Cliente UE, deadline EU AI Act (**24 días**) | $80k-300k | P5 EU AI Act auditor | Anthropic API + audit pipeline |
+| Cliente UE, clasificar sistemas HRAIS (built-in vs por uso) | $80k-300k | P5 EU AI Act auditor v7 | Anthropic API + HRAIS classification |
 | Multi-jurisdicción internacional | $50k-200k | P6 Vaquill MCP | Vaquill US+India+CanLII |
 | Pre-venta: evaluar LLMs legales | Incluido | P8 Harvey LAB benchmark | Harvey LAB + Claude Opus 4.8 |
 | Firma pequeña/media quiere despacho virtual desde día 1 | $60k-250k | **P11 GLAW virtual law firm** | GLAW + Claude Code + MCP |
 | Globant quiere construir moat de datos LATAM | $40k-150k/jurisdicción | **P12 MCP jurisdiccional LATAM** | FastAPI + APIs judiciales + MCP SDK |
 | Firma quiere workspace donde abogado + AI sean co-usuarios | $50k-200k | **P13 Nomos self-hosted workspace** | Nomos + GLAW + Master Claude for Legal |
 | Antes de go-live: calidad gate para cualquier agente legal | $20k-80k | **P14 Harvey LAB quality gate** | harvey-labs + Claude Fable 5 + HAQQ-LAB |
+| Investigación multinacional (108 países) incluido LATAM | $50k-150k | **P15 Legal Data Hunter global** | Legal Data Hunter MCP + FOLIO MCP |
+| Intake documental masivo, clasificación automática en español | $30k-100k | **P16 FOLIO MCP ontology** | folio-mcp (MIT) + Claude Haiku + OpenContracts |
 
 ---
 

@@ -1,6 +1,6 @@
 # Repos trending — Legal Services
 
-> GitHub trending esta semana. Última actualización: 2026-07-09 (v6)
+> GitHub trending esta semana. Última actualización: 2026-07-10 (v7)
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
@@ -24,6 +24,10 @@
 | [legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) | MIT | Benchmark RAG legal: 6,858 query-answer sobre 79M chars de contratos — evalúa chunking y retrieval | 280 |
 | [uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | MCP server USPTO Final Petition Decisions; análisis de patentes con contexto reducido | 28 |
 | [Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI) | MIT | Análisis reforma tributaria Brasil 2026 (IBS/CBS) con IA + web; trending en LATAM por reforma fiscal activa | 8 |
+| [folio-mcp](https://github.com/alea-institute/folio-mcp) | MIT | **NUEVO v7** — FOLIO legal ontology MCP server: 18,000+ conceptos, etiquetas ES/FR/JA/ZH, 12 tools + 11 prompts; funciona con Claude Code, Cursor, Gemini CLI | 95 |
+| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | MIT | **NUEVO v7** — MCP completo para workflows legales; ABA Model Rule 1.6 + Formal Opinion 512 compliance; Python 3.10+; gobernanza ética explícita | 78 |
+| [JamesANZ/us-legal-mcp](https://github.com/JamesANZ/us-legal-mcp) | MIT | **NUEVO v7** — US federal legal data MCP: Congress bills, Federal Register, court opinions, comités; sin API key requerida | 62 |
+| [TCoder920x/open-legal-compliance-mcp](https://github.com/TCoder920x/open-legal-compliance-mcp) | MIT | **NUEVO v7** — Compliance analysis MCP con APIs gratuitas del gobierno EE.UU.; federal + multi-state; ideal para startups y compliance departments | 45 |
 
 ---
 
@@ -46,6 +50,12 @@
 | **harvey-labs OSS benchmark** (920★, MIT) — **NUEVO v6** | Benchmark evaluation tool disponible para teams — evaluar agentes antes de producción |
 | **Claude Fable 5 14.2% all-pass Harvey LAB-AA** — **NUEVO v6** | Primer modelo en superar 10% all-pass — el benchmark es el nuevo criterio de compra |
 | **LATAM AI Regulation** (Brasil PL 2.338 Senado ✓, Argentina registry, México framework) — **NUEVO v6** | Marco regulatorio emergente = oportunidad para advisory compliance en los 3 mercados |
+| **EU AI Act Digital Omnibus — LEY APROBADA** (Consejo 29 jun 2026) — **NUEVO v7** | Annex III "por uso" → dic 2027; built-in → 2 ago 2026; advisory urgente para clasificar sistemas |
+| **Legora $5.55B + aOS launch (mayo 2026)** + Walter AI adquisición — **NUEVO v7** | Harvey's main rival; agentes end-to-end autónomos — el campo se consolida en aOS |
+| **Legal Data Hunter — 18.6M docs, 108 países, MCP** (mayo 2026) — **NUEVO v7** | Primer MCP con cobertura legal verdaderamente global — incluye LATAM |
+| **FOLIO MCP — 18,000+ conceptos, multilingual** (MIT, 2026) — **NUEVO v7** | Ontología legal universal vía MCP — etiquetas en español para LATAM sin traducción |
+| **Ola jurisdiccional global** (Yargı/TR, Taiwan, ayunis/DE, Pasal/ID) — **NUEVO v7** | El patrón Korean Law MCP replicado en 4+ jurisdicciones en 60 días |
+| **Legal AI H1 2026: $1.0B captados** (vs $538M H1 2025) — **NUEVO v7** | Inversión casi duplicada; Harvey $11B + Legora $5.55B; campo madurando |
 
 ---
-*Pipeline automático — se actualiza cada hora. v6 2026-07-09.*
+*Pipeline automático — se actualiza cada hora. v7 2026-07-10.*
