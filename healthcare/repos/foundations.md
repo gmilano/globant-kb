@@ -1,14 +1,14 @@
 # 🏗️ Repos fundacionales — Healthcare AI
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-10 (v6 — Ottehr AI-native EHR, scribeHC, OpenScribe open scribes)
+> Última actualización: 2026-07-10 (v7 — PhysicianBench Stanford HealthRex, MA-RAG ICML 2026, DermAgent MICCAI 2026, EHR-Complex MIMIC-IV benchmark)
 
 ## Plataformas y frameworks base
 
 | Repo | Licencia | Descripción | ¿Base para AI? |
 |------|----------|-------------|----------------|
 | [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Plataforma healthcare developer full-stack TypeScript. FHIR R4/R5 nativo, HIPAA+SOC2 out-of-box, React UI component library, "Bots" serverless (server-side logic sin infraestructura), subscriptions en tiempo real. Stack ideal para greenfield AI healthcare. | ✅ IDEAL — FHIR-native con Bots serverless para AI logic |
-| [masslight/ottehr](https://github.com/masslight/ottehr) | MIT | **Ottehr** — El primer EHR open source AI-native + FHIR-native. Incluye AI HPI chatbot, AI ambient scribe y AI coding assistant out-of-the-box. React/Node.js, FHIR R4/R5, USCDI+ONC certified. Optimizado para urgent care. Reduce desarrollo de EHR custom en 95%. Alternativa moderna a Medplum para casos de urgent care. | ✅ AI-native desde el día 1 — scribe, HPI chatbot y coder incluidos |
+| [masslight/ottehr](https://github.com/masslight/ottehr) | MIT | **Ottehr** — El primer EHR open source AI-native + FHIR-native. Incluye AI HPI chatbot, AI ambient scribe y AI coding assistant out-of-the-box. React/Node.js, FHIR R4/R5, USCDI+ONC certified. Optimizado para urgent care. Reduce desarrollo de EHR custom en 95%. | ✅ AI-native desde el día 1 — scribe, HPI chatbot y coder incluidos |
 | [openemr/openemr](https://github.com/openemr/openemr) | GPL-2.0 | EHR/EMP más popular del mundo open source. PHP + MySQL. Versión 8.0.0 (Mar 2026): ONC Ambulatory EHR Certification, US Core 8.0, USCDI v5, SMART on FHIR v2.2.0. 1,000+ implementaciones globales. | ✅ Sólido — FHIR completo, pero PHP stack legacy |
 | [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) | MPL-2.0 | EHR open source líder para entornos de recursos limitados. Java, FHIR R4 nativo. Usado en 42+ países, África/Asia/LATAM. Digital Public Good. REST API + FHIR para extensiones AI. | ✅ Ideal para LATAM y recursos limitados |
 | [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Apache-2.0 | La implementación Java de HL7 FHIR más completa. Servidor FHIR standalone que puedes desplegar como backend de datos. Base para SMART on FHIR, CDS Hooks, subscriptions. Estándar de facto en hospitales académicos. | ✅ Capa de datos — cualquier agente FHIR se construye sobre esto |
@@ -18,10 +18,19 @@
 | [OHIF/Viewers](https://github.com/OHIF/Viewers) | MIT | Open Health Imaging Foundation — viewer DICOM web basado en React. Extensible con plugins AI (detección de nódulos, segmentación, predicción). Estándar de facto para radiología web. | ✅ Base para proyectos de radiología AI |
 | [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | MIT | Care — Digital Public Good (DPG) para delivery de salud acelerado. React frontend, API FHIR. Open Healthcare Network activo con adoption en India y expandiéndose a LATAM. | ✅ Full-stack moderno, bien mantenido |
 | [epfLLM/meditron](https://github.com/epfLLM/meditron) | Apache-2.0 | EPFL — Suite de LLMs médicos open source. Meditron-7B y 70B adaptados de Llama-2, pretraining en 48B tokens médicos (PubMed, guías clínicas, datos generales). Referencia en benchmarks MedQA, MedMCQA, PubMedQA. Fine-tunable para dominios específicos. | ✅ LLM médico base para fine-tuning o RAG |
-| [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Local-first healthcare AI: NER clínica + de-identificación HIPAA PII 100% on-device. 1,000+ modelos médicos, 12 idiomas, Apple MLX + Python. Zero cloud, zero PHI exposure. | ✅ Privacidad total — ideal para HIPAA/LGPD estricto |
+| [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Local-first healthcare AI: NER clínica + de-identificación HIPAA PII 100% on-device. 1,000+ modelos médicos, 12 idiomas, Apple MLX + Python. Zero cloud, zero PHI exposure. | ✅ Privacidad total — ideal para HIPAA/LGPD estricto / Sovereign AI |
 | [biocypher/biochatter](https://github.com/biocypher/biochatter) | MIT | Framework LLM para biomedicina: knowledge graphs, RAG, model chaining, soporta modelos locales Ollama. Base para chatbots médicos con privacidad y trazabilidad. | ✅ Knowledge graph + LLM en biomedical research |
 
-## Ambient Scribe Open Source (nuevo en v6)
+## 🆕 Repos de evaluación — Benchmarks de referencia (v7, Jul 2026)
+
+| Repo | Licencia | Descripción | Cuándo usar |
+|------|----------|-------------|------------|
+| [HealthRex/PhysicianBench](https://github.com/HealthRex/PhysicianBench) | Apache-2.0 | **Stanford HealthRex** — 100 tareas long-horizon (670 sub-checkpoints) de consultas reales médico-especialista. 21 especialidades. FHIR APIs estándar. El benchmark más realista para evaluar agentes a nivel physician. | Gate de calidad: usar antes de despliegue de cualquier agente de decisión clínica |
+| [actava-ai/chi-bench](https://github.com/actava-ai/chi-bench) | Apache-2.0 | **χ-Bench (arXiv:2605.16679)** — 75 workflows healthcare end-to-end, 20 apps hospitalarias reales, 87 MCP tools, manual de 1,279 documentos. Mejor agente: 72% falla. | Gate para prior auth + utilization management + care management agéntico |
+| [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | Apache-2.0 | Stanford — 300 tareas EHR physician-derived, 100 pacientes virtuales, 700k+ data elements. Publicado en NEJM AI. Claude 3.5 Sonnet v2: 69.67% éxito. | Gate base para cualquier agente EHR |
+| [yhzhu99/MedAgentBoard](https://github.com/yhzhu99/MedAgentBoard) | MIT | Benchmarking multi-agent vs. métodos convencionales en tareas médicas diversas. Multimodal, texto, imágenes. | Comparar arquitecturas multi-agente antes de seleccionar |
+
+## Ambient Scribe Open Source
 
 | Repo | Licencia | Descripción | Cuándo usar |
 |------|----------|-------------|------------|
@@ -34,14 +43,15 @@
 
 ## Stack de referencia por caso de uso
 
-### Stack LATAM — Hospital público con datos sensibles
+### Stack LATAM — Hospital público con datos sensibles (Sovereign AI)
 ```
 GNU Health o OpenMRS (EHR local)
-     + HAPI FHIR (servidor FHIR standalone)  
+     + HAPI FHIR (servidor FHIR standalone)
      + medspaCy + cTAKES (NLP notas clínicas en español)
      + openmed local-first (NER + de-id sin cloud)
-     + Ollama + Meditron (LLM médico on-premise)
+     + Ollama + Meditron (LLM médico on-premise, Sovereign AI)
      + FHIR MCP Server (interfaz agente ↔ datos)
+     + NemoClaw PHI router (PHI local / reasoning cloud)
 ```
 
 ### Stack US — Hospital mid-market, cloud-hybrid
@@ -63,7 +73,7 @@ Medplum (FHIR API + Bots + UI components)
      + OpenAPS pattern (si hay devices)
 ```
 
-### Stack AI-Native Urgent Care (v6 — Ottehr)
+### Stack AI-Native Urgent Care — Ottehr
 ```
 Ottehr EHR (AI HPI chatbot + ambient scribe + AI coder, MIT)
      + HAPI FHIR (backend standalone para interoperabilidad)
@@ -71,17 +81,25 @@ Ottehr EHR (AI HPI chatbot + ambient scribe + AI coder, MIT)
      + Claude (reasoning complejo, non-PHI via NemoClaw si enterprise)
      + LangGraph (workflows PA, referrals, care coordination)
 ```
-*Time-to-market 95% más rápido que EHR custom. Deal size: $80k–$400k.*
 
-### Stack Ambient Scribe (v6 — open source)
+### Stack Ambient Scribe — open source LATAM
 ```
 scribeHC o OpenScribe (Expo + Next.js + FastAPI, MIT)
      + Whisper (transcripción ASR local, sin cloud)
-     + Claude API (generación nota SOAP en español/inglés)
+     + Claude API (generación nota SOAP en español/inglés/portugués)
      + fhir-mcp-server (write Encounter + DocumentReference al EHR)
      + OpenEMR / OpenMRS / Medplum (EHR destino)
 ```
-*Alternativa open source a Nuance DAX ($500-3,000/médico/mes). Deal size: $50k–$200k.*
+
+### Stack Cardiology AI Agent — HeartAgent pattern
+```
+HeartAgent (arXiv:2603.10764) o implementación propia
+     + MIMIC-IV / cardio knowledge base
+     + fhir-mcp-server (read patient cardiac history)
+     + MA-RAG (NJU-RL/MA-RAG) para consenso sobre evidencia contradictoria
+     + FHIR AuditEvent (audit trail explainable)
+     + PhysicianBench evaluation (gate pre-producción)
+```
 
 ### Stack Drug Discovery — Biotech/Pharma
 ```
@@ -89,7 +107,7 @@ BioChatter + BioCypher (knowledge graph + LLM)
      + BioNeMo NIM (NVIDIA drug discovery models)
      + awesome-drug-discovery tools (análisis molecular)
      + AutoResearch AI pattern (automatización research)
-     + Claude / GPT-5 (síntesis de literatura)
+     + Claude / claude-opus-4-8 (síntesis de literatura)
 ```
 
 ---

@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Healthcare
 
 > Agentes y herramientas AI open source para la industria de salud. Foco: MIT / Apache 2.0 / BSD.
-> Última actualización: 2026-07-10 (v6 — Ottehr AI-native EHR, scribeHC open scribe, QuarkMedSearch long-horizon, SEMA-RAG, OpenScribe, MARCH ACL 2026 radiology)
+> Última actualización: 2026-07-10 (v7 — HeartAgent cardiology, DermAgent MICCAI 2026, BAAI Cardiac Agent, EchoAgent, MA-RAG ICML 2026, PhysicianBench HealthRex/Stanford, HealthAdminBench)
 
 ## Agentes y herramientas destacadas
 
@@ -26,6 +26,21 @@
 
 ---
 
+## 🆕 v7 — Nuevos Agentes y Frameworks (Jul 10, 2026)
+
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [YizeezLiu/DermAgent](https://github.com/YizeezLiu/DermAgent) | Research | **DermAgent** (arXiv:2605.14403, **MICCAI 2026 early accept**) — Agente multi-tool auto-reflexivo para análisis dermatológico. Orquesta módulos especializados de percepción visual + Case RAG + Guideline RAG dentro de un ciclo Plan-Execute-Reflect. Supera SOTA MLLMs en 5 benchmarks: diagnóstico, concept annotation, captioning. Arquitectura generalizable a otras especialidades con imágenes. | — |
+| [HeartAgent](https://arxiv.org/abs/2603.10764) | Research | **HeartAgent** (arXiv:2603.10764, Mar 2026) — Sistema agente autónomo para diagnóstico diferencial explicable en cardiología. Múltiples sub-agentes especializados con conocimiento cardiológico curado. Trayectorias de razonamiento transparentes + referencias verificables. **>36% mejora en top-3 diagnostic accuracy** en MIMIC-IV; **>20%** en cohorte EHR privada. | — |
+| [BAAI Cardiac Agent](https://arxiv.org/abs/2604.04078) | Research | **BAAI Cardiac Agent** (arXiv:2604.04078, Apr 2026, Beijing AI Institute) — Agente multimodal inteligente para razonamiento y diagnóstico automatizado de enfermedades cardiovasculares a partir de **cardiac MRI (CMR)**. Razonamiento complejo sobre imágenes de resonancia magnética cardiaca con análisis multi-etapa. | — |
+| [EchoAgent](https://arxiv.org/abs/2604.05541) | Research | **EchoAgent** (arXiv:2604.05541) — "Eyes, Hands, and Minds" para interpretación de ecocardiografía. Tres capacidades integradas: percepción visual de ecos (Eyes), herramientas de medición automatizada (Hands), razonamiento clínico cardiovascular (Minds). Hacia interpretación confiable de ecocardiografía con agentes AI. | — |
+| [NJU-RL/MA-RAG](https://github.com/NJU-RL/MA-RAG) | MIT | **MA-RAG** (**ICML 2026**) — "From Conflict to Consensus: Boosting Medical Reasoning via Multi-Round Agentic RAG." Framework multi-agente que convierte conflictos entre múltiples recuperaciones en consenso médico robusto. Múltiples rondas de RAG con debate y resolución entre agentes. Codebase oficial. | — |
+| [HealthRex/PhysicianBench](https://github.com/HealthRex/PhysicianBench) | Apache-2.0 | **PhysicianBench** (arXiv:2605.02240, Stanford HealthRex) — **100 tareas long-horizon** (670 sub-checkpoints) adaptadas de consultas reales entre médicos generales y sub-especialistas. 21 especialidades. Datos reales de pacientes via **FHIR APIs estándar**. El benchmark más realista para evaluar agentes LLM a nivel del physician. | — |
+| [HealthAdminBench](https://arxiv.org/abs/2604.09937) | Research | **HealthAdminBench** (arXiv:2604.09937) — Evaluación de agentes de **computer-use** en tareas de administración hospitalaria: scheduling, billing, claims, prior auth, referral routing. Benchmark para RPA + AI que maneja interfaces GUI hospitalarias reales. | — |
+| [EHR-Complex](https://arxiv.org/abs/2606.23301) | Research | **EHR-Complex** (arXiv:2606.23301, Jun 22 2026) — Benchmark de agentes médicos para razonamiento clínico complejo. MIMIC-IV: 365K pacientes, 31 tablas, 500M+ registros. **~52K tareas** en 6 intents clínicos (patient-level + population-level). Complejidad SQL promedio: 31.93 componentes por query. **Top model: solo 62.3%** de accuracy. Análisis de 3,800 trayectorias fallidas: SQL logic errors + medical-code lookup failures + semantic misunderstandings. | — |
+
+---
+
 ## 🆕 v6 — Nuevos Agentes y Frameworks (Jul 10, 2026)
 
 | Nombre | Licencia | Descripción | Stars |
@@ -36,7 +51,6 @@
 | [QuarkMedSearch](https://arxiv.org/abs/2604.12867) | Research | **QuarkMedSearch** (arXiv:2604.12867) — Agente de búsqueda médica de largo horizonte (long-horizon deep search) que combina knowledge graph médico + exploración online en tiempo real. SFT + RL en dos etapas. SOTA en modelos open-source de escala comparable. | — |
 | [SEMA-RAG](https://arxiv.org/abs/2605.17101) | Research | **SEMA-RAG** (arXiv:2605.17101) — Self-Evolving Multi-Agent RAG para razonamiento médico. Tres agentes especializados: I-Agent (schema interpretation), E-Agent (evidence exploration suficiencia-driven), A-Agent (evidence adjudication). De RAG estático a razonamiento clínico multi-etapa. | — |
 | [MARCH](https://arxiv.org/abs/2604.16175) | Research | **MARCH** (arXiv:2604.16175, ACL 2026) — Multi-Agent Radiology Clinical Hierarchy para CT report generation. Jerarquía médica real: Resident Agent (draft inicial) → Fellow Agents (RAG revision) → Attending Agent (consensus discourse iterativo). Supera SOTA en RadGenome-ChestCT en fidelidad clínica y precisión lingüística. | — |
-| [Evo-MedAgent](https://arxiv.org/search/?query=Evo-MedAgent) | Research | **Evo-MedAgent** — Beyond One-Shot Diagnosis with Agents That Remember, Reflect, and Improve. Agentes que mantienen memoria entre consultas, reflexionan sobre errores previos y mejoran su rendimiento diagnóstico de forma continua. | — |
 
 ---
 
@@ -45,12 +59,12 @@
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
 | [MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | Apache-2.0 | **Stanford** — Benchmark de agentes LLM en entorno EHR virtual realista: 300 tareas de physicans reales, 100 pacientes virtuales, 700k+ data elements. Claude 3.5 Sonnet v2 lidera con **69.67% success rate**. Publicado en NEJM AI. Estándar de evaluación para proyectos AI clínicos. | ~500 |
-| [MedAgentBoard](https://github.com/yhzhu99/MedAgentBoard) | MIT | Plataforma para benchmarking de colaboración multi-agente vs. métodos convencionales en tareas médicas diversas. Cubre datos multimodales, texto, imágenes. Datasets + code + resultados experimentales todos open-sourced. Referencia para evaluar diseños multi-agente en producción. | ~200 |
-| [HealthFlow](https://github.com/yhzhu99/HealthFlow) | MIT | **HealthFlow: Automating EHR analysis via a strategically self-evolving multi-agent framework.** Agentes especializados que se adaptan automáticamente a la complejidad de cada caso clínico. Evita el problema de agentes rígidos que fallan en casos complejos no vistos. | ~150 |
-| [ColaCare](https://github.com/yuliaaa31/ColaCare) | MIT | **ColaCare (WWW 2025)** — Mejora el modelado de EHR mediante colaboración multi-agente LLM: DoctorAgents + MetaAgent coordinados con RAG. Mejora generación de reportes EHR y planificación de tratamiento vs. baselines solo-LLM. | ~100 |
-| [chi-bench](https://github.com/actava-ai/chi-bench) | Apache-2.0 | **Χ-Bench (arXiv:2605.16679)** — El benchmark más exigente para agentes healthcare: 75 flujos de trabajo end-to-end, 20 apps hospitalarias reales, 87 MCP tools, manual de operaciones de 1,279 documentos. Coalición de 20+ instituciones (Johns Hopkins, Wellstar, Yale, Stanford, CMU, Oxford). **Mejor agente falla 72% de los casos reales.** Señal de hasta dónde faltan llegar los agentes. | ~300 |
-| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY-4.0 | Curación activa de los últimos avances en Agentic AI para salud: papers AAAI 2026, SynthAgent (simulación de pacientes), MedCoG (densidad de inferencia médica), whole-slide VLMs para patología, ColaCare, DynamiCare, SEMA-RAG. Referencia de investigación más citada del área. | ~1.2k |
-| [Meditron](https://github.com/epfLLM/meditron) | Apache-2.0 | **EPFL** — Suite de LLMs médicos open source. Meditron-7B y 70B adaptados de Llama-2 con pretraining continuo en 48B tokens médicos (PubMed papers, guías clínicas, datos generales). Referencia como LLM médico open source de clase mundial en benchmarks MedQA, MedMCQA, PubMedQA. | ~900 |
+| [MedAgentBoard](https://github.com/yhzhu99/MedAgentBoard) | MIT | Plataforma para benchmarking de colaboración multi-agente vs. métodos convencionales en tareas médicas diversas. Cubre datos multimodales, texto, imágenes. Datasets + code + resultados experimentales todos open-sourced. | ~200 |
+| [HealthFlow](https://github.com/yhzhu99/HealthFlow) | MIT | **HealthFlow: Automating EHR analysis via a strategically self-evolving multi-agent framework.** Agentes especializados que se adaptan automáticamente a la complejidad de cada caso clínico. | ~150 |
+| [ColaCare](https://github.com/yuliaaa31/ColaCare) | MIT | **ColaCare (WWW 2025)** — Mejora el modelado de EHR mediante colaboración multi-agente LLM: DoctorAgents + MetaAgent coordinados con RAG. Mejora generación de reportes EHR y planificación de tratamiento. | ~100 |
+| [chi-bench](https://github.com/actava-ai/chi-bench) | Apache-2.0 | **Χ-Bench (arXiv:2605.16679)** — El benchmark más exigente para agentes healthcare: 75 flujos de trabajo end-to-end, 20 apps hospitalarias reales, 87 MCP tools, manual de 1,279 documentos. **Mejor agente falla 72%** de los casos reales. | ~300 |
+| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY-4.0 | Curación activa de los últimos avances en Agentic AI para salud: papers AAAI 2026, SynthAgent, MedCoG, whole-slide VLMs, ColaCare, DynamiCare, SEMA-RAG. Referencia de investigación más citada del área. | ~1.2k |
+| [Meditron](https://github.com/epfLLM/meditron) | Apache-2.0 | **EPFL** — Suite de LLMs médicos open source. Meditron-7B y 70B adaptados de Llama-2 con pretraining continuo en 48B tokens médicos (PubMed papers, guías clínicas). SOTA en MedQA, MedMCQA, PubMedQA. | ~900 |
 
 ---
 
@@ -66,7 +80,7 @@
 
 ---
 
-## Guía de selección de agentes
+## Guía de selección de agentes (actualizada v7)
 
 | Caso de uso | Agente recomendado |
 |-------------|-------------------|
@@ -74,7 +88,13 @@
 | NLP sobre notas clínicas / EHR text | medspaCy + cTAKES |
 | Diagnóstico multi-especialidad | Multi-Agent-Medical-Assistant + OpenClaw-Medical-Skills |
 | Radiología chest X-ray (ICML 2025) | MedRAX (bowang-lab) |
+| CT report generation con jerarquía médica | MARCH (Resident→Fellow→Attending Agent) |
 | Imágenes médicas 3D (MRI, CT, PET) | torchio + hi-ml |
+| Diagnóstico diferencial cardiología | **HeartAgent** (>36% mejora MIMIC) |
+| Cardiac MRI reasoning + diagnosis | **BAAI Cardiac Agent** |
+| Echocardiography interpretation | **EchoAgent** |
+| Diagnóstico dermatológico con imágenes | **DermAgent** (MICCAI 2026) |
+| RAG médico multi-agente debate → consenso | **MA-RAG** (ICML 2026, NJU-RL) |
 | Knowledge graph biomédico + LLM | BioChatter + BioCypher |
 | CDSS con evidencia PubMed en tiempo real | Healthcare-AI-CDSS-LangGraph |
 | On-device / HIPAA / LGPD privacidad total | openmed (local-first) |
@@ -84,13 +104,14 @@
 | Agentes OpenClaw con HIPAA compliance (enterprise) | NemoClaw (NVIDIA) + OpenClaw-Medical-Skills |
 | Artificial Pancreas / diabetes closed-loop | OpenAPS + CGM integration + FHIR write |
 | EHR multi-agente modeling y treatment planning | ColaCare + HealthFlow |
-| Evaluación rigurosa pre-producción de agentes | MedAgentBench + MedAgentBoard + CHI-Bench |
+| EHR razonamiento clínico complejo (SQL+Python) | Evaluar con EHR-Complex; top model 62.3% accuracy |
+| Evaluación rigurosa pre-producción de agentes | PhysicianBench + MedAgentBench + CHI-Bench |
 | LLM médico open source base (fine-tuning) | Meditron (7B o 70B, Apache-2.0) |
 | EHR greenfield AI-native + FHIR + scribe incluido | Ottehr (masslight/ottehr) — AI HPI + scribe + coder |
 | Ambient scribe open source (mobile + dashboard) | scribeHC o OpenScribe (sin vendor lock-in) |
+| Computer-use en admin hospitalaria (GUI) | HealthAdminBench pattern |
 | Búsqueda médica long-horizon (knowledge graph + RAG) | QuarkMedSearch |
 | RAG médico multi-agente auto-evolvente | SEMA-RAG (I-Agent + E-Agent + A-Agent) |
-| CT report generation con jerarquía médica real | MARCH (Resident→Fellow→Attending Agent) |
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*
