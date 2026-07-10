@@ -2,7 +2,7 @@
 
 > Recetas concretas para construir soluciones enterprise combinando repos + agentes + AI.
 > Cada patrón nombra repos específicos, licencias y cómo conectarlos.
-> Última actualización: 2026-07-09
+> Última actualización: 2026-07-10 v4
 
 ---
 
@@ -242,7 +242,7 @@ app = graph.compile()
 
 ---
 
-## Patrón 5: EU AI Act Compliance Agent (URGENT — 25 días)
+## Patrón 5: EU AI Act Compliance Agent (URGENT — 23 días)
 **Caso de uso:** Empresa con sistemas high-risk (Annex III EU AI Act) que necesita urgentemente documentación de conformidad, audit trails y gestión continua de riesgos antes del 2 de agosto de 2026.
 
 **Stack:**
@@ -285,7 +285,7 @@ def audit_log_decision(system_name: str, decision: str, rationale: str):
             "annex_viii_compliant": True,
             "system": system_name,
             "decision": decision,
-            "timestamp": "2026-07-08T00:00:00Z"
+            "timestamp": "2026-07-10T00:00:00Z"
         }
         trace.output = rationale
 
@@ -326,7 +326,7 @@ for system in high_risk_systems:
     # Audit trail stored in Langfuse — retrievable for EU AI Act audits
 ```
 
-**Urgencia:** Deadline Aug 2, 2026 (25 días). Proyectos iniciados hoy llegan justo.
+**Urgencia:** Deadline Aug 2, 2026 (23 días). Proyectos iniciados hoy llegan justo.
 **Tiempo estimado:** 4–8 semanas | **Deal size:** $150k–$800k
 
 ---
@@ -359,7 +359,6 @@ def triage_agent(state: MessagesState):
 
 def code_review_agent(state: MessagesState):
     """Runs OpenHands code review on PR diff"""
-    # OpenHands SDK: run review task
     from openhands_sdk import OpenHandsAgent
     agent = OpenHandsAgent(model="claude-sonnet-5")
     diff = state["messages"][-1].content
@@ -496,8 +495,6 @@ docker compose -f docker-compose.latam-lgpd.yml up -d
 
 ```javascript
 // n8n workflow: Invoice Processing with Claude
-// Importar en n8n UI o usar API
-
 const invoiceWorkflow = {
   "name": "AI Invoice Processor",
   "nodes": [
@@ -518,16 +515,8 @@ const invoiceWorkflow = {
       "name": "Claude Extract Data",
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "parameters": {
-        "model": "claude-haiku-4-5",  // Económico para extracción
-        "prompt": `Extract invoice data as JSON:
-          - invoice_number
-          - vendor_name  
-          - amount
-          - currency
-          - date
-          - line_items
-          
-          Invoice text: {{$json.text}}`
+        "model": "claude-haiku-4-5",
+        "prompt": "Extract invoice data as JSON: invoice_number, vendor_name, amount, currency, date, line_items. Invoice text: {{$json.text}}"
       }
     },
     {
@@ -568,21 +557,18 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Anthropic.SDK;
 
-// Configurar Semantic Kernel con Claude
 var builder = Kernel.CreateBuilder();
 builder.AddAnthropicChatCompletion(
     modelId: "claude-sonnet-5",
     apiKey: Environment.GetEnvironmentVariable("ANTHROPIC_API_KEY")
 );
 
-// Añadir plugins enterprise
 builder.Plugins.AddFromType<ERP_Plugin>();
 builder.Plugins.AddFromType<CRM_Plugin>();
 builder.Plugins.AddFromType<HR_Plugin>();
 
 var kernel = builder.Build();
 
-// Crear agente enterprise con MAF 1.0
 var agent = new ChatCompletionAgent
 {
     Name = "EnterpriseAssistant",
@@ -597,7 +583,6 @@ var agent = new ChatCompletionAgent
     }
 };
 
-// Grupo conversacional multi-agent (MAF 1.0 pattern)
 var groupChat = new AgentGroupChat(agent)
 {
     ExecutionSettings = new AgentGroupChatSettings
@@ -627,7 +612,7 @@ await foreach (var message in groupChat.InvokeAsync())
 - [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — orquestación
 
 ```python
-# analytics_agent.py — Data analyst AI con governance
+# analytics_agent.py
 from langgraph.graph import StateGraph, MessagesState, START, END
 from langfuse import Langfuse
 import anthropic, requests, json
@@ -636,7 +621,6 @@ langfuse = Langfuse()  # self-hosted
 client = anthropic.Anthropic()
 
 def search_catalog(query: str) -> list:
-    """Search OpenMetadata for relevant datasets"""
     resp = requests.get(
         f"{OPENMETADATA_URL}/api/v1/search/query",
         params={"q": query, "index": "table_search_index"},
@@ -647,7 +631,6 @@ def search_catalog(query: str) -> list:
             for h in hits[:5]]
 
 def run_superset_query(sql: str, datasource_id: int) -> dict:
-    """Execute SQL via Superset API"""
     resp = requests.post(
         f"{SUPERSET_URL}/api/v1/sqllab/execute/",
         json={"sql": sql, "database_id": datasource_id},
@@ -658,43 +641,25 @@ def run_superset_query(sql: str, datasource_id: int) -> dict:
 def analytics_agent_node(state: MessagesState):
     with langfuse.trace(name="enterprise-analytics-query") as trace:
         trace.input = state["messages"][-1]["content"]
-        
         response = client.messages.create(
             model="claude-sonnet-5",
             max_tokens=4096,
             tools=[
-                {
-                    "name": "search_catalog",
-                    "description": "Search OpenMetadata data catalog for relevant datasets",
-                    "input_schema": {"type": "object", "properties": {
-                        "query": {"type": "string", "description": "Search query"}
-                    }, "required": ["query"]}
-                },
-                {
-                    "name": "run_sql",
-                    "description": "Execute SQL query via Superset",
-                    "input_schema": {"type": "object", "properties": {
-                        "sql": {"type": "string"},
-                        "datasource_id": {"type": "integer"}
-                    }, "required": ["sql", "datasource_id"]}
-                }
+                {"name": "search_catalog", "description": "Search OpenMetadata data catalog",
+                 "input_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]}},
+                {"name": "run_sql", "description": "Execute SQL query via Superset",
+                 "input_schema": {"type": "object", "properties": {"sql": {"type": "string"}, "datasource_id": {"type": "integer"}}, "required": ["sql", "datasource_id"]}}
             ],
             messages=state["messages"],
-            system="You are a data analyst. Use search_catalog to find datasets, then run_sql to query them. Always cite the dataset name and owner from the catalog."
+            system="You are a data analyst. Use search_catalog to find datasets, then run_sql to query them."
         )
         trace.output = response.content[0].text if response.stop_reason == "end_turn" else "[tool_use]"
-    
     return {"messages": [response]}
 
 graph = StateGraph(MessagesState)
 graph.add_node("analytics", analytics_agent_node)
 graph.set_entry_point("analytics")
 app = graph.compile()
-
-# Ejemplo: Business question → SQL → resultado
-result = app.invoke({"messages": [
-    {"role": "user", "content": "¿Cuál fue el revenue por región en Q2 2026 comparado con Q2 2025?"}
-]})
 ```
 
 **Tiempo estimado:** 8–12 semanas | **Deal size:** $200k–$900k
@@ -702,7 +667,7 @@ result = app.invoke({"messages": [
 ---
 
 ## Patrón 11: Twenty CRM + Claude vía MCP Nativo
-**Caso de uso:** Equipo de ventas o customer success que quiere interactuar con su CRM en lenguaje natural: consultar pipeline, actualizar deals, crear contactos, generar reportes — directamente desde Claude o cualquier agente AI.
+**Caso de uso:** Equipo de ventas o customer success que quiere interactuar con su CRM en lenguaje natural: consultar pipeline, actualizar deals, crear contactos, generar reportes.
 
 **Stack:**
 - [twentyhq/twenty](https://github.com/twentyhq/twenty) (AGPL-3.0, 45.5k ★) — CRM moderno open source
@@ -711,252 +676,280 @@ result = app.invoke({"messages": [
 - Claude Sonnet 5 — modelo
 
 ```python
-# Opción A: Twenty Cloud (MCP server nativo incluido)
-# En Claude Desktop: Settings → MCP Servers → Twenty
-# URL: https://api.twenty.com/mcp/{workspace_id}
-# Autenticación: Twenty API key
-
-# Opción B: Twenty self-hosted + twenty-crm-mcp-server
-# pip install twenty-crm-mcp-server
-
 import anthropic
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 async def twenty_crm_agent(user_query: str):
-    """Agent con acceso nativo a Twenty CRM vía MCP"""
     client = anthropic.Anthropic()
-    
     server_params = StdioServerParameters(
         command="twenty-mcp-server",
-        env={
-            "TWENTY_API_URL": "http://localhost:3000/api",
-            "TWENTY_API_KEY": "your-api-key"
-        }
+        env={"TWENTY_API_URL": "http://localhost:3000/api", "TWENTY_API_KEY": "your-api-key"}
     )
-    
     async with stdio_client(server_params) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
-            
-            # Listar tools disponibles del MCP server
             tools = await session.list_tools()
-            mcp_tools = [
-                {
-                    "name": t.name,
-                    "description": t.description,
-                    "input_schema": t.inputSchema
-                }
-                for t in tools.tools
-            ]
-            
-            # Claude con acceso completo a CRM via MCP
+            mcp_tools = [{"name": t.name, "description": t.description, "input_schema": t.inputSchema} for t in tools.tools]
             response = client.messages.create(
                 model="claude-sonnet-5",
                 max_tokens=4096,
                 tools=mcp_tools,
                 messages=[{"role": "user", "content": user_query}],
-                system="""You are a CRM expert. Use Twenty CRM tools to:
-                - Query and update deals, contacts, companies
-                - Track pipeline stages and activities
-                - Generate sales reports and forecasts
-                Always confirm before creating or deleting records."""
+                system="You are a CRM expert. Use Twenty CRM tools to query and update deals, contacts, companies."
             )
-            
             return response
-
-# Ejemplos de queries en lenguaje natural:
-queries = [
-    "¿Qué deals en pipeline tienen valor > $50k y lleven más de 30 días sin actividad?",
-    "Crea una nota de seguimiento para Empresa XYZ: 'Reunión programada para el 15-Jul'",
-    "Muestra el forecast de ventas de este trimestre por owner",
-    "¿Cuáles son los top 5 clientes por revenue en los últimos 90 días?",
-]
-
-# LangGraph wrapper para workflow multi-step
-from langgraph.graph import StateGraph, MessagesState
-from langfuse import Langfuse
-
-langfuse = Langfuse()  # Audit trail para compliance
-
-def crm_agent_node(state: MessagesState):
-    with langfuse.trace(name="twenty-crm-agent") as trace:
-        result = asyncio.run(twenty_crm_agent(state["messages"][-1]["content"]))
-        trace.output = result.content[0].text if result.content else ""
-    return {"messages": [result]}
 ```
-
-**Ventajas vs Salesforce:**
-- Self-hosted: datos en tus servidores (LGPD/GDPR compliant)
-- MCP nativo: Claude accede directo sin middleware custom
-- 45.5k ★ creciendo: comunidad activa + Y Combinator backed
-- AGPL-3.0: revisar con legal si hay redistribución comercial
 
 **Tiempo estimado:** 2–4 semanas | **Deal size:** $50k–$250k
 
 ---
 
 ## Patrón 12: Microsoft Agent Framework CodeAct + Hosted Agents (.NET Enterprise)
-**Caso de uso:** Cliente enterprise .NET/Azure que quiere agentes multi-step con ejecución de tools eficiente (CodeAct) desplegados en infraestructura managed (Foundry Hosted Agents) sin gestionar K8s.
+**Caso de uso:** Cliente enterprise .NET/Azure que quiere agentes multi-step con ejecución de tools eficiente (CodeAct) desplegados en infraestructura managed (Foundry Hosted Agents).
 
 **Stack:**
 - [microsoft/agent-framework](https://github.com/microsoft/agent-framework) (MIT) — CodeAct + Agent Harness
 - Azure Foundry Agent Service — hosted runtime (GA early Jul 2026)
-- Claude Sonnet 5 / GPT-4o — modelo (MAF soporta ambos)
-- [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — observabilidad (self-hosted o cloud)
+- Claude Sonnet 5 — modelo
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — observabilidad
 
 ```python
-# MAF + CodeAct: una llamada LLM, múltiples tool calls paralelos
-# pip install agent-framework
-
 from agent_framework import Agent, tool, CodeActRunner
-from agent_framework.mcp import MCPClient
-import anthropic
 
-# Definir tools enterprise
 @tool
 def get_erp_orders(status: str, limit: int = 10) -> list:
     """Get orders from ERP by status"""
-    # ... ERPNext/Odoo API call
     return orders
 
 @tool
 def get_crm_pipeline(stage: str) -> list:
     """Get CRM pipeline by stage"""
-    # ... SuiteCRM/Twenty API call
     return deals
 
 @tool
 def generate_report(data: dict, format: str = "markdown") -> str:
     """Generate formatted business report"""
-    # ... report generation
     return report
 
-# CodeAct runner: el modelo escribe Python que llama TODAS las tools
-# en una sola ronda de inferencia → mucho más eficiente que tool-calling clásico
+# CodeAct: una llamada LLM → modelo escribe Python que llama TODAS las tools
 runner = CodeActRunner(
     model="claude-sonnet-5",
     tools=[get_erp_orders, get_crm_pipeline, generate_report],
-    sandbox="hyperlight"  # micro-VM aislado por llamada, overhead <5ms
+    sandbox="hyperlight"  # micro-VM aislado, overhead <5ms
 )
 
-# Una sola llamada → el modelo escribe y ejecuta:
-# orders = call_tool("get_erp_orders", status="pending", limit=20)
-# deals = call_tool("get_crm_pipeline", stage="negotiation") 
-# report = call_tool("generate_report", data={"orders": orders, "deals": deals})
-result = runner.run(
-    "Dame un reporte ejecutivo de órdenes pendientes y deals en negociación"
-)
-print(result)  # Reporte completo en 1 round-trip LLM vs 3-4 en tool-calling clásico
+result = runner.run("Dame un reporte ejecutivo de órdenes pendientes y deals en negociación")
+# 1 round-trip LLM vs 3-4 en tool-calling clásico
 ```
-
-```yaml
-# Despliegue en Azure Foundry Agent Service (Hosted Agents)
-# Dockerfile del agente
-FROM python:3.12-slim
-COPY requirements.txt .
-RUN pip install agent-framework langfuse anthropic
-COPY agent_app.py .
-CMD ["python", "agent_app.py"]
-
-# Deploy via Azure CLI
-# az foundry agent deploy \
-#   --image myregistry.azurecr.io/enterprise-agent:latest \
-#   --name enterprise-erp-agent \
-#   --scale-to-zero true \
-#   --session-persistence true  # filesystem persiste entre scale-downs
-```
-
-**Ventajas sobre K8s custom:**
-- Scale-to-zero automático (paga solo cuando el agente está activo)
-- Filesystem persistente entre scale-downs (el agente "recuerda" el contexto)
-- Identity, observabilidad, versioning incluidos
-- Time-to-production: 2-3 semanas vs 8-12 semanas con K8s custom
 
 **Tiempo estimado:** 4–8 semanas | **Deal size:** $150k–$600k
 
 ---
 
 ## Patrón 13: Agent-on-Messaging — Enterprise Bot en Teams/Slack
-**Caso de uso:** Equipo de ventas, finanzas u operaciones que quiere interactuar con agentes AI desde Microsoft Teams o Slack (donde ya trabajan) — sin aprender una nueva UI. El agente accede a ERP/CRM y responde en el canal.
+**Caso de uso:** Equipo de ventas, finanzas u operaciones que quiere interactuar con agentes AI desde Microsoft Teams o Slack — sin aprender una nueva UI.
 
 **Stack:**
 - [n8n-io/n8n](https://github.com/n8n-io/n8n) (Sustainable Use) — trigger desde Teams/Slack + orquestación
-- Claude Haiku 4.5 — modelo (económico para mensajería, alta frecuencia)
+- Claude Haiku 4.5 — modelo económico para mensajería
 - [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) (MIT) — tools ERP
 - [mhenry3164/twenty-crm-mcp-server](https://github.com/mhenry3164/twenty-crm-mcp-server) (MIT) — tools CRM
 
 ```javascript
 // n8n workflow: Teams → Agent → MCP → respuesta Teams
-// Importar desde n8n UI
-
 const teamsAgentWorkflow = {
   "name": "Enterprise Teams AI Agent",
   "nodes": [
-    {
-      "name": "Teams Message Trigger",
-      "type": "n8n-nodes-base.microsoftTeamsTrigger",
-      "parameters": {
-        "event": "message",
-        "channelId": "sales-team-channel"
-      }
-    },
-    {
-      "name": "Route to Agent",
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "parameters": {
-        "agent": "conversationalAgent",
-        "model": {
-          "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-          "model": "claude-haiku-4-5"  // Haiku: económico + rápido para chat
-        },
-        "memory": {
-          "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-          "contextWindowLength": 10
-        },
-        "tools": [
-          {
-            "type": "@n8n/n8n-nodes-langchain.toolMcp",
-            "name": "ERP Tools",
-            "mcpEndpoint": "http://erpnext-mcp:8000/sse"
-          },
-          {
-            "type": "@n8n/n8n-nodes-langchain.toolMcp",
-            "name": "CRM Tools",
-            "mcpEndpoint": "http://twenty-mcp:8001/sse"
-          }
-        ],
-        "text": "={{ $json.body.value[0].body.content }}",
-        "systemMessage": "Eres el asistente de ventas enterprise. Accedes a ERP y CRM para responder preguntas del equipo de ventas en Teams. Responde en español, de forma concisa."
-      }
-    },
-    {
-      "name": "Reply in Teams",
-      "type": "n8n-nodes-base.microsoftTeams",
-      "parameters": {
-        "operation": "sendMessage",
-        "channelId": "={{ $('Teams Message Trigger').item.json.channelId }}",
-        "messageType": "reply",
-        "replyToId": "={{ $('Teams Message Trigger').item.json.id }}",
-        "message": "={{ $json.output }}"
-      }
-    }
+    {"name": "Teams Message Trigger", "type": "n8n-nodes-base.microsoftTeamsTrigger",
+     "parameters": {"event": "message", "channelId": "sales-team-channel"}},
+    {"name": "Route to Agent", "type": "@n8n/n8n-nodes-langchain.agent",
+     "parameters": {
+       "model": {"type": "@n8n/n8n-nodes-langchain.lmChatAnthropic", "model": "claude-haiku-4-5"},
+       "tools": [
+         {"type": "@n8n/n8n-nodes-langchain.toolMcp", "name": "ERP Tools", "mcpEndpoint": "http://erpnext-mcp:8000/sse"},
+         {"type": "@n8n/n8n-nodes-langchain.toolMcp", "name": "CRM Tools", "mcpEndpoint": "http://twenty-mcp:8001/sse"}
+       ],
+       "text": "={{ $json.body.value[0].body.content }}",
+       "systemMessage": "Eres el asistente de ventas enterprise. Responde en español, de forma concisa."
+     }},
+    {"name": "Reply in Teams", "type": "n8n-nodes-base.microsoftTeams",
+     "parameters": {"operation": "sendMessage", "message": "={{ $json.output }}"}}
   ]
 }
-
-// Ejemplos de queries desde Teams:
-// "@AgentERP ¿cuáles son las órdenes sin facturar de esta semana?"
-// "@AgentERP ¿qué deals cerramos en junio?"
-// "@AgentERP crea una oportunidad de venta para Empresa XYZ por $150k"
 ```
 
-**Por qué este patrón funciona:**
-- Adopción inmediata: el equipo ya usa Teams/Slack, no aprende nueva UI
-- Haiku 4.5 en lugar de Sonnet = 10x más económico para alto volumen de mensajes
-- n8n self-hosted = control total, compliance LGPD/GDPR
-- MCP tools reutilizables en otros agentes
-
 **Tiempo estimado:** 2–4 semanas | **Deal size:** $30k–$120k
+
+---
+
+## Patrón 14: Sovereign Enterprise AI Stack (LGPD / EU AI Act / Geopolítica)
+**Caso de uso:** Empresa enterprise que necesita AI 100% soberana: datos nunca salen de su infraestructura, cumplimiento LGPD + EU AI Act, y economics favorables a escala alta (>10M tokens/día). Ideal para bancos brasileños, aseguradoras europeas, gobierno.
+
+**Stack:**
+- [ollama/ollama](https://github.com/ollama/ollama) (MIT) — self-hosted LLM server (Llama 3.3 70B / Phi-4)
+- [BerriAI/litellm](https://github.com/BerriAI/litellm) (MIT) — proxy unificado frontier + local
+- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — visual workflows + RAG
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — audit trail LLM (EU AI Act Art.12)
+- [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) (Apache-2.0) — data catalog + governance
+- [keycloak/keycloak](https://github.com/keycloak/keycloak) (Apache-2.0) — AuthN/AuthZ enterprise
+
+```python
+# sovereign_ai_client.py — misma API para modelos locales y frontier
+import anthropic
+import os
+
+LITELLM_BASE = "http://litellm:4000"
+LITELLM_KEY = os.environ["LITELLM_MASTER_KEY"]
+
+client_local = anthropic.Anthropic(
+    base_url=f"{LITELLM_BASE}/anthropic",
+    api_key=LITELLM_KEY
+)
+client_frontier = anthropic.Anthropic(
+    api_key=os.environ["ANTHROPIC_API_KEY"]
+)
+
+def sovereign_agent(task: str, data_sensitivity: str = "low") -> str:
+    """
+    HIGH sensitivity: always local (LGPD/EU AI Act compliance)
+    LOW sensitivity: frontier for best quality
+    """
+    from langfuse import Langfuse
+    langfuse = Langfuse()  # self-hosted
+    
+    model = "ollama/llama3.3:70b" if data_sensitivity == "high" else "claude-sonnet-5"
+    client = client_local if data_sensitivity == "high" else client_frontier
+    
+    with langfuse.trace(name="sovereign-agent", 
+                       metadata={"data_sensitivity": data_sensitivity,
+                                 "model": model,
+                                 "eu_ai_act_log": True}) as trace:
+        response = client.messages.create(
+            model=model,
+            max_tokens=4096,
+            messages=[{"role": "user", "content": task}]
+        )
+        result = response.content[0].text
+        trace.output = result
+        return result
+
+# Análisis financiero (alta sensibilidad → modelo local)
+report = sovereign_agent(
+    task="Analiza los últimos 6 meses de transacciones del cliente ACME LTDA",
+    data_sensitivity="high"  # → Llama 3.3 local, $0.02/M tokens
+)
+
+# Redacción de marketing (baja sensibilidad → frontier model)
+content = sovereign_agent(
+    task="Escribe un blog post sobre tendencias fintech 2026",
+    data_sensitivity="low"  # → Claude Sonnet 5, mejor calidad
+)
+
+# Costo estimado a 10M tokens/día:
+# Sin sovereign stack: $25,000–$150,000/mes (cloud API)
+# Con sovereign stack: $500–$4,000/mes (self-hosted) + $5,000 HW amortizado
+# Ahorro anual estimado: $240,000–$1,700,000/año
+```
+
+**Economía del patrón:**
+| Escenario | Costo mensual | Ahorros vs cloud puro |
+|-----------|--------------|----------------------|
+| 1M tokens/día (PYME) | $50–$400/mes | $2,500–$15,000/mes |
+| 10M tokens/día (SME) | $500–$4k/mes | $25k–$150k/mes |
+| 100M tokens/día (Enterprise) | $5k–$40k/mes | $250k–$1.5M/mes |
+
+**Compliance cubierta:** LGPD Art.46, EU AI Act Art.9 + Art.12, DORA, GDPR Art.25
+
+**Tiempo estimado:** 6–12 semanas | **Deal size:** $150k–$600k | **ROI típico:** 300–1,000% a 24 meses
+
+---
+
+## Patrón 15: Git-as-Control-Plane (agentic-enterprise) — Governance nativo para agentes
+**Caso de uso:** Empresa que quiere governance de agentes AI desde el primer día, con audit trail inviolable y reversibilidad total. Ideal para sector financiero, legal, o cualquier cliente que necesite demostrar control sobre las decisiones de sus agentes.
+
+**Stack:**
+- [wlfghdr/agentic-enterprise](https://github.com/wlfghdr/agentic-enterprise) (MIT) — operating model Git-as-Control-Plane
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — ejecución del agente
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) (MIT) — LLM traces
+- GitHub Actions / GitLab CI — pipeline de CI/CD de decisiones
+- Claude Sonnet 5 — modelo de razonamiento
+
+```python
+# git_control_plane_agent.py
+# Concepto: cada decisión del agente es un PR en Git.
+# Humano aprueba (merge) o rechaza (close PR).
+# Git history = audit trail de todas las decisiones.
+
+import subprocess
+import anthropic
+from langfuse import Langfuse
+from datetime import datetime
+
+langfuse = Langfuse()
+client = anthropic.Anthropic()
+
+def agent_decide(task: str, context: dict) -> str:
+    """Agent razona y propone una decisión como un PR"""
+    with langfuse.trace(name="agent-decision", metadata=context) as trace:
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=2048,
+            messages=[{
+                "role": "user",
+                "content": f"""Task: {task}\nContext: {context}\n\nPropose a decision with:\n1. DECISION: What you recommend\n2. RATIONALE: Why (data-driven)\n3. RISKS: Potential downsides\n4. ALTERNATIVES: What else was considered\n5. REVERSIBILITY: How to undo this if wrong"""
+            }],
+            system="You are an enterprise decision agent. Every output will become a Git commit and PR for human review."
+        )
+        decision = response.content[0].text
+        trace.output = decision
+        return decision
+
+def commit_decision_as_pr(task_name: str, decision: str, branch: str) -> str:
+    """Commit agent decision as a Git branch + PR"""
+    subprocess.run(["git", "checkout", "-b", f"agent/{branch}"], check=True)
+    
+    filename = f"decisions/{datetime.now().strftime('%Y%m%d_%H%M%S')}_{branch}.md"
+    with open(filename, "w") as f:
+        f.write(f"# Agent Decision: {task_name}\n\n")
+        f.write(f"**Generated:** {datetime.now().isoformat()}\n\n")
+        f.write(decision)
+    
+    subprocess.run(["git", "add", filename], check=True)
+    subprocess.run(["git", "commit", "-m", f"agent: {task_name}\n\nAI-generated decision for human review."], check=True)
+    subprocess.run(["git", "push", "origin", f"agent/{branch}"], check=True)
+    result = subprocess.run(
+        ["gh", "pr", "create", "--title", f"[Agent] {task_name}", "--body", decision, "--label", "agent-decision,needs-human-review"],
+        capture_output=True, text=True
+    )
+    return result.stdout.strip()
+
+# Flujo completo
+task = "Optimizar el mix de proveedores de materia prima para Q3 2026"
+context = {
+    "current_suppliers": ["ProveedorA 60%", "ProveedorB 40%"],
+    "q2_performance": {"ProveedorA": "96% on-time", "ProveedorB": "88% on-time"},
+    "price_changes": {"ProveedorA": "+8% YoY", "ProveedorB": "+3% YoY"},
+    "regulation": "EU Supply Chain Act 2026 compliance required"
+}
+
+decision = agent_decide(task, context)
+pr_url = commit_decision_as_pr(task, decision, "supplier-mix-q3-2026")
+print(f"Decision proposed as PR: {pr_url}")
+# → Equipo de compras revisa, aprueba o rechaza
+# → Git history = registro permanente de TODAS las decisiones del agente
+```
+
+**Por qué este patrón es poderoso para compliance:**
+- **EU AI Act Art.12**: "AI systems shall automatically log events" → Git log es el log
+- **Reversibilidad**: `git revert <commit>` revierte cualquier decisión de agente
+- **Atribución**: cada commit tiene autor (humano o agente), timestamp, razón
+- **Auditoría**: `git log --author="agent/"` → todas las decisiones de agentes en 1 comando
+- **Change review**: PR review = proceso de aprobación humano mandatoria (HITL nativo)
+
+**Ideal para:** Sector financiero (Basel IV, SOX, EU AI Act) | Sector legal | Manufactura regulada | Gobierno
+
+**Tiempo estimado:** 4–8 semanas | **Deal size:** $100k–$400k
 
 ---
 
@@ -977,13 +970,15 @@ const teamsAgentWorkflow = {
 | CRM moderno + equipo ventas | AI sobre CRM en lenguaje natural | P11 (Twenty CRM + MCP) |
 | Stack .NET/Azure, quiere tools eficientes | Multi-step agent sin round-trips | P12 (MAF CodeAct + Hosted Agents) |
 | Equipo que ya usa Teams/Slack | Agent sin nueva UI, alta adopción | P13 (Agent-on-Messaging) |
+| Banco/aseguradora/gobierno, volumen alto tokens | Datos soberanos, compliance LGPD/EU AI Act, economía a escala | P14 (Sovereign AI Stack) |
+| Finanzas/legal/manufactura regulada | Governance nativo + audit trail inviolable + HITL mandatorio | P15 (Git-as-Control-Plane) |
 
 ---
 
 ## Quick-ROI matrix
 
 | Patrón | Payback estimado | Complejidad | Licencias |
-|--------|-----------------|-------------|-----------|
+|--------|-----------------|-------------|----------|
 | P8 (n8n + Claude ops) | 2-3 meses | Baja | Sustainable Use + Anthropic |
 | P13 (Teams/Slack agent) | 3-4 meses | Baja-Media | Sustainable Use + Anthropic |
 | P1 (ERPNext MCP) | 4-6 meses | Media | MIT + GPL-3.0 |
@@ -992,6 +987,11 @@ const teamsAgentWorkflow = {
 | P12 (MAF CodeAct) | 6-9 meses | Alta | MIT |
 | P6 (OpenHands DevOps) | 9-12 meses | Alta | MIT |
 | P10 (Analytics + Governance) | 10-15 meses | Muy Alta | Apache-2.0 + MIT |
+| P14 (Sovereign AI Stack) | 8-18 meses (+ ahorro recurrente 300-1000%) | Alta | MIT + Apache-2.0 |
+| P15 (Git-as-Control-Plane) | Compliance-driven (valor en audit trail) | Media-Alta | MIT |
 
 ---
+
+## Última actualización: 2026-07-10 v4 — 15 patrones, 20 trends, 7 stacks
+
 *Ver también: `agents/top.md` para detalles de cada framework y `verticals/solutions.md` para plataformas base.*

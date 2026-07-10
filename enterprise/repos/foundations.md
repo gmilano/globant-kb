@@ -1,14 +1,14 @@
 # 🏗️ Repos fundacionales — Enterprise
 
 > Bases sobre las cuales construir soluciones enterprise con AI. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09 v3
+> Última actualización: 2026-07-10 v4
 
 ---
 
 ## Stack A: Orquestación de Agentes (Agent Frameworks)
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
+|------|----------|-------|-------------|---------------|
 | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 110k+ | Graph-based stateful agent orchestration. GA Oct 2025. DeltaChannel + per-node timeouts v1.1. Powers Uber, LinkedIn. | ✅ — El framework production más maduro 2026 |
 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Multi-agent role-based collaboration. 5.2M downloads/mes. Pluggable backends + Chat API v1.14. | ✅ — Ideal para equipos de dominio (ventas, RRHH, finanzas) |
 | [ag2ai/ag2](https://github.com/ag2ai/ag2) | Apache-2.0 | 22k | Fork comunitario de AutoGen. Base del Microsoft Agent Framework 1.0. Conversational multi-agent. | ✅ — .NET shops y clientes Microsoft |
@@ -23,7 +23,7 @@
 ## Stack B: Visual Builders / Low-Code AI
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
+|------|----------|-------|-------------|---------------|
 | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 138k | Visual AI app builder. RAG nativo, HITL, multi-tenant, MCP 2026. $30M raised. | ✅ — Primer deployment enterprise para no-devs |
 | [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 40k | LangChain/LlamaIndex visual canvas. HITL añadido 2026. Auto-scaling nativo. | ✅ — Prototipos en horas, LangChain-compatible |
 | [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 60k | Visual builder adquirido por IBM/DataStax. MCP support 2026. | ✅ — Clientes IBM/DataStax, Python backend |
@@ -34,7 +34,7 @@
 ## Stack C: ERP / CRM Enterprise Open Source
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
+|------|----------|-------|-------------|---------------|
 | [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | 52.8k | ERP+CRM+eCommerce+HR todo-en-uno. Python+OWL. Community Edition gratuita. | ✅ — Base para AI-over-ERP patterns |
 | [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10.4k | Low-code web framework Python+JS. Base de ERPNext. REST API nativa, hooks system. | ✅ — Custom ERP/CRM con MCP server |
 | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36.4k | ERP open source sobre Frappe. Manufacturing, HR, CRM, contabilidad. 15+ módulos. | ✅ — ERPNext + erpnext-mcp-server |
@@ -47,7 +47,7 @@
 ## Stack D: Data Catalog / Governance
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
+|------|----------|-------|-------------|---------------|
 | [open-metadata/OpenMetadata](https://github.com/open-metadata/OpenMetadata) | Apache-2.0 | 6k | Data catalog + data quality + MCP server. 3000+ enterprise deployments. EU AI Act compliance tooling. | ✅ — AI governance stack |
 | [datahub-project/datahub](https://github.com/datahub-project/datahub) | Apache-2.0 | 10k | Data discovery + lineage + governance. LinkedIn. Agentic workflows integración 2026. | ✅ — Data lineage para AI compliance |
 
@@ -56,17 +56,28 @@
 ## Stack E: Observabilidad LLM
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
+|------|----------|-------|-------------|---------------|
 | [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | 28k | LLM observability + tracing + evaluación. Self-hostable Docker. EU AI Act audit trail. | ✅ — Mandatorio para enterprise prod |
 | [comet-ml/opik](https://github.com/comet-ml/opik) | Apache-2.0 | 8.5k | LLM evaluation + tracing. Integra con LangChain/LlamaIndex. | ✅ — Alternativa OSS a Langfuse |
 | [Arize-ai/phoenix](https://github.com/Arize-ai/phoenix) | Elastic-2.0 | 7.2k | LLM tracing + evals + prompt management. Arize Phoenix. | ⚠️ — Elastic License (revisar con legal) |
 
 ---
 
+## Stack G: Sovereign AI / Self-Hosted LLM
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|---------------|
+| [ollama/ollama](https://github.com/ollama/ollama) | MIT | 110k+ | Self-hosted LLM server. Llama, Mistral, Phi, Gemma. Docker-native. REST API compatible OpenAI. | ✅ — Self-hosted enterprise (LGPD/EU AI Act) |
+| [BerriAI/litellm](https://github.com/BerriAI/litellm) | MIT | 20k+ | Proxy LLM unificado: misma API para 100+ providers + modelos locales. Cost tracking, rate limits, retry. | ✅ — Router inteligente frontier↔self-hosted |
+| [1Panel-dev/MaxKB](https://github.com/1Panel-dev/MaxKB) | GPL-3.0 | 15k+ | Knowledge base + agents enterprise self-hosted. RAG nativo, multi-modelo (OpenAI/Anthropic/Ollama), workflows. | ⚠️ — GPL-3.0; consultar legal para producto comercial |
+| [wlfghdr/agentic-enterprise](https://github.com/wlfghdr/agentic-enterprise) | MIT | emergente | Operating model Git-as-Control-Plane: Observe→Decide→Execute→Ship→Learn. Cada decisión = PR merge; auditable nativo. | ✅ — Compliance EU AI Act Art.12 vía Git history |
+
+---
+
 ## Stack F: Protocolos Enterprise AI
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
+|------|----------|-------|-------------|---------------|
 | [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Servidores MCP oficiales. 97M descargas/mes. Linux Foundation. 5000+ MCP servers ecosistema (Jul 2026 RC). | ✅ — Estándar de integración AI↔enterprise tools |
 | [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk) | MIT | - | SDK para production software agents. Stateless, event-sourced, composable. 4 packages. | ✅ — Coding agents enterprise |
 | [openclaw-org/openclaw](https://github.com/openclaw-org/openclaw) | MIT | 210k+ | Agente personal multi-canal. WhatsApp, Telegram, Discord, iMessage. Patrón para enterprise messaging agents. | ✅ — AI-on-messaging-channels |

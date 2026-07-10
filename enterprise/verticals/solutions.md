@@ -1,8 +1,8 @@
-# 🏭 Verticales de partida — Enterprise
+# 🏗️ Verticales de partida — Enterprise
 
 > Plataformas enterprise open source customizables con AI.
 > Modelo: partir de algo funcional y probado, añadir capa agéntica arriba.
-> Última actualización: 2026-07-09 v3
+> Última actualización: 2026-07-10 v4
 
 ---
 
@@ -170,7 +170,7 @@ with langfuse.trace(name="eu-ai-act-high-risk-decision") as trace:
 ## Landscape LATAM por País
 
 | País | ERP más usado | CRM líder | Regulación AI | Oportunidad Globant |
-|------|--------------|-----------|---------------|---------------------|
+|------|--------------|-----------|---------------|--------------------|
 | Brasil | Totvs/SAP + ERPNext | Salesforce/SuiteCRM | Marco legal AI 2024 (LGPD+) | AI sobre Totvs con Claude; LGPD compliance |
 | México | SAP/Odoo | Salesforce/Zoho | Sin ley AI (2026) | Odoo AI; sector manufactura y maquila |
 | Argentina | Tango/ERPNext/iDempiere | SuiteCRM/Zoho | En desarrollo | iDempiere AI; sector financiero y agro |
@@ -179,7 +179,61 @@ with langfuse.trace(name="eu-ai-act-high-risk-decision") as trace:
 
 ---
 
-## 9. Agent Runtimes Managed (nuevo segmento 2026)
+## 9. Sovereign AI / Self-Hosted LLM Stack (nuevo segmento 2026)
+
+> Driver: 77% orgs factorean origen de vendor (Deloitte 2026); self-hosted $0.001-$0.04/M tokens vs $2.50-$15/M cloud API.
+
+| Componente | Licencia | Stars | Stack | Caso de uso AI |
+|------------|----------|-------|-------|----------------|
+| [Ollama](https://github.com/ollama/ollama) | MIT | 110k+ | Go | Self-hosted LLM server: Llama 3.3, Mistral, Phi-4, Gemma 3. REST API OpenAI-compatible. Docker-native. |
+| [LiteLLM](https://github.com/BerriAI/litellm) | MIT | 20k+ | Python | Proxy unificado: misma API para frontier (Claude/GPT) + self-hosted (Ollama). Cost tracking, fallback, rate limits. |
+| [MaxKB](https://github.com/1Panel-dev/MaxKB) | GPL-3.0 | 15k+ | Python | Knowledge Base + Agents enterprise self-hosted. RAG, multi-modelo, workflows visuales. |
+| [wlfghdr/agentic-enterprise](https://github.com/wlfghdr/agentic-enterprise) | MIT | emergente | Any | Git-as-Control-Plane: decisiones son PRs, cambios son commits. Audit trail nativo EU AI Act Art.12. |
+
+### Setup rápido Sovereign AI Stack
+```yaml
+# sovereign-ai-stack.yml (Docker Compose)
+version: "3.9"
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports: ["11434:11434"]
+    volumes: ["ollama_data:/root/.ollama"]
+    # GPU: deploy.resources.reservations.devices si disponible
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    ports: ["4000:4000"]
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_KEY}
+      # Anthropic como fallback para tasks complejas
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    volumes: ["./litellm_config.yaml:/app/config.yaml"]
+    command: --config /app/config.yaml
+
+  dify:
+    image: langgenius/dify-api:latest
+    environment:
+      OPENAI_API_BASE: http://litellm:4000  # apunta al proxy
+      OPENAI_API_KEY: ${LITELLM_KEY}
+
+  langfuse:
+    image: langfuse/langfuse:latest
+    environment:
+      DATABASE_URL: postgresql://langfuse:${DB_PASS}@db/langfuse
+    # EU AI Act Art.12: audit trail auto en cada LLM call
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KC_PASS}
+```
+
+---
+
+## 10. Agent Runtimes Managed (nuevo segmento 2026)
 
 | Plataforma | Licencia | Provider | Descripción | Caso de uso AI |
 |------------|----------|----------|-------------|----------------|
