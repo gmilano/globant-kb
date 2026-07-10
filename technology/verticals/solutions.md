@@ -2,7 +2,7 @@
 
 > Customizable open source platforms to add AI on top of.
 > Strategy: start with something working, layer in the agentic capability.
-> Last updated: 2026-07-10
+> Last updated: 2026-07-10 (v7)
 
 ## LLM App & Agent Platforms
 
@@ -12,6 +12,8 @@
 | Flowise | Apache-2.0 | [github.com/FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Node.js + React | Visual LangChain builder; drag-and-drop agent design; best for rapid RAG prototyping; 51k★ |
 | n8n | Fair-code | [github.com/n8n-io/n8n](https://github.com/n8n-io/n8n) | Node.js + Vue | Workflow automation with 400+ integrations + AI nodes; HITL; self-hosted; 182k★ |
 | Langflow | MIT | [github.com/langflow-ai/langflow](https://github.com/langflow-ai/langflow) | Python + React | Visual LangChain/LlamaIndex builder; DataStax-backed; Docker-deployable; API-first |
+| DeerFlow | Apache-2.0 | [github.com/bytedance/deer-flow](https://github.com/bytedance/deer-flow) | Python + LangGraph | Super-agent harness; sandboxed FS + memory + skills + sub-agents; best for long-horizon tasks; ~47k★ |
+| Cline | Apache-2.0 | [github.com/cline/cline](https://github.com/cline/cline) | TypeScript | Coding agent SDK + VS Code/JetBrains extension + CLI; 1.5M installs; multi-agent; BYOK |
 
 ## Developer Portals & Internal Tools
 
@@ -48,13 +50,27 @@
 | Weaviate | BSD-3 | [github.com/weaviate/weaviate](https://github.com/weaviate/weaviate) | Go | Vector + keyword hybrid; built-in ML models; GraphQL; multi-modal; MCP server available |
 | Meilisearch | MIT | [github.com/meilisearch/meilisearch](https://github.com/meilisearch/meilisearch) | Rust | Fast full-text + vector hybrid search; sub-50ms; Typo tolerance; great developer UX |
 
-## How to Layer AI On Top
+## MCP Infrastructure (2026 RC Standard)
+
+| Platform | License | URL | Use Case |
+|----------|---------|-----|----------|
+| modelcontextprotocol/servers | MIT | [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Official reference MCP servers (filesystem, GitHub, Slack, Postgres, etc.); starting point for custom servers |
+| MCP TypeScript SDK | MIT | [github.com/modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | Build production MCP servers in TypeScript; RC-compliant; stateless + EMA + Tasks + MCP Apps |
+| MCP Python SDK | MIT | [github.com/modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) | Build MCP servers in Python; FastMCP decorator pattern for rapid development |
+
+## How to Layer AI On Top (2026 Pattern)
 
 ```
-1. Pick a platform above as the operational foundation
-2. Add MCP server to expose its APIs to AI agents
-3. Connect Dify or LangGraph as the orchestration layer
-4. Wire in Claude / Gemini / Ollama as the reasoning model
-5. Deploy OpenHands or CrewAI for autonomous task execution
-6. Add Grafana/Prometheus for agent observability
+1. Pick a vertical platform above as the operational foundation
+2. Add MCP server to expose its APIs to AI agents (TypeScript SDK, RC-compliant)
+   - Stateless: deploy behind standard load balancer (no sticky sessions)
+   - EMA: enterprise-managed auth via org IdP
+   - Tasks: expose long-running operations as async tasks
+3. Write a CLAUDE.md + DESIGN.md for the project (context engineering)
+4. Connect Dify or LangGraph as the orchestration layer
+5. Wire in Claude / Gemini / Qwen3 (local) as the reasoning model
+6. Deploy Cline (IDE) + DeerFlow (long-horizon tasks) + OpenHands (autonomous coding)
+7. Add Grafana/Prometheus for agent observability
+8. Build governance layer: cost ceilings, human-in-the-loop checkpoints, audit trails
+   (prevents the 40% Gartner cancellation rate)
 ```

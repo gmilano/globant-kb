@@ -1,7 +1,7 @@
 # Foundational Repos — Technology Industry
 
 > Production-grade open source bases to build on. Active communities, permissive licenses.
-> Last updated: 2026-07-10
+> Last updated: 2026-07-10 (v7)
 
 ## LLM App & Agent Frameworks
 
@@ -12,6 +12,8 @@
 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Role-based agent crews; 5.2M monthly downloads; A2A protocol; accessible for teams new to multi-agent | Yes — agent crews |
 | [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimal CodeAgent framework; agents write executable Python; strong HuggingFace Hub + model integration | Yes — lightweight |
 | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | 79.6k | Full autonomous software engineer; SWE-bench 72%; Docker sandboxed; OpenHands SDK for extending agents | Yes — coding agent |
+| [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | Apache-2.0 | ~47k | ByteDance super-agent harness; sandboxed FS + persistent memory + skills + sub-agent orchestration; built on LangGraph; best for long-horizon tasks | Yes — super-agent |
+| [cline/cline](https://github.com/cline/cline) | Apache-2.0 | ~60k | Autonomous coding agent as SDK + IDE extension (VS Code + all JetBrains) + CLI; 1.5M installs; multi-agent; BYOK | Yes — coding agent |
 
 ## LLM App Builders & Low-Code
 
@@ -20,6 +22,16 @@
 | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Visual LLM app builder; RAG pipelines, chatbots, agents, workflows; self-hosted; 50+ tools built-in; MCP support | Yes — app platform |
 | [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 51k | Drag-and-drop LangChain visual builder; best for LangChain-style prototyping; self-hosted Node.js | Yes — visual builder |
 | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Source-Available (fair-code) | 182k | Workflow automation with 400+ integrations + AI nodes; AI as one step in larger workflows; HITL built-in | Yes — workflow AI |
+
+## Open Source LLM Models (2026 Leaders)
+
+| Model | License | Org | Description |
+|-------|---------|-----|-------------|
+| Qwen3 235B-A22B | Apache-2.0 | Alibaba | Leads 2026 open-source benchmarks (coding, reasoning, multilingual); 235B total / 22B active parameters (MoE); top-tier for self-hosted enterprise |
+| DeepSeek R1 | MIT | DeepSeek | 95%+ GPT-4 quality at ~10% cost; default choice for cost-sensitive teams; chain-of-thought reasoning |
+| Llama 4 Scout | Meta Community | Meta | Strong local inference; GPU-friendly; default open model for US enterprise air-gapped deployments |
+| Gemma 4 | Apache-2.0 | Google | Lightweight, deployable on standard GPUs; strong for edge/mobile agent scenarios |
+| Phi 4 | MIT | Microsoft | Strong for code + reasoning at small parameter count; fits in consumer GPU |
 
 ## MLOps & ML Infrastructure
 

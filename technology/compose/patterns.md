@@ -1,22 +1,24 @@
 # Composition Patterns — Technology Industry
 
 > Concrete recipes using real repos + agents + wiring instructions.
-> Last updated: 2026-07-10
+> Last updated: 2026-07-10 (v7)
 
 ## Architecture Base
 
 ```
 [Open Source Vertical Platform]
          ↓
-[MCP Server Layer (expose APIs)]
+[MCP Server Layer (expose APIs — RC-compliant, stateless, EMA)]
          ↓
-[Agent Orchestration (LangGraph / CrewAI)]
+[Context Engineering (CLAUDE.md + DESIGN.md + SKILL.md skills)]
          ↓
-[Reasoning Model (Claude / Gemini / Ollama)]
+[Agent Orchestration (LangGraph / DeerFlow / CrewAI)]
          ↓
-[Specialized Coding Agents (OpenHands / MetaGPT)]
+[Reasoning Model (Claude / Gemini / Qwen3-local)]
          ↓
-[Observability (Grafana + Prometheus)]
+[Specialized Coding Agents (Cline / OpenHands / MetaGPT)]
+         ↓
+[Observability (Grafana + Prometheus) + Governance (cost ceilings, HITL, audit)]
 ```
 
 ---
@@ -38,7 +40,7 @@ def review_pr(state):
     response = client.messages.create(
         model="claude-fable-5",
         max_tokens=4096,
-        tools=[{"name": "mcp__github__pull_request_review_write", ...}],
+        tools=[{"name": "mcp__github__pull_request_review_write", "input_schema": {...}}],
         messages=[{
             "role": "user",
             "content": f"""Review this PR diff for:
@@ -112,7 +114,7 @@ async def software_factory(requirement: str):
 
 **Problem**: developers waste hours hunting for services, docs, and runbooks; knowledge is siloed.
 
-**Stack**: Backstage + Dify + Qdrant + Claude + custom MCP servers
+**Stack**: Backstage + Dify + Qdrant + Claude + custom MCP servers (RC-compliant)
 
 ```yaml
 # backstage/app-config.yaml — AI plugin config
@@ -144,12 +146,7 @@ anthropic = Anthropic()
 
 def index_confluence_docs(docs: list[dict]):
     for doc in docs:
-        embedding_resp = anthropic.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=100,
-            messages=[{"role": "user", "content": f"Embed: {doc['text'][:500]}"}]
-        )
-        # Use text-embedding-3-small or voyage-3 for actual embeddings
+        # Use voyage-3 or text-embedding-3-small for actual embeddings
         client.upsert("internal-docs", points=[...])
 ```
 
@@ -199,7 +196,6 @@ def daily_model_health_check():
         result = check_model_drift(model.name, metrics)
         
         if result["drift_detected"] and result["severity"] == "high":
-            # Trigger Kubeflow retraining pipeline
             trigger_retraining(model.name)
 
 daily_model_health_check()
@@ -227,7 +223,7 @@ daily_model_health_check()
     },
     {
       "name": "Fetch Context",
-      "type": "http",  // Grafana API for recent metrics
+      "type": "http"  // Grafana API for recent metrics
     },
     {
       "name": "Diagnose",
@@ -235,16 +231,16 @@ daily_model_health_check()
       "prompt": "Given alert + metrics context, diagnose root cause and generate remediation steps"
     },
     {
-      "name": "Human Approval",  // HITL for severity > medium
-      "type": "wait-for-approval",
+      "name": "Human Approval",
+      "type": "wait-for-approval"  // HITL for severity > medium
     },
     {
       "name": "Execute Remediation",
-      "type": "openhands-agent",  // OpenHands runs kubectl/terraform commands
+      "type": "openhands-agent"  // OpenHands runs kubectl/terraform commands
     },
     {
       "name": "Verify Recovery",
-      "type": "prometheus-check",
+      "type": "prometheus-check"
     }
   ]
 }
@@ -375,7 +371,7 @@ jobs:
 
 **Problem**: AI API costs growing 5-10× per quarter as agents go into production.
 
-**Stack**: LangGraph + Claude + Gemini Flash + Ollama + MLflow (cost tracking)
+**Stack**: LangGraph + Claude + Gemini Flash + Qwen3-local (Ollama) + MLflow (cost tracking)
 
 ```python
 from langgraph.graph import StateGraph
@@ -401,13 +397,13 @@ def route_by_complexity(state: dict) -> str:
     return response.content[0].text.strip()
 
 def execute_low(state):
-    # Gemini Flash: $0.075/1M tokens — repetitive tasks
+    # Gemini Flash 2.0: $0.075/1M tokens — repetitive tasks
     model = genai.GenerativeModel("gemini-2.0-flash")
     return {"result": model.generate_content(state["task"]).text}
 
 def execute_medium(state):
-    # DeepSeek R1 via Ollama: free local — intermediate reasoning
-    return {"result": ollama.generate(model="deepseek-r1:7b", prompt=state["task"])["response"]}
+    # Qwen3 7B via Ollama: free local — intermediate reasoning (Apache-2.0)
+    return {"result": ollama.generate(model="qwen3:7b", prompt=state["task"])["response"]}
 
 def execute_high(state):
     # Claude Fable 5: complex reasoning, security, architecture
@@ -466,6 +462,125 @@ Goal: new engineer productive in 4 weeks instead of 3 months.
 
 ---
 
+## P11 — Context Engineering Sprint (Closing the Delegation Gap)
+
+**Problem**: teams use AI tools but can't fully delegate because agents lack context. Anthropic data: 60% AI usage, 0-20% delegation.
+
+**Stack**: CLAUDE.md + DESIGN.md + SKILL.md + Qdrant + GitHub MCP
+
+**What gets built in a 4-6 week sprint**:
+
+```
+project/
+  CLAUDE.md              # AI project context (role, codebase, conventions, tasks)
+  DESIGN.md              # AI-readable design specifications
+  .claude/
+    skills/
+      deploy.md          # SKILL.md: deployment workflow
+      pr-review.md       # SKILL.md: PR review conventions
+      incident.md        # SKILL.md: incident response runbook
+  docs/
+    adrs/                # Architecture Decision Records (AI-indexed)
+    runbooks/            # Operational procedures (AI-indexed + Qdrant)
+  .cursorrules           # IDE-specific rules (Cursor/Cline)
+```
+
+```python
+# Index all context artifacts into Qdrant for hybrid search
+from qdrant_client import QdrantClient
+from pathlib import Path
+import anthropic
+
+client = QdrantClient("localhost", port=6333)
+anthropic_client = anthropic.Anthropic()
+
+def index_context_artifacts(project_root: str):
+    """Index CLAUDE.md, DESIGN.md, ADRs, runbooks, skills into Qdrant."""
+    artifacts = []
+    
+    for pattern in ["**/*.md", "**/*.cursorrules"]:
+        for path in Path(project_root).glob(pattern):
+            artifacts.append({
+                "id": str(path),
+                "content": path.read_text(),
+                "metadata": {
+                    "type": path.stem,  # "CLAUDE", "DESIGN", "adr-001", etc.
+                    "path": str(path.relative_to(project_root))
+                }
+            })
+    
+    # Embed and upsert (use voyage-3 or text-embedding-3-small)
+    # client.upsert("project-context", points=[...])
+    return len(artifacts)
+
+# Outcome metric: before/after delegation test
+# Ask agent to complete 10 representative tasks without human intervention
+# Measure: completion rate, errors, time to completion
+# Target: 55% faster, 40% fewer errors (Anthropic benchmark)
+```
+
+**Deliverables**:
+1. CLAUDE.md + DESIGN.md for the project
+2. 5-10 SKILL.md files for the most common agent workflows
+3. Qdrant context index of all ADRs, runbooks, and design docs
+4. Measurement framework: delegation rate before vs after
+5. Team training: "context engineering as a skill"
+
+**Timeline**: 4-6 weeks | **Deal size**: $60k-$200k | **ROI**: 55% faster completion + 40% fewer errors (quantifiable)
+
+---
+
+## P12 — DeerFlow Long-Horizon Research & Coding Agent
+
+**Problem**: complex research + coding tasks (competitive analysis, feature design, prototype) take days of human effort.
+
+**Stack**: DeerFlow (bytedance/deer-flow) + LangGraph + Claude + Qdrant + GitHub MCP
+
+```python
+# DeerFlow super-agent configuration
+# github.com/bytedance/deer-flow
+
+# config/agent.yaml
+agent:
+  model: claude-fable-5
+  max_hours: 4         # long-horizon: up to 4 hours of autonomous work
+  sub_agents:
+    researcher:
+      model: claude-sonnet-5
+      tools: [web_search, qdrant_lookup, github_mcp]
+    coder:
+      model: claude-fable-5
+      sandbox: docker  # isolated filesystem
+      tools: [code_exec, file_write, git_commit]
+    qa:
+      model: claude-haiku-4-5-20251001
+      tools: [test_runner, linter]
+  memory:
+    backend: qdrant
+    collection: deer-flow-memory
+  skills_dir: ./skills/
+
+# Example: long-horizon task
+task = """
+1. Research how our top 3 competitors handle auth (GitHub, web search)
+2. Write a design doc (DESIGN.md) for our own auth improvement
+3. Implement the core auth changes
+4. Write tests
+5. Open a PR with the implementation
+"""
+# DeerFlow orchestrates researcher → coder → qa → git → PR
+# Runs for ~2-3 hours with no human intervention
+```
+
+**Human checkpoints** (best practice for 40% cancellation prevention):
+- After Step 2 (design approval): human reviews DESIGN.md before coding starts
+- After Step 4 (test results): human reviews test coverage before PR
+- Cost ceiling: $50 max per run (configured in DeerFlow)
+
+**Timeline**: 6-10 weeks to productionize | **Deal size**: $100k-$400k | **ROI**: 8-16h of senior engineer time per task → 2-3h human review only
+
+---
+
 ## Quick-Start Matrix
 
 | Pattern | Time | Cost | Best For |
@@ -480,3 +595,5 @@ Goal: new engineer productive in 4 weeks instead of 3 months.
 | P8 AI Code Quality | 1-2w | $20k-$60k | Quick win / entry point |
 | P9 Multi-Model Optimizer | 3-4w | $60k-$150k | AI cost reduction |
 | P10 Onboarding Agent | 4-6w | $80k-$250k | Fast-growing eng teams |
+| P11 Context Eng Sprint | 4-6w | $60k-$200k | **NEW** Any AI-using org; closes delegation gap |
+| P12 DeerFlow Long-Horizon | 6-10w | $100k-$400k | **NEW** Complex research+code tasks |
