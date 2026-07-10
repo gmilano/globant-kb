@@ -1,667 +1,482 @@
-# Composition Patterns — Technology / AI Software Development
+# Composition Patterns — Technology Industry
 
-> Concrete recipes for building AI-powered developer tools and platforms.
-> Each pattern names specific repos, wiring instructions, and deal sizing.
-> Updated: 2026-07-09.
+> Concrete recipes using real repos + agents + wiring instructions.
+> Last updated: 2026-07-10
+
+## Architecture Base
+
+```
+[Open Source Vertical Platform]
+         ↓
+[MCP Server Layer (expose APIs)]
+         ↓
+[Agent Orchestration (LangGraph / CrewAI)]
+         ↓
+[Reasoning Model (Claude / Gemini / Ollama)]
+         ↓
+[Specialized Coding Agents (OpenHands / MetaGPT)]
+         ↓
+[Observability (Grafana + Prometheus)]
+```
 
 ---
 
-## P1 — AI-Augmented Internal Developer Platform (IDP)
+## P1 — Autonomous Code Review Pipeline
 
-**Goal**: A self-hosted DevOps platform where AI agents handle code review, deployment, and incident triage.
+**Problem**: manual PR reviews are a bottleneck; junior code quality inconsistent.
 
-**Stack**:
-- **GitLab CE** (MIT) — source control + CI/CD + MR workflows
-- **OpenHands Enterprise** (MIT) — autonomous coding agent (handles MR fixes, dependency updates)
-- **LangGraph** (MIT) — orchestration for multi-step agent flows
-- **Prometheus + Grafana** (Apache-2.0 / AGPL) — observability
-- **MCP Python SDK** (MIT) — glue between agents and GitLab API
+**Stack**: OpenHands + GitHub MCP + Claude Fable 5 + LangGraph
 
 ```python
-# LangGraph workflow: AI-driven MR triage
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph
 from anthropic import Anthropic
 
 client = Anthropic()
 
-def classify_mr(state):
-    mr_diff = state["mr_diff"]
+def review_pr(state):
+    pr_diff = state["diff"]
     response = client.messages.create(
-        model="claude-opus-4-8-20261001",
-        max_tokens=512,
+        model="claude-fable-5",
+        max_tokens=4096,
+        tools=[{"name": "mcp__github__pull_request_review_write", ...}],
         messages=[{
             "role": "user",
-            "content": f"Classify this MR as: trivial/feature/bugfix/breaking. Diff:\n{mr_diff}"
+            "content": f"""Review this PR diff for:
+1. Security vulnerabilities (OWASP Top 10)
+2. Performance issues
+3. Test coverage gaps
+4. Style violations
+
+Diff:
+{pr_diff}
+
+Post inline comments via the GitHub MCP tool."""
         }]
     )
-    state["classification"] = response.content[0].text
-    return state
+    return {"review": response}
 
-def auto_assign_reviewer(state):
-    # Route to appropriate reviewer based on classification
-    if "breaking" in state["classification"]:
-        state["reviewer"] = "senior-architect"
-    elif "feature" in state["classification"]:
-        state["reviewer"] = "team-lead"
-    else:
-        state["reviewer"] = "auto-approve"
-    return state
-
-def security_scan(state):
-    # Call claude-code-security-review MCP server
-    import subprocess
-    result = subprocess.run(
-        ["npx", "claude-code-security-review", "--diff", state["mr_diff"]],
-        capture_output=True, text=True
-    )
-    state["security_findings"] = result.stdout
-    return state
+def run_tests(state):
+    # OpenHands runs tests in sandboxed container
+    pass
 
 graph = StateGraph(dict)
-graph.add_node("classify", classify_mr)
-graph.add_node("assign", auto_assign_reviewer)
-graph.add_node("security", security_scan)
-graph.add_edge("classify", "security")
-graph.add_edge("security", "assign")
-graph.add_edge("assign", END)
-graph.set_entry_point("classify")
-
-workflow = graph.compile()
+graph.add_node("review", review_pr)
+graph.add_node("test", run_tests)
+graph.add_edge("review", "test")
 ```
 
-**Deal size**: $120k–$500k | **Timeline**: 8–14 weeks
-**LATAM fit**: Air-gapped Brazilian banks, Argentine telcos, Colombian government
+**Wiring**: GitHub Actions webhook → LangGraph → Claude review → OpenHands test run → GitHub MCP post comments
+
+**Timeline**: 2-3 weeks | **Deal size**: $40k-$120k | **ROI**: 60-80% reduction in review cycle time
 
 ---
 
-## P2 — Multi-Agent Software Engineering Team (MetaGPT + CrewAI)
+## P2 — Agentic Software Factory (MetaGPT + OpenHands)
 
-**Goal**: Build software from a natural language specification using a coordinated AI team.
+**Problem**: client needs to accelerate feature delivery without proportional headcount growth.
 
-**Stack**:
-- **MetaGPT** (MIT, 67.9k★) — PM + Architect + Engineer pipeline
-- **CrewAI** (MIT, 52.8k★) — additional QA and DevOps agents
-- **Claude Opus 4.8** — underlying model (SWE-bench 88.6%)
-- **Gitea** (MIT) — version control for the generated codebase
+**Stack**: MetaGPT + OpenHands + LangGraph + Dify frontend + Claude
 
 ```python
-from crewai import Agent, Task, Crew
-import anthropic
+import asyncio
+from metagpt.software_company import generate_repo
+from openhands.controller.agent import Agent
 
-# Claude Opus 4.8 as the model backend (via OpenAI-compatible endpoint)
-qa_agent = Agent(
-    role="QA Engineer",
-    goal="Review generated code for bugs and security issues",
-    backstory="Expert QA engineer specializing in automated testing and OWASP compliance",
-    llm="claude-opus-4-8-20261001",
-    tools=["code_reader", "test_runner", "security_scanner"],
-    verbose=True
-)
+async def software_factory(requirement: str):
+    # MetaGPT: PM → Architect → Engineer pipeline
+    repo = await generate_repo(
+        idea=requirement,
+        investment=10.0,  # token budget
+        n_round=5,
+    )
+    
+    # OpenHands: execute and test the generated code
+    agent = Agent.get_cls("CodeActAgent")(
+        llm={"model": "claude-fable-5", "api_key": "..."}
+    )
+    result = await agent.run(
+        task=f"Execute, test, and fix this codebase: {repo.workdir}"
+    )
+    return result
 
-devops_agent = Agent(
-    role="DevOps Engineer",
-    goal="Package and deploy validated code to Gitea and trigger CI",
-    backstory="Senior DevOps engineer experienced with GitOps and Kubernetes",
-    llm="claude-sonnet-5-20261001",  # Haiku for cheaper operational tasks
-    tools=["git_tool", "docker_builder", "k8s_deployer"]
-)
-
-qa_task = Task(
-    description="Review all Python files generated by MetaGPT. Run pytest. Flag any issues.",
-    agent=qa_agent,
-    expected_output="Test report with pass/fail status and security findings"
-)
-
-deploy_task = Task(
-    description="If QA passes: git push to Gitea, trigger CI pipeline, report deployment URL.",
-    agent=devops_agent,
-    expected_output="Deployment confirmation with URL and pipeline status",
-    context=[qa_task]
-)
-
-crew = Crew(
-    agents=[qa_agent, devops_agent],
-    tasks=[qa_task, deploy_task],
-    verbose=True
-)
-
-result = crew.kickoff(inputs={"project_spec": "Build a FastAPI REST API for user management"})
+# Run: asyncio.run(software_factory("Build a REST API for inventory management"))
 ```
 
-**Deal size**: $80k–$300k | **Timeline**: 6–10 weeks
-**Use cases**: Rapid prototyping for startups, legacy modernization blueprints
+**Wiring**: Dify chat UI → MetaGPT planning → code generation → OpenHands execution + tests → GitHub PR
+
+**Timeline**: 4-8 weeks to productionize | **Deal size**: $120k-$500k | **ROI**: 3-5× team velocity
 
 ---
 
-## P3 — MCP Server Factory (Enterprise Tool Integration)
+## P3 — MCP-Native Internal Developer Portal
 
-**Goal**: Expose any client internal system (SAP, Salesforce, legacy API) as an MCP server for AI agent consumption.
+**Problem**: developers waste hours hunting for services, docs, and runbooks; knowledge is siloed.
 
-**Stack**:
-- **MCP Python SDK** (MIT, 8.2k★) — server implementation
-- **FastAPI** (MIT) — HTTP transport layer (MCP 2026-07-28 RC: stateless HTTP native)
-- **Claude Sonnet 5** — agent consuming the server
-- **Pydantic** — schema validation for tool inputs/outputs
-
-```python
-from mcp.server import FastMCP
-import httpx
-
-mcp = FastMCP("salesforce-crm")
-
-@mcp.tool()
-async def get_account(account_id: str) -> dict:
-    """Retrieve a Salesforce account by ID."""
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(
-            f"https://{SF_INSTANCE}.salesforce.com/services/data/v60.0/sobjects/Account/{account_id}",
-            headers={"Authorization": f"Bearer {SF_TOKEN}"}
-        )
-        return resp.json()
-
-@mcp.tool()
-async def create_opportunity(
-    account_id: str,
-    name: str,
-    amount: float,
-    close_date: str,
-    stage: str
-) -> dict:
-    """Create a new sales opportunity in Salesforce."""
-    async with httpx.AsyncClient() as client:
-        resp = await client.post(
-            f"https://{SF_INSTANCE}.salesforce.com/services/data/v60.0/sobjects/Opportunity",
-            headers={"Authorization": f"Bearer {SF_TOKEN}"},
-            json={
-                "AccountId": account_id,
-                "Name": name,
-                "Amount": amount,
-                "CloseDate": close_date,
-                "StageName": stage
-            }
-        )
-        return resp.json()
-
-# Deploy: uvicorn server:mcp.app --host 0.0.0.0 --port 8000
-# Register in Claude Code / Cursor / any MCP client
-if __name__ == "__main__":
-    mcp.run(transport="streamable-http")  # MCP 2026-07-28 RC transport
-```
-
-**Template libraries**:
-- SAP RFC → MCP (via pyrfc)
-- Salesforce SOQL → MCP (via simple-salesforce)
-- SAP S/4HANA OData → MCP
-- Oracle EBS REST → MCP
-- Mainframe COBOL via CICS → MCP (via ibm-mq-python)
-
-**Deal size**: $40k–$150k per integration | **Timeline**: 2–4 weeks per MCP server
-**Revenue model**: Productize as a Globant MCP Connector Library — sell subscriptions
-
----
-
-## P4 — AI Code Review & Security Pipeline
-
-**Goal**: Automatically review every PR for bugs, security issues, and code quality using AI.
-
-**Stack**:
-- **claude-code-security-review** (MIT, 5.4k★) — GitHub Action
-- **LangGraph** (MIT) — multi-pass review orchestration
-- **code-review-graph** (MIT, 19.1k★) — code intelligence MCP server
-- **Evidently AI** (Apache-2.0) — regression tracking over time
+**Stack**: Backstage + Dify + Qdrant + Claude + custom MCP servers
 
 ```yaml
-# .github/workflows/ai-review.yml
-name: AI Code Review
+# backstage/app-config.yaml — AI plugin config
+ai:
+  model: claude-fable-5
+  mcp_servers:
+    - name: confluence
+      url: http://mcp-confluence:3000
+    - name: github
+      url: http://mcp-github:3001
+    - name: jira
+      url: http://mcp-jira:3002
+    - name: knowledge-base
+      url: http://mcp-qdrant:3003
 
+# Developer query flow:
+# "How do I deploy service X to staging?"
+# → Claude queries: Confluence (docs) + GitHub (recent changes) + Jira (open tickets)
+# → Synthesized answer with links, no hallucination on internal systems
+```
+
+```python
+# Build the Qdrant knowledge index
+from qdrant_client import QdrantClient
+from anthropic import Anthropic
+
+client = QdrantClient("localhost", port=6333)
+anthropic = Anthropic()
+
+def index_confluence_docs(docs: list[dict]):
+    for doc in docs:
+        embedding_resp = anthropic.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=100,
+            messages=[{"role": "user", "content": f"Embed: {doc['text'][:500]}"}]
+        )
+        # Use text-embedding-3-small or voyage-3 for actual embeddings
+        client.upsert("internal-docs", points=[...])
+```
+
+**Timeline**: 6-10 weeks | **Deal size**: $150k-$400k | **ROI**: 2-3h/dev/week saved
+
+---
+
+## P4 — MLOps Pipeline with AI-Assisted Monitoring
+
+**Problem**: ML models drift in production; retraining is manual and slow.
+
+**Stack**: MLflow + Kubeflow + Prefect + Grafana + Claude
+
+```python
+import mlflow
+from prefect import flow, task
+from anthropic import Anthropic
+
+anthropic = Anthropic()
+
+@task
+def check_model_drift(model_name: str, metrics: dict) -> dict:
+    response = anthropic.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": f"""Analyze these model metrics for drift:
+Model: {model_name}
+Current metrics: {metrics}
+
+Return JSON with:
+- drift_detected: bool
+- severity: low/medium/high
+- recommended_action: retrain/monitor/alert
+- reasoning: str"""
+        }]
+    )
+    return eval(response.content[0].text)
+
+@flow
+def daily_model_health_check():
+    client = mlflow.tracking.MlflowClient()
+    for model in client.search_registered_models():
+        latest = client.get_latest_versions(model.name)[0]
+        metrics = client.get_run(latest.run_id).data.metrics
+        result = check_model_drift(model.name, metrics)
+        
+        if result["drift_detected"] and result["severity"] == "high":
+            # Trigger Kubeflow retraining pipeline
+            trigger_retraining(model.name)
+
+daily_model_health_check()
+```
+
+**Timeline**: 6-12 weeks | **Deal size**: $200k-$800k | **ROI**: 50-70% reduction in model degradation incidents
+
+---
+
+## P5 — Agentic DevOps: Self-Healing Infrastructure
+
+**Problem**: on-call alerts at 3am; runbooks are outdated; manual remediation is slow.
+
+**Stack**: n8n + OpenHands + Prometheus + Grafana + Claude + PagerDuty MCP
+
+```javascript
+// n8n workflow: alert → diagnose → remediate → verify
+{
+  "trigger": "webhook",  // Prometheus AlertManager → n8n
+  "nodes": [
+    {
+      "name": "Parse Alert",
+      "type": "claude-ai",
+      "prompt": "Parse this Prometheus alert and identify: service, severity, likely root cause"
+    },
+    {
+      "name": "Fetch Context",
+      "type": "http",  // Grafana API for recent metrics
+    },
+    {
+      "name": "Diagnose",
+      "type": "claude-ai",
+      "prompt": "Given alert + metrics context, diagnose root cause and generate remediation steps"
+    },
+    {
+      "name": "Human Approval",  // HITL for severity > medium
+      "type": "wait-for-approval",
+    },
+    {
+      "name": "Execute Remediation",
+      "type": "openhands-agent",  // OpenHands runs kubectl/terraform commands
+    },
+    {
+      "name": "Verify Recovery",
+      "type": "prometheus-check",
+    }
+  ]
+}
+```
+
+**Timeline**: 8-12 weeks | **Deal size**: $150k-$400k | **ROI**: 70-80% reduction in MTTR; on-call burden cut 40%
+
+---
+
+## P6 — RAG Knowledge Platform for Tech Teams
+
+**Problem**: engineering teams re-solve the same problems; documentation is fragmented.
+
+**Stack**: Qdrant + Dify + LangGraph + Claude + GitHub/Confluence MCP
+
+```python
+from qdrant_client import QdrantClient
+from langchain.vectorstores import Qdrant
+from langchain_anthropic import ChatAnthropic
+from langgraph.graph import StateGraph
+
+# Indexing pipeline (runs on schedule via Prefect)
+def build_tech_kb(sources: list):
+    """Index: Confluence, GitHub wikis, Jira epics, Slack threads, RFCs"""
+    vectorstore = Qdrant(
+        client=QdrantClient("localhost"),
+        collection_name="tech-kb",
+        embeddings=VoyageEmbeddings(model="voyage-3")
+    )
+    for source in sources:
+        docs = load_source(source)
+        vectorstore.add_documents(docs)
+
+# Query agent (via Dify frontend)
+def answer_tech_question(question: str) -> str:
+    llm = ChatAnthropic(model="claude-fable-5")
+    docs = vectorstore.similarity_search(question, k=5)
+    
+    response = llm.invoke([
+        SystemMessage("You are an expert on this team's tech stack and practices."),
+        HumanMessage(f"Question: {question}\n\nContext:\n{format_docs(docs)}")
+    ])
+    return response.content
+```
+
+**Dify deployment**: drag-and-drop chatbot UI on top of this pipeline; zero-code for end users
+
+**Timeline**: 3-5 weeks | **Deal size**: $60k-$180k | **ROI**: 30-40% reduction in repeated questions to senior engineers
+
+---
+
+## P7 — OpenClaw SKILL.md Automation Platform
+
+**Problem**: company has repetitive tech tasks that cross messaging apps, code repos, and cloud consoles.
+
+**Stack**: OpenClaw + SKILL.md + Claude + GitHub MCP + Slack
+
+```markdown
+# skills/deploy-to-staging.md
+---
+name: deploy-to-staging
+description: Deploy a service to staging environment
+triggers:
+  - "deploy {service} to staging"
+  - "stage {service}"
+---
+
+## Steps
+1. Check GitHub for latest passing CI on main branch
+2. Run: `kubectl set image deployment/{service} {service}=registry.io/{service}:latest -n staging`
+3. Wait for rollout: `kubectl rollout status deployment/{service} -n staging`
+4. Run smoke tests: `curl https://staging.company.com/{service}/health`
+5. Report result to the requesting channel
+```
+
+```bash
+# Install OpenClaw with custom skills
+git clone https://github.com/openclaw/openclaw
+cp skills/ ~/.openclaw/skills/
+
+# Configure in Slack
+openclaw configure --platform slack --model claude-fable-5
+# Now: "@OpenClaw deploy auth-service to staging" in any Slack channel
+```
+
+**Timeline**: 2-4 weeks | **Deal size**: $40k-$100k | **ROI**: 15-20 engineering-hours/week saved on repetitive ops
+
+---
+
+## P8 — Continuous AI Code Quality Agent
+
+**Problem**: technical debt accumulates silently; security issues discovered late.
+
+**Stack**: Aider + LangGraph + Claude Code Security Review Action + GitHub Actions
+
+```yaml
+# .github/workflows/ai-quality.yml
+name: AI Code Quality
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  security-review:
+  ai-review:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Security Review
+        uses: anthropics/claude-code-security-review@v1
         with:
-          fetch-depth: 0
-
-      - name: AI Security Review
-        uses: anthropics/claude-code-security-review@v2
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-opus-4-8-20261001
-          review_types: "security,owasp,secrets,dependencies"
-          post_as_pr_comment: true
-          fail_on_critical: true
-
-      - name: Multi-Pass Quality Review
+          model: claude-fable-5
+          
+      - name: Aider Auto-Fix
         run: |
-          python review_orchestrator.py \
-            --pr ${{ github.event.pull_request.number }} \
-            --passes "correctness,performance,maintainability"
+          pip install aider-chat
+          # Auto-fix linting/style issues on the branch
+          aider --model claude-sonnet-5 \
+                --auto-commits \
+                --message "Fix: auto-resolve linting and style issues flagged by CI" \
+                $(git diff --name-only origin/main)
 ```
 
-```python
-# review_orchestrator.py — LangGraph multi-pass review
-from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
-
-REVIEW_PASSES = ["correctness", "performance", "maintainability", "test_coverage"]
-
-def build_review_graph():
-    client = Anthropic()
-    graph = StateGraph(dict)
-
-    for pass_name in REVIEW_PASSES:
-        def make_reviewer(name):
-            def reviewer(state):
-                diff = state["pr_diff"]
-                response = client.messages.create(
-                    model="claude-sonnet-5-20261001",
-                    max_tokens=1024,
-                    system=f"You are a {name} expert reviewing a pull request. Be concise and actionable.",
-                    messages=[{"role": "user", "content": f"Review this diff for {name} issues:\n\n{diff}"}]
-                )
-                state[f"{name}_findings"] = response.content[0].text
-                return state
-            return reviewer
-        graph.add_node(pass_name, make_reviewer(pass_name))
-
-    # Chain passes sequentially
-    for i, pass_name in enumerate(REVIEW_PASSES[:-1]):
-        graph.add_edge(pass_name, REVIEW_PASSES[i + 1])
-    graph.add_edge(REVIEW_PASSES[-1], END)
-    graph.set_entry_point(REVIEW_PASSES[0])
-    return graph.compile()
-```
-
-**Deal size**: $60k–$200k | **Timeline**: 4–8 weeks
-**ROI story**: Catch critical bugs before prod. Average enterprise bug fix cost: $10k+ in prod vs $150 in PR review.
+**Timeline**: 1-2 weeks | **Deal size**: $20k-$60k | **ROI**: 40-60% reduction in post-merge bug rate
 
 ---
 
-## P5 — Self-Hosted MLOps Platform with AI Pipeline Advisor
+## P9 — Multi-Model Inference Cost Optimizer
 
-**Goal**: Production ML platform with an AI agent that advises on experiments, detects drift, and suggests pipeline improvements.
+**Problem**: AI API costs growing 5-10× per quarter as agents go into production.
 
-**Stack**:
-- **MLflow** (Apache-2.0, 20k★) — experiment tracking + model registry
-- **Kubeflow** (Apache-2.0, 14.5k★) — pipeline orchestration on K8s
-- **Evidently AI** (Apache-2.0, 6.5k★) — drift detection + monitoring
-- **DVC** (Apache-2.0, 14.2k★) — data versioning
-- **smolagents** (Apache-2.0, 27.7k★) — AI advisor agent (cheapest per-token)
-- **Claude Haiku 4.5** — fast inference for real-time monitoring queries
+**Stack**: LangGraph + Claude + Gemini Flash + Ollama + MLflow (cost tracking)
 
 ```python
-from smolagents import CodeAgent, tool
-import mlflow
-import anthropic
-
-@tool
-def get_experiment_runs(experiment_name: str, limit: int = 10) -> list:
-    """Retrieve recent MLflow runs for an experiment."""
-    client = mlflow.tracking.MlflowClient()
-    experiment = client.get_experiment_by_name(experiment_name)
-    runs = client.search_runs(
-        experiment_ids=[experiment.experiment_id],
-        max_results=limit,
-        order_by=["start_time DESC"]
-    )
-    return [{"run_id": r.info.run_id, "metrics": r.data.metrics, "params": r.data.params} for r in runs]
-
-@tool
-def check_model_drift(model_name: str, reference_dataset: str, current_dataset: str) -> dict:
-    """Run Evidently drift detection between reference and current data."""
-    import pandas as pd
-    from evidently.report import Report
-    from evidently.metric_preset import DataDriftPreset
-
-    ref = pd.read_parquet(reference_dataset)
-    cur = pd.read_parquet(current_dataset)
-    report = Report(metrics=[DataDriftPreset()])
-    report.run(reference_data=ref, current_data=cur)
-    return report.as_dict()
-
-# MLOps advisor agent using smolagents + Claude Haiku (cheapest per-token)
-advisor = CodeAgent(
-    tools=[get_experiment_runs, check_model_drift],
-    model="claude-haiku-4-5-20251001",
-    max_steps=5
-)
-
-# Example query
-result = advisor.run(
-    "Check if the fraud_detection model has drifted in the last 7 days. "
-    "If drift detected, suggest hyperparameter adjustments based on last 10 runs."
-)
-print(result)
-```
-
-**Deal size**: $150k–$600k | **Timeline**: 10–16 weeks
-**Target**: LATAM banks and fintechs starting ML programs; pharma, retail analytics teams
-
----
-
-## P6 — Autonomous DevOps Incident Response Agent
-
-**Goal**: AI agent that monitors observability stack, triages incidents, and auto-remediates known issues.
-
-**Stack**:
-- **Prometheus** (Apache-2.0, 58k★) — metrics source
-- **Grafana** (AGPL, 65k★) — alert management
-- **OpenTelemetry Collector** (Apache-2.0) — trace aggregation
-- **LangGraph** (MIT) — agent state machine (detect → classify → remediate → verify)
-- **Claude Sonnet 5** — reasoning for triage decisions
-- **MCP Python SDK** — tool integration with K8s, PagerDuty, Slack
-
-```python
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph
 from anthropic import Anthropic
-import json
+import google.generativeai as genai
+import ollama
 
-client = Anthropic()
+anthropic_client = Anthropic()
 
-def detect_anomaly(state):
-    """Query Prometheus for metric anomalies."""
-    import httpx
-    resp = httpx.get(
-        "http://prometheus:9090/api/v1/query",
-        params={"query": "rate(http_requests_total[5m]) > 1000"}
-    )
-    state["alerts"] = resp.json()["data"]["result"]
-    return state
-
-def triage_incident(state):
-    """Use Claude Sonnet to classify severity and probable cause."""
-    alerts_json = json.dumps(state["alerts"], indent=2)
-    response = client.messages.create(
-        model="claude-sonnet-5-20261001",
-        max_tokens=1024,
+def route_by_complexity(state: dict) -> str:
+    """Route tasks to the right model based on complexity."""
+    task = state["task"]
+    
+    # Simple classification (uses cheap Haiku)
+    response = anthropic_client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=10,
         messages=[{
             "role": "user",
-            "content": f"""Triage these Prometheus alerts. Classify: severity (P1/P2/P3), 
-probable cause, and recommended immediate action.
-
-Alerts:
-{alerts_json}
-
-Respond as JSON: {{"severity": "P1", "cause": "...", "action": "...", "auto_remediate": true/false}}"""
+            "content": f"Classify complexity as 'low', 'medium', or 'high': {task}"
         }]
     )
-    state["triage"] = json.loads(response.content[0].text)
-    return state
+    return response.content[0].text.strip()
 
-def auto_remediate(state):
-    """Execute remediation if auto_remediate=true and severity P2/P3."""
-    triage = state["triage"]
-    if triage.get("auto_remediate") and triage.get("severity") in ["P2", "P3"]:
-        # Execute K8s rollout restart for the affected service
-        import subprocess
-        subprocess.run(["kubectl", "rollout", "restart", "deployment/api-service"])
-        state["remediated"] = True
-    return state
+def execute_low(state):
+    # Gemini Flash: $0.075/1M tokens — repetitive tasks
+    model = genai.GenerativeModel("gemini-2.0-flash")
+    return {"result": model.generate_content(state["task"]).text}
 
-def notify_team(state):
-    """Post to Slack/PagerDuty with triage result."""
-    import httpx
-    triage = state["triage"]
-    message = f"*{triage['severity']} Incident*\nCause: {triage['cause']}\nAction: {triage['action']}\nAuto-remediated: {state.get('remediated', False)}"
-    httpx.post(SLACK_WEBHOOK_URL, json={"text": message})
-    return state
+def execute_medium(state):
+    # DeepSeek R1 via Ollama: free local — intermediate reasoning
+    return {"result": ollama.generate(model="deepseek-r1:7b", prompt=state["task"])["response"]}
+
+def execute_high(state):
+    # Claude Fable 5: complex reasoning, security, architecture
+    response = anthropic_client.messages.create(
+        model="claude-fable-5",
+        max_tokens=4096,
+        messages=[{"role": "user", "content": state["task"]}]
+    )
+    return {"result": response.content[0].text}
 
 graph = StateGraph(dict)
-graph.add_node("detect", detect_anomaly)
-graph.add_node("triage", triage_incident)
-graph.add_node("remediate", auto_remediate)
-graph.add_node("notify", notify_team)
-graph.add_edge("detect", "triage")
-graph.add_edge("triage", "remediate")
-graph.add_edge("remediate", "notify")
-graph.add_edge("notify", END)
-graph.set_entry_point("detect")
-
-incident_agent = graph.compile()
-# Run every 60 seconds via cron or Kubernetes CronJob
+graph.add_node("route", route_by_complexity)
+graph.add_node("low", execute_low)
+graph.add_node("medium", execute_medium)
+graph.add_node("high", execute_high)
+graph.add_conditional_edges("route", lambda s: s["complexity"])
 ```
 
-**Deal size**: $80k–$350k | **Timeline**: 6–10 weeks
-**LATAM fit**: Brazilian and Argentine telcos, e-commerce (handling Black Friday traffic)
+**Cost reduction**: 60-80% vs routing everything to frontier model
+
+**Timeline**: 3-4 weeks | **Deal size**: $60k-$150k
 
 ---
 
-## P7 — Dify-Based Enterprise AI App Platform
+## P10 — Developer AI Onboarding Agent (New Engineer Ramp-Up)
 
-**Goal**: Self-hosted Dify deployment as the foundation for multiple AI applications (chatbots, RAG, agents) for a client organization.
+**Problem**: new engineers take 3-6 months to be productive; senior engineers lose 30% of time to mentoring.
 
-**Stack**:
-- **Dify** (Apache-2.0, 144k★) — visual AI app builder
-- **MCP Python SDK** — extend Dify with custom MCP tools
-- **Claude Sonnet 5** — primary model (best cost/performance in 2026)
-- **Qdrant** (Apache-2.0) — vector store for RAG
-- **PostgreSQL** — Dify metadata store
-
-```bash
-# Self-hosted Dify deployment
-git clone https://github.com/langgenius/dify.git
-cd dify/docker
-cp .env.example .env
-
-# Configure .env:
-# ANTHROPIC_API_KEY=sk-ant-...
-# SECRET_KEY=<random-32-chars>
-# DB_HOST=postgres
-# VECTOR_STORE=qdrant
-# QDRANT_URL=http://qdrant:6333
-
-docker compose up -d
-
-# Access at http://localhost/
-# Build apps via visual canvas — no code required
-```
-
-**Dify as Platform**:
-1. **Knowledge Base**: Upload PDFs, CSVs, web pages → auto-chunked RAG
-2. **Chatbot**: Customer support agent with retrieval over product docs
-3. **Agent**: Multi-tool agent with MCP servers for CRM, ERP, Slack
-4. **Workflow**: Visual multi-step pipelines (form → classify → route → respond)
-5. **API**: Every app gets a REST API — embed in any client UI
-
-**Deal size**: $50k–$200k platform setup + $30k–$80k/app | **Timeline**: 3–6 weeks platform + 1–2 weeks/app
-**LATAM fit**: Any enterprise replacing off-the-shelf chatbot vendors with a self-hosted, data-sovereign solution
-
----
-
-## P8 — Code Intelligence MCP Server for Existing Codebase
-
-**Goal**: Give AI coding agents deep understanding of a large, legacy codebase via an MCP server that builds and queries a code graph.
-
-**Stack**:
-- **code-review-graph** (MIT, 19.1k★) — code intelligence graph builder
-- **MCP Python SDK** (MIT) — expose as MCP server
-- **Qdrant** (Apache-2.0) — semantic code search
-- **Claude Code** / **Cursor** — agent clients consuming the server
+**Stack**: Dify + Qdrant + Backstage + GitHub MCP + Claude + OpenHands
 
 ```python
-# code_intel_mcp.py — code intelligence MCP server
-from mcp.server import FastMCP
-from pathlib import Path
-import ast, json
+# Day 1 onboarding agent flow
+ONBOARDING_FLOW = """
+You are an AI onboarding assistant for new engineers at {company}.
+You have access to:
+- Internal KB (Qdrant): architecture docs, runbooks, decisions
+- GitHub MCP: codebase, PRs, issues
+- Backstage: service catalog, dependencies
 
-mcp = FastMCP("code-intelligence")
+For every question:
+1. Check internal KB first (reduces hallucination on company-specific info)
+2. Cross-reference with actual codebase (GitHub MCP)
+3. If task-based: spawn OpenHands to demonstrate on a sandbox env
+4. Track what the new engineer learned (update their profile)
 
-# Pre-built index: python code_review_graph.py --repo /path/to/codebase --output index.json
-with open("index.json") as f:
-    CODE_INDEX = json.load(f)
-
-@mcp.tool()
-def find_function(name: str) -> dict:
-    """Find a function definition by name across the codebase."""
-    results = []
-    for file_path, functions in CODE_INDEX["functions"].items():
-        for func in functions:
-            if name.lower() in func["name"].lower():
-                results.append({
-                    "file": file_path,
-                    "line": func["line"],
-                    "signature": func["signature"],
-                    "docstring": func.get("docstring", "")
-                })
-    return {"matches": results[:10]}
-
-@mcp.tool()
-def get_callers(function_name: str) -> list:
-    """Find all places in the codebase that call a given function."""
-    callers = CODE_INDEX["call_graph"].get(function_name, [])
-    return callers
-
-@mcp.tool()
-def get_module_summary(module_path: str) -> str:
-    """Get a natural language summary of a Python module."""
-    module_data = CODE_INDEX["modules"].get(module_path, {})
-    return f"""
-Module: {module_path}
-Classes: {', '.join(module_data.get('classes', []))}
-Functions: {', '.join(module_data.get('functions', [])[:10])}
-Imports: {', '.join(module_data.get('imports', [])[:10])}
-Lines: {module_data.get('lines', 'unknown')}
+Goal: new engineer productive in 4 weeks instead of 3 months.
 """
 
-if __name__ == "__main__":
-    mcp.run(transport="streamable-http")
+# Dify frontend: conversational interface
+# Qdrant: indexed architecture docs + ADRs + runbooks
+# GitHub MCP: "show me an example of how this service handles auth"
+# OpenHands: "run the local dev environment for me and show me how it works"
 ```
 
-**Deal size**: $40k–$120k | **Timeline**: 3–5 weeks
-**Use case**: Enable AI coding agents to navigate 500k+ LOC legacy codebases without hallucinating file paths and function names
-
----
-
-## P9 — OpenHands Enterprise Deployment (LATAM Air-Gap)
-
-**Goal**: On-premise OpenHands deployment for an enterprise LATAM client requiring data residency.
-
-**Stack**:
-- **OpenHands Enterprise** (MIT, 79.6k★) — coding agent platform
-- **Kubernetes** — deployment target
-- **Claude API via AWS Bedrock** or **Anthropic private endpoint** — keeps data in-region
-- **Gitea** (MIT) — internal version control (no GitHub dependency)
-- **Harbor** (Apache-2.0) — private container registry
-
-```yaml
-# kubernetes/openhands-deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: openhands-server
-  namespace: ai-platform
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: openhands
-  template:
-    metadata:
-      labels:
-        app: openhands
-    spec:
-      containers:
-      - name: openhands
-        image: harbor.internal.company.com/ai/openhands:0.40
-        env:
-        - name: LLM_MODEL
-          value: "bedrock/anthropic.claude-opus-4-8-20261001-v1:0"
-        - name: LLM_AWS_REGION
-          value: "us-east-1"  # or sa-east-1 for Brazil
-        - name: SANDBOX_RUNTIME
-          value: "docker"
-        - name: ENABLE_RBAC
-          value: "true"
-        - name: AUDIT_LOG_LEVEL
-          value: "full"  # Required for EU AI Act compliance
-        resources:
-          requests:
-            memory: "4Gi"
-            cpu: "2"
-          limits:
-            memory: "8Gi"
-            cpu: "4"
-      imagePullSecrets:
-      - name: harbor-registry-secret
-```
-
-**Deal size**: $200k–$800k | **Timeline**: 10–16 weeks
-**LATAM fit**: Brazilian LGPD compliance, Argentine data localization, Colombian data sovereignty requirements
-
----
-
-## P10 — SKILL.md Library for Enterprise Domain Agents
-
-**Goal**: Build a Globant-branded library of SKILL.md skills that any Claude Code / OpenCode / Hermes agent can load.
-
-**Concept**: SKILL.md files describe agent capabilities as composable, versionable units — the "npm packages" of the agent world.
-
-```markdown
-# SKILL: Salesforce Contact Sync
-# Description: Sync contacts between a CSV/database and Salesforce
-# License: MIT (Globant AI Studios)
-# Version: 1.0.0
-# Compatible-with: Claude Code, OpenCode, Hermes Agent
-
-## Prerequisites
-- Salesforce API credentials in env: SF_INSTANCE, SF_TOKEN
-- Python: simple-salesforce>=1.12
-
-## Usage
-Ask the agent: "Sync contacts from contacts.csv to Salesforce, dedup by email"
-
-## Tools Available
-- `sf_create_contact(email, first_name, last_name, account_id)` — Create SF contact
-- `sf_find_contact(email)` — Find contact by email
-- `sf_update_contact(contact_id, **fields)` — Update contact fields
-
-## Security
-- Never log SF_TOKEN
-- Validate email format before API calls
-- Rate limit: 100 calls/minute max
-```
-
-**SKILL library structure**:
-```
-globant-skills/
-├── crm/
-│   ├── salesforce-sync.md
-│   ├── hubspot-lead-enrich.md
-│   └── dynamics-opportunity.md
-├── erp/
-│   ├── sap-material-lookup.md
-│   └── odoo-invoice-create.md
-├── devops/
-│   ├── k8s-deployment-health.md
-│   └── github-pr-review.md
-└── data/
-    ├── postgres-query-agent.md
-    └── bigquery-analytics.md
-```
-
-**Deal size**: $30k–$80k per domain library | **Timeline**: 2–4 weeks
-**Revenue model**: License library to enterprise clients as annual subscription. Builds Globant's moat in agentic enterprise integrations.
+**Timeline**: 4-6 weeks | **Deal size**: $80k-$250k | **ROI**: $50k-$200k per engineer in saved ramp-up time
 
 ---
 
 ## Quick-Start Matrix
 
-| Pattern | Stack | Timeline | Deal Size | Best Fit |
-|---------|-------|----------|-----------|----------|
-| P1: AI Internal Developer Platform | GitLab + OpenHands + LangGraph | 8–14w | $120k–$500k | Enterprise LATAM |
-| P2: Multi-Agent Software Team | MetaGPT + CrewAI + Claude Opus 4.8 | 6–10w | $80k–$300k | Startups, rapid proto |
-| P3: MCP Server Factory | MCP SDK + FastAPI | 2–4w/server | $40k–$150k | Any enterprise integration |
-| P4: AI Code Review Pipeline | claude-code-security-review + LangGraph | 4–8w | $60k–$200k | Any dev team |
-| P5: Self-Hosted MLOps + AI Advisor | MLflow + Kubeflow + smolagents | 10–16w | $150k–$600k | Banks, pharma, retail |
-| P6: Incident Response Agent | Prometheus + LangGraph + Claude | 6–10w | $80k–$350k | Telcos, e-commerce |
-| P7: Dify Enterprise AI Platform | Dify + MCP + Qdrant | 3–6w | $50k–$200k | Any enterprise chatbot |
-| P8: Code Intelligence MCP Server | code-review-graph + MCP SDK | 3–5w | $40k–$120k | Legacy codebase nav |
-| P9: OpenHands Air-Gap Deployment | OpenHands Enterprise + K8s | 10–16w | $200k–$800k | LATAM data sovereignty |
-| P10: SKILL.md Library | SKILL.md convention + MIT license | 2–4w | $30k–$80k | Cross-client reuse |
-
----
-*All patterns use MIT/Apache-2.0/AGPL licensed foundations. Model: Claude Opus 4.8 for complex reasoning, Sonnet 5 for balanced cost/quality, Haiku 4.5 for high-volume ops.*
+| Pattern | Time | Cost | Best For |
+|---------|------|------|----------|
+| P1 Code Review Pipeline | 2-3w | $40k-$120k | Any software shop |
+| P2 Software Factory | 4-8w | $120k-$500k | High-volume feature delivery |
+| P3 Developer Portal | 6-10w | $150k-$400k | Orgs with scattered knowledge |
+| P4 MLOps AI Monitoring | 6-12w | $200k-$800k | ML-heavy orgs |
+| P5 Self-Healing Infra | 8-12w | $150k-$400k | SRE / DevOps teams |
+| P6 Tech RAG Platform | 3-5w | $60k-$180k | Knowledge-intensive teams |
+| P7 SKILL.md Automation | 2-4w | $40k-$100k | Ops-heavy orgs |
+| P8 AI Code Quality | 1-2w | $20k-$60k | Quick win / entry point |
+| P9 Multi-Model Optimizer | 3-4w | $60k-$150k | AI cost reduction |
+| P10 Onboarding Agent | 4-6w | $80k-$250k | Fast-growing eng teams |

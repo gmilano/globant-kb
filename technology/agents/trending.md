@@ -1,63 +1,78 @@
-# Trending This Week — Technology / AI Dev Tools
+# Trending AI Agents & Tools — Technology (Week of 2026-07-10)
 
-> What's new and moving fast in the AI development tools space. Updated: 2026-07-09.
+> What's new and moving fast in tech AI agents this week.
+> Last updated: 2026-07-10
 
-## Week of July 7–9, 2026
+## Signal 1 — MCP Specification Release Candidate (2026-07-28)
 
-### MCP 2026-07-28 Release Candidate — Biggest Revision Since Launch
-The [Model Context Protocol 2026-07-28 RC](https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/) is now published.
-Key changes:
-- **Stateless core**: scales on ordinary HTTP infrastructure (no WebSocket required for basic servers)
-- **MCP Apps**: server-rendered UIs embedded in clients (Claude, Cursor, VS Code)
-- **Tasks extension**: long-running async work with progress streaming
-- **Auth overhaul**: aligns with OAuth 2.1 and OpenID Connect; replaces the bespoke auth scheme
-- Impact: 15,926 mcp-server repos on GitHub; 41% of software orgs in limited/broad production
+The Model Context Protocol published its Release Candidate spec on July 28, 2026. New features:
+- **Stateless protocol core** — sessions now optional, enabling serverless MCP deployments
+- **Extensions framework** — vendors can add capabilities without forking the spec
+- **Tasks** — long-running async operations with progress streaming
+- **MCP Apps** — installable bundles (server + UI + auth in one package)
+- **Enterprise-Managed Authorisation (EMA)** — stable; zero-touch SSO via org identity provider
 
-### Claude Fable 5 + Mythos 5 — 95%+ SWE-bench Verified
-Claude Fable 5 hits **95% SWE-bench Verified** (Jul 8, 2026), Claude Mythos 5 leads at **95.5%**.
-Claude Opus 4.8 remains the best commercial model at 88.6% Verified / 69.2% SWE-bench Pro.
-Open-weights leader: GLM-5.2 at 62.1% SWE-bench Pro.
-Benchmark: [SWE-bench Verified Leaderboard](https://benchlm.ai/benchmarks/sweVerified)
+**Scale**: 97M SDK downloads/month, 10,000+ active public servers, 28% Fortune 500 adoption. 41% of software orgs in limited/broad production with MCP (Stacklok 2026).
 
-### SpaceX Acquires Cursor — $60B All-Stock Deal
-SpaceX announced a **$60 billion all-stock acquisition of Cursor** on June 16, 2026 (expected close Q3 2026).
-As a result, **OpenCode** (MIT, 181.5k★) is emerging as the model-agnostic, enterprise-safe alternative for teams wary of vendor lock-in post-acquisition.
-
-### Gemini CLI → Antigravity CLI Migration
-Google announced at I/O 2026 that Gemini CLI is being replaced by **Antigravity CLI**.
-- Individual-tier requests stopped June 18, 2026
-- Enterprise access unchanged
-- Gemini CLI repo (Apache-2.0, 80k★) remains open source
-- Migration window: existing projects have 90 days
-
-### OpenHands 0.40 — Enterprise Control Plane GA (May 6, 2026)
-OpenHands released the **Enterprise Control Plane** into GA:
-- RBAC + cost guardrails + full audit trails
-- Docker and Kubernetes deployment targets
-- SWE-bench Verified now at 77.6% on own harness
-- [OpenHands Enterprise](https://www.openhands.dev/)
-
-### Anthropic 2026 Agentic Coding Report
-Anthropic published its [2026 Agentic Coding Trends Report](https://resources.anthropic.com/2026-agentic-coding-trends-report):
-- Average agent session: **4 min (Q1 2025) → 23 min (Q1 2026)** — agents taking on much more complex work
-- TELUS case study: **30% faster engineering** + 500,000 hours saved
-- 75% of developers will spend more time orchestrating than writing code by end of 2026
-
-### AI Code Tools Market — $9.35B in 2026
-The AI code tools market hit **$9.35B in 2026**, growing to **$29.96B by 2031** (CAGR 26.23%).
-Developer adoption: **84% use or plan to use AI tools**; 51% use daily.
-McKinsey: **46% reduction** in time spent on routine coding tasks.
-
-## Repos to Watch
-
-| Repo | Stars | Why It Matters |
-|------|-------|----------------|
-| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | 79.6k | SWE-bench leader, enterprise-ready GA |
-| [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | 80k+ | Apache-2.0, now in transition to Antigravity CLI |
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | 181.5k | Rising Cursor alternative post-SpaceX |
-| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | 60k+ | MIT, skills-based personal/enterprise agent |
-| [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) | 8.2k | MCP RC 2026-07-28 just dropped |
-| [caramaschiHG/awesome-ai-agents-2026](https://github.com/caramaschiHG/awesome-ai-agents-2026) | 10k+ | Curated 300+ agents list for 2026 |
+**Globant implication**: MCP is now the integration standard. Every new tool/platform engagement should expose an MCP server. Deal accelerator: "MCP-ready" as a deliverable.
 
 ---
-*Updated 2026-07-09. Sources: Anthropic Agentic Coding Report, MCP Blog, morphllm.com SWE-bench tracker.*
+
+## Signal 2 — OpenClaw Crosses 310k Stars
+
+OpenClaw (MIT, [openclaw/openclaw](https://github.com/openclaw/openclaw)) surpassed 310k GitHub stars (from 60k in 72h at launch to 210k by Q1 2026 to 310k+ today). Key drivers:
+- SKILL.md ecosystem: community-contributed skills for any workflow
+- iMessage, WhatsApp, Telegram, Slack as first-class channels
+- Runs on any OS, any model (Claude, GPT, DeepSeek, Grok, Ollama)
+- Docker-in-Docker for safe code execution
+
+**Pattern**: messaging-first agents are winning where users already are. Alternative to building custom UIs.
+
+---
+
+## Signal 3 — Agentic Coding Session Length 4m → 23m
+
+Average AI coding agent session length grew from 4 minutes (Q1 2025) to 23 minutes (Q1 2026). Agents are taking on substantially more complex, multi-file, multi-step tasks.
+
+- **Gartner**: Enterprise AI coding agent market hits ~$10B in 2026
+- **Broader market**: AI Code Gen & Developer Assistant Market $16.13B (2026) → $78.97B by 2031, CAGR 37.39% (Mordor Intelligence)
+- By 2027: 65%+ of engineering teams using agentic coding will treat IDEs as optional
+
+---
+
+## Signal 4 — LangGraph Overtakes CrewAI in Enterprise
+
+LangGraph (MIT, [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph)) is now preferred in enterprise production:
+- Graph-based architecture maps cleanly to audit trails, rollback, and compliance
+- Better for stateful, long-horizon workflows (vs. CrewAI's task-crew model)
+- Gartner 1,445% surge in multi-agent system inquiries from Q1 2024 to Q2 2025
+
+---
+
+## Signal 5 — Google Antigravity 2.0 & Gemini CLI Momentum
+
+Google Antigravity 2.0 (May 2026): multi-agent thesis with dynamic subagents, scheduled background tasks, Antigravity CLI in Go, and public SDK. Competitors:
+- Gemini CLI (Apache-2.0, 80k★): 1,000 free req/day making it default for cost-sensitive teams
+- OpenHands (MIT): 72% SWE-bench Verified, open-source reference for autonomous coding
+
+---
+
+## Signal 6 — Rust + TypeScript Bifurcation
+
+The 2026 tech stack is bifurcating:
+- **Rust** dominates performance-critical AI infra (inference runtimes, sandboxes, vector stores)
+- **TypeScript** leads the agentic application layer (agents, workflows, MCP servers, frontends)
+
+New: Microsoft's Hyperlight WASM micro-VM achieves <5ms cold start for agent isolation, written in Rust. Used in Azure Hosted Agents GA (Jul 2026).
+
+---
+
+## Radar This Week
+
+| Repo | Signal | Why It Matters |
+|------|--------|---------------|
+| [anthropics/claude-code](https://github.com/anthropics/claude-code) | Active | 95% SWE-bench Verified (Claude Fable 5); agentic hooks system; skills ecosystem |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | Growing | Enterprise adoption overtaking CrewAI; LangGraph Platform for hosted agents |
+| [opencodejsx/opencode](https://github.com/opencodejsx/opencode) | Breakout | 181k★ MIT Go-native coding agent; zero-API-key local model support |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Steady | CodeAgent paradigm (Python actions vs JSON); HuggingFace Hub integration |
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Standard | Official MCP server reference implementations; RC spec Jul 28 |

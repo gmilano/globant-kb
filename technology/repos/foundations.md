@@ -1,44 +1,51 @@
-# Foundational Repos — Technology / Software Development AI
+# Foundational Repos — Technology Industry
 
-> Core open-source foundations to build on. Active communities, permissive licenses.
-> Updated: 2026-07-09.
+> Production-grade open source bases to build on. Active communities, permissive licenses.
+> Last updated: 2026-07-10
 
-## AI Coding Agents & Frameworks
+## LLM App & Agent Frameworks
 
-| Repo | License | Stars | Description | Best For |
+| Repo | License | Stars | Description | AI Base? |
 |------|---------|-------|-------------|----------|
-| [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) | MIT | 79.6k | Full AI software engineering agent. Browser, shell, file editor, code interpreter in a Docker sandbox. SWE-bench Verified 72-77.6%. Enterprise Control Plane GA. | Autonomous dev agent, enterprise coding platform |
-| [FoundationAgents/MetaGPT](https://github.com/FoundationAgents/MetaGPT) | MIT | 67.9k | Multi-agent software company (PM → Architect → Dev → QA → Data Analyst). Natural language → working codebase. | Greenfield product generation, AI software teams |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Role-based multi-agent orchestration. 5.2M monthly pip installs. Large ecosystem of pre-built tools and integrations. | Multi-agent pipelines, task automation |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 12.8k | Stateful graph runtime for agents. Cycles, branching, human-in-the-loop, persistence. Most mature production agent framework. | Long-running stateful agents, workflow orchestration |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimal code-first agent framework by Hugging Face. Agents write Python to call tools. Cheapest per-token execution among major frameworks. | Fast iteration, open-weight model agents |
-| [Aider-AI/aider](https://github.com/Aider-AI/aider) | Apache-2.0 | 32k | Terminal pair-programming AI. Edits multiple files per request, commits to Git, supports 100+ LLMs. Industry gold standard for interactive coding assistance. | Day-to-day dev assistance, legacy code refactoring |
-| [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) | MIT | 15.2k | Academic-origin coding agent with Agent-Computer Interface (ACI). SWE-bench reference implementation, benchmark harness. | Evaluation, research, autonomous bug fixing |
+| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 97k | The foundational LLM application framework; chains, RAG, tools, memory; massive ecosystem; use for structured LLM pipelines | Yes — core |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 12.8k | Graph-based multi-agent orchestration; stateful workflows; LangGraph Platform for hosting; production multi-agent standard | Yes — orchestration |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Role-based agent crews; 5.2M monthly downloads; A2A protocol; accessible for teams new to multi-agent | Yes — agent crews |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimal CodeAgent framework; agents write executable Python; strong HuggingFace Hub + model integration | Yes — lightweight |
+| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | 79.6k | Full autonomous software engineer; SWE-bench 72%; Docker sandboxed; OpenHands SDK for extending agents | Yes — coding agent |
 
-## Low-Code & Platform
+## LLM App Builders & Low-Code
 
-| Repo | License | Stars | Description | Best For |
+| Repo | License | Stars | Description | AI Base? |
 |------|---------|-------|-------------|----------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | LLM application development platform. Visual workflow builder, RAG, MCP client, 50+ built-in tools, self-hosted. Fastest-growing agent platform in 2026. | Rapid prototyping, non-dev users, RAG apps |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | Apache-2.0 | 42k | Multi-agent conversation framework (maintenance mode; merged into Microsoft Agent Framework). Still the most-forked multi-agent codebase. | Enterprise Microsoft ecosystem, established teams |
-| [google/adk-python](https://github.com/google/adk-python) | Apache-2.0 | 20k | Google Agent Development Kit. A2A protocol, Gemini/Vertex AI integration, session management. | Google Cloud deployments, A2A multi-agent |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Visual LLM app builder; RAG pipelines, chatbots, agents, workflows; self-hosted; 50+ tools built-in; MCP support | Yes — app platform |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 51k | Drag-and-drop LangChain visual builder; best for LangChain-style prototyping; self-hosted Node.js | Yes — visual builder |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Source-Available (fair-code) | 182k | Workflow automation with 400+ integrations + AI nodes; AI as one step in larger workflows; HITL built-in | Yes — workflow AI |
 
-## MLOps & Infrastructure
+## MLOps & ML Infrastructure
 
-| Repo | License | Stars | Description | Best For |
+| Repo | License | Stars | Description | AI Base? |
 |------|---------|-------|-------------|----------|
-| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | 20k | ML lifecycle management: experiment tracking, model registry, deployment, evaluation. 100% open source, forever free. | ML experiment management, model serving |
-| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | 14.5k | Full-featured MLOps platform on Kubernetes. Pipelines, notebooks, model serving, hyperparameter tuning. | Production ML on K8s, enterprise MLOps |
-| [iterative/dvc](https://github.com/iterative/dvc) | Apache-2.0 | 14.2k | Data Version Control for ML. Git for data and models. Standard for ML data pipelines. | Data versioning, reproducible ML |
-| [evidentlyai/evidently](https://github.com/evidentlyai/evidently) | Apache-2.0 | 6.5k | ML model monitoring and evaluation. Drift detection, data quality, LLM evaluation. Standard for production model monitoring. | LLM/ML observability, regression detection |
+| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | 20k | ML lifecycle management: experiment tracking, model registry, deployment; 30M monthly PyPI downloads; Linux Foundation | Yes — ML lifecycle |
+| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | 33.1k | ML on Kubernetes: pipelines, training operators, serving, notebooks; CNCF project; 3,000+ contributors | Yes — K8s ML |
+| [apache/airflow](https://github.com/apache/airflow) | Apache-2.0 | 40k | Workflow orchestration for data pipelines; Python DAGs; 1,000+ providers; pairs with MLflow for ML pipelines | Yes — orchestration |
+| [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Apache-2.0 | 17k | Modern Python workflow orchestration; better DX than Airflow; native async; Prefect Cloud or self-hosted | Yes — data workflows |
+| [ray-project/ray](https://github.com/ray-project/ray) | Apache-2.0 | 36k | Distributed compute for AI/ML; scales Python workloads; Ray Serve for model serving; Ray Data for large datasets | Yes — distributed |
 
-## MCP & Agent Integration
+## Vector Stores & AI Data
 
-| Repo | License | Stars | Description | Best For |
+| Repo | License | Stars | Description | AI Base? |
 |------|---------|-------|-------------|----------|
-| [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) | MIT | 8.2k | Official MCP Python SDK. RC 2026-07-28: stateless core, Tasks extension, OAuth 2.1. 97M monthly downloads across SDKs. | Building MCP servers in Python |
-| [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | MIT | 6.5k | Official MCP TypeScript SDK. Native integration in Claude Code, Cursor, VS Code. | MCP servers in Node.js/TypeScript |
-| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | 14k | OpenAI Agents SDK. Handoffs, guardrails, tracing. Works with any OpenAI-compatible API endpoint. | Multi-agent pipelines, compatible APIs |
+| [qdrant/qdrant](https://github.com/qdrant/qdrant) | Apache-2.0 | 23k | Rust-native vector similarity search; gRPC + REST; filtering; hybrid search; best performance benchmark 2026 | Yes — vector DB |
+| [weaviate/weaviate](https://github.com/weaviate/weaviate) | BSD-3 | 13k | Vector + keyword hybrid search; built-in ML models; multi-modal; GraphQL API; strong for semantic search | Yes — vector DB |
+| [chroma-core/chroma](https://github.com/chroma-core/chroma) | Apache-2.0 | 19k | Simplest vector store; Python-first; in-memory or persistent; default for LangChain/Dify RAG prototyping | Yes — RAG store |
+
+## Developer Infrastructure
+
+| Repo | License | Stars | Description | AI Base? |
+|------|---------|-------|-------------|----------|
+| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | 29k | Spotify's developer portal; plugin ecosystem; software catalog; AI plugin layer for internal developer assistants | Yes — dev portal |
+| [grafana/grafana](https://github.com/grafana/grafana) | AGPL-3.0 | 66k | Observability dashboards; integrates with Prometheus, Loki, Tempo; AI anomaly detection plugins | Yes — observability |
+| [prometheus/prometheus](https://github.com/prometheus/prometheus) | Apache-2.0 | 57k | De-facto metrics standard; scrapes + stores time-series; pairs with Grafana; foundation for AI alerting agents | Yes — monitoring |
 
 ---
-*See `verticals/solutions.md` for DevOps/observability platforms. See `compose/patterns.md` for wiring these together.*
+*See also: `verticals/solutions.md` for full vertical platforms.*

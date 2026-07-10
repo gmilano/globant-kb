@@ -1,77 +1,60 @@
-# Vertical Platforms — Technology Infrastructure
+# Vertical Platforms — Technology Industry
 
-> Open-source platforms that can be customized with AI agents on top.
-> Model: start from something functional → add agentic layer.
-> Updated: 2026-07-09.
+> Customizable open source platforms to add AI on top of.
+> Strategy: start with something working, layer in the agentic capability.
+> Last updated: 2026-07-10
 
-## Developer Platforms & Source Control
+## LLM App & Agent Platforms
 
-| Platform | License | Stars | Stack | AI Customization Potential |
-|----------|---------|-------|-------|---------------------------|
-| [Gitea](https://github.com/go-gitea/gitea) | MIT | 46k | Go | Self-hosted GitHub alternative. Add AI code review bots via webhooks + MCP. Active Globant case study for air-gapped clients. |
-| [Forgejo](https://codeberg.org/forgejo/forgejo) | MIT | 8k | Go | Gitea fork, community-led. Slightly more governance-friendly for enterprises. Drop-in Gitea replacement. |
-| [GitLab CE](https://gitlab.com/gitlab-org/gitlab-foss) | MIT | 25k | Ruby/Vue | Full DevOps platform. Open core (CE = MIT). Native CI/CD, issues, MR reviews. Best base for AI-augmented DevOps platform. |
+| Platform | License | URL | Stack | Use Case |
+|----------|---------|-----|-------|----------|
+| Dify | Apache-2.0 | [github.com/langgenius/dify](https://github.com/langgenius/dify) | Python + Next.js + PostgreSQL | End-to-end LLM app: chatbots, RAG, agent workflows, API backend; 144k★; 50+ tool integrations |
+| Flowise | Apache-2.0 | [github.com/FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Node.js + React | Visual LangChain builder; drag-and-drop agent design; best for rapid RAG prototyping; 51k★ |
+| n8n | Fair-code | [github.com/n8n-io/n8n](https://github.com/n8n-io/n8n) | Node.js + Vue | Workflow automation with 400+ integrations + AI nodes; HITL; self-hosted; 182k★ |
+| Langflow | MIT | [github.com/langflow-ai/langflow](https://github.com/langflow-ai/langflow) | Python + React | Visual LangChain/LlamaIndex builder; DataStax-backed; Docker-deployable; API-first |
 
-## DevOps & Infrastructure
+## Developer Portals & Internal Tools
 
-| Platform | License | Stars | Stack | AI Customization Potential |
-|----------|---------|-------|-------|---------------------------|
-| [Coolify](https://github.com/coollabsio/coolify) | AGPL-3.0 | 39k | PHP/Livewire | Self-hosted Heroku/Netlify/Vercel. Add AI deployment advisor, cost optimizer. |
-| [Dokku](https://github.com/dokku/dokku) | MIT | 30k | Bash | Smallest PaaS on a single server. MCP server wrapper for AI-driven deployments. |
-| [Caprover](https://github.com/caprover/caprover) | Apache-2.0 | 14k | Node.js | App and database deployment platform. REST API makes it easy to wrap with AI agents. |
-| [n8n](https://github.com/n8n-io/n8n) | Fair Code (custom) | 52k | Node.js/Vue | Workflow automation platform. Thousands of integrations, self-hosted, MCP-compatible in 2026. |
+| Platform | License | URL | Stack | Use Case |
+|----------|---------|-----|-------|----------|
+| Backstage | Apache-2.0 | [github.com/backstage/backstage](https://github.com/backstage/backstage) | Node.js + React + TypeScript | Spotify's internal developer portal; software catalog; plugin ecosystem; AI dev assistant integration layer |
+| Gitea | MIT | [github.com/go-gitea/gitea](https://github.com/go-gitea/gitea) | Go + Vue | Self-hosted Git (GitHub alternative); code review + CI/CD + package registry; perfect for on-prem AI coding agent |
+| Plane | AGPL-3.0 | [github.com/makeplane/plane](https://github.com/makeplane/plane) | Python + Next.js | Open source Linear/Jira alternative; issue tracking; AI sprint planning integration ready |
+| Mattermost | MIT / EE | [github.com/mattermost/mattermost](https://github.com/mattermost/mattermost) | Go + React | Self-hosted team messaging; AI bot integration; webhooks; MCP server available |
 
-## Observability & Monitoring
+## MLOps & AI Infrastructure Platforms
 
-| Platform | License | Stars | Stack | AI Customization Potential |
-|----------|---------|-------|-------|---------------------------|
-| [Grafana](https://github.com/grafana/grafana) | AGPL-3.0 | 65k | Go/React | Observability and dashboards. Add AI anomaly narration agent via MCP server on Grafana API. |
-| [Prometheus](https://github.com/prometheus/prometheus) | Apache-2.0 | 58k | Go | Metrics collection and alerting. Power AI-driven alert triage agents with PromQL + LLM. |
-| [Netdata](https://github.com/netdata/netdata) | GPL-3.0 | 74k | C/Python | Real-time infrastructure monitoring. ML-based anomaly detection built in since v1.35. |
-| [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector) | Apache-2.0 | 4.9k | Go | Vendor-agnostic telemetry pipeline. Foundation for AI-powered observability agents. |
-| [Jaeger](https://github.com/jaegertracing/jaeger) | Apache-2.0 | 21k | Go | Distributed tracing. Wire AI root-cause analysis agent via Jaeger API + LangGraph. |
+| Platform | License | URL | Stack | Use Case |
+|----------|---------|-----|-------|----------|
+| MLflow | Apache-2.0 | [github.com/mlflow/mlflow](https://github.com/mlflow/mlflow) | Python + React | End-to-end ML lifecycle: experiments, registry, serving; 30M monthly downloads; Linux Foundation |
+| Kubeflow | Apache-2.0 | [github.com/kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Python + Go + Kubernetes | ML pipelines on K8s; training operators (PyTorch, TF); Katib HPO; 33k★; CNCF |
+| Label Studio | Apache-2.0 | [github.com/heartexlabs/label-studio](https://github.com/heartexlabs/label-studio) | Python + React | Data labeling platform for ML training data; supports text, images, audio, video |
+| Feast | Apache-2.0 | [github.com/feast-dev/feast](https://github.com/feast-dev/feast) | Python | Feature store for ML; online + offline; supports Redis, BigQuery, Snowflake, DynamoDB |
 
-## Container & Registry
+## Observability & Operations
 
-| Platform | License | Stars | Stack | AI Customization Potential |
-|----------|---------|-------|-------|---------------------------|
-| [Harbor](https://github.com/goharbor/harbor) | Apache-2.0 | 25k | Go | Enterprise container registry. Add AI-powered vulnerability prioritization via Harbor API. |
-| [Portainer CE](https://github.com/portainer/portainer) | Zlib | 32k | Go/Angular | Container management UI. REST API enables AI agent for container lifecycle management. |
+| Platform | License | URL | Stack | Use Case |
+|----------|---------|-----|-------|----------|
+| Grafana | AGPL-3.0 | [github.com/grafana/grafana](https://github.com/grafana/grafana) | Go + React | Dashboards for metrics, logs, traces; AI anomaly detection plugins; 66k★ |
+| Prometheus | Apache-2.0 | [github.com/prometheus/prometheus](https://github.com/prometheus/prometheus) | Go | Metrics collection and alerting; de-facto K8s standard; base for AI alerting agents |
+| OpenTelemetry | Apache-2.0 | [github.com/open-telemetry/opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector) | Go | Unified observability standard; traces + metrics + logs; MCP server in development |
+| Netdata | GPL-3.0 | [github.com/netdata/netdata](https://github.com/netdata/netdata) | C + Python | Real-time infrastructure monitoring; ML-based anomaly detection built-in; zero-config |
 
-## MLOps Platforms
+## Vector & Search Infrastructure
 
-| Platform | License | Stars | Stack | AI Customization Potential |
-|----------|---------|-------|-------|---------------------------|
-| [MLflow](https://github.com/mlflow/mlflow) | Apache-2.0 | 20k | Python | Experiment tracking, model registry, deployment. 100% OSS forever. Core of most ML platforms. |
-| [Kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | 14.5k | Python/K8s | ML pipelines on Kubernetes. Add AI pipeline optimizer agent via KFP SDK. |
-| [ZenML](https://github.com/zenml-io/zenml) | Apache-2.0 | 4.5k | Python | MLOps framework with stack abstraction. Good for AI-native pipeline orchestration. |
-| [DVC](https://github.com/iterative/dvc) | Apache-2.0 | 14.2k | Python | Data and model versioning. Pair with AI data quality agent for automated checks. |
+| Platform | License | URL | Stack | Use Case |
+|----------|---------|-----|-------|----------|
+| Qdrant | Apache-2.0 | [github.com/qdrant/qdrant](https://github.com/qdrant/qdrant) | Rust | Highest-performance vector DB; filtering; hybrid search; payload indexing; top benchmark 2026 |
+| Weaviate | BSD-3 | [github.com/weaviate/weaviate](https://github.com/weaviate/weaviate) | Go | Vector + keyword hybrid; built-in ML models; GraphQL; multi-modal; MCP server available |
+| Meilisearch | MIT | [github.com/meilisearch/meilisearch](https://github.com/meilisearch/meilisearch) | Rust | Fast full-text + vector hybrid search; sub-50ms; Typo tolerance; great developer UX |
 
-## Project Management (AI-Augmentable)
-
-| Platform | License | Stars | Stack | AI Customization Potential |
-|----------|---------|-------|-------|---------------------------|
-| [Plane](https://github.com/makeplane/plane) | AGPL-3.0 | 32k | Python/Next.js | Open-source Linear/Jira alternative. REST API + webhooks for AI sprint planning agent. |
-| [Taiga](https://github.com/taigaio/taiga-back) | AGPL-3.0 | 2.6k | Python/Django | Agile PM tool. Add AI retrospective and velocity prediction agents. |
-| [Mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | 31k | Go/React | Open-source Slack alternative. MCP-server for AI chatbot integrations. Air-gap friendly. |
-
-## Recommended Starting Stack for AI-Augmented DevOps Platform
+## How to Layer AI On Top
 
 ```
-GitLab CE          → Source control, CI/CD, MR workflows
-      +
-Plane              → Issue tracking and sprint planning
-      +
-MLflow + Kubeflow  → ML experimentation and deployment
-      +
-Prometheus + Grafana → Observability
-      +
-OpenHands / CrewAI → Agentic layer (code review, deployment, triage)
-      +
-MCP SDK            → Tool integration glue
+1. Pick a platform above as the operational foundation
+2. Add MCP server to expose its APIs to AI agents
+3. Connect Dify or LangGraph as the orchestration layer
+4. Wire in Claude / Gemini / Ollama as the reasoning model
+5. Deploy OpenHands or CrewAI for autonomous task execution
+6. Add Grafana/Prometheus for agent observability
 ```
-
-This stack is fully MIT/Apache-2.0/AGPL and can be deployed on-premise — important for LATAM enterprise clients with data sovereignty requirements.
-
----
-*See `compose/patterns.md` for concrete wiring recipes.*
