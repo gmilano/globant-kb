@@ -1,439 +1,61 @@
-# 🏭 Vertical Solutions — Media & Entertainment
+# Vertical Solutions — Media & Entertainment
 
-> Real platforms to start from — fork, extend with AI, deliver to clients.
-> Model: working platform + AI layer on top = faster delivery.
-> Last updated: 2026-07-09 (v9 — Open-Source Music Generation Platforms section added; OpenMontage corrected; ComfyUI $30M milestone)
+> Real platforms that can be customized with AI on top.
+> Model: start from something working → add agentic layer.
+> Last updated: 2026-07-10 (v11)
 
-## Video Platforms & CMS
+## Content Management & Distribution Platforms
 
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **MediaCMS** | AGPL-3.0 | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | Python/Django + React | Full-featured video CMS with REST API, transcoding, search | Auto-tagging, AI search, transcription via Whisper |
-| **PeerTube** | AGPL-3.0 | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | TypeScript + Vue | Federated YouTube alternative; ActivityPub; ~13k★ | Plugin AI subtitles, content moderation, recommendation |
-| **Owncast** | MIT | [owncast/owncast](https://github.com/owncast/owncast) | Go + React | Self-hosted live streaming + chat; single binary deployment | AI moderation, real-time transcription, automated clips |
+| Platform | Repo | License | Stack | AI Customization Entry Point |
+|----------|------|---------|-------|------------------------------|
+| **MediaCMS** | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | Python/Django + React + REST API | Add AI post-processing hooks: auto-tagging with CLIP, Whisper transcription, NeMo content moderation, SEO metadata via Claude. Fork → add `signals/` app → AI microservices behind REST. |
+| **PeerTube** | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | AGPL-3.0 | Node.js + PostgreSQL + ActivityPub | Plugin API: `registerHook('action:api.video.uploaded')` → trigger Whisper transcription + Gorse recommendation ingest. White-label federated video for broadcasters. |
+| **Jellyfin** | [jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | GPL-2.0 | .NET + React | Plugin SDK: add AI-powered metadata enrichment, face recognition, auto-chapter generation, semantic search via Qdrant embeddings. |
+| **Owncast** | [owncast/owncast](https://github.com/owncast/owncast) | MIT | Go + Svelte | Webhook integration: live stream events → AI moderator (NeMo) → real-time chat moderation + live transcription → Whisper.cpp. |
+| **SRS (Simple Realtime Server)** | [ossrs/SRS](https://github.com/ossrs/SRS) | MIT | C++ + Go callbacks | HTTP callbacks on stream publish/unpublish → AI agent for real-time quality scoring, auto-transcoding triggers, anomaly detection. |
 
-## Radio & Audio Broadcasting
+## Recommendation & Personalization
 
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **AzuraCast** | Apache-2.0 | [AzuraCast/AzuraCast](https://github.com/AzuraCast/AzuraCast) | PHP + Vue | Web radio: stations, playlists, DJ management, analytics; ~3.5k★ | AI playlist scheduling, genre classification, listener analytics |
-| **Liquidsoap** | MIT | [savonet/liquidsoap](https://github.com/savonet/liquidsoap) | OCaml + DSL | Scripted audio/video streaming language — backbone of many radio systems | AI-driven track selection, dynamic jingles, real-time SFX |
-| **Castopod** | AGPL-3.0 | [ad-aures/castopod](https://github.com/ad-aures/castopod) | PHP + Vue | Self-hosted podcast hosting with ActivityPub federation — publish to Podcast Index, Spotify, Apple; ~2k★ | AI episode generation via Podcastfy, auto-show-notes, chapter generation |
+| Platform | Repo | License | Stack | Use Case |
+|----------|------|---------|-------|----------|
+| **Gorse** | [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | Go + Redis + PostgreSQL | Drop-in recommender for OTT "What to Watch". LLM ranker adds semantic re-ranking: "shows that feel like Severance but faster-paced". Add to MediaCMS/PeerTube for recommendation sidebar. |
+| **Meilisearch** | [meilisearch/meilisearch](https://github.com/meilisearch/meilisearch) | MIT | Rust | Fast semantic search for media libraries. Embed video descriptions with Claude/OpenAI → vector search → "find scenes with rainy night car chase". |
 
-## Digital Asset Management (DAM)
+## Audio / Music Production
 
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **ResourceSpace** | BSD | [resourcespace/resourcespace](https://github.com/resourcespace/resourcespace) | PHP + MySQL | Full DAM: metadata, versioning, permissions, search, video preview | AI metadata tagging, facial recognition, content similarity |
-| **AtroCore DAM** | Apache-2.0 | [atrocore/atrocore](https://github.com/atrocore/atrocore) | PHP | Free DAM with AI-ready plugin architecture | Auto-tagging, AI description generation |
+| Platform | Repo | License | Stack | Use Case |
+|----------|------|---------|-------|----------|
+| **ACE-Step 1.5 XL** | [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | Apache-2.0 | Python + DiT | Music generation for game audio, ad jingles, show themes, podcast intros. LoRA fine-tune on 5-10 songs for brand/genre consistency. Zero licensing fees vs Suno/Epidemic Sound. |
+| **Voicebox** | [jamiepine/voicebox](https://github.com/jamiepine/voicebox) | MIT | Next.js + Python | AI voice studio: clone artist voice, generate narration/dubbing, batch localization. LATAM dubbing (PT/ES) at scale. |
 
-## Content Management
+## Video Production
 
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **Strapi** | MIT (Community) | [strapi/strapi](https://github.com/strapi/strapi) | Node.js | Headless CMS — API-first content management; ~65k★ | AI content enrichment, auto-categorization, editorial AI |
-| **Ghost** | MIT | [TryGhost/Ghost](https://github.com/TryGhost/Ghost) | Node.js | Publishing platform for newsletters + membership sites | AI writing assist, SEO optimization, newsletter personalization |
+| Platform | Repo | License | Stack | Use Case |
+|----------|------|---------|-------|----------|
+| **OpenMontage** | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | MIT | Python + agent skills | Full agentic video production studio. 12 pipelines: research → script → asset gen → edit → compose. Build custom "video factory" workflows for social/ads/entertainment. |
+| **video-use** | [browser-use/video-use](https://github.com/browser-use/video-use) | MIT | Python + FFmpeg | Integrate into CI/CD for video: PR with raw footage → agent delivers final.mp4 with color grade, subs, no fillers. |
 
-## Localization & Dubbing Platforms (v7 addition)
+## Content Moderation & Safety
 
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **KrillinAI** | Apache-2.0 | [krillinai/KrillinAI](https://github.com/krillinai/KrillinAI) | Go + LLM | AI-Agent-native video translation & dubbing; 100+ languages; 10.4k★ | Each stage is a composable agent skill; Claude orchestration for brand voice |
-| **open-dubbing** (Softcatala) | MIT | [Softcatala/open-dubbing](https://github.com/Softcatala/open-dubbing) | Python | Fully local dubbing via OSS models (Coqui/MMS/Edge TTS + NLLB translation) | LGPD-compliant offline dubbing; no cloud dependency |
+| Platform | Repo | License | Stack | Use Case |
+|----------|------|---------|-------|----------|
+| **NeMo Guardrails** | [NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails) | Apache-2.0 | Python | Programmable content safety for UGC platforms. IORails: parallel content-safety + topic-safety + jailbreak detection. Integrate into MediaCMS upload pipeline or Owncast chat. |
+| **Llama Guard 4** | Meta (Llama Community License) | via HuggingFace | Python + vLLM | Multimodal safety model (image + text). Self-host on single A10 GPU, 80-150ms latency. For platforms with image/video uploads needing CSAM/violence detection. |
 
-### Pattern E: KrillinAI Agentic Dubbing (LATAM Localization Upgrade)
+## How to Customize Any Platform with AI
 
-```python
-import anthropic
-import subprocess
-import json
-from pathlib import Path
-
-class AgenticDubbingPipeline:
-    """KrillinAI + Claude brand-voice layer for LATAM localization."""
-    
-    def __init__(self, brand_glossary: dict):
-        self.claude = anthropic.Anthropic()
-        self.brand_glossary = brand_glossary
-    
-    def dub_video(self, video_url: str, target_lang: str, output_dir: str) -> str:
-        """Full agentic dubbing: KrillinAI skills + Claude brand translation."""
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
-        
-        # Step 1: KrillinAI skills — download + transcribe
-        result = subprocess.run([
-            "krillinai", "skills", "run",
-            "--skill", "download,transcribe",
-            "--input", video_url,
-            "--output-dir", output_dir,
-            "--format", "json"
-        ], capture_output=True, text=True, check=True)
-        transcript = json.loads(result.stdout)
-        
-        # Step 2: Claude — brand-aware translation
-        lang_names = {"pt-BR": "Brazilian Portuguese", "es-MX": "Mexican Spanish"}
-        glossary_str = "\n".join(f"- '{k}' → '{v}'" for k, v in self.brand_glossary.items())
-        full_text = "\n".join(f"[{i}] {s['text']}" for i, s in enumerate(transcript["segments"]))
-        
-        response = self.claude.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=4096,
-            messages=[{"role": "user", "content": 
-                f"Translate to {lang_names[target_lang]}. Enforce brand glossary:\n{glossary_str}\n\nSegments:\n{full_text}\n\nReturn JSON: [{{\"index\": int, \"text\": str}}]"
-            }]
-        )
-        translations = json.loads(response.content[0].text)
-        segments = transcript["segments"].copy()
-        for t in translations:
-            segments[t["index"]]["text"] = t["text"]
-        
-        translated_path = Path(output_dir) / "translated.json"
-        translated_path.write_text(json.dumps({"segments": segments}))
-        
-        # Step 3: KrillinAI skills — TTS + reformat + cover
-        final = subprocess.run([
-            "krillinai", "skills", "run",
-            "--skill", "tts,reformat,cover",
-            "--transcript", str(translated_path),
-            "--video-dir", output_dir,
-            "--target-language", target_lang,
-            "--platform", "youtube",
-            "--format", "json"
-        ], capture_output=True, text=True, check=True)
-        
-        return json.loads(final.stdout)["output_video"]
-
-# Usage — Brazilian Portuguese dubbing
-pipeline = AgenticDubbingPipeline(brand_glossary={
-    "artificial intelligence": "inteligência artificial",
-    "cloud computing": "computação em nuvem",
-    "Globant": "Globant"
-})
-output = pipeline.dub_video("https://youtube.com/watch?v=example", "pt-BR", "/output/latam")
-print(f"Dubbed video: {output}")
 ```
-
-**Architecture**:
-```
-Video URL → KrillinAI skills (download + transcribe)
-         → Claude Sonnet 5 (brand-aware translation with glossary enforcement)
-         → KrillinAI skills (TTS dub + reformat + cover generation)
-         → YouTube-optimized dubbed video in pt-BR / es-MX / es-AR
+1. Fork the vertical platform repo (MediaCMS / PeerTube / Jellyfin)
+2. Identify the right hooks/events (upload webhooks, API callbacks, plugin SDKs)
+3. Stand up AI microservices:
+   - Transcription: Whisper.cpp (local, fast)
+   - Recommendations: Gorse (drop-in REST API)
+   - Content moderation: NeMo Guardrails (Python, configurable policies)
+   - Music: ACE-Step 1.5 XL (local GPU or cloud)
+   - Search: Meilisearch + Claude embeddings
+4. Wrap AI services with an orchestration agent (LangGraph / CrewAI)
+5. Build conversational UI on top (Claude MCP tool, Slack bot, dashboard)
 ```
 
 ---
-
-## Interactive CTV & Viewer Engagement (v8 Addition)
-
-> **Market signal**: Versus AI (stealth → public Jul 2026) — Disney+, Paramount+, HBO Max, NFL client. Global CTV ad spend $42B+ (2026). Shoppable/interactive CTV converts 5× standard video. The product category: real-time AI engagement overlays for live and on-demand content. No open-source platform dominates yet — this is Globant's opportunity.
-
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **Owncast** | MIT | [owncast/owncast](https://github.com/owncast/owncast) | Go + React | Self-hosted live streaming + real-time chat; webhook events on viewer activity | Webhook triggers Claude for live trivia/prediction generation; Redis pub/sub to mobile |
-| **PeerTube** | AGPL-3.0 | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | TypeScript + Vue | Federated video; plugin API for custom viewers | Interactive overlay plugin; AI recommendation layer |
-| **Redis (open)** | BSD-3 | redis/redis | C | Sub-millisecond pub/sub for real-time event push to thousands of concurrent viewers | Central bus: live game events → Claude → viewer mobile apps; leaderboard sorted sets |
-
-### Interactive CTV Pattern (open-source Versus AI)
-See Pattern 11 in compose/patterns.md for the full implementation.
-
-**Quick reference**:
-```
-Live sports data feed → game event trigger
-    → Claude Haiku (<1s) → trivia/prediction/poll in pt-BR or es-MX
-    → Redis pub/sub → WebSocket → viewer mobile app
-    → tap answer → leaderboard update → prizes
-```
-**4-6 week PoC** | **$500-1,500/month infra** | **MIT + Apache-2.0 stack**
-
-## Post-Production AI Tools (v8 Addition)
-
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **HunyuanVideo-Foley** | Tencent Hunyuan Community† | [Tencent-Hunyuan/HunyuanVideo-Foley](https://github.com/Tencent-Hunyuan/HunyuanVideo-Foley) | Python + PyTorch | Automated synchronized foley/SFX for video; 48kHz audio VAE; best-in-class sync metrics | Plug after any video generator (Wan 2.7, LTX-2, CogVideoX) to add SFX in one pass |
-| **ComfyUI** | GPL-3.0 | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | Python | Node-based workflow engine; 106k★ milestone (Jul 2026); Vantage-HunyuanFoley node available | Workflow orchestration for video → foley → output pipelines; no-code option for clients |
-
-> †Tencent Hunyuan Community License: permissive for most commercial uses; verify EU deployment and competitor training restrictions before production deployment.
-
-## AI Video Generation Platforms (4th-Pass Additions)
-
-| Platform | License | Repo | Stack | Use Case | AI Integration Points |
-|----------|---------|------|-------|----------|----------------------|
-| **LTX Desktop + LTX-2** | Apache-2.0 | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2) | Python + DiT | Local 4K video+audio generation studio; single-pass, no internet required | Native audio generation, IC-LoRA fine-tuning, camera control LoRAs |
-| **Open-Generative-AI** | MIT | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | JavaScript | Self-hosted multi-model studio; 200+ models across Image/Video/Lip Sync/Cinema | Claude API integration for script-to-video pipelines, branded studio |
-| **Wan 2.7** | Apache-2.0 | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Python | Alibaba Tongyi Lab; "Thinking Mode" before generation; 1080p/15s; native audio; first/last frame (storyboard→video); Apache-2.0 | Default for new video gen projects H2 2026; storyboard-driven production |
-| **Open-Sora 2.0** | Apache-2.0 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Python | Complete video gen with training pipeline; only open model shipping full train code | Custom model training on client content libraries |
-
-## Integration Code Patterns
-
-### Pattern A: MediaCMS + Whisper Auto-Captioning
-
-```python
-# Add to MediaCMS after video upload webhook
-import subprocess
-import httpx
-from faster_whisper import WhisperModel
-
-def auto_caption_on_upload(video_path: str, media_id: str):
-    model = WhisperModel("large-v3", device="cuda", compute_type="int8")
-    segments, info = model.transcribe(video_path, beam_size=5)
-    
-    # Build WebVTT
-    vtt_lines = ["WEBVTT", ""]
-    for i, seg in enumerate(segments):
-        start = format_timestamp(seg.start)
-        end = format_timestamp(seg.end)
-        vtt_lines.append(f"{i+1}")
-        vtt_lines.append(f"{start} --> {end}")
-        vtt_lines.append(seg.text.strip())
-        vtt_lines.append("")
-    
-    vtt_content = "\n".join(vtt_lines)
-    
-    # POST to MediaCMS subtitle API
-    httpx.post(
-        f"https://your-mediacms.com/api/v1/media/{media_id}/subtitles/",
-        headers={"Authorization": "Token your-api-token"},
-        json={"language": "en", "subtitles_file": vtt_content}
-    )
-
-def format_timestamp(seconds: float) -> str:
-    h = int(seconds // 3600)
-    m = int((seconds % 3600) // 60)
-    s = seconds % 60
-    return f"{h:02d}:{m:02d}:{s:06.3f}"
-```
-
-### Pattern B: AzuraCast + Claude AI Playlist Curation
-
-```python
-import anthropic
-import httpx
-
-def ai_curate_playlist(station_id: str, mood: str, duration_minutes: int):
-    """Use Claude to curate a radio playlist based on mood and available tracks."""
-    
-    # Fetch available tracks from AzuraCast
-    tracks = httpx.get(
-        f"https://your-azuracast.com/api/station/{station_id}/files",
-        headers={"X-API-Key": "your-api-key"}
-    ).json()
-    
-    track_list = [f"{t['title']} by {t['artist']} ({t['length']}s)" 
-                  for t in tracks[:200]]
-    
-    client = anthropic.Anthropic()
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{
-            "role": "user",
-            "content": f"""Select tracks for a {duration_minutes}-minute {mood} radio set.
-Available tracks:
-{chr(10).join(track_list)}
-
-Return a JSON array of track titles in order, fitting within {duration_minutes} minutes total.
-Ensure good flow and variety."""
-        }]
-    )
-    
-    # Parse and schedule the playlist
-    import json
-    selected = json.loads(response.content[0].text)
-    
-    # POST playlist to AzuraCast
-    httpx.post(
-        f"https://your-azuracast.com/api/station/{station_id}/playlists",
-        headers={"X-API-Key": "your-api-key"},
-        json={"name": f"AI {mood} Set", "tracks": selected}
-    )
-    
-    return selected
-```
-
-### Pattern C: PeerTube Plugin — AI Content Moderation
-
-```javascript
-// PeerTube plugin: ai-content-moderator
-// plugins/peertube-plugin-ai-moderator/main.js
-
-async function register({ registerHook, peertubeHelpers, settingsManager }) {
-  // Hook into video upload
-  registerHook({
-    target: 'action:api.video.updated',
-    handler: async ({ video }) => {
-      if (video.state !== 'published') return;
-      
-      const apiKey = await settingsManager.getSetting('anthropic-api-key');
-      
-      // Get transcript via Whisper API call
-      const transcript = await transcribeVideo(video.streamingPlaylists[0]);
-      
-      // Moderate with Claude
-      const Anthropic = require('@anthropic-ai/sdk');
-      const client = new Anthropic({ apiKey });
-      
-      const result = await client.messages.create({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 256,
-        messages: [{
-          role: 'user',
-          content: `Review this video transcript for policy violations. 
-Reply with JSON: {"safe": boolean, "reason": "string", "confidence": 0-1}
-Transcript: ${transcript.slice(0, 2000)}`
-        }]
-      });
-      
-      const moderation = JSON.parse(result.content[0].text);
-      
-      if (!moderation.safe && moderation.confidence > 0.85) {
-        // Flag for human review
-        await peertubeHelpers.videos.blacklistVideo({ videoId: video.id, reason: moderation.reason });
-      }
-    }
-  });
-}
-```
-
-### Pattern D: LTX-2 + Claude Video Script-to-Screen
-
-```python
-import anthropic
-import subprocess
-from pathlib import Path
-
-def ltx2_script_to_screen(brief: str, output_dir: str, 
-                            style: str = "corporate") -> list[str]:
-    """Turn a creative brief into 4K video clips using LTX-2 + Claude."""
-    
-    claude = anthropic.Anthropic()
-    
-    # Step 1: Claude generates shot list from brief
-    response = claude.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{
-            "role": "user",
-            "content": f"""Turn this creative brief into LTX-2 video prompts.
-Brief: {brief}
-Style: {style}
-
-Return JSON: {{"shots": [{{
-    "prompt": "detailed visual description for LTX-2 (focus on lighting, movement, style)",
-    "audio_prompt": "describe background audio/music for this shot",
-    "duration_sec": int (5-10),
-    "order": int
-}}]}}
-
-LTX-2 prompt tips: be specific about camera angle, lighting, motion speed, color grade."""
-        }]
-    )
-    
-    import json
-    plan = json.loads(response.content[0].text)
-    
-    clips = []
-    for shot in sorted(plan["shots"], key=lambda s: s["order"]):
-        output_path = Path(output_dir) / f"shot_{shot['order']:02d}.mp4"
-        
-        # LTX-2.3 inference — generates 4K video+audio natively
-        subprocess.run([
-            "python", "-m", "ltx_video.inference",
-            "--prompt", shot["prompt"],
-            "--audio_prompt", shot["audio_prompt"],
-            "--output", str(output_path),
-            "--resolution", "4K",
-            "--duration", str(shot["duration_sec"]),
-            "--model", "ltx-2.3"
-        ], check=True, cwd="/opt/LTX-2")
-        
-        clips.append(str(output_path))
-    
-    # Assemble into final video
-    final_path = str(Path(output_dir) / "final.mp4")
-    concat_file = Path(output_dir) / "concat.txt"
-    concat_file.write_text("\n".join(f"file '{c}'" for c in clips))
-    
-    subprocess.run([
-        "ffmpeg", "-f", "concat", "-safe", "0", "-i", str(concat_file),
-        "-c:v", "copy", "-c:a", "aac", final_path
-    ], check=True)
-    
-    return clips
-
-# Usage
-clips = ltx2_script_to_screen(
-    brief="30-second product launch video for a sports brand. Energy, motion, athletes.",
-    output_dir="/output/sports_campaign",
-    style="high-energy cinematic"
-)
-```
-
-## LATAM-Specific Platforms
-
-| Country | Platform | License | Description |
-|---------|----------|---------|-------------|
-| Brazil | TV Cultura OSS stack | Mixed | Public broadcaster using open-source playout; Globo digital transformation 2018→2026 |
-| Brazil | Globoplay + ge.globo | Proprietary | Simulcast + multi-angle cameras; World Cup 2026 host broadcaster; AI metadata opportunity |
-| Argentina | Televisión Pública (Plex-based) | Proprietary | National platform modernizing with AI subtitles |
-| Mexico | Canal Once digital stack | In-house | First Mexican broadcaster deploying AI transcription |
-| Mexico | Vix+ (TelevisaUnivision) | Proprietary | ~MXN 99/month streaming; AI personalization + FAST tier opportunity |
-| Regional | FAST platform builders | Apache | LATAM FAST is $152M+; open tools for free ad-supported tier |
-
-## Open-Source Music Generation Platforms (v9 Addition)
-
-> **Market context**: Sync licensing costs $500-$5k per track for short-form content. These Apache-2.0/MIT models enable zero-cost original music for every video, podcast, and campaign. Combined with Demucs (stem separation), they form a complete music AI stack.
-
-| Platform | License | Repo | Stack | Use Case | Quality Bar |
-|----------|---------|------|-------|----------|-------------|
-| **YuE** | Apache-2.0 | [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Python + autoregressive LLM | Full-song from lyrics: vocals + accompaniment, multi-minute, pt-BR/es supported | Highest — comparable to Suno.ai |
-| **DiffRhythm 2** | Apache-2.0 | [ASLP-lab/DiffRhythm2](https://github.com/ASLP-lab/DiffRhythm2) | Python + Block Flow Matching | Fast full-length song generation via parallel block denoising | High — fastest inference |
-| **AudioCraft / MusicGen** | MIT (code) | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | Python + PyTorch | Short BGM/SFX generation (30s-120s); most mature and documented | Medium — instrumental only |
-| **ACE-Step** | Apache-2.0 | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Python | Text-to-audio music, novel Block Flow architecture | Medium-high |
-| **Demucs** | MIT | [facebookresearch/demucs](https://github.com/facebookresearch/demucs) | Python | Source separation: extract stems (vocals/drums/bass/other) from any track | Production-grade (9.20 dB SDR) |
-
-### Music Generation Workflow
-
-```
-YuE → brand lyrics + style prompt → full original song (vocals + accompaniment)
-    ↓ (optional)
-Demucs → separate stems → instrumental version for background use
-    ↓
-ffmpeg → mix into video/podcast/ad
-
-DiffRhythm 2 (alt for high-volume runs: 100+ tracks/day)
-    → same output, faster per track
-```
-
-**LATAM note**: YuE supports Portuguese and Spanish lyrics natively. Generate samba-inspired, funk-inspired, or regional styles for Brazilian campaigns. Unique capability vs stock music libraries.
-
-**Licensing note**: The music *output* from these models has no separate license beyond the model's own terms (Apache-2.0 / MIT = no restriction on outputs). Clients own the generated tracks — 100% of IP.
-
-## Agentic Video Production Tools (v9 Correction)
-
-> **OpenMontage correction**: Prior versions of this document listed `Open-Montage/OpenMontage` (MIT). The correct information is:
-> - **Real repo**: [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage)
-> - **License**: AGPL-3.0 (not MIT)
-> - **Stars**: ~36.2k (not 3-4k)
-> - **Peak**: #1 GitHub Trending June 20, 2026
-> - **AGPL-3.0 guidance**: For client builds, deploy as a backend microservice (network-as-a-service pattern). Modifications to OpenMontage itself must be published if you distribute; client application built *on top* does not require disclosure under AGPL's SaaS loophole. Confirm with legal.
-
-| Platform | License | Repo | Stars | Use Case |
-|----------|---------|------|-------|----------|
-| **OpenMontage** | AGPL-3.0 | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | ~36.2k | World's first agentic video production system; 12 pipelines, 52 tools, 500+ SKILL.md skills; works with Claude Code/Cursor/Copilot |
-| **ComfyUI** | GPL-3.0 | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | ~106k | Node-based workflow engine; $30M/$500M (Apr 2026); 4M users; 60k+ nodes; every 2026 video model has ComfyUI nodes |
-
-## Build-vs-Buy Matrix
-
-| Scenario | Build (OSS) | Time | Buy/License | Decision Driver |
-|----------|------------|------|-------------|----------------|
-| Auto-captions for OTT | faster-whisper + MediaCMS | 2-3 wk | Rev.ai, Verbit | Volume >100h/month → OSS wins on cost |
-| Short-form content factory | OpenMontage + CogVideoX | 4-6 wk | Runway subscription | Need customization/branding → OSS |
-| 4K branded content | LTX-2 + Claude | 4-6 wk | Runway Gen-3 | Apache-2.0 + no per-clip pricing → OSS |
-| C2PA compliance | c2pa-python | 3-4 wk | Adobe Content Auth | Own infrastructure needed for audit trail → OSS |
-| Live sports highlights | faster-whisper + Claude + ffmpeg | 3-5 wk | Magnifi AI | Volume + real-time SLA → evaluate both |
-| Video dubbing (LATAM) | KrillinAI + Claude brand layer | 2-3 wk | HeyGen, ElevenLabs Dubbing | Apache-2.0, agent-native, 100+ lang → OSS wins |
-| Video dubbing (offline/LGPD) | open-dubbing + Coqui | 2-3 wk | Any cloud dubbing | Data sovereignty requirement → OSS local |
-| AI video generation (storyboard) | Wan 2.7 + first/last frame | 2-4 wk | Runway Gen-3 | Thinking Mode + Apache-2.0 → OSS now competitive |
-
----
-*Globant approach: start from a working vertical platform, add AI layer on top. 2-4 week to working PoC.*
+*See compose/patterns.md for concrete wiring recipes.*

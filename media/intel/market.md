@@ -1,132 +1,81 @@
-# 🗺️ Market Map — Media & Entertainment AI
+# Market Map — Media & Entertainment AI
 
-> Global players, market data, LATAM opportunities. Updated: 2026-07-10 (v10 — AI in M&E $35.77B 2026 confirmed; agentic OTT 20% margin leakage signal; AI in M&E $87.44B 2030 CAGR 26.3%; video-use launch; ACE-Step 1.5 XL speed data)
+> Key players, market data, positioning. Global + LATAM focus.
+> Last updated: 2026-07-10 (v11)
 
-## Global Market Size
+## Market Size (2026)
 
-| Metric | 2025 | 2026 | 2030/2035 | CAGR | Source |
-|--------|------|------|------|------|--------|
-| AI in Media & Entertainment | $28.32B | $35.77B | **$87.44B (2030)** / $256B (2035) | 26.3% → 2030; 25.26% → 2035 | Business Research Co. 2026 / SNS Insider May 2026 |
-| AI Video Generation | $1.8B | $2.5B | $8.4B (2030) | 36.2% | Coherent Market Insights |
-| **Generative AI in M&E (specific)** | **$2.5B** | **$3.16B** | **$8.06B (2030)** | **26.4%** | **Globe Newswire Jul 7, 2026** |
-| Generative AI in M&E (long-range) | — | — | $21.2B (2035) | — | Precedence Research |
-| **GenAI Content Creation (broader)** | **$21.53B** | — | **$77.22B (2030)** | **29.2%** | **Globe Newswire Jul 7, 2026** |
-| AI Audio/Speech (Media) | $3.2B | $4.1B | $12B | ~28% | Multiple |
-| OTT streaming revenues (total) | $226.6B | $118.3B streaming | $213.5B streaming (2033) | 8.8% | Coherent Market Insights |
-| **Global CTV ad spend** | — | **$42B+** | — | — | **Interactive CTV Trends 2026** |
-| Global sports rights revenues | — | $67B+ | — | — | PwC Outlook 2026 |
-| Streaming sports spend | — | $14.2B (+7% YoY) | — | — | PwC Outlook 2026 |
-| Global E&M total advertising | ~$420B | ~$453B | $1.4T | 6.9% (US) | PwC Outlook 2026 |
-| Monthly active AI video users | — | 124M+ | — | — | Industry reports |
-| AI video production cost per minute | $4,500 (trad.) | **~$400 (AI, ↓91%)** | — | — | Industry 2026 |
-| **AI video ad spend** | — | **$9.1B** | — | — | **Industry 2026** |
-| **GenAI in M&E (long-range, Precedence)** | **$2.8B** | — | **$21.2B (2035)** | **25.2%** | **Precedence Research 2026** |
+| Segment | 2026 Value | 2030 Forecast | CAGR | Source |
+|---------|-----------|---------------|------|--------|
+| AI in M&E (total) | $35.77B | $87.44B | 25% | Business Research Co, 2026 |
+| Generative AI in M&E | $3.16B | $8.06B | 26.4% | GlobeNewswire Jul 7 2026 |
+| AI Video Generator | $946M–$1.81B | $3.35B–$21.6B | 19–46% | Multiple sources (wide range) |
+| LATAM Media Revenue | $65B | — | +10.7% YoY | Omdia Jan 2026 |
+| LATAM OTT Market | $9.8B | $25.89B (2035) | 11.4% | MarkWide Research 2026 |
+| Microdrama (global) | $14B (year-end 2026) | — | — | Industry estimates |
 
-> **Key update (May 2026):** SNS Insider significantly raised the long-term AI in M&E forecast — from prior $99.48B by 2030 to $256B by 2035 — driven by rising demand for personalized content experiences and AI-powered media automation globally.
-> **Key update (Jul 7, 2026):** Globe Newswire confirms GenAI M&E sub-segment at $3.16B in 2026, reaching $8.06B by 2030 at 26.4% CAGR. Growth drivers: GenAI + VR/AR integration, cloud AI media services, real-time personalization. **Morgan Stanley estimate: AI could reduce TV/film production costs by up to 30%.**
-> **Key update (Jul 7, 2026):** GenAI Content Creation (broader category, incl. text/image/video/audio) confirmed at $21.53B (2025) → $77.22B by 2030 (CAGR 29.2%) — Globe Newswire. M&E is the 2nd largest vertical at 23.87% industry share (behind marketing/advertising at 33.88%).
-> **Key update (Jul 2026):** Global CTV ad spend crosses $42B in 2026. Interactive/shoppable CTV converts at 5× standard video ads. Versus AI (stealth → public Jul 2026) secures Disney+/HBO/Paramount+/NFL as clients for real-time AI engagement overlays.
-> **Key update (Jul 10, 2026):** AI in M&E market confirmed at $35.77B in 2026, growing to **$87.44B by 2030** (CAGR 26.3%) per Business Research Company 2026. Agentic OTT intelligence signal: platforms failing to implement full-stack agentic AI face **20% margin leakage** from subscriber inertia by 2027. OS-level TV AI (Apple/Google/Samsung/Amazon) now owns the recommendation layer above individual streaming apps — content metadata quality becomes the primary OTT discovery lever. Video production cost per minute: ~$400 (↓91% from $4,500 traditional). Agent-native video editing enters the stack (video-use, Jul 2, 2026, MIT, ~4.2k★). ACE-Step 1.5 XL generates full songs in <2 seconds on A100 — music generation is now a real-time microservice.
+## Global Players Map
 
-## LATAM Media Market
+| Company | Type | AI Strategy | Open Source? |
+|---------|------|-------------|-------------|
+| **Adobe (Firefly)** | Creative tools | Generative AI in Premiere/AE; Firefly model | No |
+| **Avid** | Pro editing | Partnership w/ Google Cloud (Gemini → Media Composer + Content Core; NAB Apr 2026) | No |
+| **WPP** | Agency/production | Gemini Enterprise; 1 AI campaign/4 days; 2.5x client value | No |
+| **Quickplay / Gray Media** | OTT | 113 TV markets on Google Cloud AI (live 2026) | No |
+| **YouTube / Google** | Platform + AI | Gemini integration; Veo 3 video gen; Vertex AI for M&E | Vertex AI partial |
+| **Netflix** | OTT | Proprietary recommendation; ~50% LATAM streaming revenue | No |
+| **ElevenLabs** | Voice AI | Industry-standard AI TTS/dubbing; Scribe ASR | API-only (not OSS) |
+| **Runway** | AI video gen | Gen-4 commercial leader | No |
+| **Kling (Kuaishou)** | AI video gen | Strong in APAC; integrated in OpenMontage | No |
+| **Suno / Udio** | AI music | Commercial music gen leaders | No |
+| **Publicis / LiveRamp** | Agentic media buying | $2.2B acquisition (May 2026); identity + agentic ad targeting | No |
 
-| Metric | Value | Notes |
-|--------|-------|-------|
-| LATAM total media revenues 2026 | **$65B** | Omdia forecast; +10.7% YoY — outpaces US (6.9%) |
-| Brazil FAST revenue | **$152M** | 3rd largest FAST market globally (behind US + UK) |
-| Brazil streaming users | Top 3 global | 97% adults 18-64 reach via YouTube |
-| Mexico FAST usage | 53% of internet users | Highest FAST penetration globally |
-| Brazil FAST usage | 40% | Second highest globally |
-| Microdramas global revenue (end 2026) | **$14B** | Short-form serial content; $3B outside China; 3-5 min episodes |
-| Microdramas LATAM share | Emerging | Brazil/Mexico top markets; AI production pipeline opportunity |
-| Netflix LATAM market share | ~50% | Dominant streaming position |
-| Key growth drivers | Mobile-first content, FAST, microdramas | Short-form serial content booming |
+## Open Source Competitive Advantages
 
-## Country Intelligence
+| OSS Alternative | Replaces | Key Advantage |
+|----------------|---------|---------------|
+| ACE-Step 1.5 XL | Suno / Udio / Epidemic Sound | Local GPU, zero licensing, LoRA fine-tune on brand style |
+| OpenMontage | Runway / Pika / commercial video factories | No per-minute cost, full workflow control, customizable |
+| video-use | Descript / CapCut (AI) | Agent-native, CI/CD integrable, no vendor lock-in |
+| ViMax | Runway Gen-4 + script tools | End-to-end from brief → final video, open weights |
+| Whisper | Rev / Deepgram / Assembly AI | Self-hosted, no per-minute cost, 100+ languages |
+| Gorse | AWS Personalize / Google Rec AI | Self-hosted, LLM re-ranker, Apache 2.0 |
+| NeMo Guardrails | Hive Moderation / Two Hat | Self-hosted, programmable policies, EU AI Act ready |
+| MediaCMS | Brightcove / Kaltura | AGPL-3.0, full control, Python/Django extensible |
 
-| Country | Media Market Size | AI Readiness | Key Opportunity |
-|---------|-----------------|--------------|----------------|
-| **Brazil** | $22B+ (largest LATAM) | High | FAST platform AI, Portuguese TTS/ASR, Globo AI partnership track |
-| **Mexico** | $14B+ | High | Telenovela AI production, Televisa/Univision digital transformation |
-| **Argentina** | $5B | Medium | Streaming localization, AI subtitling for content export |
-| **Colombia** | $3.5B | Medium | RCN/Caracol digital AI transformation |
-| **Chile** | $2.8B | High | Regional OTT platform AI features |
-| **Peru** | $1.8B | Low-Medium | Emerging FAST market, mobile-first |
+## LATAM Opportunity Map
 
-## Global Players & OSS Contributions
+### Brazil
+- **3rd-largest FAST market globally** ($152M revenue)
+- 76% of audiences use AI for information discovery
+- Mobile-first: YouTube + Instagram Reels reach 97% of adults 18–64
+- **Key opportunity**: FAST platform with AI-powered local content discovery + Portuguese dubbing (Voicebox + Whisper)
+- LGPD compliance requirement → self-hosted MediaCMS + Gorse preferred over AWS Personalize
 
-| Company | AI Product | OSS Contribution | Weakness |
-|---------|-----------|-----------------|----------|
-| **OpenAI** | Whisper ASR, Sora (closed) | openai/whisper (MIT ★104k) | Video gen closed-source |
-| **Meta/Facebook Research** | AudioCraft, Demucs | facebookresearch/audiocraft, demucs | Models CC-BY-NC |
-| **Stability AI** | Stable Video Diffusion | SVD, AnimateDiff | Financial struggles |
-| **Tsinghua THUDM** | CogVideoX | THUDM/CogVideo (Apache-2.0 ★12.5k) | Academic, not enterprise-supported |
-| **Lightricks** | LTX-Video | Lightricks/LTX-Video (Apache-2.0 ★6k) | Startup-scale support |
-| **Wan Video (Alibaba Tongyi Lab)** | Wan 2.7 (Thinking Mode) | Wan-Video/Wan2.2 (Apache-2.0 ~18k) | 24GB VRAM min; HuggingFace weights |
-| **Runway** | Gen-3 (closed) | None | No OSS path |
-| **Versus AI** | Interactive streaming overlay (AI engagement games/trivia/polls) | None (proprietary) | First-mover in AI "second-screen" engagement; stealth → public Jul 2026 |
-| **ComfyUI** | Node-based AI creative workflow engine (4M users, $30M/$500M Apr 2026) | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) (GPL-3.0) | Craft Ventures Series A; 60k+ community nodes; first primarily AI-generated Super Bowl ad (SVEDKA 2026) |
-| **EBU** | Tech R&D | ebu/awesome-broadcasting | Standards org only |
-| **Spotify** | AI DJ, AI Voice Translation | spotify/pedalboard (GPL-3.0 ★5.5k) | GPL license |
-| **SYSTRAN** | Translation/ASR | SYSTRAN/faster-whisper (MIT ★15k) | Niche positioning |
+### Mexico
+- 53% FAST usage (highest in LATAM)
+- 70% use AI for information discovery
+- Telenovela/drama format dominates → microdrama adaptation is natural
+- **Key opportunity**: AI-assisted microdrama production (mediago-drama + OpenMontage + ACE-Step)
 
-## Live Sports & Streaming Milestone Data (2026)
+### Argentina / Colombia / Chile
+- Smaller markets but growing OTT adoption
+- Argentina: creative production hub — AI tools for post-production, localization
+- **Key opportunity**: Dubbing/localization factory (Whisper → Claude translation → Voicebox dubbing) for regional content
 
-| Signal | Value | Implication |
-|--------|-------|-------------|
-| Online video overtook pay-TV revenue | $176B vs $170B (2025 first time) | Structural shift — streaming is now the primary market |
-| Streaming content spend crossed $100B | $101B in 2026 | First-ever $100B milestone for content production |
-| Amazon Prime Video sports spend | $3.8B (27% of streaming sports spend) | Largest single streaming sports buyer |
-| Global sports rights | $67B+ (2026) | Sports is the anchor for hybrid FAST+streaming monetization |
-| AI at NAB 2026 | ~2× exhibitors vs prior year | AI is now core infrastructure, not a feature demo |
-| 31% of M&E orgs deployed AI in production | — | Majority still pre-production — large opportunity |
-| C2PA member organizations | 140+ (Canon, Nikon, Leica, Sony) | Hardware + software converging on provenance standard |
-| Reuters/AP synthetic media reduction | 34% via provenance tagging | C2PA measurably working in newsrooms |
+### Cross-LATAM
+- **Ad-supported streaming plans grew from 13% → 22% (2024–2026)**: AI-driven ad targeting is required
+- Content moderation challenge: UGC moderation at scale, multilingual (PT/ES)
+- **Microdrama wave**: $3B outside China — LATAM is natural next market (serialized drama culture)
 
-## AI Adoption in Media (2026)
+## Globant Positioning
 
-| Application | Adoption | Growth | Notes |
-|-------------|----------|--------|-------|
-| Auto-captioning / subtitles | ~60% of broadcasters | Mature | Regulation-driven (ADA, EU accessibility) |
-| AI-assisted video editing | ~35% | High | Accelerating with agent tools |
-| Synthetic voiceover / TTS | ~25% | High | Cost savings vs human VO |
-| Music/SFX generation | ~15% | Very high | License cost avoidance |
-| AI-generated short video | ~20% | Explosive | Social/FAST content at scale |
-| **GenAI for content creation** | **71% of orgs** | Mature | 40% productivity boost reported |
-| **Creative workflows using GenAI** | **69%** | Rapid | M&E is 2nd largest vertical (23.87% share) |
-| **AI in advertising campaigns** | **78% of ad buyers committed** | Very high | $9.1B AI video ad spend in 2026 |
-| Content recommendation AI | ~80% | Mature | Netflix, Spotify pioneered; now standard |
-| Automated transcription | ~75% of podcasts | Mature | Whisper ecosystem |
-
-## Globant Win Zones
-
-| Opportunity | Client Type | Value Prop | Time to PoC |
-|-------------|-------------|------------|-------------|
-| **AI Auto-Captioning Pipeline** | Broadcaster, OTT | ADA/EU compliance + cost reduction vs manual | 2-3 weeks |
-| **Agentic Short-Form Content Factory** | Social media, FAST | 10-100× content volume with AI production | 4-6 weeks |
-| **Music Source Separation Service** | Music labels, sync | Demucs stems for licensing/remixing | 2-3 weeks |
-| **LATAM Localization AI** | Studios, streaming | Portuguese/Spanish TTS+ASR for LATAM expansion | 3-4 weeks |
-| **DAM AI Enrichment** | Networks, production cos | Auto-tagging, AI search for large archives | 4-6 weeks |
-| **AI Podcast Studio** | Brands, publishers, radio | Podcastfy + Coqui TTS: any content → branded podcast | 2-3 weeks |
-| **AI Radio Automation** | Radio stations | AI playlist curation, automated DJ scripts | 3-4 weeks |
-| **Live Sports AI Highlights** | Sports broadcasters | Auto-clip key moments, AI sports narrative | 3-5 weeks |
-| **4K AI Content Studio (LTX-2)** | Branded content, agencies | LTX-2 white-label studio for 4K output | 4-6 weeks |
-| **C2PA Provenance Tagging** | News orgs, studios | EU AI Act compliance + authenticity workflow | 3-4 weeks |
-| **Interactive CTV Engagement Layer** | Sports broadcasters, FAST platforms | AI-generated second-screen trivia/games/polls (Versus AI pattern, open-source) | 4-6 weeks |
-| **Agentic Newsroom CMS** | News publishers, media groups | AI agents embedded in CMS: auto-update stories, sort pitches, generate summaries | 6-8 weeks |
-| **HunyuanVideo-Foley Post-Production** | Production studios, social platforms | Automated synchronized SFX for short-form video; eliminates manual foley work | 2-3 weeks |
-
-## Proprietary vs. Open Source Landscape
-
-| Capability | Proprietary Leader | Best OSS Alternative | License |
-|------------|-------------------|---------------------|--------|
-| Video generation | Runway Gen-3, Sora | Wan 2.7, CogVideoX, LTX-2 | Apache-2.0 |
-| Video dubbing/localization | ElevenLabs Dubbing, HeyGen | KrillinAI, open-dubbing | Apache-2.0 / MIT |
-| Speech recognition | AWS Transcribe, Deepgram | openai/whisper, faster-whisper | MIT |
-| Music generation | Suno, Udio | AudioCraft/MusicGen | MIT (code) |
-| Voice cloning | ElevenLabs | Coqui TTS, WhisperSpeech | MPL / MIT |
-| Source separation | Splice Stem Player | Demucs | MIT |
-| Streaming platform | YouTube, Twitch | PeerTube, Owncast | AGPL, MIT |
+**Where Globant can win:**
+1. **Agentic M&E Platform Builder**: Take MediaCMS/PeerTube → add full AI stack (Whisper + Gorse + NeMo + Claude) → deliver as custom OTT platform for regional broadcasters. 8-16 weeks, $200k-$800k.
+2. **Video Production Factory**: Build client-specific OpenMontage/video-use pipelines for ad agencies, social media teams. Replaces $200-$500/video human editors with $0.05-0.30 agent-driven production.
+3. **LATAM FAST Enablement**: Help regional media companies launch FAST channels with AI-curated playlists, local content recommendations, Portuguese/Spanish AI dubbing.
+4. **Content Moderation as a Service**: Deploy NeMo Guardrails + Llama Guard 4 for UGC platforms. Growing EU AI Act requirement for moderation auditability.
+5. **Music/Audio Localization**: ACE-Step LoRA fine-tuned for Latin music styles → background music for brands at zero license cost.
 
 ---
-*Data sources: Omdia Jan 2026, Grand View Research, Coherent Market Insights, PwC Outlook 2026.*
+*See intel/trends.md for detailed trend analysis.*
