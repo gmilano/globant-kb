@@ -1,96 +1,73 @@
-# 📡 Tendencias — Travel & Hospitality AI
+# 📡 Trends — Travel & Hospitality AI
 
-> Última actualización: 2026-07-09 (v6 — +4 nuevas tendencias: trvl, Google AI Mode confirmed, LATAM airlines, vibe-based)
+> Last updated: 2026-07-10
 
-## T1 — Agentic Booking: del chatbot al agente que compra por ti
-**Señal**: Sabre + MindTrip + PayPal — primer pipeline agentic E2E en producción (mayo 2026)  
-**Trust gap**: Solo 2% de consumidores US confía en AI para booking autónomo. 80% ejecutivos planean deploy.  
-**Nuevo**: 61% millennials/Gen Z dispuestos a delegar trip planning a AI (2026). 38% más conversión vs funnel tradicional.  
-**Horizonte**: IDC estima 30% de bookings por AI agents para 2030. Agentic AI Travel Booking market: $2.1B → $12.1B CAGR 22.5%.
+## Macro Trends
 
-## T2 — MCP como protocolo estándar de inventario de viaje
-**Señal**: Sabre Mosaic MCP (mayo 2026), DIDA Hotel MCP (julio 2026), trvl (julio 2026), fli (2026), mcp_travelassistant (2026).  
-**Stack emergente 2026**: trvl + DIDA Hotel MCP + fli + mcp_travelassistant = travel agent completo sin API keys.  
-**Por qué MCP gana**: 98.9% ahorro de tokens (trvl: 1 tool vs 65 herramientas individuales = 378 vs 33,500 tokens).
+### T1 — Agentic Booking Entering Production
+IDC projects 30% of travel bookings executed by AI agents by 2030. Already in production: Sabre Mosaic MCP (May 2026), Expedia+Claude (Jun 2026, US), Malaysia Airlines Mavis, LATAM Airlines Gemini platform. The question has shifted from "can AI book?" to "what happens when it books wrong?"
+- **Signal**: OAG report titled "March 2026: The Month Agentic Travel Gets Real"
+- **Implication for Globant**: Enterprise clients need booking-agent infrastructure now, not 2027
 
-## T3 — LLMs integrados en OTAs (Expedia x Claude, Google AI Mode incoming)
-**Señal**: Expedia + Claude lanzado junio 2026 (US). Google AI Mode: Booking.com + Choice Hotels + Expedia + IHG + Marriott + Wyndham confirmados.  
-**LATAM**: Despegar SOFIA (multimodal GenAI) en producción. Decolar + Best Day + Viajes Falabella incluidos en el mismo ecosistema.  
-**Para Globant**: agencias independientes LATAM que no pueden hacer lo que hace Despegar = mayor oportunidad de mercado no atendido.
+### T2 — MCP as Travel Distribution Layer
+Sabre, DIDA, Amadeus, and independent developers are all converging on MCP as the integration standard. 420+ airlines and 2M+ hotels are accessible via MCP today. This mirrors how REST APIs unified web services in 2010–2015.
+- **Key repos**: `DIDA-AI/Dida-hotel-MCP-CN`, `ravinahp/flights-mcp`, Sabre Mosaic MCP
+- **Implication**: Any travel AI built in 2026 should be MCP-native from day 1
 
-## T4 — Business Travel leads, Leisure follows
-**Señal**: McKinsey 2026 — corporate travel adopta agentic AI más rápido por safeguards corporativos.  
-**Nuevo**: Corporate travel market = $1.5T global 2026. Navan Edge para viajeros no-gestionados. "Vibe-based booking" emergiendo.  
-**Oportunidad Globant**: Corporate travel management AI para empresas LATAM medianas (500-5k empleados) — Navan-like con stack OS.
+### T3 — Consumer Trust Gap (B2B vs B2C)
+Only **2%** of leisure travelers are willing to let AI book on their behalf (PhocusWire, Skift, 2026). Corporate travel shows much higher adoption because of policy guardrails and accountability structures.
+- **Implication**: B2B / corporate travel = best beachhead. Consumer products need trust layers (confirmation steps, editable itineraries, human escalation).
 
-## T5 — AEO (Answer Engine Optimization) reemplaza parte del SEO
-**Señal**: Google AI Mode travel + Claude con Expedia = AI search como canal de descubrimiento.  
-**Urgencia alta**: Google AI Mode partners confirmados. Hoteles/OTAs sin schema.org serán invisibles.  
-**Stack AEO**: Schema.org/LodgingBusiness + JSON-LD + FAQ pages + precios sin login + audit tool (P8 en patterns.md).
+### T4 — Data Quality as Competitive Moat
+"If your data is incomplete, outdated, or fragmented, you effectively disappear from the agent's decision set" (McKinsey, 2026). Hotels and airlines with poor machine-readable inventory will be invisible to AI agents.
+- **Implication**: Globant can offer "AI-readiness audit + data enrichment" as a lead-generation service for travel clients
 
-## T6 — Disruption Management Proactivo
-**Señal**: LATAM Airlines usando ML + cloud-native para prevenir disrupciones en todas las Américas (jun 2026). Delta, United en producción (US).  
-**Stack open source**: OpenSky API (gratis) + GTFS-Realtime + LangGraph + Amadeus rebooking API.  
-**Nuevo**: LATAM Airlines = referencia regional validada. Avianca, Copa, GOL (post-reestructuración), Azul = próximos candidatos.
+### T5 — LATAM: WhatsApp as Primary Booking Channel
+Brazil has the world's largest WhatsApp Business installed base. 70%+ of LATAM consumers have integrated AI into shopping journeys (Visa/Santander survey). WhatsApp + agentic AI + Pix payments = complete autonomous booking loop in Brazil.
+- **Key stat**: Santander + Visa completed agentic payments across 5 LATAM markets (Mar 2026)
+- **Implication**: WhatsApp-native travel agent = highest ROI product for LATAM engagements
 
-## T7 — WhatsApp como canal principal en LATAM
-**Señal**: 95%+ de penetración de WhatsApp en Argentina, Brasil, México, Colombia.  
-**Stack**: Twilio WhatsApp + Claude API + LangGraph + trvl MCP (sin API keys) = travel agent en WhatsApp.  
-**Nuevo**: trvl elimina la necesidad de Amadeus/Hotelbeds para POCs de WhatsApp — simplifica el stack inicial.
+### T6 — NDC Enabling Airline → Agent Direct Sales
+IATA NDC (New Distribution Capability) is allowing airlines to bypass GDS and distribute ancillaries (extra legroom, bags, lounge access) directly to AI agents. Airlines keep more margin; agents offer richer options.
+- **Implication**: Build agents on NDC feeds, not just GDS — access to ancillary inventory that GDS doesn't have
 
-## T8 — Routing AI multimodal para ciudades LATAM
-**Señal**: OpenTripPlanner v2.9.0 (marzo 2026). Ciudades LATAM con GTFS públicos: Bogotá, CDMX, Lima, Santiago, Buenos Aires, São Paulo.  
-**Oportunidad**: Municipios y operadores de transporte LATAM buscan modernizar experiencia. Sin competencia de AI local.
+### T7 — Personalization at Scale (Cross-Session Memory)
+Travel AI agents that remember preferences across sessions (home airport, seat preference, hotel tier, dietary needs) convert 3–5x better than stateless agents. LangGraph's persistent state graph and memory stores enable this.
+- **Key pattern**: Agent profile store → preference injection at search time → personalized offers
 
-## T9 — Revenue Management AI para hotelería LATAM
-**Stack**: scikit-learn + Claude (interpretación) + competitor scraper + Amadeus Max (NLQ).  
-**Nuevo**: Amadeus Max (HITEC jun 2026) = revenue data por pregunta en lenguaje natural. Para cadenas que ya usan Amadeus.  
-Hoteles que no pueden pagar IDeaS o Duetto pueden usar open source + Claude para pricing.
+### T8 — Points / Loyalty Optimization via AI
+Award travel and loyalty point optimization is a high-value AI use case. Agents can evaluate points vs cash for any itinerary, find availability gaps, and alert when award space opens. High willingness-to-pay segment (frequent flyers).
+- **Key tool**: `MikkoParkkola/trvl` (noncommercial) as inspiration; build equivalent on open licensed components
 
-## T10 — Visa & Requirement Agent (LATAM-specific)
-**Stack**: RAG sobre bases de datos de visas (IATA Travel Centre) + Claude + actualización periódica.  
-Diferenciador para agencias LATAM por la complejidad de visas en la región.
+### T9 — Multimodal Destination Discovery
+Google, Airbnb, and TikTok driving discovery via short video. AI agents need to process visual content (destination photos, UGC video thumbnails) to extract intent and map to inventory. Claude's vision + MCP = new discovery pattern.
+- **Implication**: Build multimodal itinerary builders that convert "I want somewhere like this video" into bookable trips
 
-## T11 — Multi-agent para itinerarios personalizados
-**Adopción**: CrewAI + LangGraph como estándar. Referencias: naakaarafr/AI-Travel-Agent-Advanced, Ctrip-Style, mcp_travelassistant.  
-Especialistas (flight, hotel, activity, weather, budget) producen mejores resultados que un único LLM generalista.
+### T10 — Corporate Travel Compliance Automation
+Policy enforcement (class of service, preferred vendors, advance booking requirements) was a manual bottleneck. LangGraph-based agents can enforce policy gates automatically before booking confirmation, with auditability.
+- **Key pattern**: Policy-as-code → agent guardrails → automatic rejection/approval workflows
 
-## T12 — EU AI Act impacto en travel (deadline agosto 2026)
-**Deadline**: 2 agosto 2026. Pricing dinámico en aerolíneas/hoteles = potential high-risk en EU.  
-Cualquier solución para clientes europeos necesita audit trail + explicabilidad.
+### T11 — Hotel PMS AI Layer (QloApps + AI)
+4,000+ hotels on QloApps globally. An AI concierge layer on top (upselling, multilingual guest communication, automated check-in/out) is a repeatable Globant product. PHP hooks make integration straightforward.
+- **Target**: Boutique hotel chains in LATAM and Europe running QloApps or similar open-source PMS
 
-## T13 — Safe Travel AI Agents
-**Stack**: RAG sobre OSAC, CDC travel alerts + Claude + notification pipeline.  
-Alto valor en segmentos premium y viajeros de negocios.
+### T12 — Agentic Customer Service (Airlines)
+Malaysia Airlines Mavis (Ada platform) handles customer queries autonomously across web, app, and email. Aerolíneas Argentinas, GOL, Avianca, Copa are potential Globant targets — same KaibanJS-pattern architecture.
+- **Pattern**: Inquiry → intent classification → tool call (PNR lookup, rebooking, refund) → response → escalation if needed
 
-## T14 — trvl y el "terminal travel agent": zero-API-key pattern ⭐ NUEVO v6
-**Señal**: trvl (MikkoParkkola/trvl, MIT, jul 2026) — Go binary, 1 MCP tool = 65 capacidades. Google Flights + Hotels + Airbnb + Booking + ferries + trenes EU + lounges + alerts. Sin API keys.  
-**Patrón nuevo**: Desarrollar travel agents con cero dependencia de APIs externas en fase de prototipado. Cuando el cliente decide escalar, se migra a APIs enterprise (Sabre, Amadeus) sin cambiar el LLM ni el orchestrator.  
-**Implicación**: Globant puede demostrar un travel agent funcional completo en < 30 minutos de setup. Reducción de fricción para venta.
+## Radar Entries
 
-## T15 — LATAM Airlines / Despegar: de early adopters a referencia regional ⭐ NUEVO v6
-**Señal**: LATAM Airlines AI Virtual Agent (Google Vertex AI) en producción en Chile, Colombia, Perú, Ecuador. Despegar SOFIA multimodal live en todo LATAM.  
-**Por qué importa**: Ya no es necesario justificar la viabilidad del AI en travel en LATAM. Los líderes regionales ya lo hicieron.  
-**Nuevo framing**: "Nosotros hacemos para [Avianca / Copa / agencia regional] lo que Google Vertex hizo para LATAM Airlines, con stack open source y sin vendor lock-in."
-
-## T16 — Vibe-based booking y digital identity wallets ⭐ NUEVO v6
-**Señal**: Navan introduce vibe-based booking (2026) — usuario describe la "vibra" del viaje; AI filtra opciones reales. Digital identity wallets emergiendo para one-click agent booking con credenciales verificadas + preferencias + payment.  
-**Implicación**: La UX del booking agéntico evoluciona de "formulario en chat" a "intención-to-booking". Los agentes necesitarán acceder y mantener perfiles de usuario detallados (cf. trvl preferences.json como modelo minimalista).
+| Signal | Type | Status |
+|--------|------|--------|
+| Sabre Mosaic MCP in production | Technology | **ADOPT** |
+| DIDA free hotel MCP | Technology | **ADOPT** |
+| MCP as travel distribution standard | Paradigm | **ADOPT** |
+| Agentic corporate travel | Market | **TRIAL** |
+| NDC direct airline distribution to agents | Technology | **TRIAL** |
+| Consumer agentic booking (B2C) | Market | **ASSESS** — trust gap |
+| WhatsApp + Pix agentic travel LATAM | Market | **TRIAL** |
+| Multimodal destination discovery | Technology | **ASSESS** |
+| Loyalty point AI optimization | Product | **TRIAL** |
 
 ---
-
-## Prioridades Globant Travel AI (actualización v6)
-
-| Tendencia | Urgencia | Esfuerzo | Revenue potencial | Nuevo en v6 |
-|-----------|----------|----------|-------------------|-------------|
-| T14 trvl zero-API-key | Alta | Muy Baja | Medio (reducción fricción ventas) | ✓ |
-| T15 LATAM ref regional | Alta | Baja | Alto (narrative change) | ✓ |
-| T2 MCP inventory stack | Alta | Baja | Medio | |
-| T3 OTA conversational | Alta | Media | Alto | |
-| T4 Corporate travel LATAM | Alta | Media | Alto | |
-| T7 WhatsApp agent | Alta | Baja | Medio-Alto | |
-| T5 AEO optimization | Alta | Baja | Medio | |
-| T6 Disruption management | Media | Alta | Alto | |
-| T16 Vibe-based + wallets | Media | Media | Medio (2027 horizonte) | ✓ |
-| T10 Visa & Requirements | Media | Media | Medio | |
-| T8 Routing LATAM cities | Baja-Media | Media | Medio | |
+*Updated by ingest pipeline.*

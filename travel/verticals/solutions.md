@@ -1,103 +1,59 @@
-# 🏭 Verticales de Partida — Travel & Hospitality
+# 🏭 Vertical Solutions — Travel & Hospitality
 
-> Plataformas verticales existentes customizables con AI.
-> Última actualización: 2026-07-09 (v6 — QloApps, corporate travel section, LATAM players actualizados)
+> Existing platforms to customize with AI. Strategy: start with functional system, add agentic layer on top.
+> Last updated: 2026-07-10
 
-## Plataformas recomendadas
+## Property Management Systems (PMS)
 
-| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
-|------------|----------|-----------|-------|-------------|
-| **OpenTripPlanner** | LGPL-2.1 | [github.com/opentripplanner](https://github.com/opentripplanner/OpenTripPlanner) | Java, GraphQL | Routing multimodal (transit + bike + walk). Municipios, apps de movilidad. |
-| **QloApps** | OSL-3.0 | [github.com/Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP, MySQL | PMS + Booking Engine + Hotel Website completo. Integra OTAs (Booking, Airbnb, Expedia) vía Channel Manager. AI content generator integrado 2026. Para hoteles y cadenas pequeñas. ⭐ NUEVO v6 |
-| **Odoo Travel** | LGPL-3.0 | [github.com/odoo/odoo](https://github.com/odoo/odoo) | Python, JS | ERP con módulos de travel agency, CRM, facturación. Base para agencias LATAM. |
-| **ERPNext** | GPL-3.0 | [github.com/frappe/erpnext](https://github.com/frappe/erpnext) | Python, JS | ERP alternativo con hospitality module. Menor complejidad que Odoo. |
-| **PHPTravels** | Open source | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | PHP, MySQL | B2C/B2B booking: vuelos, hoteles, transfers, paquetes. Customizable. |
-| **GTFS / OpenMobilityData** | Open spec | [gtfs.org](https://gtfs.org/) | CSV/Protobuf | Standard de datos de transporte. Base para routing o disruption agent. |
-| **OpenTravel 2.0 Schemas** | Apache-2.0 | [github.com/OpenTravel](https://github.com/OpenTravel/OpenTravel2-Model) | OpenAPI, JSON | Schemas de mensajería para integración entre sistemas travel. |
+| Platform | License | Repo / URL | Stack | AI Customization Path |
+|----------|---------|-----------|-------|----------------------|
+| **QloApps** | OSL-3.0 (free) | [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP/MySQL, Apache | Add AI concierge via QloApps hooks API — wrap front desk queries with Claude; auto-generate availability responses from PMS data |
+| **Mews** | Commercial | mews.com | SaaS (API-first) | Mews Open API → MCP server → AI upsell agent. MIT SDKs available (fiscalizations lib). Largest cloud-native PMS in EMEA. |
+| **Hotelogix** | Commercial | hotelogix.com | SaaS | REST API available; build AI guest communication on top |
 
----
+## Online Travel Agency (OTA) Platforms
 
-## Plataformas por segmento
+| Platform | License | URL | Description | AI Path |
+|----------|---------|-----|-------------|---------|
+| **PHPTRAVELS** | Commercial (open-source community ed.) | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | Full B2B/B2C OTA — flights, hotels, tours, transfers. Supports Amadeus, Sabre, Travelport via adapters. | Add AI search + recommendation layer via PHP hooks; wrap booking flows with LangGraph agent |
+| **ExcursioX** | MIT | [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | Open-source travel CRM with ticketing, booking, hotel management. Laravel + Vue. | Add AI sales assistant: leads → itinerary → quote → booking pipeline with Claude |
 
-### Aerolíneas
-| Plataforma | Tipo | Notas |
-|------------|------|-------|
-| Sabre Mosaic APIs | Commercial + MCP | 420+ airlines, MCP server desde mayo 2026. Pipeline completo con MindTrip + PayPal. |
-| Amadeus for Developers | Commercial + SDK MIT | Tier free: vuelos, hoteles, POI. AI Commerce: hoteles bookables vía Claude (HITEC jun 2026). |
-| OpenSky Network API | Open/free | Datos de vuelos en tiempo real. Disruption signals. |
-| amadeus-cli | MIT | CLI open source oficial para Amadeus APIs, JSON output para AI agents. |
+## GDS / Flight Inventory Access
 
-### Hoteles
-| Plataforma | Tipo | Notas |
-|------------|------|-------|
-| DIDA Hotel MCP | MIT free | 2M+ hoteles, MCP server, mejor relación valor/esfuerzo |
-| QloApps | OSL-3.0 free | PMS + Booking Engine completo. Canal Manager OTA. AI content gen 2026. Base para hoteles pequeños/medianos. |
-| Hotelbeds API | Commercial | SDK community MIT. B2B, muchos hoteles no en OTAs |
-| Amadeus Max | Commercial | Revenue management por lenguaje natural para hotel staff (HITEC jun 2026) |
+| Platform | License | Description | Integration Pattern |
+|----------|---------|-------------|---------------------|
+| **Amadeus Self-Service** | MIT SDKs (free sandbox) | 420+ airlines, hotels, POI. Free sandbox; paid production. | Use `amadeus4dev/amadeus-python` or `-node` as tool in LangChain/LlamaIndex agent |
+| **Sabre Mosaic** | Commercial (MCP available) | 420+ airlines. Enterprise MCP server connects LLMs directly to airline inventory. REST/JSON, NDC-native. | Register as Sabre developer → use MCP server → agent can search, price, book directly |
+| **DIDA Hotel API** | Free (via MCP) | 2M+ hotels, real-time inventory, zero call limits. World #3 B2B travel. | `DIDA-AI/Dida-hotel-MCP-CN` — plug into Claude Desktop or any MCP client |
 
-### Transporte Terrestre
-| Plataforma | Tipo | Notas |
-|------------|------|-------|
-| OpenTripPlanner | LGPL-2.1 | El estándar del sector para routing multimodal |
-| OSRM (Project-OSRM) | BSD-2 | Routing por carretera ultra-rápido. OSM data. |
-| Valhalla | MIT | Router alternativo, más configurable que OSRM |
+## Customer Experience / Chatbot Platforms
 
-### Corporate Travel
-| Plataforma | Tipo | Notas |
-|------------|------|-------|
-| Navan | Commercial SaaS | Líder corporate travel AI. "Book with AI" + Navan Edge 2026. Modelo a replicar open source para LATAM. |
-| Perk (ex-TravelPerk) | Commercial SaaS | Rebranding 2026. FlexiPerk + AI travel management. Fuerte en Europa/LATAM. |
-| SAP Concur | Commercial | Legacy ERP travel + expense. Integraciones nativas SAP. |
-| Travel Code | Commercial SaaS | AI-native corporate travel. MCP TravelCode server open source para AI agents. |
+| Platform | License | Description | Use Case |
+|----------|---------|-------------|----------|
+| **KaibanJS** | MIT | Multi-agent JS framework with airline call-center reference. | Customer service automation: cancel, rebook, credit — with escalation to human |
+| **Botpress** | MIT | Open-source chatbot + agent platform. Integrates with travel APIs. | Guest communication bot for hotels; WhatsApp + web |
 
----
+## Tour & Experience Marketplaces
 
-## LATAM específico
+| Platform | License | Description |
+|----------|---------|-------------|
+| **Rezdy** | Commercial | Tours + activities distribution API (Airbnb Experiences, GetYourGuide competitor) |
+| **FareHarbor** | Commercial | Activity booking widget + API — popular in LATAM tourism operators |
+| **OpenTrip (concept)** | Apache-2.0 (reference) | Open standard for tour/activity booking messages (OpenTravel Alliance spec) |
 
-### Argentina
-- **Despegar.com**: OTA líder LATAM. SOFIA GenAI assistant live (multimodal). Oportunidad: AI layer para agencias independientes que no pueden invertir a nivel Despegar.
-- **Almundo**: agencia + OTA, oportunidad de AI layer sobre CRM
-- **Aerolíneas Argentinas**: integración NDC vía Sabre/Amadeus
-
-### Brasil
-- **CVC Corp**: mayor operadora de viajes LATAM, mercado CRM+IA
-- **Decolar (Despegar BR)**: OTA, SOFIA también disponible en BR. Mismo ecosistema Despegar.
-- **Azul + GOL + LATAM Brasil**: aerolíneas con NDC activo. GOL en proceso de restructuración financiera.
-
-### México
-- **VivaAerobus + Volaris**: LCCs con API de distribución
-- **Best Day Travel**: mayorista parte del grupo Despegar. Oportunidad AI pricing.
-- **Booking.com MX**: gran adopción, oportunidad AEO
-
-### Colombia/Perú/Ecuador
-- **LATAM Airlines**: AI Virtual Agent ya en producción en estos 3 países (jun 2025 rollout). Caso de éxito regional.
-- **Copa Airlines**: aerolínea hub Panamá con fuerte presencia. Sin AI agent conocido aún.
-
----
-
-## Cómo seleccionar plataforma base
+## AI Add-On Architecture
 
 ```
-¿El cliente es...?
-
-Hotel individual/pequeña cadena:
-  → QloApps (PMS + booking engine gratuito) + DIDA Hotel MCP + Claude Haiku
-
-Agencia de viajes tradicional:
-  → Odoo Travel (CRM + facturación) + trvl MCP + Claude Haiku para asesoría
-
-OTA regional (100k+ bookings/año):
-  → Stack propio + Sabre Mosaic MCP + Amadeus SDK + LangGraph + Claude Sonnet 5
-
-Municipio / operador de transporte:
-  → OpenTripPlanner + GTFS local + Claude Haiku para conversational interface
-
-Empresa (corporate travel):
-  → SAP Concur / Odoo + Policy RAG + Amadeus + Claude Sonnet 5 (compliance layer)
-
-Aerolínea:
-  → Sabre Mosaic o Amadeus (existente) + disruption agent (OpenSky + LangGraph) + Claude
+[Existing Platform (QloApps / PHPTRAVELS / Amadeus)]
+              ↓
+[MCP Server Layer (flights-mcp / DIDA MCP / TravelMCP)]
+              ↓
+[Agent Orchestration (LangGraph / KaibanJS / CrewAI)]
+              ↓
+[Claude / GPT / Gemini (reasoning + response generation)]
+              ↓
+[Channel (WhatsApp / Web / Voice / Email / B2B Portal)]
 ```
 
 ---
-*Ver también: `repos/foundations.md` para frameworks base.*
+*See also: `repos/foundations.md` for SDK-level building blocks.*

@@ -1,129 +1,86 @@
-# 🗺️ Mapa de Mercado — Travel & Hospitality AI
+# 🗺️ Market Map — Travel & Hospitality AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-09 (v6 — datos agentic market actualizados, LATAM airlines en producción)
+> Key players, market data, LATAM opportunities, and Globant positioning.
+> Last updated: 2026-07-10
 
-## Tamaño de mercado (2026)
+## Market Size
 
-| Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte | Fuente |
-|----------|-----------|-----------|------|-----------|--------|
-| AI in Travel (broad) | $165.93B | $222.4B | 34% | — | ResearchAndMarkets 2026 |
-| AI in Hospitality & Tourism | $20.39B | $26.53B | 30.1% | — | ResearchAndMarkets 2026 |
-| Agentic AI Travel Booking Platforms | $2.1B | — | 22.5% | $12.1B (2034) | MarketIntelo 2026 |
-| GenAI in Travel específico | $1.07B | $1.27B | 18.64% | $5.79B (2035) | Precedence Research |
-| AI in Tourism (global 2030) | — | — | 26.7% | $13.87B (2030) | Grand View Research |
-| Corporate Travel (total market) | — | $1.5T | — | — | PhocusWire 2026 |
+| Segment | 2026 | 2030/2034/2035 | CAGR | Source |
+|---------|------|----------------|------|--------|
+| AI in Travel (broad) | $222.4B | $710.57B (2030) | 33.7% | ResearchAndMarkets 2026 |
+| Generative AI in Travel | $1.27B | $5.79B (2035) | 18.64% | Precedence Research 2026 |
+| Agentic AI Travel Booking Platforms | $2.1B (2025) | $12.1B (2034) | 22.5% | MarketIntelo 2026 |
+| AI in Hospitality & Tourism | $4.1B | $13.9B (2030) | 22.7% | ResearchAndMarkets 2026 |
+| VC in AI travel startups | 10% of travel VC (2023) | 45% of travel VC (H1 2025) | — | McKinsey / Skift |
 
-**Proyección clave**: IDC 2026 — hasta el **30% de los bookings serán por AI agents para 2030**. Actualmente <1%.
+## Key Players — Global
 
-**Dato de conversión**: AI-powered OTAs reportan **38% mayor tasa de booking completion** vs funnels tradicionales (Agentic AI Travel Market Report 2026).
+| Company | Type | AI Strategy | Strength | Weakness |
+|---------|------|-------------|----------|----------|
+| **Booking.com** | OTA | AI trip planning, personalization, pricing optimization | #1 global OTA, 28M+ listings | Walled garden — limited open APIs |
+| **Expedia** | OTA | Claude integration live (Jun 2026 US, hotel+flight conversational search) | Strong loyalty base, Vrbo | Lagging B2B/corporate |
+| **Airbnb** | Short-term rental | AI host tools, personalized search, anti-fraud | Network effects, 7M+ listings | Limited agentic booking |
+| **Sabre** | GDS | Mosaic MCP server (May 2026), 420+ airlines, AI-native APIs | #1 airline GDS, deep data | Legacy tech debt |
+| **Amadeus** | GDS | NDC APIs, AI-powered forecasting, traveler intelligence | Most comprehensive airline+hotel data | API complexity |
+| **Google Travel** | Metasearch | Gemini integration in Search, AI trip planning, flight price prediction | Distribution power, zero marginal cost | Disintermediates OTAs |
+| **DIDA** | Hotel B2B | World #3 B2B travel, 2M+ hotels via free MCP | Zero-barrier API access | B2B only (no end-consumer brand) |
+| **Malaysia Airlines Mavis** | Airline | Agentic CX live (Ada platform) — handles web, app, email autonomously | First major airline with full agentic CX | Single carrier |
 
----
+## Open-Source Ecosystem Leaders
 
-## Adopción de AI en travel 2026
+| Company / Org | Key Repo | Stars | Role |
+|---------------|----------|-------|------|
+| Microsoft (Azure Samples) | azure-ai-travel-agents | ~1.4k | Enterprise reference architecture |
+| Amadeus for Developers | amadeus-python / -node | ~900 / ~600 | GDS API access (free sandbox) |
+| DIDA AI | Dida-hotel-MCP-CN | ~320 | Free enterprise hotel inventory via MCP |
+| KaibanJS | KaibanJS | ~3.4k | Multi-agent framework, airline demo |
+| skarlekar | mcp_travelassistant | ~180 | Multi-MCP-server reference architecture |
 
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| Compañías travel que escalaron AI agents | <10% (hasta 2025) | IDC 2026 |
-| Hoteles que planean implementar AI agents en 2026 | 40% | IDC 2026 |
-| Millennials/Gen Z dispuestos a delegar trip planning a AI | 61% | Agentic AI Travel Market Report |
-| Leisure travelers que confían en AI para booking autónomo | 2% | OAG / Skift mar 2026 |
-| Travel executives que planean deploy agentic AI | 80% | IDC 2026 |
-| Bookings por AI agents para 2030 (proyección) | 30% | IDC 2026 |
+## LATAM Opportunities
 
----
+### Market Context
+- LATAM online travel market: ~$40B (2026), growing 8–12% annually
+- Skift LATAM Traveler Trends 2026: Argentina, Brazil, Mexico as top 3 markets
+- 70%+ of LATAM consumers have integrated AI into shopping journeys (Visa/Santander survey)
+- Brazil: largest WhatsApp Business installed base globally → natural channel for travel bots
+- 75% of LATAM business leaders expect autonomous AI agents by end of 2026
 
-## Players globales
+### Key LATAM Players
 
-### GDS — Infraestructura
+| Company | Market | AI Status |
+|---------|--------|-----------|
+| **LATAM Airlines** | Pan-regional | Gemini + Vertex AI conversational platform live (2026) |
+| **GOL Linhas Aéreas** | Brazil | WhatsApp booking chatbot, AI pricing |
+| **Despegar.com** | LATAM OTA | AI personalization, machine learning pricing |
+| **CVC Corp** | Brazil | Largest tour operator, digital transformation underway |
+| **Decolar.com** | Argentina | Despegar subsidiary, Spanish-language AI search |
 
-| Empresa | Posición AI | Señal reciente | Oportunidad Globant |
-|---------|------------|----------------|---------------------|
-| **Sabre** | Líder agresivo | Mosaic MCP mayo 2026 + MindTrip + PayPal pipeline agentic. Vuelos live, hoteles en rollout. | Build on Sabre Mosaic MCP for Latin airlines |
-| **Amadeus** | Challenger muy sólido | NDC API + SDK MIT + AI Commerce (hoteles vía Claude/ChatGPT) + Amadeus Max (revenue por NLQ) — HITEC jun 2026 | SDK MIT + AI Commerce para cadenas hoteleras LATAM |
-| **Travelport** | Rezagado | Sin señales de MCP/agentic AI aún | Menor prioridad |
+### Santander + Visa LATAM Agentic Payments (March 2026)
+End-to-end agentic transactions completed in Argentina, Brazil, Chile, Mexico, and Uruguay via Visa Intelligent Commerce. This removes the last friction point for autonomous travel booking in LATAM.
 
-### OTAs — Distribución
+## Globant Positioning
 
-| Empresa | Posición AI | Señal reciente | Oportunidad Globant |
-|---------|------------|----------------|---------------------|
-| **Booking.com** | Agresivo | Google AI Mode partner #1 confirmado jun 2026 | AEO y structured data para propiedades cliente |
-| **Expedia** | Progresivo | Claude integration live (US) + Explore 2026: nuevo AI travel ecosystem anunciado | Replicar modelo para OTAs LATAM (Despegar, Decolar) |
-| **Despegar / Decolar** | En producción | SOFIA GenAI multimodal live. Cubre Despegar + Decolar + Best Day + Viajes Falabella + Viajanet | Mercado no atendido: agencias <$10M que no pueden hacer lo que Despegar |
-| **Airbnb** | Cauteloso | AI customer support; no agentic booking aún | Experience AI layer sobre listados |
+### Where to Play
+1. **Corporate travel management platforms** — highest willingness to adopt agentic AI (policy enforcement, approval workflows, expense reconciliation)
+2. **Hotel AI concierge** — QloApps + AI layer, upselling, multilingual (ES/PT/EN)
+3. **Airline customer service** — KaibanJS-pattern automation for LATAM carriers
+4. **OTA intelligence** — RAG + structured data on top of Amadeus/Sabre APIs for SMB travel agencies
+5. **LATAM WhatsApp travel bot** — highest consumer reach channel in the region
 
-### Aerolíneas — Adopción real en LATAM
+### Competitive Advantages
+- Nearshore delivery for LATAM airlines and hotel chains
+- Spanish + Portuguese language AI expertise
+- Existing relationships with hospitality clients (Marriott, Hilton LATAM programs)
+- GDS SDK integrations (Amadeus, Sabre) can be productized across engagements
 
-| Aerolínea | Iniciativa AI | Estado 2026 | Relevancia para Globant |
-|-----------|--------------|-------------|--------------------------|
-| **LATAM Airlines** | AI Virtual Agent + disruption management | En producción (Chile, Colombia, Perú, Ecuador). Google Vertex AI. | Plantilla validada para Avianca, Copa |
-| Malaysia Airlines | Mavis (Ada platform) — agentic CX | En producción 2026 | Arquitectura replicable |
-| Delta + United | AI disruption management (interna) | En producción (US) | Estándar que LATAM adoptará en 2-3 años |
-| **GOL** | — | Restructuración financiera 2025-2026 | Oportunidad post-restructuración |
-| **Azul** | Piloto AI | Anunciado, no en producción | Candidato temprano |
-| Air India | Gen AI chatbot (Google Cloud) | En producción | Modelo para aerolíneas en mercados emergentes |
-
-### Corporate Travel — Nuevo segmento prioritario
-
-| Empresa | Tipo | Señal 2026 | Oportunidad |
-|---------|------|-----------|-------------|
-| **Navan** | SaaS líder | "Book with AI" + Navan Edge (viajeros no-gestionados) + vibe-based booking | Build Navan-like para empresas LATAM con stack OS |
-| **Perk (ex-TravelPerk)** | SaaS | Rebranding ene 2026 + FlexiPerk AI | Competencia para clientes EU con presencia LATAM |
-| **SAP Concur** | Enterprise legacy | Fuerte en compliance + ERP integration | Partner natural para clientes SAP en LATAM |
-| **Travel Code** | AI-native startup | MCP TravelCode server, 20% hotel savings | Amenaza para agencias tradicionales |
-
-### Startups agentic travel
-
-| Startup | Por qué importa |
-|---------|------------------|
-| **MindTrip** | Primer pipeline agentic E2E en producción (mayo 2026 con Sabre + PayPal) |
-| **Navan** | Corporate travel AI, valuación $1.6B, modelo para LATAM enterprise |
-| **Layla** | Travel AI assistant con monetización afiliada (Europe) |
-| **Otto the Agent** | AI travel agent para viajeros de negocios frecuentes |
-
----
-
-## Oportunidades AI en LATAM
-
-| Segmento | Madurez AI | Players con AI | Deal size estimado |
-|---------|-----------|-----------------|--------------------|
-| Aerolíneas (LATAM, Avianca, Copa, Azul) | Media (LATAM en producción) | LATAM Airlines (live) | $200k-$1.5M |
-| OTAs regionales (Despegar, Decolar) | Media (SOFIA en producción) | Despegar grupo | $150k-$800k |
-| Agencias independientes (<$10M revenue) | Muy baja | — | $40k-$200k ← **mayor oportunidad Globant** |
-| Hotelería (cadenas regionales 10-50 propiedades) | Muy baja | — | $60k-$400k |
-| Transporte terrestre / interurbano | Muy baja | — | $30k-$150k |
-| Corporate travel (empresas LATAM 500-5k empleados) | Baja | — | $100k-$600k ← **alta prioridad 2H 2026** |
+### Deal Size Range
+| Engagement Type | Range | Duration |
+|-----------------|-------|----------|
+| Hotel AI Concierge (QloApps) | $80k–$250k | 4–8 weeks |
+| Airline Agent Automation | $150k–$500k | 8–14 weeks |
+| Corporate Travel Agent | $100k–$400k | 6–12 weeks |
+| OTA Intelligence Layer | $120k–$450k | 8–16 weeks |
+| LATAM WhatsApp Travel Bot | $60k–$200k | 4–8 weeks |
 
 ---
-
-## Posicionamiento Globant
-
-```
-Propuesta de valor: "Agentic Travel Layer"
-Construimos el AI layer agéntico sobre su
-infraestructura existente (GDS, PMS, CRM),
-comenzando con quick wins en WhatsApp/CX
-y escalando a booking autónomo con human-in-loop.
-
-Diferenciadores:
-- Stack open source (MIT/Apache): sin lock-in
-- LATAM-first: multilingüe, compliance local
-- Time-to-value: POC en 4-6 semanas
-- Trust-by-design: human-in-loop donde se necesite
-
-Target 2H 2026:
-① Aerolíneas LATAM sin AI agent (Avianca, Copa, GOL post-reestructuración)
-② Agencias independientes LATAM: WhatsApp agent sobre trvl + DIDA + Amadeus
-③ Corporate travel LATAM (Navan-like para empresas $500M-$2B revenue)
-```
-
-## Key players a monitorear (julio 2026)
-
-| Player | Señal | Acción recomendada |
-|--------|-------|--------------------|
-| Google AI Mode Travel | Partners confirmados, launch inminent | Preparar AEO strategy para clientes OTA; implementar schema.org |
-| trvl (MikkoParkkola) | MIT, sin API keys, 65 capacidades | Integrar en todos los POCs de travel |
-| LATAM Airlines | AI agent en producción en 4 países | Case study + replicar arquitectura para Avianca/Copa |
-| Amadeus AI Commerce | Hoteles bookables vía Claude (HITEC jun 2026) | Certificar integración para propuestas de hotelería |
-| Despegar SOFIA | GenAI multimodal live LATAM | Segmentar propuesta hacia agencias independientes |
-| Navan Edge | Corporate travel AI sin employer | Diseñar producto Navan-like para LATAM con OS |
+*Updated by ingest pipeline.*
