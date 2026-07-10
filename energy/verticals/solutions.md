@@ -1,78 +1,74 @@
-# Vertical Solutions — Energy AI
+# 🏭 Plataformas Verticales — Energy
 
-> Existing platforms to customize with AI. Start from something working, add an agentic layer.
-> Last updated: 2026-07-10 (v3)
+> Plataformas existentes customizables con AI. Partir de algo funcional, añadir capa agentic arriba.
+> Última actualización: 2026-07-10
 
-## Energy Management Systems (EMS)
+## Plataformas Clave por Categoría
 
-| Platform | License | Repo | Stack | AI Customization Point |
-|----------|---------|------|-------|----------------------|
-| **MyEMS** | MIT | [MyEMS/myems](https://github.com/MyEMS/myems) | FastAPI + React + TimescaleDB | REST API; add LangGraph agent for anomaly detection, ISO 50001 reporting. Best for factories, hospitals, malls. |
-| **OpenEMS** | Apache-2.0 | [OpenEMS/openems](https://github.com/OpenEMS/openems) | Java OSGi + InfluxDB + Grafana | OSGi plugin API; add AI optimization controller for BESS/EV/heat pump dispatch. Carbon accounting module. |
-| **OpenRemote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java + Keycloak + Docker | MCP-native (2026); Groovy rules engine replaceable with LLM agent. Best for microgrid and smart building IoT. |
-| **Emoncms** | GPL-3.0 | [emoncms/emoncms](https://github.com/emoncms/emoncms) | PHP + MySQL + MQTT | REST API; feed-level anomaly detection. Lightweight for prosumer/community energy monitoring. |
+### Gestión de Energía (EMS / BEMS / HEMS)
 
-## Power System Analysis & Planning
+| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
+|------------|----------|------|-------|----------------|
+| **OpenEMS** | Eclipse PL 2.0 | [OpenEMS/openems](https://github.com/OpenEMS/openems) | Java (edge) + TypeScript (UI) + REST/JSON | EMS para renovables, almacenamiento BESS, carga de EVs; añadir agente de optimización en capa backend |
+| **emoncms** | AGPL-3.0 | [emoncms/emoncms](https://github.com/emoncms/emoncms) | PHP + MySQL + Redis + MQTT | Monitoreo de consumo residencial/comercial; añadir agente de anomaly detection y recomendaciones de eficiencia |
+| **openremote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java + Docker + Keycloak + PostgreSQL | IoT platform general; reglas automáticas + dashboards; añadir LLM para consultas en lenguaje natural sobre activos |
+| **Home Assistant** | Apache-2.0 | [home-assistant/core](https://github.com/home-assistant/core) | Python + YAML + REST/MQTT | HEMS residencial más adoptado del mundo; 3k+ integraciones; añadir agente de gestión energética conversacional |
 
-| Platform | License | Repo | Stack | AI Customization Point |
-|----------|---------|------|-------|----------------------|
-| **PyPSA** | MIT | [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | Python + Pyomo/Gurobi | Network optimization object model; LLM can set constraints, interpret results. IEA/IRENA planning tool. |
-| **pandapower** | BSD-3 | [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | Python + NumPy/SciPy | PowerMCP wraps this for LLM-native tool calls. European DSO standard. |
-| **OpenDSS** | BSD-3 | [dss-extensions/OpenDSS](https://github.com/dss-extensions/OpenDSS) | Pascal/Python COM | PowerMCP exposes COM API to LLMs. EPRI-backed, used by 100+ US utilities. |
-| **OSeMOSYS** | Apache-2.0 | [OSeMOSYS/OSeMOSYS](https://github.com/OSeMOSYS/OSeMOSYS) | Python/MathProg | Long-term capacity planning. LLM for scenario input generation and result interpretation. |
+### SCADA e Infraestructura de Grid
 
-## Grid Control & Automation
+| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
+|------------|----------|------|-------|----------------|
+| **JSON-SCADA** | GPL-2.0 | [riclolsen/json-scada](https://github.com/riclolsen/json-scada) | Node.js + MongoDB + Redis + PostgreSQL | SCADA completo para subestaciones; IEC 61850, IEC 104, DNP3, OPC UA; añadir agente de detección de anomalías |
+| **Rapid SCADA** | Apache-2.0 | [RapidScada/scada](https://github.com/RapidScada/scada) | C# + Windows/Linux | SCADA industrial general; sin límite de tags; añadir ML para mantenimiento predictivo de equipos |
+| **Node-RED** | Apache-2.0 | [node-red/node-red](https://github.com/node-red/node-red) | Node.js + flows JSON | Flow-based programming para integrar PLCs, APIs, sensores; añadir nodo AI para clasificación y alertas |
 
-| Platform | License | Repo | Stack | AI Customization Point |
-|----------|---------|------|-------|----------------------|
-| **VOLTTRON** | Apache-2.0 | [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) | Python + MQTT + ZMQ | Agent marketplace; add LLM-powered control agents for OpenADR demand response and BESS dispatch. |
-| **Grid2Op** | LGPL-2.1 | [Grid2op/grid2op](https://github.com/Grid2op/grid2op) | Python + NumPy | RL environment; train PPO/SAC agents for topology optimization. LLM explains RL agent actions. |
-| **PowerMCP** | Apache-2.0 | [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | Python + MCP | Direct LLM-to-simulator bridge. LLMs drive PowerWorld, PSSE, OpenDSS. Harvard SEAS production. |
+### Simulación y Planificación
 
-## Building & HVAC
+| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
+|------------|----------|------|-------|----------------|
+| **pandapower** | BSD-3-Clause | [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | Python | Análisis de flujo de potencia y optimización; base de PowerMCP; validación de decisiones de agentes |
+| **PyPSA** | MIT | [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | Python + Linopy | Planificación de sistemas de potencia con restricciones de CO2 y renovables; optimización de largo plazo |
+| **Grid2Op** | LGPL-3.0 | [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | Python | Framework RL para operación de red; LF Energy; L2RPN competition; entrenamiento de agentes de despacho |
 
-| Platform | License | Repo | Stack | AI Customization Point |
-|----------|---------|------|-------|----------------------|
-| **sinergym** | MIT | [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | Python + EnergyPlus | Gymnasium interface; train and evaluate RL agents. Multi-zone, multi-agent HVAC. |
-| **EnergyPlus** | BSD-3 | [NREL/EnergyPlus](https://github.com/NREL/EnergyPlus) | C++ + Python API | Physics simulation; LLM generates optimization recommendations from simulation output. |
+### Forecasting y Analytics
 
-## Virtual Power Plant (VPP)
+| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
+|------------|----------|------|-------|----------------|
+| **OpenSTEF** | MPL-2.0 | [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | Python + MLflow + XGBoost/LightGBM | AutoML para forecasting probabilístico de carga; LF Energy; producción en Alliander NL |
+| **Darts** | Apache-2.0 | [unit8co/darts](https://github.com/unit8co/darts) | Python | Series de tiempo para forecasting energético; 30+ modelos; Prophet, NBEATS, TFT |
 
-| Platform | License | Repo | Stack | AI Customization Point |
-|----------|---------|------|-------|----------------------|
-| **VPP-Sim** | MIT | [vpp-sim/vpp-sim](https://github.com/vpp-sim/vpp-sim) | Python + PyTorch | ML strategy framework. Add LLM market strategy agent on top of optimization core. |
-| **VOLTTRON** | Apache-2.0 | [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) | Python + OpenADR | Dispatch layer; LLM decides dispatch strategy, VOLTTRON executes via OpenADR/IEEE 2030.5. |
+### Mercados de Energía y RECs
 
-## Carbon & Sustainability Tools
-
-| Platform | License | Repo | Stack | AI Customization Point |
-|----------|---------|------|-------|----------------------|
-| **Carbon Aware SDK** | MIT | [Green-Software-Foundation/carbon-aware-sdk](https://github.com/Green-Software-Foundation/carbon-aware-sdk) | C# / REST + CLI | Carbon signal API; schedule CI/CD workloads at cleanest grid time. Claude generates CSRD reports. |
-| **Electricity Maps API** | CC-BY-NC | [electricitymaps/electricitymaps-contrib](https://github.com/electricitymaps/electricitymaps-contrib) | Python | Real-time carbon intensity data; feeds Carbon Aware SDK and custom carbon-aware agents. |
-
-## AI Customization Stack
-
-```
-[Vertical Platform]        [Integration]         [AI Layer]
-MyEMS REST API        →    LangGraph             → Claude Sonnet 5
-OpenEMS OSGi Plugin   →    VOLTTRON Pub/Sub      → Anthropic Tool Use
-pandapower Python     →    PowerMCP (MCP tools)  → Claude + Tool calls
-sinergym Gymnasium    →    stable-baselines3     → PPO/SAC + LLM explain
-VPP-Sim ML framework  →    Custom FastAPI bridge → Claude VPP agent
-```
-
-## Platform Selection Guide
-
-| Scenario | Recommended Platform | Rationale |
-|----------|---------------------|-----------|
-| Factory / hospital EMS | MyEMS | MIT, full-stack, ISO 50001, Docker |
-| Utility grid analytics | pandapower + PowerMCP | European DSO standard, LLM-native |
-| Smart microgrid IoT | OpenRemote | MCP-native, flexible, AGPL open |
-| HVAC RL optimization | sinergym | Best Gymnasium integration |
-| VPP aggregation | VOLTTRON + VPP-Sim | OpenADR + ML dispatch |
-| Long-term planning | PyPSA / OSeMOSYS | IEA/IRENA validated |
-| Carbon CI/CD | Carbon Aware SDK | Fast-close, 3-week delivery |
-| LLM grid copilot | PowerMCP + Grid2Op | Harvard SEAS production |
+| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
+|------------|----------|------|-------|----------------|
+| **lemlab (TU Munich)** | GPL-3.0 | [tum-ewk/lemlab](https://github.com/tum-ewk/lemlab) | Python | Mercados locales P2P; clearing algorithms; prosumer data real; base para agentes de trading P2P |
+| **Energy Web Chain** | Apache-2.0 | [energywebfoundation](https://github.com/energywebfoundation) | Substrate + Solidity | Blockchain para RECs y mercados de energía; API para agentes que compran/venden certificados verdes |
 
 ---
-*Updated by Globant AI Studios ingestion pipeline.*
+
+## Cómo Customizar con AI
+
+### Patrón estándar de "AI sobre plataforma existente"
+
+```
+[Plataforma vertical (OpenEMS / emoncms / JSON-SCADA)]
+          ↓ datos operacionales via API/MQTT
+[Capa de ingestión + normalización]
+          ↓
+[Agente AI (Claude + PowerMCP / LangGraph)]
+     ↙               ↘
+[Forecasting]    [Optimización]
+(OpenSTEF)       (pandapower/PyPSA)
+          ↓
+[UI conversacional o alertas automáticas]
+```
+
+### Consideraciones de integración
+
+1. **OpenEMS** tiene REST API nativa y sistema de componentes; el agente puede leer estado del sistema y escribir setpoints de forma programática
+2. **emoncms** expone API de feeds y inputs; ideal para contexto de consumo en agentes de eficiencia
+3. **Grid2Op** + **sinergym** son los entornos de entrenamiento para agentes RL especializados antes de producción
+4. **OpenSTEF** puede servirse como microservicio REST; el agente llama al endpoint de forecast como herramienta
+
+---
+*Ver también: `agents/top.md` y `repos/foundations.md`.*

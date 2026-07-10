@@ -1,61 +1,60 @@
-# Foundational Repos — Energy AI
+# 🏗️ Repos Fundacionales — Energy
 
-> Base platforms to build on. Open license, active community.
-> Last updated: 2026-07-10 (v3)
+> Bases sobre las cuales construir soluciones AI para la industria energética.
+> Licencia abierta, comunidad activa, uso en producción verificado.
+> Última actualización: 2026-07-10
 
-## Power System Simulation & Analysis
+## Simulación y Análisis de Redes Eléctricas
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|-----------|
-| [Grid2Op](https://github.com/Grid2op/grid2op) | LGPL-2.1 | 440★ | LF Energy testbed for sequential decision-making in power systems. Industry-standard RL environment for grid control. Competition platform (L2RPN). Compatible with stable-baselines3, RLlib. | ✅ Native RL env |
-| [PyPSA](https://github.com/PyPSA/PyPSA) | MIT | 2k★ | Power System Analysis Automation. Network optimization (LP, MILP, NLOP), capacity planning, OPF. Python-native. IEA/Agora used for national energy scenarios. GPU-ready. | ✅ Optimization target |
-| [pandapower](https://github.com/e2nIEE/pandapower) | BSD-3 | 1.2k★ | Power system modeling and analysis. AC/DC power flow, short-circuit, contingency. PSS/E and PowerWorld interface. European DSO standard. Backbone of PowerMCP. | ✅ Solver backend |
-| [OSeMOSYS](https://github.com/OSeMOSYS/OSeMOSYS) | Apache-2.0 | 220★ | Open Source energy Modelling System for long-term planning. IEA, IRENA, 30+ country energy strategies. Python/GNU MathProg. TIMES-compatible. | ✅ Scenario agent input |
-| [GenX](https://github.com/GenXProject/GenX) | MIT | 500+★ | MIT/Princeton capacity expansion model. Multi-stage, multi-zone, multi-technology. Julia-based (high performance). Gold standard for VPP and energy transition investment analysis. | ✅ VPP planning |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | LGPL-3.0 | ~1.1k | Framework RL para operación de redes eléctricas; usado en competiciones L2RPN; LF Energy project | Sí — agentes RL de despacho y control de red |
+| [pandapower](https://github.com/e2nIEE/pandapower) | BSD-3-Clause | ~1.0k | Biblioteca Python para análisis de flujo de potencia, cortocircuito y optimización; base de PowerMCP | Sí — simulación rápida para validar decisiones de agentes |
+| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | MIT | ~1.4k | Python for Power System Analysis; planificación de sistemas de energía con optimización linear; base de PowerMCP | Sí — optimización de portfolios renovables, CO2 constraints |
+| [dpsim-simulator/dpsim](https://github.com/sogno-platform/dpsim) | MPL-2.0 | ~230 | Simulador de sistemas de potencia en tiempo real; base sogno/RWTH Aachen; integrado con OpenEMS | Sí — validación en tiempo real |
 
-## Energy Management Systems (EMS)
+## Gestión de Energía (EMS/BEMS)
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|-----------|
-| [MyEMS](https://github.com/MyEMS/myems) | MIT | 900+★ | Full-stack EMS — electricity, water, gas, cooling/heating. ISO 50001, REST API, React dashboard, Docker/K8s. Optional AI optimization, VPP, microgrids, EV charging modules. | ✅ REST API + AI module |
-| [OpenEMS](https://github.com/OpenEMS/openems) | Apache-2.0 | 600+★ | Modular Java-based EMS for real-time control. Sector coupling: BESS, heat pumps, EV, solar. IEC 61850, OPC-UA, Modbus, MQTT, BACnet. 2-3 updates/month; carbon accounting added 2026. | ✅ Protocol bridge |
-| [OpenRemote](https://github.com/openremote/openremote) | AGPL-3.0 | 1.8k★ | 100% open source IoT platform for energy management, smart microgrids, DER networks. MCP-native (2026). API-first, Docker. Best for edge+cloud hybrid architectures. | ✅ MCP native |
-| [VOLTTRON](https://github.com/VOLTTRON/volttron) | Apache-2.0 | 560★ | DOE/PNNL distributed platform for building-grid interaction. Pub/sub messaging, agent marketplace, IEEE 2030.5, OpenADR, BACnet. Reference architecture for grid-edge AI agents. | ✅ Agent marketplace |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [OpenEMS/openems](https://github.com/OpenEMS/openems) | Eclipse PL 2.0 | ~1.2k | EMS modular para renovables, almacenamiento, EV charging; FENECON; usado en miles de instalaciones industriales y comerciales | Sí — plataforma base para añadir agentes de optimización |
+| [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | MPL-2.0 | ~400 | AutoML pipelines para forecasting probabilístico de carga a corto plazo; LF Energy project; Alliander NL en producción | Sí — forecasting de demanda como servicio para agentes de despacho |
+| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | ~1.8k | Plataforma IoT 100% open source; rules engine, protocols MQTT/HTTP/WebSocket/Modbus; dashboards; flows de automatización | Sí — capa de integración IoT para sensores de red y edificios |
 
-## Building & HVAC Optimization
+## Optimización y RL para Edificios
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|-----------|
-| [sinergym](https://github.com/ugr-sail/sinergym) | MIT | 231★ | Gymnasium environment for building RL using EnergyPlus. Multi-agent, custom weather, reward engineering. HVAC and building energy optimization. | ✅ Gym env |
-| [rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) | MIT | 217★ | IBM Research RL testbed for EnergyPlus HVAC optimization. PPO/DDPG ready, proven 15-30% energy savings. | ✅ Gym env |
-| [energym](https://github.com/bsl546/energym) | MIT | 230★ | Building energy simulation for RL. Multi-zone buildings, EnergyPlus/Modelica backends, weather API, benchmark suite. | ✅ Gym env |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | ~231 | Gym environment para simulación y control de edificios con RL + EnergyPlus; soporte multi-zona, multi-objetivo | Sí — entrenamiento de agentes RL para HVAC y gestión energética |
+| [IBM/rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) | MIT | ~217 | RL Testbed de IBM para optimización de consumo energético en edificios; EnergyPlus backend | Sí — baseline RL para comparar contra agentes LLM |
+| [santoshphilip/eppy](https://github.com/santoshphilip/eppy) | MIT | ~199 | Scripting language para EnergyPlus; parametrización de modelos de edificios | Sí — automatización de simulaciones EnergyPlus desde agentes |
 
-## Carbon & Sustainability
+## Mercados de Energía y P2P
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|-----------|
-| [Carbon Aware SDK](https://github.com/Green-Software-Foundation/carbon-aware-sdk) | MIT | 1.5k★ | Green Software Foundation SDK. REST + CLI to WattTime, ElectricityMaps, Energy Charts. Schedule workloads at grid-greenest times. GitHub Actions integration. | ✅ API-first |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [tum-ewk/lemlab](https://github.com/tum-ewk/lemlab) | GPL-3.0 | ~120 | Framework multi-agente para mercados locales de energía P2P; TU Munich; data time-series prosumidores reales; clearing algorithms | Sí — simulación de mercados P2P para agentes de trading energético |
+| [energywebfoundation/ew-dos-token-interface](https://github.com/energywebfoundation/ew-dos-token-interface) | Apache-2.0 | ~80 | Energy Web: certificados de energía renovable (RECs) en blockchain EW Chain; API para agentes de compra/venta de energía verde | Sí — integración de atributos de origen renovable en decisiones de agentes |
 
-## LLM-Native Energy Agents (2025-2026)
+## SCADA y Telemetría Industrial
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|-----------|
-| [PowerMCP](https://github.com/Power-Agent/PowerMCP) | Apache-2.0 | 160★ | Harvard SEAS — MCP servers for PowerWorld, PSSE, OpenDSS. LLM-native tool use for power system simulators. | ✅ MCP-native |
-| [PowerFM](https://github.com/Power-Agent/PowerFM) | Apache-2.0 | 43★ | Foundation models for power/energy domain. Load forecast, fault detection, grid simulation, agent control. | ✅ Fine-tuned models |
-| [EnergyAgent](https://github.com/tsinghua-fib-lab/EnergyAgent) | MIT | New | Tsinghua — LLM framework for electric power time series reasoning. Load forecasting, demand response, anomaly detection. | ✅ LLM-native |
-| [VPP-Sim](https://github.com/vpp-sim/vpp-sim) | MIT | New | Modular ML framework for VPP strategy development. Battery management, market bidding, multi-DER aggregation. | ✅ ML-first |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [riclolsen/json-scada](https://github.com/riclolsen/json-scada) | GPL-2.0 | ~400 | SCADA completo para sistemas de potencia; soporte IEC 61850, IEC 104, DNP3, OPC UA, MQTT; usado en subestaciones reales | Sí — ingestión de datos operacionales reales para agentes |
+| [emoncms/emoncms](https://github.com/emoncms/emoncms) | AGPL-3.0 | ~1.5k | Plataforma de monitoreo energético open source; serie de tiempo, dashboards; base de OpenEnergyMonitor | Sí — datos de consumo residencial/comercial para agentes de eficiencia |
 
 ---
 
-## Integration Architecture
+## Stack Mínimo para Proyecto AI Energético
 
 ```
-[Data Layer]          [Simulation/Analysis]    [AI Layer]           [UI/API]
-TimescaleDB      →    Grid2Op / PyPSA      →   LangGraph agents →   FastAPI
-Smart meters     →    pandapower OPF       →   Claude Sonnet 5  →   React dashboard
-MyEMS REST       →    sinergym HVAC RL     →   PowerMCP tools   →   Operator copilot
-VOLTTRON pub/sub →    VPP-Sim dispatch     →   VPP agent        →   Market bidding UI
+1. Datos operacionales: OpenEMS / emoncms / json-scada (telemetría real)
+2. Simulación: pandapower + PyPSA (validación de decisiones)
+3. Forecasting: OpenSTEF (carga y generación a corto plazo)
+4. Agentes: PowerMCP + Claude / GPT-4o (razonamiento y herramientas)
+5. RL especializado: Grid2Op + sinergym (control de red y edificios)
+6. Orquestación: PowerWF (workflows de ingeniería de potencia)
 ```
 
 ---
-*See also: `verticals/solutions.md` for complete vertical platforms.*
+*Ver también: `agents/top.md` para los agentes AI específicos.*

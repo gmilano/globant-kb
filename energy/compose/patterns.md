@@ -1,610 +1,487 @@
-# Composition Patterns — Energy AI
+# 🧩 Patrones de Composición — Energy AI
 
-> Concrete recipes using real repos + agents + AI. Build these for clients.
-> Last updated: 2026-07-10 (v3 — added PowerMCP copilot, B2G flexibility, interconnection study)
+> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Cada patrón incluye los repos exactos, cómo conectarlos y estimación de esfuerzo.
+> Última actualización: 2026-07-10
 
 ---
 
-## P1: Industrial EMS AI Overlay (MyEMS + Claude + LangGraph)
+## P1 — Grid Intelligence Agent (PowerMCP + Claude + pandapower/PyPSA)
 
-**Use case**: Factory / hospital / mall with existing meters. Add AI anomaly detection, ISO 50001 reporting, optimization recommendations.
-**Deal size**: $80k–$300k | **Timeline**: 6-10 weeks
+**Problema**: Ingenieros eléctricos pasan semanas en estudios de flujo de potencia y análisis de contingencias que LLMs + simuladores pueden automatizar parcialmente.
 
 **Stack**:
-- Base: [MyEMS](https://github.com/MyEMS/myems) (MIT)
-- AI: LangGraph + Claude Sonnet 5
-- DB: TimescaleDB + pgvector
-- Forecast: Google TimesFM 2.5 (Apache-2.0, zero-shot)
+- [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) (MIT) — MCP servers para pandapower + PyPSA + OpenDSS
+- [Power-Agent/PowerSkills](https://github.com/Power-Agent/PowerSkills) (MIT) — instrucciones especializadas para el agente
+- [Power-Agent/PowerWF](https://github.com/Power-Agent/PowerWF) (MIT) — workflows de análisis de potencia
+- Claude claude-sonnet-5 o claude-opus-4-8 vía Anthropic API — LLM con razonamiento
 
-```python
-from langgraph.graph import StateGraph
-from anthropic import Anthropic
-import httpx
-
-client = Anthropic()
-
-def fetch_energy_data(state):
-    r = httpx.get(
-        "http://myems-api/v3/reports/energyconsumption/meter",
-        params={"meterid": state["meter_id"], "period": "day"}
-    )
-    return {"raw_data": r.json()}
-
-def analyze_anomalies(state):
-    response = client.messages.create(
-        model="claude-sonnet-5-20261101",
-        max_tokens=2048,
-        messages=[{
-            "role": "user",
-            "content": f"""Analyze energy data for anomalies.
-            Data: {state['raw_data']}
-            Identify: unusual spikes, off-hours consumption, equipment faults.
-            Return JSON with anomalies[], severity, recommended_action."""
-        }]
-    )
-    return {"analysis": response.content[0].text}
-
-graph = StateGraph(dict)
-graph.add_node("fetch", fetch_energy_data)
-graph.add_node("analyze", analyze_anomalies)
-graph.add_edge("fetch", "analyze")
-agent = graph.compile()
+**Arquitectura**:
+```
+Engineer → Claude Agent (PowerSkills loaded)
+               ↓ MCP tool calls
+          PowerMCP server
+         ↙        ↓        ↘
+   pandapower   PyPSA    OpenDSS
+   (AC power   (renewable  (distribution
+    flow)       planning)   networks)
+               ↓
+         PowerWF orchestrates
+         multi-step analysis
+               ↓
+         PDF Report + Recommendations
 ```
 
-**LATAM fit**: Very high — ISO 50001 common in Brazil/Mexico factories.
-
----
-
-## P2: Grid Reinforcement Learning Agent (Grid2Op + Stable-Baselines3)
-
-**Use case**: Utility wants RL agent for grid topology optimization to minimize cascading failures.
-**Deal size**: $200k–$800k | **Timeline**: 10-16 weeks
-
+**Código clave**:
 ```python
-import grid2op
-from stable_baselines3 import PPO
-from anthropic import Anthropic
+import anthropic
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
 
-client = Anthropic()
-
-env = grid2op.make(
-    "l2rpn_case14_sandbox",
-    backend=grid2op.Backend.PandaPowerBackend()
+# 1. Inicializar servidor PowerMCP
+server_params = StdioServerParameters(
+    command="python",
+    args=["-m", "powermcp.servers.pandapower"]
 )
 
-model = PPO("MlpPolicy", env, verbose=1, n_steps=2048, learning_rate=3e-4)
+async def run_grid_analysis(network_case_file: str, query: str):
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            
+            # 2. Cargar PowerSkills como contexto del sistema
+            with open("power_skills/load_flow.md") as f:
+                system_prompt = f.read()
+            
+            # 3. Agente Claude con tools PowerMCP
+            client = anthropic.Anthropic()
+            tools = await session.list_tools()
+            
+            response = client.messages.create(
+                model="claude-sonnet-5-20261001",
+                max_tokens=4096,
+                system=system_prompt,
+                messages=[{
+                    "role": "user", 
+                    "content": f"Load case {network_case_file} and {query}"
+                }],
+                tools=[{
+                    "name": t.name,
+                    "description": t.description,
+                    "input_schema": t.inputSchema
+                } for t in tools.tools]
+            )
+            return response
+```
+
+**Estimado**: $80k-$300k | 6-12 semanas | 2-4 ingenieros (1 power systems, 1-2 AI/MCP)
+
+---
+
+## P2 — Load Forecasting Service (OpenSTEF + API + Agent)
+
+**Problema**: Utilities y comercializadoras necesitan forecasts probabilísticos de carga para despacho y trading; los sistemas actuales son propietarios y caros.
+
+**Stack**:
+- [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) (MPL-2.0) — AutoML para forecasting de carga
+- FastAPI — servicio REST de forecasting
+- Claude como agente de interpretación y alertas
+- [unit8co/darts](https://github.com/unit8co/darts) (Apache-2.0) — modelos complementarios
+
+**Arquitectura**:
+```
+Weather API ──┐
+Market prices ──┤→ OpenSTEF Pipeline → Probabilistic Forecast
+Historical load ──┘        (P10/P50/P90)
+                                ↓
+                         FastAPI endpoint
+                                ↓
+                    Claude Forecast Interpreter
+                    (alerts on unusual patterns,
+                     explain drivers, recommend actions)
+                                ↓
+                    Dashboard + Notifications
+```
+
+**Código clave**:
+```python
+from openstef.pipeline.train_model import train_model_and_forecast_pipeline
+from openstef.data_classes.prediction_job import PredictionJobDataClass
+import anthropic
+
+def create_forecast_pipeline(location_id: str, horizon_hours: int = 48):
+    # 1. Configurar trabajo de forecasting
+    pj = PredictionJobDataClass(
+        id=1,
+        model="xgb",
+        forecast_type="demand",
+        horizon=horizon_hours,
+        resolution_minutes=15,
+        lat=52.3, lon=4.9,  # Amsterdam ejemplo
+        sid=f"loc_{location_id}",
+    )
+    
+    # 2. Ejecutar pipeline AutoML
+    forecasts, model, report = train_model_and_forecast_pipeline(
+        pj=pj,
+        context=context  # datos históricos + clima
+    )
+    
+    return forecasts  # DataFrame con P10/P50/P90
+
+def interpret_forecast(forecasts_df, client: anthropic.Anthropic):
+    # 3. Claude analiza el forecast para alertas
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",  # rápido para alertas
+        max_tokens=500,
+        messages=[{
+            "role": "user",
+            "content": f"Analiza este forecast de carga y genera alertas si hay patrones inusuales:\n{forecasts_df.to_json()}"
+        }]
+    )
+    return response.content[0].text
+```
+
+**Estimado**: $60k-$150k | 4-8 semanas | 2 ingenieros (1 ML/data, 1 backend)
+
+---
+
+## P3 — Building Energy Optimization Agent (sinergym + RL + Claude)
+
+**Problema**: Los sistemas HVAC de edificios comerciales consumen 40-60% de la energía y se controlan con reglas fijas; un agente RL puede reducir 20-40% de consumo.
+
+**Stack**:
+- [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) (MIT) — entorno de simulación
+- [IBM/rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) (MIT) — baseline RL
+- Stable-Baselines3 — PPO/SAC para entrenamiento RL
+- Claude claude-haiku-4-5 — explicabilidad y override manual
+
+**Arquitectura**:
+```
+EnergyPlus Building Model
+        ↓
+   sinergym Env (Gymnasium)
+        ↓
+   RL Agent (PPO/SAC)
+   trained on historical data
+        ↓
+   Setpoints: Temp, Ventilation, Lighting
+        ↓
+   BMS (Building Management System)
+        ↑
+   Claude Override Interface
+   (facility manager asks in natural language)
+```
+
+**Código clave**:
+```python
+import gymnasium as gym
+import sinergym
+from stable_baselines3 import PPO
+import anthropic
+
+# 1. Crear entorno de simulación
+env = gym.make(
+    "Eplus-5zone-hot-continuous-v1",
+    reward=sinergym.utils.rewards.LinearReward(
+        temperature_variable=["Zone Air Temperature"],
+        energy_variable="Facility Total HVAC Electricity Demand Rate",
+        range_comfort_winter=(20.0, 23.5),
+        range_comfort_summer=(23.0, 26.0),
+        energy_weight=0.5,
+        comfort_penalty=-1.0,
+    )
+)
+
+# 2. Entrenar agente RL (offline con datos históricos simulados)
+model = PPO(
+    "MlpPolicy", 
+    env, 
+    verbose=1,
+    learning_rate=3e-4,
+    n_steps=2048,
+    batch_size=64,
+)
 model.learn(total_timesteps=500_000)
+model.save("hvac_agent_v1")
 
-def explain_action(action, obs, reward):
+# 3. Interfaz de override con Claude
+def handle_facility_manager_request(request: str, current_setpoints: dict):
+    client = anthropic.Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-5-20261101",
-        max_tokens=512,
+        model="claude-haiku-4-5-20251001",
+        max_tokens=200,
+        system="Eres el asistente del sistema de gestión energética del edificio. Puedes ajustar setpoints de temperatura, ventilación e iluminación dentro de rangos de confort (18-26°C).",
         messages=[{
             "role": "user",
-            "content": f"""Power grid RL agent took action: {action}
-            Grid state: voltages {obs.v_or}, flows {obs.p_or}, reward: {reward}
-            Explain in plain language for a grid operator."""
+            "content": f"Setpoints actuales: {current_setpoints}\nSolicitud: {request}"
         }]
     )
     return response.content[0].text
 ```
 
-**LATAM fit**: High for Brazil (ONS), Chile (CEN renewable integration), Colombia (XM).
+**Estimado**: $100k-$400k | 8-16 semanas | 3 ingenieros (1 RL/ML, 1 BMS integración, 1 AI/UX)
 
 ---
 
-## P3: Carbon-Aware CI/CD Pipeline (Carbon Aware SDK + GitHub Actions)
+## P4 — Predictive Maintenance Agent para Activos de Red
 
-**Use case**: Tech client shifts compute workloads to low-carbon grid windows. Fast-close, EU CSRD compliance.
-**Deal size**: $40k–$150k | **Timeline**: 2-4 weeks (fast-close)
+**Problema**: Fallo imprevisto de transformadores, generadores o turbinas cuesta 10-100x más que mantenimiento planificado; las utilities necesitan anticipar fallos con semanas de antelación.
 
-```python
-import httpx
-from anthropic import Anthropic
+**Stack**:
+- [openremote/openremote](https://github.com/openremote/openremote) (AGPL-3.0) — ingestión IoT y telemetría
+- scikit-learn + XGBoost — modelos ML de detección de anomalías
+- [emoncms/emoncms](https://github.com/emoncms/emoncms) (AGPL-3.0) — historial de consumo (alternativa)
+- Claude claude-sonnet-5 — generación de órdenes de trabajo y diagnóstico
+- Anthropic API tool use — integración con CMMS (Maximo/SAP PM)
 
-CARBON_SDK_URL = "http://carbon-aware-sdk:8090"
-client = Anthropic()
-
-def get_best_compute_window(location: str, duration_hours: int = 2) -> dict:
-    response = httpx.get(
-        f"{CARBON_SDK_URL}/emissions/forecasts/current",
-        params={
-            "location": location,
-            "dataStartAt": "now",
-            "dataEndAt": "+24h",
-            "windowSize": duration_hours * 60
-        }
-    )
-    data = response.json()
-    best = min(data[0]["forecastData"], key=lambda w: w["value"])
-    return {"optimal_time": best["timestamp"], "carbon_intensity": best["value"]}
-
-def generate_carbon_report(run_data: dict) -> str:
-    response = client.messages.create(
-        model="claude-sonnet-5-20261101",
-        max_tokens=1024,
-        messages=[{
-            "role": "user",
-            "content": f"""Generate CSRD-compliant carbon footprint report for CI/CD:
-            Data: {run_data}
-            Include: total gCO2eq saved, EU CSRD Scope 2 classification."""
-        }]
-    )
-    return response.content[0].text
+**Arquitectura**:
+```
+Sensors (vibration, temperature, oil quality, current)
+        ↓ MQTT
+   openremote (IoT aggregation + rules)
+        ↓ REST API
+   ML Pipeline (feature engineering + anomaly detection)
+        ↓ alert if anomaly score > threshold
+   Claude Diagnostic Agent
+   - interpreta la anomalía
+   - consulta historial de mantenimiento
+   - genera orden de trabajo priorizada
+        ↓ tool call
+   CMMS Integration (Maximo API / SAP PM API)
+        ↓
+   Work Order Created + Maintenance Team Notified
 ```
 
-**LATAM fit**: Medium — EU clients with LATAM tech teams; Brazil grid already 85% renewable.
-
----
-
-## P4: VPP Orchestrator (VOLTTRON + VPP-Sim + LangGraph + OpenADR)
-
-**Use case**: Energy retailer aggregates residential solar+BESS+EV into VPP, bids into wholesale market (Brazil ANEEL Q4 2026, Chile CEN).
-**Deal size**: $300k–$1.5M | **Timeline**: 14-20 weeks
-
+**Código clave**:
 ```python
-from anthropic import Anthropic
+import anthropic
+import json
 
-client = Anthropic()
-
-VPP_TOOLS = [
+TOOLS = [
     {
-        "name": "get_asset_state",
-        "description": "Get current SOC, availability, constraints for VPP assets",
-        "input_schema": {
-            "type": "object",
-            "properties": {"asset_type": {"type": "string", "enum": ["bess", "solar", "ev"]}},
-            "required": ["asset_type"]
-        }
-    },
-    {
-        "name": "get_grid_price",
-        "description": "Get current and forecast wholesale electricity price",
-        "input_schema": {
-            "type": "object",
-            "properties": {"market": {"type": "string"}, "horizon_hours": {"type": "integer"}},
-            "required": ["market"]
-        }
-    },
-    {
-        "name": "dispatch_asset",
-        "description": "Send dispatch command via VOLTTRON OpenADR",
+        "name": "get_asset_history",
+        "description": "Obtiene historial de mantenimiento y fallos de un activo",
         "input_schema": {
             "type": "object",
             "properties": {
                 "asset_id": {"type": "string"},
-                "command": {"type": "string", "enum": ["charge", "discharge", "standby"]},
-                "power_kw": {"type": "number"}
+                "months_back": {"type": "integer", "default": 12}
             },
-            "required": ["asset_id", "command", "power_kw"]
+            "required": ["asset_id"]
         }
-    }
-]
-
-def vpp_dispatch_agent(market_signal: dict, assets: list) -> dict:
-    messages = [{
-        "role": "user",
-        "content": f"""You are a VPP dispatch manager.
-        Market signal: {market_signal}
-        Assets: {assets}
-        Dispatch assets to maximize revenue while respecting SOC limits and grid constraints."""
-    }]
-    while True:
-        response = client.messages.create(
-            model="claude-sonnet-5-20261101",
-            max_tokens=4096,
-            tools=VPP_TOOLS,
-            messages=messages
-        )
-        if response.stop_reason == "end_turn":
-            return {"dispatch_plan": response.content[-1].text}
-        tool_results = []
-        for block in response.content:
-            if block.type == "tool_use":
-                result = execute_tool(block.name, block.input)
-                tool_results.append({"type": "tool_result", "tool_use_id": block.id, "content": str(result)})
-        messages.extend([{"role": "assistant", "content": response.content}, {"role": "user", "content": tool_results}])
-```
-
-**LATAM fit**: Very high — Brazil ANEEL VPP Q4 2026, Chile solar+BESS aggregation.
-
----
-
-## P5: Predictive Maintenance Agent (TimescaleDB + Claude Vision)
-
-**Use case**: Utility predicts transformer/grid failures before outages using thermal imaging + sensor data.
-**Deal size**: $80k–$250k | **Timeline**: 6-10 weeks
-
-```python
-import base64
-from anthropic import Anthropic
-
-client = Anthropic()
-
-def analyze_transformer(transformer_id: str, sensor_data: dict, thermal_image_path: str = None):
-    content = [{
-        "type": "text",
-        "content": f"""Analyze transformer health:
-        ID: {transformer_id}
-        Oil temperature: {sensor_data['oil_temp_c']}C (limit: 95C)
-        Load factor: {sensor_data['load_pct']}%
-        Harmonics THD: {sensor_data['thd_pct']}%
-        Age: {sensor_data['age_years']} years
-        30d trend: {sensor_data['trend']}
-        
-        Return: health score (0-100), failure probability (30/60/90 days), maintenance priority."""
-    }]
-    if thermal_image_path:
-        with open(thermal_image_path, "rb") as f:
-            img_b64 = base64.standard_b64encode(f.read()).decode("utf-8")
-        content.insert(0, {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": img_b64}})
-    response = client.messages.create(
-        model="claude-sonnet-5-20261101",
-        max_tokens=1024,
-        messages=[{"role": "user", "content": content}]
-    )
-    return response.content[0].text
-```
-
-**LATAM fit**: Very high — Brazil 41+ year grid age; Argentina infrastructure stress; Mexico T&D losses >15%.
-
----
-
-## P6: Grid Copilot — LLM Interface for Operators (PowerMCP + Claude)
-
-**Use case**: Utility control room operators query grid state in natural language. Claude drives PowerWorld/PSSE/OpenDSS via PowerMCP.
-**Deal size**: $200k–$800k | **Timeline**: 10-16 weeks
-
-```python
-from anthropic import Anthropic
-
-client = Anthropic()
-
-# PowerMCP provides these tools via MCP protocol
-GRID_TOOLS = [
+    },
     {
-        "name": "run_power_flow",
-        "description": "Run AC power flow simulation on current grid state using pandapower/OpenDSS",
+        "name": "create_work_order",
+        "description": "Crea orden de trabajo en CMMS con prioridad y descripción",
         "input_schema": {
             "type": "object",
             "properties": {
-                "contingency": {"type": "string"},
-                "load_scaling": {"type": "number"}
-            }
+                "asset_id": {"type": "string"},
+                "priority": {"type": "string", "enum": ["critical", "high", "medium", "low"]},
+                "description": {"type": "string"},
+                "estimated_hours": {"type": "number"},
+                "parts_needed": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["asset_id", "priority", "description"]
         }
-    },
-    {
-        "name": "get_line_loading",
-        "description": "Get thermal loading percentage for all transmission lines",
-        "input_schema": {"type": "object", "properties": {}}
-    },
-    {
-        "name": "run_contingency_screening",
-        "description": "Run N-1 contingency analysis and identify violations",
-        "input_schema": {
-            "type": "object",
-            "properties": {"n_contingencies": {"type": "integer"}}
-        }
-    },
-    {
-        "name": "get_voltage_profile",
-        "description": "Get bus voltage levels across the network",
-        "input_schema": {"type": "object", "properties": {}}
     }
 ]
 
-def grid_copilot(operator_query: str) -> str:
-    response = client.messages.create(
-        model="claude-sonnet-5-20261101",
-        max_tokens=4096,
-        system="""You are an AI copilot for power grid operators with expert knowledge of power systems.
-        Always run power flow before making recommendations.
-        Cite specific line names, bus IDs, and numerical values.
-        Flag safety-critical findings immediately.
-        Use PowerMCP tools to interact with the actual power system simulator.""",
-        tools=GRID_TOOLS,
-        messages=[{"role": "user", "content": operator_query}]
-    )
-    return process_agentic_response(response)
-# Examples: "What happens if line 14-23 trips during tomorrow's peak?"
-# "Run N-1 contingency and show violations above 90% loading"
+def run_maintenance_agent(asset_id: str, anomaly_data: dict):
+    client = anthropic.Anthropic()
+    
+    messages = [{
+        "role": "user",
+        "content": f"""
+        Se detectó una anomalía en el activo {asset_id}.
+        
+        Datos del sensor: {json.dumps(anomaly_data, indent=2)}
+        Anomaly score: {anomaly_data['score']:.2f} (threshold: 0.7)
+        
+        Por favor:
+        1. Consulta el historial del activo
+        2. Diagnostica el posible problema
+        3. Crea una orden de trabajo con la prioridad y acción correcta
+        """
+    }]
+    
+    # Agentic loop
+    while True:
+        response = client.messages.create(
+            model="claude-sonnet-5-20261001",
+            max_tokens=2048,
+            tools=TOOLS,
+            messages=messages
+        )
+        
+        if response.stop_reason == "end_turn":
+            break
+            
+        if response.stop_reason == "tool_use":
+            tool_results = []
+            for content_block in response.content:
+                if content_block.type == "tool_use":
+                    result = execute_tool(content_block.name, content_block.input)
+                    tool_results.append({
+                        "type": "tool_result",
+                        "tool_use_id": content_block.id,
+                        "content": json.dumps(result)
+                    })
+            
+            messages.append({"role": "assistant", "content": response.content})
+            messages.append({"role": "user", "content": tool_results})
+    
+    return response
 ```
 
-**LATAM fit**: High for utilities with aging SCADA lacking natural language interface.
+**Estimado**: $120k-$500k | 10-16 semanas | 3-4 ingenieros (1 IoT, 1 ML, 1 AI/agents, 1 CMMS integración)
 
 ---
 
-## P7: Building HVAC RL Agent (sinergym + LangGraph)
+## P5 — P2P Energy Market Agent (lemlab + LLM + Estrategia MARL)
 
-**Use case**: Commercial building AI-controlled HVAC minimizing energy cost while maintaining comfort.
-**Deal size**: $60k–$200k | **Timeline**: 6-10 weeks
-
-```python
-import sinergym
-import gymnasium as gym
-from stable_baselines3 import PPO
-from anthropic import Anthropic
-
-client = Anthropic()
-
-env = gym.make(
-    "Eplus-5zone-hot-continuous-stochastic-v1",
-    weather_variability=(("drybulb", 1.0, 0.0, 24),)
-)
-
-model = PPO("MlpPolicy", env, verbose=1, n_steps=4096)
-model.learn(total_timesteps=200_000)
-
-def explain_setpoint(setpoint: float, temp: float, price: float) -> str:
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=256,
-        messages=[{
-            "role": "user",
-            "content": f"HVAC setpoint changed to {setpoint}C. Room: {temp}C. Price: ${price}/kWh. Explain in one sentence for a building manager."
-        }]
-    )
-    return response.content[0].text
-```
-
-**LATAM fit**: Very high — office buildings in Sao Paulo, CDMX, Buenos Aires with high electricity costs.
-
----
-
-## P8: Renewable Forecast Agent (TimesFM + Claude)
-
-**Use case**: Solar/wind operator needs 48h forecasts for market bidding and BESS dispatch.
-**Deal size**: $40k–$150k | **Timeline**: 3-6 weeks
-
-```python
-import timesfm
-from anthropic import Anthropic
-import numpy as np
-
-client = Anthropic()
-
-tfm = timesfm.TimesFm(
-    hparams=timesfm.TimesFmHparams(per_core_batch_size=32, horizon_len=48, backend="gpu"),
-    checkpoint=timesfm.TimesFmCheckpoint(huggingface_repo_id="google/timesfm-2.5-500m-pytorch")
-)
-
-def forecast_generation(historical_mw: list) -> np.ndarray:
-    forecast, _ = tfm.forecast(inputs=[np.array(historical_mw)], freq=[0])
-    return forecast[0]
-
-def generate_market_bid(forecast_mw: np.ndarray, price_signal: list) -> str:
-    response = client.messages.create(
-        model="claude-sonnet-5-20261101",
-        max_tokens=1024,
-        messages=[{
-            "role": "user",
-            "content": f"""Generate day-ahead market bid strategy for solar plant.
-            48h forecast (MW/h): {forecast_mw.tolist()}
-            Price forecast ($/MWh): {price_signal}
-            BESS: 50 MWh / 25 MW, current SOC: 80%
-            Recommend: hourly bid schedule, BESS dispatch plan, expected revenue."""
-        }]
-    )
-    return response.content[0].text
-```
-
-**LATAM fit**: Very high — Chile solar curtailment; Brazil wind+solar forecasting for ONS bidding.
-
----
-
-## P9: PowerMCP Interconnection Study Accelerator (EPRI NIM + PowerWF + Claude)
-
-**Use case**: Utility or grid operator needs to accelerate interconnection studies (currently 2-4 years). Target: 5x speedup using AI.
-**Deal size**: $200k–$600k | **Timeline**: 8-14 weeks
+**Problema**: Los mercados locales de energía P2P entre prosumidores (solar + BESS + EV) necesitan agentes que maximicen beneficio individual respetando restricciones de red y reglas de mercado.
 
 **Stack**:
-- [PowerMCP](https://github.com/Power-Agent/PowerMCP) (Apache-2.0) — MCP servers for OpenDSS/PSSE
-- [PowerWF](https://github.com/Power-Agent/PowerWF) (Apache-2.0) — interconnection study workflows
-- EPRI Open Power AI NIM microservice — domain LLM for power engineering knowledge
-- Claude Sonnet 5 — multi-agent orchestration and report generation
+- [tum-ewk/lemlab](https://github.com/tum-ewk/lemlab) (GPL-3.0) — simulación de mercado local P2P
+- PyTorch + MARL (Multi-Agent RL) — política de trading
+- Claude claude-sonnet-5 — razonamiento estratégico de alto nivel
+- [energywebfoundation](https://github.com/energywebfoundation) (Apache-2.0) — liquidación en blockchain opcional
 
+**Arquitectura**:
+```
+Prosumer Assets (solar, BESS, EV, load)
+        ↓ real-time state
+   MARL Trading Agent (fast execution)
+   (trained on lemlab simulations)
+        ↑ strategic guidance (daily)
+   Claude Strategic Planner
+   (evaluates market conditions, forecasts,
+    adjusts MARL reward shaping)
+        ↓ bids/offers
+   lemlab Market Clearing Engine
+        ↓ settlement
+   EW Chain (RECs + settlement, optional)
+```
+
+**Estimado**: $200k-$600k | 12-20 semanas | 4 ingenieros (1 energy market domain, 2 ML/MARL, 1 AI/agents)
+
+---
+
+## P6 — Grid Interconnection Study Automation (Open Power AI + PyPSA)
+
+**Problema**: Los estudios de interconexión para proyectos renovables tardan 2-5 años en EE.UU. y LATAM; el EPRI Open Power AI Consortium apunta a reducirlos 5x con AI.
+
+**Stack**:
+- Open Power AI Consortium model (NVIDIA NIM, early access) — dominio energético
+- [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) (MIT) — simulación de flujo de potencia
+- [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) (MIT) — MCP server PyPSA
+- Claude claude-opus-4-8 — razonamiento complejo, documentación de resultados
+
+**Arquitectura**:
+```
+Project Data (location, capacity, interconnection point)
+        ↓
+   Claude Agent (PowerSkills system prompt)
+   + Open Power AI domain model via NIM
+        ↓ MCP tool calls
+   PowerMCP (PyPSA server)
+   - thermal analysis
+   - voltage analysis
+   - stability studies
+   - contingency analysis (N-1, N-2)
+        ↓
+   Automated Study Report (PDF)
+   - findings and violations
+   - mitigation options
+   - cost estimates
+        ↓
+   Human Engineer Review (reduced from weeks to hours)
+```
+
+**Estimado**: $300k-$1.5M | 12-24 semanas | 4-6 ingenieros (2 power systems engineers, 2 AI/MCP, 1 PM, 1 QA)  
+**ROI para cliente**: reducción de 18-24 meses → 3-6 meses en time-to-interconnection
+
+---
+
+## P7 — Energy AI Assistant para Utilities (Claude + OpenEMS API + NL Interface)
+
+**Problema**: Los operadores de utilities necesitan consultar el estado de la red, disparar diagnósticos y gestionar activos distribuidos en lenguaje natural desde dashboards o mobile.
+
+**Stack**:
+- [OpenEMS/openems](https://github.com/OpenEMS/openems) (Eclipse PL 2.0) — EMS backend
+- Claude claude-sonnet-5 — interfaz conversacional
+- OpenEMS REST API + WebSocket — herramientas del agente
+- Streaming con SSE — respuestas en tiempo real
+
+**Código clave**:
 ```python
-from anthropic import Anthropic
 import anthropic
+import httpx
 
-client = Anthropic()
-
-INTERCONNECTION_TOOLS = [
+OPENEMS_TOOLS = [
     {
-        "name": "run_interconnection_screening",
-        "description": "Run initial interconnection screening using PowerMCP/OpenDSS",
+        "name": "get_grid_status",
+        "description": "Obtiene el estado actual de la red: carga, generación solar, estado BESS, EVs conectados",
+        "input_schema": {"type": "object", "properties": {}, "required": []}
+    },
+    {
+        "name": "set_ess_discharge_power",
+        "description": "Configura la potencia de descarga del sistema de almacenamiento (BESS)",
         "input_schema": {
             "type": "object",
             "properties": {
-                "project_type": {"type": "string", "enum": ["solar", "wind", "bess", "hybrid"]},
-                "capacity_mw": {"type": "number"},
-                "proposed_poc": {"type": "string"}  # Point of Connection bus ID
+                "power_w": {"type": "integer", "description": "Potencia en vatios (negativo = carga, positivo = descarga)"},
+                "duration_minutes": {"type": "integer"}
             },
-            "required": ["project_type", "capacity_mw", "proposed_poc"]
+            "required": ["power_w"]
         }
     },
     {
-        "name": "run_power_flow_study",
-        "description": "Run detailed power flow study for interconnection impact",
+        "name": "get_consumption_forecast",
+        "description": "Obtiene forecast de consumo para las próximas N horas desde OpenSTEF",
         "input_schema": {
             "type": "object",
             "properties": {
-                "poc_bus": {"type": "string"},
-                "injection_mw": {"type": "number"},
-                "study_cases": {"type": "array", "items": {"type": "string"}}
-            },
-            "required": ["poc_bus", "injection_mw"]
-        }
-    },
-    {
-        "name": "identify_upgrades_required",
-        "description": "Identify network upgrades required for interconnection",
-        "input_schema": {
-            "type": "object",
-            "properties": {"violations": {"type": "array", "items": {"type": "object"}}},
-            "required": ["violations"]
-        }
-    },
-    {
-        "name": "query_epri_knowledge",
-        "description": "Query EPRI Open Power AI domain knowledge base for standards and precedents",
-        "input_schema": {
-            "type": "object",
-            "properties": {"query": {"type": "string"}},
-            "required": ["query"]
+                "hours_ahead": {"type": "integer", "default": 24}
+            }
         }
     }
 ]
 
-def run_interconnection_study(project: dict) -> str:
-    messages = [{
-        "role": "user",
-        "content": f"""Run a complete interconnection feasibility study for:
-        Project: {project['name']}
-        Type: {project['type']} | Capacity: {project['capacity_mw']} MW
-        Proposed Point of Connection: {project['poc_bus']}
-        
-        Follow NERC guidelines. Identify violations, required upgrades, and cost estimates.
-        Generate executive summary and technical report sections."""
-    }]
-    while True:
-        response = client.messages.create(
-            model="claude-sonnet-5-20261101",
-            max_tokens=8192,
-            tools=INTERCONNECTION_TOOLS,
-            messages=messages
-        )
-        if response.stop_reason == "end_turn":
-            return response.content[-1].text
-        tool_results = []
-        for block in response.content:
-            if block.type == "tool_use":
-                result = execute_tool(block.name, block.input)
-                tool_results.append({"type": "tool_result", "tool_use_id": block.id, "content": str(result)})
-        messages.extend([{"role": "assistant", "content": response.content}, {"role": "user", "content": tool_results}])
-```
-
-**LATAM fit**: Very high — Brazil/Chile have large queues of renewable interconnection requests; ANEEL and CEN processes need acceleration.
-
----
-
-## P10: Smart Meter Data AI Platform (Brazil CPFL / Neoenergia)
-
-**Use case**: Brazilian utility has 3.6M+ new smart meters. Build AI layer for theft detection, demand forecasting, ToU pricing optimization.
-**Deal size**: $100k–$400k | **Timeline**: 8-14 weeks
-
-```python
-from anthropic import Anthropic
-import numpy as np
-import timesfm
-
-client = Anthropic()
-
-def detect_energy_theft(meter_id: str, consumption_profile: list, peer_profiles: list) -> dict:
-    """Compare meter profile against peer cohort for theft detection."""
-    response = client.messages.create(
-        model="claude-sonnet-5-20261101",
+async def energy_chat(user_message: str, openems_base_url: str):
+    client = anthropic.AsyncAnthropic()
+    
+    async with client.messages.stream(
+        model="claude-sonnet-5-20261001",
         max_tokens=1024,
-        messages=[{
-            "role": "user",
-            "content": f"""Analyze electricity consumption for potential theft or tampering.
-            Meter ID: {meter_id}
-            Last 30 days hourly consumption (kWh): {consumption_profile}
-            Peer cohort average (same location, size): {peer_profiles}
-            
-            Identify: anomalous periods, consumption cliff drops (potential bypass), 
-            seasonal vs behavioral anomalies. 
-            Return: theft_probability (0-1), anomaly_periods[], recommended_action."""
-        }]
-    )
-    return {"analysis": response.content[0].text}
-
-def forecast_demand(meter_ids: list, historical_data: dict) -> dict:
-    """48-hour demand forecast per meter using TimesFM."""
-    tfm = timesfm.TimesFm(
-        hparams=timesfm.TimesFmHparams(per_core_batch_size=32, horizon_len=48, backend="gpu"),
-        checkpoint=timesfm.TimesFmCheckpoint(huggingface_repo_id="google/timesfm-2.5-500m-pytorch")
-    )
-    forecasts = {}
-    for meter_id in meter_ids:
-        ts = np.array(historical_data[meter_id])
-        forecast, _ = tfm.forecast(inputs=[ts], freq=[0])
-        forecasts[meter_id] = forecast[0].tolist()
-    return forecasts
+        system="""Eres el asistente de gestión energética de esta microgrid.
+        Tienes acceso al estado de la red, BESS, paneles solares y puntos de carga EV.
+        Puedes modificar setpoints de operación dentro de límites seguros.
+        Siempre explica las acciones que tomas y su impacto esperado.""",
+        tools=OPENEMS_TOOLS,
+        messages=[{"role": "user", "content": user_message}]
+    ) as stream:
+        async for event in stream:
+            yield event
 ```
 
-**LATAM fit**: Very high — Brazil national mandate in progress, 3.6M year 1 target. Immediate commercial opportunity with CPFL, Neoenergia, Equatorial.
+**Estimado**: $50k-$200k | 4-10 semanas | 2-3 ingenieros (1 OpenEMS specialist, 1-2 AI/backend)
 
 ---
 
-## P11: Building-to-Grid Flexibility (AutoB2G + sinergym + VOLTTRON)
+## Matriz de Patrones
 
-**Use case**: Commercial building participates in grid demand response market, providing 10-20% peak load flexibility.
-**Deal size**: $80k–$350k | **Timeline**: 8-14 weeks
-
-```python
-from anthropic import Anthropic
-
-client = Anthropic()
-
-B2G_TOOLS = [
-    {
-        "name": "get_building_loads",
-        "description": "Get current HVAC, lighting, EV, BESS loads and flexibility windows",
-        "input_schema": {"type": "object", "properties": {"building_id": {"type": "string"}}}
-    },
-    {
-        "name": "get_dr_event",
-        "description": "Get active demand response event from grid operator (VOLTTRON/OpenADR)",
-        "input_schema": {"type": "object", "properties": {}}
-    },
-    {
-        "name": "curtail_load",
-        "description": "Reduce building load by adjusting HVAC setpoints or deferring EV charging",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "load_type": {"type": "string", "enum": ["hvac", "ev", "lighting"]},
-                "reduction_kw": {"type": "number"},
-                "duration_min": {"type": "integer"}
-            },
-            "required": ["load_type", "reduction_kw"]
-        }
-    }
-]
-
-def b2g_flexibility_agent(dr_event: dict, building_state: dict) -> str:
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=2048,
-        system="You are a building-to-grid flexibility manager. Maximize DR revenue while maintaining occupant comfort.",
-        tools=B2G_TOOLS,
-        messages=[{
-            "role": "user",
-            "content": f"DR event: {dr_event}. Building state: {building_state}. Execute optimal curtailment plan."
-        }]
-    )
-    return process_agentic_response(response)
-```
-
-**LATAM fit**: High — commercial buildings in Sao Paulo, CDMX, Santiago with high peak tariffs.
+| Patrón | Segmento | Licenses | Esfuerzo | Deal Size |
+|--------|----------|----------|----------|-----------|
+| P1 Grid Intelligence Agent | TSO/DSO/Consultoras | MIT | 6-12w | $80k-$300k |
+| P2 Load Forecasting Service | Utilities/Comercializadoras | MPL-2.0+Apache | 4-8w | $60k-$150k |
+| P3 Building Energy Optimization | Facilities/Real Estate | MIT | 8-16w | $100k-$400k |
+| P4 Predictive Maintenance | Utilities/IPPs | AGPL+Apache | 10-16w | $120k-$500k |
+| P5 P2P Energy Market | Utilities/Agregadores | GPL+Apache | 12-20w | $200k-$600k |
+| P6 Interconnection Study | Consultoras/Developers | MIT | 12-24w | $300k-$1.5M |
+| P7 Energy AI Assistant | Utilities/Microgrids | Eclipse PL | 4-10w | $50k-$200k |
 
 ---
-
-## Pattern Selection Guide
-
-| Client Situation | Pattern | Deal Size |
-|-----------------|---------|-----------| 
-| Factory / hospital with existing meters | P1: MyEMS AI Overlay | $80k-$300k |
-| Utility with aging SCADA | P6: Grid Copilot (PowerMCP) | $200k-$800k |
-| Renewable operator | P8: Forecast + P4: VPP | $40k-$1.5M |
-| Tech client sustainability (fast-close) | P3: Carbon-Aware CI/CD | $40k-$150k |
-| Building facility manager | P7: Building RL Agent | $60k-$200k |
-| Distribution utility RL | P2: Grid RL Agent | $200k-$800k |
-| Aging grid infrastructure | P5: Predictive Maintenance | $80k-$250k |
-| Utility interconnection backlog | P9: Interconnection Accelerator | $200k-$600k |
-| Brazilian utility (smart meters) | P10: Meter Data AI | $100k-$400k |
-| Commercial building DR market | P11: B2G Flexibility | $80k-$350k |
-
----
-*Updated by Globant AI Studios ingestion pipeline.*
+*Ver también: `agents/top.md` para el detalle de cada herramienta AI mencionada.*
