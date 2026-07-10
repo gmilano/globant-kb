@@ -1,6 +1,6 @@
 # 📡 Trends — Media & Entertainment AI
 
-> Current trends shaping the industry. Updated: 2026-07-09 (v9 — Trends 21-22 added: AI Video Advertising Wave, Open-Source Music Gen 2.0 maturation)
+> Current trends shaping the industry. Updated: 2026-07-10 (v10 — Trends 23-24 added: Agent-Native Video Editing Wave; Agentic OTT Full-Stack + OS-Level Discovery)
 
 ## Trend 1: Agentic Video Production (2025–2026 Inflection)
 **Signal**: OpenMontage viral launch + ViMax 1.1k★ in weeks; "agentic video" now a search category.
@@ -308,6 +308,81 @@ Claude → song brief + lyrics (brand tone, duration, style)
 **Impact**: Eliminates music sync licensing as a cost center for AI-generated content. First time agencies can own all IP in their AI-produced content (video + audio + script).
 **Globant angle**: Upgrade Pattern 2 (Content Factory) to use YuE/DiffRhythm 2 for original music instead of AudioCraft. Add "zero sync-license content factory" to the pitch deck — 100% IP-owned output.
 
+## Trend 23: Agent-Native Video Editing — The "Editor's Agent" Wave (July 2026)
+**Signal**: browser-use/video-use (MIT, ~4.2k★) launched July 2, 2026 and hit GitHub Trending within days. HKUDS/VideoAgent (MIT, arXiv:2606.23327) reaches 1.5k★ with 30+ specialized editing agents and a 0.87–0.95 workflow success rate.
+
+Video AI has moved through two waves:
+- **Wave 1 (2024–2025)**: Video *generation* — text/image → video clip (CogVideoX, LTX-2, Wan, HunyuanVideo)
+- **Wave 2 (Q2 2026)**: Video *editing* — raw footage → finished video via agent dialogue
+
+**video-use architecture** (the key insight):
+The fundamental challenge of AI video editing was token cost — raw video = 45 million tokens. video-use solves this with a two-layer abstraction:
+1. **Layer 1**: Full word-level transcript (ElevenLabs Scribe: timestamps, diarization, audio events) — loaded always
+2. **Layer 2**: Sparse PNG keyframes — loaded only for visual decision points
+
+Result: 12KB of context vs 45M tokens. The agent "reads" the video at editorial speed — same information a human editor uses to make cut decisions: who's speaking, what's being said, where the visual is interesting.
+
+Operations the agent executes via ffmpeg: filler-word cuts, dead-space removal, auto color grading, 30ms audio fades at cuts, subtitle burning (custom styles), animation overlays (HyperFrames/Remotion/Manim).
+
+**VideoAgent** (HKUDS) is the more academic complement — covering understanding, editing, and remaking existing footage via a 30+ agent pipeline with dynamic workflow composition.
+
+**Why this matters for media production**:
+- Corporate video teams spending 8-16 hours editing a 30-min interview → agent does it in 10 minutes
+- Broadcast journalism: raw field footage → broadcast-ready cut with captions/subtitles autonomously
+- FAST platforms: batch-edit 100 UGC submissions for style consistency without human editors
+- Training content: recorded lectures → polished eLearning videos at scale
+
+**The full agent production stack is now complete**:
+| Stage | Tool (2026) | Input → Output |
+|-------|------------|----------------|
+| Script → Scene | OpenMontage (AGPL-3.0) | Brief → storyboard scenes |
+| Scene → Clip | ViMax / Wan 2.7 / LTX-2 | Description → video clips |
+| Footage → Edit | video-use (MIT) | Raw footage → final cut |
+| Edit → Refinement | VideoAgent (MIT) | Existing video → re-edited/remade |
+| Audio → Music | ACE-Step 1.5 XL (Apache-2.0) | Brief → full-length original song |
+| Silent → Sound | HunyuanVideo-Foley | Video → synchronized SFX |
+
+**Impact**: End-to-end video production (script to final delivery) can now run with one human reviewing agent outputs — not a production crew of 10.
+**Globant angle**: Pattern 13 (compose/patterns.md) — video-use Agent Editing Studio. 3-4 week PoC for any client with raw footage (news, corporate, training). LATAM broadcast clients (Globo, Caracol, Televisa) are the natural first targets — they have large raw footage libraries and constrained editorial teams.
+
+---
+
+## Trend 24: Agentic OTT Full-Stack + OS-Level Discovery (H1 2026)
+**Signal**: By H1 2026, AI has moved from "a feature in streaming" to "the infrastructure of streaming" — AI now sits at every stage of the OTT delivery chain. Simultaneously, TV OS-level AI is redirecting discovery above individual platform apps.
+
+**The Agentic OTT Full-Stack (2026)**:
+
+| OTT Pipeline Stage | 2024 (Manual/Rule-based) | 2026 (AI/Agentic) |
+|--------------------|--------------------------|-------------------|
+| Ingest | Manual tagging | AI scene detection, auto-tagging (Claude Vision + metadata pipeline) |
+| Transcoding | Fixed per-title presets | Per-scene AI encoding (quality where it counts, compression where it doesn't) |
+| Moderation | Human review queues | AI classifiers (CSAM/copyright/hate detection) — 34% reduction in synthetic media (Reuters) |
+| Search | Keyword + metadata | Semantic + multimodal (Meilisearch + embedding pipeline) |
+| Personalization | Collaborative filtering | Embeddings + vector search + emotional-aware prediction |
+| Live features | Manual transcription | Real-time AI captions/translation, AI co-commentary |
+| Analytics | Dashboard review | Agentic insight generation, automated A/B testing |
+
+**Platforms that don't implement agentic AI across this stack face 20% margin leakage** from subscriber inertia by 2027 (industry forecast). This creates a compliance/competitive floor — every OTT client needs this stack.
+
+**OS-Level Discovery — The Biggest Strategic Shift**:
+When a viewer asks their TV "what should I watch tonight?", the OS-level AI (Apple TV OS, Google TV, Amazon FireOS, Samsung Tizen) recommends content across **all installed streaming services** — the TV OS owns the recommendation, not the streaming platform. Discovery is no longer inside apps — it lives *above* them.
+
+Implication for media clients:
+- A platform's recommendation AI only matters at content-start (if the OS sends the viewer there)
+- The battle moves to **content metadata quality**: platforms that provide the richest AI-parseable metadata (structured, C2PA-signed, semantically tagged) get recommended more by OS-level AI
+- Open tools for metadata enrichment: Claude Vision (auto-tag) + `c2pa-python` (sign) + Meilisearch (semantic index) = the metadata moat
+
+**Industry investment signal**: Platforms failing to implement agentic AI will face a 20% margin leakage due to subscriber inertia. AI personalization must be hyper-local — 30% of global recommendations in 2026 must stem from regional hit mappings. LATAM regional intelligence = Globant competitive advantage.
+
+**Impact**: Every OTT/streaming client needs a full-stack AI audit and refactor. This is not a feature build — it's an infrastructure rebuild. The engagement is large (6-16 week transformations) and recurring (AI systems need continuous improvement).
+
+**Globant angle**: 
+1. **OTT AI Audit** ($50k-$150k, 3-4 weeks) — assess which pipeline stages are AI-ready vs. manual, prioritize highest-ROI interventions
+2. **Semantic Metadata Enrichment** ($80k-$200k, 4-6 weeks) — Claude Vision + Meilisearch + C2PA = OS-level discovery optimization
+3. **Full-Stack Agentic OTT** ($300k-$1M, 10-20 weeks) — rebuild the streaming stack with AI at every layer
+
+---
+
 ## Summary Timeline
 
 | Period | Development |
@@ -315,7 +390,7 @@ Claude → song brief + lyrics (brand tone, duration, style)
 | 2023 | Whisper open-sourced; Stable Diffusion image generation mainstream |
 | 2024 | AnimateDiff/SVD first viable open video; AudioCraft released |
 | 2025 | Faster-whisper production standard; first agentic media tools |
-| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral (36.2k★ #1 Trending Jun 20, AGPL-3.0); LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; DiffRhythm 2 Block Flow Matching; VoxCPM2 48kHz Apache-2.0 TTS; Podcastfy podcast AI proliferates; microdrama $14B by year-end; Wan 2.7 Thinking Mode (Apr 2026); KrillinAI 10k★ agentic dubbing; GenAI M&E $3.16B confirmed (Jul 7 Globe Newswire); Versus AI exits stealth (Jul 2026) with Disney+/HBO/NFL; Interactive CTV $42B+ ad market; ComfyUI crosses 100k★ + $30M raise @ $500M valuation + 4M users; HunyuanVideo-Foley synchronized foley audio; GenAI Content Creation $21.53B→$77.22B (2030) confirmed; AI video ad spend $9.1B; Disney vertical video archive AI; 71% orgs GenAI for content creation; Agentic newsrooms wave begins** |
+| **2026 H1** | **CogVideoX/Wan/LTX Apache-2.0 tier; LTX-2 native 4K audio+video; OpenMontage viral (36.2k★ #1 Trending Jun 20, AGPL-3.0); LATAM FAST $65B; NAB 2026 AI infrastructure standard; C2PA 140+ members; YuE lyrics→song; DiffRhythm 2 Block Flow Matching; VoxCPM2 48kHz Apache-2.0 TTS; Podcastfy podcast AI proliferates; microdrama $14B by year-end; Wan 2.7 Thinking Mode (Apr 2026); KrillinAI 10k★ agentic dubbing; GenAI M&E $3.16B confirmed (Jul 7 Globe Newswire); Versus AI exits stealth (Jul 2026) with Disney+/HBO/NFL; Interactive CTV $42B+ ad market; ComfyUI crosses 100k★ + $30M raise @ $500M valuation + 4M users; HunyuanVideo-Foley synchronized foley audio; GenAI Content Creation $21.53B→$77.22B (2030) confirmed; AI video ad spend $9.1B; Disney vertical video archive AI; 71% orgs GenAI for content creation; Agentic newsrooms wave begins; **video-use (Jul 2, 2026) agent video editing 4.2k★; HKUDS/VideoAgent 30+ editing agents 0.95 success rate; ACE-Step 1.5 XL <2s/song <4GB VRAM; openreel-video OSS CapCut alt; AI in M&E $35.77B 2026 confirmed; OS-Level Discovery above apps; Agentic OTT full-stack 20% margin leakage signal** |
 | 2026 H2 (projected) | LTX-2 becomes default for production; SkyReels-V3 multimodal SOTA; C2PA contractual in broadcast; interactive MAGI-1 streaming apps; $256B AI M&E by 2035 pathway confirmed |
 
 ## Q3 2026 Watch Signals
@@ -332,6 +407,11 @@ Claude → song brief + lyrics (brand tone, duration, style)
 | Agentic CMS adoption | Major news orgs deploying agents in CMS workflows | Triggers Globant newsroom AI service line |
 | HunyuanVideo-Foley ComfyUI ecosystem | Community nodes + fine-tuned models for genres | Matures into production-grade SFX automation |
 | Skill.md publisher adoption | Major news orgs publishing Skill.md definitions | Opens AI agent-publisher monetization ecosystem |
+| video-use enterprise adoption | First enterprise deployments for broadcast/news editing | Validates Pattern 13 agent editing studio |
+| VideoAgent + ViMax joint deployments | Studios deploying generate+edit pipeline together | Opens full end-to-end agent production offering |
+| ACE-Step 1.5 XL commercial music quality benchmark | Independent eval vs Suno/Udio commercial output | Determines if it's a full sync-license replacement |
+| OS-level AI discovery partnerships | Apple/Google/Samsung announcing content-provider AI metadata APIs | Defines the structured metadata standard for OTT visibility |
+| Agentic OTT first large-scale deployments | Major streamer announces AI full-stack transformation | Signals the refactoring cycle is real and underway |
 
 ---
-*Updated 2026-07-07. Sources: Omdia, Grand View Research, ICLR 2026, industry coverage.*
+*Updated 2026-07-10. Sources: Omdia, Grand View Research, ICLR 2026, arXiv:2606.23327, industry coverage.*

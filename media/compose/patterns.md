@@ -1,7 +1,7 @@
 # 🧩 Composition Patterns — Media & Entertainment
 
 > Concrete recipes combining real repos + agents + AI.
-> Updated: 2026-07-09 (v9 — Pattern 12: YuE + DiffRhythm 2 Original Music Generation; Quick-Start Matrix updated)
+> Updated: 2026-07-10 (v10 — Pattern 13: video-use Agent Editing Studio; Quick-Start Matrix updated)
 
 ## Pattern 1: AI Auto-Captioning Pipeline
 **Use case**: Broadcaster or OTT platform needs ADA/EU accessibility compliance + cost reduction vs manual captioning.
@@ -2112,6 +2112,340 @@ bgm_path = track["instrumental_path"]
 
 ---
 
+## Pattern 13: video-use Agent Editing Studio (Raw Footage → Finished Video via Claude)
+**Use case**: News organization, corporate communications team, or training content producer has raw interview/footage and wants a finished edited video without a human video editor — using AI agents orchestrated by Claude Code.
+**Repos**: `browser-use/video-use` (MIT) + `Augani/openreel-video` (MIT, optional human review) + Claude API + ElevenLabs Scribe (transcription layer)
+**Build time**: 3-4 weeks | **Cost**: ~$0.05-0.30/video (Scribe transcription + Claude API) vs $200-500 human editing
+**License**: MIT (video-use + openreel-video) — clean for commercial use
+
+```python
+import anthropic
+import subprocess
+import json
+import base64
+from pathlib import Path
+
+class AgentVideoEditingStudio:
+    """
+    video-use pattern: Claude Code reads video as transcript + PNG frames (not raw pixels).
+    Operations: filler removal, color grading, subtitle burning, assembly.
+    Human-in-the-loop: openreel-video for final review (optional).
+    
+    Token efficiency: ~12KB of text context vs ~45M tokens for raw frames.
+    Cost: ElevenLabs Scribe ~$0.03-0.05/min audio + Claude Sonnet ~$0.01-0.02/video.
+    """
+    
+    def __init__(self, elevenlabs_api_key: str):
+        self.claude = anthropic.Anthropic()
+        self.el_api_key = elevenlabs_api_key
+    
+    def edit_interview(
+        self,
+        raw_footage_path: str,
+        edit_brief: str,
+        output_path: str,
+        subtitle_language: str = "pt",  # "pt" / "es" / "en"
+        max_duration_sec: int = None,   # None = no limit; otherwise trim to N seconds
+    ) -> dict:
+        """
+        End-to-end: raw interview footage → polished edited video.
+        edit_brief: plain-English instructions (e.g. "remove all pauses and filler words,
+                    keep only Q&A segments, target 5 minutes, add subtitles in Portuguese")
+        """
+        
+        # Step 1: Extract audio + transcribe (word-level timestamps, diarization)
+        audio_path = self._extract_audio(raw_footage_path)
+        transcript = self._transcribe(audio_path)
+        
+        # Step 2: Extract representative keyframes for Claude Vision context
+        keyframes = self._extract_keyframes(raw_footage_path, interval_sec=10)
+        
+        # Step 3: Claude generates an edit plan from transcript + brief
+        edit_plan = self._plan_edit(transcript, keyframes, edit_brief, max_duration_sec)
+        
+        # Step 4: Execute the edit plan with ffmpeg
+        edited_path = self._execute_edit(raw_footage_path, edit_plan, output_path)
+        
+        # Step 5: Color grade + burn subtitles
+        final_path = self._finalize(edited_path, edit_plan["subtitles"], subtitle_language)
+        
+        return {
+            "output_path": final_path,
+            "original_duration_sec": self._get_duration(raw_footage_path),
+            "edited_duration_sec": self._get_duration(final_path),
+            "cuts_made": len(edit_plan["cut_segments"]),
+            "fillers_removed": edit_plan.get("fillers_removed", 0),
+            "transcript": transcript,
+        }
+    
+    def _extract_audio(self, video_path: str) -> str:
+        """Extract 16kHz mono audio for Scribe transcription."""
+        audio_path = video_path.replace(Path(video_path).suffix, "_audio.wav")
+        subprocess.run([
+            "ffmpeg", "-i", video_path,
+            "-ac", "1", "-ar", "16000",
+            audio_path, "-y"
+        ], capture_output=True, check=True)
+        return audio_path
+    
+    def _transcribe(self, audio_path: str) -> list[dict]:
+        """
+        ElevenLabs Scribe: word-level timestamps, speaker diarization, audio events.
+        This is video-use's key insight: the agent reads the transcript, not raw video.
+        ~12KB per hour of speech vs 45M tokens for video frames.
+        """
+        import httpx
+        
+        with open(audio_path, "rb") as f:
+            audio_bytes = f.read()
+        
+        response = httpx.post(
+            "https://api.elevenlabs.io/v1/speech-to-text",
+            headers={"xi-api-key": self.el_api_key},
+            files={"file": ("audio.wav", audio_bytes, "audio/wav")},
+            data={
+                "model_id": "scribe_v1",
+                "timestamps_granularity": "word",
+                "diarize": True,
+                "tag_audio_events": True,
+            },
+            timeout=120
+        )
+        response.raise_for_status()
+        return response.json()["words"]
+    
+    def _extract_keyframes(self, video_path: str, interval_sec: int = 10) -> list[str]:
+        """Extract one frame every N seconds for Claude Vision context."""
+        frames_dir = Path(f"/tmp/kf_{hash(video_path) % 10000}")
+        frames_dir.mkdir(exist_ok=True)
+        
+        subprocess.run([
+            "ffmpeg", "-i", video_path,
+            "-vf", f"fps=1/{interval_sec}",
+            str(frames_dir / "frame_%04d.jpg"),
+            "-y"
+        ], capture_output=True, check=True)
+        
+        return sorted(str(p) for p in frames_dir.glob("*.jpg"))[:12]  # Max 12 frames
+    
+    def _plan_edit(
+        self, transcript: list[dict], keyframes: list[str],
+        brief: str, max_duration: int | None
+    ) -> dict:
+        """
+        Claude generates a precise edit plan from the transcript + brief.
+        Returns: {cut_segments, fillers_removed, subtitles, color_grade_style}
+        """
+        
+        # Build compact transcript for Claude
+        words_text = " ".join(
+            f"[{w['start']:.1f}s:{w.get('speaker_id','S0')}]{w['text']}"
+            for w in transcript if w.get("type") == "word"
+        )
+        
+        # Encode up to 4 representative frames for vision context
+        image_content = []
+        for frame_path in keyframes[::max(1, len(keyframes)//4)][:4]:
+            with open(frame_path, "rb") as f:
+                img_b64 = base64.standard_b64encode(f.read()).decode()
+            image_content.append({
+                "type": "image",
+                "source": {"type": "base64", "media_type": "image/jpeg", "data": img_b64}
+            })
+        
+        duration_constraint = (
+            f"Target final duration: {max_duration} seconds maximum." 
+            if max_duration else "No duration limit."
+        )
+        
+        response = self.claude.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=4096,
+            messages=[{
+                "role": "user",
+                "content": image_content + [{
+                    "type": "text",
+                    "text": f"""You are a professional video editor. Create a precise edit plan for this footage.
+
+Edit brief: {brief}
+{duration_constraint}
+
+Timestamped transcript (format: [start_sec:speaker]word):
+{words_text[:6000]}
+
+Generate an edit plan as JSON:
+{{
+    "cut_segments": [
+        {{
+            "keep": true/false,
+            "start_sec": float,
+            "end_sec": float,
+            "reason": "why keep or cut this segment"
+        }}
+    ],
+    "fillers_removed": int,
+    "color_grade_style": "neutral" | "warm" | "cool" | "high_contrast",
+    "subtitles": [
+        {{
+            "start_sec": float,
+            "end_sec": float,
+            "text": "subtitle text",
+            "speaker": "speaker identifier"
+        }}
+    ]
+}}
+
+Rules:
+- Keep segments have keep=true; cut segments (fillers, dead space, off-topic) have keep=false
+- cut_segments must cover the ENTIRE duration without gaps (keep OR cut, no gaps)
+- Fillers to cut: "um", "uh", "like" as filler, false starts, repeated phrases, >2sec silence
+- Subtitle text: clean (no fillers), max 60 chars per line"""
+                }]
+            }]
+        )
+        
+        return json.loads(response.content[0].text)
+    
+    def _execute_edit(self, video_path: str, plan: dict, output_path: str) -> str:
+        """Execute the edit plan: extract kept segments and concatenate with ffmpeg."""
+        
+        keep_segments = [s for s in plan["cut_segments"] if s["keep"]]
+        
+        if not keep_segments:
+            return video_path  # Nothing to cut
+        
+        # Write ffmpeg complex filter for precise cutting
+        concat_parts = []
+        filter_parts = []
+        
+        for i, seg in enumerate(keep_segments):
+            duration = seg["end_sec"] - seg["start_sec"]
+            filter_parts.append(
+                f"[0:v]trim=start={seg['start_sec']}:duration={duration},setpts=PTS-STARTPTS[v{i}];"
+                f"[0:a]atrim=start={seg['start_sec']}:duration={duration},asetpts=PTS-STARTPTS[a{i}]"
+            )
+            concat_parts.append(f"[v{i}][a{i}]")
+        
+        filter_complex = (
+            ";".join(filter_parts) + ";" +
+            "".join(concat_parts) + f"concat=n={len(keep_segments)}:v=1:a=1[outv][outa]"
+        )
+        
+        edited_path = output_path.replace(
+            Path(output_path).suffix, f"_cut{Path(output_path).suffix}"
+        )
+        
+        subprocess.run([
+            "ffmpeg", "-i", video_path,
+            "-filter_complex", filter_complex,
+            "-map", "[outv]", "-map", "[outa]",
+            "-c:v", "libx264", "-preset", "fast",
+            "-c:a", "aac",
+            edited_path, "-y"
+        ], check=True, timeout=600)
+        
+        return edited_path
+    
+    def _finalize(self, video_path: str, subtitles: list[dict], lang: str) -> str:
+        """Apply color grade (ffmpeg filter) and burn subtitles (via SRT)."""
+        
+        # Write SRT subtitle file
+        srt_path = video_path.replace(Path(video_path).suffix, ".srt")
+        with open(srt_path, "w", encoding="utf-8") as f:
+            for i, sub in enumerate(subtitles, 1):
+                def fmt(t: float) -> str:
+                    h, m, s = int(t//3600), int((t%3600)//60), t%60
+                    return f"{h:02d}:{m:02d}:{s:06.3f}".replace(".", ",")
+                f.write(f"{i}\n{fmt(sub['start_sec'])} --> {fmt(sub['end_sec'])}\n{sub['text']}\n\n")
+        
+        final_path = video_path.replace(Path(video_path).suffix, "_final.mp4")
+        
+        subprocess.run([
+            "ffmpeg", "-i", video_path,
+            "-vf", (
+                "eq=contrast=1.05:brightness=0.02:saturation=1.1,"  # gentle grade
+                f"subtitles={srt_path}:force_style='FontSize=24,PrimaryColour=&Hffffff&'"
+            ),
+            "-c:a", "copy",
+            final_path, "-y"
+        ], check=True, timeout=600)
+        
+        return final_path
+    
+    def _get_duration(self, video_path: str) -> float:
+        result = subprocess.run([
+            "ffprobe", "-v", "quiet", "-print_format", "json", "-show_format", video_path
+        ], capture_output=True, text=True)
+        return float(json.loads(result.stdout)["format"]["duration"])
+
+# ── Usage Examples ──────────────────────────────────────────────────────────
+
+studio = AgentVideoEditingStudio(elevenlabs_api_key="your-el-key")
+
+# Example 1: 45-minute raw interview → 5-min broadcast-ready clip in Portuguese subtitles
+result = studio.edit_interview(
+    raw_footage_path="/raw/interview_40min.mp4",
+    edit_brief=(
+        "This is a 40-min interview with a CEO. "
+        "Keep only the most compelling answers about AI strategy and company vision. "
+        "Remove all filler words, long pauses, and off-topic segments. "
+        "Target: 5-minute highlight reel for social media and OTT distribution."
+    ),
+    output_path="/output/ceo_interview_highlight.mp4",
+    subtitle_language="pt",  # Brazilian Portuguese subtitles
+    max_duration_sec=300,    # 5 minutes
+)
+
+print(f"Original: {result['original_duration_sec']/60:.1f} min → "
+      f"Edited: {result['edited_duration_sec']/60:.1f} min")
+print(f"Cuts made: {result['cuts_made']} | Fillers removed: {result['fillers_removed']}")
+print(f"Output: {result['output_path']}")
+
+# Example 2: Batch corporate training video processing
+import os
+raw_videos = list(Path("/raw/training_content/").glob("*.mp4"))
+for video in raw_videos:
+    studio.edit_interview(
+        raw_footage_path=str(video),
+        edit_brief="Remove all dead air, filler words, and mistakes. Keep clean professional delivery only.",
+        output_path=str(Path("/output/training/") / video.name),
+        subtitle_language="es",
+    )
+```
+
+**Architecture**:
+```
+Raw footage (.mp4)
+    ↓ ffmpeg (audio extraction: 16kHz mono)
+ElevenLabs Scribe (word-level transcript, diarization, audio events) → 12KB text
+    ↓
+ffmpeg (sparse keyframes: 1 frame / 10sec → max 4 PNG for Claude Vision)
+    ↓
+Claude Sonnet 5 (Vision + Transcript → JSON edit plan: cut/keep segments + subtitles)
+    ↓
+ffmpeg (filter_complex: precise trim + concatenate kept segments)
+    ↓
+ffmpeg (eq color grade + subtitles:SRT burn)
+    → final.mp4 (subtitled, graded, filler-free)
+    ↓ [optional]
+openreel-video (browser-based human review + fine adjustments)
+    → broadcast_ready.mp4
+```
+
+**Why this approach works**:
+- **Token efficiency**: LLM reads transcript (~1KB/min audio) + 4 PNG frames = ~12KB total vs 45M tokens for raw video
+- **Word-level precision**: Scribe gives exact timestamps for every word → cuts align to phoneme boundaries (no jarring audio artifacts at cuts)
+- **Diarization**: Multiple speakers auto-identified → Claude can apply different editing rules per speaker (e.g. remove host questions, keep guest answers only)
+- **Cost**: ElevenLabs Scribe ~$0.03-0.05/min audio + Claude Sonnet ~$0.01-0.02/edit = $0.05-0.30/video vs $200-500 human editor
+
+**LATAM fit**:
+- Subtitle burning supports any language (ffmpeg subtitles filter)
+- Faster-whisper (free) can replace ElevenLabs Scribe for budget builds — less diarization quality but same workflow
+- News and corporate video teams in Brazil/Mexico have the highest raw-footage-to-edited-output ratio in LATAM
+- Globo, Caracol, Televisa all have large editorial backlogs that this pipeline could clear
+
+---
+
 ## Quick-Start Matrix
 
 | Client Type | Best Pattern | Time | Stack | Cost/Month |
@@ -2131,6 +2465,7 @@ bgm_path = track["instrumental_path"]
 | **Short-Form / AI Content Platform (SFX)** | Pattern 10 (HunyuanVideo-Foley) | 2-3 wk | HunyuanVideo-Foley + Claude Vision | $300-600 GPU |
 | **Sports Broadcaster / FAST (interactive)** | Pattern 11 (Interactive CTV) | 4-6 wk | Owncast + Claude Haiku + Redis | $500-1.5k/mo infra |
 | **Agency / Creator Platform (zero-license music)** | Pattern 12 (Original Music Factory) | 2-3 wk | YuE + DiffRhythm 2 + Claude + Demucs | $200-400 GPU; $0 sync licensing |
+| **News / Corporate / Training (raw footage edit)** | Pattern 13 (Agent Editing Studio) | 3-4 wk | video-use + ElevenLabs Scribe + Claude Sonnet + openreel-video | $200-400/mo; $0.05-0.30/video |
 
 ---
 *All patterns use MIT/Apache-2.0/MPL-2.0 licenses unless noted. Globant delivery estimates include deployment + testing.*

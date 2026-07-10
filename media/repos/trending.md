@@ -1,6 +1,6 @@
 # 📈 Trending Repos — Media & Entertainment
 
-> GitHub repos gaining momentum. Updated: 2026-07-09 (v9 — OpenMontage corrected calesthio/AGPL-3.0/36.2k★; DiffRhythm 2 + VoxCPM2 added; ComfyUI $30M/$500M milestone)
+> GitHub repos gaining momentum. Updated: 2026-07-10 (v10 — video-use + HKUDS/VideoAgent + ACE-Step-1.5 + openreel-video added)
 
 ## Velocity Table (June–July 2026)
 
@@ -24,6 +24,10 @@
 | [comfy-org/comfyui](https://github.com/comfy-org/comfyui) | GPL-3.0 | **~106k** | milestone | **v9**: $30M raised @ $500M valuation (Apr 2026, Craft Ventures); 4M users; 60k+ community nodes; 150k+ daily downloads; first AI Super Bowl ad (SVEDKA 2026); de-facto open media AI workflow engine |
 | [ASLP-lab/DiffRhythm2](https://github.com/ASLP-lab/DiffRhythm2) | Apache-2.0 | ~500 | new | **v9 addition** — Block Flow Matching for fast full-length song generation; parallel block denoising; follow-on to DiffRhythm 1 (first open diffusion music model) |
 | [OpenBMB/VoxCPM](https://github.com/OpenBMB/VoxCPM) | Apache-2.0 | ~600 | new | **v9 addition** — VoxCPM2: tokenizer-free 2B TTS, 30 languages, 48kHz, true-to-life voice cloning; Apache-2.0 alternative to Coqui TTS (MPL-2.0) |
+| [browser-use/video-use](https://github.com/browser-use/video-use) | MIT | ~4.2k | new | **v10 addition** — Agent-native video editing (Jul 2, 2026). Claude Code reads transcript + PNG frames (not raw video); auto-cuts fillers, color grades, burns subs. The "editor's agent" complement to OpenMontage's "producer's agent". |
+| [HKUDS/VideoAgent](https://github.com/HKUDS/VideoAgent) | MIT | ~1.5k | new | **v10 addition** — All-in-One Agentic Framework for Video Understanding, Editing, and Remaking (arXiv:2606.23327). 30+ specialized editing agents, 0.87–0.95 success rate. From same HKU lab as ViMax — ViMax generates, VideoAgent edits existing footage. |
+| [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | Apache-2.0 | ~3k | new | **v10 addition** — Major upgrade: LM planner (CoT) + 4B DiT decoder (XL, Apr 2 2026). <2s/song A100, <10s RTX 3090, <4GB VRAM, 50+ languages, 1000+ instruments. Outperforms most commercial music AI. Supersedes ace-step/ace-step. |
+| [Augani/openreel-video](https://github.com/Augani/openreel-video) | MIT | ~800 | new | **v10 addition** — Open-source CapCut alternative, 100% browser-based, no install, no cloud uploads, no watermarks. Professional timeline editor for self-hosted deployments. Human-in-the-loop review interface for video-use agent pipelines. |
 
 ## v7 Breakout Analyses (July 8, 2026)
 

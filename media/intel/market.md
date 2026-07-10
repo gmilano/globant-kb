@@ -1,12 +1,12 @@
 # 🗺️ Market Map — Media & Entertainment AI
 
-> Global players, market data, LATAM opportunities. Updated: 2026-07-09 (v9 — AI video ad spend $9.1B; GenAI M&E Precedence $2.8B→$21.2B; ComfyUI $30M/$500M; 71% orgs GenAI content creation; OpenMontage corrected 36.2k★)
+> Global players, market data, LATAM opportunities. Updated: 2026-07-10 (v10 — AI in M&E $35.77B 2026 confirmed; agentic OTT 20% margin leakage signal; AI in M&E $87.44B 2030 CAGR 26.3%; video-use launch; ACE-Step 1.5 XL speed data)
 
 ## Global Market Size
 
 | Metric | 2025 | 2026 | 2030/2035 | CAGR | Source |
 |--------|------|------|------|------|--------|
-| AI in Media & Entertainment | $28.32B | $35.77B | $256B (2035) | 25.26% | SNS Insider May 2026 |
+| AI in Media & Entertainment | $28.32B | $35.77B | **$87.44B (2030)** / $256B (2035) | 26.3% → 2030; 25.26% → 2035 | Business Research Co. 2026 / SNS Insider May 2026 |
 | AI Video Generation | $1.8B | $2.5B | $8.4B (2030) | 36.2% | Coherent Market Insights |
 | **Generative AI in M&E (specific)** | **$2.5B** | **$3.16B** | **$8.06B (2030)** | **26.4%** | **Globe Newswire Jul 7, 2026** |
 | Generative AI in M&E (long-range) | — | — | $21.2B (2035) | — | Precedence Research |
@@ -26,6 +26,7 @@
 > **Key update (Jul 7, 2026):** Globe Newswire confirms GenAI M&E sub-segment at $3.16B in 2026, reaching $8.06B by 2030 at 26.4% CAGR. Growth drivers: GenAI + VR/AR integration, cloud AI media services, real-time personalization. **Morgan Stanley estimate: AI could reduce TV/film production costs by up to 30%.**
 > **Key update (Jul 7, 2026):** GenAI Content Creation (broader category, incl. text/image/video/audio) confirmed at $21.53B (2025) → $77.22B by 2030 (CAGR 29.2%) — Globe Newswire. M&E is the 2nd largest vertical at 23.87% industry share (behind marketing/advertising at 33.88%).
 > **Key update (Jul 2026):** Global CTV ad spend crosses $42B in 2026. Interactive/shoppable CTV converts at 5× standard video ads. Versus AI (stealth → public Jul 2026) secures Disney+/HBO/Paramount+/NFL as clients for real-time AI engagement overlays.
+> **Key update (Jul 10, 2026):** AI in M&E market confirmed at $35.77B in 2026, growing to **$87.44B by 2030** (CAGR 26.3%) per Business Research Company 2026. Agentic OTT intelligence signal: platforms failing to implement full-stack agentic AI face **20% margin leakage** from subscriber inertia by 2027. OS-level TV AI (Apple/Google/Samsung/Amazon) now owns the recommendation layer above individual streaming apps — content metadata quality becomes the primary OTT discovery lever. Video production cost per minute: ~$400 (↓91% from $4,500 traditional). Agent-native video editing enters the stack (video-use, Jul 2, 2026, MIT, ~4.2k★). ACE-Step 1.5 XL generates full songs in <2 seconds on A100 — music generation is now a real-time microservice.
 
 ## LATAM Media Market
 

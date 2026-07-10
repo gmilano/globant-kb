@@ -1,7 +1,7 @@
 # 🎯 Top AI Agents & Tools — Media & Entertainment
 
 > Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0.
-> Last updated: 2026-07-09 (v9 — DiffRhythm 2 + VoxCPM2 added; OpenMontage repo/license corrected 36.2k★ AGPL-3.0; ComfyUI $30M/$500M funding milestone)
+> Last updated: 2026-07-10 (v10 — video-use agent video editor + HKUDS/VideoAgent + ACE-Step 1.5 XL 4B DiT + openreel-video CapCut OSS alt added)
 
 ## Top 10 AI Agents & Tools
 
@@ -62,6 +62,15 @@
 | **VoxCPM2** | [OpenBMB/VoxCPM](https://github.com/OpenBMB/VoxCPM) | Apache-2.0 | ~600 | Tokenizer-free 2B TTS for multilingual speech generation (30 languages), creative voice design, and true-to-life cloning. Outputs 48kHz audio — matches HunyuanVideo-Foley's audio quality. Ideal for LATAM Spanish/Portuguese TTS without Coqui's MPL overhead. |
 
 > **OpenMontage URL correction (v9)**: Prior versions listed `Open-Montage/OpenMontage` (MIT). The correct repo is **[calesthio/OpenMontage](https://github.com/calesthio/OpenMontage)** (AGPL-3.0, ~36.2k★). License note: AGPL-3.0 requires network-deployed derivatives to open-source their modified code. For client builds, wrap OpenMontage as a backend service (not distributed binary) — this is standard SaaS pattern and avoids AGPL disclosure obligation.
+
+## v10 Additions (July 10, 2026)
+
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| **video-use** | [browser-use/video-use](https://github.com/browser-use/video-use) | MIT | ~4.2k | Agent-native video editing by the browser-use team (Jul 2, 2026). Drop raw footage in a folder, chat with Claude Code → get final.mp4. Reads video via transcript + PNG frames (not raw pixels — 12KB vs 45M tokens). Auto-cuts filler words, color grades, burns subtitles, generates animations. No GUI needed. |
+| **VideoAgent** | [HKUDS/VideoAgent](https://github.com/HKUDS/VideoAgent) | MIT | ~1.5k | All-in-One Agentic Framework for Video Understanding, Editing, and Remaking (arXiv:2606.23327). 30+ specialized editing agents with dynamic workflow composition + intent parsing + textual-gradient graph optimization. 0.87–0.95 success rate across all LLM backbones. Complement to ViMax (generates); VideoAgent edits existing footage. |
+| **ACE-Step 1.5 XL** | [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | Apache-2.0 | ~3k | Major upgrade (Jan 2026, XL variant Apr 2, 2026): <2s/full song on A100, <10s on RTX 3090, <4GB VRAM, 50+ languages, 1000+ instruments. LM planner (CoT) + 4B DiT decoder (XL). Covers, repainting, vocal-to-BGM. Outperforms most commercial music models. Supersedes original ace-step/ace-step. |
+| **openreel-video** | [Augani/openreel-video](https://github.com/Augani/openreel-video) | MIT | ~800 | Professional browser-based video editor — open-source CapCut alternative. 100% browser-based: no installation, no cloud uploads, no watermarks. Ideal for clients needing a self-hosted video editing interface without desktop software dependencies. |
 
 ## v8 Additions (July 9, 2026)
 

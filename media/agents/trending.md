@@ -1,6 +1,6 @@
 # 📈 Trending AI Agents — Media & Entertainment
 
-> What's new and gaining traction this week. Updated: 2026-07-09 (v9 — OpenMontage corrected 36.2k★ AGPL-3.0 calesthio/; ComfyUI $30M/$500M/4M users; DiffRhythm 2 Block Flow Matching; VoxCPM2 48kHz; Disney vertical-video tool; AI video ad spend $9.1B)
+> What's new and gaining traction this week. Updated: 2026-07-10 (v10 — video-use agent video editor Jul 2 2026; HKUDS/VideoAgent 30+ editing agents; ACE-Step 1.5 XL 4B DiT <2s/song; openreel-video OSS CapCut; Agentic OTT full-stack; OS-level discovery above apps)
 
 ## Breakout Projects (June–July 2026)
 
@@ -168,6 +168,36 @@
 - **Open-source equivalent**: Buildable with `ffmpeg` + `Claude Vision` (frame-analysis for smart-reframe) + Wan 2.7 (re-render sections where simple crop destroys the shot composition). 2-3 week PoC.
 - **Globant angle**: High-value quick win for any LATAM broadcaster (Globo, Televisa, Caracol) with legacy archive. Archive-to-mobile is a "unlock existing value" pitch — not net-new AI investment.
 
+## v10 Breakouts (July 10, 2026)
+
+### 23. video-use — Agent-Native Video Editing (browser-use team, July 2, 2026)
+- **Repo**: [browser-use/video-use](https://github.com/browser-use/video-use) (MIT)
+- **Stars**: ~4,200 (GitHub Trending, July 2026)
+- **What it is**: Drop raw footage in a folder, chat with Claude Code → get final.mp4. The LLM never watches the video directly — it reads it through two efficient layers: (1) a word-level transcript from ElevenLabs Scribe (with diarization + audio events), and (2) a handful of PNG keyframes. This reduces token consumption from ~45M (raw video frames) to ~12KB of text. The agent then executes: filler-word removal, dead-space cuts, auto color grade, 30ms audio fades, subtitle burning, and animation overlays (via HyperFrames/Remotion/Manim/PIL).
+- **Why it matters**: Extends the browser-use ecosystem into video. "Editor's agent" vs OpenMontage's "producer's agent" — together they cover the full production pipeline: OpenMontage creates content from scratch; video-use refines and edits raw footage. This is the first tool where a journalist or corporate videographer can describe the edit in plain English and receive a finished file.
+- **Globant angle**: Pattern 13 (compose/patterns.md). Immediate PoC for any client with raw interview footage, training video content, or UGC that needs polishing. 3-4 week engagement.
+
+### 24. HKUDS/VideoAgent — All-in-One Video Understanding, Editing, Remaking (arXiv:2606.23327)
+- **Repo**: [HKUDS/VideoAgent](https://github.com/HKUDS/VideoAgent) (MIT)
+- **Stars**: ~1.5k (growing from HKU Data Science lab, same team as ViMax)
+- **What it is**: Multi-modal agentic framework covering three operations: (1) **Understand** — advanced content analysis across video, (2) **Edit** — 30+ specialized editing agents with dynamic workflow composition via intent parsing + textual-gradient graph optimization, (3) **Remake** — generative technologies for creative AI-powered reconstruction. Workflow composition success rate: 0.87–0.95 across all tested LLM backbones. Outperforms all baselines by 2–25%.
+- **Distinction from ViMax**: ViMax generates new video (Director+Screenwriter+Generator); VideoAgent processes **existing** footage (understand+edit+remake). They are designed for complementary use: ViMax for generation, VideoAgent for post-production refinement. Both MIT, from the same lab.
+- **Globant angle**: VideoAgent + ViMax = complete open-source video AI pipeline. Generate new footage with ViMax; edit and grade existing footage with VideoAgent. For broadcast clients with large archives, VideoAgent's "Understand" mode enables AI-powered archive indexing and clip retrieval.
+
+### 25. ACE-Step 1.5 XL — 4B DiT Achieves <2 Seconds Per Full Song
+- **Repo**: [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) (Apache-2.0)
+- **Stars**: ~3k (significant upgrade over original ace-step ~2k)
+- **What it is**: ACE-Step 1.5 is a major architectural leap from the original. Architecture: LM as "omni-capable planner" (transforms queries → comprehensive song blueprints via Chain-of-Thought) + DiT decoder (denoises audio). XL variant (4B DiT, released April 2, 2026) delivers highest quality. Three XL variants: `xl-base`, `xl-sft`, `xl-turbo`. Key specs: <2s per full song on A100, <10s on RTX 3090, <4GB VRAM, 50+ languages, 1000+ instrument types, 10-second to 10-minute (600s) generation, batch-generate 8 songs simultaneously, cover generation, repainting, vocal-to-BGM conversion.
+- **Why it matters**: The original ACE-Step was architecturally novel but limited. ACE-Step 1.5 XL closes the gap with commercial music AI (Suno, Udio) while staying Apache-2.0. At <2s/song on A100, it enables real-time music generation as a microservice — serve music generation requests via REST API at scale without long GPU queues.
+- **Globant angle**: Replace original ACE-Step entry in Pattern 12 (Original Music Factory). The XL model's speed means the "volume mode" can now use ACE-Step 1.5 XL instead of DiffRhythm 2 for scenarios where quality AND speed are both required.
+
+### 26. openreel-video — Browser-Based Professional Editor (Open-Source CapCut Alternative)
+- **Repo**: [Augani/openreel-video](https://github.com/Augani/openreel-video) (MIT)
+- **Stars**: ~800
+- **What it is**: Professional browser-based video editor that runs 100% in the browser. No installation required, no cloud uploads, no watermarks. Provides a familiar timeline editor UI — the kind of interface editors already know from CapCut, DaVinci Resolve, or Premiere — but entirely open-source and self-hostable.
+- **Why it matters**: For clients who need a human-accessible editing interface alongside the agent pipeline (video-use handles the automated editing; openreel-video handles the manual review and polish step). "Self-hosted video editing as a platform" for media clients who can't use cloud SaaS for data privacy reasons (LATAM data sovereignty).
+- **Globant angle**: Bundle openreel-video as the "human-in-the-loop" review interface in the video-use Pattern 13 pipeline. After the agent edits, human editors fine-tune in openreel-video. Full self-hosted, no-subscription video production stack: video-use (agent) + openreel-video (human review) + LTX-2 (generation) + YuE/ACE-Step 1.5 (music).
+
 ## Audio Ecosystem Moves
 
 ### faster-whisper now default for production
@@ -215,6 +245,13 @@ Meta's AudioCraft (facebookresearch/audiocraft) seeing large spike in fine-tunin
 | AI exhibitors at NAB 2026 | ~2× vs prior year | NAB 2026 show floor |
 | C2PA member organizations | 140+ (including Canon, Nikon, Leica) | C2PA Jan 2026 |
 | Versus AI streaming partners (Jul 2026) | Disney+, Paramount+, HBO Max, NFL | Deadline Jul 2026 |
+| **video-use GitHub stars (Jul 2, 2026 launch)** | **~4,200** | **GitHub** |
+| **ACE-Step 1.5 XL generation speed (A100)** | **<2 seconds per full song** | **ACE-Step 1.5 release notes** |
+| **ACE-Step 1.5 XL generation speed (RTX 3090)** | **<10 seconds per full song** | **ACE-Step 1.5 release notes** |
+| **ACE-Step 1.5 VRAM requirement** | **<4GB** (consumer GPU deployable) | **ACE-Step 1.5 readme** |
+| **VideoAgent workflow composition success rate** | **0.87–0.95** across all LLM backbones | **arXiv:2606.23327** |
+| **Agentic OTT platforms facing margin leakage** | 20% without agentic AI (by 2027) | Industry forecast 2026 |
+| **AI in M&E revenue 2026 (confirmed)** | **$35.77B** (from $28.32B 2025) | Business Research Company 2026 |
 
 ---
-*Updated 2026-07-07. Focus on Apache 2.0 / MIT for commercial builds.*
+*Updated 2026-07-10. Focus on Apache 2.0 / MIT for commercial builds.*
