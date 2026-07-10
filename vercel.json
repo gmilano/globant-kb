@@ -1,0 +1,111 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60,
+      "includeFiles": "{lib/**,viewer/**,raw/books/**,wiki/**,raw/**,decisions/**,viz/ideas/**,public/**,providers.yaml}"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/raw-file",
+      "destination": "/api/raw-file"
+    },
+    {
+      "source": "/auth/me",
+      "destination": "/api/auth-me"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api/index?__route=well-known"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/index?__route=well-known"
+    },
+    {
+      "source": "/.well-known/(.*)",
+      "destination": "/api/index?__route=well-known"
+    },
+    {
+      "source": "/api/:__route*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/w/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/book/:slug",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/wiki",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ideas",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/widgets",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/nexus",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/feed",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/pipelines",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/prime",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/decisions",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/books",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/agents",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/search/:file",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=600, s-maxage=3600"
+        }
+      ]
+    },
+    {
+      "source": "/themes/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ]
+}

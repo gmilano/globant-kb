@@ -1,0 +1,130 @@
+# KB Content Providers
+# Cada provider ingesta contenido en raw/ para que el LLM lo compile al wiki
+# 
+# Agregar un nuevo provider:
+# 1. Crear el script en ingest/
+# 2. Registrarlo aquí
+# 3. Activarlo: enabled: true
+# 4. Configurar el cron (openclaw cron add --name kb-{id} --cron "...")
+
+providers:
+
+  - id: github-trending
+    name: GitHub Trending
+    description: Repositorios trending de GitHub con más stars del día
+    script: ingest/trending.sh
+    output_dir: raw/research/trending
+    enabled: true
+    cron: "0 */3 * * *"
+    openclaw_cron_id: b4d8f8a9-8651-4295-bf39-f643b17b0a05
+    tags: [tech, open-source, coding]
+
+  - id: hackernews
+    name: Hacker News
+    description: Top stories de Hacker News (tech, startups, AI)
+    script: ingest/tech-news.sh
+    output_dir: raw/research/news
+    enabled: true
+    cron: "30 */3 * * *"
+    openclaw_cron_id: 55b74434-4cf0-4f0a-b3b1-ded7c37c04c3
+    tags: [tech, news, startups]
+
+  - id: arxiv-ai
+    name: arXiv CS.AI
+    description: Papers de arXiv en AI y Machine Learning
+    script: ingest/tech-news.sh  # incluido en tech-news.sh
+    output_dir: raw/research/papers
+    enabled: true
+    cron: "30 */3 * * *"  # mismo que tech-news
+    tags: [research, AI, papers]
+
+  - id: ideas-generator
+    name: Company as Code — Ideas
+    description: Generador diario de ideas basadas en trending y KB
+    script: ingest/ideas-generator.sh
+    output_dir: viz/ideas
+    enabled: true
+    cron: "0 8 * * *"
+    openclaw_cron_id: eb275513-f940-4bbf-b71c-81f5e28c544d
+    tags: [ideas, company-as-code]
+
+  # ── Providers available (scripts created) — set enabled:true + install cron to activate ──
+
+  - id: twitter-tech
+    name: Twitter/X Tech Trending
+    description: Tweets y threads trending sobre AI y tecnología
+    script: ingest/twitter-tech.sh
+    output_dir: raw/research/social
+    enabled: true
+    cron: "0 */6 * * *"
+    requires: [TWITTER_BEARER_TOKEN]
+    tags: [social, tech, AI]
+
+  - id: reddit-localllama
+    name: Reddit r/LocalLLaMA
+    description: Posts de r/LocalLLaMA sobre modelos locales y AI
+    script: ingest/reddit.sh
+    output_dir: raw/research/community
+    enabled: true
+    cron: "0 */4 * * *"
+    requires: [REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET]
+    tags: [community, local-AI, models]
+
+  - id: youtube-ai
+    name: YouTube AI Channels
+    description: Transcripciones de videos de canales AI (Andrej Karpathy, etc.)
+    script: ingest/youtube.sh
+    output_dir: raw/research/videos
+    enabled: true
+    cron: "0 9 * * *"
+    requires: [YOUTUBE_API_KEY]
+    channels:
+      - UCPk8m_r6fkUSg8_XAqcmrkA  # Andrej Karpathy
+      - UC9-y-6csu5WGm29I7JiwpnA  # Computerphile
+    tags: [video, education, AI]
+
+  - id: github-repos-watch
+    name: GitHub Repos Watch
+    description: Monitorea repos específicos en busca de cambios importantes
+    script: ingest/repo-watch.sh
+    output_dir: raw/research/repos
+    enabled: true
+    cron: "0 */2 * * *"
+    watch_repos:
+      - bytedance/deer-flow
+      - TauricResearch/TradingAgents
+      - anthropics/claude-code
+      - badlogic/pi-mono
+    tags: [repos, monitoring]
+
+  - id: rss-feeds
+    name: RSS Feeds
+    description: Feeds RSS de blogs técnicos seleccionados
+    script: ingest/rss.sh
+    output_dir: raw/research/blogs
+    enabled: true
+    cron: "0 */4 * * *"
+    feeds:
+      - https://simonwillison.net/atom/everything/
+      - https://lilianweng.github.io/feed.xml
+      - https://karpathy.github.io/feed.xml
+      - https://blog.langchain.dev/rss/
+    tags: [blogs, research, AI]
+
+  - id: producthunt-daily
+    name: Product Hunt Daily
+    description: Top productos del día en Product Hunt
+    script: ingest/producthunt.sh
+    output_dir: raw/research/products
+    enabled: true
+    cron: "0 12 * * *"
+    tags: [products, startups, tools]
+
+  - id: patents-ai
+    name: AI Patents
+    description: Nuevas patentes relacionadas con AI de USPTO/Google Patents
+    script: ingest/patents.sh
+    output_dir: raw/research/patents
+    enabled: true
+    cron: "0 10 * * 1"  # lunes
+    tags: [patents, research, IP]

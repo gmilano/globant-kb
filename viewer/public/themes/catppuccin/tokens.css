@@ -1,0 +1,42 @@
+:root {
+  /* Surfaces */
+  --bg: #0a0a0f;
+  --bg-deep: #050508;
+  --surface: #111118;
+  --surface2: #1a1a26;
+  --surface3: #252533;
+
+  /* Foreground — warm off-white (Flipboard-style) instead of cool lavender */
+  --text: #ebe6d8;
+  --subtext: #8f8a7d;
+  --link-hover: #a8c8ff;
+  --white: #fff;
+  --black: #000;
+  --surface-top: #0e0e16;
+
+  /* Accents */
+  --accent: #cba6f7;
+  --accent2: #89b4fa;
+  --green: #a6e3a1;
+  --red: #f38ba8;
+  --yellow: #f9e2af;
+  /* Text color that reads on top of --accent backgrounds (light mauve → black) */
+  --accent-fg: #0a0a0f;
+
+  /* Status */
+  --error-fg: #f87171;
+  --success-fg: #22c55e;
+
+  /* Overlays */
+  --overlay-200: rgba(0,0,0,.2);
+  --overlay-300: rgba(0,0,0,.3);
+  --overlay-400: rgba(0,0,0,.4);
+  --overlay-500: rgba(0,0,0,.5);
+  --overlay-600: rgba(0,0,0,.6);
+  --overlay-850: rgba(0,0,0,.85);
+
+  /* Structure */
+  --sidebar-w: 280px;
+  --radius: 8px;
+  --transition: 150ms ease;
+}

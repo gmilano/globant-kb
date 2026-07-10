@@ -1,0 +1,156 @@
+process_name: content-pipeline
+version: 1.0.0
+description: >
+  End-to-end content pipeline: research a topic, draft a long-form article,
+  fact-check claims, produce social variants, and publish — with an editor
+  gate before anything ships and a final legal/brand check before social fans out.
+owner:
+  name: Content Marketing
+  team: Brand
+  contact: content@example.com
+trigger:
+  type: schedule
+  cron: "0 9 * * 1"
+tags: [content, marketing, blog, social]
+
+inputs:
+  - name: topic_brief
+    type: string
+    required: true
+    description: The editorial brief — angle, audience, desired takeaway.
+  - name: target_keyword
+    type: string
+    required: true
+    description: Primary SEO keyword.
+  - name: target_word_count
+    type: number
+    required: false
+    description: Defaults to 1500 if omitted.
+  - name: must_cite_domains
+    type: array
+    required: false
+    description: Domains whose evidence MUST be cited if relevant (e.g. gartner.com).
+
+steps:
+  - name: research
+    type: agent
+    agent: research.deepdive
+    description: Pull 10-20 high-signal sources on the topic from the last 18 months.
+    timeout_ms: 120000
+    retries: 1
+    outputs: [sources_jsonl]
+
+  - name: outline
+    type: llm
+    model: claude-opus-4
+    description: Produce an editor-facing outline with H2/H3 headings and key claims per section.
+    timeout_ms: 30000
+    depends_on: [research]
+    prompt: |
+      You are a senior editor. Using the research sources and the topic brief,
+      produce a Markdown outline:
+        - H1 title (<= 65 chars)
+        - 4-7 H2 sections
+        - Under each H2: 2-4 bullet "key claims" with the source id each claim
+          will cite. Do not invent sources.
+      End with a short "angle rationale" paragraph explaining why this structure
+      serves the target audience.
+    outputs: [outline_md]
+
+  - name: draft
+    type: llm
+    model: claude-opus-4
+    description: Expand the approved outline into the full article.
+    timeout_ms: 120000
+    depends_on: [outline]
+    prompt: |
+      Write the full article from the approved outline. Rules:
+        - Follow the H2/H3 structure exactly.
+        - Every factual claim that has a source id must include an inline
+          citation [^src-id].
+        - No AI filler phrases ("in today's fast-paced world", "it's worth noting").
+        - End with a 3-bullet "key takeaways" section.
+        - Respect target_word_count ± 15%.
+    outputs: [draft_md]
+
+  - name: fact_check
+    type: agent
+    agent: fact_checker.claims
+    description: Extract each cited claim and verify it against the source excerpt.
+    timeout_ms: 180000
+    depends_on: [draft]
+    outputs: [fact_check_report]
+
+  - name: seo_pass
+    type: tool
+    tool: seo.analyzer
+    description: Run on-page SEO analysis (title, meta, headings, keyword density, internal links).
+    timeout_ms: 30000
+    depends_on: [fact_check]
+    outputs: [seo_report]
+
+  - name: social_variants
+    type: llm
+    model: claude-opus-4
+    description: Produce LinkedIn, X, and newsletter blurbs derived from the approved article.
+    timeout_ms: 45000
+    depends_on: [seo_pass]
+    prompt: |
+      Produce three variants from the article:
+        - LinkedIn: 1200-1500 chars, first-person, one clear POV, no hashtags in body.
+        - X: 3-tweet thread, each tweet <= 275 chars, no links in tweet 1.
+        - Newsletter blurb: 80-120 words, ends with a single CTA link to the article.
+      All three MUST be consistent with the article's central claim.
+    outputs: [social_bundle]
+
+  - name: publish
+    type: tool
+    tool: cms.publish
+    description: Publish the article to the CMS in draft state (human-scheduled).
+    timeout_ms: 20000
+    depends_on: [social_variants]
+
+human_checkpoints:
+  - after_step: outline
+    prompt: >
+      Editor: approve the outline (or request revisions). This is the cheapest
+      place to kill a bad angle.
+    required: true
+    expected_input: approval | revision_notes
+    sla_minutes: 240
+
+  - after_step: fact_check
+    prompt: >
+      Editor: review the fact-check report. Any "unsupported" claim must be
+      fixed or cut before SEO pass.
+    required: true
+    expected_input: approval_after_fixes
+    sla_minutes: 480
+
+  - after_step: social_variants
+    prompt: >
+      Brand + Legal: final sign-off on article, social variants, and SEO tags
+      before anything enters the CMS.
+    required: true
+    expected_input: approved_bundle
+    sla_minutes: 720
+
+outputs:
+  - name: article_md
+    type: string
+    description: The final approved long-form article.
+    sink: cms.posts
+  - name: social_bundle
+    type: object
+    description: LinkedIn + X thread + newsletter blurb.
+    sink: buffer.queue
+  - name: seo_report
+    type: object
+    description: On-page SEO score and recommendations.
+    sink: looker.content_dashboard
+
+error_policy:
+  retry: 2
+  backoff: exponential
+  on_failure: human_escalate
+  fallback_agent: content.editor_oncall

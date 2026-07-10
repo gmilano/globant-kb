@@ -1,0 +1,9 @@
+node_modules/
+.gitnexus
+.graphify_*
+.graphify_python/
+graphify-out/
+.agents/state/
+.claude/scheduled_tasks.lock
+.claude/settings.local.json
+.vercel

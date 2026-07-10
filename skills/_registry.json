@@ -1,0 +1,123 @@
+{
+  "$schema": "https://wany.kb/skills/registry.schema.json",
+  "count": 3,
+  "skills": [
+    {
+      "agent": "corpus",
+      "description": "Run the tech-news ingestion pipeline and emit a structured report of what was added to raw/research/news.",
+      "inputs": [
+        {
+          "description": "Which source script to run: 'tech-news' (default), 'trending', 'dair-papers', or 'dair-agent'.",
+          "name": "source",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "If true, list the URLs the script would fetch without writing to disk.",
+          "name": "dry_run",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "name": "ingest-tech-news",
+      "outputs": [
+        {
+          "description": "{ added: string[], skipped: string[], errors: string[], ms: number }",
+          "name": "report",
+          "type": "object"
+        },
+        {
+          "description": "Suggested follow-up skills to run (e.g. 'norma/policy-review' on a new RFP)",
+          "name": "next_actions",
+          "type": "string[]"
+        }
+      ],
+      "path": "skills/corpus/SKILL.md",
+      "tags": [
+        "ingest",
+        "research",
+        "pipeline:inbound",
+        "corpus"
+      ],
+      "version": "0.1.0"
+    },
+    {
+      "agent": "finn",
+      "description": "Summarise the Knowledge Prime fulfillment metrics into a daily digest with cost, latency and cache-hit rollups.",
+      "inputs": [
+        {
+          "description": "Lookback window in hours. Defaults to 24.",
+          "name": "window_hours",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "description": "Output format: 'markdown' (default) or 'json'.",
+          "name": "format",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "name": "prime-metrics-digest",
+      "outputs": [
+        {
+          "description": "Human-readable digest with totals, top queries, anomalies",
+          "name": "digest",
+          "type": "markdown"
+        },
+        {
+          "description": "{ total_requests, avg_latency_ms, p95_latency_ms, cache_hit_rate, estimated_cost_usd }",
+          "name": "rollup",
+          "type": "object"
+        }
+      ],
+      "path": "skills/finn/SKILL.md",
+      "tags": [
+        "finance",
+        "metrics",
+        "pipeline:ship",
+        "observability"
+      ],
+      "version": "0.1.0"
+    },
+    {
+      "agent": "norma",
+      "description": "Review a markdown document against Wany policy and flag clauses that need human attention.",
+      "inputs": [
+        {
+          "description": "Full text of the document to review (contract, ToS, RFP answer, etc.)",
+          "name": "document",
+          "required": true,
+          "type": "markdown"
+        },
+        {
+          "description": "Optional list of decision-ids from decisions/ to anchor the review",
+          "name": "policy_refs",
+          "required": false,
+          "type": "string[]"
+        }
+      ],
+      "name": "policy-review",
+      "outputs": [
+        {
+          "description": "Array of { clause, severity, rationale, suggested_fix }",
+          "name": "findings",
+          "type": "object[]"
+        },
+        {
+          "description": "One-paragraph TL;DR for a human reviewer",
+          "name": "summary",
+          "type": "markdown"
+        }
+      ],
+      "path": "skills/norma/SKILL.md",
+      "tags": [
+        "legal",
+        "policy",
+        "review",
+        "pipeline:pick"
+      ],
+      "version": "0.1.0"
+    }
+  ]
+}

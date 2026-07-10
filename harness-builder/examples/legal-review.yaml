@@ -1,0 +1,136 @@
+process_name: legal-review
+version: 1.0.0
+description: >
+  First-pass legal review of an inbound vendor contract. Extracts clauses,
+  flags deviations from the company playbook, produces a redline, and escalates
+  to a human lawyer before anything goes back to the counterparty.
+owner:
+  name: General Counsel
+  team: Legal
+  contact: legal@example.com
+trigger:
+  type: event
+  event: contract.received
+  source: docusign.inbox
+tags: [legal, contracts, redline, playbook]
+
+inputs:
+  - name: contract_file
+    type: file
+    required: true
+    description: PDF or DOCX of the inbound contract.
+  - name: counterparty_name
+    type: string
+    required: true
+  - name: deal_value_usd
+    type: number
+    required: false
+    description: Expected annual contract value; influences risk threshold.
+  - name: contract_type
+    type: string
+    required: true
+    description: "One of: MSA, DPA, NDA, SOW, order_form."
+
+steps:
+  - name: extract_text
+    type: tool
+    tool: docparser.extract
+    description: OCR + text extraction with layout preserved. Returns plain text + structural map.
+    timeout_ms: 60000
+    retries: 1
+    outputs: [contract_text, structure_map]
+
+  - name: clause_segmentation
+    type: llm
+    model: claude-opus-4
+    description: Segment the contract into named clauses.
+    timeout_ms: 45000
+    depends_on: [extract_text]
+    prompt: |
+      You are a contracts paralegal. Segment the contract text into named clauses
+      using the industry taxonomy (indemnification, limitation_of_liability, term,
+      termination, ip_assignment, data_protection, warranty, governing_law,
+      confidentiality, payment_terms, sla, audit_rights, insurance). Return JSON:
+        [ { "clause": "<taxonomy_name>", "heading": "<as written>", "text": "..." } ]
+      Do not summarize — return the full clause text verbatim.
+    outputs: [clauses_json]
+
+  - name: playbook_diff
+    type: agent
+    agent: legal.playbook_compare
+    description: Compare each clause against the company playbook and flag deviations by severity.
+    timeout_ms: 60000
+    depends_on: [clause_segmentation]
+    outputs: [deviations]
+
+  - name: risk_scoring
+    type: llm
+    model: claude-opus-4
+    description: Score overall deal risk from deviations + deal value.
+    depends_on: [playbook_diff]
+    prompt: |
+      Given the deviations list and the deal value, produce a risk JSON:
+        { "risk": "low" | "medium" | "high" | "critical",
+          "top_issues": [ { "clause": "...", "severity": "...", "recommendation": "..." } ],
+          "must_escalate": boolean }
+      Deals >= $250k with any "high" deviation MUST set must_escalate = true.
+    outputs: [risk_json]
+
+  - name: draft_redline
+    type: agent
+    agent: legal.redline_drafter
+    description: Produce a tracked-changes redline document with playbook language substitutions.
+    timeout_ms: 90000
+    depends_on: [risk_scoring]
+    retries: 1
+    outputs: [redline_docx]
+
+  - name: summary_memo
+    type: llm
+    model: claude-opus-4
+    description: Write a 1-page memo the GC can read in 3 minutes.
+    depends_on: [draft_redline]
+    prompt: |
+      Write a 1-page memo for the General Counsel:
+        - Counterparty, contract type, ACV
+        - 3-5 bullet points of the biggest issues, ranked
+        - Proposed negotiation posture (accept / push back / walk)
+        - Open questions for the business owner
+      Plain prose, no marketing language, no hedging.
+
+human_checkpoints:
+  - after_step: risk_scoring
+    prompt: >
+      Legal Ops: confirm the auto-risk scoring is sane. If must_escalate is true,
+      assign to a senior lawyer before the redline step runs.
+    required: true
+    expected_input: approval | reassignment
+    sla_minutes: 240
+
+  - after_step: summary_memo
+    prompt: >
+      General Counsel: sign off on the memo + redline before it is sent to the
+      business owner / counterparty. You MAY edit the redline directly.
+    required: true
+    expected_input: approved_memo + approved_redline
+    sla_minutes: 1440
+
+outputs:
+  - name: redline_docx
+    type: file
+    description: Tracked-changes redline of the inbound contract.
+    sink: sharepoint.legal.redlines
+  - name: risk_json
+    type: object
+    description: Structured risk scoring for the legal dashboard.
+    sink: legal_datawarehouse.contract_risk
+  - name: summary_memo
+    type: string
+    description: 1-page prose memo for the GC + deal owner.
+    sink: notion.legal.memos
+
+error_policy:
+  retry: 1
+  backoff: linear
+  on_failure: human_escalate
+  fallback_agent: legal.senior_lawyer_oncall

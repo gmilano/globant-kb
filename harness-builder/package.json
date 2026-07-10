@@ -1,0 +1,16 @@
+{
+  "name": "harness-builder",
+  "version": "0.1.0",
+  "description": "Archon-style harness builder: YAML process specs -> NLAH (Natural Language Agent Harness) markdown.",
+  "type": "module",
+  "bin": {
+    "harness-build": "./build.js"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "build:all": "node build.js examples/sales-qualification.yaml && node build.js examples/legal-review.yaml && node build.js examples/content-pipeline.yaml"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

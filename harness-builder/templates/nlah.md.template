@@ -1,0 +1,59 @@
+---
+harness: {{process_name}}
+version: {{version}}
+generated_at: {{generated_at}}
+generator: harness-builder
+---
+
+# NLAH — {{process_name}}
+
+> {{description}}
+
+**Owner:** {{owner}}
+**Trigger:** {{trigger}}
+**Tags:** {{tags}}
+
+---
+
+## 1. Inputs
+
+{{inputs}}
+
+## 2. Outputs
+
+{{outputs}}
+
+## 3. Error Policy
+
+{{error_policy}}
+
+---
+
+## 4. Execution Plan ({{step_count}} steps)
+
+The harness runtime MUST execute the steps below in order, honoring `depends_on`
+and stopping for any human checkpoint whose `required` flag is true.
+
+{{steps}}
+
+---
+
+## 5. Human Checkpoints ({{checkpoint_count}})
+
+{{checkpoints}}
+
+---
+
+## 6. Operating Contract
+
+This NLAH is the **contract** between the process owner and the agent harness runtime.
+A compliant runtime MUST:
+
+1. Validate all required inputs before starting step 1.
+2. Execute each step with the declared `type`, `agent`/`tool`/`prompt`, `timeout_ms`, and `retries`.
+3. Halt and surface to a human operator at every `required` checkpoint before proceeding.
+4. On step failure, apply the `error_policy` (retry → fallback_agent → on_failure).
+5. Emit each declared output to its `sink`, if any.
+6. Record a full execution trace (step name, start, end, status, tokens, cost) for audit.
+
+_This file was generated from YAML by `harness-builder`. Do not hand-edit — regenerate from source._

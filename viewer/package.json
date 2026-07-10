@@ -1,0 +1,21 @@
+{
+  "name": "wany-kb-viewer",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "theme:validate": "node scripts/theme-validate.js",
+    "theme:use": "node scripts/theme-use.js"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.69",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "ai": "^6.0.158",
+    "express": "^4",
+    "express-session": "^1.19.0",
+    "gray-matter": "^4",
+    "marked": "^12",
+    "multer": "^2.1.1",
+    "openai": "^6.33.0",
+    "zod": "^4.3.6"
+  }
+}

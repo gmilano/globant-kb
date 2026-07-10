@@ -1,0 +1,46 @@
+/**
+ * Catppuccin Latte (light) — the official light flavour of Catppuccin.
+ * Palette: https://catppuccin.com/palette
+ */
+:root {
+  /* Surfaces */
+  --bg: #eff1f5;           /* base */
+  --bg-deep: #e6e9ef;      /* mantle */
+  --surface: #e6e9ef;      /* mantle */
+  --surface2: #dce0e8;     /* crust */
+  --surface3: #ccd0da;     /* surface0 */
+  --surface-top: #e6e9ef;
+
+  /* Foreground */
+  --text: #4c4f69;         /* text */
+  --subtext: #6c6f85;      /* subtext1 */
+  --link-hover: #1e66f5;
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Accents — Catppuccin Latte */
+  --accent: #8839ef;       /* mauve */
+  --accent2: #1e66f5;      /* blue */
+  --green: #40a02b;
+  --red: #d20f39;
+  --yellow: #df8e1d;
+  /* Dark mauve needs white foreground for WCAG AA contrast */
+  --accent-fg: #ffffff;
+
+  /* Status */
+  --error-fg: #d20f39;
+  --success-fg: #40a02b;
+
+  /* Overlays */
+  --overlay-200: rgba(0,0,0,0.06);
+  --overlay-300: rgba(0,0,0,0.1);
+  --overlay-400: rgba(0,0,0,0.14);
+  --overlay-500: rgba(0,0,0,0.22);
+  --overlay-600: rgba(0,0,0,0.32);
+  --overlay-850: rgba(0,0,0,0.55);
+
+  /* Structure */
+  --sidebar-w: 280px;
+  --radius: 8px;
+  --transition: 150ms ease;
+}
