@@ -1,57 +1,59 @@
-# 📈 Trending This Week — Travel AI
+# 📈 Agentes en tendencia — Travel (semana del 2026-07-07)
 
-> New signals, rising repos, and industry moves in Travel & Hospitality AI.
-> Last updated: 2026-07-10
+> Última actualización: 2026-07-10
 
-## 🔴 New Signals (Week of 2026-07-07)
+## Nuevos y en ascenso esta semana
 
-### S1 — Sabre Mosaic MCP Server in Production
-- **What**: Sabre launched industry-first agentic APIs with an enterprise MCP server connecting AI agents (Claude, ChatGPT) directly to airline inventory — 420+ airlines, 2M hotels, 50 petabytes Travel Data Cloud.
-- **Why it matters**: GDS players adopting MCP = open integration surface for Globant to build travel agent layers on Sabre data without proprietary contracts.
-- **Source**: PhocusWire + Sabre press release, May 2026
-- **Link**: https://www.phocuswire.com/sabre-api-agentic-ai-mcp
+### 1. TelivityAI/otaip — Open Travel AI Platform
+**Por qué importa:** Primer framework open source que encapsula lógica real de GDS: ATPCO fare categories 1-33, BSP finality, NDC/EDIFACT normalization y compliance EU261/US DOT. Antes, estas reglas vivían en sistemas propietarios de Amadeus/Sabre/Travelport. OTAIP las democratiza.
 
-### S2 — DIDA Hotel MCP Goes Global (Free Tier)
-- **What**: `DIDA-AI/Dida-hotel-MCP-CN` released English docs and global access. 2M+ hotels, real-time price/inventory, zero call limits, free. Works with Claude Desktop, Cursor, Windsurf, ChatGPT.
-- **Why it matters**: First enterprise-grade hotel inventory accessible via MCP with zero cost barrier. Direct competitor to Booking.com API (which requires paid partnership).
-- **Repo**: https://github.com/DIDA-AI/Dida-hotel-MCP-CN
-- **License**: MIT
+**Señal de tracción:** Creciendo en comunidades de ingeniería travel; citado por devs ex-Sabre y ex-Amadeus que lo adoptan para proyectos propios.
 
-### S3 — Azure AI Travel Agents (Microsoft Flagship MCP Sample)
-- **What**: Microsoft announced `Azure-Samples/azure-ai-travel-agents` as the flagship MCP-powered enterprise travel AI reference architecture. Deployed on Azure Container Apps. Three orchestrators (LangChain.js, LlamaIndex.TS, Microsoft Agent Framework), multiple MCP servers in Python, Node, Java, .NET.
-- **Why it matters**: Enterprises are asking "how do I build a travel agent?" — Microsoft's answer is open-source and production-ready. Good starting point for Globant enterprise engagements on Azure.
-- **Repo**: https://github.com/Azure-Samples/azure-ai-travel-agents
-- **Source**: Microsoft Tech Community Blog, 2026
-
-### S4 — LATAM Airlines AI Agent Live
-- **What**: LATAM Airlines launched a Gemini + Vertex AI conversational platform for travel planning. Handles inquiries, learns from feedback, routes to booking flows.
-- **Why it matters**: Major LATAM carrier live with agentic AI = proof-of-concept to pitch to other regional carriers (Aerolíneas Argentinas, GOL, Avianca, Copa).
-- **Source**: Travel And Tour World, 2026
-
-### S5 — Santander + Visa: First Agentic Travel Payment in LATAM
-- **What**: Santander and Visa completed end-to-end agentic transactions powered by Visa Intelligent Commerce across Argentina, Brazil, Chile, Mexico, and Uruguay.
-- **Why it matters**: Agentic payment infra now live in LATAM — removes last friction point for autonomous travel booking agents in the region.
-- **Source**: PYMNTS / Santander press release, March 2026
-
-### S6 — IDC: 30% of Travel Bookings by AI Agents by 2030
-- **What**: IDC published research predicting 30% of travel bookings will be executed by AI agents by 2030, driving investment in LLM optimization and direct bookings.
-- **Why it matters**: Structural market shift — travel agents (human) → AI agents. OTAs must adapt or lose distribution.
-- **Source**: IDC blog, 2026
-
-### S7 — Consumer Trust Gap Identified
-- **What**: Research (Skift/McKinsey/Phocuswire) confirms only 2% of leisure travelers willing to let AI book autonomously. B2B/corporate travel showing much higher adoption due to policy controls.
-- **Why it matters**: Corporate travel management = best beachhead market for agentic AI in travel. Consumer products need trust layer design.
-- **Source**: Skift, PhocusWire, March–April 2026
-
-## 📊 Rising GitHub Repos (Past 30 Days)
-
-| Repo | Why Rising |
-|------|-----------|
-| [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | Multi-server MCP architecture — being used as reference for travel AI builds |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | Global launch with English docs — first free enterprise hotel MCP |
-| [Azure-Samples/azure-ai-travel-agents](https://github.com/Azure-Samples/azure-ai-travel-agents) | Microsoft flagship sample — being referenced in enterprise RFPs |
-| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | Framework-free production pattern attracting teams tired of CrewAI complexity |
-| [ravinahp/flights-mcp](https://github.com/ravinahp/flights-mcp) | Simplest no-API-key flight search MCP — widely referenced in tutorials |
+**Link:** https://github.com/TelivityAI/otaip
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+
+### 2. LetsFG/LetsFG — Agent-Native Flight Search MCP
+**Por qué importa:** El mayor MCP server de búsqueda de vuelos open source. Demostró ahorro de $116 en 5 rutas vs Google Flights en benchmarks públicos. 200+ conectores de aerolíneas, MIT license.
+
+**Señal de tracción:** Publicado en npm y PyPI con tracción activa. Campaña "Free forever for the first 1000 stargazers" generó adopción viral.
+
+**Link:** https://github.com/LetsFG/LetsFG
+
+---
+
+### 3. DIDA-AI/Dida-hotel-MCP-CN — Hotel B2B MCP Server
+**Por qué importa:** La 3ra empresa de viajes B2B más grande del mundo publicó su MCP server open source. Acceso directo a 2M+ hoteles globales, inventario en tiempo real, sin límite de llamadas. Primer MCP B2B hotelero con datos de calidad enterprise-grade.
+
+**Señal de tracción:** Siendo adoptado por agencias que construyen agentes con Claude/GPT-4o. Cero fricción de onboarding (sin API keys).
+
+**Link:** https://github.com/DIDA-AI/Dida-hotel-MCP-CN
+
+---
+
+### 4. TelivityAI/haip — Hotel PMS Open Source AI-First
+**Por qué importa:** Ataca frontalmente el mercado PMS hotelero ($5-15/room/month) con alternativa open source. Arquitectura NestJS moderna, API-first, diseñada para AI desde la base. Posicionado como el "Odoo para hoteles".
+
+**Link:** https://github.com/TelivityAI/haip
+
+---
+
+### 5. malkreide/swiss-transport-mcp — Transporte Público AI-Native
+**Por qué importa:** Patrón emergente: conectar transporte público real a agentes AI via MCP. Permite planificación multimodal (vuelo + tren + bus) end-to-end. El patrón suizo se replica en Alemania, UK, España y LATAM.
+
+**Señal de tracción:** Referenciado en awesome-mcp-servers (TensorBlock) y en ranking travel MCP de awesomeclaude.ai. 
+
+**Link:** https://github.com/malkreide/swiss-transport-mcp
+
+---
+
+## Repos de semanas anteriores que siguen en alza
+
+| Repo | Stars | Tendencia | Nota |
+|------|-------|-----------|------|
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | ~420 | ↑↑ | Nuevas aerolíneas; licencia corregida a Apache-2.0 |
+| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | ~28 | ↑ | AI ops platform para agencias: CRM + Revenue Forecasting + Analytics |
+| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | ~12 | → | Plataforma de reservas activa, comunidad pequeña pero consistente |
+
+---
+*Actualizado automáticamente por el pipeline de ingest.*

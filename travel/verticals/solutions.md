@@ -1,59 +1,50 @@
-# 🏭 Vertical Solutions — Travel & Hospitality
+# 🏭 Verticales de partida — Travel & Hospitality
 
-> Existing platforms to customize with AI. Strategy: start with functional system, add agentic layer on top.
-> Last updated: 2026-07-10
+> Plataformas verticales existentes customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica arriba.
+> Última actualización: 2026-07-10
 
-## Property Management Systems (PMS)
+## Plataformas recomendadas
 
-| Platform | License | Repo / URL | Stack | AI Customization Path |
-|----------|---------|-----------|-------|----------------------|
-| **QloApps** | OSL-3.0 (free) | [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP/MySQL, Apache | Add AI concierge via QloApps hooks API — wrap front desk queries with Claude; auto-generate availability responses from PMS data |
-| **Mews** | Commercial | mews.com | SaaS (API-first) | Mews Open API → MCP server → AI upsell agent. MIT SDKs available (fiscalizations lib). Largest cloud-native PMS in EMEA. |
-| **Hotelogix** | Commercial | hotelogix.com | SaaS | REST API available; build AI guest communication on top |
-
-## Online Travel Agency (OTA) Platforms
-
-| Platform | License | URL | Description | AI Path |
-|----------|---------|-----|-------------|---------|
-| **PHPTRAVELS** | Commercial (open-source community ed.) | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | Full B2B/B2C OTA — flights, hotels, tours, transfers. Supports Amadeus, Sabre, Travelport via adapters. | Add AI search + recommendation layer via PHP hooks; wrap booking flows with LangGraph agent |
-| **ExcursioX** | MIT | [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | Open-source travel CRM with ticketing, booking, hotel management. Laravel + Vue. | Add AI sales assistant: leads → itinerary → quote → booking pipeline with Claude |
-
-## GDS / Flight Inventory Access
-
-| Platform | License | Description | Integration Pattern |
-|----------|---------|-------------|---------------------|
-| **Amadeus Self-Service** | MIT SDKs (free sandbox) | 420+ airlines, hotels, POI. Free sandbox; paid production. | Use `amadeus4dev/amadeus-python` or `-node` as tool in LangChain/LlamaIndex agent |
-| **Sabre Mosaic** | Commercial (MCP available) | 420+ airlines. Enterprise MCP server connects LLMs directly to airline inventory. REST/JSON, NDC-native. | Register as Sabre developer → use MCP server → agent can search, price, book directly |
-| **DIDA Hotel API** | Free (via MCP) | 2M+ hotels, real-time inventory, zero call limits. World #3 B2B travel. | `DIDA-AI/Dida-hotel-MCP-CN` — plug into Claude Desktop or any MCP client |
-
-## Customer Experience / Chatbot Platforms
-
-| Platform | License | Description | Use Case |
-|----------|---------|-------------|----------|
-| **KaibanJS** | MIT | Multi-agent JS framework with airline call-center reference. | Customer service automation: cancel, rebook, credit — with escalation to human |
-| **Botpress** | MIT | Open-source chatbot + agent platform. Integrates with travel APIs. | Guest communication bot for hotels; WhatsApp + web |
-
-## Tour & Experience Marketplaces
-
-| Platform | License | Description |
-|----------|---------|-------------|
-| **Rezdy** | Commercial | Tours + activities distribution API (Airbnb Experiences, GetYourGuide competitor) |
-| **FareHarbor** | Commercial | Activity booking widget + API — popular in LATAM tourism operators |
-| **OpenTrip (concept)** | Apache-2.0 (reference) | Open standard for tour/activity booking messages (OpenTravel Alliance spec) |
-
-## AI Add-On Architecture
-
-```
-[Existing Platform (QloApps / PHPTRAVELS / Amadeus)]
-              ↓
-[MCP Server Layer (flights-mcp / DIDA MCP / TravelMCP)]
-              ↓
-[Agent Orchestration (LangGraph / KaibanJS / CrewAI)]
-              ↓
-[Claude / GPT / Gemini (reasoning + response generation)]
-              ↓
-[Channel (WhatsApp / Web / Voice / Email / B2B Portal)]
-```
+| Plataforma | Licencia | URL | Stack | Caso de uso | Usuarios/escala |
+|------------|----------|-----|-------|-------------|-----------------|
+| **HAIP** (Hotel AI Platform) | Apache-2.0 | [github.com/TelivityAI/haip](https://github.com/TelivityAI/haip) | TypeScript / Node.js / NestJS | PMS hotelero open source API-first. Reservas, housekeeping, revenue management, integración OTA. Base para añadir AI de pricing, yield management y concierge | Emergente — alternativa open source a Opera/Protel |
+| **OTAIP** (Open Travel AI Platform) | Apache-2.0 | [github.com/TelivityAI/otaip](https://github.com/TelivityAI/otaip) | Python / multi-adapter | Orquestación de agentes travel: flight booking, IRROPS, compliance EU261/US DOT, BSP reconciliation. Para OTAs y TMCs que quieren automatizar operaciones | Emergente — usado por startups travel tech |
+| **ExcursioX** | MIT | [github.com/moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | — | Travel CRM con ticketing, gestión de reservas y hoteles. Base para agencias que quieren añadir AI de ventas y servicio al cliente | Pequeña escala — ideal para agencias medianas |
+| **PHPTRAVELS** | Open source (self-hosted) | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | PHP / MySQL | Suite completa: booking engine, CRM, APIs de proveedores, vouchers, reporting. Soporta vuelos, hoteles, tours, transfers, visas. Amplia adopción en LATAM y Asia | Cientos de agencias en producción |
+| **Odoo CE** | LGPL-3.0 | [github.com/odoo/odoo](https://github.com/odoo/odoo) | Python / JS | ERP/CRM generalista con módulo travel. Cubre accounting, CRM, HR, ventas. Base para agencias que necesitan back-office completo antes de añadir AI | ~41k ★, 7M+ usuarios globales |
+| **Mews PMS** | Propietario (API pública) | [mews.com](https://mews.com) | Cloud SaaS | PMS hotelero moderno con API REST bien documentada. No es open source pero su API permite construir agentes AI encima. Referencia de arquitectura para haip | Miles de hoteles globales |
+| **OpenTravelData** | MIT | [github.com/opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | Data files / CSV | Base de datos open de aeropuertos, aerolíneas, rutas. No es una plataforma operacional pero es indispensable como capa de datos para cualquier solución travel | ~640 ★ |
+| **Duffel** | API propietaria (SDK MIT) | [github.com/duffelhq/duffel-api-python](https://github.com/duffelhq/duffel-api-python) | REST API / SDK Python | Aggregator moderno de aerolíneas NDC. SDK Python MIT. La opción más fácil para integrar booking de vuelos sin acceso directo a GDS | Creciente — usado por startups y fintechs |
 
 ---
-*See also: `repos/foundations.md` for SDK-level building blocks.*
+
+## Cómo customizar con AI
+
+### Estrategia recomendada por tipo de cliente
+
+**Hoteles independientes (50-500 rooms):**
+1. HAIP como PMS base (deploy propio)
+2. DIDA MCP para conectar inventario de distribución
+3. Agente de pricing dinámico sobre datos de HAIP
+4. Concierge conversacional con Claude/GPT-4o integrado
+
+**Agencias OTA (online travel agency):**
+1. PHPTRAVELS como booking engine base
+2. OTAIP para orquestar agentes de search + pricing + booking
+3. LetsFG para flight search multi-fuente
+4. CRM ExcursioX + agente de ventas sobre leads
+
+**TMC (Travel Management Company) corporativo:**
+1. Odoo CE como ERP/CRM base
+2. jongalloway/travel-booking-agents para workflow de aprobaciones
+3. Amadeus SDK (Python/Node) para acceso a tarifas corporativas GDS
+4. Reporting AI sobre datos de viajes del corporativo
+
+**Tour Operators:**
+1. Odoo CE módulo travels + ExcursioX
+2. Agente de itinerary generation (CrewAI/OTAIP)
+3. Personalización basada en historial de cliente
+
+---
+*Actualizado automáticamente por el pipeline de ingest.*

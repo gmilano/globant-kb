@@ -1,39 +1,28 @@
-# 🏗️ Foundational Repos — Travel & Hospitality
+# 🏗️ Repos fundacionales — Travel & Hospitality
 
-> Open-source bases to build on. Active communities, permissive licenses.
-> Last updated: 2026-07-10
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-10
 
-## Core Infrastructure
+## Plataformas y frameworks base
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|-----------|
-| [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | ~900 | Official Python SDK for Amadeus Self-Service APIs — flights, hotels, points of interest, city search, airport autocomplete, seat maps. Free sandbox tier. | Yes — wrap with LangChain/LlamaIndex tool |
-| [amadeus4dev/amadeus-node](https://github.com/amadeus4dev/amadeus-node) | MIT | ~600 | Official Node.js SDK for Amadeus Self-Service APIs. Same API surface as Python SDK. | Yes — MCP-server wrapper |
-| [amadeus4dev/amadeus-open-api-specification](https://github.com/amadeus4dev/amadeus-open-api-specification) | MIT | ~350 | OpenAPI 3.0 spec for all Amadeus APIs. Feed to LLM to auto-generate tool definitions. | Yes — auto-generate agent tools |
-| [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | ~1.3k | Free and open-source hotel PMS + booking engine + hotel website. PHP/MySQL. Deployed by 4,000+ hotels globally. Modular hooks system for AI layer integration. | Yes — add AI concierge on top |
-| [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | MIT | ~45 | Open-source travel CRM with integrated ticketing, booking, and hotel management. Laravel + Vue. | Yes — add AI booking assistant |
-| [kaiban-ai/KaibanJS](https://github.com/kaiban-ai/KaibanJS) | MIT | ~3.4k | JavaScript multi-agent framework with Kanban-inspired task management. Official airline call-center demo. Production-ready for travel customer service. | Core framework |
-| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | ~103k | LLM application framework. Most travel AI agents use LangChain's tool-calling + memory primitives. | Core framework |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~12.8k | State-machine workflow for multi-step agentic AI. Best choice for complex booking flows (search → compare → book → confirm). | Core orchestration |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~52.8k | Role-based multi-agent framework. Popular for travel planning (destination researcher + itinerary builder + budget optimizer roles). | Core framework |
-| [mews-systems/fiscalizations](https://github.com/MewsSystems/fiscalizations) | MIT | ~62 | .NET library for fiscal reporting across 20+ countries (hotel tax/receipt compliance). Useful for hospitality platforms needing fiscal compliance. | Compliance layer |
-
-## Key API Ecosystems (non-open-source but free tiers available)
-
-| Platform | Free Tier | Coverage | Notes |
-|----------|-----------|----------|-------|
-| Amadeus Self-Service | Yes (sandbox) | Flights, hotels, POI | MIT SDKs above |
-| DIDA Hotel API | Yes (via MCP) | 2M+ hotels global | World #3 B2B travel |
-| Open-Meteo | Yes (MIT API) | Weather worldwide | No key required, use in travel agents |
-| Nominatim/OSM | Yes (free) | Geocoding / maps | No key for moderate use |
-
-## Foundational Standards
-
-| Standard | Owner | Description |
-|----------|-------|-------------|
-| NDC (New Distribution Capability) | IATA | XML standard for airline direct distribution to AI agents and OTAs — bypasses GDS. Enables ancillary upsell (seats, bags) via AI. |
-| OpenTravel Alliance | OTA | XML/JSON schema standards for travel message exchange (hotel availability, car rental, cruise). Enables interoperability between systems. |
-| MCP (Model Context Protocol) | Anthropic | Emerging integration layer connecting AI agents to travel inventory (Sabre, DIDA, Amadeus all adopting). |
+| Repo | Licencia | Descripción | ¿Base para AI? |
+|------|----------|-------------|----------------|
+| [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | MIT | Colección open data de transporte, viajes y turismo: aeropuertos (con IATA/ICAO codes), aerolíneas, rutas, países, ciudades, regiones. Construido sobre Geonames + Wikipedia. Base de datos de referencia para enriquecer cualquier agente travel. | Sí — ~640 ★ |
+| [TelivityAI/otaip](https://github.com/TelivityAI/otaip) | Apache-2.0 | Open Travel AI Platform — orquestación de 75 agentes especializados en 12 etapas operativas del ciclo travel: search → price → book → ticket → service → settlement. Incluye ATPCO fare logic, BSP reconciliation, IRROPS handling, NDC/EDIFACT normalization. La plataforma más completa de agentes travel open source. | Sí — ~340 ★ |
+| [TelivityAI/haip](https://github.com/TelivityAI/haip) | Apache-2.0 | Hotel AI Platform — PMS (Property Management System) open source API-first. TypeScript/Node.js/NestJS. Cubre reservas, housekeeping, revenue management, integración OTA. Alternativa a Opera/Protel/Mews para hoteles que quieren construir AI encima. | Sí — ~190 ★ |
+| [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | Python SDK oficial para Amadeus Self-Service APIs: flight search (low-fare, inspired), hotel booking, airport & city search, airline routes, AI flight delay prediction, seat map. El GDS más grande del mundo con 500+ aerolíneas. Requiere Python 3.8+. | Sí — ~1.2k ★ |
+| [amadeus4dev/amadeus-node](https://github.com/amadeus4dev/amadeus-node) | MIT | Node.js SDK oficial para Amadeus Self-Service APIs. Acceso a los mismos endpoints que el Python SDK. Compatible con cualquier framework Node (Express, Next.js, NestJS). Ideal para integrar en agentes TypeScript/JavaScript. | Sí — ~870 ★ |
+| [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) | MIT | Agent-native flight search con 200+ conectores de aerolíneas y GDS (Amadeus, Duffel, Sabre). MCP server incluido. El repo más completo para flight search open source con arquitectura agentic-first. | Sí — ~980 ★ |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | Apache-2.0 | MCP server con acceso directo a inventario y precios de 2M+ hoteles globales (DIDA Travel, 3er B2B de viajes más grande del mundo). Sin API keys, sin límite de llamadas. Base sólida para cualquier agente de reserva hotelera. | Sí — ~420 ★ |
+| [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | MIT | Travel CRM open source con ticketing integrado, gestión de reservas y hoteles. Stack moderno. Base para agencias OTA que quieren añadir AI sobre un CRM funcional. | Sí — ~45 ★ |
 
 ---
-*See also: `verticals/solutions.md` for full vertical platforms.*
+
+## Notas de arquitectura
+
+- **Stack completo vuelos:** `opentraveldata` (datos) + `amadeus-python/node` (GDS access) + `LetsFG` (multi-fuente search) + `otaip` (agentes de negocio)
+- **Stack completo hoteles:** `haip` (PMS base) + `DIDA MCP` (inventario B2B) + `hotels_mcp_server` (Booking.com retail)
+- **El problema del dato:** OpenTravelData resuelve la capa de datos maestros (aeropuertos, rutas, aerolíneas) que ningún agente debería hardcodear
+
+---
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*

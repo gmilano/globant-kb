@@ -1,73 +1,61 @@
-# 📡 Trends — Travel & Hospitality AI
+# 📡 Tendencias — Travel & Hospitality AI (julio 2026)
 
-> Last updated: 2026-07-10
+> Última actualización: 2026-07-10
 
-## Macro Trends
+## T1 — Agentic booking: hype vs. realidad
+80% de los ejecutivos travel planean desplegar agentes autónomos de booking en 2026. Solo 2% de consumidores US los usaría en su estado actual. La oportunidad está en **asistencia aumentada** (el agente hace propuestas, el humano confirma) — no en autonomía total. Booking.com, Expedia y Google Travel están en esta carrera.
 
-### T1 — Agentic Booking Entering Production
-IDC projects 30% of travel bookings executed by AI agents by 2030. Already in production: Sabre Mosaic MCP (May 2026), Expedia+Claude (Jun 2026, US), Malaysia Airlines Mavis, LATAM Airlines Gemini platform. The question has shifted from "can AI book?" to "what happens when it books wrong?"
-- **Signal**: OAG report titled "March 2026: The Month Agentic Travel Gets Real"
-- **Implication for Globant**: Enterprise clients need booking-agent infrastructure now, not 2027
+**Implicación para Globant:** Proyectos de "autonomous booking" para aerolíneas/OTAs son prioritarios. El patrón human-in-the-loop es el safe bet para 2026.
 
-### T2 — MCP as Travel Distribution Layer
-Sabre, DIDA, Amadeus, and independent developers are all converging on MCP as the integration standard. 420+ airlines and 2M+ hotels are accessible via MCP today. This mirrors how REST APIs unified web services in 2010–2015.
-- **Key repos**: `DIDA-AI/Dida-hotel-MCP-CN`, `ravinahp/flights-mcp`, Sabre Mosaic MCP
-- **Implication**: Any travel AI built in 2026 should be MCP-native from day 1
+## T2 — NDC generalizándose, GDS en transformación
+New Distribution Capability (NDC) de IATA ya es estándar para aerolíneas de nivel 1. Sabre y Amadeus tienen certificación Level 3. Los adaptadores NDC open source (OTAIP) están reduciendo la barrera para conectar directamente con aerolíneas sin GDS fee.
 
-### T3 — Consumer Trust Gap (B2B vs B2C)
-Only **2%** of leisure travelers are willing to let AI book on their behalf (PhocusWire, Skift, 2026). Corporate travel shows much higher adoption because of policy guardrails and accountability structures.
-- **Implication**: B2B / corporate travel = best beachhead. Consumer products need trust layers (confirmation steps, editable itineraries, human escalation).
+**Implicación:** Proyectos de modernización NDC son fáciles de vender a aerolíneas mid-tier que pagan fees de distribución altos.
 
-### T4 — Data Quality as Competitive Moat
-"If your data is incomplete, outdated, or fragmented, you effectively disappear from the agent's decision set" (McKinsey, 2026). Hotels and airlines with poor machine-readable inventory will be invisible to AI agents.
-- **Implication**: Globant can offer "AI-readiness audit + data enrichment" as a lead-generation service for travel clients
+## T3 — MCP como protocolo estándar para datos travel
+Los MCP servers de viaje (LetsFG, DIDA hotel, swiss-transport-mcp) están emergiendo como el estándar de facto para conectar datos de inventario a agentes AI. Cualquier agente compatible con MCP puede consumir vuelos, hoteles y transporte sin código custom.
 
-### T5 — LATAM: WhatsApp as Primary Booking Channel
-Brazil has the world's largest WhatsApp Business installed base. 70%+ of LATAM consumers have integrated AI into shopping journeys (Visa/Santander survey). WhatsApp + agentic AI + Pix payments = complete autonomous booking loop in Brazil.
-- **Key stat**: Santander + Visa completed agentic payments across 5 LATAM markets (Mar 2026)
-- **Implication**: WhatsApp-native travel agent = highest ROI product for LATAM engagements
+**Implicación:** La estrategia de integración travel debe pasar por MCP primero. Desarrollar adaptadores MCP para sistemas legacy es un servicio con alta demanda.
 
-### T6 — NDC Enabling Airline → Agent Direct Sales
-IATA NDC (New Distribution Capability) is allowing airlines to bypass GDS and distribute ancillaries (extra legroom, bags, lounge access) directly to AI agents. Airlines keep more margin; agents offer richer options.
-- **Implication**: Build agents on NDC feeds, not just GDS — access to ancillary inventory that GDS doesn't have
+## T4 — Open source PMS desafía al mercado
+TelivityAI/haip es la primera amenaza real open source al mercado PMS hotelero (~$5-15/room/month para Opera, Mews, etc.). Hoteles independientes en mercados emergentes no pueden pagar PMS cloud; HAIP les da alternativa.
 
-### T7 — Personalization at Scale (Cross-Session Memory)
-Travel AI agents that remember preferences across sessions (home airport, seat preference, hotel tier, dietary needs) convert 3–5x better than stateless agents. LangGraph's persistent state graph and memory stores enable this.
-- **Key pattern**: Agent profile store → preference injection at search time → personalized offers
+**Implicación:** Integrar y customizar HAIP para clientes hoteleros en LATAM es una propuesta única. El mercado de hoteles boutique en Buenos Aires, México DF, Bogotá no tiene un player tech regional fuerte.
 
-### T8 — Points / Loyalty Optimization via AI
-Award travel and loyalty point optimization is a high-value AI use case. Agents can evaluate points vs cash for any itinerary, find availability gaps, and alert when award space opens. High willingness-to-pay segment (frequent flyers).
-- **Key tool**: `MikkoParkkola/trvl` (noncommercial) as inspiration; build equivalent on open licensed components
+## T5 — Multimodal travel planning: vuelo + tren + bus
+Los agentes de viaje están dejando de ser solo flight/hotel. La integración de transporte terrestre (swiss-transport-mcp para Europa, APIs de Redbus para LATAM) permite planificación door-to-door real. Marriott e IHG ya integran transfers y transporte local en sus sistemas.
 
-### T9 — Multimodal Destination Discovery
-Google, Airbnb, and TikTok driving discovery via short video. AI agents need to process visual content (destination photos, UGC video thumbnails) to extract intent and map to inventory. Claude's vision + MCP = new discovery pattern.
-- **Implication**: Build multimodal itinerary builders that convert "I want somewhere like this video" into bookable trips
+## T6 — IRROPS automation: el mayor ROI para aerolíneas
+Irregular Operations (IRROPS) — rebooking en cancelaciones y delays — cuesta a las aerolíneas $9B+ anuales en compensaciones y pérdida de clientes. OTAIP automatiza este flujo con EU261/US DOT compliance. Es el caso de uso con ROI más claro para AI en aerolíneas.
 
-### T10 — Corporate Travel Compliance Automation
-Policy enforcement (class of service, preferred vendors, advance booking requirements) was a manual bottleneck. LangGraph-based agents can enforce policy gates automatically before booking confirmation, with auditability.
-- **Key pattern**: Policy-as-code → agent guardrails → automatic rejection/approval workflows
+**Implicación:** Pitch para aerolíneas: IRROPS automation con OTAIP = payback < 6 meses en casos de uso típicos.
 
-### T11 — Hotel PMS AI Layer (QloApps + AI)
-4,000+ hotels on QloApps globally. An AI concierge layer on top (upselling, multilingual guest communication, automated check-in/out) is a repeatable Globant product. PHP hooks make integration straightforward.
-- **Target**: Boutique hotel chains in LATAM and Europe running QloApps or similar open-source PMS
+## T7 — Corporate travel AI: approval workflows
+El mercado de Travel Management Companies (TMC) está adoptando AI para aprobaciones automáticas de viajes, policy compliance y expense prediction. GitHub: jongalloway/travel-booking-agents es el patrón de referencia. Netsuite/SAP Concur + agentes = mercado underserved.
 
-### T12 — Agentic Customer Service (Airlines)
-Malaysia Airlines Mavis (Ada platform) handles customer queries autonomously across web, app, and email. Aerolíneas Argentinas, GOL, Avianca, Copa are potential Globant targets — same KaibanJS-pattern architecture.
-- **Pattern**: Inquiry → intent classification → tool call (PNR lookup, rebooking, refund) → response → escalation if needed
+## T8 — Hotel revenue management AI
+La anticipación dinámica de demanda y pricing en tiempo real (yield management) es el uso de AI más maduro en hotelería. Hoteles con más de 50 rooms están adoptando herramientas como Duetto y IDeaS pero sin acceso a alternativas open source. HAIP + modelos de ML propio puede democratizarlo.
 
-## Radar Entries
+## T9 — AI travel data quality: "garbage in, garbage out"
+Todos los analistas coinciden: "AI needs clean data." Las aerolíneas y hoteles tienen décadas de datos en sistemas legacy mal estructurados. El primer paso antes de cualquier proyecto AI es data governance. OpenTravelData es la referencia para datos maestros limpios.
 
-| Signal | Type | Status |
-|--------|------|--------|
-| Sabre Mosaic MCP in production | Technology | **ADOPT** |
-| DIDA free hotel MCP | Technology | **ADOPT** |
-| MCP as travel distribution standard | Paradigm | **ADOPT** |
-| Agentic corporate travel | Market | **TRIAL** |
-| NDC direct airline distribution to agents | Technology | **TRIAL** |
-| Consumer agentic booking (B2C) | Market | **ASSESS** — trust gap |
-| WhatsApp + Pix agentic travel LATAM | Market | **TRIAL** |
-| Multimodal destination discovery | Technology | **ASSESS** |
-| Loyalty point AI optimization | Product | **TRIAL** |
+## T10 — Sostenibilidad y carbon footprint en booking
+Los agentes de viaje están incorporando calculo de huella de carbono en tiempo real. Skyscanner, Google Flights y Expedia ya muestran emisiones por vuelo. Los agentes AI que no incluyan esta información quedarán fuera de política de muchas empresas europeas.
+
+## T11 — Voice-first travel agents
+Con Alexa+, Google Assistant y Claude Voice madurando, los agentes de viaje por voz están tomando tracción. Booking by voice requiere confirmaciones de alta confianza — el patrón de "lee en voz alta el itinerario, pide confirmación explícita antes de cobrar" es el estándar emergente.
+
+## T12 — Personalización con privacy-first
+Las cookies de terceros están deprecadas. Los agentes travel deben construir perfiles de preferencias primero-cero (zero-party data): el agente pregunta activamente al viajero sus preferencias en lugar de inferirlas de tracking. Patrón: onboarding conversacional + preferencias almacenadas en local storage o wallet.
+
+## T13 — B2B hotel inventory democratizado vía AI
+DIDA Travel abriendo su inventario B2B como MCP server es una señal: los wholesale hoteleros están viendo AI/MCP como canal de distribución del futuro. El modelo tradicional de XML B2B está siendo reemplazado por MCP servers públicos con autenticación simple.
+
+## T14 — LATAM: mercado en construcción
+En LATAM no hay un equivalente a Booking.com, Expedia o Google Travel con la misma penetración. Despegar (Argentina/LATAM) y Almundo son los players más grandes pero con tech legacy. Hay espacio para una OTA AI-native construida sobre stacks open source (OTAIP + HAIP + DIDA MCP).
+
+## T15 — Agentic AI y el "travel agent" digital
+La profesión de agente de viajes humano está siendo redefinida: de "reservador" a "curador de experiencias complejas". Los agentes AI hacen el trabajo de reserva básica; los humanos manejan los casos complejos (grupos, eventos, viajes médicos). Las TMCs que entiendan esto y construyan herramientas AI para sus consultores (no contra ellos) ganarán.
 
 ---
-*Updated by ingest pipeline.*
+*Actualizado automáticamente por el pipeline de ingest.*

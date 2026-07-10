@@ -1,26 +1,19 @@
-# 📈 Trending Repos — Travel AI (2026-07-10)
+# 📈 Repos en tendencia — Travel (2026-07-10)
 
-> GitHub repos gaining momentum this week. Mix of MCP servers, multi-agent systems, and vertical tools.
+> Última actualización: 2026-07-10
 
-| Name | License | Stars | Why Trending |
-|------|---------|-------|--------------|
-| [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | MIT | ~180 | Modular MCP server suite — being used as the reference architecture for travel AI builds in 2026 |
-| [Azure-Samples/azure-ai-travel-agents](https://github.com/Azure-Samples/azure-ai-travel-agents) | MIT | ~1.4k | Microsoft flagship sample; referenced in enterprise RFPs and Azure partner proposals |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~320 | Global launch with English docs — first free enterprise hotel MCP with 2M+ inventory |
-| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | ~90 | Framework-free production pattern; cited as alternative to CrewAI complexity |
-| [ravinahp/flights-mcp](https://github.com/ravinahp/flights-mcp) | MIT | ~210 | Simplest no-key flight search MCP — widely referenced in agent tutorials |
-| [kaiban-ai/KaibanJS](https://github.com/kaiban-ai/KaibanJS) | MIT | ~3.4k | Airline call-center demo gaining traction after IDC agentic travel report |
-| [jongalloway/travel-booking-agents](https://github.com/jongalloway/travel-booking-agents) | MIT | ~75 | End-to-end booking approval workflow — corporate travel teams reproducing it |
-| [GongRzhe/TRAVEL-PLANNER-MCP-Server](https://github.com/GongRzhe/TRAVEL-PLANNER-MCP-Server) | MIT | ~140 | One of the first purpose-built travel MCP servers; widely forked |
-| [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | ~1.3k | Hotel PMS growing as hotel groups look to add AI on existing open-source infra |
-| [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | MIT | ~45 | Open-source travel CRM rising as agencies look for Salesforce alternatives with AI |
-
-## Notable Watchlist
-
-| Name | Status | Note |
-|------|--------|------|
-| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0, early | Travel tech platform in early development, watch for traction |
-| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | AI-powered travel ops (CRM + trip mgmt + sales copilot) — growing OTA tooling |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [TelivityAI/otaip](https://github.com/TelivityAI/otaip) | Apache-2.0 | Open Travel AI Platform — 75 agentes para el ciclo completo travel: ATPCO fares, BSP, NDC/EDIFACT, IRROPS, EU261. Breakout repo 2026 en el espacio travel tech | ~340 |
+| [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) | MIT | Agent-native flight search & booking. 200+ aerolíneas + GDS. MCP server. $116 de ahorro demostrado vs Google Flights | ~980 |
+| [TelivityAI/haip](https://github.com/TelivityAI/haip) | Apache-2.0 | Hotel PMS open source API-first. TypeScript/NestJS. Desafía PMS propietarios con arquitectura AI-native | ~190 |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | Apache-2.0 | MCP server hotelero B2B: 2M+ hoteles, inventario real-time, sin API keys. Fuente oficial DIDA Travel | ~420 |
+| [malkreide/swiss-transport-mcp](https://github.com/malkreide/swiss-transport-mcp) | MIT | MCP para transporte público suizo. Patrón replicable para transporte multimodal en LATAM | ~310 |
+| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | AI travel ops platform: CRM + Sales Copilot + Traveler Intelligence + Revenue Forecasting + Analytics para agencias | ~28 |
+| [esakrissa/hotels_mcp_server](https://github.com/esakrissa/hotels_mcp_server) | MIT | MCP server Booking.com: LLMs buscan hoteles con disponibilidad real | ~85 |
+| [Anmoldureha/hotels-skill](https://github.com/Anmoldureha/hotels-skill) | MIT | Booking.com scraper MCP con Playwright. Sin API keys. Precios en tiempo real | ~62 |
+| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0 | Plataforma de reservas activa. Comunidad pequeña pero consistente | ~12 |
+| [vikramgorla/mcp-swiss](https://github.com/vikramgorla/mcp-swiss) | MIT | Swiss open data MCP: transporte, clima, geodatos, empresas. 76 tools, zero API keys | ~95 |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

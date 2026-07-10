@@ -1,403 +1,206 @@
-# 🧩 Composition Patterns — Travel & Hospitality
+# 🧩 Patrones de composición — Travel & Hospitality
 
-> Concrete recipes for building solutions. Every pattern names specific repos + agents + wiring.
-> Last updated: 2026-07-10
+> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Última actualización: 2026-07-10
 
-## Architecture Base
+## Arquitectura base
 
 ```
-[Inventory Layer]                [Orchestration Layer]         [Channel Layer]
-amadeus-python (flights)    →    LangGraph state machine   →   WhatsApp / Web / API
-DIDA Hotel MCP (hotels)     →    Agent tool calls          →   Claude responses
-flights-mcp (search)        →    Memory / preferences      →   B2B portal
-                                 Policy enforcement
+[Vertical base (HAIP / PHPTRAVELS / Odoo CE)]
+          ↓
+[Capa de datos (OpenTravelData + DIDA MCP + Amadeus SDK)]
+          ↓
+[Orquestación de agentes (OTAIP / CrewAI / LangGraph)]
+          ↓
+[UI conversacional / API cliente (Dify / Claude / GPT-4o)]
 ```
 
 ---
 
-## P1 — Corporate Travel Approval Agent
+## P1 — Full-stack Flight Booking Agent
 
-**Problem**: Corporate travel booking requires policy validation, budget approval, preferred-vendor enforcement, and audit trails. Manual = slow + error-prone.
+**Objetivo:** Agente que busca, compara y reserva vuelos autónomamente con human-in-the-loop para confirmación.
 
-**Stack**:
-- `amadeus4dev/amadeus-python` — flight search + pricing
-- `DIDA-AI/Dida-hotel-MCP-CN` — hotel search (2M+ hotels, free)
-- `langchain-ai/langgraph` — policy-enforcement state machine
-- Claude Sonnet — reasoning + response generation
-- PostgreSQL — travel policy store + PNR audit log
+**Componentes:**
+- [TelivityAI/otaip](https://github.com/TelivityAI/otaip) — orquestación: Search → Price → Book → Ticket
+- [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) — multi-fuente flight search (200+ aerolíneas + GDS)
+- [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) — acceso a tarifas GDS y NDC
+- [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) — datos maestros (aeropuertos, aerolíneas)
 
-**Flow**:
-```python
-from langgraph.graph import StateGraph
-from anthropic import Anthropic
-from amadeus import Client as AmadeusClient
-
-amadeus = AmadeusClient(client_id="...", client_secret="...")
-claude = Anthropic()
-
-def search_flights(state):
-    results = amadeus.shopping.flight_offers_search.get(
-        originLocationCode=state["origin"],
-        destinationLocationCode=state["destination"],
-        departureDate=state["date"],
-        adults=1,
-        travelClass="ECONOMY"
-    )
-    return {"flight_options": results.data[:5]}
-
-def check_policy(state):
-    policy = load_policy(state["employee_id"])
-    violations = []
-    for flight in state["flight_options"]:
-        price = float(flight["price"]["total"])
-        if price > policy["max_flight_budget"]:
-            violations.append(f"Price ${price} exceeds policy ${policy['max_flight_budget']}")
-        if flight["itineraries"][0]["duration"] > policy["max_duration"]:
-            violations.append("Duration exceeds policy")
-    return {"violations": violations, "policy": policy}
-
-def get_approval(state):
-    if state["violations"]:
-        # Route to manager approval
-        return {"status": "pending_approval", "approver": state["manager_email"]}
-    return {"status": "auto_approved"}
-
-graph = StateGraph(dict)
-graph.add_node("search", search_flights)
-graph.add_node("check_policy", check_policy)
-graph.add_node("approval", get_approval)
-graph.add_edge("search", "check_policy")
-graph.add_edge("check_policy", "approval")
-agent = graph.compile()
+**Flujo:**
+```
+usuario: "vuelo Buenos Aires → Madrid para el 15 de agosto, ida y vuelta"
+  → LetsFG busca en 200+ aerolíneas simultáneamente
+  → OTAIP normaliza resultados (ATPCO fare rules, fee breakdown)
+  → Agente presenta top 3 opciones con comparativa de precio + emisiones CO2
+  → Usuario confirma
+  → OTAIP ejecuta booking + ticketing via Amadeus NDC
+  → Confirmación por email / WhatsApp
 ```
 
-**Estimated effort**: 6–10 weeks | **Deal range**: $100k–$400k
-**Target clients**: Regional corporations with 500+ employees, LATAM offices
+**Tiempo estimado:** 6-10 semanas (MVP funcional)
+**Costo estimado:** USD 80k-240k (engagement completo)
+**Nota de compliance:** OTAIP incluye void window enforcement y ADM prevention — crítico para producción.
 
 ---
 
-## P2 — Hotel AI Concierge (QloApps + Claude)
+## P2 — Hotel Discovery + Booking Agent
 
-**Problem**: Hotels need 24/7 multilingual guest communication (pre-arrival, upsell, FAQ) but can't staff it. QloApps handles reservations but has no AI layer.
+**Objetivo:** Agente conversacional para búsqueda y reserva hotelera con personalización y disponibilidad real.
 
-**Stack**:
-- `Qloapps/QloApps` — open-source PMS + booking engine (PHP)
-- Claude Haiku — fast, low-cost responses for guest messages
-- QloApps Hooks API — trigger AI on reservation events
-- WhatsApp Business API — primary LATAM channel
-- Redis — session memory for multi-turn conversations
+**Componentes:**
+- [TelivityAI/haip](https://github.com/TelivityAI/haip) — PMS base (si el cliente es un hotel)
+- [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) — inventario B2B: 2M+ hoteles en tiempo real
+- [esakrissa/hotels_mcp_server](https://github.com/esakrissa/hotels_mcp_server) — complemento retail vía Booking.com
+- LangGraph / CrewAI — orquestación de búsqueda multi-fuente
 
-**Integration point** (QloApps hook):
-```php
-// In QloApps/override/controllers/front/OrderConfirmationController.php
-class OrderConfirmationControllerCore extends FrontController {
-    public function postProcess() {
-        parent::postProcess();
-        // Trigger AI welcome message
-        $booking = $this->context->cart;
-        $this->sendAIWelcome($booking);
-    }
-
-    private function sendAIWelcome($booking) {
-        $claude_response = $this->callClaude(
-            "Generate a warm welcome message for a guest checking in on " .
-            $booking->checkInDate . " for " . $booking->nights . " nights. " .
-            "Mention breakfast at 7am, pool hours, and ask if they need airport transfer. " .
-            "Language: " . $booking->guestLanguage
-        );
-        $this->sendWhatsApp($booking->guestPhone, $claude_response);
-    }
-}
+**Flujo:**
+```
+usuario: "hotel boutique en Lisboa, cerca del Alfama, con terraza, máximo €180/noche"
+  → Agente parsea preferencias (ubicación semántica, amenidades, precio tope)
+  → DIDA MCP consulta inventario B2B (precios netos, disponibilidad real)
+  → hotels_mcp_server complementa con opciones retail Booking.com
+  → Agente rankea por fit semántico (rating + preferencias históricas del usuario)
+  → Presenta top 5 con fotos, mapa, cancelación policy
+  → Booking directo vía HAIP (si el hotel usa HAIP) o deep-link a OTA
 ```
 
-**Upsell flow**:
-- T-48h: AI sends upgrade offer based on room type + availability
-- T-24h: AI offers airport transfer + breakfast package
-- Day 2: AI asks for feedback, offers dinner reservation
-- Checkout: AI requests review with direct TripAdvisor link
-
-**Estimated effort**: 4–8 weeks | **Deal range**: $80k–$250k
-**Target clients**: Boutique hotels in Argentina, Brazil, Mexico running QloApps or equivalent PMS
+**Tiempo estimado:** 4-8 semanas
+**Costo estimado:** USD 60k-180k
+**Diferenciador:** DIDA MCP da precios wholesale B2B, no retail — margen adicional para el operador.
 
 ---
 
-## P3 — Multi-Agent Flight + Hotel Search (MCP-Native)
+## P3 — Agente de Trip Completo (Multimodal)
 
-**Problem**: Users want a single conversational interface to search flights + hotels + activities together, with price comparison and booking — not 3 separate sites.
+**Objetivo:** Planificación end-to-end de viaje: vuelos + hoteles + transporte local + actividades.
 
-**Stack**:
-- `skarlekar/mcp_travelassistant` — base MCP server suite
-- `ravinahp/flights-mcp` — flight search (no API key)
-- `DIDA-AI/Dida-hotel-MCP-CN` — hotel search (2M+ hotels)
-- `langchain-ai/langgraph` — orchestration
-- Claude Sonnet — reasoning + structured tool calls
-- FastAPI — REST API endpoint for web/mobile clients
+**Componentes:**
+- [TelivityAI/otaip](https://github.com/TelivityAI/otaip) — vuelos y GDS
+- [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) — hoteles
+- [malkreide/swiss-transport-mcp](https://github.com/malkreide/swiss-transport-mcp) — transporte local (Europa)
+- [shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) — arquitectura de referencia multi-agente
+- CrewAI — coordinación de agentes especializados
 
-**MCP wiring**:
-```python
-import anthropic
-import json
-
-client = anthropic.Anthropic()
-
-# MCP servers registered in claude_desktop_config.json
-# or loaded via subprocess for API use
-
-tools = [
-    {
-        "name": "search_flights",
-        "description": "Search available flights between two airports",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "origin": {"type": "string", "description": "IATA airport code"},
-                "destination": {"type": "string", "description": "IATA airport code"},
-                "date": {"type": "string", "description": "YYYY-MM-DD"},
-                "passengers": {"type": "integer"}
-            },
-            "required": ["origin", "destination", "date"]
-        }
-    },
-    {
-        "name": "search_hotels",
-        "description": "Search hotels via DIDA API",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "city": {"type": "string"},
-                "checkin": {"type": "string"},
-                "checkout": {"type": "string"},
-                "guests": {"type": "integer"},
-                "max_price_usd": {"type": "number"}
-            },
-            "required": ["city", "checkin", "checkout"]
-        }
-    }
-]
-
-def travel_agent(user_message: str, conversation_history: list):
-    messages = conversation_history + [{"role": "user", "content": user_message}]
-    
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        system="You are a travel planning assistant. Help users find flights and hotels. Always confirm prices and dates before suggesting booking.",
-        tools=tools,
-        messages=messages
-    )
-    
-    # Handle tool use in agentic loop
-    while response.stop_reason == "tool_use":
-        tool_results = []
-        for block in response.content:
-            if block.type == "tool_use":
-                result = call_mcp_tool(block.name, block.input)
-                tool_results.append({
-                    "type": "tool_result",
-                    "tool_use_id": block.id,
-                    "content": json.dumps(result)
-                })
-        messages = messages + [
-            {"role": "assistant", "content": response.content},
-            {"role": "user", "content": tool_results}
-        ]
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=4096,
-            tools=tools,
-            messages=messages
-        )
-    
-    return response.content[0].text
+**Agentes especializados:**
+```
+CrewAI Crew:
+  - FlightAgent: busca vuelos con OTAIP + LetsFG
+  - HotelAgent: busca hoteles con DIDA MCP
+  - TransportAgent: planifica conexiones locales con swiss-transport-mcp
+  - ItineraryAgent: genera itinerario coherente con todos los inputs
+  - BudgetAgent: valida que el total esté dentro del presupuesto del usuario
 ```
 
-**Estimated effort**: 4–6 weeks | **Deal range**: $80k–$250k
-**Target clients**: Digital travel agencies, OTA startups, travel super-apps
+**Tiempo estimado:** 10-16 semanas
+**Costo estimado:** USD 120k-350k
+**Nota:** Para LATAM, reemplazar swiss-transport-mcp por adaptador Redbus/OmniLineas (oportunidad de IP propio).
 
 ---
 
-## P4 — Airline Customer Service Agent (KaibanJS Pattern)
+## P4 — Corporate Travel Approval Workflow
 
-**Problem**: Airlines handle thousands of daily queries (flight status, rebooking, refunds, loyalty points). Human agents are expensive; existing IVR is terrible UX.
+**Objetivo:** Automatizar el ciclo aprobación-booking-reporting de viajes corporativos con policy enforcement.
 
-**Stack**:
-- `kaiban-ai/KaibanJS` — multi-agent orchestration (JS)
-- Amadeus PNR APIs — booking retrieval + modification
-- Claude Haiku — first-line response (low latency, cost-efficient)
-- Claude Sonnet — escalated/complex cases
-- WhatsApp Business / Web chat — channel
-- Human-in-the-loop via Agent handoff tool
+**Componentes:**
+- [jongalloway/travel-booking-agents](https://github.com/jongalloway/travel-booking-agents) — workflow base de aprobaciones
+- [amadeus4dev/amadeus-node](https://github.com/amadeus4dev/amadeus-node) — tarifas negociadas corporativas
+- Odoo CE — ERP/CRM para gestión de viajeros y centros de costo
+- Claude / GPT-4o — análisis de policy y recomendaciones
 
-**Agent roles** (KaibanJS team):
-```javascript
-import { Agent, Task, Team } from 'kaibanjs';
-
-const triageAgent = new Agent({
-    name: 'Triage',
-    role: 'Route customer queries to the right specialist',
-    goal: 'Classify intent: booking-change, refund, status, loyalty, other',
-    llmConfig: { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' }
-});
-
-const rebookingAgent = new Agent({
-    name: 'Rebooking Specialist',
-    role: 'Handle flight changes and cancellations',
-    goal: 'Rebook or cancel flight per customer request, maximize future credit retention',
-    tools: [pnrLookupTool, flightSearchTool, pnrModifyTool],
-    llmConfig: { provider: 'anthropic', model: 'claude-sonnet-5' }
-});
-
-const loyaltyAgent = new Agent({
-    name: 'Loyalty Specialist',
-    role: 'Handle miles/points queries and redemptions',
-    goal: 'Explain point balances, expiry, and redemption options',
-    tools: [loyaltyApiTool],
-    llmConfig: { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' }
-});
-
-const team = new Team({
-    name: 'Airline Customer Service',
-    agents: [triageAgent, rebookingAgent, loyaltyAgent],
-    tasks: [
-        new Task({ agent: triageAgent, description: 'Classify: {customer_query}' }),
-        new Task({ agent: rebookingAgent, description: 'Process rebooking if applicable' }),
-        new Task({ agent: loyaltyAgent, description: 'Answer loyalty query if applicable' })
-    ]
-});
+**Flujo:**
+```
+empleado: "viaje a São Paulo del 20-22 agosto por reunión con cliente XYZ"
+  → Agente valida contra travel policy de la empresa (clase permitida, hotel máximo, etc.)
+  → Busca opciones dentro de política (Amadeus corporate fares)
+  → Pre-aprueba automáticamente si está dentro de umbrales
+  → Escala a manager si excede política (con justificación resumida por AI)
+  → Post-trip: reconcilación automática de gastos contra booking
+  → Reporting mensual de viajes por departamento / proyecto
 ```
 
-**Estimated effort**: 8–14 weeks | **Deal range**: $150k–$500k
-**Target clients**: LATAM Airlines, GOL, Avianca, Copa, Aerolíneas Argentinas
+**Tiempo estimado:** 8-12 semanas
+**Costo estimado:** USD 90k-250k
+**Mercado objetivo:** TMCs y empresas con 200+ empleados viajando regularmente.
 
 ---
 
-## P5 — LATAM WhatsApp Travel Bot (Pix + Agentic Payments)
+## P5 — IRROPS Automation Agent (Aerolíneas)
 
-**Problem**: Brazilian and LATAM travelers book travel via WhatsApp but agents are human, slow, and inconsistent. Pix + Visa Intelligent Commerce now enables agentic end-to-end payments in Brazil.
+**Objetivo:** Automatizar el manejo de cancelaciones y delays con rebooking proactivo y compliance EU261/US DOT.
 
-**Stack**:
-- WhatsApp Business Cloud API (Meta)
-- Claude Sonnet — conversation + itinerary generation
-- `DIDA-AI/Dida-hotel-MCP-CN` — hotel search
-- Amadeus NDC API — flight search
-- Pix (Brazil) / Visa Intelligent Commerce — payment
-- FastAPI + PostgreSQL — booking records
+**Componentes:**
+- [TelivityAI/otaip](https://github.com/TelivityAI/otaip) — IRROPS module + EU261 compliance engine
+- [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) — acceso a disponibilidad en tiempo real para rebooking
 
-**Flow**:
+**Flujo:**
 ```
-User sends WhatsApp: "Quero viajar para Cancun em agosto, casal, budget R$8000"
-        ↓
-Claude extracts intent: destination=CUN, month=Aug, budget=8000 BRL, pax=2
-        ↓
-Agent calls DIDA MCP → hotel options [4★ all-inclusive R$4200/casal]
-Agent calls Amadeus → flight options [GRU→CUN R$3200/casal]
-        ↓
-Claude summarizes: "Encontrei pacote completo por R$7400 — voo + hotel 7 noites.
-                    Quer reservar? Pago via Pix 🇧🇷"
-        ↓
-User confirms → Pix payment initiated → PNR created → WhatsApp confirmation PDF
+sistema aerolínea: vuelo IB6835 cancelado (30 min antes de salida)
+  → OTAIP detecta evento IRROPS
+  → Clasifica pasajeros por prioridad (conexión urgente, pasajeros vulnerables, FF status)
+  → Calcula opciones de rebooking (mismo día, día siguiente) con seat availability real
+  → Verifica elegibilidad EU261 (compensación €250-600 según ruta)
+  → Envía opciones proactivamente al pasajero (WhatsApp/SMS/app)
+  → Pasajero confirma en 15 min o agente humano escala
+  → Genera automáticamente el voucher de compensación EU261
 ```
 
-**Estimated effort**: 6–10 weeks | **Deal range**: $80k–$300k
-**Target clients**: Brazilian travel agencies, Despegar.com Brazilian ops, Turismo Receptivo operators
+**ROI estimado:** Reducción 40-60% en cost per IRROPS event
+**Tiempo estimado:** 8-14 semanas
+**Costo estimado:** USD 100k-280k
 
 ---
 
-## P6 — Hotel Revenue Intelligence (RAG + Competitive Pricing)
+## P6 — Travel Agency AI CRM + Sales Copilot
 
-**Problem**: Hotel revenue managers spend hours manually pulling competitor rates, OTA performance, and demand signals. AI can automate this and surface actionable pricing recommendations.
+**Objetivo:** Agente de ventas para agencias que gestiona leads, propone itinerarios y hace follow-up automático.
 
-**Stack**:
-- `amadeus4dev/amadeus-python` — hotel offers + demand forecasts
-- Claude Sonnet — analysis + narrative reporting
-- Weaviate or Qdrant — vector store for historical rate data
-- Python + FastAPI — scraping + API layer
-- Looker Studio — dashboard
+**Componentes:**
+- [moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) — CRM travel base
+- [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) — Sales Copilot + Traveler Intelligence
+- Dify o n8n — automatización de workflows de seguimiento
+- OTAIP o LetsFG — generación de cotizaciones en tiempo real
 
-**Pattern**:
-```python
-import anthropic
-from amadeus import Client as AmadeusClient
-
-amadeus = AmadeusClient(client_id=..., client_secret=...)
-client = anthropic.Anthropic()
-
-def generate_revenue_report(hotel_id: str, date_range: tuple) -> str:
-    # Pull competitor rates from Amadeus Hotel Offers
-    offers = amadeus.shopping.hotel_offers_search.get(
-        hotelIds=[hotel_id] + COMPETITOR_IDS,
-        checkInDate=date_range[0],
-        checkOutDate=date_range[1]
-    )
-    
-    # Retrieve historical performance from vector store
-    historical = vector_store.query(f"hotel {hotel_id} revenue {date_range[0][:7]}")
-    
-    report = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2000,
-        messages=[{
-            "role": "user",
-            "content": f"""Analyze hotel revenue positioning:
-            Current rates: {offers.data}
-            Historical context: {historical}
-            Recommend: pricing adjustments, length-of-stay restrictions, channel mix.
-            Format as executive summary with 3 action items."""
-        }]
-    )
-    return report.content[0].text
+**Flujo:**
+```
+lead entra por WhatsApp: "quiero un viaje a Europa para 2 personas en septiembre"
+  → Agente de intake recoge: fechas, presupuesto, intereses, restricciones
+  → Genera 3 opciones de itinerario con precios estimados (OTAIP/LetsFG)
+  → CRM registra lead y perfil (ExcursioX)
+  → Sales Copilot prioriza leads calientes y programa follow-ups
+  → Agente hace seguimiento a los 2 días si no hay respuesta
+  → Revenue forecasting basado en pipeline de conversión histórico
 ```
 
-**Estimated effort**: 6–10 weeks | **Deal range**: $100k–$350k
-**Target clients**: Hotel chains in LATAM, hotel management companies, revenue management consultancies
+**Tiempo estimado:** 6-10 semanas
+**Costo estimado:** USD 70k-200k
 
 ---
 
-## P7 — Corporate OTA with Policy Guardrails (Full Stack)
+## P7 — Open Source PMS para Hoteles LATAM
 
-**Problem**: Mid-market companies ($10M–$500M revenue) need corporate travel management but can't afford SAP Concur. They need Expedia UX + corporate policy control.
+**Objetivo:** Deploy de HAIP para un hotel boutique con AI de pricing y concierge.
 
-**Stack**:
-- `Azure-Samples/azure-ai-travel-agents` — base architecture (MIT, ACA-deployable)
-- `amadeus4dev/amadeus-python` — GDS inventory
-- `DIDA-AI/Dida-hotel-MCP-CN` — hotel inventory
-- LangGraph — policy enforcement state machine
-- Azure Container Apps — deployment (scales to zero)
-- Microsoft Entra ID — corporate SSO
+**Componentes:**
+- [TelivityAI/haip](https://github.com/TelivityAI/haip) — PMS core
+- [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) — conectividad con canales de distribución
+- Claude AI — concierge conversacional para huéspedes
+- Modelo de ML propio — yield management (precio óptimo por fecha/ocupación)
 
-**Deployment** (from azure-ai-travel-agents):
-```bash
-# Clone Microsoft's reference architecture
-git clone https://github.com/Azure-Samples/azure-ai-travel-agents
-cd azure-ai-travel-agents
-
-# Configure orchestrator (LangChain.js, LlamaIndex.TS, or Microsoft Agent Framework)
-cp .env.example .env
-# Set ANTHROPIC_API_KEY, AMADEUS_CLIENT_ID, AMADEUS_CLIENT_SECRET, DIDA_API_KEY
-
-# Deploy to Azure Container Apps
-azd up
+**Flujo:**
+```
+huésped (vía WhatsApp/web): "quiero reservar para el 10-14 agosto, 2 adultos"
+  → Agente concierge verifica disponibilidad en HAIP (inventario propio)
+  → Modelo ML calcula precio dinámico óptimo basado en ocupación y fechas
+  → Ofrece upgrades contextuales (suite vs. estándar, desayuno incluido)
+  → Booking confirmado y registrado en HAIP
+  → Pre-arrival: agente envía tips locales, confirma hora de check-in
+  → Post-stay: solicita review, ofrece descuento para próxima estadía
 ```
 
-**Customization points**:
-1. Add company travel policy JSON to the policy MCP server
-2. Configure approval workflow (auto-approve under threshold, manager email above)
-3. Add Pix / local payment methods for LATAM entities
-4. White-label UI with company branding
-
-**Estimated effort**: 10–16 weeks | **Deal range**: $200k–$600k
-**Target clients**: LATAM multinationals, professional services firms, tech companies 500–5000 employees
+**Tiempo estimado:** 10-14 semanas
+**Costo estimado:** USD 80k-220k
+**Diferenciador LATAM:** No existe en el mercado LATAM una solución PMS open source de calidad. HAIP + Globant = first mover.
 
 ---
-
-## Quick-Start Matrix
-
-| Problem | Time | Cost | Key Repos |
-|---------|------|------|-----------|
-| Hotel AI concierge | 4–8w | $80k–$250k | QloApps + Claude Haiku + WhatsApp |
-| Multi-agent flight+hotel search | 4–6w | $80k–$250k | flights-mcp + DIDA MCP + LangGraph |
-| Corporate travel approval | 6–10w | $100k–$400k | amadeus-python + LangGraph + policy store |
-| Airline customer service | 8–14w | $150k–$500k | KaibanJS + Amadeus PNR + Claude |
-| LATAM WhatsApp travel bot | 6–10w | $80k–$300k | WhatsApp API + DIDA MCP + Pix |
-| Hotel revenue intelligence | 6–10w | $100k–$350k | amadeus-python + vector store + Claude |
-| Corporate OTA (full stack) | 10–16w | $200k–$600k | azure-ai-travel-agents + Amadeus + DIDA |
+*Actualizado automáticamente por el pipeline de ingest.*
