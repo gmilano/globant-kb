@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Gaming
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-10 | Verificado con deep-research (v7)
+> Última actualización: 2026-07-10 (v8) | Verificado con deep-research (v8 — NitroGen añadido)
 > ⚠️ NOTA (jul 2026): Godot Foundation **prohíbe contribuciones de código AI** desde 1-jul-2026. El engine Godot sigue MIT — solo cambian las reglas de PR para el engine core. Los plugins/extensiones en repos externos no tienen esta restricción.
 
 ## Game Engines (Open Source)
@@ -54,7 +54,8 @@
 
 | Repo | Licencia | Descripción | Stars |
 |------|----------|-------------|-------|
-| [krafton-ai/Orak](https://github.com/krafton-ai/Orak) | MIT | **arXiv:2506.03610 (jun 2026). Por KRAFTON (PUBG).** Benchmark MCP-nativo para training + evaluación de LLM agents en 12 juegos de todos los géneros. Dataset de fine-tuning con trayectorias expertas. Live leaderboard. El más completo y reciente de su categoría. | 148 |
+| [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) | MIT | **arXiv:2601.02427 (ene 2026). NVIDIA + Stanford + Caltech + UChicago + UT Austin.** Primer foundation model open source listo-para-usar para game agents. 493M params (SigLip2 + DiT). Entrenado en 40k h / 1k+ juegos. 52% mejora en unseen games. Pesos en HuggingFace (nvidia/NitroGen). Base para fine-tuning con Orak dataset. | ~400 |
+| [krafton-ai/Orak](https://github.com/krafton-ai/Orak) | MIT | **arXiv:2506.03610 (jun 2026). Por KRAFTON (PUBG).** Benchmark MCP-nativo para training + evaluación de LLM agents en 12 juegos de todos los géneros. Dataset de fine-tuning con trayectorias expertas. Live leaderboard. Úsalo con NitroGen para pipeline completo train→eval. | 148+ |
 | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | ICLR 2026. Eval de LLM/VLM en 7 juegos + leaderboard público. Framework extensible para custom games. Claude thinking-modes lidera en estrategia. | 947 |
 
 ---

@@ -1,6 +1,6 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-10 (v7)
+> Investigación curada con datos verificados. Última actualización: 2026-07-10 (v8 — T17-T19 añadidos: NitroGen, LTM NPC Trust Score, GDC trust crisis)
 
 ## Tendencias confirmadas (alta confianza)
 
@@ -117,6 +117,40 @@ arXiv:2605.28258 (27 may 2026): investigadores formalizan que generar código de
 
 ---
 
+---
+
+## 🆕 Tendencias v8 (julio 2026)
+
+### T17: NitroGen — El primer foundation model open source que sabe jugar (ene 2026, publicado jul 2026)
+[MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) (arXiv:2601.02427, ene 2026): NVIDIA + Stanford + Caltech + UChicago + UT Austin lanzaron el primer foundation model abierto verdaderamente generalista para gaming agents. No es un benchmark ni un framework — es un **modelo listo para usar**:
+- **Arquitectura**: SigLip2 (vision encoder) + Diffusion Matching Transformer 493M params. Input: frame de pantalla. Output: gamepad actions (joysticks analógicos + botones).
+- **Escala sin precedentes**: 40,000 horas de gameplay en 1,000+ juegos. Dataset construido con extracción automática de acciones desde YouTube gameplay videos.
+- **Generalización**: 52% mejora relativa en unseen games vs modelos entrenados desde cero. Funciona en 3D action, 2D platformers, procedurally generated worlds.
+- **Open todo**: pesos en `nvidia/NitroGen` (HuggingFace), dataset, evaluation suite, training code. MIT license.
+- **Posición en el ecosistema**: NitroGen es el "punto de partida preentrenado"; Orak es el "dataset de fine-tuning"; OmniGameArena y GamingAgent son los "benchmarks de evaluación". Las 3 piezas juntas forman el ciclo completo train→fine-tune→eval.
+- **Para Globant**: ofrece un servicio de "Game AI Specialization" — tomar NitroGen, fine-tunearlo con Orak dataset en el género/juego del cliente (4-6h en A100, costo <$100), y entregar un game agent especializado. SOTA sin RL desde cero.
+
+### T18: LTM NPCs con Trust Score — Rockstar + 2K en producción (GDC 2026)
+GDC 2026: Rockstar Games y 2K presentaron conjuntamente la arquitectura más avanzada de NPCs en producción hasta la fecha — Long-Term Memory (LTM) models con **Trust Score** dinámico:
+- **Trust Score**: función continua calculada en tiempo real que pondera: eventos pasados del jugador (cross-session), motivaciones internas del NPC (autopreservación, lealtad, miedo), y rol del NPC en el juego (quest giver, guard, merchant). El NPC toma decisiones en base a este score, no al script de quest.
+- **Demo concreto**: NPC rehusó compartir información porque detectó que el jugador había dañado su propiedad en otra sesión. El modelo determinó que self-preservation > quest logic → NPC bloqueó el quest.
+- **Cross-session memory**: las interacciones se persisten entre sesiones de juego. El NPC recuerda todo.
+- **Implicación técnica**: la arquitectura supera RAG simple. Requiere: memory stream tipado (eventos + motivaciones + relaciones) + función de scoring sobre ese memory + decision layer que pondera score vs lógica de quest. Implementable en OSS con LangGraph + ChromaDB + scoring function.
+- **Señal de mercado**: si Rockstar + 2K ya lo tienen en producción AAA, los studios mid-size lo querrán en 2-3 años. Globant puede ofrecer la versión OSS del patrón ahora.
+- **Para Globant**: añadir módulo Trust Score a Receta 7 (NPC con memoria persistente). Deal size potencial: $150k-$500k para studios AAA/AA.
+
+### T19: GDC Trust Crisis — Positivos GenAI caen de 13% a 7% en un año
+GDC 2026 State of the Game Industry Report (BusinessWire, ene 2026; GDC report 2026) reveló una crisis de confianza sin precedentes en GenAI entre desarrolladores de juegos:
+- **Negativos**: 52% de devs ve GenAI negativamente (2026) vs 30% (2025). +22 puntos en 12 meses.
+- **Positivos**: solo 7% ve GenAI positivamente (2026) vs 13% (2025). Casi la mitad en un año.
+- **Por disciplina**: Visual/Technical Art 64% negativo (las que más ven sus workflows amenazados); Game Design/Narrative 63%; Game Programming 59%.
+- **El paradox**: a pesar del sentimiento, adopción de Agentic NPCs en producción subió +11% YoY. Los que SÍ adoptan toman ventaja mientras sus pares dudan.
+- **Root cause identificada en GDC**: desconfianza laboral (miedo a reemplazo) + baja calidad de herramientas actuales para tasks creativas (arte, narrativa) + falta de gobernanza clara en los studios.
+- **Implicación estratégica**: "AI for efficiency" (QA, matchmaking, analytics) tiene menor fricción política que "AI for creative work" (arte, narrativa, voz). Globant debe posicionar las primeras ventas en el primer bucket.
+- **Oportunidad de consultoría**: studios que no tienen gobernanza AI son vulnerables a este sentimiento negativo frenando adopción. Sprint de gobernanza AI ($30k-$80k) como puerta de entrada.
+
+---
+
 ## En el radar (emergente, 2026-2027)
 
 | Tendencia | Señal | ETA |
@@ -130,9 +164,11 @@ arXiv:2605.28258 (27 may 2026): investigadores formalizan que generar código de
 | **Supabase para game backends** | Alternativa PostgreSQL a Firebase/Nakama para juegos asíncronos. | Adopción creciente 2026 |
 | **NitroGen-style foundation models** | Modelos visión-acción entrenados on-gameplay (40k h / 1k+ juegos). Competirán con VLMs en tasks gaming-specific. | 2026-2027 |
 | **AI-ban reacción en OSS** | Godot, y potencialmente otros motores OSS, endureciendo políticas anti-AI. Premium de calidad humana en contribuciones. | Presente |
-| **Orak fine-tuning → gaming LLM** | KRAFTON dataset disponible → fine-tunear Llama/Qwen en trayectorias de gameplay. Primer paso hacia gaming-specific LLM open source. | 2026-2027 |
+| **Orak fine-tuning → gaming LLM** | KRAFTON dataset disponible → fine-tunear Llama/Qwen en trayectorias de gameplay. Primer paso hacia gaming-specific LLM open source. Con NitroGen como base, el paso ya es realidad. | Ya disponible (2026) |
+| **NitroGen + Orak = pipeline completo** | Foundation model (NitroGen) + fine-tuning dataset (Orak) + benchmark (GamingAgent/OmniGameArena) = ciclo cerrado de train→fine-tune→eval para game agents. | Ya disponible (2026) |
+| **LTM NPC Trust Score en mid-market** | Rockstar/2K tienen Trust Score en producción AAA. Studios mid-size lo querrán. Versión OSS implementable con LangGraph + ChromaDB. | 2027-2028 |
 | **Play2Code pattern en producción** | Loop generación→playtesting GUI agent → corrección automática. Habilita prototipado de juegos jugables en horas. | 2026 |
 | **Morgan Stanley $22B AI gaming** | Analistas mainstream apostando por savings-driven AI adoption. CFOs de studios empezarán a exigir ROI metrics concretas. | Ya presente |
 
 ---
-*Fuentes: GitHub (verificado 2026-07-10), GDC 2026 Survey, Technavio, Research & Markets, arXiv:2602.11103, arXiv:2605.28258, arXiv:2506.03610, arXiv:2606.09826, ICLR 2026, godotengine.org/article/contribution-policy-2026/, Persistence Market Research, Morgan Stanley (abr 2026), KPMG/UNLV State of AI in Gaming 2026*
+*Fuentes: GitHub (verificado 2026-07-10), GDC 2026 State of the Game Industry Report (BusinessWire, ene 2026), GDC 2026 AI sessions (Rockstar+2K LTM NPC), Technavio, Research & Markets, Business Research Co. (jul 3 2026), Verified Market Reports (jul 2026), arXiv:2601.02427 (NitroGen), arXiv:2602.11103 (GameDevBench), arXiv:2604.18394 (OpenGame), arXiv:2605.28258 (Play2Code), arXiv:2506.03610 (Orak), arXiv:2606.09826 (OmniGameArena), ICLR 2026, godotengine.org/article/contribution-policy-2026/, Persistence Market Research, Morgan Stanley (abr 2026), KPMG/UNLV State of AI in Gaming 2026. Actualizado v8 2026-07-10.*

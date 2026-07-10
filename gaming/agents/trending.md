@@ -1,9 +1,38 @@
 # Agentes trending — Gaming AI
 
-> Tendencias activas en AI gaming. Última actualización: 2026-07-10 (v7)
+> Tendencias activas en AI gaming. Última actualización: 2026-07-10 (v8)
 > Investigación manual curada — complementa el pipeline automático de top.md
 
-## Señales nuevas esta semana (2026-07-10)
+## Señales nuevas esta semana (2026-07-10, v8)
+
+### S11: NitroGen — El GPT-4o del gaming (NVIDIA/MineDojo, ene 2026)
+[MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) — arXiv:2601.02427 (ene 2026). El primer foundation model open source realmente generalista para gaming agents. Cuatro diferenciadores clave vs GamingAgent/OmniGameArena/Orak (que son benchmarks):
+- **Modelo pre-entrenado listo para usar**: 493M params (SigLip2 vision encoder + DiT action decoder). Input: pixels. Output: gamepad actions (21×16 — joysticks continuos + 17 botones binarios). No requiere RL from scratch.
+- **Escala de entrenamiento sin precedentes**: 40,000 horas de gameplay en 1,000+ juegos. Dataset construido extrayendo automáticamente acciones de jugadores desde videos de YouTube. Primero de esta escala en gaming.
+- **Generalización medida**: 52% de mejora relativa en task success rate en juegos nunca vistos durante entrenamiento vs modelos entrenados desde cero.
+- **Todo open**: pesos en HuggingFace (`nvidia/NitroGen`), dataset, evaluation suite, código de entrenamiento. MIT license.
+- **Complementa a Orak**: Orak es el benchmark para evaluar + fine-tune; NitroGen es el modelo pre-entrenado para usar como punto de partida. Combinarlos = pipeline completo.
+- **Señal para Globant**: NitroGen es el "encoder preentrenado" que un studio puede adaptar con LoRA a su juego específico en <1 semana. Orak provee el dataset de fine-tuning. El combo habilita game agents especializados sin datos propios ni RL desde cero.
+
+### S12: Rockstar + 2K muestran LTM NPCs con Trust Score en GDC 2026
+GDC 2026 (confirmado): la sesión técnica más influyente la compartieron ingenieros de **Rockstar Games** y **2K**. Demostraron una nueva clase de NPC con "Long-Term Memory" (LTM) models:
+- **Trust Score**: el NPC calcula dinámicamente un score de confianza basado en interacciones pasadas del jugador (cross-session).
+- Demo específico: NPC rehúsa compartir información porque el jugador dañó su propiedad en una sesión anterior. El modelo calculó que su motivación interna (self-preservation) anulaba la lógica de quest-giving del juego.
+- **Implicación arquitectónica**: no es solo RAG sobre historial — es un modelo que pondera motivaciones internas vs eventos pasados vs rol en el juego. Más complejo que el patrón Generative Agents de Stanford.
+- **Señal para open source**: Rockstar/2K no publicaron código, pero la arquitectura es reproducible con LangGraph + ChromaDB. El Trust Score es implementable como un campo en el vector store del NPC.
+- **Para Globant**: esto valida el diseño de Receta 7 (NPC con memoria persistente) y sugiere añadir un módulo de Trust Score al NPC memory layer.
+
+### S13: Claude Code Game Studios — 49 agentes, 72 skills para estudio completo
+[Donchitos/Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) — Proyecto que implementa una jerarquía de estudio de juegos completa usando Claude Code como runtime:
+- 49 agentes especializados que cubren cada rol del estudio: Director, Lead Dev, Lead Artist, Game Designer, QA Lead, Market Analyst, Sound Designer, etc.
+- 72 workflow skills predefinidos para tareas comunes: feature development, asset review, bug triage, market analysis, playtesting.
+- Sistema de coordinación que espeja cómo los equipos humanos escalan: el Director delegado a Leads, los Leads a sus equipos de agentes.
+- **Señal**: el patrón "AI dev team" aplicado a gaming ya tiene implementaciones con coordinación estructurada. Ya no es concepto — es código.
+- **Complementa a Receta 13 (Play2Code)**: mientras Play2Code cierra el loop generación→playtesting, Claude Code Game Studios cierra el loop de todo el ciclo de desarrollo (diseño → arte → código → QA → market → launch).
+
+---
+
+## Señales anteriores esta semana (2026-07-10, v7)
 
 ### S8: Orak — Benchmark MCP-nativo por KRAFTON (creadores de PUBG)
 [krafton-ai/Orak](https://github.com/krafton-ai/Orak) — arXiv:2506.03610 (jun 2026). El laboratorio AI de **KRAFTON** (empresa detrás de PUBG Battlegrounds, > 75M copias vendidas) lanzó el benchmark de entrenamiento y evaluación de LLM agents más amplio hasta la fecha. A diferencia de GamingAgent (7 juegos) o OmniGameArena (12 juegos UE5), **Orak** cubre 12 juegos de todos los géneros principales con una interfaz **plug-and-play vía MCP (Model Context Protocol)**:

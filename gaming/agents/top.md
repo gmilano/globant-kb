@@ -1,7 +1,15 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-10 | Verificado por deep-research (v7 — nuevos: Orak/Krafton, Play2Code, Morgan Stanley $22B)
+> Última actualización: 2026-07-10 (v8) | Verificado por deep-research (v8 — nuevos: NitroGen/NVIDIA, Claude-Code-Game-Studios, GDC 2026 LTM NPC Trust Score)
+
+## Foundation Models para Gaming (nuevo 2026)
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| NitroGen | [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) | MIT | **arXiv:2601.02427 (ene 2026). Por NVIDIA + Stanford + Caltech + UChicago + UT Austin.** Vision-action foundation model: 493M params (SigLip2 + DiT). Entrenado en 40,000 horas de gameplay videos de 1,000+ juegos via behavior cloning. 52% mejora relativa sobre modelos entrenados desde cero en juegos nunca vistos. Pesos + dataset + evaluation suite open source. HuggingFace: nvidia/NitroGen. | ~400 |
+
+---
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -46,6 +54,15 @@
 |--------|------|----------|-------------|-------|
 | WorldX | [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) | MIT | Generación procedural de mundos con AI (TypeScript) | 1.1k |
 | gym-pcgrl | [amidos2006/gym-pcgrl](https://github.com/amidos2006/gym-pcgrl) | MIT | OpenAI Gym para Procedural Content Generation via Reinforcement Learning | 700+ |
+
+## AI Game Studio Orchestration
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| Claude Code Game Studios | [Donchitos/Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) | MIT | 49 AI agents + 72 workflow skills con coordinación completa que espeja la jerarquía de un estudio real. Incluye roles de Director, Lead Dev, Art Director, QA Lead y más. Basado en Claude Code. | ~150 |
+| GameStudio Subagents | [pamirtuna/gamestudio-subagents](https://github.com/pamirtuna/gamestudio-subagents) | MIT | Equipo AI en terminal: Producer, Market Analyst, Dev, QA, Artist, Game Designer. Master Orchestrator coordina. Multi-engine: Godot / Unity / Unreal. | ~80 |
+| Game Studio Simulator | [mxcl/game-studio-simulator](https://github.com/mxcl/game-studio-simulator) | MIT | You have the game idea. We have the agents. Simula pipeline completo de desarrollo de juego con agentes especializados. | ~50 |
+| OpenGame | [leigest519/OpenGame](https://github.com/leigest519/OpenGame) | MIT | **arXiv:2604.18394 (abr 2026).** Framework agentico OSS end-to-end para generar juegos web desde texto. GameCoder-27B (Qwen3.5-27B + SFT en trajectories de game dev). Game Skill library: Template Skill (biblioteca de project skeletons) + Debug Skill (protocolo de fixes verificados). OpenGame-Bench: Build Health + Visual Usability + Intent Alignment via headless browser + VLM judging. SOTA en 150 game prompts. | ~600 |
 
 ## ⚠️ Licencias a tener en cuenta
 

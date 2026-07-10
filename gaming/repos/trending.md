@@ -1,14 +1,22 @@
 # Repos trending — Gaming AI
 
-> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-10
+> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-10 (v8)
 
-## 🆕 Nuevo esta semana (2026-07-10)
+## 🆕 Nuevo esta semana (2026-07-10, v8)
+
+| Repo | Licencia | Descripción | Stars | Señal |
+|------|----------|-------------|-------|-------|
+| [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) | MIT | **arXiv:2601.02427 (ene 2026). NVIDIA + Stanford + Caltech.** Primer foundation model open source para gaming agents. 493M params (SigLip2+DiT), entrenado en 40k h / 1k+ juegos. Pesos en HuggingFace (nvidia/NitroGen). 52% mejora en unseen games. Complementa Orak (benchmark) como modelo base listo para fine-tune. | ~400 | Primer modelo listo-para-usar para game agents — habilita stack NitroGen+Orak+LoRA |
+| [Donchitos/Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) | MIT | 49 AI agents + 72 workflow skills. Jerarquía de estudio completa (Director, Leads, Arte, QA, Market). Claude Code como runtime. | ~150 | Patrón "full AI game studio" ya implementado en código |
+| [mxcl/game-studio-simulator](https://github.com/mxcl/game-studio-simulator) | MIT | Game Studio Simulator — pipeline completo de desarrollo con agentes especializados. | ~50 | Implementación alternativa del patrón AI studio |
+
+## 🆕 Semana anterior (2026-07-10, v7) — top picks
 
 | Repo | Licencia | Descripción | Stars | Señal |
 |------|----------|-------------|-------|-------|
 | [krafton-ai/Orak](https://github.com/krafton-ai/Orak) | MIT | **arXiv:2506.03610 (jun 2026). Por KRAFTON (PUBG).** Benchmark MCP-nativo para training + eval de LLM agents en 12 juegos de todos los géneros: Street Fighter III, Super Mario, Pokémon Red, Darkest Dungeon, Minecraft, Stardew Valley, StarCraft II, Slay the Spire, y más. Dataset de fine-tuning incluido. Live leaderboard. | 148 | Studio AAA invierte en OSS benchmark — señal de madurez del mercado |
 
-## 🆕 Semana anterior (2026-07-07 → 2026-07-09)
+## 🆕 Semana anterior (2026-07-07 → 2026-07-09, v6-v7)
 
 | Repo | Licencia | Descripción | Stars | Señal |
 |------|----------|-------------|-------|-------|

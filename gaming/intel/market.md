@@ -1,16 +1,17 @@
 # Mapa de mercado — Gaming AI
 
 > Players, tamaños, oportunidades. Foco LATAM + posicionamiento Globant.
-> Última actualización: 2026-07-10 (v7)
+> Última actualización: 2026-07-10 (v8 — GDC 2026 sentiment actualizado, Rockstar/2K LTM NPC, NitroGen añadido)
 
 ## Tamaño de mercado global
 
 | Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte | Fuente |
 |----------|------------|------------|------|-----------|--------|
 | AI in Gaming (broad — Persistence MR) | — | **$10.1B** | **33.2%** | → **$75.1B en 2033** | Persistence Market Research |
+| AI in Games (Verified Market Reports) | — | **$10.64B** | **40.8%** | → **$163.1B en 2034** | Verified Market Reports (jul 2026) |
 | AI in Games (segmento menor) | $2.87B | $3.4B+ | 18.5% | 2025-2026 | Technavio |
 | AI in Gaming (Technavio — amplio) | — | — | 40.7% | Crecimiento $34B proyectado 2026-2030 | Technavio |
-| Generative AI in Gaming | $1.79B | $2.21B | 23.1% | → $5.09B en 2030 | Research&Markets |
+| Generative AI in Gaming | $1.79B | $2.21B | 23.1% | → $5.09B en 2030 | Business Research Co. (jul 3 2026) |
 | NPC Generation AI Market | $1.86B | $2.44B | 31.4% | ↑ YoY acelerado | Research&Markets |
 | AI Game Assets Generator | $1.7B | $2.08B | ~20% | → $10.73B en 2035 | Business Research Insights |
 | NPCs + Digital Humans | — | 28.6% del total AI gaming | — | mayor segmento único | Technavio |
@@ -22,6 +23,8 @@
 **Analistas financieros:** Morgan Stanley (abr 2026): AI desbloqueará **$22B** en ganancias adicionales para la industria via recortes de costos de desarrollo. Gasto global consumidores: $275B/año; $55B reinvertidos en desarrollo. AI podría reducir ese costo a la mitad.
 
 **Gobernanza AI (iGaming):** KPMG/UNLV "State of AI in Gaming 2026" (abr 2026): 83 empresas encuestadas (casino/iGaming). Madurez general: 45/100. Gobernanza: solo 30/100. 80%+ usa GenAI para contenido/análisis, pero solo 1 de cada 5 ha logrado ROI medible. AI adoption outpacing governance — gap = oportunidad de consultoría.
+
+**GDC 2026 Sentiment Update (v8):** Sentimiento anti-GenAI empeoró significativamente: solo **7% de devs ve GenAI positivamente** (vs 13% en GDC 2025 — casi se redujo a la mitad en un año). **52% visión negativa** (vs 30% en 2025). Áreas más negativas: Visual/Technical Art 64%, Game Design/Narrative 63%, Game Programming 59%. PERO: adopción de Agentic NPCs en producción subió +11% YoY. El gap entre sentimiento negativo y adopción real crea ventana competitiva para studios que sí implementan. Señal clave: **Rockstar Games + 2K** mostraron LTM (Long-Term Memory) NPCs con **Trust Score** dinámico en GDC 2026 — primer demo público de NPCs que recuerdan interacciones cross-session y pondera motivaciones internas. Técnica reproducible en OSS con LangGraph + ChromaDB.
 
 ---
 
@@ -58,6 +61,7 @@
 | **bitbrain** | beehave | ~3.2k | MIT |
 | **Fenris Creations/CCP** | carbonengine (Trinity + Destiny) | Nuevo | MIT |
 | **lmgame-org** | GamingAgent | 947 | MIT |
+| **MineDojo / NVIDIA** | NitroGen | ~400 | MIT |
 
 ---
 
@@ -111,4 +115,4 @@
 - **Inworld/Convai**: plataformas cerradas caras → Globant puede ofrecer alternativa OSS consultiva
 
 ---
-*Fuentes: Technavio, Research & Markets, Business Research Company, Persistence Market Research (jul 2026), GDC 2026 Survey (2026-07-09)*
+*Fuentes: Technavio, Research & Markets, Business Research Company, Persistence Market Research, Verified Market Reports (jul 2026), GDC 2026 State of the Game Industry (BusinessWire ene 2026; GDC report 2026), GDC 2026 AI sessions (Rockstar + 2K LTM NPC). Actualizado v8 2026-07-10.*

@@ -2,7 +2,7 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
-> Última actualización: 2026-07-09 (v6)
+> Última actualización: 2026-07-10 (v8 — NitroGen añadido, Trust Score NPC pattern)
 > ⚠️ NOTA (jul 2026): Godot Foundation **prohíbe contribuciones de código AI** desde 1-jul-2026. El engine sigue MIT — solo cambian las reglas de PR para el engine core. Los plugins/extensiones en repos externos no tienen esta restricción.
 
 ## Stack recomendado: Godot + Nakama
@@ -176,6 +176,8 @@ AWS Comprehend                         ← análisis de toxicidad en chat
 | MMO mundo persistente | Carbon Engine + Nakama | LangGraph + Claude + ONNX | Meses (fundacional) |
 | Mobile gaming LATAM/APAC | Cocos Creator 4 | Claude API + local models | 3-6 semanas |
 | RPG con PCG y narrativa generativa | Luanti fork + Godot | Concordia + LlamaIndex + LLM | 6-10 semanas |
+| Game agent especializado sin RL | NitroGen (NVIDIA/MIT) | + Orak dataset + LoRA fine-tune | 3-5 días (modelo listo) |
+| NPC con Trust Score cross-session | Godot + ChromaDB | LangGraph + scoring function | 3-4 semanas |
 
 ---
 *Fuentes: heroiclabs.com, supabase.com/blog, godotengine.org, o3de.org, gamingonlinux.com (Carbon Engine jul 2026), GitHub (verificado 2026-07-09)*
