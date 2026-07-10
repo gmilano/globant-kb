@@ -1,9 +1,39 @@
 # Agentes trending — Gaming AI
 
-> Tendencias activas en AI gaming. Última actualización: 2026-07-09 (v6)
+> Tendencias activas en AI gaming. Última actualización: 2026-07-10 (v7)
 > Investigación manual curada — complementa el pipeline automático de top.md
 
-## Señales nuevas esta semana (2026-07-09 → 2026-07-09)
+## Señales nuevas esta semana (2026-07-10)
+
+### S8: Orak — Benchmark MCP-nativo por KRAFTON (creadores de PUBG)
+[krafton-ai/Orak](https://github.com/krafton-ai/Orak) — arXiv:2506.03610 (jun 2026). El laboratorio AI de **KRAFTON** (empresa detrás de PUBG Battlegrounds, > 75M copias vendidas) lanzó el benchmark de entrenamiento y evaluación de LLM agents más amplio hasta la fecha. A diferencia de GamingAgent (7 juegos) o OmniGameArena (12 juegos UE5), **Orak** cubre 12 juegos de todos los géneros principales con una interfaz **plug-and-play vía MCP (Model Context Protocol)**:
+- Juegos incluidos: Street Fighter III, Super Mario, Ace Attorney, Her Story, Pokémon Red, Darkest Dungeon, **Minecraft**, **Stardew Valley**, **StarCraft II**, Slay the Spire, Baba Is You, 2048
+- **Dataset de fine-tuning**: trayectorias de gameplay expertas → fine-tune de LLMs generalistas para convertirlos en game agents efectivos
+- Live leaderboard: [krafton-ai.github.io/orak-leaderboard/](https://krafton-ai.github.io/orak-leaderboard/)
+- MCP para estudios de ablación: modality de input visual, estrategias agenticas, efectos de fine-tuning
+- **Diferenciador vs competencia**: Orak es el único benchmark que habilita tanto evaluación como entrenamiento (fine-tuning) de agentes. Es también el primero implementado sobre MCP, lo que lo hace directamente compatible con Claude Code / Claude API.
+- **Señal de industria**: un estudio AAA (Krafton) invirtiendo en benchmark open-source indica que el ecosistema de agentes de juegos está madurando hacia estándares compartidos. Mismo movimiento que hizo Farama Foundation con Gymnasium para RL.
+
+### S9: Play2Code + PlaytestArena — Game gen con loop de playtesting GUI (may 2026)
+arXiv:2605.28258 (27 may 2026). Propone que generar un juego **no es lo mismo que construir uno que se pueda jugar**. Enfoques anteriores (OpenGame, GameDevBench) trataban la generación como una traducción one-shot prompt → código, sin detectar fallos a nivel de interacción.
+- **PlaytestArena**: entorno de evaluación con 200 tareas de generación de browser games en 8 géneros, con rúbricas de comportamiento en juego verificadas por un GUI agent que carga el build en el browser y lo juega
+- **Play2Code**: game agent (que genera código) + GUI agent (que juega el resultado) operan en loop con memoria compartida → la generación de juegos se convierte en un diálogo entre coding y playtesting
+- **Resultado**: 66.8% rubric pass-rate vs 37.1% single-pass y 52.2% agentic-coding baseline (mejora de 14.6 puntos sobre el mejor baseline anterior)
+- **Señal**: el game playtesting automatizado por GUI agents se establece como testbed para generación de código interactivo. Converge con GameDevBench (53.8% en tareas Godot) en mostrar el camino hacia cierre del loop: generar → jugar → iterar.
+- **Para Globant**: el patrón Play2Code es aplicable como servicio de "AI-generated game prototyping" — generar prototipos jugables en horas, no semanas.
+
+### S10: Morgan Stanley — AI desbloqueará $22B en ganancias para la industria (abr 2026)
+[Morgan Stanley AI Gaming Report](https://www.morganstanley.com/insights/articles/ai-gaming-22-billion-industry-earning-potential-2026) (abr 2026). Análisis de impacto más influyente del año del mercado financiero tradicional sobre AI en gaming:
+- Gasto global de consumidores en videojuegos: **$275B en 2026** (~$55B reinvertidos en desarrollo y operaciones)
+- AI podría **reducir costos de desarrollo a la mitad** → $22B en ganancias adicionales vía recortes de costos
+- Drivers: automatizar creación de entornos de juego, generar diálogos, testing de software
+- Ganadores identificados: Sony (IP diversificado + live services), **NetEase** ("el experto gaming AI líder de la industria"), Roblox (AI mejora herramientas de creación de contenido)
+- Riesgo: menores barreras de entrada → mayor competencia, posible erosión de márgenes para publishers
+- **Para Globant**: el $22B es el argumento ROI para cualquier CTO de studio que pregunta "¿por qué invertir en AI?". El savings-first framing (vs innovation-first) es el mensaje correcto para estudios mid-size.
+
+---
+
+## Señales anteriores esta semana (2026-07-07 → 2026-07-09)
 
 ### S6: OmniGameArena — Benchmark UE5 para VLM Game Agents (jun 2026)
 [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) — arXiv:2606.09826 (jun 2026). Benchmark unificado con 12 juegos construidos en **Unreal Engine 5** (7 Solo, 3 PvP, 2 Coop), interfaz de acciones uniforme para comparar VLMs comerciales (Claude, GPT, Gemini) con modelos especializados (NitroGen). Introduce **Improvement Dynamics Curve (IDC)**: un reflector LLM con herramientas refina automáticamente prompts de habilidad en múltiples rondas, midiendo mejora por reflexión además del score inicial.

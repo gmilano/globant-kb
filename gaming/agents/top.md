@@ -1,7 +1,7 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-09 | Verificado por deep-research (v6 — 140+ agentes, 650+ búsquedas)
+> Última actualización: 2026-07-10 | Verificado por deep-research (v7 — nuevos: Orak/Krafton, Play2Code, Morgan Stanley $22B)
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -26,6 +26,7 @@
 
 | Nombre | Repo | Licencia | Descripción | Stars |
 |--------|------|----------|-------------|-------|
+| Orak | [krafton-ai/Orak](https://github.com/krafton-ai/Orak) | MIT | **arXiv:2506.03610 (jun 2026). Por KRAFTON (creadores de PUBG).** 12 juegos de todos los géneros principales: Street Fighter III, Super Mario, Pokémon Red, Darkest Dungeon, Minecraft, Stardew Valley, StarCraft II, Slay the Spire, Baba Is You + más. Interfaz plug-and-play **vía MCP**. Incluye **dataset de fine-tuning** con trayectorias de gameplay expertas. Live leaderboard en krafton-ai.github.io/orak-leaderboard/. | 148 |
 | GamingAgent | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | **ICLR 2026.** LLM/VLM gaming agents: evaluación de modelos en 7 juegos (Sokoban, Tetris, 2048, Candy Crush, Pokémon Red, Super Mario Bros, Ace Attorney). lmgame-Bench + computer-use agents. | 947 |
 | GameDevBench | [waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) | MIT | **arXiv:2602.11103 (feb 2026).** 132 tareas de game development en Godot: 3D/2D Graphics, Gameplay, UI. Mejor agente resuelve 53.8%. Primer benchmark agentico para desarrollo de juegos. | — |
 | OmniGameArena | [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) | MIT | **arXiv:2606.09826 (jun 2026).** 12 juegos en Unreal Engine 5 (7 Solo, 3 PvP, 2 Coop). Improvement Dynamics Curve (IDC): reflexión agentica iterativa para mejorar skills. Evalúa Claude, GPT, Gemini, Qwen y NitroGen (fundation model: 40k h / 1k+ juegos). | — |

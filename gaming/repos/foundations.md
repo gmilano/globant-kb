@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Gaming
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-09 | Verificado con deep-research (v6)
+> Última actualización: 2026-07-10 | Verificado con deep-research (v7)
 > ⚠️ NOTA (jul 2026): Godot Foundation **prohíbe contribuciones de código AI** desde 1-jul-2026. El engine Godot sigue MIT — solo cambian las reglas de PR para el engine core. Los plugins/extensiones en repos externos no tienen esta restricción.
 
 ## Game Engines (Open Source)
@@ -50,6 +50,13 @@
 | [grafana/grafana](https://github.com/grafana/grafana) | Apache-2.0 | Dashboards player analytics en tiempo real | 67k |
 | [PostHog/posthog](https://github.com/PostHog/posthog) | MIT | Product analytics self-hosted. Player behavior analysis | 23k |
 
+## LLM Game Agent Evaluation & Training
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [krafton-ai/Orak](https://github.com/krafton-ai/Orak) | MIT | **arXiv:2506.03610 (jun 2026). Por KRAFTON (PUBG).** Benchmark MCP-nativo para training + evaluación de LLM agents en 12 juegos de todos los géneros. Dataset de fine-tuning con trayectorias expertas. Live leaderboard. El más completo y reciente de su categoría. | 148 |
+| [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | ICLR 2026. Eval de LLM/VLM en 7 juegos + leaderboard público. Framework extensible para custom games. Claude thinking-modes lidera en estrategia. | 947 |
+
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*
-*Verificado 2026-07-09. Carbon Engine añadido tras open-source jul-2026.*
+*Verificado 2026-07-10. Carbon Engine añadido jul-2026. Orak (Krafton) añadido jul-2026.*

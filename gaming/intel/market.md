@@ -1,7 +1,7 @@
 # Mapa de mercado — Gaming AI
 
 > Players, tamaños, oportunidades. Foco LATAM + posicionamiento Globant.
-> Última actualización: 2026-07-09 (v6)
+> Última actualización: 2026-07-10 (v7)
 
 ## Tamaño de mercado global
 
@@ -18,6 +18,10 @@
 | LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad | — |
 
 **Adopción**: 90% de desarrolladores integra AI en workflows; 50% de estudios AAA usa AI en producción. ChatGPT: 74% adopción en industria gaming; Google Gemini: 37%; Microsoft Copilot: 22%. Reducción de tiempo de creación de assets: 70-90%. Ahorro promedio: $100K-$500K por título. 95%+ de jugadores encuentran experiencias con NPCs AI "agradables o recompensantes" (2026).
+
+**Analistas financieros:** Morgan Stanley (abr 2026): AI desbloqueará **$22B** en ganancias adicionales para la industria via recortes de costos de desarrollo. Gasto global consumidores: $275B/año; $55B reinvertidos en desarrollo. AI podría reducir ese costo a la mitad.
+
+**Gobernanza AI (iGaming):** KPMG/UNLV "State of AI in Gaming 2026" (abr 2026): 83 empresas encuestadas (casino/iGaming). Madurez general: 45/100. Gobernanza: solo 30/100. 80%+ usa GenAI para contenido/análisis, pero solo 1 de cada 5 ha logrado ROI medible. AI adoption outpacing governance — gap = oportunidad de consultoría.
 
 ---
 

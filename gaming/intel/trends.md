@@ -1,6 +1,6 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-09 (v6)
+> Investigación curada con datos verificados. Última actualización: 2026-07-10 (v7)
 
 ## Tendencias confirmadas (alta confianza)
 
@@ -100,6 +100,21 @@ arXiv:2606.09826: benchmark con 12 juegos construidos en Unreal Engine 5 para ev
 - Evalúa Claude, GPT-4o, Gemini, Qwen3 y NitroGen (modelo especializado, 40k h de gameplay en 1k+ juegos)
 - Señal: los modelos fundacionales de gaming (NitroGen-style) empiezan a competir con VLMs generalistas en tareas gaming específicas.
 
+### T15: Orak — El benchmark MCP-nativo de KRAFTON cierra el ciclo train+eval (jun 2026)
+[krafton-ai/Orak](https://github.com/krafton-ai/Orak) (MIT, arXiv:2506.03610): KRAFTON (PUBG, $4B+ valuation) lanzó el benchmark más completo hasta la fecha para LLM agents en videojuegos. Lo que lo distingue de GamingAgent y OmniGameArena no es solo el número de juegos (12, todos los géneros) sino dos características únicas:
+1. **MCP plug-and-play**: interfaz basada en Model Context Protocol → compatible natively con Claude Code, Cursor, cualquier cliente MCP. Los agentes pueden conectarse al entorno de juego exactamente como se conectan a cualquier herramienta MCP.
+2. **Dataset de fine-tuning**: trayectorias de gameplay expertas → se puede fine-tunear un LLM generalista para hacerlo efectivo en juegos específicos sin RL from scratch.
+- Live leaderboard con ablation studies: input modality visual vs textual, estrategias agenticas, efectos de fine-tuning
+- **Señal de consolidación**: con Orak (Krafton), GamingAgent (academia, ICLR 2026), y OmniGameArena (UE5), el ecosistema de benchmarking de LLM game agents está madurando igual que Gymnasium estandarizó el benchmarking RL. El stack MCP de Claude es ya el runtime de evaluación más accesible para todos estos benchmarks.
+
+### T16: Play2Code — Cierre del loop generación → playtesting GUI (may 2026)
+arXiv:2605.28258 (27 may 2026): investigadores formalizan que generar código de juego one-shot no es equivalente a crear un juego jugable. El paper introduce:
+- **PlaytestArena**: 200 tareas de generación de browser games en 8 géneros, verificadas por GUI agent que **juega el build** en browser (no solo lo evalúa sintácticamente)
+- **Play2Code**: loop game-code-agent ↔ GUI-playtest-agent con memoria compartida. La generación se convierte en diálogo iterativo entre "quién construye" y "quién juega".
+- **Resultado**: 66.8% pass-rate vs 37.1% baseline (mejor +29.7 puntos). El feedback del GUI playtester es más trazable que reportes humanos.
+- **Convergencia**: el paper valida el patrón que OpenGame, GameDevBench y Orak también indican — los agentes deben cerrar el loop construcción→prueba→corrección para generar artefactos de juego de calidad.
+- **Para Globant**: el patrón Play2Code es directamente productizable: "genera prototipos de juego jugables en horas, no semanas" usando GUI agent como QA automático. Deal size: $30k-$100k para estudios que necesitan prototipar rápido.
+
 ---
 
 ## En el radar (emergente, 2026-2027)
@@ -115,6 +130,9 @@ arXiv:2606.09826: benchmark con 12 juegos construidos en Unreal Engine 5 para ev
 | **Supabase para game backends** | Alternativa PostgreSQL a Firebase/Nakama para juegos asíncronos. | Adopción creciente 2026 |
 | **NitroGen-style foundation models** | Modelos visión-acción entrenados on-gameplay (40k h / 1k+ juegos). Competirán con VLMs en tasks gaming-specific. | 2026-2027 |
 | **AI-ban reacción en OSS** | Godot, y potencialmente otros motores OSS, endureciendo políticas anti-AI. Premium de calidad humana en contribuciones. | Presente |
+| **Orak fine-tuning → gaming LLM** | KRAFTON dataset disponible → fine-tunear Llama/Qwen en trayectorias de gameplay. Primer paso hacia gaming-specific LLM open source. | 2026-2027 |
+| **Play2Code pattern en producción** | Loop generación→playtesting GUI agent → corrección automática. Habilita prototipado de juegos jugables en horas. | 2026 |
+| **Morgan Stanley $22B AI gaming** | Analistas mainstream apostando por savings-driven AI adoption. CFOs de studios empezarán a exigir ROI metrics concretas. | Ya presente |
 
 ---
-*Fuentes: GitHub (verificado 2026-07-09), GDC 2026 Survey, Technavio, Research & Markets, arXiv:2602.11103, arXiv:2606.09826, ICLR 2026, godotengine.org/article/contribution-policy-2026/, Persistence Market Research*
+*Fuentes: GitHub (verificado 2026-07-10), GDC 2026 Survey, Technavio, Research & Markets, arXiv:2602.11103, arXiv:2605.28258, arXiv:2506.03610, arXiv:2606.09826, ICLR 2026, godotengine.org/article/contribution-policy-2026/, Persistence Market Research, Morgan Stanley (abr 2026), KPMG/UNLV State of AI in Gaming 2026*

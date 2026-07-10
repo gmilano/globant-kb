@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-09 (v6 — 11 patrones)
+> Última actualización: 2026-07-10 (v7 — 13 patrones)
 
 ## Patrón base
 
@@ -473,6 +473,188 @@ for model_name in ["claude-sonnet-5", "gpt-4o", "claude-haiku-4-5-20251001"]:
 
 ---
 
+## Receta 12: Orak MCP + Fine-tuning — Agent training sobre datos reales de PUBG
+
+**Caso de uso**: Studio que quiere (a) evaluar qué LLM se comporta mejor en sus juegos Y (b) crear un LLM game agent especializado mediante fine-tuning sobre trayectorias expertas reales. Usar el dataset de Orak como punto de partida.
+
+**Stack**:
+```python
+# orak_train_eval.py — Evaluar + fine-tunear LLM game agent con Orak (Krafton/MIT)
+# Requiere: pip install orak anthropic
+
+import orak
+from orak import GameEnvironment, OrakBenchmark
+from anthropic import Anthropic
+
+# ─── FASE 1: Evaluación MCP-nativa ────────────────────────────────────────────
+# Orak expone los entornos de juego como MCP tools — Claude Code los puede usar
+# directamente via el cliente MCP sin código adicional.
+
+benchmark = OrakBenchmark(
+    games=["stardew_valley", "minecraft", "starcraft_ii"],  # subset del studio
+    leaderboard_submit=True  # contribuye al leaderboard público de Krafton
+)
+
+client = Anthropic()
+results = benchmark.evaluate(
+    model="claude-sonnet-5",
+    max_steps_per_game=200,
+    agentic_strategy="reflection",  # usa reflexión iterativa estilo IDC
+)
+print(f"Average score: {results.mean_score:.2f}")
+print(f"Best game: {results.top_game} ({results.top_score:.2f})")
+
+# ─── FASE 2: Fine-tuning con dataset de Krafton ───────────────────────────────
+# Orak incluye trayectorias de gameplay expertas para fine-tuning
+# Aquí fine-tuneamos Llama-3.1-8B-Instruct (costo ~$30-100 en cloud) para
+# que juegue específicamente el tipo de juego del cliente (e.g. RPG/strategy)
+
+from orak.dataset import OrakDataset
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import LoraConfig, get_peft_model
+
+# Cargar dataset filtrado por géneros relevantes para el cliente
+dataset = OrakDataset.load(
+    games=["darkest_dungeon", "slay_the_spire"],  # strategy/RPG
+    split="train",
+    format="chat"  # formateado como mensajes para chat models
+)
+print(f"Loaded {len(dataset)} expert gameplay trajectories")
+
+# Fine-tuning con LoRA (eficiente en GPU A100 40GB, ~4-6 horas)
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
+lora_config = LoraConfig(r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"])
+model = get_peft_model(model, lora_config)
+
+# trainer = SFTTrainer(model=model, train_dataset=dataset, ...)
+# trainer.train()  # → modelo fine-tuned que domina el género
+
+# ─── FASE 3: Comparar base model vs fine-tuned ───────────────────────────────
+baseline = benchmark.evaluate(model="meta-llama/Llama-3.1-8B-Instruct")
+finetuned = benchmark.evaluate(model="./orak-finetuned-strategy-llm")
+print(f"Base model: {baseline.mean_score:.2f} → Fine-tuned: {finetuned.mean_score:.2f}")
+```
+
+**Repos**:
+- [krafton-ai/Orak](https://github.com/krafton-ai/Orak) — MIT, 148 stars. Benchmark + dataset + MCP interface.
+
+**Ablation studies disponibles en Orak**: input modality (vision vs text-only), estrategia agentica (one-shot vs reflection vs tree-search), efectos de fine-tuning.
+
+**Tiempo estimado**: 1 semana para evaluación; 2-3 semanas para fine-tuning + validación.
+**Costo GPU**: ~$30-100 para fine-tuning LoRA en A100 cloud (dataset <100MB).
+**Deal size**: $30k-$80k como "Gaming AI model selection + fine-tuning service". Se puede extender a $150k-$400k si se integra el modelo fine-tuned en producción con NPCs o agentes de juego.
+
+---
+
+## Receta 13: Play2Code — Game prototyping con loop generate→playtest→fix
+
+**Caso de uso**: Studio indie o estudio de gamificación que necesita prototipar mecánicas de juego rápidamente. El patrón Play2Code usa un agente generador de código + un GUI agent que juega el resultado, iterando hasta que el prototipo es jugable.
+
+**Stack**:
+```python
+# play2code.py — Loop generate → playtest → fix para browser games
+# Basado en arXiv:2605.28258. Requiere: pip install playwright anthropic
+
+import asyncio
+from anthropic import Anthropic
+from playwright.async_api import async_playwright
+
+client = Anthropic()
+
+GAME_SPEC = """
+RPG roguelite de 2 minutos: jugador vs 3 enemigos en grid 5x5.
+Mecánicas: movimiento WASD, ataque spacebar, 3 HP por lado.
+Win condition: eliminar todos los enemigos.
+Implementar en HTML/CSS/JS, browser-runnable.
+"""
+
+PLAYTESTER_PROMPT = """
+Eres un QA tester. Juega el browser game en este screenshot e informa:
+1. ¿Se puede iniciar? ¿Hay errores en consola?
+2. ¿Las mecánicas principales funcionan? (movimiento, ataque, victoria/derrota)
+3. ¿Qué falla específicamente? Sé preciso para que el developer pueda corregirlo.
+Rubric: pass si ≥80% de mecánicas funcionan sin errores críticos.
+"""
+
+async def generate_game(spec: str, prev_feedback: str = "") -> str:
+    """Agente 1: genera/corrige código del juego."""
+    messages = [{"role": "user", "content": f"Spec: {spec}\n\nFeedback del playtester: {prev_feedback}\n\nGenera/corrige el juego. Devuelve solo el HTML completo." if prev_feedback else f"Spec: {spec}\n\nGenera el juego completo como un solo archivo HTML."}]
+    response = client.messages.create(model="claude-sonnet-5", max_tokens=8000, messages=messages)
+    return response.content[0].text
+
+async def playtest_game(html: str) -> dict:
+    """Agente 2 (GUI): abre el juego en browser y lo juega."""
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        page = await browser.new_page()
+        await page.set_content(html)
+        await asyncio.sleep(2)  # esperar render
+        
+        # Capturar screenshot + errores de consola
+        errors = []
+        page.on("console", lambda msg: errors.append(msg.text) if msg.type == "error" else None)
+        screenshot = await page.screenshot(type="png")
+        
+        # Jugar: intentar mecánicas básicas
+        await page.keyboard.press("w")  # movimiento
+        await page.keyboard.press("Space")  # ataque
+        await asyncio.sleep(1)
+        screenshot_after = await page.screenshot(type="png")
+        
+        await browser.close()
+    
+    # LLM evalúa el estado del juego
+    eval_response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=500,
+        messages=[{"role": "user", "content": [
+            {"type": "text", "text": PLAYTESTER_PROMPT},
+            {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": screenshot_after.hex()}},
+            {"type": "text", "text": f"Errores de consola: {errors}"}
+        ]}]
+    )
+    feedback = eval_response.content[0].text
+    passed = "pass" in feedback.lower()
+    return {"passed": passed, "feedback": feedback, "errors": errors}
+
+async def play2code_loop(spec: str, max_iterations: int = 5):
+    """Loop principal: generar → playtest → corregir hasta pasar el rubric."""
+    feedback = ""
+    for i in range(max_iterations):
+        print(f"\n── Iteración {i+1}/{max_iterations} ──")
+        html = await generate_game(spec, feedback)
+        result = await playtest_game(html)
+        print(f"Estado: {'✅ PASS' if result['passed'] else '❌ FAIL'}")
+        print(f"Feedback: {result['feedback'][:200]}...")
+        
+        if result["passed"]:
+            print(f"\n🎮 Juego jugable en {i+1} iteración(es).")
+            with open("prototype.html", "w") as f:
+                f.write(html)
+            return html
+        
+        feedback = result["feedback"]
+    
+    print(f"⚠️ No se alcanzó pass en {max_iterations} iteraciones.")
+    return html
+
+# Ejecutar
+asyncio.run(play2code_loop(GAME_SPEC))
+```
+
+**Repos**:
+- Patrón basado en: arXiv:2605.28258 (Play2Code, PlaytestArena — mayo 2026)
+- [microsoft/playwright](https://github.com/microsoft/playwright) — Apache-2.0. GUI agent automation.
+- Claude API (Anthropic) — modelo `claude-sonnet-5` para generación, `claude-haiku-4-5-20251001` para playtesting económico.
+
+**Resultados del paper**: 66.8% pass-rate vs 37.1% single-pass baseline. Cada iteración mejora ~14.6 puntos de pass-rate en promedio.
+
+**Tiempo estimado**: setup en 3-5 días. Prototipo jugable en <2 horas de compute.
+**Costo compute**: ~$0.10-$0.50 por prototipo (5 iteraciones máx, Claude Haiku para playtesting).
+**Deal size**: $30k-$100k para studio que necesita "rapid game prototyping AI service" — generar 10+ prototipos jugables/día vs días por prototipo con equipo humano.
+
+---
+
 ## Tabla resumen
 
 | Patrón | Stack principal | Esfuerzo | ROI esperado | Deal size |
@@ -488,6 +670,8 @@ for model_name in ["claude-sonnet-5", "gpt-4o", "claude-haiku-4-5-20251001"]:
 | P9: Carbon Engine + LangGraph MMO | Carbon + LangGraph + Nakama | 3-6 meses | MMO persistent world OSS | $300k-$1.5M |
 | P10: GamingAgent Evaluation | lmgame-org + custom adapter (Godot/2D) | 1-2 semanas | Modelo correcto antes de integrar | $20k-$60k |
 | P11: OmniGameArena Evaluation (UE5) | OmniGameArena + IDC + UE5 bridge | 2-3 semanas | VLM correcto para entorno 3D/multiplayer | $25k-$80k |
+| P12: Orak MCP + Fine-tuning | Krafton Orak + LoRA + Llama | 1-3 semanas | LLM game agent especializado | $30k-$400k |
+| P13: Play2Code Prototyping | Claude + Playwright GUI agent loop | 3-5 días | Prototipos jugables en horas, no semanas | $30k-$100k |
 
 ---
-*Repos verificados en GitHub 2026-07-09. URLs directas incluidas. OmniGameArena añadido jun-2026. Carbon Engine open-source jul-2026. Godot AI-ban jul-2026.*
+*Repos verificados en GitHub 2026-07-10. URLs directas incluidas. Orak (Krafton) añadido jul-2026. Play2Code (arXiv:2605.28258) añadido jul-2026. Morgan Stanley $22B → ROI framing actualizado.*

@@ -1,8 +1,14 @@
 # Repos trending — Gaming AI
 
-> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-09
+> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-10
 
-## 🆕 Nuevo esta semana (2026-07-07 → 2026-07-09)
+## 🆕 Nuevo esta semana (2026-07-10)
+
+| Repo | Licencia | Descripción | Stars | Señal |
+|------|----------|-------------|-------|-------|
+| [krafton-ai/Orak](https://github.com/krafton-ai/Orak) | MIT | **arXiv:2506.03610 (jun 2026). Por KRAFTON (PUBG).** Benchmark MCP-nativo para training + eval de LLM agents en 12 juegos de todos los géneros: Street Fighter III, Super Mario, Pokémon Red, Darkest Dungeon, Minecraft, Stardew Valley, StarCraft II, Slay the Spire, y más. Dataset de fine-tuning incluido. Live leaderboard. | 148 | Studio AAA invierte en OSS benchmark — señal de madurez del mercado |
+
+## 🆕 Semana anterior (2026-07-07 → 2026-07-09)
 
 | Repo | Licencia | Descripción | Stars | Señal |
 |------|----------|-------------|-------|-------|
@@ -52,4 +58,4 @@
 - **Gemma 3n on-device**: demostrado en Godot (code-forge-temple/local-llm-npc), posibilita NPCs offline-first.
 
 ---
-*Pipeline automático actualiza señales; análisis manual verifica relevancia. 2026-07-09*
+*Pipeline automático actualiza señales; análisis manual verifica relevancia. 2026-07-10*
