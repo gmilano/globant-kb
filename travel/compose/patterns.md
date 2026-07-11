@@ -1,30 +1,65 @@
 # 🧩 Patrones de composición — Travel & Hospitality
 
 > Recetas concretas para construir soluciones usando los repos y agentes identificados.
-> Última actualización: 2026-07-11
+> Última actualización: 2026-07-11 (v9)
 
 ## Arquitectura base
 
 ```
-[Plataforma vertical] QloApps / ExcursioX / Wander-Desk
+[Plataforma vertical] HAIP (hotel AI-native) / OTAIP (agencia/OTA) / QloApps / ExcursioX
           ↓
-[Datos de viaje] OpenTravelData + Dida Hotel MCP + SerpAPI
+[Datos de viaje] OpenTravelData + LetsFG (vuelos) + Dida Hotel MCP (hoteles)
           ↓
-[Orquestador] LangGraph (datarootsio template) / azure-ai-travel-agents
+[Orquestador] LangGraph (datarootsio template) / azure-ai-travel-agents / OTAIP
           ↓
-[MCP Servers] mcp_travelassistant + wanderlog-mcp + Dida MCP
+[MCP Servers] mcp_travelassistant + wanderlog-mcp + Dida MCP + LetsFG MCP
           ↓
-[Canal] Chat web / WhatsApp (Twilio) / API REST / Email
+[Canal] Chat web / WhatsApp (Twilio) / API REST / Email / ChatGPT gateway (HAIP)
 ```
 
 ---
 
-## Patrón P1: AI Travel Concierge para Hotel (QloApps + LangGraph + Claude)
+## Patrón P1: Hotel AI-Native Completo (HAIP + Claude)
 
-**Caso de uso**: Chatbot de reservas para cadena hotelera boutique en LATAM.
+**Caso de uso**: Cadena hotelera que quiere PMS moderno con AI de serie — no un PMS legacy con chatbot añadido.
 
 **Stack**:
-- Base: [QloApps](https://github.com/Qloapps/QloApps) (PMS + booking engine, OSL-3.0)
+- Base: [TelivityAI/haip](https://github.com/TelivityAI/haip) (Apache-2.0) — PMS con 12 agentes AI nativos
+- Canal: ChatGPT gateway integrado (booking conversacional) + WhatsApp via Twilio
+- LLM: Claude (via Anthropic API) con system prompt en español para LATAM
+- Pagos: Stripe (integrado en HAIP)
+- Auth: Keycloak (integrado en HAIP)
+
+**Los 12 agentes AI nativos de HAIP**:
+```
+1. PricingAgent       → optimiza tarifas en tiempo real (demanda, eventos, competencia)
+2. CancellationAgent  → predice cancelaciones y sugiere overbooking estratégico
+3. AuditAgent         → detecta anomalías en auditoría nocturna
+4. HousekeepingAgent  → programa limpieza por prioridades (check-out primero, VIPs)
+5. GuestCommAgent     → automatiza comunicación pre/durante/post estancia
+6. ReviewAgent        → draft de respuestas a reseñas en Google/TripAdvisor
+7. GroupForecastAgent → pronostica pickup de grupos y gestiona bloqueos de inventario
+8. ReceivablesAgent   → prioriza cobros pendientes y genera alertas
+9. RevenueAgent       → reportes de RevPAR, ADR, occupancy con narrativa AI
+10. ChannelAgent      → gestiona paridad de precios en 450+ OTAs
+11. BookingAgent      → booking conversacional via ChatGPT gateway
+12. UpsellAgent       → sugiere upgrades / ancillaries personalizados al check-in
+```
+
+**Customización Globant**:
+- Añadir agentes de loyalty, sostenibilidad, integración con sistemas regionalizados (AFIP Argentina, SAT México)
+- WhatsApp-first para LATAM: huésped escribe en español, HAIP gestiona todo
+
+**Tiempo estimado**: 6-10 semanas para MVP | **Costo infra**: ~$100-400/mes
+
+---
+
+## Patrón P2: AI Travel Concierge para Hotel Clásico (QloApps + LangGraph + Claude)
+
+**Caso de uso**: Chatbot de reservas para hotel boutique con PMS legacy (QloApps).
+
+**Stack**:
+- Base: [QloApps](https://github.com/Qloapps/QloApps) (OSL-3.0) — PMS + booking engine PHP
 - Orquestador: [datarootsio/langgraph-template-travel-planner](https://github.com/datarootsio/langgraph-template-travel-planner) (MIT)
 - LLM: Claude (via Anthropic API) con spanish prompt system
 - Observabilidad: Langfuse (incluido en template)
@@ -53,61 +88,78 @@ Tool: send_confirmation(booking_id) → email + WhatsApp
 
 ---
 
-## Patrón P2: Agente de Búsqueda WhatsApp-first (Dida MCP + Twilio + LangGraph)
+## Patrón P3: Agente de Búsqueda WhatsApp-first (Dida MCP + LetsFG + Twilio + LangGraph)
 
-**Caso de uso**: Agente de viajes por WhatsApp para LATAM — el huésped escribe en español y recibe opciones de hotel con precios reales.
+**Caso de uso**: Agente de viajes por WhatsApp para LATAM — el usuario escribe en español y recibe opciones de vuelo + hotel con precios reales.
 
 **Stack**:
-- Hotel data: [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) (MIT, 2M+ hoteles)
+- Vuelos: [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) (MIT) — 400+ aerolíneas via MCP Server
+- Hoteles: [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) (MIT) — 2M+ hoteles
 - Canal: Twilio WhatsApp Business API
 - Orquestador: LangGraph con [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) (MIT)
-- Vuelos: SerpAPI / Amadeus for Developers (freemium)
-- Memoria: Mem0 (Apache-2.0) para preferencias del usuario entre conversaciones
+- Memoria: Mem0 (Apache-2.0) para preferencias entre conversaciones
 
 **Flujo**:
 ```
-WhatsApp: "Necesito hotel en Cartagena para semana santa, 4 noches, 2 adultos, menos de 200 USD/noche"
+WhatsApp: "Necesito vuelo + hotel en Cartagena para semana santa, 4 noches, 2 adultos, budget USD 1500"
   ↓
 LangGraph Agent
-  ├─ Tool: dida_search_hotels(destination="Cartagena", dates=..., guests=2, max_price=200)
-  │   → Lista de 5 hoteles con precios + políticas de cancelación (Dida MCP)
-  ├─ Tool: mem0_recall(user_id) → preferencias previas (e.g., "prefiere piscina", "no fumador")
-  └─ Tool: filter_by_preferences(hotels, preferences)
+  ├─ LetsFG MCP: busca vuelos → 400+ aerolíneas, precios sin markup OTA
+  ├─ Dida MCP: busca hoteles → 5 opciones <$100/noche
+  ├─ mem0_recall(user_id) → preferencias: "prefiere ventana", "no fumador"
+  └─ budget_check: vuelo $400 + hotel $380 = $780 (dentro de $1500)
   ↓
-Claude genera respuesta en español con fotos (WhatsApp media)
+Claude genera respuesta en español con opciones rankeadas
   ↓
-"¿Te interesa el Hilton a $175/noche con piscina? Puedo reservar 🏖️"
+"Te encontré vuelo a $398 (Avianca directo) + hotel a $92/noche 🏖️ ¿Reservo?"
   ↓
-Tool: dida_create_booking(hotel_id, dates, guest_data)
-  ↓
-Confirmación + voucher PDF por WhatsApp
+Tool: letsfg_book(flight_offer) → confirmación
+Tool: dida_book(hotel_id, dates, guest_data) → voucher PDF
 ```
 
-**Tiempo estimado**: 6-8 semanas | **Diferenciador LATAM**: 100% en español, WhatsApp-native
+**Tiempo estimado**: 6-8 semanas | **Diferenciador LATAM**: 100% en español, WhatsApp-native, precios sin markup OTA
 
 ---
 
-## Patrón P3: Sales Copilot para Agencia de Viajes (Wander-Desk + Claude)
+## Patrón P4: OTA/Agencia Digital con OTAIP (75 Agentes)
+
+**Caso de uso**: Agencia de viajes o pequeña OTA que quiere un stack agentico completo para operar su negocio.
+
+**Stack**:
+- Framework: [telivity-otaip/otaip](https://github.com/telivity-otaip/otaip) (Apache-2.0) — 75 agentes en 12 etapas
+- Vuelos: LetsFG (MIT) + Amadeus (freemium API)
+- Hoteles: Dida MCP (MIT)
+- LLM: Claude (Anthropic API)
+
+**Las 12 etapas de OTAIP**:
+```
+Etapa 1:  Search agents        → destinos, vuelos, hoteles
+Etapa 2:  Pricing agents       → pricing dinámico, markup automático
+Etapa 3:  Booking agents       → orquestación de reserva multi-proveedor
+Etapa 4:  Ticketing agents     → emisión de tickets, vouchers, confirmaciones
+Etapa 5:  Servicing agents     → cambios, cancelaciones, quejas
+Etapa 6:  Settlement agents    → conciliación, pago a proveedores
+Etapa 7:  Hotel ops agents     → coordinación con hoteles
+Etapa 8:  Content agents       → descripciones, fotos, traducciones
+Etapa 9:  Sales agents         → propuestas, seguimiento de leads
+Etapa 10: Revenue agents       → análisis de margen, comisiones
+Etapa 11: Compliance agents    → controles regulatorios IATA/ATOL
+Etapa 12: Analytics agents     → dashboards, forecasts, KPIs
+```
+
+**Tiempo estimado**: 10-16 semanas para OTA completa | **Valor**: stack de agentes de viaje enterprise completo OSS
+
+---
+
+## Patrón P5: Sales Copilot para Agencia de Viajes (Wander-Desk + Claude)
 
 **Caso de uso**: Copilot para agentes de viaje humanos — asiste en generar propuestas, calcular pricing y dar seguimiento a leads.
 
 **Stack**:
 - Base: [Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) (MIT — CRM + ops + revenue)
-- LLM: Claude con tool use habilitado
+- LLM: Claude con tool use
 - CRM: HubSpot API (o el CRM interno de Wander-Desk)
 - Datos: OpenTravelData + Amadeus
-
-**Herramientas del agente**:
-```python
-tools = [
-    get_client_history(client_id),        # Historial de viajes del cliente
-    get_available_packages(destination),   # Paquetes disponibles
-    calculate_revenue_forecast(booking),   # Revenue estimado
-    draft_travel_proposal(client, trip),   # Genera propuesta PDF
-    create_follow_up_task(client_id, date),# Agenda seguimiento en CRM
-    send_whatsapp_message(phone, text),    # Notifica al cliente
-]
-```
 
 **Flujo**:
 ```
@@ -115,25 +167,25 @@ Agente humano: "El cliente Martínez pregunta por Machu Picchu en octubre para 2
   ↓
 Sales Copilot (Claude)
   ├─ Recupera historial Martínez: "viajó a Chile 2024, prefiere hoteles 4★, budget ~$3000/pax"
-  ├─ Busca paquetes: Cusco + Machu Picchu + Lima, vuelos disponibles
+  ├─ Busca paquetes: Cusco + Machu Picchu + Lima, vuelos disponibles (LetsFG)
   ├─ Calcula revenue: costo $4200, precio $5800, margen 38%
   └─ Genera propuesta Word/PDF en español con fotos e itinerario detallado
   ↓
 "Propuesta lista: 8 días Perú $5,800/pax | Margen: $1,600 (38%) | ¿Envío a Martínez?"
 ```
 
-**Tiempo estimado**: 4-6 semanas | **ROI**: +30-50% eficiencia de agente de viajes
+**Tiempo estimado**: 4-6 semanas | **ROI**: +30-50% eficiencia del agente de viajes
 
 ---
 
-## Patrón P4: Motor de Búsqueda Multi-fuente (OpenTravelData + Dida + SerpAPI)
+## Patrón P6: Motor de Búsqueda Multi-fuente (OpenTravelData + LetsFG + Dida MCP)
 
-**Caso de uso**: Motor de búsqueda de viajes open source que agrega múltiples fuentes (alternativa a Amadeus/GDS).
+**Caso de uso**: Motor de búsqueda de viajes open source que agrega múltiples fuentes (alternativa a Amadeus/GDS tradicional).
 
 **Stack**:
-- Datos base: [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) (CC-BY, aeropuertos/rutas/aerolíneas)
-- Hotel search: [Dida MCP](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) (MIT, 2M+ hoteles)
-- Vuelos en tiempo real: SerpAPI Google Flights (freemium)
+- Datos base: [opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) (CC-BY)
+- Vuelos: [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) (MIT, 400+ aerolíneas sin markup)
+- Hoteles: [Dida MCP](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) (MIT, 2M+ hoteles)
 - Grafo de rutas: [travel-search-engine-v1](https://github.com/opentraveldata/travel-search-engine-v1) (MIT, neo4j)
 - Orquestador: [mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) (MIT)
 
@@ -142,8 +194,8 @@ Sales Copilot (Claude)
 Query: "Vuelo + hotel Madrid desde Buenos Aires, 10-17 oct, budget $1500 total"
   ↓
 mcp_travelassistant (orquesta MCP servers en paralelo)
-  ├─ flight_search_mcp → SerpAPI: mejores vuelos EZE→MAD
-  ├─ hotel_search_mcp → Dida: hoteles Madrid disponibles <$100/noche
+  ├─ LetsFG MCP → vuelos EZE→MAD: 400+ aerolíneas, precios raw (sin markup OTA)
+  ├─ Dida MCP → hoteles Madrid disponibles <$100/noche
   ├─ budget_mcp → calcula: vuelo $650 + hotel $700 = $1350 (dentro de budget)
   └─ weather_mcp → clima Madrid en octubre: 15°C, lluvia posible
   ↓
@@ -152,25 +204,27 @@ Claude sintetiza y rankea opciones
 UI: tabla comparativa con precios, cancellation policy, rating
 ```
 
+**Ahorro vs GDS tradicional**: sin fees de distribución, precios directos de aerolínea
+
 **Tiempo estimado**: 8-12 semanas para MVP | **Valor**: independencia de GDS propietario
 
 ---
 
-## Patrón P5: Itinerario Completo Multi-Agente (Multi-Agent-AI-Travel-Advisor + Claude)
+## Patrón P7: Itinerario Completo Multi-Agente (Multi-Agent-AI-Travel-Advisor + Claude)
 
 **Caso de uso**: Planner de viaje end-to-end para consumidor final — de "quiero ir a Japón" a itinerario detallado con bookings.
 
 **Stack**:
 - Base: [Multi-Agent-AI-Travel-Advisor](https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor) (MIT, 7 agentes + RAG)
-- Vuelos: Amadeus for Developers API
-- Hoteles: Dida MCP
+- Vuelos: LetsFG (MIT) — sin markup OTA
+- Hoteles: Dida MCP (MIT) — 2M+ propiedades
 - Actividades: Viator API / TripAdvisor API
 - LLM: Claude (narración) + GPT-4 (tool calling)
 - Memoria: [Mem0](https://github.com/mem-ai/mem0) (Apache-2.0)
 
 **Los 7 agentes especializados**:
 ```
-1. FlightAgent      → busca y compara vuelos (Amadeus)
+1. FlightAgent      → busca y compara vuelos (LetsFG: sin markup)
 2. HotelAgent       → recomienda hoteles según preferencias (Dida MCP)
 3. ActivityAgent    → actividades y atracciones (RAG sobre base de datos destinos)
 4. CultureAgent     → tips culturales, etiqueta, idioma
@@ -181,19 +235,19 @@ UI: tabla comparativa con precios, cancellation policy, rating
 
 **Output**: PDF con itinerario día a día, vuelos reservados, hoteles con confirmación, mapa de actividades, presupuesto desglosado.
 
-**Tiempo estimado**: 8-10 semanas | **Diferenciador**: 7 expertos especializados vs. 1 agente generalista
+**Tiempo estimado**: 8-10 semanas | **Diferenciador**: 7 expertos especializados + precios sin markup OTA
 
 ---
 
-## Patrón P6: Disruption Management Agent (Aerolínea/Hotel)
+## Patrón P8: Disruption Management Agent (Aerolínea/Hotel)
 
 **Caso de uso**: Agente que detecta disrupciones (vuelo cancelado, overbooking) y rebook automáticamente a pasajeros.
 
 **Stack**:
 - Orquestador: [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) (MIT, Amadeus + Twilio)
-- Amadeus for Developers: search vuelos alternativos
-- Twilio: notificaciones SMS/WhatsApp
-- HubSpot: registro en CRM del cliente afectado
+- Vuelos alternativos: Amadeus for Developers + LetsFG (MIT)
+- Notificaciones: Twilio SMS/WhatsApp
+- CRM: HubSpot
 
 **Flujo de disrupción**:
 ```
@@ -214,13 +268,13 @@ Disruption Agent (LangGraph)
 
 ---
 
-## Patrón P7: Revenue Management AI para Aerolínea
+## Patrón P9: Revenue Management AI para Aerolínea
 
 **Caso de uso**: Sistema de pricing dinámico personalizado con AI para maximizar ingreso por asiento + ancillaries.
 
 **Stack**:
 - Core: LangGraph + Claude como orquestador
-- Datos: historial de ventas, datos de competencia (SerpAPI), eventos locales (Eventbrite API)
+- Datos: historial de ventas, competencia (SerpAPI), eventos locales (Eventbrite API)
 - ML: modelo de demand forecasting (scikit-learn / Prophet)
 - Delivery: integración con PSS (Passenger Service System) de la aerolínea
 
@@ -235,11 +289,11 @@ Pasajero B (primera vez, compró tarifa económica):
   → Precio base: tarifa mínima para capturar reserva
 ```
 
-**Tiempo estimado**: 12-18 meses para enterprise | **ROI estimado**: 5-15% aumento en revenue por ASK (Available Seat Kilometer)
+**Tiempo estimado**: 12-18 meses para enterprise | **ROI estimado**: 5-15% aumento en revenue por ASK
 
 ---
 
-## Patrón P8: Tour Operator Digital (ExcursioX + Claude + OPTD)
+## Patrón P10: Tour Operator Digital (ExcursioX + Claude + OPTD)
 
 **Caso de uso**: Tour operator pequeño en LATAM que digitaliza y automatiza su operación con AI.
 

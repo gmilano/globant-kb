@@ -2,34 +2,49 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agentica arriba.
-> Última actualización: 2026-07-11
+> Última actualización: 2026-07-11 (v9)
 
 ## Plataformas recomendadas
 
 | Plataforma | Licencia | URL | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
-| **QloApps** | OSL-3.0 | [github.com/Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP (PrestaShop base), MySQL | PMS + Booking Engine + Hotel Website. Gestión de propiedades hoteleras: reservas, disponibilidad, tarifas, check-in/out. 500+ ★ |
+| **HAIP** | Apache-2.0 | [github.com/TelivityAI/haip](https://github.com/TelivityAI/haip) | TypeScript / Node.js / NestJS | Hotel AI Platform: PMS completo con 12 agentes AI nativos. Reservas, folio, tarifas, housekeeping, auditoría nocturna, channel 450+ OTAs, booking directo, Stripe, Keycloak. ChatGPT gateway para booking conversacional. ~40 ★ |
+| **OTAIP** | Apache-2.0 | [github.com/telivity-otaip/otaip](https://github.com/telivity-otaip/otaip) | Python / TypeScript | Open Travel AI Platform: 75 agentes en 12 etapas operativas para OTAs y agencias de viaje. Integración a APIs de proveedores reales. ~25 ★ |
+| **QloApps** | OSL-3.0 | [github.com/Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP (PrestaShop base), MySQL | PMS + Booking Engine + Hotel Website open source. Reservas, disponibilidad, tarifas, check-in/out. Customizable. ~500 ★ |
 | **ExcursioX** | MIT | [github.com/moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | PHP/JS | Travel CRM con ticketing, booking y hotel management. Para agencias de viaje. |
 | **Wander-Desk** | MIT | [github.com/UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | React / Node.js | Travel Ops Platform: CRM + Trip Management + Sales Copilot + Traveler Intelligence + Revenue Forecasting + Analytics. |
-| **OpenTravelData (OPTD)** | CC-BY | [github.com/opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | CSV/JSON datasets | Datos abiertos de aeropuertos, aerolíneas, rutas, PaxIS. Base de datos para cualquier motor de búsqueda de viajes. 255 ★ |
+| **OpenTravelData (OPTD)** | CC-BY | [github.com/opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | CSV/JSON datasets | Datos abiertos de aeropuertos, aerolíneas, rutas, PaxIS. Base de datos para cualquier motor de búsqueda de viajes. ~255 ★ |
 | **Travel Search Engine v1** | MIT | [github.com/opentraveldata/travel-search-engine-v1](https://github.com/opentraveldata/travel-search-engine-v1) | Python, Neo4j | Motor de búsqueda de viajes con grafo (neo4j). Conexiones entre aeropuertos, rutas y precios. |
+| **LetsFG** | MIT | [github.com/LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) | Python / MCP | Agent-native flight search: 400+ aerolíneas, CLI + SDK + MCP Server. Sin markup de OTA. ~500 ★ |
 | **Dida Hotel MCP** | MIT | [github.com/DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MCP / REST | Gateway B2B: 2M+ hoteles, inventario real-time, precios, políticas de cancelación. Sin límite de llamadas (plan free). |
-| **PHPTRAVELS** | Comercial (versión OS) | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | PHP / MySQL | Travel management completo: vuelos, hoteles, tours, GDS, CRM, vouchers, multi-moneda. Self-hosted. |
-| **AlpineClubBookingsNZ** | MIT | [github.com/thatskiff33/AlpineClubBookingsNZ](https://github.com/thatskiff33/AlpineClubBookingsNZ) | PHP/JS | Booking y membership management para clubs / tour operators pequeños. Customizable. |
 
 ## Comparativa para proyectos Globant
 
 | Necesidad del cliente | Plataforma recomendada | Ventaja |
 |-----------------------|----------------------|---------|
-| Hotel boutique / cadena | QloApps | PMS completo, OSS, customizable |
+| Hotel boutique / cadena con AI nativo | HAIP | PMS con 12 agentes AI de serie, Apache-2.0, channel 450+ OTAs |
+| Hotel boutique / cadena clásico | QloApps | PMS completo, OSS, customizable, PHP maduro |
+| OTA o agencia grande | OTAIP | 75 agentes en 12 etapas, orquestación domain-specific |
 | Agencia de viajes digital | ExcursioX o Wander-Desk | CRM + booking + ops en un repo |
-| Motor de búsqueda de vuelos | OPTD + Travel Search Engine v1 | Datos abiertos + grafo |
-| Booking B2B hoteles via AI | Dida Hotel MCP | 2M+ hoteles, MCP nativo, real-time |
-| Tour operator / paquetes | PHPTRAVELS | GDS + tours + vouchers |
+| Motor de búsqueda de vuelos | LetsFG | 400+ aerolíneas sin markup, MCP Server incluido |
+| Motor de búsqueda de vuelos (datos) | OPTD + Travel Search Engine v1 | Datos abiertos + grafo |
+| Booking B2B hoteles via AI | Dida Hotel MCP | 2M+ hoteles, MCP nativo, real-time, gratis |
+| Tour operator / paquetes LATAM | ExcursioX + OPTD + Dida MCP | CRM + rutas + hoteles, 100% open source |
 
 ## Cómo customizar con AI
 
-### Patrón A: PMS + AI Concierge (QloApps)
+### Patrón A: Hotel AI-Native (HAIP + agentes custom)
+```
+HAIP (PMS + 12 agentes AI nativos)
+  ├─ Añadir agentes domain-specific del cliente:
+  │     ├─ Agente de upsell de spa/restaurante
+  │     ├─ Agente de loyalty (preferencias recurrentes)
+  │     └─ Agente de sustentabilidad (compensación CO2)
+  ├─ ChatGPT gateway → booking conversacional en WhatsApp/web
+  └─ Dashboard AI: pricing dinámico + demanda en tiempo real
+```
+
+### Patrón B: PMS Clásico + AI Concierge (QloApps + LangGraph)
 ```
 QloApps (reservas, disponibilidad, precios)
   ├─ API REST existente
@@ -40,24 +55,24 @@ QloApps (reservas, disponibilidad, precios)
        └─ Tool: send_confirmation(booking_id)
 ```
 
-### Patrón B: Agencia digital con Sales Copilot (ExcursioX / Wander-Desk)
+### Patrón C: OTA/Agencia con OTAIP
 ```
-Wander-Desk (CRM + trips + ops)
-  └─ Claude/GPT como Sales Copilot
-       ├─ Consulta historial del cliente (CRM)
-       ├─ Genera propuesta de viaje personalizada
-       ├─ Calcula revenue forecast
-       └─ Draft automático de vouchers
+OTAIP (75 agentes en 12 etapas)
+  ├─ Etapa 1: Search agents (destinos, disponibilidad)
+  ├─ Etapa 2: Pricing agents (dinámica + ancillaries)
+  ├─ Etapa 3: Booking agents (reserva + pago)
+  ├─ Etapa 4: Ticketing agents (emisión + entrega)
+  └─ Etapa 12: Settlement agents (conciliación + pago a proveedor)
 ```
 
-### Patrón C: Búsqueda multimodal (OPTD + Dida MCP)
+### Patrón D: Búsqueda multimodal (OPTD + LetsFG + Dida MCP)
 ```
 Usuario → query en lenguaje natural (o imagen de destino)
   └─ Agente multimodal
        ├─ OPTD: busca aeropuertos y rutas disponibles
-       ├─ Dida MCP: busca hoteles disponibles (2M+ propiedades)
-       ├─ SerpAPI: precios de vuelos en tiempo real
-       └─ Respuesta: itinerario completo con precios
+       ├─ LetsFG MCP: precios vuelos de 400+ aerolíneas (sin markup)
+       ├─ Dida MCP: hoteles disponibles (2M+ propiedades)
+       └─ Respuesta: itinerario completo con precios reales
 ```
 
 ---
