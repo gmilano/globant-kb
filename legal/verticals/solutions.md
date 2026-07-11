@@ -1,56 +1,35 @@
-# Verticales de partida — Legal Services
+# 🏭 Verticales de partida — Legal Services
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-10 (v8)
+> Plataformas verticales existentes, customizables con AI. Modelo: partir de algo funcional, añadir capa agéntica encima.
+> Última actualización: 2026-07-11
 
 ## Plataformas recomendadas
 
-| Plataforma | Licencia | Repo / URL | Stack | Caso de uso principal |
-|------------|----------|------------|-------|----------------------|
-| **OpenLawOffice** | Apache-2.0 | [NodineLegal/OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | .NET + SQL Server | Case management, billing, tasking para firmas medianas; base sólida para AI copilot |
-| **Docassemble** | MIT | [jhpyle/docassemble](https://github.com/jhpyle/docassemble) | Python + YAML | Automatización de entrevistas legales guiadas → contratos/formularios; Python 100% customizable con LLMs |
-| **Odoo Community (módulo legal)** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) + [legal_case_management en Odoo Apps](https://apps.odoo.com/apps/modules/16.0/legal_case_management) | Python + PostgreSQL | ERP completo para despachos: CRM, facturación, contratos, timesheets; módulo legal en Odoo Apps |
-| **CourtListener** | Apache-2.0 | [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) | Django + PostgreSQL + Elasticsearch | Investigación legal US: 250M+ páginas, PACER, citas, argumentos; MCP nativo (May 2026) |
-| **Aleph** | MIT | [aleph-data/aleph](https://github.com/aleph-data/aleph) | Python + TypeScript + Elasticsearch | Plataforma investigativa documental: indexa fugas, registros corporativos, leaks; usado por ~250 periodistas y ONG legales |
-| **OpenContracts** | Apache-2.0 | [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Django + React | DMS agéntico: anotación semántica, análisis de contratos, API REST; base para contract intelligence |
-| **Mike** | AGPL-3.0 | [willchen96/mike](https://github.com/willchen96/mike) | Next.js + Express + Supabase | Plataforma legal AI auto-hospedada: chat con docs, redlines .docx, 12 personas; alternativa Harvey |
-| **Lavern** | Apache-2.0 | [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | TypeScript | Firma legal agéntica completa: 67 agentes, 8 workflows, human gates; base para servicios legales AI B2B |
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| [OpenContracts / cite](https://github.com/Open-Source-Legal/OpenContracts) | MIT | opensource.legal | Django + React + Celery + Postgres + MCP | Document intelligence: annotation graph, structured extraction, agent-native DMS |
+| [Docassemble](https://github.com/jhpyle/docassemble) | MIT | docassemble.org | Python + YAML + Markdown + Docker | Document automation, guided interviews, intake forms, pro-se portals |
+| [CourtListener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | courtlistener.com | Django + Elasticsearch + PostgreSQL | Legal research: case law search, citation graphs, 7M+ US opinions |
+| [Odoo (Legal/CRM)](https://github.com/odoo/odoo) | LGPL-3 | odoo.com | Python + PostgreSQL + JS | Matter management, CRM, billing, time-tracking — AI customizable |
+| [LegalMD](https://github.com/Open-Source-Legal/cite) | MIT | cite.opensource.legal | TypeScript + VS Code Extension | Markdown dialect for legal docs: @party, @cite, @clause, @deadline primitives |
+| [LQ.AI](https://github.com/LegalQuants/lq-ai) | MIT | github.com/LegalQuants | FastAPI + Qdrant + SKILL.md | Self-hosted legal AI: chat + verifiable citations + anonymization |
+| [DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | github.com/FudanDISC | Python + ChatGLM + retrieval | Chinese legal domain LLM platform — fine-tunable for Latin/civil law |
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | github.com/AnttiHero | Python + LangGraph + multi-agent | Agentic law firm template: 67 roles, debate review, human gates |
 
 ## Cómo customizar con AI
 
-### Stack recomendado Globant (LATAM)
+1. **Fork del repo base** (OpenContracts para doc intelligence, Docassemble para intake, Odoo para matter management)
+2. **Añadir endpoint AI** (Claude via Anthropic SDK / Ollama local / OpenAI)
+3. **Conectar via MCP** si la plataforma tiene MCP server (OpenContracts v3 lo trae nativo)
+4. **Wrappear flujos existentes** con skills de `AgentCounsel` o `claude-legal-skill`
+5. **UI conversacional** sobre el sistema base vía Chainlit / Streamlit / custom React
 
-```
-[OpenLawOffice / Odoo]          ← gestión casos + billing
-        ↓
-[Docassemble]                   ← intake + formularios automáticos
-        ↓
-[Claude API + Managed Agents]   ← review contratos, investigación, redacción
-        ↓
-[CourtListener MCP]             ← jurisprudencia US
-[FOLIO MCP]                     ← ontología legal multilingüe
-        ↓
-[Vaara]                         ← audit logs EU AI Act / LGPD
-        ↓
-[UI conversacional (Next.js)]   ← interfaz abogado / cliente
-```
+## Comparativa para engagement rápido
 
-### Pasos de implementación
-
-1. Fork OpenLawOffice o Odoo según tamaño de firma
-2. Integrar Docassemble para intake digital
-3. Conectar Claude API para redacción y revisión
-4. Añadir CourtListener MCP + FOLIO MCP como herramientas del agente
-5. Envolver con Vaara para compliance EU AI Act / LGPD
-6. UI conversacional en Next.js sobre todo el stack
-
-### Licencias a verificar
-
-- **LGPL-3.0** (Odoo): puede linking con código propietario OK
-- **AGPL-3.0** (Mike, Vaara, legal-mcp): requiere open source si se distribuye
-- **Apache-2.0** (Lavern, OpenLawOffice, CourtListener): más permisiva, compatible con SaaS
-- **MIT** (Docassemble, FOLIO MCP): máxima permisividad
-
----
-*Ver también: `agents/top.md` para agentes AI disponibles y `compose/patterns.md` para recetas.*
+| Escenario cliente | Plataforma base | Tiempo setup | Dificultad |
+|-------------------|-----------------|-------------|------------|
+| Contract review MVP | ContractGuard + claude-legal-skill | 1-2 días | Baja |
+| Document intelligence enterprise | OpenContracts (cite) + Claude MCP | 1-2 semanas | Media |
+| Law firm intake automation | Docassemble + LLM endpoint | 2-4 semanas | Media |
+| Full matter management + AI | Odoo + AgentCounsel skills | 4-8 semanas | Alta |
+| Agentic law firm (multi-agent) | lavern + custom agents | 4-8 semanas | Alta |

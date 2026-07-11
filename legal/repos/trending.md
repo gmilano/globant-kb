@@ -1,19 +1,20 @@
-# Repos trending — Legal AI (GitHub)
+# 📈 Repos trending — Legal Services
 
-> Última actualización: 2026-07-10 (v8)
+> GitHub trending en legal AI esta semana.
+> Última actualización: 2026-07-11
 
-| Nombre | Licencia | Descripción | Stars | Delta |
-|--------|----------|-------------|-------|-------|
-| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 specialist AI agents, debate protocol, human gates, 10-pass verification loop; TypeScript; Anthropic / Mistral / Ollama | 2.1k | +1.8k en 7w |
-| [anthropics/claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins práctica legal, 80+ agentes, 20+ MCP connectors; Managed Agents API; Mayo 2026 | 8.7k | Nuevo Mayo 2026 |
-| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Curated awesome list legaltech 2026: MCP servers, AI models, platforms, companies, datasets | 540 | En crecimiento |
-| [GenAI-Gurus/awesome-eu-ai-act](https://github.com/GenAI-Gurus/awesome-eu-ai-act) | MIT | OSS toolkit para EU AI Act compliance: checklists, templates, guías, herramientas open source | 850 | Pre-deadline Aug 2 |
-| [vaaraio/vaara](https://github.com/vaaraio/vaara) | AGPL-3.0 | Python/npm — tamper-evident audit logs para AI agents; EU AI Act Art.12/14; TPM 2.0 attestation | 620 | +500★ en junio |
-| [SdSarthak/AegisAI](https://github.com/SdSarthak/AegisAI) | MIT | AI-GRC platform open source: EU AI Act, LLM Guard, RAG regulatory intelligence | 280 | Nuevo junio 2026 |
-| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | AGPL-3.0 | MCP server legal completo: ABA Rule 1.6, FO512 governance, self-hostable | 310 | Q2 2026 |
-| [Vaquill-AI/courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) | MIT | Community MCP para CourtListener: BYOK auth, Claude + Cursor + VS Code + Windsurf | 195 | Mayo 2026 |
-| [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | MCP server para USPTO Final Petition Decisions; análisis de patentes con reducción de contexto | 2 | Nicho — patentes |
-| [aiagenta2z/LawAgent](https://github.com/aiagenta2z/LawAgent) | MIT | Lista curada de recursos de AI agents para dominio legal: papers, repos, herramientas | 180 | Referencia |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Open document intelligence platform for builders — DMS for the agentic world. v3 "cite" release Jun 2026. MCP server + GraphQL + React UI. | ~500 |
+| [lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 specialist AI agents that review documents through evidence-backed debate, mandatory human gates, 10-pass verification loop. | 267 |
+| [agentcounsel](https://github.com/zgbrenner/agentcounsel) | Apache-2.0 | Open-source, AI-agnostic skills for legal teams. 198 skills across 20 practice areas in SKILL.md format. Works with any MCP-compatible agent. | 120 |
+| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Curated list of awesome LegalTech resources: open source platforms, AI models, MCP servers, companies, datasets, tools. 2026-maintained. | 210 |
+| [ai-legal-claude](https://github.com/zubair-trabzada/ai-legal-claude) | MIT | 14 legal AI skills + 5 parallel agents: contract review, risk analysis, NDA generation, compliance auditing, negotiation strategy, PDF reports. | 85 |
+| [ContractGuard](https://github.com/he-yufeng/ContractGuard) | MIT | AI agent that reads fine print so you don't have to. Upload any contract → red flags, unfair terms, plain-English explanations in seconds. | 85 |
+| [LQ.AI](https://github.com/LegalQuants/lq-ai) | MIT | Self-hosted AI platform for legal teams: conversational chat, character-verifiable citations, privacy-preserving anonymization, reusable SKILL.md workflows. | 65 |
+| [uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | MCP server for USPTO Final Petition Decisions. Patent analysis with context reduction and customizable fields. High-performance Rust implementation. | 45 |
+| [nl-rag-qdrant-legal](https://github.com/kjgdgch65g/nl-rag-qdrant-legal) | MIT | RAG for legal document Q&A using Qdrant vector DB + Claude/OpenAI. NLP preprocessing for legal text. Good starter template. | 35 |
+| [uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | ? | UK Legal AI Agents 2026 – Automation for Compliance, Contracts & Litigation. n8n-based workflows for common UK legal processes. | 20 |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

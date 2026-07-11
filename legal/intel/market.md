@@ -1,65 +1,56 @@
-# Mapa de mercado — Legal Services AI
+# 🗺️ Mapa de mercado — Legal Services AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-10 (v8)
+> Última actualización: 2026-07-11
 
 ## Tamaño de mercado
 
-| Segmento | 2025 | 2026 | 2030-2034 | CAGR | Fuente |
-|----------|------|------|-----------|------|--------|
-| AI Software mercado legal global | — | $2.75B | $6.3B (2034) | 10.91% | Straits Research 2026 |
-| GenAI en legal | $0.5B | — | $1.61B (2035) | — | Precedence Research 2026 |
-| Legal Tech LATAM | $1.9B (2025) | — | $4.9B (2034) | 10.68% | imarc Group 2026 |
-| Legal Tech global | — | — | $69B+ (2034) | ~12% | Fortune Business Insights |
-| H1 2026 Legal AI investment | — | $1.0B H1 | — | +86% vs H1 2025 | PlatinumIDS 2026 |
-
-**Nota**: Gartner predice que los presupuestos de Legal Tech se duplicarán para 2028 impulsados por AI agéntica.
+| Métrica | Valor | Fuente |
+|---------|-------|--------|
+| AI in Legal (2025) | USD 4.59B | Straits Research 2026 |
+| AI in Legal (2026) | USD 5.59B | Straits Research 2026 |
+| AI in Legal (2030) | USD 12.49B | Globe Newswire / Meticulous Research |
+| CAGR 2026–2030 | 22.3% | Straits Research |
+| Legal Tech spending YoY growth | +9.7% | Report on State of Legal Market, Jan 2026 |
+| H1 2026 legal AI investment | USD 1.0B | HAQQ Blog April 2026 |
+| Legal research & analytics share | 28-32% | Bloomberg Law 2026 |
 
 ## Players globales
 
-| Empresa | Tipo | Valoración / ARR | Fortaleza | Modelo |
-|---------|------|-----------------|-----------|--------|
-| **Harvey** | Pure-play AI | $11B (Mar 2026), >$1B funding | 100k+ abogados, 1,300 orgs; general legal AI | Comercial |
-| **Legora** | Pure-play AI | $5.6B (Abr 2026), $600M raised | $100M ARR en 18 meses; aOS (flujos autónomos) | Comercial |
-| **Thomson Reuters (CoCounsel)** | Big Tech Legal | — | Integrado con Westlaw; 130 años de datos | Comercial |
-| **LexisNexis (Lexis+ AI)** | Big Tech Legal | — | Paralela a TR; datos jurídicos masivos | Comercial |
-| **Anthropic** | AI Foundation | — | claude-for-legal (May 2026): 12 plugins, 80+ agentes, 20+ MCP connectors | Apache 2.0 / API |
-| **Free Law Project** | Non-profit | — | CourtListener MCP (May 2026): 250M+ páginas US; Claude Connector | Open Source |
-| **General Legal** | YC26 startup | — | Primera firma legal con MCP server en producción | MCP + Comercial |
+| Empresa | Tipo | Fortaleza | Debilidad |
+|---------|------|-----------|-----------|
+| Harvey ($11B val, $190M ARR) | AI-native legal platform | Top citation share; largest law firms | Closed source, expensive |
+| Thomson Reuters CoCounsel | Embedded in Westlaw + Practical Law | Deep data moat; workflow integration | Enterprise lock-in |
+| LexisNexis Lexis+ / Protégé | Embedded AI assistant | Dominates legal research segment | Subscription heavy |
+| Clio (acquired vLex $1B 2025) | SMB/mid-market practice mgmt | 150k+ users, 66+ bar associations | Less enterprise depth |
+| Ironclad | Contract lifecycle mgmt (CLM) | Dominates CLM shortlist | Niche: only CLM |
+| Relativity / Everlaw | eDiscovery | GenAI review now free (2026 reset) | eDiscovery only |
+| Luminance | AI-native contract review | Rising fast on citation share | Smaller install base |
+| Spellbook | Contract drafting AI | Best-in-class Word plugin UX | Microsoft-dependent |
+| Robin AI | Contract review + negotiation | Fast UK/EU growth | Primarily B2B SaaS |
+| EvenUp | Personal injury AI | Demand letters + settlement analysis | Vertical niche |
 
-## Señales de inversión Q1-Q2 2026
+## M&A consolidación 2025-2026
 
-- **Harvey**: $200M@$11B — GIC + Sequoia — Mar 2026
-- **Legora**: $600M@$5.6B (Accel, Benchmark, Bessemer, ICONIQ + Atlassian + NVentures) — Mar-Abr 2026
-- **Legora adquiere Walter AI** (Vancouver) para agentic workflows
-- **H1 2026 total investment**: ~$1.0B — casi el doble que H1 2025 ($538M)
-- **Legora aOS lanzado May 2026**: primera demo pública de flujos legales autónomos end-to-end
+| Deal | Valor | Impacto |
+|------|-------|---------|
+| Clio / vLex | $1B | Clio gets global case law data + legal research |
+| Thomson Reuters / SafeSend | $600M | TR expands into tax + legal workflow automation |
+| Thomson Reuters / Materia | N/D | AI contract drafting capabilities |
+| LexisNexis / Henchman | N/D | Contract drafting intelligence |
+| Harvey / Hexus | N/D | Harvey expands agentic document generation |
+| Reveal / Logikcull | N/D | eDiscovery consolidation |
 
 ## Oportunidades AI en LATAM
 
-| País | Oportunidad | Tamaño estimado | Driver |
-|------|-------------|-----------------|--------|
-| Brasil | Automatización tributaria + compliance LGPD | $200M-$400M | Reforma Tributária 2026, LGPD enforcement |
-| México | Contratos empresariales + due diligence | $100M-$200M | NEARSHORING + FDI record 2025-2026 |
-| Argentina | Restructuración deuda + M&A | $50M-$100M | Recovery post-crisis; $44B FMI deal |
-| Colombia | Minería legal + contratos concesión | $40M-$80M | Energía + infraestructura |
-| Chile | M&A minería + due diligence | $40M-$60M | Cobre + litio; green energy deals |
-| Pan-LATAM | FOLIO multilingüe (ES/PT) | $100M+ | Primeros en LATAM con legal ontology |
-
-### Barreras en LATAM
-- Resistencia cultural en firmas tradicionales
-- Costo de licencias Harvey/Legora ($300-800/abogado/mes) → oportunidad open source
-- LGPD (Brasil) y leyes de datos locales requieren hosting on-prem → ventaja competitiva Globant
+1. **Brasil — Reforma Tributaria** (IBS, CBS, transição fiscal): primera reforma tributaria estructural en 40 años — oportunidad de automatización de compliance + análisis de impacto para multinacionales operando en Brasil.
+2. **México — Marco regulatorio IA**: empresas en adopción temprana de AI legal compliance bajo NOM y normativa sectorial; gap en herramientas en español.
+3. **Colombia / Argentina — Litigación masiva**: sectores financiero y telecomunicaciones con alto volumen de litigación — oportunidad para eDiscovery y análisis de estrategia procesal con AI.
+4. **Mercado hispano underserved**: casi todo el open source legal AI está en inglés o chino — `DISC-LawLLM` muestra el modelo; Globant puede liderarlo en español.
 
 ## Posicionamiento Globant
 
-### Oportunidades concretas
-
-1. **EU AI Act Compliance Sprint** ($50k-$200k, 4-8 semanas): Audit + roadmap pre-Aug 2 para firms con AI. 23 días al deadline (Jul 10 2026).
-2. **Open Legal Platform para mid-market LATAM** ($200k-$800k): Stack Odoo + Claude + CourtListener para firmas 50-500 abogados que no pueden pagar Harvey.
-3. **Agentic Contract Review** ($80k-$300k): Lavern/OpenContracts + Claude + CUAD para automatizar primeras revisiones.
-4. **Legal Data Platform Brasil** ($300k-$1M): Plataforma RAG sobre legislación brasileña (Reforma Tributária, LGPD, regulación sectorial) + LGPD-compliant.
-5. **claude-for-legal Extension** ($100k-$400k): Extender la suite Anthropic con verticales LATAM (tributario BR, laboral MX, minería CL/PE).
-
----
-*Actualizado automáticamente por el pipeline de ingest.*
+- **Fortaleza diferencial**: capacidad de integrar open source legal AI (OpenContracts, Docassemble, lavern) con stack enterprise del cliente
+- **Ángulo LATAM**: hispanoparlante, presencia local, expertise en regulación local — puede construir la capa legal AI que Harvey/TR no cubre en LATAM
+- **Modelo de entrega**: SI (System Integrator) que customiza plataformas open source + añade skills proprietarios de Globant AI Studios
+- **Clientes target**: BigLaw con operaciones LATAM, legal departments de Fortune 500 en LatAm, legaltech startups buscando acelerar con AI

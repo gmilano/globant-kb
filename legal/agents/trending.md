@@ -1,25 +1,32 @@
-# Repos trending — Legal AI
+# 📈 Agentes trending — Legal Services
 
-> Última actualización: 2026-07-10 (v8) — Señales de la semana
+> Novedades de la semana en AI legal open source.
+> Última actualización: 2026-07-11
 
-| Nombre | Licencia | Descripción | Stars | Señal |
-|--------|----------|-------------|-------|-------|
-| [Lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Agentic law firm: 67 agentes especialistas + debate protocol + human gates; 155k+ LOC, TypeScript; 8 workflows completos; lanzado May 20 2026 | 2.1k | Rocket star: 267→2.1k en 7 semanas — Artificial Lawyer feature |
-| [claude-for-legal](https://github.com/anthropics/claude-for-legal) | Apache-2.0 | Suite oficial Anthropic: 12 plugins × área de práctica, 80+ agentes, 20+ conectores MCP; Managed Agents API; lanzado May 12 2026 | 8.7k | Anthropic entra a legal — TechCrunch May 2026 |
-| [courtlistener-api-client](https://github.com/freelawproject/courtlistener-api-client) | Apache-2.0 | MCP server oficial CourtListener (Free Law Project): 250M+ páginas jurisprudencia US, PACER/RECAP, redes de citas; Claude Connector live | 680 | Primera org legal non-profit con Claude Connector oficial |
-| [Vaara](https://github.com/vaaraio/vaara) | AGPL-3.0 | Audit logs hash-chained + TPM 2.0 attestation para agentes AI; EU AI Act Art.12/14; reconocido IMDA Governance Framework v1.5 May 2026 | 620 | Deadline EU AI Act Aug 2 2026 = urgencia máxima (23 días) |
-| [SdSarthak/AegisAI](https://github.com/SdSarthak/AegisAI) | MIT | AI Governance, Risk & Compliance (AI-GRC): EU AI Act, LLM Guard, RAG regulatory intelligence; open source sprint pre-deadline | 280 | Sprint compliance: 20→280★ en junio |
-| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | AGPL-3.0 | MCP server completo para workflows legales: ABA Rule 1.6 + FO512 governance, self-hostable, buscando case studies con firmas | 310 | MCP wave legal Q2 2026 |
-| [Vaquill-AI/courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) | MIT | MCP community para CourtListener: bring-your-own-key, hosted en courtlistener-mcp.vaquill.ai, soporte Claude + Cursor + VS Code | 195 | Alternativa MIT al oficial |
-| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Lista curada de recursos legaltech 2026: plataformas, modelos AI, MCP servers, companies, datasets, global ecosystem | 540 | Referencia de ecosistema legal AI |
-| [GenAI-Gurus/awesome-eu-ai-act](https://github.com/GenAI-Gurus/awesome-eu-ai-act) | MIT | Curated tools, official sources, OSS templates y guías para EU AI Act compliance | 850 | Referencia para compliance auditors |
+## Repos más activos esta semana
 
-## Señales de la semana (2026-07-10)
+- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — v3 release: rebrand to "cite" + built-in MCP server enabling Claude/Cursor to query any document corpus via natural language. Updated June 21 2026. MIT. ~500 ★
+- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Agentic law firm gaining traction post-GDC-for-legal: 67 specialist AI agents, evidence-backed debate pattern, mandatory human gates. Apache-2.0. 267 ★ and climbing.
+- [zgbrenner/agentcounsel](https://github.com/zgbrenner/agentcounsel) — 198 legal AI skills in SKILL.md format (AI-agnostic, MCP-compatible). Featured in "awesome-legal-skills" curation. Apache-2.0.
+- [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) — New comprehensive curation (2026) covering MCP servers, datasets, open platforms and AI models for global legal ecosystem. MIT.
+- [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) — MCP server for USPTO Final Petition Decisions: patent analysis with context reduction + customizable fields. MIT. Growing niche.
 
-- **EU AI Act T-23 días**: Deadline Aug 2 2026 para sistemas de alto riesgo — credit scoring, AML, seguros → €15M penalidad. Sprint de compliance = oportunidad Globant ($50k-$200k).
-- **Anthropic entra a legal**: claude-for-legal lanzado May 2026 con Managed Agents API → Globant puede extender con verticales LATAM.
-- **Lavern efecto viral**: De 267★ a 2.1k★ en 7 semanas — mayor aceleración de repo legal open source en Q2 2026.
-- **Harvey vs Legora duopolio**: $16.6B combined enterprise value. $100M ARR Legora en 18 meses. Fragmentación downstream = oportunidad mid-market.
+## Tendencias emergentes
+
+### MCP para Legal (Model Context Protocol)
+Los agentes legales se están desacoplando de los LLMs via MCP. `OpenContracts` tiene un MCP server nativo. `AgentCounsel` sigue el estándar SKILL.md de agentskills.io. Esto permite que los mismos skills funcionen con Claude, GPT-4o, Mistral, etc.
+
+### "Agent Skills" como formato portátil
+Aparición de repositorios de skills legales en formato Markdown estándar (SKILL.md / AgentSkills):
+- `agentcounsel` — 198 skills legales
+- `awesome-legal-skills` (lawve-ai) — curación de skills legales
+- `claude-legal-skill` (evolsb) — contrato review con CUAD
+
+### Legal AI + Blockchain
+`legal-mitra` y `Solidity-Economic-Risk-Scanner` muestran interés en combinar IA legal con smart contracts / compliance on-chain. Nicho emergente.
+
+### LATAM: AI para Reforma Tributaria Brasil
+`Consultor-Tributario-AI` — análisis de la Reforma Tributária brasileña (IBS, CBS) con IA y datos en tiempo real. Primer indicio de verticales legales LATAM en open source.
 
 ---
 *Pipeline automático — se actualiza cada hora.*

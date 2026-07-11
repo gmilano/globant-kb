@@ -1,31 +1,28 @@
-# Repos fundacionales — Legal Services
+# 🏗️ Repos fundacionales — Legal Services
 
-> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-10 (v8)
+> Bases sobre las cuales construir soluciones legales con AI. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-11
 
 ## Plataformas y frameworks base
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | 3.8k | Free Law Project: 250M+ páginas jurisprudencia US; PACER/RECAP; redes de citas; argumentos orales; MCP server nativo (May 2026); API pública gratuita | Sí — corpus legal masivo + MCP |
-| [HazyResearch/legalbench](https://github.com/HazyResearch/legalbench) | MIT | 1.1k | Benchmark colaborativo Stanford: 162 tareas razonamiento legal inglés (IRAC, statutory interpretation, contract analysis); estándar evaluación LLMs legales | Sí — eval suite para cualquier LLM legal |
-| [ICLRandD/Blackstone](https://github.com/ICLRandD/Blackstone) | Apache-2.0 | 691 | Pipeline spaCy para NLP en texto legal no estructurado inglés; NER entidades legales, clasificación sentencias, tokenización forense; pre-LLM pero se sigue vendoreando | Sí — componente NER/NLP sobre documentos |
-| [FudanDISC/DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | 937 | LLM legal chino (Fudan + Inspur + CUPL); fine-tuning sobre corpus judicial masivo; herramientas de búsqueda, consulta y razonamiento legal; producción en China | Sí — receta fine-tuning para LLM legal |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Apache-2.0 | 390 | Plataforma DMS para mundo agéntico: anotación semántica colaborativa, análisis documentos, API REST; base extensible para contract review agents | Sí — DMS open source + agentic-ready |
-| [docassemble/docassemble](https://github.com/jhpyle/docassemble) | MIT | 780 | Document automation framework para entrevistas legales guiadas: genera contratos, demandas, formularios automáticamente; Python + YAML; ampliamente usado en pro bono | Sí — automatización de documentos legales |
-| [alea-institute/folio-mcp](https://github.com/alea-institute/folio-mcp) | MIT | 95 | 18,000+ conceptos legales FOLIO en MCP: 12 herramientas, 11 templates, multilingüe (EN/ES/FR/JA/ZH/HI); ontología legal para agentes AI | Sí — vocabulario legal estructurado para LLMs |
-| [zeroentropy-ai/legalbenchrag](https://github.com/zeroentropy-ai/legalbenchrag) | MIT | 280 | Benchmark RAG dominio legal: 6,858 pares query-answer anotados por expertos sobre 79M+ chars (NDAs, M&A, privacidad, comercial) | Sí — eval RAG para dominio legal |
-| [freelaw/free-law-machine](https://github.com/freelawproject/free-law-machine) | CC-BY | 320 | Datasets legales abiertos: Case Law Access Project (6.9M casos desde 1658, open desde 2024); Harvard Law School | Sí — datos para fine-tuning / RAG |
+| Repo | Licencia | Descripción | ¿Base para AI? |
+|------|----------|-------------|----------------|
+| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | Open document intelligence platform. Programmable citation graph, human annotation ground truth, built-in MCP server, GraphQL + REST API. v3 = "cite". Updated Jun 2026. | Sí — ~500 ★ |
+| [Docassemble](https://github.com/jhpyle/docassemble) | MIT | Expert system for guided interviews and document assembly. Python/YAML/Markdown. Auto-question-flow. Industry standard for legal document automation since 2016. | Sí — 1.2k ★ |
+| [LegalBench](https://github.com/HazyResearch/legalbench) | Apache-2.0 | 162 legal reasoning tasks designed by lawyers (Stanford/Hazy Research). Benchmark for evaluating LLM legal capabilities. Replacing LexGLUE in practice. | Sí — 520 ★ |
+| [DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | Chinese legal LLM system: ChatGLM base + massive judicial corpus + supervised fine-tuning. Full pipeline: query → retrieval → generation. 9+ legal NLP datasets. | Sí — 937 ★ |
+| [Blackstone](https://github.com/ICLRandD/Blackstone) | Apache-2.0 | spaCy pipeline and model for NLP on unstructured legal text. NER, sentence boundary detection, legislation detection. Trained on UK case law corpus. | Sí — 691 ★ |
+| [awesome-legal-nlp](https://github.com/maastrichtlawtech/awesome-legal-nlp) | MIT | Curated list of LegalNLP resources: datasets, pretrained models, papers, tools. Maastricht Law Tech. Foundation reading for any legal NLP project. | Sí — 331 ★ |
+| [awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Curated list of LegalTech resources: open source platforms, AI models, MCP servers, companies, datasets, tools for global legal ecosystem. 2026-current. | Sí — 210 ★ |
+| [LegalBench-RAG](https://github.com/ZeroEntropy-AI/legalbenchrag) | Apache-2.0 | First open-source retrieval benchmark for the legal domain. Tests RAG pipelines on legal documents: 2,400+ QA pairs, 6 legal domains. Paper: arXiv 2408.10343. | Sí — 140 ★ |
 
-## Datasets legales para RAG / fine-tuning
+## Datasets fundacionales
 
-| Dataset | Licencia | Descripción |
-|---------|----------|-------------|
-| Harvard Caselaw Access Project | CC-BY-NC | 6.9M casos US (1658-2020); completamente abierto desde 2024 |
-| CourtListener (RECAP) | CC-BY | 250M páginas PACER docs + 4.5M+ dockets federales US |
-| EU EUR-Lex | CC-BY | Legislación EU completa, todos los idiomas oficiales |
-| CUAD v1 | CC-BY | 13,000 anotaciones de contratos por abogados (42 categorías) — gold standard contract review |
-| MultiLegal Pile | CC | 689B tokens legales en 24 idiomas — para pre-training de LLMs legales |
+| Dataset | Licencia | Descripción | Tamaño |
+|---------|----------|-------------|--------|
+| [CUAD](https://github.com/atticuslawtech/CUAD) | CC-BY-4.0 | 13,000 expert-labeled clauses, 510 contracts, 41 categories. Foundation dataset for contract AI. Almost every contract-AI product trains/evaluates on CUAD. | 510 contratos |
+| [ContractNLI](https://stanfordnlp.github.io/contract-nli/) | MIT | Natural Language Inference for contracts: classify hypotheses as entailed/contradicted/unaddressed by contract text. Includes evidence span identification. | 607 contratos |
+| [CourtListener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | Free Law Project: 7M+ US court opinions, searchable + API. Foundation for US legal research AI. Includes bulk data downloads. | 7M+ opiniones |
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*
