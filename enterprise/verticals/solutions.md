@@ -1,57 +1,131 @@
-# 🏢 Soluciones verticales — Enterprise
+# Vertical Platforms — Enterprise
 
-> Plataformas enterprise open source para customizar con AI. Foco: licencias MIT / Apache / GPL que Globant puede usar.
-> Última actualización: 2026-07-10
+> Real platforms enterprises run today — customizable with an AI agent layer on top.
+> Model: start from a working system, add agentic intelligence, deliver 10x productivity.
+> Last updated: 2026-07-11
 
-## ERP — Enterprise Resource Planning
+## ERP Platforms
 
-| Plataforma | Repo | Licencia | Descripción | AI-readiness |
-|------------|------|----------|-------------|--------------|
-| **Odoo** | [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | ERP + CRM + eCommerce + RRHH + Manufactura; 12M+ usuarios; 52k★; Python-native = fácil integración con AI stack; módulos community + enterprise. | Alta — Python, API REST, módulos de terceros para AI/ML |
-| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ERP 100% open source sobre Frappe; contabilidad, inventario, manufactura, CRM, RRHH; GST/e-invoicing nativo; 36k★; muy usado en LATAM/India/África. | Alta — API REST, DocType schema, MCP server disponible |
-| **Apache OFBiz** | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ERP/CRM/eCommerce/SCM/MRP Java completo; ASF desde 2001; enterprise-grade; arquitectura extensible para AI agents; licencia más permisiva del grupo. | Media — Java, extensible vía plugins, arquitectura MVC |
-| **Axelor** | [axelor/axelor-open-suite](https://github.com/axelor/axelor-open-suite) | AGPL-3.0 | ERP + BPM + CRM Java/Python; low-code app studio; 1.7k★; orientado a medianas empresas; REST API + Gradle build. | Media — REST API, BPM extensible |
-| **Dolibarr** | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | GPL-3.0 | ERP + CRM modular PHP; habilita solo los módulos que necesita; 10.2k★; popular en PYMES LATAM; REST API completa. | Media — API REST, PHP, módulos AI de comunidad |
+### Odoo Community
+| Attribute | Value |
+|-----------|-------|
+| License | LGPL-3.0 (Community) / Proprietary (Enterprise) |
+| GitHub | [odoo/odoo](https://github.com/odoo/odoo) — ~52.8k stars |
+| Users | 7M+ worldwide; most-recognized open-source ERP brand |
+| Stack | Python (OWL), PostgreSQL, nginx |
+| Modules | Accounting, CRM, Inventory, HR, Manufacturing, E-commerce, POS, Projects (50+ total) |
+| AI Layer | Enterprise only ($24.90/user/month): smart invoice OCR, AI lead scoring, predictive inventory |
+| LATAM | Very high adoption; Spanish community; strong partner ecosystem in Argentina, Brazil, Colombia, Mexico |
+| Globant Opportunity | AI layer on Community edition: build LangGraph agents that call Odoo REST APIs for automation without needing Enterprise license |
 
-## CRM — Customer Relationship Management
+### ERPNext (Frappe)
+| Attribute | Value |
+|-----------|-------|
+| License | GPL-3.0 (ERPNext) / MIT (Frappe framework) |
+| GitHub | [frappe/erpnext](https://github.com/frappe/erpnext) — ~36.4k stars |
+| Users | 200k+ businesses globally; strong in India, Southeast Asia, LATAM |
+| Stack | Python + Frappe framework, MariaDB, Redis, Socket.IO |
+| Modules | Accounting, HR+Payroll, Inventory, Manufacturing, CRM, Projects, Healthcare, Education |
+| AI Layer | No built-in AI — but Frappe REST API + Python hooks make it easy to wire in LangGraph/CrewAI |
+| Key advantage | MIT Frappe underneath = build custom apps without GPL restrictions; ERPNext acts as data layer |
+| Globant Opportunity | Build AI copilots on Frappe REST API; `erpnext-mcp-server` (MIT, 104 stars) gives instant MCP access |
 
-| Plataforma | Repo | Licencia | Descripción | AI-readiness |
-|------------|------|----------|-------------|--------------|
-| **Twenty** | [twentyhq/twenty](https://github.com/twentyhq/twenty) | MIT | Alternativa open a Salesforce; 45k★; API-first + objetos custom; MCP server nativo en Cloud workspaces → Claude/GPT/Cursor operan el CRM en lenguaje natural; design moderno React. | Muy alta — MCP nativo, GraphQL, webhooks, objetos custom |
-| **SuiteCRM** | [SalesAgility/SuiteCRM](https://github.com/SalesAgility/SuiteCRM) | AGPL-3.0 | Fork de SugarCRM con feature parity Salesforce; 5M+ usuarios; PHP; módulos de AI de comunidad; amplia adopción corporativa. | Media — API REST/SOAP, módulos extensibles |
-| **EspoCRM** | [espocrm/espocrm](https://github.com/espocrm/espocrm) | GPL-3.0 | CRM PHP ligero para equipos medianos; 1.9k★; layout manager, REST API, webhooks; integra bien con n8n / Make. | Media — REST API, webhooks, n8n native |
-
-## Plataformas de Colaboración y Knowledge
-
-| Plataforma | Repo | Licencia | Descripción | AI-readiness |
-|------------|------|----------|-------------|--------------|
-| **Mattermost** | [mattermost/mattermost](https://github.com/mattermost/mattermost) | MIT/EE | Slack alternativa self-hosted; 30k★; Mattermost AI Copilot integrado; plugin ecosystem; compliance y auditoría enterprise. | Alta — plugins AI, API bot, RAG integration |
-| **Outline** | [outline/outline](https://github.com/outline/outline) | BSL 1.1 | Wiki/knowledge base tipo Notion; 28k★; AI search integrado; self-hosted; ideal como base de RAGFlow ingestion. | Alta — MCP server disponible, AI search, API completa |
-| **AppFlowy** | [AppFlowy-IO/AppFlowy](https://github.com/AppFlowy-IO/AppFlowy) | AGPL-3.0 | Alternativa Notion/Airtable en Rust+Flutter; 62k★; AI writing + AI document editor nativos; self-hosted. | Alta — AI integrado, Rust performant, extensible |
-
-## Low-Code / No-Code Enterprise
-
-| Plataforma | Repo | Licencia | Descripción | AI-readiness |
-|------------|------|----------|-------------|--------------|
-| **Frappe** | [frappe/frappe](https://github.com/frappe/frappe) | MIT | Low-code Python framework base de ERPNext; 10k★; DocType model, REST API, Webhooks, Scheduler; Python = AI-native. | Muy alta — Python ecosystem, REST, DocType schema |
-| **NocoBase** | [nocobase/nocobase](https://github.com/nocobase/nocobase) | AGPL-3.0 | Low-code/no-code platform orientada a devs; 15k★; plugin architecture; REST API; extensible con AI workflows. | Alta — plugin system, REST API, node-based |
-
-## Workflow / BPM / Automatización
-
-| Plataforma | Repo | Licencia | Descripción | AI-readiness |
-|------------|------|----------|-------------|--------------|
-| **n8n** | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | Workflow automation con AI nodes + MCP bidireccional; 500+ integraciones; nodo MCP = Claude puede ser orchestrator; 189k★. | Muy alta — MCP nativo, AI nodes, 500+ integraciones |
-| **Camunda** | [camunda/camunda](https://github.com/camunda/camunda) | Apache-2.0 | BPMN + DMN process engine enterprise; 3k★; Java/REST; ideal para workflows de compliance con HITL AI. | Alta — REST API, BPMN extensible, Java AI integration |
-
-## Cómo customizar con AI
-
-1. **Elegir plataforma base** según vertical (ERP, CRM, workflow) y licencia requerida
-2. **Identificar MCP server** disponible o desarrollar wrapper MCP sobre la API REST existente
-3. **Instalar capa de agentes** (LangGraph para stateful; CrewAI para multi-role) conectada via MCP
-4. **Añadir RAGFlow** para knowledge base (documentos, manuales, normativas del cliente)
-5. **Envolver con Agent Governance Toolkit** para compliance (EU AI Act, LGPD, SOC2)
-6. **UI conversacional** via Slack bot / Teams bot / web chat sobre el stack
-7. **Observabilidad** con LangSmith o Arize Phoenix antes de ir a producción
+### Apache OFBiz
+| Attribute | Value |
+|-----------|-------|
+| License | Apache-2.0 |
+| GitHub | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) — ~1.1k stars |
+| Stack | Java, Groovy, PostgreSQL/MySQL |
+| Modules | Order Management, Inventory, Accounting, HR, E-commerce, CRM |
+| AI Layer | Custom only — Java Groovy hooks; pair with Spring AI (Apache-2.0) |
+| Globant Opportunity | Enterprise Java shops; most permissive license; can embed Microsoft Agent Framework natively |
 
 ---
-*Ver también: `repos/foundations.md` para los frameworks de agentes que se sientan encima de estas plataformas.*
+
+## Collaboration & Communication
+
+### Mattermost
+| Attribute | Value |
+|-----------|-------|
+| License | Apache-2.0 (Team Edition) |
+| GitHub | [mattermost/mattermost](https://github.com/mattermost/mattermost) — ~10k stars |
+| Users | Governments, militaries, regulated enterprises; on-prem and air-gapped deployments |
+| AI Features | mattermost-plugin-ai: thread summarization, message rewriting, auto-translation, custom AI agents via bridge API |
+| Globant Opportunity | Regulated clients (banking, defense, healthcare) needing on-prem AI; build custom AI bots on Mattermost Bot API |
+
+### Nextcloud
+| Attribute | Value |
+|-----------|-------|
+| License | AGPL-3.0 |
+| GitHub | [nextcloud/server](https://github.com/nextcloud/server) — ~26k stars |
+| Users | Thousands of enterprises, educational institutions, government agencies |
+| AI Features | Nextcloud AI (assistant): summarize, rewrite, translate; smart search; Talk bot integration |
+| Globant Opportunity | Data sovereignty clients in Europe/LATAM; integrate AI workflows into Nextcloud Files using Flows |
+
+---
+
+## Project Management
+
+### Plane
+| Attribute | Value |
+|-----------|-------|
+| License | AGPL-3.0 |
+| GitHub | [makeplane/plane](https://github.com/makeplane/plane) — ~28k stars |
+| Users | Sony, Accenture, and 30k+ teams |
+| Stack | Next.js, Django, PostgreSQL |
+| AI Features | AI issue triage, sprint planning suggestions via plugin |
+| Globant Opportunity | Replace Jira in cost-conscious clients; add LangGraph-powered sprint retrospective agents |
+
+---
+
+## Internal Developer Portal
+
+### Backstage (Spotify)
+| Attribute | Value |
+|-----------|-------|
+| License | Apache-2.0 |
+| GitHub | [backstage/backstage](https://github.com/backstage/backstage) — ~30k stars |
+| Users | Spotify, Netflix, Airbnb, American Airlines, Expedia |
+| Stack | React, Node.js, TypeScript, PostgreSQL |
+| AI Features | Growing plugin ecosystem: AI catalog, agent discovery, docs summarization |
+| Globant Opportunity | Enterprise DevOps transformation; build AI agent catalog plugin; integrate OpenHands for automated PR reviews |
+
+---
+
+## Workflow & Integration
+
+### n8n
+| Attribute | Value |
+|-----------|-------|
+| License | Fair-code (free for internal/self-hosted, commercial for client-facing products) |
+| GitHub | [n8n-io/n8n](https://github.com/n8n-io/n8n) — ~189k stars |
+| Stack | Node.js, Vue.js, TypeScript, SQLite/PostgreSQL |
+| AI Features | Native AI Agent nodes; MCP Client + Server Trigger; Self-Hosted AI Kit (Ollama + Qdrant) |
+| Globant Opportunity | Integration glue between AI agents and legacy enterprise systems; build custom AI workflows; note: client-facing use needs n8n license |
+
+---
+
+## How to Add an AI Layer to Any of These Platforms
+
+```
+Step 1: Expose MCP Server
+  → Use platform's REST API or install MCP server plugin (e.g., erpnext-mcp-server)
+  → Any Claude/agent can now drive the platform via structured tool calls
+
+Step 2: Build the Agent Logic
+  → LangGraph for stateful multi-step workflows (approval chains, loops)
+  → CrewAI for multi-specialist collaboration (research + draft + review)
+  → n8n for visual workflow + legacy system connectivity
+
+Step 3: Add RAG Knowledge Layer
+  → RAGFlow ingests platform documentation, company policies, historical data
+  → Grounded answers with citations, not hallucinations
+
+Step 4: Deploy & Observe
+  → Dify or LangGraph Cloud for visual monitoring + LLMOps
+  → Mem0 for persistent cross-session agent memory
+  → Prometheus + Grafana for infrastructure metrics
+```
+
+---
+*Updated 2026-07-11 by ingest pipeline.*

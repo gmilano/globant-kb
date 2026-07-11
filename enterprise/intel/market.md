@@ -1,76 +1,104 @@
-# 🗺️ Mapa de mercado — Enterprise AI
+# Market Map — Enterprise AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-10
+> Key players, market size, competitive dynamics, LATAM positioning.
+> Last updated: 2026-07-11
 
-## Tamaño de mercado
+## Market Size 2026
 
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| AI Agents market 2026 | $10.9–12.1B | Gartner, jul-2026 |
-| Agentic AI spending total 2026 | $201.9B (incluye software empresarial habilitado) | Gartner |
-| Agentic AI CAGR 2026–2030 | 44–46% | Múltiples analistas |
-| AI Agents market 2030 proyectado | $52–62B | Gartner / MarketsAndMarkets |
-| Open-source ERP market 2026 | $5.31B, CAGR 9.66% hasta 2031 | Mordor Intelligence |
-| Enterprise apps con AI agents por fin 2026 | 40% (era <5% en 2025) | Gartner |
-| Empresas con ≥1 agente en producción | 31% | McKinsey / S&P Global |
-| Proyectos agentic a cancelarse en 2027 | >40% | Gartner |
+| Source | 2026 Market Size | 2030 Projection | CAGR |
+|--------|-----------------|-----------------|------|
+| Grand View Research | $10.9B (AI agents) | $52.6B | 49.6% (2026–2033) |
+| Mordor Intelligence | $9.14B (agentic AI) | — | — |
+| Allied Market Research | — | $324B by 2034 | 44% |
+| IDC | 10-15% of enterprise IT spend | — | — |
 
-## Players globales — Frameworks y Plataformas
+**Key number**: Global agentic AI market ~$10.9B in 2026, growing to $52–62B by 2030.
 
-| Empresa | Producto | Licencia | Fortaleza | Debilidad |
-|---------|----------|----------|-----------|-----------|
-| LangChain / LangGraph | LangGraph Platform | MIT (OSS) + Paid (Platform) | Default de facto para producción stateful; 400+ enterprises; mayor ecosistema verificado | Vendor lock-in en LangSmith para observabilidad |
-| Microsoft | Agent Framework 1.0 / SK / AGT | MIT | C#/.NET first-class; governance toolkit; Copilot Studio enterprise | Más verboso que LangGraph para Python |
-| CrewAI | CrewAI OSS + Enterprise | MIT (OSS) | 60% Fortune 500; 5.2M downloads/mes; role-based = más intuitivo | Enterprise features requieren plan pagado |
-| Anthropic | Claude + MCP | Comercial | Claude 5 / Opus 4.8 = modelos más capaces; MCP RC jul-2026 = protocolo ganador | Sin framework propio open-source |
-| HuggingFace | Smolagents + Inference | Apache-2.0 | Sin abstracciones; open weights models; código limpio | Menos enterprise features que LangGraph |
-| SAP | Joule / Business AI Platform | Comercial (Propietario) | ERP context nativo; Claude-powered; integración con BTP+BDC | Solo funciona con SAP estate; precio elevado |
-| Oracle | Fusion Agentic Apps | Comercial (Propietario) | Embedded en Fusion ERP/HCM; procurement/finance focus | Closed ecosystem |
+## Enterprise Adoption Reality Check
 
-## Players globales — ERP / CRM Open Source
+| Metric | 2026 Data | Source |
+|--------|-----------|--------|
+| Enterprises saying they've "adopted" AI agents | 79% | Multiple surveys |
+| Enterprises actually running agents in production | 11% | Multiple surveys |
+| Enterprise apps with embedded AI agents by end-2026 | 40% (Gartner forecast) | Gartner |
+| Organizations with agents in production workflows | 57% | n8n/CrewAI surveys |
+| Companies planning agent deployment | 72% | Industry surveys |
+| Average ROI over 3 years | 3.5x | McKinsey 2026 State of AI |
+| Payback period (customer service, invoice processing) | 3-6 months | McKinsey |
+| Payback period (broad enterprise deployment) | 8-14 months | McKinsey |
 
-| Plataforma | Licencia | Market Position | Oportunidad AI |
-|------------|----------|-----------------|----------------|
-| Odoo | LGPL-3.0 | 12M+ usuarios, open-source ERP líder global | Python nativo, API REST, módulos AI comunidad |
-| ERPNext (Frappe) | GPL-3.0 | Dominante en India/LATAM/África/MENA | MCP server, Python, DocType model |
-| Apache OFBiz | Apache-2.0 | Reference ERP para extensiones Java | Licencia permisiva = más fácil para Globant |
-| Twenty | MIT | CRM challenger a Salesforce | MCP server nativo = más AI-ready que Salesforce |
-| SuiteCRM | AGPL-3.0 | 5M+ usuarios Salesforce alternative | Módulos AI comunidad creciendo |
+## Key Players Map
 
-## Oportunidades AI en LATAM
+### Hyperscalers (Proprietary but dominant)
+| Company | Enterprise AI Offering | Moat |
+|---------|----------------------|------|
+| Microsoft | Copilot 365, Azure AI Foundry, Agent Framework 1.0 | Office 365 installed base; Teams; Azure |
+| Google | Gemini for Workspace, Vertex AI | G Suite installed base; best multimodal |
+| AWS | Bedrock, AgentCore, Q Business | Cloud-native; broadest model marketplace |
+| Salesforce | Einstein AI, Agentforce | CRM data moat; no-code agents for sales/service |
+| ServiceNow | AI Agents for ITSM | ITSM workflow data; change management |
 
-### Contexto regional
-- **SAP estate masivo**: Brasil, México, Argentina, Colombia y Chile tienen grandes instalaciones SAP (muchas en ECC 6.0) que no han migrado a S/4HANA — costo de migración propietaria = driver para alternativas open.
-- **Costo de licencias**: SAP/Oracle licenses are prohibitive para muchas empresas medianas en LATAM → ERPNext + Odoo + AI-layer = propuesta de valor 10x más económica.
-- **Talento Python abundante**: LATAM tiene un pool creciente de devs Python → LangGraph + Frappe = stack accesible.
-- **Regulaciones locales**: Brasil (LGPD), Argentina (PDPA), México (LFPDPPP) requieren datos on-prem o en región — self-hosted ERP + RAGFlow + n8n es el stack ideal.
+### Open Source Leaders
+| Project | Company | Stars | Enterprise Relevance |
+|---------|---------|-------|---------------------|
+| Dify | LangGenius | ~148k | Fastest-growing LLM platform; enterprise self-hosted |
+| n8n | n8n GmbH | ~189k | Workflow automation; AI+MCP native |
+| RAGFlow | InfiniFlow | ~73k | Enterprise RAG; document-heavy workflows |
+| CrewAI | CrewAI Inc | ~54.2k | Multi-agent; most community deployments |
+| LangGraph | LangChain | ~34.5k | Production-grade stateful agents; Fortune 500 |
+| Microsoft Agent Framework | Microsoft | ~11.6k | .NET/Python enterprise SDK; GA April 2026 |
 
-### Casos de uso principales en LATAM
+### SI/Consulting (Globant's competitive set)
+| Firm | Enterprise AI Positioning |
+|------|--------------------------|
+| Globant | AI Pods with Claude; $1B LATAM investment; Anthropic preferred partner |
+| Accenture | AI Refinery Platform; $3B AI investment |
+| Cognizant | AI Consulting practice; Neuro IT |
+| Wipro | AI360 platform |
+| ThoughtWorks | Technology consulting; strong in agile AI |
 
-| Use Case | Stack Recomendado | Tamaño estimado |
-|----------|-------------------|-----------------|
-| Modernización SAP → Open ERP + AI | ERPNext + LangGraph + Agent Governance | $200k–$2M |
-| CRM AI copilot para medianas empresas | Twenty CRM + LangGraph + Claude | $80k–$400k |
-| Enterprise knowledge base / RAG | RAGFlow + LangGraph + Dify | $100k–$500k |
-| Automatización de workflows financieros | n8n + LangGraph + ERPNext API | $60k–$200k |
-| AI agents para RRHH / onboarding | CrewAI + Frappe HRM + Claude | $80k–$300k |
-| Compliance EU AI Act / LGPD | Agent Governance Toolkit + LangGraph | $50k–$200k |
+## Real ROI Benchmarks (Named Companies)
 
-## Posicionamiento Globant
+| Company | Use Case | Outcome |
+|---------|----------|---------|
+| Klarna | AI customer service agent | $60M annual savings |
+| Morgan Stanley | Developer productivity | 280,000 developer hours saved |
+| General Mills | Supply chain optimization | $20M+ in shipment savings |
+| Typical enterprise | Invoice processing automation | 50% reduction in processing time |
+| Typical enterprise | IT helpdesk automation | 30-50% ticket deflection in first 3 months |
 
-**Ventajas competitivas de Globant en este espacio:**
-1. **Presencia LATAM** + conocimiento de SAP estates en la región = ideal para modernization sprints.
-2. **Stack open source** (ERPNext + LangGraph + n8n) vs propietario (SAP Joule) = 60-80% menos costo de licencias para el cliente.
-3. **AI Studios** con expertise en Claude + MCP = stack más moderno que integradores SAP tradicionales.
-4. **Agent Governance Toolkit** (MIT, Microsoft) = argumento de compliance para clientes regulados (banca, salud, gobierno).
+## LATAM Market Intelligence
 
-**Competidores directos en LATAM enterprise AI:**
-- Accenture / Capgemini (más grandes, más caros, principalmente propietario)
-- Deloitte (fuerte en SAP, menos en open-source AI)
-- Consultoras locales (sin AI Studios capability)
+### Opportunity Size
+- Globant $1B investment in LATAM AI (June 2026)
+- Financial sector leads: 3.2x average ROI in year 1 from AI
+- Retailers with integrated AI: 15-25% increase in average ticket size
+- Brazil AI Legal Framework (2024) creates compliance consulting opportunities
 
-**Diferenciador clave:** Globant puede ofrecer la misma funcionalidad que SAP Joule (Claude + enterprise data + workflows) sobre ERPNext/Odoo open source, eliminando $500k-$2M/año en licencias SAP para clientes medianos.
+### LATAM-Specific Gaps (First-Mover Opportunities)
+
+| Gap | Why It Matters | Open Source Basis |
+|-----|----------------|------------------|
+| **Spanish-language enterprise AI** | 45% of ML models never reach production in LATAM partly due to language/localization | RAGFlow + multilingual LLMs + ERPNext |
+| **On-premise AI for data sovereignty** | LGPD (Brazil), Colombia/Chile sector rules; 150k ML engineer shortage = on-prem needed | Dify self-hosted + Ollama + Mattermost |
+| **PIX/OXXO/PSE payment in AI billing workflows** | No open-source AI agent with LATAM payment adapters exists | n8n + LangGraph + ERPNext |
+| **ERPNext/Odoo AI copilots for SME/mid-market** | 32% open-source ERP adoption growth in 2026; no turnkey LATAM AI layer | ERPNext + erpnext-mcp-server + LangGraph |
+| **MLOps maturity consulting** | 45% of ML models in LATAM never reach production; 23% avg performance degradation without monitoring | LangGraph + Dify + Prometheus |
+| **AI for regulated industries (BFSI, healthcare)** | Brazil, Colombia, Chile sector-specific AI rules; Mattermost on-prem collab | RAGFlow + Mattermost + Microsoft Agent Framework |
+
+### LATAM Infrastructure Realities
+- AWS: 2 LATAM regions; Azure: 3; GCP: 2
+- Cloud latency 50-100ms higher than US/Europe for real-time inference
+- Pushes toward on-premise or edge solutions for latency-sensitive use cases
+- n8n self-hosted + Dify self-hosted + Ollama (local inference) = strong LATAM stack
+
+## Globant Strategic Positioning
+
+- **Anthropic Alliance** (announced June 2026): Claude-powered AI Pods; preferred services partner
+- **AI Pods model**: adopted by 40% of top 20 revenue-generating accounts
+- **Tech Trends 2026** themes: agentic AI, quantum communication, polyfunctional robotics, ambient intelligence, AI-powered cybersecurity
+- **$1B LATAM investment**: positions Globant as primary AI delivery partner in region
+- **Talent edge**: LATAM ML engineer shortage (150k positions) means Globant's talent pool is a competitive moat
 
 ---
-*Ver también: `intel/trends.md` para tendencias actuales y `compose/patterns.md` para patrones de implementación.*
+*Updated 2026-07-11 by ingest pipeline.*

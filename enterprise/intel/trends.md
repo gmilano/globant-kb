@@ -1,70 +1,97 @@
-# 📡 Tendencias — Enterprise AI 2026
+# Trends — Enterprise AI 2026
 
-> Señales clave del mercado enterprise. Actualizado: 2026-07-10
+> Current intelligence on what's happening in enterprise AI. Updated weekly.
+> Last updated: 2026-07-11
 
-## T1 — "Autonomous Enterprise" como nuevo paradigma (SAP Sapphire 2026)
+## T1 — Agentic AI Is the New "Cloud Migration" Conversation
 
-SAP Sapphire 2026 (mayo) declaró el fin de la era ERP transaccional. SAP Business AI Platform unifica BTP + Business Data Cloud + Business AI en un único entorno gobernado con Joule agents powered by Anthropic Claude. El mensaje: los ERP ya no procesan transacciones, **orquestan trabajo**. Oracle responde con Fusion Agentic Apps. El mercado enterprise se bifurca en dos apuestas: agentes propietarios dentro del walled garden SAP/Oracle, o agentes open sobre ERP open. Globant tiene posición natural en el segundo.
+Every enterprise CIO is now being asked "where is your agent strategy?" just as they were asked "where is your cloud strategy?" a decade ago. 40% of enterprise apps will embed task-specific AI agents by end-2026 (Gartner). The conversation has shifted from "should we use AI?" to "which agents go into production first?"
 
-## T2 — Microsoft Agent Framework 1.0 GA (3-abr-2026)
+**Implication for Globant**: Agent readiness assessments and agent roadmaps are the new cloud strategy engagements.
 
-Fusión de AutoGen (multi-agent conversations) + Semantic Kernel (enterprise SDK) en un único SDK production-ready para .NET y Python. Junto al Agent Governance Toolkit (MIT, abr-2026), Microsoft completa el stack enterprise: framework + runtime security + compliance grading. Primera vez que Microsoft tiene una propuesta cohesiva para agentes enterprise open-source.
+## T2 — Production Gap: 79% Adopt, Only 11% In Production
 
-## T3 — OWASP Top 10 Agentic AI 2026
+A massive gap exists between "adoption" and "production." 79% of enterprises say they've adopted AI agents, but only 11% run them in production. The blockers: observability, security, data governance, and change management — not the AI models themselves.
 
-Primera taxonomía formal de riesgos en agentes autónomos (dic-2025): goal hijacking, tool misuse, identity abuse, memory poisoning, cascading failures, rogue agents. El Agent Governance Toolkit de Microsoft es el primer OSS que cubre los 10 con enforcement sub-ms. **Impacto**: clientes enterprise van a exigir evidencia de coverage OWASP antes de desplegar agentes en producción — nueva línea de servicios para Globant.
+**Implication for Globant**: High-value consulting on operationalizing pilots into production — MLOps, monitoring, governance, change management.
 
-## T4 — EU AI Act High-Risk Deadline: 2-ago-2026
+## T3 — MCP Becomes Enterprise Integration Bus
 
-Sistemas de IA de alto riesgo (crédito, AML, scoring, HR, biometría) deben cumplir obligaciones del EU AI Act. Múltiples proyectos enterprise en revisión o paralización. Agent Governance Toolkit genera evidencia automática para compliance grading EU AI Act + HIPAA + SOC2. **Oportunidad**: sprints de readiness $50k–$200k.
+Model Context Protocol (donated to Linux Foundation AAIF, Dec 2025) is rapidly standardizing how AI agents connect to enterprise systems. 97M monthly SDK downloads, 20,000+ servers on Glama. n8n, Dify, Mattermost, ERPNext — all added MCP support in H1 2026.
 
-## T5 — LangGraph como default para producción en regulados
+**Implication for Globant**: Building MCP servers for enterprise systems (SAP, Salesforce, legacy databases) is a repeatable, high-margin deliverable. Do it once, sell to multiple clients.
 
-LangGraph 1.0 GA (oct-2025): durable execution, checkpointing, HITL como primitivas first-class. 400+ empresas en producción: Klarna (80% reducción tiempo resolución, equivalente a 853 empleados, $60M ahorro), Uber (21,000 developer hours ahorradas), LinkedIn (SQL Bot + recruiting agents), BlackRock, JPMorgan, Cisco. En industrias reguladas (banking, insurance, healthcare), LangGraph con HITL se convierte en el estándar de facto.
+## T4 — Microsoft's Bet: Agent Framework 1.0 GA (April 2026)
 
-## T6 — MCP como protocolo de integración enterprise
+Microsoft shipped Agent Framework 1.0 on April 3, 2026, merging AutoGen and Semantic Kernel. At BUILD 2026 (May): Agent Harness, Hosted Agents, CodeAct. AutoGen and Semantic Kernel now in maintenance mode. Enterprises on Microsoft stacks (Azure, M365, Teams) have a clear path.
 
-MCP RC (28-jul-2026): stateless core, Tasks extension (async tools), MCP Apps (sandboxed UI iframes), Enterprise Managed Auth con org SSO via IdP. Impacto enterprise: **cualquier sistema con MCP server se vuelve operacionable por Claude/GPT/cualquier agente en lenguaje natural**. Twenty CRM (MCP nativo), ERPNext (MCP server MIT), n8n (MCP bidireccional), SAP (Joule via MCP) — el enterprise software se vuelve "agentic-ready" por default.
+**Implication for Globant**: For Microsoft-heavy clients, MAF is now the reference architecture. Globant's Microsoft practice should position around MAF + Azure AI Foundry.
 
-## T7 — RAG enterprise como commodity, agentic RAG como diferenciador
+## T5 — RAG Matures: Document-Grounded AI Is Table Stakes
 
-RAGFlow (78k★, Apache-2.0): RAG con deep document understanding + citas trazables por chunk. La RAG básica (text splitting + embeddings) es ahora commodity — el diferenciador es **RAG con agents**: el agente decide qué buscar, cuándo buscar, cómo combinar fuentes. Dify (145k★) + RAGFlow = stack enterprise-grade para knowledge bases complejas (documentos legales, contratos, normativas).
+Enterprise AI is only trusted if answers are grounded and citable. RAGFlow (73k stars, Apache-2.0) solves the hardest part: extracting structured data from complex PDFs including tables, charts, and multi-column layouts. Agentic RAG — where agents query and synthesize across multiple retrieval sources — is becoming the standard architecture.
 
-## T8 — Open ERP tiene segunda oportunidad vs SAP/Oracle
+**Implication for Globant**: Every client AI project needs a RAG layer. RAGFlow is the go-to OSS choice. Charge for implementation, customization, and MLOps.
 
-El mercado open-source ERP creció 32% en 2026 por costos crecientes de licencias propietarias (Mordor Intelligence, $5.31B en 2026). La razón AI: open-source ERP tiene APIs abiertas, código inspeccionable y Python ecosystem — más fácil integrar agentes que en ABAP o X++. ERPNext tiene MCP server. Odoo tiene Python nativo y 52k★. **Mensaje para clientes**: misma funcionalidad que SAP Joule, sin las licencias.
+## T6 — Workflow Automation Becomes AI Backbone (n8n 2.0)
 
-## T9 — Governance gap como cuello de botella (no la tecnología)
+n8n 2.0 (189k stars) ships native AI agent nodes and MCP. This bridges the gap between "AI agent" and "legacy enterprise system." The pattern: n8n connects AI agents to Salesforce, SAP, email, spreadsheets — the messy reality of enterprise integration.
 
-Gartner predice >40% de proyectos agentic cancelados en 2027. La causa no es capability técnica sino **falta de governance**. Las empresas con AI governance establecida empujan 12x más proyectos a producción. El gap más crítico: 88% planean aumentar presupuesto AI pero solo 17% tienen agentes desplegados. **Servicio clave**: AI governance frameworks + agent audit sprints.
+**Implication for Globant**: n8n as the integration layer for enterprise AI projects. Faster delivery, lower cost than custom middleware, 400+ pre-built connectors.
 
-## T10 — Context Engineering reemplaza Prompt Engineering
+## T7 — ERP + AI: The FOMO Market
 
-Claude Code y prácticas 2026 documentan que "context engineering" (CLAUDE.md, DESIGN.md, SKILL.md, knowledge bases estructuradas) produce 55% menos tiempo de desarrollo y 40% menos errores vs prompting ad-hoc. En enterprise: la documentación de sistemas internos bien estructurada = el activo más valioso para habilitar agentes. **Nuevo servicio**: Context Engineering Sprints para preparar el conocimiento del cliente para ser consumido por agentes.
+32% open-source ERP adoption growth in 2026 driven by proprietary ERP cost pressure. Odoo 18 gates all AI behind the $24.90/user/month Enterprise plan. ERPNext (MIT Frappe) has no AI but fully open APIs. The gap: clients want AI in their ERP without full Enterprise licensing costs.
 
-## T11 — n8n como glue universal de enterprise AI
+**Implication for Globant**: Build AI copilots on top of Odoo Community and ERPNext using the REST APIs + LangGraph + RAGFlow. Sell as a managed service.
 
-n8n 2.0 consolida su posición: 189k★, nodos AI agent nativos, MCP bidireccional (workflows como tools para Claude + Claude como orchestrator de workflows), 500+ integraciones. Para enterprise teams sin devs Python/AI especializados, n8n es el camino más rápido para automatizar con AI. Self-hosted = GDPR/LGPD compliant sin esfuerzo adicional.
+## T8 — Multi-Agent Systems Go Mainstream
 
-## T12 — Agentes de código como fuerza multiplicadora interna
+Single agents are being replaced by multi-agent crews: a planner agent, specialist worker agents, and a quality-check agent working together on complex enterprise tasks. CrewAI (54k stars, 2B executions in 2025) and LangGraph (34.5k) power most production multi-agent systems.
 
-Claude Code alcanzó ~$8B ARR (mayo 2026), 54% market share, 4% de todos los commits GitHub. Deloitte: 470k empleados usando Claude Code. El "delegation gap" documentado por Anthropic: 60% usan AI/0-20% delegan tareas completas = 88-punto de diferencia. **Oportunidad**: studios que enseñen a enterprises a "delegar" no solo "asistir" — $20k-$100k por delivery team.
+**Implication for Globant**: Enterprise patterns to productize: orchestrator→specialist→reviewer crews for finance, HR, supply chain, and IT operations.
 
-## T13 — LATAM como mercado emergente de AI enterprise
+## T9 — Data Sovereignty Drives On-Premise AI
 
-- Brasil: mayor mercado de LATAM, grandes SAP estates, LGPD requiere soluciones on-prem.
-- México: sector manufactura + fintech con alta adopción; IT outsourcing hub para US.
-- Argentina: talento técnico alto, desafíos macro pero mercado enterprise sofisticado.
-- Colombia/Chile: sectores banca y retail muy activos con piloto de agentes.
-- Punto de dolor común: SAP/Oracle licencias insostenibles + presión por eficiencia → ERPNext + AI = propuesta ganadora.
+LGPD (Brazil), Colombia/Chile sector frameworks, and European GDPR are pushing enterprises toward on-premise AI deployments. Dify (self-hosted), Ollama (local inference), RAGFlow (self-hosted), Mattermost (on-prem) form the canonical privacy-preserving enterprise AI stack.
 
-## T14 — Multi-agent para procesos complejos cross-funcionales
+**Implication for Globant**: LATAM on-prem AI offering is a differentiator. Package: Dify + Ollama + RAGFlow + Mattermost as a sovereign enterprise AI stack.
 
-Klarna (853 FTE equivalentes con LangGraph), Uber (21k horas ahorradas). Los casos de mayor ROI en 2026 son **procesos que cruzan múltiples sistemas** (ERP → CRM → ITSM → email → PDF generation). CrewAI + LangGraph + n8n = el trío que habilita estos flujos cross-funcionales sin reescribir los sistemas subyacentes.
+## T10 — Persistent Agent Memory Changes Everything
 
-## T15 — Observabilidad de agentes como requisito de producción
+Stateless AI interactions are being replaced by persistent memory (Mem0, 26k stars). Agents remember: user preferences, past decisions, company policies, interaction history. This transforms one-off AI tools into continuously learning enterprise systems.
 
-LangSmith (LangChain), Braintrust, Phoenix (Arize) — sin observabilidad, ningún enterprise despliega agentes en producción. LangGraph Platform incluye trazas, replay, human-in-the-loop dashboards. **Patrón**: ningún proyecto enterprise debe ir a producción sin un plan de observabilidad — es la diferencia entre un demo y un producto.
+**Implication for Globant**: Memory architecture is a new billable design component. Charge for mem0 integration, memory hygiene policies, and GDPR-compliant memory management.
+
+## T11 — Developer Productivity Agents Deliver Fastest ROI
+
+Morgan Stanley: 280,000 developer hours saved with AI coding agents. TELUS: 30% faster delivery, 500k hours saved with Claude Code. OpenHands (68k stars), GitHub Copilot, and enterprise SWE agents are compressing development cycles.
+
+**Implication for Globant**: Internal AI tooling for Globant developers (using OpenHands + Backstage + Claude Code) is a competitive differentiation that compounds over time.
+
+## T12 — LLMOps Becomes an Enterprise Requirement
+
+As agents go to production, clients demand observability: trace every LLM call, monitor for drift, run A/B tests between models. Dify, LangGraph Platform, and Langfuse are the emerging LLMOps stack.
+
+**Implication for Globant**: LLMOps assessments and implementations are a recurring revenue stream (monitoring, alerting, model updates).
+
+## T13 — LATAM ML Talent Shortage Creates Two Opportunities
+
+150,000 ML engineering positions unfilled in LATAM. 40% salary increase in 2 years. 45% of ML models never reach production.
+
+**Implication for Globant**: (1) Globant's existing LATAM talent pool is a competitive moat. (2) MLOps-as-a-Service for LATAM clients who can build models but can't operate them.
+
+## T14 — Globant–Anthropic Alliance: Strategic Differentiation
+
+Globant announced preferred services partner status within the Claude Partner Network. AI Pods (Claude-powered) adopted by 40% of top 20 revenue accounts. $1B LATAM investment.
+
+**Implication for Globant**: Claude-powered AI Pods are the enterprise delivery vehicle. Use Claude's 200k context for document-heavy workflows, its tool use for multi-step agents, and Projects for persistent memory.
+
+## T15 — Vertical AI Agents Beat Horizontal Ones
+
+Generic "ask anything" agents are losing to specialized vertical agents: a finance agent that knows GAAP and your chart of accounts; an HR agent that knows your company policies and local labor law; an IT helpdesk agent trained on your exact infrastructure docs.
+
+**Implication for Globant**: Vertical agent libraries per industry (exactly what these KBs support). Build once, customize per client, sell as a platform.
 
 ---
-*Resumen ejecutivo: Enterprise AI 2026 = governance first, open-source ERP second look, MCP as integration protocol, LangGraph as production default, RAGFlow for knowledge bases, n8n for workflow automation. LATAM: SAP modernization = biggest opportunity.*
+*Updated 2026-07-11 by ingest pipeline.*

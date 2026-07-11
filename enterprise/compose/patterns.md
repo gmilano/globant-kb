@@ -1,381 +1,279 @@
-# 🧩 Patrones de composición — Enterprise AI
+# Composition Patterns — Enterprise AI
 
-> Recetas concretas para construir soluciones enterprise combinando repos + agentes + AI.
-> Última actualización: 2026-07-10
-
-## Stack base enterprise
-
-```
-[Plataforma vertical (Odoo / ERPNext / Twenty / OFBiz)]
-          ↓ API REST / MCP Server
-[Capa de integración AI (n8n / Dify)]
-          ↓ tool calls
-[Agentes especializados (LangGraph / CrewAI)]
-          ↓ embeddings + retrieval
-[Knowledge Base (RAGFlow + pgvector)]
-          ↓ governance
-[Agent Governance Toolkit (OWASP + EU AI Act)]
-          ↓
-[UI conversacional / Slack / Teams / Web App]
-```
+> Concrete recipes for building enterprise AI solutions with the repos in this KB.
+> Each pattern names the specific repos, wiring, and estimated engagement size.
+> Last updated: 2026-07-11
 
 ---
 
-## P1 — Enterprise Knowledge Base con RAG Trazable
+## Pattern P1: Enterprise Knowledge Hub
+**"Ask anything about your company — get grounded, cited answers"**
 
-**Objetivo:** Reemplazar búsqueda en documentos internos (contratos, normativas, manuales) con un agente que responde con citaciones verificables.
+**Problem**: Enterprise knowledge is scattered across SharePoint, Confluence, PDFs, Notion, JIRA, email. Employees waste 20% of workday searching for information.
 
-**Stack:**
-- RAGFlow (infiniflow/ragflow, Apache-2.0) — ingestion + parsing con deep document understanding
-- LangGraph (langchain-ai/langgraph, MIT) — orchestration con multi-step retrieval
-- Dify (langgenius/dify, Apache-2.0) — UI + workflow builder para usuarios no técnicos
-- Agent Governance Toolkit (microsoft/agent-governance-toolkit, MIT) — compliance grading
-
-**Arquitectura:**
+**Stack**:
 ```
-Documentos (PDF/Word/Excel)
-    ↓ RAGFlow parser (deep doc understanding)
-Vector Store (pgvector/Qdrant)
-    ↓ LangGraph retrieval agent
-    │   ├── search_knowledge_base(query) → chunks con fuente
-    │   ├── synthesize_answer(chunks) → respuesta con citas
-    │   └── verify_compliance(answer) → Agent Governance check
-    ↓ Dify canvas
-UI Web / Slack bot
-```
-
-**Código esqueleto (Python):**
-```python
-from langgraph.graph import StateGraph, END
-from ragflow_sdk import RAGFlow
-
-ragflow = RAGFlow(api_key="...", base_url="http://ragflow:9380")
-
-def retrieve_docs(state):
-    dataset = ragflow.list_datasets(name="enterprise-docs")[0]
-    chunks = dataset.retrieve(
-        question=state["query"],
-        top_k=5,
-        highlight=True
-    )
-    return {"chunks": chunks, "sources": [c.document_name for c in chunks]}
-
-def synthesize(state):
-    # Claude llama con citaciones
-    response = claude.messages.create(
-        model="claude-opus-4-8",
-        messages=[{
-            "role": "user",
-            "content": f"Basándote en estos documentos:\n{state['chunks']}\n\nResponde: {state['query']}\n\nCita la fuente de cada afirmación."
-        }]
-    )
-    return {"answer": response.content[0].text}
-
-graph = StateGraph(EnterpriseKBState)
-graph.add_node("retrieve", retrieve_docs)
-graph.add_node("synthesize", synthesize)
-graph.add_edge("retrieve", "synthesize")
-graph.add_edge("synthesize", END)
-
-app = graph.compile()
+[RAGFlow (infiniflow/ragflow — Apache-2.0)]
+        ↓  ingest documents (PDF, Word, slides, spreadsheets, Confluence export)
+        ↓  DeepDoc extracts tables/charts from complex PDFs
+[LangGraph (langchain-ai/langgraph — MIT)]
+        ↓  stateful Q&A agent with follow-up handling
+        ↓  human-in-the-loop for sensitive/uncertain answers
+[Mem0 (mem0ai/mem0 — Apache-2.0)]
+        ↓  remembers user context, previous questions, department
+[n8n (n8n-io/n8n)]
+        ↓  auto-ingests new documents from SharePoint/Confluence/email
+        ↓  Slack/Teams notification when new relevant docs added
+[Dify (langgenius/dify — Apache-2.0)]
+        ↓  monitoring dashboard, usage analytics, prompt A/B testing
 ```
 
-**Tiempo estimado:** 6–10 semanas
-**Costo proyecto:** $100k–$500k
-**ROI típico:** Reducción 70% tiempo en búsqueda de documentos; compliance audit en minutos vs días.
+**Outputs**: Internal chatbot with cited answers, accessible via Slack/Teams/web widget.
+
+**Wiring**:
+1. RAGFlow REST API → LangGraph tool (RAG retrieval tool)
+2. LangGraph → Mem0 (read/write user memory at session start/end)
+3. n8n webhook trigger → RAGFlow ingestion API (auto-update on new docs)
+4. Dify wraps the LangGraph agent for a polished UI + observability
+
+**Engagement size**: USD 80k–200k (2-3 months, 2-3 engineers)
+**LATAM relevance**: High — Spanish document support; on-prem deployment for LGPD compliance
 
 ---
 
-## P2 — CRM AI Copilot (Twenty CRM + LangGraph + Claude)
+## Pattern P2: ERP AI Copilot
+**"Talk to your ERP instead of clicking through 40 screens"**
 
-**Objetivo:** Agente que entiende el pipeline de ventas y ejecuta acciones CRM en lenguaje natural desde Slack/Teams.
+**Problem**: ERP systems (Odoo, ERPNext, SAP) have powerful data but terrible UX. Finance and operations teams spend hours on routine tasks: generating reports, creating purchase orders, checking inventory, approving workflows.
 
-**Stack:**
-- Twenty CRM (twentyhq/twenty, MIT) — CRM con MCP server nativo
-- LangGraph (langchain-ai/langgraph, MIT) — orchestration con HITL para confirmaciones
-- n8n (n8n-io/n8n) — triggers de eventos CRM (deal stage change, inactivity alerts)
-- Claude (Anthropic) — LLM via MCP
-
-**Flujo:**
+**Stack**:
 ```
-Usuario en Slack: "¿Qué deals en riesgo tenemos este mes?"
-    ↓ LangGraph agent
-    ├── twenty_mcp.search_opportunities(stage="Negotiation", close_date="<30d")
-    ├── twenty_mcp.get_activities(opportunity_id=[...])
-    ├── analyze_risk(deals, activities) → risk_scores
-    └── format_report() → Slack block
-    
-"Agrega nota de seguimiento al deal de Acme Corp"
-    ↓ LangGraph + HITL
-    ├── twenty_mcp.find_company(name="Acme Corp")
-    ├── twenty_mcp.find_opportunity(company_id=..., stage="active")
-    │   [HITL: "¿Confirmar nota en deal 'Q3 Expansion - Acme'?"]
-    └── twenty_mcp.create_note(opportunity_id=..., body=...)
+[ERPNext / erpnext-mcp-server (MIT — rakeshgangwar/erpnext-mcp-server)]
+        ↓  exposes ERPNext as an MCP server (inventory, orders, HR, accounting)
+        ↓  OR use Odoo REST API directly if client is on Odoo
+[LangGraph (langchain-ai/langgraph — MIT)]
+        ↓  multi-step agent: query → verify → act → confirm
+        ↓  approval chain: agent proposes action, human approves via Slack
+[RAGFlow (infiniflow/ragflow — Apache-2.0)]
+        ↓  company policies, SOPs, account codes, vendor contracts as context
+[Claude API (Anthropic)]
+        ↓  200k context window handles large financial reports
+        ↓  JSON tool use drives ERP API calls reliably
+[Mattermost or Slack]
+        ↓  approval UI: agent posts proposed action, manager clicks Approve/Reject
 ```
 
-**Código esqueleto (Python):**
-```python
-from mcp import ClientSession, StdioServerParameters
-from langgraph.prebuilt import create_react_agent
-from langgraph.checkpoint.memory import MemorySaver
+**Outputs**: "Create PO for vendor ABC for $12k per last month's rate, pending CFO approval" → complete workflow in 30 seconds.
 
-# Twenty CRM como MCP server
-twenty_mcp_params = StdioServerParameters(
-    command="npx",
-    args=["twenty-mcp-server", "--api-key", TWENTY_API_KEY]
-)
+**Wiring**:
+1. Install `erpnext-mcp-server` on ERPNext instance
+2. LangGraph agent uses ERPNext MCP tools as its action space
+3. RAGFlow indexes company policies → LangGraph uses as retrieval tool
+4. Approval nodes: LangGraph `interrupt()` → post to Mattermost → resume on webhook
+5. Dify provides the employee-facing chat UI
 
-async def build_crm_agent():
-    async with ClientSession(*twenty_mcp_params) as session:
-        tools = await session.list_tools()
-        agent = create_react_agent(
-            model=claude_model,
-            tools=[t.as_tool() for t in tools],
-            checkpointer=MemorySaver(),
-            interrupt_before=["twenty_create_note", "twenty_update_opportunity"]  # HITL
-        )
-        return agent
-```
-
-**Tiempo estimado:** 4–8 semanas
-**Costo proyecto:** $80k–$400k
-**ROI típico:** 3h/semana/rep ahorradas en CRM data entry; pipeline accuracy +25%.
+**Engagement size**: USD 120k–350k (3-4 months)
+**LATAM relevance**: Very high — ERPNext widely used in LATAM SME/mid-market; PIX/PSE payment adapters can be added as custom n8n nodes
 
 ---
 
-## P3 — Governed Agent Pipeline (OWASP + EU AI Act Ready)
+## Pattern P3: IT Helpdesk Agent
+**"Resolve 40-50% of IT tickets automatically"**
 
-**Objetivo:** Envolver cualquier agente LangGraph/CrewAI con governance runtime que genera evidencia de compliance automática.
+**Problem**: IT helpdesk handles thousands of repetitive tickets: password resets, VPN access, software installation, onboarding checklists. L1 support is expensive and slow.
 
-**Stack:**
-- Agent Governance Toolkit (microsoft/agent-governance-toolkit, MIT) — runtime security
-- LangGraph (langchain-ai/langgraph, MIT) — agentes de negocio
-- LangSmith — observabilidad y auditoría
-
-**Configuración:**
-```python
-from agent_governance_toolkit import GovernancePolicy, AgentGuard, ComplianceReport
-from agent_governance_toolkit.integrations.langgraph import wrap_with_governance
-
-# Define política (YAML o Python)
-policy = GovernancePolicy.from_yaml("""
-owasp_coverage:
-  - goal_hijacking: block
-  - tool_misuse: alert
-  - identity_abuse: block
-  - memory_poisoning: sanitize
-  - cascading_failures: rate_limit(max_calls=50/min)
-regulatory:
-  eu_ai_act: high_risk  # activa logging + human oversight
-  hipaa: enabled        # si aplica
-  soc2: enabled
-actions:
-  on_violation: block_and_log
-  require_hitl_for: ["delete_*", "send_email", "update_financial_*"]
-""")
-
-# Wrap el agente existente
-governed_agent = wrap_with_governance(
-    agent=my_langgraph_agent,
-    policy=policy,
-    audit_log="./audit/agent_logs.jsonl"
-)
-
-# Generar reporte de compliance
-report = ComplianceReport.generate(
-    audit_log="./audit/agent_logs.jsonl",
-    framework="eu_ai_act"
-)
-report.export_pdf("compliance_evidence.pdf")  # listo para auditor
+**Stack**:
+```
+[n8n (n8n-io/n8n)]
+        ↓  trigger: new ticket from ITSM (ServiceNow, Jira Service Mgmt, Freshdesk)
+        ↓  classify ticket type via AI node
+[RAGFlow (infiniflow/ragflow — Apache-2.0)]
+        ↓  knowledge base: runbooks, IT policies, known issue database
+[LangGraph (langchain-ai/langgraph — MIT)]
+        ↓  resolution agent: diagnose → attempt fix → escalate if needed
+        ↓  tools: AD API (password reset), SCCM (software push), VPN provisioning
+[Mattermost (mattermost/mattermost — Apache-2.0)]
+        ↓  agent posts resolution steps; escalates to human with full context
+[Mem0 (mem0ai/mem0 — Apache-2.0)]
+        ↓  remembers recurring issues per user/machine; accelerates future resolutions
 ```
 
-**Tiempo estimado:** 2–4 semanas (añadir a proyecto existente)
-**Costo proyecto:** $50k–$200k
-**ROI típico:** Evita multas EU AI Act (hasta €15M o 3% revenue); desbloquea proyectos paralizados por compliance.
+**Outputs**: Auto-resolve password resets, access requests, and known issues. Escalate with full context and attempted resolutions.
+
+**Metrics**: 40-50% ticket deflection in first 3 months (industry benchmark). Payback period: 3-4 months.
+
+**Wiring**:
+1. n8n webhook from ITSM → classify via AI node → route to LangGraph
+2. LangGraph agent has tools: RAGFlow retrieval, AD API, SCCM API, Mattermost
+3. RAGFlow indexes runbooks, known issues, user manuals
+4. If unresolved: LangGraph generates summary → posts to Mattermost L2 channel
+5. Mem0 stores per-user and per-device history for pattern detection
+
+**Engagement size**: USD 80k–200k (2-3 months)
+**LATAM relevance**: High — Spanish runbooks, on-prem deployment for regulated clients
 
 ---
 
-## P4 — ERPNext + AI Augmentation (LATAM SMB)
+## Pattern P4: Finance Automation Agent
+**"Accounts payable and expense workflows on autopilot"**
 
-**Objetivo:** Añadir capa de AI sobre ERPNext existente para automatizar tareas de back-office (PO approval, inventory alerts, financial reports).
+**Problem**: Finance teams process thousands of invoices monthly. Manual data entry, approval routing, and reconciliation consume 50%+ of AP team time.
 
-**Stack:**
-- ERPNext (frappe/erpnext, GPL-3.0) — ERP base
-- erpnext-mcp-server (rakeshgangwar/erpnext-mcp-server, MIT) — MCP bridge
-- LangGraph (MIT) — orchestration
-- n8n — triggers de eventos ERP → agentes
-
-**Flujo para aprobación automatizada de PO:**
+**Stack**:
 ```
-n8n trigger: "Purchase Order submitted" (ERPNext webhook)
-    ↓
-LangGraph PO Review Agent
-    ├── erpnext_mcp.get_purchase_order(po_id=...)
-    ├── erpnext_mcp.get_supplier_history(supplier_id=...)
-    ├── erpnext_mcp.check_budget_availability(cost_center=..., amount=...)
-    ├── analyze_risk(po, supplier_history, budget) → risk_score
-    │
-    ├── if risk_score < 0.3:
-    │   └── erpnext_mcp.approve_purchase_order(po_id=...)  # auto-approve
-    │
-    └── if risk_score >= 0.3:
-        ├── [HITL: notificar approver con resumen]
-        └── esperar confirmación
+[RAGFlow (infiniflow/ragflow — Apache-2.0)]
+        ↓  invoice OCR + extraction (vendor, amount, line items, PO match)
+        ↓  supports PDFs with complex table layouts
+[LangGraph (langchain-ai/langgraph — MIT)]
+        ↓  agent: extract → match PO → route for approval → post to ERP
+        ↓  anomaly detection: flag invoices that deviate from contract rates
+[ERPNext or Odoo (via REST API)]
+        ↓  post approved invoices, create journal entries, update vendor ledger
+[n8n (n8n-io/n8n)]
+        ↓  email trigger (new invoice) → OCR pipeline → approval workflow
+        ↓  Slack/Teams notification for approval requests
+[Dify (langgenius/dify)]
+        ↓  CFO/finance manager dashboard: invoice queue, anomaly alerts, audit log
 ```
 
-**Código esqueleto:**
-```python
-# n8n webhook → LangGraph
-from fastapi import FastAPI
-from langgraph.prebuilt import create_react_agent
+**Outputs**: Invoice auto-extract, 3-way PO match, approval routing, ERP posting — 80% automation rate.
 
-app = FastAPI()
+**Industry benchmark**: 50% reduction in AP processing time (Forrester 2026); 3-6 month payback.
 
-@app.post("/webhook/erp/po_submitted")
-async def handle_po_submitted(event: dict):
-    po_id = event["docname"]
-    
-    result = await po_review_agent.ainvoke({
-        "messages": [{"role": "user", "content": f"Review PO {po_id} for auto-approval"}],
-        "po_id": po_id
-    })
-    
-    return {"status": "processed", "action": result["action"]}
-```
-
-**Tiempo estimado:** 8–14 semanas (incluyendo ERPNext setup)
-**Costo proyecto:** $120k–$600k
-**ROI típico:** 80% reducción tiempo ciclo PO; 40% menos errores en procurement; $200k–$1M ahorro anual para empresas medianas.
+**Engagement size**: USD 100k–250k (2-3 months)
+**LATAM relevance**: Very high — NF-e (Brazil), CFDI (Mexico) e-invoicing formats; PIX payment integration
 
 ---
 
-## P5 — SAP Modernization Sprint (Open ERP Migration + AI)
+## Pattern P5: Multi-Agent HR Onboarding
+**"Day-1 ready: accounts, docs, training, and FAQs handled before the new hire arrives"**
 
-**Objetivo:** Migrar cliente de SAP ECC 6.0 a ERPNext + añadir capa AI que supera funcionalidad de SAP Joule, a fracción del costo.
+**Problem**: HR onboarding involves 30+ steps across IT, HR, Finance, and Facilities. New hires wait days for access; HR teams are buried in coordination emails.
 
-**Stack:**
-- ERPNext (frappe/erpnext, GPL-3.0) — ERP destino
-- Frappe (frappe/frappe, MIT) — framework base
-- LangGraph (MIT) — agentes de negocio
-- RAGFlow (Apache-2.0) — knowledge base con documentación de procesos migrados
-- Agent Governance Toolkit (MIT) — compliance enterprise
-- n8n — workflows de integración
-
-**Fases:**
+**Stack**:
 ```
-Fase 1 (4-6 semanas): Data Migration
-    SAP extractors → staging DB → ERPNext importers
-    Validación: financial reconciliation agents (LangGraph)
-
-Fase 2 (6-8 semanas): Process Mapping + AI Layer  
-    Documentar procesos SAP → RAGFlow knowledge base
-    Build LangGraph agents para los top 10 procesos críticos
-
-Fase 3 (4-6 semanas): Cutover + Governed Deployment
-    Agent Governance Toolkit wrapping
-    LangSmith observabilidad
-    HITL workflows para procesos de alto riesgo
-
-Fase 4 (ongoing): Continuous Improvement
-    n8n triggers → agentes → aprendizaje continuo
+[CrewAI (crewAIInc/crewAI — MIT)]
+        ↓  crew: IT Provisioning Agent, HR Documents Agent, Training Agent, Facilities Agent
+        ↓  orchestrator: coordinates all 4 agents in parallel
+[n8n (n8n-io/n8n)]
+        ↓  trigger: new hire record created in HRIS
+        ↓  dispatches tasks to each agent; monitors completion
+[ERPNext HR module]
+        ↓  employee record, payroll setup, leave policies
+[RAGFlow (infiniflow/ragflow)]
+        ↓  onboarding guides, company policies, benefits FAQs indexed
+[Mattermost]
+        ↓  new hire welcome bot; FAQ answers; manager notification on completion
 ```
 
-**Tiempo estimado:** 14–20 semanas total
-**Costo proyecto:** $400k–$2M
-**Ahorro cliente:** $500k–$5M/año en licencias SAP eliminadas + $200k–$1M en eficiencia operativa.
+**Outputs**: Complete onboarding checklist auto-executed in <4 hours. New hire's Day-1 Mattermost message: "Your accounts are ready, here's your schedule, here are the policies most people ask about."
+
+**Engagement size**: USD 80k–200k (2 months)
+**LATAM relevance**: High — adapts to LATAM labor law specifics (CLT Brazil, labor contracts Colombia)
 
 ---
 
-## P6 — Multi-Agent Workflow para Onboarding de Empleados
+## Pattern P6: Supply Chain Intelligence Agent
+**"Know about inventory shortfalls and disruptions before they hit production"**
 
-**Objetivo:** Agentes especializados que orquestan el onboarding completo (HR, IT, Facilities, Formación) sin intervención humana en el 80% de los pasos.
+**Problem**: Supply chains have 50+ variables. Procurement teams detect issues reactively — after a stockout, after a late shipment, after a quality failure.
 
-**Stack:**
-- CrewAI (crewAIInc/crewAI, MIT) — crew de agentes especializados
-- ERPNext HR (frappe/erpnext, GPL-3.0) — datos del empleado
-- n8n — triggers y workflows de notificación
-- RAGFlow — knowledge base de políticas de RRHH
-
-**Crew:**
-```python
-from crewai import Agent, Task, Crew, Process
-
-hr_agent = Agent(
-    role="HR Coordinator",
-    goal="Setup employee record and benefits in ERPNext",
-    tools=[erpnext_mcp_tools],
-    llm=claude_model
-)
-
-it_agent = Agent(
-    role="IT Provisioner",
-    goal="Create accounts, provision laptop, setup VPN access",
-    tools=[jira_mcp_tools, okta_mcp_tools],
-    llm=claude_model
-)
-
-training_agent = Agent(
-    role="Learning Coordinator",
-    goal="Enroll employee in mandatory training modules",
-    tools=[moodle_mcp_tools, calendar_mcp_tools],
-    llm=claude_model
-)
-
-policy_agent = Agent(
-    role="Policy Guide",
-    goal="Answer employee questions using company policies in RAGFlow",
-    tools=[ragflow_search_tool],
-    llm=claude_model
-)
-
-onboarding_crew = Crew(
-    agents=[hr_agent, it_agent, training_agent, policy_agent],
-    tasks=[...],  # tasks definidas por rol
-    process=Process.sequential,
-    verbose=True
-)
-
-result = onboarding_crew.kickoff(inputs={"employee_name": "...", "start_date": "..."})
+**Stack**:
+```
+[ERPNext (frappe/erpnext — GPL-3.0)]
+        ↓  source of truth: inventory, purchase orders, supplier records, BOM
+[LangGraph (langchain-ai/langgraph — MIT)]
+        ↓  monitoring agent: daily scan of inventory levels vs. demand forecast
+        ↓  risk agent: cross-references news and supplier lead times
+        ↓  action agent: draft POs, escalation emails, expedite requests
+[RAGFlow (infiniflow/ragflow)]
+        ↓  indexes supplier contracts, SLA terms, historical lead time data
+[n8n (n8n-io/n8n)]
+        ↓  daily trigger → agent run → Slack/Teams alert if risk detected
+        ↓  integrates with 3PL APIs, shipping tracking APIs
+[Haystack (deepset-ai/haystack)]
+        ↓  supply chain news monitoring: supplier financial news, port disruptions
 ```
 
-**Tiempo estimado:** 8–12 semanas
-**Costo proyecto:** $100k–$400k
-**ROI típico:** Onboarding de 5 días → 1 día; costo por onboarding -60%; satisfacción empleado new-hire +40%.
+**Outputs**: Daily briefing: "3 items at risk of stockout in 14 days, 2 suppliers with delayed shipments, recommended actions." General Mills pattern: $20M+ shipment savings.
+
+**Engagement size**: USD 100k–280k (3-4 months)
 
 ---
 
-## P7 — AI Governance Readiness Sprint (EU AI Act / LGPD)
+## Pattern P7: On-Premise Sovereign AI Stack (LATAM)
+**"Full enterprise AI with no data leaving your data center"**
 
-**Objetivo:** Auditar agentes existentes del cliente, generar evidencia de compliance y remediar gaps críticos en 4–6 semanas.
+**Problem**: LGPD (Brazil), Colombia/Chile sector rules, and enterprise data governance policies prevent sending sensitive data to cloud AI APIs. But clients still want AI productivity.
 
-**Stack:**
-- Agent Governance Toolkit (microsoft/agent-governance-toolkit, MIT)
-- LangSmith (observabilidad de agentes existentes)
-- RAGFlow — indexar regulaciones aplicables (EU AI Act, LGPD, HIPAA)
+**Stack**:
+```
+[Ollama (ollama/ollama — MIT)]
+        ↓  local LLM inference: Llama 3.3, Mistral, Qwen 2.5
+        ↓  GPU server on-premise or private cloud
+[Dify (langgenius/dify — Apache-2.0, self-hosted)]
+        ↓  visual workflow builder connected to Ollama backend
+        ↓  self-hosted: no data leaves the client environment
+[RAGFlow (infiniflow/ragflow — Apache-2.0, self-hosted)]
+        ↓  document ingestion and retrieval, fully on-prem
+[Mattermost (mattermost/mattermost — Apache-2.0, on-prem)]
+        ↓  team collaboration with AI bot built in
+[n8n (self-hosted)]
+        ↓  workflow automation: all integrations stay within the network perimeter
+```
 
-**Deliverables:**
-1. Inventario de todos los agentes en uso (producción + piloto)
-2. Risk classification (high/medium/low risk per EU AI Act Annex III)
-3. OWASP Agentic AI Top 10 assessment por agente
-4. Compliance grading report (EU AI Act / LGPD)
-5. Remediation plan priorizado
-6. Agent Governance Toolkit integrado en top 3 agentes críticos
-7. Documentación de evidencia para auditoría
+**Deployment**: Docker Compose → single server setup for SME; Kubernetes for enterprise scale.
 
-**Tiempo estimado:** 4–6 semanas
-**Costo proyecto:** $50k–$200k
-**ROI típico:** Evita multas EU AI Act (€15M o 3% revenue); desbloquea proyectos en espera de aprobación legal; genera diferenciador competitivo "governed AI" para el cliente.
+**Outputs**: Full AI productivity stack — knowledge base, workflow automation, team chat with AI — with zero cloud data exposure.
+
+**Engagement size**: USD 60k–180k (1-2 months) + recurring managed services
+**LATAM relevance**: Critical differentiator. This is the pattern for LGPD-regulated clients in Brazil, financial sector in Colombia, government in any LATAM country.
 
 ---
 
-## Matriz de selección de patrón
+## Pattern P8: Internal Developer AI Platform (Globant Internal)
+**"Ship 30% faster by giving every developer an AI co-pilot"**
 
-| Situación cliente | Patrón recomendado | Time-to-value |
-|-------------------|-------------------|---------------|
-| "Nuestros empleados pierden tiempo buscando documentos internos" | P1 — Knowledge Base RAG | 6–10 sem |
-| "Quiero que el equipo de ventas use el CRM, no que lo evite" | P2 — CRM AI Copilot | 4–8 sem |
-| "Legal nos bloqueó el proyecto de AI por compliance" | P3 — Governed Agent Pipeline / P7 Sprint | 2–6 sem |
-| "Tenemos SAP ECC que ya no podemos pagar" | P5 — SAP Modernization | 14–20 sem |
-| "El onboarding nos toma 2 semanas por persona" | P6 — Multi-Agent Onboarding | 8–12 sem |
-| "Ya tenemos ERPNext pero queremos automatizar procurement" | P4 — ERPNext AI Augmentation | 8–14 sem |
-| "Tenemos que reportar compliance a la junta directiva" | P7 — AI Governance Sprint | 4–6 sem |
+**Problem**: Developers context-switch constantly: find the right API, understand legacy code, write tests, review PRs. Each task has 5-10 minutes of friction.
+
+**Stack**:
+```
+[Backstage (backstage/backstage — Apache-2.0)]
+        ↓  software catalog: every service, API, team, runbook indexed
+        ↓  AI plugin: natural language search over the catalog
+[OpenHands (All-Hands-AI/OpenHands — MIT)]
+        ↓  SWE agent: automated code review, PR description generation, test writing
+        ↓  Docker sandbox: safe code execution
+[RAGFlow (infiniflow/ragflow — Apache-2.0)]
+        ↓  technical documentation, architecture decisions, code standards indexed
+[Claude API (Anthropic)]
+        ↓  200k context: entire codebase context for large refactors
+        ↓  Globant–Anthropic preferred partner pricing
+[Microsoft Agent Framework (MIT)]
+        ↓  .NET/Azure shops: agent orchestration within Microsoft toolchain
+```
+
+**Outputs**: Developer types "add error handling to the payment service like we did in checkout" → agent reads both services from catalog, generates PR, requests review.
+
+**Benchmark**: TELUS 30% faster delivery + 500k hours saved with Claude Code; Morgan Stanley 280k dev hours saved.
+
+**Engagement size**: USD 150k–350k for enterprise deployment + $X/developer/month managed service
+**Applicability**: Globant can run this internally AND sell it to clients as a Developer Productivity Platform
+
+---
+
+## Quick Reference: Pattern × Repo Matrix
+
+| Pattern | LangGraph | CrewAI | n8n | RAGFlow | Dify | ERPNext | Mem0 | MAF |
+|---------|-----------|--------|-----|---------|------|---------|------|-----|
+| P1 Knowledge Hub | ✅ | | ✅ | ✅ | ✅ | | ✅ | |
+| P2 ERP Copilot | ✅ | | | ✅ | ✅ | ✅ | | |
+| P3 IT Helpdesk | ✅ | | ✅ | ✅ | | | ✅ | |
+| P4 Finance Automation | ✅ | | ✅ | ✅ | ✅ | ✅ | | |
+| P5 HR Onboarding | | ✅ | ✅ | ✅ | | ✅ | | |
+| P6 Supply Chain | ✅ | | ✅ | ✅ | | ✅ | | |
+| P7 Sovereign LATAM | | | ✅ | ✅ | ✅ | | | |
+| P8 Dev Platform | | | | ✅ | | | | ✅ |
+
+---
+*Updated 2026-07-11 by ingest pipeline.*

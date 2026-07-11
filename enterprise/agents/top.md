@@ -1,22 +1,47 @@
-# 🎯 Agentes AI — Enterprise
+# Top AI Agents & Frameworks — Enterprise
 
-> Agentes y herramientas AI open source para enterprise. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-10
+> Open source AI agents and orchestration frameworks for enterprise. Focus: MIT / Apache 2.0 / permissive licenses Globant can build on.
+> Last updated: 2026-07-11
 
-## Agentes y herramientas destacadas
+## Agent Orchestration Frameworks
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | State-graph framework para agentes stateful con durable execution, HITL y checkpointing; LangGraph 1.0 GA oct-2025; 400+ empresas en producción (Klarna, Uber, LinkedIn, BlackRock, JPMorgan, Cisco, Elastic, Replit). | ~36k |
-| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | Orquestación multi-agente con roles y crews; 54k★, 5.2M downloads/mes, 2B ejecuciones en 12 meses, 60% Fortune 500 (PwC, IBM, NVIDIA, Capgemini), 100k+ devs certificados. | ~54k |
-| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | Plataforma de producción para agentic workflows con canvas visual, RAG pipeline, 400+ integraciones y soporte multi-LLM; 460+ contribuidores; AWS Marketplace enterprise. | ~145k |
-| [n8n](https://github.com/n8n-io/n8n) | Sustainable Use/Apache-2.0 | Automatización de workflows con nodos AI nativos, MCP client/server integrado, 500+ integraciones; auto-hospedable sin costo; nodo MCP permite que Claude orqueste workflows. | ~189k |
-| [RAGFlow](https://github.com/infiniflow/ragflow) | Apache-2.0 | Motor RAG enterprise con deep document understanding (PDF, Word, tablas, imágenes); respuestas con citaciones trazables; crítico para compliance en legal/finanzas/salud. | ~78k |
-| [Microsoft AutoGen](https://github.com/microsoft/autogen) | MIT | Framework de conversación multi-agente; integrado en Microsoft Agent Framework 1.0 (3-abr-2026) unificando SK + AutoGen; primera GA enterprise de Microsoft para .NET + Python. | ~56k |
-| [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | SDK enterprise de Microsoft para orquestación AI en C#, Python y Java; único framework con soporte first-class en tres lenguajes; base de Microsoft Agent Framework 1.0. | ~24k |
-| [Smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | Agentes code-first minimalistas de HuggingFace; arquitectura sin abstracciones; ideal para agentes de investigación y tareas de scraping/análisis; ene-2025 → 27k★ en 6 meses. | ~27k |
-| [PydanticAI](https://github.com/pydantic/pydantic-ai) | MIT | Framework type-safe para agentes usando validación Pydantic; integración nativa con FastAPI y Starlette; compatible con Agent Governance Toolkit de Microsoft. | ~8k |
-| [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | Runtime security para AI agents; primer framework OSS que cubre los 10 riesgos OWASP Agentic AI 2026; policy enforcement sub-ms (<0.1ms p99); mapeo EU AI Act/HIPAA/SOC2; 20+ adaptadores (LangChain, CrewAI, Google ADK, SK). | ~2k |
+| Name | License | Stars | Description | Key Differentiator |
+|------|---------|-------|-------------|-------------------|
+| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT (library) / ELv2 (server) | ~34.5k | Stateful, graph-based agent orchestration with durable execution and checkpointing | Production at Uber, Klarna, LinkedIn; human-in-the-loop built in |
+| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | ~54.2k | Role-playing multi-agent framework for collaborative AI workflows | Fastest multi-agent prototyping; 5.2M downloads/month; 2B+ executions in 2025 |
+| [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | GA April 2026 — unifies AutoGen + Semantic Kernel into one production SDK for .NET and Python | A2A + MCP support; enterprise middleware; .NET-native for Microsoft shops |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 (core) | ~148k | Visual workflow builder + RAG pipeline + LLMOps observability on one platform | #1 LLM platform by stars; self-hostable; drag-and-drop agent builder |
+| [n8n](https://github.com/n8n-io/n8n) | Fair-code (Apache-2.0 + source) | ~189k | Workflow automation with native AI agent nodes and MCP client/server support | 400+ integrations; native MCP; bridges legacy systems to AI |
+| [RAGFlow](https://github.com/infiniflow/ragflow) | Apache-2.0 | ~73k | Enterprise RAG engine with deep document understanding and agent capabilities | Deep OCR, table extraction; grounded answers with citations; 2,596% YoY growth |
+| [Smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | HuggingFace minimal agent framework with code-first tool execution | Minimal footprint; CodeAct execution; integrates all HF models |
+| [AutoGen](https://github.com/microsoft/autogen) | MIT | ~58.7k | Microsoft's conversational multi-agent framework (maintenance mode; succeeded by MAF) | Proven at scale; deep Azure integration; still widely deployed |
+| [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~27.9k | Microsoft AI SDK for .NET, Python, Java — plugin system + memory + planners (maintenance) | Best-in-class .NET/C# integration; 3-language support; Azure native |
+| [OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~68k | SWE-agent running in Docker sandbox; top SWE-bench performer | Full dev environment; code review + PR automation; enterprise DevOps |
+
+## Enterprise Infrastructure Agents
+
+| Name | License | Stars | Description |
+|------|---------|-------|-------------|
+| [Haystack](https://github.com/deepset-ai/haystack) | Apache-2.0 | ~18k | NLP pipeline framework for search, QA, and document-heavy enterprise workflows |
+| [Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | ~35k | Low-code visual builder for LLM flows; Langchain-based, REST API output |
+| [MaxKB](https://github.com/1Panel-dev/MaxKB) | GPL-3.0 | ~14k | Enterprise knowledge base platform built on RAG; multi-model; webhook integrations |
+| [Mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~26k | Persistent memory layer for AI agents; user/session/agent memory management |
+| [Agno](https://github.com/agno-agi/agno) | Apache-2.0 | ~26k | Lightweight, model-agnostic agent framework with native multimodality and team support |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+
+## License Notes for Globant
+
+| Framework | Can build on? | Notes |
+|-----------|---------------|-------|
+| LangGraph (library) | ✅ Yes | MIT — no restrictions; the `langgraph-api` server runtime requires commercial license |
+| CrewAI | ✅ Yes | MIT — full commercial use |
+| Microsoft Agent Framework | ✅ Yes | MIT — new standard for .NET enterprise |
+| Dify | ✅ Yes (self-hosted) | Apache-2.0 core; some cloud-only features need Enterprise plan |
+| n8n | ⚠️ Check | Fair-code: free for internal use; client production deployments need enterprise license |
+| RAGFlow | ✅ Yes | Apache-2.0 — no restrictions |
+| Smolagents | ✅ Yes | Apache-2.0 — no restrictions |
+| AutoGen | ✅ Yes | MIT — maintenance mode but stable |
+
+---
+*Auto-updated by ingest pipeline.*
