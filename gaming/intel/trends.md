@@ -1,153 +1,96 @@
 # Tendencias — Gaming AI 2026
 
-> Investigación curada con datos verificados. Última actualización: 2026-07-10 (v8 — T17-T19 añadidos: NitroGen, LTM NPC Trust Score, GDC trust crisis)
+> Investigación curada con datos verificados. Última actualización: 2026-07-11 | v9
+
+## Novedades julio 2026
+
+### T0. AI como Game Engine (paper arXiv 2507.08892)
+Paper publicado jul 2026: "Multi-Actor Generative Artificial Intelligence as a Game Engine" propone usar múltiples agentes LLM como sustitutos parciales del engine de juego clásico:
+- Un LLM actúa como "game state manager" (física, reglas), otro como "NPC controller", otro como "narrative director".
+- Prototipado en juegos de texto y 2D simples.
+- Señal: en 2027-2028 veremos primeros juegos comerciales "AI-native" donde el engine es un grafo de agentes, no código determinístico.
+- **Impacto Globant**: R&D line — "AI-native game studio" como diferenciador para clientes vanguardistas.
+
+### T1. Concordia v2.0 — simulación social multi-agente (Google DeepMind)
+Google DeepMind lanzó Concordia v2.0 (Apache-2.0, jun 2026):
+- Patrón Game Master que administra el entorno + agentes jugadores que actúan en lenguaje natural.
+- Soporte para simulación física, social y digital.
+- Aplicaciones: RPGs con NPCs autónomos, MMOs con economías emergentes, AI safety benchmarks.
+- Integra con cualquier LLM API (Gemini, Claude, GPT, Llama local vía Ollama).
+
+### T2. Latencia NPC sub-300ms ahora viable
+Lanzamientos julio 2026 lo hacen posible en producción:
+- **GPT-5.6 gpt-realtime-2.1**: latencia p95 25% menor vs gpt-realtime-2.0.
+- **Gemini 3.5 Flash**: optimizado para agentic workflows con retrieval complejo.
+- Stack completo NPC: Whisper ASR (<50ms) + GPT-5.6 Luna (<150ms) + Kokoro TTS (<80ms) = <300ms total.
+- NPCs que responden a voz en tiempo real son viables para todos los estudios, no solo AAA.
+
+---
 
 ## Tendencias confirmadas (alta confianza)
 
-### T1: Ecosistema Godot como plataforma AI-first
-Godot (MIT, 112k+ stars) emergió como el engine open source con el ecosistema AI más rico. Juegos en Steam doblados año a año (2,864 en 2025-2026). En GDC Game Jam 2025 empató con Unity en adopción (~40% cada uno):
+### 1. Ecosistema Godot como plataforma AI-first
+Godot (MIT, 112k stars) emergió como el engine open source con el ecosistema AI más rico:
 - **LimboAI** (MIT, 2.8k stars): BTs + Hierarchical State Machines. Stack NPC AI maduro.
 - **Beehave** (MIT, 3.2k stars): behavior trees componibles en el scene tree de Godot.
-- **godot-ai** (MIT, 1.1k+ stars, abr 2026): MCP server, 150+ operaciones, conecta Claude/Codex al editor en vivo.
-- **godot_rl_agents** (MIT, 1.5k stars): wrappers para 4 frameworks RL (SB3, Sample Factory, RLLib, CleanRL).
+- **godot-ai** (MIT, 900+ stars, abr 2026): MCP server, 120+ operaciones, conecta Claude/Codex al editor en vivo.
+- **godot_rl_agents** (MIT, 1.0k+ stars): wrappers para 4 frameworks RL (SB3, Sample Factory, RLLib, CleanRL).
 - **NobodyWho** (EUPL, ver licencia): NPCs con LLM local, instalación 1-click en Godot AssetLib (jun 2026).
 - **NVIDIA fork Godot** con path tracing (MIT) lanzado en GDC 2026.
-- **GameDevBench** (arXiv:2602.11103, feb 2026): benchmark de 132 tareas de game dev en Godot — convirtiendo Godot en el testbed estándar para AI de game development.
 
 **Oportunidad Globant**: "Godot + AI" como alternativa open source a Unity sin controversias de pricing.
 
-### T2: LLM NPCs — de demo a producción
-En 2026, NPCs con LLMs pasaron a producción en títulos comerciales:
+### 2. LLM NPCs — de demo a producción masiva
+En 2026, NPCs con LLMs pasaron a producción generalizada:
+- **62%** de nuevos RPG/adventure games tienen AI NPCs (vs 8% en 2024) — GDC 2026.
 - Segmento NPCs + Digital Humans: **28.6% del mercado total AI gaming** (mayor segmento).
+- NPC Generation AI Market: **$2.44B (2026)** → $7.22B (2030), CAGR 31.1%.
 - Impacto medido: +40% immersion scores, +28% session time en RPGs.
 - Arquitectura ganadora: BT (estructura reactiva) + LLM (diálogo generativo) + Vector Store (memoria).
 - **Inworld AI** (cerrado) + **NVIDIA ACE**: stack propietario dominante en AAA.
-- **Mantella** (MIT, art-from-the-machine): STT (Moonshine/Whisper) → LLM → TTS (Piper/xVASynth/XTTS). Referencia OSS de NPC voice.
-- Alternativa OSS completa: Mantella + LimboAI + Ollama (100% local, sin costo API).
+- Alternativa OSS: Interactive LLM NPCs (MIT) + LimboAI + Ollama + Kokoro TTS.
 
-### T3: GameCoder LLMs especializados
+### 3. GameCoder LLMs especializados
 - **OpenGame / GameCoder-27B** (Apache-2.0, abr 2026): primer LLM open source entrenado en código de juegos via RL orientado a ejecución. Genera juegos web end-to-end.
 - **Roblox CUBE 3D** (1.8B params, mar 2025): genera objetos 3D desde texto on-platform.
 - Tendencia: modelos especializados en game dev superan a modelos generales en tareas de código de juego.
 
-### T4: RL para testing automatizado y balance
-- **godot_rl_agents** activo con 4 frameworks RL, ahora con 1.5k stars.
+### 4. RL para testing automatizado y balance
+- **godot_rl_agents** activo con 4 frameworks RL.
 - Agentes RL entrenados para exploración de nivel → detectan bugs edge-case que QA manual no encuentra.
 - Balance detection: agentes que encuentran estrategias dominantes (exploits) antes del launch.
 - **GameStudio Subagents**: equipo de agentes multi-rol (dev, QA, artist) en terminal.
-- **GamingAgent** (ICLR 2026): framework de evaluación repropurposable para QA automatizado.
 - Reducción estimada de QA manual: 60-70% en proyectos con RL QA implementado.
 
-### T5: Nakama como backend universal para proyectos OSS
+### 5. Nakama como backend universal para proyectos OSS
 - 12.8k stars, Apache-2.0, SDK oficial Godot, Unreal, Unity.
 - 500k devs, 1B+ players en producción.
-- Adoptado como backend por defecto en proyectos Godot+AI.
 - Extensible: hooks en Go/TypeScript/Lua para añadir AI server-side.
+- Nakama vs Managed (2026): mayoría de proyectos mid-size prefieren self-host para control de datos.
 
-### T6: AI asistido en el desarrollo (tooling)
-- **Unity AI** (v6.2, mid-2025): suite integrada en editor. Assistant (docs/code), Generators (texturas/sprites), Inference Engine (on-device).
-- **Unity MCP Server** (AnkleBreaker-Studio, MIT): 268 herramientas MCP para Unity Editor + Hub.
-- **Godot + godot-ai**: Claude Code/Cursor conectados al editor via MCP. 150+ operaciones.
-- **Unreal — Aura** (Ramen VR, ene 2026): agente editor + coding. Caso: *Zombonks* lanzado en 5 meses (mitad del tiempo).
-- Adopción: 90% de desarrolladores usa AI agents en workflows (2026).
+### 6. AI asistido en el desarrollo (tooling)
+- **Unity AI** (v6.2, mid-2025): suite integrada en editor. Assistant, Generators, Inference Engine on-device.
+- **Godot + godot-ai**: Claude Code/Cursor conectados al editor via MCP. 120+ operaciones.
+- **Unreal — Aura** (Ramen VR, ene 2026): caso Sinn Studio — *Zombonks* lanzado en 5 meses (mitad del tiempo normal).
+- Adopción: 87% de estudios usa AI agents en workflows.
 
-### T7: Analytics predictivo — churn y LTV
+### 7. Analytics predictivo — churn y LTV
 - GNNs (Graph Neural Networks) sobre comportamiento + red social: 75.83 AUROC vs 62.44 LightGBM flat-table.
-- Predicción de churn 14 días en adelante.
+- Predicción de churn 14 días en adelanto.
 - Señales más fuertes: amigos que se van, difficulty walls, session lengths declining.
-- F2P mobile dominante en LATAM → retención es crítica → oportunidad.
-- Herramientas: PyTorch Geometric (PyG) para GNNs, PostHog (MIT, 23k stars) para events, Grafana (Apache-2.0).
+- F2P mobile dominante en LATAM → retención es crítica.
+- Herramientas: PyTorch Geometric (PyG) para GNNs, PostHog (MIT) para events, Grafana (Apache-2.0) para dashboards.
 
-### T8: Anti-cheat con ML conductual
+### 8. Anti-cheat con ML conductual
 - Shift de detección por firmas (binarios) a detección por comportamiento (server-side ML).
 - **OACS** (MIT): framework Python para anomaly detection server-side.
 - GNNs para detectar redes coordinadas (boosting, account sharing, fraud en iGaming).
 - Driver LATAM: regulación iGaming Brasil 2025 exige sistemas anti-fraud activos.
 
----
-
-## 🆕 Tendencias emergentes (julio 2026)
-
-### T9: Carbon Engine abre la era del MMO open source (1-jul-2026)
-Fenris Creations liberó **Carbon Engine** (MIT) el 1 de julio de 2026 — el engine que ha corrido EVE Online por más de 20 años, soportando miles de jugadores concurrentes en un solo shard. Componentes:
-- **Trinity**: motor gráfico AAA para mundos espaciales de gran escala
-- **Destiny**: física, colisiones, pathfinding optimizado para batallas MMO masivas
-Señal: primera vez en la historia que un engine AAA de MMO single-shard es completamente open source. Habilita construcción de mundos persistentes a escala sin royalties.
-GitHub: [github.com/orgs/carbonengine](https://github.com/orgs/carbonengine)
-
-### T10: GamingAgent y lmgame-Bench — benchmark estándar para LLMs en juegos (ICLR 2026)
-[lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) (MIT, 947★) publicó el primer benchmark estandarizado con leaderboard público para modelos LLM/VLM jugando videojuegos reales (Tetris, 2048, Pokémon Red, Super Mario Bros, etc.). Señales clave:
-- Claude con thinking-modes lidera en juegos de estrategia
-- Claude (computer-use) + gaming harness supera baselines de single-shot VLM
-- Señal de madurez: los modelos ya pueden ser evaluados objetivamente en gaming
-
-### T11: GameDevBench — el 47% de tareas de game dev aún falla (feb 2026)
-arXiv:2602.11103 reveló que el mejor agente resuelve solo el 53.8% de las 132 tareas de game development en Godot. El gap más grande está en gráficos 2D (33% success) por complejidad multimodal (sprites, shaders, animaciones). Señal: hay un gap enorme entre AI-assisted coding genérico y la capacidad real en game dev — **es la oportunidad de diferenciación de Globant**.
-
-### T12: Sentimiento desarrollador — 52% anti-GenAI pero +11% NPC agentico
-GDC State of AI Survey 2026: aunque el 52% de desarrolladores tiene visión negativa de GenAI (preocupaciones laborales, calidad), la adopción de NPCs agenticos en producción creció +11% año a año. El gap entre sentimiento y adopción crea una ventana: los studios que SÍ implementan AI agentica para NPCs toman ventaja competitiva mientras sus pares vacilan.
-
-### T13: Godot Foundation prohíbe código AI — señal de calidad en OSS (1-jul-2026)
-La Godot Foundation actualizó su política de contribución el 1 de julio de 2026 prohibiendo casi todo uso de AI generativa en PRs:
-- ❌ Código generado por IA ("vibe coding"), PRs enviados por AI agents autónomos, texto generado por IA en discusiones human-to-human
-- ✅ Asistencia menor (autocomplete, regex, find-and-replace) con divulgación obligatoria
-- **Causa raíz**: avalancha de PRs de baja calidad por AI que sobrecargó a los mantenedores voluntarios
-- **Señal de industria**: la reacción al ruido AI en OSS está generando un "premium de calidad humana". Proyectos que rechacen submissions AI-generated ganarán credibilidad de contribuidores. Godot sigue siendo MIT — solo cambian las reglas de contribución.
-- **Oportunidad Globant**: posicionarse como contribuidor de alta calidad humana en el ecosistema Godot, diferenciándose de la avalancha de AI-generated PRs.
-
-### T14: OmniGameArena — Benchmarking VLM en UE5 con reflexión agentica (jun 2026)
-arXiv:2606.09826: benchmark con 12 juegos construidos en Unreal Engine 5 para evaluar VLMs en entornos 3D reales de producción. Introduce **Improvement Dynamics Curve (IDC)**: un reflector LLM con herramientas refina prompts de habilidad en múltiples rondas — midiendo no solo el score frío sino la capacidad de mejora iterativa. Complementa GameDevBench (Godot 2D/Gameplay) con escenarios UE5 3D multiplayer.
-- Evalúa Claude, GPT-4o, Gemini, Qwen3 y NitroGen (modelo especializado, 40k h de gameplay en 1k+ juegos)
-- Señal: los modelos fundacionales de gaming (NitroGen-style) empiezan a competir con VLMs generalistas en tareas gaming específicas.
-
-### T15: Orak — El benchmark MCP-nativo de KRAFTON cierra el ciclo train+eval (jun 2026)
-[krafton-ai/Orak](https://github.com/krafton-ai/Orak) (MIT, arXiv:2506.03610): KRAFTON (PUBG, $4B+ valuation) lanzó el benchmark más completo hasta la fecha para LLM agents en videojuegos. Lo que lo distingue de GamingAgent y OmniGameArena no es solo el número de juegos (12, todos los géneros) sino dos características únicas:
-1. **MCP plug-and-play**: interfaz basada en Model Context Protocol → compatible natively con Claude Code, Cursor, cualquier cliente MCP. Los agentes pueden conectarse al entorno de juego exactamente como se conectan a cualquier herramienta MCP.
-2. **Dataset de fine-tuning**: trayectorias de gameplay expertas → se puede fine-tunear un LLM generalista para hacerlo efectivo en juegos específicos sin RL from scratch.
-- Live leaderboard con ablation studies: input modality visual vs textual, estrategias agenticas, efectos de fine-tuning
-- **Señal de consolidación**: con Orak (Krafton), GamingAgent (academia, ICLR 2026), y OmniGameArena (UE5), el ecosistema de benchmarking de LLM game agents está madurando igual que Gymnasium estandarizó el benchmarking RL. El stack MCP de Claude es ya el runtime de evaluación más accesible para todos estos benchmarks.
-
-### T16: Play2Code — Cierre del loop generación → playtesting GUI (may 2026)
-arXiv:2605.28258 (27 may 2026): investigadores formalizan que generar código de juego one-shot no es equivalente a crear un juego jugable. El paper introduce:
-- **PlaytestArena**: 200 tareas de generación de browser games en 8 géneros, verificadas por GUI agent que **juega el build** en browser (no solo lo evalúa sintácticamente)
-- **Play2Code**: loop game-code-agent ↔ GUI-playtest-agent con memoria compartida. La generación se convierte en diálogo iterativo entre "quién construye" y "quién juega".
-- **Resultado**: 66.8% pass-rate vs 37.1% baseline (mejor +29.7 puntos). El feedback del GUI playtester es más trazable que reportes humanos.
-- **Convergencia**: el paper valida el patrón que OpenGame, GameDevBench y Orak también indican — los agentes deben cerrar el loop construcción→prueba→corrección para generar artefactos de juego de calidad.
-- **Para Globant**: el patrón Play2Code es directamente productizable: "genera prototipos de juego jugables en horas, no semanas" usando GUI agent como QA automático. Deal size: $30k-$100k para estudios que necesitan prototipar rápido.
-
----
-
----
-
-## 🆕 Tendencias v8 (julio 2026)
-
-### T17: NitroGen — El primer foundation model open source que sabe jugar (ene 2026, publicado jul 2026)
-[MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) (arXiv:2601.02427, ene 2026): NVIDIA + Stanford + Caltech + UChicago + UT Austin lanzaron el primer foundation model abierto verdaderamente generalista para gaming agents. No es un benchmark ni un framework — es un **modelo listo para usar**:
-- **Arquitectura**: SigLip2 (vision encoder) + Diffusion Matching Transformer 493M params. Input: frame de pantalla. Output: gamepad actions (joysticks analógicos + botones).
-- **Escala sin precedentes**: 40,000 horas de gameplay en 1,000+ juegos. Dataset construido con extracción automática de acciones desde YouTube gameplay videos.
-- **Generalización**: 52% mejora relativa en unseen games vs modelos entrenados desde cero. Funciona en 3D action, 2D platformers, procedurally generated worlds.
-- **Open todo**: pesos en `nvidia/NitroGen` (HuggingFace), dataset, evaluation suite, training code. MIT license.
-- **Posición en el ecosistema**: NitroGen es el "punto de partida preentrenado"; Orak es el "dataset de fine-tuning"; OmniGameArena y GamingAgent son los "benchmarks de evaluación". Las 3 piezas juntas forman el ciclo completo train→fine-tune→eval.
-- **Para Globant**: ofrece un servicio de "Game AI Specialization" — tomar NitroGen, fine-tunearlo con Orak dataset en el género/juego del cliente (4-6h en A100, costo <$100), y entregar un game agent especializado. SOTA sin RL desde cero.
-
-### T18: LTM NPCs con Trust Score — Rockstar + 2K en producción (GDC 2026)
-GDC 2026: Rockstar Games y 2K presentaron conjuntamente la arquitectura más avanzada de NPCs en producción hasta la fecha — Long-Term Memory (LTM) models con **Trust Score** dinámico:
-- **Trust Score**: función continua calculada en tiempo real que pondera: eventos pasados del jugador (cross-session), motivaciones internas del NPC (autopreservación, lealtad, miedo), y rol del NPC en el juego (quest giver, guard, merchant). El NPC toma decisiones en base a este score, no al script de quest.
-- **Demo concreto**: NPC rehusó compartir información porque detectó que el jugador había dañado su propiedad en otra sesión. El modelo determinó que self-preservation > quest logic → NPC bloqueó el quest.
-- **Cross-session memory**: las interacciones se persisten entre sesiones de juego. El NPC recuerda todo.
-- **Implicación técnica**: la arquitectura supera RAG simple. Requiere: memory stream tipado (eventos + motivaciones + relaciones) + función de scoring sobre ese memory + decision layer que pondera score vs lógica de quest. Implementable en OSS con LangGraph + ChromaDB + scoring function.
-- **Señal de mercado**: si Rockstar + 2K ya lo tienen en producción AAA, los studios mid-size lo querrán en 2-3 años. Globant puede ofrecer la versión OSS del patrón ahora.
-- **Para Globant**: añadir módulo Trust Score a Receta 7 (NPC con memoria persistente). Deal size potencial: $150k-$500k para studios AAA/AA.
-
-### T19: GDC Trust Crisis — Positivos GenAI caen de 13% a 7% en un año
-GDC 2026 State of the Game Industry Report (BusinessWire, ene 2026; GDC report 2026) reveló una crisis de confianza sin precedentes en GenAI entre desarrolladores de juegos:
-- **Negativos**: 52% de devs ve GenAI negativamente (2026) vs 30% (2025). +22 puntos en 12 meses.
-- **Positivos**: solo 7% ve GenAI positivamente (2026) vs 13% (2025). Casi la mitad en un año.
-- **Por disciplina**: Visual/Technical Art 64% negativo (las que más ven sus workflows amenazados); Game Design/Narrative 63%; Game Programming 59%.
-- **El paradox**: a pesar del sentimiento, adopción de Agentic NPCs en producción subió +11% YoY. Los que SÍ adoptan toman ventaja mientras sus pares dudan.
-- **Root cause identificada en GDC**: desconfianza laboral (miedo a reemplazo) + baja calidad de herramientas actuales para tasks creativas (arte, narrativa) + falta de gobernanza clara en los studios.
-- **Implicación estratégica**: "AI for efficiency" (QA, matchmaking, analytics) tiene menor fricción política que "AI for creative work" (arte, narrativa, voz). Globant debe posicionar las primeras ventas en el primer bucket.
-- **Oportunidad de consultoría**: studios que no tienen gobernanza AI son vulnerables a este sentimiento negativo frenando adopción. Sprint de gobernanza AI ($30k-$80k) como puerta de entrada.
+### 9. Sentimiento dev dividido — oportunidad de posicionamiento
+- **52%** de game developers ven GenAI negativamente en 2026 (vs 30% en 2025) — GDC 2026.
+- Preocupaciones: desplazamiento laboral de artistas/escritores, calidad de contenido AI.
+- **Oportunidad Globant**: posicionarse en "AI como amplificación humana" — AI que automatiza lo tedioso (QA, balancing, asset iteration) y deja la creatividad a humanos. Resonancia especial en LATAM con equipos ajustados.
 
 ---
 
@@ -155,20 +98,13 @@ GDC 2026 State of the Game Industry Report (BusinessWire, ene 2026; GDC report 2
 
 | Tendencia | Señal | ETA |
 |-----------|-------|-----|
-| **AI-native games** (world models) | Yuan-ManX/AI-Native-Game tracker activo. Genie 2 (Google). | 2026-2027 |
+| **AI-native games** (LLMs como engine) | arXiv 2507.08892 — paper fundacional jul 2026. Yuan-ManX/AI-Native-Game tracker. | 2027-2028 |
 | **Gemma 3n on-device NPCs** | Demostrado en Godot sin API. Offline-first gaming. | Ya disponible en beta |
 | **Villanos adaptativos** | Aivill (SKYHUBDev): villanos que aprenden del jugador. | Concepto emergente |
 | **AI game masters** | VirtualGameMaster (MIT, 300 stars): GM automático para RPGs. | En adopción indie |
-| **Carbon Engine + AI** | Engine de EVE Online abierto → primeros proyectos MMO-AI OSS emergentes. | 2026-2027 |
 | **PCG con diffusion models** | Generación de assets (texturas, música, diálogos) in-pipeline. | Parcialmente productivo ya |
 | **Supabase para game backends** | Alternativa PostgreSQL a Firebase/Nakama para juegos asíncronos. | Adopción creciente 2026 |
-| **NitroGen-style foundation models** | Modelos visión-acción entrenados on-gameplay (40k h / 1k+ juegos). Competirán con VLMs en tasks gaming-specific. | 2026-2027 |
-| **AI-ban reacción en OSS** | Godot, y potencialmente otros motores OSS, endureciendo políticas anti-AI. Premium de calidad humana en contribuciones. | Presente |
-| **Orak fine-tuning → gaming LLM** | KRAFTON dataset disponible → fine-tunear Llama/Qwen en trayectorias de gameplay. Primer paso hacia gaming-specific LLM open source. Con NitroGen como base, el paso ya es realidad. | Ya disponible (2026) |
-| **NitroGen + Orak = pipeline completo** | Foundation model (NitroGen) + fine-tuning dataset (Orak) + benchmark (GamingAgent/OmniGameArena) = ciclo cerrado de train→fine-tune→eval para game agents. | Ya disponible (2026) |
-| **LTM NPC Trust Score en mid-market** | Rockstar/2K tienen Trust Score en producción AAA. Studios mid-size lo querrán. Versión OSS implementable con LangGraph + ChromaDB. | 2027-2028 |
-| **Play2Code pattern en producción** | Loop generación→playtesting GUI agent → corrección automática. Habilita prototipado de juegos jugables en horas. | 2026 |
-| **Morgan Stanley $22B AI gaming** | Analistas mainstream apostando por savings-driven AI adoption. CFOs de studios empezarán a exigir ROI metrics concretas. | Ya presente |
+| **gpt-realtime-2.1 para NPCs** | Latencia p95 25% menor — umbral <300ms alcanzable hoy. | Disponible jul 2026 |
 
 ---
-*Fuentes: GitHub (verificado 2026-07-10), GDC 2026 State of the Game Industry Report (BusinessWire, ene 2026), GDC 2026 AI sessions (Rockstar+2K LTM NPC), Technavio, Research & Markets, Business Research Co. (jul 3 2026), Verified Market Reports (jul 2026), arXiv:2601.02427 (NitroGen), arXiv:2602.11103 (GameDevBench), arXiv:2604.18394 (OpenGame), arXiv:2605.28258 (Play2Code), arXiv:2506.03610 (Orak), arXiv:2606.09826 (OmniGameArena), ICLR 2026, godotengine.org/article/contribution-policy-2026/, Persistence Market Research, Morgan Stanley (abr 2026), KPMG/UNLV State of AI in Gaming 2026. Actualizado v8 2026-07-10.*
+*Fuentes: GDC 2026, arXiv 2507.08892, solidaitech.com, thegww.com, cooperativeai.com, aibuzz.blog, GitHub (verificado 2026-07-11)*

@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-10 (v8 — 14 patrones — P14: NitroGen+Orak+LoRA stack, Trust Score NPC)
+> Última actualización: 2026-07-11 | v9
 
 ## Patrón base
 
@@ -65,18 +65,18 @@ Godot 4 (MIT)                           ← juego a testear como entorno RL
 ```
 
 **Repos**:
-- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT, 1.5k stars. Wrappers para SB3, Sample Factory, Ray RLLib, CleanRL.
+- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT, 900+ stars. Wrappers para SB3, Sample Factory, Ray RLLib, CleanRL.
 - [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) — MIT, 13.5k stars. PPO, SAC, A2C, DQN en PyTorch.
 - [Farama-Foundation/Gymnasium](https://github.com/Farama-Foundation/Gymnasium) — MIT, 12.1k stars. API estándar del entorno.
 
 **Cómo conectar**:
 1. Definir el espacio de observación: posición del jugador, estado del nivel, items disponibles.
 2. Definir las acciones: movimiento, interacciones disponibles.
-3. Definir la reward function: +reward por área nueva explorada, +reward por estados inválidos (out-of-bounds, NaN values), -reward por acciones repetitivas.
+3. Definir la reward function: +reward por área nueva explorada, +reward por encontrar estados inválidos (out-of-bounds, NaN values), -reward por acciones repetitivas.
 4. Entrenar durante 1-5M steps con PPO vía SB3.
 5. El agente entrenado se convierte en un "explorador" que corre el juego 24/7 detectando regresiones.
 
-**Tiempo estimado**: 1-2 semanas para primer agente; 3-4 semanas para sistema QA completo.
+**Tiempo estimado**: 1-2 semanas para primer agente; 3-4 semanas para sistema de QA completo.
 **ROI**: reducción de 60-70% en QA manual según benchmarks de la industria.
 
 ---
@@ -106,6 +106,13 @@ Nakama server (Apache-2.0)              ← backend multiplayer
 - [googleforgames/open-match](https://github.com/googleforgames/open-match) — Apache-2.0. Matchmaking framework de Google.
 - [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars. Product analytics self-hosted.
 
+**Cómo conectar**:
+1. Instalar Nakama via Docker. Configurar SDK en Godot.
+2. Crear server-side hooks en TypeScript que interceptan eventos: `after_match_create`, `before_authenticate`.
+3. En el hook de matchmaking: llamar al modelo ONNX que predice la "calidad" de un partido (skill balance, latencia, historial de jugadores).
+4. Anti-cheat: loguear posición + velocidad + kills por segundo. Si supera umbral estadístico (z-score > 3), flag para revisión.
+5. PostHog recibe eventos → dashboards de retención, churn prediction, session analysis.
+
 **Tiempo estimado**: 3-4 semanas para stack completo.
 
 ---
@@ -125,13 +132,22 @@ Godot 4 (MIT) — runtime del juego
     │       └── Lore base en ChromaDB (RAG) → coherencia narrativa
     └── PCG de assets:
         └── Stable Diffusion (API) para texturas procedurales
+            └── [o opcional] AI-generated music con MusicGen (MIT)
+
 ```
 
 **Repos**:
-- [godotengine/godot](https://github.com/godotengine/godot) — MIT, 112k stars.
-- [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) — MIT, 1.1k stars. Generación procedural de mundos (TypeScript).
+- [godotengine/godot](https://github.com/godotengine/godot) — MIT, 112k stars. WFC implementable nativamente.
+- [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) — MIT, 1.1k stars. Generación procedural de mundos con AI (TypeScript).
 - [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0, 21.7k stars. Para quests y narrativa con agentes que recuerdan.
 - [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. Simulación social para worlds persistentes.
+
+**Cómo conectar**:
+1. Definir el "grammar" del nivel: tipos de habitaciones, conexiones posibles, reglas de juego.
+2. LLM recibe descripción del jugador y contexto del mundo → genera constraints para el generador.
+3. WFC aplica constraints → produce layout de nivel que respeta coherencia.
+4. Para quests: agente con memoria (generative_agents pattern) genera objetivos basados en historial del jugador.
+5. Assets: llamada a Stable Diffusion API con prompt generado por LLM → texturas coherentes con el bioma.
 
 **Tiempo estimado**: 4-6 semanas para sistema básico; 3-4 meses para calidad AAA-like.
 
@@ -151,14 +167,22 @@ FastAPI server (Python)
     │   ├── patchnotes.md
     │   └── community_faq.md
     └── LLM (Claude Haiku / GPT-4o-mini / Llama local)
-        └── System prompt: "Eres el asistente de [nombre del juego]. Solo respondes sobre mecánicas y soporte."
+        └── System prompt: "Eres el asistente de [nombre del juego]. Solo respondes sobre mecánicas y soporte. No spoilers."
 ```
 
 **Repos**:
-- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars.
+- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars. RAG + agentes sobre datos propios.
 - [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector database para embeddings.
 
-**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku.
+**Cómo conectar**:
+1. Preparar el corpus del juego: manual, patch notes, FAQs, descripciones de ítems → convertir a Markdown.
+2. Indexar en ChromaDB con LlamaIndex usando embeddings de OpenAI o Sentence Transformers (MIT).
+3. FastAPI expone endpoint POST `/ask` que recibe pregunta del jugador.
+4. LlamaIndex recupera chunks relevantes (top-5 por similitud coseno).
+5. LLM recibe chunks + pregunta → genera respuesta natural en el tono del juego.
+6. Godot muestra respuesta en UI in-game con animación.
+
+**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku. Para volumen alto: Llama 3.1 8B local en servidor.
 **Tiempo estimado**: 1-2 semanas para MVP funcional.
 
 ---
@@ -171,7 +195,7 @@ FastAPI server (Python)
 ```
 Claude Code / Cursor / Codex (cualquier cliente MCP)
     ↕ Model Context Protocol
-godot-ai (MIT)                          ← MCP server local (150+ operaciones)
+godot-ai (MIT)                          ← MCP server local
     ↕ Godot Editor API
 Godot 4 Editor (MIT)                   ← editor abierto
     ├── Scene building desde descripción natural
@@ -181,644 +205,72 @@ Godot 4 Editor (MIT)                   ← editor abierto
 ```
 
 **Repos**:
-- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 1.1k+ stars. 150+ operaciones, ~41 MCP tools.
+- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. 120+ operaciones, ~41 MCP tools.
+- [FlamxGames/godot-ai-assistant-hub](https://github.com/FlamxGames/godot-ai-assistant-hub) — MIT. Alternativa con Ollama/Gemini/OpenRouter.
 
-**Setup**: 1 día. ROI inmediato (2-3x velocidad de desarrollo reportado por usuarios).
+**Cómo configurar**:
+1. Instalar godot-ai desde Godot Asset Library o GitHub.
+2. Configurar Claude Code para conectarse al MCP server local (puerto configurable).
+3. En Claude Code: `/add-context-window --mcp godot` y empezar a usar lenguaje natural.
+4. Ejemplos de prompts: "Crea una escena de un jugador con física de plataformer", "Añade un sistema de inventario al player.gd", "Wire el signal `body_entered` del Area2D al método `on_enemy_hit`".
 
----
-
-## Receta 7: NPC con Voz Completa — Pipeline Mantella-style (MIT)
-
-**Caso de uso**: NPCs con voz naturalista, sin licencias cerradas. Pipeline completo STT → LLM → TTS corriendo localmente o en servidor.
-
-**Stack**:
-```python
-# server.py (FastAPI)
-from faster_whisper import WhisperModel    # STT (MIT)
-from anthropic import Anthropic            # LLM
-import subprocess                          # TTS via Piper
-
-whisper = WhisperModel("base", device="cpu")
-client = Anthropic()
-
-@app.post("/npc/speak")
-async def npc_speak(audio: UploadFile, character_id: str):
-    # 1. STT: voz del jugador → texto
-    segments, _ = whisper.transcribe(audio.file)
-    player_text = " ".join([s.text for s in segments])
-    
-    # 2. Recuperar memoria del NPC (ChromaDB)
-    memory = chroma.query(query_texts=[player_text], n_results=5)
-    
-    # 3. LLM: generar respuesta del NPC
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        system=f"You are {character_id}. {load_character_profile(character_id)}",
-        messages=[
-            *format_memory(memory["documents"]),
-            {"role": "user", "content": player_text}
-        ]
-    )
-    npc_text = response.content[0].text
-    
-    # 4. TTS: texto → audio del NPC (Piper MIT)
-    audio_out = subprocess.run(
-        ["piper", "--model", f"models/{character_id}.onnx"],
-        input=npc_text.encode(), capture_output=True
-    ).stdout
-    
-    # 5. Guardar en memoria
-    chroma.add(documents=[f"Player: {player_text}\nNPC: {npc_text}"],
-               ids=[str(uuid4())])
-    
-    return {"audio": base64.b64encode(audio_out), "text": npc_text}
-```
-
-**Repos**:
-- [art-from-the-machine/Mantella](https://github.com/art-from-the-machine/Mantella) — MIT. Referencia completa de NPC voice pipeline.
-- [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper) — MIT. STT 4x más rápido que Whisper original.
-- [rhasspy/piper](https://github.com/rhasspy/piper) — MIT. TTS rápido y natural, modelos por idioma/personaje.
-- [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector DB para memoria.
-
-**Costo**: $0 con modelos locales (Ollama + Piper). ~$0.03/minuto de conversación con Claude Haiku.
-**Tiempo estimado**: 3-4 semanas para pipeline completo integrado en Godot.
-**Deal size**: $80k-$200k para estudio que quiere NPCs con voz sin licencia de Inworld/Convai.
+**Tiempo estimado**: Setup en 1 día. ROI inmediato.
 
 ---
 
-## Receta 8: Unity MCP 268 Tools — AI Dev Workflow
-
-**Caso de uso**: Studio que usa Unity y quiere aceleración AI máxima. 268 herramientas MCP dan control total del editor desde Claude Code / Cursor.
-
-**Stack**:
-```
-Claude Code (cliente MCP)
-    ↕ MCP protocol (local socket)
-Unity MCP Server (MIT)                ← 268 herramientas:
-    ├── Scene management (create, modify, query scenes)
-    ├── GameObject + Components (add, configure, remove)
-    ├── C# Script generation + hot-reload
-    ├── Build pipeline (trigger builds, read errors)
-    ├── Profiler data (leer rendimiento en tiempo real)
-    ├── Shader Graph + Amplify support
-    ├── Terrain + Physics + NavMesh
-    ├── Animation + Timeline
-    └── Asset import + Material configuration
-Unity Editor (Runtime)                 ← editor respondiendo a comandos AI
-```
-
-**Repos**:
-- [AnkleBreaker-Studio/unity-mcp-server](https://github.com/AnkleBreaker-Studio/unity-mcp-server) — MIT. 268 tools MCP para Unity.
-
-**Ejemplos de prompts MCP**:
-```
-"Create a third-person character controller with jump and sprint"
-"Add a NavMesh agent to all enemy GameObjects in the scene"
-"Profile the current build and identify the 3 biggest performance bottlenecks"
-"Generate a shader that creates a dissolve effect from UV coordinates"
-```
-
-**Tiempo estimado**: setup en 1 día. ROI: 2-3x velocidad de desarrollo (reportado en campo).
-**Deal size**: $40k-$120k como servicio de "AI-acceleration" para studio Unity.
-
 ---
 
-## Receta 9: Carbon Engine + LangGraph — Agentes para MMO Persistente
+## Receta 7: Mundo RPG con NPCs Concordia v2.0 (multi-agente social)
 
-**Caso de uso**: Proyecto de mundo persistente a escala MMO. Carbon Engine (MIT, jul 2026) como base, agentes LangGraph para entidades del mundo, Nakama para el backend social.
+**Caso de uso**: MMO / RPG de mundo abierto donde los NPCs tienen vidas autónomas, relaciones entre ellos y responden al jugador de forma coherente con su historial. Basado en Concordia v2.0 (Google DeepMind, jun 2026).
 
 **Stack**:
-```python
-# world_agent.py — Agente de entidad del mundo MMO
-from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
-
-# Estado del agente: entidad persistente en el mundo
-class WorldEntityState(TypedDict):
-    entity_id: str
-    location: dict
-    inventory: list
-    relationships: dict  # otros jugadores/entidades conocidos
-    current_goal: str
-    action_history: list
-
-def build_entity_agent():
-    """Agente LangGraph para entidad de mundo persistente (NPC o sistema)."""
-    graph = StateGraph(WorldEntityState)
-    
-    # Nodo: percibir el mundo (Destiny physics + Trinity visual state)
-    graph.add_node("perceive", perceive_world)
-    
-    # Nodo: planear (LLM con contexto de memoria)
-    graph.add_node("plan", plan_action)
-    
-    # Nodo: actuar (Carbon Engine API → mover, interactuar, construir)
-    graph.add_node("act", execute_action)
-    
-    # Nodo: actualizar memoria (Nakama storage)
-    graph.add_node("remember", update_memory)
-    
-    graph.set_entry_point("perceive")
-    graph.add_edge("perceive", "plan")
-    graph.add_edge("plan", "act")
-    graph.add_edge("act", "remember")
-    graph.add_conditional_edges("remember", should_continue)
-    
-    return graph.compile()
-
-async def plan_action(state: WorldEntityState):
-    """LLM decides next action based on goal + world state."""
-    client = Anthropic()
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        system=f"You are entity {state['entity_id']} in a persistent MMO world.",
-        messages=[{
-            "role": "user",
-            "content": f"Goal: {state['current_goal']}\nLocation: {state['location']}\nNearby: {state['relationships']}\nWhat do you do next?"
-        }]
-    )
-    return {"current_goal": parse_action(response.content[0].text)}
+```
+Godot 4 (MIT) — cliente del juego
+    ↕ HTTP/WebSocket
+FastAPI server (Python)
+    ├── Concordia v2.0 (Apache-2.0)        ← simulación social multi-agente
+    │   ├── Game Master Agent               ← administra el entorno (estado del mundo)
+    │   ├── NPC Agent 1..N                  ← cada NPC con LLM context propio
+    │   │   ├── Memory stream               ← log de eventos con timestamp + relevancia
+    │   │   ├── Reflection                  ← insights de alto nivel (cron job horario)
+    │   │   └── Planning                    ← planes basados en reflexiones
+    │   └── Player Agent                    ← proxy del jugador en el sistema
+    └── LLM backend: Gemini 3.5 Flash / Claude Sonnet / Llama 3.1 70B
+        (uno por agente o un LLM compartido con context isolation)
 ```
 
 **Repos**:
-- [orgs/carbonengine](https://github.com/orgs/carbonengine) — MIT. Carbon Engine (Trinity + Destiny). EVE Online engine.
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT, 15k stars. Grafos de agentes stateful.
-- [heroiclabs/nakama](https://github.com/heroiclabs/nakama) — Apache-2.0, 12.8k stars. Backend persistente.
-- [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0. Patrón de memoria para entidades.
-
-**Tiempo estimado**: 3-6 meses para prototipo MMO funcional sobre Carbon Engine.
-**Deal size**: $300k-$1.5M para estudio de MMO o mundo virtual persistente.
-
----
-
-## Receta 10: GamingAgent Evaluation — QA con Modelos Estándar
-
-**Caso de uso**: Studio que quiere evaluar qué LLM/VLM es más adecuado para sus mecánicas de juego específicas antes de integrar en producción. Adaptar lmgame-Bench a los juegos propios.
-
-**Stack**:
-```python
-# custom_game_eval.py — Adaptar GamingAgent para el juego propio
-# Basado en lmgame-org/GamingAgent (MIT)
-
-from gaming_agent import GamingAgent, GameEnvironment
-import anthropic
-
-class CustomGameEnv(GameEnvironment):
-    """Adaptador para nuestro juego propio."""
-    
-    def get_observation(self) -> dict:
-        """Screenshot + estado del juego como observación VLM."""
-        screenshot = self.capture_screen()  # PIL Image
-        game_state = self.read_game_state()  # dict con HP, position, objectives
-        return {
-            "image": screenshot,
-            "state": game_state,
-            "available_actions": self.get_valid_actions()
-        }
-    
-    def step(self, action: str) -> tuple[dict, float, bool]:
-        """Ejecutar acción y devolver (obs, reward, done)."""
-        self.execute_action(action)
-        obs = self.get_observation()
-        reward = self.compute_reward()  # métrica de éxito del juego
-        done = self.is_game_over()
-        return obs, reward, done
-
-# Evaluar Claude vs GPT-4o en nuestro juego
-def run_comparative_eval(game_env: CustomGameEnv):
-    models_to_test = [
-        "claude-sonnet-5",          # Anthropic
-        "gpt-4o",                   # OpenAI
-        "claude-haiku-4-5-20251001", # Lightweight option
-    ]
-    
-    results = {}
-    for model in models_to_test:
-        agent = GamingAgent(model=model, max_steps=100)
-        score = agent.play_episode(game_env)
-        results[model] = score
-        print(f"{model}: {score:.2f}")
-    
-    return results  # → elegir el mejor modelo para integrar en NPCs/agents
-```
-
-**Repos**:
-- [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — MIT, 947 stars. ICLR 2026. Framework completo.
-- [waynchi/gamedevbench](https://github.com/waynchi/gamedevbench) — MIT. 132 tareas Godot para benchmarking de game dev agents.
-
-**Valor para cliente**: evaluar LLMs en el juego real antes de contratar. Decisión basada en datos, no en marketing.
-**Tiempo estimado**: 1-2 semanas para adaptar el framework al juego propio.
-**Deal size**: $20k-$60k como servicio de "AI model selection y evaluación para gaming".
-
----
-
-## Receta 11: OmniGameArena — Evaluación VLM en Entornos UE5 Realistas
-
-**Caso de uso**: Cliente con juego en Unreal Engine 5 quiere saber qué VLM (Claude, GPT-4o, Gemini) se desempeña mejor en sus mecánicas específicas, incluyendo escenarios PvP y Coop. Adaptar OmniGameArena a su juego para obtener datos de evaluación antes de integrar.
-
-**Stack**:
-```python
-# omni_eval.py — Adaptar OmniGameArena al juego UE5 propio
-# Basado en mxlin043/OmniGameArena (MIT, arXiv:2606.09826)
-
-from omni_game_arena import GameArena, IDCEvaluator
-import anthropic
-
-class ClientGameUE5(GameArena):
-    """Wrapper para el juego UE5 del cliente."""
-    
-    def capture_observation(self) -> dict:
-        """Screenshot de UE5 + estado del juego como observación VLM."""
-        frame = self.ue5_bridge.capture_frame()  # PIL Image desde UE5
-        state = self.ue5_bridge.get_game_state()  # dict: score, health, position
-        return {
-            "image": frame,
-            "state": state,
-            "valid_actions": self.ue5_bridge.get_action_space()
-        }
-    
-    def execute_action(self, action: str) -> float:
-        """Ejecutar acción en UE5 y devolver reward."""
-        self.ue5_bridge.send_action(action)
-        reward = self.ue5_bridge.get_reward()  # métrica de éxito definida por cliente
-        return reward
-
-# Evaluación con Improvement Dynamics Curve (IDC)
-# IDC mide no solo score frío sino cómo mejora el modelo con reflexión iterativa
-evaluator = IDCEvaluator(rounds=5)  # 5 rondas de reflexión agentica
-
-results = {}
-for model_name in ["claude-sonnet-5", "gpt-4o", "claude-haiku-4-5-20251001"]:
-    client_game = ClientGameUE5(model=model_name)
-    idc_score = evaluator.evaluate(client_game)  # → curva de mejora por ronda
-    results[model_name] = {
-        "cold_start": idc_score.round_0,
-        "after_5_reflections": idc_score.round_5,
-        "improvement_rate": idc_score.improvement_delta
-    }
-    print(f"{model_name}: {idc_score.round_0:.2f} → {idc_score.round_5:.2f} (Δ{idc_score.improvement_delta:.2f})")
-
-# Recomendación automática: usar el modelo con mejor cold_start para NPC reactivos
-# y mejor improvement_rate para agentes que requieren planificación iterativa
-```
-
-**Repos**:
-- [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) — MIT. arXiv:2606.09826 (jun 2026). Benchmark 12 juegos UE5.
-- [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — MIT. ICLR 2026. Complementar con evaluación en 7 juegos 2D.
-
-**Ventaja vs P10** (GamingAgent): OmniGameArena evalúa en entornos 3D UE5 de producción + escenarios multiplayer (PvP/Coop) + IDC para medir capacidad de mejora.
-
-**Tiempo estimado**: 2-3 semanas para adaptar al juego UE5 del cliente.
-**Deal size**: $25k-$80k como servicio de evaluación VLM para gaming UE5.
-
----
-
-## Receta 12: Orak MCP + Fine-tuning — Agent training sobre datos reales de PUBG
-
-**Caso de uso**: Studio que quiere (a) evaluar qué LLM se comporta mejor en sus juegos Y (b) crear un LLM game agent especializado mediante fine-tuning sobre trayectorias expertas reales. Usar el dataset de Orak como punto de partida.
-
-**Stack**:
-```python
-# orak_train_eval.py — Evaluar + fine-tunear LLM game agent con Orak (Krafton/MIT)
-# Requiere: pip install orak anthropic
-
-import orak
-from orak import GameEnvironment, OrakBenchmark
-from anthropic import Anthropic
-
-# ─── FASE 1: Evaluación MCP-nativa ────────────────────────────────────────────
-# Orak expone los entornos de juego como MCP tools — Claude Code los puede usar
-# directamente via el cliente MCP sin código adicional.
-
-benchmark = OrakBenchmark(
-    games=["stardew_valley", "minecraft", "starcraft_ii"],  # subset del studio
-    leaderboard_submit=True  # contribuye al leaderboard público de Krafton
-)
-
-client = Anthropic()
-results = benchmark.evaluate(
-    model="claude-sonnet-5",
-    max_steps_per_game=200,
-    agentic_strategy="reflection",  # usa reflexión iterativa estilo IDC
-)
-print(f"Average score: {results.mean_score:.2f}")
-print(f"Best game: {results.top_game} ({results.top_score:.2f})")
-
-# ─── FASE 2: Fine-tuning con dataset de Krafton ───────────────────────────────
-# Orak incluye trayectorias de gameplay expertas para fine-tuning
-# Aquí fine-tuneamos Llama-3.1-8B-Instruct (costo ~$30-100 en cloud) para
-# que juegue específicamente el tipo de juego del cliente (e.g. RPG/strategy)
-
-from orak.dataset import OrakDataset
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from peft import LoraConfig, get_peft_model
-
-# Cargar dataset filtrado por géneros relevantes para el cliente
-dataset = OrakDataset.load(
-    games=["darkest_dungeon", "slay_the_spire"],  # strategy/RPG
-    split="train",
-    format="chat"  # formateado como mensajes para chat models
-)
-print(f"Loaded {len(dataset)} expert gameplay trajectories")
-
-# Fine-tuning con LoRA (eficiente en GPU A100 40GB, ~4-6 horas)
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
-lora_config = LoraConfig(r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"])
-model = get_peft_model(model, lora_config)
-
-# trainer = SFTTrainer(model=model, train_dataset=dataset, ...)
-# trainer.train()  # → modelo fine-tuned que domina el género
-
-# ─── FASE 3: Comparar base model vs fine-tuned ───────────────────────────────
-baseline = benchmark.evaluate(model="meta-llama/Llama-3.1-8B-Instruct")
-finetuned = benchmark.evaluate(model="./orak-finetuned-strategy-llm")
-print(f"Base model: {baseline.mean_score:.2f} → Fine-tuned: {finetuned.mean_score:.2f}")
-```
-
-**Repos**:
-- [krafton-ai/Orak](https://github.com/krafton-ai/Orak) — MIT, 148 stars. Benchmark + dataset + MCP interface.
-
-**Ablation studies disponibles en Orak**: input modality (vision vs text-only), estrategia agentica (one-shot vs reflection vs tree-search), efectos de fine-tuning.
-
-**Tiempo estimado**: 1 semana para evaluación; 2-3 semanas para fine-tuning + validación.
-**Costo GPU**: ~$30-100 para fine-tuning LoRA en A100 cloud (dataset <100MB).
-**Deal size**: $30k-$80k como "Gaming AI model selection + fine-tuning service". Se puede extender a $150k-$400k si se integra el modelo fine-tuned en producción con NPCs o agentes de juego.
-
----
-
-## Receta 13: Play2Code — Game prototyping con loop generate→playtest→fix
-
-**Caso de uso**: Studio indie o estudio de gamificación que necesita prototipar mecánicas de juego rápidamente. El patrón Play2Code usa un agente generador de código + un GUI agent que juega el resultado, iterando hasta que el prototipo es jugable.
-
-**Stack**:
-```python
-# play2code.py — Loop generate → playtest → fix para browser games
-# Basado en arXiv:2605.28258. Requiere: pip install playwright anthropic
-
-import asyncio
-from anthropic import Anthropic
-from playwright.async_api import async_playwright
-
-client = Anthropic()
-
-GAME_SPEC = """
-RPG roguelite de 2 minutos: jugador vs 3 enemigos en grid 5x5.
-Mecánicas: movimiento WASD, ataque spacebar, 3 HP por lado.
-Win condition: eliminar todos los enemigos.
-Implementar en HTML/CSS/JS, browser-runnable.
-"""
-
-PLAYTESTER_PROMPT = """
-Eres un QA tester. Juega el browser game en este screenshot e informa:
-1. ¿Se puede iniciar? ¿Hay errores en consola?
-2. ¿Las mecánicas principales funcionan? (movimiento, ataque, victoria/derrota)
-3. ¿Qué falla específicamente? Sé preciso para que el developer pueda corregirlo.
-Rubric: pass si ≥80% de mecánicas funcionan sin errores críticos.
-"""
-
-async def generate_game(spec: str, prev_feedback: str = "") -> str:
-    """Agente 1: genera/corrige código del juego."""
-    messages = [{"role": "user", "content": f"Spec: {spec}\n\nFeedback del playtester: {prev_feedback}\n\nGenera/corrige el juego. Devuelve solo el HTML completo." if prev_feedback else f"Spec: {spec}\n\nGenera el juego completo como un solo archivo HTML."}]
-    response = client.messages.create(model="claude-sonnet-5", max_tokens=8000, messages=messages)
-    return response.content[0].text
-
-async def playtest_game(html: str) -> dict:
-    """Agente 2 (GUI): abre el juego en browser y lo juega."""
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await browser.new_page()
-        await page.set_content(html)
-        await asyncio.sleep(2)  # esperar render
-        
-        # Capturar screenshot + errores de consola
-        errors = []
-        page.on("console", lambda msg: errors.append(msg.text) if msg.type == "error" else None)
-        screenshot = await page.screenshot(type="png")
-        
-        # Jugar: intentar mecánicas básicas
-        await page.keyboard.press("w")  # movimiento
-        await page.keyboard.press("Space")  # ataque
-        await asyncio.sleep(1)
-        screenshot_after = await page.screenshot(type="png")
-        
-        await browser.close()
-    
-    # LLM evalúa el estado del juego
-    eval_response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=500,
-        messages=[{"role": "user", "content": [
-            {"type": "text", "text": PLAYTESTER_PROMPT},
-            {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": screenshot_after.hex()}},
-            {"type": "text", "text": f"Errores de consola: {errors}"}
-        ]}]
-    )
-    feedback = eval_response.content[0].text
-    passed = "pass" in feedback.lower()
-    return {"passed": passed, "feedback": feedback, "errors": errors}
-
-async def play2code_loop(spec: str, max_iterations: int = 5):
-    """Loop principal: generar → playtest → corregir hasta pasar el rubric."""
-    feedback = ""
-    for i in range(max_iterations):
-        print(f"\n── Iteración {i+1}/{max_iterations} ──")
-        html = await generate_game(spec, feedback)
-        result = await playtest_game(html)
-        print(f"Estado: {'✅ PASS' if result['passed'] else '❌ FAIL'}")
-        print(f"Feedback: {result['feedback'][:200]}...")
-        
-        if result["passed"]:
-            print(f"\n🎮 Juego jugable en {i+1} iteración(es).")
-            with open("prototype.html", "w") as f:
-                f.write(html)
-            return html
-        
-        feedback = result["feedback"]
-    
-    print(f"⚠️ No se alcanzó pass en {max_iterations} iteraciones.")
-    return html
-
-# Ejecutar
-asyncio.run(play2code_loop(GAME_SPEC))
-```
-
-**Repos**:
-- Patrón basado en: arXiv:2605.28258 (Play2Code, PlaytestArena — mayo 2026)
-- [microsoft/playwright](https://github.com/microsoft/playwright) — Apache-2.0. GUI agent automation.
-- Claude API (Anthropic) — modelo `claude-sonnet-5` para generación, `claude-haiku-4-5-20251001` para playtesting económico.
-
-**Resultados del paper**: 66.8% pass-rate vs 37.1% single-pass baseline. Cada iteración mejora ~14.6 puntos de pass-rate en promedio.
-
-**Tiempo estimado**: setup en 3-5 días. Prototipo jugable en <2 horas de compute.
-**Costo compute**: ~$0.10-$0.50 por prototipo (5 iteraciones máx, Claude Haiku para playtesting).
-**Deal size**: $30k-$100k para studio que necesita "rapid game prototyping AI service" — generar 10+ prototipos jugables/día vs días por prototipo con equipo humano.
-
----
-
-## Receta 14: NitroGen + Orak + LoRA — Game Agent Especializado sin RL desde cero
-
-**Caso de uso**: Studio que quiere un game agent especializado en su juego/género sin invertir meses en RL desde cero. Usar NitroGen (foundation model preentrenado, NVIDIA/MIT) como base, Orak dataset (KRAFTON/MIT) para fine-tuning con LoRA, y GamingAgent/OmniGameArena para evaluación antes de integrar en producción.
-
-**Stack**:
-```python
-# nitrogen_finetune.py — NitroGen + Orak LoRA fine-tuning para juego específico
-# arXiv:2601.02427 (NitroGen) + arXiv:2506.03610 (Orak)
-# pip install transformers peft orak datasets anthropic
-
-from transformers import AutoModelForCausalLM, AutoTokenizer, AutoProcessor
-from peft import LoraConfig, get_peft_model, TaskType
-from orak.dataset import OrakDataset
-import torch
-
-# ─── FASE 1: Cargar NitroGen preentrenado ────────────────────────────────────
-# 493M params (SigLip2 vision encoder + DiT action decoder)
-# Input: frame de pantalla. Output: gamepad actions.
-print("Cargando NitroGen (nvidia/NitroGen) desde HuggingFace...")
-model = AutoModelForCausalLM.from_pretrained(
-    "nvidia/NitroGen",
-    torch_dtype=torch.bfloat16,
-    device_map="auto"
-)
-processor = AutoProcessor.from_pretrained("nvidia/NitroGen")
-# NitroGen ya sabe jugar 1,000+ juegos — baseline sólido.
-
-# ─── FASE 2: Dataset Orak filtrado por género del cliente ────────────────────
-# Orak incluye trayectorias de gameplay expertas de Krafton (PUBG)
-# Filtrar por géneros relevantes para el juego del cliente
-client_genre = "strategy_rpg"  # o "action", "platformer", "strategy", etc.
-dataset = OrakDataset.load(
-    games=["darkest_dungeon", "slay_the_spire", "starcraft_ii"],  # strategy/RPG
-    split="train",
-    format="vision_action"  # pares (frame, action) para NitroGen
-)
-print(f"Cargadas {len(dataset)} trayectorias expertas de juegos {client_genre}")
-
-# ─── FASE 3: LoRA fine-tuning (eficiente — ~4-6h en A100, <$100) ─────────────
-lora_config = LoraConfig(
-    task_type=TaskType.CAUSAL_LM,
-    r=16,                          # rank
-    lora_alpha=32,
-    lora_dropout=0.05,
-    target_modules=["q_proj", "v_proj", "k_proj", "o_proj"],
-    bias="none"
-)
-model = get_peft_model(model, lora_config)
-model.print_trainable_parameters()  # ~0.5% de 493M = ~2.5M params → económico
-
-# Entrenamiento con SFTTrainer (transformers)
-# from trl import SFTTrainer
-# trainer = SFTTrainer(model=model, train_dataset=dataset, ...)
-# trainer.train()  # → modelo fine-tuned que domina el género del cliente
-# model.save_pretrained("nitrogen-{client_genre}-lora")
-
-# ─── FASE 4: Evaluación del modelo fine-tuned con Orak benchmark ─────────────
-from orak import OrakBenchmark
-
-benchmark = OrakBenchmark(
-    games=["client_game_1", "client_game_2"],  # juegos específicos del cliente
-    leaderboard_submit=False  # privado para el cliente
-)
-
-# Comparar: NitroGen base vs NitroGen+LoRA fine-tuned
-base_score = benchmark.evaluate_model("nvidia/NitroGen")
-ft_score = benchmark.evaluate_model("nitrogen-strategy-lora")
-print(f"NitroGen base: {base_score:.2f}")
-print(f"NitroGen + Orak LoRA: {ft_score:.2f}")
-print(f"Mejora: +{ft_score - base_score:.2f} puntos")
-
-# ─── FASE 5: Despliegue como game agent en producción ───────────────────────
-from anthropic import Anthropic  # para razonamiento de alto nivel sobre acciones
-import base64
-from PIL import Image
-
-client = Anthropic()
-
-def game_agent_step(frame: Image.Image, game_state: dict, model_path: str) -> dict:
-    """
-    Agente híbrido: NitroGen decide acciones de bajo nivel,
-    Claude razona sobre estrategia de alto nivel.
-    """
-    # Nivel 1: NitroGen → acción de bajo nivel (botones/joystick)
-    inputs = processor(images=frame, return_tensors="pt").to("cuda")
-    with torch.no_grad():
-        action_logits = model(**inputs).logits
-        low_level_action = decode_action(action_logits)  # → gamepad action
-    
-    # Nivel 2: Claude → razonamiento estratégico (cada N frames)
-    if game_state.get("needs_strategy_update"):
-        img_b64 = encode_image(frame)
-        strategy_response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=200,
-            messages=[{"role": "user", "content": [
-                {"type": "text", "text": f"Game state: {game_state}\nSugiere la estrategia de alto nivel para los próximos 10 pasos. Responde en JSON: {{goal, priority_target, avoid}}."},
-                {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": img_b64}}
-            ]}]
-        )
-        strategy = strategy_response.content[0].text
-    else:
-        strategy = game_state.get("current_strategy")
-    
-    return {
-        "low_level_action": low_level_action,
-        "strategy": strategy
-    }
-
-def decode_action(logits) -> dict:
-    """Decodifica output de NitroGen (21x16) a gamepad actions."""
-    actions = logits.softmax(-1).argmax(-1).cpu().numpy()
-    return {
-        "left_joystick": actions[:2].tolist(),    # [x, y] continuo
-        "right_joystick": actions[2:4].tolist(),  # [x, y] continuo
-        "buttons": actions[4:].tolist()           # 17 botones binarios
-    }
-
-def encode_image(frame: Image.Image) -> str:
-    import io
-    buf = io.BytesIO()
-    frame.save(buf, format="PNG")
-    return base64.b64encode(buf.getvalue()).decode()
-```
-
-**Repos**:
-- [MineDojo/NitroGen](https://github.com/MineDojo/NitroGen) — MIT. Foundation model 493M params. HuggingFace: nvidia/NitroGen.
-- [krafton-ai/Orak](https://github.com/krafton-ai/Orak) — MIT. Dataset de fine-tuning + benchmark. arXiv:2506.03610.
-- [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — MIT. ICLR 2026. Evaluation framework adicional.
-- [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) — MIT. Evaluación en UE5 con IDC.
-
-**Por qué NitroGen + Orak > RL desde cero**:
-- NitroGen ya sabe navegar 1,000+ juegos → el fine-tuning en el género del cliente parte de un baseline sólido, no de cero.
-- Orak provee trayectorias de gameplay expertas (Krafton/PUBG) que ya capturan estrategias avanzadas.
-- LoRA fine-tuning: <$100 en GPU cloud, ~4-6 horas. RL desde cero: semanas de entrenamiento, miles de dólares.
-- Resultado medido: 52% mejora relativa en unseen games. Con fine-tuning en el juego del cliente, el gain es aún mayor.
-
-**Tiempo estimado**: 3-5 días (setup + fine-tuning + evaluación + integración básica).
-**Costo GPU**: ~$30-100 para fine-tuning LoRA en A100 cloud.
-**Deal size**:
-- Evaluación + modelo fine-tuned: $20k-$50k
-- Integración en motor del cliente (Godot/Unity/UE): $50k-$150k  
-- Sistema completo (agent en producción + monitoring + reentrenamiento periódico): $100k-$300k
+- [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. v2.0 jun 2026. Framework completo.
+- [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0, 21.7k stars. Paper original con implementación de referencia.
+- [limbonaut/limboai](https://github.com/limbonaut/limboai) — MIT. BTs para conectar Concordia output a animaciones Godot.
+
+**Cómo conectar**:
+1. Instalar Concordia: `pip install concordia`.
+2. Definir el "world": locaciones, objetos, reglas del entorno.
+3. Instanciar cada NPC como `entity.Entity` con nombre, descripción, goals, y acceso al LLM.
+4. Instanciar el `game_master.GameMaster` con el LLM y el entorno.
+5. En cada tick del juego: `game_master.step()` — el GM evalúa acciones de todos los agentes y actualiza el estado del mundo.
+6. Godot recibe el estado actualizado vía WebSocket → anima NPCs según sus posiciones y estados.
+7. Player input → Player Agent en Concordia → respuesta del GM → cambios en el mundo.
+
+**Tiempo estimado**: 4-6 semanas para RPG con 5-10 NPCs autónomos.
+**Costo cloud**: Gemini 3.5 Flash a ~$0.003 per 1k tokens → ~$0.05-$0.15 por sesión de 30 min con 10 NPCs activos.
+**Scaling**: Para MMOs, sharding por zona geográfica — cada zona tiene su propio GameMaster + NPC pool.
 
 ---
 
 ## Tabla resumen
 
-| Patrón | Stack principal | Esfuerzo | ROI esperado | Deal size |
-|--------|----------------|---------|--------------|----------|
-| P1: NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion | $40k-$150k |
-| P2: QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual | $60k-$200k |
-| P3: Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención | $80k-$250k |
-| P4: Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability | $100k-$400k |
-| P5: Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual | $20k-$80k |
-| P6: AI Dev Tooling (Godot) | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad desarrollo | $20k-$60k |
-| P7: NPC con Voz Completa | Mantella + Faster-Whisper + Piper + LLM | 3-4 semanas | NPCs vivos sin Inworld/Convai | $80k-$200k |
-| P8: Unity MCP 268 Tools | Unity MCP Server + Claude Code | 1 día setup | 2-3x velocidad en Unity | $40k-$120k |
-| P9: Carbon Engine + LangGraph MMO | Carbon + LangGraph + Nakama | 3-6 meses | MMO persistent world OSS | $300k-$1.5M |
-| P10: GamingAgent Evaluation | lmgame-org + custom adapter (Godot/2D) | 1-2 semanas | Modelo correcto antes de integrar | $20k-$60k |
-| P11: OmniGameArena Evaluation (UE5) | OmniGameArena + IDC + UE5 bridge | 2-3 semanas | VLM correcto para entorno 3D/multiplayer | $25k-$80k |
-| P12: Orak MCP + Fine-tuning | Krafton Orak + LoRA + Llama | 1-3 semanas | LLM game agent especializado | $30k-$400k |
-| P13: Play2Code Prototyping | Claude + Playwright GUI agent loop | 3-5 días | Prototipos jugables en horas, no semanas | $30k-$100k |
-| P14: NitroGen + Orak + LoRA Agent | NitroGen (NVIDIA) + Orak dataset + LoRA | 3-5 días | Game agent especializado sin RL desde cero | $20k-$300k |
+| Patrón | Stack principal | Esfuerzo | ROI esperado |
+|--------|----------------|---------|--------------|
+| NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion (datos industria) |
+| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual |
+| Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención |
+| Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability |
+| Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual |
+| AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
+| RPG multi-agente Concordia | Concordia v2.0 + Godot + LLM | 4-6 semanas | NPCs autónomos con vidas reales |
 
 ---
-*Repos verificados en GitHub 2026-07-10. URLs directas incluidas. v8 (2026-07-10): P14 NitroGen+Orak+LoRA añadido; Trust Score NPC (Rockstar/2K pattern) señalado en P1/P7. Morgan Stanley $22B → ROI framing. Todos los arXiv verificados.*
+*Repos verificados en GitHub 2026-07-11. URLs directas incluidas.*
