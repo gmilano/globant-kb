@@ -1,61 +1,60 @@
-# Vertical Solutions — Media & Entertainment
+# 🏭 Verticales de partida — Media & Entertainment
 
-> Real platforms that can be customized with AI on top.
-> Model: start from something working → add agentic layer.
-> Last updated: 2026-07-10 (v11)
+> Plataformas verticales existentes customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica arriba.
+> Última actualización: 2026-07-11
 
-## Content Management & Distribution Platforms
+## Plataformas recomendadas
 
-| Platform | Repo | License | Stack | AI Customization Entry Point |
-|----------|------|---------|-------|------------------------------|
-| **MediaCMS** | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | Python/Django + React + REST API | Add AI post-processing hooks: auto-tagging with CLIP, Whisper transcription, NeMo content moderation, SEO metadata via Claude. Fork → add `signals/` app → AI microservices behind REST. |
-| **PeerTube** | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | AGPL-3.0 | Node.js + PostgreSQL + ActivityPub | Plugin API: `registerHook('action:api.video.uploaded')` → trigger Whisper transcription + Gorse recommendation ingest. White-label federated video for broadcasters. |
-| **Jellyfin** | [jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | GPL-2.0 | .NET + React | Plugin SDK: add AI-powered metadata enrichment, face recognition, auto-chapter generation, semantic search via Qdrant embeddings. |
-| **Owncast** | [owncast/owncast](https://github.com/owncast/owncast) | MIT | Go + Svelte | Webhook integration: live stream events → AI moderator (NeMo) → real-time chat moderation + live transcription → Whisper.cpp. |
-| **SRS (Simple Realtime Server)** | [ossrs/SRS](https://github.com/ossrs/SRS) | MIT | C++ + Go callbacks | HTTP callbacks on stream publish/unpublish → AI agent for real-time quality scoring, auto-transcoding triggers, anomaly detection. |
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
+|------------|----------|------------|-------|-------------|
+| **MediaCMS** | AGPL-3.0 | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | Python/Django + React + REST API | CMS de video moderno y completo. Multi-tipo de media, búsqueda avanzada, múltiples workflows de publicación, control total de datos. Ideal para broadcasters y OTT. |
+| **PeerTube** | AGPL-3.0 | [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | Node.js + PostgreSQL + P2P | Plataforma de video federada (ActivityPub). Alternativa open source a YouTube. Self-hosted, sin anuncios. |
+| **Jellyfin** | GPL-2.0 | [jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | .NET + Web | Media server: streaming de video/audio/foto. API rica. Base para pipelines de ingesta + transcripción + subtítulos. |
+| **Owncast** | MIT | [owncast/owncast](https://github.com/owncast/owncast) | Go + Web | Live streaming self-hosted. Alternativa a Twitch/YouTube Live. API para integrar agentes de moderación y chat. |
+| **AVideo** | AGPL-3.0 | [WWBN/AVideo](https://github.com/WWBN/AVideo) | PHP + MySQL | Red de broadcast propia: streaming, descarga, categorías. Similar a YouTube self-hosted. |
+| **PuMuKIT** | EUPL | [pumukit/pumukit](https://github.com/pumukit/pumukit) | PHP/Symfony + MongoDB | Plataforma institucional de video (universidades, broadcasters). Enterprise-class, gestión de metadatos avanzada. |
+| **ComfyUI** | GPL-3.0 | [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI) | Python | UI nodo-a-nodo para generación de imagen/video. Estándar de facto para workflows creativos con IA. 117k ★. |
+| **InvokeAI** | Apache-2.0 | [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Python + React | Creative engine Stable Diffusion. UI profesional, fine-tuning, canvas. Base para estudios de producción digital. 27.5k ★. |
+| **Icecast** | GPL-2.0 | [xiph/Icecast-Server](https://github.com/xiph/Icecast-Server) | C | Servidor de streaming de audio de alta performance. Base para radio IP y podcasting. Integrable con AudioCraft para radio AI. |
+| **Funkwhale** | AGPL-3.0 | [funkwhale/funkwhale](https://github.com/funkwhale/funkwhale) | Python/Django + Vue | Plataforma federada de música. API para integrar generación musical con AudioCraft/ACE-Step. |
 
-## Recommendation & Personalization
+---
 
-| Platform | Repo | License | Stack | Use Case |
-|----------|------|---------|-------|----------|
-| **Gorse** | [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | Go + Redis + PostgreSQL | Drop-in recommender for OTT "What to Watch". LLM ranker adds semantic re-ranking: "shows that feel like Severance but faster-paced". Add to MediaCMS/PeerTube for recommendation sidebar. |
-| **Meilisearch** | [meilisearch/meilisearch](https://github.com/meilisearch/meilisearch) | MIT | Rust | Fast semantic search for media libraries. Embed video descriptions with Claude/OpenAI → vector search → "find scenes with rainy night car chase". |
+## Cómo customizar con AI
 
-## Audio / Music Production
-
-| Platform | Repo | License | Stack | Use Case |
-|----------|------|---------|-------|----------|
-| **ACE-Step 1.5 XL** | [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | Apache-2.0 | Python + DiT | Music generation for game audio, ad jingles, show themes, podcast intros. LoRA fine-tune on 5-10 songs for brand/genre consistency. Zero licensing fees vs Suno/Epidemic Sound. |
-| **Voicebox** | [jamiepine/voicebox](https://github.com/jamiepine/voicebox) | MIT | Next.js + Python | AI voice studio: clone artist voice, generate narration/dubbing, batch localization. LATAM dubbing (PT/ES) at scale. |
-
-## Video Production
-
-| Platform | Repo | License | Stack | Use Case |
-|----------|------|---------|-------|----------|
-| **OpenMontage** | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | MIT | Python + agent skills | Full agentic video production studio. 12 pipelines: research → script → asset gen → edit → compose. Build custom "video factory" workflows for social/ads/entertainment. |
-| **video-use** | [browser-use/video-use](https://github.com/browser-use/video-use) | MIT | Python + FFmpeg | Integrate into CI/CD for video: PR with raw footage → agent delivers final.mp4 with color grade, subs, no fillers. |
-
-## Content Moderation & Safety
-
-| Platform | Repo | License | Stack | Use Case |
-|----------|------|---------|-------|----------|
-| **NeMo Guardrails** | [NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails) | Apache-2.0 | Python | Programmable content safety for UGC platforms. IORails: parallel content-safety + topic-safety + jailbreak detection. Integrate into MediaCMS upload pipeline or Owncast chat. |
-| **Llama Guard 4** | Meta (Llama Community License) | via HuggingFace | Python + vLLM | Multimodal safety model (image + text). Self-host on single A10 GPU, 80-150ms latency. For platforms with image/video uploads needing CSAM/violence detection. |
-
-## How to Customize Any Platform with AI
-
+### Patrón MediaCMS + AI
 ```
-1. Fork the vertical platform repo (MediaCMS / PeerTube / Jellyfin)
-2. Identify the right hooks/events (upload webhooks, API callbacks, plugin SDKs)
-3. Stand up AI microservices:
-   - Transcription: Whisper.cpp (local, fast)
-   - Recommendations: Gorse (drop-in REST API)
-   - Content moderation: NeMo Guardrails (Python, configurable policies)
-   - Music: ACE-Step 1.5 XL (local GPU or cloud)
-   - Search: Meilisearch + Claude embeddings
-4. Wrap AI services with an orchestration agent (LangGraph / CrewAI)
-5. Build conversational UI on top (Claude MCP tool, Slack bot, dashboard)
+MediaCMS (video CMS base)
+   ↓ webhook al subir video
+Whisper / SubsAI (transcripción automática)
+   ↓
+Claude Haiku (resumen, tags, descripción)
+   ↓
+VideoCaptioner (subtítulos + traducción)
+   ↓
+Almacenado en MediaCMS con metadatos enriquecidos
+```
+
+### Patrón Jellyfin + AI
+```
+Jellyfin (biblioteca de media)
+   ↓ API de nuevos items
+subgen (Whisper subtítulos automáticos)
+   ↓
+Claude (etiquetado de contenido, descripción)
+   ↓
+UI: búsqueda semántica sobre la biblioteca
+```
+
+### Patrón Owncast + Agente de Moderación
+```
+Owncast (live streaming)
+   ↓ mensajes de chat en tiempo real
+Agente LLM (moderación + análisis de sentimiento)
+   ↓ highlights automáticos
+Bark (respuestas TTS del streamer virtual)
 ```
 
 ---
-*See compose/patterns.md for concrete wiring recipes.*
+*Ver `compose/patterns.md` para recetas detalladas.*

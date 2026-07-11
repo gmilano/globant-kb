@@ -1,35 +1,29 @@
-# Trending Repos — Media & Entertainment
+# 📈 Repos trending — Media & Entertainment
 
-> GitHub trending and recently breakout repos for media & entertainment AI.
-> Last updated: 2026-07-10 (v11)
+> Última actualización: 2026-07-11
 
-## Breakout Repos (June–July 2026)
+## Top trending en julio 2026
 
-| Repo | License | Stars | Trend | Why It Matters |
-|------|---------|-------|-------|----------------|
-| [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | MIT | ~8k | #1 GitHub Trending Jun 26 2026 | First open-source agentic video production system — 12 pipelines, 52 tools, 500+ agent skills |
-| [browser-use/video-use](https://github.com/browser-use/video-use) | MIT | ~4.2k | Launched Jul 2 2026 | Agent edits video via FFmpeg + transcript; self-contained no-raw-video approach is breakthrough |
-| [HKUDS/ViMax](https://github.com/HKUDS/ViMax) | MIT | ~7.1k | Active Jun–Jul 2026 | Multi-agent video generation: Director+Screenwriter+Producer+Generator all-in-one |
-| [HKUDS/VideoAgent](https://github.com/HKUDS/VideoAgent) | MIT | ~2k | CVPR 2026 CASTLE 3rd | 0.95 workflow success rate; 30+ editing sub-agents; arXiv:2606.23327 |
-| [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | Apache-2.0 | ~3k | Released Apr 2 2026 | 4B DiT decoder; <2s/song A100; outperforms commercial alternatives offline |
-| [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) | Apache-2.0 | ~800 | Growing Jun 2026 | Novel-to-short-drama agent workbench targeting the $14B microdrama wave |
-| [ace-step/awesome-ace-step](https://github.com/ace-step/awesome-ace-step) | MIT | ~400 | Growing Jul 2026 | Community hub: LoRA packs, style libraries, ComfyUI nodes for ACE-Step |
-| [timoncool/ACE-Step-Studio](https://github.com/timoncool/ACE-Step-Studio) | MIT | ~250 | Jul 2026 | Portable ACE-Step with GUI, 100% offline NVIDIA GPU, full songs + vocals + music videos |
-
-## Previously Trending (Still Relevant)
-
-| Repo | License | Stars | Date | Signal |
-|------|---------|-------|------|--------|
-| [veyralabsgroup/veyracast](https://github.com/veyralabsgroup/veyracast) | MIT | — | Jun 2026 | API-first AI social content agent: generate on-brand posts, schedule, publish to X/Instagram |
-| [matuteiglesias/media_monitor](https://github.com/matuteiglesias/media_monitor) | MIT | — | Jun 2026 | Live news intelligence and publishing pipeline for economic/political/civic media |
-| [Augani/openreel-video](https://github.com/Augani/openreel-video) | MIT | — | Jun 2026 | Browser-based CapCut alternative, 100% self-hosted, no cloud, no watermarks |
-
-## Context: What's Driving These Trends
-
-1. **Agent-native video editing** — LLMs don't watch video; they read transcripts + frames. This makes video editing as tractable as code editing.
-2. **Music generation reaching commercial quality** — ACE-Step 1.5 XL is below 4GB VRAM and beats Suno/Udio on key metrics. Open-source music is now viable.
-3. **Microdrama economics** — Low production cost + high engagement. `mediago-drama` captures a segment that doesn't exist in Western tools yet.
-4. **Multi-agent video production** — ViMax and VideoAgent both use multi-agent architectures where specialist agents (Director, Screenwriter, Editor) collaborate. This is the pattern going forward.
+| Nombre | Repo | Licencia | Stars | Por qué está trending |
+|--------|------|----------|-------|----------------------|
+| Wan2.2 | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | Lanzado julio 2026. MoE backbone, +65% training data vs Wan2.1. El modelo open source de video más avanzado disponible hoy. |
+| SkyReels-V2 | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~8k | Producción cinematográfica open source. Fine-tune sobre 10M clips cine/TV. Competitivo con herramientas comerciales. |
+| Wan2GP | [deepbeepmeep/Wan2GP](https://github.com/deepbeepmeep/Wan2GP) | Apache-2.0 | ~6k | Hace accesible Wan2.x en GPUs consumer (8-24GB VRAM). Enorme adopción por creadores de contenido. |
+| VideoCaptioner | [WEIFENG2333/VideoCaptioner](https://github.com/WEIFENG2333/VideoCaptioner) | MIT | ~6.2k | Captioning AI todo-en-uno. Traducción multilingüe integrada. Muy usado para localización a escala. |
+| ACE-Step | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Apache-2.0 | ~4.8k | Canción completa en 10 segundos localmente. v1.5 con mayor coherencia. Alternativa open source a Suno/Udio. |
+| OpenMontage | [nerdzap/openmontage](https://github.com/nerdzap/openmontage) | MIT | ~800 | Producción de video agentica: Claude/Cursor como director creativo. Pipeline completo texto→video con TTS y subtítulos. |
+| mediago-drama | [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) | Apache-2.0 | ~900 | Novel-to-short-drama agent: convierte texto en clips de video. Muy popular en mercado asiático + creadores en inglés. |
+| veyracast | [veyralabsgroup/veyracast](https://github.com/veyralabsgroup/veyracast) | MIT | ~500 | Agente de contenido social self-hostable. Publica en X e Instagram vía APIs oficiales con LLM. |
+| Bark | [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | ~39k | Sigue siendo referencia para TTS multilingüe generativo. Actualización de modelos en Q2 2026. |
+| SubsAI | [absadiki/subsai](https://github.com/absadiki/subsai) | MIT | ~3.5k | Pipeline de subtitulación multi-formato. Muy adoptado en estudios de post-producción small/mid. |
 
 ---
-*See agents/trending.md for this week's new signals.*
+
+## Señales débiles (proyectos <500 ★ a observar)
+
+- **[mediago-dev/mediago](https://github.com/mediago-dev/mediago)** — Descargador de media con IA integrada. Base del ecosistema mediago.
+- **[media_monitor](https://github.com/matuteiglesias/media_monitor)** — Pipeline de noticias en vivo con análisis LLM y publicación automática.
+- **AI dubbing open source** — Área sin solución abierta dominante todavía. Oportunidad: combinar Whisper + diarización + Bark + traducción.
+
+---
+*Pipeline automático — se actualiza cada hora.*
