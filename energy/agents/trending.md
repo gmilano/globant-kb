@@ -1,42 +1,42 @@
-# 📈 Agentes en Tendencia — Energy
+# Trending — Energy AI (Week of 2026-07-11)
 
-> Lo nuevo esta semana. Señales tempranas, repos con momentum.
-> Última actualización: 2026-07-10
+> What's new and gaining momentum this week.
 
-## Señales clave — julio 2026
+## Hot Repos This Week
 
-### 1. Power-Agent Ecosystem Completo (MIT)
-El grupo [Power-Agent](https://github.com/Power-Agent) en GitHub ha completado su stack en julio 2026: PowerMCP + PowerSkills + PowerFM + PowerWF + PowerAgentBench. PowerMCP (MIT, ~160★) es el núcleo: MCP servers que exponen pandapower, PyPSA, OpenDSS, PSSE y PowerWorld como tools para LLMs. Hito: cualquier agente Claude/GPT/Gemini puede correr simulaciones de flujo de potencia con una sola llamada a herramienta. Leaderboard disponible comparando modelos en PowerAgentBench tasks reales de ingeniería eléctrica.
+| Repo | License | Why Trending |
+|------|---------|--------------|
+| [alliander-opensource/s4casting](https://github.com/alliander-opensource/s4casting) | Apache-2.0 | Time series foundation models for energy; Alliander results show superior accuracy vs. classic XGBoost on new substations with zero-shot adaptation |
+| [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | MPL-2.0 | New release with MLflow integration; community PRs adding OpenMeteo weather connector — makes forecasting pipelines fully reproducible |
+| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | EnergyPlus 24 support + new multi-zone building environments; Dec 2025 paper (arXiv:2412.08293) driving academic citations |
+| [emarche/RL2Grid](https://github.com/emarche/RL2Grid) | MIT | Standardized RL benchmark for Grid2Op environments; ICLR 2026 workshop paper gaining traction in power systems ML community |
+| [sariekiriyuu/smartEMS-MultiAgent-Demo](https://github.com/sariekiriyuu/smartEMS-MultiAgent-Demo) | MIT | Multi-agent energy management demo with LangGraph + real-time power data; referenced in 3 recent blog posts on agentic energy |
+| [VectorInstitute/HV-Ai-C](https://github.com/VectorInstitute/HV-Ai-C) | Apache-2.0 | Vector Institute + TELUS RL solution for HVAC; production results published showing 15–20% HVAC energy reduction |
+| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | 1.8k stars; IoT platform gaining energy vertical traction — EV charger + BESS + solar integrations now shipped |
 
-### 2. Open Power AI Consortium (EPRI + NVIDIA, 2026)
-EPRI y NVIDIA lanzaron el [Open Power AI Consortium](https://www.openpowerai.org) con AWS, Microsoft, Linux Foundation Energy, Oracle, Articul8, Rolls-Royce SMR. Primer modelo open source de AI para sistemas eléctricos entrenado en cientos de H100 GPUs, disponible como NVIDIA NIM microservice. Objetivo: reducir timelines de estudios de interconexión en ≥5x. Releases: datasets, modelos y benchmarks abiertos para toda la industria.
+## Emerging Signals
 
-### 3. PowerDAG — Agentic AI para Distribución (arXiv:2603.17418)
-PowerDAG (2026) es un sistema agentic confiable para automatizar análisis de redes de distribución. Arquitectura DAG de agentes especializados que corren análisis de flujo de carga, protecciones y hosting capacity en paralelo. Aborda alucinación LLM mediante verificación ejecutable: cada claim del agente se valida contra simulación real en pandapower/OpenDSS.
+### Virtual Power Plant (VPP) Orchestration with LLM Agents
+Multiple new repos this month build VPP controllers on top of OpenEMS + LangGraph. Pattern: OpenEMS handles device-level BESS/EV/solar telemetry → LangGraph multi-agent decides dispatch → MQTT pushes commands back. smartEMS-MultiAgent-Demo is the reference implementation.
 
-### 4. LLM Energy Analytics Real-World Eval (arXiv:2606.26346)
-"How Do Tool-Augmented LLM Agents Perform on Real-World Energy Analytics Tasks?" (jun 2026): Claude y GPT-4o con tool use superan modelos especializados en tareas no estructuradas; forecasting probabilístico sigue siendo el mayor desafío para LLMs generales. Implicación: arquitectura híbrida (LLM + OpenSTEF) es el camino correcto.
+### Foundation Models for Energy Time Series
+s4casting and similar repos (Moirai-Energy, TimesFM-grid forks) are replacing classic XGBoost/LightGBM in utility forecasting stacks. Key advantage: zero-shot forecasting on new substations without historical training data — critical for grid expansion projects.
 
-### 5. LF Energy AINETUS — Grid2Op + AI Modeling
-LF Energy anunció proyecto AINETUS (junio 2026) que integra con Grid2Op para entrenamiento y validación de agentes con simulación. Grid2Op (rte-france, LGPL-3.0, 1.1k★) es el framework RL más adoptado para operación de redes; AINETUS agrega AI modeling y edge applications al stack LF Energy (30+ proyectos totales).
+### Grid2Op / L2RPN 2026 Challenge
+RTE France / LF Energy L2RPN 2026 challenge driving agent development. Best open-source agents use GNN + PPO hybrid. RL2Grid provides the new standardized benchmark. Highly relevant for TSO/DSO clients evaluating AI grid control.
 
-### 6. Agentic Renewable Operations (Microsoft Azure, abril 2026)
-Microsoft documentó agentes que sintetizan forecasts climáticos, precios de mercado y condiciones de red para maximizar revenue de operadores renovables. Caso: despacho autónomo de portfolios eólicos + solares. Tecnología: Azure AI + LangChain + APIs de mercados spot. Reducción de intervención humana: 60-80% en decisiones rutinarias de despacho.
+### Carbon-Aware Scheduling
+New open-source tools for carbon-intensity-aware workload scheduling: `microsoft/carbon-aware-sdk` (MIT), `tmrowco/electricitymap-contrib` (MIT). Growing demand from data center and industrial clients with Scope 2 commitments.
 
-### 7. P2P Energy Trading con LLM+MARL (arXiv:2507.14995)
-"LLM-Enhanced Multi-Agent Reinforcement Learning with Expert Workflow for Real-Time P2P Energy Trading" (jul 2026): combina LLMs para razonamiento estratégico con MARL para ejecución rápida. Supera baseline MARL puro en +18% utilidad social en mercados locales de energía. Stack: lemlab (TU Munich) + LLM reasoning layer.
+### IEC 61850 Python Bindings
+`pyiec61850-ng` (GPL-3.0) gaining activity — enables Python AI agents to communicate natively with substation automation equipment (IEDs). Critical for brownfield grid AI deployments.
+
+## LATAM-Specific Activity
+
+- **Brazil**: ANEEL smart grid AI guidelines published May 2026 — creating demand for grid AI consulting engagements
+- **Colombia**: XM (grid operator) piloting ML-based congestion forecasting — potential Globant engagement opportunity
+- **Chile**: CNE issued renewable curtailment reduction RFPs — PyPSA-based modeling is the open standard reference tool
+- **Mexico**: CFE announced AI pilot for predictive maintenance of transmission assets — Globant should track RFP
 
 ---
-
-## Repos con Momentum (julio 2026)
-
-| Repo | Señal |
-|------|-------|
-| [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | Stack MCP completo para power engineering, MIT |
-| [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM) | Foundation models energéticos open source, nuevo jul 2026 |
-| [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | Integración AINETUS en LF Energy + L2RPN Challenge 2026 |
-| [openremote/openremote](https://github.com/openremote/openremote) | IoT Platform open source, 1.8k★, soporte multi-protocolo |
-| [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | v4.0 con refactor completo; LF Energy project; usado en producción NL |
-
----
-*Actualizado automáticamente por el pipeline de ingest.*
+*Auto-updated by ingest pipeline.*

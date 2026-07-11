@@ -1,75 +1,165 @@
-# 📡 Tendencias — Energy AI 2026
+# Trends — Energy AI (2026-07-11)
 
-> Señales de mercado, tecnología y regulación. Julio 2026.
-> Última actualización: 2026-07-10
+> Current and emerging trends in AI for the energy industry. v2 — deep update.
 
-## T1 — Agentic AI se Mueve a Producción Energética
+## T1 — Predictive Maintenance at Fleet Scale
 
-2026 es el año en que los agentes autónomos pasan de demos a operaciones reales. Microsoft documentó (abril 2026) agentes energéticos que sintetizan forecasts climáticos, precios de mercado y condiciones de red para despacho autónomo de portfolios renovables. Reducción de intervención humana del 60-80% en decisiones rutinarias. Las utilities que no adopten quedarán con costos operativos 15-20% más altos por 2028.
+**Signal strength: Very High**
 
-## T2 — MCP-Native Power Engineering (Power-Agent Ecosystem)
+AI-based predictive maintenance is now production-deployed at major utilities (AES, NextEra, NexTier). Documented outcomes:
+- 25–40% reduction in unplanned outages
+- Mean Time To Repair (MTTR) cut by up to 40%
+- Agentic frameworks (AutoGen, CrewAI) being piloted to auto-dispatch field crews based on AI fault predictions
 
-El ecosistema Power-Agent (PowerMCP + PowerSkills + PowerFM + PowerWF, todos MIT) es el stack MCP nativo para ingeniería eléctrica que emergió en 2026. Permite a cualquier LLM (Claude, GPT-4o, Gemini) interactuar con simuladores de sistemas de potencia (pandapower, PyPSA, OpenDSS) via herramientas estructuradas. Transición: el "ingeniero eléctrico AI" pasa de análisis asistido a automatización parcial de estudios de flujo de potencia, cortocircuito y estabilidad.
+**Open source stack**: VOLTTRON (data collection) + PyBaMM (battery SOH modeling) + scikit-learn or XGBoost (anomaly detection) + Claude agent (dispatch reasoning)
 
-## T3 — Open Power AI Consortium (EPRI + NVIDIA, 2026)
+## T2 — Foundation Models for Energy Time Series
 
-Primer modelo de lenguaje open source entrenado específicamente para sistemas eléctricos, con NVIDIA H100s y datasets de EPRI. Objetivo inmediato: reducir estudios de interconexión de 2-5 años a meses. Impacto esperado: desbloquear 100+ GW de proyectos renovables en cola de interconexión en EE.UU. Disponible como NVIDIA NIM microservice. Señal: las utilities de EE.UU. ya financian el consorcio.
+**Signal strength: High**
 
-## T4 — Boom Renovable + Crisis de Grid (793 GW en 2025)
+The classic XGBoost/LightGBM forecasting stack is being disrupted by time series foundation models:
+- **TimesFM 2.5** (Google) deployed by NextEra Energy for asset-level load forecasting
+- **s4casting** (Alliander, Apache-2.0) — energy-specific foundation model; zero-shot on new substations
+- **OpenSTEF** (Alliander, MPL-2.0) — adds MLflow integration and OpenMeteo weather connector
+- Snowflake acquired Myst AI (electricity demand forecasting specialist) — commoditizing specialized forecasting
 
-En 2025 se agregaron 793 GW de capacidad renovable global (solar 83%). Por primera vez, renovables superaron al carbón en generación global de electricidad. Pero las redes no están listas: los estudios de interconexión tardan años, el almacenamiento es insuficiente, y la variabilidad exige forecasting y control más sofisticados. Esto crea demanda urgente por soluciones de AI para grid management.
+**Key insight**: Zero-shot forecasting on new substations is the killer app — DSOs expanding the grid can't wait 2 years for training data.
 
-## T5 — Electrificación + Data Centers = Demanda Explosiva
+## T3 — Renewable Energy Integration & Grid Congestion AI
 
-Electrificación masiva (EVs, bombas de calor, industria) + data centers para AI crean una demanda de electricidad sin precedentes. EE.UU.: 200+ GW de nuevos data centers anunciados 2025-2030. Grid operators necesitan forecasting de demanda de IA-para-IA. OpenSTEF y similar tienen adopción creciente entre utilities que no pueden usar herramientas propietarias de OEMs.
+**Signal strength: Very High**
 
-## T6 — PowerAgentBench Suite — Evaluación Rigorosa de Agentes
+Increasing wind + solar penetration is creating grid congestion that human operators cannot manage manually. AI approaches:
+- **Grid2Op / L2RPN**: RL agents that outperform rule-based grid operators on topology optimization
+- Best 2026 open-source agents: GNN + PPO hybrid; RL2Grid standardized benchmark
+- Siemens and Schneider Electric both shipped enhanced AI-based grid balancing in April 2026
+- RatedPower 2026 Report: AI-driven optimization and forecasting cited as most transformative technology for renewables
 
-La comunidad desarrolló tres benchmarks complementarios en 2026 (arXiv: 2606.18789, 2606.20401, 2606.20950) para evaluar agentes en tareas reales de ingeniería eléctrica: estudios en estado estacionario, análisis dinámico, y flujo de potencia. Resultado clave: LLMs generales + tools (PowerMCP) superan a modelos especializados en tareas no estructuradas; forecasting probabilístico sigue siendo el mayor gap. Implicación: arquitectura híbrida LLM+ML especializado.
+## T4 — Grid Foundation Models (GridFM)
 
-## T7 — P2P Energy Trading Multi-Agente
+**Signal strength: High — Emerging**
 
-La combinación de LLMs (razonamiento estratégico) + MARL (ejecución rápida) supera al MARL puro en +18% utilidad social en mercados P2P (arXiv:2507.14995, jul 2026). Los mercados locales de energía entre prosumidores (solar + BESS + EV) son el caso de uso de mayor crecimiento para MARL en energía. lemlab (TU Munich, GPL-3.0) es la plataforma de referencia para simulación.
+IBM and Hydro-Quebec donated **GridFM** to LF Energy (Dec 2024; v0.5 POC 2025). A foundation model trained on grid graph data:
+- Fast power flow approximation without running full simulator
+- Significant speed-up for N-k contingency analysis
+- GridFM DataKit (`gridfm/gridfm-datakit`, Apache-2.0): synthetic OPF dataset generator for up to 30k buses
+- PowerFM (`Power-Agent/PowerFM`, MIT): hub including GridLDM (latent diffusion for grid TS via natural language), mAIEnergy (50k docs + 25M time-series records for LLM pre-training)
 
-## T8 — Building Energy RL Mainstream
+**Expected impact**: Grid foundation models could do for energy what Codex did for code — dramatically lower the expertise barrier for grid analysis.
 
-sinergym (MIT, ~231★) + IBM rl-testbed-for-energyplus (MIT) son los frameworks más adoptados para entrenar agentes RL en control de edificios. Google DeepMind demostró en 2023 reducción del 40% en energía de cooling en data centers con RL; en 2026 esto se generaliza a edificios comerciales. La API Gymnasium unificó los entornos, facilitando transfer learning entre simulaciones.
+## T5 — Digital Twins for Energy Assets
 
-## T9 — LF Energy — 30+ Proyectos, AI como Foco Central
+**Signal strength: High**
 
-Linux Foundation Energy tiene más de 30 proyectos, con AI como foco central del roadmap 2026. Nuevos proyectos: AINETUS (integración con Grid2Op para training de agentes), modelos de AI para planificación de red, aplicaciones edge para subestaciones. Miembro nuevo (2026): primer utility investor-owned de EE.UU. Señal de madurez: el open source energético es ahora estrategia corporativa, no solo academia.
+Digital twins moving from R&D to operations:
+- AES uses digital twins from site screening to renewable performance validation
+- Westinghouse's WNEXUS 3D for nuclear construction; "Bertha" GenAI assistant delivering time/cost savings
+- Battery digital twins: PyBaMM providing physics-based models; ML surrogates for real-time BMS decisions
+- Smart water grid AI pattern (`Basil-Saad/smart-water-grid-ai`) showing XGBoost + Firebase + Digital Twin template
 
-## T10 — Gemelo Digital + Simulación para RL Pre-Producción
+## T6 — EV Charging Optimization (Agent-Driven Smart Charging)
 
-El patrón emergente para desplegar agentes de control de red en producción: (1) entrenar en Grid2Op/sinergym con datos históricos, (2) validar en gemelo digital (dpsim, pandapower), (3) desplegar en producción con monitoreo. Evita el "sim-to-real gap" que ha frenado despliegues de RL en infraestructura crítica. PowerDAG (arXiv:2603.17418) es la referencia para distribución.
+**Signal strength: Very High**
 
-## T11 — Mantenimiento Predictivo Masivo
+EV fleet scale-up is creating massive demand for intelligent charging:
+- EVerest (Apache-2.0, LF Energy's most active project): OCPP 2.1 support shipped Q1 2026; adopted by EVSE manufacturers
+- V1G/V2G grid services from charging: AI agents optimize when to charge/discharge based on grid signals + ToU + local solar
+- Vector Institute + TELUS HV-Ai-C: RL for HVAC energy, 15-20% reduction in production — same pattern applies to EV
+- Open Smart Charging Protocol (OSCP) Go SDK active; IEC 61851/ISO 15118 maturity
 
-Siemens desplegó en jun 2026 su PGIM AI en una red de transmisión de 15,000 km en Europa (mayor despliegue comercial de AI para gestión de red). El caso de uso inicial: predicción de fallo de transformadores y líneas antes de eventos climáticos. Stack open source equivalente: OpenEMS + sensores IoT (openremote) + ML pipeline (scikit-learn/XGBoost) + agente de órdenes de trabajo.
+## T7 — Agentic AI for Grid Operations (Early Adoption)
 
-## T12 — ESG y Carbon Intelligence Obligatorio
+**Signal strength: Moderate — Early Stage**
 
-La presión regulatoria ESG aumenta: Europa (CSRD), EE.UU. (SEC climate disclosure), LATAM (normas voluntarias que se vuelven obligatorias). Las empresas necesitan monitorear, reportar y reducir emisiones de Scope 1/2/3. AI agents que consolidan datos de sensores + factores de emisión + mercados de carbono son un servicio de rápida adopción. Energy Web Chain (Apache-2.0) es la infraestructura para RECs verificables.
+Industry consensus: utilities are "very far from agentic AI running core grids" but are deploying it for supporting workflows:
+- Production forecasting, bid optimization, regulatory report generation: agents deployed
+- Operator alert triage: OperatorFabric + LLM agent for natural-language incident classification
+- Engineering knowledge retrieval: Fluence reports 30-50% engineering efficiency gain with Gemini agents across Jira/SharePoint/Salesforce
+- Agentic AI in Energy CAGR 36.65% (2026-2035) — fastest growing energy AI segment
 
-## T13 — Electrificación del Transporte → Grid Edge Complexity
+## T8 — Carbon-Aware Computing & Scope 2 Pressure
 
-La masificación de EVs (proyección: 40M nuevos EVs en 2026 global) crea millones de cargas variables e inteligentes. Las utilities necesitan orquestar EV charging para evitar picos de demanda. Tecnología: OCPP (Open Charge Point Protocol) + agentes de demand response. Stack: Home Assistant / openremote + OCPP + agente de optimización de carga.
+**Signal strength: High**
 
-## T14 — LATAM: 75% de Líderes Empresariales Esperan Agentes Autónomos en 2026
+Data centers and industrial facilities under Scope 2 emissions pressure:
+- `microsoft/carbon-aware-sdk` (MIT): shifts workloads to low-carbon grid hours
+- `tmrowco/electricitymap-contrib` (MIT): real-time carbon intensity API
+- AI is both the demand driver and the optimization tool for data centers' energy footprint
+- Google's phrase "energy for AI and AI for energy" captures the dynamic
 
-El contexto LATAM de adopción de AI agentic aplica directamente al sector energético. LATAM tiene grandes utilities (Enel, AES, Engie, CFE, Enel Chile, Luz del Sur) que son multinacionales con presupuesto y presión de eficiencia. Argentina, Chile y Brasil son los mercados de entrada más maduros para soluciones de AI energética de Globant.
+## T9 — Data Center Load Driving Grid AI Investment
 
-## T15 — Cybersecurity como Requisito No Negociable
+**Signal strength: Very High — Structural**
 
-Con más agentes autónomos controlando infraestructura crítica, la ciberseguridad de los sistemas agentic se vuelve regulatoria. NERC CIP (EE.UU.), directiva NIS2 (Europa) ya aplican a software que toca infraestructura eléctrica. Implicación para Globant: toda solución de energy AI debe incluir threat modeling, logging de decisiones del agente y rollback manual inmediato. No es opcional.
+AI compute demand is forcing utilities to massively accelerate grid expansion planning:
+- This directly drives investment in AI planning tools (PyPSA, GridFM)
+- Traditional 10-year grid planning cycles compressed to 2-3 years
+- Transmission interconnection queues at all-time highs in US/EU
+- AI grid planning tools are now strategic investments, not R&D experiments
+
+## T10 — Local LLM Inference for Air-Gapped Utility Environments
+
+**Signal strength: High**
+
+Energy utilities often prohibit cloud API calls to LLMs due to regulatory requirements (NERC CIP, EU NIS2) or data sovereignty:
+- Ollama (MIT, 165k+ stars): run Llama/Mistral locally on utility servers
+- vLLM (Apache-2.0, 45k+ stars): production-grade local inference with OpenAI-compatible API
+- Pattern: fine-tune energy-specific models on utility documentation → deploy on-premises → wrap with LangGraph agents
+
+## T11 — IEC 61850 AI Integration
+
+**Signal strength: Moderate — Growing**
+
+IEC 61850 is the communication standard for substation automation (IEDs, relays, merging units). New Python bindings (`pyiec61850-ng`, GPL-3.0) enable Python AI agents to communicate natively with substation equipment. This unlocks:
+- Real-time agent monitoring of substation events
+- Automated fault classification without SCADA polling
+- Digital twin synchronization at IED level
+
+## T12 — PyPSA as the Standard Grid Planning Tool
+
+**Signal strength: High**
+
+PyPSA (MIT, ~2,100 stars) is becoming the de-facto open reference for energy system modeling:
+- TU Berlin and leading European grid planners use it
+- PyPSA-Eur cited in EU policy documents
+- PyPSA-USA released for US energy system modeling
+- PyPSA User Meeting Jun 29 2026 — active community
+- LATAM gap: no equivalent PyPSA-LATAM reference model exists (first-mover opportunity)
+
+## T13 — Multi-Agent Building Energy Management
+
+**Signal strength: Moderate**
+
+CityLearn (MIT, 622 stars) and sinergym (MIT, 231 stars) enabling multi-agent RL for building portfolios:
+- ASHRAE + IECC compliant loads in CityLearn v2.5.0
+- EnergyPlus 24 support in sinergym
+- Vector Institute + TELUS HV-Ai-C: 15-20% HVAC energy reduction in production
+- Growing demand from real estate operators and corporate real estate portfolios
+
+## T14 — Battery Storage AI (BESS Intelligence)
+
+**Signal strength: High**
+
+Grid-scale BESS deployment accelerating: battery AI is critical:
+- PyBaMM (BSD-3, 1,600 stars): physics-based battery models from BMW, Northvolt
+- State-of-health AI: predict degradation, optimize cycling to extend lifetime
+- BESS dispatch AI: energy arbitrage, frequency regulation, capacity market bidding
+- Pattern: PyBaMM physics model + ML surrogate + LangGraph dispatch agent
+
+## T15 — Open Source DSO/TSO Toolchain Standardization
+
+**Signal strength: High — Strategic**
+
+A coherent open source stack for distribution/transmission utilities is emerging around LF Energy:
+- **Forecasting**: OpenSTEF
+- **Grid simulation**: pandapower + Grid2Op
+- **Energy planning**: PyPSA
+- **EMS**: OpenEMS / VOLTTRON
+- **Operator platform**: OperatorFabric
+- **EV charging**: EVerest
+- **Foundation models**: GridFM
+
+This standardization creates a clear integration opportunity: a single Globant service offering that connects all these LF Energy components with an LLM orchestration layer.
 
 ---
-
-## Resumen Ejecutivo
-
-```
-3 mega-trends que definen energy AI en 2026:
-1. AGENTES EN PRODUCCIÓN: ya no es experimentación — utilities pagan por resultados
-2. OPEN SOURCE MADURO: Power-Agent + LF Energy + EPRI Consortium = stack completo y libre
-3. RENOVABLES FUERZAN LA MANO: 793 GW/año requieren AI para operar — no hay alternativa humana
-```
+*See also: `compose/patterns.md` for implementation recipes built on these trends.*

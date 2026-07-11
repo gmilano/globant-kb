@@ -1,91 +1,68 @@
-# 🗺️ Mapa de Mercado — Energy AI
+# Market Map — Energy AI
 
-> Players, oportunidades, posicionamiento. Foco global + LATAM.
-> Última actualización: 2026-07-10
+> Key players, market sizing, LATAM opportunities, Globant positioning.
+> Last updated: 2026-07-11 (v2)
 
-## Mercado Global — Cifras Clave
+## Market Size (2026)
 
-| Segmento | 2026 | 2034/2035 | CAGR | Fuente |
-|----------|------|-----------|------|--------|
-| AI en Energía (amplio) | $42.26B | $183.79B | 20.17% | Fortune Business Insights |
-| AI en Power Utilities | $21.82B | $89.64B | 19.31% | Fortune Business Insights |
-| Agentic AI en Energía | $897M | $14.9B (2035) | 36.65% | Precedence Research |
-| Agentic AI en Energía alt. | $480M (2024) | $10.7B (2034) | 36.40% | Market.us |
-| AI Power Grid Management | — | — | 20%+ | GM Insights |
-| AI Software de Gestión Energética | — | — | alta | Mordor Intelligence |
+| Segment | 2025 Value | 2026 Value | 2030 Target | CAGR | Source |
+|---------|-----------|-----------|------------|------|--------|
+| AI in Energy (broad) | $22.82B | ~$27B | $60.6B | 21.4% | GlobeNewswire / StartUs Insights |
+| AI in Power Grid Management | $8.4B | ~$9.7B | $46.7B (2035) | 17.7% | GM Insights |
+| AI-Powered Smart Grid | $6.62B | $7.54B | $12.79B | 14.1% | Research and Markets |
+| Generative AI in Utilities | $1.4B | $1.92B | — | 36.6% | GlobeNewswire Jul 2026 |
+| Agentic AI in Energy | $0.64B | $0.90B | $14.9B (2035) | 36.65% | Precedence Research |
 
-**Takeaway**: El segmento de Agentic AI especificamente crece al doble del ritmo (36%+) que el AI energético amplio (20%), señalando que los agentes autónomos son el vector de mayor tracción en 2026-2035.
+**Key takeaway**: AI in energy is a multi-layered market. Agentic AI is the fastest growing segment (36.65% CAGR) but from a small base — this is where early movers like Globant can capture premium value.
 
----
+## Global Players
 
-## Players Globales
+| Company | Segment | AI Application | Open Source Angle |
+|---------|---------|---------------|-------------------|
+| NextEra Energy | Renewable utility | TimesFM 2.5 + WeatherNext 2 for asset planning; security-constrained power flow AI | Consumer of open tools (PyPSA-compatible) |
+| AES | Renewable utility | Digital twins for lifecycle; Vertex AI predictive maintenance | Publishing open datasets |
+| Fluence | Storage / grid services | Gemini agents across engineering knowledge bases (Jira, SharePoint, Salesforce); 30-50% engineering efficiency gain | Commercial AI on top of open storage models |
+| Siemens Energy | Utility OEM | Enhanced AI-based energy management and renewable forecasting (April 2026) | Contributes to LF Energy projects |
+| Schneider Electric | Utility OEM + EMS | AI-based grid balancing and demand-response efficiency (April 2026) | EcoStruxure platform; partial open APIs |
+| Westinghouse | Nuclear | "Bertha" GenAI for nuclear construction; WNEXUS 3D digital twin | Internal tools |
+| Adani | Multi-utility (APAC) | "Asset Operating System" — live operational data + enterprise IT AI | Regional leader |
+| RTE France | TSO | Grid2Op creator; L2RPN challenge host; RL agents for TSO operations | Heavy LF Energy contributor |
+| Alliander | DSO (Netherlands) | OpenSTEF production forecasting; s4casting foundation models | Major open source contributor — model to emulate |
+| PNNL / DOE | Research | VOLTTRON platform; GridLAB-D; multiple DOE ARPA-E funded AI tools | Nearly all open source — foundational research |
+| IBM / Hydro-Quebec | Utility + tech | GridFM (donated to LF Energy); power grid foundation models | Apache 2.0 donation — major open source contribution |
 
-| Empresa | Tipo | Producto AI Clave | Fortaleza | Debilidad para Globant |
-|---------|------|-------------------|-----------|------------------------|
-| **Siemens AG** | OEM/Software | PGIM (grid AI, mayor despliegue AI de red en Europa jun 2026: 15,000 km) | Integración OT/IT profunda | Solución propietaria, lock-in |
-| **GE Vernova** | OEM/Software | Grid Intelligence; Predix para activos industriales | Datos de equipos, 100+ años de datos | Cerrado, difícil de customizar |
-| **Schneider Electric** | OEM/Software | EcoStruxure AI; Energy Access Bridge | Edificios + grid + industria | Ecosistema cerrado |
-| **ABB** | OEM/Software | ABB Ability; Lumada (Hitachi Energy) | Automatización industrial profunda | Vertical muy específica |
-| **Honeywell** | Software/OEM | Forge Energy Management (IoT + analytics); partnership TCS feb 2026 | BEMS comercial/industrial | Enfoque en grandes enterprises |
-| **IBM** | Software/AI | Watsonx para energía; AssetOpsBench (MIT) | IA empresarial, AI governance | No especializado en OT |
-| **Microsoft** | Cloud/AI | Azure OpenAI + Agentic Energy Platform; copiloto energético | Plataforma universal + LLMs | No specialist en dominio energético |
-| **NVIDIA** | Hardware/AI | NIM para energía; Open Power AI Consortium | Hardware + modelos optimizados | No soluciones de dominio |
-| **EPRI** | Research/Consortium | Open Power AI Consortium; benchmarks abiertos | Credibilidad industria + datos | No delivery comercial |
-| **Energy Web** | Blockchain/OSS | EW Chain; RECs blockchain; EW D3A market | Certificados verdes estándar | Adopción lenta, nicho |
+## LATAM Opportunity Map
 
----
+| Country | Opportunity | Status | Ideal Product |
+|---------|------------|--------|---------------|
+| **Brazil** | ANEEL smart grid AI guidelines (May 2026) creating consulting demand; Petrobras AI pilots | Active RFP market | Grid AI consulting + OpenSTEF deployment |
+| **Colombia** | XM (national grid operator) piloting ML-based congestion forecasting | Active pilot | Grid2Op + pandapower analysis service |
+| **Chile** | CNE renewable curtailment reduction RFPs; PyPSA cited as standard | Active RFP | PyPSA scenario modeling + LLM reporting |
+| **Mexico** | CFE announced AI pilot for transmission asset predictive maintenance | Pre-RFP | VOLTTRON + predictive maintenance agent |
+| **Argentina** | ENRE grid modernization program; high renewable penetration planning | Emerging | PyPSA-LATAM + demand forecasting |
+| **Peru** | OSINERGMIN digitization mandate 2026 | Emerging | Data pipeline + EMS modernization |
 
-## Oportunidades por Segmento
+### LATAM First-Mover Gaps (No Incumbent as of July 2026)
 
-### 1. Grid Edge Intelligence (MAYOR OPORTUNIDAD)
-- Integración de DERs (distributed energy resources): solar distribuida, EVs, BESS residencial
-- Problema: utilities no tienen software para gestionar millones de activos pequeños
-- Solución Globant: agente de coordinación DER sobre OpenEMS/openremote + PowerMCP
-- Deal size: $500k-$5M por utility
+1. **Spanish-language grid operator chatbot** — OperatorFabric + Claude for Spanish-speaking TSO/DSO operators. Zero competition.
+2. **PIX/PSE-integrated demand response** — Link BESS dispatch decisions to local energy market settlements. No open solution exists.
+3. **PyPSA LATAM Reference Models** — PyPSA-Eur is the gold standard for Europe; no equivalent for LATAM. First mover wins mindshare.
+4. **EV Charging AI for LATAM fleet operators** — EVerest + smart charging agent; fleet operators (Rappi, LATAM Airlines, bus operators) are EV-transitioning with no charging AI available.
+5. **Open DSO Forecasting** — OpenSTEF deployed for a LATAM DSO. Would be the first public reference case outside Netherlands.
 
-### 2. Predictive Maintenance de Activos de Generación
-- Turbinas eólicas, paneles solares, transformadores: sensores + ML
-- Mercado: utilities, IPPs (Independent Power Producers)
-- Solución Globant: pipeline de sensores IoT + ML + LLM agent para órdenes de trabajo
-- Referencia: Snowflake sfguide-ai-powered-predictive-grid-maintenance (Apache-2.0)
+## Globant Positioning
 
-### 3. Interconnection Study Automation
-- Estudios de interconexión toman 2-5 años; EPRI targets 5x reducción con AI
-- Open Power AI Consortium abrió el dominio con modelos públicos
-- Solución Globant: agente PowerMCP + PyPSA para automatizar estudios de flujo de potencia
-- Deal size: $200k-$2M por consultoría energética / TSO
+**Strengths to leverage:**
+- LATAM presence + Spanish-language capability (critical for utility operator interfaces)
+- AI Studios with LLM agent expertise (LangGraph, Claude API, CrewAI)
+- System integration experience with industrial systems (SCADA, ERP, MES)
+- Nearshore delivery for North American and European utility clients
 
-### 4. Energy Trading & Portfolio Optimization
-- Mercados spot volátiles + renovables intermitentes = necesidad de IA
-- P2P trading emergente (arXiv:2507.14995)
-- Solución Globant: agente de trading sobre lemlab + APIs de mercado
-- Deal size: $300k-$3M por comercializador de energía
-
-### 5. Carbon & REC Management
-- Reportes ESG + compra de energía verde = proceso manual costoso
-- Energy Web Chain + agentes de compra automática
-- Deal size: $100k-$800k por empresa mediana-grande
+**Recommended entry points:**
+1. **Predictive maintenance** — Lowest regulatory risk, high utility ROI, PyBaMM + VOLTTRON stack
+2. **Load forecasting augmentation** — OpenSTEF as base; add Claude-based alert and report agent
+3. **EV fleet charging optimization** — EVerest + smart charging; growing demand in LATAM and US
+4. **Grid planning consulting** — PyPSA-based scenario modeling for renewable integration RFPs
 
 ---
-
-## Oportunidades en LATAM
-
-| País | Señal | Oportunidad |
-|------|-------|-------------|
-| **Brasil** | Mayor mercado de energía renovable de LATAM; Itaipu + solar en NE | Predictive maintenance hidroeléctrica + solar AI optimization |
-| **Chile** | Líder en solar y litio; mercado eléctrico más desregulado de LATAM | Energy trading agents; baterías + solar; BESS optimization |
-| **Colombia** | Hidroeléctrica 70% + transición eólica costa caribe | Grid stability agents; wind forecasting; DER coordination |
-| **México** | CFE + mercado privado; 6 GW de renovables esperados 2026 | SCADA AI para CFE; energy efficiency industrial (manufacturing) |
-| **Argentina** | Vaca Muerta (gas) + renovables costeras; crisis energética crónica | Demand response agents; eficiencia industrial; smart metering AI |
-| **Uruguay** | 95%+ renovables; lider regional en transición energética | Modelo de referencia para grid 100% renovable + AI control |
-
-**Ventaja Globant LATAM**: Presencia en todos estos mercados; puede hablar con utilities (Enel, AES, Engie, locales) que ya son clientes o conocidos.
-
----
-
-## Posicionamiento Globant
-
-- **Fortaleza**: puente entre dominio energético OT (con socios como Siemens/Schneider) y AI moderno (MCP, Claude, LangGraph)
-- **Gap de mercado**: ningún SI global especializado en energy AI open source; las big 4 no tienen depth en Python/ML para energía
-- **Propuesta**: "Energy AI Studio" — equipos especializados con PowerMCP + OpenSTEF + Grid2Op que pueden entregar en 8-20 semanas lo que un OEM tarda 2 años
-- **Entry**: talleres de proof-of-concept de 4 semanas con utility o IPP → expand
+*See also: `intel/trends.md` for detailed technical trend analysis.*

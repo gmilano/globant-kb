@@ -1,74 +1,80 @@
-# 🏭 Plataformas Verticales — Energy
+# Vertical Solutions — Energy
 
-> Plataformas existentes customizables con AI. Partir de algo funcional, añadir capa agentic arriba.
-> Última actualización: 2026-07-10
+> Existing open source platforms to customize with AI. Model: start from a working system, add an agentic layer on top.
+> Last updated: 2026-07-11 (v2)
 
-## Plataformas Clave por Categoría
+## Recommended Platforms
 
-### Gestión de Energía (EMS / BEMS / HEMS)
+| Platform | License | GitHub | Stack | Primary Use Case | AI Customization Path |
+|----------|---------|--------|-------|-----------------|----------------------|
+| **OpenEMS** | EPL-2.0 (edge/backend) / AGPL-3.0 (UI) | [OpenEMS/openems](https://github.com/OpenEMS/openems) | Java, OSGi, TypeScript | Behind-the-meter EMS: BESS, solar, EV charging, heat pumps, ToU tariffs | Expose REST API → LangGraph agent for VPP dispatch decisions; add LLM for operator Q&A |
+| **VOLTTRON** | Apache-2.0 | [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) | Python 3.10, pub-sub bus | Distributed sensing and control across utility assets; SCADA/BMS integration | Native agent framework — deploy AI agents as VOLTTRON agents alongside existing control agents |
+| **EVerest** | Apache-2.0 | [EVerest/everest-core](https://github.com/EVerest/everest-core) | C++, Python, MQTT | EV charging station software (OCPP 1.6/2.0.1/2.1, ISO 15118, IEC 61851) | Smart charging optimization agent: consume grid signal → adjust OCPP charge profile via EVerest API |
+| **OpenSTEF** | MPL-2.0 | [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | Python, MLflow, XGBoost/LightGBM | Probabilistic load/generation forecasting for DSOs | Add LLM alert agent: trigger natural-language forecasting reports + anomaly explanations |
+| **PyPSA** | MIT | [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | Python, pandas, Gurobi/HiGHS | National/regional energy system modeling and OPF | LLM scenario generation: "model 80% renewable by 2035 in Colombia" → agent drives PyPSA → explains results |
+| **pandapower** | BSD-3-Clause | [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | Python, pandas, SciPy | Distribution grid power flow, state estimation, N-1 contingency | FastAPI + pandapower grid analysis microservice; LLM front-end for utility engineers |
+| **Grid2Op** | MPL-2.0 | [Grid2op/grid2op](https://github.com/Grid2op/grid2op) | Python, Gymnasium | RL testbed for TSO/DSO grid control agents | Train topology optimization agents; demonstrate AI grid control to utility clients |
+| **CityLearn** | MIT | [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | Python, Gymnasium | Multi-building demand response at district/city scale | Multi-agent RL for building portfolio demand response; integrate with utility AMI data |
+| **OperatorFabric** | MPL-2.0 | [opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core) | Java, Angular, MongoDB | Real-time grid operator workstation: alerts, events, process monitoring | Add MCP-based Claude agent for natural-language query over grid events and incident triage |
+| **OpenRemote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java, TypeScript, Docker | IoT platform for energy assets: EV, solar, BESS, smart meters | Flow-based AI rules → LLM agent for automated demand response and tenant notifications |
 
-| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
-|------------|----------|------|-------|----------------|
-| **OpenEMS** | Eclipse PL 2.0 | [OpenEMS/openems](https://github.com/OpenEMS/openems) | Java (edge) + TypeScript (UI) + REST/JSON | EMS para renovables, almacenamiento BESS, carga de EVs; añadir agente de optimización en capa backend |
-| **emoncms** | AGPL-3.0 | [emoncms/emoncms](https://github.com/emoncms/emoncms) | PHP + MySQL + Redis + MQTT | Monitoreo de consumo residencial/comercial; añadir agente de anomaly detection y recomendaciones de eficiencia |
-| **openremote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java + Docker + Keycloak + PostgreSQL | IoT platform general; reglas automáticas + dashboards; añadir LLM para consultas en lenguaje natural sobre activos |
-| **Home Assistant** | Apache-2.0 | [home-assistant/core](https://github.com/home-assistant/core) | Python + YAML + REST/MQTT | HEMS residencial más adoptado del mundo; 3k+ integraciones; añadir agente de gestión energética conversacional |
+## How to Customize with AI
 
-### SCADA e Infraestructura de Grid
-
-| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
-|------------|----------|------|-------|----------------|
-| **JSON-SCADA** | GPL-2.0 | [riclolsen/json-scada](https://github.com/riclolsen/json-scada) | Node.js + MongoDB + Redis + PostgreSQL | SCADA completo para subestaciones; IEC 61850, IEC 104, DNP3, OPC UA; añadir agente de detección de anomalías |
-| **Rapid SCADA** | Apache-2.0 | [RapidScada/scada](https://github.com/RapidScada/scada) | C# + Windows/Linux | SCADA industrial general; sin límite de tags; añadir ML para mantenimiento predictivo de equipos |
-| **Node-RED** | Apache-2.0 | [node-red/node-red](https://github.com/node-red/node-red) | Node.js + flows JSON | Flow-based programming para integrar PLCs, APIs, sensores; añadir nodo AI para clasificación y alertas |
-
-### Simulación y Planificación
-
-| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
-|------------|----------|------|-------|----------------|
-| **pandapower** | BSD-3-Clause | [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | Python | Análisis de flujo de potencia y optimización; base de PowerMCP; validación de decisiones de agentes |
-| **PyPSA** | MIT | [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | Python + Linopy | Planificación de sistemas de potencia con restricciones de CO2 y renovables; optimización de largo plazo |
-| **Grid2Op** | LGPL-3.0 | [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | Python | Framework RL para operación de red; LF Energy; L2RPN competition; entrenamiento de agentes de despacho |
-
-### Forecasting y Analytics
-
-| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
-|------------|----------|------|-------|----------------|
-| **OpenSTEF** | MPL-2.0 | [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | Python + MLflow + XGBoost/LightGBM | AutoML para forecasting probabilístico de carga; LF Energy; producción en Alliander NL |
-| **Darts** | Apache-2.0 | [unit8co/darts](https://github.com/unit8co/darts) | Python | Series de tiempo para forecasting energético; 30+ modelos; Prophet, NBEATS, TFT |
-
-### Mercados de Energía y RECs
-
-| Plataforma | Licencia | Repo | Stack | Caso de uso AI |
-|------------|----------|------|-------|----------------|
-| **lemlab (TU Munich)** | GPL-3.0 | [tum-ewk/lemlab](https://github.com/tum-ewk/lemlab) | Python | Mercados locales P2P; clearing algorithms; prosumer data real; base para agentes de trading P2P |
-| **Energy Web Chain** | Apache-2.0 | [energywebfoundation](https://github.com/energywebfoundation) | Substrate + Solidity | Blockchain para RECs y mercados de energía; API para agentes que compran/venden certificados verdes |
-
----
-
-## Cómo Customizar con AI
-
-### Patrón estándar de "AI sobre plataforma existente"
-
+### Pattern: OpenEMS + LangGraph VPP Agent
 ```
-[Plataforma vertical (OpenEMS / emoncms / JSON-SCADA)]
-          ↓ datos operacionales via API/MQTT
-[Capa de ingestión + normalización]
-          ↓
-[Agente AI (Claude + PowerMCP / LangGraph)]
-     ↙               ↘
-[Forecasting]    [Optimización]
-(OpenSTEF)       (pandapower/PyPSA)
-          ↓
-[UI conversacional o alertas automáticas]
+OpenEMS (edge) collects BESS/solar/EV telemetry via IEC 61850 / Modbus
+  → REST API exposes real-time asset state
+  → LangGraph agent subscribes to state changes
+  → Agent evaluates: market price signal + grid frequency + weather forecast
+  → Agent calls OpenEMS REST to adjust BESS dispatch setpoints
+  → Reports dispatch decisions to operator via Slack/email
 ```
 
-### Consideraciones de integración
+### Pattern: VOLTTRON + AI Microservices
+```
+VOLTTRON agents (existing) collect BAS/SCADA data
+  → Publish to VOLTTRON message bus
+  → AI Agent subscribes (as a VOLTTRON agent)
+  → Runs inference via local Ollama (air-gapped compliance)
+  → Publishes AI-derived setpoints back to bus
+  → VOLTTRON actuator agent executes setpoints
+```
 
-1. **OpenEMS** tiene REST API nativa y sistema de componentes; el agente puede leer estado del sistema y escribir setpoints de forma programática
-2. **emoncms** expone API de feeds y inputs; ideal para contexto de consumo en agentes de eficiencia
-3. **Grid2Op** + **sinergym** son los entornos de entrenamiento para agentes RL especializados antes de producción
-4. **OpenSTEF** puede servirse como microservicio REST; el agente llama al endpoint de forecast como herramienta
+### Pattern: PyPSA + LLM Scenario Engine
+```
+Client provides grid topology data (MATPOWER/PSS-E format)
+  → Convert to PyPSA network
+  → LLM agent takes natural-language scenario: "Add 2GW offshore wind"
+  → Agent translates to PyPSA component additions
+  → Run OPF + capacity expansion
+  → LLM agent interprets results → generates executive summary
+  → Output: PDF report with charts for utility board
+```
+
+### Pattern: EVerest + Smart Charging Agent
+```
+EVerest manages physical EV charger hardware
+  → OCPP 2.1 interface exposed via EVerest
+  → Smart Charging Agent monitors: grid frequency, ToU tariff, local PV generation
+  → Agent computes optimal charge schedule (PyPSA OPF or heuristic)
+  → Issues OCPP SetChargingProfile commands to EVerest
+  → Result: 15-30% charging cost reduction + grid congestion relief
+```
+
+## Platform Decision Guide
+
+| Need | Recommended Platform |
+|------|---------------------|
+| Behind-the-meter BESS/solar control | OpenEMS |
+| Distributed utility-grade sensing + AI agents | VOLTTRON |
+| EV charging (EVSE manufacturer / fleet) | EVerest |
+| Grid load forecasting for DSO | OpenSTEF |
+| National/regional energy planning | PyPSA / PyPSA-Eur |
+| Distribution grid analysis | pandapower |
+| Grid RL agent demonstration | Grid2Op |
+| Building demand response | CityLearn |
+| TSO/DSO operator workstation | OperatorFabric |
+| Multi-device IoT energy management | OpenRemote |
 
 ---
-*Ver también: `agents/top.md` y `repos/foundations.md`.*
+*See also: `repos/foundations.md` for lower-level component libraries.*

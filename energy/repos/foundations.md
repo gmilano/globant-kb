@@ -1,60 +1,32 @@
-# 🏗️ Repos Fundacionales — Energy
+# Foundational Repos — Energy
 
-> Bases sobre las cuales construir soluciones AI para la industria energética.
-> Licencia abierta, comunidad activa, uso en producción verificado.
-> Última actualización: 2026-07-10
+> Battle-tested open source bases to build on. Open license, active community.
+> Last updated: 2026-07-11 (v2)
 
-## Simulación y Análisis de Redes Eléctricas
+## Core Platforms & Frameworks
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | LGPL-3.0 | ~1.1k | Framework RL para operación de redes eléctricas; usado en competiciones L2RPN; LF Energy project | Sí — agentes RL de despacho y control de red |
-| [pandapower](https://github.com/e2nIEE/pandapower) | BSD-3-Clause | ~1.0k | Biblioteca Python para análisis de flujo de potencia, cortocircuito y optimización; base de PowerMCP | Sí — simulación rápida para validar decisiones de agentes |
-| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | MIT | ~1.4k | Python for Power System Analysis; planificación de sistemas de energía con optimización linear; base de PowerMCP | Sí — optimización de portfolios renovables, CO2 constraints |
-| [dpsim-simulator/dpsim](https://github.com/sogno-platform/dpsim) | MPL-2.0 | ~230 | Simulador de sistemas de potencia en tiempo real; base sogno/RWTH Aachen; integrado con OpenEMS | Sí — validación en tiempo real |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | MIT | ~2,100 | TU Berlin — Python for Power System Analysis. OPF, unit commitment, storage, multi-sector coupling (electricity + heat + H2). The standard open tool for national/continental energy system modeling. Pandas-based DataFrame interface makes it trivially wrappable with LLM agents. | Yes — wrap OPF results with LLM explanation agent |
+| [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | BSD-3-Clause | ~1,200 | Fraunhofer IEE + Uni Kassel — Fast Newton-Raphson power flow, state estimation, short-circuit analysis, OPF. 500k+ PyPI downloads. PYPOWER-compatible, pandas-based. Well-maintained; ideal for distribution grid AI applications. | Yes — DataFrames expose grid topology directly to ML pipelines |
+| [pybamm-team/PyBaMM](https://github.com/pybamm-team/PyBaMM) | BSD-3-Clause | ~1,600 | NumFOCUS — Fast, flexible physics-based battery modelling (Doyle-Fuller-Newman model). Critical for BESS state-of-health, degradation prediction, and BMS AI integration. Used by BMW, Northvolt, and national labs. | Yes — physics model + ML surrogate for real-time BMS AI |
+| [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) | Apache-2.0 | ~495 | DOE / PNNL — Distributed sensing and control platform. Pub-sub message bus, SCADA/BMS driver framework, historian for time-series data. Lifecycle management for deployed Python AI agents. v10 migrating to Eclipse Foundation. The foundational OS for building AI microservices on energy infrastructure. | Yes — native agent lifecycle + SCADA integration |
+| [EVerest/everest-core](https://github.com/EVerest/everest-core) | Apache-2.0 | ~221 | PIONIX / LF Energy — Full-stack EV charging software. OCPP 1.6/2.0.1/2.1, ISO 15118, IEC 61851, hardware drivers. Most active community in LF Energy. C++ + Python. Production-deployed by EVSE manufacturers across EU/US. | Yes — AI charging optimization layer on top of OCPP stack |
+| [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | MPL-2.0 | ~153 | Alliander / LF Energy — AutoML pipelines for probabilistic short-term grid load forecasting (hours to 48h ahead). Weather data ingestion, MLflow tracking, production-grade. Used by a top-5 European DSO. | Yes — already ML-native; add LLM alert layer |
+| [rte-france/Grid2Op](https://github.com/Grid2op/grid2op) | MPL-2.0 | ~448 | RTE France / LF Energy — Gymnasium-compatible testbed for RL-based power grid control. L2RPN challenge platform. Supports pandapower, lightsim2grid, and Powsybl backends. Essential for training autonomous grid control agents. | Yes — designed for AI agents; drop in any RL framework |
+| [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | MIT | ~622 | Georgia Tech — Farama Gymnasium RL environment for multi-agent building demand response at city scale. Models BESS, heat pumps, electric heaters, EVs. v2.5.0 released Oct 2025. ASHRAE + IECC compliant loads. | Yes — multi-agent RL out of the box; Stable Baselines 3 compatible |
+| [PyPSA/pypsa-eur](https://github.com/PyPSA/pypsa-eur) | MIT | ~577 | TU Berlin — Sector-coupled open optimization model of the European energy system. Covers all ENTSO-E + transport, heating, industry, agriculture sectors. Reference tool cited in EU policy documents. Snakemake workflow. | Yes — generate scenarios with LLM agent; explain results in plain language |
+| [gridfm/gridfm-datakit](https://github.com/gridfm/gridfm-datakit) | Apache-2.0 | ~127 | IBM / Hydro-Quebec / LF Energy — Synthetic dataset generator for training ML/foundation models on OPF and power flow. Handles grids up to 30k buses. MATPOWER format, topology perturbations, constraint violations. Essential for training grid foundation models. | Yes — feeds foundation model training pipelines |
 
-## Gestión de Energía (EMS/BEMS)
+## Supporting Libraries
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [OpenEMS/openems](https://github.com/OpenEMS/openems) | Eclipse PL 2.0 | ~1.2k | EMS modular para renovables, almacenamiento, EV charging; FENECON; usado en miles de instalaciones industriales y comerciales | Sí — plataforma base para añadir agentes de optimización |
-| [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | MPL-2.0 | ~400 | AutoML pipelines para forecasting probabilístico de carga a corto plazo; LF Energy project; Alliander NL en producción | Sí — forecasting de demanda como servicio para agentes de despacho |
-| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | ~1.8k | Plataforma IoT 100% open source; rules engine, protocols MQTT/HTTP/WebSocket/Modbus; dashboards; flows de automatización | Sí — capa de integración IoT para sensores de red y edificios |
-
-## Optimización y RL para Edificios
-
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | ~231 | Gym environment para simulación y control de edificios con RL + EnergyPlus; soporte multi-zona, multi-objetivo | Sí — entrenamiento de agentes RL para HVAC y gestión energética |
-| [IBM/rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) | MIT | ~217 | RL Testbed de IBM para optimización de consumo energético en edificios; EnergyPlus backend | Sí — baseline RL para comparar contra agentes LLM |
-| [santoshphilip/eppy](https://github.com/santoshphilip/eppy) | MIT | ~199 | Scripting language para EnergyPlus; parametrización de modelos de edificios | Sí — automatización de simulaciones EnergyPlus desde agentes |
-
-## Mercados de Energía y P2P
-
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [tum-ewk/lemlab](https://github.com/tum-ewk/lemlab) | GPL-3.0 | ~120 | Framework multi-agente para mercados locales de energía P2P; TU Munich; data time-series prosumidores reales; clearing algorithms | Sí — simulación de mercados P2P para agentes de trading energético |
-| [energywebfoundation/ew-dos-token-interface](https://github.com/energywebfoundation/ew-dos-token-interface) | Apache-2.0 | ~80 | Energy Web: certificados de energía renovable (RECs) en blockchain EW Chain; API para agentes de compra/venta de energía verde | Sí — integración de atributos de origen renovable en decisiones de agentes |
-
-## SCADA y Telemetría Industrial
-
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|--------------|
-| [riclolsen/json-scada](https://github.com/riclolsen/json-scada) | GPL-2.0 | ~400 | SCADA completo para sistemas de potencia; soporte IEC 61850, IEC 104, DNP3, OPC UA, MQTT; usado en subestaciones reales | Sí — ingestión de datos operacionales reales para agentes |
-| [emoncms/emoncms](https://github.com/emoncms/emoncms) | AGPL-3.0 | ~1.5k | Plataforma de monitoreo energético open source; serie de tiempo, dashboards; base de OpenEnergyMonitor | Sí — datos de consumo residencial/comercial para agentes de eficiencia |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | 231 | Universidad de Granada — Gymnasium + EnergyPlus building RL. Multi-zone buildings, custom weather, real-time monitoring. |
+| [alliander-opensource/s4casting](https://github.com/alliander-opensource/s4casting) | Apache-2.0 | ~120 | Alliander — Time series foundation models tuned for energy (demand, solar, wind). Zero-shot on new substations. |
+| [ADGEfficiency/energy-py](https://github.com/ADGEfficiency/energy-py) | MIT | ~190 | RL environments for battery dispatch and energy arbitrage. Stable Baselines 3 compatible. |
+| [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM) | MIT | ~46 | Hub for power domain foundation models: GridLDM (latent diffusion for grid TS), OpenPowerBench, mAIEnergy (50k docs + 25M TS for LLM pre-training). |
+| [OpenEnergyPlatform/awesome-sustainable-technology](https://github.com/OpenEnergyPlatform/awesome-sustainable-technology) | CC0 | ~1,000 | Community-curated list of all open source energy and climate tools. Best starting map of the ecosystem. |
 
 ---
-
-## Stack Mínimo para Proyecto AI Energético
-
-```
-1. Datos operacionales: OpenEMS / emoncms / json-scada (telemetría real)
-2. Simulación: pandapower + PyPSA (validación de decisiones)
-3. Forecasting: OpenSTEF (carga y generación a corto plazo)
-4. Agentes: PowerMCP + Claude / GPT-4o (razonamiento y herramientas)
-5. RL especializado: Grid2Op + sinergym (control de red y edificios)
-6. Orquestación: PowerWF (workflows de ingeniería de potencia)
-```
-
----
-*Ver también: `agents/top.md` para los agentes AI específicos.*
+*See also: `verticals/solutions.md` for full-stack vertical platforms.*
