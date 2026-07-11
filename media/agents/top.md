@@ -1,31 +1,22 @@
-# 🎯 Agentes AI — Media & Entertainment
+# Top AI Agents — Media & Entertainment
 
-> Agentes y herramientas AI open source para la industria. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-11
+> Open source AI agents and tools for Media & Entertainment. Focus: MIT / Apache 2.0 licenses Globant can build on.
+> Last updated: 2026-07-11 (v13)
 
-## Agentes y herramientas destacadas
+## Featured Agents & Tools
 
-| Nombre | Repo | Licencia | Stars | Descripción |
-|--------|------|----------|-------|-------------|
-| OpenMontage | [nerdzap/openmontage](https://github.com/nerdzap/openmontage) | MIT | ~800 | Agentic video production: AI coding assistant actúa como director creativo, scripta y edita videos completos desde modelos locales o footage archival libre. Integra Piper TTS y subtítulos automáticos. |
-| SubsAI | [absadiki/subsai](https://github.com/absadiki/subsai) | MIT | ~3.5k | Subtítulos automáticos con Whisper para video: Web-UI + CLI + Python. Exporta .srt, .ass, .vtt, .json. Traducción multilingüe integrada. |
-| subgen | [McCloudS/subgen](https://github.com/McCloudS/subgen) | MIT | ~2.8k | Generación automática de subtítulos vía Whisper para Jellyfin, Plex, Emby, Tautulli y Bazarr. Muy usado en producción para pipelines de localización. |
-| veyracast | [veyralabsgroup/veyracast](https://github.com/veyralabsgroup/veyracast) | MIT | ~500 | Agente de contenido social API-first: genera posts/comentarios con Claude, agenda y publica en X, Instagram Graph. Multi-provider, self-hostable. |
-| mediago-drama | [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) | Apache-2.0 | ~900 | Agent workbench de texto-a-video para short dramas: convierte novelas en guiones estructurados y lanza pipelines de generación de video. |
-| AudioCraft / MusicGen | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT | ~22k | Framework PyTorch de Meta para generación de audio/música. Incluye MusicGen (control textual y melódico), EnCodec y AudioGen para efectos de sonido. |
-| ACE-Step | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Apache-2.0 | ~4.8k | Modelo local de generación musical: 4 minutos de canción en <10 segundos en RTX 3090. v1.5 con mejor coherencia lírica. Alternativa open source a Suno. |
-| VideoCaptioner | [WEIFENG2333/VideoCaptioner](https://github.com/WEIFENG2333/VideoCaptioner) | MIT | ~6.2k | Captioning AI con transcripción automática, segmentación, corrección de errores y traducción multilingüe. Ideal para localización a escala. |
-| media_monitor | [matuteiglesias/media_monitor](https://github.com/matuteiglesias/media_monitor) | Apache-2.0 | ~120 | Pipeline de inteligencia de noticias en vivo: scraping, análisis LLM, publicación automática. Útil para monitoreo de marca y análisis de sentimiento. |
-| Bark | [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | ~39k | TTS generativo multilingüe de Suno AI: voz, música, efectos de sonido, risa. 100 idiomas. Integrable en pipelines de doblaje y narración automatizada. |
-
----
-
-## Notas de uso
-
-- **Whisper** (`openai/whisper`, MIT, 104k ★) es la base de SubsAI y subgen — para transcripción y STT en cualquier idioma.
-- **AudioCraft** es la base para generación musical; combinar con **Bark** para narración + música de fondo.
-- **mediago-drama** usa Wan2.1/Wan2.2 como backend de generación de video.
-- Para pipelines completos ver `compose/patterns.md`.
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| OpenMontage | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | AGPL-3.0 | ~45k | World's first open-source agentic video production system — 12 pipelines, 52 tools, 500+ agent skills. Turn Claude Code into a full video production studio; handles scripting, asset gen, editing, and final composition. |
+| Wan2.2 | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | Alibaba Tongyi Lab MoE video diffusion model; world's first open-source MoE video gen. 5B active params, 720P@24fps T2V and I2V, runs on RTX 4090. 65.6% more image data and 83.2% more video data than Wan2.1. |
+| LTX-Video (LTX-2.3) | [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache-2.0 | ~7k | Lightricks 22B-parameter DiT model. First open model with native 4K@50fps synchronized audio+video. Supports T2V, I2V, A2V, V2V, LipDub, and keyframe interpolation. Released March 2026. |
+| CogVideoX | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 (2B) | ~12.7k | Zhipu AI / Tsinghua text-to-video diffusion; 2B and 5B variants. 10-second clips at 768×1360@16fps. CogVideoX-2B fully Apache-2.0; 5B uses Tsinghua model license (commercial use permitted). |
+| Open Generative AI | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~9k | Self-hosted studio with 200+ image and video generation models (Flux, Wan, Kling, Sora, Veo). No content filters. Workspaces for Image, Video, Lip Sync, and Cinema production. Hit GitHub Trending Apr 2026. |
+| AudioCraft (MusicGen) | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT (code) | ~21k | Meta PyTorch library for audio/music generation. Includes MusicGen (text-to-music), AudioGen (text-to-sound), and EnCodec (neural audio codec). Code MIT; model weights CC-BY-NC 4.0. |
+| ComfyUI | [comfy-org/ComfyUI](https://github.com/comfy-org/ComfyUI) | GPL-3.0 | ~69k | Node-based visual AI pipeline for image and video generation. Dominant open-source UI for diffusion models in 2026. Supports FLUX, SD3.5, Wan2.2, HunyuanVideo, CogVideoX, LTX-Video via custom nodes. 1,000+ node packages. |
+| Pedalboard | [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Spotify's Python audio-effects library. Load VST3/Audio Unit plugins, process audio up to 300× faster than pySoX. Powers Spotify AI DJ and AI Voice Translation internally. |
+| HunyuanVideo | [Tencent-Hunyuan/HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Tencent CL | ~16k | Tencent's open large video generation model. Commercial use permitted up to 100M MAU. High-fidelity long-form video synthesis; integrates with ComfyUI. |
+| Mochi 1 | [genmoai/mochi](https://github.com/genmoai/mochi) | Apache-2.0 | ~4k | Genmo text-to-video model targeting high motion quality and realistic dynamics. 480p, requires 80GB VRAM for full precision; 4-bit quantized versions available for 24GB consumer GPUs. |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Auto-updated by ingest pipeline.*

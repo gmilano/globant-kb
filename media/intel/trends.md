@@ -1,84 +1,45 @@
-# 📈 Tendencias — Media & Entertainment AI
+# Industry Trends — Media & Entertainment AI
 
-> Última actualización: 2026-07-11
+> Current signals shaping the media and entertainment AI landscape. July 2026.
+> Last updated: 2026-07-11 (v13)
 
-## T1 — GenAI deja de ser experimento y se convierte en dependencia operativa
+## Macro Trends
 
-En 2026 el mercado de GenAI en M&E pasó de $2.5B a $3.16B (CAGR 26.5%). Studios, broadcasters y plataformas OTT están embebiendo AI en la cadena completa: ideación, producción, localización, distribución y monetización. Ya no es un piloto; es pipeline crítico.
+### T1: MoE Architecture Arrives in Video Diffusion
+Wan2.2 (July 2025, dominant in 2026) is the first open-source Mixture-of-Experts video model. MoE enables larger model capacity at the same inference cost — 5B active parameters delivering quality previously requiring 14B+ dense models. Implication: frontier-quality video generation is now viable on consumer RTX 4090 hardware, collapsing the studio-compute barrier.
 
-**Implicación Globant**: los clientes buscan integradores que sepan conectar modelos abiertos con sistemas de producción legacy.
+### T2: Agentic Production Systems Emerge
+OpenMontage (June 2026, AGPL) crossed 45k+ GitHub stars and briefly topped GitHub Trending — the first clear signal that "AI as production crew" is ready for adoption. 12 pipelines covering scripting, stock footage retrieval, asset generation, editing, and render. Clients now expect full production pipelines, not point tools.
 
----
+### T3: Native Audio-Video Synchronization
+LTX-2.3 (March 2026, Apache-2.0) is the first open model generating native synchronized audio+video at 4K@50fps. This solves the biggest pain point in AI video post-production (latent audio misalignment) without external audio tools. Expect rapid adoption in ad production, localization, and short-form content.
 
-## T2 — Video generativo open source alcanza calidad comercial
+### T4: Self-Hosted AI Studios Surge
+Open Generative AI (MIT, April 2026) hit 9k+ stars with the pitch: 200+ models, no content filters, all on-premise. Growing demand from studios with IP protection requirements and enterprise clients unable to use cloud AI APIs due to content rights agreements.
 
-Wan2.2 (julio 2026, Apache-2.0) y SkyReels V2 (Apache-2.0) demuestran que la brecha con Sora/Kling/Runway se está cerrando. Wan2.2 con arquitectura MoE genera 1080p/10s. SkyReels V2, entrenado sobre 10M clips cinematográficos, produce calidad de cine en hardware consumer.
+### T5: Shift from Experimentation to Operational Dependency
+Per EY and Deloitte 2026 M&E Outlook: GenAI has moved from pilot projects to embedded production workflows. Studios and OTT platforms are using AI across the full value chain — ideation, production, localization, distribution, and monetization. AI is no longer optional in competitive production environments.
 
-**Repos clave**: `Wan-Video/Wan2.2`, `SkyworkAI/SkyReels-V2`, `deepbeepmeep/Wan2GP`
+### T6: Authenticity Backlash Creates Premium Content Tier
+Consumers signal preference for human-led storytelling despite (or because of) AI proliferation. Brands investing in distinctive editorial identity, provenance markers, and human+AI hybrid workflows are commanding premium positioning. "AI-made" is neutral; "human-guided, AI-assisted" is the premium value proposition.
 
----
+### T7: Short-Form Drama Markets (APAC → LATAM)
+The Chinese short drama market (mediago-drama pattern) is expanding rapidly. Novel-to-short-drama pipelines converting written fiction to multi-episode video series are gaining traction. LATAM creators are watching this market closely; Spanish-language short drama is the next wave.
 
-## T3 — Producción agentic: el coding assistant como director creativo
+### T8: Localization at Scale
+AI dubbing and localization pipelines are becoming standard. Whisper (transcription) + LTX-Video LipDub + Pedalboard (audio normalization) + Claude (translated script) creates a fully automated dubbing pipeline. Netflix and Disney are building internal versions; Globant can deliver this for mid-market broadcasters.
 
-OpenMontage establece el patrón: un coding assistant (Claude, Cursor) puede scripting, editar y producir videos completos usando modelos locales, footage libre, TTS y subtítulos. El modelo "agente como orquestador del pipeline de producción" va a escalar en 2026-2027.
+### T9: Open LoRA Ecosystem Matures for Video
+Following the pattern of CivitAI for images, video model LoRA communities are exploding around Wan2.2 and LTX-Video. Character consistency LoRAs, style transfer LoRAs, and motion control adapters are the fastest-growing categories. This ecosystem creates a long tail of specialization opportunities.
 
-**Repo clave**: `nerdzap/openmontage`
+### T10: GPU-Poor Tooling Enables Indie Creator Economy
+Tools like Wan2GP (Apache-2.0) that run frontier models on single-GPU setups are collapsing the cost barrier for indie creators. The M&E creator economy is expanding downmarket, with AI doing the heavy production lifting on commodity hardware.
 
----
+## Regulatory and Ethical Context
 
-## T4 — Autenticidad como activo premium
-
-A medida que el contenido generado por IA prolifera, los consumidores señalan que quieren storytelling humano, conexión emocional y periodismo creíble. La autenticidad se convierte en ventaja competitiva. Las plataformas que mezclan AI-efficiency con voz humana ganadora son las preferidas (EY 2026 M&E Outlook).
-
-**Oportunidad**: herramientas de detección de AI en contenido, watermarking, y curaduría human-in-the-loop.
-
----
-
-## T5 — Experiencias inmersivas: AR/VR se vuelven mainstream
-
-Con headsets más baratos y 5G extendido, el mercado immersive podría superar $100B en gaming, conciertos, deportes y storytelling interactivo para 2026-2027. Los primeros proyectos a escala están usando Unity + AI agents para experiencias adaptativas.
-
-**Oportunidad Globant**: integración de AI agents con motores 3D (Unity/Unreal) para experiencias personalizadas en tiempo real.
-
----
-
-## T6 — Localización AI multilingüe escala globalmente
-
-La combinación Whisper (ASR) → LLM translation → Bark/TTS hace viable el doblaje y subtitulado AI a escala. Netflix y Amazon ya usan pipelines similares. El mercado open source está maduro para implementar esto on-premise con modelos propios.
-
-**Repos clave**: `openai/whisper`, `absadiki/subsai`, `McCloudS/subgen`, `suno-ai/bark`
+- **Synthetic media disclosure**: EU AI Act requires labeling AI-generated content (enforcement Aug 2026). US: no federal law yet, but platform-level enforcement (YouTube/TikTok mandatory watermarking).
+- **Music licensing**: AudioCraft weights are CC-BY-NC due to training data licensing complexity. Commercial audio generation remains legally murky — Suno/Udio lawsuits ongoing.
+- **Deepfake and likeness rights**: Growing state-level legislation in US (California, Texas, New York). Any AI dubbing or likeness project requires explicit consent workflows.
 
 ---
-
-## T7 — Música generativa open source madura
-
-ACE-Step v1.5 produce una canción completa de 4 minutos en <10 segundos en hardware consumer. MusicGen de Meta (MIT) y Stable Audio Open son bases sólidas. El gap con Suno/Udio sigue en calidad vocal lírica pero se cierra rápido.
-
-**Repos clave**: `facebookresearch/audiocraft`, `ace-step/ace-step`
-
----
-
-## T8 — Content Intelligence: de métricas a decisiones editoriales
-
-Media monitoring con AI (análisis de sentimiento, trending topics, predicción de engagement) está desplazando dashboards estáticos. Pipelines como `media_monitor` combinan scraping + LLM para inteligencia editorial en tiempo real.
-
-**Oportunidad**: herramienta de editorial intelligence para broadcasters y agencias en LATAM.
-
----
-
-## T9 — Short-form video agentic para mercados asiático y global
-
-mediago-drama (novela → short drama → video clips) refleja la explosión del short-form content en TikTok, Reels y Douyin. Los agentes que convierten IP textual en contenido video automáticamente son el siguiente paso para estudios de contenido digital.
-
-**Repo clave**: `mediago-dev/mediago-drama`
-
----
-
-## T10 — Reducción de costos de producción: 10-30%
-
-Morgan Stanley Research estima que GenAI podría reducir costos de producción 10% en general y hasta 30% en TV/cine. Los primeros casos reales: reducción de VFX, automatización de color grading, subtitulado y localización automática.
-
-**Implicación**: los clientes M&E de Globant estarán muy receptivos a ROI concreto en reducción de costos de post-producción.
-
----
-*Fuentes: EY 2026 M&E Outlook, Deloitte M&E 2026, GlobeNewswire July 2026, Morgan Stanley Research.*
+*Auto-updated by ingest pipeline.*

@@ -1,29 +1,26 @@
-# 📈 Repos trending — Media & Entertainment
+# Trending Repos — Media & Entertainment
 
-> Última actualización: 2026-07-11
+> GitHub trending repositories in media and entertainment AI — July 2026.
+> Last updated: 2026-07-11 (v13)
 
-## Top trending en julio 2026
+## Trending This Week
 
-| Nombre | Repo | Licencia | Stars | Por qué está trending |
-|--------|------|----------|-------|----------------------|
-| Wan2.2 | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | Lanzado julio 2026. MoE backbone, +65% training data vs Wan2.1. El modelo open source de video más avanzado disponible hoy. |
-| SkyReels-V2 | [SkyworkAI/SkyReels-V2](https://github.com/SkyworkAI/SkyReels-V2) | Apache-2.0 | ~8k | Producción cinematográfica open source. Fine-tune sobre 10M clips cine/TV. Competitivo con herramientas comerciales. |
-| Wan2GP | [deepbeepmeep/Wan2GP](https://github.com/deepbeepmeep/Wan2GP) | Apache-2.0 | ~6k | Hace accesible Wan2.x en GPUs consumer (8-24GB VRAM). Enorme adopción por creadores de contenido. |
-| VideoCaptioner | [WEIFENG2333/VideoCaptioner](https://github.com/WEIFENG2333/VideoCaptioner) | MIT | ~6.2k | Captioning AI todo-en-uno. Traducción multilingüe integrada. Muy usado para localización a escala. |
-| ACE-Step | [ace-step/ace-step](https://github.com/ace-step/ace-step) | Apache-2.0 | ~4.8k | Canción completa en 10 segundos localmente. v1.5 con mayor coherencia. Alternativa open source a Suno/Udio. |
-| OpenMontage | [nerdzap/openmontage](https://github.com/nerdzap/openmontage) | MIT | ~800 | Producción de video agentica: Claude/Cursor como director creativo. Pipeline completo texto→video con TTS y subtítulos. |
-| mediago-drama | [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) | Apache-2.0 | ~900 | Novel-to-short-drama agent: convierte texto en clips de video. Muy popular en mercado asiático + creadores en inglés. |
-| veyracast | [veyralabsgroup/veyracast](https://github.com/veyralabsgroup/veyracast) | MIT | ~500 | Agente de contenido social self-hostable. Publica en X e Instagram vía APIs oficiales con LLM. |
-| Bark | [suno-ai/bark](https://github.com/suno-ai/bark) | MIT | ~39k | Sigue siendo referencia para TTS multilingüe generativo. Actualización de modelos en Q2 2026. |
-| SubsAI | [absadiki/subsai](https://github.com/absadiki/subsai) | MIT | ~3.5k | Pipeline de subtitulación multi-formato. Muy adoptado en estudios de post-producción small/mid. |
+| Repo | License | Stars | What's Happening |
+|------|---------|-------|-----------------|
+| [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | AGPL-3.0 | ~45k | Topped GitHub Trending in June 2026. World's first agentic video production system — 12 pipelines, 52 tools, 500+ agent skills. New "documentary montage" and "cinematic trailer" pipelines added in v0.4. |
+| [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~9k | Self-hosted studio: 200+ image and video models, no content filters. Gained 7,500+ stars within days of viral launch (April 2026). Adding Lip Sync Studio and Cinema mode. |
+| [deepbeepmeep/Wan2GP](https://github.com/deepbeepmeep/Wan2GP) | Apache-2.0 | ~5k | GPU-poor optimized runner for Wan 2.1/2.2, LTX-2, HunyuanVideo, Flux. July 2026 update adds Wan2.2 MoE support. Key enabler for solo creators on consumer hardware. |
+| [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) | Apache-2.0 | ~250 | Novel-to-short-drama agent pipeline (Chinese-market focus). Text → video one-stop workbench. Gaining stars rapidly as short-form drama market expands in APAC. |
+| [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | July 2026: community LoRA hub growing, with style LoRAs, character consistency models, and motion control models — similar ecosystem maturity to SD1.5 in its prime. |
+| [Lightricks/LTX-Desktop](https://github.com/Lightricks/LTX-Desktop) | Apache-2.0 | ~2k | Open-source desktop app for LTX-Video. New in June 2026. Lets Mac/Windows users run 4K video generation locally without CLI setup. |
+| [Tencent-Hunyuan/HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Tencent CL | ~16k | Active community around 480p→720p quality improvements and I2V variants. Growing ComfyUI workflow ecosystem. |
 
----
+## Ecosystem Signal: LoRA and Fine-Tune Markets
 
-## Señales débiles (proyectos <500 ★ a observar)
-
-- **[mediago-dev/mediago](https://github.com/mediago-dev/mediago)** — Descargador de media con IA integrada. Base del ecosistema mediago.
-- **[media_monitor](https://github.com/matuteiglesias/media_monitor)** — Pipeline de noticias en vivo con análisis LLM y publicación automática.
-- **AI dubbing open source** — Área sin solución abierta dominante todavía. Oportunidad: combinar Whisper + diarización + Bark + traducción.
+Open video model ecosystems are developing LoRA marketplaces (similar to CivitAI for images):
+- Wan2.2 has the most active LoRA community as of July 2026
+- LTX-Video IC-LoRA (V2V) is seeing rapid adoption for brand consistency and style transfer
+- Character consistency LoRAs are the fastest-growing category — solves the biggest pain point in AI video production
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated by ingest pipeline.*
