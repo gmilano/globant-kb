@@ -1,659 +1,488 @@
-# Composition Patterns — Retail & E-Commerce AI
+# 🧩 Composition Patterns — Retail & E-Commerce AI
 
-> Concrete recipes using real repos + agents. All stacks use MIT/Apache 2.0 components.
-> Updated: 2026-07-10
+> Concrete recipes combining specific repos + agents + wiring instructions.
+> Last updated: 2026-07-11
+
+## Architecture Overview
+
+```
+[Vertical Platform (Medusa / ERPNext / Odoo / WooCommerce)]
+                    ↓  REST API / MCP
+         [Enthusiast Agent Layer OR LangGraph]
+                    ↓
+         [LLM: Claude / GPT-4 / Llama via Ollama]
+                    ↓
+    [Specialized AI: RecBole / LightFM / Merlin / stockpyl]
+                    ↓
+    [Output: Chat UI / API / WhatsApp / ACP Endpoint]
+```
 
 ---
 
-## Pattern Base
+## P1 — Agentic Shopping Assistant
 
-```
-[Open Source Commerce Platform (Medusa / Saleor / Odoo)]
-          ↓
-[ACP Layer — Agentic Commerce Protocol (Apache 2.0)]
-          ↓
-[AI Agents: Catalog + Recommendations + Inventory + Shopping]
-          ↓
-[Customer-facing: ChatGPT / Gemini / Alexa+ / Custom UI]
-```
+**Goal**: AI agent that helps customers find products, answers questions, and completes purchases  
+**Time to POC**: 2–3 weeks | **License stack**: MIT + Apache-2.0
 
----
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| Commerce API | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT |
+| AI agent framework | [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) | MIT |
+| Agent memory | [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 |
+| LLM | Claude claude-sonnet-5 via Anthropic API | Commercial |
+| MCP connector | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT |
 
-## P1 — Agentic Checkout Pipeline (Core Pattern)
-
-**Goal:** Allow AI shopping agents (ChatGPT, Gemini, Perplexity, custom) to browse, select, and purchase from a retail client's catalog.
-
-**Stack:**
-- Commerce: [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — product catalog + order management
-- Protocol: [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) (Apache 2.0) — ACP spec
-- Payments: Stripe with ACP delegated payment handler
-- Reference impl: [locus-technologies/agentic-commerce-protocol-demo](https://github.com/locus-technologies/agentic-commerce-protocol-demo) (Apache 2.0)
-
-**Architecture:**
+### Wiring
 ```python
-# ACP Merchant Server (FastAPI wrapping Medusa API)
-from fastapi import FastAPI
-from medusa_sdk import MedusaClient
+# 1. Boot Medusa.js v2 (commerce backend)
+# docker-compose up medusa
 
-app = FastAPI()
-medusa = MedusaClient(base_url="http://localhost:9000", api_key=MEDUSA_KEY)
-
-@app.get("/acp/catalog")          # ACP: Product Feed endpoint
-async def get_catalog(query: str, limit: int = 20):
-    products = await medusa.products.search(q=query, limit=limit)
-    return {
-        "products": [
-            {
-                "id": p.id,
-                "title": p.title,
-                "description": p.description,
-                "variants": [{"id": v.id, "price": v.price, "sku": v.sku} for v in p.variants],
-                "attributes": p.metadata  # structured for AI browsing
-            }
-            for p in products.products
-        ]
+# 2. Configure Enthusiast with Medusa connector
+# enthusiast/config.py
+CONNECTORS = {
+    "medusa": {
+        "url": "http://localhost:9000",
+        "api_key": os.environ["MEDUSA_API_KEY"]
     }
+}
 
-@app.post("/acp/checkout")        # ACP: Create checkout session
-async def create_checkout(items: list[dict], buyer_token: str):
-    cart = await medusa.carts.create()
-    for item in items:
-        await medusa.carts.add_line_item(cart.id, item["variant_id"], item["quantity"])
-    # Delegate payment via Stripe ACP handler
-    payment_session = await medusa.carts.create_payment_sessions(cart.id)
-    return {"session_id": cart.id, "payment_methods": payment_session}
+# 3. Enable agents
+AGENTS = [
+    "product_search",    # RAG over product catalog
+    "customer_support",  # FAQ + order status
+    "recommendation",    # Personalized suggestions
+]
 
-@app.post("/acp/checkout/{session_id}/complete")   # ACP: Complete purchase
-async def complete_checkout(session_id: str, payment_token: str):
-    order = await medusa.orders.create_from_cart(session_id)
-    return {"order_id": order.id, "status": order.status, "total": order.total}
+# 4. Add Mem0 for persistent user preferences
+from mem0 import MemoryClient
+memory = MemoryClient(api_key=os.environ["MEM0_API_KEY"])
+
+# On each user message:
+user_memories = memory.search(query=user_message, user_id=user_id)
+context = f"User preferences: {user_memories}\n\nUser: {user_message}"
+
+# 5. Route to Enthusiast agent
+response = enthusiast.chat(context, agent="product_search")
 ```
 
-**Estimated cost to build:** $80k–$250k  
-**Timeline:** 8–12 weeks  
-**LATAM note:** Add PIX (Brazil) or OXXO (Mexico) as custom payment handlers in Medusa.
+### Capabilities
+- Natural language product search across full catalog
+- Personalized recommendations based on purchase history
+- Order status, returns, FAQ handling
+- Add to cart / checkout initiation
 
 ---
 
-## P2 — AI Catalog Enrichment Factory
+## P2 — Recommendation Engine Pipeline
 
-**Goal:** Transform sparse product images/data into rich, multi-language, ACP-ready catalog entries at scale.
+**Goal**: Hybrid recommendation system powering product pages, email, and push notifications  
+**Time to POC**: 1–2 weeks | **License stack**: MIT + Apache-2.0
 
-**Stack:**
-- Blueprint: [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) (Apache 2.0)
-- Content generation: Claude claude-sonnet-5 (Anthropic API) for copywriting
-- Image generation: FLUX Kontext via NVIDIA NIM API
-- 3D assets: TRELLIS model
-- Storage: Medusa catalog or Saleor product API
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| Collaborative filtering | [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 |
+| Benchmark + evaluation | [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT |
+| GPU inference (scale) | [NVIDIA-Merlin/Merlin](https://github.com/NVIDIA-Merlin/Merlin) | Apache-2.0 |
+| API layer | FastAPI | MIT |
+| Commerce integration | Medusa.js / Shopify API | MIT / Commercial |
 
-**Pipeline:**
+### Wiring
 ```python
+# Phase 1: Train LightFM model (cold-start + warm)
+from lightfm import LightFM
+from lightfm.data import Dataset
+
+dataset = Dataset()
+dataset.fit(users, items, item_features=item_metadata)
+interactions, weights = dataset.build_interactions(purchase_history)
+item_features = dataset.build_item_features(item_metadata)
+
+model = LightFM(loss='warp', no_components=64)
+model.fit(interactions, item_features=item_features, epochs=30, num_threads=8)
+
+# Phase 2: Serve recommendations via FastAPI
+@app.get("/recommend/{user_id}")
+def recommend(user_id: str, n: int = 10):
+    user_idx = user_map[user_id]
+    scores = model.predict(user_idx, np.arange(n_items), item_features=item_features)
+    top_items = [item_map[i] for i in scores.argsort()[-n:][::-1]]
+    return {"recommendations": top_items}
+
+# Phase 3 (scale): Swap LightFM for NVIDIA Merlin
+# NVTabular preprocessing → HugeCTR training → Triton inference
+# Sub-10ms serving at millions of requests/day
+```
+
+### Variants
+- **Cold-start users**: Use LightFM with item metadata (content-based path)
+- **Sequential/session-based**: Use RecBole's SASRec or BERT4Rec models
+- **Large-scale GPU**: Migrate to NVIDIA Merlin once traffic > 1M req/day
+
+---
+
+## P3 — Autonomous Inventory Optimization Agent
+
+**Goal**: Agent that monitors inventory levels, forecasts demand, and triggers reorders autonomously  
+**Time to POC**: 3–4 weeks | **License stack**: MIT + GPL (ERPNext)
+
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| Inventory math | [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT |
+| Agent orchestration | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT |
+| ERP backend | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3 |
+| LLM reasoning | Claude claude-sonnet-5 | Commercial |
+
+### Wiring
+```python
+from langgraph.graph import StateGraph
+import stockpyl
+
+# Define agent tools
+@tool
+def get_inventory_level(sku: str) -> dict:
+    """Get current stock level from ERPNext"""
+    return erpnext_api.get_stock_balance(sku)
+
+@tool
+def forecast_demand(sku: str, days: int = 30) -> dict:
+    """Forecast demand using historical sales"""
+    sales = erpnext_api.get_sales_history(sku, lookback_days=90)
+    return prophet_model.predict(sales, periods=days)
+
+@tool
+def calculate_reorder_point(sku: str, lead_time_days: int) -> dict:
+    """Calculate optimal reorder point using stockpyl"""
+    demand_mean = forecast_demand(sku, 30)["mean"]
+    demand_std = forecast_demand(sku, 30)["std"]
+    return stockpyl.reorder_point(
+        mean_demand=demand_mean/30,
+        std_demand=demand_std/30,
+        lead_time=lead_time_days,
+        service_level=0.95
+    )
+
+@tool
+def create_purchase_order(sku: str, quantity: int, supplier: str) -> str:
+    """Create purchase order in ERPNext"""
+    return erpnext_api.create_po(sku, quantity, supplier)
+
+# Build agent graph
+graph = StateGraph(InventoryState)
+graph.add_node("monitor", monitor_inventory)
+graph.add_node("forecast", run_demand_forecast)
+graph.add_node("decide", llm_decision_node)  # Claude reasons over options
+graph.add_node("reorder", create_reorder)
+graph.add_node("human_review", human_in_loop_node)  # supervised autonomy
+
+# Run daily
+agent = graph.compile()
+agent.invoke({"skus": all_skus, "autonomy_level": "supervised"})
+```
+
+---
+
+## P4 — AI Catalog Enrichment Pipeline
+
+**Goal**: Automatically generate product titles, descriptions, tags, and SEO metadata from sparse catalog data  
+**Time to POC**: 1 week | **License stack**: MIT
+
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| Agent framework | [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) | MIT |
+| Commerce backend | Medusa.js | MIT |
+| LLM | Claude claude-sonnet-5 | Commercial |
+| Image understanding | Vision-capable LLM | Commercial |
+
+### Wiring
+```python
+# Enthusiast catalog enrichment agent (built-in)
+from enthusiast.agents import CatalogEnrichmentAgent
+
+agent = CatalogEnrichmentAgent(
+    connector="medusa",  # native Medusa.js connector
+    llm="claude-sonnet-5",
+    tasks=[
+        "generate_description",   # Long-form product description
+        "generate_seo_title",      # SEO-optimized title
+        "extract_tags",            # Searchable tags from product data
+        "translate",               # Multi-language (ES, PT, FR)
+        "generate_search_keywords" # Internal search optimization
+    ]
+)
+
+# Batch enrichment
+sparse_products = medusa.get_products(filter={"description": None})
+enriched = agent.enrich_batch(sparse_products, concurrency=10)
+
+# Push back to Medusa
+for product, enriched_data in zip(sparse_products, enriched):
+    medusa.update_product(product.id, enriched_data)
+```
+
+### Output Example
+```json
+{
+  "title": "Premium Merino Wool Crew-Neck Sweater — Men's Classic Fit",
+  "description": "Crafted from 100% superfine merino wool, this ...",
+  "seo_title": "Merino Wool Sweater for Men | Soft, Warm & Wrinkle-Resistant",
+  "tags": ["merino", "wool", "sweater", "crewneck", "men's", "winter"],
+  "search_keywords": ["wool jumper", "warm sweater", "merino top"]
+}
+```
+
+---
+
+## P5 — ACP-Compliant Merchant Endpoint (Agentic Commerce)
+
+**Goal**: Enable AI shopping agents (ChatGPT, Perplexity, Gemini) to discover and purchase from your client's store  
+**Time to POC**: 2–3 weeks | **License stack**: Apache-2.0
+
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| ACP + UCP reference | [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 |
+| Commerce API | Medusa.js | MIT |
+| MCP server | medusa-mcp | MIT |
+
+### Wiring
+```bash
+# 1. Clone NVIDIA blueprint
+git clone https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce
+
+# 2. Configure merchant credentials
+cp .env.example .env
+# Edit: MEDUSA_URL, MEDUSA_API_KEY, MERCHANT_ACP_SECRET
+
+# 3. Deploy ACP endpoint (exposes /.well-known/acp.json)
+docker-compose up acp-server
+
+# 4. Register with AI shopping platforms
+# ChatGPT Shopping: submit merchant URL to OpenAI plugin directory
+# Perplexity Shopping: add to product feed
+# Google Shopping: submit ACP manifest
+
+# 5. Configure UCP merchant controls
+# ucp_config.json — set pricing floors, discount caps, inventory buffers
+```
+
+### What This Unlocks
+- AI shopping agents can discover your products
+- Agents can check real-time prices and availability
+- Agents can complete purchases autonomously on behalf of users
+- Merchant retains control via UCP (minimum prices, excluded products, inventory reserves)
+
+---
+
+## P6 — WhatsApp Commerce Agent (LATAM Focus)
+
+**Goal**: Full e-commerce experience inside WhatsApp — browse, order, track — for LATAM markets  
+**Time to POC**: 2–3 weeks | **License stack**: MIT
+
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| Agent framework | [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) | MIT |
+| WhatsApp integration | WhatsApp Business API (via Twilio MCP) | Commercial API |
+| Commerce backend | Medusa.js or WooCommerce | MIT / GPL |
+| Conversation memory | [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 |
+
+### Wiring
+```python
+# WhatsApp webhook → Enthusiast agent → Medusa → Reply
+from enthusiast import EnthusiastAgent
+from twilio.rest import Client
+
+agent = EnthusiastAgent(
+    connector="medusa",
+    llm="claude-sonnet-5",
+    memory=Mem0Client(),
+    agents=["product_search", "order_tracking", "support"]
+)
+
+@app.post("/whatsapp/webhook")
+async def handle_whatsapp(request: WhatsAppMessage):
+    user_id = request.from_number
+    message = request.body
+    
+    # Retrieve user context from Mem0
+    context = await memory.search(message, user_id=user_id)
+    
+    # Route to Enthusiast
+    response = await agent.chat(
+        message=message,
+        user_id=user_id,
+        context=context
+    )
+    
+    # Reply via WhatsApp
+    client.messages.create(
+        body=response.text,
+        from_="whatsapp:+14155238886",
+        to=f"whatsapp:{user_id}"
+    )
+```
+
+### LATAM-Specific Features
+- Portuguese-first for Brazil (Enthusiast supports multi-language via LLM)
+- Pix payment integration (Brazil)
+- Mercado Pago connector (Argentina, Mexico, Brazil)
+- Regional holiday promotions agent
+
+---
+
+## P7 — Demand Forecasting + Auto-Reorder
+
+**Goal**: Time-series forecasting pipeline that feeds inventory agent with accurate demand signals  
+**Time to POC**: 2–3 weeks | **License stack**: MIT
+
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| Forecasting | [facebook/prophet](https://github.com/facebook/prophet) | MIT |
+| Inventory optimization | [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT |
+| Orchestration | [apache/airflow](https://github.com/apache/airflow) | Apache-2.0 |
+| ERP | ERPNext or Odoo | GPL / LGPL |
+
+### Wiring
+```python
+# Daily Airflow DAG
+from prophet import Prophet
+import stockpyl
+
+@dag(schedule="0 2 * * *")  # 2am daily
+def demand_forecast_reorder():
+    
+    @task
+    def fetch_sales_data():
+        return erpnext.get_sales_by_sku(days=365)
+    
+    @task
+    def forecast_demand(sales_data):
+        forecasts = {}
+        for sku, history in sales_data.items():
+            m = Prophet(seasonality_mode='multiplicative')
+            m.fit(pd.DataFrame(history))
+            future = m.make_future_dataframe(periods=30)
+            forecast = m.predict(future)
+            forecasts[sku] = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail(30)
+        return forecasts
+    
+    @task
+    def calculate_reorders(forecasts):
+        reorders = []
+        for sku, forecast in forecasts.items():
+            current_stock = erpnext.get_stock(sku)
+            lead_time = erpnext.get_supplier_lead_time(sku)
+            
+            rop = stockpyl.reorder_point(
+                mean_demand=forecast['yhat'].mean(),
+                std_demand=forecast['yhat'].std(),
+                lead_time=lead_time,
+                service_level=0.95
+            )
+            
+            if current_stock <= rop:
+                eoq = stockpyl.eoq(
+                    demand=forecast['yhat'].sum(),
+                    order_cost=erpnext.get_order_cost(sku),
+                    holding_cost_rate=0.25
+                )
+                reorders.append({"sku": sku, "qty": eoq, "trigger": "rop"})
+        return reorders
+    
+    @task
+    def create_purchase_orders(reorders):
+        for reorder in reorders:
+            erpnext.create_po(reorder["sku"], reorder["qty"])
+```
+
+---
+
+## P8 — Computer Vision Shelf Audit Agent
+
+**Goal**: In-store shelf monitoring agent using vision models for planogram compliance and OOS detection  
+**Time to POC**: 4–6 weeks | **License stack**: Apache-2.0
+
+### Components
+| Role | Repo | License |
+|------|------|---------|
+| Vision model inference | shelfops pattern (Gemma 4 / Claude Vision) | Apache-2.0 |
+| Agent orchestration | LangGraph | MIT |
+| Store data integration | ERPNext or custom POS | GPL / MIT |
+| Alert routing | n8n or Zapier | Apache-2.0 / Commercial |
+
+### Wiring
+```python
+# shelf_audit_agent.py
+from langgraph.graph import StateGraph
 import anthropic
-import httpx
-import base64
 
 client = anthropic.Anthropic()
 
-async def enrich_product(image_path: str, basic_info: dict, target_languages: list[str]) -> dict:
-    """Transform a product image + minimal info into a rich catalog entry."""
-    
-    # Step 1: Analyze product via Claude vision
+@tool
+def analyze_shelf_image(image_path: str, planogram_ref: str) -> dict:
+    """Use Claude Vision to audit shelf against planogram"""
     with open(image_path, "rb") as f:
-        image_data = base64.standard_b64encode(f.read()).decode("utf-8")
+        image_data = base64.b64encode(f.read()).decode()
     
-    analysis = client.messages.create(
+    response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=2000,
+        max_tokens=1024,
         messages=[{
             "role": "user",
             "content": [
                 {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": image_data}},
-                {"type": "text", "text": f"""Analyze this product image and generate:
-1. Detailed description (150 words)
-2. Key attributes (material, color, dimensions, use case, care instructions)
-3. Target customer persona
-4. 5 semantic search tags
-5. FAQ (3 common questions + answers)
-
-Context: {basic_info}
-Return as JSON."""}
+                {"type": "text", "text": f"""
+                Analyze this retail shelf photo against planogram reference: {planogram_ref}
+                
+                Report:
+                1. Out-of-stock positions (list by shelf/position)
+                2. Misplaced products
+                3. Facing compliance issues
+                4. Overall planogram compliance % (0-100)
+                
+                Return as JSON.
+                """}
             ]
         }]
     )
-    
-    product_data = json.loads(analysis.content[0].text)
-    
-    # Step 2: Generate localized descriptions for each language
-    translations = {}
-    for lang in target_languages:
-        translation = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=500,
-            messages=[{
-                "role": "user",
-                "content": f"Translate this product description to {lang}, keeping retail tone:\n{product_data['description']}"
-            }]
-        )
-        translations[lang] = translation.content[0].text
-    
-    # Step 3: Generate variant images via NVIDIA FLUX Kontext (NIM API)
-    async with httpx.AsyncClient() as http:
-        variants = await http.post(
-            "https://integrate.api.nvidia.com/v1/images/generations",
-            headers={"Authorization": f"Bearer {NVIDIA_API_KEY}"},
-            json={
-                "model": "black-forest-labs/flux-kontext-pro",
-                "prompt": f"{product_data['description']} - white background, product photography",
-                "n": 3  # 3 variant angles
-            }
-        )
-    
-    # Step 4: Export ACP-compatible schema
-    return {
-        "title": basic_info["name"],
-        "description": product_data["description"],
-        "attributes": product_data["attributes"],
-        "translations": translations,
-        "tags": product_data["tags"],
-        "faq": product_data["faq"],
-        "images": [{"url": v["url"], "role": f"variant_{i}"} for i, v in enumerate(variants.json()["data"])],
-        "acp_schema": {  # ACP-ready product representation
-            "id": basic_info["sku"],
-            "name": basic_info["name"],
-            "description": product_data["description"],
-            "attributes": product_data["attributes"],
-            "searchable_text": " ".join(product_data["tags"]) + " " + product_data["description"]
-        }
-    }
-```
+    return json.loads(response.content[0].text)
 
-**Estimated cost to build:** $60k–$200k  
-**Timeline:** 6–10 weeks  
-**ROI:** Replaces $5–50/product human copywriting cost; enables AI-agent discoverability.
-
----
-
-## P3 — AI Personalization Engine (Gorse + Medusa)
-
-**Goal:** Real-time product recommendations personalized per user, replacing rule-based "customers also viewed."
-
-**Stack:**
-- Recommender: [gorse-io/gorse](https://github.com/gorse-io/gorse) (Apache 2.0)
-- Commerce: [medusajs/medusa](https://github.com/medusajs/medusa) (MIT)
-- Feedback loop: User click/purchase events → Gorse feedback API
-- LLM reranker: Claude claude-haiku-4-5 for context-aware reranking
-
-**Gorse setup (docker-compose excerpt):**
-```yaml
-version: "3"
-services:
-  gorse-master:
-    image: zhenghaoz/gorse-master
-    environment:
-      GORSE_CACHE_STORE: "redis://redis:6379"
-      GORSE_DATA_STORE: "postgres://gorse:password@postgres/gorse"
-    ports: ["8088:8088"]   # REST API
-  
-  gorse-worker:
-    image: zhenghaoz/gorse-worker
-    environment:
-      GORSE_MASTER_HOST: gorse-master
-    deploy:
-      replicas: 2
-
-  gorse-server:
-    image: zhenghaoz/gorse-server
-    ports: ["8087:8087"]   # Recommendation serving
-```
-
-**Integration with Medusa:**
-```python
-import httpx
-import anthropic
-
-GORSE_URL = "http://gorse-server:8087"
-
-async def get_personalized_recommendations(user_id: str, context: str, n: int = 10):
-    """Get recommendations from Gorse, rerank with Claude for context."""
-    
-    # 1. Fetch collaborative filtering recommendations from Gorse
-    async with httpx.AsyncClient() as http:
-        resp = await http.get(f"{GORSE_URL}/api/recommend/{user_id}", params={"n": n * 2})
-    candidates = resp.json()  # [{item_id, score}, ...]
-    
-    # 2. Fetch product details from Medusa
-    medusa_products = await medusa.products.list(
-        ids=[c["item_id"] for c in candidates]
+@tool  
+def create_replenishment_task(store_id: str, sku: str, shelf_position: str):
+    """Alert store associate or trigger auto-reorder"""
+    return task_management.create_task(
+        store=store_id,
+        type="replenishment",
+        sku=sku,
+        position=shelf_position,
+        priority="high"
     )
-    
-    # 3. LLM reranking for context (e.g., user just searched for "running shoes")
-    client = anthropic.Anthropic()
-    rerank = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=500,
-        messages=[{
-            "role": "user",
-            "content": f"""Given user context: "{context}"
-            
-Rerank these products (keep top {n}) from most to least relevant.
-Return product IDs as JSON array.
 
-Products: {[{"id": p.id, "title": p.title, "tags": p.tags} for p in medusa_products.products]}"""
-        }]
-    )
-    
-    top_ids = json.loads(rerank.content[0].text)
-    return [p for p in medusa_products.products if p.id in top_ids[:n]]
-
-# Track feedback to improve future recommendations
-async def track_event(user_id: str, item_id: str, event_type: str):
-    """Send user interaction back to Gorse for model improvement."""
-    async with httpx.AsyncClient() as http:
-        await http.post(f"{GORSE_URL}/api/feedback", json={
-            "FeedbackType": event_type,  # "click", "purchase", "add_to_cart"
-            "UserId": user_id,
-            "ItemId": item_id,
-        })
+# Run audit graph
+graph = StateGraph(ShelfAuditState)
+graph.add_node("capture", capture_shelf_image)
+graph.add_node("analyze", analyze_shelf_image)
+graph.add_node("alert", create_replenishment_task)
+agent = graph.compile()
 ```
-
-**Estimated cost to build:** $50k–$180k  
-**Timeline:** 6–8 weeks  
-**Expected lift:** 15–35% increase in average order value (industry benchmark for AI recommendations).
 
 ---
 
-## P4 — Autonomous Inventory Management Agent
+## Pattern Selection Guide
 
-**Goal:** LLM multi-agent system that monitors inventory levels, forecasts demand, and autonomously triggers reorders.
-
-**Stack:**
-- Agent framework: [zefang-liu/InvAgent](https://github.com/zefang-liu/InvAgent) (Apache 2.0) — LLM zero-shot inventory management
-- ERP backend: [InvenTree/InvenTree](https://github.com/InvenTree/InvenTree) (MIT) or Odoo (LGPL)
-- Orchestration: Claude claude-sonnet-5 via Anthropic Managed Agents
-- Tools: InvenTree REST API, supplier APIs, demand signal feeds
-
-**Agent definition:**
-```python
-import anthropic
-
-client = anthropic.Anthropic()
-
-INVENTORY_TOOLS = [
-    {
-        "name": "get_stock_levels",
-        "description": "Get current stock levels for all SKUs below safety stock threshold",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "threshold_pct": {"type": "number", "description": "Alert when stock < X% of safety stock"}
-            }
-        }
-    },
-    {
-        "name": "get_demand_forecast",
-        "description": "Get 30-day demand forecast for a SKU using historical sales + seasonality",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "sku": {"type": "string"},
-                "days": {"type": "integer", "default": 30}
-            },
-            "required": ["sku"]
-        }
-    },
-    {
-        "name": "create_purchase_order",
-        "description": "Create a purchase order to restock a SKU",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "sku": {"type": "string"},
-                "quantity": {"type": "integer"},
-                "supplier_id": {"type": "string"},
-                "requires_human_approval": {"type": "boolean"}
-            },
-            "required": ["sku", "quantity", "supplier_id"]
-        }
-    }
-]
-
-def run_inventory_agent(alert_threshold_pct: float = 0.2):
-    """Autonomous inventory management agent — runs daily."""
-    
-    messages = [{
-        "role": "user",
-        "content": f"""You are an inventory management agent for a retail operation.
-        
-Your task:
-1. Check all SKUs where stock is below {alert_threshold_pct*100}% of safety stock
-2. For each low-stock SKU, get demand forecast for next 30 days  
-3. Calculate optimal reorder quantity (safety stock + forecast - current stock)
-4. Create purchase orders for SKUs needing reorder
-   - Orders < $5,000: approve autonomously
-   - Orders >= $5,000: flag for human approval (requires_human_approval=true)
-5. Produce a summary report
-
-Prioritize: SKUs with zero stock > high-demand SKUs > everything else."""
-    }]
-    
-    # Agentic loop
-    while True:
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=4096,
-            tools=INVENTORY_TOOLS,
-            messages=messages
-        )
-        
-        if response.stop_reason == "end_turn":
-            return response.content[-1].text  # Final summary
-        
-        # Process tool calls
-        tool_results = []
-        for block in response.content:
-            if block.type == "tool_use":
-                result = execute_inventory_tool(block.name, block.input)
-                tool_results.append({
-                    "type": "tool_result",
-                    "tool_use_id": block.id,
-                    "content": json.dumps(result)
-                })
-        
-        messages.extend([
-            {"role": "assistant", "content": response.content},
-            {"role": "user", "content": tool_results}
-        ])
-```
-
-**Estimated cost to build:** $70k–$250k  
-**Timeline:** 8–14 weeks  
-**Expected savings:** 20–40% reduction in stockout events; 15–25% reduction in overstock holding costs.
+| Client Situation | Start With | Expand To |
+|-----------------|------------|-----------|
+| New e-commerce build | P1 (Shopping Assistant) + P5 (ACP) | P2 (Recommendations) |
+| Existing Shopify/WooCommerce | P1 via Enthusiast Shopify connector | P6 (WhatsApp) |
+| Inventory / supply chain pain | P7 (Demand Forecasting) + P3 (Inventory Agent) | P8 (Store CV) |
+| Content / catalog issues | P4 (Catalog Enrichment) | P1 (Search) |
+| LATAM market entry | P6 (WhatsApp Commerce) | P1 + P2 |
+| Enterprise with ACP requirement | P5 (ACP endpoint) | P1 + P3 |
 
 ---
-
-## P5 — Amazon Seller Intelligence Agent
-
-**Goal:** Autonomous AI agent for Amazon sellers — keyword research, competitor tracking, listing optimization, PPC management.
-
-**Stack:**
-- Skills: [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) (MIT) — 6 specialized skills
-- Runtime: Claude Code / Claude claude-sonnet-5 with Skills format
-- Data sources: Jungle Scout API, Google Trends, Amazon SP-API
-- Expanded: [nexscope-ai/ecommerce-skills](https://github.com/nexscope-ai/ecommerce-skills) for multi-platform
-
-**Usage with Claude Code:**
-```bash
-# Install Amazon Skills for Claude Code
-git clone https://github.com/nexscope-ai/Amazon-Skills ~/amazon-skills
-
-# Configure in CLAUDE.md or as project skills
-# Skills available:
-# - amazon-keyword-research: Find high-value, low-competition keywords
-# - amazon-niche-finder: Identify underserved product niches
-# - amazon-listing-optimization: Rewrite titles, bullets, descriptions for ranking
-# - amazon-ppc-campaign: Build PPC campaign structure + bid recommendations
-# - amazon-competitor-analysis: Track competitor pricing, reviews, BSR
-# - amazon-enhanced-brand-content: Generate A+ content
-```
-
-**Automated pipeline:**
-```python
-# Daily seller intelligence loop
-async def daily_seller_intelligence(asin: str, keywords: list[str]):
-    """Run full intelligence cycle for an Amazon listing."""
-    
-    client = anthropic.Anthropic()
-    
-    # 1. Keyword research (via Amazon-Skills keyword-research skill)
-    kw_analysis = await run_skill("amazon-keyword-research", {
-        "seed_keywords": keywords,
-        "marketplace": "amazon.com",
-        "include_competitors": True
-    })
-    
-    # 2. Competitor analysis
-    competitor_data = await run_skill("amazon-competitor-analysis", {
-        "asin": asin,
-        "competitor_asins": kw_analysis["top_competitor_asins"][:5]
-    })
-    
-    # 3. Listing optimization if needed
-    if competitor_data["listing_score"] < 70:
-        optimized = await run_skill("amazon-listing-optimization", {
-            "asin": asin,
-            "current_listing": await get_current_listing(asin),
-            "top_keywords": kw_analysis["recommended_keywords"][:20],
-            "competitor_analysis": competitor_data
-        })
-        
-        # Auto-update via SP-API if score improvement > 15 points
-        if optimized["projected_score"] - competitor_data["listing_score"] > 15:
-            await update_amazon_listing(asin, optimized)
-    
-    return {
-        "keywords_analyzed": len(kw_analysis["keywords"]),
-        "competitors_tracked": len(competitor_data["competitors"]),
-        "listing_updated": optimized is not None
-    }
-```
-
-**Estimated cost to build:** $30k–$100k  
-**Timeline:** 3–6 weeks  
-**LATAM relevance:** Amazon LATAM (amazon.com.br, amazon.com.mx) growing rapidly; same skills apply.
-
----
-
-## P6 — Shopify Store AI Operator
-
-**Goal:** Deploy AI agent as a Shopify store operator — handles inventory, pricing, content, and order management autonomously.
-
-**Stack:**
-- Toolkit: [Shopify/Shopify-AI-Toolkit](https://github.com/Shopify/Shopify-AI-Toolkit) (MIT)
-- AI runtime: Claude Code with Shopify skills loaded
-- Monitoring: Custom dashboard tracking agent decisions + outcomes
-
-**Claude Code config (`CLAUDE.md`):**
-```markdown
-## Shopify Store Operator Mode
-
-You have access to the Shopify AI Toolkit with 16 store management skills.
-
-Daily tasks:
-1. Check inventory levels → reorder alerts if any SKU < 20 units
-2. Review orders from last 24h → flag any fulfillment issues
-3. Check product performance → identify underperforming listings
-4. Monitor competitor pricing (via scrape skills) → adjust prices if within ±10% band
-5. Generate weekly performance summary
-
-Autonomous limits:
-- Price changes: ±15% of current price (no approval needed)
-- Inventory reorder alerts: always (approval needed to actually order)
-- Product descriptions: can update (log changes)
-- Do NOT: delete products, change payment settings, modify shipping zones
-```
-
-**Estimated cost to build:** $40k–$150k  
-**Timeline:** 4–8 weeks  
-
----
-
-## P7 — LATAM Agentic Commerce (PIX/OXXO ACP Adapter)
-
-**Goal:** Bridge ACP (designed for US credit card flows) to LATAM payment methods — enabling Brazilian and Mexican retailers to participate in agentic commerce.
-
-**Stack:**
-- Protocol: [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) (Apache 2.0)
-- Commerce: [medusajs/medusa](https://github.com/medusajs/medusa) (MIT)
-- Payments: Mercado Pago SDK (Brazil PIX / OXXO) or Ebanx
-- Trust layer: Human approval gates for first-time purchases
-
-**PIX ACP Payment Handler:**
-```python
-from fastapi import FastAPI
-import mercadopago
-
-sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
-
-@app.post("/acp/payment/pix")
-async def create_pix_payment(session_id: str, amount: float, buyer_email: str):
-    """ACP-compatible PIX payment handler for Brazilian market."""
-    
-    payment_data = {
-        "transaction_amount": amount,
-        "payment_method_id": "pix",
-        "payer": {"email": buyer_email},
-        "external_reference": session_id,  # ACP session ID
-        "notification_url": f"{BASE_URL}/acp/payment/webhook"
-    }
-    
-    result = sdk.payment().create(payment_data)
-    pix_data = result["response"]["point_of_interaction"]["transaction_data"]
-    
-    return {
-        "payment_type": "pix",
-        "qr_code": pix_data["qr_code"],
-        "qr_code_base64": pix_data["qr_code_base64"],
-        "expires_at": pix_data["ticket_url"],
-        "session_id": session_id
-    }
-
-@app.post("/acp/payment/webhook")
-async def pix_payment_webhook(notification: dict):
-    """Receive PIX payment confirmation and complete ACP checkout."""
-    if notification["action"] == "payment.updated":
-        payment = sdk.payment().get(notification["data"]["id"])
-        if payment["response"]["status"] == "approved":
-            session_id = payment["response"]["external_reference"]
-            await complete_acp_checkout(session_id)
-```
-
-**Estimated cost to build:** $80k–$280k  
-**Timeline:** 10–16 weeks (includes regulatory compliance)  
-**Strategic value:** First-mover advantage — no dominant open-source ACP+PIX adapter exists yet.
-
----
-
-## P8 — Visual Search + AI Shopping Assistant
-
-**Goal:** Allow customers to upload a photo of any item and find matching/similar products from retailer's catalog.
-
-**Stack:**
-- Embeddings: OpenAI CLIP or open alternatives (LAION CLIP via HuggingFace)
-- Vector DB: pgvector (PostgreSQL extension — works with Medusa/Saleor)
-- Commerce: Medusa (MIT) product catalog
-- LLM: Claude claude-sonnet-5 for conversational refinement
-
-**Architecture:**
-```python
-import anthropic
-from pgvector.psycopg2 import register_vector
-import psycopg2
-import numpy as np
-
-client = anthropic.Anthropic()
-
-async def visual_search(image_data: bytes, user_query: str = None) -> list[dict]:
-    """Find products matching uploaded image + optional text query."""
-    
-    # 1. Generate image embedding
-    embedding = await generate_clip_embedding(image_data)  # 512-dim vector
-    
-    # 2. Vector similarity search in PostgreSQL/pgvector
-    conn = psycopg2.connect(DATABASE_URL)
-    register_vector(conn)
-    cur = conn.cursor()
-    
-    cur.execute("""
-        SELECT product_id, title, price, 1 - (embedding <=> %s::vector) AS similarity
-        FROM product_embeddings
-        ORDER BY embedding <=> %s::vector
-        LIMIT 20
-    """, (embedding, embedding))
-    
-    candidates = [{"id": row[0], "title": row[1], "price": row[2], "score": row[3]} 
-                  for row in cur.fetchall()]
-    
-    # 3. If text query provided, refine with Claude
-    if user_query:
-        refined = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=500,
-            messages=[{
-                "role": "user",
-                "content": f"""Given these product candidates from visual search:
-{json.dumps(candidates[:10])}
-
-User is looking for: "{user_query}"
-
-Return the top 5 most relevant product IDs as JSON array."""
-            }]
-        )
-        top_ids = json.loads(refined.content[0].text)
-        return [c for c in candidates if c["id"] in top_ids]
-    
-    return candidates[:10]
-```
-
-**Estimated cost to build:** $60k–$200k  
-**Timeline:** 6–10 weeks  
-**Expected impact:** 20–40% higher conversion rate for visual discovery (fashion, home decor, furniture).
-
----
-
-## P9 — Retail Analytics Intelligence Agent
-
-**Goal:** Autonomous analytics agent that monitors KPIs, detects anomalies, and surfaces actionable insights without a human analyst.
-
-**Stack:**
-- Data: Medusa/Saleor order data + behavioral events (Shoplytics or custom)
-- Claude claude-sonnet-5 with SQL tools + Python code execution
-- Delivery: Slack/email digest + real-time alerts
-
-**Daily analytics loop:**
-```python
-async def daily_retail_analytics_agent():
-    """Run daily analytics and surface key insights."""
-    
-    ANALYTICS_TOOLS = [
-        {"name": "query_sales_data", "description": "Run SQL query on sales database"},
-        {"name": "get_funnel_data", "description": "Get conversion funnel metrics for date range"},
-        {"name": "detect_anomalies", "description": "Statistical anomaly detection on time series"},
-        {"name": "send_slack_alert", "description": "Send alert to retail team Slack channel"}
-    ]
-    
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=8096,
-        tools=ANALYTICS_TOOLS,
-        messages=[{
-            "role": "user",
-            "content": f"""You are a retail analytics agent. Today is {TODAY}.
-            
-Analyze yesterday's performance:
-1. Revenue vs. same day last week and last year
-2. Top 10 products by revenue and units
-3. Conversion funnel (sessions → product views → add to cart → purchase)
-4. Cart abandonment rate — any spike vs. 7-day average?
-5. Any SKU with unexpected demand spike (>2σ above normal)?
-6. Customer acquisition vs. returning customer split
-
-Alert via Slack if:
-- Revenue down >15% vs. last week
-- Conversion rate down >20% vs. last week
-- Any SKU showing stockout risk within 48h
-
-End with a 3-bullet executive summary."""
-        }]
-    )
-    
-    return response.content[-1].text
-```
-
-**Estimated cost to build:** $40k–$150k  
-**Timeline:** 4–8 weeks  
-
----
-
-*All patterns can be combined. Recommended sequence for a new retail client: P1 (ACP) → P3 (Personalization) → P2 (Catalog) → P4 (Inventory). Then add vertical features.*
-
-*Auto-updated by Globant AI Studios ingest pipeline.*
+*See also: `agents/top.md` for full agent/tool inventory.*

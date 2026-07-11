@@ -1,60 +1,78 @@
-# Trending This Week — Retail AI Agents
+# 📈 Trending This Week — Retail AI Agents
 
-> What's new and gaining momentum. Updated: 2026-07-10
+> What's new and gaining momentum in the retail AI open-source ecosystem.
+> Last updated: 2026-07-11
 
-## 🔥 Breaking: ACP Crosses 1 Million Merchants
+## Top Movers (July 2026)
 
-The **Agentic Commerce Protocol** (ACP) — the open standard co-authored by OpenAI, Stripe, and Meta — is now live on over 1 million merchants, making it the highest-traffic AI shopping channel in existence. ChatGPT Shopping, Google Gemini Checkout, and Perplexity Buy are all built on ACP. This is the new "HTTP for commerce."
+### 1. NVIDIA Retail Agentic Commerce Blueprint
+**Repo:** [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0
 
-**Key repos:**
-- Spec: [github.com/agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) (Apache 2.0)
-- Demo: [github.com/locus-technologies/agentic-commerce-protocol-demo](https://github.com/locus-technologies/agentic-commerce-protocol-demo) (Apache 2.0)
+NVIDIA released a reference implementation of both the **Agentic Commerce Protocol (ACP)** and **Universal Commerce Protocol (UCP)** — the two emerging standards for AI agent-to-merchant transactions. This blueprint shows how to build a merchant-controlled checkout system where AI agents can negotiate pricing, availability, and fulfillment autonomously. Gained significant traction after OpenAI and Google deployed ACP-compatible checkout endpoints in Q1 2026.
 
----
-
-## 🛍️ Shopify AI Toolkit Goes Open Source (Apr 9 2026)
-
-Shopify open-sourced their official AI Toolkit — a free MIT-licensed plugin that lets Claude Code, Cursor, Codex, and Gemini CLI control a live Shopify store in natural language.
-
-16 skills covering: product catalog management, inventory updates, order processing, storefront customization, and Admin/Storefront API access. No more dashboard clicks — agents run the store.
-
-**Repo:** [github.com/Shopify/Shopify-AI-Toolkit](https://github.com/Shopify/Shopify-AI-Toolkit) (MIT) — ~3.4k stars
+**Why it matters:** ACP is becoming the HTTP of commerce — the standard all retail AI agents will need to speak. Apache-2.0 reference implementation ready for Globant client builds.
 
 ---
 
-## 🤖 Amazon Replaces Rufus → Alexa for Shopping (May 2026)
+### 2. Enthusiast 1.4 — AI Agents Meet E-Commerce Workflows
+**Repo:** [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) | MIT
 
-Amazon deprecated its Rufus AI chatbot in May 2026 and replaced it with **Alexa for Shopping** (Alexa+). Customers using Alexa+ complete purchases **3× more frequently** than the control group. This signals the shift from "AI that answers questions" to "AI that completes transactions."
+Enthusiast 1.4 shipped June 2026 with:
+- Multi-step agentic workflows (beyond single-turn RAG)
+- Native Medusa.js v2 connector
+- Support for self-hosted LLMs (Mistral, LLaMA, DeepSeek via Ollama)
+- Catalog enrichment agents: auto-generate product descriptions, tags, SEO metadata
+- Customer support agents with persistent conversation memory
 
-Not open source, but signals where the market is heading. Counterpart: **nexscope-ai/Amazon-Skills** ([github.com/nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills), MIT) provides open-source seller-side skills to match.
-
----
-
-## 🏗️ NVIDIA Retail AI Blueprints (Jan 2026 / NRF)
-
-NVIDIA released two open-source blueprints at the National Retail Federation show:
-
-1. **Retail Catalog Enrichment** — product image → rich catalog entry with variants, 3D models, FAQs, localized content. Uses Nemotron Nano Omni + FLUX Kontext + TRELLIS. ACP/UCP schema export built-in.
-   - [github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) (Apache 2.0)
-
-2. **Multi-Agent Intelligent Warehouse** — autonomous warehouse orchestration with specialized receiving, picking, packing, and shipping agents. Available via NVIDIA NIM.
+Growing as the "LangChain for e-commerce" — purpose-built with retail tools out of the box.
 
 ---
 
-## 📊 Walmart + Google Gemini Integration Live
+### 3. shelfops — Computer Vision for Retail Shelf Audits
+**Repo:** [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | Apache-2.0
 
-Walmart embedded its product catalog directly into Google Gemini — shoppers can ask Gemini to find and purchase Walmart products. Sam's Club integrated too. This is the B2C face of ACP.
+Retail shelf audit demo using vision models (Cerebras Gemma 4 vs local Gemma). Represents the growing wave of in-store AI agents — detecting out-of-stock, planogram compliance, and shrinkage. The biggest AI opportunity in retail may be at the store level, not headquarters.
 
-**Implication:** Retailers without an ACP-compatible product feed will be invisible to AI shoppers by end of 2026.
+---
+
+### 4. awesome-agentic-commerce Survey (TechRxiv 2026)
+**Repo:** [yifeizhangcs/awesome-agentic-commerce](https://github.com/yifeizhangcs/awesome-agentic-commerce) | MIT
+
+Companion to the 2026 TechRxiv survey "A Survey of How AI Agents Are Reshaping Commerce." Catalogs:
+- Multi-agent market systems and auctions
+- Autonomous negotiation and pricing agents
+- Supply chain and logistics agents
+- Payment agents and checkout automation
+
+Now the canonical reference for the full agentic commerce landscape.
 
 ---
 
-## 📈 AI Traffic Surge: +1,200% YoY
+### 5. retail-ai-store-level-intelligence
+**Repo:** [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0
 
-Traffic from AI sources (ChatGPT, Perplexity, Gemini) to retail sites is up **1,200% year-over-year** while traditional organic search traffic declined 10%. Retailers racing to:
-1. Publish structured product data in ACP-compatible formats
-2. Build "AI-friendly" catalogs with rich semantic attributes
-3. Implement hybrid vector+keyword search for AI agent browsing
+Thesis: the biggest AI opportunity in retail isn't at HQ — it's at the store level. Demonstrates agent patterns for shelf-level intelligence, local demand sensing, and store-specific optimization that central systems miss.
 
 ---
-*Auto-updated by Globant AI Studios ingest pipeline.*
+
+## Protocols & Standards Gaining Adoption
+
+| Protocol | Origin | Status | Relevance |
+|----------|--------|--------|-----------|
+| **ACP (Agentic Commerce Protocol)** | OpenAI + Stripe (Sep 2025) | Widely adopted | Standard for AI agent purchases |
+| **UCP (Universal Commerce Protocol)** | NVIDIA + partners | Growing | Merchant-side control layer over ACP |
+| **MCP (Model Context Protocol)** | Anthropic → Linux Foundation (Dec 2025) | Established standard | Tool connectivity for all retail agents |
+| **A2A (Agent2Agent)** | Google | Growing | Multi-agent coordination across vendors |
+| **AGENTS.md convention** | OpenAI | Early adoption | Declares agent capabilities in repos |
+
+---
+
+## Market Signals This Week
+
+- **eMarketer** forecasts $20.57B US retail spending through AI agents in 2026 (~1.5% of total e-commerce)
+- **Microsoft Cloud Blog** (May 2026): Agentic AI is reshaping retail economics — logistics cost reductions of 15%, stockout reductions of 50%
+- **BizTech Magazine**: Data governance and workforce upskilling are the top retail AI blockers in 2026
+- Conversion rates increasing 20-30% when AI agents reduce purchase time by 60-70%
+
+---
+*Updated automatically by the ingest pipeline.*

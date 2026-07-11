@@ -1,39 +1,29 @@
-# Trending Repos This Week — Retail AI
+# 📈 Trending Repos — Retail & E-Commerce (July 2026)
 
-> GitHub trending + recent breakout projects. Updated: 2026-07-10
+> GitHub trending repos with retail / e-commerce AI relevance.
+> Last updated: 2026-07-11
 
-## 🔥 Top Trending (Jul 2026)
+| Repo | License | Stars | Why It's Trending |
+|------|---------|-------|-------------------|
+| [NVIDIA-AI-Blueprints/Retail-Agentic-Commerce](https://github.com/NVIDIA-AI-Blueprints/Retail-Agentic-Commerce) | Apache-2.0 | ~600 | Reference implementation of ACP + UCP — the standards for agent-to-merchant transactions. NVIDIA blueprint for autonomous checkout. Major traffic since OpenAI ACP deployment. |
+| [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) | MIT | ~800 | v1.4 released June 2026. Purpose-built agentic AI framework for e-commerce. Fast becoming the standard toolkit for retail AI projects. |
+| [yifeizhangcs/awesome-agentic-commerce](https://github.com/yifeizhangcs/awesome-agentic-commerce) | MIT | ~400 | Companion to the 2026 TechRxiv survey on agentic commerce. Growing as the canonical reference for the space. |
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | ~27k | MCP server released (medusa-mcp). Now agent-native — AI agents can directly call Medusa commerce APIs via MCP. Consistent growth as headless commerce of choice for AI builds. |
+| [GOATNetwork/awesome-agentic-commerce](https://github.com/GOATNetwork/awesome-agentic-commerce) | MIT | ~350 | Community-maintained list of agentic commerce implementations. Focus: negotiation agents, pricing bots, payment flows. |
+| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | — | Store-level AI intelligence patterns. Challenges assumption that retail AI value is only at headquarters. |
+| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | Apache-2.0 | — | Retail shelf audit via vision models. Cerebras Gemma 4 vs local Gemma for planogram compliance and OOS detection. |
+| [MeaFew/shoplytics](https://github.com/MeaFew/shoplytics) | MIT | — | E-commerce user behavior analytics platform with 29M real user records. SQL + Python analysis for retail AI training data. |
+| [medusajs/medusa-eats](https://github.com/medusajs/medusa-eats) | MIT | ~251 | Uber Eats-style demo on Medusa 2.0 + Next.js 14. Reference for vertical commerce builds (food, q-commerce, delivery). |
+| [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | ~65 | MCP server for Medusa JS SDK. Enables Claude, GPT-4, and other agents to query and transact via Medusa's commerce APIs directly. |
 
-| Repo | License | Stars | Why Trending |
-|------|---------|-------|--------------|
-| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~1.8k | OpenAI + Stripe + Meta open standard. 1M+ merchants live. ChatGPT / Gemini / Perplexity Shopping all run on it. |
-| [Shopify/Shopify-AI-Toolkit](https://github.com/Shopify/Shopify-AI-Toolkit) | MIT | ~3.4k | Official Apr 2026 release. AI agents now run Shopify stores via Claude Code / Cursor / Codex. 16 skills. |
-| [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | ~2.1k | Free AI skills for Amazon sellers — keyword research, PPC, listing optimization. Works with any Skills-compatible agent. |
-| [nexscope-ai/ecommerce-skills](https://github.com/nexscope-ai/ecommerce-skills) | MIT | ~1.3k | Multi-platform version (Amazon + Shopify + Etsy + TikTok Shop). Growing fast alongside OpenClaw. |
-| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | ~900 | NRF Jan 2026 debut. Product image → 3D asset + localized rich content + ACP-ready schema. |
-| [gorse-io/gorse](https://github.com/gorse-io/gorse) | Apache-2.0 | ~8.9k | Steady growth — LLM rankers addition and multimodal embeddings keeping it relevant for 2026 AI-native recommendations. |
-
----
-
-## 📊 Noteworthy Niche Projects
-
-| Repo | License | Stars | Notes |
-|------|---------|-------|-------|
-| [locus-technologies/agentic-commerce-protocol-demo](https://github.com/locus-technologies/agentic-commerce-protocol-demo) | Apache-2.0 | ~340 | Reference ACP implementation — good starting point for Globant demos |
-| [zefang-liu/InvAgent](https://github.com/zefang-liu/InvAgent) | Apache-2.0 | ~420 | LLM multi-agent supply chain inventory; AAAI 2025 workshop; steady academic citations |
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | 31.3k | Rebranded as "Commerce Platform for Agents and Developers" — medusa-mcp plugin enables agent access |
-| [saleor/saleor](https://github.com/saleor/saleor) | Apache-2.0 | 21k | Apache license + clean GraphQL API attracting agent-native storefronts |
-| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | 10.4k | AI Engine (MCP) + StoreAgent plugins gaining traction; note GPL license |
-
----
-
-## 🔭 Watching (Early Stage)
+## Notable Older Repos Still Highly Active
 
 | Repo | License | Stars | Notes |
 |------|---------|-------|-------|
-| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | ~50 | Store-level edge AI (shelf cameras + local models) — nascent but interesting for brick-and-mortar clients |
-| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | ~30 | Retail shelf audit using Cerebras vs. local Gemma — vision AI for planogram compliance |
-| [AdamJChen/inventory-optimization-ai](https://github.com/AdamJChen/inventory-optimization-ai) | MIT | ~280 | RL-based inventory control combining deep learning + operations research |
+| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-3.0 | ~10.4k | Most widely deployed open-source e-commerce. GPL limits commercial reuse. |
+| [gz-yami/mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | ~5.1k | Java e-commerce mall. Active in APAC markets. AGPL — requires open-sourcing modifications. |
+| [RUCAIBox/RecBole](https://github.com/RUCAIBox/RecBole) | MIT | ~3.5k | 100+ recommendation algorithms. Standard research framework, ported to production by many retailers. |
+| [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | ~4.7k | Hybrid recommendation in production since 2015. Stable, well-documented. |
 
 ---
-*Auto-updated by Globant AI Studios ingest pipeline.*
+*Updated automatically by the ingest pipeline.*
