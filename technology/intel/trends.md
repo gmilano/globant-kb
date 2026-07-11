@@ -1,240 +1,172 @@
-# Trends — Technology Industry
+# Trends — Technology / AI Developer Tools
 
-> Current signals shaping AI in tech/software development.
-> Last updated: 2026-07-10 (v7)
+> Current trends shaping AI in software development. Updated: 2026-07-11 (v8)
 
-## T1 — Agentic Coding Replacing Traditional IDEs
+## Macro Shift: Conversational AI → Agentic AI
 
-The shift from autocomplete-in-IDE to full autonomous coding agents is accelerating:
-- Average agent session length: 4 min (Q1 2025) → 23 min (Q1 2026)
-- Gartner: 65%+ of engineering teams using agentic coding will treat IDEs as **optional** by 2027
-- SWE-bench Verified has become the industry benchmark: OpenHands 72%, Claude Fable 5 95%
-- Terminal-first tools (Claude Code, Gemini CLI, Aider, opencode) are winning mindshare
-
-**Globant angle**: training clients to reframe development costs with agent-hours not human-hours.
+The fundamental shift of 2026: AI tools no longer wait for prompts. They formulate plans, execute multi-step workflows, run tests, iterate on failures, and commit results — autonomously. The era of "type a prompt, get an answer" is being replaced by "describe a goal, get a shipped PR."
 
 ---
 
-## T2 — MCP as Universal Integration Standard
+## Trend T1 — MCP Becomes the Universal Connectivity Standard
 
-Model Context Protocol (Anthropic, Nov 2024) is now the API-for-AI standard:
-- 10,000+ active public servers; 97M SDK downloads/month
-- RC Spec (Jul 28, 2026): stateless core, Extensions, Tasks, MCP Apps, EMA enterprise auth
-- 28% Fortune 500 deployed; OpenAI + Google + Microsoft + IBM + Amazon adopted
-- Every new platform should expose MCP server as a first deliverable
+**What**: Model Context Protocol, donated to Linux Foundation (AAIF, Dec 2025), is now the de facto tool connectivity standard — adopted by OpenAI, Google, Microsoft, AWS, Cloudflare. 97M monthly SDK downloads; 20,000+ servers indexed.
 
-**Globant angle**: "MCP-ready" as a service offering. Every enterprise system that gets an AI layer needs an MCP server.
+**Impact**: Any AI agent can connect to any tool via MCP without custom integration. Reduces integration cost by ~80%. Context7 (54k stars) is the breakout MCP success story.
+
+**Globant action**: Build MCP servers for client-specific data sources (ERP APIs, legacy systems, databases) as a billable consulting service.
 
 ---
 
-## T3 — Multi-Agent Orchestration Goes Enterprise
+## Trend T2 — Autonomous Long-Running Agent Workflows
 
-Single all-purpose agents → orchestrated teams of specialists:
-- Gartner: 1,445% surge in multi-agent system inquiries (Q1 2024 → Q2 2025)
-- LangGraph overtook CrewAI in enterprise (graph = audit trails + rollback)
-- A2A (Agent-to-Agent) protocol adopted by CrewAI, Google ADK, others
-- DeerFlow (ByteDance) demonstrates the super-agent harness pattern at scale (#1 GitHub Feb 2026)
-- Pattern: Orchestrator → specialized sub-agents (researcher, coder, QA, deployer) running in parallel
+**What**: CLI agents (Claude Code, OpenHands, Goose) now run autonomously for hours, coordinating changes across dozens of files, executing shell commands, and committing results. At TELUS, teams using Claude Code shipped 30% faster and saved 500,000+ hours.
 
----
+**Impact**: Engineering team structure is changing — engineers now shepherd multiple features through development simultaneously via parallel AI agents.
 
-## T4 — Rust for AI Infrastructure; TypeScript for Applications
-
-2026 tech stack is bifurcating by performance tier:
-- **Rust**: vector stores (Qdrant), inference runtimes, WASM sandboxes (Hyperlight <5ms), agent containers
-- **TypeScript**: agentic applications, MCP servers, LLM workflow frontends, agent UIs
-- Go: CLI tools (Gemini CLI, opencode, DeerFlow sub-components) — portable, fast binaries
-- Python: ML research, data pipelines, agent prototyping (LangGraph, CrewAI, Prefect)
+**Globant action**: Design "agentic SDLC" delivery methodology; train delivery teams on task decomposition for autonomous agents.
 
 ---
 
-## T5 — SKILL.md Ecosystem Explosion
+## Trend T3 — Multi-Agent Collaboration Pipelines
 
-OpenClaw's SKILL.md format (markdown-defined agent skills) is spreading across tools:
-- Claude Code adopted SKILL.md for extending agent capabilities
-- Community-contributed skills: 1,000+ publicly available
-- OpenMontage: 500+ agent skills packaged as SKILL.md files
-- Pattern: agent skills as open source packages (npm-like ecosystem forming)
-- Enables domain expertise to be packaged and shared without writing agent code
+**What**: Single-model → team of specialized agents (Planner → Architect → Implementer → Tester → Reviewer). CrewAI (52k stars, 5.2M downloads/mo) and LangGraph (34.5M downloads/mo) are the primary frameworks.
 
----
+**Impact**: Complex software projects can now be orchestrated as agent pipelines with defined roles and handoffs.
 
-## T6 — Local Models for Privacy-First Dev Environments
-
-Ollama + local model support becoming table stakes:
-- Aider, OpenClaw, Dify, Flowise, n8n, Cline all support Ollama + local models
-- **Qwen3 235B-A22B** (Apache-2.0): leads open-source benchmarks; default choice for performance-sensitive enterprises
-- **DeepSeek R1** (MIT): 95%+ GPT-4 quality at 10% cost — economic breakthrough for always-on agents
-- Enterprise: air-gapped deployments with local Qwen3/Llama + Qdrant + LangGraph
-- OpenMontage: explicit first-class support for WAN 2.1, Hunyuan, CogVideo (local video models)
+**Globant action**: Build CrewAI/LangGraph templates for common software delivery patterns (feature development, bug triage, code review).
 
 ---
 
-## T7 — Background Agents & Async Development
+## Trend T4 — Spec-Driven Development
 
-The next wave after interactive agents:
-- Agents that run for hours/days on long-horizon tasks (DeerFlow architecture)
-- GitHub integration: agents triggered by issues, PRs, CI failures
-- OpenHands + GitHub Actions: "assign to AI" as PR workflow step
-- MCP Tasks extension (RC Jul 2026): async `tools/call` → task handle → poll/cancel
-- Microsoft: Hosted Agents GA (Jul 2026) with Hyperlight WASM isolation
+**What**: GitHub's Spec-kit and similar tools flip the model — specifications written first, AI generates code matching the spec, then validates against it. Addresses hallucination and correctness drift in agentic code generation.
 
----
+**Impact**: Quality of AI-generated code improves dramatically when grounded in structured specs. Aligns with formal specification traditions (OpenAPI, JSON Schema, ADRs).
 
-## T8 — AI-Native Testing & Evaluation
-
-Testing infrastructure is catching up to agent capabilities:
-- SWE-bench Verified: 500 real GitHub issues; de facto coding agent benchmark
-- 40%+ of agentic AI projects canceled by 2027 (Gartner): poor evaluation is a primary cause
-- Cline's Plan mode: evaluate before executing — brings test-first discipline to agentic workflows
-- AI generates tests for AI code: loop closing; 5-10× test coverage increase reported
+**Globant action**: Develop "Agentic Spec" methodology — formal spec templates that AI coding agents can reliably work from.
 
 ---
 
-## T9 — Context Window Wars (1M+ Tokens Standard)
+## Trend T5 — 60% of Code AI-Generated by End of 2026
 
-- Gemini CLI: 1M context window (entire codebases in context)
-- Claude Fable 5: extended context for SWE-bench tasks
-- Effect: agents can understand entire repos in a single pass, not chunked
-- RAG shift: vector search less critical when context fits; retrieval shifts to filtering
+**What**: Gartner forecasts 60% of new enterprise code will be AI-generated by end 2026. At Google and Microsoft, 30% of new code is already AI-generated (as of Q1 2026). 57% of organizations have AI agents in production.
 
----
+**Impact**: The market for AI coding tooling is the largest growth segment in enterprise software. Budget is shifting from headcount to AI tooling.
 
-## T10 — Developer Productivity as KPI
-
-Measuring AI ROI in engineering:
-- GitHub Copilot studies: 55% faster code completion; but coding is 30% of dev time
-- Agentic agents: focus on the other 70% (PR review, debugging, infra, docs)
-- Average coding agent session 23 min → agents writing full features not snippets
-- IDC: 10× agent usage increase by 2027; 1000× inference demand growth
-- **Anthropic data**: 27% of AI-assisted work is entirely new work that wouldn't have happened otherwise
+**Globant action**: Position as the firm that helps enterprises adopt and govern AI-generated code safely (quality, security, compliance).
 
 ---
 
-## T11 — Open Source Winning the Application Layer
+## Trend T6 — Bounded Autonomy as the Governance Pattern
 
-Enterprise AI application layer is going open source:
-- Dify (144k★), n8n (182k★), Flowise (51k★): dominant self-hosted platforms
-- OpenHands, CrewAI, LangGraph, DeerFlow: open agent orchestration
-- Cline: open-source coding agent beating proprietary Cursor for BYOK deployments
-- Closed: model weights (GPT, Gemini, Claude) + proprietary IDE shells (Cursor, Copilot, Windsurf)
-- Pattern: open source wrapper around closed models → enterprises own their stack
+**What**: Enterprise AI deployments in 2026 use "bounded autonomy" — clear operational limits, mandatory human escalation for high-stakes decisions, comprehensive audit trails. No "fully autonomous" deployments in regulated industries.
 
----
+**Impact**: Every agentic AI product needs an approval gate architecture. Human-in-the-loop is a selling point, not a limitation.
 
-## T12 — WASM Agent Sandboxes (<5ms Cold Start)
-
-Microsoft Hyperlight (Rust + WASM micro-VM):
-- <5ms cold start for agent isolation in Azure Hosted Agents
-- CodeAct pattern: one LLM call → Python program executing all tool calls
-- Security: micro-VM isolation without Docker overhead
-- Implication: serverless agent functions at scale become economically viable
+**Globant action**: Build reusable "bounded autonomy" patterns (LangGraph interrupt nodes, OpenHands approval hooks) as a consulting framework.
 
 ---
 
-## T13 — EU AI Act August 2 2026 High-Risk Deadline
+## Trend T7 — Self-Hosted AI Beats SaaS for Enterprise
 
-Software AI tools in scope:
-- AI systems for CV screening, employee monitoring = high-risk
-- AI code auditing tools used in regulated sectors may trigger classification
-- Open source exemptions narrow in practice for commercial deployments
-- **Globant angle**: EU clients need AI governance layers on coding tools
+**What**: Tabby (33k stars), OpenHands (68k stars), Goose (32k stars), Ollama (100k+ stars) all surging as enterprises demand on-prem AI coding assistants. Data residency laws (LATAM, EU) accelerate this.
 
----
+**Impact**: The self-hosted AI market is worth ~$2-3B of the total AI coding market by end 2026. Enterprises in LATAM and EU will pay premium for on-prem.
 
-## T14 — Vibe Coding → Structured Agent Engineering
-
-"Vibe coding" (prompt → hope) gave way to structured agent engineering:
-- DESIGN.md files (awesome-design-md 95k★): AI-readable design specs
-- CLAUDE.md / .cursorrules: project-level agent configuration
-- Agent harnesses (superpowers 243k★, ECC 224k★): skill management at scale
-- Shift: one-shot generation → structured prompting → agent orchestration pipelines
+**Globant action**: "Globant Self-Hosted AI Dev Suite" — package Ollama + Tabby + OpenHands + Dify as a turnkey enterprise on-prem product.
 
 ---
 
-## T15 — Inference Cost Collapse Enabling New Patterns
+## Trend T8 — Rust + TypeScript Emerging as the Agentic Stack
 
-- DeepSeek R1: 95%+ quality at 10% cost of GPT-4 → economic feasibility for always-on agents
-- Qwen3 235B-A22B: best open-source model 2026; Apache-2.0; deployed on-prem
-- Gemini Flash 2.0: fast inference for high-volume agent steps
-- Pattern: expensive model (Claude/GPT) for reasoning; cheap model (Gemini Flash/DeepSeek) for execution steps
-- Enables: continuous CI/CD AI agents, ambient code monitoring, always-on security scanning
+**What**: Rust dominates performance-critical agent infrastructure; TypeScript dominates the agentic application layer. Python remains primary for ML/model work but is losing ground at the orchestration layer.
 
----
+**Impact**: Hiring and tooling is shifting; LangGraph (TypeScript SDK), Cline (TypeScript), OpenHands (Python) define the current dual-language stack.
 
-## T16 — The Delegation Gap: The Central Product Problem of 2026
-
-**From Anthropic's 2026 Agentic Coding Trends Report**:
-
-Developers use AI in ~60% of their work, but can only "fully delegate" 0-20% of tasks. This gap — between AI involvement and full autonomy — defines the product opportunity in 2026.
-
-**The gap drivers**:
-- Insufficient context (agents don't know enough about the project to act autonomously)
-- Poor task decomposition (humans still do the breakdown, agents execute subtasks)
-- Trust deficit (developers review every output before accepting)
-- Missing memory (agents lose context between sessions)
-
-**Closing the gap** (Anthropic data):
-- Teams with well-maintained context files: **55% faster, 40% fewer errors**
-- Context engineering is now a distinct engineering skill in job postings
-- Key artifacts: CLAUDE.md (project context), DESIGN.md (design intent), ADRs (architecture decisions), runbooks (operational procedures)
-
-**Globant angle**: "Context Engineering Sprints" — 4-6 week engagements to build the context infrastructure that closes the delegation gap. Quantifiable outcome: 55% speed + 40% error reduction.
+**Globant action**: Ensure TypeScript + Python competency in AI Studios; don't over-invest in Python-only agent frameworks.
 
 ---
 
-## T17 — Context Engineering Emerges as Core Engineering Discipline
+## Trend T9 — Code Knowledge Graphs Solve the Context Problem
 
-Context engineering (the craft of providing AI agents with exactly the right context to act autonomously) is becoming a formal engineering discipline:
+**What**: Codegraph, code-review-graph, and similar repos pre-index codebases into graph structures that reduce agent token usage by 40-60% per query. Critical for large enterprise monorepos.
 
-**Key artifacts of a context-engineered project**:
-```
-project/
-  CLAUDE.md          # Project context for AI agents
-  DESIGN.md          # AI-readable design specifications
-  .cursorrules       # IDE-level rules
-  docs/
-    adrs/            # Architecture Decision Records
-    runbooks/        # Operational procedures
-  .claude/
-    skills/          # Domain-specific agent skills (SKILL.md)
-```
+**Impact**: Naive context-stuffing approaches don't scale to million-line codebases. Semantic code graphs are the scalable alternative.
 
-**Evidence**:
-- "Context engineer" appearing in job postings (2026)
-- Anthropic Agentic Coding Report: context quality = #1 performance variable
-- DESIGN.md repos: 95k stars, growing faster than code generators
-- Microsoft copilot for engineering: built around context file standards
-
-**Why it matters for Globant**: Context engineering is a service, not a one-time setup. It requires ongoing maintenance, domain expertise, and organizational adoption — exactly what a consultancy provides.
+**Globant action**: Build or white-label a code knowledge graph service; offer as part of enterprise agentic coding deployments.
 
 ---
 
-## T18 — Agentic AI Project Failure Rate: The Governance Gap
+## Trend T10 — A2A Protocol (Agent-to-Agent) Joins MCP
 
-Gartner predicts **40% of agentic AI projects will be canceled by end of 2027** — the primary drivers:
-1. **Escalating costs**: compute costs 5-10× initial estimates as agents scale
-2. **Unclear business value**: no measurement framework for agent ROI
-3. **Inadequate risk controls**: agents taking unintended actions in production
+**What**: Google's Agent-to-Agent (A2A) protocol was added to the AAIF alongside MCP. A2A enables direct agent-to-agent communication without a human relay. Together MCP + A2A cover tool use + agent collaboration.
 
-**Implications**:
-- The build phase is no longer the bottleneck; governance is
-- Enterprises need: cost ceilings, evaluation frameworks, human-in-the-loop checkpoints, audit trails
-- LangGraph's stateful graph = natural audit trail; MCP's EMA = enterprise auth layer
-- **Globant angle**: "Agentic Project Governance" practice — build the guardrails, measurement, and ROI frameworks that prevent the 40% cancellation
+**Impact**: Multi-enterprise agent networks (e.g., supplier AI agent talking to buyer AI agent) become possible.
+
+**Globant action**: Track A2A adoption; be ready to build inter-enterprise agent networks by Q1 2027.
 
 ---
 
-## 2026 Trend Radar Summary
+## Trend T11 — AI IDEs Replace Traditional IDEs
 
-| Trend | Stage | Action |
-|-------|-------|--------|
-| MCP standard (RC Jul 28) | Production (28% F500) | Build MCP servers for all client integrations; adopt stateless + EMA |
-| Terminal-first dev agents | Growth | Standardize on Cline/OpenHands/Claude Code; measure agent-hours |
-| Multi-agent orchestration | Growth | LangGraph + DeerFlow for enterprise; CrewAI for accessibility |
-| Context engineering | Emerging → Core | Invest in context engineering as a practice; CLAUDE.md + DESIGN.md |
-| Background async agents (MCP Tasks) | Early | Pilot with DeerFlow + GitHub Actions + Tasks extension |
-| Qwen3 / DeepSeek local models | Mainstream | Default for cost-sensitive + air-gapped deployments |
-| SKILL.md ecosystem | Growth | Build domain-specific skill libraries for client engagements |
-| Agentic project governance | Critical | Build evaluation + cost governance frameworks; prevent 40% cancellation |
-| MCP Apps (sandboxed HTML UI) | Early | Explore for internal tool UIs without full frontend build |
+**What**: VS Code is evolving into an AI agent orchestration host (v1.110+ agent plugins). Cursor, Zed, and AI-first IDE forks are displacing vanilla editors. GitHub Copilot's agent mode now handles full workflow execution.
+
+**Impact**: IDE plugin development is a fast-growing market. Every enterprise will want custom AI IDE plugins for internal tooling.
+
+**Globant action**: Develop VS Code and Cursor plugin templates; offer "Custom AI IDE" as a consulting service.
+
+---
+
+## Trend T12 — BYOK (Bring Your Own Key) as Enterprise Requirement
+
+**What**: Continue, Tabby, Cline, and OpenHands all support BYOK — enterprises provide their own LLM API keys or run local models. This removes vendor lock-in at the model layer.
+
+**Impact**: AI tooling vendors must support model-agnostic architectures. Clients want to switch models without rewriting workflows.
+
+**Globant action**: Always architect with model-agnostic interfaces (OpenAI SDK standard, MCP) — never hard-code a specific LLM provider.
+
+---
+
+## Trend T13 — Persistent Memory Across Agent Sessions
+
+**What**: claude-mem and similar tools provide persistent context across coding agent sessions. Agents remember project context, coding conventions, past decisions, and user preferences across multiple sessions.
+
+**Impact**: Dramatically reduces context re-injection overhead; enables long-running project agents that accumulate institutional knowledge.
+
+**Globant action**: Build "project memory" as a standard component in enterprise agent deployments — store via vector DB + structured KB.
+
+---
+
+## Trend T14 — Open Governance for AI Infrastructure
+
+**What**: Key AI standards (MCP, A2A) donated to Linux Foundation's AAIF. Core members include AWS, Microsoft, Google, Bloomberg, Cisco, IBM, SAP. OpenTofu similarly under CNCF. Community governance = safer long-term investment.
+
+**Impact**: Building on MCP/AAIF-governed standards is safer than proprietary integrations. Reduces risk for clients making 5+ year technology bets.
+
+**Globant action**: Align AI Studios tooling choices with AAIF-governed standards; include governance status in technology recommendations.
+
+---
+
+## Trend T15 — AI Security Review as Standard Practice
+
+**What**: AI-generated code increases vulnerability surface. Tools like claude-code-security-review (MIT, Anthropic) integrate security scanning directly into AI coding workflows. Gartner flags AI code security as a top 2026 enterprise risk.
+
+**Impact**: Security review gates for AI-generated code are becoming compliance requirements in regulated industries.
+
+**Globant action**: Integrate AI security review (claude-code-security-review, SAST tools) as standard step in agentic coding pipelines.
+
+---
+
+## Summary Ranking (Impact × Speed of Adoption)
+
+| Rank | Trend | 2026 Impact | Globant Revenue Potential |
+|------|-------|-------------|--------------------------|
+| 1 | T2 — Autonomous Long-Running Agents | ★★★★★ | $50M+ (agentic SDLC transformation) |
+| 2 | T1 — MCP as Universal Standard | ★★★★★ | $20M+ (MCP server dev + integration) |
+| 3 | T5 — 60% AI-Generated Code | ★★★★☆ | $40M+ (governance + quality frameworks) |
+| 4 | T7 — Self-Hosted AI Enterprise | ★★★★☆ | $30M+ (on-prem AI dev suite) |
+| 5 | T3 — Multi-Agent Pipelines | ★★★★☆ | $25M+ (delivery methodology + templates) |
+
+---
+*Auto-updated by ingest pipeline.*
