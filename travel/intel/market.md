@@ -1,63 +1,67 @@
-# 🗺️ Mapa de mercado — Travel & Hospitality AI
+# 🗺️ Mapa de mercado — Travel & Hospitality
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-10
+> Última actualización: 2026-07-11
 
-## Tamaño de mercado 2026
+## Cifras clave del mercado (2026)
 
-| Segmento | 2024-2026 | 2030 | CAGR | Fuente |
-|----------|-----------|------|------|--------|
-| AI en Turismo (global) | USD 2.95B (2024) | USD 13.38B | 28.7% | MarketsAndMarkets |
-| GenAI en Travel | USD 1.27B (2026) | USD 5.79B (2035) | 18.64% | Precedence Research |
-| Agentic AI Travel Booking | USD 2.1B (2025) | USD 12.1B (2034) | 22.5% | Market Intelo |
-| AI en Travel (mercado amplio) | USD 222.4B (2026) | USD 710.57B (2030) | 33.7% | ResearchAndMarkets |
+| Métrica | Valor | Fuente |
+|---------|-------|--------|
+| AI en turismo (2024) | USD 2.95B | Research & Markets |
+| AI en turismo (2030) | USD 13.38B | Research & Markets |
+| CAGR AI turismo | 28.7% | Research & Markets |
+| Travel Agency Services (2025) | USD 464.91B | Research & Markets |
+| Travel Agency Services (2026) | USD 500.22B | Research & Markets |
+| Online Travel Agencies revenue (2026) | ~USD 107B | Skift |
+| % VC travel funding a AI-enabled (H1 2025) | 45% (vs 10% en 2023) | Skift |
+| % empresas travel mencionando AI en anuales | 35% (2024) vs 4% (2022) | Skift |
+| Bookings AI por agentes (by 2030) | 30% del total | IDC |
+| Viajeros usando GenAI tools (2026) | 18% (+64% YoY) | Mobi.AI |
+| McKinsey: valor agentic AI multi-industria | USD 2.6T–4.4T/año | McKinsey |
 
-**Señal clave:** Pese a la adopción masiva en backend, solo 2% de consumidores US confía en agentes autónomos de booking. El gap adopción-oferta es la oportunidad de integración asistida.
+## Players globales
 
----
+| Empresa | Tipo | Fortaleza AI | Modelo |
+|---------|------|--------------|--------|
+| **Trip.com / TripGenie** | OTA + AI-native | 400% crecimiento YoY en bookings AI; 60% interacciones son booking-related; -80% clicks en comparación hoteles | Agentic AI end-to-end: search → book |
+| **Amadeus** | GDS / Travel Tech | Primer target multi-año EPS (2026-2028); AI + cloud como drivers. Infraestructura para 1/3 de vuelos mundiales | B2B SaaS + API |
+| **Booking.com / Expedia** | OTA | Inversión fuerte en agentic AI; desarrollo de agentes autónomos para booking | OTA tradicional evolucionando |
+| **Dida Holdings** | B2B Travel Infra | Lanzó primer MCP gateway B2B (jul 2026); 2M+ hoteles; 3er mayor B2B travel | Wholesale B2B + MCP |
+| **Google Travel** | Superdistributor | Gemini integrado en Google Flights/Hotels; presión sobre OTAs tradicionales | Plataforma de plataformas |
+| **Microsoft (Azure)** | Tech + AI | azure-ai-travel-agents como referencia enterprise; GPT-4o + MCP | Enterprise B2B |
+| **Airbnb** | Alojamiento alternativo | AI para pricing dinámico, categorías automáticas, experiencias | P2P marketplace |
+| **PROS** | Revenue Management | Agentic AI para offer creation en aerolíneas (pricing dinámico, ancillaries) | Software B2B aerolíneas |
 
-## Players globales clave
+## Cadena de valor y dónde entra AI
 
-| Empresa | Tipo | Fortaleza | Debilidad | Amenaza AI |
-|---------|------|-----------|-----------|------------|
-| **Amadeus** | GDS / SaaS travel tech | Mayor GDS global (500+ aerolíneas, NDC Level 3), SDKs open source | Sistemas legacy EDIFACT, pricing opaco | OTAIP + LetsFG democratizan acceso |
-| **Sabre** | GDS / PSS | PSS (passenger service system) de muchas aerolíneas, SabreDevStudio SDKs | Deuda técnica enorme, migración cloud lenta | NDC reduciendo dependencia |
-| **Travelport** | GDS | Especializado en agencias, fuerte en UK/Europa | El más pequeño de los 3 GDS | Consolidación con OTAIP posible |
-| **Booking.com** | OTA | 28M listings, dominante en hoteles Europa | Modelo comisión alto (15-20%), agentes AI pueden bypassear | AI agents buscando directo |
-| **Expedia** | OTA | Diversificación (Hotels.com, Vrbo, VRBO) | Compite con proveedores en AI | Google AI search erosiona tráfico |
-| **Airbnb** | OTA alternativo | 7M+ listings, brand fuerte | Sin vuelos, pricing complejo | Agentes multimodal los incluyen |
-| **Google Travel** | Search / Meta | Dominante en intent-based search | No hace booking directo (aún) | Modo agente en desarrollo |
-| **TelivityAI** | OSS startup | OTAIP + HAIP: primer stack travel AI open source completo | Nuevo, sin prueba de escala | Potencial disruptor open core |
-| **Duffel** | API aggregator | NDC moderno, onboarding fácil, SDK MIT | Cobertura aérea menor que GDS | Competencia de LetsFG |
-| **DIDA Travel** | B2B hotel | 3er B2B hoteles del mundo, 2M+ propiedades, MCP open source | Marca desconocida en Occidente | Primer mover en hotel MCP |
-
----
+```
+[Inspiración] → [Búsqueda] → [Comparación] → [Booking] → [Viaje] → [Post-viaje]
+     ↓               ↓              ↓              ↓           ↓            ↓
+  GenAI + RAG    Multimodal    Agentic AI      Autónomo    IoT + AI     Memory AI
+  (destino por  (imagen →      (compara y      (book sin   (soporte,    (preferencias
+   imagen)       destino)       recomienda)     clicks)     SOS)         para próximo)
+```
 
 ## Oportunidades AI en LATAM
 
-### Gaps identificados (primera vez que se mapearon en julio 2026):
+| Oportunidad | Contexto | Tamaño |
+|-------------|----------|--------|
+| **WhatsApp Travel Commerce** | >90% penetración de WhatsApp en LATAM; viajeros esperan booking por chat | Alto: Brasil, México, Colombia, Argentina |
+| **Operadores turísticos pequeños** | Fragmentación: miles de tour operators sin tecnología. AI puede democratizar acceso a herramientas | Alto: Perú, Colombia, México |
+| **Turismo de naturaleza / aventura** | LATAM tiene 40% de la biodiversidad mundial. Poco digitalizado. | Medio-Alto: Costa Rica, Colombia, Ecuador, Perú |
+| **Corporativo regional** | Empresas multinacionales en LATAM con travel managers; alta demanda de automatización | Alto: Brasil, México, Argentina |
+| **Idioma español** | Falta de agentes de viaje AI nativos en español; oportunidad de diferenciación | Alto: toda Hispanoamérica |
+| **LATAM Airlines / Avianca** | Aerolíneas con bases de datos de loyalty + datos de vuelo; oportunidad de ancillary AI | Medio: Colombia, Chile, Perú |
 
-1. **Payment integration LATAM:** No existe adaptador open source para ACP + PIX (Brasil) + OXXO (México) + PSE (Colombia). El gap identificado en el análisis de retail también aplica en travel — aerolíneas como LATAM Airlines, Gol, Viva Aerobus usan pagos locales.
+## Dónde puede entrar Globant
 
-2. **GDS alternatives para aerolíneas regionales:** Avianca, LATAM, Volaris, JetSMART no tienen el mismo nivel de NDC adoption que los carriers europeos. Oportunidad para wrappers open source.
-
-3. **Tour operators de aventura:** Patagonia, Galápagos, Amazonas — operadores boutique sin acceso a booking engines modernos. Stack HAIP + agentes de itinerary generation = producto viable.
-
-4. **Agencias de viajes corporativas LATAM:** El mercado TMC corporativo LATAM está dominado por CWT/AmexGBT con muy poca competencia local. Stack Odoo + OTAIP + aprobación corporativa es una oportunidad de mercado.
-
-5. **Transporte terrestre inter-ciudad:** No hay equivalente al swiss-transport-mcp para buses y trenes en LATAM (Flixbus, Redbus, etc.). MCP server para Redbus/OmniLineas sería un diferenciador.
-
----
-
-## Posicionamiento Globant AI Studios
-
-| Capability | Estado actual | Propuesta con este KB |
-|------------|---------------|----------------------|
-| OTA Development | Proyectos ad-hoc | Stack OTAIP + HAIP como acelerador replicable |
-| Airline AI | Manual | OTAIP para IRROPS automation, compliance EU261 |
-| Hotel Tech | Baja presencia | HAIP como base para proyectos PMS |
-| Corporate Travel | Nulo | Odoo CE + agentes aprobación como IP propio |
-| LATAM Payments Travel | Gap | First-mover en adaptador ACP + pagos locales |
+| Proyecto tipo | Tecnología | Tamaño estimado |
+|---------------|-----------|-----------------|
+| AI Travel Concierge para cadena hotelera regional | QloApps + LangGraph + Claude | 6-12 meses |
+| Agente de búsqueda de viajes WhatsApp-first | Dida MCP + Twilio + LangGraph | 4-8 meses |
+| Sales Copilot para agencia de viajes corporativa | Wander-Desk + Claude + HubSpot | 3-6 meses |
+| Revenue management AI para aerolínea | PROS-like, custom ML + agentic pricing | 12-18 meses |
+| Tour operator en LATAM digitalizado | ExcursioX + Claude + OPTD | 4-8 meses |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Fuentes: Skift, McKinsey, IDC, ResearchAndMarkets, Mobi.AI, PROS, TripGenie press data.*

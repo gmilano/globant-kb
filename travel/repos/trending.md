@@ -1,19 +1,20 @@
-# 📈 Repos en tendencia — Travel (2026-07-10)
+# 📈 Repos trending — Travel & Hospitality
 
-> Última actualización: 2026-07-10
+> Última actualización: 2026-07-11
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [TelivityAI/otaip](https://github.com/TelivityAI/otaip) | Apache-2.0 | Open Travel AI Platform — 75 agentes para el ciclo completo travel: ATPCO fares, BSP, NDC/EDIFACT, IRROPS, EU261. Breakout repo 2026 en el espacio travel tech | ~340 |
-| [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) | MIT | Agent-native flight search & booking. 200+ aerolíneas + GDS. MCP server. $116 de ahorro demostrado vs Google Flights | ~980 |
-| [TelivityAI/haip](https://github.com/TelivityAI/haip) | Apache-2.0 | Hotel PMS open source API-first. TypeScript/NestJS. Desafía PMS propietarios con arquitectura AI-native | ~190 |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | Apache-2.0 | MCP server hotelero B2B: 2M+ hoteles, inventario real-time, sin API keys. Fuente oficial DIDA Travel | ~420 |
-| [malkreide/swiss-transport-mcp](https://github.com/malkreide/swiss-transport-mcp) | MIT | MCP para transporte público suizo. Patrón replicable para transporte multimodal en LATAM | ~310 |
-| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | AI travel ops platform: CRM + Sales Copilot + Traveler Intelligence + Revenue Forecasting + Analytics para agencias | ~28 |
-| [esakrissa/hotels_mcp_server](https://github.com/esakrissa/hotels_mcp_server) | MIT | MCP server Booking.com: LLMs buscan hoteles con disponibilidad real | ~85 |
-| [Anmoldureha/hotels-skill](https://github.com/Anmoldureha/hotels-skill) | MIT | Booking.com scraper MCP con Playwright. Sin API keys. Precios en tiempo real | ~62 |
-| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0 | Plataforma de reservas activa. Comunidad pequeña pero consistente | ~12 |
-| [vikramgorla/mcp-swiss](https://github.com/vikramgorla/mcp-swiss) | MIT | Swiss open data MCP: transporte, clima, geodatos, empresas. 76 tools, zero API keys | ~95 |
+| [azure-ai-travel-agents](https://github.com/Azure-Samples/azure-ai-travel-agents) | MIT | Enterprise MCP multi-agente: LangChain.js + LlamaIndex.TS + MAF. Referencia oficial Microsoft para agentes de viaje. | ~450 |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | Gateway MCP B2B para 2M+ hoteles. Primer proveedor B2B de travel con MCP nativo. Lanzado 9 jul 2026. | — |
+| [Multi-Agent-AI-Travel-Advisor](https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor) | MIT | 7 agentes especializados + RAG + tool-calling. CrewAI + LangChain. Itinerarios completos con vuelos, hoteles, actividades. | ~53 |
+| [Production-Ready-TripPlanner-Multi-AI-Agents-Project](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) | MIT | Multi-agente TaskFlowAI production-ready. Agentes: investigación, planificación, reporting, vuelos, clima. | ~74 |
+| [wanderlog-mcp](https://github.com/shaikhspeare/wanderlog-mcp) | MIT | MCP server para Wanderlog: crea/edita itinerarios por conversación. OAuth, gestión de presupuesto. | ~33 |
+| [Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | Plataforma ops para agencias: CRM + Trip Management + Sales Copilot + Revenue Forecasting. | ~1 |
+| [mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | MIT | Suite MCP servers: vuelos, hoteles, eventos locales, clima, presupuesto. Ejemplo canónico de composición MCP. | ~35 |
+| [AI-Trip-Planner](https://github.com/ebythomas23/AI-Trip-Planner) | MIT | LangGraph + LangChain con herramientas modulares (clima, lugares, moneda). FastAPI + Streamlit. | ~25 |
+| [langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | Multi-agente async paralelo: Amadeus + Hotelbeds + Twilio + HubSpot. Gestión de bookings end-to-end. | ~18 |
+| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0 | Plataforma de viajes en desarrollo activo. | ~5 |
+| [mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | MCP concierge server: Google Travel + Amadeus. Vuelos, hoteles y atracciones desde un MCP. | ~6 |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

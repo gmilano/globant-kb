@@ -1,59 +1,56 @@
-# 📈 Agentes en tendencia — Travel (semana del 2026-07-07)
+# 📡 Agentes trending — Travel & Hospitality
 
-> Última actualización: 2026-07-10
+> Novedades esta semana / mes. Foco en lo que está ganando tracción ahora.
+> Última actualización: 2026-07-11
 
-## Nuevos y en ascenso esta semana
+## Lo más nuevo (julio 2026)
 
-### 1. TelivityAI/otaip — Open Travel AI Platform
-**Por qué importa:** Primer framework open source que encapsula lógica real de GDS: ATPCO fare categories 1-33, BSP finality, NDC/EDIFACT normalization y compliance EU261/US DOT. Antes, estas reglas vivían en sistemas propietarios de Amadeus/Sabre/Travelport. OTAIP las democratiza.
+### 🚀 Dida-hotel-MCP-CN — Primer MCP Gateway B2B del mundo (lanzado 9 jul 2026)
+- **Repo**: [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) · MIT
+- Dida Holdings (3er mayor B2B travel del mundo) abrió acceso a 2M+ hoteles vía MCP.
+- OAuth-based auth; inventario y precios en tiempo real sin límite de llamadas.
+- El journey permanece dentro del producto del partner — no handoff al sitio de Dida.
+- **Señal**: primera infraestructura B2B de viajes con MCP gateway nativo.
 
-**Señal de tracción:** Creciendo en comunidades de ingeniería travel; citado por devs ex-Sabre y ex-Amadeus que lo adoptan para proyectos propios.
+### 🌟 azure-ai-travel-agents — Flagship enterprise MCP sample (Microsoft, jun 2026)
+- **Repo**: [Azure-Samples/azure-ai-travel-agents](https://github.com/Azure-Samples/azure-ai-travel-agents) · MIT
+- Múltiples MCP servers (Python/Node.js/Java/.NET) + 3 orquestadores (LangChain.js, LlamaIndex.TS, Microsoft Agent Framework).
+- Deployed en Azure Container Apps. AGENTS.md documenta cada agente.
+- **Relevancia Globant**: referencia enterprise lista para clientes Azure.
 
-**Link:** https://github.com/TelivityAI/otaip
+### ✈️ langgraph-travel-agent (HarimxChoi) — Booking end-to-end async paralelo
+- **Repo**: [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) · MIT
+- Orquestación paralela async sobre Amadeus (vuelos), Hotelbeds (hoteles), Twilio (notificaciones), HubSpot (CRM).
+- Production-ready: manejo de errores, reintentos, logging.
 
----
+### 🏨 Wander-Desk — Travel ops platform completa
+- **Repo**: [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) · MIT
+- CRM + Trip Management + Sales Copilot + Traveler Intelligence + Revenue Forecasting + Analytics.
+- Plataforma ops completa para agencias (proyecto Nomichi).
 
-### 2. LetsFG/LetsFG — Agent-Native Flight Search MCP
-**Por qué importa:** El mayor MCP server de búsqueda de vuelos open source. Demostró ahorro de $116 en 5 rutas vs Google Flights en benchmarks públicos. 200+ conectores de aerolíneas, MIT license.
+## Repos activos esta semana
 
-**Señal de tracción:** Publicado en npm y PyPI con tracción activa. Campaña "Free forever for the first 1000 stargazers" generó adopción viral.
+| Repo | Licencia | Actividad reciente | Stars |
+|------|----------|--------------------|-------|
+| [azure-ai-travel-agents](https://github.com/Azure-Samples/azure-ai-travel-agents) | MIT | Nuevo orchestrator MAF, docs AGENTS.md | ~450 |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | Lanzamiento público 9 jul 2026 | — |
+| [wanderlog-mcp](https://github.com/shaikhspeare/wanderlog-mcp) | MIT | v0.2.0 en npm — OAuth mejorado | ~33 |
+| [Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | Módulo Revenue Forecasting añadido | ~1 |
+| [mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | MIT | Nuevo MCP server para eventos locales | ~35 |
+| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | Integración HubSpot CRM añadida | ~18 |
+| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0 | Commits recientes | ~5 |
 
-**Link:** https://github.com/LetsFG/LetsFG
+## Señal de mercado: MCP como protocolo de viajes
 
----
+El ecosistema MCP para viajes se está consolidando rápidamente en julio 2026:
 
-### 3. DIDA-AI/Dida-hotel-MCP-CN — Hotel B2B MCP Server
-**Por qué importa:** La 3ra empresa de viajes B2B más grande del mundo publicó su MCP server open source. Acceso directo a 2M+ hoteles globales, inventario en tiempo real, sin límite de llamadas. Primer MCP B2B hotelero con datos de calidad enterprise-grade.
+- **Dida MCP** = infraestructura B2B, 2M+ hoteles
+- **azure-ai-travel-agents** = referencia enterprise multi-orquestador
+- **wanderlog-mcp** = gestión conversacional de itinerarios
+- **mcp_travelassistant** = orquestación de servicios (vuelos + hoteles + eventos + clima)
+- **mcp-travel-assistant** (Atlan) = Google Travel + Amadeus via MCP
 
-**Señal de tracción:** Siendo adoptado por agencias que construyen agentes con Claude/GPT-4o. Cero fricción de onboarding (sin API keys).
-
-**Link:** https://github.com/DIDA-AI/Dida-hotel-MCP-CN
-
----
-
-### 4. TelivityAI/haip — Hotel PMS Open Source AI-First
-**Por qué importa:** Ataca frontalmente el mercado PMS hotelero ($5-15/room/month) con alternativa open source. Arquitectura NestJS moderna, API-first, diseñada para AI desde la base. Posicionado como el "Odoo para hoteles".
-
-**Link:** https://github.com/TelivityAI/haip
-
----
-
-### 5. malkreide/swiss-transport-mcp — Transporte Público AI-Native
-**Por qué importa:** Patrón emergente: conectar transporte público real a agentes AI via MCP. Permite planificación multimodal (vuelo + tren + bus) end-to-end. El patrón suizo se replica en Alemania, UK, España y LATAM.
-
-**Señal de tracción:** Referenciado en awesome-mcp-servers (TensorBlock) y en ranking travel MCP de awesomeclaude.ai. 
-
-**Link:** https://github.com/malkreide/swiss-transport-mcp
-
----
-
-## Repos de semanas anteriores que siguen en alza
-
-| Repo | Stars | Tendencia | Nota |
-|------|-------|-----------|------|
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | ~420 | ↑↑ | Nuevas aerolíneas; licencia corregida a Apache-2.0 |
-| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | ~28 | ↑ | AI ops platform para agencias: CRM + Revenue Forecasting + Analytics |
-| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | ~12 | → | Plataforma de reservas activa, comunidad pequeña pero consistente |
+**Patrón emergente**: los agentes de viajes están convergiendo en MCP como protocolo de composición, igual que retail está convergiendo en ACP/UCP. El stack ganador será: LLM → MCP Client → MCP Servers especializados (vuelos, hoteles, eventos, pagos).
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Pipeline automático — se actualiza cada hora.*
