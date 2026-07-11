@@ -1,7 +1,7 @@
 # Composition Patterns — Energy AI
 
 > Concrete recipes for building solutions. Each pattern names specific repos + how to wire them.
-> Last updated: 2026-07-11 (v2)
+> Last updated: 2026-07-11 (v3)
 
 ## Architecture Template
 
@@ -36,7 +36,7 @@ OpenMeteo API → OpenSTEF (weather + historical load) → MLflow model registry
   → Slack/email alert to grid operator
 ```
 
-**Effort**: 6-10 weeks MVP | **Revenue target**: $80k-$200k engagement | **Reuse**: 80% reusable across DSO clients
+**Effort**: 6-10 weeks MVP | **Revenue target**: $80k-$200k | **Reuse**: 80% reusable across DSO clients
 
 ---
 
@@ -130,7 +130,7 @@ VOLTTRON historian (time-series store)
 **Stack:**
 - Environment: [Grid2op/grid2op](https://github.com/Grid2op/grid2op) (MPL-2.0) — real RTE France network data
 - RL training: Stable Baselines 3 (PPO/SAC) + l2rpn-baselines reference agents
-- Benchmark: [emarche/RL2Grid](https://github.com/emarche/RL2Grid) (MIT) — standardized evaluation
+- Benchmark: [emarche/RL2Grid](https://github.com/emarche/RL2Grid) (MIT) — standardized evaluation (ICLR 2026)
 - Backend: pandapower AC power flow simulation
 - Frontend: Streamlit + network graph visualization
 
@@ -235,6 +235,77 @@ Production:
 
 ---
 
+## P9 — NEW: PowerMCP Rapid Grid Analysis PoC
+
+**Business case**: The fastest way to land a utility client is a working PoC in 2-3 weeks that lets engineers talk to their own OpenDSS/PSS/E models in natural language. PowerMCP makes this possible without custom API wrapper code.
+
+**Stack:**
+- Interface layer: [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) (MIT) — MCP servers for OpenDSS, PSS/E, PowerWorld, PSCAD
+- Skills: [Power-Agent/PowerSkills](https://github.com/Power-Agent/PowerSkills) (MIT) — domain-aware tool selection + mitigation playbooks
+- Workflows: [Power-Agent/PowerWF](https://github.com/Power-Agent/PowerWF) (MIT) — pre-built N-1, OPF, contingency workflows
+- LLM: Claude claude-sonnet-5 (best tool use) or any MCP-compatible LLM
+- Deployment: Docker on utility server (air-gapped) or Claude.ai (cloud)
+
+**Wiring:**
+```
+Utility already has OpenDSS distribution grid model (standard tool)
+  → Deploy PowerMCP as local MCP server: exposes OpenDSS as MCP tools
+  → Connect Claude via MCP protocol
+  → Load PowerSkills (domain prompt + tool selection heuristics)
+  → Compose PowerWF workflow: N-1 contingency analysis pipeline
+
+Engineer: "Run N-1 contingency on all feeder switches and show me the top 5 violations"
+  → Claude selects PowerMCP tools: run_powerflow(), get_element_loads(), get_violations()
+  → PowerMCP issues OpenDSS commands → collects results
+  → Claude interprets: "5 violations found. Worst case: switch SW-47 opens → bus 12 undervoltage (0.91 pu)"
+  → Auto-generates PDF contingency report
+
+Next request: "What happens if I add 5MW solar at bus 23?"
+  → Claude uses PowerMCP to add PV element → re-run OPF → report delta
+```
+
+**Effort**: 2-3 weeks PoC | **Revenue target**: $30k-$60k PoC → $200k-$500k production engagement | **Why now**: PowerMCP (MIT) just reached stability; Grid-Orch paper (May 2026) validates the pattern
+
+---
+
+## P10 — NEW: Reliable Agentic Distribution Grid Analysis (PowerDAG Pattern)
+
+**Business case**: Utilities need utility-grade reliability for AI agents before production deployment. NERC CIP and EU NIS2 require audit trails. The PowerDAG pattern delivers 94-100% task success with verifiable outputs.
+
+**Stack:**
+- Pattern reference: PowerDAG (arXiv:2603.17418, Apr 2026) — adaptive retrieval + just-in-time supervision
+- Audit trail: PowerChain pattern (arXiv:2508.17094) — DAG workflow generation for traceability
+- Grid tool: [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) (BSD-3-Clause) — power flow and analysis
+- LLM: Claude claude-sonnet-5 for planning + tool use; Haiku for execution steps
+- Logging: structured JSON audit log per analysis step
+
+**Wiring:**
+```
+Utility engineer submits task: "Check voltage violations across the 11kV network after adding 50 substations"
+
+Phase 1 — Planning (PowerDAG adaptive retrieval):
+  → Claude retrieves relevant domain knowledge: voltage standards, analysis procedure
+  → Generates DAG workflow: load_network() → add_substations() → run_powerflow() → check_violations() → report()
+  → DAG is logged as structured JSON (audit trail step 1)
+
+Phase 2 — Just-in-time supervision:
+  → Each DAG node executes with pandapower
+  → Before each step: Claude verifies preconditions ("substations loaded, parameters valid")
+  → After each step: Claude verifies result plausibility ("voltage values in reasonable range?")
+  → On anomaly: pause → explain → ask for confirmation (not silent failure)
+
+Phase 3 — Verifiable output:
+  → Final report with: inputs, intermediate results, final violations table
+  → Full DAG execution trace in JSON (regulatorily auditable)
+  → Engineer can replay any step or override individual nodes
+
+Outcome: 94-100% task success rate vs. 60-70% for naive LangChain/ReAct baselines
+```
+
+**Effort**: 10-14 weeks (production-grade) | **Revenue target**: $150k-$400k | **Differentiator**: First Globant engagement to claim utility-grade AI agent reliability with published benchmark backing
+
+---
+
 ## Quick-Start Decision Tree
 
 ```
@@ -242,7 +313,9 @@ Client type?
 ├── DSO / Grid operator
 │   ├── Load forecasting pain? → P1 (OpenSTEF + LangGraph)
 │   ├── Grid operations complexity? → P5 demo → P7 production
-│   └── Grid planning backlog? → P6 (PyPSA + Claude)
+│   ├── Grid planning backlog? → P6 (PyPSA + Claude)
+│   ├── Has OpenDSS/PSS/E? → P9 PowerMCP PoC (fastest!)
+│   └── Needs regulatory audit trail? → P10 (PowerDAG pattern)
 ├── Utility / IPP with BESS
 │   ├── Revenue optimization? → P2 (OpenEMS VPP Agent)
 │   └── Asset maintenance? → P4 (VOLTTRON + CrewAI)

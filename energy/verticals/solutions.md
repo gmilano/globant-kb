@@ -1,7 +1,7 @@
 # Vertical Solutions — Energy
 
 > Existing open source platforms to customize with AI. Model: start from a working system, add an agentic layer on top.
-> Last updated: 2026-07-11 (v2)
+> Last updated: 2026-07-11 (v3)
 
 ## Recommended Platforms
 
@@ -17,6 +17,27 @@
 | **CityLearn** | MIT | [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | Python, Gymnasium | Multi-building demand response at district/city scale | Multi-agent RL for building portfolio demand response; integrate with utility AMI data |
 | **OperatorFabric** | MPL-2.0 | [opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core) | Java, Angular, MongoDB | Real-time grid operator workstation: alerts, events, process monitoring | Add MCP-based Claude agent for natural-language query over grid events and incident triage |
 | **OpenRemote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java, TypeScript, Docker | IoT platform for energy assets: EV, solar, BESS, smart meters | Flow-based AI rules → LLM agent for automated demand response and tenant notifications |
+| **OpenDSS + PowerMCP** | BSD (OpenDSS) / MIT (PowerMCP) | [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | Python, MCP | Distribution grid simulation (OpenDSS) + LLM interface (PowerMCP) | Fastest path to AI-driven grid analysis: PowerMCP exposes OpenDSS as MCP tools → any LLM can run power flow studies in natural language |
+
+## NEW in v3: PowerAgent Ecosystem as Vertical Platform
+
+The **Power-Agent** GitHub organization (Harvard SEAS) provides a complete vertical platform for AI-powered power system analysis. Unlike other platforms that require custom integration, PowerAgent is built from the ground up for LLM + power systems:
+
+```
+PowerFM (Foundation Models)
+    ↓
+PowerMCP (MCP Servers for PowerWorld/PSS/E/OpenDSS/PSCAD)
+    ↓
+PowerSkills (Domain Agent Skills)
+    ↓
+PowerWF (Agentic Workflows)
+    ↓
+PowerAgentBench (Evaluation)
+```
+
+**All MIT licensed. Backed by Harvard SEAS Power and AI Initiative.**
+
+**Entry point**: Deploy PowerMCP → plug in any LLM via MCP → use PowerSkills for domain-aware behavior → compose PowerWF for multi-step studies.
 
 ## How to Customize with AI
 
@@ -61,6 +82,17 @@ EVerest manages physical EV charger hardware
   → Result: 15-30% charging cost reduction + grid congestion relief
 ```
 
+### NEW: Pattern: OpenDSS + PowerMCP + Claude (Fastest PoC)
+```
+Utility already has OpenDSS distribution grid model (standard tool)
+  → Deploy PowerMCP (MIT, Harvard SEAS) as MCP server for OpenDSS
+  → Connect Claude / any MCP-compatible LLM
+  → Load PowerSkills: domain-aware tool selection + mitigation playbooks
+  → Natural language interface: "Run N-1 contingency on substation 7"
+  → Claude uses PowerMCP tools → runs OpenDSS → interprets results
+  → 2-3 week PoC delivery; builds to PowerWF workflows for production
+```
+
 ## Platform Decision Guide
 
 | Need | Recommended Platform |
@@ -70,11 +102,13 @@ EVerest manages physical EV charger hardware
 | EV charging (EVSE manufacturer / fleet) | EVerest |
 | Grid load forecasting for DSO | OpenSTEF |
 | National/regional energy planning | PyPSA / PyPSA-Eur |
-| Distribution grid analysis | pandapower |
+| Distribution grid analysis (new — fastest path) | OpenDSS + PowerMCP + Claude |
+| Distribution grid analysis (deeper) | pandapower |
 | Grid RL agent demonstration | Grid2Op |
 | Building demand response | CityLearn |
 | TSO/DSO operator workstation | OperatorFabric |
 | Multi-device IoT energy management | OpenRemote |
+| LLM-native power system toolkit | PowerMCP + PowerSkills + PowerWF |
 
 ---
 *See also: `repos/foundations.md` for lower-level component libraries.*
