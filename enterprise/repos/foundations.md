@@ -1,60 +1,48 @@
 # Foundational Repos — Enterprise AI
 
-> The open source bedrock for building enterprise AI solutions. These are the repos with proven communities, permissive licenses, and production track records that Globant can build client solutions on top of.
-> Last updated: 2026-07-11
+> The core open-source repositories every enterprise AI engagement should know. Curated for Globant: real URLs, verified licenses, active communities.
+> Last updated: 2026-07-11 (v3)
 
-## Agent Orchestration Layer
+## Core Orchestration Foundations
 
-| Repo | License | Stars | Description | Build on for... |
-|------|---------|-------|-------------|-----------------|
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34.5k | Graph-based stateful agent orchestration; durable execution; checkpointing; HITL | Any stateful multi-step enterprise workflow (approval loops, long-running processes) |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~54.2k | Role-based multi-agent collaboration; sequential and parallel crew execution | Research, analysis, and content pipelines where multiple specialist agents collaborate |
-| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | Unified .NET + Python SDK; multi-agent; A2A + MCP protocols; Azure-native | Microsoft Azure shops, .NET enterprise stacks, Teams/M365 integration |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Minimal agent framework; CodeAct execution; all HF models | Lean deployments, HF Hub model swapping, code-executing agents |
+| Repo | License | Stars | Maintainer | Description | Why Foundational |
+|------|---------|-------|-----------|-------------|-----------------|
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34.5k | LangChain AI | Stateful graph-based agent orchestration with durable execution and checkpoints | De-facto enterprise standard for production agents in 2026; Uber, Klarna, LinkedIn production |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~54.2k | CrewAI Inc | Role-playing multi-agent framework with memory, tools, delegation, and workflow automation | Fastest multi-agent prototyping; 5.2M downloads/month; widest enterprise pilot adoption |
+| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | Microsoft | GA April 2026 — production unification of AutoGen + Semantic Kernel for .NET and Python | New LTS standard for Microsoft-ecosystem enterprises; A2A + MCP native; stable APIs |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~58.7k | Microsoft Research | Conversational multi-agent framework (maintenance mode; base for Agent Framework) | Most widely deployed Microsoft agent framework; proven at Azure enterprise scale |
+| [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~27.9k | Microsoft | AI SDK for .NET, Python, Java — plugin architecture, memory, planners | Core of .NET enterprise AI; 3-language support; large existing plugin ecosystem |
 
-## Knowledge & Retrieval Layer
+## LLM Platforms & Workflow Engines
 
-| Repo | License | Stars | Description | Build on for... |
-|------|---------|-------|-------------|-----------------|
-| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | ~73k | Enterprise RAG engine with deep document understanding (PDF, tables, charts) + agent loop | Enterprise knowledge bases, compliance document QA, policy/contract search |
-| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~26k | Persistent memory layer for agents — user/session/agent-scoped memory | Any agent that needs to remember context across sessions (CRM, helpdesk, onboarding) |
-| [deepset-ai/haystack](https://github.com/deepset-ai/haystack) | Apache-2.0 | ~18k | Modular NLP pipeline — retrieval, QA, summarization, hybrid search | Document-heavy workflows: legal, HR, finance, procurement |
+| Repo | License | Stars | Maintainer | Description | Why Foundational |
+|------|---------|-------|-----------|-------------|-----------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~148k | LangGenius | Visual workflow builder + RAG pipeline + LLMOps; self-hostable enterprise AI platform | #1 LLM platform by stars; fastest growing AI infra project ever; 100k stars record |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | ~189k | n8n GmbH | Workflow automation with native AI agent nodes, MCP support, and 400+ integrations | The integration layer between legacy enterprise systems and modern AI agents |
+| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | ~73k | InfiniFlow | Enterprise RAG engine with deep document understanding, OCR, table extraction, and citations | Solves enterprise hallucination/compliance problem; grounded, traceable AI answers |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | ~35k | FlowiseAI | Low-code visual builder for LLM flows with REST API output | Enables non-technical teams to build AI workflows; deployable as microservices |
 
-## Workflow & Integration Layer
+## Enterprise Infrastructure
 
-| Repo | License | Stars | Description | Build on for... |
-|------|---------|-------|-------------|-----------------|
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | ~189k | Visual workflow automation; 400+ connectors; native AI agent nodes; MCP support | Connecting AI agents to legacy enterprise systems (ERP, CRM, ITSM, email) |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~148k | Full-stack LLM platform: visual workflows + RAG + model management + LLMOps | Rapid enterprise AI app prototyping; internal tools with monitoring |
+| Repo | License | Stars | Maintainer | Description | Why Foundational |
+|------|---------|-------|-----------|-------------|-----------------|
+| [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | ~9k | Langfuse (ClickHouse) | LLM observability: tracing, evals, prompt management, datasets; OTEL-native; ClickHouse backend | Industry-standard observability layer; 2,300+ companies; mandatory for production agents |
+| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~26k | Mem0 AI | Persistent memory layer for AI agents: user/session/agent memory with semantic search | Enables agents to maintain context across sessions; critical for enterprise deployments |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Hugging Face | Minimal code-first agent framework with CodeAct execution and OpenTelemetry tracing | Lightweight, composable; OTEL built in; works with any HF model |
+| [deepset-ai/haystack](https://github.com/deepset-ai/haystack) | Apache-2.0 | ~18k | deepset | NLP pipeline framework for search, QA, and document-heavy enterprise workflows | Battle-tested for enterprise document search; modular component design |
+| [agno-agi/agno](https://github.com/agno-agi/agno) | Apache-2.0 | ~26k | Agno | Lightweight, model-agnostic agent framework with multimodality and team support | Ultra-fast init; multimodal from day one; rapid PoC to production pathway |
+| [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | ~3.2k | Microsoft | Runtime security governance for autonomous AI agents; OWASP Agentic AI Top 10 coverage | Essential for EU AI Act compliance; Cedar policy-as-code; sub-millisecond enforcement |
 
-## ERP & Business Platform Layer
+## ERP / CRM Vertical Foundations
 
-| Repo | License | Stars | Description | Build on for... |
-|------|---------|-------|-------------|-----------------|
-| [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | Low-code Python + JS framework; ORM, REST API, job queues, websockets | Foundation for ERPNext — any custom enterprise app needing full-stack Python framework |
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~36.4k | 100% open source ERP: accounting, inventory, HR, CRM, manufacturing, projects | Full ERP baseline for SME/mid-market clients; MIT Frappe framework underneath |
-| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~1.1k | Java enterprise application framework with ERP, CRM, e-commerce, POS | Enterprise Java shops needing Apache-licensed ERP; high customizability |
-| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 (Community) | ~52.8k | 50+ integrated business apps; 7M+ users; Community free, Enterprise $24.90/user/mo | Most popular open-core ERP; best when client is willing to pay Enterprise for AI features |
-
-## Developer Platform Layer
-
-| Repo | License | Stars | Description | Build on for... |
-|------|---------|-------|-------------|-----------------|
-| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~30k | Spotify's internal developer portal — software catalog, TechDocs, plugins | Building enterprise AI developer portals; centralizing agent/tool catalog |
-| [mattermost/mattermost](https://github.com/mattermost/mattermost) | Apache-2.0 | ~10k | Secure self-hosted team collaboration; AI plugin (thread summaries, chat agents) | On-prem/air-gapped enterprises; regulated industries; AI-powered team chat |
-
----
-
-## Key Decision: Frappe/ERPNext vs Odoo vs OFBiz
-
-| Criteria | ERPNext (Frappe) | Odoo Community | Apache OFBiz |
-|----------|-----------------|----------------|--------------|
-| License | GPL-3.0 / MIT (Frappe) | LGPL-3.0 | Apache-2.0 |
-| AI features (free) | Full via Frappe Python APIs | None (Enterprise only) | Custom only |
-| Language | Python + JS | Python + JS | Java |
-| Best for | Full OSS ERP customization | When client will pay for Enterprise | Java enterprise shops |
-| LATAM usage | High (Spanish docs, PIX adapters) | Very high (most recognized brand) | Low |
+| Repo | License | Stars | Maintainer | Description | AI Integration |
+|------|---------|-------|-----------|-------------|---------------|
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3 (community) | ~49.1k | Odoo SA | Comprehensive ERP+CRM+84 business modules; Python/OWL stack | REST API + external LLM integration; AI content generation built in |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~31.9k | Frappe | Open-source ERP built on Frappe framework; manufacturing, HR, accounting | Custom dev required for AI; flexible Python architecture |
+| [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | Frappe | Low-code web framework underlying ERPNext; Python + JavaScript | MIT license; strong foundation for AI-augmented Frappe apps |
+| [nocobase/nocobase](https://github.com/nocobase/nocobase) | AGPL-3.0 | ~21.6k | NocoBase | AI-native no-code ERP/CRM with AI employee model, approval workflows, and knowledge bases | Built-in AI: understands business context, participates in workflows autonomously |
+| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~1.1k | Apache Foundation | Enterprise-grade ERP framework with SCM + CRM; Apache licensed | Apache-2.0: pure Globant buildable; API-first for AI agent integration |
+| [suitecrm/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | ~4.3k | SalesAgility | World's most popular open-source CRM; ~5M users globally; Salesforce alternative | REST API v8 enables AI agent CRM automation |
 
 ---
-*See also: `verticals/solutions.md` for full platform decision guide.*
-*Updated 2026-07-11 by ingest pipeline.*
+*Auto-updated by ingest pipeline — v3 2026-07-11*

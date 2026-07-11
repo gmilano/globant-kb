@@ -1,60 +1,64 @@
-# Trending Enterprise AI Agents — Week of 2026-07-11
+# Trending AI Agents & Repos — Enterprise
 
-> What's new, what just went GA, what moved fast this week.
+> What's new and surging this week in enterprise AI. Refreshed 2026-07-11 (v3).
 
-## Breaking This Week
+## Breaking This Week (July 2026)
 
-### Microsoft Agent Framework at BUILD 2026
-Microsoft unveiled major enhancements at BUILD 2026 (May 2026):
-- **Agent Harness** — structured execution environment for long-running agents
-- **Hosted Agents** — managed serverless deployment on Azure
-- **CodeAct** — agents that write and execute code natively
-- MAF is now the go-to for Microsoft Azure enterprise shops; AutoGen + Semantic Kernel enter maintenance mode
+### Microsoft Agent Framework v1.0 — GA April 2026
+- **Repo**: [github.com/microsoft/agent-framework](https://github.com/microsoft/agent-framework) — MIT, ~11.6k★
+- **What**: Production-grade unification of AutoGen + Semantic Kernel into a single SDK with LTS
+- **Patterns**: Sequential, Concurrent, Handoff, Group Chat, Magentic-One — all with streaming + checkpointing
+- **Enterprise significance**: If you're a Microsoft/Azure shop, this is the new default. Includes A2A and MCP protocol support.
 
-### Dify Passes 148k Stars
-Dify (langgenius/dify) crossed 148k GitHub stars in July 2026, making it the #1 most-starred LLM platform. Key recent additions:
-- Native MCP server/client nodes
-- Multi-model routing with cost optimization
-- Enterprise SSO / RBAC (cloud + self-hosted enterprise edition)
+### Microsoft Agent Governance Toolkit — Open-sourced April 2026
+- **Repo**: [github.com/microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) — MIT, ~3.2k★
+- **What**: Runtime security governance for autonomous AI agents; first toolkit covering all 10 OWASP Agentic AI Top 10 risks
+- **Why it matters**: 75% of enterprise leaders cite security + auditability as top blockers; this addresses them with sub-millisecond policy enforcement
+- **EU AI Act**: EU high-risk AI obligations take effect August 2026 — this toolkit helps with compliance
 
-### n8n 2.0: Native AI Agent Nodes + MCP
-n8n 2.0 shipped with:
-- Native AI Agent nodes (no plugin required)
-- MCP Client + MCP Server Trigger — makes n8n workflows callable from Claude, Cursor, Lovable
-- Self-Hosted AI Starter Kit v2 with Qdrant + Ollama pre-packaged
-- 189k stars, making it the #1 workflow automation platform by stars
+### DeerFlow v2.0 — ByteDance Super-Agent (Apache-2.0)
+- **Repo**: [github.com/bytedance/deerflow](https://github.com/bytedance/deerflow) — Apache-2.0
+- **What**: Open-source super-agent harness that orchestrates sub-agents, memory, sandboxes, and extensible skills
+- **Trending**: Hit #1 on GitHub Trending after v2.0 launch; ByteDance enterprise backing
 
-### RAGFlow Crosses 73k Stars
-RAGFlow (infiniflow/ragflow) continues explosive growth after 2,596% YoY contributor activity in 2025. July 2026 highlights:
-- DeepDoc v3 engine — improved table/chart extraction from complex PDFs
-- Agent orchestration layer with loop + branch logic
-- Production deployments at Fortune 500 companies for compliance document processing
+### RAGFlow — 70k+ Stars, 2,596% YoY Growth
+- **Repo**: [github.com/infiniflow/ragflow](https://github.com/infiniflow/ragflow) — Apache-2.0, ~73k★
+- **What**: Enterprise RAG with deep OCR, table extraction, and citation-grounded answers
+- **Why now**: Enterprise AI has a "hallucination debt" problem; RAGFlow's traceable answers solve compliance requirements
+- **Deployments**: Knowledge bases, compliance AI, research assistants, multi-source analysis
 
-### CrewAI Survey Results (Jan 2026)
-- 100% of enterprise users plan to expand agentic AI in 2026
-- 2 billion agentic system executions in the prior 12 months
-- 74% call production deployment a strategic priority
-- 75% report high/very high impact on time savings; 69% on cost reduction
+### n8n Crossing 180k Stars — Native MCP Support
+- **Repo**: [github.com/n8n-io/n8n](https://github.com/n8n-io/n8n) — Fair-code, ~189k★
+- **What**: MCP client/server support now native in n8n; connects 400+ enterprise systems to AI agents
+- **Enterprise pattern**: Legacy SAP/Salesforce/Jira/Confluence → n8n → LLM agent → output
 
-## New Repos to Watch
+### Langfuse + ClickHouse — Enterprise-Scale Observability
+- **Repo**: [github.com/langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT, ~9k★
+- **What**: Since January 2026, Langfuse is part of ClickHouse — ingests and queries millions of traces in milliseconds
+- **OTEL standard**: Industry converging on OpenTelemetry for agent telemetry; Langfuse supports natively
+- **Adoption**: 2,300+ companies; Pydantic AI, smolagents, Strands Agents all emit OTEL traces
 
-| Repo | License | Stars | Why Interesting |
-|------|---------|-------|-----------------|
-| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~26k | Persistent memory layer — fills the "agents forget context" gap in enterprise deployments |
-| [agno-agi/agno](https://github.com/agno-agi/agno) | Apache-2.0 | ~26k | Model-agnostic, 23x faster agent spawn than LangGraph; new team/multi-agent primitives |
-| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | GA April 2026 — enterprise .NET + Python convergence point |
-| [czlonkowski/n8n-mcp](https://github.com/czlonkowski/n8n-mcp) | MIT | growing | MCP server that lets Claude Code build n8n workflows — meta-automation |
+## Star Rankings — Enterprise AI (July 2026)
 
-## Key Trend: MCP Becoming Enterprise Integration Standard
-The Model Context Protocol (donated to Linux Foundation AAIF in Dec 2025) is rapidly becoming the enterprise integration bus for AI:
-- n8n, Dify, Mattermost, ERPNext all added MCP support in H1 2026
-- 97M monthly SDK downloads; 20,000+ MCP servers on Glama
-- Pattern: enterprise system exposes MCP server → any Claude/agent can drive it without custom integration code
+| Rank | Repo | Stars | License | Category |
+|------|------|-------|---------|----------|
+| 1 | [n8n](https://github.com/n8n-io/n8n) | ~189k | Fair-code | Workflow automation + AI |
+| 2 | [Dify](https://github.com/langgenius/dify) | ~148k | Apache-2.0 | LLM platform + RAG |
+| 3 | [AutoGen](https://github.com/microsoft/autogen) | ~58.7k | MIT | Multi-agent (maintenance) |
+| 4 | [CrewAI](https://github.com/crewAIInc/crewAI) | ~54.2k | MIT | Role-based agents |
+| 5 | [RAGFlow](https://github.com/infiniflow/ragflow) | ~73k | Apache-2.0 | Enterprise RAG |
+| 6 | [LangGraph](https://github.com/langchain-ai/langgraph) | ~34.5k | MIT | Graph orchestration |
+| 7 | [Flowise](https://github.com/FlowiseAI/Flowise) | ~35k | Apache-2.0 | Low-code agent builder |
+| 8 | [Smolagents](https://github.com/huggingface/smolagents) | ~27k | Apache-2.0 | Code-first agents |
+| 9 | [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | ~27.9k | MIT | .NET/Python SDK (maint.) |
+| 10 | [Mem0](https://github.com/mem0ai/mem0) | ~26k | Apache-2.0 | Agent memory layer |
 
-## LATAM Watch
-- Globant announced $1B investment in LATAM AI (June 2026)
-- Globant–Anthropic alliance: Claude-powered AI Pods, adopted by 40% of top 20 revenue accounts
-- Brazil AI Legal Framework creates compliance requirements (and consulting opportunities) for all enterprises in LATAM
+## What to Watch Next (August 2026)
+
+- **EU AI Act enforcement** (high-risk AI obligations, Aug 2026) — expect surge in governance/compliance tooling
+- **Gartner Hype Cycle for Agentic AI 2026** — positioning of frameworks will shift procurement decisions
+- **Microsoft Agent Framework** adoption curve — whether it displaces LangGraph in enterprise greenfield projects
+- **MCP ecosystem maturity** — n8n + Dify + MAF all native MCP; tooling standardization accelerating
 
 ---
-*Updated 2026-07-11 by ingest pipeline.*
+*Auto-updated by ingest pipeline — v3 2026-07-11*

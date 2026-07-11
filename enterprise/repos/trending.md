@@ -1,46 +1,43 @@
-# Trending Repos — Enterprise AI (July 2026)
+# Trending GitHub Repos — Enterprise AI
 
-> Fastest-moving repos this week. Velocity = recent star growth, not total stars.
-> Last updated: 2026-07-11
+> High-momentum repos in enterprise AI — measured by star velocity, fork rate, and production deployments. Updated 2026-07-11 (v3).
 
-## 🔥 Hot This Week
+## Top Trending (2026 Star Velocity Leaders)
 
-| Repo | License | Stars | Why Trending | Category |
-|------|---------|-------|--------------|----------|
-| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | GA April 2026 — BUILD 2026 announcements driving massive adoption | Agent orchestration |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~148k | Crossed 148k stars; MCP nodes; fastest-growing LLM platform | LLM Platform |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | ~189k | 2.0 launch with native AI + MCP; enterprise integrations | Workflow automation |
-| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | ~73k | DeepDoc v3; enterprise RAG; 2,596% YoY contributor growth | Enterprise RAG |
-| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~26k | Persistent agent memory — fastest-growing infrastructure layer | Agent memory |
-| [agno-agi/agno](https://github.com/agno-agi/agno) | Apache-2.0 | ~26k | 23x faster agent spawn; new team primitives; multimodal | Agent framework |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~54.2k | 2B executions milestone; streaming tool call events; enterprise survey results | Multi-agent |
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~68k | SWE-bench top performer; enterprise DevOps automation use cases | SWE agent |
+| Repo | License | Stars | Weekly Trend | Why Trending |
+|------|---------|-------|--------------|--------------|
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | ~189k | ↑↑↑ | Native MCP client/server; AI agent nodes; 400+ enterprise integrations crossing 189k stars |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~148k | ↑↑↑ | Fastest-growing AI platform by stars; visual workflows + RAG + LLMOps; 100k star record |
+| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | ~73k | ↑↑↑ | 2,596% YoY growth; enterprise RAG with citations; solves compliance hallucination problem |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~58.7k | → stable | Large installed base; succeeded by MAF but widely deployed; 856k monthly downloads |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~54.2k | ↑↑ | 5.2M downloads/month; 2B+ agent executions; fastest enterprise prototyping framework |
+| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | ↑↑↑ new | GA April 2026; new from Microsoft; merges AutoGen + Semantic Kernel; LTS-backed |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | ~35k | ↑↑ | LangChain-based low-code builder; non-technical teams building AI flows |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34.5k | ↑↑ | Production-grade; 34.5M monthly library downloads; human-in-the-loop; enterprise standard |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | ↑↑ | HuggingFace's agent answer; code-first; OTEL tracing; minimal; gaining enterprise traction |
+| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~26k | ↑↑ | Agent memory layer; now mandatory in production multi-session enterprise agents |
+| [agno-agi/agno](https://github.com/agno-agi/agno) | Apache-2.0 | ~26k | ↑↑ | Lightweight alternative to CrewAI; model-agnostic; multimodal; rapid PoC |
+| [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | ~3.2k | ↑↑↑ new | Released April 2026; OWASP Agentic AI Top 10; EU AI Act compliance; Cedar policy-as-code |
+| [bytedance/deerflow](https://github.com/bytedance/deerflow) | Apache-2.0 | growing | ↑↑↑ | ByteDance super-agent harness; #1 GitHub Trending after v2.0; sub-agents + memory + skills |
 
-## 📈 Rising Repos
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [czlonkowski/n8n-mcp](https://github.com/czlonkowski/n8n-mcp) | MIT | growing | MCP server for building n8n workflows via Claude — meta-automation tool |
-| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | ~35k | Visual LLM flow builder; drag-and-drop agent creation; REST API export |
-| [1Panel-dev/MaxKB](https://github.com/1Panel-dev/MaxKB) | GPL-3.0 | ~14k | Enterprise knowledge base on RAG; fast deployment; multi-source ingestion |
-| [makeplane/plane](https://github.com/makeplane/plane) | AGPL-3.0 | ~28k | Open source Jira alternative; used by Sony, Accenture; AI issue triage plugins |
-| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~30k | Internal developer portal gaining AI/agent catalog plugin ecosystem |
-
-## 🏢 Enterprise ERP Trending
+## Notable Emerging Repos (Watch List)
 
 | Repo | License | Stars | Description |
 |------|---------|-------|-------------|
-| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | ~52.8k | Odoo 18 + AI (Enterprise only); 32% open-source ERP adoption growth in 2026 |
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~36.4k | ERPNext v15 with native Frappe Python AI hooks; most popular full-OSS ERP |
-| [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | Low-code Python web framework underlying ERPNext; MIT makes it build-friendly |
-| [mattermost/mattermost](https://github.com/mattermost/mattermost) | Apache-2.0 | ~10k | Secure enterprise collab; AI plugin for thread summaries + custom agents |
+| [nocobase/nocobase](https://github.com/nocobase/nocobase) | AGPL-3.0 | ~21.6k | AI-native no-code ERP/CRM; AI employee model; 5-year cost $8k vs Odoo $150k |
+| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~1.1k | Enterprise ERP framework from Apache; pure Apache-2.0 license; Globant-safe |
+| [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | ~9k | LLM observability; joined ClickHouse Jan 2026; 2,300+ enterprise users |
+| [erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) | MIT | ~104 | MCP server bridging AI assistants to ERPNext; early but promising pattern |
+| [infaton/MCP35](https://github.com/infaton/MCP35) | MIT | ~22 | INFATON MCP Server — 51 tools for 1C:Enterprise ERP; pattern for legacy ERP+MCP |
 
-## Context: Why Enterprise AI Is Exploding in 2026
+## ERP/CRM Trending (Enterprise Verticals)
 
-- Gartner: 40% of enterprise apps will have embedded AI agents by end of 2026 (up from <5% in 2025)
-- 57% of organizations now have AI agents in production workflows
-- IDC: agentic AI represents 10-15% of enterprise IT spending in 2026
-- McKinsey: 3.5x average ROI over 3 years; payback 3-6 months for customer service / invoice processing
+| Repo | License | Stars | Notes |
+|------|---------|-------|-------|
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3 (comm.) | ~49.1k | ERP market leader by stars; AI getting second look from enterprises fleeing SAP pricing |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~31.9k | Strong LATAM and Asia adoption; Frappe framework is MIT |
+| [nocobase/nocobase](https://github.com/nocobase/nocobase) | AGPL-3.0 | ~21.6k | Fastest-growing ERP alternative; AI-native architecture |
+| [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | The underlying low-code framework; MIT license; AI integration points |
 
 ---
-*Updated 2026-07-11 by ingest pipeline.*
+*Auto-updated by ingest pipeline — v3 2026-07-11*

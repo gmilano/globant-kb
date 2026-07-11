@@ -1,279 +1,263 @@
 # Composition Patterns — Enterprise AI
 
-> Concrete recipes for building enterprise AI solutions with the repos in this KB.
-> Each pattern names the specific repos, wiring, and estimated engagement size.
-> Last updated: 2026-07-11
+> Concrete recipes for building enterprise AI solutions. Each names specific repos, how to wire them, estimated effort, and Globant positioning.
+> Last updated: 2026-07-11 (v3)
 
 ---
 
-## Pattern P1: Enterprise Knowledge Hub
-**"Ask anything about your company — get grounded, cited answers"**
+## P1 — Enterprise Knowledge Agent (RAGFlow + LangGraph + Langfuse)
 
-**Problem**: Enterprise knowledge is scattered across SharePoint, Confluence, PDFs, Notion, JIRA, email. Employees waste 20% of workday searching for information.
+**Use case**: Replace generic ChatGPT-style internal AI with a grounded, compliance-grade enterprise knowledge agent.
 
-**Stack**:
+**Repos**:
+- [infiniflow/ragflow](https://github.com/infiniflow/ragflow) — Apache-2.0 — Document ingestion, OCR, table extraction, citation tracking
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — Orchestration, state management, human-in-the-loop
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Tracing, evals, prompt management
+
+**Architecture**:
 ```
-[RAGFlow (infiniflow/ragflow — Apache-2.0)]
-        ↓  ingest documents (PDF, Word, slides, spreadsheets, Confluence export)
-        ↓  DeepDoc extracts tables/charts from complex PDFs
-[LangGraph (langchain-ai/langgraph — MIT)]
-        ↓  stateful Q&A agent with follow-up handling
-        ↓  human-in-the-loop for sensitive/uncertain answers
-[Mem0 (mem0ai/mem0 — Apache-2.0)]
-        ↓  remembers user context, previous questions, department
-[n8n (n8n-io/n8n)]
-        ↓  auto-ingests new documents from SharePoint/Confluence/email
-        ↓  Slack/Teams notification when new relevant docs added
-[Dify (langgenius/dify — Apache-2.0)]
-        ↓  monitoring dashboard, usage analytics, prompt A/B testing
+Enterprise Documents (PDF, Excel, SharePoint, Confluence)
+    ↓
+RAGFlow ingest + deep OCR + vector index
+    ↓
+LangGraph agent: query → retrieve → reason → cite
+    ↓
+Langfuse: trace every query + eval quality monthly
+    ↓
+REST API → React/Next.js chat UI
 ```
 
-**Outputs**: Internal chatbot with cited answers, accessible via Slack/Teams/web widget.
+**Key decision points**:
+- RAGFlow handles multi-format ingestion; no custom parsing needed
+- LangGraph checkpoint enables HITL for low-confidence answers
+- Langfuse gives compliance team audit trail of every response + source
 
-**Wiring**:
-1. RAGFlow REST API → LangGraph tool (RAG retrieval tool)
-2. LangGraph → Mem0 (read/write user memory at session start/end)
-3. n8n webhook trigger → RAGFlow ingestion API (auto-update on new docs)
-4. Dify wraps the LangGraph agent for a polished UI + observability
-
-**Engagement size**: USD 80k–200k (2-3 months, 2-3 engineers)
-**LATAM relevance**: High — Spanish document support; on-prem deployment for LGPD compliance
+**Effort**: 6–8 weeks for PoC; 3–4 months for production with SSO + audit
+**Cost anchor**: $0 infrastructure (self-hosted); Globant delivery cost
 
 ---
 
-## Pattern P2: ERP AI Copilot
-**"Talk to your ERP instead of clicking through 40 screens"**
+## P2 — Legacy System Integration Agent (n8n + CrewAI + Mem0)
 
-**Problem**: ERP systems (Odoo, ERPNext, SAP) have powerful data but terrible UX. Finance and operations teams spend hours on routine tasks: generating reports, creating purchase orders, checking inventory, approving workflows.
+**Use case**: Replace RPA bots or manual processes that span SAP/Salesforce/Jira with AI agents that can understand context and make decisions.
 
-**Stack**:
+**Repos**:
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Fair-code — Integration layer; 400+ connectors to enterprise systems
+- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) — MIT — Multi-agent orchestration with roles
+- [mem0ai/mem0](https://github.com/mem0ai/mem0) — Apache-2.0 — Cross-session memory for agent context
+
+**Architecture**:
 ```
-[ERPNext / erpnext-mcp-server (MIT — rakeshgangwar/erpnext-mcp-server)]
-        ↓  exposes ERPNext as an MCP server (inventory, orders, HR, accounting)
-        ↓  OR use Odoo REST API directly if client is on Odoo
-[LangGraph (langchain-ai/langgraph — MIT)]
-        ↓  multi-step agent: query → verify → act → confirm
-        ↓  approval chain: agent proposes action, human approves via Slack
-[RAGFlow (infiniflow/ragflow — Apache-2.0)]
-        ↓  company policies, SOPs, account codes, vendor contracts as context
-[Claude API (Anthropic)]
-        ↓  200k context window handles large financial reports
-        ↓  JSON tool use drives ERP API calls reliably
-[Mattermost or Slack]
-        ↓  approval UI: agent posts proposed action, manager clicks Approve/Reject
+Trigger: Salesforce opportunity created / SAP invoice received / Jira ticket opened
+    ↓
+n8n webhook receives event
+    ↓
+n8n → CrewAI: route to specialist agent team
+    ├── Sales Agent: reads CRM history via Mem0
+    ├── Finance Agent: queries SAP via n8n connector
+    └── Coordinator Agent: synthesizes and routes action
+    ↓
+n8n: write back to source systems
+    ↓
+Langfuse: audit all decisions
 ```
 
-**Outputs**: "Create PO for vendor ABC for $12k per last month's rate, pending CFO approval" → complete workflow in 30 seconds.
+**Key decision points**:
+- n8n handles credential management + system connections (not the agent)
+- CrewAI roles map naturally to business roles (Sales, Finance, Ops)
+- Mem0 remembers per-customer and per-case context across sessions
+- n8n fair-code license: OK for internal use, needs enterprise for client-facing
 
-**Wiring**:
-1. Install `erpnext-mcp-server` on ERPNext instance
-2. LangGraph agent uses ERPNext MCP tools as its action space
-3. RAGFlow indexes company policies → LangGraph uses as retrieval tool
-4. Approval nodes: LangGraph `interrupt()` → post to Mattermost → resume on webhook
-5. Dify provides the employee-facing chat UI
-
-**Engagement size**: USD 120k–350k (3-4 months)
-**LATAM relevance**: Very high — ERPNext widely used in LATAM SME/mid-market; PIX/PSE payment adapters can be added as custom n8n nodes
+**Effort**: 4–6 weeks PoC; 3 months production
+**LATAM angle**: Replaces UiPath/Automation Anywhere for LATAM BPO at fraction of cost
 
 ---
 
-## Pattern P3: IT Helpdesk Agent
-**"Resolve 40-50% of IT tickets automatically"**
+## P3 — AI-Augmented ERP (Odoo/ERPNext + LangGraph + Dify)
 
-**Problem**: IT helpdesk handles thousands of repetitive tickets: password resets, VPN access, software installation, onboarding checklists. L1 support is expensive and slow.
+**Use case**: Add an AI layer on top of an open-source ERP — intelligent procurement, demand forecasting, vendor selection, AR/AP automation.
 
-**Stack**:
+**Repos**:
+- [odoo/odoo](https://github.com/odoo/odoo) — LGPL-3 — ERP backbone (or ERPNext if GPL-3 acceptable)
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — Complex ERP workflow orchestration
+- [langgenius/dify](https://github.com/langgenius/dify) — Apache-2.0 — Business-user AI workflow builder on top of ERP
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Decision audit trail
+
+**Architecture**:
 ```
-[n8n (n8n-io/n8n)]
-        ↓  trigger: new ticket from ITSM (ServiceNow, Jira Service Mgmt, Freshdesk)
-        ↓  classify ticket type via AI node
-[RAGFlow (infiniflow/ragflow — Apache-2.0)]
-        ↓  knowledge base: runbooks, IT policies, known issue database
-[LangGraph (langchain-ai/langgraph — MIT)]
-        ↓  resolution agent: diagnose → attempt fix → escalate if needed
-        ↓  tools: AD API (password reset), SCCM (software push), VPN provisioning
-[Mattermost (mattermost/mattermost — Apache-2.0)]
-        ↓  agent posts resolution steps; escalates to human with full context
-[Mem0 (mem0ai/mem0 — Apache-2.0)]
-        ↓  remembers recurring issues per user/machine; accelerates future resolutions
+Odoo REST API (sales orders, inventory, vendor master)
+    ↓
+LangGraph agent: daily ERP reasoning loop
+    ├── Demand forecaster (reads sales history)
+    ├── Procurement agent (monitors inventory, suggests POs)
+    ├── Vendor scorer (evaluates delivery performance)
+    └── Approval orchestrator (HITL for POs > threshold)
+    ↓
+Dify: business-user chatbot ("Why did we order 500 units of X?")
+    ↓
+Odoo writes approved actions back via REST
+    ↓
+Langfuse: full audit trail + weekly eval report
 ```
 
-**Outputs**: Auto-resolve password resets, access requests, and known issues. Escalate with full context and attempted resolutions.
+**Key decision points**:
+- Odoo LGPL-3 allows custom modules; Globant ships modules as product
+- Apache OFBiz (Apache-2.0) if client prefers pure-Apache stack
+- LangGraph handles the orchestration; Dify handles the business-user UX
+- Langfuse evaluation catches forecast drift before it hurts the business
 
-**Metrics**: 40-50% ticket deflection in first 3 months (industry benchmark). Payback period: 3-4 months.
-
-**Wiring**:
-1. n8n webhook from ITSM → classify via AI node → route to LangGraph
-2. LangGraph agent has tools: RAGFlow retrieval, AD API, SCCM API, Mattermost
-3. RAGFlow indexes runbooks, known issues, user manuals
-4. If unresolved: LangGraph generates summary → posts to Mattermost L2 channel
-5. Mem0 stores per-user and per-device history for pattern detection
-
-**Engagement size**: USD 80k–200k (2-3 months)
-**LATAM relevance**: High — Spanish runbooks, on-prem deployment for regulated clients
+**Effort**: 8–12 weeks PoC; 6 months production with full ERP modules
+**Revenue model**: Globant Odoo implementation + AI module subscription
 
 ---
 
-## Pattern P4: Finance Automation Agent
-**"Accounts payable and expense workflows on autopilot"**
+## P4 — Compliant Multi-Agent System (MAF + Agent Governance Toolkit + Langfuse)
 
-**Problem**: Finance teams process thousands of invoices monthly. Manual data entry, approval routing, and reconciliation consume 50%+ of AP team time.
+**Use case**: Build an enterprise AI agent system that can pass legal/compliance review and EU AI Act audit — required for financial services, healthcare-adjacent, and regulated industries.
 
-**Stack**:
+**Repos**:
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework) — MIT — Production orchestration (GA April 2026)
+- [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) — MIT — Runtime policy enforcement, OWASP Agentic AI Top 10
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Observability, audit trail, evals
+
+**Architecture**:
 ```
-[RAGFlow (infiniflow/ragflow — Apache-2.0)]
-        ↓  invoice OCR + extraction (vendor, amount, line items, PO match)
-        ↓  supports PDFs with complex table layouts
-[LangGraph (langchain-ai/langgraph — MIT)]
-        ↓  agent: extract → match PO → route for approval → post to ERP
-        ↓  anomaly detection: flag invoices that deviate from contract rates
-[ERPNext or Odoo (via REST API)]
-        ↓  post approved invoices, create journal entries, update vendor ledger
-[n8n (n8n-io/n8n)]
-        ↓  email trigger (new invoice) → OCR pipeline → approval workflow
-        ↓  Slack/Teams notification for approval requests
-[Dify (langgenius/dify)]
-        ↓  CFO/finance manager dashboard: invoice queue, anomaly alerts, audit log
+Enterprise Request (user or system trigger)
+    ↓
+Microsoft Agent Framework: orchestrate agent team
+    ├── Agent 1: data retrieval (bounded tools)
+    ├── Agent 2: analysis (read-only)
+    └── Agent 3: action execution (gated by policy)
+    ↓
+Agent Governance Toolkit (per agent call):
+    ├── Cedar policy: check permission to call tool
+    ├── Identity: verify agent identity chain
+    ├── Resource limits: cap tool invocations
+    └── Audit log: immutable record of all actions
+    ↓
+Langfuse: trace + eval + compliance export (SOC2, GDPR)
 ```
 
-**Outputs**: Invoice auto-extract, 3-way PO match, approval routing, ERP posting — 80% automation rate.
+**Key decision points**:
+- MAF is MIT; ideal for .NET/Azure shops migrating from AutoGen/SK
+- Governance Toolkit runs in-process; sub-millisecond policy check; no network hop
+- Cedar policies are declarative and auditable — legal can review them
+- EU AI Act August 2026 enforcement: this architecture passes high-risk AI requirements
 
-**Industry benchmark**: 50% reduction in AP processing time (Forrester 2026); 3-6 month payback.
-
-**Engagement size**: USD 100k–250k (2-3 months)
-**LATAM relevance**: Very high — NF-e (Brazil), CFDI (Mexico) e-invoicing formats; PIX payment integration
+**Effort**: 6–8 weeks governance-ready PoC; 4 months production
+**Positioning**: "AI agents that your compliance team can actually approve"
 
 ---
 
-## Pattern P5: Multi-Agent HR Onboarding
-**"Day-1 ready: accounts, docs, training, and FAQs handled before the new hire arrives"**
+## P5 — SME AI-Native ERP (NocoBase + AI Employee + Agno)
 
-**Problem**: HR onboarding involves 30+ steps across IT, HR, Finance, and Facilities. New hires wait days for access; HR teams are buried in coordination emails.
+**Use case**: Deploy a full AI-native ERP+CRM for LATAM SMEs at dramatically lower cost than SAP/Odoo Enterprise — with AI that understands business context from day one.
 
-**Stack**:
+**Repos**:
+- [nocobase/nocobase](https://github.com/nocobase/nocobase) — AGPL-3 — AI-native no-code ERP/CRM
+- [agno-agi/agno](https://github.com/agno-agi/agno) — Apache-2.0 — Lightweight agent layer for custom extensions
+
+**Architecture**:
 ```
-[CrewAI (crewAIInc/crewAI — MIT)]
-        ↓  crew: IT Provisioning Agent, HR Documents Agent, Training Agent, Facilities Agent
-        ↓  orchestrator: coordinates all 4 agents in parallel
-[n8n (n8n-io/n8n)]
-        ↓  trigger: new hire record created in HRIS
-        ↓  dispatches tasks to each agent; monitors completion
-[ERPNext HR module]
-        ↓  employee record, payroll setup, leave policies
-[RAGFlow (infiniflow/ragflow)]
-        ↓  onboarding guides, company policies, benefits FAQs indexed
-[Mattermost]
-        ↓  new hire welcome bot; FAQ answers; manager notification on completion
+NocoBase: ERP core (customers, orders, inventory, approvals)
+    ├── AI Employee: built-in
+    │   ├── Reads business context (customer history, open orders)
+    │   ├── Participates in approval workflows
+    │   └── Generates follow-up records automatically
+    └── Agno agents: domain extensions
+        ├── Sales forecaster (pulls NocoBase data → LLM → forecast)
+        ├── Collection agent (AR aging → outreach emails)
+        └── Onboarding agent (new customer → auto-creates records)
+    ↓
+Self-hosted on Docker; Spanish/Portuguese LLM
 ```
 
-**Outputs**: Complete onboarding checklist auto-executed in <4 hours. New hire's Day-1 Mattermost message: "Your accounts are ready, here's your schedule, here are the policies most people ask about."
+**Key decision points**:
+- NocoBase AGPL-3: Globant must offer as a service or resell under commercial license
+- NocoBase AI employee handles common cases; Agno handles custom domain logic
+- 50-person company: $8k/5yr vs $150k for Odoo Enterprise
+- Spanish/Portuguese support: use Llama 3.1 or Claude for LATAM language
 
-**Engagement size**: USD 80k–200k (2 months)
-**LATAM relevance**: High — adapts to LATAM labor law specifics (CLT Brazil, labor contracts Colombia)
+**Effort**: 3–4 weeks PoC (NocoBase fast to configure); 2 months customized production
+**LATAM angle**: 99% of LATAM businesses are SMEs with no ERP — this is a greenfield market
 
 ---
 
-## Pattern P6: Supply Chain Intelligence Agent
-**"Know about inventory shortfalls and disruptions before they hit production"**
+## P6 — Agentic BPO Platform (n8n + LangGraph + RAGFlow)
 
-**Problem**: Supply chains have 50+ variables. Procurement teams detect issues reactively — after a stockout, after a late shipment, after a quality failure.
+**Use case**: Modernize a LATAM BPO operation — replace human workers on structured processes (data entry, invoice processing, customer classification) with supervised AI agents.
 
-**Stack**:
+**Repos**:
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Fair-code — Integration with client systems; trigger management
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — Agent orchestration with HITL for exceptions
+- [infiniflow/ragflow](https://github.com/infiniflow/ragflow) — Apache-2.0 — Document understanding (invoices, contracts, forms)
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — SLA monitoring; agent quality metrics
+
+**Architecture**:
 ```
-[ERPNext (frappe/erpnext — GPL-3.0)]
-        ↓  source of truth: inventory, purchase orders, supplier records, BOM
-[LangGraph (langchain-ai/langgraph — MIT)]
-        ↓  monitoring agent: daily scan of inventory levels vs. demand forecast
-        ↓  risk agent: cross-references news and supplier lead times
-        ↓  action agent: draft POs, escalation emails, expedite requests
-[RAGFlow (infiniflow/ragflow)]
-        ↓  indexes supplier contracts, SLA terms, historical lead time data
-[n8n (n8n-io/n8n)]
-        ↓  daily trigger → agent run → Slack/Teams alert if risk detected
-        ↓  integrates with 3PL APIs, shipping tracking APIs
-[Haystack (deepset-ai/haystack)]
-        ↓  supply chain news monitoring: supplier financial news, port disruptions
+Client Systems (email, FTP, SharePoint, portal)
+    ↓
+n8n: receive documents → normalize → route by type
+    ↓
+RAGFlow: extract structured data from documents
+    ├── Invoice: vendor, amount, line items, PO matching
+    ├── Contract: parties, dates, obligations
+    └── Form: field extraction + validation
+    ↓
+LangGraph: decision workflow
+    ├── Confidence high → auto-process + log
+    ├── Confidence medium → flag for QA
+    └── Confidence low → human review queue (HITL)
+    ↓
+n8n: write to client ERP/CRM
+Langfuse: throughput, accuracy, SLA dashboard
 ```
 
-**Outputs**: Daily briefing: "3 items at risk of stockout in 14 days, 2 suppliers with delayed shipments, recommended actions." General Mills pattern: $20M+ shipment savings.
+**Metrics to track** (from day 1 with Langfuse):
+- Straight-through processing rate (target: 70%+)
+- Human escalation rate (target: <15%)
+- Extraction accuracy (target: >98%)
+- Processing time per document
 
-**Engagement size**: USD 100k–280k (3-4 months)
+**Effort**: 6–8 weeks PoC; 3–4 months production BPO platform
+**Positioning**: "Agentic BPO — faster than RPA, cheaper than headcount"
 
 ---
 
-## Pattern P7: On-Premise Sovereign AI Stack (LATAM)
-**"Full enterprise AI with no data leaving your data center"**
+## P7 — Enterprise AI Gateway (Dify + Langfuse + Mem0)
 
-**Problem**: LGPD (Brazil), Colombia/Chile sector rules, and enterprise data governance policies prevent sending sensitive data to cloud AI APIs. But clients still want AI productivity.
+**Use case**: Centralize all enterprise AI access through one governed gateway — manage models, costs, usage policies, and user-specific context across the organization.
 
-**Stack**:
+**Repos**:
+- [langgenius/dify](https://github.com/langgenius/dify) — Apache-2.0 — AI gateway + workflow builder + admin portal
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Usage tracking, cost attribution, quality evals
+- [mem0ai/mem0](https://github.com/mem0ai/mem0) — Apache-2.0 — Per-user memory across all enterprise AI tools
+
+**Architecture**:
 ```
-[Ollama (ollama/ollama — MIT)]
-        ↓  local LLM inference: Llama 3.3, Mistral, Qwen 2.5
-        ↓  GPU server on-premise or private cloud
-[Dify (langgenius/dify — Apache-2.0, self-hosted)]
-        ↓  visual workflow builder connected to Ollama backend
-        ↓  self-hosted: no data leaves the client environment
-[RAGFlow (infiniflow/ragflow — Apache-2.0, self-hosted)]
-        ↓  document ingestion and retrieval, fully on-prem
-[Mattermost (mattermost/mattermost — Apache-2.0, on-prem)]
-        ↓  team collaboration with AI bot built in
-[n8n (self-hosted)]
-        ↓  workflow automation: all integrations stay within the network perimeter
+Enterprise Users (all departments)
+    ↓ SSO (SAML/OIDC)
+Dify: AI portal
+    ├── Pre-built apps by department (HR, Finance, Legal, Sales)
+    ├── Model router (Claude for complex, smaller for routine)
+    ├── Rate limits per team/budget
+    └── Prompt library (compliance-approved prompts)
+    ↓
+Mem0: per-user context (role, preferences, history)
+    ↓
+LLM APIs (Anthropic, Azure OpenAI, Ollama for on-prem)
+    ↓
+Langfuse: token usage by department, cost attribution, quality scores
 ```
 
-**Deployment**: Docker Compose → single server setup for SME; Kubernetes for enterprise scale.
+**Key decision points**:
+- Dify admin portal allows non-technical deployment of AI apps
+- Mem0 means users don't re-explain their context every session
+- Langfuse cost attribution enables chargeback to business units
+- MLflow (Apache-2.0) as alternative for model-centric organizations
 
-**Outputs**: Full AI productivity stack — knowledge base, workflow automation, team chat with AI — with zero cloud data exposure.
-
-**Engagement size**: USD 60k–180k (1-2 months) + recurring managed services
-**LATAM relevance**: Critical differentiator. This is the pattern for LGPD-regulated clients in Brazil, financial sector in Colombia, government in any LATAM country.
+**Effort**: 4–6 weeks MVP; runs continuously as enterprise AI platform
+**Revenue model**: Platform delivery + ongoing management as managed service
 
 ---
-
-## Pattern P8: Internal Developer AI Platform (Globant Internal)
-**"Ship 30% faster by giving every developer an AI co-pilot"**
-
-**Problem**: Developers context-switch constantly: find the right API, understand legacy code, write tests, review PRs. Each task has 5-10 minutes of friction.
-
-**Stack**:
-```
-[Backstage (backstage/backstage — Apache-2.0)]
-        ↓  software catalog: every service, API, team, runbook indexed
-        ↓  AI plugin: natural language search over the catalog
-[OpenHands (All-Hands-AI/OpenHands — MIT)]
-        ↓  SWE agent: automated code review, PR description generation, test writing
-        ↓  Docker sandbox: safe code execution
-[RAGFlow (infiniflow/ragflow — Apache-2.0)]
-        ↓  technical documentation, architecture decisions, code standards indexed
-[Claude API (Anthropic)]
-        ↓  200k context: entire codebase context for large refactors
-        ↓  Globant–Anthropic preferred partner pricing
-[Microsoft Agent Framework (MIT)]
-        ↓  .NET/Azure shops: agent orchestration within Microsoft toolchain
-```
-
-**Outputs**: Developer types "add error handling to the payment service like we did in checkout" → agent reads both services from catalog, generates PR, requests review.
-
-**Benchmark**: TELUS 30% faster delivery + 500k hours saved with Claude Code; Morgan Stanley 280k dev hours saved.
-
-**Engagement size**: USD 150k–350k for enterprise deployment + $X/developer/month managed service
-**Applicability**: Globant can run this internally AND sell it to clients as a Developer Productivity Platform
-
----
-
-## Quick Reference: Pattern × Repo Matrix
-
-| Pattern | LangGraph | CrewAI | n8n | RAGFlow | Dify | ERPNext | Mem0 | MAF |
-|---------|-----------|--------|-----|---------|------|---------|------|-----|
-| P1 Knowledge Hub | ✅ | | ✅ | ✅ | ✅ | | ✅ | |
-| P2 ERP Copilot | ✅ | | | ✅ | ✅ | ✅ | | |
-| P3 IT Helpdesk | ✅ | | ✅ | ✅ | | | ✅ | |
-| P4 Finance Automation | ✅ | | ✅ | ✅ | ✅ | ✅ | | |
-| P5 HR Onboarding | | ✅ | ✅ | ✅ | | ✅ | | |
-| P6 Supply Chain | ✅ | | ✅ | ✅ | | ✅ | | |
-| P7 Sovereign LATAM | | | ✅ | ✅ | ✅ | | | |
-| P8 Dev Platform | | | | ✅ | | | | ✅ |
-
----
-*Updated 2026-07-11 by ingest pipeline.*
+*Auto-updated by ingest pipeline — v3 2026-07-11*
