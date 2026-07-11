@@ -1,33 +1,27 @@
-# Trending Repos — Technology (Week of 2026-07-11, v8)
+# GitHub Trending Repos — Technology (2026-07-11)
 
-> GitHub trending repos in developer tools, AI coding, and platform engineering.
+> Repos gaining significant stars and momentum this week in AI/developer tooling.
+> Last updated: 2026-07-11
 
-## Top Trending This Week
+| Name | License | Repo | Stars | Why Trending |
+|------|---------|------|-------|-------------|
+| Dify | Apache-2.0 | [langgenius/dify](https://github.com/langgenius/dify) | 148k | LLM app + agent platform with native MCP and visual workflow builder. 10k+ enterprise deployments. Fastest growing platform category. |
+| OpenHands | MIT | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | 70k+ | Autonomous coding agent. 68.4% SWE-bench Verified score (SOTA for open-source). Security Boulevard, cssauthor, and SecurityJournal all featured it this month. |
+| Cline | Apache-2.0 | [cline/cline](https://github.com/cline/cline) | 58k | Most popular VS Code autonomous coding agent. MCP-native, spawning an ecosystem of plugins. |
+| CrewAI | MIT | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 52.8k | Multi-agent role-playing framework. 5.2M monthly downloads. Tutorials flooding YouTube/Medium. |
+| Goose | Apache-2.0 | [block/goose](https://github.com/block/goose) | 32k | Block's internal dev agent released open-source. MCP-native, fully local, no cloud required. |
+| Continue | Apache-2.0 | [continuedev/continue](https://github.com/continuedev/continue) | 31k | Open-source AI IDE assistant. Supports Ollama, HF models, any OpenAI-compatible API. |
+| MCP Servers | MIT | [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | 18k | Reference MCP server implementations. Growing 3x YoY as every major AI tool adopts MCP. |
+| Ollama | MIT | [ollama/ollama](https://github.com/ollama/ollama) | 110k+ | Local LLM inference. Qwen3, Llama 3.1 support. Key for LATAM data residency deployments. |
+| OpenObserve | Apache-2.0 | [openobserve/openobserve](https://github.com/openobserve/openobserve) | 14k | Unified logs/metrics/traces/frontend. Ranked #1 open-source observability platform 2026 by multiple benchmarks. |
+| Ray | Apache-2.0 | [ray-project/ray](https://github.com/ray-project/ray) | 35k | Distributed Python. Ray Serve enabling sub-second LLM inference at scale. Enterprise AI training workloads. |
 
-| Repo | License | Description | Stars | Trend |
-|------|---------|-------------|-------|-------|
-| [langgenius/dify](https://github.com/langgenius/dify) | MIT | LLM app platform — visual pipeline builder, RAG, 100+ integrations; highest-starred LLM platform | 144k | ↑ Sustained top position |
-| [upstash/context7](https://github.com/upstash/context7) | MIT | Most popular MCP server; injects up-to-date library docs into agents; 890k weekly npm downloads | 54k | ↑ #1 MCP server ecosystem |
-| [cline/cline](https://github.com/cline/cline) | Apache-2.0 | VS Code AI coding agent — edits files, runs terminal, uses browser autonomously | 64k | ↑ Steady growth, active releases |
-| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | OpenAI's CLI coding agent; terminal-first, multi-model; strong MCP integration | 95k | ↑ Major community fork activity |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | Minimal agent framework by HuggingFace; CodeAgent runs native Python tool calls | 27k | ↑ Growing adoption for local models |
-| [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) | MIT | Curated list of 20,000+ MCP servers; primary discovery layer for MCP ecosystem | 22k | ↑ High star velocity |
-| [Aider-AI/aider](https://github.com/Aider-AI/aider) | Apache-2.0 | Terminal coding agent with deep git integration; 46k stars, 93 releases, 13k commits | 47k | → Stable, consistent SWE-bench leader |
-| [continuedev/continue](https://github.com/continuedev/continue) | Apache-2.0 | Open source IDE autopilot for VS Code + JetBrains; BYOK, local model support | 31k | ↑ Enterprise adoption rising |
-| [block/goose](https://github.com/block/goose) | Apache-2.0 | Open agent by Block/Square; terminal-based, toolkit-extensible, tested at Block scale | 32k | ↑ Trust signal from Block production use |
-| [kilo-code/kilo-code](https://github.com/kilo-code/kilo-code) | MIT | Fork of Roo Code; VS Code agentic coding tool with different default persona tuning | 25k | ↑ Growing Roo/Cline ecosystem |
+## Why These Matter for Globant
 
-## What's Being Forked
-
-- **OpenHands** — active fork ecosystem around specific enterprise customizations
-- **Cline** — Roo Code and Kilo Code forks show demand for configurable VS Code agents
-- **LangGraph** — template forks for specific patterns (customer support, coding review, RAG pipelines)
-
-## Notable New Entries
-
-- **Spec-kit** (GitHub internal, now OSS): Spec-driven development toolkit; AI generates code that matches specs then validates
-- **Codegraph**: Code knowledge graph reducing agent token usage by 40-60% on large codebases
-- **caramaschiHG/awesome-ai-agents-2026**: Curated 300+ AI agent catalog updated monthly
+- **Dify + OpenHands**: Composable — Dify as orchestration layer, OpenHands as the coding execution agent
+- **MCP + Cline + Goose**: The protocol stack for enterprise AI developer tooling engagements
+- **Ollama + Continue**: The sovereign/air-gapped AI stack for clients with data residency requirements (LATAM: Brazil LGPD, Mexico data locality)
+- **OpenObserve + Ray**: Infrastructure for AI platform engineering practices
 
 ---
-*Auto-updated by ingest pipeline.*
+*Pipeline automático — se actualiza cada hora.*

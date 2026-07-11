@@ -1,42 +1,48 @@
-# Vertical Solutions — Technology
+# Technology Vertical Platforms — AI-Ready
 
-> Existing open source platforms that can be customized with AI. Strategy: fork a working system, add agentic layer on top.
-> Last updated: 2026-07-11 (v8)
+> Existing open-source platforms customizable with AI.
+> Model: start with something functional, add an agentic layer on top.
+> Last updated: 2026-07-11
 
-## Platform Recommendations
+## Developer Tooling Platforms
 
-| Platform | License | URL | Stack | Use Case | AI Opportunity |
-|----------|---------|-----|-------|----------|----------------|
-| **Gitea** | MIT | [github.com/go-gitea/gitea](https://github.com/go-gitea/gitea) | Go, SQLite/Postgres | Self-hosted GitHub alternative; 45k stars | AI code review agent as Gitea Action; PR summarization; issue triage bot |
-| **Backstage** | Apache-2.0 | [github.com/backstage/backstage](https://github.com/backstage/backstage) | TypeScript, React | Spotify's developer portal; software catalog, TechDocs | AI service discovery; natural-language IDP queries; auto-documentation |
-| **Plane** | AGPL-3.0 | [github.com/makeplane/plane](https://github.com/makeplane/plane) | Next.js, Python/Django | Open source Jira alternative; 30k stars | AI sprint planning agent; automated issue creation from Slack/GitHub |
-| **Mattermost** | Apache-2.0 | [github.com/mattermost/mattermost](https://github.com/mattermost/mattermost) | Go, React | Self-hosted Slack alternative | AI incident response bot; on-call routing; meeting summarizer |
-| **OpenProject** | GPL-3.0 | [github.com/opf/openproject](https://github.com/opf/openproject) | Ruby on Rails, Angular | Enterprise project management; Gantt, Agile, Scrum | AI project risk analyzer; resource optimization agent; auto-reporting |
-| **Woodpecker CI** | Apache-2.0 | [github.com/woodpecker-ci/woodpecker](https://github.com/woodpecker-ci/woodpecker) | Go, Vue | Lightweight Drone CI fork; YAML pipeline, Docker | AI pipeline optimizer; auto-parallelization; failure root-cause analysis |
-| **OpenTofu** | MPL-2.0 | [github.com/opentofu/opentofu](https://github.com/opentofu/opentofu) | Go, HCL | Community Terraform replacement; CNCF sandbox | AI IaC generator from natural language; drift detection agent; cost optimizer |
-| **Prometheus + Grafana** | Apache-2.0 | [github.com/prometheus/prometheus](https://github.com/prometheus/prometheus) | Go, React | Time-series monitoring; 55k stars | AIOps anomaly detection; auto-alert tuning; LLM-powered runbook execution |
-| **Dify** | MIT | [github.com/langgenius/dify](https://github.com/langgenius/dify) | Python, Next.js | LLM app platform; visual pipeline, RAG; 144k stars | The platform itself — deploy as internal AI app hub for clients |
-| **Ollama** | MIT | [github.com/ollama/ollama](https://github.com/ollama/ollama) | Go, C++ | Local LLM runtime; OpenAI-compatible API | On-prem AI inference layer; removes cloud dependency for sensitive data |
+| Platform | License | URL | Stack | AI Use Case |
+|----------|---------|-----|-------|-------------|
+| Gitea | MIT | [go-gitea/gitea](https://github.com/go-gitea/gitea) | Go, SQLite/Postgres | Self-hosted Git server. Add AI PR review (OpenHands/SWE-agent) + code summarization on top. Enterprise alternative to GitHub for air-gapped clients. |
+| GitLab CE | MIT | [gitlab-org/gitlab](https://github.com/gitlab-org/gitlab-foss) | Ruby on Rails, React | Full DevSecOps platform. AI Duo integration hooks. Add Claude for MR review, pipeline generation, vulnerability triage. |
+| Jenkins | MIT | [jenkinsci/jenkins](https://github.com/jenkinsci/jenkins) | Java | Ubiquitous CI/CD. Add LLM plugin for pipeline-as-code generation, test failure root cause analysis. |
+| Drone CI | Apache-2.0 | [harness/drone](https://github.com/harness/drone) | Go | Lightweight container-native CI. Simpler to instrument with AI agents than Jenkins. |
 
-## How to Customize with AI
+## MLOps & AI Engineering Platforms
 
-### Pattern A — Add MCP Server to Existing Platform
-1. Deploy the platform (Gitea, Backstage, Plane, etc.) via Docker Compose
-2. Implement an MCP server that wraps platform APIs (REST/GraphQL → MCP tools)
-3. Connect to Claude Code / OpenHands / Cline via MCP configuration
-4. Agents can now read issues, create PRs, update tickets autonomously
+| Platform | License | URL | Stack | AI Use Case |
+|----------|---------|-----|-------|-------------|
+| MLflow | Apache-2.0 | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Python | Experiment tracking, model registry, AI gateway for routing LLM calls. Standard for Globant ML projects. |
+| Kubeflow | Apache-2.0 | [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Kubernetes, Python | End-to-end ML pipeline platform on K8s. Add AI-driven hyperparameter optimization via Katib. |
+| Prefect | Apache-2.0 | [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Python | Data/AI pipeline orchestration. Native AI task automation, observability built in. |
+| Apache Airflow | Apache-2.0 | [apache/airflow](https://github.com/apache/airflow) | Python | Workflow scheduling. Add LLM-powered DAG generation + anomaly detection in pipeline runs. |
 
-### Pattern B — Embed Agentic Layer via Webhook
-1. Platform emits webhooks on events (PR opened, issue created, deploy failed)
-2. Agent service (OpenHands / Dify workflow) receives webhook → analyzes context
-3. Agent writes back to platform via API (post comment, assign label, trigger action)
-4. No platform fork required — runs alongside existing installation
+## Observability Platforms
 
-### Pattern C — Replace Manual Workflows with Agent
-1. Identify high-volume manual tasks (code review, release notes, sprint grooming)
-2. Build CrewAI or LangGraph crew that replicates the workflow
-3. Connect to platform via existing APIs or MCP servers
-4. Deploy as autonomous scheduled job or triggered by platform event
+| Platform | License | URL | Stack | AI Use Case |
+|----------|---------|-----|-------|-------------|
+| OpenObserve | Apache-2.0 | [openobserve/openobserve](https://github.com/openobserve/openobserve) | Rust, Vue.js | Unified logs/metrics/traces. SQL + PromQL. Ranked #1 open-source obs platform 2026. Add AI anomaly detection + root cause agent. |
+| Grafana | AGPL-3.0 | [grafana/grafana](https://github.com/grafana/grafana) | Go, TypeScript | Visualization. AI-assisted dashboard generation in Grafana 11+. Works with any data source. |
+| Prometheus | Apache-2.0 | [prometheus/prometheus](https://github.com/prometheus/prometheus) | Go | Metrics collection. Add LLM-powered alert rule generation, PromQL query assistant. |
+| Netdata | GPL-3.0 | [netdata/netdata](https://github.com/netdata/netdata) | C, Python | Per-second real-time metrics. Anomaly detection built in. Low overhead for edge/LATAM servers. |
 
----
-*See also: `compose/patterns.md` for concrete wiring recipes.*
+## Knowledge Management & Internal Tooling
+
+| Platform | License | URL | Stack | AI Use Case |
+|----------|---------|-----|-------|-------------|
+| Outline | BSL* | [outline/outline](https://github.com/outline/outline) | Node.js, React | Team wiki/docs. *BSL but self-hostable for internal use. Add AI search + document summarization. |
+| AppFlowy | AGPL-3.0 | [AppFlowy-IO/AppFlowy](https://github.com/AppFlowy-IO/AppFlowy) | Flutter, Rust | Notion alternative. AI writing assistant built in. Self-hosted for IP-sensitive clients. |
+| Mattermost | Apache-2.0 | [mattermost/mattermost](https://github.com/mattermost/mattermost) | Go, React | Slack alternative. Add AI bot for incident response, PR notifications, code review summaries. |
+
+## How to Add AI to Any Platform
+
+1. **Fork** the base repo or run it self-hosted
+2. **Add an MCP server** or OpenAI-compatible API endpoint pointing at Claude/local LLM
+3. **Wrap existing workflows** with LangGraph agents for multi-step automation
+4. **Add conversational UI** via Dify or a custom React/Next.js frontend with Vercel AI SDK
+5. **Instrument with OpenTelemetry** from day one — you'll need traces when debugging agent runs

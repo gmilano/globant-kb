@@ -1,46 +1,44 @@
-# Trending AI Agents — Technology (Week of 2026-07-11, v8)
+# Trending AI Agents — Technology (Week of 2026-07-11)
 
-> What's new and gaining momentum in open source AI developer tooling this week.
+> What's gaining momentum this week in the AI developer tools ecosystem.
 
-## Breakout This Week
+## Breakout Repos This Week
 
-### OpenClaw — The Viral Coding Agent
-- **Repo**: multiple forks; original viral repo reached 280k+ GitHub stars
+### 1. OpenHands — 70k+ Stars, SWE-bench 68.4%
+- **Repo**: [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands)
+- **Why now**: CodeAct v3 scaffold paired with Claude Opus 4.6 reached 68.4% on SWE-bench Verified in June 2026, the highest score for any open-source self-hosted agent. 9 open-source coding agents worth self-hosting roundups all lead with OpenHands.
 - **License**: MIT
-- **Why it matters**: Went from 9k to 210k+ stars in weeks after Sam Altman endorsement; became one of most-starred repos in GitHub history. Demonstrates market demand for open, self-hosted coding agents. Integrated with Claude Code, Codex, and Cursor.
 
-### Codegraph — Code Knowledge Graph for Agents
-- **Repo**: `codegraph-ai/codegraph`
-- **License**: MIT (est.)
-- **Why it matters**: Pre-indexed code knowledge graph designed for Claude Code, Codex, Cursor. Reduces tokens and tool calls by 40-60% per query. Trending because it solves the "too many tokens per codebase lookup" problem for large enterprise codebases.
-
-### Spec-kit — GitHub's Spec-Driven Dev Toolkit
-- **Repo**: GitHub internal → open sourced
+### 2. Microsoft Agent Framework (AutoGen + Semantic Kernel Merged)
+- **Repo**: [microsoft/agent-framework](https://github.com/microsoft/agent-framework)
+- **Why now**: Microsoft merged AutoGen and Semantic Kernel into a single unified MIT-licensed framework (late 2025 / Q1 2026). Enterprises that were running both frameworks now have a single migration target with enterprise support. ~55k stars inherited.
 - **License**: MIT
-- **Why it matters**: Flips the dev model — write a spec first, AI generates code that matches it, then validates against the spec. Addresses correctness drift in agentic pipelines.
 
-### awesome-mcp-servers (punkpeye)
-- **Repo**: [github.com/punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers)
+### 3. Dify — 148k Stars, 10k+ Enterprise Deployments
+- **Repo**: [langgenius/dify](https://github.com/langgenius/dify)
+- **Why now**: Dify v0.9+ added native MCP support and an agent marketplace. Fortune 500 deployments accelerating. Fastest-growing non-coding-agent platform.
+- **License**: Apache-2.0
+
+### 4. MCP Servers Collection (Reference Implementations)
+- **Repo**: [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+- **Why now**: The MCP 2026-07-28 release candidate dropped — largest revision since launch. Stateless HTTP core, MCP Apps (server-rendered UIs), Tasks extension, OAuth/OIDC alignment. Ecosystem now at 97M monthly SDK downloads and 10,000+ servers indexed.
 - **License**: MIT
-- **Why it matters**: 20,000+ MCP servers now indexed. The curated list is the primary discovery layer for MCP tooling. 97M monthly SDK downloads industry-wide.
 
-### Kilo Code
-- **Repo**: `kilo-code/kilo-code`
-- **Stars**: ~25k
-- **License**: MIT
-- **Why it matters**: Fork of Roo Code (formerly Roo Cline) focused on VS Code agentic editing; active alternative to Cline with different default prompt engineering.
+### 5. Goose by Block — 32k Stars
+- **Repo**: [block/goose](https://github.com/block/goose)
+- **Why now**: Block (parent of Square/Cash App) open-sourced their internal developer agent. MCP-native, runs entirely locally, no cloud required. Strong LATAM adoption potential for teams with data residency requirements.
+- **License**: Apache-2.0
 
-## What's Declining
+### 6. Cline — 58k Stars, VS Code Leader
+- **Repo**: [cline/cline](https://github.com/cline/cline)
+- **Why now**: Most-downloaded VS Code AI agent extension with autonomous browser control and MCP tool support. Developers building layers on top — skill libraries, token compression middleware — are building for Cline.
+- **License**: Apache-2.0
 
-- **AutoGen** (Microsoft Research): Merged into Microsoft Agent Framework (MAF) GA; AutoGen itself now maintenance-only. Clients building on AutoGen should plan migration to MAF or LangGraph.
-- **LangChain chains** (non-agentic): Raw LangChain chain patterns superseded by LangGraph for production; lower monthly downloads in favor of LangGraph SDK.
+## Signals to Watch
 
-## Themes This Week
-
-1. **MCP everywhere**: Every major coding agent added MCP support in H1 2026; Context7, GitHub MCP, and filesystem servers are default stacks
-2. **Self-hosted > SaaS**: Tabby, OpenHands, and Goose all surging as enterprises demand on-prem AI coding assistants
-3. **Multi-agent pipelines replace single-model chat**: CrewAI and LangGraph usage up; single-call patterns down
-4. **Code graph augmentation**: Codegraph, code-review-graph, and similar repos addressing "large codebase" problem for agents
+- **Agent skills marketplaces emerging**: Addy Osmani's `agent-skills` repo encodes Google engineering culture into 23 production-grade skills (43.8k stars). Reusable skill packs becoming the new unit of IP in AI development.
+- **Sandboxed execution**: E2B (cloud sandboxes for AI agents) and similar infra layers growing fast as security concern #1 for autonomous agents.
+- **MCP becoming the de-facto standard**: Claude, ChatGPT, Gemini, Copilot, Cursor all have native MCP support. Protocol governance moved to Linux Foundation.
 
 ---
-*Auto-updated by ingest pipeline.*
+*Pipeline automático — se actualiza cada hora.*

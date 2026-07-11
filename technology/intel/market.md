@@ -1,72 +1,69 @@
 # Market Map — Technology / AI Developer Tools
 
-> Key players, market sizing, LATAM opportunities, Globant positioning.
-> Last updated: 2026-07-11 (v8)
+> Key players, opportunities, Globant positioning.
+> Last updated: 2026-07-11
 
-## Market Size
+## Market Size & Revenue
 
-| Segment | 2026 | 2030 | CAGR |
-|---------|------|------|------|
-| Agentic AI (total) | $11B | $52B | 46.3% |
-| AI Coding Agents | ~$3.5B | ~$18B | ~50% |
-| AI Developer Tools | ~$8B | ~$35B | ~44% |
-| MCP Ecosystem (est.) | $0.5B | $5B | 60%+ |
+| Segment | 2026 Size | CAGR | 2031 Projection | Source |
+|---------|-----------|------|----------------|--------|
+| AI Code Tools (global) | USD 9.35B | 26.23% | USD 29.96B | Mordor Intelligence |
+| AI Code Assistants (narrow) | USD 3.0–3.5B | — | — | Gartner 2025 |
+| AI in Software Development (broad) | USD 7–10B | — | — | Multiple analysts |
+| Agentic AI (all industries) | USD 11B | 46.3% | USD 52B (2030) | Various |
+| GenAI Coding spend captured | USD 4B (2025) | — | — | Deloitte |
 
-Sources: Markets And Markets (2025), RAYSolute Agentic AI Landscape 2026
+## Global Players
 
-## Key Players
+| Company | Type | Strength | Weakness / Watch-out |
+|---------|------|----------|---------------------|
+| GitHub / Microsoft | Proprietary | Copilot at 90% of Fortune 100; Azure AI integration; VS Code dominance | Vendor lock-in; seat-based pricing at scale |
+| Anthropic | API / Models | Claude Code CLI; best SWE-bench score; TELUS 500k hrs saved | No on-prem; LATAM data residency concerns |
+| JetBrains | IDE | 30% market share; AI Assistant built in; enterprise contracts | Slow to open-source AI components |
+| Google | Platform | ADK (Apache-2.0); Gemini 2.5 Pro; Vertex AI integration | Complex pricing; GCP lock-in |
+| LangChain Inc. | Open-source + Commercial | LangChain/LangGraph 100M+ monthly downloads; $1.25B Series B | LangGraph production API not fully open |
+| Hugging Face | Open Hub | 600k+ models; smolagents; HF Inference | Monetization still maturing |
+| Dify / LangGenius | Platform | 148k stars; visual LLM workflows; 10k enterprise deployments | Dual licensing concerns at scale |
+| Block (Square) | Open-source | Goose agent fully MIT; internal IP open-sourced | No enterprise support SLA |
 
-| Company | Type | Products | Strength | Weakness |
-|---------|------|----------|----------|---------|
-| **Anthropic** | Model + Tools | Claude, Claude Code | Best coding reasoning, MCP creator, AAIF governance | Proprietary model (tools are open source) |
-| **OpenAI** | Model + Tools | GPT-4o, Codex CLI, Operator | Brand recognition, 95k stars on Codex | SaaS lock-in; Codex CLI Apache-2.0 |
-| **Microsoft** | Platform + Model | GitHub Copilot, MAF (AutoGen+SK merged) | Enterprise distribution, VS Code monopoly | Agent Framework GA delayed; complexity |
-| **Google** | Model + Framework | Gemini, ADK (20k stars, 3.3M downloads/mo) | Vertex AI integration, multimodal coding | ADK less mature than LangGraph |
-| **Hugging Face** | OSS Hub | Transformers (130k stars), Smolagents (27k) | Model hub, community, BYOM | Primarily research-oriented |
-| **LangChain/LangGraph** | OSS Framework | LangGraph (34.5M downloads/mo) | Enterprise standard, mature | Complex setup for simple use cases |
-| **CrewAI** | OSS Framework | CrewAI v1.10.1 (52k stars, 5.2M downloads/mo) | Fastest to ship multi-agent, large community | Less control vs. LangGraph for complex state |
-| **Block (Square)** | OSS Agent | Goose (32k stars) | Production-tested at scale | Limited ecosystem vs. bigger players |
-| **Gitea** | OSS Platform | Gitea (45k stars) | MIT license, lightweight, true GitHub alternative | Smaller plugin ecosystem than GitLab |
-| **Backstage (Spotify)** | OSS Platform | Backstage (30k stars, 200+ plugins) | Enterprise IDP standard | Steep initial setup; React expertise required |
+## Open Source Leader Board (GitHub Stars — July 2026)
 
-## MCP Ecosystem Map
+| Repo | Stars | Category |
+|------|-------|---------|
+| LangChain | 139k | Agent framework |
+| Dify | 148k | LLM app platform |
+| Ollama | 110k | Local inference |
+| CrewAI | 52.8k | Multi-agent |
+| Grafana | 65k | Observability |
+| Prometheus | 56k | Metrics |
+| Ray | 35k | Distributed compute |
+| LangGraph | 36.7k | Stateful agents |
+| Smolagents | 27.7k | Lightweight agents |
+| Google ADK | 20k | Agent dev kit |
 
-The Model Context Protocol (MCP) is now the universal connectivity layer:
-- **Donated to Linux Foundation** (AAIF, December 2025)
-- **Governance**: Anthropic, OpenAI, Google, Microsoft, AWS, Cloudflare, Bloomberg, IBM, SAP
-- **Scale**: 97M monthly SDK downloads; 20,000+ servers indexed on Glama alone
-- **Most popular server**: Context7 (54k stars, 890k weekly npm downloads)
-- **Standard tool stack**: Context7 (docs) + GitHub MCP (repos) + Filesystem MCP + Brave Search MCP
+## Adoption Metrics (2026)
 
-## LATAM Opportunities
+- **85%** of developers regularly use AI tools for coding, debugging, and code review
+- **90%** of Fortune 100 companies deployed GitHub Copilot
+- **40%** of enterprise applications will feature task-specific AI agents by end of 2026 (Gartner) — up from <5% in 2025
+- **66.8%** average time savings using AI agents vs. manual task completion (First Page Sage, 487 users)
+- **3.6 hours/week** saved per developer with AI coding tools (average)
+- **30–35%** productivity gains across the SDLC (Deloitte 2026 Software Outlook)
+- **ROI**: 2.5–3.5× average; 4–6× top quartile (when factoring real token costs)
+- **MCP ecosystem**: 97M monthly SDK downloads, 10,000+ servers indexed, Linux Foundation governance
 
-### Gap 1 — On-Prem AI Coding for Regulated Industries
-Argentina, Brazil, Colombia have LGPD/data-residency requirements. No major OSS player has an integrated self-hosted coding agent + compliance layer. **Opportunity**: Package Tabby + OpenHands + Ollama as a compliance-ready on-prem AI dev platform.
+## Opportunities for LATAM
 
-### Gap 2 — Spanish-Language Developer Tooling
-All major AI coding tools default to English. No MCP servers expose Spanish-language docs, Spanish Stack Overflow, or LATAM-specific frameworks. **Opportunity**: Spanish-language Context7 equivalent MCP server.
-
-### Gap 3 — IaC for AWS/Azure LATAM Regions
-OpenTofu AI generation is US-region-centric. LATAM AWS (sa-east-1) and Azure Brazil South have region-specific resource constraints. **Opportunity**: OpenTofu MCP server with LATAM region awareness.
-
-### Gap 4 — Agile AI for LATAM Tech Teams
-Plane + AI sprint planning is not tuned for LATAM team structures (different sprint cycles, outsourcing patterns). **Opportunity**: AI sprint planner tuned for nearshore/offshore models.
-
-### Gap 5 — Open Source CI/CD for Cost-Constrained Teams
-GitHub Actions pricing hits hard for LATAM startups and mid-market. Woodpecker CI + AI pipeline optimizer as managed service. **Opportunity**: Managed Woodpecker + AI as cost-efficient CI/CD alternative.
+| Opportunity | Description | Globant Angle |
+|-------------|-------------|---------------|
+| Sovereign AI DevTooling | Brazil LGPD, Mexico data locality → demand for on-prem / private cloud AI stacks | Deploy Ollama + OpenHands + OpenObserve fully air-gapped |
+| SMB AI Dev Adoption | Large cohort of LATAM tech companies can't afford GitHub Copilot Enterprise | Package open-source stack (Gitea + Continue + Ollama) as Globant Studios product |
+| AI Platform Engineering | Enterprises need AI infra teams, not just AI users | Globant's PSG practice: MLflow + Kubeflow + Ray managed service |
+| Agentic DevOps | Autonomous PR review, test generation, incident response | OpenHands + Gitea + Mattermost integration pattern |
 
 ## Globant Positioning
 
-Globant is uniquely positioned as the integrator between:
-1. **OSS foundations** (OpenHands, Dify, LangGraph, Tabby, Gitea, Backstage)
-2. **Enterprise client requirements** (compliance, SLAs, onboarding, support)
-3. **LATAM engineering talent** to customize and extend these platforms
-
-Primary plays:
-- **AI Dev Accelerator**: Package OpenHands + Cline + Context7 MCP as managed coding agent suite
-- **Internal Developer Portal**: Backstage + AI plugin + OpenTofu + Dify workflow for any enterprise
-- **Self-hosted AI Platform**: Ollama + Tabby + Dify as on-prem AI infrastructure for regulated industries
-- **Agentic DevOps**: Gitea + Woodpecker CI + AI pipeline optimization + Prometheus AIOps
-
----
-*Auto-updated by ingest pipeline.*
+- **Strengths**: 30,000+ engineers; existing DevOps/cloud practice; LATAM cost advantage
+- **White space**: Full-stack AI platform engineering (MLflow + K8s + observability) where hyperscalers don't go
+- **Differentiator**: Open-source-first approach lets Globant customize deeply and avoid client vendor lock-in concerns
+- **Risk**: Commoditization of AI coding assistance — need to move up the stack to architecture and orchestration

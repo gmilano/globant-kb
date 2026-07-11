@@ -1,34 +1,36 @@
-# Foundational Repos — Technology
+# Foundational Repos — Technology Industry
 
-> Core open source platforms to build on. Open license, active community, production-proven.
-> Last updated: 2026-07-11 (v8)
+> Bases to build on. Open license, active community, production-proven.
+> Last updated: 2026-07-11
 
-## Core Platforms & Frameworks
+## AI / LLM Infrastructure
 
-| Repo | License | Description | Stars | AI-Ready? |
-|------|---------|-------------|-------|-----------|
-| [microsoft/vscode](https://github.com/microsoft/vscode) | MIT | The dominant code editor (60M+ users); v1.110 (Feb 2026) introduced agent plugin architecture; extensible MCP + AI agent host | 170k+ | Yes — agent plugin host |
-| [ollama/ollama](https://github.com/ollama/ollama) | MIT | Local LLM runtime; runs Llama 3, Mistral, Phi-3, CodeLlama, DeepSeek-Coder locally; REST API compatible with OpenAI SDK; foundation for on-prem AI | 100k+ | Yes — local model runtime |
-| [huggingface/transformers](https://github.com/huggingface/transformers) | Apache-2.0 | The standard ML model library; 100k+ models, fine-tuning pipelines, PEFT adapters; base for any custom model work | 130k+ | Yes — model training + inference |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | Stateful agent runtime; cyclic graphs, checkpointing, human-in-the-loop; 34.5M monthly downloads; de facto enterprise agent standard | 12k | Yes — agent orchestration |
-| [go-gitea/gitea](https://github.com/go-gitea/gitea) | MIT | Self-hosted Git forge (GitHub alternative); Actions CI/CD built-in, Gitea AI integrations, lightweight Go binary, SQLite/Postgres | 45k+ | Yes — AI-augmentable DevOps |
-| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | Spotify's open source developer portal; software catalog, TechDocs, scaffolder, 200+ plugins; AI plugins emerging for service discovery | 30k+ | Yes — developer experience layer |
-| [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | Community-governed Terraform fork (Linux Foundation); CNCF Sandbox; drop-in replacement after HashiCorp BSL move | 30k+ | Yes — IaC automation target |
-| [prometheus/prometheus](https://github.com/prometheus/prometheus) | Apache-2.0 | Time-series monitoring; v3.0 (2025) native histograms stable, OpenTelemetry compat, Remote Write 2.0; base for AIOps observability | 55k+ | Yes — AIOps data source |
-| [argoproj/argo-cd](https://github.com/argoproj/argo-cd) | Apache-2.0 | GitOps CD for Kubernetes; declarative app definitions, automated sync, audit trails; AI drift-detection patterns emerging | 17k+ | Yes — GitOps automation |
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | Autonomous software engineer platform; Docker sandbox, REST API, multi-agent support; best open-source Devin alternative | 68k | Yes — autonomous SDLC |
-| [langgenius/dify](https://github.com/langgenius/dify) | MIT | LLM app platform with visual pipeline builder, RAG engine, 100+ integrations, multi-model support; production-ready at 144k stars | 144k | Yes — LLM app platform |
-| [TabbyML/tabby](https://github.com/TabbyML/tabby) | Apache-2.0 | Self-hosted AI coding server; OpenAPI, supports StarCoder2/CodeLlama/DeepSeek; enterprise on-prem alternative to GitHub Copilot | 33k | Yes — self-hosted autocomplete |
+| Repo | License | Stars | Description | AI Starting Point? |
+|------|---------|-------|-------------|-------------------|
+| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 139k | The agent engineering platform. 100M+ monthly downloads, $1.25B valuation. Document loaders, chains, tools, memory. | Yes — universal LLM integration layer |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT* | 36.7k | Stateful graph runtime for agents. Supports durable execution, human-in-the-loop, sub-graphs, streaming. *Production API = commercial. | Yes — multi-step agentic workflows |
+| [huggingface/transformers](https://github.com/huggingface/transformers) | Apache-2.0 | 140k+ | The foundational model hub. 600k+ models, fine-tuning pipelines, inference servers. | Yes — model layer for any AI feature |
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Official MCP reference implementations: GitHub, Slack, filesystem, Git, memory, fetch, time. | Yes — standard tool-use protocol |
+| [ollama/ollama](https://github.com/ollama/ollama) | MIT | 110k+ | Run LLMs locally (Llama, Mistral, Gemma, Qwen, etc.). REST API compatible with OpenAI SDK. LATAM data-residency key. | Yes — local LLM inference |
+
+## MLOps & Model Lifecycle
+
+| Repo | License | Stars | Description | AI Starting Point? |
+|------|---------|-------|-------------|-------------------|
+| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | 20k | Open-source ML platform: experiment tracking, model registry, deployment, AI gateway for LLMs. | Yes — experiment tracking + deployment |
+| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | 14k | ML on Kubernetes: Pipelines, Katib hyperparameter tuning, KServe model serving. | Yes — production ML on K8s |
+| [iterative/dvc](https://github.com/iterative/dvc) | Apache-2.0 | 14k | Data Version Control — Git for ML datasets + model versioning. Integrates with S3, GCS, Azure. | Yes — data + model versioning |
+| [ray-project/ray](https://github.com/ray-project/ray) | Apache-2.0 | 35k | Distributed Python framework. RLlib (RL), Train (distributed training), Serve (model serving). | Yes — scale any Python AI workload |
+
+## Observability & DevOps
+
+| Repo | License | Stars | Description | AI Starting Point? |
+|------|---------|-------|-------------|-------------------|
+| [openobserve/openobserve](https://github.com/openobserve/openobserve) | Apache-2.0 | 14k | Unified observability: logs, metrics, traces, frontend monitoring. SQL + PromQL, OpenTelemetry-native. Best open-source obs platform 2026. | Yes — observe AI agent pipelines |
+| [prometheus/prometheus](https://github.com/prometheus/prometheus) | Apache-2.0 | 56k | Industry-standard metrics collection + alerting. Pull-based, PromQL, Kubernetes-native. | Yes — metrics for AI services |
+| [grafana/grafana](https://github.com/grafana/grafana) | AGPL-3.0 | 65k | Visualization platform. Works with Prometheus, Loki, Tempo, Pyroscope. AI-assisted dashboards in 2026. | Yes — dashboards for AI system monitoring |
+| [open-telemetry/opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector) | Apache-2.0 | 4.8k | Vendor-agnostic telemetry pipeline. Receive, process, export logs/metrics/traces anywhere. | Yes — instrument AI agent observability |
+| [hashicorp/terraform](https://github.com/hashicorp/terraform) | BUSL-1.1* | 43k | Infrastructure as Code. *BUSL but widely used. OpenTofu (MPL-2.0) is the open fork. | Yes — provision AI infra reproducibly |
 
 ---
-
-## Selection Rationale
-
-These repos were chosen because:
-1. **Permissive license** (MIT / Apache-2.0 / MPL-2.0) — safe for Globant client deliverables
-2. **Active community** — thousands of contributors, regular releases in 2025-2026
-3. **AI augmentation path** — each has an obvious agentic layer Globant can add on top
-4. **Production proven** — used by enterprises with >1M users or >10k GitHub stars
-
----
-*See also: `verticals/solutions.md` for full vertical platforms.*
+*See also: `verticals/solutions.md` for complete vertical platforms.*

@@ -1,34 +1,33 @@
-# Top AI Agents — Technology / Software Development
+# Top AI Agents & Tools — Technology / Software Development
 
-> Open source AI agents and tools for the technology industry. Focus: MIT / Apache 2.0.
-> Last updated: 2026-07-11 (v8)
+> Open source AI agents and tools for the technology industry.
+> Focus: MIT / Apache 2.0 licenses — ready for Globant to build on.
+> Last updated: 2026-07-11
 
-## Top Agents & Tools
+## AI Coding Agents
 
-| Name | License | Description | Stars |
-|------|---------|-------------|-------|
-| [OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | Full autonomous software engineer platform (formerly OpenDevin); runs in sandboxed Docker containers, completes multi-file tasks end-to-end, top SWE-bench scores | 68k |
-| [Cline](https://github.com/cline/cline) | Apache-2.0 | VS Code AI coding agent with Claude/GPT/Gemini backend; edits files, runs terminal commands, and uses browser — full agentic loop inside the IDE | 64k |
-| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | Lightweight CLI coding agent; reads codebase context, writes and runs code, commits — designed for terminal-first autonomous workflows | 95k |
-| [Aider](https://github.com/Aider-AI/aider) | Apache-2.0 | Terminal CLI coding agent; pairs with git, supports 100+ LLMs, consistent top scorer on SWE-bench verified; 93 releases, 13k+ commits | 47k |
-| [Continue](https://github.com/continuedev/continue) | Apache-2.0 | Open source autopilot for VS Code and JetBrains; inline code editing, codebase-aware chat, and tab autocomplete; BYOK and local model support | 31k |
-| [Tabby](https://github.com/TabbyML/tabby) | Apache-2.0 | Self-hosted AI coding assistant server; runs locally or on-prem, OpenAPI compatible, supports StarCoder2, CodeLlama, DeepSeek-Coder | 33k |
-| [Goose](https://github.com/block/goose) | Apache-2.0 | Open source AI agent by Block (Square); terminal-based, extensible with toolkits, memory persistence, BYOK — production-tested at Block | 32k |
-| [Dify](https://github.com/langgenius/dify) | MIT | Low-code LLM app platform; visual pipeline builder, RAG, agent orchestration, 100+ integrations; 144k stars, most-starred LLM platform | 144k |
-| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | Stateful multi-agent runtime on LangChain; cyclic graphs, human-in-the-loop, checkpointing; 34.5M monthly downloads, de facto enterprise standard | 12k |
-| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | Role-playing multi-agent orchestration; minimal boilerplate, 52k stars, 5.2M monthly downloads; ships v1.10.1 (Mar 2026) | 52k |
-| [Smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | Hugging Face's minimal agent framework; CodeAgent executes Python tool-calls natively; best-in-class on AgentBench for small models | 27k |
-| [Context7 MCP](https://github.com/upstash/context7) | MIT | Most popular MCP server (54k stars, 890k weekly npm downloads); injects up-to-date library docs into any MCP-compatible coding agent | 54k |
+| Name | License | Repo | Stars | Description |
+|------|---------|------|-------|-------------|
+| OpenHands | MIT | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | 70k+ | Autonomous software engineering agent (formerly OpenDevin). CodeAct v3 scaffold + Claude Opus 4.6 scores 68.4% on SWE-bench Verified. Self-hostable, 490+ contributors. |
+| Cline | Apache-2.0 | [cline/cline](https://github.com/cline/cline) | 58k | IDE-integrated autonomous coding agent. Supports tool use, browser control, and MCP. VS Code first. |
+| Aider | Apache-2.0 | [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | 41k | Terminal-based AI pair programmer. 6.8M PyPI installs, SWE-bench competitive, multi-model. |
+| Goose | Apache-2.0 | [block/goose](https://github.com/block/goose) | 32k | Autonomous local developer agent by Block (Square). MCP-native, runs in terminal, no cloud required. |
+| Continue | Apache-2.0 | [continuedev/continue](https://github.com/continuedev/continue) | 31k | Open-source AI code assistant for VS Code & JetBrains. Bring-your-own-model, supports Ollama/local LLMs. |
+| SWE-agent | MIT | [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) | 15k | Research agent from Princeton NLP. Takes a GitHub issue URL, runs a sandboxed env, produces a patch. SWE-bench pioneer. |
+| OpenCoder | Apache-2.0 | [opencoder-llm/opencoder](https://github.com/opencoder-llm/opencoder) | 4k | Fully open-source code LLM (1.5B & 8B). Transparent training data + pipeline. Compete with proprietary code models. |
+| DevOpsGPT | MIT | [kuafuai/DevOpsGPT](https://github.com/kuafuai/DevOpsGPT) | 6.8k | Multi-agent AI software development automation — from requirements → code → tests → CI/CD. |
+
+## Multi-Agent Orchestration Frameworks
+
+| Name | License | Repo | Stars | Description |
+|------|---------|------|-------|-------------|
+| LangGraph | MIT* | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | 36.7k | Stateful graph runtime for long-running, resilient agents. *Core MIT; production LangGraph API is Elastic 2.0 / commercial. Trusted by Klarna, Replit, Elastic. |
+| CrewAI | MIT | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 52.8k | Role-playing multi-agent orchestration. 5.2M monthly downloads. Production-grade crew coordination. |
+| Microsoft Agent Framework | MIT | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | 55k | Merger of AutoGen + Semantic Kernel. Enterprise orchestration + multi-agent patterns. Python & .NET. |
+| Smolagents | Apache-2.0 | [huggingface/smolagents](https://github.com/huggingface/smolagents) | 27.7k | Hugging Face's minimal agent framework. Code-first agents, runs on any HF model. |
+| Google ADK | Apache-2.0 | [google/adk-python](https://github.com/google/adk-python) | 20k | Google Agent Development Kit. Native Gemini integration, multi-agent, streaming, tool orchestration. |
+| Dify | Apache-2.0 | [langgenius/dify](https://github.com/langgenius/dify) | 148k | Low-code LLM app + agent platform. Visual workflow builder, RAG pipeline, 10k+ enterprise deployments. |
+| LangChain | MIT | [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | 139k | The foundational agent engineering platform. 100M+ monthly downloads. $1.25B valuation Series B Oct 2025. |
 
 ---
-
-## Notes for Globant Engagements
-
-- **OpenHands** is the best starting point for autonomous "Devin-style" software agents — MIT license, Docker sandbox, REST API
-- **Cline + Continue** combo gives in-IDE autonomy + autocomplete; both BYOK so no vendor lock-in
-- **Dify** as the orchestration platform of choice when clients need a visual workflow builder and don't want to write agent code
-- **LangGraph** for complex stateful enterprise workflows requiring human approval gates
-- **Context7 MCP** is a must-have addition to any MCP server stack — keeps agents up to date on library APIs
-
----
-*Auto-updated by ingest pipeline.*
+*Updated automatically by the ingest pipeline.*
