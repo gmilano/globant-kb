@@ -1,99 +1,153 @@
 # 📡 Trends — Automotive AI
 
-> Signals, inflection points, and what to watch. Updated: 2026-07-10 (v4)
+> Technology and market trends. Updated: 2026-07-11
 
-## 🚨 Emerging (Added v4 — July 10, 2026)
+## T1 — AI-Defined Vehicle (AIDV) Replaces SDV Narrative
 
-### T15 — TrafficClaw: LLM Agents for Urban Traffic Control (Jun 2026)
-arXiv:2604.17456 — First generalizable LLM agent for unified urban traffic control. TrafficClaw operates across coupled urban dynamics (signals, pedestrians, incidents, parking); uses persistent spatiotemporal memory + multi-stage agentic RL. Tested across 3 metropolitan regions, 6 traffic-control tasks. Strong cross-subsystem coordination (signals + pedestrian + transit + incident response in one agent loop).
+**Signal strength: 🔴 Critical**
 
-**Globant angle:** Smart city contracts (municipalities) + OEM partnerships for connected infrastructure.
+At CES 2026, the dominant story shifted from "software-defined vehicles" (SDV) to **AI-defined vehicles** (AIDV). Competitive advantage now determined by the ability to deploy, validate, monitor, update, and monetize AI safely at scale across the full vehicle lifecycle.
 
-### T16 — The Vehicle MCP Stack is Complete (Jun–Jul 2026)
-Three MCP servers now cover the full vehicle connectivity spectrum:
-- **Tesla MCP** (scald/tesla-mcp): Fleet API level — charge, location, climate, remote commands
-- **OBD2 MCP** (petrpatek/obd2-mcp-server): Diagnostic level — DTCs, live sensor data, $15 BT adapter
-- **MCP-CAN** (farzadnadiri/MCP-CAN): Bus level — raw ECU signals, DBC decoding, virtualizes CAN bus
+> "Vehicles can learn, adapt and improve continuously — monitoring health, analyzing road conditions, recognizing occupants, launching personal assistants." — Qualcomm CES 2026
 
-Any Claude/GPT/Gemini agent can now interact with vehicles from cloud → diagnostic port → raw bus.
-
-### T17 — MCP-over-MQTT Hits 250k Vehicles (Q2 2026)
-EMQX encapsulated MCP inside MQTT (already used for automotive telematics). Production scale: 250,000+ vehicles, 50,000 messages/second. Major adopters: SAIC Volkswagen, Lotus, Geely. Pattern: MQTT broker (EMQX) → MCP tool-call gateway → LLM agent → vehicle action.
-
-### T18 — Eclipse LMOS: Native MCP Multi-Agent OS for Automotive
-Eclipse LMOS (Language Model Operating System) has native MCP support — each LMOS agent is simultaneously an MCP server and client. Positions as the agentic orchestration layer above the Eclipse SDV data plane (KUKSA/Velocitas). 32 companies signed the Automotive OSS MoU; Hyundai Mobis joined bringing member count to 50+.
+**Implication for Globant:** Clients asking for SDV work are actually asking for AI-defined vehicle capabilities. Frame engagements around AIDV, not SDV.
 
 ---
 
-## 🔥 Active (Added v3 — Jul 10, prior run)
+## T2 — In-Vehicle Multi-Agent Orchestration
 
-### T10 — AI-Defined Vehicle Replaces Software-Defined Vehicle (CES 2026)
-Frost & Sullivan + CES 2026 industry consensus: competitive advantage is no longer "how much software runs on the vehicle" but "how well AI can be deployed, validated, monitored, updated, and monetized safely across the full vehicle lifecycle."
+**Signal strength: 🔴 Critical**
 
-### T11 — BMW iX3 Neue Klasse Sets the Production AI-Vehicle Bar
-BMW iX3 with OS X architecture = first OEM to ship Alexa+ as primary assistant + cloud-native OS + L2+ at 130km/h + 20× compute density (Symbiotic Drive). Every OEM now benchmarks against this reference.
+Orchestrators are the new buzzword. Qualcomm's Snapdragon Chassis Agents (announced CES 2026) combine agentic frameworks with on-device inference to orchestrate multiple in-vehicle agents across cockpit, connectivity, ADAS, and cloud. Eclipse LMOS provides the open-source equivalent architecture.
 
-### T12 — Stellantis STLA Brain: AI Platform for 14 Brands
-Applied Intuition providing Vehicle OS for Stellantis STLA Brain covering Jeep, Dodge, Fiat, Citroën, Peugeot, Alfa Romeo, Maserati, RAM, Chrysler, Lancia, Opel/Vauxhall, Abarth, DS. Affects every Stellantis plant and partner network in LATAM.
-
-### T13 — OBD AI Diagnostics: 85% Confidence Threshold (2026)
-AI-powered OBD diagnostic systems crossed 85% confidence for fault identification before physical inspection. Combined with the $22k/minute assembly-line downtime cost, predictive maintenance is now the fastest-ROI AI application in automotive.
-
-### T14 — 71% of Automotive Software Orgs Integrating AI (Eclipse SDV 2026 Report)
-Key stats from Eclipse SDV's 2026 State of Automotive Software Development:
-- 71% integrating AI in vehicles; 24% at vehicle design level; 47% at component level
-- Python now #1 language in automotive AI/ML at 48% of teams (+12% YoY, surpassed C++)
-- Cross-domain architectures (powertrain + ADAS + cockpit unified) becoming standard via Eclipse SDV
+**Key pattern:** Conversational AI → Intent classification → Agent router → Domain agents (navigation, media, climate, vehicle control) → VSS/VAL execution layer → Streaming HMI response.
 
 ---
 
-## ⬆️ Established (v1/v2 — Foundation Trends)
+## T3 — Foundation Models for Autonomous Driving
 
-### T1 — Autonomous Driving Agents Dominate (45% Market Share)
-Autonomous driving agents captured 45% of the Automotive AI Agents market share in 2026. Real-time perception + multi-step reasoning requirements drive this — regulatory clearance for L3+ depends on it.
+**Signal strength: 🟡 Emerging (→ Critical 2027)**
 
-### T2 — Vehicle Telematics: Highest CAGR (33.8%)
-Within automotive AI segments, vehicle telematics AI is growing fastest at 33.8% CAGR (Market Research Future). Connected vehicle data streams → agentic analysis → fleet optimization.
-
-### T3 — L3 Autonomy: Fastest Growing Level (2025–2030)
-L3 conditional automation is the fastest-growing autonomy level — regulatory frameworks maturing in Germany (BMW iX3 certified), Japan, and select US states. LATAM expected to follow Argentina's federal framework.
-
-### T4 — Open Source AV: OpenPilot + Autoware Diverging Paths
-- **OpenPilot** (MIT, 56k★): consumer ADAS for 200+ vehicles, 80M+ real miles, comma 3X hardware ($1,199)
-- **Autoware** (Apache-2.0, 11.7k★): commercial robotaxi + logistics AV, 100+ companies using it
-These two complementary projects represent the two dominant OSS paths.
-
-### T5 — Eclipse SDV: Industry Standard for OEM Software Architecture
-Eclipse SDV ecosystem (KUKSA + Velocitas + Leda + LMOS + S-CORE) is being adopted by OEMs and Tier-1s as the interoperability standard. 50+ member companies, Apache-2.0 licensing, COVESA VSS compliance.
-
-### T6 — Predictive Maintenance AI at Assembly Lines
-Deloitte: agentic AI in manufacturing jumped from 6% to 24% deployment in 2026. LLM interest in manufacturing grew from 16% to 35% in one year. $22k/minute assembly-line downtime cost is the universal business case.
-
-### T7 — EV Charging Optimization Agents
-EV fleet growth (especially in Brazil with BYD expansion) drives demand for charging optimization agents: range prediction, optimal charging time, grid pricing arbitrage, multi-vehicle scheduling.
-
-### T8 — In-Vehicle Voice Assistants Shift to LLMs
-First-gen embedded assistants (Siri, Google, Alexa) being replaced or augmented by LLM-powered assistants: BMW Alexa+, Mercedes MBUX+GPT-4, Cerence CaLLM. The cockpit is becoming an agentic multimodal environment.
-
-### T9 — Digital Twins for Vehicle Development
-OEM use of digital twins (NVIDIA Omniverse + Ansys + Eclipse Leda) to simulate vehicle software before hardware is available. Cuts validation time by 40–60% for software updates.
+Foundation model architectures (LLMs + Vision Transformers) are being applied to end-to-end autonomous driving — replacing modular perception-planning-control pipelines with unified models. DriveX workshop at CVPR 2026 is the leading research venue. Autoware Foundation's `autoware_vision_pilot` is the first commercially-aligned open-source implementation.
 
 ---
 
-## 📡 Radar
+## T4 — Agentic Predictive Maintenance
 
-| Trend | Status | Time Horizon | Globant Action |
-|-------|--------|-------------|----------------|
-| TrafficClaw urban traffic control | Emerging | 1–2 years to production | Smart city pilots in LATAM |
-| Vehicle MCP stack (Tesla/OBD2/CAN MCP) | Active | Now | Build MCP-first connected car services |
-| MCP-over-MQTT at fleet scale | Active | Now | EMQX partnership / fleet AI integration |
-| Eclipse LMOS multi-agent OS | Growing | 1–2 years | OEM SDV integration offering |
-| AI-Defined Vehicle platform wins | Active | Now | Eclipse SDV consulting + integration |
-| L3 autonomy regulatory expansion | Growing | 2–3 years | LATAM regulatory readiness advisory |
-| OpenPilot consumer ADAS expansion | Active | Now | 200-vehicle support base → AI add-ons |
-| Predictive maintenance MCP stack | Active | Now | Immediate dealership + factory deals |
-| MCP-over-MQTT fleet scale | Monitoring | 6–12 months | Partner with EMQX for LATAM fleets |
-| Python>C++ in automotive AI | Confirmed | Now | Staff vehicle app teams in Python |
+**Signal strength: 🔴 Critical**
+
+AI agents that monitor CAN bus / telematics signals and predict failures 48-72 hours (or 3 weeks) in advance with 90%+ accuracy. Moving from rule-based OBD alerts to continuous LLM-powered reasoning over sensor time series.
+
+**Open-source stack:** Kuksa Databroker (signal stream) + InfluxDB (time series) + LangGraph agent (reasoning) + notification system.
 
 ---
-*15 trends tracked across v1–v4. See `compose/patterns.md` for concrete implementation recipes.*
+
+## T5 — Agentic Dealer & Service Operations
+
+**Signal strength: 🔴 Critical**
+
+Fastest-growing ROI segment. AI agents for: 24/7 lead qualification, warranty fraud detection, inventory-aware ordering, service appointment scheduling, customer sentiment analysis post-service. Mid-size OEM ROI: $140-287M annual savings vs $17-30M implementation cost.
+
+**Open-source stack:** Odoo CE (DMS foundation) + LangGraph agents + RAG on service history + WhatsApp/web widget.
+
+---
+
+## T6 — Fleet Management Agentic AI
+
+**Signal strength: 🔴 High**
+
+Three waves converging: agentic AI systems (plan + execute + self-correct), factory OEM telematics (shipped in 90%+ new vehicles), edge AI inference (real-time without cloud latency). Fleet agents for: real-time route optimization, predictive maintenance dispatch, driver behavior coaching, EV charging coordination.
+
+---
+
+## T7 — V2X (Vehicle-to-Everything) AI
+
+**Signal strength: 🟡 Emerging**
+
+CARMA Platform's ROS 2 migration and US DOT deployments represent the leading open-source V2X implementation. Smart city projects in Latin America (São Paulo, CDMX) and Asian markets are early adopters. V2X agents coordinate intersection management, emergency vehicle preemption, freight platooning.
+
+---
+
+## T8 — Over-the-Air Feature Monetization
+
+**Signal strength: 🟡 High**
+
+Industry leaders are industrializing SDV architectures to transition vehicles from depreciating hardware assets into high-margin service nodes. OTA updates enable feature unlocking (subscriptions), performance upgrades, and safety patches. Eclipse Velocitas + OTA update frameworks enable Globant to build feature-as-a-service platforms.
+
+---
+
+## T9 — Simulation as AI Training Infrastructure
+
+**Signal strength: 🟡 High**
+
+CARLA (MIT, 14.1k stars) + Unreal Engine 5.5 branch enables photorealistic synthetic data generation for training perception and planning models. Scale: generate millions of edge cases in simulation that would take years to encounter on real roads.
+
+---
+
+## T10 — AUTOSAR to SDV Migration
+
+**Signal strength: 🟡 High**
+
+Traditional Tier-1 suppliers (Continental, Bosch) are migrating from AUTOSAR Classic (decades-old) to AUTOSAR Adaptive + Eclipse SDV. This migration creates massive services opportunity: code porting, validation, AI integration into migrated systems.
+
+---
+
+## T11 — Android Automotive OS SDV Expansion
+
+**Signal strength: 🟡 Emerging → High**
+
+Google + Qualcomm announced partnership to deliver turnkey pre-integrated AAOS SDV stack. Google plans open-source SDV platform release H2 2026. AAOS SDV will bring Google's app ecosystem directly into SDV architecture — major shift for in-vehicle software.
+
+---
+
+## T12 — Edge AI Inference Without Cloud Latency
+
+**Signal strength: 🔴 Critical**
+
+Safety-critical vehicle functions cannot tolerate cloud round-trip latency. Edge AI chips (Qualcomm Snapdragon, NVIDIA DRIVE Thor) enabling sub-millisecond inference on-vehicle. Architecture: fast edge inference for safety actions, cloud LLM for planning and personalization. Eclipse LMOS's cloud-edge pattern reflects this.
+
+---
+
+## T13 — LLM-Powered Vehicle Cockpit Assistants
+
+**Signal strength: 🔴 High**
+
+BYD, NIO, Mercedes EQS, and BMW iDrive 9 all shipping LLM-based cockpit assistants. The open-source equivalent: AutoClaw (CarPlay/Android Auto) + locally-run Llama/Mistral for privacy. Chinese OEMs leading in cockpit AI velocity.
+
+---
+
+## T14 — Digital Twins for Automotive Manufacturing
+
+**Signal strength: 🟡 High**
+
+NVIDIA Omniverse + factory digital twins for automotive production lines. AI agents simulate production changes, detect bottlenecks, and orchestrate robotic workflows. Microsoft Azure Digital Twins also active in LATAM manufacturing clients.
+
+---
+
+## T15 — Supply Chain AI Agents
+
+**Signal strength: 🟡 High**
+
+Post-COVID chip shortage trauma driving investment in AI-powered supply chain visibility and resilience. Agents that monitor supplier signals, predict disruptions 2-4 weeks out, and automatically trigger procurement actions. ERPNext + LangGraph is the open-source foundation.
+
+---
+
+## Trend Radar Summary
+
+| Trend | Horizon | Open Source Ready | Globant Action |
+|-------|---------|-------------------|----------------|
+| T1 AIDV narrative | Now | Eclipse SDV | Reframe all SDV pitches |
+| T2 Multi-agent cockpit | Now | LMOS + Kuksa | Pattern P1 |
+| T3 Foundation models for AV | 2027 | Autoware vision_pilot | Monitor/contribute |
+| T4 Predictive maintenance | Now | Kuksa + LangGraph | Pattern P3 |
+| T5 Dealer agents | Now | Odoo + LangGraph | Pattern P4 |
+| T6 Fleet AI | Now | OpenRemote + LangGraph | Pattern P5 |
+| T7 V2X AI | 2027 | CARMA Platform | Pattern P7 |
+| T8 OTA feature monetization | Now | Velocitas + LMOS | Pattern P2 |
+| T9 AV simulation | Now | CARLA + PCLA | Pattern P6 |
+| T10 AUTOSAR migration | Now | Eclipse SDV | Services play |
+| T11 AAOS SDV | 2026 H2 | AAOS open planned | Watch |
+| T12 Edge AI | Now | Ollama + Kuksa | All patterns |
+| T13 LLM cockpit | Now | AutoClaw | Pattern P1 |
+| T14 Digital twins | 2027 | Omniverse (proprietary) | Partner play |
+| T15 Supply chain agents | Now | ERPNext + LangGraph | Pattern P8 |

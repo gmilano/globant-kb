@@ -1,84 +1,126 @@
-# 🏭 Vertical Solutions — Automotive
+# 🏭 Vertical Platforms — Automotive
 
-> Real platforms: start with something functional, add an AI agent layer on top.
-> Updated: 2026-07-10 (v4)
+> Existing open-source platforms to customize with AI. Start from something functional, add the agentic layer.
+> Last updated: 2026-07-11
 
-## Recommended Platforms
+## Platform Decision Tree
 
-| Platform | License | Repo / URL | Stack | Use Case | AI Extension Point |
-|----------|---------|------------|-------|----------|--------------------|
-| **Odoo Fleet** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) — Fleet module | Python/OWL | Dealership ERP + Fleet management: vehicles, contracts, fuel, maintenance scheduling, driver mgmt | Add predictive maintenance agent (OBD → Odoo maintenance order); integrate Claude for NL service booking |
-| **Fleetbase** | AGPL-3.0 | [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | PHP/Laravel + Ember.js | Modular logistics & supply chain OS: fleet tracking, dispatch, delivery, warehouse, API platform | REST API + webhook hooks → LangGraph agent for route optimization, ETA prediction, anomaly detection |
-| **Traccar** | Apache-2.0 | [traccar/traccar](https://github.com/traccar/traccar) | Java | Open-source GPS tracking platform; 200+ GPS protocols; real-time position, geofencing, reports | Stream location events to LLM agent; add anomaly detection + predictive route failure |
-| **OpenPilot** | MIT | [commaai/openpilot](https://github.com/commaai/openpilot) | Python/C++ | Consumer ADAS platform; ACC + ALC + FCW + LDW; 200+ car makes | Add LLM-based intent prediction; voice command layer via MCP; fleet monitoring dashboard |
-| **Eclipse SDV Stack** | Apache-2.0 | [eclipse-kuksa](https://github.com/eclipse-kuksa) / [eclipse-velocitas](https://github.com/eclipse-velocitas) | Rust/Python/Java | OEM-grade Software-Defined Vehicle platform: in-vehicle apps, VSS data broker, OTA updates, cloud connectivity | KUKSA Databroker → MQTT → LangGraph agents; Eclipse LMOS multi-agent OS layer |
-| **Fleetms** | MIT | [jmnda-dev/fleetms](https://github.com/jmnda-dev/fleetms) | Full-stack JS | Open-source fleet maintenance & management: work orders, service records, fuel tracking | Lightweight: add Claude API for NL maintenance scheduling; integrate OBD2 MCP |
-| **DealerSocket / VinSolutions** | Commercial | — | Various | Industry-standard Dealer Management Systems (DMS); closed source but offer APIs | Build MCP server wrapper around DMS API; Claude agent for NL inventory search + lead scoring |
+```
+What does the client need?
+├── Vehicle operations / in-car AI        → Eclipse SDV Stack (Kuksa + Velocitas + LMOS)
+├── Dealer management / sales CRM         → Odoo Community (LGPL) or ERPNext
+├── Fleet management / logistics          → OpenRemote + LangGraph agents
+├── Manufacturing / supply chain          → ERPNext (Frappe) automotive module
+├── Autonomous driving / ADAS development → openpilot or Autoware
+├── Simulation / testing                  → CARLA + PCLA
+└── V2X / cooperative driving             → CARMA Platform + carma-cloud
+```
 
 ---
 
-## How to Add an AI Layer
+## Recommended Platforms by Domain
 
-### Pattern A: Diagnostics-First (OBD + MCP → Platform)
-```
-OBD-II adapter (ELM327)
-       ↓
-obd2-mcp-server (MIT)         ← $15 hardware, any car 1996+
-       ↓
-Claude / LLM agent             ← reads DTCs, sensor data
-       ↓
-Odoo/Fleetms work order        ← auto-creates maintenance ticket
-       ↓
-Technician dashboard
-```
-**Time:** 2–4 weeks | **Cost:** $30k–$80k | **ROI:** $22k/min prevented downtime
+### 1. Eclipse SDV Stack — In-Vehicle AI Platform
+| Component | License | URL | Purpose |
+|-----------|---------|-----|---------|
+| Eclipse Kuksa | Apache-2.0 | [eclipse-kuksa](https://github.com/eclipse-kuksa) | Vehicle signal bus (VSS) — reads speed, steering, ADAS state |
+| Eclipse Velocitas | Apache-2.0 | [eclipse-velocitas](https://github.com/eclipse-velocitas) | Vehicle App containerized deployment toolchain |
+| Eclipse Leda | Apache-2.0 | [eclipse-leda](https://github.com/eclipse-leda) | SDV quick-start distro with pre-integrated Kuksa + Velocitas |
+| Eclipse LMOS | Apache-2.0 | [eclipse-lmos](https://github.com/eclipse-lmos) | Multi-agent orchestration layer for cloud + edge |
 
-### Pattern B: SDV Vehicle App (Eclipse Stack)
-```
-Physical Vehicle
-       ↓
-KUKSA Databroker (VSS signals)
-       ↓
-Eclipse Velocitas Vehicle App (Python)
-       ↓
-LLM reasoning layer (Claude Haiku)
-       ↓
-Eclipse LMOS multi-agent orchestration
-       ↓
-Cloud dashboard / OTA actions
-```
-**Time:** 5–8 weeks | **Cost:** $200k–$600k | **Target:** OEM Tier-1 integration
-
-### Pattern C: Fleet Intelligence (Fleetbase + AI)
-```
-Fleetbase API (fleet position, orders, drivers)
-       ↓
-LangGraph agent (route optimizer + anomaly detector)
-       ↓
-Claude Sonnet (NL report generation)
-       ↓
-WhatsApp / Dashboard alerts
-```
-**Time:** 4–6 weeks | **Cost:** $80k–$200k | **Target:** LATAM logistics operators
+**AI Customization:** Deploy LLM-based agents as Velocitas Vehicle Apps. Agents subscribe to Kuksa VSS signals, run LLM inference (Ollama on edge, Claude/GPT in cloud), and execute vehicle actions through the VSS write API.
 
 ---
 
-## OEM Platforms to Know (Commercial — context for clients)
+### 2. Odoo Community — Dealer & Workshop Management
+| Platform | License | URL | Stack |
+|----------|---------|-----|-------|
+| Odoo Community | LGPL-3 | [odoo/odoo](https://github.com/odoo/odoo) | Python/PostgreSQL, modular ERP |
 
-| OEM Platform | AI Stack | What Globant Can Add |
-|--------------|----------|----------------------|
-| **BMW OS X** (iX3 Neue Klasse) | Alexa+ native, 20× compute | Eclipse LMOS integration, custom skill development |
-| **Stellantis STLA Brain** | Applied Intuition Vehicle OS | Cabin Intelligence customization, LATAM market personalization |
-| **Toyota Snapdragon Digital Chassis** | Qualcomm AI Hub | Edge inference Vehicle Apps, Japanese → LATAM localization |
-| **Cerence xUI / CaLLM** | Swappable LLM (Claude-compatible) | CaLLM → Claude swap, custom voice UX |
+**Key Odoo modules for automotive:**
+- Fleet Management (`fleet`) — vehicle tracking, maintenance scheduling, fuel log
+- CRM (`crm`) — dealer sales pipeline, lead management
+- Repair Orders (`repair`) — workshop service orders, parts inventory
+- Purchase + Inventory — parts procurement, stock management
+
+**AI Customization path:**
+1. Deploy Odoo CE 17+ with fleet + crm + repair modules
+2. Add `odoo-ai-copilot` Python package (LangChain + Odoo RPC)
+3. Build LangGraph agents that read Odoo data via XMLRPC API
+4. Surface via Odoo chatbot widget or Slack/WhatsApp integration
+5. Common agents: inventory reorder agent, service appointment agent, lead qualification agent
+
+**Cost model:** ~$40-80k for Odoo + AI layer implementation vs $200-400k for proprietary DMS.
 
 ---
 
-## LATAM Vertical Opportunity Map
+### 3. ERPNext / Frappe — Automotive Manufacturing ERP
+| Platform | License | URL | Stack |
+|----------|---------|-----|-------|
+| ERPNext | GPL-3 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/MariaDB, Frappe Framework |
+| Frappe Framework | MIT | [frappe/frappe](https://github.com/frappe/frappe) | Low-code platform underlying ERPNext |
 
-| Country | Automotive Base | AI Entry Point |
-|---------|----------------|----------------|
-| **Brazil** | VW, GM, Stellantis, Toyota plants | Predictive maintenance for assembly lines; OBD AI for Denatran compliance |
-| **Argentina** | Renault, VW, Toyota, Stellantis | First in LATAM with federal AV regulations → pilot site for AV agent testing |
-| **Mexico** | Nissan, GM, Ford, BMW, Honda | Supply chain agent (USMCA documentation + logistics) |
-| **Colombia/Chile** | Growing mobility-as-a-service | Fleetbase + AI for ride-hailing + electric bus fleet management |
+**Key capabilities for automotive manufacturing:**
+- BOM (Bill of Materials) management for vehicle components
+- Work Order and production scheduling
+- Quality Control inspections
+- Supplier chain management
+- Vehicle serial number tracking
+
+**AI Customization:** Frappe's REST API + webhooks enable LangGraph agents for predictive maintenance scheduling, quality control anomaly detection, and supply chain disruption alerting.
+
+**Reference:** [Frappe ERPNext Automotive ERP](https://frappe.io/erpnext/manufacturing/automotive-erp-software)
+
+---
+
+### 4. OpenRemote — IoT / Connected Vehicle Platform
+| Platform | License | URL | Stack |
+|----------|---------|-----|-------|
+| OpenRemote | AGPL-3 | [openremote/openremote](https://github.com/openremote/openremote) | Java/TypeScript, rule engine, MQTT |
+
+**Use case for automotive:** Fleet IoT platform. Connect vehicle telematics (OBD-II, CAN bus data via Kuksa) to OpenRemote's asset management, alerting rules, and dashboard. Add AI agents for predictive maintenance anomaly detection and fleet dispatch optimization.
+
+---
+
+### 5. Apache OFBiz — ERP/CRM/Supply Chain
+| Platform | License | URL | Stack |
+|----------|---------|-----|-------|
+| Apache OFBiz | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java, fully modular ERP |
+
+**Use case:** Larger automotive suppliers or OEM back-office needing integrated ERP + CRM + SCM. Apache license means true commercial freedom. Less modern UX than Odoo but deeper supply chain capabilities.
+
+---
+
+### 6. openpilot — Production ADAS Platform
+| Platform | License | URL | Stack |
+|----------|---------|-----|-------|
+| openpilot | MIT | [commaai/openpilot](https://github.com/commaai/openpilot) | Python/C++, QNX-inspired, comma 3X hardware |
+
+**Use case:** Retrofit ADAS for supported vehicles. Platform for building custom driving algorithms, data collection pipelines, and ML model fine-tuning on real-world driving data.
+
+---
+
+### 7. CARMA Platform — V2X / Cooperative Driving
+| Platform | License | URL | Stack |
+|----------|---------|-----|-------|
+| CARMA Platform | Apache-2.0 | [usdot-fhwa-stol/carma-platform](https://github.com/usdot-fhwa-stol/carma-platform) | C++/Python, ROS 2 |
+| CARMA Cloud | Apache-2.0 | [usdot-fhwa-stol/carma-cloud](https://github.com/usdot-fhwa-stol/carma-cloud) | Java, Spring Boot |
+
+**Use case:** Smart city + autonomous vehicle integration. Municipalities and fleet operators. AI agents can be implemented as CARMA plugins for intersection management, emergency vehicle preemption, or freight platooning.
+
+---
+
+## Comparison Table
+
+| Platform | License | Best For | AI Complexity | Time to Value |
+|----------|---------|----------|---------------|---------------|
+| Eclipse SDV Stack | Apache-2.0 | In-vehicle AI agents | High | 3-6 months |
+| Odoo Community | LGPL | Dealer / workshop ops | Low-Medium | 6-12 weeks |
+| ERPNext | GPL | Manufacturing / supply chain | Medium | 2-4 months |
+| OpenRemote | AGPL | Fleet IoT / telematics | Medium | 2-3 months |
+| Apache OFBiz | Apache-2.0 | Enterprise ERP/CRM | Medium | 4-6 months |
+| openpilot | MIT | ADAS / in-vehicle | High | 3-6 months |
+| CARMA Platform | Apache-2.0 | V2X / smart city | High | 6-12 months |
+
+---
+*See `compose/patterns.md` for concrete wiring recipes using these platforms.*
