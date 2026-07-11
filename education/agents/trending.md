@@ -1,58 +1,30 @@
-# 📈 Tendencias de la semana — Education AI Agents
+# 📈 Agentes AI trending — Education (semana 2026-07-11)
 
-> Novedades de la semana en agentes AI para educación.
-> Última actualización: 2026-07-11
+> Repos con actividad reciente, nuevas releases o virales en HN/Reddit.
 
-## Lo más nuevo esta semana
+## Repos más activos esta semana
 
-### 1. OpenMAIC v0.3.0 — Relicencia a MIT (28 jun 2026)
-**Repo**: [THU-MAIC/OpenMAIC](https://github.com/THU-MAIC/OpenMAIC)
-- Tsinghua University relicensed de AGPL-3.0 a **MIT** — ahora 100% usable en proyectos comerciales
-- Nueva feature: Project-Based Learning (PBL) v2 con classroom UI completa
-- AI teachers con voz, pizarra, laser pointer y discusión en tiempo real
-- Soporte para quizzes interactivos con grading AI instantáneo
-- **Impacto Globant**: patrón ideal para clientes de higher ed que quieren experiencia inmersiva
+| Repo | Stars | Actividad | Por qué importa |
+|------|-------|-----------|-----------------|
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | 25.5k | +3.2k ★ en 7 días; v2.1 con MCP marketplace | Primer LMS agent-native en superar 25k ★; EduHub de community skills es moat de distribución |
+| [Li-Evan/Bloom](https://github.com/Li-Evan/Bloom) | 196 | Viral en HN "Show HN"; featured en Claude skills gallery | Implementación práctica del 2-Sigma problem sin backend — demo convincente para clientes K-12 |
+| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | ~80 | Nuevo; Next.js 16 + Claude + PayNow | Primer EdTech AI para niños 4-16 con booking + gamified storytelling integrados |
+| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | ~200 | v0.8.0; contenido + tracking + assessments unificados | Alternativa open source a Teachable/Thinkific con hooks AI ya integrados |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | 420 | PR merged: ES-LA + PT-BR support | Relevante para LATAM: español latam + portugués brasileño soportados nativamente |
+| [scaphandre/anki-mcp](https://github.com/scaphandre/anki-mcp) | 370 | Trending r/Anki + r/MachineLearning | Patrón MCP + spaced repetition replicable en cualquier LMS con API |
+| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | ~90 | Featured Product Hunt EdTech AI picks | Mobile-first spaced repetition + AI generation; iOS + Android + web |
 
-### 2. Microsoft Education AI Toolkit — Actualización Agentica (abr 2026)
-- Microsoft actualizó su Education AI Toolkit con capacidades **agentic AI** en abril 2026
-- Permite a instituciones automatizar workflows multi-paso: grading, scheduling, student outreach
-- Compatible con Azure OpenAI + Open edX + LMS enterprise
-- **Impacto Globant**: punto de entrada para clientes Microsoft shop en educación corporativa
+## Novedades de plataformas base
 
-### 3. DeepTutor — 22k+ stars y versión estable (2026)
-**Repo**: [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor)
-- Alcanzó 10k stars en 39 días desde lanzamiento (dic 2025), 22k+ al momento del ingest
-- v1.0.0-beta.1 estable bajo Apache-2.0
-- 6 modos en un solo loop de agentes con contexto compartido
-- Memoria persistente entre sesiones — "lifelong tutoring"
-- **Impacto Globant**: el repo más estrellado para construir tutores AI enterprise
+- **Moodle 4.6** (julio 2026): AI subsystem v2 — interface estándar para plugins AI de terceros; primeros plugins de quiz AI en directorio oficial.
+- **Open edX Redwood** (junio 2026): integración nativa con LLM APIs para generación de contenido XBlock; AI grading experimental en assessments.
+- **Canvas AI Partnership** (junio 2026): Instructure anuncia integración oficial con Anthropic Claude para Canvas; primera release Q3 2026.
 
-### 4. EduAgent con LangGraph — Stack productivo (jul 2026)
-**Repo**: [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent)
-- Uso de **LangGraph** para orquestar agentes de tutoring adaptativos
-- RAG con pgvector para recuperación semántica de materiales del curso
-- Active recall automático: genera flashcards y mapas mentales desde PDFs
-- **Impacto Globant**: patrón deployable en semanas para clientes corporativos de L&D
+## Papers relevantes (últimas semanas)
 
-### 5. Repos en crecimiento esta semana
-
-| Repo | Actividad |
-|------|-----------|
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | AI Kids Academy: gamified AI storytelling para edades 4-16, Next.js 16 + Claude |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | E-learning platform: content delivery + learner tracking + assessment |
-| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | AI flashcards con spaced repetition para iOS/Android/web |
+- **"DeepTutor: Lifelong Personalized Tutoring"** — arquitectura de tres capas de memoria (traces → summaries → synthesis).
+- **"AITutor-EvalKit"** (arXiv:2512.03688) — benchmark 8 dimensiones: Socratic quality, factual accuracy, pedagogical scaffolding.
+- **"LLM-powered Multi-agent Framework for Goal-oriented Learning in ITS"** — WWW 2025 Oral, diseño de referencia para multi-agente en tutoring.
 
 ---
-
-## Patrón emergente: Agent-Native Education
-
-El shift más importante de jun-jul 2026: el modelo "chatbot educativo" está siendo reemplazado por **sistemas multi-agente** donde:
-- Múltiples agentes especializados colaboran (tutor, evaluador, investigador, visualizador)
-- Memoria persistente entre sesiones (DeepTutor, OpenMAIC)
-- Cada agente tiene rol definido y puede escalar a otros
-- El estudiante interactúa con una interfaz unificada que oculta la complejidad
-
-Este es el patrón que Globant debe proponer a clientes de higher ed y L&D corporativo en H2 2026.
-
----
-*Ingest education v9 — 2026-07-11*
+*Actualizado automáticamente por el pipeline de ingest.*

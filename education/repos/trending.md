@@ -1,35 +1,28 @@
-# 📈 Repos trending — Education
+# 📈 Repos trending — Education (semana 2026-07-11)
 
-> Repositorios con mayor actividad esta semana en educación + AI.
-> Última actualización: 2026-07-11
+> Repos con momentum esta semana según GitHub Trending, Hacker News y ProductHunt.
 
-## Repos más activos esta semana
+## Trending ahora mismo
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Agent-native tutor workspace; v1.0.0-beta.1; el más estrellado en educación AI en 2026 | 22k+ |
-| [THU-MAIC/OpenMAIC](https://github.com/THU-MAIC/OpenMAIC) | MIT | Multi-agent classroom Tsinghua; **relicenció a MIT 28 jun 2026**; v0.3.0 con PBL v2 | ~3.8k |
-| [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | MIT | LMS moderno MIT con AI integrada: Next.js + FastAPI + PostgreSQL + auto-grading 30+ lenguajes | ~2.1k |
-| [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | LangGraph + RAG: convierte PDFs en tutoring adaptativo con flashcards y mind maps | ~890 |
-| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | Curated papers AI/LLM para educación: ITS, grading, razonamiento | ~1.1k |
-| [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) | MIT | Adaptive learning con RL: ajusta dificultad y path según rendimiento del estudiante | ~420 |
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | AI Kids Academy: plataforma gamificada edades 4-16, Next.js 16 + Claude API | crecimiento rápido |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | E-learning OSS: content delivery + learner tracking + assessment | activo |
-| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | AI flashcards con spaced repetition, iOS/Android/web | activo |
+| Repo | Licencia | Stars | Descripción |
+|------|----------|-------|-------------|
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | 25.5k | Agent-native learning workspace: Chat, Quiz, Research, Visualize, Solve, Mastery Path. FastAPI + Next.js + LlamaIndex + GraphRAG |
+| [Li-Evan/Bloom](https://github.com/Li-Evan/Bloom) | MIT | 196 | Tutor socrático AI basado en Bloom's 2-Sigma: syllabus adaptativo, sin backend, Claude Code skill + self-hostable webapp |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Apache-2.0 | 420 | Plataforma educativa AI con multi-agente, knowledge graphs, 12 idiomas, web+móvil. LATAM-ready (ES-LA, PT-BR) |
+| [nichochar/human-skill-tree](https://github.com/nichochar/human-skill-tree) | MIT | 583 | Árbol de habilidades cognitivas K-12 → carrera con spaced repetition. TypeScript |
+| [scaphandre/anki-mcp](https://github.com/scaphandre/anki-mcp) | MIT | 370 | Anki + MCP: genera y gestiona flashcards desde cualquier AI assistant via Model Context Protocol |
+| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | ~200 | Plataforma e-learning open source moderna: contenido + tracking + assessments; Python + TypeScript |
+| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | ~80 | AI Kids Academy: portal gamificado (4-16 años), storytelling AI, coding, escape rooms. Next.js 16 + Claude |
+| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | ~90 | Flashcards con AI generation y spaced repetition; iOS, Android, Web. Modo offline |
+| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | 221 | Sistema de tutoring adaptativo Berkeley: Bayesian Knowledge Tracing, no backend, ReactJS + Firebase |
+| [098765d/AI_Tutor](https://github.com/098765d/AI_Tutor) | MIT | 145 | Tutor LLM + KG-RAG para cursos: genera Knowledge Graph del currículo, preguntas KG-guided, evaluación continua |
 
----
+## Datos macro de GitHub Education (julio 2026)
 
-## Patrón de repositorios en auge
-
-**Antes (2024-2025)**: repos de LMS con AI como plugin externo — el LMS es el núcleo, la AI es un addon.
-
-**Ahora (2026)**: repos diseñados **agent-first desde cero** — el agente es el núcleo, el LMS es el canal de entrega.
-
-Los repos más estrellados esta semana comparten:
-1. **LangGraph o custom multi-agent loop** como orquestador central
-2. **RAG + pgvector** para grounding en materiales del curso específico
-3. **Memoria persistente entre sesiones** — el agente "conoce" al estudiante
-4. **MIT o Apache 2.0** — comunidad priorizando licencias permisivas para adopción enterprise
+- **4.3M+ repos AI** en GitHub (Octoverse 2025, +178% YoY en proyectos LLM)
+- **education-ai topic**: 890+ repos con actividad en los últimos 30 días
+- **ai-tutor topic**: 340+ repos activos
+- **intelligent-tutoring-system topic**: 115+ repos
 
 ---
-*Ingest education v9 — 2026-07-11*
+*Pipeline automático — se actualiza cada hora.*

@@ -1,84 +1,65 @@
-# 🗺️ Market intelligence — Education AI
+# 🗺️ Mapa de mercado — Education
 
-> Mapa de mercado, players clave y oportunidades para Globant AI Studios.
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
 > Última actualización: 2026-07-11
 
 ## Tamaño de mercado
 
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| AI in Education 2025 | USD 7.57B | Precedence Research |
-| AI in Education 2026 | USD 11B | New Market Pitch / Grand View Research |
-| AI in Education 2030 (conservador) | USD 41B | Mordor Intelligence |
-| AI in Education 2030 (agresivo) | USD 48.6B | Research and Markets |
-| AI in Education 2034 | USD 136.8B | Precedence Research |
-| CAGR 2026-2030 | 25.9-45.0% | múltiples fuentes |
-| Región más rápida | Asia-Pacífico | 44.2% CAGR |
-| Adopción adaptive learning en higher ed 2026 | 71% de instituciones | 8allocate.com |
-| Completion rate con AI personalizada vs tradicional | +70% | Disco.co |
+| Segmento | 2025 | 2026 | 2030+ | CAGR |
+|----------|------|------|-------|------|
+| EdTech global | — | $404B | $580B | 16.3% |
+| AI en Education | $7.57B | ~$10B | $112B (2034) | 38.9% |
+| GenAI en EdTech | $0.53B | $0.76B | $3.68B (2030) | 44% |
+| AI Personalized Learning | $9.15B | ~$12B | $291.85B (2035) | 41.5% |
+| VC en EdTech AI companies | — | — | — | $4.2B invertidos en 2025 |
 
-## Key players globales
+## Adopción — números clave (2026)
 
-### Plataformas LMS Enterprise (incumbent)
-| Player | Modelo | Posición |
-|--------|--------|----------|
-| Coursera | SaaS | Líder MOOC enterprise, 125M+ usuarios |
-| Canvas (Instructure) | SaaS + OSS | Dominante en higher ed USA, +30M estudiantes |
-| Blackboard (Anthology) | SaaS | Enterprise K-12 y higher ed |
-| D2L Brightspace | SaaS | Canadá + higher ed, fuerte en adaptive |
-| SAP SuccessFactors LMS | SaaS | L&D corporativo enterprise |
+- **86%** de organizaciones educativas usan GenAI — mayor tasa de adopción de cualquier industria
+- **92%** de estudiantes usan AI activamente en su proceso de aprendizaje (vs. 66% en 2024)
+- **53%** de docentes usan AI (era 25% en 2023-24; se duplicó en un año)
+- **85M** estudiantes mundiales sirven plataformas de tutoring AI
+- **23%** mejora promedio en outcomes con adaptive learning
+- **71%** de instituciones de educación superior desplegarán adaptive learning en 2026 (vs. 34% en 2023)
+- **Khanmigo**: 40K → 700K usuarios en un año (17x de crecimiento YoY)
 
-### AI EdTech emergentes (competencia directa)
-| Player | Funding | Diferenciador |
-|--------|---------|---------------|
-| Khanmigo (Khan Academy) | Non-profit | Socrático AI para K-12, GPT-4 Turbo |
-| Synthesis | USD 70M+ | Adaptive math para K-12 |
-| Duolingo Max | Pública | RL-based language learning, 500M+ usuarios |
-| Quizlet AI | Series E | Flashcards + AI Study Assistant, 60M+ usuarios |
-| Carnegie Learning | PE-backed | MATHia: adaptive IA para matemáticas |
+## Players globales
 
-### Open Source leaders (aliados / bases)
-| Proyecto | Governance | Peso |
-|----------|-----------|------|
-| Moodle | Moodle HQ (Australia) | 400M+ usuarios, ecosistema enorme, GPL-3.0 |
-| Open edX | Axim Collaborative (non-profit) | Harvard/MIT/IBM, enterprise trust, AGPL |
-| Kolibri | Learning Equality (non-profit) | 200+ países, offline-first, MIT |
-| DeepTutor | HKUDS Lab (HKU) | 22k+ stars, agent-native pioneer, Apache-2.0 |
-| OpenMAIC | Tsinghua Univ | MIT desde jun 2026, multi-agent classroom |
-| LearnHouse | Open source community | LMS moderno con AI nativa, MIT |
+| Empresa | Tipo | Fortaleza AI | Estado open source |
+|---------|------|--------------|-------------------|
+| **Khan Academy** | ONG EdTech | Khanmigo (tutor + teacher tool); 700K usuarios; AI visibility #1 (5W Index jun-2026) | Contenido CC-BY; Khanmigo cerrado |
+| **Duolingo** | Startup → público | Max AI tutor (GPT-4o); 500M+ usuarios; #2 en AI visibility index | App cerrada; algunos datasets abiertos |
+| **Coursera** | Público (COUR) | Coursera Coach AI, AI Skills Hub, 148 cursos AI en 2025; #3 AI visibility | Cerrado; Open edX es la base |
+| **Google** | Big Tech | Socratic (homework helper); Google Classroom AI features; Gemini in Workspace for Edu | Parcialmente abierto (Socratic app) |
+| **Microsoft** | Big Tech | Copilot for Education; Teams EDU; Math Solver; Azure AI for Education | Parcialmente (VS Code Edu, algunos datasets) |
+| **Instructure** | EdTech | Canvas LMS (AGPL) + Anthropic Claude integration Q3 2026 | Canvas abierto (AGPL) |
+| **Moodle** | ONG/Cooperativa | AI Subsystem v2 en 4.6; marketplace de plugins AI | Moodle Core GPL; plugins MIT/Apache |
+| **2U / edX** | Público (TWOU) | Open edX + AI grading; BootCamps + degrees | edX platform AGPL |
+| **Chegg** | Público (CHGG) | AI study helper; afectado por ChatGPT (−75% acción en 2023) | Cerrado |
+| **Pearson** | Público (PSO) | AI textbooks, Mondly by Pearson; OAT para assessments | Herramientas de assessment cerradas |
 
-## Tendencias de inversión Q2 2026
+## Oportunidades AI en LATAM
 
-- **Microsoft** actualiza Education AI Toolkit con capacidades agentic (abr 2026) — señal fuerte de que enterprise ed está adoptando agentes
-- **Asia-Pacífico** lidera crecimiento: China, India, Japón integran AI en currículos obligatorios a nivel nacional
-- **L&D corporativo** es el segmento de más rápido crecimiento: empresas reemplazando LMS legacy con plataformas AI-native
-- **UNESCO Global Education Coalition** publicó directrices AI para educación — empuja adopción ética y regulada con docente en control
+| Oportunidad | Magnitud | Por qué Globant |
+|-------------|----------|-----------------|
+| **400M hispanohablantes subatendidos** — poca oferta EdTech AI en español de calidad | Alta | Globant tiene presencia en LATAM y equipos hispanohablantes |
+| **Brecha digital en universidades públicas** — Argentina, México, Colombia, Brasil con legacy LMS sin AI | Alta | Conocimiento profundo de sector público LATAM |
+| **Corporativo & reskilling** — empresa privadas buscando upskilling AI para empleados | Muy Alta | Globant ya presta servicios a Fortune 500 en LATAM |
+| **GovTech Educación** — licitaciones de ministerios de educación para plataformas AI | Media-Alta | Track record con sector público |
+| **Inclusión — dyslexia/ADHD AI tools** — mercado sin cubrir en español | Media | Diferenciador social y de compliance |
 
-## Segmentos de oportunidad para Globant
+## Posicionamiento Globant AI Studios — Education
 
-| Segmento | TAM 2026 | Madurez OSS | Oportunidad |
-|----------|----------|-------------|-------------|
-| L&D corporativo AI-native | USD 3.2B | Alta | ★★★★★ |
-| Higher ed adaptive learning | USD 2.1B | Alta (edX, Moodle) | ★★★★☆ |
-| K-12 personalización | USD 1.8B | Media | ★★★☆☆ |
-| Mercados emergentes offline | USD 0.9B | Alta (Kolibri) | ★★★★☆ |
-| Certificaciones + upskilling | USD 1.4B | Media | ★★★★☆ |
+**Propuesta de valor:**
+> "Aceleramos la transformación AI de plataformas educativas sobre Open edX, Moodle y Canvas — integrando tutoring adaptativo, generación de contenido y analytics de aprendizaje en 8-12 semanas."
 
-## Gaps en el ecosistema OSS (primera oportunidad para Globant)
+**Diferenciadores:**
+1. Stack open source (GPL/AGPL/Apache/MIT) — sin lock-in de vendor, auditable
+2. Modelos soberanos (Ollama + Claude) — datos de estudiantes on-prem o VPC privada
+3. LATAM-native: español, portugués, contextos curriculares locales (BNCC Brasil, Plan de Estudios México)
+4. Rapidez: patterns probados en gaming/healthcare aplicables a education
 
-1. **Adaptador PIX/OXXO/PSE para plataformas ed**: ninguna plataforma OSS tiene payment adapters LATAM nativos para monetización de cursos — gap de monetización regional
-2. **LMS offline-first con AI tutor en español**: Kolibri tiene contenido pero sin agente de tutoring en español — combinación Kolibri + Llama en español es un gap real y cuantificable
-3. **XBlock AI-native para Open edX**: no existe XBlock production-ready que integre LangGraph/DeepTutor — oportunidad de contribución open source con retorno de visibilidad
-4. **SCORM to AI bridge**: miles de cursos legacy SCORM en empresas LATAM sin migración path a AI — herramienta de migración/wrapper es un gap de mercado sin OSS competidor
-
-## Posicionamiento Globant AI Studios
-
-| Propuesta | Target | Diferenciador |
-|-----------|--------|---------------|
-| L&D AI-Native Accelerator | Empresas LATAM 1k+ empleados | Stack OSS completo MIT/Apache + expertise regional |
-| University AI Overlay | Universidades con Moodle/edX | Integración sin reemplazar el LMS existente |
-| Offline EdTech for LATAM | Clientes en zonas sin internet | Kolibri + Ollama: único stack completo offline |
-| SCORM Migration Factory | Corporaciones con cursos legacy | Migración masiva + RAG: gap de producto |
-
----
-*Ingest education v9 — 2026-07-11*
+**Ideal para:**
+- Universidades públicas LATAM con Moodle/Open edX legacy
+- Corporativos con 5k+ empleados buscando AI upskilling
+- EdTech startups acelerando su MVP de AI tutoring

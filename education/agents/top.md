@@ -7,26 +7,25 @@
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Agent-native personalized tutoring workspace: Chat, Deep Solve, Quiz Gen, Deep Research, Math Animator, Visualize — un loop de agentes compartido para todos los modos con memoria persistente entre sesiones | 22k+ |
-| [THU-MAIC/OpenMAIC](https://github.com/THU-MAIC/OpenMAIC) | MIT | Multi-agent interactive classroom de Tsinghua Univ: AI teachers con voz + pizarra + laser pointer, quizzes interactivos con grading en tiempo real, simulaciones HTML, PBL v2 (v0.3.0 jun 2026 — relicenció de AGPL a MIT) | ~3.8k |
-| [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | MIT | LMS next-gen con AI built-in: editor Notion-like, code execution en 30+ lenguajes con auto-grading, whiteboards colaborativos, IA contextual para enseñanza, certificados auto-generados. Stack: Next.js + FastAPI + PostgreSQL | ~2.1k |
-| [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | Plataforma agentica con LangGraph + RAG: convierte documentos estáticos en tutoring dinámico, genera planes de estudio adaptativos, quizzes, flashcards y mapas semánticos mediante active recall con pgvector | ~890 |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Apache-2.0 | Community Edition de plataforma colaborativa educativa AI-powered: diseñada para comunidad, base para Enterprise Edition, contribuciones abiertas, multi-idioma | ~650 |
-| [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) | MIT | Sistema de aprendizaje adaptativo con Reinforcement Learning: personaliza contenido según rendimiento, estilo de aprendizaje y engagement, recomienda paths óptimos con RL | ~420 |
-| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | Colección curada de papers de AI/LLM para educación: ITS, tutoring, grading automático, accesibilidad, evaluación de razonamiento — referencia de investigación para diseño de soluciones | ~1.1k |
-| [learningequality/kolibri](https://github.com/learningequality/kolibri) | MIT | Plataforma offline-first para educación universal: 200+ países, dispositivos de bajo costo, recursos OER, ideal para mercados emergentes sin internet confiable — base para AI offline con Ollama | ~942 |
-| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | SDK para construir componentes de learning custom en Open edX: base para integrar agentes AI dentro del LMS como actividades nativas interactivas | ~468 |
-| [openfun/richie](https://github.com/openfun/richie) | MIT | CMS open source para portales educativos: catalog management, search avanzado, integrable con Open edX, soporte i18n y A11y, base para frontends modernos | ~311 |
+| [DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Agent-native learning workspace: Chat, Quiz, Research, Visualize, Solve, Mastery Path — multi-engine RAG con LlamaIndex + LightRAG + GraphRAG + PageIndex. FastAPI + Next.js 16. | 25.5k |
+| [Bloom](https://github.com/Li-Evan/Bloom) | MIT | Tutor privado AI basado en Bloom's 2-Sigma research: genera syllabus adaptativo, enseña con método socrático, ajusta la siguiente lección al nivel real del alumno. Claude Code skill + webapp self-hostable. | 196 |
+| [OATutor](https://github.com/CAHLR/OATutor) | MIT | Open-source Adaptive Tutoring System del grupo CAHLR/Berkeley. Bayesian Knowledge Tracing (BKT) para estimación de maestría, sin backend requerido (ReactJS + localForage + Firebase opcional). | 221 |
+| [Human Skill Tree](https://github.com/nichochar/human-skill-tree) | MIT | Plataforma de aprendizaje cognitivo K-12 → carrera: 30+ skills con spaced repetition y science-based progression. TypeScript. | 583 |
+| [Anki MCP Server](https://github.com/scaphandre/anki-mcp) | MIT | Integra AI assistants con Anki via Model Context Protocol — genera flashcards automáticamente, programa revisiones, responde dudas sobre el mazo activo. TypeScript. | 370 |
+| [AlgoSensei](https://github.com/algosensei/algosensei) | MIT | Mentor AI para algoritmos y estructuras de datos (LeetCode/DSA): entrevistas mock, hints progresivos, multi-lenguaje, explica complejidad Big-O paso a paso. Python. | 186 |
+| [Open-TutorAI CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Apache-2.0 | Plataforma educativa colaborativa AI-powered: clonación de exámenes, resolución multi-agente, knowledge graphs, evaluación teach-back, 12 idiomas, web + móvil. Python. | 420 |
+| [OmniTutor](https://github.com/Sule-Bashir/omni-tutor) | MIT | Tutor AI en vivo con Gemini 2.5 Flash-Lite: escucha, ve y enseña en tiempo real. Primer tutor multimodal live de la Gemini Live Agent Challenge 2026. | 310 |
+| [AI_Tutor KG-RAG](https://github.com/098765d/AI_Tutor) | MIT | Tutor adaptativo LLM + RAG para cualquier curso universitario. Genera Knowledge Graph del currículo, hace preguntas KG-guided, evalúa comprensión. ICEIT 2025 IEEE. Python. | 145 |
+| [Claw-ED](https://github.com/SirhanMacx/claw-ed) | MIT | CLI open source que genera lesson bundles completos en la "voz docente": 48+ tools, output de 9 archivos, local-first privacy, zero-touch generation. TypeScript. | 53 |
 
 ---
 
-## Por qué estos proyectos
+## Notas de evaluación
 
-- **DeepTutor** es el agente de tutoring más estrellado del mundo en su categoría (22k en 7 meses desde dic 2025), con arquitectura agent-native reproducible — no un chatbot, sino un loop de agentes con memoria persistente.
-- **OpenMAIC** relicenció a MIT el 28 jun 2026 — ahora completamente usable en proyectos comerciales. El modelo multi-agente (maestro IA + compañeros IA) es el patrón más innovador de educación inmersiva.
-- **LearnHouse** es el LMS moderno open source con AI nativa más maduro: reemplaza Moodle en despliegues nuevos con stack moderno (MIT).
-- **EduAgent** provee el patrón RAG-sobre-materiales-del-cliente más deployable: LangGraph + pgvector + FastAPI, listo para customización.
-- **Kolibri** es crítico para clientes LATAM: funciona sin internet, corre en hardware económico, ya desplegado en 200+ países.
+- **DeepTutor** es el más completo y production-ready: agente unificado con memoria L1/L2/L3, MCP servers, EduHub de community skills, Docker deploy. Arranque de proyecto enterprise-grade.
+- **Bloom** + **OATutor** son complementarios: Bloom para UX conversacional socrática, OATutor para modelado de conocimiento con BKT — buena combinación para adaptive tutoring.
+- **Open-TutorAI CE** es el más equipado para el contexto LATAM: multilenguaje (español incluido), auto-hosted, exam cloning.
+- **Anki MCP** demuestra el patrón MCP-into-LMS: conectar agentes a plataformas existentes sin redescribir la app base.
 
 ---
-*Ingest education v9 — 2026-07-11*
+*Actualizado automáticamente por el pipeline de ingest.*
