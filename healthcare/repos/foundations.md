@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Healthcare AI
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-10 (v7 — PhysicianBench Stanford HealthRex, MA-RAG ICML 2026, DermAgent MICCAI 2026, EHR-Complex MIMIC-IV benchmark)
+> Última actualización: 2026-07-11 (v8 — BiomedGPT 930M MIT Nature Machine Intelligence, gersteinlab/MedAgents ACL 2024)
 
 ## Plataformas y frameworks base
 
@@ -20,6 +20,8 @@
 | [epfLLM/meditron](https://github.com/epfLLM/meditron) | Apache-2.0 | EPFL — Suite de LLMs médicos open source. Meditron-7B y 70B adaptados de Llama-2, pretraining en 48B tokens médicos (PubMed, guías clínicas, datos generales). Referencia en benchmarks MedQA, MedMCQA, PubMedQA. Fine-tunable para dominios específicos. | ✅ LLM médico base para fine-tuning o RAG |
 | [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Local-first healthcare AI: NER clínica + de-identificación HIPAA PII 100% on-device. 1,000+ modelos médicos, 12 idiomas, Apple MLX + Python. Zero cloud, zero PHI exposure. | ✅ Privacidad total — ideal para HIPAA/LGPD estricto / Sovereign AI |
 | [biocypher/biochatter](https://github.com/biocypher/biochatter) | MIT | Framework LLM para biomedicina: knowledge graphs, RAG, model chaining, soporta modelos locales Ollama. Base para chatbots médicos con privacidad y trazabilidad. | ✅ Knowledge graph + LLM en biomedical research |
+| [taokz/BiomedGPT](https://github.com/taokz/BiomedGPT) | MIT | **BiomedGPT** — Modelo fundacional generalista visión-lenguaje para 20+ tareas biomédicas (visual QA, report gen, classification, segmentation). Checkpoints XL 930M parámetros (jul 2025). Publicado en Nature Machine Intelligence. Fine-tunable on-prem para imágenes clínicas sin enviar PHI al cloud. | ✅ Modelo base vision-language médico on-prem |
+| [gersteinlab/MedAgents](https://github.com/gersteinlab/MedAgents) | Apache-2.0 | **MedAgents** (ACL 2024 Findings) — Framework multi-LLM para razonamiento médico zero-shot. Orquesta múltiples LLMs como "especialistas" que razonan y votan consenso. Benchmarked MedQA, MedMCQA, PubMedQA. Compatible con cualquier LLM (Claude, GPT-4, Llama, Meditron). | ✅ Orquestador de agentes especializados médicos |
 
 ## 🆕 Repos de evaluación — Benchmarks de referencia (v7, Jul 2026)
 

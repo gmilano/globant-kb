@@ -1,7 +1,7 @@
 # 📡 Tendencias — Healthcare AI 2026
 
 > Señales de mercado, tecnológicas y regulatorias. Basado en investigación profunda.
-> Última actualización: 2026-07-10 (v7 — T21 Assort Health Agentic OS, T22 Sovereign AI hospital, T23 Cardiology specialization wave, T24 Benchmark cascade del mundo real)
+> Última actualización: 2026-07-11 (v8 — T25 NVIDIA Healthy Taiwan USD 1.5B Sovereign AI público, T26 MedBeads agent-native data substrate)
 
 ## 🔥 Tendencia #1: Agentic AI pasa de piloto a empresa
 
@@ -298,6 +298,37 @@ NVIDIA IGX (healthcare-grade edge computing)
 - El resultado real del benchmark es el número honesto que presentas al CIO, no el de un demo controlado
 - Los modos de falla indican las especializaciones de engineering requeridas: dictionary de medical codes + policy RAG + clinical intent parsing
 - Proyectos que Globant cotice deben aclarar qué benchmarks pasaron y cuáles no — la transparencia genera confianza y reduce riesgo de reputación
+
+---
+
+## 🆕🆕 Tendencia #25: NVIDIA "Healthy Taiwan" — Sovereign AI hospitalario a escala nacional (Jun 2026)
+
+**Señal**: NVIDIA + Foxconn + hospitales académicos de Taiwán anuncian junio 2026 la inversión de **USD 1.5B** para desplegar agentic AI en hospitales con infraestructura totalmente on-premise.
+
+**Stack desplegado**: NVIDIA IGX (edge AI compute) + Clara Holoscan + NIM microservices + BioNeMo (drug discovery) + ambient scribe local.
+
+**Por qué es un inflexión**: Es la primera iniciativa pública a escala nacional que elige el modelo Sovereign AI (on-prem) sobre cloud. Señal clara al mercado: la soberanía de datos clínicos pesa más que la conveniencia cloud.
+
+**Para Globant**: Template replicable para hospitales públicos en Brasil (LGPD), México (IMSS data locality), Argentina (directiva IA soberana). Deal pattern: $200k–$800k para Sovereign AI deployment completo.
+
+---
+
+## 🆕🆕 Tendencia #26: MedBeads — El substrato de datos diseñado para agentes clínicos (Feb 2026)
+
+**Señal**: Paper arXiv:2602.01086 — "MedBeads: An Agent-Native, Immutable Data Substrate for Trustworthy Medical AI"
+
+**Problema que resuelve**: Los EHRs fueron diseñados para humanos, no para agentes AI. Los agentes leen registros raw → alta tasa de hallucination + pobre auditoría + conflictos entre datos.
+
+**Propuesta**: Cada evento clínico se encapsula como un "bead" — unidad de datos atómica, inmutable, con hash criptográfico y metadatos de provenance. Los agentes consumen beads en lugar de registros raw.
+
+**Propiedades**:
+1. **Inmutabilidad**: Una vez creado, un bead no puede modificarse (solo invalidarse con un nuevo bead que referencia el anterior)
+2. **Trazabilidad**: Cada bead sabe quién lo creó, cuándo, con qué fuente
+3. **Agent-native**: Formato diseñado para ser consumido por agentes LLM, no por interfaces UI
+
+**Relación con FHIR**: Los beads pueden mapearse a FHIR Resources (Observation, Condition, MedicationRequest), con AuditEvent como registro de creación.
+
+**Para Globant**: Adoptar el patrón MedBeads como capa de datos en proyectos de AI con requisitos de compliance alto (FDA SaMD, EU AI Act High Risk). El patrón es más exigente que FHIR solo pero es el camino hacia agentes autónomos con auditoría regulatoria completa.
 
 ---
 

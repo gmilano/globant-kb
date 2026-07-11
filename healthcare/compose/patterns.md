@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Healthcare AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-10 (v7 — P16 HeartAgent cardiology specialization, P17 Sovereign AI on-prem hospital — 17 patrones totales)
+> Última actualización: 2026-07-11 (v8 — P18 Drug Interaction Checker, P19 Triage Chatbot paciente, P20 MedAgents CDSS multi-especialidad — 20 patrones totales)
 
 ## Arquitectura base
 
@@ -816,4 +816,87 @@ class FederatedHospitalLearning:
 
 ---
 
-*Actualizado automáticamente por el pipeline de ingest. v7 — 17 patrones totales.*
+---
+
+## 🆕 Patrón 18: Drug Interaction Checker + Prescripción Asistida (v8)
+
+**Caso de uso**: Alertar al médico sobre interacciones medicamentosas antes de confirmar la prescripción; reducir errores de prescripción -40% (FDA meta-análisis 2024).
+
+**Repos**:
+- `allenai/scispacy` (MIT) — NER para extraer nombres de fármacos del texto
+- RxNorm API (NIH, gratuito) — normalización de nombres de medicamentos a RxCUI estándar
+- DrugBank Open Data (CC BY-NC 4.0) — base de datos de interacciones conocidas
+- `openemr/openemr` (GPL-3.0) — integración con módulo e-prescribing
+- Claude claude-sonnet-5 — explicar la interacción en lenguaje clínico comprensible
+
+**Flujo**:
+```
+Médico escribe prescripción (texto libre)
+    ↓ scispaCy NER: extrae entidades medicamento
+    ↓ RxNorm API: nombre → RxCUI estándar
+    ↓ DrugBank: query interacciones para cada par de fármacos
+Lista de interacciones + severidad (mayor/moderada/leve)
+    ↓ Claude: explica en lenguaje clínico + sugiere alternativa
+Alert card al médico → [Human gate] confirma o modifica
+    ↓ OpenEMR e-prescribing write
+```
+
+**Time-to-value**: 2–3 semanas | **ROI**: -40% errores de prescripción | **Deal size**: $50k–$150k
+
+---
+
+## 🆕 Patrón 19: Chatbot de Triaje y Onboarding del Paciente (v8)
+
+**Caso de uso**: Chatbot que recoge síntomas e historia clínica antes de la consulta, asigna urgencia, y prepara resumen para el médico. -20% tiempo de consulta; +30% satisfacción (Philips 2026).
+
+**Repos**:
+- Claude claude-haiku-4-5 — conversación de triaje rápida (10x menor costo que Sonnet)
+- `medspacy/medspacy` (MIT) — extracción de síntomas del texto libre del paciente
+- `ohcnetwork/care_fe` (MIT) — frontend React + Django; registro EHR y asignación urgencia
+- `hapifhir/hapi-fhir` (Apache-2.0) — output como FHIR QuestionnaireResponse + Appointment
+
+**Flujo**:
+```
+Paciente abre app (web o WhatsApp)
+    ↓ Claude Haiku: conversación multi-turn (síntomas, duración, severidad, historial)
+    ↓ medspaCy: extrae entidades clínicas estructuradas
+    ↓ Urgency scoring (ESI-like algorithm)
+    ↓ FHIR QuestionnaireResponse + Appointment FHIR write
+Médico entra a consulta con resumen completo (30 segundos lectura)
+```
+
+**LATAM tip**: Integrar con WhatsApp Business API (>90% penetración LATAM); Claude Haiku responde en español nativo.
+
+**Time-to-value**: 2–3 semanas | **Deal size**: $40k–$150k
+
+---
+
+## 🆕 Patrón 20: MedAgents CDSS Multi-Especialidad (v8)
+
+**Caso de uso**: CDSS donde múltiples agentes LLM (cardiólogo, internista, farmacólogo) razonan en paralelo sobre el caso y llegan a consenso antes de presentar al médico.
+
+**Repos**:
+- `gersteinlab/MedAgents` (Apache-2.0) — framework multi-LLM consensus (ACL 2024 Findings)
+- `hapifhir/hapi-fhir` (Apache-2.0) — FHIR para recuperar historia del paciente
+- `NJU-RL/MA-RAG` (MIT) — multi-round RAG para resolver conflictos entre especialistas
+- LangGraph (MIT) — orquestación del grafo de agentes especialistas
+- Claude claude-opus-4-8 — agente de síntesis final ("attending" que consolida)
+
+**Flujo**:
+```
+Caso clínico (FHIR Bundle)
+    ↓ LangGraph: dispatch a 3 agentes especializados en paralelo
+    [Cardiólogo LLM] [Internista LLM] [Farmacólogo LLM]
+    ↓ cada agente razona + cita evidencia
+    ↓ MA-RAG: detecta conflictos + busca evidencia adicional
+    ↓ Claude Opus: síntesis "attending" → recomendación final
+Recomendación con referencias + nivel de evidencia
+    ↓ [Human gate] Médico revisor aprueba/modifica
+FHIR ClinicalImpression write + AuditEvent (Non-Device CDS FDA 2026)
+```
+
+**Time-to-value**: 4–6 semanas | **ROI**: -25% reingresos (Mayo Clinic benchmark) | **Deal size**: $80k–$300k
+
+---
+
+*Actualizado automáticamente por el pipeline de ingest. v8 — 20 patrones totales.*

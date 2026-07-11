@@ -1,7 +1,7 @@
 # 📈 Repos Healthcare trending — Julio 2026
 
 > Repos con mayor actividad, estrellas recientes y relevancia para proyectos AI en salud.
-> Última actualización: 2026-07-10 (v7 — DermAgent MICCAI 2026, MA-RAG ICML 2026, PhysicianBench Stanford, EHR-Complex MIMIC-IV, HeartAgent cardiology specialization wave)
+> Última actualización: 2026-07-11 (v8 — BiomedGPT 1.7k MIT 930M, gersteinlab/MedAgents 1.1k ACL 2024, NVIDIA Healthy Taiwan USD 1.5B valida Sovereign AI open-source stack)
 
 ## 🆕 Repos nuevos en el radar (v7 — Jul 10, 2026)
 

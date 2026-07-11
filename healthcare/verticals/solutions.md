@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional (EHR, HIS, LIS, imaging), añadir capa agéntica arriba.
-> Última actualización: 2026-07-10 (v7 — Sovereign AI on-prem pattern, Assort Health agentic patient access OS pattern, HeartAgent specialty deployment)
+> Última actualización: 2026-07-11 (v8 — OpenEMR v8.0.0 ONC-certified SMART on FHIR v2.2.0; Medplum FHIR-native Apache-2.0; OpenELIS LIS LATAM; Healthy Taiwan USD 1.5B valida on-prem stack)
 
 ## Plataformas EHR / HIS
 

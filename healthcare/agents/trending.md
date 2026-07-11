@@ -1,7 +1,53 @@
 # 📈 Agentes Healthcare trending — Julio 2026
 
 > Qué está ganando tracción esta semana en el ecosistema AI de salud.
-> Última actualización: 2026-07-10 (v7 — Assort Health $120M@$1.2B agentic OS, Q2 2026 $4.1B record, HeartAgent/DermAgent/EchoAgent specialization wave, Sovereign AI trend, MA-RAG ICML 2026, PhysicianBench, EHR-Complex)
+> Última actualización: 2026-07-11 (v8 — NVIDIA+Foxconn Healthy Taiwan USD 1.5B, MedBeads agent-native data substrate, MedAgents gersteinlab ACL 2024, BiomedGPT 930M)
+
+## 🆕 v8 — Señales críticas nuevas (Jul 11, 2026)
+
+---
+
+### Señal v8-1: NVIDIA + Foxconn "Healthy Taiwan" — USD 1.5B para agentic AI hospitalaria (Jun 2026)
+
+**Señal**: NVIDIA, Foxconn y principales instituciones médicas de Taiwán anunciaron junio 2026 una inversión de **USD 1.5B** para desplegar agentic AI en hospitales taiwaneses.
+
+- **Foco**: clinical decision-making, coordinación multidisciplinar, documentación clínica automática, operaciones hospitalarias
+- **Partners**: National Taiwan University Hospital, Chang Gung Memorial Hospital, Taipei Veterans General Hospital
+- **Infraestructura**: NVIDIA IGX + Clara Holoscan + NIM microservices on-premise
+- **Impacto para Globant**: El mayor despliegue de AI hospitalaria pública de 2026. Valida el modelo Sovereign AI on-premise. Patrón replicable en hospitales públicos LATAM ($200k–$800k deal size).
+
+---
+
+### Señal v8-2: MedBeads — Agent-Native Immutable Data Substrate (arXiv Feb 2026)
+
+**Paper**: [arxiv.org/abs/2602.01086](https://arxiv.org/abs/2602.01086) — "MedBeads: An Agent-Native, Immutable Data Substrate for Trustworthy Medical AI"
+
+- Propone una capa de datos diseñada específicamente para agentes AI en salud
+- Cada "bead" encapsula un evento clínico (lab, vital, diagnosis, medication) con trazabilidad criptográfica e inmutabilidad
+- Los agentes consumen "beads" en lugar de registros raw → menos hallucination, mejor auditoría
+- **Por qué importa**: prerequisito arquitectónico para agentes autónomos que requieren auditoría regulatoria (FDA SaMD, EU AI Act). El patrón natural para combinar con FHIR AuditEvent.
+- **Para Globant**: Adoptar el patrón MedBeads como capa de datos en proyectos con requisitos de compliance alto (CDSS, prior auth, triage autónomo).
+
+---
+
+### Señal v8-3: MedAgents (gersteinlab, ACL 2024) sigue siendo el framework de consenso médico más replicado
+
+- Repo: [gersteinlab/MedAgents](https://github.com/gersteinlab/MedAgents) — Apache-2.0 — 1.1k stars y creciendo
+- El patrón de "múltiples LLMs como especialistas → consenso" supera GPT-4 solo en 4/6 subtareas clínicas
+- El código es simple y portable: cualquier LLM API (Claude, GPT-4, Llama) puede actuar como "especialista"
+- **Para Globant**: Usar como base de CDSS multi-especialidad. Combinar con MA-RAG para RAG + consensus.
+
+---
+
+### Señal v8-4: BiomedGPT 930M (MIT) — Modelo base generalista para 20+ tareas biomédicas
+
+- Repo: [taokz/BiomedGPT](https://github.com/taokz/BiomedGPT) — MIT — 1.7k stars
+- Checkpoints hasta 930M parámetros publicados Jul 2025 (Nature Machine Intelligence)
+- Cubre: visual QA, image captioning, classification, segmentation, medical report generation
+- Fine-tunable para dominio específico (retinología, dermatología, patología, radiología)
+- **Para Globant**: Alternativa open-source MIT a APIs de vision cloud para proyectos donde PHI no puede salir del hospital. Combinar con torchio (preprocessing 3D) y hi-ml (MLOps Azure).
+
+---
 
 ## 🆕 v7 — Señales críticas nuevas (Jul 10, 2026)
 

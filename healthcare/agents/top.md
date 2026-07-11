@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Healthcare
 
 > Agentes y herramientas AI open source para la industria de salud. Foco: MIT / Apache 2.0 / BSD.
-> Última actualización: 2026-07-10 (v7 — HeartAgent cardiology, DermAgent MICCAI 2026, BAAI Cardiac Agent, EchoAgent, MA-RAG ICML 2026, PhysicianBench HealthRex/Stanford, HealthAdminBench)
+> Última actualización: 2026-07-11 (v8 — MedAgents gersteinlab ACL 2024, BiomedGPT 930M, Healthy Taiwan USD 1.5B NVIDIA+Foxconn Jun 2026)
 
 ## Agentes y herramientas destacadas
 
@@ -23,6 +23,15 @@
 | [awesome-medical-ai](https://github.com/JuneYaooo/awesome-medical-ai) | MIT | Lista curada de proyectos AI médicos y de salud: LLMs, imágenes médicas, sistemas multi-agente, software clínico. Referencia integral del ecosistema 2025-2026. | ~400 |
 | [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | Plataforma healthcare developer full-stack TypeScript. FHIR-native, HIPAA+SOC2 out-of-box, "Bots" para server-side logic sin infraestructura propia, UI components. El "Vercel for healthcare" — ideal para construir apps AI clínicas sobre FHIR sin partir de cero. | 1.5k+ |
 | [OpenAPS/oref0](https://github.com/openaps/oref0) | MIT | OpenAPS — artificial pancreas system open source. El primer sistema de closed-loop insulin delivery patient-liderado. CGM → algoritmo de ajuste de dosis basal → pump. 2,500+ pacientes T1D globalmente. Referencia de FDA AID (Automated Insulin Delivery) pathway. | ~2k |
+
+---
+
+## 🆕 v8 — Nuevos Agentes y Frameworks (Jul 11, 2026)
+
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [gersteinlab/MedAgents](https://github.com/gersteinlab/MedAgents) | Apache-2.0 | **MedAgents** (ACL 2024 Findings) — Framework multi-LLM colaborativo para razonamiento médico zero-shot. Múltiples agentes LLM actúan como "especialistas" que razonan y llegan a consenso. Benchmarked en MedQA, MedMCQA, PubMedQA, USMLE + 6 subtareas (anatomy, clinical knowledge, medical genetics, professional medicine). Supera GPT-4 solo en razonamiento médico complejo. | 1.1k |
+| [taokz/BiomedGPT](https://github.com/taokz/BiomedGPT) | MIT | **BiomedGPT** — Modelo fundacional generalista visión-lenguaje para 20+ tareas biomédicas diversas: visual QA, imagen report, classification, segmentation, generation. Checkpoints XL hasta 930M parámetros publicados Jul 7, 2025. Fine-tunable para dominio médico específico. Publicado en Nature Machine Intelligence. | 1.7k |
 
 ---
 

@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Healthcare AI 2026
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-10 (v7 — Q2 2026 $4.1B record, Assort Health $120M@$1.2B, Amigo AI $11M, Bessemer State of Health AI 2026, RadNet AI mammography 43% better detection)
+> Última actualización: 2026-07-11 (v8 — NVIDIA+Foxconn Healthy Taiwan USD 1.5B Jun 2026, Agentic AI Healthcare $1.14–1.83B → $19.7–33.7B CAGR 34.6–45.6%)
 
 ## Mercado Global — Tamaño y Proyecciones
 
@@ -26,6 +26,16 @@
 | Budget AI aprobado para 2026 | 61% | BCG Ene 2026 |
 | Agentes AI en producción | solo **3%** | Brecha masiva piloto→producción |
 | Orgs planean aumentar budget AI | 85% | NVIDIA Survey 2026 |
+
+## 🆕 Iniciativa pública v8 — NVIDIA + Foxconn "Healthy Taiwan" USD 1.5B (Jun 2026)
+
+| Iniciativa | Inversión | Partners | Foco |
+|------------|-----------|----------|------|
+| NVIDIA + Foxconn "Healthy Taiwan" | **USD 1.5B** | NTU Hospital, Chang Gung, Taipei VGH + NVIDIA + Foxconn | Agentic AI on-prem en hospitales; IGX + Clara + NIM microservices |
+
+**Impacto de mercado**: El mayor despliegue público de AI hospitalaria de 2026. Valida Sovereign AI on-premise como modelo estándar. Patrón replicable en hospitales públicos LATAM con infraestructura NVIDIA.
+
+---
 
 ## 🆕 Funding Round Tracker (v7 — Jul 2026)
 
