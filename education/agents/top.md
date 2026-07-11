@@ -1,22 +1,32 @@
 # 🎯 Agentes AI — Education
 
-> Agentes y herramientas AI open source para la industria. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-10 (v6)
+> Agentes y herramientas AI open source para la industria educativa. Foco: MIT / Apache 2.0.
+> Última actualización: 2026-07-11
 
 ## Agentes y herramientas destacadas
 
 | Nombre | Licencia | Descripción | Stars |
 |--------|----------|-------------|-------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Agent-native personalized learning assistant. Dual-loop reasoning: outer loop tracks knowledge state, inner loop generates targeted explanations. 30+ LLM providers, self-hostable. v1.5.0 Jul 4 2026: Book Engine (chat history → structured living books), multi-user isolated workspaces, community-driven. | 25.2k |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Apache-2.0 | Community Edition of Open TutorAI: LLM-powered personalized tutoring platform, RAG over course PDFs, adaptive hint generation, Ollama + OpenAI-compatible APIs, multi-model conversations. arXiv:2602.07176. | 320 |
-| [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions) | Apache-2.0 | Official Open edX AI plugin: modular, extensible architecture for AI-powered workflows in the LMS. Grading hooks, content recommendation slots, student-support agent interface. | 210 |
-| [microsoft/moodle-ai-assistant](https://github.com/microsoft/moodle-ai-assistant) | MIT | Production-ready AI Agent accelerator for Moodle. RAG over course materials, FAQ agent, grading assistant. Configurable for Claude or local models (not just Azure OpenAI). | 85 |
-| [classroomio/classroomio](https://github.com/classroomio/classroomio) | MIT | Modern open-source LMS for companies: courses, assignments, AI-augmentable grading, certificates. Built with Svelte + Supabase. MCP server (@classroomio/mcp on npm). Best MIT option for greenfield corporate training. | 1.5k |
-| [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) | MIT | AI-driven adaptive learning system using reinforcement learning for optimal learning path recommendation. Personalizes content based on student performance, learning style, and engagement. Adaptive quiz generation, knowledge tracing, policy gradient RL. | ~45 |
-| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | Curated survey of 500+ AI/LLM education research papers. Covers AI tutoring, automated assessment, knowledge tracing, MOOC personalization, and adaptive learning. | 680 |
-| [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | AGPL-3.0 | Next-gen open source learning platform. Block-based content editor, code execution with auto-grading in 30+ languages, real-time collaborative whiteboards, AI-generated interactive elements, context-aware AI. Built on Next.js + FastAPI + Postgres. | ~390 |
-| [ECuiDev/obsidian-quiz-generator](https://github.com/ECuiDev/obsidian-quiz-generator) | MIT | Generate interactive flashcards and quizzes from Obsidian notes using OpenAI/Anthropic models. Exports to Anki format and Moodle GIFT format. Ready for LMS integration. | 175 |
-| [moodlehq/moodleapp](https://github.com/moodlehq/moodleapp) | Apache-2.0 | Official Moodle mobile app (Ionic + Angular). Foundation for mobile-first AI tutor plugins; add AI copilot for on-the-go agentic learning. | 979 |
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Agent-native personalized tutoring workspace: Chat, Deep Solve, Quiz Gen, Deep Research, Math Animator, Visualize — un loop de agentes compartido para todos los modos con memoria persistente entre sesiones | 22k+ |
+| [THU-MAIC/OpenMAIC](https://github.com/THU-MAIC/OpenMAIC) | MIT | Multi-agent interactive classroom de Tsinghua Univ: AI teachers con voz + pizarra + laser pointer, quizzes interactivos con grading en tiempo real, simulaciones HTML, PBL v2 (v0.3.0 jun 2026 — relicenció de AGPL a MIT) | ~3.8k |
+| [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | MIT | LMS next-gen con AI built-in: editor Notion-like, code execution en 30+ lenguajes con auto-grading, whiteboards colaborativos, IA contextual para enseñanza, certificados auto-generados. Stack: Next.js + FastAPI + PostgreSQL | ~2.1k |
+| [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | Plataforma agentica con LangGraph + RAG: convierte documentos estáticos en tutoring dinámico, genera planes de estudio adaptativos, quizzes, flashcards y mapas semánticos mediante active recall con pgvector | ~890 |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Apache-2.0 | Community Edition de plataforma colaborativa educativa AI-powered: diseñada para comunidad, base para Enterprise Edition, contribuciones abiertas, multi-idioma | ~650 |
+| [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) | MIT | Sistema de aprendizaje adaptativo con Reinforcement Learning: personaliza contenido según rendimiento, estilo de aprendizaje y engagement, recomienda paths óptimos con RL | ~420 |
+| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | Colección curada de papers de AI/LLM para educación: ITS, tutoring, grading automático, accesibilidad, evaluación de razonamiento — referencia de investigación para diseño de soluciones | ~1.1k |
+| [learningequality/kolibri](https://github.com/learningequality/kolibri) | MIT | Plataforma offline-first para educación universal: 200+ países, dispositivos de bajo costo, recursos OER, ideal para mercados emergentes sin internet confiable — base para AI offline con Ollama | ~942 |
+| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | SDK para construir componentes de learning custom en Open edX: base para integrar agentes AI dentro del LMS como actividades nativas interactivas | ~468 |
+| [openfun/richie](https://github.com/openfun/richie) | MIT | CMS open source para portales educativos: catalog management, search avanzado, integrable con Open edX, soporte i18n y A11y, base para frontends modernos | ~311 |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+
+## Por qué estos proyectos
+
+- **DeepTutor** es el agente de tutoring más estrellado del mundo en su categoría (22k en 7 meses desde dic 2025), con arquitectura agent-native reproducible — no un chatbot, sino un loop de agentes con memoria persistente.
+- **OpenMAIC** relicenció a MIT el 28 jun 2026 — ahora completamente usable en proyectos comerciales. El modelo multi-agente (maestro IA + compañeros IA) es el patrón más innovador de educación inmersiva.
+- **LearnHouse** es el LMS moderno open source con AI nativa más maduro: reemplaza Moodle en despliegues nuevos con stack moderno (MIT).
+- **EduAgent** provee el patrón RAG-sobre-materiales-del-cliente más deployable: LangGraph + pgvector + FastAPI, listo para customización.
+- **Kolibri** es crítico para clientes LATAM: funciona sin internet, corre en hardware económico, ya desplegado en 200+ países.
+
+---
+*Ingest education v9 — 2026-07-11*

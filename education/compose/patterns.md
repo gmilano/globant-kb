@@ -1,618 +1,228 @@
 # 🧩 Patrones de composición — Education
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-10 (v6)
+> Última actualización: 2026-07-11
 
-## Arquitectura base
+## Stack base
 
 ```
-[Plataforma vertical base (Moodle / Open edX / ClassroomIO / LearnHouse)]
+[Plataforma vertical base (open source)]
           ↓
-[Plugin/Extension AI (openedx-ai-extensions / moodle-ai-assistant / @classroomio/mcp)]
+[Capa de integración AI (API Gateway / LangGraph)]
           ↓
-[Motor de tutoring (DeepTutor v1.5 / Open TutorAI CE / EduAdapt-AI RL)]
+[Agentes especializados de Education]
           ↓
-[Orquestador multi-agente (LangGraph / CrewAI)]
-          ↓
-[LLM Backend (Claude Sonnet 4.5 / Haiku 4.5 / Ollama local)]
-          ↓
-[Data pipeline (xAPI engagement events → alertas → analytics → Book Engine)]
+[UI conversacional / dashboard docente / API cliente]
 ```
 
 ---
 
-## P1: Moodle AI Copilot (Quick Start)
-**Tiempo**: 4–8 semanas | **Deal**: $80k–$250k | **Licencias**: MIT + GPL
+## Patrón P1 — Corporate L&D AI Tutor (LearnHouse + EduAgent + DeepTutor)
 
-### Stack
-- **LMS base**: Moodle (GPL-3.0, 6.1k★)
-- **AI plugin**: microsoft/moodle-ai-assistant (MIT)
-- **LLM**: Claude Haiku 4.5 via Anthropic API (cost-efficient para volumen)
-- **RAG**: PDFs del curso → pgvector o Qdrant
+**Objetivo**: reemplazar LMS legacy corporativo con stack agent-native para capacitación interna.
 
-### Receta
-```python
-# 1. Deploy Moodle via Docker Compose
-# 2. Install microsoft/moodle-ai-assistant plugin:
-#    git clone https://github.com/microsoft/moodle-ai-assistant moodle/local/aiassistant
+**Stack**:
+- [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) (MIT) — LMS base moderno
+- [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) (MIT) — RAG sobre materiales del cliente
+- [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) (Apache-2.0) — tutoring multi-modo
+- Ollama + Llama 3.1 8B (on-prem) o Claude 3.5 Haiku (cloud)
+- pgvector (embeddings semánticos de documentos)
 
-from anthropic import Anthropic
-import qdrant_client
+**Flujo**:
+1. Cliente sube documentos de capacitación (PDFs, PPTs, transcripciones) → EduAgent los indexa con pgvector
+2. Empleado entra a LearnHouse → DeepTutor como actividad nativa via API interna
+3. DeepTutor tutoriza en modo Chat → detecta gap → activa modo Quiz → genera flashcards
+4. EduAgent resuelve Q&A grounding respuestas en documentos del cliente (con citations)
+5. Dashboard de L&D: completion rates, knowledge gaps por competencia, riesgo de abandono
 
-client = Anthropic()
-qdrant = qdrant_client.QdrantClient(url="http://localhost:6333")
-
-def index_course_materials(course_id: str, pdf_paths: list[str]) -> None:
-    """Index Moodle course PDFs into Qdrant for RAG."""
-    for pdf_path in pdf_paths:
-        chunks = extract_and_chunk_pdf(pdf_path)
-        vectors = embed_chunks(chunks)  # via Claude or local model
-        qdrant.upsert(collection_name=f"course_{course_id}", points=vectors)
-
-def answer_student_question(question: str, course_id: str) -> str:
-    context = retrieve_top_k_chunks(question, course_id, k=5)
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=1024,
-        system="You are a helpful course assistant. Answer using only the course materials provided.",
-        messages=[{
-            "role": "user",
-            "content": f"Course materials:\n{context}\n\nStudent question: {question}"
-        }]
-    )
-    return response.content[0].text
-```
-
-### Cuándo usar
-Cliente universidad LATAM con Moodle existente que quiere añadir AI sin migrar la plataforma. Deploy en 4 semanas sobre infraestructura existente.
+**Tiempo estimado**: 8-12 semanas
+**Rango de proyecto Globant**: USD 80k-250k
+**Diferenciador**: todo on-prem o EU/LATAM data residency — no datos salen a OpenAI
 
 ---
 
-## P2: Open edX Personalized Learning Engine
-**Tiempo**: 10–16 semanas | **Deal**: $200k–$600k | **Licencias**: Apache-2.0
+## Patrón P2 — Higher Ed Adaptive MOOC (Open edX + XBlock AI + LangGraph)
 
-### Stack
-- **LMS base**: Open edX platform (Apache-2.0, 9.6k★)
-- **AI plugin**: openedx-ai-extensions (Apache-2.0)
-- **Tutoring engine**: HKUDS/DeepTutor (Apache-2.0, 25.2k★) vía REST API
-- **Orchestration**: LangGraph
-- **LLM**: Claude Sonnet 4.5 (tutoring) + Claude Haiku 4.5 (tareas rutinarias)
+**Objetivo**: añadir tutoring adaptativo AI a un LMS Open edX existente sin reemplazarlo.
 
-### Receta
-```python
-from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
-from dataclasses import dataclass
+**Stack**:
+- [openedx/edx-platform](https://github.com/openedx/edx-platform) (AGPLv3) — LMS base existente
+- [openedx/XBlock](https://github.com/openedx/XBlock) (Apache-2.0) — componente AI como actividad nativa
+- LangGraph (MIT) — orquestación de agentes de tutoring
+- Claude 3.5 Haiku (bajo costo para scale) o GPT-4o-mini
+- Redis — estado de sesión del estudiante
 
-client = Anthropic()
+**Flujo**:
+1. Docente define XBlock AI en el curso → aparece como actividad interactiva para el alumno
+2. Alumno interactúa con el XBlock → LangGraph invoca agente tutor con contexto del módulo
+3. Agente evalúa respuestas del alumno → ajusta dificultad → genera hints Socráticos
+4. Agente genera reporte semanal al docente: gaps de la clase, alumnos en riesgo, sugerencias pedagógicas
+5. Analytics feed a edX Insights: visualización de mastery por concepto y estudiante
 
-@dataclass
-class StudentLearningState:
-    student_id: str
-    course_id: str
-    current_topic: str
-    knowledge_gaps: list[str]
-    learning_style: str  # visual / reading / kinesthetic
-    progress_score: float
-    session_history: list[dict]
-
-def assess_knowledge(state: StudentLearningState) -> StudentLearningState:
-    """DeepTutor outer loop: assess current knowledge via adaptive questioning."""
-    response = client.messages.create(
-        model="claude-sonnet-4-5",
-        max_tokens=1024,
-        system="You are a Socratic AI tutor. Identify knowledge gaps through targeted questions. Never give direct answers.",
-        messages=[{"role": "user", "content": f"Topic: {state.current_topic}. Quiz the student to find gaps."}]
-    )
-    state.knowledge_gaps = parse_gaps_from_response(response.content[0].text)
-    return state
-
-def generate_explanation(state: StudentLearningState) -> StudentLearningState:
-    """DeepTutor inner loop: generate personalized explanation for identified gaps."""
-    gaps_text = "\n".join(f"- {g}" for g in state.knowledge_gaps)
-    response = client.messages.create(
-        model="claude-sonnet-4-5",
-        max_tokens=2048,
-        system=f"Learning style: {state.learning_style}. Adapt explanation format to this style. Use analogies and examples from the student's context.",
-        messages=[{"role": "user", "content": f"Explain these gaps:\n{gaps_text}"}]
-    )
-    return state
-
-def check_mastery(state: StudentLearningState) -> str:
-    """Route: mastered → next topic; gap → re-assess."""
-    return "mastered" if state.progress_score >= 0.8 else "gap_found"
-
-# Build LangGraph workflow
-workflow = StateGraph(StudentLearningState)
-workflow.add_node("assess", assess_knowledge)
-workflow.add_node("explain", generate_explanation)
-workflow.add_node("quiz", generate_adaptive_quiz)
-workflow.add_node("next_topic", advance_curriculum)
-workflow.set_entry_point("assess")
-workflow.add_edge("assess", "explain")
-workflow.add_edge("explain", "quiz")
-workflow.add_conditional_edges("quiz", check_mastery, {
-    "mastered": "next_topic",
-    "gap_found": "assess"
-})
-workflow.add_edge("next_topic", END)
-
-tutor_app = workflow.compile()
-```
-
-### Cuándo usar
-MOOC corporativo con 1k–50k empleados. AI adapta el camino de aprendizaje por persona. Deals grandes ($200k+) con universidad o empresa Fortune 500 LATAM.
+**Tiempo estimado**: 10-14 semanas
+**Rango de proyecto Globant**: USD 100k-300k
+**Diferenciador**: integra en Moodle/edX existente — cero migración para el cliente
 
 ---
 
-## P3: LectūraAgents — AI Teacher Avatar para cursos asíncronos
-**Tiempo**: 8–14 semanas | **Deal**: $150k–$600k | **Licencias**: Research (Apache pending)
+## Patrón P3 — Multi-Agent Immersive Classroom (OpenMAIC + cliente)
 
-### Stack
-- **Framework**: LectūraAgents (arXiv:2606.16428) — implementar según paper
-- **Agentes**: ProfessorAgent + ResearchAgent + PlanningAgent + ReviewAgent
-- **Avatar rendering**: D-ID API o HeyGen (video avatar) o Three.js (avatar 2D web)
-- **LLM**: Claude Sonnet 4.5 (ProfessorAgent) + Claude Haiku 4.5 (subagentes)
-- **TASA**: Teaching Action-Speech Alignment algorithm (del paper)
+**Objetivo**: crear experiencias de aula inmersiva para training corporativo o higher ed.
 
-### Receta
-```python
-from anthropic import Anthropic
-import re
+**Stack**:
+- [THU-MAIC/OpenMAIC](https://github.com/THU-MAIC/OpenMAIC) (MIT) — core del aula multi-agente
+- Claude 3.5 Sonnet — AI teacher con voz y narrativa
+- ElevenLabs API — voice synthesis para el maestro AI (opcional)
+- Cualquier documento del cliente → OpenMAIC lo convierte en slides + quizzes + simulaciones
 
-client = Anthropic()
+**Flujo**:
+1. Docente/cliente sube material (PDF, PPT, URL) → OpenMAIC genera la clase en minutos
+2. El alumno accede a la "aula": AI teacher da la clase con voz, pizarra, laser pointer
+3. AI classmates hacen preguntas y comentarios que enriquecen la clase
+4. Quizzes interactivos con grading AI en tiempo real
+5. Simulaciones HTML auto-generadas para conceptos abstractos (física, economía, código)
+6. PBL v2: proyectos colaborativos con AI facilitador (feature de v0.3.0 jun 2026)
 
-class ResearchAgent:
-    def gather_content(self, topic: str) -> str:
-        response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=2048,
-            messages=[{"role": "user", "content": f"Research key concepts, definitions, and examples for: {topic}"}]
-        )
-        return response.content[0].text
-
-class PlanningAgent:
-    def create_lecture_plan(self, content: str, learner_profile: dict) -> str:
-        response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=1024,
-            system=f"Create a lecture plan adapted for: grade={learner_profile.get('grade')}, style={learner_profile.get('learning_style')}",
-            messages=[{"role": "user", "content": f"Plan a 10-minute lecture on:\n{content}"}]
-        )
-        return response.content[0].text
-
-class ProfessorAgent:
-    """Orchestrator: generates embodied lecture with TASA teaching actions."""
-    
-    def __init__(self):
-        self.research = ResearchAgent()
-        self.planning = PlanningAgent()
-    
-    def generate_embodied_lecture(self, topic: str, learner_profile: dict) -> dict:
-        content = self.research.gather_content(topic)
-        plan = self.planning.create_lecture_plan(content, learner_profile)
-        
-        response = client.messages.create(
-            model="claude-sonnet-4-5",
-            max_tokens=4096,
-            system="""You are an embodied AI professor generating a lecture script.
-            
-Use TASA teaching action markers synchronized to speech:
-- [WRITE:text] — write text on board at this moment
-- [HIGHLIGHT:phrase] — highlight this phrase in the materials  
-- [UNDERLINE:concept] — underline this key concept
-- [PAUSE:seconds] — pause for student reflection
-
-Learner profile: {profile}. Adapt language, examples, and pacing.""".format(profile=learner_profile),
-            messages=[{"role": "user", "content": f"Topic: {topic}\nLecture plan:\n{plan}\n\nGenerate the full embodied lecture script."}]
-        )
-        
-        script = response.content[0].text
-        speech, actions = self._parse_tasa_markers(script)
-        
-        return {
-            "speech": speech,
-            "teaching_actions": actions,
-            "estimated_duration_min": len(speech.split()) / 150,
-            "topic": topic
-        }
-    
-    def _parse_tasa_markers(self, script: str) -> tuple[str, list]:
-        actions = []
-        for match in re.finditer(r'\[(WRITE|HIGHLIGHT|UNDERLINE|PAUSE):([^\]]+)\]', script):
-            action_type = match.group(1)
-            action_content = match.group(2)
-            char_position = match.start()
-            word_position = len(script[:char_position].split())
-            timestamp_seconds = word_position / 2.5
-            actions.append({
-                "type": action_type,
-                "content": action_content,
-                "timestamp": timestamp_seconds
-            })
-        clean_speech = re.sub(r'\[[^\]]+\]', '', script).strip()
-        return clean_speech, actions
-```
-
-### Cuándo usar
-Universidad o empresa que quiere cursos async de alta calidad con "profesor IA" que gesticula y adapta al estudiante. Reemplaza video production costosa ($50–$200/min → <$5/min con AI).
+**Tiempo estimado**: 6-10 semanas
+**Rango de proyecto Globant**: USD 60k-180k
+**Diferenciador**: tiempo de creación de módulo se reduce de semanas a minutos; MIT license
 
 ---
 
-## P4: ClassroomIO + Claude — Corporate AI Training Platform
-**Tiempo**: 6–10 semanas | **Deal**: $100k–$400k | **Licencias**: MIT
+## Patrón P4 — LATAM Offline Tutor (Kolibri + Ollama + Llama 3.1)
 
-### Stack
-- **LMS base**: classroomio/classroomio (MIT, 1.5k★) — Svelte + Supabase
-- **MCP**: @classroomio/mcp (npm) — AI-native integrations
-- **AI layer**: Claude Sonnet 4.5 via Anthropic API (grading) + Claude Haiku 4.5 (quiz)
-- **Grading agent**: Claude Sonnet con tool use + XAI (explainable grading)
+**Objetivo**: llevar tutoring AI a escuelas sin internet confiable en LATAM.
 
-### Receta
-```python
-from anthropic import Anthropic
+**Stack**:
+- [learningequality/kolibri](https://github.com/learningequality/kolibri) (MIT) — LMS offline-first
+- Ollama (MIT) — runner de modelos locales
+- Llama 3.1 8B Instruct (Meta, open weights) — modelo en español, ~5GB VRAM
+- Raspberry Pi 5 (8GB RAM) o NUC local — servidor sin internet
+- Sync periódico vía USB o WiFi esporádica
 
-client = Anthropic()
+**Flujo**:
+1. Kolibri server en Raspberry Pi 5 — corre sin internet, sirve a 30-50 alumnos en red local
+2. Llama 3.1 8B via Ollama en el mismo servidor — respuestas en español en <2s
+3. Plugin Kolibri custom (Python) que llama a Ollama API para Q&A sobre el contenido cargado
+4. Alumno pregunta sobre el contenido de la lección → el agente local responde citando el libro
+5. Sync semanal/mensual cuando hay conexión: actualizar modelos, contenido OER, logs de progreso
 
-grading_tool = {
-    "name": "grade_submission",
-    "description": "Grade a student submission with detailed, explainable feedback",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "score": {"type": "number", "description": "Score 0-100"},
-            "feedback": {"type": "string", "description": "Personalized feedback for the student"},
-            "strengths": {"type": "array", "items": {"type": "string"}, "description": "What the student did well"},
-            "improvements": {"type": "array", "items": {"type": "string"}, "description": "Areas to improve"},
-            "explanation": {"type": "string", "description": "Why this score was given (XAI — required for audit)"}
-        },
-        "required": ["score", "feedback", "explanation"]
-    }
-}
-
-def grade_assignment(submission: str, rubric: str) -> dict:
-    """Grade with full explainability for audit compliance."""
-    response = client.messages.create(
-        model="claude-sonnet-4-5",
-        max_tokens=2048,
-        tools=[grading_tool],
-        tool_choice={"type": "auto"},
-        messages=[{
-            "role": "user",
-            "content": f"Grade this submission according to the rubric.\n\nSubmission:\n{submission}\n\nRubric:\n{rubric}"
-        }]
-    )
-    for block in response.content:
-        if block.type == "tool_use" and block.name == "grade_submission":
-            return block.input
-    return {}
-
-def generate_quiz(lesson_content: str, num_questions: int = 5) -> list[dict]:
-    """Auto-generate MCQ quiz from lesson content."""
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=2048,
-        system="""Generate a JSON array of MCQ quiz questions from educational content.
-Format: [{"question": "...", "options": ["A", "B", "C", "D"], "correct": "A", "explanation": "..."}]""",
-        messages=[{
-            "role": "user",
-            "content": f"Generate {num_questions} questions from:\n{lesson_content}"
-        }]
-    )
-    import json
-    text = response.content[0].text
-    start = text.find('[')
-    end = text.rfind(']') + 1
-    return json.loads(text[start:end]) if start != -1 else []
-```
-
-### Cuándo usar
-Empresa tech LATAM con 100–5000 empleados que quiere plataforma de AI training interna. MIT license → sin restricciones comerciales. Globant puede resellarlo como producto.
+**Tiempo estimado**: 8-12 semanas + hardware provisioning
+**Rango de proyecto Globant**: USD 50k-120k (más hardware)
+**Diferenciador**: único stack completo offline-AI-education — gap de mercado real en LATAM
 
 ---
 
-## P5: Agente Proactivo de Alerta Temprana (At-Risk Student Detection)
-**Tiempo**: 8–14 semanas | **Deal**: $120k–$450k | **Licencias**: Apache-2.0 + MIT
+## Patrón P5 — Adaptive Quiz Engine (EduAdapt + pgvector + LangGraph)
 
-### Stack
-- **LMS**: Open edX (Apache-2.0) con xAPI events habilitados
-- **Data**: xAPI events → ClickHouse o PostgreSQL (engagement analytics)
-- **Agent**: Claude Haiku 4.5 (cost-efficient para volumen alto) + LangGraph scheduler
-- **Notifications**: Email / WhatsApp Business API / Moodle/edX notification system
+**Objetivo**: generar quizzes adaptativos desde materiales del cliente con ajuste de dificultad por RL.
 
-### Receta
-```python
-from anthropic import Anthropic
-import pandas as pd
-from datetime import datetime
+**Stack**:
+- [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) (MIT) — RL para paths adaptativos
+- [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) (MIT) — generación de quizzes desde RAG
+- LangGraph (MIT) — orquestación del loop adaptativo
+- pgvector — embeddings de preguntas y respuestas del banco
+- FastAPI — API de servicio de quizzes para cualquier LMS via LTI 1.3
 
-client = Anthropic()
+**Flujo**:
+1. Subir materiales del curso → EduAgent genera banco de 200+ preguntas con metadatos de dificultad
+2. El alumno empieza quiz → EduAdapt RL selecciona siguiente pregunta basado en performance histórico
+3. Respuesta incorrecta → LangGraph invoca agente explicador → hint Socrático → retry
+4. Respuesta correcta → RL sube dificultad → EduAgent genera variante más difícil del mismo concepto
+5. Al terminar: mastery map por competencia + recomendación de módulos débiles
 
-def calculate_risk_score(student_row: pd.Series) -> float:
-    """Simple risk score: 0.0 (no risk) to 1.0 (high risk)."""
-    score = 0.0
-    if student_row['days_since_login'] > 7:
-        score += 0.4
-    elif student_row['days_since_login'] > 3:
-        score += 0.2
-    if student_row['quiz_avg'] < 50:
-        score += 0.4
-    elif student_row['quiz_avg'] < 70:
-        score += 0.2
-    if student_row['video_completion'] < 0.25:
-        score += 0.2
-    return min(score, 1.0)
-
-def generate_personalized_nudge(student: pd.Series) -> str:
-    """Generate warm, personalized message for at-risk student."""
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=256,
-        system="You are a caring, encouraging student success advisor. Write a warm, brief personalized message (2-3 sentences). Do not mention 'risk' or 'failing'. Be positive and specific.",
-        messages=[{
-            "role": "user",
-            "content": f"""Student: {student['first_name']}
-Last login: {student['days_since_login']} days ago
-Current topic: {student['current_topic']}
-Quiz average: {student['quiz_avg']}%
-Course: {student['course_name']}
-
-Write an encouraging message to bring them back."""
-        }]
-    )
-    return response.content[0].text
-
-def daily_at_risk_sweep(engagement_df: pd.DataFrame) -> list[dict]:
-    """Run daily. Detect and nudge at-risk students proactively."""
-    alerts = []
-    for _, student in engagement_df.iterrows():
-        risk = calculate_risk_score(student)
-        if risk >= 0.4:
-            nudge = generate_personalized_nudge(student)
-            alerts.append({
-                "student_id": student['id'],
-                "email": student['email'],
-                "risk_score": risk,
-                "nudge_message": nudge,
-                "recommended_action": "schedule_tutoring" if risk >= 0.7 else "send_reminder",
-                "generated_at": datetime.utcnow().isoformat()
-            })
-    return alerts
-
-if __name__ == "__main__":
-    data = fetch_engagement_data(days_back=7)  # from xAPI events
-    alerts = daily_at_risk_sweep(data)
-    for alert in alerts:
-        send_notification(alert['student_id'], alert['nudge_message'])
-        log_intervention_to_db(alert)
-    print(f"[{datetime.utcnow().isoformat()}] Sent {len(alerts)} proactive nudges")
-```
-
-### Cuándo usar
-Universidad LATAM con 5k–50k estudiantes online. Reducir deserción 15–30% con intervención proactiva personalizada. ROI medible: $2.3B ahorrados globalmente en dropout prevention (Evelyn Learning 2026). Argumento para rectores/ministros.
+**Tiempo estimado**: 6-8 semanas
+**Rango de proyecto Globant**: USD 40k-120k
+**Diferenciador**: quiz adaptativo RL desde materiales propios del cliente — no una librería genérica
 
 ---
 
-## P6: LATAM AI Tutor en Español/Portugués (K-12)
-**Tiempo**: 10–16 semanas | **Deal**: $80k–$400k | **Licencias**: Apache-2.0
+## Patrón P6 — SCORM to AI Migration Pipeline
 
-### Stack
-- **Tutoring engine**: HKUDS/DeepTutor fork (Apache-2.0, 25.2k★)
-- **LMS**: Open edX (Apache-2.0) o Moodle (GPL)
-- **LLM**: Claude Sonnet 4.5 (español/portugués nativo, multilingüe)
-- **Curriculum**: SEP (México), BNCC (Brasil), NAP (Argentina), MEN (Colombia)
+**Objetivo**: modernizar cursos SCORM legacy corporativos sin recrearlos desde cero.
 
-### Receta
-```python
-from anthropic import Anthropic
+**Stack**:
+- Python SCORM parser (custom, MIT-friendly) — extrae contenido de paquetes SCORM/xAPI
+- Claude 3.5 Sonnet — transcribe y estructura el contenido extraído
+- [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) (MIT) — destino moderno
+- EduAgent (MIT) — RAG sobre el contenido migrado
+- pgvector — indexación semántica del corpus migrado
 
-client = Anthropic()
+**Flujo**:
+1. Parser extrae HTML/JS/media de paquetes SCORM del cliente
+2. Claude estructura el contenido: módulos, objetivos de aprendizaje, evaluaciones
+3. LearnHouse recibe el contenido estructurado via API → curso listo para publicar
+4. EduAgent indexa el corpus migrado → tutor AI responde preguntas sobre el contenido
+5. xAPI statements del LMS antiguo → enrichen el perfil del learner en el nuevo sistema
 
-COUNTRY_CONFIGS = {
-    "MX": {"language": "español mexicano", "curriculum": "SEP", "grade_system": "primaria/secundaria/preparatoria"},
-    "BR": {"language": "português brasileiro", "curriculum": "BNCC", "grade_system": "ensino fundamental/médio"},
-    "AR": {"language": "español rioplatense", "curriculum": "NAP", "grade_system": "primaria/secundaria"},
-    "CO": {"language": "español colombiano", "curriculum": "MEN", "grade_system": "básica/media"},
-    "CL": {"language": "español chileno", "curriculum": "MINEDUC", "grade_system": "básica/media"},
-    "PE": {"language": "español peruano", "curriculum": "MINEDU", "grade_system": "primaria/secundaria"},
-}
-
-SOCRATIC_TUTOR_SYSTEM = """Eres un tutor de IA para estudiantes de {country}.
-Idioma: {language}
-Currículo oficial: {curriculum}
-Nivel educativo: {grade_level}
-
-Reglas pedagógicas:
-1. Usa el método socrático — guía, nunca des respuestas directas
-2. Adapta el lenguaje a la edad (nunca condescendiente)
-3. Usa ejemplos y contextos culturales de {country}
-4. Si el estudiante está frustrado, cambia de estrategia pedagógica
-5. Termina cada respuesta con una pregunta que invite a reflexionar
-6. Si hay error, explica POR QUÉ está mal antes de la respuesta correcta"""
-
-def tutor_session(student: dict, topic: str, student_question: str, conversation_history: list[dict]) -> str:
-    country = student.get('country', 'MX')
-    config = COUNTRY_CONFIGS.get(country, COUNTRY_CONFIGS['MX'])
-    system_prompt = SOCRATIC_TUTOR_SYSTEM.format(
-        country=country,
-        language=config['language'],
-        curriculum=config['curriculum'],
-        grade_level=student.get('grade', 'secundaria')
-    )
-    messages = conversation_history + [
-        {"role": "user", "content": f"Estoy estudiando: {topic}.\n{student_question}"}
-    ]
-    response = client.messages.create(
-        model="claude-sonnet-4-5",
-        max_tokens=1024,
-        system=system_prompt,
-        messages=messages
-    )
-    return response.content[0].text
-```
-
-### Cuándo usar
-Ministerio de Educación, edtech LATAM, o sistema escolar privado que quiere AI tutor culturalmente adaptado en español/portugués. Diferenciador frente a soluciones en inglés. Alineado al currículo local.
+**Tiempo estimado**: 8-12 semanas (varía con volumen de cursos)
+**Rango de proyecto Globant**: USD 70k-200k
+**Diferenciador**: gap de mercado real — no existe OSS de migración SCORM→AI; potencial de producto
 
 ---
 
-## P7: AUSS — Unified Campus Intelligence (Multi-Level Agentic System) (NEW v6)
-**Tiempo**: 20–30 semanas | **Deal**: $400k–$2M | **Licencias**: Apache-2.0 + MIT
+## Patrón P7 — Teacher Co-Pilot (LangGraph + Moodle + grading AI)
 
-### Stack
-- **Arquitectura**: AUSS (arXiv:2604.16566) — 3 niveles de agentes
-- **LMS**: Open edX (Apache-2.0) con xAPI events + LMS APIs
-- **Orchestration**: LangGraph (multi-agent graph) + Celery (async tasks)
-- **LLM**: Claude Sonnet 4.5 (planning + reasoning) + Claude Haiku 4.5 (high-volume tasks)
-- **Analytics**: ClickHouse (event store) + Metabase (institutional dashboard)
-- **Notifications**: Email + WhatsApp Business API + LMS inbox
+**Objetivo**: amplificar la productividad del docente con un agente asistente integrado en Moodle.
 
-### Receta
-```python
-from langgraph.graph import StateGraph, END
-from anthropic import Anthropic
-from dataclasses import dataclass, field
-from typing import Optional
+**Stack**:
+- [moodle/moodle](https://github.com/moodle/moodle) (GPL) — LMS existente del cliente
+- LangGraph (MIT) — orquestación del agente docente
+- Claude 3.5 Haiku — grading de respuestas abiertas (bajo costo, alta velocidad)
+- Moodle Webhook plugin — triggers desde eventos del LMS
+- FastAPI — backend del agente
 
-client = Anthropic()
+**Flujo**:
+1. Docente define rubric para el assignment en una UI simple fuera de Moodle
+2. Alumno entrega → Moodle webhook dispara → agente recibe entrega + rubric
+3. Claude evalúa según rubric → genera grade + feedback personalizado por alumno
+4. Si confidence < threshold → marca para revisión humana del docente
+5. Agente genera reporte semanal: distribución de notas, errores más comunes, sugerencias pedagógicas
+6. Docente revisa solo los casos flaggeados — 70%+ del grading automático
 
-@dataclass
-class CampusIntelligenceState:
-    # Level 1: Student
-    student_id: str
-    engagement_signals: dict  # from xAPI: logins, quiz scores, video completion
-    knowledge_state: dict     # topics mastered / gaps
-    risk_score: float
-    # Level 2: Educator  
-    course_id: str
-    cohort_analytics: dict    # aggregated student data
-    pending_gradings: list[str]
-    # Level 3: Institution
-    enrollment_trends: dict
-    resource_bottlenecks: list[str]
-    curriculum_alerts: list[str]
-    actions_taken: list[dict] = field(default_factory=list)
-
-# --- Level 1: Student Personalization Agent ---
-def student_personalization_agent(state: CampusIntelligenceState) -> CampusIntelligenceState:
-    """Proactively personalizes learning path and generates at-risk interventions."""
-    signals = state.engagement_signals
-    
-    # Compute risk
-    state.risk_score = compute_risk(signals)
-    
-    if state.risk_score >= 0.6:
-        # Generate intervention
-        nudge = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=200,
-            system="Write a warm, encouraging 2-sentence nudge for a student. Be specific to their situation.",
-            messages=[{"role": "user", "content": f"Student signals: {signals}"}]
-        )
-        state.actions_taken.append({
-            "type": "student_nudge",
-            "student_id": state.student_id,
-            "message": nudge.content[0].text,
-            "risk_score": state.risk_score
-        })
-    
-    return state
-
-# --- Level 2: Educator Automation Agent ---
-def educator_automation_agent(state: CampusIntelligenceState) -> CampusIntelligenceState:
-    """Auto-grades, generates cohort insights, alerts educator about struggling groups."""
-    if state.pending_gradings:
-        grading_summary = client.messages.create(
-            model="claude-sonnet-4-5",
-            max_tokens=1024,
-            system="You are an AI grading assistant. Grade and provide detailed feedback.",
-            messages=[{"role": "user", "content": f"Grade these submissions: {state.pending_gradings[:3]}"}]
-        )
-        state.actions_taken.append({
-            "type": "auto_grading",
-            "count": len(state.pending_gradings),
-            "summary": grading_summary.content[0].text
-        })
-    
-    # Cohort analytics
-    cohort_insight = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=512,
-        system="Analyze student cohort data and identify patterns the educator should act on.",
-        messages=[{"role": "user", "content": f"Cohort analytics: {state.cohort_analytics}"}]
-    )
-    state.actions_taken.append({
-        "type": "cohort_insight",
-        "insight": cohort_insight.content[0].text
-    })
-    return state
-
-# --- Level 3: Institutional Intelligence Agent ---
-def institutional_intelligence_agent(state: CampusIntelligenceState) -> CampusIntelligenceState:
-    """Optimizes resource allocation, identifies curriculum issues, enrollment trends."""
-    if state.resource_bottlenecks:
-        recommendation = client.messages.create(
-            model="claude-sonnet-4-5",
-            max_tokens=1024,
-            system="You are an institutional AI advisor. Provide actionable resource optimization recommendations.",
-            messages=[{
-                "role": "user",
-                "content": f"Bottlenecks: {state.resource_bottlenecks}\nTrends: {state.enrollment_trends}"
-            }]
-        )
-        state.actions_taken.append({
-            "type": "institutional_recommendation",
-            "recommendation": recommendation.content[0].text
-        })
-    return state
-
-# --- AUSS LangGraph Orchestration ---
-auss_graph = StateGraph(CampusIntelligenceState)
-auss_graph.add_node("student_level", student_personalization_agent)
-auss_graph.add_node("educator_level", educator_automation_agent)
-auss_graph.add_node("institutional_level", institutional_intelligence_agent)
-
-auss_graph.set_entry_point("student_level")
-auss_graph.add_edge("student_level", "educator_level")
-auss_graph.add_edge("educator_level", "institutional_level")
-auss_graph.add_edge("institutional_level", END)
-
-campus_auss = auss_graph.compile()
-
-# --- Run daily (via Celery cron task) ---
-def daily_campus_intelligence_run(campus_id: str) -> dict:
-    state = CampusIntelligenceState(
-        student_id="batch",
-        engagement_signals=fetch_all_engagement_signals(campus_id),
-        knowledge_state={},
-        risk_score=0.0,
-        course_id="all",
-        cohort_analytics=fetch_cohort_analytics(campus_id),
-        pending_gradings=fetch_pending_gradings(campus_id),
-        enrollment_trends=fetch_enrollment_trends(campus_id),
-        resource_bottlenecks=detect_bottlenecks(campus_id),
-        curriculum_alerts=[]
-    )
-    result = campus_auss.invoke(state)
-    return {"actions": result.actions_taken, "timestamp": "now"}
-```
-
-### Cuándo usar
-Universidad grande (5k–100k+ estudiantes) o red de instituciones que quiere unificar AI en todos los niveles: estudiante, docente, e institución. Diferenciador vs. chatbots individuales: el campus como sistema inteligente unificado. ROI: reducción deserción 15–30% + eficiencia docente + decisiones institucionales basadas en datos. Deal más grande del portfolio educativo.
+**Tiempo estimado**: 6-8 semanas
+**Rango de proyecto Globant**: USD 40k-100k
+**Diferenciador**: alto ROI percibido: docente ahorra 5-10h/semana en corrección — venta fácil
 
 ---
 
-## Quick-Start Matrix — Elegir el patrón correcto
+## Patrón P8 — AI-Powered Upskilling Platform (LearnHouse + DeepTutor + certificados)
 
-| Situación del cliente | Tiempo disponible | Budget | Patrón recomendado |
-|-----------------------|-------------------|--------|---------------------|
-| Ya tiene Moodle, quiere AI rápido | 4–8 sem | $80k–$250k | **P1: Moodle AI Copilot** |
-| MOOC corporativo >1k learners | 10–16 sem | $200k–$600k | **P2: Open edX Personalized Engine** |
-| Cursos async, reemplazar video | 8–14 sem | $150k–$600k | **P3: LectūraAgents Avatar** |
-| Corporate training greenfield | 6–10 sem | $100k–$400k | **P4: ClassroomIO + Claude** |
-| Universidad, retención estudiantes | 8–14 sem | $120k–$450k | **P5: At-Risk Alert Agent** |
-| K-12 / EdTech LATAM en español | 10–16 sem | $80k–$400k | **P6: LATAM AI Tutor** |
-| Campus inteligente unificado (big deal) | 20–30 sem | $400k–$2M | **P7: AUSS Unified Campus Intelligence** |
+**Objetivo**: plataforma completa de upskilling/reskilling para RRHH corporativo con certificación.
+
+**Stack**:
+- [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) (MIT) — plataforma base
+- [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) (Apache-2.0) — tutoring multi-modo
+- [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) (MIT) — paths adaptativos por rol y nivel
+- Claude 3.5 Sonnet — generación de contenido y evaluación de respuestas abiertas
+- WeasyPrint (MIT) — certificados PDF auto-generados con firma digital
+
+**Flujo**:
+1. RRHH define skill matrix por rol (ej: "Data Analyst L2 debe dominar SQL + Python + ML basics")
+2. EduAdapt genera path personalizado según assessment inicial del empleado
+3. DeepTutor tutoriza en cada módulo — Chat, Quiz, Deep Solve disponibles
+4. LearnHouse trackea completion + time-on-task + quiz scores por módulo
+5. Al completar el path: certificado PDF auto-generado con skills verificados + fecha
+6. Dashboard RRHH: skill gaps por equipo, ROI de capacitación, readiness por competencia
+
+**Tiempo estimado**: 12-16 semanas
+**Rango de proyecto Globant**: USD 120k-350k
+**Diferenciador**: único stack OSS end-to-end para upskilling corporativo AI-native con certificación
 
 ---
-*Patrones actualizados por el pipeline de ingest. Última actualización: 2026-07-10 (v6).*
+
+## Selección rápida por tipo de cliente
+
+| Tipo de cliente | Patrón recomendado | Tiempo | Rango USD |
+|----------------|-------------------|--------|-----------|
+| Empresa LATAM con capacitación interna | P1 (LearnHouse + EduAgent) | 8-12 sem | 80k-250k |
+| Universidad con Moodle existente | P7 (Teacher Co-Pilot) | 6-8 sem | 40k-100k |
+| Universidad con Open edX | P2 (XBlock AI) | 10-14 sem | 100k-300k |
+| Corporación con training inmersivo | P3 (OpenMAIC) | 6-10 sem | 60k-180k |
+| Cliente LATAM sin internet confiable | P4 (Kolibri + Ollama) | 8-12 sem | 50k-120k |
+| Evaluación y quizzes adaptativos | P5 (EduAdapt + RAG) | 6-8 sem | 40k-120k |
+| Empresa con SCORM legacy | P6 (SCORM Migration) | 8-12 sem | 70k-200k |
+| RRHH / upskilling enterprise | P8 (Full upskilling stack) | 12-16 sem | 120k-350k |
+
+---
+*Ingest education v9 — 2026-07-11*

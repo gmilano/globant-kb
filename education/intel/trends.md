@@ -1,122 +1,137 @@
-# 📡 Tendencias — Education
+# 📡 Tendencias — Education AI 2026
 
-> Última actualización: 2026-07-10 (v6)
+> Tendencias actuales que impactan al mercado educativo.
+> Última actualización: 2026-07-11
 
-## Tendencias activas (T1–T15)
+## T1 — Agent-Native Education reemplaza el chatbot educativo
 
-### T1 — 86% de organizaciones educativas usan GenAI — líder de industria
-**fuente**: Microsoft Education Report 2025  
-**señal**: Educación tiene la tasa de adopción de GenAI más alta de cualquier industria. El cambio de "chatbot de respuesta" a "agente de iniciativa" está acelerando en 2026.  
-**impacto Globant**: Clientes universitarios y K-12 ya tienen budget activo. No hay que convencer de la tecnología — hay que mostrar implementaciones de calidad.
+El modelo "chatbot educativo" (GPT-4 + prompt + UI de chat) está siendo superado por sistemas **agent-native** donde múltiples agentes especializados colaboran:
+- Un agente tutor, uno evaluador, uno de investigación, uno de visualización
+- Memoria persistente entre sesiones ("el agente te conoce")
+- Cada agente tiene rol definido y puede escalar a otros
+- El estudiante interactúa con una interfaz unificada que oculta la complejidad
+
+**Ejemplo canónico**: DeepTutor (22k ★) — 6 modos en un solo loop de agentes con contexto compartido. Lanzó dic 2025, 10k ★ en 39 días.
+
+## T2 — Multi-Agent Classrooms: maestros IA + compañeros IA
+
+OpenMAIC (Tsinghua Univ, MIT desde jun 2026) establece el patrón de "aula multi-agente":
+- AI teacher con voz, pizarra y laser pointer
+- AI classmates que hacen preguntas y comentarios en tiempo real
+- Quizzes interactivos con grading AI instantáneo
+- Simulaciones HTML para física, química, matemáticas
+- Relicenció a MIT el 28 jun 2026 — disponible para proyectos comerciales
+
+## T3 — Adaptive Learning mainstream en higher ed
+
+71% de instituciones de educación superior desplegarán plataformas de adaptive learning en 2026 (vs 34% en 2023). Drivers:
+- Modelos de RL para ajuste de dificultad y secuenciación de contenido
+- Detección de estilo de aprendizaje desde interacciones (no cuestionarios)
+- Paths personalizados que aumentan completion rate 70% vs cursos tradicionales
+
+## T4 — RAG sobre materiales propios del cliente
+
+El patrón más demandado en L&D corporativo: el cliente sube sus propios documentos (PDFs, PPTs, videos transcritos) y el agente tutoriza específicamente en ese contenido.
+- **Stack**: EduAgent (LangGraph) + pgvector + FastAPI
+- El agente genera quizzes, flashcards y planes de estudio desde los materiales
+- Citations: el agente cita el párrafo exacto del documento fuente
+- Sin datos saliendo a modelos externos si se usa Ollama on-prem
+
+## T5 — AI fluency como requisito de contratación
+
+El skill más demandado de 2026: saber usar AI para aprender. Las empresas buscan empleados que puedan:
+- Usar agentes de AI para auto-capacitarse en nuevas tecnologías
+- Prompt engineering para tutoring personalizado
+- Evaluación crítica de outputs AI en contexto educativo
+
+**Impacto**: explota en plataformas de upskilling / reskilling corporativo.
+
+## T6 — Neurodiversidad y accesibilidad AI
+
+IA adaptándose a necesidades específicas de aprendizaje:
+- ADHD: sesiones cortas, gamificación, refuerzo positivo frecuente
+- Dislexia: texto-a-voz, fuentes adaptadas, reducción de carga visual
+- Autismo: patrones predecibles, instrucciones explícitas, feedback estructurado
+- Affective computing: detección de frustración/aburrimiento y ajuste automático de dificultad
+
+## T7 — Offline-first AI para mercados emergentes
+
+LATAM y Asia-Pacífico impulsan un patrón crítico: AI educativa que funciona sin internet.
+- Kolibri + Ollama (Llama 3.1 8B) = tutor AI completo sin conexión
+- Raspberry Pi 5 (8GB) corre modelos de 7B parámetros en educación
+- Sync periódico cuando hay conexión — actualizaciones de contenido y modelo
+- 200+ países ya usan Kolibri offline — la capa AI es el próximo paso
+
+## T8 — SCORM/xAPI → AI migration wave
+
+Miles de cursos corporativos legacy en SCORM/xAPI están siendo migrados:
+- SCORM → transcripción con AI → base de conocimiento RAG
+- xAPI statements → data de aprendizaje para personalización
+- Gap: no existe herramienta OSS de migración — oportunidad de producto
+
+## T9 — Grading automático con LLMs
+
+El time-saver más adoptado en 2026: grading automático de respuestas abiertas:
+- Rubrics definidos por el docente → agente evalúa según rubric
+- Feedback personalizado generado automáticamente
+- A/B testing de rubrics para mejorar calidad evaluativa
+- Reducción de 60-80% en tiempo de corrección docente
+
+## T10 — Agentic administrative workflows
+
+Microsoft Education AI Toolkit (abr 2026) lanzó capacidades agentic para:
+- Scheduling automático de clases y exámenes
+- Student outreach proactivo: el agente detecta riesgo de abandono y contacta
+- Reporte automático a docentes: el agente resume progreso de clase
+- Grading batch: 100+ entregas procesadas overnight
+
+## T11 — AI generativa para creación de contenido educativo
+
+El workflow cambió: los docentes ya no crean contenido — lo revisan.
+- LLMs generan el borrador del módulo en minutos
+- El docente ajusta, valida y personaliza
+- LearnHouse tiene generación de contenido AI nativa
+- Tiempo de creación de curso: semanas → días
+
+## T12 — Personalización multimodal
+
+Los agentes de 2026 no son solo texto:
+- Math Animator (DeepTutor): anima soluciones matemáticas paso a paso con voz
+- Pizarra colaborativa AI (OpenMAIC): el maestro AI dibuja en tiempo real
+- Simulaciones interactivas HTML para STEM generadas on-demand
+- Video explicativo generado por el agente (Synthesia/ElevenLabs API integration)
+
+## T13 — AI como aliado del docente (no reemplazo)
+
+El frame que las instituciones aceptan: la AI amplifica al docente.
+- El agente hace el trabajo repetitivo (grading, scheduling, FAQs)
+- El docente se enfoca en mentoría, debates, proyectos complejos
+- UNESCO guidelines 2026: el docente mantiene control pedagógico
+
+## T14 — EdTech LATAM: primera ola de adopción agentica
+
+LATAM va en 2026 donde USA fue en 2024: primera ola de adopción de AI en educación.
+- Chamilo tiene 600+ instituciones LATAM — base instalada para AI overlay
+- Moodle en español es el LMS más usado en universidades latinoamericanas
+- Oportunidad: wrappers AI en español sobre Moodle/Chamilo con casos de uso LATAM
+- Privacidad de datos: LGPD (Brasil), Ley 1581 (Colombia) como diferenciador de compliance
+
+## T15 — Certificaciones AI-verified
+
+El nuevo estándar de credenciales:
+- Certificados con proof de aprendizaje basado en interacciones con el agente (no solo tiempo de pantalla)
+- Blockchain-anchored certificates para verificación externa
+- Mapping de competencias con marcos como European Skills Framework
+- Demanda desde HR: los empleadores quieren evidencia de skills reales
 
 ---
 
-### T2 — Agentic AI como infraestructura central del campus
-**fuente**: UPCEA "Rise of the Agentic AI University 2026"; 8allocate.com; Gartner  
-**señal**: 40% de aplicaciones empresariales embedará agentes task-específicos para fin de 2026. En educación: 80% de tareas rutinarias (grading, explicaciones básicas, seguimiento de progreso) serán manejadas por agentes. Los agentes no son features opcionales — son la infraestructura.  
-**impacto Globant**: Los clientes necesitan arquitecturas multi-agente, no bots únicos. Proyectos de 3–6 agentes orquestados con LangGraph.
+## Síntesis para Globant AI Studios
+
+Los patrones T1 + T4 + T10 son los de mayor tracción en engagement corto (3-6 meses):
+- **T1**: construir sobre DeepTutor (Apache) o OpenMAIC (MIT) → proyecto demorable rápido
+- **T4**: RAG sobre documentos del cliente → alto ROI percibido desde semana 1
+- **T10**: agentic admin workflows → venta a directores de institución, no solo IT
 
 ---
-
-### T3 — AI proactiva: el agente inicia, el estudiante responde
-**fuente**: 8allocate.com "Agentic AI in Education 2026"  
-**señal**: En 2025 los estudiantes preguntaban al chatbot. En 2026 el agente AI detecta riesgo de abandono (días sin login, quiz scores bajos, video completion bajo), envía nudge personalizado, agenda sesión de tutoría, ajusta el plan de estudio — sin que el estudiante haga nada.  
-**impacto Globant**: Requiere pipelines de datos de engagement (xAPI), state management de larga duración, y observabilidad de agentes. Deals de $300k–$1.5M.
-
----
-
-### T4 — DeepTutor v1.5.0 (Jul 4 2026): Book Engine + multi-user
-**fuente**: HKUDS/DeepTutor, Apache-2.0, 25.2k★  
-**señal**: v1.5.0 cierra toda la línea v1.4. Book Engine convierte chat history + notebooks + knowledge bases en "living books" estructurados e interactivos. Multi-user deployments con isolated workspaces, admin grants, auth routes. 20k★ en 111 días post-launch. v1.5.0 Jul 4 2026 marca la plataforma como "agent-native, community-driven".  
-**impacto Globant**: El Book Engine abre un nuevo caso de uso: conocimiento institucional acumulado por agentes → libros vivos de la institución. Fork viable.
-
----
-
-### T5 — LectūraAgents: enseñanza encarnada multi-agente (arXiv:2606.16428, Jun 2026)
-**fuente**: arxiv.org/abs/2606.16428  
-**señal**: ProfessorAgent + subagentes (research, planning, review). TASA algorithm (Teaching Action-Speech Alignment) alinea acciones pedagógicas (escribir, subrayar, destacar) con el speech del avatar. Evaluado por expertos educadores en niveles K-12, undergrad, grad. 0.87-0.95 workflow success rate.  
-**impacto Globant**: Habilita clases asíncronas con avatar IA que actúa como docente real. Reemplaza video production costosa ($50–$200/min → <$5/min con AI).
-
----
-
-### T6 — Mercado AI Education cuadruplica: $10.6B (2026) → $42.48B (2030), CAGR 41.5%
-**fuente**: GlobeNewswire Apr 7 2026; The Business Research Company Jul 8 2026  
-**señal**: Múltiples firmas de mercado convergen: $10.6B (GlobeNewswire), $9.58B (Precedence), $11.4B (Grand View) para 2026. CAGR 41–43%. GenAI EdTech específico: $0.76B → $3.22B (2030) CAGR 43.6% — el segmento AI más rápido por CAGR. Impulsado por: personalized learning, remote education, adaptive systems.  
-**impacto Globant**: Ventana de oportunidad abierta y confirmada. 4× en 4 años = los integradores que construyan expertise ahora capturan el mercado de 2028–2030.
-
----
-
-### T7 — LATAM: aceleración masiva con apoyo institucional
-**fuente**: Google.org / Digital Education Council AI in Higher Education LATAM Survey 2026  
-**señal**: Google.org $4.6M en AI educativa LATAM (entrenamiento docente + 1.25M estudiantes). DEC LATAM Survey 2026: 30k+ respuestas de 29 instituciones universitarias. LATAM AI in Education CAGR 32.4% → $1.5B 2030. Brazil edtech: Elevify seed $1.35M.  
-**impacto Globant**: LATAM roots + AI expertise = ventaja diferencial. Oportunidad de ser el integrador de referencia en la región.
-
----
-
-### T8 — Transparent AI / Explainable AI en grading
-**fuente**: Faculty Focus 2026; emerline.com EdTech Trends 2025–2030  
-**señal**: Reguladores, sindicatos docentes y estudiantes exigen que la IA muestre el razonamiento detrás de cada calificación, recomendación y diagnóstico de riesgo. Las plataformas que no implementen XAI están en riesgo regulatorio.  
-**impacto Globant**: Todas las implementaciones deben incluir chain-of-thought visible, audit log de decisiones, y panel de docente con override. Diferenciador de calidad.
-
----
-
-### T9 — Multi-agent reemplaza single-task bots: ola de re-arquitectura
-**fuente**: 8allocate.com / Gartner 2026  
-**señal**: Las instituciones que desplegaron chatbots en 2023–2024 los están migrando a arquitecturas multi-agente: grader agent + tutor agent + at-risk alert agent + content recommendation agent, orquestados con LangGraph o CrewAI. Los bots standalone no escalan ni generalizan.  
-**impacto Globant**: Proyectos de re-arquitectura = deal size 3–5× mayor que el chatbot original. Oportunidad de reemplazo.
-
----
-
-### T10 — Open TutorAI CE: plataforma de tutoring LLM-native con data ownership
-**fuente**: arXiv:2602.07176, Feb 2026 / Open-TutorAi/open-tutor-ai-CE (Apache-2.0)  
-**señal**: Arquitectura LLM-native: RAG sobre PDFs de curso, generación adaptativa de hints, tracking de progreso. Community Edition mantenida activamente. Alternativa open source a Khanmigo con plena data ownership.  
-**impacto Globant**: Ideal para clientes que quieren control total sobre datos de estudiantes (GDPR/LGPD compliance en EU/LATAM).
-
----
-
-### T11 — AI fluency como habilidad requerida → demanda de corporate AI training
-**fuente**: 8allocate.com / Microsoft 2026  
-**señal**: "AI fluency is emerging as a hiring requirement." Las empresas buscan plataformas para enseñar a sus empleados a trabajar con agentes AI: prompt engineering, orchestration, tool use. El corporate training market para AI skills es un segmento emergente.  
-**impacto Globant**: Nuevo mercado: AI-training-as-a-platform. ClassroomIO + Claude API + cursos Globant-designed = producto propio potencial.
-
----
-
-### T12 — SKILL.md wave llega a EdTech: composición modular de agentes
-**fuente**: OpenClaw ecosystem / SKILL.md protocolo (ver technology-kb)  
-**señal**: Los agentes de educación comienzan a usar SKILL.md para declarar capacidades (quiz_generation, grading, tutoring, knowledge_tracing, at_risk_detection). Primeros skill packs para Moodle y Open edX en desarrollo.  
-**impacto Globant**: Habilita composición modular — un cliente puede activar/desactivar skills de agentes educativos sin redeploy. Arquitectura de producto más flexible y escalable.
-
----
-
-### T13 — AI Early-Warning Systems: predice deserción 85% antes, ahorra $2.3B/año (NEW v6)
-**fuente**: Evelyn Learning 2026; ibl.ai "AI Campus 2026"  
-**señal**: AI early-warning systems predicen dropout hasta 12 semanas antes usando behavioral trace data del LMS. Ahorran $2.3B anuales a universidades globalmente. Universidad de Lynchburg: 47k interacciones de agentes para campus de 2.8k estudiantes (surpassó adoption de chatbot anterior). Los 5 dominios de riesgo más predictivos: academic belonging, financial stress, institutional confidence, social integration, intentions and plans. 81.8% del volumen de interacciones estudiantiles ya es manejado por agentes autónomos (Druid AI 2026).  
-**impacto Globant**: Pattern P5 "At-Risk Agent" tiene ROI medible (reducción deserción 15–30%). Argumento de venta para ministros/rectores: $X invertido → $Y×10 en retención. Deals $120k–$450k + mantenimiento anual.
-
----
-
-### T14 — AUSS: Unified Multi-Level Multi-Agent Framework para educación (arXiv:2604.16566, Apr 2026) (NEW v6)
-**fuente**: arxiv.org/abs/2604.16566, Apr 17 2026  
-**señal**: Agentic Unified Student Support System — primera arquitectura que integra 3 niveles simultáneamente: (1) student-level personalization (tutor agent, adaptive content), (2) educator-level automation (grading, dashboard, alert), (3) institutional-level intelligence (enrollment analytics, resource allocation, curriculum optimization). Usa LLMs + RL + predictive analytics + rule-based reasoning. Critica que sistemas AI educativos existentes "son reactivos" — el AUSS es proactivo en los 3 niveles.  
-**impacto Globant**: Habilita propuesta de "Campus AI completo" en lugar de proyectos feature-by-feature. Deal size $400k–$2M para universidades grandes. Diferencia a Globant de competidores que venden chatbots individuales.
-
----
-
-### T15 — LearnHouse: OSS LMS moderno con AI nativa y code execution (NEW v6)
-**fuente**: learnhouse/learnhouse (AGPL-3.0, ~390★)  
-**señal**: Block-based content editor, code execution con auto-grading en 30+ lenguajes (Python, JS, Go, Rust, etc.), collaborative whiteboards en tiempo real, AI-generated interactive elements, context-aware AI integrada nativamente. Stack: Next.js + FastAPI + Postgres. Self-hosted en minutos via CLI. Alternativa moderna para EdTech startups que quieren features de Notion+Replit+Miro en un LMS.  
-**impacto Globant**: Ideal para clientes de corporate tech training o edtech startups LATAM. AGPL-3.0 requiere liberar modificaciones si se hace SaaS — evaluar caso por caso; para uso cliente interno es libre.
-
----
-
-## Radar de señales (próximas 4 semanas)
-
-| Señal a monitorear | ¿Por qué importa? |
-|--------------------|--------------------|
-| DeepTutor v1.6 / roadmap post-v1.5.0 | Próximas features: MCP server nativo? agent marketplace? |
-| Open edX Summit 2026 (Q3) | Novedades en openedx-ai-extensions y XBlock AI |
-| LATAM EdTech investment rounds | Nuevos clientes potenciales / partners |
-| EU AI Act aplicación a educación | Requisitos XAI y datos de menores en EU |
-| LectūraAgents GitHub repo | Si publican código — forkable para Globant |
-| Khanmigo 2026-2027 redesign launch | Si open-source algún componente; si baja adoption sigue siendo oportunidad |
-| AUSS implementation / GitHub | Si publican código de referencia del framework |
+*Ingest education v9 — 2026-07-11*
