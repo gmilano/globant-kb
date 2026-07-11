@@ -2,7 +2,7 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
-> Última actualización: 2026-07-11 | v9
+> Última actualización: 2026-07-11
 
 ## Stack recomendado: Godot + Nakama
 
@@ -34,6 +34,14 @@ Nakama (Apache-2.0) — backend multiplayer
 | **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. pgvector para RAG. |
 
 ---
+
+## Engines AAA Open Sourced (julio 2026 — novedad)
+
+### Carbon Engine (EVE Online) — MIT 🆕
+- **Licencia**: MIT — uso comercial permitido, cero royalties
+- **Qué es**: El engine de producción detrás de EVE Online (Fenris Creations), open-sourced en julio 2026. Engine probado en producción con millones de usuarios concurrentes en un MMO de elite.
+- **Por qué importa**: Rarísima liberación de engine AAA bajo MIT. Internals del engine son agnósticos a AI; la comunidad está organizando trabajo de AI tooling para Q3 2026.
+- **Uso para Globant**: Referencia de arquitectura MMO a gran escala; potencial para proyectos de simulación masiva; atraer a clientes interesados en EVE-like experiences.
 
 ## Juegos open source para fork + AI
 

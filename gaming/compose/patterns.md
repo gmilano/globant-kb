@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-11 | v9
+> Última actualización: 2026-07-11
 
 ## Patrón base
 
@@ -218,45 +218,35 @@ Godot 4 Editor (MIT)                   ← editor abierto
 
 ---
 
----
+## Receta 7: Model Selection para Game AI (usando lmgame-Bench) 🆕
 
-## Receta 7: Mundo RPG con NPCs Concordia v2.0 (multi-agente social)
-
-**Caso de uso**: MMO / RPG de mundo abierto donde los NPCs tienen vidas autónomas, relaciones entre ellos y responden al jugador de forma coherente con su historial. Basado en Concordia v2.0 (Google DeepMind, jun 2026).
+**Caso de uso**: Elegir el LLM/VLM correcto para una tarea gaming específica antes de comprometerse con un stack.
 
 **Stack**:
 ```
-Godot 4 (MIT) — cliente del juego
-    ↕ HTTP/WebSocket
-FastAPI server (Python)
-    ├── Concordia v2.0 (Apache-2.0)        ← simulación social multi-agente
-    │   ├── Game Master Agent               ← administra el entorno (estado del mundo)
-    │   ├── NPC Agent 1..N                  ← cada NPC con LLM context propio
-    │   │   ├── Memory stream               ← log de eventos con timestamp + relevancia
-    │   │   ├── Reflection                  ← insights de alto nivel (cron job horario)
-    │   │   └── Planning                    ← planes basados en reflexiones
-    │   └── Player Agent                    ← proxy del jugador en el sistema
-    └── LLM backend: Gemini 3.5 Flash / Claude Sonnet / Llama 3.1 70B
-        (uno por agente o un LLM compartido con context isolation)
+GamingAgent (MIT)                         ← framework de evaluación ICLR 2026
+└── lmgame-Bench environments:
+    ├── Tetris          → evalúa reacción rápida + coordinación visio-motora
+    ├── Sokoban         → evalúa planificación a largo plazo
+    ├── 2048            → evalúa razonamiento numérico + estrategia
+    ├── Super Mario Bros → evalúa navegación + timing reactivo
+    └── Ace Attorney    → evalúa coherencia narrativa + memoria larga
 ```
 
-**Repos**:
-- [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. v2.0 jun 2026. Framework completo.
-- [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0, 21.7k stars. Paper original con implementación de referencia.
-- [limbonaut/limboai](https://github.com/limbonaut/limboai) — MIT. BTs para conectar Concordia output a animaciones Godot.
+**Protocolo de selección**:
+1. Identificar el tipo de tarea del NPC/agente: ¿planificación, reacción, narrativa, mixto?
+2. Clonar [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) y ejecutar los 3 juegos más relevantes para el caso de uso.
+3. Comparar modelos candidatos: Claude claude-sonnet-5, GPT-4o, Gemini 1.5 Pro, Llama 3.1 70B.
+4. Seleccionar modelo con mejor score en la tarea relevante — no el "mejor en general".
+5. Para latencia: siempre benchmark tiempo de respuesta en el game loop real (target < 100ms para NPCs reactivos).
 
-**Cómo conectar**:
-1. Instalar Concordia: `pip install concordia`.
-2. Definir el "world": locaciones, objetos, reglas del entorno.
-3. Instanciar cada NPC como `entity.Entity` con nombre, descripción, goals, y acceso al LLM.
-4. Instanciar el `game_master.GameMaster` con el LLM y el entorno.
-5. En cada tick del juego: `game_master.step()` — el GM evalúa acciones de todos los agentes y actualiza el estado del mundo.
-6. Godot recibe el estado actualizado vía WebSocket → anima NPCs según sus posiciones y estados.
-7. Player input → Player Agent en Concordia → respuesta del GM → cambios en el mundo.
+**Costos estimados de benchmark**:
+- ~$15-30 por modelo evaluado (API) para 3 juegos x 50 episodios cada uno.
+- Tiempo: 2-4 horas de ejecución por modelo.
 
-**Tiempo estimado**: 4-6 semanas para RPG con 5-10 NPCs autónomos.
-**Costo cloud**: Gemini 3.5 Flash a ~$0.003 per 1k tokens → ~$0.05-$0.15 por sesión de 30 min con 10 NPCs activos.
-**Scaling**: Para MMOs, sharding por zona geográfica — cada zona tiene su propio GameMaster + NPC pool.
+**Output**: Tabla comparativa modelo × tarea → decisión documentada y reproducible.
+
+**Por qué importa**: El 52% de developers teme overselling de AI. Un benchmark propio da evidencia objetiva al cliente.
 
 ---
 
@@ -270,7 +260,7 @@ FastAPI server (Python)
 | Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability |
 | Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual |
 | AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
-| RPG multi-agente Concordia | Concordia v2.0 + Godot + LLM | 4-6 semanas | NPCs autónomos con vidas reales |
+| **Model Selection Benchmark** | GamingAgent + lmgame-Bench | 2-4 horas ejecución | Decisión documentada, evita overselling |
 
 ---
-*Repos verificados en GitHub 2026-07-11. URLs directas incluidas.*
+*Repos verificados en GitHub 2026-07-02. URLs directas incluidas.*
