@@ -1,17 +1,26 @@
 # Foundational Repos — Technology Industry
 
 > Bases to build on. Open license, active community, production-proven.
-> Last updated: 2026-07-11
+> Last updated: 2026-07-12
 
 ## AI / LLM Infrastructure
 
 | Repo | License | Stars | Description | AI Starting Point? |
 |------|---------|-------|-------------|-------------------|
 | [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 139k | The agent engineering platform. 100M+ monthly downloads, $1.25B valuation. Document loaders, chains, tools, memory. | Yes — universal LLM integration layer |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT* | 36.7k | Stateful graph runtime for agents. Supports durable execution, human-in-the-loop, sub-graphs, streaming. *Production API = commercial. | Yes — multi-step agentic workflows |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT* | 36.7k | Stateful graph runtime for agents. Durable execution, human-in-the-loop, sub-graphs, streaming. *Production API = commercial. | Yes — multi-step agentic workflows |
 | [huggingface/transformers](https://github.com/huggingface/transformers) | Apache-2.0 | 140k+ | The foundational model hub. 600k+ models, fine-tuning pipelines, inference servers. | Yes — model layer for any AI feature |
 | [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Official MCP reference implementations: GitHub, Slack, filesystem, Git, memory, fetch, time. | Yes — standard tool-use protocol |
 | [ollama/ollama](https://github.com/ollama/ollama) | MIT | 110k+ | Run LLMs locally (Llama, Mistral, Gemma, Qwen, etc.). REST API compatible with OpenAI SDK. LATAM data-residency key. | Yes — local LLM inference |
+
+## Breakout Repos (2026)
+
+| Repo | License | Stars | Description | AI Starting Point? |
+|------|---------|-------|-------------|-------------------|
+| [openclaw/openclaw](https://github.com/openclaw/openclaw) | MIT | 346k+ | Personal AI assistant, local-first, 50+ integrations. Fastest-growing OSS project in GitHub history. MIT. | Yes — conversational agent gateway |
+| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | MIT | 175k+ | Autonomous agent with 3-tier persistent memory (holographic SQLite + semantic + episodic). Writes its own skills. | Yes — persistent memory agent base |
+| [github/spec-kit](https://github.com/github/spec-kit) | MIT | 111k | Spec-Driven Development toolkit. specify CLI + templates. Supports 30+ AI coding agents. | Yes — structured AI development workflow |
+| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | 95k | Lightweight terminal coding agent by OpenAI. Works with Spec-Kit's agent integrations. | Yes — terminal autonomous coding |
 
 ## MLOps & Model Lifecycle
 
