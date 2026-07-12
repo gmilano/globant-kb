@@ -1,89 +1,54 @@
-# Trends — Technology / AI Developer Tools (2026-07-12)
+# 📡 Tendencias — Technology
 
-> 14 key trends shaping the technology industry's AI transformation in 2026.
+> Tendencias actuales en AI para la industria tech y desarrollo de software.
+> Última actualización: 2026-07-12
 
-## T1 — Agentic Coding is the New Baseline (Updated: SWE-bench 95%+)
+## Top 10 Tendencias (julio 2026)
 
-AI agents that autonomously open PRs, write tests, fix CI failures, and resolve GitHub issues are production reality. Claude Fable 5 scored 95% on SWE-bench Verified (July 2026); Opus 4.8 at 88.6%. OpenHands + Opus 4.8 is the best self-hosted open-source combo. Gartner predicts 40% of enterprise applications will feature task-specific AI agents by end of 2026, up from <5% in 2025 — an 8× jump in a single year.
+### T1 — Terminal-first AI coding agents como nuevo paradigma
 
-**Implication for Globant**: Engineer roles are shifting from execution to orchestration. Staff need training in agent design, prompt engineering, and AI output review.
+Claude Code, Gemini CLI y OpenCode están redefiniendo dónde vive la AI del developer. La tendencia es clara: los mejores tools están en el terminal, no en el browser. Terminal-Bench 2.1 (leaderboard público) muestra a Codex CLI + GPT-5.5 en #1 (83.4%) y Claude Code + Opus 4.8 en #2 (78.9%). Los IDEs (Cursor, Windsurf, Copilot) siguen siendo relevantes pero el poder está en el terminal.
 
-## T2 — Spec-Driven Development Replaces Vibe Coding (NEW — July 2026)
+### T2 — De copilots a agentes autónomos
 
-"Vibe coding" (typing prompts and accepting whatever AI returns) is being displaced by Spec-Driven Development (SDD): write a specification first, generate code from it, validate against the spec. GitHub Spec-Kit (111k stars, MIT) crossed that threshold in May 2026 as the antidote to piecemeal vibe coding. Amazon's spec-native Kiro IDE went to global GA May 7, 2026. Spec-Kit supports 30+ AI coding agents and has shipped 55+ releases since February 2026.
+El mercado pasó de "autocomplete inteligente" a "agentes que leen el repo completo, hacen plan, ejecutan, testean y crean el PR". Claude Code pasó de 34% a 78% de sesiones multi-archivo en un año. La pregunta en enterprise ya no es "¿usamos AI?" sino "¿cuánta autonomía le damos?"
 
-**Key paradigm shift**: specification is now a first-class artifact, not just a comment. The workflow is: `specify → plan → tasks → implement → validate`.
+### T3 — Bounded autonomy como patrón enterprise dominante
 
-**Implication**: Globant AI Studios should adopt Spec-Driven Development as the standard AI delivery methodology. It improves reproducibility, traceability, and quality of AI-generated code — reducing the "rework tax" on agentic projects.
+Las empresas más maduras en AI coding usan "bounded autonomy": límites operacionales claros (el agente no puede pushear a main sin aprobación), rutas de escalación a humanos para decisiones de alto riesgo, y audit trails completos. Esto viene de observar fallos en deployments sin guardrails.
 
-## T3 — Persistent Agent Memory is a Production Reality (NEW — 2026)
+### T4 — MCP como protocolo universal para developer tools
 
-Hermes Agent (175k stars, MIT, NousResearch) launched Feb 2026 with a 3-tier persistent memory architecture: holographic SQLite FTS5 for factual recall, semantic search, and episodic logs — no external vector database required. Memory OS, a 6-layer open-source stack built on top of Hermes, launched June 2026. Average agent session length grew from 4 minutes (Q1 2025) to 23 minutes (Q1 2026) per Anthropic's 2026 Agentic Coding Trends Report — direct evidence that agents are taking on longer, stateful work.
+El Model Context Protocol (Anthropic) se convierte en el "USB-C" del ecosistema AI. Ya está integrado en Gemini CLI, n8n, Continue, Dify, GitHub Copilot. Cualquier tool que no tenga MCP soport quedará desconectado del ecosistema. Oportunidad: crear servidores MCP para tools internas de clientes.
 
-**Implication**: Architecture patterns from 2024 (stateless RAG per query) are giving way to stateful agents with institutional memory. Globant should evaluate Hermes Agent for internal knowledge agents — runbooks, ADRs, client context — that accumulate value over time.
+### T5 — BYOK y self-hosting como diferenciadores competitivos
 
-## T4 — MCP Protocol Becomes Universal Standard
+La preocupación por privacidad de código y costo de tokens impulsa BYOK (bring-your-own-key) y self-hosting. OpenCode conecta con 75+ providers; Ollama + Open WebUI permiten correr LLMs 100% localmente. En LATAM este trend se amplifica por requerimientos de residencia de datos.
 
-The Model Context Protocol crossed 97M monthly SDK downloads and 10,000+ indexed servers. The 2026-07-28 RC is the largest revision since launch: stateless HTTP core, MCP Apps (server-rendered UIs), Tasks extension, OAuth/OIDC-aligned auth. Claude, ChatGPT, Gemini, Copilot, and Cursor all have native MCP support. Linux Foundation governs the spec.
+### T6 — Multi-agent software teams (MetaGPT / CrewAI)
 
-**Implication**: Every new AI feature Globant builds should expose an MCP interface. Clients will expect their AI tools to be MCP-compatible.
+El patrón de "un agente" evoluciona a "un equipo de agentes": PM → Architect → Developer → QA → Security Reviewer, cada uno especializado. MetaGPT (~50k★) y CrewAI (~30k★) son las implementaciones open source más maduras. Enterprise pattern: equipo de 5-8 agentes con roles definidos.
 
-## T5 — Developer Role Transformation (Orchestrator > Coder)
+### T7 — AI-native CI/CD y DevOps
 
-Gartner: by 2026, 90% of software engineers shift from hands-on coding to AI process orchestration. The primary skills are now: directing agents effectively, reviewing AI output, designing system architecture, and making judgment calls AI cannot. Boilerplate, test scaffolding, and documentation are fully AI-owned. Architecture, security, and business logic still need experienced humans.
+CI/CD pipelines que incluyen agentes AI como step nativo: auto-fix de tests fallidos, code review automatizado (claude-code-security-review), generación de changelogs, actualización de documentación. El developer hace merge request y el agente completa el ciclo.
 
-**Implication**: Globant's hiring profile and L&D curriculum need to evolve toward "AI-native software engineering."
+### T8 — Vibe coding y no-engineers escribiendo software
 
-## T6 — Local LLM Inference for Sovereign/Air-Gapped Use Cases
+La adopción masiva de AI coding tools baja la barrera de entrada: diseñadores, PMs y domain experts están "vibing" código funcional con Dify + n8n + Flowise. No reemplaza ingenieros senior, pero multiplica la producción de MVPs y automatizaciones internas.
 
-Ollama (110k+ stars, MIT) and llama.cpp make running Llama 3.1 70B, Qwen3 72B, and Mistral Nemo locally practical on commodity hardware. Key driver: LATAM regulatory environment (Brazil LGPD, Mexico data locality, Colombia healthcare reform 2024). Enterprise clients in banking, healthcare, and government are blocking SaaS AI tools. OpenClaw (346k stars, MIT) and Hermes Agent (175k stars, MIT) both run fully locally.
+### T9 — LLM fine-tuning y RAG sobre código base privado
 
-**Implication**: Globant needs a sovereign AI stack pattern — Ollama + Continue/Goose + OpenObserve + LangGraph — that can be deployed fully air-gapped.
+Las empresas con grandes codebases privadas invierten en RAG sobre su código (usando embeddings de repos internos) y fine-tuning de modelos para su stack específico. Dify y Open WebUI facilitan esto. Clave para Globant: ofrecerlo como servicio diferenciado.
 
-## T7 — CLI Agents Dominate Over IDE Plugins
+### T10 — AI governance y compliance para código AI-generated
 
-Command-line AI agents (Claude Code, Codex CLI, Goose, Aider) are outpacing IDE plugin categories. Average coding agent session length grew to 23 minutes (Q1 2026) — long-running terminal sessions that execute complex multi-file tasks. Anthropic's 2026 report: net decrease in time per task but much larger net increase in output volume.
+Gartner proyecta que el 60% del código nuevo en 2026 será AI-generado. Esto crea necesidad de auditoría, trazabilidad y compliance. El mercado de "AI code governance" es emergente: quién generó cada línea, con qué modelo, qué licencias incluye el código generado, etc.
 
-**Implication**: Invest in terminal/CLI agent workflows, not just IDE autocomplete. The real value creation is in long-running autonomous sessions, not inline suggestions.
+## Repos más activos esta semana (julio 2026)
 
-## T8 — The Agent Skills Economy
-
-Reusable agent skills (think: npm packages for agents) are emerging as the new unit of IP. Addy Osmani's `agent-skills` repo (43.8k stars) encodes Google engineering culture. MCP servers are skills. Dify's agent marketplace is skills. The pattern: organizations encode their internal processes as skills/MCP servers, then compose them into agents.
-
-**Implication**: Globant can build vertical skill libraries per industry (technology, healthcare, financial) as a defensible IP asset.
-
-## T9 — Observability for AI Systems (LLM-Obs)
-
-Traditional APM tools don't capture what matters in AI systems: token costs, latency per LLM call, agent decision paths, hallucination rates, tool-call success/failure. New category: LLM observability. LangSmith (commercial), Arize Phoenix (Apache-2.0), Langfuse (MIT), and OpenObserve (Apache-2.0) covering this. OpenTelemetry GenAI semantic conventions now stable.
-
-**Implication**: Every AI system Globant delivers must include LLM observability from day one. This is now a table-stakes quality requirement.
-
-## T10 — Multi-Agent Frameworks Consolidation
-
-The framework landscape is consolidating: LangGraph (stateful graphs), CrewAI (role-based crews), Microsoft Agent Framework (AutoGen + Semantic Kernel merger), and Dify (low-code). The long tail of single-purpose frameworks is shrinking. Smolagents and Google ADK serve the lightweight/research tier.
-
-**Implication**: Globant's AI Studios should standardize on 2-3 frameworks with deep expertise rather than maintaining shallow knowledge of 10+.
-
-## T11 — AI-Native DevOps (AIOps)
-
-Autonomous incident detection, root cause analysis, and auto-remediation are moving from research to production. GitHub Copilot for Workspace automates PR → review → merge flows. AI-generated CI/CD pipelines (Jenkins, Drone, GitHub Actions) via natural language. Alert noise reduction via LLM triage agents.
-
-**Implication**: Globant's DevOps practice has a new AI-Native DevOps service line opportunity.
-
-## T12 — Enterprise Agentic Platform Layer Race
-
-Every major cloud provider is building an "agentic middleware" layer: AWS Bedrock Agents, Azure AI Agent Service, Google Vertex AI Agent Engine. Open-source equivalents: LangGraph Platform, Dify, Flowise. The race is to be the enterprise control plane for agent orchestration, state management, and access control.
-
-**Implication**: Globant should evaluate positioning as the systems integrator for this layer — connecting client enterprise systems to the agentic middleware of their choice.
-
-## T13 — Code Review Quality as Differentiator
-
-As AI generates 50–80% of code lines in many teams, human review becomes the quality gate. AI-assisted code review (Claude Code for PRs, OpenHands as reviewer, claude-code-security-review GitHub Action at 5.4k stars) is now a distinct product category. SonarQube adding LLM-powered vulnerability explanation.
-
-**Implication**: Globant can package "AI-augmented code review" as a managed quality service, especially for clients scaling AI code generation.
-
-## T14 — LATAM AI Talent as Competitive Advantage
-
-Average hourly rate for AI-native engineers in LATAM is 40–60% below North American equivalents. Brazil, Argentina, Colombia, and Mexico are producing significant ML/AI talent (NeurIPS acceptances growing). Globant's timezone overlap with US clients makes LATAM AI-native engineering teams highly attractive. The spec-driven development paradigm further amplifies LATAM output per engineer.
-
-**Implication**: Accelerate LATAM AI talent development now; the window of labor arbitrage + quality advantage narrows as AI tools further democratize coding globally.
+- [anomalyco/opencode](https://github.com/anomalyco/opencode) — Terminal coding agent OSS #1, 172k★ y creciendo
+- [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) — Terminal agent de Google, 105k★, MCP nativo
+- [langgenius/dify](https://github.com/langgenius/dify) — AI app platform production-ready, 136k★
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Workflow automation con AI y MCP, 162k★
+- [all-hands-ai/OpenHands](https://github.com/all-hands-ai/OpenHands) — Software engineering agent en sandbox Docker, 60k★

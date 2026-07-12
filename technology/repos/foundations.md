@@ -1,45 +1,32 @@
-# Foundational Repos — Technology Industry
+# 🏗️ Repos Fundacionales — Technology
 
-> Bases to build on. Open license, active community, production-proven.
-> Last updated: 2026-07-12
+> Bases sobre las cuales construir soluciones AI para la industria tech.
+> Licencia abierta, comunidad activa, probados en producción.
+> Última actualización: 2026-07-12
 
-## AI / LLM Infrastructure
+## Plataformas y frameworks base
 
-| Repo | License | Stars | Description | AI Starting Point? |
-|------|---------|-------|-------------|-------------------|
-| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | 139k | The agent engineering platform. 100M+ monthly downloads, $1.25B valuation. Document loaders, chains, tools, memory. | Yes — universal LLM integration layer |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT* | 36.7k | Stateful graph runtime for agents. Durable execution, human-in-the-loop, sub-graphs, streaming. *Production API = commercial. | Yes — multi-step agentic workflows |
-| [huggingface/transformers](https://github.com/huggingface/transformers) | Apache-2.0 | 140k+ | The foundational model hub. 600k+ models, fine-tuning pipelines, inference servers. | Yes — model layer for any AI feature |
-| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | MIT | 18k | Official MCP reference implementations: GitHub, Slack, filesystem, Git, memory, fetch, time. | Yes — standard tool-use protocol |
-| [ollama/ollama](https://github.com/ollama/ollama) | MIT | 110k+ | Run LLMs locally (Llama, Mistral, Gemma, Qwen, etc.). REST API compatible with OpenAI SDK. LATAM data-residency key. | Yes — local LLM inference |
+| Repo | Licencia | Descripción | Stars | ¿Base para AI? |
+|------|----------|-------------|-------|----------------|
+| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | Framework LLM más popular; chains, RAG, tool calling, memory, agents sobre cualquier modelo | ~100k | Sí — framework base |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | Flujos de agentes con estado persistente (grafos cíclicos); ideal para workflows multi-step complejos | ~18k | Sí — orquestación |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | Plataforma completa de producción para apps AI: RAG, workflow builder, model management, API, self-hosted | ~136k | Sí — plataforma completa |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0 | Workflow automation con AI nativo y soporte MCP client/server; 162k estrellas, alternativa open source a Zapier | ~162k | Sí — automatización |
+| [ollama/ollama](https://github.com/ollama/ollama) | MIT | Corre LLMs localmente (Llama, Mistral, Gemma, Phi, DeepSeek); API compatible OpenAI; Linux/Mac/Windows | ~120k | Sí — inferencia local |
+| [open-webui/open-webui](https://github.com/open-webui/open-webui) | MIT | Chat UI self-hosted para LLMs locales y APIs; soporte Ollama + OpenAI; RAG integrado | ~60k | Sí — frontend AI |
+| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | Plataforma ML lifecycle: tracking, model registry, serving, evaluación; 20k estrellas, estándar de facto MLOps | ~20k | Sí — MLOps |
+| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | ML workflows nativos en Kubernetes: pipelines, model training, serving; estándar enterprise k8s ML | ~14k | Sí — ML at scale |
+| [zenml-io/zenml](https://github.com/zenml-io/zenml) | Apache-2.0 | ML pipeline platform modular; integra con Airflow, Kubeflow, MLflow, Seldon; de pipelines a agentes | ~4.5k | Sí — pipelines |
+| [iterative/dvc](https://github.com/iterative/dvc) | Apache-2.0 | Data Version Control — versiona datasets y modelos en Git; estándar para reproducibilidad ML | ~14k | Sí — data versioning |
 
-## Breakout Repos (2026)
+## Frameworks de agentes especializados
 
-| Repo | License | Stars | Description | AI Starting Point? |
-|------|---------|-------|-------------|-------------------|
-| [openclaw/openclaw](https://github.com/openclaw/openclaw) | MIT | 346k+ | Personal AI assistant, local-first, 50+ integrations. Fastest-growing OSS project in GitHub history. MIT. | Yes — conversational agent gateway |
-| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | MIT | 175k+ | Autonomous agent with 3-tier persistent memory (holographic SQLite + semantic + episodic). Writes its own skills. | Yes — persistent memory agent base |
-| [github/spec-kit](https://github.com/github/spec-kit) | MIT | 111k | Spec-Driven Development toolkit. specify CLI + templates. Supports 30+ AI coding agents. | Yes — structured AI development workflow |
-| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | 95k | Lightweight terminal coding agent by OpenAI. Works with Spec-Kit's agent integrations. | Yes — terminal autonomous coding |
-
-## MLOps & Model Lifecycle
-
-| Repo | License | Stars | Description | AI Starting Point? |
-|------|---------|-------|-------------|-------------------|
-| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | 20k | Open-source ML platform: experiment tracking, model registry, deployment, AI gateway for LLMs. | Yes — experiment tracking + deployment |
-| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | 14k | ML on Kubernetes: Pipelines, Katib hyperparameter tuning, KServe model serving. | Yes — production ML on K8s |
-| [iterative/dvc](https://github.com/iterative/dvc) | Apache-2.0 | 14k | Data Version Control — Git for ML datasets + model versioning. Integrates with S3, GCS, Azure. | Yes — data + model versioning |
-| [ray-project/ray](https://github.com/ray-project/ray) | Apache-2.0 | 35k | Distributed Python framework. RLlib (RL), Train (distributed training), Serve (model serving). | Yes — scale any Python AI workload |
-
-## Observability & DevOps
-
-| Repo | License | Stars | Description | AI Starting Point? |
-|------|---------|-------|-------------|-------------------|
-| [openobserve/openobserve](https://github.com/openobserve/openobserve) | Apache-2.0 | 14k | Unified observability: logs, metrics, traces, frontend monitoring. SQL + PromQL, OpenTelemetry-native. Best open-source obs platform 2026. | Yes — observe AI agent pipelines |
-| [prometheus/prometheus](https://github.com/prometheus/prometheus) | Apache-2.0 | 56k | Industry-standard metrics collection + alerting. Pull-based, PromQL, Kubernetes-native. | Yes — metrics for AI services |
-| [grafana/grafana](https://github.com/grafana/grafana) | AGPL-3.0 | 65k | Visualization platform. Works with Prometheus, Loki, Tempo, Pyroscope. AI-assisted dashboards in 2026. | Yes — dashboards for AI system monitoring |
-| [open-telemetry/opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector) | Apache-2.0 | 4.8k | Vendor-agnostic telemetry pipeline. Receive, process, export logs/metrics/traces anywhere. | Yes — instrument AI agent observability |
-| [hashicorp/terraform](https://github.com/hashicorp/terraform) | BUSL-1.1* | 43k | Infrastructure as Code. *BUSL but widely used. OpenTofu (MPL-2.0) is the open fork. | Yes — provision AI infra reproducibly |
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | Multi-agent framework de Microsoft; conversaciones entre agentes, human-in-the-loop, tool calling | ~58k |
+| [geekan/MetaGPT](https://github.com/geekan/MetaGPT) | MIT | Software company en código: roles PM/Arch/Dev/QA coordinados por LLMs; genera código completo desde spec | ~50k |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | Orquestación de crews de agentes especializados; mejor-en-clase para multi-agent coordination | ~30k |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | Agentes minimalistas donde el LLM escribe Python code como actions; sin DSL, máxima flexibilidad | ~27k |
 
 ---
-*See also: `verticals/solutions.md` for complete vertical platforms.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*

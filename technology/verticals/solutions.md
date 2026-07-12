@@ -1,66 +1,53 @@
-# Technology Vertical Platforms — AI-Ready
+# 🏭 Verticales de Partida — Technology
 
-> Existing open-source platforms customizable with AI.
-> Model: start with something functional, add an agentic layer on top.
-> Last updated: 2026-07-12
+> Plataformas verticales existentes customizables con AI para la industria tech.
+> Modelo: partir de algo funcional y maduro, añadir capa agéntica encima.
+> Última actualización: 2026-07-12
 
-## Developer Tooling Platforms
+## Plataformas recomendadas
 
-| Platform | License | URL | Stack | AI Use Case |
-|----------|---------|-----|-------|-------------|
-| Gitea | MIT | [go-gitea/gitea](https://github.com/go-gitea/gitea) | Go, SQLite/Postgres | Self-hosted Git server. Add AI PR review (OpenHands/SWE-agent) + code summarization on top. Enterprise alternative to GitHub for air-gapped clients. |
-| GitLab CE | MIT | [gitlab-org/gitlab](https://github.com/gitlab-org/gitlab-foss) | Ruby on Rails, React | Full DevSecOps platform. AI Duo integration hooks. Add Claude for MR review, pipeline generation, vulnerability triage. |
-| Zed Editor | GPL-3.0 | [zed-industries/zed](https://github.com/zed-industries/zed) | Rust | AI-native code editor v1.0 (April 2026). Built-in Agent Panel, Zeta2 local completion model, Ollama support. <500ms cold start, <2ms keystroke latency. $32M Sequoia funding. |
-| Jenkins | MIT | [jenkinsci/jenkins](https://github.com/jenkinsci/jenkins) | Java | Ubiquitous CI/CD. Add LLM plugin for pipeline-as-code generation, test failure root cause analysis. |
-| Drone CI | Apache-2.0 | [harness/drone](https://github.com/harness/drone) | Go | Lightweight container-native CI. Simpler to instrument with AI agents than Jenkins. |
+| Plataforma | Licencia | URL | Stack | Caso de uso AI |
+|------------|----------|-----|-------|----------------|
+| **Dify** | Apache-2.0 | [langgenius/dify](https://github.com/langgenius/dify) | Python / TypeScript / Next.js | Base para apps AI productivas: RAG pipelines, workflow agéntico, model management, API gateway para LLMs |
+| **n8n** | Apache-2.0 | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Node.js / TypeScript / Vue | Automatización AI no-code/low-code; trigger → agente → acción; MCP client nativo desde v1.70+ |
+| **Open WebUI** | MIT | [open-webui/open-webui](https://github.com/open-webui/open-webui) | Python / Svelte | Chat UI self-hosted sobre Ollama + cualquier API OpenAI-compatible; RAG, tools, multimodal |
+| **Flowise** | Apache-2.0 | [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Node.js / TypeScript | Builder visual drag-and-drop de LLM flows y agentes; para prototipos rápidos y teams sin código |
+| **MLflow** | Apache-2.0 | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Python / React | Tracking de experimentos ML, model registry, serving; estándar de facto para MLOps en enterprise |
+| **Kubeflow** | Apache-2.0 | [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Kubernetes / Python | ML pipelines productivos en k8s; training distribuido, model serving, hyperparameter tuning |
+| **Gitea** | MIT | [go-gitea/gitea](https://github.com/go-gitea/gitea) | Go / JavaScript | Git service self-hosted liviano; base para flujos DevOps con AI integrado en CI/CD |
+| **Plane** | Apache-2.0 | [makeplane/plane](https://github.com/makeplane/plane) | Python / Next.js | Project management open source (alternativa a Linear/Jira); base para AI-powered project tracking |
+| **Appsmith** | Apache-2.0 | [appsmithorg/appsmith](https://github.com/appsmithorg/appsmith) | Java / TypeScript | Builder de internal tools; conecta con cualquier DB/API y añade UI conversacional con AI |
+| **Mattermost** | MIT | [mattermost/mattermost](https://github.com/mattermost/mattermost) | Go / React | Team communications self-hosted; plataforma para bots AI y asistentes internos en enterprise |
 
-## Spec-Driven Development Platforms
+## Cómo customizar con AI
 
-| Platform | License | URL | Stack | AI Use Case |
-|----------|---------|-----|-------|-------------|
-| GitHub Spec-Kit | MIT | [github/spec-kit](https://github.com/github/spec-kit) | Node.js CLI | Spec-Driven Development toolkit. `specify` CLI + templates. Agent-agnostic (30+ agents). The production antidote to vibe coding — prescribes specify → plan → tasks → implement. |
-| Amazon Kiro (CLI) | Proprietary* | Amazon Kiro | TypeScript | Spec-native IDE (GA May 7, 2026). *Proprietary but worth knowing as the spec-driven paradigm's commercial flagship. |
+### Patrón estándar (3-4 semanas)
 
-## Persistent Memory & Agent Platforms
+```
+1. Fork del repo base (Dify, n8n, o Gitea según el caso)
+2. Definir el dominio de conocimiento (embeddings de docs internos)
+3. Configurar provider AI: Anthropic / OpenAI / Ollama local
+4. Wrappear flujos existentes con agentes (LangGraph o CrewAI)
+5. Exponer UI conversacional o API REST para el cliente
+```
 
-| Platform | License | URL | Stack | AI Use Case |
-|----------|---------|-----|-------|-------------|
-| Hermes Agent | MIT | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Python, SQLite | 3-tier persistent memory agent (holographic FTS5 + semantic + episodic). No vector DB required. Self-hosted on $5 VPS. |
-| OpenClaw | MIT | [openclaw/openclaw](https://github.com/openclaw/openclaw) | Multi-platform | Local-first AI assistant with 50+ integrations. Non-profit foundation governance. Ideal for LATAM private deployments. |
-| Dify | Apache-2.0 | [langgenius/dify](https://github.com/langgenius/dify) | Python/Docker | Low-code LLM app + agent platform. Visual workflow builder, knowledge base RAG, MCP integration. 10k+ enterprise deployments. |
+### Integración AI sobre DevOps existente
 
-## MLOps & AI Engineering Platforms
+```
+Gitea (self-hosted Git)
+      ↓
+CI/CD pipeline (Gitea Actions / Jenkins / GitHub Actions)
+      ↓
+Claude Code Security Review (GitHub Action MIT)
+      ↓
+MLflow (tracking de métricas / model registry)
+      ↓
+Kubeflow (deployment en k8s)
+```
 
-| Platform | License | URL | Stack | AI Use Case |
-|----------|---------|-----|-------|-------------|
-| MLflow | Apache-2.0 | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Python | Experiment tracking, model registry, AI gateway for routing LLM calls. Standard for Globant ML projects. |
-| Kubeflow | Apache-2.0 | [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Kubernetes, Python | End-to-end ML pipeline platform on K8s. AI-driven hyperparameter optimization via Katib. |
-| Prefect | Apache-2.0 | [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Python | Data/AI pipeline orchestration. Native AI task automation, observability built in. |
-| Apache Airflow | Apache-2.0 | [apache/airflow](https://github.com/apache/airflow) | Python | Workflow scheduling. Add LLM-powered DAG generation + anomaly detection in pipeline runs. |
+### Stack mínimo viable para AI dev tools interno
 
-## Observability Platforms
-
-| Platform | License | URL | Stack | AI Use Case |
-|----------|---------|-----|-------|-------------|
-| OpenObserve | Apache-2.0 | [openobserve/openobserve](https://github.com/openobserve/openobserve) | Rust, Vue.js | Unified logs/metrics/traces. SQL + PromQL. Ranked #1 open-source obs platform 2026. Add AI anomaly detection + root cause agent. |
-| Grafana | AGPL-3.0 | [grafana/grafana](https://github.com/grafana/grafana) | Go, TypeScript | Visualization. AI-assisted dashboard generation in Grafana 11+. Works with any data source. |
-| Prometheus | Apache-2.0 | [prometheus/prometheus](https://github.com/prometheus/prometheus) | Go | Metrics collection. Add LLM-powered alert rule generation, PromQL query assistant. |
-| Netdata | GPL-3.0 | [netdata/netdata](https://github.com/netdata/netdata) | C, Python | Per-second real-time metrics. Anomaly detection built in. Low overhead for edge/LATAM servers. |
-
-## Knowledge Management & Internal Tooling
-
-| Platform | License | URL | Stack | AI Use Case |
-|----------|---------|-----|-------|-------------|
-| Outline | BSL* | [outline/outline](https://github.com/outline/outline) | Node.js, React | Team wiki/docs. *BSL but self-hostable for internal use. Add AI search + document summarization. |
-| AppFlowy | AGPL-3.0 | [AppFlowy-IO/AppFlowy](https://github.com/AppFlowy-IO/AppFlowy) | Flutter, Rust | Notion alternative. AI writing assistant built in. Self-hosted for IP-sensitive clients. |
-| Mattermost | Apache-2.0 | [mattermost/mattermost](https://github.com/mattermost/mattermost) | Go, React | Slack alternative. Add AI bot for incident response, PR notifications, code review summaries. |
-
-## How to Add AI to Any Platform
-
-1. **Fork** the base repo or run it self-hosted
-2. **Add an MCP server** or OpenAI-compatible API endpoint pointing at Claude/local LLM
-3. **Wrap existing workflows** with LangGraph agents for multi-step automation
-4. **Add Spec-Driven Development** via GitHub Spec-Kit to structure AI delivery
-5. **Add Hermes Agent** for persistent institutional memory across sessions
-6. **Add conversational UI** via Dify or a custom React/Next.js frontend with Vercel AI SDK
-7. **Instrument with OpenTelemetry** from day one — you'll need traces when debugging agent runs
+- **Backend**: Dify (orquestación) + MLflow (tracking) + Ollama (modelos locales)
+- **Frontend**: Open WebUI (chat) + Plane (PM)
+- **Automatización**: n8n (triggers y workflows)
+- **Infra**: Kubernetes + Kubeflow para training; Docker para serving
