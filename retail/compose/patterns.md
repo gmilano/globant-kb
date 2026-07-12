@@ -1,25 +1,25 @@
 # 🧩 Patrones de composición — Retail & Ecommerce AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-11
+> Última actualización: 2026-07-12
 
 ## Arquitectura base
 
 ```
-[Plataforma ecommerce/ERP (Medusa / Saleor / ERPNext)]
+[Plataforma ecommerce/ERP (Medusa / Saleor / Shopify UCP / ERPNext)]
               ↓
-     [MCP Server (medusa-mcp / mcp-product)]
+     [MCP Server (medusa-mcp / UCP endpoint / mcp-product)]
               ↓
-[Agentes especializados (LangGraph / CrewAI / MAF)]
+[Agentes especializados (LangGraph / CrewAI / MAF / shop-chat-agent)]
               ↓
    [LLM (Claude Haiku para volumen / Sonnet para análisis)]
               ↓
-  [UI / Canal (Next.js storefront / WhatsApp / ACP)]
+  [UI / Canal (Next.js storefront / WhatsApp / UCP / ACP)]
 ```
 
 ---
 
-## Patrón 1: AI Shopping Agent con ACP (ecommerce agéntico)
+## Patrón 1: AI Shopping Agent con ACP/UCP (ecommerce agéntico)
 
 **Objetivo**: Permitir que los AI shopping agents de los usuarios completen compras autónomamente en tu tienda.
 
@@ -27,20 +27,21 @@
 - Backend: [medusajs/medusa](https://github.com/medusajs/medusa) (MIT) — tienda con catálogo y orders
 - MCP: [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) (MIT) — expone Medusa via MCP
 - Checkout protocol: [agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) (Apache-2.0)
-- Pagos: Stripe con Shared Payment Token (ACP-compatible)
+- Pagos: Stripe / PayPal con Shared Payment Token (ACP-compatible)
+- Alternativa Shopify: UCP endpoint público (sin aprobación desde Spring '26)
 
 **Flujo**:
 ```
 AI shopping agent del usuario
-  → ACP endpoint: GET /catalog/search?q=zapatillas running talla 42
-  → ACP endpoint: POST /cart {sku, qty}
-  → ACP endpoint: POST /checkout/session
-  → ACP endpoint: POST /checkout/pay {payment_token}
+  → ACP/UCP endpoint: GET /catalog/search?q=zapatillas running talla 42
+  → ACP/UCP endpoint: POST /cart {sku, qty}
+  → ACP/UCP endpoint: POST /checkout/session
+  → ACP/UCP endpoint: POST /checkout/pay {payment_token}
   → Respuesta: order_id + tracking
 ```
 
-**Tiempo estimado**: 3-4 semanas para MVP (si Medusa ya está en producción)  
-**Valor**: Visibilidad en el canal de AI shopping agents (25% del gasto online en 2030)
+**Tiempo estimado**: 3-4 semanas (Medusa existente); 1-2 semanas (Shopify existente con UCP Skill)
+**Valor**: Visibilidad en canal de AI shopping agents — 1,200% crecimiento YoY
 
 ---
 
@@ -49,19 +50,10 @@ AI shopping agent del usuario
 **Objetivo**: Agente que responde preguntas en lenguaje natural sobre productos del catálogo.
 
 **Stack**:
-- Agente: [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) (MIT) — RAG anti-hallucination para ecommerce
+- Agente: [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) (MIT) — RAG anti-hallucination
 - Plataforma: Medusa / Shopify / Shopware / Solidus (integración nativa en Enthusiast)
 - Vector store: PostgreSQL + pgvector
 - LLM: Claude Haiku (bajo costo, alta frecuencia)
-
-**Flujo**:
-```
-Usuario: "¿Tienen zapatillas impermeables para trail running talla 42 por menos de €100?"
-  → Enthusiast RAG: búsqueda semántica en catálogo indexado
-  → Validation layer: filtra respuestas no grounded en datos reales
-  → Respuesta con producto real, precio real, disponibilidad real
-  → Link directo a product page con Schema.org markup
-```
 
 **Configuración** (docker-compose):
 ```yaml
@@ -79,27 +71,26 @@ services:
     image: pgvector/pgvector:pg16
 ```
 
-**Tiempo estimado**: 1-2 semanas para MVP  
+**Tiempo estimado**: 1-2 semanas para MVP
 **KPI esperados**: 40%+ de deflexión de queries de soporte al cliente
 
 ---
 
 ## Patrón 3: Demand Forecasting + Reposición Automática
 
-**Objetivo**: Sistema agéntico que predice demanda, detecta riesgo de stockout y genera órdenes de reposición automáticas.
+**Objetivo**: Sistema agéntico que predice demanda, detecta riesgo de stockout y genera órdenes de reposición.
 
 **Stack**:
-- Forecasting base: [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) (MIT) — modelos matemáticos (newsvendor, (s,S))
+- Forecasting: [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) (MIT) — modelos matemáticos
 - Orquestación: LangGraph (MIT) — workflow con memoria y human-in-the-loop
 - ERP: [frappe/erpnext](https://github.com/frappe/erpnext) (MIT) — inventario y órdenes de compra
-- LLM: Claude Sonnet 5 — análisis cualitativo de señales externas (tendencias, eventos)
-- Datos externos: tools para clima, Google Trends, eventos locales
+- LLM: Claude Sonnet 5 — análisis cualitativo de señales externas
 
 **Workflow LangGraph**:
 ```python
 # Agentes especializados
-forecaster_agent    # stockpyl models + Claude análisis de señales
-replenishment_agent # calcula cantidades óptimas y genera PO draft
+forecaster_agent    # stockpyl models + Claude análisis de señales externas
+replenishment_agent # cantidades óptimas + genera PO draft
 approval_agent      # human-in-the-loop para órdenes > umbral
 supplier_agent      # comunica órdenes aprobadas via EDI/API proveedor
 
@@ -109,7 +100,7 @@ START → forecaster → replenishment → approval_check
      → [human_review if >$5k] → supplier → END
 ```
 
-**Tiempo estimado**: 6-8 semanas  
+**Tiempo estimado**: 6-8 semanas
 **ROI esperado**: 15-20% reducción en stockouts + 10-15% reducción en overstock
 
 ---
@@ -136,12 +127,8 @@ START → forecaster → replenishment → approval_check
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Comunicación**: A2A protocol (Microsoft Agent Framework v1.0)  
-**Frontend**: Next.js con SSR  
-**Deploy**: Docker Compose → K8s para producción
-
-**Tiempo estimado**: 8-12 semanas para implementación enterprise  
-**Base**: Fork de nitin27may/e-commerce-agents + adaptación al stack del cliente
+**Comunicación**: A2A protocol (Microsoft Agent Framework v1.0)
+**Tiempo estimado**: 8-12 semanas para implementación enterprise
 
 ---
 
@@ -158,22 +145,17 @@ START → forecaster → replenishment → approval_check
 
 **Flujo de conversación**:
 ```
-Usuario WhatsApp: "Hola! Busco regalo para niña de 8 años, presupuesto 500 pesos"
+Usuario: "Hola! Busco regalo para niña de 8 años, presupuesto 500 pesos"
   → LangGraph state: {channel: whatsapp, intent: gift, age: 8, budget_ars: 500}
   → Tool: medusa-mcp.search_products({category: "niñas", age_range: "6-10", max_price: 500})
-  → Claude: formatea respuesta conversacional con 3 opciones + imágenes
+  → Claude: formatea respuesta con 3 opciones + imágenes
   → Usuario: "Me gusta la opción 2"
   → Tool: medusa-mcp.create_cart({product_id: "...", qty: 1})
   → ACP checkout → MercadoPago link
-  → Usuario paga → Confirmación automática
+  → Confirmación automática
 ```
 
-**Personalización LATAM**:
-- Soporte español + variantes regionales (AR, MX, CO, CL, BR)
-- Integración MercadoPago + MercadoLibre shipping
-- Manejo de cuotas/financiamiento (contexto clave en LATAM)
-
-**Tiempo estimado**: 4-6 semanas para MVP  
+**Tiempo estimado**: 4-6 semanas para MVP
 **Diferenciador**: Canal donde el cliente ya está; no necesita descargar app
 
 ---
@@ -184,23 +166,23 @@ Usuario WhatsApp: "Hola! Busco regalo para niña de 8 años, presupuesto 500 pes
 
 **Stack**:
 - Base: [microsoft/RecAI](https://github.com/microsoft/RecAI) InteRecAgent (MIT)
-- RecSys clásico: LightFM (MF) o similar para candidato retrieval
+- RecSys: LightFM para candidato retrieval eficiente
 - Embeddings: RecAI RecLM-emb para item retrieval semántico
-- Re-ranking: Claude Haiku con contexto del usuario en lenguaje natural
-- Exposición: API REST → Medusa/Saleor recommendations widget
+- Cache: Redis semantic caching (patrón redis-developer/shopping-ai-agent-langgraph-js-demo)
+- LLM: Claude Haiku para re-ranking con contexto en lenguaje natural
 
 **Arquitectura**:
 ```
-Request: user_id + context (page, session, explicit prefs)
-  → RecLM-emb: obtiene top-100 candidatos por similitud semántica
+Request: user_id + context
+  → RecLM-emb: top-100 candidatos por similitud semántica
+  → Redis cache: ¿ya calculado para este contexto? → devuelve en <10ms
   → InteRecAgent LLM: re-ranking con contexto cualitativo
-  → Output: top-10 recomendaciones con explicación en lenguaje natural
-  → UI: carousel con "Porque te gustó X, te puede gustar Y..."
+  → Output: top-10 recomendaciones con explicación natural
 ```
 
-**Cold start**: LLM maneja nuevos usuarios via onboarding conversacional (pregunta preferencias)  
-**Tiempo estimado**: 5-7 semanas  
-**Uplift esperado**: 15-25% vs collaborative filtering clásico en cold start + long tail
+**Cold start resuelto**: LLM maneja nuevos usuarios via onboarding conversacional
+**Tiempo estimado**: 5-7 semanas
+**Uplift esperado**: 15-25% vs CF clásico en cold start + long tail
 
 ---
 
@@ -209,8 +191,8 @@ Request: user_id + context (page, session, explicit prefs)
 **Objetivo**: Detección automática de out-of-stock, compliance de planograma y analytics de lineal.
 
 **Stack**:
-- Visión: Gemma 4 via Cerebras (velocidad) o local (costo) — [shelfops](https://github.com/IFAKA/shelfops) como base
-- Arquitectura: [retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) (Apache-2.0)
+- Visión: Gemma 4 via Cerebras (velocidad) o local (costo) — [shelfops](https://github.com/IFAKA/shelfops)
+- Arquitectura: [intel-iot-devkit/smart-retail-analytics](https://github.com/intel-iot-devkit/smart-retail-analytics) (Apache-2.0)
 - Datos: PostgreSQL + timeseries (InfluxDB o Timescale)
 - Alertas: LangGraph → webhook → WhatsApp/Slack al encargado de tienda
 - Dashboard: Apache Superset
@@ -221,17 +203,17 @@ Cámara IP → frame capture (cada 5 min)
   → Gemma 4 vision: detección de huecos + productos mal ubicados
   → Comparación vs planograma digital
   → Si deviation > umbral: alert vía WhatsApp al encargado
-  → Log en dashboard (Superset) para análisis de tendencias
+  → Log en Superset para análisis de tendencias
 ```
 
-**Tiempo estimado**: 8-10 semanas (incluye integración de cámaras)  
+**Tiempo estimado**: 8-10 semanas (incluye integración de cámaras)
 **ROI esperado**: 3-5% incremento en ventas por reducción de stockouts en lineal
 
 ---
 
 ## Patrón 8: Customer Service AI con 60-70% Automatización
 
-**Objetivo**: Deflectar la mayoría de tickets de soporte con agente AI, escalar lo que no puede resolver.
+**Objetivo**: Deflectar mayoría de tickets de soporte con agente AI, escalar lo que no puede resolver.
 
 **Stack**:
 - Orquestación: LangGraph (MIT) con routing inteligente
@@ -250,12 +232,77 @@ Ticket entrante
       → Claude Haiku: genera respuesta personalizada → responde
   → Si not can_automate:
       → Resumen + contexto → cola de agente humano
-      → SuiteCRM: crea ticket con contexto completo
 ```
 
-**Métricas esperadas**:
-- 60-70% deflexión automática
-- CSAT equivalente al canal humano (con Enthusiast anti-hallucination)
-- Tiempo de primera respuesta: <30 segundos (vs horas con humanos)
+**Métricas esperadas**: 60-70% deflexión; CSAT equivalente al canal humano; <30s primera respuesta
+
+---
+
+## Patrón 9: Shopify UCP Chat Agent (onboarding rápido)
+
+**Objetivo**: Agente de compras conversacional sobre cualquier store Shopify en 1-2 semanas, usando la infraestructura UCP que Shopify abrió en Spring '26.
+
+**Stack**:
+- Referencia: [Shopify/shop-chat-agent](https://github.com/Shopify/shop-chat-agent) (Apache-2.0)
+- Protocolo: Shopify UCP con UCP Skill (open-source AI Toolkit)
+- Checkout: Checkout MCP de Shopify (discovery → compra en flujo conversacional)
+- LLM: Claude Haiku 4.5 (bajo costo, velocidad para chat; ~$0.25 por 1M input tokens)
+- Deploy: Docker + Next.js frontend
+
+**Flujo**:
+```
+Usuario: "¿Tienen camisetas de algodón orgánico talla M por menos de $50?"
+  → UCP Skill: catalog_search({query: "camiseta algodón orgánico", size: "M", max_price: 50})
+  → Claude: presenta 3 opciones con imágenes y precios reales
+  → Usuario: "Agrego la azul al carrito"
+  → Checkout MCP: create_cart() → checkout_session()
+  → Usuario: completa pago via checkout nativo de Shopify
+  → Confirmación + tracking automático
+```
+
+**Configuración mínima**:
+```env
+SHOPIFY_STORE_URL=tu-tienda.myshopify.com
+ANTHROPIC_API_KEY=sk-ant-...
+SHOPIFY_UCP_AGENT_ID=<registrado en Developer Dashboard>
+```
+
+**Tiempo estimado**: 1-2 semanas para MVP sobre Shopify existente
+**Ventaja clave**: Sin necesidad de buildear MCP server propio; UCP endpoint de Shopify hace el trabajo
+
+---
+
+## Patrón 10: NVIDIA Catalog Enrichment Pipeline
+
+**Objetivo**: Transformar un catálogo de imágenes básicas en metadata rica y localizada usando GenAI, a escala de miles de SKUs.
+
+**Stack**:
+- Blueprint: [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) (Apache-2.0)
+- VLM: Nemotron-3-Nano-Omni-30B (vision language model para análisis de imágenes)
+- Imagen: FLUX.1-Kontext-Dev para lifestyle images culturalmente apropiadas
+- Embeddings: nv-embedqa-e5-v5 para búsqueda semántica del catálogo
+- Hosting: NVIDIA NIM APIs (cloud) o on-prem con GPU
+
+**Pipeline**:
+```python
+for sku in product_catalog:
+    # Input: imagen de producto + metadata básica + locale config
+    result = catalog_enrichment_blueprint.enrich(
+        image=sku.image_url,
+        basic_metadata=sku.raw_data,
+        brand_voice="premium, sostenible, joven",
+        target_locales=["es-AR", "es-MX", "pt-BR", "en-US"]
+    )
+    # Output por locale:
+    # - title: "Camiseta algodón orgánico pima de comercio justo — Talle M"
+    # - description: párrafo de 150 palabras con beneficios y materiales
+    # - categories: ["ropa/camisetas", "sustentable", "casual"]
+    # - lifestyle_image: imagen contextual generada por FLUX.1
+    sku.update(result)  # → import a Medusa/Saleor/Shopify
+```
+
+**Tiempo estimado**: 4-6 semanas (incluyendo fine-tuning de brand voice)
+**Escala**: 1,000+ SKUs por hora en NVIDIA NIM cloud
+**Caso de referencia**: Grid Dynamics usa este blueprint con retailers grandes en producción
 
 ---
