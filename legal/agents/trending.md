@@ -1,37 +1,57 @@
-# Trending Legal AI — Week of 2026-07-12
+# 📈 Agentes trending — Legal Services
 
-> What's new and gaining momentum in legal AI this week.
-> Last updated: 2026-07-12 (v11)
+> Lo nuevo esta semana en el espacio legal AI. Última actualización: 2026-07-12
 
-## Breaking: Lavern Goes Viral (May–July 2026)
+## Highlights de la semana (julio 2026)
 
-[AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Apache 2.0 — **~2.1k stars** (was 267 on 2026-07-02, now 2.1k+).
-The open-source agentic "law firm" exploded after coverage in Artificial Lawyer (May 20, 2026) and LawNext (June 2026). Key architecture: 67 specialist agents organized into 8 workflows with debate-style verification. LawNext described it as "powerful, fun, and free." Growing ~200 stars/week.
+### 🔥 lavern — Agentic Law Firm (v0.15.0)
+**[AnttiHero/lavern](https://github.com/AnttiHero/lavern)** | Apache-2.0 | 267+ ★
 
-## New This Week
+El proyecto más significativo del mes en legal AI open source. Lanzado en mayo 2026, recibió amplia cobertura en Artificial Lawyer y XIRA. Arquitectura clave:
+- 67 agentes especializados (abogados de distintas prácticas) + orquestadores
+- Protocolo de debate: los agentes publican hallazgos con citas de evidencia, luego 3 capas de verificación
+- Human gates obligatorios antes de decisiones críticas (no agentic-only)
+- Corre contra Anthropic API, Mistral EU, o Ollama completamente local
+- Clawern daemon + dashboard estable en v0.15.0
 
-| Repo | License | Stars | What's New |
-|------|---------|-------|------------|
-| [agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | ~3.2k | Microsoft released April 2, 2026 — full OWASP Agentic Top 10 coverage, EU AI Act checklist. Now trending as Aug 2026 deadline approaches. |
-| [eu-ai-act-toolkit](https://github.com/abdelstark/eu-ai-act-toolkit) | Apache-2.0 | ~420 | Rapid growth as August 2, 2026 EU AI Act high-risk obligations become effective. Compliance deadline driving adoption. |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | ~1.4k | MCP server integration added — now exposes document corpus to any MCP-compatible agent (Claude, Copilot, Cursor). Growing with MCP ecosystem. |
-| [awesome-legal-skills](https://github.com/lawve-ai/awesome-legal-skills) | MIT | ~180 | New agent skills added for LATAM tax compliance (IBS/CBS Brazil reform) and GDPR/EU AI Act auditing. |
-| [LLM-and-Law](https://github.com/Jeryi-Sun/LLM-and-Law) | MIT | ~890 | 12 new papers added in June 2026 covering agentic legal reasoning benchmarks and multi-jurisdiction compliance. |
+### 🆕 OpenContracts — Document Intelligence con MCP
+**[Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts)** | MIT | 1.4k ★
 
-## Key Signals This Week
+Alcanzó 1.4k stars en 2026. Agregó servidor MCP nativo — ahora los agentes pueden hacer queries directamente sobre el citation graph del repositorio de contratos. Arquitectura:
+- API GraphQL + REST para apps
+- MCP server para agentes Claude/Cursor/OpenHands
+- React UI para equipos legales
+- Extracción estructurada + anotación humana + búsqueda semántica
 
-- **EU AI Act D-Day approaching**: August 2, 2026 obligations for high-risk AI are driving a rush of compliance tooling. The `agent-governance-toolkit` and `eu-ai-act-toolkit` are seeing 3x normal traffic.
-- **MCP as legal infrastructure**: OpenContracts' MCP server is positioning document intelligence as a first-class MCP resource. Multiple agents can now "tool-call" into a legal document corpus.
-- **Lavern architecture study**: Multiple teams forking Lavern to extract specific agents (contract analyst agent, regulatory checker agent) as standalone modules.
-- **LATAM legal tech**: Brazil's Reforma Tributária (IBS/CBS transition) driving new specialized agents for regional compliance. `Consultor-Tributario-AI` and similar repos gaining traction in Brazil.
-- **Corporate adoption**: Legal AI adoption doubled (23% → 52%) in 2025; 2026 pace suggests 75%+ by year-end.
+### 🆕 Ecosistema de MCP Servers legales
+Tres nuevos MCP servers especializados ganaron tracción:
 
-## Active Discussion Topics
+| Repo | Descripción | Status |
+|------|-------------|--------|
+| [legal-mcp](https://github.com/agentic-ops/legal-mcp) | Framework MCP extensible para legal AI — 85★ | Activo |
+| [us-legal-mcp](https://github.com/JamesANZ/us-legal-mcp) | US law: Congress + Federal Register + CourtListener | Activo |
+| [open-legal-compliance-mcp](https://github.com/TCoder920x/open-legal-compliance-mcp) | Multi-jurisdicción: US + EU compliance via APIs públicas | Activo |
 
-- Can Lavern's 67 agents be decomposed into a reusable skill library (→ `awesome-legal-skills`)?
-- OpenContracts + MCP: using legal document graphs as tool-callable context for frontier models
-- EU AI Act Article 14 (human oversight) — how to implement it in agentic legal workflows
-- `agent-governance-toolkit`'s Agent OS as a compliance layer for any legal AI deployment
+### 📊 LegalMD — Markdown para documentos legales
+Nuevo proyecto de HAQQ AI (2026): dialect de Markdown para documentos legales con 4 primitivas tipadas:
+- `@party` — partes del contrato
+- `@cite` — citas legales verificadas vs datos abiertos
+- `@clause` — cláusulas identificadas
+- `@deadline` — fechas y vencimientos
+
+TypeScript parser + renderers HTML/JSON + extensión VS Code. Licencia MIT.
+
+### 🌎 LATAM: Consultor Tributario AI
+**[Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI)** — Analyzes Brazil's Reforma Tributária in real time (IBS, CBS, transición fiscal 2026). Señal: hay demanda de AI legal en español/portugués para compliance local.
 
 ---
-*Pipeline auto-update — refreshed each run.*
+
+## Tendencia general de julio 2026
+
+1. **MCP se volvió el protocolo estándar para integrar legal AI** — múltiples servidores dedicados a jurisdicciones y dominios específicos
+2. **Multi-agent legal con human-in-the-loop** — lavern como modelo a seguir: debate entre agentes + gates humanos
+3. **Legal AI local/EU** — lavern soporta Mistral EU y Ollama local; respuesta directa a preocupaciones de soberanía de datos
+4. **Brasil reforma tributaria** impulsa proyectos de compliance AI en LATAM
+
+---
+*Pipeline automático — se actualiza cada hora.*
