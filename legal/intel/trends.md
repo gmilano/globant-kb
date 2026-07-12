@@ -1,89 +1,65 @@
-# 📡 Tendencias — Legal Services AI
+# Trends — Legal AI (July 2026)
 
-> Tendencias actuales en AI para la industria legal.
-> Última actualización: 2026-07-11 (v10)
+> Current trends shaping the legal AI landscape. What studios need to know.
+> Last updated: 2026-07-12 (v11)
 
-## 2026: El año de los agentes en Legal AI
+## Top 10 Trends Right Now
 
-Legora llamó a 2026 "The Year of Agents in Legal AI" — mientras 2025 fue el año de experimentación, 2026 es el año donde los equipos legales deciden si el uso de AI se convierte en impacto sostenido y ROI medible.
+### 1. Agentic AI Goes from Pilot to Production
+2025 was the year of building agentic legal AI. 2026 is the year of **deploying** it. Corporate legal AI adoption doubled (23% → 52%) in a single year. 40% of enterprise applications will integrate task-specific AI agents by 2026 (up from <5%). Law firms are moving from "AI experiments" to "AI-first workflows."
 
-### Trend 1: De herramientas AI a "AI Operating Model" legal
-- El mindset en Legal Ops está cambiando: de *comprar herramientas AI* a *construir un operating model AI*
-- Los equipos crean y despliegan redes de **agentes especializados** que corren continuamente sobre miles de documentos
-- Skills clave que emergen: prompting, auditoría de outputs AI, construcción de playbooks, gestión del riesgo de alucinación
-- Estándar 2026: ningún output de AI sale del área legal sin revisión humana — pero la revisión es ahora minutos, no días
-- Fuente: Wordsmith AI / Thomson Reuters Legal AI Trends 2026
+### 2. EU AI Act August 2026 Deadline
+**August 2, 2026**: High-risk AI obligations under EU AI Act become effective. Any AI system used in legal decision-making that qualifies as "high-risk" under Annex III must comply with Article 9 (risk management), Article 12 (record-keeping), Article 14 (human oversight), and Article 17 (quality management). This is driving:
+- Massive demand for compliance tooling (`agent-governance-toolkit`, `eu-ai-act-toolkit`)
+- Requirement for audit logs, explainability, human gates in all legal AI
+- "Compliance-by-default" architectural patterns (agent-governance-toolkit as middleware)
 
-### Trend 2: AI embebido en workflows legales (no standalone)
-- El AI más efectivo está embebido directamente en email, documentos y sistemas de matter
-- CoCounsel integrado en Westlaw + Practical Law; Clio Copilot en matter management; Ironclad agentes en CLM
-- Harvey Agent Builder: abogados construyen sus propios agentes para sus flujos específicos
-- Implicación: los clientes no quieren otra herramienta, quieren AI dentro de sus workflows actuales
+### 3. MCP Becomes Legal Infrastructure
+The Model Context Protocol (MCP), adopted by Anthropic, OpenAI, Microsoft, and Google, is becoming the standard integration layer for legal AI. OpenContracts' built-in MCP server is the most concrete example: any MCP-compatible AI agent can now tool-call into a legal document corpus. This decouples the document layer from the AI layer — enabling vendor-agnostic legal AI stacks.
 
-### Trend 3: CLM Agéntico — el contrato se gestiona solo
-- Ironclad lanzó en marzo 2026 suite agéntica completa: archive agent + intake agent + redlining agent + conversational search
-- Ciclo completo de contrato con agentes: de la solicitud al archivo, autónomamente
-- Harvey + Ironclad partnership (ago 2025): AI que redlinea embedded en CLM que gestiona
-- Próximo: agentes que negocian posiciones standard automáticamente dentro de playbook predefinido
+### 4. Integration Over Standalone
+The 2026 legal AI stack trend: **native integration, not separate tools**. Contract management is being embedded directly into Outlook, Gmail, Salesforce, SharePoint, and NetDocuments. The "buy a legal AI product" model is giving way to "legal AI as a capability in your existing platforms."
 
-### Trend 4: eDiscovery GenAI se democratiza — precio cero
-- Relativity y Everlaw ofrecen GenAI review gratuito en 2026 (pricing reset)
-- El volumen de documentos revisados con AI en litigación crece exponencialmente
-- Nuevo estándar: los abogados que no usan AI en discovery quedan en desventaja competitiva
-- SCALES-OKN NLP: 70+ labels para clasificación de docket entries — base para e-discovery legal AI de código abierto
+### 5. Governance and Auditability as Architecture
+"Can this be audited?" is now the first question legal teams ask about AI. Systems without structured, logged processes are being rejected. agent-governance-toolkit's Agent OS pattern (intercept every action before execution) is becoming the reference architecture. EU AI Act Article 12 (record-keeping) is driving hash-chained audit logs as a standard.
 
-### Trend 5: MCP (Model Context Protocol) como estándar de integración legal
-- OpenContracts v3 lanza MCP server nativo: Claude/Cursor pueden consultar cualquier corpus documental
-- USPTO FPD MCP server: análisis de patentes via agentes
-- Ecosistema MCP jurisdiccional en expansión: Korean Law, Indonesian Pasal, German BGB/HGB, Taiwan judicial, Turkish Yargı
-- Tendencia: los bufetes construyen "legal knowledge graphs" consultables via MCP desde cualquier herramienta
+### 6. Lavern Effect: Multi-Agent Law Firm Pattern
+Lavern's viral success (67 agents, 8 workflows, evidence-backed debate) validated the "committee of agents" pattern for legal work. Multiple teams are now building Lavern-derived systems — extracting individual agents (contract analyst, regulatory checker, litigation support) as standalone modules and reassembling them for specific use cases.
 
-### Trend 6: Gobernanza AI como requisito en RFPs legales
-- Las empresas exigen cómo los sistemas AI son controlados, auditados y gobernados
-- Lavern introduce "mandatory human gates" y "10-pass verification loop" — pattern que se replica
-- Harvey Agent Builder: 500+ agentes construidos y testeados por abogados → trazabilidad de autoría
-- Code & Counsel State of Legal Contract AI 2026: benchmark de madurez de AI contractual en las empresas
+### 7. CLM Consolidation Around AI
+Contract Lifecycle Management is being reinvented around AI. The traditional CLM market (Ironclad, ContractPodAi, Summize) is being disrupted by:
+- Open source CLM + AI (OpenContracts + claude-legal-skill)
+- Full agentic CLM (Lavern's contract workflow)
+- Embedded CLM (AI agents native in existing platforms)
+Clients no longer want to buy CLM software — they want CLM capability inside their existing ERP/CRM.
 
-### Trend 7: Agent Skills como formato portátil de conocimiento legal
-- Consolidación del formato SKILL.md / AgentSkills estándar: skills legales que funcionan en Claude, GPT-4o, Gemini, Mistral
-- AgentCounsel: 198 skills; awesome-legal-skills: curación creciente; ai-legal-claude: 14 skills
-- Desacoplamiento LLM: los bufetes escriben skills una vez, los usan en cualquier modelo
+### 8. In-House Legal Takes Ownership of AI Stack
+Per Wordsmith AI's 2026 report: in-house legal teams are moving from "consuming AI tools IT buys" to "owning and configuring their own AI stack." This is driving demand for self-hosted, customizable platforms (OpenContracts, ArkCase) over cloud-only SaaS. Legal operations teams are becoming AI operators.
 
-### Trend 8: Benchmark y evaluación LLM legal madura
-- LegalBench (162 tareas) reemplaza a LexGLUE como benchmark estándar para LLMs en legal
-- LegalBench-RAG: primer benchmark open source de retrieval para legal (arXiv 2408.10343)
-- Implicación: los clientes empezarán a pedir benchmarks formales antes de 2027 adoptar AI legal
-- State of Legal Contract AI 2026 (Code & Counsel): estudio completo del estado del arte
+### 9. LATAM Legal AI Wave
+Brazil's Reforma Tributária (IBS/CBS), regional GDPR-equivalent laws (Brazil LGPD, Argentina PDPA), and rapid digital transformation are creating a LATAM-specific legal AI market. 15+ specialized agents for Brazilian tax law appeared on GitHub in June 2026 alone. Spanish-language legal AI remains underserved — significant opportunity.
 
-### Trend 9: Razonamiento legal formal — Nomos y la era post-LLM para law
-- `Nomos`: lenguaje de programación para derecho — reglas tipadas, defeasible logic, proof trees con citas a estatutos
-- En lugar de "decirle al LLM que razone sobre la ley", codificar la ley como reglas formales y usar LLMs solo para fact extraction
-- Outputs auditables y refutables: cada conclusión tiene un proof tree que cita el artículo exacto
-- Anticipa regulación EU AI Act sobre explicabilidad en sistemas de decisión legal
+### 10. Open Source Legal AI Legitimized
+HAQQ Blog's June 2026 piece ("Open Source Legal Software in 2026: The Full Landscape") and coverage in Artificial Lawyer and LawNext are legitimizing OSS legal AI for enterprise use. The narrative has shifted: open source legal AI is now seen as production-ready, not just experimental. Key legitimizing factor: OpenContracts (MIT, since 2019), Lavern (Apache-2.0), agent-governance-toolkit (MIT, Microsoft).
 
-### Trend 10: LATAM — First movers en automatización legal
-- Brasil reforma tributaria (IBS, CBS) genera demanda urgente de análisis automatizado
-- Gap: casi todo el tooling legal AI está en inglés/chino — el mercado hispanoparlante está underserved
-- Legora se expande en EU pero no en LATAM — ventana de oportunidad para Globant
-- Colombia + Argentina: legislación y litigación en español con alto volumen — ROI claro de automatización
+---
 
-## Cifras clave 2026
+## Active Repos This Week
 
-- Legal tech spending +9.7% YoY (Report on State of Legal Market)
-- Full-year 2025 legal AI funding: USD 6.0B; 14 rondas ≥$100M (Code & Counsel 2026)
-- Q1 2026 legal tech investment: USD 2.3B
-- Harvey: $11B valoración, $190M ARR (enero 2026), 500+ agentes prebuilt (julio 2026)
-- 41% law firms y 47% corporate legal depts usan GenAI (vs 28%/23% en 2025)
-- Bridgewater Associates: contracts de 2 días → 2 horas con Harvey AI
-- Vendor MSA estándar: 1 día de review → 30 minutos con AI
-- OpenContracts (cite): 1.4k ★ (de ~500 en 2025)
-- CourtListener: 967 ★, 7M+ opiniones US
+- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Viral growth. 67 agents, 8 legal workflows. Apache 2.0. ~2.1k stars.
+- [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) — EU AI Act compliance runtime. MIT. ~3.2k stars. April 2026.
+- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — MCP-native document intelligence. MIT. ~1.4k stars.
+- [abdelstark/eu-ai-act-toolkit](https://github.com/abdelstark/eu-ai-act-toolkit) — EU AI Act compliance toolkit. Apache-2.0. Deadline-driven demand.
+- [GenAI-Gurus/awesome-eu-ai-act](https://github.com/GenAI-Gurus/awesome-eu-ai-act) — EU AI Act resource hub. MIT. Rapidly growing.
 
-## Repos más activos esta semana
+---
 
-- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — v3 "cite": MCP server nativo, 1.4k ★, updated Jun 21 2026
-- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — agentic law firm pattern ganando tracción, 267 ★
-- [zgbrenner/agentcounsel](https://github.com/zgbrenner/agentcounsel) — 198 skills legales en SKILL.md
-- [nomos-legal/nomos](https://github.com/nomos-legal/nomos) — **NUEVO v10**: typed legal reasoning language, Apache-2.0
-- [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) — nueva curación 2026 del ecosistema legaltech global
-- [scales-okn/scales-nlp](https://github.com/scales-okn/scales-nlp) — **NUEVO v10**: NSF-funded NLP toolkit for legal research, 70+ docket labels
+## Signals to Watch
+
+| Signal | What to Watch | Timeline |
+|--------|---------------|----------|
+| EU AI Act enforcement | First enforcement actions in high-risk AI after Aug 2026 | Q4 2026 |
+| Lavern forks | How many specialized agents get extracted and productized | Q3 2026 |
+| OpenContracts MCP adoption | Which AI clients integrate with OpenContracts MCP server | Q3 2026 |
+| Harvey AI / commercial | Will Harvey open-source components to compete with Lavern? | 2026-2027 |
+| Brazil legal AI | Will IBS/CBS reform create a dominant OSS Brazilian legal AI project? | Q4 2026 |
