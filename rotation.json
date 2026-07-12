@@ -1,8 +1,8 @@
 {
-  "next": 0,
+  "next": 1,
   "last_updated": "2026-07-12",
-  "last_industry": "enterprise",
-  "last_status": "v5-enterprise-complete-8files; PydanticAI(MIT,18.4k★)+OpenAI-Agents-SDK(MIT,25.6k★)+Agno(MIT,39.8k★,rebranded-Phidata)+ADK-2.0-GA(20.1k★)+Twenty-CRM(AGPL,45.5k★,native-MCP); ITSM-section-NEW(iTop+itomig-ai-base,GLPI-native-AI,OTOBO); Collab-section-NEW(Nextcloud-Hub25,Mattermost-Agents-V2,OpenProject-MCP); P10-MCP-EMA-SSO-enterprise; P11-SovereignAI-Hub(Mattermost+Nextcloud+LangGraph+Ollama); EU-AI-Act-CORRECTION(Annex-III-pushed-Dec-2027,GPAI-Article50-Aug-2026-unchanged); BYOM-blind-spot(47%-personal-accounts,200+-incidents/mo,$670k-breach-premium); MCP-EMA-stable-Jul-2026(28%-Fortune500,10k+-servers); SAP-224-agents+ServiceNow-ActionFabric+Agent365(cross-cloud); Strands-renamed-harness-sdk(16.7M-downloads/mo); AutoGen+SemanticKernel-maintenance-mode; commit-12bb3ef; Pushed-via-MCP-globant-kb",
+  "last_industry": "gaming",
+  "last_status": "v12-gaming-complete-8files; Unity-MCP(IvanMurzak,Apache-2.0,3.5k★,70+tools,GameDev-MCP-Server-engine-agnostic)+GamingAgent-lmgame-Bench(ICLR-2026,Apache-2.0,1.2k★,6-games,13-models)+COCOS4-MIT-AI-native(ene-2026,PinK-IDE+Agents,mobile-Asia)+GDC2026-SOTI(52%-negative-sentiment,5%-player-facing)+MARKET-GenAI-Gaming-$2.21B(2026)->$5.09B(2030)-CAGR-23.1%(BusinessResearchCo-jul2026); Receta7-Unity-MCP; Receta8-lmgame-Bench; commit-1a2c15b; Push-BLOCKED-403(gaming-kb-not-in-MCP-scope)",
   "previous_industries": {
     "enterprise_v5": "v5 completed 2026-07-12 -- 8 files updated and PUSHED (commit 12bb3ef). PydanticAI(MIT,18.4k★); OpenAI-Agents-SDK(MIT,25.6k★); Agno(MIT,39.8k★,rebranded-Phidata); ADK-2.0-GA(20.1k★); Twenty-CRM(45.5k★,native-MCP); NEW ITSM section(iTop+GLPI+OTOBO); NEW Collab section(Nextcloud-Hub25+Mattermost-Agents-V2+OpenProject); P10-MCP-EMA-SSO; P11-SovereignAI-Hub. CORRECTIONS: EU-AI-Act-Annex-III-Dec-2027(not-Aug-2026); Strands-renamed-harness-sdk; Agno-MIT-not-Apache. BYOM-blind-spot; MCP-EMA-stable-Jul-2026(28%-Fortune500); SAP-224-agents; ServiceNow-ActionFabric; Agent365-cross-cloud. Push via MCP SUCCESS.",
     "energy_v5": "v5 completed 2026-07-12 -- 8 files updated in globant-kb/energy/ (v5). pandapower(BSD-3,~1.2k★); PyPSA(MIT,~2k★); sinergym(MIT,~280★,RL-EnergyPlus); PowerGridModel(MPL-2.0,~280★,Alliander); OpenEMS(Apache-2.0,~750★); openremote(AGPL-3.0,~1.8k★); opfgym(MIT,OPF-RL); pypsa-earth(MIT,~340★,global); Power-Agent community; Grid-Agent(arXiv:2508.05702); PowerDAG(arXiv:2603.17418); SEAPATH v1.0(Apache-2.0,LF-Energy,IEC-61850). MARKET: AI-Energy $22.82B->$60.6B(2030) CAGR 21.4%; OPAI Consortium(EPRI+NVIDIA); OpenG2G(datacenter-grid). 10 trends, 7 patterns. LATAM: 8 utilities mapped. Pushed via MCP.",
@@ -17,7 +17,8 @@
     "financial_v10": "v10 completed 2026-07-12 -- TradingAgents(MIT); OpenBB(MIT). Push BLOCKED 403.",
     "legal_v11": "v11 completed 2026-07-12 -- MARKET: $3.7B(2026)->$11.06B(2030) CAGR 31.5%. Push BLOCKED 403.",
     "enterprise_v4": "v4 completed 2026-07-12 -- MARKET: $9.14B->$139.19B CAGR 40.50%. Push BLOCKED 403.",
-    "gaming_v11": "v11 completed 2026-07-12 -- MARKET: GenAI Gaming $2.21B(2026)->$5.09B(2030) CAGR 23.2%. Push BLOCKED 403.",
+    "gaming_v12": "v12 completed 2026-07-12 -- 8 files updated in gaming-kb. Unity-MCP(IvanMurzak,Apache-2.0,3.5k★,70+tools); GameDev-MCP-Server(engine-agnostic,1-binary-Unity+Godot+Unreal); GamingAgent/lmgame-Bench(Apache-2.0,1.2k★,ICLR-2026,6-games,13-SOTA-models); COCOS4-MIT-AI-native(ene-2026,PinK-IDE+Agents,mobile-first,Asia-Pacific); GDC-2026-SOTI(2300-devs,52%-negative-GenAI,5%-player-facing,87%-studio-workflows); MARKET: GenAI-Gaming $2.21B(2026)->$5.09B(2030) CAGR 23.1% (BusinessResearchCo jul-2026). Receta7: Unity-MCP setup(1-2h,1-server-3-engines). Receta8: lmgame-Bench eval antes de integrar LLM. 12 trends, 8 patterns. commit-1a2c15b. Push BLOCKED 403 (gaming-kb not in MCP scope).",
+    "gaming_v11": "v11 completed 2026-07-02 -- MARKET: GenAI Gaming $2.21B(2026)->$5.09B(2030) CAGR 23.2%. Push BLOCKED 403.",
     "energy_v4": "v4 completed 2026-07-12 -- PowerGridModel(MIT); EnergyAgent(MIT). Push BLOCKED 403."
   }
 }
