@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Education
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-11
+> Última actualización: 2026-07-12
 
 ## Stack base
 
@@ -24,8 +24,8 @@
 **Objetivo:** Añadir tutoring 1-a-1 AI a un Moodle existente sin reemplazar la plataforma.
 
 **Repos:**
-- [moodle/moodle](https://github.com/moodle/moodle) — LMS base con Webservices REST API
-- [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) — agente tutor con RAG multi-engine
+- [moodle/moodle](https://github.com/moodle/moodle) — LMS base con Webservices REST API + AI Subsystem v2
+- [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) — agente tutor con RAG multi-engine y memoria 3 capas
 - [run-llama/llama_index](https://github.com/run-llama/llama_index) — indexación del material del curso
 - [getzep/graphiti](https://github.com/getzep/graphiti) — knowledge graph del currículo
 
@@ -37,7 +37,7 @@ Moodle grades API → BKT mastery score → LangGraph router
                                         ↓
                               DeepTutor agente ← Claude API
                                         ↓
-                              Respuesta + siguiente ejercicio → UI chat embed en Moodle
+                    Respuesta socrática + siguiente ejercicio → UI chat embed Moodle
 ```
 
 **Cómo:** Plugin Moodle (PHP) que embebe un iframe/widget Next.js. El widget llama al agente DeepTutor con `course_id` + `user_id`. El agente recupera el contexto del curso via LlamaIndex y el mastery score via BKT. Claude genera la respuesta socrática. xAPI log de la sesión al LRS de Moodle.
@@ -51,25 +51,25 @@ Moodle grades API → BKT mastery score → LangGraph router
 **Objetivo:** Generar evaluaciones calibradas al nivel del estudiante, auto-corregidas con feedback AI.
 
 **Repos:**
-- [openedx/edx-platform](https://github.com/openedx/edx-platform) — LMS base
+- [openedx/edx-platform](https://github.com/openedx/edx-platform) — LMS base + AI Course Creator
 - [openedx/XBlock](https://github.com/openedx/XBlock) — componente custom
-- [098765d/AI_Tutor](https://github.com/098765d/AI_Tutor) — KG-RAG para generación de preguntas
 - [getzep/graphiti](https://github.com/getzep/graphiti) — knowledge graph del currículo
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — orquestación del flujo
 
 **Arquitectura:**
 ```
 Open edX grades API → identify weak concepts (KG traversal)
                                 ↓
-Graphiti KG → find related concepts + prerequisites
+Graphiti KG → conceptos relacionados + prerrequisitos no dominados
                                 ↓
-Claude API → generate 5 MCQ questions + distractors calibrados
+Claude API → generate 5 MCQ questions + distractors calibrados (Bloom's taxonomy)
                                 ↓
 XBlock custom → render quiz en Open edX → submit → auto-grade
                                 ↓
 Claude API → feedback personalizado por respuesta incorrecta
 ```
 
-**Cómo:** XBlock Python que llama al AI service. El AI service usa Graphiti para mapear qué conceptos el estudiante domina y cuáles son weakness. Claude genera preguntas con dificultad ajustada (Bloom's taxonomy level). Respuestas almacenadas en Open edX grades para analytics downstream.
+**Cómo:** XBlock Python que llama al AI service. El AI service usa Graphiti para mapear qué conceptos el estudiante domina y cuáles son debilidades. Claude genera preguntas con dificultad ajustada. Respuestas almacenadas en Open edX grades para analytics downstream.
 
 **Tiempo estimado:** 2-3 semanas | **Equipo:** 1 dev Open edX + 1 AI/ML
 
@@ -77,32 +77,61 @@ Claude API → feedback personalizado por respuesta incorrecta
 
 ## Patrón 3: Stack Soberano para Educación Pública LATAM
 
-**Objetivo:** Plataforma education AI 100% on-prem para cumplir LGPD / GDPR / regulaciones LATAM — sin datos de estudiantes en nubes externas.
+**Objetivo:** Plataforma education AI 100% on-prem para cumplir LGPD / GDPR / FERPA / EU AI Act — sin datos de estudiantes en nubes externas.
 
 **Repos:**
 - [moodle/moodle](https://github.com/moodle/moodle) — LMS on-prem
-- [ollama/ollama](https://github.com/ollama/ollama) — inferencia LLM local (MIT, 110k★)
-- [continuedev/continue](https://github.com/continuedev/continue) — AI assistant local
+- [ollama/ollama](https://github.com/ollama/ollama) — inferencia LLM local (MIT, ~110k★)
 - [CAHLR/OATutor](https://github.com/CAHLR/OATutor) — tutoring adaptativo sin backend externo
-- [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) — multi-idioma, ES-LA
+- [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) — multi-idioma, ES-LA + PT-BR
+- [MysterionRise/adaptive-knowledge-graph](https://github.com/MysterionRise/adaptive-knowledge-graph) — KG + BKT local
 
 **Arquitectura:**
 ```
 Servidor on-prem / VPC privada:
-  Moodle (PHP) ←→ Ollama (Llama 3.3 70B / Qwen2.5) ←→ Open-TutorAI CE
+  Moodle (PHP) ←→ Ollama (Llama 3.3 70B / Qwen2.5 72B) ←→ Open-TutorAI CE
+  OATutor ←→ adaptive-knowledge-graph ← KG currículo curricular local
                          ↑
                GPU server H100/A100 o CPU-only (Qwen 7B cuantizado)
                          ↓
                  No internet required — air-gapped capable
 ```
 
-**Cómo:** Docker Compose stack: Moodle + MariaDB + Ollama + Open-TutorAI CE + Nginx. Ollama corre modelos cuantizados (GGUF Q4_K_M). Moodle llama al agente via webhook local. Datos de estudiantes nunca salen del servidor institucional. Soporte ES-LA y PT-BR nativo en Open-TutorAI.
+**Cómo:** Docker Compose stack: Moodle + MariaDB + Ollama + Open-TutorAI CE + Nginx. Ollama corre modelos cuantizados (GGUF Q4_K_M). Moodle llama al agente via webhook local. Datos de estudiantes nunca salen del servidor institucional. Soporte ES-LA y PT-BR nativo. EU AI Act compliance: logs auditables, human-in-the-loop via admin dashboard.
 
-**Tiempo estimado:** 2 semanas de infraestructura + 2 semanas integración | **Equipo:** 1 DevOps + 1 backend
+**Tiempo estimado:** 2 semanas infraestructura + 2 semanas integración | **Equipo:** 1 DevOps + 1 backend
 
 ---
 
-## Patrón 4: Asistente de Estudio con Spaced Repetition + AI
+## Patrón 4: Theory-of-Mind Tutor con Memoria Persistente
+
+**Objetivo:** Tutor que modela el estado cognitivo real del estudiante (no solo sus respuestas), con memoria que persiste entre sesiones.
+
+**Repos:**
+- [plastic-labs/tutor-gpt](https://github.com/plastic-labs/tutor-gpt) — ToM reasoning + Honcho memory layer
+- [GarethManning/education-agent-skills](https://github.com/GarethManning/education-agent-skills) — 165 habilidades pedagógicas
+- [run-llama/llama_index](https://github.com/run-llama/llama_index) — RAG sobre materiales del curso
+
+**Arquitectura:**
+```
+Historial sesiones anteriores → Honcho memory layer → estado cognitivo inferido
+                                                ↓
+Materiales del curso → LlamaIndex RAG → contexto relevante
+                                                ↓
+education-agent-skills → selección dinámica: ¿explicar / preguntar / scaffold?
+                                                ↓
+tutor-gpt ToM module → decide estrategia pedagógica → Claude API → respuesta
+                                                ↓
+Observación de respuesta → actualizar modelo cognitivo del estudiante
+```
+
+**Cómo:** tutor-gpt como base con Honcho para memoria long-term. Las education-agent-skills se carga como sistema de skills: el agente selecciona la skill pedagógica más apropiada según el estado mental inferido (frustrado/confiado/confundido). LlamaIndex indexa los materiales del curso para grounding factual. El ciclo de observación → inferencia → estrategia es el loop principal.
+
+**Tiempo estimado:** 2-3 semanas | **Equipo:** 1 AI/ML + 1 backend
+
+---
+
+## Patrón 5: Asistente de Estudio con Spaced Repetition + AI
 
 **Objetivo:** App de estudio personal que genera flashcards inteligentes desde cualquier material y las agenda con spaced repetition óptimo.
 
@@ -130,58 +159,30 @@ Performance analytics → ajustar dificultad generación nuevas cards
 
 ---
 
-## Patrón 5: Portal Educativo con AI Content Generation
-
-**Objetivo:** Portal público de cursos (tipo Open edX) con generación automática de contenido, SEO AI-driven y recomendaciones personalizadas.
-
-**Repos:**
-- [openfun/richie](https://github.com/openfun/richie) — CMS portal educativo (MIT ✅)
-- [openedx/edx-platform](https://github.com/openedx/edx-platform) — LMS backend
-- [run-llama/llama_index](https://github.com/run-llama/llama_index) — RAG sobre catálogo de cursos
-- [getzep/graphiti](https://github.com/getzep/graphiti) — grafo de relaciones cursos/habilidades
-
-**Arquitectura:**
-```
-Richie CMS → catálogo de cursos → LlamaIndex index
-                                        ↓
-Graphiti KG → skills → job roles → cursos relacionados
-                                        ↓
-Claude API → descripción de curso AI-generada + SEO metadata
-                                        ↓
-Richie frontend → recomendaciones personalizadas por historial
-                                        ↓
-Open edX → matrícula + completion tracking
-```
-
-**Cómo:** Richie como frontend/portal, Open edX como LMS backend. Plugin Richie llama a Claude para generar metadata enriquecido (descripción, tags, learning outcomes) de cursos nuevos. El KG de Graphiti conecta cursos → habilidades → roles laborales para recomendaciones tipo LinkedIn Learning. 
-
-**Tiempo estimado:** 4-6 semanas | **Equipo:** 2 devs + 1 UX + 1 AI/ML
-
----
-
 ## Patrón 6: AI Teaching Assistant para Docentes
 
-**Objetivo:** Copiloto para docentes que automatiza planificación de clases, generación de rúbricas, calificación de ensayos y detección de plagio AI.
+**Objetivo:** Copiloto para docentes que automatiza planificación de clases, generación de rúbricas, calificación de ensayos y compliance EU AI Act.
 
 **Repos:**
 - [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) — agente base con Research mode
 - [instructure/canvas-lms](https://github.com/instructure/canvas-lms) — LMS con Submissions API
 - [Li-Evan/Bloom](https://github.com/Li-Evan/Bloom) — generador de syllabi adaptativos
+- [GarethManning/education-agent-skills](https://github.com/GarethManning/education-agent-skills) — skills de diseño de rúbricas
 
 **Arquitectura:**
 ```
-Docente input (tema, nivel, duración) → Claude API → lesson plan estructurado
+Docente input (tema, nivel, duración) → education-agent-skills → Bloom → lesson plan
                                                 ↓
 Canvas Submissions API → ensayos estudiantes → Claude API → rubric grading
                                                 ↓
-Comparación embeddings → detectar plagio AI-generated
+Embeddings comparación → detectar plagio / AI-generated
                                                 ↓
-Claude API → feedback personalizado por estudiante (en idioma del curso)
+Claude API → feedback personalizado por estudiante (idioma del curso)
                                                 ↓
-Canvas gradebook API → upload grades + feedback automático
+Canvas gradebook API → upload grades + feedback + audit log (EU AI Act)
 ```
 
-**Cómo:** Web app standalone (Next.js) que se autentica con Canvas LTI 1.3. El docente configura el curso una vez; el asistente genera el plan semestral con Bloom (Li-Evan). Para calificación: el docente define la rúbrica (o Claude la sugiere), se aplica a todos los submissions via batch. Detección AI: embeddings cosine similarity + detector fine-tuned.
+**Cómo:** Web app standalone (Next.js) que se autentica con Canvas LTI 1.3. El docente configura el curso una vez; el asistente genera el plan semestral con Bloom. Para calificación: el docente define la rúbrica (o Claude la sugiere via education-agent-skills), se aplica a todos los submissions via batch. Audit log completo para EU AI Act compliance.
 
 **Tiempo estimado:** 3 semanas | **Equipo:** 1 frontend + 1 backend + 1 AI/ML
 
@@ -192,21 +193,48 @@ Canvas gradebook API → upload grades + feedback automático
 **Objetivo:** Tutor conversacional de idiomas con pronunciación nativa, corrección en tiempo real, adaptado al español/portugués de LATAM.
 
 **Repos:**
-- [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) — base multi-idioma
-- [Sule-Bashir/omni-tutor](https://github.com/Sule-Bashir/omni-tutor) — referencia: live audio+video AI tutor
-- [openedx/edx-platform](https://github.com/openedx/edx-platform) — tracking de progreso
+- [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) — base multi-idioma con tracking CEFR
+- [openedx/edx-platform](https://github.com/openedx/edx-platform) — tracking de progreso + certificaciones
 
 **Arquitectura:**
 ```
-Micrófono → Deepgram STT (ES-LA / PT-BR model) → texto transcripto
+Micrófono → Deepgram STT (modelo ES-LA / PT-BR) → texto transcripto
                                 ↓
 Claude API → evaluar pronunciación implícita + corregir gramática + responder
                                 ↓
-ElevenLabs TTS → audio respuesta con acento nativo
+ElevenLabs TTS → audio respuesta con acento nativo consistente
                                 ↓
-Open-TutorAI CE → tracking nivel CEFR + próxima lección → Open edX LRS
+Open-TutorAI CE → tracking nivel CEFR + próxima lección → Open edX LRS (xAPI)
 ```
 
-**Cómo:** React app con WebRTC para audio en tiempo real. Deepgram transcribe (modelo ES-LA o PT-BR). Claude evalúa la respuesta del estudiante, corrige errores, y continúa la conversación manteniendo contexto. ElevenLabs genera audio con voz nativa consistente. El progreso se persiste en Open edX via xAPI.
+**Cómo:** React app con WebRTC para audio en tiempo real. Deepgram transcribe con modelo ES-LA o PT-BR. Claude evalúa la respuesta, corrige errores, y continúa la conversación manteniendo contexto. ElevenLabs genera audio con voz nativa. El progreso se persiste en Open edX via xAPI para certificación CEFR.
 
 **Tiempo estimado:** 3-4 semanas | **Equipo:** 1 frontend + 1 backend + 1 AI/ML
+
+---
+
+## Patrón 8: Education Agent Skills Stack (nuevo en v11)
+
+**Objetivo:** Elevar la calidad pedagógica de cualquier agente existente con 165 skills evidence-based sin rediseñar el sistema.
+
+**Repos:**
+- [GarethManning/education-agent-skills](https://github.com/GarethManning/education-agent-skills) — 165 skills pedagógicas
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — orquestador del agente
+- Cualquier LLM API (Claude / GPT / Llama local via Ollama)
+
+**Arquitectura:**
+```
+Pregunta del estudiante → intent classifier → selección de skill pedagógica
+                                        ↓
+skill: "socratic-questioning" | "misconception-probe" | "worked-example" | "UDL-scaffold"
+                                        ↓
+LangGraph state → LLM con skill como system prompt enrichment
+                                        ↓
+Respuesta pedagógica de alta calidad + metadata (skill usada, nivel Bloom's taxonomy)
+                                        ↓
+Analytics: qué skills se usan más → indicador de qué conceptos son difíciles
+```
+
+**Cómo:** Las education-agent-skills se cargan como un banco de system prompt snippets. El clasificador de intent (puede ser un LLM simple o reglas) determina qué skill pedagógica es apropiada. LangGraph gestiona el estado de la conversación y aplica la skill seleccionada. Puede integrarse sobre cualquier agente existente como middleware pedagógico.
+
+**Tiempo estimado:** 3-5 días (MVP sobre agente existente) | **Equipo:** 1 AI/ML

@@ -1,30 +1,32 @@
-# 📈 Agentes AI trending — Education (semana 2026-07-11)
+# 📈 Agentes AI trending — Education (semana 2026-07-12)
 
-> Repos con actividad reciente, nuevas releases o virales en HN/Reddit.
+> Repos con actividad reciente, nuevas releases o virales en HN/Reddit/GitHub Trending.
 
 ## Repos más activos esta semana
 
 | Repo | Stars | Actividad | Por qué importa |
 |------|-------|-----------|-----------------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | 25.5k | +3.2k ★ en 7 días; v2.1 con MCP marketplace | Primer LMS agent-native en superar 25k ★; EduHub de community skills es moat de distribución |
-| [Li-Evan/Bloom](https://github.com/Li-Evan/Bloom) | 196 | Viral en HN "Show HN"; featured en Claude skills gallery | Implementación práctica del 2-Sigma problem sin backend — demo convincente para clientes K-12 |
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | ~80 | Nuevo; Next.js 16 + Claude + PayNow | Primer EdTech AI para niños 4-16 con booking + gamified storytelling integrados |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | ~200 | v0.8.0; contenido + tracking + assessments unificados | Alternativa open source a Teachable/Thinkific con hooks AI ya integrados |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | 420 | PR merged: ES-LA + PT-BR support | Relevante para LATAM: español latam + portugués brasileño soportados nativamente |
-| [scaphandre/anki-mcp](https://github.com/scaphandre/anki-mcp) | 370 | Trending r/Anki + r/MachineLearning | Patrón MCP + spaced repetition replicable en cualquier LMS con API |
-| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | ~90 | Featured Product Hunt EdTech AI picks | Mobile-first spaced repetition + AI generation; iOS + Android + web |
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | ~28k | +2.5k ★ semana; v2.2 release con EduHub marketplace beta | Primer LMS agent-native en superar 25k★; EduHub de community skills es moat de distribución; referencia de arquitectura para cualquier producto EdTech AI |
+| [plastic-labs/tutor-gpt](https://github.com/plastic-labs/tutor-gpt) | ~904 | v3.1 — nuevo módulo Theory-of-Mind para asignaturas STEM | Único tutor que modela el estado cognitivo real del estudiante; Honcho memory layer es diferenciador técnico |
+| [GarethManning/education-agent-skills](https://github.com/GarethManning/education-agent-skills) | ~220 | Trending agent-skills topic GitHub; 40 nuevas skills pedagogicas añadidas | Plug-and-play para elevar la calidad pedagógica de cualquier agente Claude/Codex sin construir desde cero |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | ~420 | PR merged: soporte ES-LA + PT-BR mejorado; nueva integración Open edX | Referencia LATAM: español latinoamericano + portugués brasileño nativos; integración Open edX nuevaS |
+| [Ebimsv/AITutorAgent](https://github.com/Ebimsv/AITutorAgent) | ~350 | +150★ en 7 días; trending topic education-ai GitHub | LangGraph + SQLite: stack accesible para equipos pequeños; Streamlit UI lista para demos a cliente |
+| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | ~221 | Nueva release: integration hooks para Moodle plugin | BKT sin backend = deploy en CDN estático; nueva integración Moodle lo hace más práctico |
+| [zijinz456/OpenTutor](https://github.com/zijinz456/OpenTutor) | ~95 | Trending "first block-based adaptive workspace local-first" | Propuesta diferente: block-based + 10+ LLM providers; notas, quizzes, flashcards desde cualquier material |
 
-## Novedades de plataformas base
+## Novedades de plataformas base (julio 2026)
 
-- **Moodle 4.6** (julio 2026): AI subsystem v2 — interface estándar para plugins AI de terceros; primeros plugins de quiz AI en directorio oficial.
-- **Open edX Redwood** (junio 2026): integración nativa con LLM APIs para generación de contenido XBlock; AI grading experimental en assessments.
-- **Canvas AI Partnership** (junio 2026): Instructure anuncia integración oficial con Anthropic Claude para Canvas; primera release Q3 2026.
+- **Open edX AI Course Creator**: plugin GA en Authoring Studio — genera cursos completos desde prompt; LLM-powered content generation integrado en el CMS; presentado en Open edX Conference 2026.
+- **Moodle 4.6 AI Subsystem v2** (julio 2026): interfaz estándar para plugins AI de terceros; primeros plugins de quiz AI certificados en directorio oficial; soporte MCP server para agentes externos.
+- **Canvas x Anthropic Claude**: Instructure anuncia integración oficial con Claude; primera release Q3 2026 — grading assistance + lesson planning + student Q&A.
+- **Microsoft Education AI Toolkit v2** (abril 2026): capacidades agénticas para automatizar flujos administrativos multi-step (enrollment, scheduling, grading) + tutoring support at scale.
 
-## Papers relevantes (últimas semanas)
+## Papers relevantes (julio 2026)
 
-- **"DeepTutor: Lifelong Personalized Tutoring"** — arquitectura de tres capas de memoria (traces → summaries → synthesis).
-- **"AITutor-EvalKit"** (arXiv:2512.03688) — benchmark 8 dimensiones: Socratic quality, factual accuracy, pedagogical scaffolding.
-- **"LLM-powered Multi-agent Framework for Goal-oriented Learning in ITS"** — WWW 2025 Oral, diseño de referencia para multi-agente en tutoring.
+- **"Open TutorAI: An Open-source Platform for Personalized and Immersive Learning"** (arXiv:2602.07176, feb 2026) — arquitectura modular multi-agente con learner analytics integrado.
+- **"LecturaAgents: A Multi-Agent Framework for Adaptive Personalized AI-Assisted Learning"** (arXiv:2606.16428, jun 2026) — diseño de referencia multi-agente para ITS adaptativos con agentes de distinto rol.
+- **"GraphMASAL: Graph-based Multi-Agent System for Adaptive Learning"** (arXiv:2511.11035) — KG + multi-agent para personalización curricular.
+- **AI in Education — Frontiers systematic review** (2026): 42% mejora en outcomes con AI personalizado; 71% HE institutions desplegando adaptive learning en 2026.
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*
