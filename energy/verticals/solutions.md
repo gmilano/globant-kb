@@ -1,7 +1,7 @@
 # Vertical Solutions — Energy
 
 > Existing open source platforms to customize with AI. Model: start from a working system, add an agentic layer on top.
-> Last updated: 2026-07-11 (v3)
+> Last updated: 2026-07-12 (v4)
 
 ## Recommended Platforms
 
@@ -13,13 +13,14 @@
 | **OpenSTEF** | MPL-2.0 | [OpenSTEF/openstef](https://github.com/OpenSTEF/openstef) | Python, MLflow, XGBoost/LightGBM | Probabilistic load/generation forecasting for DSOs | Add LLM alert agent: trigger natural-language forecasting reports + anomaly explanations |
 | **PyPSA** | MIT | [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | Python, pandas, Gurobi/HiGHS | National/regional energy system modeling and OPF | LLM scenario generation: "model 80% renewable by 2035 in Colombia" → agent drives PyPSA → explains results |
 | **pandapower** | BSD-3-Clause | [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | Python, pandas, SciPy | Distribution grid power flow, state estimation, N-1 contingency | FastAPI + pandapower grid analysis microservice; LLM front-end for utility engineers |
+| **Power Grid Model** | MIT | [PowerGridModel/power-grid-model](https://github.com/PowerGridModel/power-grid-model) | Python/C++, numpy | High-performance distribution power system analysis; batch simulations | Batch OPF scenarios at scale → feed ML training pipelines; wrap with LLM agent for natural-language grid analysis (10M+ downloads, three Dutch DSOs in production) |
 | **Grid2Op** | MPL-2.0 | [Grid2op/grid2op](https://github.com/Grid2op/grid2op) | Python, Gymnasium | RL testbed for TSO/DSO grid control agents | Train topology optimization agents; demonstrate AI grid control to utility clients |
 | **CityLearn** | MIT | [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | Python, Gymnasium | Multi-building demand response at district/city scale | Multi-agent RL for building portfolio demand response; integrate with utility AMI data |
 | **OperatorFabric** | MPL-2.0 | [opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core) | Java, Angular, MongoDB | Real-time grid operator workstation: alerts, events, process monitoring | Add MCP-based Claude agent for natural-language query over grid events and incident triage |
 | **OpenRemote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java, TypeScript, Docker | IoT platform for energy assets: EV, solar, BESS, smart meters | Flow-based AI rules → LLM agent for automated demand response and tenant notifications |
 | **OpenDSS + PowerMCP** | BSD (OpenDSS) / MIT (PowerMCP) | [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | Python, MCP | Distribution grid simulation (OpenDSS) + LLM interface (PowerMCP) | Fastest path to AI-driven grid analysis: PowerMCP exposes OpenDSS as MCP tools → any LLM can run power flow studies in natural language |
 
-## NEW in v3: PowerAgent Ecosystem as Vertical Platform
+## PowerAgent Ecosystem as Vertical Platform
 
 The **Power-Agent** GitHub organization (Harvard SEAS) provides a complete vertical platform for AI-powered power system analysis. Unlike other platforms that require custom integration, PowerAgent is built from the ground up for LLM + power systems:
 
@@ -38,6 +39,26 @@ PowerAgentBench (Evaluation)
 **All MIT licensed. Backed by Harvard SEAS Power and AI Initiative.**
 
 **Entry point**: Deploy PowerMCP → plug in any LLM via MCP → use PowerSkills for domain-aware behavior → compose PowerWF for multi-step studies.
+
+## Power Grid Model Ecosystem as Distribution Analysis Platform (NEW in v4)
+
+The **PowerGridModel** organization (Alliander/LF Energy) provides the production-proven distribution analysis engine. With 10M+ downloads and three Dutch DSOs in production, it is the most battle-tested open distribution grid solver.
+
+```
+power-grid-model-io (Data Ingestion: CIM/CGMES/CSV)
+    ↓
+power-grid-model (High-Performance Calculation Core: C++/numpy)
+    ↓
+power-grid-model-ds (Data Science Toolkit: graphs, mutations, visualization)
+    ↓
+LangGraph Agent / LLM Interface (Globant adds this layer)
+    ↓
+Operator Dashboard / Report / API
+```
+
+**All MIT licensed. Production-proven at Alliander, Enexis, Stedin.**
+
+**Entry point**: power-grid-model-ds provides the Pythonic modeling interface; wrap with a FastAPI endpoint; connect Claude via MCP or tool use for natural-language grid analysis.
 
 ## How to Customize with AI
 
@@ -82,7 +103,7 @@ EVerest manages physical EV charger hardware
   → Result: 15-30% charging cost reduction + grid congestion relief
 ```
 
-### NEW: Pattern: OpenDSS + PowerMCP + Claude (Fastest PoC)
+### Pattern: OpenDSS + PowerMCP + Claude (Fastest PoC)
 ```
 Utility already has OpenDSS distribution grid model (standard tool)
   → Deploy PowerMCP (MIT, Harvard SEAS) as MCP server for OpenDSS
@@ -91,6 +112,21 @@ Utility already has OpenDSS distribution grid model (standard tool)
   → Natural language interface: "Run N-1 contingency on substation 7"
   → Claude uses PowerMCP tools → runs OpenDSS → interprets results
   → 2-3 week PoC delivery; builds to PowerWF workflows for production
+```
+
+### NEW: Pattern: Power Grid Model + LLM for Distribution Planning (v4)
+```
+Utility provides IEC CIM / CGMES grid model (standard format)
+  → power-grid-model-io converts to PGM format
+  → power-grid-model-ds creates Pythonic network representation
+  → LangGraph agent receives natural-language planning request:
+      "What is the impact of adding 500 residential EV chargers in district 7?"
+  → Agent uses power-grid-model batch calculation:
+      - Generates 500 load scenarios (Monte Carlo)
+      - Runs batch power flow: millions of scenarios in seconds
+      - Identifies worst-case violations (voltage, thermal)
+  → Claude interprets: "3 feeders will be overloaded in 18% of scenarios; recommend feeder reinforcement at nodes 47, 52, 61"
+  → Output: voltage profile maps + violation summary → engineering report
 ```
 
 ## Platform Decision Guide
@@ -102,13 +138,15 @@ Utility already has OpenDSS distribution grid model (standard tool)
 | EV charging (EVSE manufacturer / fleet) | EVerest |
 | Grid load forecasting for DSO | OpenSTEF |
 | National/regional energy planning | PyPSA / PyPSA-Eur |
-| Distribution grid analysis (new — fastest path) | OpenDSS + PowerMCP + Claude |
-| Distribution grid analysis (deeper) | pandapower |
+| Distribution grid analysis (fastest PoC) | OpenDSS + PowerMCP + Claude |
+| Distribution grid analysis (production scale) | Power Grid Model + LLM layer |
+| Distribution grid analysis (deeper Python) | pandapower |
 | Grid RL agent demonstration | Grid2Op |
 | Building demand response | CityLearn |
 | TSO/DSO operator workstation | OperatorFabric |
 | Multi-device IoT energy management | OpenRemote |
 | LLM-native power system toolkit | PowerMCP + PowerSkills + PowerWF |
+| High-performance batch simulation | Power Grid Model |
 
 ---
 *See also: `repos/foundations.md` for lower-level component libraries.*

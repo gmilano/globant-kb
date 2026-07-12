@@ -1,7 +1,7 @@
 # Top AI Agents & Tools — Energy
 
 > Open source AI agents and tools for the energy industry. Focus: MIT / Apache 2.0 / BSD.
-> Last updated: 2026-07-11 (v3)
+> Last updated: 2026-07-12 (v4)
 
 ## Featured Agents & Tools
 
@@ -21,7 +21,15 @@
 | OperatorFabric | [opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core) | MPL-2.0 | ~120 | RTE France / LF Energy — Modular, industrial-strength platform for real-time utility grid operations. v4.11.0 Mar 2026. Centralizes alerts, process monitoring, operator notifications. Field-tested in European TSOs. |
 | OpenEMS | [OpenEMS/openems](https://github.com/OpenEMS/openems) | EPL-2.0 | ~400 | FENECON / OpenEMS Association — Modular energy management system for storage + solar + EV charging + heat pumps. OSGi-based, production-deployed in commercial and industrial sites. |
 
-## NEW in v3: Research-Grade Agentic Tools (2025–2026)
+## NEW in v4: Additional Agentic Tools (2026)
+
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| EnergyAgent | [tsinghua-fib-lab/EnergyAgent](https://github.com/tsinghua-fib-lab/EnergyAgent) | MIT | ~150 | Tsinghua University FIB Lab — LLM Agent Framework specifically for electric power time series modeling and reasoning. Combines LLM tool use with energy domain time series analysis: load forecasting, fault detection, generation dispatch reasoning. Bridges LLMs and energy data pipelines. |
+| agentic-ai-hems | [RedaElMakroum/agentic-ai-hems](https://github.com/RedaElMakroum/agentic-ai-hems) | MIT | ~80 | Community — Agentic AI Home Energy Management System (HEMS). LLM-based framework for residential load scheduling with autonomous specialist sub-agents, real-time electricity price optimization, transparent ReAct reasoning chains, and multi-appliance coordination. Provider-agnostic (Claude, GPT, local Ollama). Excellent reference architecture for C&I HEMS agents. |
+| kaymen99/AI-for-energy-sector | [kaymen99/AI-for-energy-sector](https://github.com/kaymen99/AI-for-energy-sector) | MIT | ~200 | Community — Comprehensive ML/DL reference implementations for energy sector: predictive maintenance, grid stability prediction, demand forecasting, anomaly detection. Well-structured for rapid PoC scaffolding. |
+
+## NEW in v4: Research-Grade Agentic Tools (2025–2026)
 
 | Name | Reference | License | Description |
 |------|-----------|---------|-------------|
@@ -42,6 +50,8 @@
 - **Operator UI**: OperatorFabric as the operations dashboard; add MCP-based Claude agent for natural-language query over real-time grid events
 - **Site EMS**: OpenEMS for behind-the-meter assets (BESS, solar, EV); expose REST API to an orchestrating LLM agent for demand-response bids
 - **Reliable production agents**: PowerDAG + PowerChain patterns for utility-grade reliability (critical for regulated utility deployments)
+- **HEMS / C&I building energy**: agentic-ai-hems reference architecture + EnergyAgent time series layer
+- **Energy time series reasoning**: EnergyAgent (Tsinghua) for power-specific LLM+time series pipelines beyond generic forecasting
 
 ---
 *Auto-updated by ingest pipeline.*

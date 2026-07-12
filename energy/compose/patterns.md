@@ -1,7 +1,7 @@
 # Composition Patterns — Energy AI
 
 > Concrete recipes for building solutions. Each pattern names specific repos + how to wire them.
-> Last updated: 2026-07-11 (v3)
+> Last updated: 2026-07-12 (v4)
 
 ## Architecture Template
 
@@ -120,6 +120,7 @@ VOLTTRON historian (time-series store)
 ```
 
 **Effort**: 8-12 weeks MVP | **Revenue target**: $100k-$250k | **ROI for client**: 1-3 averted failures = full project payback
+**LATAM anchor**: Cite Eletrobras + C3 AI Grid Intelligence as validation ($100B company chose AI for this exact use case)
 
 ---
 
@@ -146,7 +147,7 @@ Grid2Op environment (IEEE 14/118-bus or RTE 36-bus network)
   → Output: PDF benchmark report for client
 ```
 
-**Effort**: 3-5 weeks demo | **Revenue target**: Lead generation for $200k-$500k engagement | **Note**: Powerful for regulatory/safety-conscious utilities
+**Effort**: 3-5 weeks demo | **Revenue target**: Lead generation for $200k-$500k engagement
 
 ---
 
@@ -172,7 +173,7 @@ User: "Model Chile adding 3GW solar in Atacama + 1GW offshore wind by 2032"
   → Output: interactive Jupyter notebook + PDF report + cost breakdown chart
 ```
 
-**Effort**: 6-10 weeks | **Revenue target**: $150k-$400k | **LATAM gap**: PyPSA-LATAM reference model doesn't exist — Globant can create it
+**Effort**: 6-10 weeks | **Revenue target**: $150k-$400k | **LATAM gap**: PyPSA-LATAM reference model doesn't exist — Globant can create it | **Chile**: 63% renewable electricity = urgent planning need
 
 ---
 
@@ -235,7 +236,7 @@ Production:
 
 ---
 
-## P9 — NEW: PowerMCP Rapid Grid Analysis PoC
+## P9 — PowerMCP Rapid Grid Analysis PoC
 
 **Business case**: The fastest way to land a utility client is a working PoC in 2-3 weeks that lets engineers talk to their own OpenDSS/PSS/E models in natural language. PowerMCP makes this possible without custom API wrapper code.
 
@@ -264,11 +265,11 @@ Next request: "What happens if I add 5MW solar at bus 23?"
   → Claude uses PowerMCP to add PV element → re-run OPF → report delta
 ```
 
-**Effort**: 2-3 weeks PoC | **Revenue target**: $30k-$60k PoC → $200k-$500k production engagement | **Why now**: PowerMCP (MIT) just reached stability; Grid-Orch paper (May 2026) validates the pattern
+**Effort**: 2-3 weeks PoC | **Revenue target**: $30k-$60k PoC → $200k-$500k production engagement
 
 ---
 
-## P10 — NEW: Reliable Agentic Distribution Grid Analysis (PowerDAG Pattern)
+## P10 — Reliable Agentic Distribution Grid Analysis (PowerDAG Pattern)
 
 **Business case**: Utilities need utility-grade reliability for AI agents before production deployment. NERC CIP and EU NIS2 require audit trails. The PowerDAG pattern delivers 94-100% task success with verifiable outputs.
 
@@ -302,7 +303,96 @@ Phase 3 — Verifiable output:
 Outcome: 94-100% task success rate vs. 60-70% for naive LangChain/ReAct baselines
 ```
 
-**Effort**: 10-14 weeks (production-grade) | **Revenue target**: $150k-$400k | **Differentiator**: First Globant engagement to claim utility-grade AI agent reliability with published benchmark backing
+**Effort**: 10-14 weeks (production-grade) | **Revenue target**: $150k-$400k | **Differentiator**: First Globant engagement to claim utility-grade AI agent reliability
+
+---
+
+## P11 — NEW: Grid Intelligence at Scale (Eletrobras Pattern, Open Source)
+
+**Business case**: Eletrobras + C3 AI deployed Grid Intelligence across Brazil's full national transmission network — detecting and resolving disruptions in <10 seconds. C3 AI is commercial. Globant can deliver the same capability with open-source + Claude for smaller LATAM utilities that can't afford C3 AI licensing.
+
+**Stack:**
+- Data collection: [VOLTTRON/volttron](https://github.com/VOLTTRON/volttron) (Apache-2.0) — real-time IoT/SCADA sensor data ingestion
+- Grid model: [PowerGridModel/power-grid-model](https://github.com/PowerGridModel/power-grid-model) (MIT) — high-performance power flow for the affected substation network
+- Stream processing: Apache Kafka or MQTT broker — real-time sensor event routing
+- Agent: LangGraph reactive agent — event-triggered, not polling
+- LLM: Claude claude-sonnet-5 for fault classification + dispatch recommendations
+- Integration: MCP server wrapping EMS/SCADA REST API for acknowledgement and dispatch
+
+**Wiring:**
+```
+Real-time IoT/SCADA sensors (substations, transformers, line monitors)
+  → VOLTTRON historian: all readings at 1-second resolution
+  → Kafka stream: high-priority events (overcurrent, temperature spike, frequency deviation)
+  → LangGraph Grid Intelligence Agent (event-triggered):
+
+      On event: "Overcurrent alarm at substation Norte-47"
+      Step 1: Claude fetches context via MCP tools:
+          - get_substation_status(Norte-47)
+          - get_nearby_alarms(radius=50km, window=5min)
+          - get_grid_topology_near(Norte-47)
+      Step 2: Power Grid Model batch calculation:
+          - Simulate N-1 contingency with Norte-47 tripped
+          - Identify affected loads and downstream voltage impact
+          - Assess severity: which customers lose power?
+      Step 3: Claude generates dispatch decision:
+          - "Likely cause: transformer overload. Recommend: isolate feeder 7, reroute via feeder 12"
+          - Estimated impact: 2,400 customers in district Zona Norte
+          - Recommended action: dispatch field crew to Norte-47 within 45 min
+      Step 4: Action execution (with human approval gate):
+          - Draft dispatch order → send to operator dashboard for one-click approval
+          - On approval: trigger SCADA switching command + create SAP work order
+
+Goal: detection-to-recommendation in <10 seconds (Eletrobras benchmark)
+      approval-to-dispatch in <30 seconds (vs. minutes-to-hours historically)
+```
+
+**Effort**: 12-16 weeks (full production) | 4-6 weeks (pilot at 10 substations, Eletrobras v1 model)
+**Revenue target**: $150k-$500k | **LATAM anchor**: Cite Eletrobras/C3 AI as industry validation; offer open-source alternative
+
+---
+
+## P12 — NEW: Distribution Planning at Scale (Power Grid Model + LLM)
+
+**Business case**: Distribution utilities must plan for EV charger load growth, renewable DER integration, and data center connections — all simultaneously, across thousands of grid nodes. Traditional planning tools (one simulation at a time) can't handle this. Power Grid Model (10M+ downloads, three Dutch DSOs) enables AI-driven Monte Carlo planning.
+
+**Stack:**
+- Data ingestion: [PowerGridModel/power-grid-model-io](https://github.com/PowerGridModel/power-grid-model-io) (MIT) — import IEC CIM/CGMES
+- Simulation core: [PowerGridModel/power-grid-model](https://github.com/PowerGridModel/power-grid-model) (MIT) — millions of batch scenarios in seconds
+- Data science interface: [PowerGridModel/power-grid-model-ds](https://github.com/PowerGridModel/power-grid-model-ds) (MIT) — Pythonic graph API
+- Scenario generation: LangGraph agent generates EV/solar/data-center growth scenarios from natural language
+- LLM: Claude claude-sonnet-5 for scenario interpretation and executive reporting
+- Visualization: matplotlib + networkx for grid topology + violation heat maps
+
+**Wiring:**
+```
+Utility provides IEC CIM grid model (standard export from GIS/SCADA)
+  → power-grid-model-io: converts CIM to PGM format
+  → power-grid-model-ds: Pythonic network object (nodes, branches, loads)
+
+Client request: "What grid reinforcements are needed if 30% of district 7 installs EV chargers by 2028?"
+
+Step 1 — Scenario generation (Claude):
+  → Translates "30% EV penetration by 2028" to load growth parameters
+  → Generates 1,000 Monte Carlo scenarios (varied EV adoption curves, charging times, weather)
+
+Step 2 — Batch calculation (Power Grid Model):
+  → Runs 1,000 power flow scenarios in parallel (numpy batch mode)
+  → Runtime: ~30 seconds for 1,000 scenarios on a modern server
+
+Step 3 — Violation analysis (LangGraph + Claude):
+  → Identifies nodes that violate voltage/thermal limits in >10% of scenarios
+  → Ranks by severity (population affected × violation frequency)
+  → Recommends: "Upgrade transformer T-23, add shunt capacitor at node 156, reinforce feeder F-7 by 2026"
+
+Step 4 — Executive reporting:
+  → Claude generates: cost estimates, risk map, investment timeline
+  → Output: PDF technical report + boardroom-ready executive summary
+
+Value delivered: 3-week planning study (previously 6-12 months)
+```
+
+**Effort**: 8-12 weeks | **Revenue target**: $120k-$350k | **Reuse**: Same engine across any DSO with CIM-compatible SCADA/GIS
 
 ---
 
@@ -314,11 +404,15 @@ Client type?
 │   ├── Load forecasting pain? → P1 (OpenSTEF + LangGraph)
 │   ├── Grid operations complexity? → P5 demo → P7 production
 │   ├── Grid planning backlog? → P6 (PyPSA + Claude)
+│   ├── Distribution planning at scale? → P12 (Power Grid Model + LLM)
 │   ├── Has OpenDSS/PSS/E? → P9 PowerMCP PoC (fastest!)
-│   └── Needs regulatory audit trail? → P10 (PowerDAG pattern)
+│   ├── Needs regulatory audit trail? → P10 (PowerDAG pattern)
+│   └── Real-time fault response? → P11 (Grid Intelligence at Scale)
 ├── Utility / IPP with BESS
 │   ├── Revenue optimization? → P2 (OpenEMS VPP Agent)
 │   └── Asset maintenance? → P4 (VOLTTRON + CrewAI)
+├── Transmission utility (LATAM)
+│   └── Grid intelligence at scale? → P11 (Eletrobras pattern)
 ├── Fleet / Mobility operator
 │   └── EV charging cost? → P3 (EVerest + Smart Charging)
 └── Commercial real estate
