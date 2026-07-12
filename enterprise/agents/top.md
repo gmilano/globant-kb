@@ -1,24 +1,26 @@
 # Top AI Agents & Frameworks — Enterprise
 
 > Open source AI agents and orchestration frameworks for enterprise. Focus: MIT / Apache 2.0 / permissive licenses Globant can build on.
-> Last updated: 2026-07-12 (v4)
+> Last updated: 2026-07-12 (v5)
 
 ## Agent Orchestration Frameworks
 
 | Name | License | Stars | Org | Description | Key Differentiator |
 |------|---------|-------|-----|-------------|-------------------|
-| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT (library) | ~34.5k | LangChain AI | Stateful, graph-based agent orchestration with durable execution, checkpointing, and human-in-the-loop | Largest production footprint in 2026; deployed at Uber, Klarna, LinkedIn; de-facto enterprise standard; 34.5M monthly downloads |
-| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | ~54.2k | CrewAI Inc | Role-playing multi-agent framework for collaborative AI workflows with memory, tools, and delegation | Fastest prototyping ergonomics; 5.2M downloads/month; 2B+ agent executions in 2025 |
-| [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | Microsoft | GA April 2026 — production unification of AutoGen + Semantic Kernel into one .NET/Python SDK | A2A + MCP native; sequential/concurrent/handoff/group-chat/Magentic-One patterns; LTS guaranteed |
-| [Strands Agents](https://github.com/strands-agents/sdk-python) | Apache-2.0 | ~6.1k | AWS | Model-driven open source agent SDK; same framework AWS uses for Amazon Q Developer, AWS Glue, and VPC Reachability Analyzer | 16.7M downloads/month (Jun 2026); deploys to Lambda/Fargate/EKS/Bedrock AgentCore; OTEL native; Accenture/PwC contributors |
-| [Google ADK](https://github.com/google/adk-python) | Apache-2.0 | ~10k+ | Google | Open-source code-first toolkit for building, evaluating, and deploying AI agents across Python/TypeScript/Go/Java/Kotlin | Released April 2026; latest update July 7 2026; native Vertex AI + Gemini Enterprise Agent Platform; built-in eval framework |
-| [Dify](https://github.com/langgenius/dify) | Apache-2.0 (core) | ~148k | LangGenius | Visual workflow builder + RAG pipeline + LLMOps observability on one platform | #1 LLM platform by GitHub stars; drag-and-drop agent builder; self-hostable |
-| [n8n](https://github.com/n8n-io/n8n) | Fair-code (source) | ~189k | n8n GmbH | Workflow automation with native AI agent nodes, MCP client/server support, and 400+ integrations | Bridges legacy systems to agentic AI; 189k+ stars; best for system-of-record integration |
+| [LangGraph](https://github.com/langchain-ai/langgraph) | MIT | ~34k | LangChain AI | Stateful, graph-based agent orchestration; durable execution, checkpointing, HITL; v1.0 GA Oct 2025 | Production leader: 34.5M monthly downloads; Uber, Klarna, LinkedIn production; gold standard for compliance audit trails |
+| [CrewAI](https://github.com/crewAIInc/crewAI) | MIT | ~44k | CrewAI Inc | Role-playing multi-agent framework for collaborative AI workflows with memory, tools, and delegation | Fastest prototyping; 5.2M downloads/month; ~60% Fortune 500 adoption for business automation |
+| [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | Microsoft | GA April 2026 — production unification of AutoGen + Semantic Kernel into one .NET/Python SDK | A2A + MCP native; sequential/concurrent/handoff/Magentic-One; LTS; BUILD 2026: Agent Harness + Hosted Agents added |
+| [Strands Agents](https://github.com/strands-agents/harness-sdk) | Apache-2.0 | ~6.1k | AWS | Model-driven agent SDK; same framework AWS uses internally for Amazon Q Developer, AWS Glue, VPC Reachability Analyzer | 16.7M downloads/month (Jun 2026); Bedrock AgentCore native; OTEL; Accenture/PwC contributors |
+| [Google ADK 2.0](https://github.com/google/adk-python) | Apache-2.0 | ~20.1k | Google | Code-first agent toolkit; Python/TS/Go/Java/Kotlin; graph workflows; multi-agent collaboration; Vertex AI Agent Runtime | ADK 2.0 GA: fastest-growing agent framework at launch; Moody's, D&B production; native Agent Runtime on Vertex |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | LangGenius | Visual workflow builder + RAG pipeline + LLMOps observability on one platform; 100+ LLM providers | #1 LLM platform by stars; only framework with full GUI + self-hostable + production RAG; no-code teams |
+| [n8n](https://github.com/n8n-io/n8n) | Fair-code | ~182k | n8n GmbH | Workflow automation with native AI agent nodes, MCP client/server support, and 500+ integrations | Integration bridge: legacy ERP/CRM/email/Slack → AI agents; highest star count of any workflow tool |
 | [RAGFlow](https://github.com/infiniflow/ragflow) | Apache-2.0 | ~73k | InfiniFlow | Enterprise RAG engine with deep document understanding, citation tracking, and agent capabilities | Deep OCR + table extraction; grounded answers with citations; 2,596% YoY star growth |
+| [Agno](https://github.com/agno-agi/agno) | MIT | ~39.8k | Agno AGI | High-performance agent framework; AgentOS control plane with RBAC, session/memory/trace persistence in your DB | Rebranded from Phidata Jan 2025; 39.8k ★; data sovereignty focus; multimodal; rapid PoC-to-production |
+| [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) | MIT | ~25.6k | OpenAI | Multi-agent workflows with Handoffs, Guardrails, and Tracing; provider-agnostic (100+ LLMs) | Enterprise sandboxing added Apr 2026; successor to Swarm; TypeScript companion SDK |
+| [PydanticAI](https://github.com/pydantic/pydantic-ai) | MIT | ~18.4k | pydantic | Type-safe agent framework with model-agnostic support (OpenAI/Anthropic/Gemini/Ollama/Bedrock) and durable execution | Best for validated structured outputs; finance/legal/data pipelines; Pydantic Logfire native tracing |
 | [Smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Hugging Face | Minimal code-first agent framework with CodeAct execution and OpenTelemetry-native tracing | Minimal footprint; CodeAct; integrates all HF models; OTEL tracing built in |
-| [Agno](https://github.com/agno-agi/agno) | Apache-2.0 | ~26k | Agno | Lightweight, model-agnostic agent framework with native multimodality and team/role support | Ultra-fast initialization; multimodal out of box; strong for rapid enterprise PoCs |
-| [AutoGen](https://github.com/microsoft/autogen) | MIT | ~58.7k | Microsoft Research | Conversational multi-agent framework (maintenance mode; succeeded by Microsoft Agent Framework) | Proven at scale; deep Azure integration; still valid for existing projects |
-| [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~27.9k | Microsoft | AI SDK for .NET, Python, Java — plugin system + memory + planners (maintenance, migrating to MAF) | Best-in-class .NET/C# integration; 3-language support; Azure-native plugin ecosystem |
+| [AutoGen](https://github.com/microsoft/autogen) | MIT | ~40k | Microsoft Research | Conversational multi-agent framework — **now in maintenance mode; succeeded by Microsoft Agent Framework** | Still valid for existing deployments; migrate to MAF for new projects |
+| [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~27.9k | Microsoft | AI SDK for .NET, Python, Java — **now in maintenance mode; migrating to MAF** | Best-in-class .NET/C# plugin ecosystem; 3-language support |
 
 ## Enterprise Infrastructure & Observability
 
@@ -35,17 +37,19 @@
 
 | Scenario | Recommended | Reason |
 |----------|-------------|--------|
-| Complex stateful workflows, human-in-the-loop | **LangGraph** | Graph-based control, checkpointing, durable execution |
-| Fast multi-agent prototyping, role-based | **CrewAI** | Fastest time-to-demo; 2B+ executions proven |
-| Microsoft / .NET / Azure shops | **Microsoft Agent Framework** | GA v1.0 April 2026; A2A+MCP; LTS guaranteed |
-| AWS / Bedrock shops | **Strands Agents** | Same SDK AWS runs in production; 16.7M downloads/month; Bedrock AgentCore native deploy |
-| Google Cloud / Vertex AI shops | **Google ADK** | Apache-2.0; Python/TS/Go/Java/Kotlin; Vertex AI + Gemini Enterprise native; July 2026 release |
+| Complex stateful workflows, human-in-the-loop | **LangGraph** | Graph-based control, checkpointing, durable execution; 34.5M downloads/month; production leader |
+| Fast multi-agent prototyping, role-based | **CrewAI** | Fastest time-to-demo; 5.2M downloads/month; ~60% Fortune 500 business automation |
+| Microsoft / .NET / Azure shops | **Microsoft Agent Framework** | GA v1.0 April 2026; A2A+MCP; LTS; Agent Harness + Hosted Agents added at BUILD 2026 |
+| AWS / Bedrock shops | **Strands Agents** | Same SDK AWS runs in production; 16.7M downloads/month; Bedrock AgentCore native |
+| Google Cloud / Vertex AI shops | **Google ADK 2.0** | Apache-2.0; Python/TS/Go/Java/Kotlin; Vertex AI Agent Runtime; Moody's/D&B reference deployments |
 | No-code / low-code workflows | **Dify** or **Flowise** | Visual builders; self-hostable; API-first |
-| Legacy system integration | **n8n** | 400+ connectors; AI nodes; MCP native |
+| Legacy system integration | **n8n** | 500+ connectors; AI nodes; MCP native |
 | Enterprise RAG / knowledge base | **RAGFlow** | Deep doc understanding; citation-grounded answers |
+| Type-safe structured outputs (finance/legal) | **PydanticAI** | Validation at model boundary; durable execution; Logfire tracing |
+| Data sovereignty / RBAC control | **Agno (AgentOS)** | RBAC + self-hosted trace/memory/knowledge in your own DB |
+| OpenAI API-first / rapid agent build | **OpenAI Agents SDK** | Enterprise sandboxing; provider-agnostic; TS companion |
 | Minimal footprint / HF models | **Smolagents** | Code-first; tiny core; OTEL built in |
-| Rapid PoC, model-agnostic | **Agno** | Ultra-fast init; multimodal; Apache-2.0 |
-| Compliance + runtime safety (EU AI Act) | **Agent Governance Toolkit** | OWASP agentic risk coverage; Cedar policy-as-code; Aug 2026 deadline |
+| Compliance + runtime safety (EU AI Act) | **Agent Governance Toolkit** | OWASP agentic risk coverage; Cedar policy-as-code; GPAI/Article 50 Aug 2026 |
 
 ---
 
@@ -63,10 +67,12 @@
 | RAGFlow | ✅ Yes | Apache-2.0 — no restrictions |
 | Smolagents | ✅ Yes | Apache-2.0 — no restrictions |
 | AutoGen | ✅ Yes | MIT — maintenance mode; prefer MAF for new projects |
-| Agno | ✅ Yes | Apache-2.0 — no restrictions |
+| Agno | ✅ Yes | MIT — AgentOS enterprise control plane; data sovereignty |
+| OpenAI Agents SDK | ✅ Yes | MIT — provider-agnostic; 25.6k ★ |
+| PydanticAI | ✅ Yes | MIT — type-safe; durable execution; Logfire tracing |
 | Langfuse | ✅ Yes | MIT self-hosted — full data control |
 | Agent Governance Toolkit | ✅ Yes | MIT — runtime policy enforcement |
 | MLflow | ✅ Yes | Apache-2.0 — Linux Foundation backed |
 
 ---
-*Auto-updated by ingest pipeline — v4 2026-07-12*
+*Auto-updated by ingest pipeline — v5 2026-07-12*

@@ -1,7 +1,7 @@
 # Composition Patterns — Enterprise AI
 
 > Concrete recipes for building enterprise AI solutions. Each names specific repos, how to wire them, estimated effort, and Globant positioning.
-> Last updated: 2026-07-12 (v4)
+> Last updated: 2026-07-12 (v5)
 
 ---
 
@@ -157,7 +157,7 @@ Langfuse: trace + eval + compliance export (SOC2, GDPR)
 
 **Repos**:
 - [nocobase/nocobase](https://github.com/nocobase/nocobase) — AGPL-3 — AI-native no-code ERP/CRM
-- [agno-agi/agno](https://github.com/agno-agi/agno) — Apache-2.0 — Lightweight agent layer for custom extensions
+- [agno-agi/agno](https://github.com/agno-agi/agno) — MIT — AgentOS; lightweight agent layer for custom extensions
 
 **Architecture**:
 ```
@@ -261,8 +261,7 @@ Langfuse: token usage by department, cost attribution, quality scores
 **Use case**: Build an enterprise AI agent platform for clients running on AWS — leverage the same framework AWS uses in production for Amazon Q Developer and AWS Glue.
 
 **Repos**:
-- [strands-agents/sdk-python](https://github.com/strands-agents/sdk-python) — Apache-2.0 — Agent SDK; model-driven; 16.7M downloads/month
-- [strands-agents/harness-sdk](https://github.com/strands-agents/harness-sdk) — Apache-2.0 — TypeScript companion SDK
+- [strands-agents/harness-sdk](https://github.com/strands-agents/harness-sdk) — Apache-2.0 — Agent SDK (Python + TypeScript harness); model-driven; 16.7M downloads/month
 - [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Observability (Strands emits OTEL; Langfuse ingests OTEL)
 
 **Architecture**:
@@ -331,7 +330,90 @@ Phase 3: Governance Retrofit (Week 4-8)
 - EU AI Act readiness assessment
 
 **Effort**: 2 weeks discovery + classification; 4–6 weeks governance retrofit
-**URGENT POSITIONING**: EU AI Act August 2 enforcement = now. This is a board-level offer.
+**POSITIONING**: EU AI Act GPAI/Article 50 enforcement August 2, 2026. Annex III high-risk compliance deadline December 2, 2027 (Digital Omnibus extension). Still a board-level offer — the extension is for preparation, not delay.
 
 ---
-*Auto-updated by ingest pipeline — v4 2026-07-12*
+
+## P10 — MCP EMA SSO Enterprise Integration (MCP EMA + Okta/Azure AD + Any Agent Framework)
+
+**Use case**: Wire an enterprise's existing identity provider (IdP) to MCP server authorization, so agents automatically get the same RBAC permissions as the human user — no per-agent API key management.
+
+**Repos**:
+- MCP EMA (stable July 2026) — built into any MCP-compliant server (Asana, Atlassian, Figma, Supabase, Linear, or custom)
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — Agent orchestration
+- [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) — MIT — Policy enforcement layer
+
+**Architecture**:
+```
+Enterprise IdP (Okta / Azure AD / Auth0)
+    ↓ MCP EMA (Enterprise-Managed Authorisation — stable Jul 2026)
+MCP Servers (one per enterprise system)
+    ├── Asana MCP → project tasks
+    ├── Atlassian MCP → Jira + Confluence
+    ├── Custom ERPNext MCP → ERP data
+    ├── Salesforce MCP → CRM
+    └── SAP OData → MCP proxy → SAP
+    ↓
+LangGraph Agent (or any MCP-compatible framework)
+    ├── Calls tools through MCP; inherits user's IdP permissions automatically
+    ├── No per-agent API keys; no credential rotation burden
+    └── Actions are logged to IdP audit log + Langfuse traces
+    ↓
+Agent Governance Toolkit: Cedar policies enforce what agents can do beyond IdP role
+```
+
+**Key decision points**:
+- MCP EMA is now stable (July 2026) — safe to build on
+- Enterprises with Okta/Azure AD don't need new permission systems — MCP EMA reuses existing RBAC
+- Pattern works for any MCP-compatible agent framework (LangGraph, CrewAI, MAF, ADK, Strands)
+- Gartner: 75% of API gateway vendors will support MCP in 2026 — integration surface expanding rapidly
+
+**Effort**: 2–3 weeks PoC (if enterprise already has SSO + target systems with MCP servers); 6–8 weeks production with governance layer
+**Positioning**: "Enterprise AI with zero new credential management" — reuses existing security infrastructure
+
+---
+
+## P11 — Sovereign AI Collaboration Hub (Mattermost Agents V2 + Nextcloud + LangGraph + Ollama)
+
+**Use case**: Build a fully sovereign (no external cloud, no API data leakage) enterprise AI collaboration environment for EU-regulated or defense-sector clients — runs on-premises with local LLMs.
+
+**Repos**:
+- [mattermost/mattermost-plugin-agents](https://github.com/mattermost/mattermost-plugin-agents) — Apache-2.0 — Agents V2: multi-AI per channel, HITL, sovereign AI
+- [nextcloud/assistant](https://github.com/nextcloud/assistant) — AGPL-3.0 — File/calendar/email AI assistant; MCP support; voice
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — Agent orchestration with HITL checkpoints
+- [Ollama](https://ollama.com) — MIT — Local LLM inference (Llama 3.3, Mistral, Qwen); no data leaves infra
+
+**Architecture**:
+```
+On-premises data center / private cloud (EU sovereign)
+    │
+    ├── Ollama: local LLM serving (Llama 3.3 / Mistral / Qwen 2.5)
+    │       └── 0 data leaves infra
+    │
+    ├── Nextcloud: file/calendar/email management
+    │   ├── Nextcloud Assistant (AI agent): reads files, creates events, sends email
+    │   └── MCP server: bridges external AI agents to Nextcloud data
+    │
+    ├── Mattermost Agents V2: team collaboration
+    │   ├── AI assistant per channel (HR channel → HR agent; Legal → Legal agent)
+    │   ├── Agents propose tool calls; humans approve before execution
+    │   └── Summarizes threads, extracts action items, routes decisions
+    │
+    └── LangGraph: orchestrates cross-system workflows
+        ├── HR request → Nextcloud EDMS → approval workflow → Mattermost notification
+        └── All via Ollama; OTEL traces → Langfuse (self-hosted)
+```
+
+**Key decision points**:
+- BYOM (Bring Your Own Model): this architecture makes enterprise-managed local LLMs the standard, not a workaround
+- Mattermost: Apache-2.0 core — fully Globant-buildable; no fair-code restrictions
+- Nextcloud: AGPL-3.0 — self-hosted deployment avoids copyleft distribution issues
+- EU AI Act GPAI: no foundation model provider exposure — Ollama runs open-weight models
+- This architecture responds directly to the 2026 BYOM security challenge: governed local AI beats ungoverned personal Ollama instances
+
+**Effort**: 4–6 weeks PoC; 3–4 months production deployment with SSO + HITL policies
+**Ideal clients**: EU public sector, defense/intelligence adjacent, highly regulated industries (banking, healthcare, energy)
+**LATAM angle**: LGPD compliance + data residency requirements make this compelling for Brazilian regulated enterprises
+
+---
+*Auto-updated by ingest pipeline — v5 2026-07-12*

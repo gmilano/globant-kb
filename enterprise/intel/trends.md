@@ -1,6 +1,6 @@
 # Trends — Enterprise AI
 
-> Current signals, patterns, and technology shifts shaping enterprise AI in 2026. Updated 2026-07-12 (v4).
+> Current signals, patterns, and technology shifts shaping enterprise AI in 2026. Updated 2026-07-12 (v5).
 
 ## Macro Signals
 
@@ -11,6 +11,11 @@
 - **$2.6–4.4 trillion** annual value potential from AI agents across business functions (McKinsey)
 - **82%** of enterprises have AI agents their security teams did **not** know existed (Cloud Security Alliance 2026)
 - **$9.14B → $139.19B** agentic AI market by 2034, CAGR 40.50% (Fortune Business Insights 2026)
+- **90% vs 53%** — multi-agent coordination vs single-agent goal success rate (AWS research, 2026)
+- **37%** performance gap between lab benchmark results and production deployments — do not ship lab numbers as guarantees
+- **82.7%** accuracy achieved by domain-specific agents vs 59–63% for general LLMs, at 4.4–10.8× lower cost per query
+- **200+** AI-related data exposure incidents per month per enterprise on average (2026 data)
+- **28%** of Fortune 500 companies adopted MCP in under 18 months since its release (July 2026)
 
 ---
 
@@ -162,7 +167,7 @@ Three hyperscalers now have production-grade, open-source agent SDKs:
 | SDK | Hyperscaler | License | Production Proof |
 |-----|-------------|---------|------------------|
 | [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | Microsoft/Azure | MIT | GA Apr 2026; LTS; A2A+MCP |
-| [Strands Agents](https://github.com/strands-agents/sdk-python) | AWS | Apache-2.0 | Amazon Q Developer, AWS Glue in production; 16.7M downloads/month |
+| [Strands Agents](https://github.com/strands-agents/harness-sdk) | AWS | Apache-2.0 | Amazon Q Developer, AWS Glue in production; 16.7M downloads/month |
 | [Google ADK](https://github.com/google/adk-python) | Google/GCP | Apache-2.0 | Gemini Enterprise Agent Platform; July 7 2026 release; Python/TS/Go/Java/Kotlin |
 
 **Implication**: For enterprise clients already on a cloud, use the hyperscaler's native SDK — it has the deepest IAM, billing, and observability integration, plus GSI support (Accenture/PwC on Strands; official Google Cloud support on ADK).
@@ -187,5 +192,96 @@ Cloud Security Alliance (2026): **82% of enterprises have AI agents or workflows
 
 **Implication**: Claude is the default LLM for regulated enterprise use cases. Build Globant's enterprise AI patterns around Claude for production; use open-weight models (Llama, Mistral) only for on-premises data residency requirements.
 
+## T19 — EU AI Act Annex III Delay to December 2027 (Critical Correction, v5)
+
+The **Digital Omnibus** political agreement (May 2026) materially changed the EU AI Act enforcement timeline:
+
+| Provision | Original Date | Updated Date |
+|-----------|--------------|-------------|
+| GPAI (General-Purpose AI) enforcement | August 2, 2026 | **August 2, 2026** (unchanged) |
+| Article 50 transparency obligations | August 2, 2026 | **August 2, 2026** (unchanged) |
+| Annex III high-risk system compliance (HR, credit, critical infra, medical, law enforcement) | August 2, 2026 | **December 2, 2027** (16-month extension) |
+
+**What this means for enterprise AI projects:**
+- **August 2, 2026** is still a hard date for GPAI disclosure and Article 50: any chatbot/assistant visible to EU users must display AI interaction notices
+- The GPAI regulator (European Commission) is now active and can demand technical documentation, evaluation results, and fine up to **€35M or 7% of global turnover**
+- High-risk Annex III use cases (recruiting bots, credit scoring, clinical decision support) now have until **December 2027** — but this should be used for preparation, not delay
+- **50%+ of organizations lack AI system inventories** — even with the extension, governance must start now
+
+**Implication**: Correct any messaging that called August 2 the "Annex III deadline." Update client proposals accordingly. The GPAI/Article 50 urgency is real; the Annex III urgency is now for December 2027 planning.
+
 ---
-*Auto-updated by ingest pipeline — v4 2026-07-12*
+
+## T20 — SAP + ServiceNow Deploy Autonomous AI Workforces (Sapphire / Knowledge 2026)
+
+Enterprise software incumbents moved from "co-pilot" to "autonomous agent" in Q2 2026:
+
+**SAP (Sapphire 2026 — Autonomous Suite):**
+- **224 AI agents + 51 AI assistants** across procurement, finance, HR, supply chain, and manufacturing
+- Architecture principle: ERP as the "brain" — agents have full transactional context and governance guardrails from the source system
+- Differentiator vs Google/Microsoft: ERP-native governance means agents don't hallucinate on business data
+
+**ServiceNow (Knowledge 2026 — Autonomous Workforce + Action Fabric):**
+- IT service desk (L1), CRM, employee services, and security/risk specialists available
+- **Action Fabric**: allows third-party agents (Anthropic Claude, Microsoft Copilot) to securely trigger governed actions inside ServiceNow
+- "AI Control Tower for business reinvention" — governance kill switch for any agent
+- Josh Bersin analysis: ServiceNow is positioning to manage the **entire enterprise AI control layer**, not just ITSM
+
+**Microsoft (BUILD 2026 — Agent 365):**
+- **Agent 365**: cross-cloud agent identity and access management — covers agents running on AWS and Google Cloud, not just Azure
+- Extends Microsoft's governance story to heterogeneous multi-cloud agent estates
+
+**Implication**: Clients with SAP/ServiceNow are getting autonomous agent capabilities with their existing licenses. Globant's value shifts to (a) customization and integration work (b) governance layer for agents that span multiple vendors, and (c) open-source alternatives for organizations not in these ecosystems.
+
+---
+
+## T21 — BYOM (Bring Your Own Model): The Security Blind Spot
+
+**Definition**: Employees running quantized LLMs locally on AI-PCs, MacBooks, and smartphones — using tools like Ollama, LM Studio, or GPT4All — bypassing all network-based controls.
+
+**Why it matters:**
+- Traditional DLP (Data Loss Prevention) and CASB tools operate at the network layer — they are blind to local model inference
+- A lawyer summarizing a contract with a local LLM cannot be detected or governed by conventional enterprise security tools
+- AI-PCs (NPU-equipped laptops from Microsoft/Dell/HP/Lenovo) are shipping at volume in 2026 — every laptop refresh potentially adds a local model
+
+**Scale in 2026:**
+- **47%** of GenAI users access tools through unmanaged personal accounts
+- **$670,000** additional average cost per data breach when AI tools were involved (IBM 2025)
+- Microsoft Edge RSAC 2026: announced browser-level shadow AI detection — but only covers browser-based tools, not local models
+
+**Implication**: Enterprise governance must expand to cover endpoint AI, not just API calls and web traffic. Agno's AgentOS (RBAC + self-hosted) and Mattermost Agents V2 (sovereign AI + local LLM) are open-source responses to this challenge. Governance Toolkit alone is insufficient — add endpoint detection to the architecture.
+
+---
+
+## T22 — MCP Enterprise-Managed Authorisation (EMA) Goes Stable (July 2026)
+
+**What changed**: MCP's Enterprise-Managed Authorisation (EMA) extension was promoted to **stable status** in July 2026.
+
+**What EMA does**: Allows organizations to control which MCP servers their agents can access, and by whom, via the company's existing SSO/IdP (identity provider). No more per-agent API key management.
+
+**Ecosystem adoption (stable status):**
+- SaaS vendors already supporting EMA: Asana, Atlassian, Canva, Figma, Linear, Supabase
+- Slack support in progress
+- Gartner forecast: **75% of API gateway vendors** will natively support MCP features in 2026
+- CData estimate: **30% of enterprise application vendors** will launch MCP servers in 2026
+
+**MCP's governance lineage**: Donated to Linux Foundation Agentic AI Foundation (AAIF) in December 2025 (Anthropic, OpenAI, Block as co-founders; AWS, Google, Microsoft, Cloudflare, Bloomberg as platinum members). Now vendor-neutral — not an Anthropic product.
+
+**New compose pattern** (P10 added in v5): MCP EMA SSO integration — wire an enterprise IdP (Okta/Azure AD) to MCP server authorization, so agent access to enterprise systems follows existing RBAC policies.
+
+---
+
+## T23 — Lab-to-Production Gap: The 37% Performance Drop
+
+AWS research (2026) quantifies what practitioners have observed anecdotally: **multi-agent systems lose 37% of their benchmark performance when deployed in production** versus controlled lab evaluation.
+
+**Root causes identified:**
+1. **Latency variability**: API throttling, network jitter, and model response time variance compound across agent hops
+2. **State pollution**: In-production agents accumulate unexpected state from real user interactions vs. clean lab test cases
+3. **Tool failure cascades**: Production APIs fail at rates test harnesses don't simulate
+4. **Context bleed**: Long-running agents in production accumulate context that degrades reasoning quality
+
+**Implication**: Do not use lab benchmarks in client proposals without a production discount. Use the CLASSic evaluation framework (Cost, Latency, Accuracy, Stability, Security) from day one, and run production load tests with synthetic traffic before launch. Langfuse's eval harness + LangGraph's checkpointing are the primary mitigation tools.
+
+---
+*Auto-updated by ingest pipeline — v5 2026-07-12*

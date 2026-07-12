@@ -1,15 +1,15 @@
 # Vertical Solutions — Enterprise
 
 > Real enterprise platforms that can be customized with AI on top. Model: start with a working system, add an agentic layer.
-> Last updated: 2026-07-12 (v4)
+> Last updated: 2026-07-12 (v5)
 
 ## ERP Platforms
 
 | Platform | License | Stars | URL | Stack | AI Integration Strategy |
 |----------|---------|-------|-----|-------|------------------------|
-| **Odoo** | LGPL-3 (community) | ~49.1k | [odoo/odoo](https://github.com/odoo/odoo) | Python/OWL/PostgreSQL | REST API + external LLM; built-in content generation AI; 84 business modules; AI assistive in v17/v18; €7B valuation Jan 2026 |
-| **ERPNext** | GPL-3.0 | ~31.9k | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe/MariaDB | Third-party AI ecosystem: NextAI, ChatNext, changAI, Aerele Chatbot, MCP server bridge; flexible Python hooks |
-| **NocoBase** | AGPL-3.0 | ~21.6k | [nocobase/nocobase](https://github.com/nocobase/nocobase) | TypeScript/Node.js/PostgreSQL | **AI-native**: AI employee model understands business context; participates in approval workflows; generates records autonomously |
+| **Odoo** | LGPL-3 (community) | ~49.1k | [odoo/odoo](https://github.com/odoo/odoo) | Python/OWL/PostgreSQL | 9 AI features shipped 2026; Odoo 19 current; Odoo 20 (Sep 2026): AI-assisted accounting, website support, auto-record creation; >€7B valuation |
+| **ERPNext** | GPL-3.0 | ~36.7k | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe/MariaDB | v16 "Frappe Caffeine" (stable Dec 2025): 2× performance. AI ecosystem: NextAI (Gemini), changAI (on-prem RAG), Raven AI, MCP server bridge |
+| **NocoBase** | AGPL-3.0 | ~21.6k | [nocobase/nocobase](https://github.com/nocobase/nocobase) | TypeScript/Node.js/PostgreSQL | **Most AI-native ERP**: AI Employee is an operational role, not a chatbot; participates in approvals, creates records, analyzes data; supports Claude/Cursor coding agents |
 | **Apache OFBiz** | Apache-2.0 | ~1.1k | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java/Spring | API-first; Globant-safe Apache-2.0; ERP + SCM + CRM; build AI layer via REST API |
 | **Dolibarr** | GPL-3.0 | ~5k | [dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP/MySQL | Lightweight ERP+CRM for SMEs; REST API for AI integration; easy to extend |
 
@@ -17,24 +17,41 @@
 
 | Platform | License | Stars | URL | Stack | AI Integration Strategy |
 |----------|---------|-------|-----|-------|------------------------|
-| **SuiteCRM** | AGPL-3.0 | ~4.3k | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | PHP/MySQL | ~5M users globally; Salesforce alternative; REST API v8 for AI agent automation; CRM workflows |
-| **EspoCRM** | AGPL-3.0 | ~1.8k | [espocrm/espocrm](https://github.com/espocrm/espocrm) | PHP/MySQL | Modern CRM with REST API; easier to customize than SuiteCRM; good for AI integration |
-| **Twenty** | AGPL-3.0 | ~29k | [twentyhq/twenty](https://github.com/twentyhq/twenty) | TypeScript/React/GraphQL | Modern open-source CRM alternative to Salesforce; GraphQL API; strong for AI enrichment |
+| **Twenty** | AGPL-3.0 | ~45.5k | [twentyhq/twenty](https://github.com/twentyhq/twenty) | TypeScript/React/GraphQL | "CRM designed for AI" (YC S23); native MCP server ships with cloud; agents query/create/update records via natural language; REST + GraphQL |
+| **Relaticle** | MIT | — | [relaticle/relaticle](https://github.com/relaticle/relaticle) | Laravel/Filament | **30 MCP tools** expose full CRM to AI agents; MIT license; self-hostable; most MCP-complete open-source CRM |
+| **SuiteCRM** | AGPL-3.0 | ~4.3k | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | PHP/MySQL | ~5M users globally; Salesforce alternative; REST API v8 for AI agent automation |
+| **EspoCRM** | AGPL-3.0 | ~1.8k | [espocrm/espocrm](https://github.com/espocrm/espocrm) | PHP/MySQL | Modern CRM; REST API; easier to customize than SuiteCRM |
 | **Vtiger** | MPL-1.1 | ~1.2k | [vtiger/vtigercrm](https://github.com/vtigercrm/vtigercrm) | PHP | Full CRM with workflow engine; API for AI integration |
+
+## ITSM Platforms (NEW in v5)
+
+| Platform | License | Stars | URL | Stack | AI Integration Strategy |
+|----------|---------|-------|-----|-------|------------------------|
+| **iTop** | AGPL-3.0 | — | [Combodo/iTop](https://github.com/Combodo/iTop) | PHP/MySQL | Full CMDB + ITIL service desk; itomig-ai-base provides unified LLM layer (OpenAI-compatible, Anthropic, Mistral, Ollama) |
+| **GLPI** | GPL-2.0 | — | [glpi-project/glpi](https://github.com/glpi-project/glpi) | PHP | Most popular MSP ITSM; native AI layer for ticket classification and prioritization (GLPI 11) |
+| **OTOBO** | GPL-3.0 | — | [RotherOSS/otobo](https://github.com/RotherOSS/otobo) | Perl/JavaScript | OTRS community edition successor; ML-based ticket classification plugin; full ITIL |
 
 ## Workflow & BPM Platforms
 
 | Platform | License | Stars | URL | Description | AI Augmentation |
-|----------|---------|-------|-----|-------------|-----------------|
-| **n8n** | Fair-code | ~189k | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Workflow automation + 400+ integrations + native AI agent nodes | Native MCP; connects legacy systems to LLMs; AI agent nodes built in |
-| **Dify** | Apache-2.0 | ~148k | [langgenius/dify](https://github.com/langgenius/dify) | Visual LLM workflow builder + RAG + LLMOps | Built-in; the platform IS the AI layer; self-hostable |
+|----------|---------|-------|-----|-------------|------------------|
+| **n8n** | Fair-code | ~182k | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Workflow automation + 500+ integrations + native AI agent nodes | Native MCP; connects legacy systems to LLMs; AI agent nodes built in |
+| **Dify** | Apache-2.0 | ~144k | [langgenius/dify](https://github.com/langgenius/dify) | Visual LLM workflow builder + RAG + LLMOps; 100+ LLM providers | Built-in; the platform IS the AI layer; self-hostable |
 | **Flowise** | Apache-2.0 | ~35k | [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Low-code LLM flow builder with REST API | Built-in; drag-and-drop LangChain flows deployable as APIs |
 | **Camunda** | Apache-2.0 (core) | ~4k | [camunda/camunda](https://github.com/camunda/camunda) | Process orchestration; BPMN workflows | AI decision services via REST; human-in-the-loop for complex approvals |
+
+## Collaboration & Project Management Platforms (NEW in v5)
+
+| Platform | License | Stars | URL | AI Capabilities |
+|----------|---------|-------|-----|----------------|
+| **Nextcloud** | AGPL-3.0 | — | [nextcloud/server](https://github.com/nextcloud/server) | Hub 25 Autumn 2026: AI assistant with full agent capabilities (creates calendar events, reads/sends messages/emails); MCP support; voice input/response; 100% on-prem local LLMs |
+| **Mattermost** | Apache-2.0 | — | [mattermost/mattermost](https://github.com/mattermost/mattermost) | Agents V2: multiple AI assistants per channel, sovereign AI (Ollama/vLLM local), thread/channel summarization, HITL; tool calls in-conversation |
+| **OpenProject** | GPL-3.0 | — | [opf/openproject](https://github.com/opf/openproject) | MCP server integration; AI contextual search; LLM project analytics (risk, optimization, suggestions); EU public sector standard |
 
 ## Knowledge & Document Management
 
 | Platform | License | Stars | URL | Description | AI Augmentation |
-|----------|---------|-------|-----|-------------|-----------------|
+|----------|---------|-------|-----|-------------|------------------|
 | **RAGFlow** | Apache-2.0 | ~73k | [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Enterprise RAG with deep OCR, table extraction, and citation tracking | IS the AI layer; drop documents in, get grounded answers out |
 | **Haystack** | Apache-2.0 | ~18k | [deepset-ai/haystack](https://github.com/deepset-ai/haystack) | NLP pipelines for document search, QA, and RAG | Pipeline composer; connects to any document store |
 | **Mayan EDMS** | GPL-2.0 | ~1.5k | [mayan-edms/mayan-edms](https://github.com/mayan-edms/mayan-edms) | Open-source document management system | REST API for AI classification and extraction workflows |
@@ -42,7 +59,7 @@
 ## HR & People Platforms
 
 | Platform | License | Stars | URL | Description | AI Augmentation |
-|----------|---------|-------|-----|-------------|-----------------|
+|----------|---------|-------|-----|-------------|------------------|
 | **OrangeHRM** | GPL-2.0 | ~1.3k | [orangehrm/orangehrm](https://github.com/orangehrm/orangehrm) | Open-source HR management | API for AI-powered resume screening, onboarding automation |
 | **iHRIS** | GPL-3.0 | ~140 | [iHRIS/iHRIS](https://github.com/iHRIS/iHRIS) | Health workforce information system | Domain-specific HR for health sector |
 
@@ -81,14 +98,24 @@ Step 5: Governance (required for EU AI Act Aug 2026)
 
 ## Globant Engagement Starting Points by Client Size
 
-| Client Size | ERP | CRM | Workflow | AI Orchestration | Cloud |
-|-------------|-----|-----|----------|-----------------|-------|
-| SME (<200 employees) | NocoBase or Dolibarr | EspoCRM | n8n | Dify or Flowise | Any |
-| Mid-market (200-2k) | Odoo Community | SuiteCRM | n8n + LangGraph | LangGraph + Langfuse | Any |
-| Enterprise (>2k) | Odoo Enterprise or ERPNext | Twenty or custom | n8n + Camunda | MAF or LangGraph + Governance Toolkit | Multi-cloud |
-| Microsoft shops | — | Dynamics 365 | n8n or MAF workflows | Microsoft Agent Framework v1.0 | Azure |
-| AWS shops | — | — | n8n | Strands Agents + Bedrock AgentCore | AWS |
-| Google Cloud shops | — | — | n8n | Google ADK + Vertex AI Agent Platform | GCP |
+| Client Size | ERP | CRM | ITSM | AI Orchestration | Cloud |
+|-------------|-----|-----|------|-----------------|-------|
+| SME (<200 employees) | NocoBase or Dolibarr | Relaticle (MIT, 30 MCP tools) or EspoCRM | GLPI | Dify or Flowise | Any |
+| Mid-market (200-2k) | Odoo Community | Twenty + MCP server | iTop + itomig-ai-base | LangGraph + Langfuse | Any |
+| Enterprise (>2k) | Odoo Enterprise or ERPNext v16 | Twenty or custom | GLPI or iTop | MAF or LangGraph + Governance Toolkit | Multi-cloud |
+| Microsoft shops | — | Dynamics 365 | ServiceNow | Microsoft Agent Framework v1.0 + Agent 365 | Azure |
+| AWS shops | — | — | — | Strands Agents + Bedrock AgentCore | AWS |
+| Google Cloud shops | — | — | — | Google ADK 2.0 + Vertex AI Agent Runtime | GCP |
+| Privacy-first / EU sovereign | ERPNext v16 (on-prem) | Twenty (self-hosted) | iTop + Ollama | LangGraph + Agno AgentOS + Mattermost Agents V2 | On-prem or EU DC |
+
+## Enterprise AI Infrastructure Foundations (Open Standards, July 2026)
+
+| Initiative | License | Owner | Description |
+|-----------|---------|-------|-------------|
+| **AAIF (Agentic AI Foundation)** | Open | Linux Foundation | Fastest-growing LF project; Anthropic, OpenAI, Block as co-founders; AWS, Google, Microsoft as platinum; home of MCP governance |
+| **OPEA (Open Platform for Enterprise AI)** | Apache-2.0 | Linux Foundation | Standard stack for enterprise AI pipelines; Red Hat, NetApp, Nutanix founding; composable AI system building blocks |
+| **MCP (Model Context Protocol)** | Open (AAIF) | Linux Foundation / AAIF | 10,000+ public servers; 97M+ SDK downloads; 28% Fortune 500 adoption; EMA stable July 2026 |
+| **A2A (Agent-to-Agent)** | Open | Google (AAIF) | Agent-to-agent delegation; 150+ orgs production (Apr 2026); embedded in AWS/Azure/GCP |
 
 ---
-*Auto-updated by ingest pipeline — v4 2026-07-12*
+*Auto-updated by ingest pipeline — v5 2026-07-12*
