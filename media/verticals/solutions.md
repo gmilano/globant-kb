@@ -1,7 +1,7 @@
 # Vertical Solutions — Media & Entertainment
 
 > Real open source platforms that can be customized with AI. The strategy: start from something functional, layer agentic AI on top.
-> Last updated: 2026-07-11 (v13)
+> Last updated: 2026-07-12 (v14)
 
 ## Platforms for AI Customization
 
@@ -24,19 +24,23 @@ Pick a platform matching the client's use case. Deploy self-hosted to ensure IP 
 Wire in:
 - **Transcription**: Whisper or whisper.cpp via REST endpoint
 - **Video generation**: Wan2.2 or LTX-Video via ComfyUI API
+- **Agent-native video**: HyperFrames (Apache-2.0) for LLM-composed video output
 - **Audio generation**: AudioCraft MusicGen for background music
+- **Video-to-audio**: FoleyCrafter (Apache-2.0) for automated foley and sound design
 - **Agent orchestration**: OpenMontage for multi-step production workflows
 
 ### Step 3: Expose an Agentic Layer
 Build an agent (LangGraph + Claude) that can:
 - Accept natural language production requests
 - Invoke the appropriate AI microservices in sequence
+- Use HyperFrames for structured video composition (HTML → MP4 via agent skills)
 - Return deliverables (video files, transcripts, assets) back to the platform
 
 ### Step 4: LATAM Localization
 - Use whisper.cpp for Spanish/Portuguese transcription
 - Use Pedalboard for audio normalization before AI voice dubbing
 - Deploy Wan2.2 locally to meet data residency requirements in Brazil/Argentina
+- FoleyCrafter for automated foley on locally produced content (saves costly sound design)
 
 ---
 *Auto-updated by ingest pipeline.*

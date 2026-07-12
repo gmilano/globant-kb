@@ -1,14 +1,14 @@
 # Composition Patterns — Media & Entertainment
 
 > Concrete recipes combining specific repos + agents to build production-ready solutions.
-> Last updated: 2026-07-11 (v13)
+> Last updated: 2026-07-12 (v14)
 
 ```
 [Open Source Media Platform (MediaCMS / InvokeAI / Castopod)]
           ↓
-[AI Microservices (Wan2.2, LTX-Video, AudioCraft, Whisper)]
+[AI Microservices (Wan2.2, LTX-Video, AudioCraft, Whisper, FoleyCrafter)]
           ↓
-[Orchestration Agent (OpenMontage / LangGraph + Claude)]
+[Orchestration Agent (OpenMontage / HyperFrames / LangGraph + Claude)]
           ↓
 [Client-facing API or conversational UI]
 ```
@@ -47,6 +47,7 @@
 - **Voice synthesis**: ElevenLabs API (or open-source Coqui TTS for on-premise)
 - **Audio processing**: [spotify/pedalboard](https://github.com/spotify/pedalboard) (GPL-3.0) for audio normalization and effects
 - **Lip sync**: [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) (Apache-2.0) LipDub mode for visible-speaker scenes
+- **Foley & sound effects**: [open-mmlab/FoleyCrafter](https://github.com/open-mmlab/FoleyCrafter) (Apache-2.0) for automated environmental audio
 - **CMS integration**: [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) (AGPL-3.0) REST API for asset management
 
 **Wiring**:
@@ -55,7 +56,8 @@
 3. TTS generates dubbed audio track in target language
 4. Pedalboard normalizes audio, matches room tone from original
 5. LTX-Video LipDub resyncs visible speaker lip movements
-6. Dubbed version stored in MediaCMS with original; both served via adaptive streaming
+6. FoleyCrafter regenerates ambient sound layer in target acoustic profile
+7. Dubbed version stored in MediaCMS with original; both served via adaptive streaming
 
 **Cost model**: ~$0.02/minute for Claude translation + near-zero for on-premise video/audio processing.
 
@@ -146,6 +148,49 @@
 3. Pedalboard post-processes: normalize to −14 LUFS, EQ for ad contexts, export MP3/WAV
 4. Human curator reviews in MediaCMS, approves/rejects, tags for brief categories
 5. Approved tracks available via API to ad production pipeline with metadata (BPM, key, mood, duration)
+
+---
+
+## P7: Agent-Native Marketing Video Pipeline (HyperFrames + Claude)
+
+**Problem**: Marketing team needs 200+ branded video variants per month for multi-market campaigns — each variant differs by language, market, offer, and format (16:9, 9:16, 1:1). Traditional production is $500–2,000 per variant.
+
+**Stack**:
+- **Video rendering**: [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) (Apache-2.0) — HTML-to-video, agent-native
+- **Composition agent**: Claude (claude-sonnet-5) as the composition writer — generates HTML video compositions from brand briefs
+- **Asset generation**: [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) (Apache-2.0) for static brand assets
+- **Localization**: [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT) + Claude for script translation
+- **Asset management**: [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) (AGPL-3.0) for variant library with metadata
+- **Orchestration**: LangGraph (MIT) for multi-market variant generation loop
+
+**Wiring**:
+1. Campaign brief (offer text, brand assets, market list) submitted → Claude generates HyperFrames HTML composition template
+2. LangGraph loops over market × format variants → Claude fills data-start/data-duration attributes per variant
+3. HyperFrames CLI renders each HTML composition → deterministic MP4 via headless Chrome + FFmpeg
+4. InvokeAI generates or resizes brand imagery to target aspect ratios per format
+5. Whisper.cpp + Claude localizes voiceover scripts; TTS generates audio tracks
+6. All variants stored in MediaCMS with searchable metadata (market, format, offer, language)
+7. Brand manager reviews → approves → distributes via MediaCMS API to ad platforms
+
+**Key insight**: HyperFrames renders are deterministic — same HTML + same data = same MP4. This enables version control, A/B testing, and audit trails for regulated industries.
+
+**Estimated time to MVP**: 2–3 weeks. **Cost model**: ~$0.01–0.05 per video variant vs. $500–2,000 traditional production.
+
+**LATAM angle**: High-value for brands serving Brazil/Mexico/Argentina with per-country legal/language variant requirements. HyperFrames' deterministic rendering also satisfies content compliance audit requirements (CONAR in Brazil, CONARP in Argentina).
+
+---
+
+## Pattern Selection Guide
+
+| Client Situation | Recommended Pattern |
+|-----------------|-----------------------|
+| Marketing agency, high-volume short-form | P1: Agentic Video Studio |
+| OTT platform, localization at scale | P2: AI Dubbing Pipeline |
+| Podcast network, content operations | P3: Podcast Production |
+| Digital publisher, LATAM short drama | P4: Short-Form Drama |
+| News broadcaster, live intelligence | P5: Live Stream Agent |
+| Ad agency, background music at scale | P6: Music Scoring Service |
+| Brand team, 200+ video variants/month | P7: Agent-Native Marketing Video |
 
 ---
 *Auto-updated by ingest pipeline.*
