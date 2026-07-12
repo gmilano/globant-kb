@@ -1,44 +1,73 @@
 # 📡 Tendencias — Financial Services AI
 
-> Últimas tendencias en AI para servicios financieros.
-> Última actualización: 2026-07-12 (v10)
+> Última actualización: 2026-07-12
 
-## Tendencias macro (Q2-Q3 2026)
+## Tendencias principales — julio 2026
 
-### 1. Boom de Agentic FinTech como paradigma dominante
-Agentic FinTech ya no es un experimento: 52% de la industria tiene agentes en producción. El shift de "LLM como chat" a "LLM como agente autónomo con herramientas financieras" es la transformación más importante del sector. TradingAgents alcanzó 80k+ stars — el crecimiento más rápido en GitHub de cualquier repo financiero en 2026.
+### T1. Agentic AI es el tema #1 en banca (no es hype — es producción)
+70% de las instituciones financieras están desplegando o explorando agentic AI; 14% lo tienen en escala
+completa. El gap 70-14% es la oportunidad: la mayoría está en PoC. IDC reporta 2.3× ROI en 13 meses.
+JPMorgan, Goldman y BlackRock están en producción con agentes autónomos.
 
-### 2. Multi-agente para trading institucional
-El patrón de simular una firma de trading como colección de agentes LLM especializados (analista técnico, analista fundamental, gestor de riesgos, portfolio manager) demostró resultados prometedores en backtesting. TradingAgents y ai-hedge-fund son las implementaciones de referencia. El riesgo: la brecha entre backtesting y live trading sigue siendo grande (costos de transacción, slippage, cambios de régimen).
+### T2. Arquitectura "debate multi-agente" se convierte en estándar
+TradingAgents y ai-hedge-fund convergieron independientemente al mismo diseño:
+**bull agent + bear agent + risk manager + fund manager debaten antes de cada decisión**.
+Replica comités de inversión reales. Los bancos lo adoptan porque es explicable ante reguladores.
 
-### 3. KYC/AML: "última mejor esperanza" para compliance a escala
-Los bancos detectan solo ~2% del crimen financiero global a pesar de dedicar 10-15% de su headcount a compliance. Fintech Global (Jun 2026) documenta que agentic AI es el único camino para escalar KYC/AML sin multiplicar costos. El análisis semántico con LLMs reduce falsos positivos en fraude en un 60%.
+### T3. MCP como capa universal de datos financieros
+El Model Context Protocol está reemplazando SDKs propietarios de datos. 2026:
+- Bloomberg MCP (18 herramientas, requiere Terminal)
+- Alpha Vantage MCP (datos institucionales, gratis en tier basic)
+- Quiver Quantitative MCP (datos alternativos: Congress trades, insider, reddit)
+- OpenBB v4 es MCP-native por defecto
+Impacto: un agente puede consumir 5 fuentes de datos distintas sin escribir ningún SDK.
 
-### 4. EU AI Act (en vigor agosto 2, 2026) redefine requisitos
-El scoring crediticio es "riesgo alto" bajo el AI Act. Los sistemas de scoring automatizados requieren: explicabilidad de decisiones, audit log inmutable, human-in-the-loop en decisiones significativas, y evaluación periódica de sesgos. Los bancos europeos (y globales con operaciones EU) buscan urgentemente frameworks de governance.
+### T4. FinLLMs de producción (no solo investigación)
+FinGPT v3 con LoRA fine-tuning sobre news+tweets está en producción en teams de trading de hedge funds.
+Costo de fine-tuning: <$300 GPU-hour. Supera a GPT-4 en tareas de sentiment financiero específico.
+AI4Finance Foundation publica nuevos modelos en HuggingFace mensualmente.
 
-### 5. OpenBB + MCP = datos financieros para agentes nativos
-OpenBB lanzó soporte MCP server nativo en Q2 2026. Esto significa que cualquier agente Claude / GPT-4o puede conectarse directamente a 50+ proveedores de datos financieros (Yahoo Finance, Polygon, FRED, SEC) como herramienta MCP. Democratiza el acceso a datos de calidad institucional.
+### T5. Open Finance impulsa nuevos agentes en LATAM
+Brasil (Open Finance Phase 4) y México (APIs CNBV) abren datos que antes eran imposibles de obtener.
+Esto habilita agentes de comparación de productos financieros, alertas de liquidez y forecasting de FX
+para PyMEs — mercado no atendido por la banca tradicional.
 
-### 6. 70% del onboarding de cuentas será automático en 2026
-La proyección de automatización total del onboarding se está cumpliendo: plataformas con AI Vision para verificación de documentos + NLP para análisis de riesgo + sanctions screening automático están procesando >70% de los casos sin intervención humana.
+### T6. KYC/AML automation: de vendor a open source
+kyc-analyst (MIT, Claude) demuestra que el stack "LLM + fuentes de datos públicas + checkpoints humanos"
+puede cubrir el 80% de los casos de KYC para fintech en LATAM sin pagar $50k/año a vendors.
+FINOS (Linux Foundation) patrocina OpenAML para on-chain AML en Web3.
 
-### 7. Embedded Finance + Agentes: finanzas donde el cliente ya está
-Open banking + AI agents permite ofrecer crédito, seguros y pagos dentro de apps no financieras. Los agentes hacen el underwriting en tiempo real usando datos transaccionales del usuario (con consentimiento). LATAM es mercado prioritario por alta penetración móvil y baja bancarización.
+### T7. Reinforcement Learning vuelve con FinRL
+Tras el hype de 2021, RL aplicado a trading regresa con entornos más realistas:
+costos de transacción, slippage, market impact modelados correctamente.
+FinRL v4 (AI4Finance) soporta portfolios multi-asset y comparación de algoritmos PPO/SAC/TD3 en GPUs.
 
-### 8. Reguladores divergentes crean complejidad global
-USA, UE, UK y Canadá tienen enfoques distintos sobre AI en finanzas. El 70% de los bancos usa agentic AI pero sin governance robusto (EY 2026). Solo el 29% tiene frameworks formales de supervisión de AI. Esta brecha es tanto riesgo regulatorio como oportunidad de consultoría.
+### T8. Bancos compran startups de AI — ventana para Globant cierra
+Microsoft adquirió Fintool (document intelligence financiero) en H1 2026.
+La ventana para que bancos LATAM contraten a integradores como Globant (en lugar de comprar startup) se
+estrecha. Los próximos 18 meses son críticos para posicionar soluciones.
 
-### 9. On-premise LLMs para datos sensibles
-Por regulación (LGPD, GDPR, secreto bancario), los bancos LATAM y europeos no pueden enviar datos de clientes a cloud LLMs. La demanda de stacks con Ollama + modelos locales (Llama 3.1, Mistral) + Claude Enterprise con datos retention off está creciendo. Esto favorece a Globant como implementador on-premise.
+### T9. Regulación AI en finanzas: DORA (UE) y SEC en EEUU
+- EU Digital Operational Resilience Act (DORA): en vigor desde ene 2025; exige trazabilidad de sistemas AI en entidades financieras reguladas en Europa.
+- SEC: propuesta de normas sobre uso de AI en recomendaciones de inversión.
+- LATAM: CNBV México y CMF Chile publicaron guías de AI en finanzas; BCRA Argentina aún sin marco específico.
+- Oportunidad: compliance-by-design con audit trail desde el inicio es diferenciador.
 
-### 10. RL para portfolios dinámicos reemplaza quant tradicional
-FinRL y sus derivados están siendo adoptados por family offices y fondos medianos que no pueden pagar equipos quant completos. Los agentes RL se adaptan a cambios de régimen de mercado más rápido que las estrategias basadas en reglas fijas.
+### T10. "Vibe Trading" democratiza el análisis quant
+El patrón de Vibe-Trading (NL → backtest → report sin código) está bajando el costo de acceso a
+análisis cuantitativo. Analistas financieros sin Python pueden generar estrategias en minutos.
+Implication para Globant: los clientes que venían pidiendo "dashboards BI" ahora piden "asistentes
+conversacionales con datos de mercado".
 
-## Repos más activos esta semana
+### T11. Multi-modal finance: earnings calls + PDFs + market data juntos
+Nuevos agentes procesan simultáneamente: transcripciones de earnings calls (audio → texto),
+estados financieros (PDF → structured data) y market data en tiempo real.
+FinRobot v2 soporta este pipeline. Los bancos de inversión lo están adoptando para equity research.
 
-- [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) — 80k+ stars, multi-agent LLM trading firm
-- [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) — 60k+ stars, 14 investor personas
-- [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) — 17k stars, personal trading agent Jun 2026
-- [AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) — fine-tuning LLMs con datos de mercado en tiempo real
-- [agentic-fintech/Agentic_FinTech_Survey](https://github.com/agentic-fintech/Agentic_FinTech_Survey) — survey académico Jun 2026
+### T12. Crypto/DeFi + AI se fusionan
+hummingbot (Apache-2.0, 19k ★) y ccxt (MIT, 43k ★) siguen siendo la base.
+Nuevos: agentes de market making adaptativo, detección de MEV, yield optimization en DeFi.
+OpenAML (FINOS) aborda compliance AML en transacciones on-chain.
+
+---
+*Fuentes: Finastra, CIO Dive, The Fintech Times, Neurons Lab, Aspire Systems, Citizens Bank — julio 2026.*

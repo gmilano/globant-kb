@@ -1,30 +1,31 @@
 # 🏗️ Repos fundacionales — Financial Services
 
-> Bases sobre las cuales construir. Licencia abierta, comunidad activa, mantenimiento activo.
-> Última actualización: 2026-07-12 (v10)
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-12
 
 ## Plataformas y frameworks base
 
-| Repo | Licencia | Descripción | Base para AI |
-|------|----------|-------------|--------------|
-| [ccxt](https://github.com/ccxt/ccxt) | MIT | Librería unificada para 100+ exchanges cripto y tradicionales (JS/Python/PHP/C#). Estándar de facto para conectividad de mercados. | Sí — 43k ★ |
-| [hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | Framework de trading algorítmico de alta frecuencia. 130+ exchanges, AMM DEX, market making, arbitraje, VWAP. Orquestable con agentes. | Sí — 19k ★ |
-| [zipline-reloaded](https://github.com/stefan-jansen/zipline-reloaded) | Apache-2.0 | Fork activo de Zipline (Quantopian). Backtesting framework Pythonic para estrategias de trading. Integra con FinRL para RL. | Sí — 2.5k ★ |
-| [OpenBB](https://github.com/OpenBB-finance/OpenBB) | MIT | Plataforma open-source de datos financieros: 50+ proveedores, CLI/Python/API, MCP server nativo. La base de datos más completa disponible bajo MIT. | Sí — 38k ★ |
-| [FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Financial Reinforcement Learning — primer framework RL para trading en producción. Ambientes para acciones, cripto, divisas. Stable Baselines3 + PyTorch. | Sí — 10k ★ |
-| [PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | MIT | Optimización de portafolio: Markowitz, Black-Litterman, HRP, CVaR. Compatible con pandas; se integra directamente en pipelines de agentes. | Sí — 5.8k ★ |
-| [tf-quant-finance](https://github.com/google/tf-quant-finance) | Apache-2.0 | TensorFlow para finanzas cuantitativas (Google). Pricing de derivados, curvas de tasas, volatilidad estocástica. GPU-accelerated. | Sí — 5.4k ★ |
-| [Riskfolio-Lib](https://github.com/dcajasn/Riskfolio-Lib) | BSD-3-Clause | Optimización de portafolio avanzada: HRP, HERC, NCO, Risk Parity. 20+ medidas de riesgo. Complemento a PyPortfolioOpt. | Sí — 4.3k ★ |
-| [jesse](https://github.com/jesse-ai/jesse) | MIT | Framework avanzado de trading cripto en Python. Backtesting, live trading, optimización de estrategias. Interfaz limpia para agentes. | Sí — 8.1k ★ |
-| [QuantLib](https://github.com/lballabio/QuantLib) | BSD-modified | La librería cuantitativa de referencia (C++/Python). Pricing de derivados, curvas, risk management. Usado en bancos top. | Sí — 5.1k ★ |
+| Repo | Licencia | Descripción | Stars / Estado |
+|------|----------|-------------|----------------|
+| [zipline-reloaded](https://github.com/stefan-jansen/zipline-reloaded) | Apache-2.0 | Fork mantenido del motor de backtesting de Quantopian; integración con zipline-live para paper/live trading | 1.5k ★ — activo 2026 |
+| [tf-quant-finance](https://github.com/google/tf-quant-finance) | Apache-2.0 | Librería TensorFlow de Google para finanzas cuantitativas: pricing de derivados, calibración de modelos estocásticos, Monte Carlo GPU-acelerado | 5.4k ★ |
+| [QuantLib](https://github.com/lballabio/QuantLib) | BSD-3-Clause | La librería quant de referencia en C++: opciones, bonos, FX, swaps, curvas de tasa, Monte Carlo, más de 20 años de historia y uso en producción en bancos globales | 5.2k ★ |
+| [FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Reinforcement learning financiero: entornos multi-asset (equities, crypto, FX), algoritmos PPO/SAC/TD3, benchmarks NASDAQ/DOW/S&P | 10k ★ |
+| [Apache Fineract](https://github.com/apache/fineract) | Apache-2.0 | Core banking open source: gestión de clientes, cuentas de ahorro/préstamos, GL, reporting; usado en 80+ países, microfinanzas y bancos digitales; release 24.09 (2026) | 1.8k ★ — producción |
+| [PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | MIT | Optimización de portfolios en Python: Mean-Variance, Black-Litterman, hierarchical risk parity, integración con pandas | 5.8k ★ |
+| [backtrader](https://github.com/mementum/backtrader) | GPL-3.0 | Framework de backtesting en Python; soporte multi-data, multi-strategy; cerebro integrado con broker simulado | 15.3k ★ |
+| [awesome-ai-in-finance](https://github.com/georgezouq/awesome-ai-in-finance) | MIT | Lista curada de LLMs, deep learning y estrategias quant en finanzas; referencia de investigación de la comunidad | 3.2k ★ |
+| [Riskfolio-Lib](https://github.com/dcajasn/Riskfolio-Lib) | BSD-3-Clause | Portfolio optimization avanzado: CVaR, CDaR, risk parity, robust optimization; especialmente útil para gestoras LATAM | 4.3k ★ |
+| [OpenBB Platform](https://github.com/OpenBB-finance/OpenBBTerminal) | AGPLv3 | Terminal de investigación financiera open source; extensible con providers; MCP-native desde v4; alternativa open a Bloomberg/Refinitiv | 38k ★ |
 
-## Herramientas de datos financieros
+## Librerías de datos financieros
 
-| Repo | Licencia | Descripción | Stars |
-|------|----------|-------------|-------|
-| [yfinance](https://github.com/ranaroussi/yfinance) | Apache-2.0 | Yahoo Finance API en Python. Datos históricos de precios, fundamentales, opciones. El default de todos los prototipos de agentes. | ~15k ★ |
-| [pandas-ta](https://github.com/twopirllc/pandas-ta) | MIT | 130+ indicadores técnicos en Python/pandas. Integración directa con DataFrames para señales de trading. | ~5k ★ |
-| [financetoolkit](https://github.com/JerBouma/FinanceToolkit) | MIT | 150+ ratios financieros, indicadores y modelos de valoración en Python. Datos desde Financial Modeling Prep / Yahoo Finance. | ~2.5k ★ |
+| Repo | Licencia | Descripción |
+|------|----------|-------------|
+| [yfinance](https://github.com/ranaroussi/yfinance) | Apache-2.0 | Descarga datos de Yahoo Finance; la más usada en PoCs financieros; 14.5k ★ |
+| [pandas-datareader](https://github.com/pydata/pandas-datareader) | BSD-3 | Acceso a FRED, World Bank, Quandl desde pandas |
+| [ccxt](https://github.com/ccxt/ccxt) | MIT | API unificada para +100 exchanges crypto; 43k ★; base para todo bot crypto |
+| [alpaca-trade-api](https://github.com/alpacahq/alpaca-trade-api-python) | Apache-2.0 | SDK para Alpaca (broker regulado EEUU con API gratuita); ideal para paper trading en agentes |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas (core banking, ERP).*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas.*

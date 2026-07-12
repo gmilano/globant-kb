@@ -1,26 +1,48 @@
 # 📈 Agentes trending — Financial Services
 
-> Lo nuevo esta semana en GitHub. Foco: proyectos con tracción real.
-> Última actualización: 2026-07-12 (v10)
+> Lo más nuevo y en crecimiento esta semana. Última actualización: 2026-07-12
 
-## Repos con mayor momento (Jul 2026)
+## Qué está explotando en julio 2026
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | El framework multi-agente LLM más estrellas en finanzas. Modela una firma de trading: analistas técnico + fundamental + sentiment + riesgo + PM. Debate estructurado para decisiones. | ~80k |
-| [ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 14 inversores legendarios como agentes LLM. Debate bull-vs-bear con razonamiento explícito. Segunda posición en stars de finanzas. | ~60k |
-| [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | Trading agent personal lanzado Jun 2026 por HKUDS (también detrás de LightRAG). Conversacional, análisis técnico integrado, viral en GitHub Trending. | ~17k |
-| [awesome-trading-agents](https://github.com/LLMQuant/awesome-trading-agents) | MIT | Lista curada LLMQuant de agentes LLM para trading: MCP servers, skills de mercado, ejecución. Referencia comunitaria en rápido crecimiento. | ~800 |
-| [Agentic_FinTech_Survey](https://github.com/agentic-fintech/Agentic_FinTech_Survey) | Apache-2.0 | Paper + repo: survey sobre Agentic FinTech, el paradigma donde LLMs evolucionan de texto a agentes financieros autónomos. Jun 2026. | ~600 |
-| [LLMs-in-Finance](https://github.com/hananedupouy/LLMs-in-Finance) | MIT | Notebooks prácticos: aplicar Claude, OpenAI Agents SDK, AutoGen, CrewAI a finanzas. Multi-agent para earnings, RAG sobre SEC filings. | ~500 |
+### TradingAgents supera 80 k estrellas — la arquitectura "debate" gana
+[TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) acaba de superar
+80 000 estrellas y 15 500 forks. La convergencia que señala: **multi-agent debate antes de ejecutar
+un trade** (bull agent vs bear agent → risk manager → fund manager) se convirtió en el patrón estándar,
+igual que ai-hedge-fund (59 k ★) llegó independientemente al mismo diseño. Múltiples equipos enterprise
+reportan adoptarlo como plantilla para sus propias implementaciones.
 
-## Señales de la semana
+### MCP explota como capa de datos financieros
+Los MCP servers para datos de mercado crecieron 4× en H1 2026. Ecosistema actual:
+- **Bloomberg MCP** (`sbctreasury/bloomberg-mcp`): 18 herramientas — reference data, historical, BQL queries, supply chain screening; requiere Bloomberg Terminal.
+- **Alpha Vantage MCP**: datos institucionales, cobertura multi-asset, latencia baja; oficial y gratuito en tier basic.
+- **Quiver Quantitative MCP**: datos alternativos (Congress trades, insider activity, reddit sentiment).
+- **awesome-trading-agents** ([LLMQuant/awesome-trading-agents](https://github.com/LLMQuant/awesome-trading-agents)): lista curada de MCP servers + agent skills para trading — referencia comunitaria emergente.
 
-- **Boom agentic FSI**: $2.1B de VC en AI fintech solo en Q1 2026. Los proyectos más activos son todos multi-agente.
-- **TradingAgents alcanzó 80k+ stars**: superó a ai-hedge-fund y se convirtió en el framework de trading AI más estrellas de GitHub.
-- **Vibe-Trading (HKUDS)**: mismo equipo que LightRAG; su approach conversacional para trading personal ganó tracción con desarrolladores retail.
-- **MCP + finanzas**: OpenBB anunció soporte MCP server nativo, permitiendo conectar cualquier agente LLM con datos de mercado en tiempo real.
-- **Compliance agentic**: artículos en Fintech Global (Jun/Feb 2026) documentan adopción de AI agentic para KYC y AML como "última mejor esperanza" para supervisión a escala.
+### Vibe-Trading de HKUDS: 16.9 k ★ en semanas
+[HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) es el mismo equipo detrás de DeepTutor (edu).
+Enfoque: NL → estrategia → backtest → reporte, todo en sesión. Sin código. Está popularizando el concepto
+de "vibe trading" donde analistas financieros sin código Python pueden generar estrategias cuantitativas.
+
+### kyc-analyst: compliance KYC/AML vía Claude
+[vyayasan/kyc-analyst](https://github.com/vyayasan/kyc-analyst) lanzó en junio 2026 como plugin open source
+(MIT) para Claude Cowork. 17 checkpoints human-in-the-loop, scoring determinístico, sin APIs de pago.
+Primer indicador de que el stack "Claude + open source data + MCP" puede competir con vendors de compliance
+de $50k/año.
+
+### AgenticTrading — Open-Finance-Lab
+[Open-Finance-Lab/AgenticTrading](https://github.com/Open-Finance-Lab/AgenticTrading): FinAgent
+Orchestration Framework conectado al FinLLM-Leaderboard. Proyecto académico que se está volviendo
+referencia de evaluación: incluye benchmarks sobre dónde fallan los LLMs financieros.
+
+## Patrones emergentes en julio 2026
+
+| Patrón | Descripción |
+|--------|-------------|
+| Bull-Bear debate | Dos agentes con mandatos opuestos debaten antes de que un risk manager decida |
+| MCP-first data | Datos de mercado consumidos vía MCP server en lugar de SDK propietario |
+| LoRA finance fine-tuning | FinGPT v3 pattern: fine-tune base LLM sobre noticias+tweets; costo < $300 GPU-hour |
+| Human-in-the-loop compliance | kyc-analyst pattern: scoring automatizado + pausa para revisor humano en casos borderline |
+| Vibe-to-strategy | NL prompt → código de backtest generado → ejecución automática → reporte |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline automático — se actualiza en cada ingest.*

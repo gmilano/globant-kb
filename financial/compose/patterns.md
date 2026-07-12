@@ -1,210 +1,197 @@
-# 🧩 Patrones de composición — Financial Services
+# 🧩 Patrones de composición — Financial Services AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-12 (v10)
+> Última actualización: 2026-07-12
 
-## Arquitectura base
+## Stack base
 
 ```
-[Plataforma vertical base (Apache Fineract / OpenBB / ERPNext)]
+[Plataforma financiera base (Fineract / OpenBB / ERPNext)]
           ↓
-[Data layer: OpenBB + yfinance + pgvector embeddings]
+[Capa MCP — datos de mercado, GL, transacciones]
           ↓
-[Orquestador multi-agente: LangGraph / TradingAgents]
+[Agentes especializados (TradingAgents / FinRobot / kyc-analyst)]
           ↓
-[Agentes especializados: análisis, riesgo, compliance, ejecución]
+[Orquestador LLM (Claude / GPT-4o / FinGPT fine-tuned)]
           ↓
-[Governance layer: audit log + human-in-the-loop + EU AI Act]
-          ↓
-[UI: chat conversacional / API REST / dashboard]
+[UI conversacional / API / Dashboard compliance]
 ```
 
 ---
 
-## Patrón P1: Multi-Agent Trading Firm (TradingAgents clone)
+## Receta 1: AI Research Desk para banco de inversión
+**Tiempo estimado**: 3-4 semanas | **Licencias**: Apache-2.0 + AGPLv3 (revisar AGPLv3 con legal)
 
-**Caso de uso**: Broker o family office que quiere inteligencia de inversión automatizada sin equipo quant completo.
-
-**Stack**:
-- `TauricResearch/TradingAgents` — framework base con agentes especializados
-- `OpenBB-finance/OpenBB` con MCP server — datos de mercado en tiempo real
-- `AI4Finance-Foundation/FinGPT` — análisis de sentimiento en tiempo real (noticias, SEC)
-- `robertmartin8/PyPortfolioOpt` — optimización de portafolio con output del PM agent
-- Claude claude-sonnet-5 — síntesis, razonamiento y generación de reportes
-
-**Flujo**:
 ```
-1. Agente Analista Técnico: OpenBB → indicadores técnicos → señal
-2. Agente Analista Fundamental: FinGPT → SEC filings → valoración
-3. Agente Sentimiento: FinGPT → noticias + redes → score
-4. Agente Risk Manager: evaluación de señales contradictorias → límites de riesgo
-5. Portfolio Manager Agent: debate estructurado → decisión → PyPortfolioOpt
-6. Claude: genera reporte de inversión explicable para el cliente
+OpenBB v4 (MCP-native) → Alpha Vantage MCP + Quiver Quant MCP
+    ↓
+TradingAgents framework (TauricResearch/TradingAgents)
+    • BullAnalyst — busca catalizadores positivos
+    • BearAnalyst — identifica riesgos y tesis bajista
+    • FundamentalsAgent — P/E, EV/EBITDA, DCF simplificado
+    • SentimentAgent — FinGPT sobre noticias + Twitter/X
+    • RiskManager — evalúa VaR y position sizing
+    • FundManager — sintetiza y decide
+    ↓
+Reporte en Markdown con trazabilidad de cada agente
+    ↓
+Almacenado en base de conocimiento interna (vector DB)
 ```
 
-**Tiempo de implementación**: 6-8 semanas para MVP funcional en backtesting; +4 semanas para live trading con broker real.
+**Por qué funciona**: replica el workflow de un comité de inversión. El banco puede mostrar al regulador
+qué agente dijo qué y por qué se tomó la decisión. Audit trail nativo.
 
 ---
 
-## Patrón P2: KYC/AML Agent para Banco o Fintech
+## Receta 2: KYC/AML Pipeline para Fintech LATAM
+**Tiempo estimado**: 2-3 semanas | **Licencias**: MIT + AGPL-3.0
 
-**Caso de uso**: Banco regional LATAM que necesita automatizar onboarding y detección de lavado de dinero sin multiplicar headcount de compliance.
-
-**Stack**:
-- `apache/fineract` — core banking con datos transaccionales del cliente
-- LangGraph — orquestador de workflow con audit log inmutable
-- Claude claude-sonnet-5 con Vision — lectura y análisis de documentos de identidad
-- pgvector + embeddings — base de datos de patrones de transacciones sospechosas
-- APIs externas: Comply Advantage / WorldCheck (sanctions), Open Corporates (ownership)
-
-**Flujo**:
 ```
-1. Cliente sube documentos → Claude Vision extrae entidades (nombre, doc, fecha, dirección)
-2. Agent KYC: valida contra sanctions lists + PEP databases → risk score
-3. Agent Transaccional: analiza patrones en Fineract → anomaly score con pgvector
-4. Agent AML: combina señales → genera narrative de riesgo para investigador
-5. Human-in-the-loop: casos de alto riesgo → investigador humano revisa narrative
-6. Audit log inmutable: toda decisión trazable para regulador (EU AI Act compliance)
+Apache Fineract (core banking) → webhook en evento "apertura de cuenta"
+    ↓
+kyc-analyst (vyayasan/kyc-analyst — MIT)
+    • Extrae datos del formulario KYC
+    • Consulta fuentes públicas: OFAC, listas ONU, PEP databases abiertas
+    • Score de riesgo determinístico (0-100)
+    • Checkpoint 1: si score > 70 → pausa para revisor humano
+    ↓
+jube (jube-home/aml-fraud-transaction-monitoring — AGPL-3.0)
+    • Monitoreo continuo post-onboarding
+    • Detección de patrones AML en tiempo real
+    • Velocity checks + sanctions screening
+    • Checkpoint 2: alerta a oficial de cumplimiento
+    ↓
+Dashboard de compliance con audit log inmutable
 ```
 
-**Reducción esperada**: 60% menos falsos positivos, 70% del onboarding sin intervención humana.
-
-**Tiempo**: 10-14 semanas para piloto en banco con 5k onboardings/mes.
+**Costo vs vendor**: kyc-analyst + jube + Claude API ≈ $500-2k/mes vs $30-50k/año de vendor.
+Ideal para fintech con volumen moderado (<50k clientes activos).
 
 ---
 
-## Patrón P3: AI CFO Assistant para PYME (LATAM)
+## Receta 3: Portfolio Optimizer para Asset Manager
+**Tiempo estimado**: 2-3 semanas | **Licencias**: MIT + BSD-3
 
-**Caso de uso**: PYME latinoamericana que quiere acceso a inteligencia financiera de nivel enterprise sin CFO dedicado.
-
-**Stack**:
-- `frappe/erpnext` — ERP con contabilidad, cuentas por cobrar/pagar, nómina
-- `frappe/crm` — pipeline de ventas integrado
-- LangGraph + Claude claude-sonnet-5 — agente conversacional sobre datos ERPNext
-- `AI4Finance-Foundation/FinRL` — forecasting de flujo de caja con RL
-- WhatsApp API (LATAM: 90%+ penetración) — interfaz conversacional
-
-**Flujo**:
 ```
-ERPNext API → agente Claude: "¿Cuál es mi runway si no cobro las facturas pendientes?"
-→ LangGraph query sobre datos de cuentas por cobrar
-→ FinRL model: proyección de flujo de caja 90 días
-→ Claude genera respuesta en español con recomendaciones
-→ WhatsApp / chat web
+yfinance / Alpha Vantage MCP → datos históricos multi-asset
+    ↓
+PyPortfolioOpt (robertmartin8/PyPortfolioOpt — MIT)
+    • Mean-Variance con restricciones ESG
+    • Black-Litterman con views de analistas
+    • Hierarchical Risk Parity para portfolios alternativos
+    ↓
+Riskfolio-Lib (dcajasn/Riskfolio-Lib — BSD-3)
+    • CVaR optimization
+    • Stress testing con escenarios históricos (COVID, GFC)
+    ↓
+Agente conversacional (Claude) que explica la recomendación en lenguaje natural
+    ↓
+Rebalanceo automático via Alpaca API (si cliente lo autoriza)
 ```
 
-**Tiempo**: 4-6 semanas para MVP sobre ERPNext existente. Deploy en Frappe Cloud o self-hosted.
+**Diferenciador LATAM**: incluir bonos soberanos AR/BR/MX, dólar CCL, inflación como inputs del modelo.
+PyPortfolioOpt soporta assets con distribuciones no-normales — clave para mercados volátiles.
 
 ---
 
-## Patrón P4: Fraud Detection en Pagos Digitales (PIX / SPEI)
+## Receta 4: CFO Assistant para empresa mediana
+**Tiempo estimado**: 3-4 semanas | **Licencias**: GPL-3.0 + MIT
 
-**Caso de uso**: Procesador de pagos o banco digital con alto volumen de transacciones (PIX Brasil: 1B+ txns/día).
-
-**Stack**:
-- `hummingbot/hummingbot` — ingestión de stream de transacciones en tiempo real
-- LangGraph con graph-based memory — construcción de grafo de entidades (cuentas, dispositivos, IPs)
-- `AI4Finance-Foundation/FinGPT` fine-tuned en patrones de fraude — clasificador semántico
-- pgvector — embeddings de patrones históricos de fraude para similarity search
-- Claude claude-sonnet-5 — generación de narrative de caso para investigadores
-
-**Flujo**:
 ```
-Stream transaccional → Hummingbot → LangGraph pipeline
-→ Grafo de entidades: ¿esta cuenta tiene vínculos con cuentas suspendidas?
-→ Similarity search pgvector: ¿pattern similar a fraudes conocidos?
-→ FinGPT classifier: risk score semántico
-→ Si score > umbral: Claude genera narrative de caso → investigador
-→ Feedback loop: decisión investigador → retraining FinGPT
+ERPNext (frappe/erpnext — GPL-3.0) → módulo de cuentas
+    ↓
+Conector MCP que expone GL, cash flow, AR/AP como contexto
+    ↓
+FinRobot (AI4Finance-Foundation/FinRobot — MIT)
+    • Agente de análisis de estados financieros
+    • Comparación con peers de la industria (datos OpenBB)
+    • Proyección de flujo de caja a 30/60/90 días
+    ↓
+Claude como orquestador + generador de reportes narrativos
+    ↓
+Dashboard CFO: semáforo de liquidez, alertas de deuda, escenarios
 ```
 
-**Métrica objetivo**: Reducción 60% falsos positivos vs reglas estáticas. <200ms latencia por transacción.
+**Caso de uso concreto**: CFO de empresa argentina con ingresos en pesos y deuda en dólares.
+El agente monitorea la brecha cambiaria, alerta cuando la cobertura de deuda cae por debajo de ratio
+objetivo, y genera el reporte de directorio automáticamente.
 
 ---
 
-## Patrón P5: Investment Research Automatizado (Equity Research)
+## Receta 5: Equity Research Automation (FinGPT + Earnings)
+**Tiempo estimado**: 4-5 semanas | **Licencias**: MIT
 
-**Caso de uso**: Asset manager o banco de inversión que produce research de equities — automatizar el 70% del proceso analítico repetitivo.
-
-**Stack**:
-- `AI4Finance-Foundation/FinRobot` — plataforma multi-agente para research
-- `OpenBB-finance/OpenBB` MCP server — datos fundamentales, precios, SEC filings
-- `AI4Finance-Foundation/FinGPT` — análisis de earnings calls, noticias, sentiment
-- `robertmartin8/PyPortfolioOpt` — generación de targets de precio con optimización
-- Claude claude-sonnet-5 — autor del report final en estilo institucional
-
-**Flujo**:
 ```
-FinRobot Lead Agent: recibe ticker + horizonte de inversión
-→ Research Agent 1: OpenBB fundamentales → ratios P/E, EV/EBITDA, DCF
-→ Research Agent 2: FinGPT → análisis earnings call últimos 8 trimestres
-→ Research Agent 3: OpenBB → análisis técnico + posicionamiento institucional
-→ Risk Agent: compara vs sector + macro → ajuste de valuación
-→ Claude: genera reporte de 5 páginas con: thesis, risks, target price, recommendation
+Earnings call transcript → Whisper (speech-to-text, MIT)
+    ↓
+FinGPT fine-tuned (AI4Finance-Foundation/FinGPT — MIT)
+    • Sentiment de la call (positivo/negativo/neutro por segmento)
+    • Extracción de guidance: revenue, EBITDA, CapEx
+    • Identificación de riesgos mencionados por management
+    ↓
+FinRL (AI4Finance-Foundation/FinRL — MIT)
+    • Actualiza señal de trading con nuevo contexto
+    ↓
+Reporte de 2 páginas generado con Claude
+    • Resumen ejecutivo
+    • Cambios vs call anterior
+    • Implicaciones para el modelo de valuación
+    ↓
+Publicado en plataforma interna con vector search para analistas
 ```
 
-**Output**: Reporte equivalente a 3-5 días de analista en <15 minutos.
+**Escala**: un equipo de 3 analistas con este sistema puede cubrir 50+ empresas en earnings season
+vs 15 sin AI.
 
 ---
 
-## Patrón P6: Scoring Crediticio Alternativo (No-bancarizados LATAM)
+## Receta 6: Core Banking Modernization con AI Layer
+**Tiempo estimado**: 6-8 semanas | **Licencias**: Apache-2.0
 
-**Caso de uso**: Fintech de microcrédito o banco digital que quiere llegar a los 160M no-bancarizados de LATAM usando datos alternativos.
+```
+Sistema core legacy (COBOL / AS400 / sistema propietario)
+    ↓
+Apache Fineract (apache/fineract — Apache-2.0) como middleware moderno
+    • Expone APIs REST sobre el core legacy
+    • Gestión de productos: préstamos, ahorro, GL
+    ↓
+Capa de agentes:
+    • Agente de onboarding (kyc-analyst + documentos)
+    • Agente de cobranza (predicción de default con FinRL patterns)
+    • Agente de ventas cruzadas (recomendación de productos)
+    ↓
+Claude como interfaz conversacional para el cliente final
+    ↓
+Canal: WhatsApp Business API + web widget
+```
 
-**Stack**:
-- `AI4Finance-Foundation/FinRL` — modelo RL de scoring entrenado en datos alternativos
-- `apache/fineract` — plataforma de gestión de préstamos
-- Datos alternativos (con consentimiento): historial de pagos telco/utilities, patrones de uso móvil
-- Claude claude-sonnet-5 — explicación de decisión de crédito (requerido por AI Act / regulación LATAM)
-- LangGraph — workflow de aprobación con human-in-the-loop para préstamos > umbral
-
-**Consideraciones regulatorias**:
-- LGPD (Brasil) / Ley 25.326 (Argentina): consentimiento explícito para datos alternativos
-- Explicabilidad de scoring: el cliente puede solicitar explicación de por qué fue rechazado
-- Bias monitoring: auditoría mensual de distribución de scores por género, región, etnia
-- Human override: aprobador humano para casos límite (score 40-60 percentile)
-
-**Tiempo**: 16-20 semanas para piloto completo regulatoriamente compliant.
+**Por qué Fineract**: licencia Apache-2.0, sin royalties, en producción en bancos de 80+ países,
+documentación extensa, comunidad ASF activa. El riesgo regulatorio es mínimo vs sistemas propietarios.
 
 ---
 
-## Patrón P7: Portfolio RL + Optimización (Family Office / Fondo Mediano)
+## Receta 7: Agente de Compliance Tributario (Brasil — Reforma Tributaria)
+**Tiempo estimado**: 4-6 semanas | **Licencias**: MIT + GPL
 
-**Caso de uso**: Family office o fondo mediano (~$100M AUM) que quiere estrategias cuantitativas adaptativas sin pagar equipo quant completo.
-
-**Stack**:
-- `AI4Finance-Foundation/FinRL` — agente RL que aprende estrategias adaptativas de portfolio
-- `dcajasn/Riskfolio-Lib` — optimización con métricas de riesgo avanzadas (CVaR, HRP)
-- `OpenBB-finance/OpenBB` — datos de mercado multi-asset (acciones, ETFs, cripto, forex)
-- `ccxt` — ejecución en exchanges (simulación primero, live después)
-- Claude claude-sonnet-5 — reporte mensual de performance con análisis de atribución
-
-**Arquitectura RL**:
 ```
-Ambiente: FinRL multi-asset environment (datos OpenBB)
-Agente: PPO (Proximal Policy Optimization) con Stable Baselines3
-Observaciones: precios, indicadores técnicos, fundamentales, macro
-Acciones: pesos de portafolio por activo (continuo)
-Reward: Sharpe ratio - drawdown penalty
-Rebalanceo: semanal con Riskfolio-Lib constraint
+ERPNext (contabilidad) → extrae operaciones del período
+    ↓
+RAG sobre normativas (PDFs de la Receita Federal, Portal Nacional)
+    construido con LangChain + ChromaDB (MIT)
+    ↓
+Agente de clasificación tributaria (CBS/IBS/IS)
+    • Identifica la alícuota aplicable por tipo de operación
+    • Detecta operaciones en el régimen de transición (2026-2032)
+    ↓
+Claude genera el borrador de declaración con notas técnicas
+    ↓
+Revisor humano valida y firma digitalmente (SPED)
 ```
+
+**Por qué ahora**: la Reforma Tributaria brasileña entra en implementación gradual 2026-2032.
+Las empresas con operaciones en Brasil necesitan sistemas que entiendan tanto el régimen viejo (PIS/COFINS)
+como el nuevo (CBS/IBS). Este agente puede ser un producto vertical altamente diferenciado.
 
 ---
 
-## Patrón P8: EU AI Act Compliance Agent para Bancos
-
-**Caso de uso**: Banco europeo (o global con operaciones EU) que necesita cumplir con EU AI Act (en vigor agosto 2, 2026) para sus sistemas AI de riesgo alto.
-
-**Stack**:
-- LangGraph — audit log inmutable de todas las decisiones AI
-- Claude claude-sonnet-5 — análisis de documentación de sistemas AI existentes
-- pgvector — base de conocimiento de requisitos EU AI Act por categoría de riesgo
-- Apache Fineract — registros de decisiones crediticias para trazabilidad
-- Dashboard React — vista de compliance para CAIO (Chief AI & Innovation Officer)
-
-**Entregables del agente**:
-1. Inventario de sistemas AI del banco clasificados por nivel de riesgo
-2. Gap analysis contra requisitos EU AI Act por sistema
-3. Roadmap de remediación priorizado
-4. Plantillas de documentación técnica (Technical Documentation Art. 11)
-5. Monitoreo continuo: alertas cuando un sistema AI drift fuera de parámetros aprobados
+*Ver también: `agents/top.md` para agentes individuales · `verticals/solutions.md` para plataformas base.*
