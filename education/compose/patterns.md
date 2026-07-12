@@ -1,12 +1,12 @@
 # 🧩 Patrones de composición — Education
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-12 (v12)
 
 ## Stack base
 
 ```
-[LMS open source (Moodle / Open edX / Vacademy)]
+[LMS open source (Moodle / Open edX / LearnHouse / Vacademy)]
           ↓
 [MCP Server custom — expone grades, assignments, calendar al agente]
           ↓
@@ -15,6 +15,8 @@
 [LLM soberano (Claude API) o local (Ollama + modelo cuantizado)]
           ↓
 [UI conversacional (Next.js / React) + Analytics (xAPI / LRS)]
+          ↓
+[Governance layer: audit logs, human-in-the-loop, integrity checks]  ← nuevo v12
 ```
 
 ---
@@ -38,9 +40,11 @@ Moodle grades API → BKT mastery score → LangGraph router
                               DeepTutor agente ← Claude API
                                         ↓
                     Respuesta socrática + siguiente ejercicio → UI chat embed Moodle
+                                        ↓
+                    Audit log: prompt + response + modelo → LRS xAPI
 ```
 
-**Cómo:** Plugin Moodle (PHP) que embebe un iframe/widget Next.js. El widget llama al agente DeepTutor con `course_id` + `user_id`. El agente recupera el contexto del curso via LlamaIndex y el mastery score via BKT. Claude genera la respuesta socrática. xAPI log de la sesión al LRS de Moodle.
+**Cómo:** Plugin Moodle (PHP) que embebe un iframe/widget Next.js. El widget llama al agente DeepTutor con `course_id` + `user_id`. El agente recupera el contexto del curso via LlamaIndex y el mastery score via BKT. Claude genera la respuesta socrática. xAPI log de la sesión al LRS de Moodle para academic integrity tracking.
 
 **Tiempo estimado:** 3-4 semanas | **Equipo:** 2 devs + 1 AI/ML
 
@@ -69,7 +73,7 @@ XBlock custom → render quiz en Open edX → submit → auto-grade
 Claude API → feedback personalizado por respuesta incorrecta
 ```
 
-**Cómo:** XBlock Python que llama al AI service. El AI service usa Graphiti para mapear qué conceptos el estudiante domina y cuáles son debilidades. Claude genera preguntas con dificultad ajustada. Respuestas almacenadas en Open edX grades para analytics downstream.
+**Cómo:** XBlock Python que llama al AI service. El AI service usa Graphiti para mapear qué conceptos el estudiante domina. Claude genera preguntas con dificultad ajustada. Respuestas almacenadas en Open edX grades para analytics downstream.
 
 **Tiempo estimado:** 2-3 semanas | **Equipo:** 1 dev Open edX + 1 AI/ML
 
@@ -90,14 +94,14 @@ Claude API → feedback personalizado por respuesta incorrecta
 ```
 Servidor on-prem / VPC privada:
   Moodle (PHP) ←→ Ollama (Llama 3.3 70B / Qwen2.5 72B) ←→ Open-TutorAI CE
-  OATutor ←→ adaptive-knowledge-graph ← KG currículo curricular local
+  OATutor ←→ adaptive-knowledge-graph ← KG currículo local
                          ↑
                GPU server H100/A100 o CPU-only (Qwen 7B cuantizado)
                          ↓
                  No internet required — air-gapped capable
 ```
 
-**Cómo:** Docker Compose stack: Moodle + MariaDB + Ollama + Open-TutorAI CE + Nginx. Ollama corre modelos cuantizados (GGUF Q4_K_M). Moodle llama al agente via webhook local. Datos de estudiantes nunca salen del servidor institucional. Soporte ES-LA y PT-BR nativo. EU AI Act compliance: logs auditables, human-in-the-loop via admin dashboard.
+**Cómo:** Docker Compose stack: Moodle + MariaDB + Ollama + Open-TutorAI CE + Nginx. Moodle llama al agente via webhook local. Datos de estudiantes nunca salen del servidor institucional. ES-LA y PT-BR nativo. EU AI Act compliance: logs auditables, human-in-the-loop via admin dashboard.
 
 **Tiempo estimado:** 2 semanas infraestructura + 2 semanas integración | **Equipo:** 1 DevOps + 1 backend
 
@@ -125,8 +129,6 @@ tutor-gpt ToM module → decide estrategia pedagógica → Claude API → respue
 Observación de respuesta → actualizar modelo cognitivo del estudiante
 ```
 
-**Cómo:** tutor-gpt como base con Honcho para memoria long-term. Las education-agent-skills se carga como sistema de skills: el agente selecciona la skill pedagógica más apropiada según el estado mental inferido (frustrado/confiado/confundido). LlamaIndex indexa los materiales del curso para grounding factual. El ciclo de observación → inferencia → estrategia es el loop principal.
-
 **Tiempo estimado:** 2-3 semanas | **Equipo:** 1 AI/ML + 1 backend
 
 ---
@@ -136,7 +138,6 @@ Observación de respuesta → actualizar modelo cognitivo del estudiante
 **Objetivo:** App de estudio personal que genera flashcards inteligentes desde cualquier material y las agenda con spaced repetition óptimo.
 
 **Repos:**
-- [scaphandre/anki-mcp](https://github.com/scaphandre/anki-mcp) — Anki via MCP
 - [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) — app móvil spaced repetition
 - [run-llama/llama_index](https://github.com/run-llama/llama_index) — parsing de PDFs/videos/slides
 
@@ -152,8 +153,6 @@ flashcards-open-source-app (iOS/Android) → review sessions
                                         ↓
 Performance analytics → ajustar dificultad generación nuevas cards
 ```
-
-**Cómo:** Script Python que toma un directorio de materiales, los procesa con LlamaIndex, llama a Claude para generar flashcards en formato JSON, y las importa a Anki via MCP server. La app móvil sincroniza vía AnkiConnect API. Modo offline para estudiar sin internet.
 
 **Tiempo estimado:** 1 semana (MVP) | **Equipo:** 1 dev full-stack
 
@@ -182,8 +181,6 @@ Claude API → feedback personalizado por estudiante (idioma del curso)
 Canvas gradebook API → upload grades + feedback + audit log (EU AI Act)
 ```
 
-**Cómo:** Web app standalone (Next.js) que se autentica con Canvas LTI 1.3. El docente configura el curso una vez; el asistente genera el plan semestral con Bloom. Para calificación: el docente define la rúbrica (o Claude la sugiere via education-agent-skills), se aplica a todos los submissions via batch. Audit log completo para EU AI Act compliance.
-
 **Tiempo estimado:** 3 semanas | **Equipo:** 1 frontend + 1 backend + 1 AI/ML
 
 ---
@@ -207,20 +204,17 @@ ElevenLabs TTS → audio respuesta con acento nativo consistente
 Open-TutorAI CE → tracking nivel CEFR + próxima lección → Open edX LRS (xAPI)
 ```
 
-**Cómo:** React app con WebRTC para audio en tiempo real. Deepgram transcribe con modelo ES-LA o PT-BR. Claude evalúa la respuesta, corrige errores, y continúa la conversación manteniendo contexto. ElevenLabs genera audio con voz nativa. El progreso se persiste en Open edX via xAPI para certificación CEFR.
-
 **Tiempo estimado:** 3-4 semanas | **Equipo:** 1 frontend + 1 backend + 1 AI/ML
 
 ---
 
-## Patrón 8: Education Agent Skills Stack (nuevo en v11)
+## Patrón 8: Education Agent Skills Stack
 
 **Objetivo:** Elevar la calidad pedagógica de cualquier agente existente con 165 skills evidence-based sin rediseñar el sistema.
 
 **Repos:**
 - [GarethManning/education-agent-skills](https://github.com/GarethManning/education-agent-skills) — 165 skills pedagógicas
 - [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — orquestador del agente
-- Cualquier LLM API (Claude / GPT / Llama local via Ollama)
 
 **Arquitectura:**
 ```
@@ -235,6 +229,68 @@ Respuesta pedagógica de alta calidad + metadata (skill usada, nivel Bloom's tax
 Analytics: qué skills se usan más → indicador de qué conceptos son difíciles
 ```
 
-**Cómo:** Las education-agent-skills se cargan como un banco de system prompt snippets. El clasificador de intent (puede ser un LLM simple o reglas) determina qué skill pedagógica es apropiada. LangGraph gestiona el estado de la conversación y aplica la skill seleccionada. Puede integrarse sobre cualquier agente existente como middleware pedagógico.
-
 **Tiempo estimado:** 3-5 días (MVP sobre agente existente) | **Equipo:** 1 AI/ML
+
+---
+
+## Patrón 9: LearnHouse AI-native EdTech Starter (nuevo v12)
+
+**Objetivo:** Plataforma EdTech moderna AI-first para startups o corporativos, con block editor, AI content generation y tutoring integrado — alternativa ágil a Moodle sin su complejidad PHP.
+
+**Repos:**
+- [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) — LMS AGPL-3.0: block editor, AI study assistant, multi-tenant, pagos, self-hostable
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — agente tutor sobre el LMS
+- [run-llama/llama_index](https://github.com/run-llama/llama_index) — RAG sobre contenido del curso
+
+**Arquitectura:**
+```
+LearnHouse API (TypeScript) → extraer cursos + materiales → LlamaIndex RAG index
+                                        ↓
+Estudiante abre curso → pregunta al AI study assistant integrado
+                                        ↓
+LangGraph agente: RAG query → Claude API → respuesta contextualizada al bloque actual
+                                        ↓
+LearnHouse UI (block viewer) → muestra respuesta inline junto al contenido
+                                        ↓
+LearnHouse analytics → registra interacción + progreso + audit log
+```
+
+**Cómo:** LearnHouse ya incluye un AI study assistant en la UI. Se extiende con un LangGraph agent como backend AI: indexa los bloques del curso en LlamaIndex, permite preguntas contextuales al contenido, genera quizzes inline. Deployment: Docker Compose (LearnHouse + PostgreSQL + LlamaIndex service + Claude API). Para privacy-first: swapear Claude API por Ollama.
+
+**Tiempo estimado:** 1-2 semanas (LearnHouse ya tiene UI) | **Equipo:** 1 dev full-stack + 1 AI/ML
+
+---
+
+## Patrón 10: Multi-Agent Study Coach (Google×Kaggle pattern) (nuevo v12)
+
+**Objetivo:** Study coach multi-agente para corporate training — memoria del estudiante, quizzes adaptativos, predicción de debilidades con ML, roadmap personalizado.
+
+**Inspirado en:** StudyAlpha (Google×Kaggle Agents Intensive 2026, MIT)
+
+**Repos:**
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — orquestación multi-agente
+- [run-llama/llama_index](https://github.com/run-llama/llama_index) — RAG sobre materiales + historial
+- [frappe/lms](https://github.com/frappe/lms) — LMS MIT para tracking de progreso
+
+**Arquitectura:**
+```
+┌─────────────────── Coordinator Agent (LangGraph) ──────────────────┐
+│                                                                     │
+│  Memory Agent           Quiz Agent           Weakness Agent         │
+│  (RAG memory +          (adaptive MCQ        (ML predictor:         │
+│   session history)       calibrated          sklearn XGBoost        │
+│                          to BKT score)        → weak topics)        │
+│                                                      ↓              │
+│  Plan Agent: genera roadmap personalizado ← debilidades detectadas  │
+│                                ↓                                    │
+│  Streamlit / Next.js UI ← respuesta + quiz + plan actualizado       │
+└─────────────────────────────────────────────────────────────────────┘
+          ↓
+  Frappe LMS → registra progreso + completions → dashboard manager
+```
+
+**Cómo:** Coordinator Agent en LangGraph despacha subtareas: Memory Agent recupera contexto relevante del historial, Quiz Agent genera 3-5 preguntas calibradas al nivel actual (BKT score de Frappe LMS), Weakness Agent corre un clasificador ML (scikit-learn / XGBoost) sobre el historial de respuestas para predecir qué temas necesitan refuerzo, Plan Agent genera el roadmap de la semana. Toda la orquestación en Python. UI Streamlit para MVP, Next.js para producción.
+
+**Caso de uso Globant:** Corporate upskilling para clientes Fortune 500 — el coach recuerda qué aprendió cada empleado, adapta la dificultad y predice quién necesita refuerzo antes de un assessment. 70% mejor completion rate documentado con AI-personalized vs. lineal.
+
+**Tiempo estimado:** 2-3 semanas | **Equipo:** 1 ML + 1 backend + 1 frontend
