@@ -1,64 +1,74 @@
 # Trending AI Agents & Repos — Enterprise
 
-> What's new and surging this week in enterprise AI. Refreshed 2026-07-11 (v3).
+> What's new and surging this week in enterprise AI. Refreshed 2026-07-12 (v4).
 
 ## Breaking This Week (July 2026)
 
-### Microsoft Agent Framework v1.0 — GA April 2026
-- **Repo**: [github.com/microsoft/agent-framework](https://github.com/microsoft/agent-framework) — MIT, ~11.6k★
-- **What**: Production-grade unification of AutoGen + Semantic Kernel into a single SDK with LTS
-- **Patterns**: Sequential, Concurrent, Handoff, Group Chat, Magentic-One — all with streaming + checkpointing
-- **Enterprise significance**: If you're a Microsoft/Azure shop, this is the new default. Includes A2A and MCP protocol support.
+### EU AI Act High-Risk Enforcement: August 2, 2026 (21 days away)
 
-### Microsoft Agent Governance Toolkit — Open-sourced April 2026
-- **Repo**: [github.com/microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) — MIT, ~3.2k★
-- **What**: Runtime security governance for autonomous AI agents; first toolkit covering all 10 OWASP Agentic AI Top 10 risks
-- **Why it matters**: 75% of enterprise leaders cite security + auditability as top blockers; this addresses them with sub-millisecond policy enforcement
-- **EU AI Act**: EU high-risk AI obligations take effect August 2026 — this toolkit helps with compliance
+The EU AI Act binding enforcement deadline for high-risk AI systems is **August 2, 2026**. Penalties reach **€35M or 7% of global annual turnover** — whichever is higher. Scope for enterprise agentic AI:
 
-### DeerFlow v2.0 — ByteDance Super-Agent (Apache-2.0)
-- **Repo**: [github.com/bytedance/deerflow](https://github.com/bytedance/deerflow) — Apache-2.0
-- **What**: Open-source super-agent harness that orchestrates sub-agents, memory, sandboxes, and extensible skills
-- **Trending**: Hit #1 on GitHub Trending after v2.0 launch; ByteDance enterprise backing
+- Agents used for recruiting, credit, critical infrastructure, medical, or law enforcement → **high-risk classification under Annex III**
+- Every agent that invokes APIs (including MCP servers) is in scope for cybersecurity and logging mandates
+- In multi-agent chains, **every agent performing a high-risk function** is subject to requirements — not just the orchestrator
+- 82% of enterprises have AI agents or workflows their security teams did **not** know existed (Cloud Security Alliance research)
 
-### RAGFlow — 70k+ Stars, 2,596% YoY Growth
-- **Repo**: [github.com/infiniflow/ragflow](https://github.com/infiniflow/ragflow) — Apache-2.0, ~73k★
-- **What**: Enterprise RAG with deep OCR, table extraction, and citation-grounded answers
-- **Why now**: Enterprise AI has a "hallucination debt" problem; RAGFlow's traceable answers solve compliance requirements
-- **Deployments**: Knowledge bases, compliance AI, research assistants, multi-source analysis
+**Action**: Run the [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit) (MIT) as a compliance check on any agent touching high-risk domains before August 2.
 
-### n8n Crossing 180k Stars — Native MCP Support
-- **Repo**: [github.com/n8n-io/n8n](https://github.com/n8n-io/n8n) — Fair-code, ~189k★
-- **What**: MCP client/server support now native in n8n; connects 400+ enterprise systems to AI agents
-- **Enterprise pattern**: Legacy SAP/Salesforce/Jira/Confluence → n8n → LLM agent → output
+### Google ADK July 7, 2026 Update (Breaking Changes)
 
-### Langfuse + ClickHouse — Enterprise-Scale Observability
-- **Repo**: [github.com/langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT, ~9k★
-- **What**: Since January 2026, Langfuse is part of ClickHouse — ingests and queries millions of traces in milliseconds
-- **OTEL standard**: Industry converging on OpenTelemetry for agent telemetry; Langfuse supports natively
-- **Adoption**: 2,300+ companies; Pydantic AI, smolagents, Strands Agents all emit OTEL traces
+Google released an ADK update on July 7, 2026 with breaking changes to:
+- Agent API
+- Event model
+- Session schema
 
-## Star Rankings — Enterprise AI (July 2026)
+If using Google ADK in production, pin to a specific version before upgrading. The update improves Vertex AI integration and eval framework.
 
-| Rank | Repo | Stars | License | Category |
-|------|------|-------|---------|----------|
-| 1 | [n8n](https://github.com/n8n-io/n8n) | ~189k | Fair-code | Workflow automation + AI |
-| 2 | [Dify](https://github.com/langgenius/dify) | ~148k | Apache-2.0 | LLM platform + RAG |
-| 3 | [AutoGen](https://github.com/microsoft/autogen) | ~58.7k | MIT | Multi-agent (maintenance) |
-| 4 | [CrewAI](https://github.com/crewAIInc/crewAI) | ~54.2k | MIT | Role-based agents |
-| 5 | [RAGFlow](https://github.com/infiniflow/ragflow) | ~73k | Apache-2.0 | Enterprise RAG |
-| 6 | [LangGraph](https://github.com/langchain-ai/langgraph) | ~34.5k | MIT | Graph orchestration |
-| 7 | [Flowise](https://github.com/FlowiseAI/Flowise) | ~35k | Apache-2.0 | Low-code agent builder |
-| 8 | [Smolagents](https://github.com/huggingface/smolagents) | ~27k | Apache-2.0 | Code-first agents |
-| 9 | [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | ~27.9k | MIT | .NET/Python SDK (maint.) |
-| 10 | [Mem0](https://github.com/mem0ai/mem0) | ~26k | Apache-2.0 | Agent memory layer |
+### Strands Agents Hits 16.7M Downloads/Month
 
-## What to Watch Next (August 2026)
+AWS's open-source Strands Agents SDK has surpassed 16.7M monthly downloads as of June 2026 — putting it firmly in the "infrastructure-grade" category alongside LangGraph. Key context:
+- Backed by Accenture, Anthropic, Langfuse, Mem0, Meta, PwC, Ragas.io, Tavily
+- Production deployments: Amazon Q Developer, AWS Glue, VPC Reachability Analyzer
+- Deploys to Lambda, Fargate, EKS, Bedrock AgentCore, Docker, Kubernetes, Terraform
 
-- **EU AI Act enforcement** (high-risk AI obligations, Aug 2026) — expect surge in governance/compliance tooling
-- **Gartner Hype Cycle for Agentic AI 2026** — positioning of frameworks will shift procurement decisions
-- **Microsoft Agent Framework** adoption curve — whether it displaces LangGraph in enterprise greenfield projects
-- **MCP ecosystem maturity** — n8n + Dify + MAF all native MCP; tooling standardization accelerating
+### Anthropic Captures 40% Enterprise LLM Spend
+
+Anthropic now accounts for **40% of enterprise LLM spend** — up from 12% two years ago. OpenAI has dropped from ~50% to ~25% market share. Claude models are the default choice for compliance-sensitive enterprise workloads.
+
+### A2A Protocol: 150+ Orgs in Production
+
+Google's Agent-to-Agent (A2A) protocol is live in production at 150+ organizations as of April 2026. It's now embedded natively in Google Cloud, Microsoft Azure AI Foundry, and AWS Bedrock AgentCore Runtime.
+
+- **MCP**: 10,000+ enterprise servers; 97M+ SDK downloads — the standard for agent-to-tool connectivity
+- **A2A**: Agent-to-agent delegation and coordination — complements MCP
+
+Together: MCP (vertical, tool access) + A2A (horizontal, agent coordination) = complete protocol stack for distributed agent systems.
 
 ---
-*Auto-updated by ingest pipeline — v3 2026-07-11*
+
+## This Month's Fastest-Rising Enterprise Repos
+
+| Repo | License | Signal | Why Trending |
+|------|---------|--------|--------------|
+| [strands-agents/sdk-python](https://github.com/strands-agents/sdk-python) | Apache-2.0 | 16.7M downloads/month | AWS production SDK reaching critical mass; Accenture+PwC as contributors signals GSI adoption |
+| [google/adk-python](https://github.com/google/adk-python) | Apache-2.0 | July 7 breaking-changes release | Active development; multi-language; Gemini Enterprise Agent Platform backend |
+| [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | EU AI Act countdown | 21 days to Aug 2 enforcement; only open-source tool covering all 10 OWASP Agentic AI risks |
+| [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | 73k+ ★ | 2,596% YoY; enterprise RAG standard for compliance-grounded answers |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 34.5M downloads/month | Still the production graph-orchestration default; steady climb |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~148k ★ | #1 LLM platform by stars; visual + RAG + LLMOps in one |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | ~189k ★ | Legacy-to-AI integration layer; MCP native; growing enterprise adoption |
+
+---
+
+## Shadow AI: The Emerging Enterprise Risk
+
+Research from the Cloud Security Alliance (2026) reveals that **82% of enterprises already have AI agents or workflows their security teams did not know existed**. This "shadow AI" phenomenon is accelerating because:
+
+1. Business units are deploying agents with n8n, Dify, or no-code tools without IT review
+2. Developers are using personal API keys to run agents against production data
+3. MCP servers connect agents to enterprise systems without formal change control
+
+**Implication for Globant**: When entering an enterprise engagement, audit for shadow AI before designing the governance architecture. Use the Agent Governance Toolkit to enforce visibility.
+
+---
+*Auto-updated by ingest pipeline — v4 2026-07-12*

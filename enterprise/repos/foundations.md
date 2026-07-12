@@ -1,15 +1,17 @@
 # Foundational Repos — Enterprise AI
 
 > The core open-source repositories every enterprise AI engagement should know. Curated for Globant: real URLs, verified licenses, active communities.
-> Last updated: 2026-07-11 (v3)
+> Last updated: 2026-07-12 (v4)
 
 ## Core Orchestration Foundations
 
 | Repo | License | Stars | Maintainer | Description | Why Foundational |
 |------|---------|-------|-----------|-------------|-----------------|
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34.5k | LangChain AI | Stateful graph-based agent orchestration with durable execution and checkpoints | De-facto enterprise standard for production agents in 2026; Uber, Klarna, LinkedIn production |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34.5k | LangChain AI | Stateful graph-based agent orchestration with durable execution and checkpoints | De-facto enterprise standard for production agents in 2026; 34.5M monthly library downloads; Uber, Klarna, LinkedIn production |
 | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~54.2k | CrewAI Inc | Role-playing multi-agent framework with memory, tools, delegation, and workflow automation | Fastest multi-agent prototyping; 5.2M downloads/month; widest enterprise pilot adoption |
 | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | Microsoft | GA April 2026 — production unification of AutoGen + Semantic Kernel for .NET and Python | New LTS standard for Microsoft-ecosystem enterprises; A2A + MCP native; stable APIs |
+| [strands-agents/sdk-python](https://github.com/strands-agents/sdk-python) | Apache-2.0 | ~6.1k | AWS | Model-driven agent SDK; same framework AWS uses for Amazon Q Developer, AWS Glue, VPC Reachability Analyzer | 16.7M downloads/month (Jun 2026); AWS production-proven; Bedrock AgentCore native; OTEL built in |
+| [google/adk-python](https://github.com/google/adk-python) | Apache-2.0 | ~10k+ | Google | Code-first agent toolkit for Python (also TS/Go/Java/Kotlin); built-in eval framework; Vertex AI native | Released April 2026, July 7 update; multi-language; Gemini Enterprise Agent Platform integration |
 | [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~58.7k | Microsoft Research | Conversational multi-agent framework (maintenance mode; base for Agent Framework) | Most widely deployed Microsoft agent framework; proven at Azure enterprise scale |
 | [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~27.9k | Microsoft | AI SDK for .NET, Python, Java — plugin architecture, memory, planners | Core of .NET enterprise AI; 3-language support; large existing plugin ecosystem |
 
@@ -31,18 +33,18 @@
 | [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Hugging Face | Minimal code-first agent framework with CodeAct execution and OpenTelemetry tracing | Lightweight, composable; OTEL built in; works with any HF model |
 | [deepset-ai/haystack](https://github.com/deepset-ai/haystack) | Apache-2.0 | ~18k | deepset | NLP pipeline framework for search, QA, and document-heavy enterprise workflows | Battle-tested for enterprise document search; modular component design |
 | [agno-agi/agno](https://github.com/agno-agi/agno) | Apache-2.0 | ~26k | Agno | Lightweight, model-agnostic agent framework with multimodality and team support | Ultra-fast init; multimodal from day one; rapid PoC to production pathway |
-| [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | ~3.2k | Microsoft | Runtime security governance for autonomous AI agents; OWASP Agentic AI Top 10 coverage | Essential for EU AI Act compliance; Cedar policy-as-code; sub-millisecond enforcement |
+| [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | ~3.2k | Microsoft | Runtime security governance for autonomous AI agents; OWASP Agentic AI Top 10 coverage | Essential for EU AI Act Aug 2026 compliance; Cedar policy-as-code; sub-millisecond enforcement |
 
 ## ERP / CRM Vertical Foundations
 
 | Repo | License | Stars | Maintainer | Description | AI Integration |
 |------|---------|-------|-----------|-------------|---------------|
-| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3 (community) | ~49.1k | Odoo SA | Comprehensive ERP+CRM+84 business modules; Python/OWL stack | REST API + external LLM integration; AI content generation built in |
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~31.9k | Frappe | Open-source ERP built on Frappe framework; manufacturing, HR, accounting | Custom dev required for AI; flexible Python architecture |
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3 (community) | ~49.1k | Odoo SA (€7B val. Jan 2026) | Comprehensive ERP+CRM+84 business modules; Python/OWL stack | REST API + external LLM integration; AI content generation built in |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~31.9k | Frappe | Open-source ERP built on Frappe framework; manufacturing, HR, accounting | Third-party AI apps (NextAI, ChatNext, ERPNext MCP server); Frappe framework MIT |
 | [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | Frappe | Low-code web framework underlying ERPNext; Python + JavaScript | MIT license; strong foundation for AI-augmented Frappe apps |
 | [nocobase/nocobase](https://github.com/nocobase/nocobase) | AGPL-3.0 | ~21.6k | NocoBase | AI-native no-code ERP/CRM with AI employee model, approval workflows, and knowledge bases | Built-in AI: understands business context, participates in workflows autonomously |
 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~1.1k | Apache Foundation | Enterprise-grade ERP framework with SCM + CRM; Apache licensed | Apache-2.0: pure Globant buildable; API-first for AI agent integration |
-| [suitecrm/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | ~4.3k | SalesAgility | World's most popular open-source CRM; ~5M users globally; Salesforce alternative | REST API v8 enables AI agent CRM automation |
+| [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | ~4.3k | SalesAgility | World's most popular open-source CRM; ~5M users globally; Salesforce alternative | REST API v8 enables AI agent CRM automation |
 
 ---
-*Auto-updated by ingest pipeline — v3 2026-07-11*
+*Auto-updated by ingest pipeline — v4 2026-07-12*

@@ -1,7 +1,7 @@
 # Composition Patterns — Enterprise AI
 
 > Concrete recipes for building enterprise AI solutions. Each names specific repos, how to wire them, estimated effort, and Globant positioning.
-> Last updated: 2026-07-11 (v3)
+> Last updated: 2026-07-12 (v4)
 
 ---
 
@@ -104,7 +104,6 @@ Langfuse: full audit trail + weekly eval report
 - Odoo LGPL-3 allows custom modules; Globant ships modules as product
 - Apache OFBiz (Apache-2.0) if client prefers pure-Apache stack
 - LangGraph handles the orchestration; Dify handles the business-user UX
-- Langfuse evaluation catches forecast drift before it hurts the business
 
 **Effort**: 8–12 weeks PoC; 6 months production with full ERP modules
 **Revenue model**: Globant Odoo implementation + AI module subscription
@@ -114,6 +113,8 @@ Langfuse: full audit trail + weekly eval report
 ## P4 — Compliant Multi-Agent System (MAF + Agent Governance Toolkit + Langfuse)
 
 **Use case**: Build an enterprise AI agent system that can pass legal/compliance review and EU AI Act audit — required for financial services, healthcare-adjacent, and regulated industries.
+
+**URGENT**: EU AI Act high-risk enforcement begins **August 2, 2026** (21 days away).
 
 **Repos**:
 - [microsoft/agent-framework](https://github.com/microsoft/agent-framework) — MIT — Production orchestration (GA April 2026)
@@ -142,7 +143,8 @@ Langfuse: trace + eval + compliance export (SOC2, GDPR)
 - MAF is MIT; ideal for .NET/Azure shops migrating from AutoGen/SK
 - Governance Toolkit runs in-process; sub-millisecond policy check; no network hop
 - Cedar policies are declarative and auditable — legal can review them
-- EU AI Act August 2026 enforcement: this architecture passes high-risk AI requirements
+- EU AI Act August 2 2026 enforcement: this architecture passes high-risk AI requirements
+- **NEW**: Applicable to shadow AI discovery — use to bring undocumented agents into compliance
 
 **Effort**: 6–8 weeks governance-ready PoC; 4 months production
 **Positioning**: "AI agents that your compliance team can actually approve"
@@ -174,11 +176,10 @@ Self-hosted on Docker; Spanish/Portuguese LLM
 
 **Key decision points**:
 - NocoBase AGPL-3: Globant must offer as a service or resell under commercial license
-- NocoBase AI employee handles common cases; Agno handles custom domain logic
 - 50-person company: $8k/5yr vs $150k for Odoo Enterprise
-- Spanish/Portuguese support: use Llama 3.1 or Claude for LATAM language
+- Spanish/Portuguese support: use Claude or Llama 3.x for LATAM language
 
-**Effort**: 3–4 weeks PoC (NocoBase fast to configure); 2 months customized production
+**Effort**: 3–4 weeks PoC; 2 months customized production
 **LATAM angle**: 99% of LATAM businesses are SMEs with no ERP — this is a greenfield market
 
 ---
@@ -245,19 +246,92 @@ Dify: AI portal
     ↓
 Mem0: per-user context (role, preferences, history)
     ↓
-LLM APIs (Anthropic, Azure OpenAI, Ollama for on-prem)
+LLM APIs (Anthropic Claude, Azure OpenAI, Ollama for on-prem)
     ↓
 Langfuse: token usage by department, cost attribution, quality scores
 ```
-
-**Key decision points**:
-- Dify admin portal allows non-technical deployment of AI apps
-- Mem0 means users don't re-explain their context every session
-- Langfuse cost attribution enables chargeback to business units
-- MLflow (Apache-2.0) as alternative for model-centric organizations
 
 **Effort**: 4–6 weeks MVP; runs continuously as enterprise AI platform
 **Revenue model**: Platform delivery + ongoing management as managed service
 
 ---
-*Auto-updated by ingest pipeline — v3 2026-07-11*
+
+## P8 — AWS-Native Agent Platform (Strands Agents + Bedrock AgentCore + Langfuse)
+
+**Use case**: Build an enterprise AI agent platform for clients running on AWS — leverage the same framework AWS uses in production for Amazon Q Developer and AWS Glue.
+
+**Repos**:
+- [strands-agents/sdk-python](https://github.com/strands-agents/sdk-python) — Apache-2.0 — Agent SDK; model-driven; 16.7M downloads/month
+- [strands-agents/harness-sdk](https://github.com/strands-agents/harness-sdk) — Apache-2.0 — TypeScript companion SDK
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Observability (Strands emits OTEL; Langfuse ingests OTEL)
+
+**Architecture**:
+```
+AWS Enterprise Account
+    ↓
+Strands Agents SDK (Python/TypeScript)
+    ├── Agent 1: data retrieval via Bedrock Knowledge Bases
+    ├── Agent 2: reasoning via Claude Sonnet (Bedrock)
+    └── Agent 3: action via Lambda functions
+    ↓
+AWS Bedrock AgentCore Runtime
+    ├── Managed execution (Lambda/Fargate/EKS)
+    ├── IAM-native authentication (no API key management)
+    ├── VPC-isolated deployment
+    └── CloudWatch → OpenTelemetry → Langfuse
+    ↓
+Langfuse: trace all agent calls + eval quality
+```
+
+**Key decision points**:
+- Strands Agents: Apache-2.0, AWS-backed, Accenture/PwC contributors — enterprise GSI credibility
+- Bedrock AgentCore: managed runtime; no container ops; IAM-native; $0 infra mgmt overhead
+- Claude on Bedrock: 40% enterprise LLM market share; compliance-friendly; long context
+- OTEL built into Strands → Langfuse collects traces without custom instrumentation
+
+**Effort**: 3–4 weeks PoC on AWS; 2–3 months production with IAM + audit
+**Cloud angle**: Ideal entry for clients already on AWS with Bedrock enabled
+
+---
+
+## P9 — Shadow AI Governance Audit (Agent Governance Toolkit + Langfuse + n8n)
+
+**Use case**: Globant enters an enterprise where 82% of the time there are undiscovered AI agents. Map, classify, and govern them before the EU AI Act August 2 deadline.
+
+**Repos**:
+- [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) — MIT — Policy enforcement; OWASP Agentic AI Top 10
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Observability; unified trace collection
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Fair-code — Discovery automation; connects to cloud APIs for agent inventory
+
+**Architecture**:
+```
+Phase 1: Discovery (Week 1-2)
+    n8n: scan cloud accounts (AWS/Azure/GCP) for AI service usage
+    n8n: query Slack/Teams for bot integrations
+    n8n: pull API gateway logs for LLM API calls
+    → Shadow AI inventory spreadsheet
+
+Phase 2: Classification (Week 3)
+    For each discovered agent:
+    ├── Domain? (HR, Finance, Healthcare, Legal) → EU AI Act risk tier
+    ├── Data accessed? (PII, financial, health) → GDPR scope
+    └── Actions taken? (read-only vs write) → autonomy level
+
+Phase 3: Governance Retrofit (Week 4-8)
+    Agent Governance Toolkit: add Cedar policies to all high-risk agents
+    Langfuse: instrument all agents with OTEL traces
+    n8n: automated weekly compliance reports
+    → Compliance dossier for EU AI Act audit
+```
+
+**Deliverables**:
+- Shadow AI inventory + risk classification
+- Policy-as-code (Cedar) for all high-risk agents
+- Unified observability dashboard (Langfuse)
+- EU AI Act readiness assessment
+
+**Effort**: 2 weeks discovery + classification; 4–6 weeks governance retrofit
+**URGENT POSITIONING**: EU AI Act August 2 enforcement = now. This is a board-level offer.
+
+---
+*Auto-updated by ingest pipeline — v4 2026-07-12*

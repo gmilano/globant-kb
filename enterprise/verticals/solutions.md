@@ -1,14 +1,14 @@
 # Vertical Solutions — Enterprise
 
 > Real enterprise platforms that can be customized with AI on top. Model: start with a working system, add an agentic layer.
-> Last updated: 2026-07-11 (v3)
+> Last updated: 2026-07-12 (v4)
 
 ## ERP Platforms
 
 | Platform | License | Stars | URL | Stack | AI Integration Strategy |
 |----------|---------|-------|-----|-------|------------------------|
-| **Odoo** | LGPL-3 (community) | ~49.1k | [odoo/odoo](https://github.com/odoo/odoo) | Python/OWL/PostgreSQL | REST API + external LLM; built-in content generation AI; 84 business modules; AI assistive in v17/v18 |
-| **ERPNext** | GPL-3.0 | ~31.9k | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe/MariaDB | Custom dev for AI; flexible Python hooks; Frappe framework MIT; strong LATAM adoption |
+| **Odoo** | LGPL-3 (community) | ~49.1k | [odoo/odoo](https://github.com/odoo/odoo) | Python/OWL/PostgreSQL | REST API + external LLM; built-in content generation AI; 84 business modules; AI assistive in v17/v18; €7B valuation Jan 2026 |
+| **ERPNext** | GPL-3.0 | ~31.9k | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe/MariaDB | Third-party AI ecosystem: NextAI, ChatNext, changAI, Aerele Chatbot, MCP server bridge; flexible Python hooks |
 | **NocoBase** | AGPL-3.0 | ~21.6k | [nocobase/nocobase](https://github.com/nocobase/nocobase) | TypeScript/Node.js/PostgreSQL | **AI-native**: AI employee model understands business context; participates in approval workflows; generates records autonomously |
 | **Apache OFBiz** | Apache-2.0 | ~1.1k | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java/Spring | API-first; Globant-safe Apache-2.0; ERP + SCM + CRM; build AI layer via REST API |
 | **Dolibarr** | GPL-3.0 | ~5k | [dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP/MySQL | Lightweight ERP+CRM for SMEs; REST API for AI integration; easy to extend |
@@ -53,6 +53,7 @@
 ```
 Step 1: Identify the platform's API surface
 ├── REST API (most platforms have this)
+├── MCP server (check for existing: ERPNext MCP, 1C MCP, Jira MCP, Salesforce MCP)
 ├── Webhook/event system (n8n, Zapier triggers)
 └── Database (direct read for analytics)
 
@@ -63,25 +64,31 @@ Step 2: Build the AI adapter
 
 Step 3: Deploy orchestration layer
 ├── LangGraph for stateful workflows
+├── Strands Agents for AWS-native deployments
+├── Google ADK for Google Cloud deployments
+├── Microsoft Agent Framework for Azure/.NET
 ├── n8n for visual automation
 └── Dify for no-code teams
 
 Step 4: Add observability
-├── Langfuse for trace/eval
+├── Langfuse for trace/eval (MIT, self-hosted)
 └── OpenTelemetry to existing stack
 
-Step 5: Governance
+Step 5: Governance (required for EU AI Act Aug 2026)
 └── Agent Governance Toolkit for policy enforcement
+    (Cedar policies; sub-millisecond; all 10 OWASP Agentic AI risks)
 ```
 
 ## Globant Engagement Starting Points by Client Size
 
-| Client Size | ERP | CRM | Workflow | AI Orchestration |
-|-------------|-----|-----|----------|-----------------|
-| SME (<200 employees) | NocoBase or Dolibarr | EspoCRM | n8n | Dify or Flowise |
-| Mid-market (200-2k) | Odoo Community | SuiteCRM | n8n + LangGraph | LangGraph + Langfuse |
-| Enterprise (>2k) | Odoo Enterprise or ERPNext | Twenty or custom | n8n + Camunda | MAF or LangGraph + Governance Toolkit |
-| Microsoft shops | — | Dynamics 365 | n8n or MAF workflows | Microsoft Agent Framework v1.0 |
+| Client Size | ERP | CRM | Workflow | AI Orchestration | Cloud |
+|-------------|-----|-----|----------|-----------------|-------|
+| SME (<200 employees) | NocoBase or Dolibarr | EspoCRM | n8n | Dify or Flowise | Any |
+| Mid-market (200-2k) | Odoo Community | SuiteCRM | n8n + LangGraph | LangGraph + Langfuse | Any |
+| Enterprise (>2k) | Odoo Enterprise or ERPNext | Twenty or custom | n8n + Camunda | MAF or LangGraph + Governance Toolkit | Multi-cloud |
+| Microsoft shops | — | Dynamics 365 | n8n or MAF workflows | Microsoft Agent Framework v1.0 | Azure |
+| AWS shops | — | — | n8n | Strands Agents + Bedrock AgentCore | AWS |
+| Google Cloud shops | — | — | n8n | Google ADK + Vertex AI Agent Platform | GCP |
 
 ---
-*Auto-updated by ingest pipeline — v3 2026-07-11*
+*Auto-updated by ingest pipeline — v4 2026-07-12*
