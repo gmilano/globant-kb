@@ -1,29 +1,34 @@
 # 🗺️ Market Map — Healthcare AI
 
 > Key players, market sizing, positioning. Focus: LATAM + global.
-> Last updated: 2026-07-11
+> Last updated: 2026-07-12 (v10)
 
 ## Market Sizing
 
-| Segment | 2026 Value | 2030-2035 Forecast | CAGR | Source |
-|---------|------------|-------------------|------|--------|
+| Segment | 2025/2026 Value | 2030-2035 Forecast | CAGR | Source |
+|---------|----------------|-------------------|----|--------|
 | AI Healthcare (total) | ~$50–100B | $505.6B (2033) | 38.9% | Multiple analysts |
-| Agentic AI in Healthcare | $1.14B | $33.66B (2035) | 45.6% | Towards Healthcare 2026 |
-| Agentic AI alt. forecast | $1.03B | $5.78B (2031) | 42.0% | Research & Markets |
-| Ambient Clinical Intelligence | $37.2B | $91B+ (2030) | ~20% | Industry analysts |
+| Agentic AI in Healthcare | $1.14B (2026) | $33.66B (2035) | **45.6%** | Towards Healthcare 2026 |
+| Agentic AI in Healthcare (alt.) | $1.83B (2026) | $19.71B (2034) | 34.61% | Fortune Business Insights |
+| Agentic AI in Healthcare Admin | $1.8B (2025) | $48.7B (2034) | **48.4%** | MarketIntelo 2026 |
+| AI Prior Authorization Automation | $1.69B (2025) | $10.32B (2035) | 19.92% | SNS Insider 2026 |
+| Ambient Clinical Intelligence | $37.2B (2026) | $91B+ (2030) | ~20% | Industry analysts |
 
-## Adoption Metrics (2026)
+## Adoption Metrics (2026 — Real Numbers)
 
 - **80%** of healthcare executives expect agentic AI to deliver moderate-to-significant value in 2026 (Deloitte)
-- **61%** already building/implementing agentic AI or have secured budget
-- **43%** currently piloting or testing — only **3%** deployed in live clinical workflows
+- **61%** already building/implementing agentic AI or have secured budget (Microsoft + Health Management Academy)
 - **85%** plan to increase AI investment over next 2-3 years
 - **98%** expect at least 10% cost savings from agentic AI
-- **68%** of healthcare organizations already use some AI agents
+- **43%** currently piloting or testing — only **3%** deployed in live clinical workflows (early innings)
+- **68%** of healthcare organizations use some form of AI agents
 - **600+** health systems using Microsoft DAX Copilot ambient AI scribe
+- **41%** reduction in physician clerical time from autonomous documentation agents (live deployments)
 - **60+ min/day** saved per physician using ambient AI scribes
+- **66%** of providers affected by nursing vacancies, creating demand for AI-assisted workflows
+- **194,500** annual RN job openings projected through 2033 — nurse shortage drives ambient AI adoption
+- **$1.5T/year** in US administrative waste — primary AI opportunity
 - **$150B/year** in potential US healthcare savings from AI
-- **$1.5T/year** in US administrative waste — the primary AI opportunity
 
 ## Key Players
 
@@ -31,58 +36,48 @@
 
 | Player | Product/Initiative | Key Move (2026) |
 |--------|-------------------|-----------------|
-| Google | Med-Gemini, MedGemma (open-weight), Health AI Developer Foundations | HIMSS 2026: "moving beyond static records to agentic healthcare era." Highmark Health $27.9M ROI across 74 AI use cases. |
-| Microsoft | Nuance DAX Copilot, Azure Health Data Services | 600+ health systems on DAX Copilot. Epic native integration GA. Healthcare cloud with HIPAA data residency. |
-| Amazon | AWS HealthLake, Bedrock for healthcare | HealthLake as FHIR data layer for AI pipelines. |
-| Oracle | Oracle Health (Cerner) | AI-native EHR roadmap; competing with Epic on agentic documentation. |
-| Anthropic | Claude for healthcare (via partners) | BCG + Hippocratic AI partnership announced. Clinical AI agent deployment at scale. |
+| Google | Med-Gemini, MedGemma (open-weight), Health AI Developer Foundations | HIMSS 2026: "moving beyond static records to agentic healthcare era." Highmark Health $27.9M ROI across 74 AI use cases. MedGemma open-weight released for on-prem deployments. |
+| Microsoft | Nuance DAX Copilot, Azure Health Data Services, Dragon Ambient eXperience | 600+ health systems on DAX Copilot. Epic native integration GA. Healthcare cloud HIPAA data residency. Research: "Assessing healthcare's agentic AI readiness" (Feb 2026). |
+| Amazon | AWS HealthLake, Bedrock for healthcare | HealthLake as FHIR data layer for AI pipelines. Bedrock enabling rapid clinical AI deployment. |
+| Oracle | Oracle Health (Cerner) | AI-native EHR roadmap; competing with Epic on agentic documentation. Clinical AI platform partnerships. |
+| Anthropic | Claude for healthcare (via partners) | BCG + Hippocratic AI partnership. Claude Haiku deployed in ambient scribe and prior auth workflows. HIPAA BAA available. |
+| OpenAI | OpenAI for Healthcare (Jan 2026) | Partnered with 8 leading US health institutions. GPT-5.2 models developed with 260 physicians across 60 countries. |
 
 ### Enterprise Healthcare AI
 
-| Player | Focus | Note |
-|--------|-------|------|
-| Hippocratic AI | Enterprise patient voice agents | 180M+ clinical interactions, 60+ enterprise partners, 1,000+ use cases. Non-diagnostic patient-facing tasks. |
-| Epic | AI Assistant in EHR | Ambient AI scribe + clinical decision support natively in Epic. Partnership with Nuance/Microsoft. |
-| Nuance (Microsoft) | DAX Copilot (ambient scribe) | Market leader in ambient clinical intelligence. Integrated with Epic + Oracle Health. |
-| Tempus AI | Oncology research + clinical decision support | AI-powered cancer genomics + clinical trial matching. |
-| Abridge | Ambient documentation | Competing with Nuance DAX. Used at large academic medical centers. |
+| Company | Focus | Status (2026) |
+|---------|-------|---------------|
+| Nuance (Microsoft) | Ambient AI scribes | Market leader: 600+ health systems on DAX Copilot |
+| PrescriberPoint | Agentic prior authorization | Full lifecycle PA automation: script capture → payer approval → appeals → pharmacy routing |
+| Hippocratic AI | AI safety agents for healthcare | BCG partnership for clinical deployment at scale. Series B funded. |
+| Tempus AI | Oncology AI + data | $6.1B valuation; partnered with 1000+ hospitals; multimodal genomics + EHR |
+| Suki AI | AI voice assistant for clinicians | Integrated with Epic, Cerner, Meditech |
+| Abridge | AI clinical documentation (UPMC-backed) | University of Pittsburgh Medical Center native; $150M Series C |
 
 ### Open Source Ecosystem Leaders
 
-| Project | Organization | Focus |
-|---------|-------------|-------|
-| OpenMRS | OpenMRS Community (NGO) | Medical records, 40+ countries, ~36M patients |
-| Medplum | Medplum Inc. (Apache) | FHIR-native developer platform |
-| OpenEMR | OpenEMR Project | Clinic EHR, 100+ countries |
-| HAPI FHIR | Smile Digital Health (Apache) | Java FHIR standard implementation |
-| TxAgent | Harvard MIMS (MIT) | Drug safety & therapeutic reasoning |
+| Project | Owner | Adoption |
+|---------|-------|----------|
+| HAPI FHIR | Smile Digital Health / Apache | De facto standard Java FHIR server. Used in most hospital integrations. |
+| OpenMRS | OpenMRS Community | 36M+ patient records, 40+ countries, especially strong LATAM/Africa |
+| scientific-agent-skills | K-Dense AI | 30.7k stars, 160k+ scientist users — fastest-growing healthcare OSS 2026 |
+| MedAgents | Urban Health Labs | Most-cited open source multi-agent medical framework (ACL 2024) |
 
-## ROI Evidence
+## LATAM-Specific Market Intelligence
 
-| Organization | Use Case | Result |
-|--------------|----------|--------|
-| Highmark Health | 74 AI use cases (Google Cloud) | $27.9M estimated ROI |
-| Mass General Brigham | DAX Copilot ambient scribe | 60+ min/day saved per physician |
-| Mount Sinai | Agentic AI workflows | Streamlined workflows, reduced burnout |
-| Mayo Clinic | AI diagnostics + workflow automation | Personalized care, earlier disease detection |
-| Prior Auth use case (industry avg) | Agentic PA automation | 2-3 day wait → same-day completion |
+- **OpenMRS** deeply embedded: Bolivia, Haiti, Peru, Nicaragua, Colombia all have active deployments → Globant's LATAM relationships = natural entry points
+- **GNU Health** popular in Argentina, Cuba, Costa Rica community health centers
+- **PIX (Brazil)** + healthcare: Agentic AI for insurance claims, billing, PA automation — massive market given fragmented payer landscape
+- **ANVISA (Brazil)** AI regulation: following FDA guidance but with local adaptations. Explainability + audit trail requirements for clinical AI (similar to EU AI Act high-risk category)
+- **WhatsApp penetration**: >90% in Brazil/LATAM → AI health agents via WhatsApp API (Medplum + WhatsApp Business → conversational triage, medication reminders, follow-up)
+- **Telemedicine expansion**: Post-COVID regulatory frameworks now permanent in Brazil, Colombia, Mexico → enables AI-augmented telehealth at scale
 
-## Globant Positioning
+## Regulatory Landscape
 
-### Strengths
-- Strong LATAM presence where OpenMRS/Bahmni/GNU Health are widely deployed — AI-augmentation opportunity without EHR replacement
-- Full-stack development capability to build FHIR-native AI layers on top of existing systems
-- Experience with LangGraph, CrewAI, AutoGen — applicable to healthcare multi-agent architectures
-- Can build HIPAA-compliant systems using MedGemma (on-prem) or Claude via AWS HealthLake
-
-### Recommended Entry Points
-1. **Ambient AI Scribe** — build a DAX Copilot alternative on open stack (Whisper + medspacy + Claude) for mid-market health systems not on Epic
-2. **LATAM OpenMRS AI** — add AI triage, drug safety, and clinical decision support to existing OpenMRS deployments (Bolivia, Peru, Nicaragua clients)
-3. **Prior Authorization Agent** — highest near-term ROI, underserved by open source, pure integration play on Medplum + LLM
-4. **Radiology AI Pipeline** — MedRAX + Orthanc + HAPI FHIR for hospitals with radiology departments
-
-### Competitive Moat
-Globant's position is differentiated vs. Accenture/Deloitte by: (1) open source foundation reduces cost/vendor lock-in for clients, (2) LATAM expertise where big SI firms have less depth, (3) ability to build rapidly on top of MIT/Apache stacks.
-
----
-*Updated by ingest pipeline.*
+| Regulation | Region | Status | Impact |
+|-----------|--------|--------|--------|
+| FDA AI/ML Action Plan | USA | Active 2026 | Pre-market approval pathway for AI as Software as Medical Device (SaMD) |
+| EU AI Act | Europe | High-risk Aug 2 2026 | Medical AI classified high-risk; audit trails + human oversight mandatory |
+| ANVISA RDC 657 | Brazil | Evolving 2026 | AI in medical devices; alignment with FDA + EU frameworks underway |
+| US Cures Act FHIR Mandate | USA | Enforced 2026 | FHIR API access mandatory for all EHRs → accelerates AI pipeline adoption |
+| HIPAA | USA | Active | BAA required with AI vendors; on-prem/MedGemma option for sensitive data |
