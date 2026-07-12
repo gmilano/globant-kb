@@ -1,241 +1,210 @@
-# Composition Patterns — Financial Services AI
+# 🧩 Patrones de composición — Financial Services
 
-> Last updated: 2026-07-11 | v9
-> Concrete recipes: specific repos + agents + wiring instructions.
+> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Última actualización: 2026-07-12 (v10)
+
+## Arquitectura base
+
+```
+[Plataforma vertical base (Apache Fineract / OpenBB / ERPNext)]
+          ↓
+[Data layer: OpenBB + yfinance + pgvector embeddings]
+          ↓
+[Orquestador multi-agente: LangGraph / TradingAgents]
+          ↓
+[Agentes especializados: análisis, riesgo, compliance, ejecución]
+          ↓
+[Governance layer: audit log + human-in-the-loop + EU AI Act]
+          ↓
+[UI: chat conversacional / API REST / dashboard]
+```
 
 ---
 
-## Pattern 1: Agentic Investment Research Platform
+## Patrón P1: Multi-Agent Trading Firm (TradingAgents clone)
 
-**Problem**: Analysts spend 4-6 hours per company on research synthesis. Automate the first draft.
+**Caso de uso**: Broker o family office que quiere inteligencia de inversión automatizada sin equipo quant completo.
 
 **Stack**:
-- **FinRobot** ([AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot)) — orchestration + Financial CoT
-- **FinGPT** ([AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT)) — financial sentiment on news + SEC filings
-- **ccxt** ([ccxt/ccxt](https://github.com/ccxt/ccxt)) — market data ingestion
-- **Claude Sonnet 5** — synthesis and report generation
+- `TauricResearch/TradingAgents` — framework base con agentes especializados
+- `OpenBB-finance/OpenBB` con MCP server — datos de mercado en tiempo real
+- `AI4Finance-Foundation/FinGPT` — análisis de sentimiento en tiempo real (noticias, SEC)
+- `robertmartin8/PyPortfolioOpt` — optimización de portafolio con output del PM agent
+- Claude claude-sonnet-5 — síntesis, razonamiento y generación de reportes
 
-**Wiring**:
+**Flujo**:
 ```
-1. User inputs ticker symbol
-2. FinRobot Financial CoT decomposes into sub-tasks:
-   a. FinGPT → analyze last 4 earnings calls for sentiment
-   b. FinGPT → analyze recent 10-K/10-Q from EDGAR
-   c. ccxt → pull 12-month price + volume history
-   d. FinRobot → fundamental analysis agent
-3. Claude Sonnet 5 synthesizes into investment memo
-4. Output: 2-page structured memo (thesis, risks, valuation)
+1. Agente Analista Técnico: OpenBB → indicadores técnicos → señal
+2. Agente Analista Fundamental: FinGPT → SEC filings → valoración
+3. Agente Sentimiento: FinGPT → noticias + redes → score
+4. Agente Risk Manager: evaluación de señales contradictorias → límites de riesgo
+5. Portfolio Manager Agent: debate estructurado → decisión → PyPortfolioOpt
+6. Claude: genera reporte de inversión explicable para el cliente
 ```
 
-**Estimated Build Time**: 3-4 weeks for POC, 3 months for production  
-**Licensing**: Apache-2.0 + MIT — Globant can build on this commercially  
-**EU AI Act**: High-risk if used for actual investment decisions; add human review gate
+**Tiempo de implementación**: 6-8 semanas para MVP funcional en backtesting; +4 semanas para live trading con broker real.
 
 ---
 
-## Pattern 2: Agentic AML / Financial Crimes Detection
+## Patrón P2: KYC/AML Agent para Banco o Fintech
 
-**Problem**: Manual AML investigation takes 2-4 hours per case; false positive rates are 95%+.
+**Caso de uso**: Banco regional LATAM que necesita automatizar onboarding y detección de lavado de dinero sin multiplicar headcount de compliance.
 
 **Stack**:
-- **Jube** ([jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring)) — real-time transaction scoring + case management
-- **Claude Sonnet 5** — SAR narrative generation, investigation reasoning
-- **Apache Fineract** ([apache/fineract](https://github.com/apache/fineract)) — transaction data source (if client uses Fineract core banking)
+- `apache/fineract` — core banking con datos transaccionales del cliente
+- LangGraph — orquestador de workflow con audit log inmutable
+- Claude claude-sonnet-5 con Vision — lectura y análisis de documentos de identidad
+- pgvector + embeddings — base de datos de patrones de transacciones sospechosas
+- APIs externas: Comply Advantage / WorldCheck (sanctions), Open Corporates (ownership)
 
-**Wiring**:
+**Flujo**:
 ```
-1. Jube ML model scores incoming transactions in real-time (<50ms)
-2. Flagged transactions (score > threshold) enter Jube case management
-3. Claude agent called with transaction graph + customer history:
-   a. Patterns matching known typologies?
-   b. Sanctions list cross-reference
-   c. Network analysis: connected accounts flagged?
-4. Claude generates SAR narrative draft for compliance officer
-5. Human reviews + approves before filing (EU AI Act requirement)
-6. Jube audit trail captures full decision chain
+1. Cliente sube documentos → Claude Vision extrae entidades (nombre, doc, fecha, dirección)
+2. Agent KYC: valida contra sanctions lists + PEP databases → risk score
+3. Agent Transaccional: analiza patrones en Fineract → anomaly score con pgvector
+4. Agent AML: combina señales → genera narrative de riesgo para investigador
+5. Human-in-the-loop: casos de alto riesgo → investigador humano revisa narrative
+6. Audit log inmutable: toda decisión trazable para regulador (EU AI Act compliance)
 ```
 
-**Estimated Build Time**: 6-8 weeks POC, 4-6 months to regulatory approval  
-**Licensing**: Jube is AGPL-3.0 (copyleft) — client must either open-source or negotiate commercial license  
-**EU AI Act**: High-risk. Full audit trail (Jube provides) + human oversight (pattern provides) = compliant
+**Reducción esperada**: 60% menos falsos positivos, 70% del onboarding sin intervención humana.
+
+**Tiempo**: 10-14 semanas para piloto en banco con 5k onboardings/mes.
 
 ---
 
-## Pattern 3: Open Banking Robo-Advisor
+## Patrón P3: AI CFO Assistant para PYME (LATAM)
 
-**Problem**: Banks want personalized financial advice at scale without hiring 10,000 advisors.
+**Caso de uso**: PYME latinoamericana que quiere acceso a inteligencia financiera de nivel enterprise sin CFO dedicado.
 
 **Stack**:
-- **Plaid API** (US) or **PSD2 API** (EU) — open banking transaction data
-- **PyPortfolioOpt** ([robertmartin8/PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt)) — portfolio optimization engine
-- **FinGPT** — financial sentiment + market context
-- **Claude Sonnet 5** — conversational interface + personalized advice generation
+- `frappe/erpnext` — ERP con contabilidad, cuentas por cobrar/pagar, nómina
+- `frappe/crm` — pipeline de ventas integrado
+- LangGraph + Claude claude-sonnet-5 — agente conversacional sobre datos ERPNext
+- `AI4Finance-Foundation/FinRL` — forecasting de flujo de caja con RL
+- WhatsApp API (LATAM: 90%+ penetración) — interfaz conversacional
 
-**Wiring**:
+**Flujo**:
 ```
-1. User connects bank accounts via Plaid/PSD2 OAuth
-2. Transaction categorization agent (Claude) analyzes 12 months of spending
-3. Financial health score computed (savings rate, debt ratio, emergency fund)
-4. PyPortfolioOpt generates personalized portfolio allocation:
-   a. Risk profile from spending patterns + explicit survey
-   b. Time horizon from stated goals
-   c. Mean-variance or Black-Litterman optimization
-5. FinGPT provides market context (sector sentiment, macro)
-6. Claude generates personalized recommendation in plain language
-7. Weekly rebalancing alerts via conversation
+ERPNext API → agente Claude: "¿Cuál es mi runway si no cobro las facturas pendientes?"
+→ LangGraph query sobre datos de cuentas por cobrar
+→ FinRL model: proyección de flujo de caja 90 días
+→ Claude genera respuesta en español con recomendaciones
+→ WhatsApp / chat web
 ```
 
-**Estimated Build Time**: 4-6 weeks POC, 4-6 months for regulatory approval  
-**Licensing**: MIT (PyPortfolioOpt) — fully commercial  
-**Regulatory**: Investment advice regulation varies by jurisdiction; add appropriate disclaimers and HNWI/retail distinctions
+**Tiempo**: 4-6 semanas para MVP sobre ERPNext existente. Deploy en Frappe Cloud o self-hosted.
 
 ---
 
-## Pattern 4: Multi-Agent Trading Desk (Research-Grade)
+## Patrón P4: Fraud Detection en Pagos Digitales (PIX / SPEI)
 
-**Problem**: Quant teams want to test multi-agent trading strategies before committing to live trading.
+**Caso de uso**: Procesador de pagos o banco digital con alto volumen de transacciones (PIX Brasil: 1B+ txns/día).
 
 **Stack**:
-- **TradingAgents** ([TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)) — full trading desk orchestration
-- **zipline** ([quantopian/zipline](https://github.com/quantopian/zipline)) — event-driven backtesting engine
-- **FinRL** ([AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL)) — RL-trained specialized agents
-- **ccxt** ([ccxt/ccxt](https://github.com/ccxt/ccxt)) — live market data + paper trading execution
+- `hummingbot/hummingbot` — ingestión de stream de transacciones en tiempo real
+- LangGraph con graph-based memory — construcción de grafo de entidades (cuentas, dispositivos, IPs)
+- `AI4Finance-Foundation/FinGPT` fine-tuned en patrones de fraude — clasificador semántico
+- pgvector — embeddings de patrones históricos de fraude para similarity search
+- Claude claude-sonnet-5 — generación de narrative de caso para investigadores
 
-**Wiring**:
+**Flujo**:
 ```
-1. TradingAgents orchestrates:
-   - Fundamentals agent: P/E, EV/EBITDA, DCF analysis
-   - Technicals agent: moving averages, RSI, MACD
-   - Sentiment agent: FinGPT on news + social signals
-   - RL agent (FinRL): trained on historical patterns
-   - Risk manager: position limits, max drawdown, VaR
-   - Portfolio manager: signal synthesis → allocation
-2. zipline runs backtest with look-ahead bias prevention
-3. ccxt connects paper trading for live validation
-4. Vibe-Trading safety model applied before any real money:
-   - Bounded mandate definition
-   - Kill switch wired to ccxt
+Stream transaccional → Hummingbot → LangGraph pipeline
+→ Grafo de entidades: ¿esta cuenta tiene vínculos con cuentas suspendidas?
+→ Similarity search pgvector: ¿pattern similar a fraudes conocidos?
+→ FinGPT classifier: risk score semántico
+→ Si score > umbral: Claude genera narrative de caso → investigador
+→ Feedback loop: decisión investigador → retraining FinGPT
 ```
 
-**Estimated Build Time**: 2-3 weeks to configure TradingAgents + zipline, 3 months for live paper trading validation  
-**Licensing**: MIT + Apache-2.0 — all commercially usable  
-**Note**: Never skip the look-ahead bias fix in TradingAgents v0.3.1 — inflated backtest returns are a major client risk
+**Métrica objetivo**: Reducción 60% falsos positivos vs reglas estáticas. <200ms latencia por transacción.
 
 ---
 
-## Pattern 5: AI-Enhanced Core Banking (Apache Fineract)
+## Patrón P5: Investment Research Automatizado (Equity Research)
 
-**Problem**: Client runs Apache Fineract for MFI/digital banking; wants AI layer for loan officers.
+**Caso de uso**: Asset manager o banco de inversión que produce research de equities — automatizar el 70% del proceso analítico repetitivo.
 
 **Stack**:
-- **Apache Fineract** ([apache/fineract](https://github.com/apache/fineract)) — core banking engine
-- **FinGPT** — credit risk assessment from alternative data
-- **Claude Sonnet 5** — loan officer copilot (Q&A on customer files, risk narrative generation)
-- **Jube AML** — transaction monitoring overlay
+- `AI4Finance-Foundation/FinRobot` — plataforma multi-agente para research
+- `OpenBB-finance/OpenBB` MCP server — datos fundamentales, precios, SEC filings
+- `AI4Finance-Foundation/FinGPT` — análisis de earnings calls, noticias, sentiment
+- `robertmartin8/PyPortfolioOpt` — generación de targets de precio con optimización
+- Claude claude-sonnet-5 — autor del report final en estilo institucional
 
-**Wiring**:
+**Flujo**:
 ```
-1. Fineract REST API exposes: client data, loan history, payment schedule, transactions
-2. Loan application triggers AI workflow:
-   a. FinGPT analyzes available financial history + alternative data
-   b. Credit score agent generates risk rating (A-F)
-   c. Claude generates loan officer memo: "Customer X, risk rating B+, reasoning: ..."
-3. Loan officer reviews AI memo in Fineract UI (custom widget)
-4. Approval/rejection decision remains with human officer
-5. Jube monitors approved loan repayments for early delinquency signals
-6. Claude generates collection agent script when early default risk detected
+FinRobot Lead Agent: recibe ticker + horizonte de inversión
+→ Research Agent 1: OpenBB fundamentales → ratios P/E, EV/EBITDA, DCF
+→ Research Agent 2: FinGPT → análisis earnings call últimos 8 trimestres
+→ Research Agent 3: OpenBB → análisis técnico + posicionamiento institucional
+→ Risk Agent: compara vs sector + macro → ajuste de valuación
+→ Claude: genera reporte de 5 páginas con: thesis, risks, target price, recommendation
 ```
 
-**Estimated Build Time**: 6-8 weeks for Fineract integration + AI layer POC  
-**Licensing**: Apache Fineract (Apache-2.0), FinGPT (MIT) — fully commercial  
-**LATAM**: High-value pattern for Brazil, Mexico, Colombia MFI clients (60M+ underserved)
+**Output**: Reporte equivalente a 3-5 días de analista en <15 minutos.
 
 ---
 
-## Pattern 6: Financial Compliance Reporting Agent
+## Patrón P6: Scoring Crediticio Alternativo (No-bancarizados LATAM)
 
-**Problem**: Compliance teams spend days preparing regulatory reports (FINRA, Basel III, BCRA, CNBV).
+**Caso de uso**: Fintech de microcrédito o banco digital que quiere llegar a los 160M no-bancarizados de LATAM usando datos alternativos.
 
 **Stack**:
-- **ERPNext** ([frappe/erpnext](https://github.com/frappe/erpnext)) — financial data source (GL, ledgers, transactions)
-- **Claude Sonnet 5** — regulatory interpretation + report generation
-- **Jube AML** — transaction monitoring data for suspicious activity reports
-- Custom MCP server exposing ERPNext + Jube data
+- `AI4Finance-Foundation/FinRL` — modelo RL de scoring entrenado en datos alternativos
+- `apache/fineract` — plataforma de gestión de préstamos
+- Datos alternativos (con consentimiento): historial de pagos telco/utilities, patrones de uso móvil
+- Claude claude-sonnet-5 — explicación de decisión de crédito (requerido por AI Act / regulación LATAM)
+- LangGraph — workflow de aprobación con human-in-the-loop para préstamos > umbral
 
-**Wiring**:
-```
-1. Build MCP server with tools:
-   - get_gl_entries(period, account)
-   - get_flagged_transactions(threshold, period)
-   - get_capital_ratios(date)
-2. Claude agent with regulatory knowledge:
-   - Reads applicable regulation text (RAG over regulation corpus)
-   - Pulls data via MCP tools
-   - Drafts regulatory report sections
-3. Human compliance officer reviews + edits
-4. Final report exported as structured document
-```
+**Consideraciones regulatorias**:
+- LGPD (Brasil) / Ley 25.326 (Argentina): consentimiento explícito para datos alternativos
+- Explicabilidad de scoring: el cliente puede solicitar explicación de por qué fue rechazado
+- Bias monitoring: auditoría mensual de distribución de scores por género, región, etnia
+- Human override: aprobador humano para casos límite (score 40-60 percentile)
 
-**Estimated Build Time**: 4-6 weeks for MCP server + initial prompting  
-**Licensing**: ERPNext MIT, custom MCP server custom  
-**Regulatory**: Report content reviewed by compliance officer before submission (always required)
+**Tiempo**: 16-20 semanas para piloto completo regulatoriamente compliant.
 
 ---
 
-## Pattern 7: Bounded-Autonomy Personal Finance Agent
+## Patrón P7: Portfolio RL + Optimización (Family Office / Fondo Mediano)
 
-**Problem**: Users want an AI that manages their finances autonomously but safely.
+**Caso de uso**: Family office o fondo mediano (~$100M AUM) que quiere estrategias cuantitativas adaptativas sin pagar equipo quant completo.
 
 **Stack**:
-- **Vibe-Trading** ([HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading)) — bounded autonomy safety model (reference)
-- **Plaid** — open banking data aggregation
-- **PyPortfolioOpt** — portfolio optimization
-- **Claude Sonnet 5** — reasoning + user communication
+- `AI4Finance-Foundation/FinRL` — agente RL que aprende estrategias adaptativas de portfolio
+- `dcajasn/Riskfolio-Lib` — optimización con métricas de riesgo avanzadas (CVaR, HRP)
+- `OpenBB-finance/OpenBB` — datos de mercado multi-asset (acciones, ETFs, cripto, forex)
+- `ccxt` — ejecución en exchanges (simulación primero, live después)
+- Claude claude-sonnet-5 — reporte mensual de performance con análisis de atribución
 
-**Safety Model (from Vibe-Trading)**:
+**Arquitectura RL**:
 ```
-User defines mandate:
-  - Max position size: $X per asset
-  - Risk tolerance: conservative / moderate / aggressive
-  - Asset classes: stocks / ETFs / crypto (explicit list)
-  - Mandate expiry: 30-day rolling (auto-expire)
-
-Agent controls:
-  - Kill switch: single API call halts all positions
-  - Preemptive flatten: agent triggers on anomaly detection
-  - All actions logged with rationale
-  - No action without rationale in audit log
+Ambiente: FinRL multi-asset environment (datos OpenBB)
+Agente: PPO (Proximal Policy Optimization) con Stable Baselines3
+Observaciones: precios, indicadores técnicos, fundamentales, macro
+Acciones: pesos de portafolio por activo (continuo)
+Reward: Sharpe ratio - drawdown penalty
+Rebalanceo: semanal con Riskfolio-Lib constraint
 ```
-
-**Estimated Build Time**: 6-8 weeks including safety validation  
-**Licensing**: MIT  
-**Regulatory**: Requires RIA registration or partnership in most jurisdictions
 
 ---
 
-## Pattern 8: Financial Document Intelligence (RAG + FinGPT)
+## Patrón P8: EU AI Act Compliance Agent para Bancos
 
-**Problem**: Analysts need to extract insights from thousands of financial documents (10-Ks, contracts, prospectuses).
+**Caso de uso**: Banco europeo (o global con operaciones EU) que necesita cumplir con EU AI Act (en vigor agosto 2, 2026) para sus sistemas AI de riesgo alto.
 
 **Stack**:
-- **FinGPT** ([AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT)) — fine-tuned financial NLP
-- **LangGraph** or **LlamaIndex** — RAG orchestration
-- **Claude Sonnet 5** — synthesis and Q&A
-- **EDGAR** API — SEC filing data source
+- LangGraph — audit log inmutable de todas las decisiones AI
+- Claude claude-sonnet-5 — análisis de documentación de sistemas AI existentes
+- pgvector — base de conocimiento de requisitos EU AI Act por categoría de riesgo
+- Apache Fineract — registros de decisiones crediticias para trazabilidad
+- Dashboard React — vista de compliance para CAIO (Chief AI & Innovation Officer)
 
-**Wiring**:
-```
-1. Document ingestion pipeline:
-   - Pull 10-Ks, 10-Qs, 8-Ks from EDGAR for target companies
-   - Chunk + embed with financial-aware chunking (preserve tables, footnotes)
-   - Store in vector DB (Chroma, Pgvector)
-2. FinGPT extracts structured data from financial statements
-3. User queries: "What are the top 3 risk factors for $TICKER?"
-4. RAG retrieves relevant chunks across all filings
-5. Claude synthesizes answer with citations to specific document sections
-6. Output includes: direct quotes + page references + confidence indicators
-```
-
-**Estimated Build Time**: 3-4 weeks for POC, 2-3 months for enterprise quality  
-**Licensing**: MIT (FinGPT) + Apache-2.0 (LangGraph) — fully commercial  
-**Value**: 80% reduction in analyst time on document review (typical client claim)
+**Entregables del agente**:
+1. Inventario de sistemas AI del banco clasificados por nivel de riesgo
+2. Gap analysis contra requisitos EU AI Act por sistema
+3. Roadmap de remediación priorizado
+4. Plantillas de documentación técnica (Technical Documentation Art. 11)
+5. Monitoreo continuo: alertas cuando un sistema AI drift fuera de parámetros aprobados

@@ -1,41 +1,22 @@
-# Trending Repos — Financial AI
+# 📈 Repos trending — Financial Services
 
-> Last updated: 2026-07-11 | v9 | Top momentum repos this week
+> GitHub trending en finanzas e IA financiera. Semana del 2026-07-12.
+> Última actualización: 2026-07-12 (v10)
 
-## Hot This Week
+## Repos con mayor momento esta semana
 
-| Repo | Stars | License | Why Trending |
-|------|-------|---------|--------------|
-| [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | ~60k | MIT | 19-agent hedge fund simulation, most-starred financial AI repo on GitHub. Educational architecture that now inspires production systems. |
-| [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | ~55k | MIT | v0.3.1 released July 2026: Claude Sonnet 5/Fable 5 support, look-ahead bias fix. Full trading desk simulation. Fastest-growing financial AI repo. |
-| [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | ~17k | MIT | Robinhood brokerage integration (May 2026). First open-source agent with real brokerage + bounded autonomy safety model. |
-| [Open-Finance-Lab/AgenticTrading](https://github.com/Open-Finance-Lab/AgenticTrading) | ~500 | Apache-2.0 | Research lab for LLM-based trading agents with live paper trading. Companion to systematic agentic trading survey. |
-| [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | ~1.2k | Apache-2.0 | Multi-layer financial agent platform gaining adoption as FinRobot-style Financial CoT becomes standard pattern. |
-| [mominalix/AI-Based-Anti-Money-Laundering-AML-System](https://github.com/mominalix/AI-Based-Anti-Money-Laundering-AML-System) | ~300 | MIT | Rising fast as EU AI Act compliance concerns drive demand for AML AI reference implementations. |
-| [JiRaska/open-bank-oss](https://github.com/JiRaska/open-bank-oss) | ~6 | Apache-2.0 | New: Cloud-native open-source retail banking reference implementation (Kotlin/Quarkus, Next.js, event-driven microservices). Worth watching. |
-| [SashaEee/auditLens](https://github.com/SashaEee/auditLens) | ~10 | MIT | Deep-research LLM agent + RAG for internal bank-product audit with cited references. Niche but highly relevant to compliance teams. |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | Multi-agent LLM para trading: analistas técnico + fundamental + sentiment, risk manager, portfolio manager. 80k+ stars, 15.5k forks. #1 en finanzas. | ~80k |
+| [ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | Hedge fund simulado con 14 agentes LLM como inversores legendarios. Pipeline de análisis fundamental con señales de compra/venta explicables. | ~60k |
+| [OpenBB](https://github.com/OpenBB-finance/OpenBB) | MIT | Plataforma de datos financieros open-source. Anunció MCP server nativo Q2 2026: conecta directamente agentes Claude / GPT-4o con datos de mercado. | ~38k |
+| [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | Personal trading agent conversacional (Jun 2026, HKUDS). Trendeó #1 en GitHub Trending durante 3 días consecutivos en junio. | ~17k |
+| [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | MIT | LLMs financieros con fine-tuning continuo en tiempo real (noticias + SEC + redes sociales). Base para agentes de análisis de sentimiento. | ~15k |
+| [FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Reinforcement Learning para mercados financieros. Papers en NeurIPS, ICAIF. Integra Stable Baselines3, RLlib, ElegantRL. | ~10k |
+| [Agentic_FinTech_Survey](https://github.com/agentic-fintech/Agentic_FinTech_Survey) | Apache-2.0 | Survey académico y práctico: taxonomía de agentes financieros LLM, benchmarks, casos de uso, retos abiertos. Jun 2026. | ~600 |
+| [awesome-trading-agents](https://github.com/LLMQuant/awesome-trading-agents) | MIT | Lista curada LLMQuant: agentes LLM para trading, MCP servers financieros, skills de mercado. En rápido crecimiento Jun-Jul 2026. | ~800 |
+| [LLMs-in-Finance](https://github.com/hananedupouy/LLMs-in-Finance) | MIT | Notebooks prácticos sobre GenAI en finanzas: multi-agent con AutoGen/CrewAI, RAG sobre earnings, análisis de portafolio con Claude. | ~500 |
+| [financetoolkit](https://github.com/JerBouma/FinanceToolkit) | MIT | 150+ ratios y modelos de valoración en Python. Reemplaza hojas de cálculo de analistas con código reproducible. | ~2.5k |
 
-## Stars Trajectory (AI4Finance Foundation)
-
-| Repo | Stars | 6-Month Trend |
-|------|-------|---------------|
-| FinRL | 3,400 | Stable (+200) |
-| FinGPT | 2,900 | Stable (+150) |
-| FinRobot | 1,200 | Growing (+300) |
-| AgenticTrading (new) | 500 | New, accelerating |
-
-## Rising: Crypto Algo Trading
-
-| Repo | License | Description |
-|------|---------|-------------|
-| [ccxt/ccxt](https://github.com/ccxt/ccxt) | MIT | 100+ exchange connectivity; foundational for any crypto AI trading agent |
-| [jesse-ai/jesse](https://github.com/jesse-ai/jesse) | MIT | Advanced Python crypto trading bot; growing as agents replace manual strategy coding |
-| [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | Market making + arbitrage; being used as execution layer for LLM-based strategy agents |
-
-## Recently Archived / Deprecated
-
-| Repo | Reason |
-|------|--------|
-| [askmike/gekko](https://github.com/askmike/gekko) | Archived 2023, no maintenance. Replace with jesse-ai/jesse or hummingbot. |
-| [DeviaVir/zenbot](https://github.com/DeviaVir/zenbot) | Low activity. Replace with hummingbot for crypto market-making. |
-| [maxbbraun/trump2cash](https://github.com/maxbbraun/trump2cash) | Historical artifact, not for production. |
+---
+*Pipeline automático — se actualiza cada hora.*

@@ -1,73 +1,45 @@
-# Vertical Solutions — Financial Services
+# 🏭 Verticales de partida — Financial Services
 
-> Last updated: 2026-07-11 | v9
-> Strategy: start with an existing open-source financial platform, layer AI agents on top.
+> Plataformas verticales open-source customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica arriba.
+> Última actualización: 2026-07-12 (v10)
 
-## Core Banking Platforms
+## Core Banking & Infraestructura Financiera
 
-| Platform | License | GitHub | Stack | AI Integration Point | Deployed At |
-|----------|---------|--------|-------|----------------------|-------------|
-| **Apache Fineract** | Apache-2.0 | [apache/fineract](https://github.com/apache/fineract) | Java 21, PostgreSQL 18, Spring Boot | REST API → AI agent wrapper; FinGPT on loan officer workflow | 400+ institutions, 20M+ customers |
-| **Mifos X** | MPL-2.0 | [openMF/web-app](https://github.com/openMF/web-app) | Angular (UI) + Fineract (backend) | AI chatbot for loan officers; automated credit assessment | Microfinance institutions globally |
-| **open-bank-oss** | Apache-2.0 | [JiRaska/open-bank-oss](https://github.com/JiRaska/open-bank-oss) | Kotlin/Quarkus, Next.js, Kafka | Event-driven AI triggers on banking microservices | Reference implementation (new, 2026) |
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| Apache Fineract | Apache-2.0 | [fineract.apache.org](https://github.com/apache/fineract) | Java/Spring Boot | Core banking engine: cuentas, préstamos, pagos, microfinanzas. Usado por bancos, IMFs, cooperativas. Integra APIs AI por encima. |
+| FinAegis | Apache-2.0 | [github.com/FinAegis](https://github.com/FinAegis/core-banking) | Laravel/PHP, DDD | Core banking moderno con 61 módulos: pagos, lending, compliance, cross-border transfers. Arquitectura DDD lista para AI agents. |
+| Mifos Initiative | MPL-2.0 | [github.com/openMF/mifos-mobile](https://github.com/openMF/mifos-mobile) | Java/Android/Kotlin | Plataforma de microfinanzas. Enfocado en inclusión financiera LATAM/África. Base para agentes de crédito para no bancarizados. |
 
-## ERP & Financial Management
+## ERP / Contabilidad / Finanzas Empresariales
 
-| Platform | License | GitHub | Stack | AI Integration Point | Use Cases |
-|----------|---------|--------|-------|----------------------|-----------|
-| **ERPNext / Frappe Finance** | MIT | [frappe/erpnext](https://github.com/frappe/erpnext) | Python, Vue.js, MariaDB | Custom Frappe apps for AI reporting agents; AI-driven GL reconciliation | Banks, NBFCs, insurers, brokerages. Adopted by financial services firms in LATAM. |
-| **Odoo (Community)** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python, JavaScript, PostgreSQL | Odoo modules + AI agents for accounts payable/receivable automation | SME financial management; LATAM adoption strong |
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| ERPNext | MIT | [github.com/frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe | ERP completo: contabilidad, cuentas por cobrar/pagar, nómina, banking. 18k+ stars. Punto de partida para agentes CFO asistentes. |
+| Akaunting | LGPL-3.0 | [github.com/akaunting/akaunting](https://github.com/akaunting/akaunting) | PHP/Laravel | Contabilidad cloud open-source para PYMEs. Módulos de facturación, gastos, nómina. Integración REST API para agentes. |
+| Dolibarr | GPL-3.0 | [github.com/Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | ERP/CRM para PYMEs: facturación, inventario, proyectos, banca. Activo con 100+ módulos contrib. |
+| Frappe CRM | MIT | [github.com/frappe/crm](https://github.com/frappe/crm) | Python/Vue.js | CRM moderno sobre Frappe. Integra con ERPNext para pipeline de ventas + finanzas. ~2k stars. |
 
-## Trading & Market Data Infrastructure
+## Plataformas de Trading & Datos
 
-| Platform | License | GitHub | Stack | AI Integration Point | Use Cases |
-|----------|---------|--------|-------|----------------------|-----------|
-| **zipline** | Apache-2.0 | [quantopian/zipline](https://github.com/quantopian/zipline) | Python | RL agent training loop; backtesting AI-generated strategies | Algo trading, hedge fund POC |
-| **hummingbot** | Apache-2.0 | [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Python | LLM strategy agent → hummingbot execution layer | Crypto market making, DeFi liquidity |
-| **CCXT** | MIT | [ccxt/ccxt](https://github.com/ccxt/ccxt) | Python / JS | Universal data source + execution layer for trading agents | All crypto trading agent projects |
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| OpenBB Platform | MIT | [github.com/OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | Python | Data layer para analistas y agentes: 50+ proveedores, MCP server, CLI. Base para cualquier solución de research AI. |
+| Qlib | MIT | [github.com/microsoft/qlib](https://github.com/microsoft/qlib) | Python | Plataforma de investigación cuantitativa de Microsoft. Pipeline desde datos crudos hasta backtesting. 15k+ stars. |
+| QuantConnect Lean | Apache-2.0 | [github.com/QuantConnect/Lean](https://github.com/QuantConnect/Lean) | C# | Motor de backtesting y live trading multi-asset. Cloud + local. Base para estrategias AI institucionales. |
 
-## AML & Compliance Platforms
+## Cómo customizar con AI — pasos concretos
 
-| Platform | License | GitHub | Stack | AI Integration Point | Key Feature |
-|----------|---------|--------|-------|----------------------|-------------|
-| **Jube** | AGPL-3.0 | [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | C#/.NET | ML model integration; rules engine hooks; case management workflows | Real-time monitoring, full audit trail, production-ready |
+### Sobre Apache Fineract
+1. Fork + deploy con Docker Compose
+2. Añadir microservicio Python con LangGraph para orquestación de agentes
+3. Conectar OpenBB Platform como data layer de mercado
+4. Agente de onboarding KYC: lectura de documentos (Claude Vision) + validación contra sanction lists
+5. Agente de scoring crediticio: ingesta datos transaccionales Fineract → PyPortfolioOpt → decisión
 
-## Portfolio & Risk Management
-
-| Platform | License | GitHub | Stack | AI Integration Point | Use Cases |
-|----------|---------|--------|-------|----------------------|-----------|
-| **PyPortfolioOpt** | MIT | [robertmartin8/PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | Python | FinRL agent → PyPortfolioOpt optimization | Portfolio construction, robo-advisor backends |
-| **Riskfolio-Lib** | BSD-3-Clause | [dcajasn/Riskfolio-Lib](https://github.com/dcajasn/Riskfolio-Lib) | Python | Risk budgeting layer for agentic portfolios | CVaR optimization, maximum diversification |
-| **tf-quant-finance** | Apache-2.0 | [google/tf-quant-finance](https://github.com/google/tf-quant-finance) | TensorFlow/Python | Neural network derivatives pricing; Monte Carlo agent | Derivatives pricing, interest rate modeling |
-
-## AI-Over-Platform Layering Model
-
-```
-┌─────────────────────────────────────────────────────┐
-│                  CLIENT INTERFACE                    │
-│         (Conversational UI / API / Dashboard)        │
-└──────────────────────┬──────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────┐
-│              AI AGENT ORCHESTRATION                  │
-│   (TradingAgents / FinRobot / custom LangGraph)      │
-│   - Intent parsing  - Tool selection  - Audit logs   │
-└──────┬───────────┬───────────┬────────────┬─────────┘
-       │           │           │            │
-  ┌────▼───┐  ┌───▼────┐  ┌──▼──────┐ ┌──▼──────┐
-  │FinRobot│  │FinGPT  │  │FinRL/   │ │Jube AML │
-  │Research│  │Sentiment│  │zipline  │ │Compliance│
-  └────┬───┘  └───┬────┘  └──┬──────┘ └──┬──────┘
-       │           │           │            │
-┌──────▼───────────▼───────────▼────────────▼─────────┐
-│            VERTICAL PLATFORM LAYER                   │
-│   Apache Fineract  |  ERPNext  |  hummingbot  | ccxt │
-└─────────────────────────────────────────────────────-┘
-```
-
-## LATAM-Specific Notes
-
-- **ERPNext** has strong LATAM adoption (Brazil, Argentina, Mexico) for financial management. Good starting point for AI overlay projects in the region.
-- **Apache Fineract**: Deployed at microfinance institutions across Latin America (MFIs in Colombia, Peru, Mexico). AI credit scoring layer is high-value add.
-- **Odoo Community**: Widely adopted by LATAM SMEs; accounting + payroll modules are natural AI targets for reconciliation agents.
-- Regulatory environment varies: Brazil (BACEN AI guidelines), Mexico (CNBV fintech law), Colombia (SFC sandbox). EU AI Act irrelevant for LATAM but local equivalents emerging.
+### Sobre ERPNext
+1. Instalar vía Frappe Bench
+2. Añadir app personalizada Frappe con endpoint `/api/ai-agent`
+3. Claude como CFO asistente: pregunta en lenguaje natural sobre P&L, cuentas por cobrar, flujo de caja
+4. Integrar FinRL para forecast de flujo de caja con RL

@@ -1,73 +1,62 @@
-# Market Map — Financial Services AI
+# 🗺️ Mapa de mercado — Financial Services AI
 
-> Last updated: 2026-07-11 | v9
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-12 (v10)
 
-## Market Size (2026)
+## Tamaño de mercado
 
-| Segment | 2026 Size | Projected 2030/2031 | CAGR | Source |
-|---------|-----------|----------------------|------|--------|
-| AI in Banking (broad) | $45.6B | $143.6B (2030) | 30%+ | Various analysts |
-| Agentic AI in FSI | $7.78B | $43.52B (2031) | 41.12% | Mordor Intelligence |
-| Generative AI in FSI | $2.48B | $7.24B (2030) | 31.1% | Yahoo Finance/analysts |
-| AI Agents in FSI | $1.1B (2025 base) | $6.54B (2035) | 19.4% | Precedence Research |
-| VC into AI Fintech (Q1 2026) | $2.1B | — | — | Industry data |
+| Segmento | 2026 | 2031 | CAGR | Fuente |
+|----------|------|------|------|--------|
+| Agentic AI en servicios financieros | $7.78B | $43.52B | 41.12% | Azilen, 2026 |
+| AI en FinTech (broad) | — | $33.26B (2030) | — | Uvik, 2026 |
+| VC en AI fintech (Q1 2026 solo) | $2.1B | — | — | UltraLab, 2026 |
+| AI en detección de fraude | ~$10B | ~$40B (2030) | ~32% | Industry est. |
 
-## Key Players — Global
+## Adopción actual (2026)
 
-| Player | Type | AI Capabilities | AI Investment |
-|--------|------|-----------------|---------------|
-| **JPMorgan Chase** | Bank | 400+ AI use cases, 2,000+ AI specialists; agents beat 60/40 portfolio (Jul 2026) | $2B/year AI budget; $1.5B cumulative savings |
-| **BlackRock** | Asset Manager | Aladdin platform with embedded AI; AI-driven portfolio risk across $25T in assets | Significant; AI core to Aladdin 2026 roadmap |
-| **Goldman Sachs** | Bank | GS AI Platform; AI-assisted code generation, document analysis, risk | Estimated $800M+ AI investment |
-| **Bloomberg** | Data/Media | Generative AI 2026 Outlook; Bloomberg Intelligence AI; Terminal AI copilot | Forecasts $286B agentic AI market by 2032 |
-| **Stripe** | Payments | Stripe AI for fraud detection, smart retries, revenue optimization | Core to payments infrastructure |
-| **Plaid** | Open Banking | API-driven financial data connectivity; AI transaction categorization | Foundational for US open banking agent ecosystem |
-| **FIS** | Fintech Infrastructure | Partnered with Anthropic (Jul 2026) for financial crimes AI; serves 20,000+ banks | Enterprise-scale; Claude as financial crimes backbone |
-| **Ant Group / Alipay** | Super-app | AI credit scoring, fraud detection at scale (1B+ users) | Massive; real-time ML at payment scale |
-| **Nubank** | Neobank LATAM | AI for credit scoring, customer service (95M+ customers in LATAM) | Digital-native AI DNA |
+- **44%** de los equipos de finanzas usan agentic AI (aumento de 600% vs 2025)
+- **52%** de la industria financiera tiene agentic AI en producción o piloto
+- **57%** de fintechs vs **45%** de bancos tradicionales lideran adopción
+- **70%** del onboarding de nuevas cuentas será completamente automatizado (proyección 2026)
+- **$8 ROI** por cada $1 invertido en agentic AI (top performers, KPMG)
+- **2.3x retorno** promedio sobre inversión en agentic AI en 13 meses (KPMG 2026)
+- **2.1B VC** fluyó a AI fintech solo en Q1 2026
 
-## Key Players — Open Source / AI Native
+## Players globales clave
 
-| Player | Type | Notable | GitHub Presence |
-|--------|------|---------|-----------------|
-| **AI4Finance Foundation** | Research | FinRL, FinGPT, FinRobot; academic + industry bridge | [github.com/AI4Finance-Foundation](https://github.com/AI4Finance-Foundation) |
-| **virattt** | Developer | ai-hedge-fund (60k stars); set the template for agentic hedge fund patterns | [github.com/virattt](https://github.com/virattt) |
-| **TauricResearch** | Research/Startup | TradingAgents (55k stars); fastest-growing financial AI framework | [github.com/TauricResearch](https://github.com/TauricResearch) |
-| **Open-Finance-Lab** | Academic Lab | AgenticTrading; systematic benchmarking of trading agents | [github.com/Open-Finance-Lab](https://github.com/Open-Finance-Lab) |
-| **Mifos Initiative** | NGO/Foundation | Apache Fineract ecosystem; financial inclusion globally | [github.com/openMF](https://github.com/openMF) |
+| Empresa | Tipo | Fortaleza | Relevancia para Globant |
+|---------|------|-----------|------------------------|
+| Bloomberg | Data/Terminal | Terminal financiero + Bloomberg Intelligence (AI) propietario | Competidor en research AI; clientes quieren alternativa open |
+| Palantir | Enterprise AI | AIP para servicios financieros, GOTHAM para compliance | Referencia de precio; Globant puede ofrecer implementaciones similares sobre OSS |
+| Kensho (S&P) | Analytics AI | NLP financiero, event detection, data normalization | Casos de uso replicables con FinGPT + OpenBB |
+| Upstart | Credit AI | Scoring crediticio alternativo con ML | Modelo replicable con FinRL + Apache Fineract |
+| Ayasdi (now SAS) | AML/Compliance | Detección de lavado de dinero con topological data analysis | Open source stack: LangGraph + Claude + pgvector puede competir |
+| AI4Finance Foundation | OSS Research | FinGPT, FinRL, FinRobot, TradingAgents | Partner natural para contribuciones y adopción enterprise |
+| LLMQuant | Community | awesome-trading-agents, MCP servers financieros | Comunidad de referencia para practicioners |
 
-## Competitive Landscape Matrix
+## Regulación clave que impacta adoption
 
-```
-                    HIGH CAPABILITY
-                         │
-           Proprietary   │   Open Source + AI Native
-              ───────────┼─────────────────────────
-    ENTERPRISE │Bloomberg  │  FinRobot  │ TradingAgents
-               │JPMorgan   │  FinRL     │ ai-hedge-fund
-               │BlackRock  │            │
-              ───────────┼─────────────────────────
-               │Stripe    │  ERPNext   │ Jube AML
-    SME/MID    │Plaid     │  Fineract  │ PyPortfolioOpt
-               │Nubank    │  hummingbot│
-                         │
-                    LOW CAPABILITY
-```
+| Regulación | Impacto | Oportunidad Globant |
+|-----------|---------|---------------------|
+| EU AI Act (en vigor Aug 2026) | Sistemas de scoring crediticio = riesgo alto; requiere explicabilidad, audit log, human-in-the-loop | Implementación de governance frameworks sobre stack OSS |
+| MiFID II (UE) | Trazabilidad de decisiones de trading, mejor ejecución, reporting | LangGraph con audit log + Apache Fineract reporting |
+| SOX (USA) | Controles sobre reporting financiero, pistas de auditoría | Workflow agentes con human approval gates |
+| GDPR / LGPD (LATAM) | Privacidad de datos en modelos de scoring y KYC | On-premise + modelos locales (Ollama) en vez de cloud APIs |
+| BCRA / CMF / CVM (LATAM local) | Reguladores nacionales adoptando frameworks EU AI Act equivalentes | Consultoría de compliance AI para bancos LATAM |
 
-## LATAM Opportunity Map
+## Oportunidades AI en LATAM
 
-| Country | Opportunity | Key Constraint | Best Entry Point |
-|---------|-------------|----------------|------------------|
-| **Brazil** | AI credit scoring for 60M+ unbanked; Pix real-time payments AI | BACEN AI guidelines (2025-2026) | Fineract + FinGPT credit agent |
-| **Mexico** | CNBV fintech sandbox; 50M+ underbanked adults | CNBV licensing; data privacy | ERPNext + AML agent |
-| **Colombia** | SFC regulatory sandbox; digital peso exploration | Limited local LLM data | Apache Fineract MFI deployment |
-| **Argentina** | High fintech innovation despite economic instability | Currency volatility; BCRA rules | Crypto trading + DeFi agents |
-| **Chile** | CMF open banking framework most advanced in region | Smaller market | Open banking API + robo-advisor |
-| **Peru** | SBS + BCRP fintech framework; large microfinance sector | Low tech infrastructure | Mifos/Fineract + credit AI |
+| Oportunidad | Tamaño / Urgencia | Stack sugerido |
+|-------------|-------------------|----------------|
+| Scoring crediticio para no-bancarizados | 160M adultos no bancarizados en LATAM | FinRL + Fineract + datos alternativos (telco, retail) |
+| KYC/AML automatizado para bancos regionales | Costo promedio: 10-15% headcount en compliance | LangGraph + Claude Vision + pgvector + sanctions APIs |
+| CFO asistente para PYMEs | 99% de empresas LATAM son PYME, subservidas por ERP | ERPNext + Frappe CRM + Claude (NL queries sobre datos) |
+| Trading algorítmico para brokers locales | Democratización del quant trading en LATAM | TradingAgents + ccxt (BVC, B3, BYMA) + OpenBB |
+| Detección de fraude en pagos digitales | PIX (Brasil) +1B transacciones/día; fraude creciendo | Hummingbot streams + LangGraph anomaly agents + Claude |
 
-## Globant Positioning
+## Posicionamiento Globant
 
-- **Sweet spot**: Bridge the "14% full-scale vs 70% exploring" gap — most banks have AI POCs but can't scale
-- **Differentiators**: LATAM regulatory expertise + AI agent engineering + open-source acceleration
-- **Avoid competing with**: Bloomberg Terminal AI, JPMorgan internal systems, BlackRock Aladdin (proprietary, enterprise-locked)
-- **Win by**: Starting with open-source bases (Fineract, FinRobot, Jube) + customizing for client context + compliance layering
+- **Fortaleza**: Presencia en bancos top de LATAM + USA; conocimiento regulatorio local
+- **Diferenciador**: Implementar TradingAgents / FinRobot sobre infraestructura regulatoria real (no POCs)
+- **Oferta natural**: Compliance-first agentic AI — governance + audit log + explainability desde el inicio
+- **GTM**: EU AI Act compliance como entrada a Europa; scoring alternativo como entrada a LATAM no bancarizado

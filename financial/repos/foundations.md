@@ -1,51 +1,30 @@
-# Foundational Repos — Financial Services AI
+# 🏗️ Repos fundacionales — Financial Services
 
-> Last updated: 2026-07-11 | v9 | Focus: MIT / Apache 2.0 bases Globant can build on
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa, mantenimiento activo.
+> Última actualización: 2026-07-12 (v10)
 
-## AI & Machine Learning for Finance
+## Plataformas y frameworks base
 
-| Repo | Stars | License | Category | Description |
-|------|-------|---------|----------|-------------|
-| [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | ~3.4k | MIT | RL Trading | Financial Reinforcement Learning. Train agents on market data (stocks, crypto, portfolio). Integrates Gymnasium, Stable-Baselines3, multiple data sources. THE reference RL-for-finance library. |
-| [AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | ~2.9k | MIT | LLM | Open-source financial LLMs fine-tuned on SEC filings, earnings calls, financial news. HuggingFace-hosted models. Tasks: sentiment, credit scoring, Q&A. |
-| [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | ~1.2k | Apache-2.0 | Agent Platform | Multi-layer AI agent platform for financial applications. Financial CoT, LLM algorithm selection, LLMOps, multi-source foundation models. |
-| [georgezouq/awesome-ai-in-finance](https://github.com/georgezouq/awesome-ai-in-finance) | ~3k | MIT | Curated | Curated list of LLMs, deep learning strategies, tools, datasets for financial markets. Essential reading for any financial AI project. |
-| [google/tf-quant-finance](https://github.com/google/tf-quant-finance) | ~5.4k | Apache-2.0 | Quant | High-performance TensorFlow library for quantitative finance. Derivatives pricing, interest rate models, Black-Scholes, Monte Carlo. Google-maintained. |
+| Repo | Licencia | Descripción | Base para AI |
+|------|----------|-------------|--------------|
+| [ccxt](https://github.com/ccxt/ccxt) | MIT | Librería unificada para 100+ exchanges cripto y tradicionales (JS/Python/PHP/C#). Estándar de facto para conectividad de mercados. | Sí — 43k ★ |
+| [hummingbot](https://github.com/hummingbot/hummingbot) | Apache-2.0 | Framework de trading algorítmico de alta frecuencia. 130+ exchanges, AMM DEX, market making, arbitraje, VWAP. Orquestable con agentes. | Sí — 19k ★ |
+| [zipline-reloaded](https://github.com/stefan-jansen/zipline-reloaded) | Apache-2.0 | Fork activo de Zipline (Quantopian). Backtesting framework Pythonic para estrategias de trading. Integra con FinRL para RL. | Sí — 2.5k ★ |
+| [OpenBB](https://github.com/OpenBB-finance/OpenBB) | MIT | Plataforma open-source de datos financieros: 50+ proveedores, CLI/Python/API, MCP server nativo. La base de datos más completa disponible bajo MIT. | Sí — 38k ★ |
+| [FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Financial Reinforcement Learning — primer framework RL para trading en producción. Ambientes para acciones, cripto, divisas. Stable Baselines3 + PyTorch. | Sí — 10k ★ |
+| [PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | MIT | Optimización de portafolio: Markowitz, Black-Litterman, HRP, CVaR. Compatible con pandas; se integra directamente en pipelines de agentes. | Sí — 5.8k ★ |
+| [tf-quant-finance](https://github.com/google/tf-quant-finance) | Apache-2.0 | TensorFlow para finanzas cuantitativas (Google). Pricing de derivados, curvas de tasas, volatilidad estocástica. GPU-accelerated. | Sí — 5.4k ★ |
+| [Riskfolio-Lib](https://github.com/dcajasn/Riskfolio-Lib) | BSD-3-Clause | Optimización de portafolio avanzada: HRP, HERC, NCO, Risk Parity. 20+ medidas de riesgo. Complemento a PyPortfolioOpt. | Sí — 4.3k ★ |
+| [jesse](https://github.com/jesse-ai/jesse) | MIT | Framework avanzado de trading cripto en Python. Backtesting, live trading, optimización de estrategias. Interfaz limpia para agentes. | Sí — 8.1k ★ |
+| [QuantLib](https://github.com/lballabio/QuantLib) | BSD-modified | La librería cuantitativa de referencia (C++/Python). Pricing de derivados, curvas, risk management. Usado en bancos top. | Sí — 5.1k ★ |
 
-## Trading & Backtesting Infrastructure
+## Herramientas de datos financieros
 
-| Repo | Stars | License | Category | Description |
-|------|-------|---------|----------|-------------|
-| [quantopian/zipline](https://github.com/quantopian/zipline) | ~19.9k | Apache-2.0 | Backtesting | Pythonic algorithmic trading library. Event-driven backtesting engine. Integrates with Alphalens, Pyfolio for factor analysis and performance attribution. Industry standard. |
-| [ccxt/ccxt](https://github.com/ccxt/ccxt) | ~43k | MIT | Exchange Connectivity | Cryptocurrency trading library connecting 100+ exchanges. JavaScript/Python/PHP. De-facto standard for crypto connectivity in AI trading agents. |
-| [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | ~19k | Apache-2.0 | Market Making | Open source market-making and arbitrage bot framework. Supports 40+ exchanges. Used as infrastructure layer by algorithmic trading teams. |
-| [PyPortfolioOpt/PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | ~5.8k | MIT | Portfolio | Financial portfolio optimization: mean-variance, Black-Litterman, hierarchical risk parity, post-processing constraints. Standard Python portfolio optimization library. |
-| [dcajasn/Riskfolio-Lib](https://github.com/dcajasn/Riskfolio-Lib) | ~4.3k | BSD-3-Clause | Risk | Portfolio risk management and optimization. CVaR, maximum diversification, risk budgeting. Research-grade quantitative risk management. |
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [yfinance](https://github.com/ranaroussi/yfinance) | Apache-2.0 | Yahoo Finance API en Python. Datos históricos de precios, fundamentales, opciones. El default de todos los prototipos de agentes. | ~15k ★ |
+| [pandas-ta](https://github.com/twopirllc/pandas-ta) | MIT | 130+ indicadores técnicos en Python/pandas. Integración directa con DataFrames para señales de trading. | ~5k ★ |
+| [financetoolkit](https://github.com/JerBouma/FinanceToolkit) | MIT | 150+ ratios financieros, indicadores y modelos de valoración en Python. Datos desde Financial Modeling Prep / Yahoo Finance. | ~2.5k ★ |
 
-## Core Banking & Infrastructure
-
-| Repo | Stars | License | Category | Description |
-|------|-------|---------|----------|-------------|
-| [apache/fineract](https://github.com/apache/fineract) | ~1.5k | Apache-2.0 | Core Banking | Apache Fineract: open-source core banking engine. Loan/savings portfolio management, real-time accounting, reporting. 400+ institutions, 20M+ customers. Cloud-ready API-first architecture. |
-| [openMF/web-app](https://github.com/openMF/web-app) | ~500 | MPL-2.0 | Banking UI | Mifos X Web App: Angular-based banking web UI on top of Apache Fineract. Reference implementation for staff/customer-facing banking interfaces. |
-| [moov-io/awesome-fintech](https://github.com/moov-io/awesome-fintech) | ~1k | MIT | Curated | Curated collection of open-source fintech libraries: payments, ACH, ISO 20022, wire transfers, regulatory compliance. Moov.io ecosystem. |
-| [quantmind/awesome-open-finance](https://github.com/quantmind/awesome-open-finance) | ~500 | MIT | Curated | Open finance and open banking resources: APIs, data, PSD2, open banking standards. |
-
-## AML & Compliance
-
-| Repo | Stars | License | Category | Description |
-|------|-------|---------|----------|-------------|
-| [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | ~600 | AGPL-3.0 | AML | Real-time AML + fraud detection. Supervised/unsupervised ML, rule-based detection, sanctions screening, case management. Production-capable, full audit trails. |
-
-## Key Technical Characteristics
-
-| Repo | Python | REST API | Docker | Kubernetes | GPU |
-|------|--------|----------|--------|------------|-----|
-| FinRL | ✓ | ✗ | ✓ | ✗ | Optional |
-| FinGPT | ✓ | ✗ | ✓ | ✗ | Required |
-| FinRobot | ✓ | ✗ | ✓ | ✗ | Optional |
-| zipline | ✓ | ✗ | ✓ | ✗ | ✗ |
-| Apache Fineract | Java | ✓ | ✓ | ✓ | ✗ |
-| ccxt | Python/JS | ✓ | ✓ | ✗ | ✗ |
-| Jube AML | C#/.NET | ✓ | ✓ | ✓ | Optional |
-| tf-quant-finance | Python | ✗ | ✓ | ✗ | ✓ (TF) |
+---
+*Ver también: `verticals/solutions.md` para plataformas verticales completas (core banking, ERP).*
