@@ -1,66 +1,72 @@
 # 📡 Trends — Healthcare AI
 
-> Last updated: 2026-07-12 (v10)
+> Last updated: 2026-07-12 (v11)
 
-## Macro Trends (2026)
+## Macro-trends 2026
 
-### 1. Ambient AI Scribes: Mass Adoption Reached
-- Microsoft DAX Copilot at 600+ health systems. Google Ambient Assist. Epic-native ambient documentation in production.
-- **Hard data**: Autonomous documentation agents have cut physician clerical time by 41% in live deployments. 60+ minutes/day saved per physician.
-- **Tech stack**: Whisper (ASR) → medspacy/cTAKES (NER) → LLM (SOAP note generation) → FHIR DocumentReference write.
-- **Status**: "Table stakes" — health systems without ambient AI are behind. 66% of providers face nursing vacancies, driving accelerated adoption.
-- **LATAM note**: White-label ambient scribe on open stack (Whisper + Claude Haiku + OpenEMR) is competitive vs DAX Copilot for mid-market hospitals in Brazil/Mexico at 20% of cost.
+### 1. Agentic AI as the New Clinical Standard
+- 80%+ of health executives expect moderate-to-significant value from agentic AI in 2026
+- Shift from simple chatbots → multi-step agents completing full clinical workflows
+- Mayo Clinic, Mount Sinai already deploying agents in production for triage + documentation
+- Deloitte 2026: agentic AI as part of "hybrid healthcare workforce"
 
-### 2. Agentic Prior Authorization — Highest Near-Term ROI
-- PA requests (historically 2-3 days) now resolved same-day with agentic AI. PrescriberPoint live in 2026: full lifecycle PA — script capture → payer approval → appeals → pharmacy routing.
-- **Market**: AI Prior Authorization: $1.69B (2025) → $10.32B (2035), CAGR 19.92%. Clinicians spend 14+ hours/week on PA; agents cut this near-zero.
-- **Stack**: Medplum FHIR + LangGraph coverage rules + Claude Haiku (criteria matching) + payer APIs → automated PA workflow.
-- **Globant angle**: Agentic PA layer on any hospital EHR. ROI is immediate and measurable ($300-500 saved per automated PA request).
+### 2. FHIR-Native as Prerequisite for AI Interoperability
+- OpenEMR v8.0.0 (March 2026): SMART on FHIR v2.2, USCDI v5 — clinical data accessible via standard APIs
+- FHIR-AgentBench: first benchmark of LLM agents on EHR interoperability via FHIR APIs
+- MedAgentBench (Stanford, NEJM AI): evaluates LLMs on real FHIR tasks — Claude 3.5 Sonnet v2 leads at 69.67%
+- Implication: non-FHIR-native projects become obsolete within 12-18 months
 
-### 3. Self-Evolving Clinical Agents (Test-Time Learning)
-- **EvoClinician** (arXiv Jan 2026): Diagnose→Grade→Evolve loop. Agent learns efficient diagnostic strategies at test time — no retraining. Actor agent + Process Grader (clinical yield + resource efficiency) + Evolver (prompt + memory evolution).
-- **Why matters**: Healthcare AI historically fails in deployment because patient populations differ from training data. EvoClinician adapts in deployment.
-- **Next wave**: Expect multiple architectures adopting test-time evolutionary learning — YAQIN (mental health, 2026), RexDrug (multi-drug combination reasoning).
+### 3. On-Device AI for HIPAA / LGPD Compliance
+- openmed (Apache-2.0): 1,500+ medical models running on-device. iOS, Android, GPU, CPU.
+- MedGemma / TxGemma (Google, Apache-2.0): multimodal medical models available via Ollama local
+- LATAM hospitals without robust cloud infrastructure = ideal use case for on-device AI
+- Zero PHI to cloud = elimination of regulatory risk → adoption accelerator
 
-### 4. LLM Agents Trained on Real Hospital Data (MedAgentGym era)
-- **MedAgentGym** (ICLR'26): First gym-style training environment for medical coding agents. 72,413 tasks from MIMIC-III + eICU across 129 categories.
-- SFT warm-up + DPO fine-tuning combination achieves best performance — especially for ICD-10 coding, lab interpretation, discharge summaries.
-- Enables fine-tuned open models (Llama 3, MedGemma) to outperform GPT-4 on specific clinical tasks at 10% of API cost.
-- **Signal**: ICLR'26 publication = credibility; enterprise healthcare AI teams already building on top.
+### 4. Ambient Clinical Intelligence (AI Scribing)
+- Nuance DAX (Microsoft) leading in US; LATAM opportunity with open-source solution
+- Stack: Whisper (transcription) + openmed (de-identification) + LLM (SOAP note) + OpenEMR (FHIR ingest)
+- Reduces administrative burden 60-70% in pilot studies
+- Trend: from note scribing → order scribing + automatic prior authorization
 
-### 5. Drug Discovery Acceleration via Agent Skills
-- **scientific-agent-skills** (30.7k stars): 148 skills covering the entire drug discovery pipeline. 160k+ scientists using it. Integrates PubChem, ChEMBL, UniProt, ClinicalTrials.gov, RDKit, Scanpy, lab automation (Opentrons, Benchling, DNAnexus).
-- AI compressing drug development timeline from years to months (BCG 2026). Target identification → compound screening → clinical trial matching → regulatory submission — each stage has AI agents now.
-- **TxAgent** (Harvard MIMS): 211 FDA-sourced tools + LLM reasoning; 92.1% accuracy on therapeutic decision making, beats GPT-4o by 25.8%.
-- **Next**: Autonomous lab agents that run wet lab experiments triggered by AI discoveries.
+### 5. Multi-Agent Clinical Reasoning
+- MDAgents (NeurIPS'24): team of LLMs collaborating as "virtual medical committee"
+- MDTeamGPT: multi-disciplinary team simulation for complex cases
+- LungNoduleAgent: specialized agent panel by nodule type
+- MESHAgents: multi-agent for cardiovascular imaging phenotype analysis
+- Pattern: complex clinical problem → multiple specialist LLMs → consensus → recommendation
 
-### 6. FHIR as the Universal AI Data Layer
-- FHIR R4/R5 becoming the standard interface for all AI pipelines — replacing HL7 v2 integration headaches.
-- Medplum, Ottehr, HAPI FHIR enabling FHIR-native architectures from day one. US Cures Act mandates FHIR API access (enforced 2026).
-- AI agents subscribe to FHIR events (patient admitted, prescription written, encounter closed, lab resulted) as triggers → event-driven agentic healthcare.
-- **FHIR-AgentBench** (2026) now provides standardized evaluation of LLM agents on realistic FHIR EHR tasks.
+### 6. Automated Pharmacovigilance
+- MALADE: multi-agent RAG over FDA labels → ADE extraction with AUC-ROC 0.90
+- LATAM regulators (ANVISA, COFEPRIS) pressing for faster adverse event reporting
+- Opportunity: automate 80% of signal detection process in pharmacovigilance
 
-### 7. Multimodal Clinical AI: Text + Imaging + Genomics
-- Moving beyond text: models that understand clinical notes + imaging + genomics + lab values simultaneously.
-- Google Med-Gemini: 91.1% on MedQA (vs GPT-4's ~86%) — multimodal advantage. MedGemma open-weight for on-prem.
-- **MedRAX-2**: Expanding from chest X-ray to multi-organ medical imaging agent (2026).
-- **MedSAM-Agent**: Multi-turn agentic RL for interactive image segmentation — conversational radiology workflow.
-- Meissa (2026): "Multi-modal Medical Agentic Intelligence" — comprehensive multimodal system.
+### 7. Benchmarking as Adoption Driver
+- MedAgentBench (Stanford) → NEJM AI: brings clinical AI into peer-reviewed mainstream
+- CHI-Bench: end-to-end healthcare workflow benchmarks
+- CP-Env: controllable hospital virtual environment for policy compliance evaluation
+- Best models in clinical benchmarks → enterprise contracts → virtuous cycle
 
-### 8. EHR Benchmarking Maturation
-- New benchmarks matching real clinical complexity: EHR-Complex (arXiv:2606.23301), PhysicianBench (arXiv:2605.02240), FHIR-AgentBench (2026).
-- Previously benchmarks tested medical knowledge QA (MedQA, MedMCQA); now testing actual EHR workflow completion.
-- Models that score well on MedQA ≠ models that work in real EHR environments. PhysicianBench exposing this gap.
-- **Implication for Globant**: Always evaluate candidate models on task-specific benchmarks, not just generic medical QA.
+### 8. AI for Rural Health & Low-Resource Settings
+- IMAS: agentic framework for rural healthcare delivery
+- OpenMRS multilingual + CHA + MedGemma local = rural clinic with AI support without permanent internet
+- LATAM: 40% of population in zones without specialist access
+- Regulations like Chile Ley 21.545 (mental health) + SUS expansion (Brazil) create demand
 
-### 9. Regulatory AI Compliance: EU AI Act + FDA SaMD
-- EU AI Act high-risk provisions took effect Aug 2 2026 — medical AI classified high-risk. Audit trails, human oversight, explainability required.
-- FDA AI/ML action plan: pre-market approval pathway for AI as Software as Medical Device (SaMD) evolving.
-- **MedOpenClaw** (FreedomIntelligence): Auditable medical imaging agents — directly addresses explainability requirement.
-- Opportunity: Globant can position as "compliance-first AI integrator" for healthcare clients navigating EU AI Act + ANVISA.
+### 9. Revenue Cycle Management (RCM) Automation
+- Prior authorization: 30% of physician administrative time in US; LATAM similar
+- Agents over OpenEMR: auto-fill forms, verify eligibility, predict denials
+- Immediate measurable ROI: perfect first engagement with hospitals
 
-### 10. WhatsApp Health Agents in LATAM
-- >90% WhatsApp penetration in Brazil/Colombia/Argentina → healthcare bots on WhatsApp are the primary patient interface.
-- Medplum FHIR + WhatsApp Business API → conversational triage, medication reminders, follow-up scheduling.
-- Mental health support (YAQIN-inspired) via WhatsApp in Portuguese/Spanish — massive underserved market.
-- Telehealth regulatory frameworks now permanent across LATAM → enables AI-augmented video consultations at scale.
+### 10. Genomics + Precision Medicine AI
+- TxGemma: pharmacological model for therapy prediction
+- PathGen-1.6M: 1.6M pathology image-text pairs for model training
+- STELLA (zaixizhang): self-evolving LLM agent for biomedical research automation
+- Precision oncology + pharmacogenomics = premium market in LATAM (Brazil, Argentina)
+
+## Most Active Repos This Week (July 2026)
+
+- [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) — OpenMedKit mobile launch
+- [mitmedialab/MDAgents](https://github.com/mitmedialab/MDAgents) — featured in Deloitte Agentic AI Report 2026
+- [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) — July sprint: AI triage + telemedicine
+- [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) — OHIF Viewer integration
+- [yhzhu99/HealthFlow](https://github.com/yhzhu99/HealthFlow) — PubMed/ClinicalTrials.gov preprint
