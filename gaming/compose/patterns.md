@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-11
+> Última actualización: 2026-07-12
 
 ## Patrón base
 
@@ -23,10 +23,10 @@
 
 **Stack completo**:
 ```
-Godot 4 (MIT)                          ← engine del juego
+Godot 4.4 (MIT)                        ← engine del juego
 └── LimboAI (MIT)                       ← behavior tree del NPC
     └── BTState con trigger HTTP         ← dispara llamada al LLM
-        └── Claude / GPT-4o / Ollama    ← LLM (cloud o local)
+        └── Claude Haiku / Ollama       ← LLM (cloud o local)
             └── pre-conversation.json   ← personalidad + conocimiento del personaje
                 └── ChromaDB / Qdrant   ← vector store para memoria episódica
 ```
@@ -38,7 +38,7 @@ Godot 4 (MIT)                          ← engine del juego
 - [undreamai/LLMUnity](https://github.com/undreamai/LLMUnity) — Apache-2.0, 1.7k stars. Para Unity en vez de Godot.
 
 **Cómo conectar**:
-1. Instalar LimboAI como plugin en Godot 4.
+1. Instalar LimboAI como plugin en Godot 4.4.
 2. Crear un BTAction `LLMDialogue` que envía POST al endpoint LLM con: `{character: "...", player_input: "...", memory: [...últimos N eventos...]}`.
 3. La respuesta del LLM vuelve como texto → animación de lip sync + texto en UI.
 4. Guardar el intercambio en el memory store (ChromaDB vía API HTTP o SQLite local).
@@ -56,7 +56,7 @@ Godot 4 (MIT)                          ← engine del juego
 
 **Stack**:
 ```
-Godot 4 (MIT)                           ← juego a testear como entorno RL
+Godot 4.4 (MIT)                         ← juego a testear como entorno RL
 └── godot_rl_agents (MIT)               ← bridge Python ↔ Godot (obs/actions/rewards)
     └── Stable-Baselines3 (MIT)         ← algoritmo PPO / SAC
         └── Entrenamiento con reward:    ← maximiza: coverage + crashes encontrados + exploits
@@ -72,195 +72,157 @@ Godot 4 (MIT)                           ← juego a testear como entorno RL
 **Cómo conectar**:
 1. Definir el espacio de observación: posición del jugador, estado del nivel, items disponibles.
 2. Definir las acciones: movimiento, interacciones disponibles.
-3. Definir la reward function: +reward por área nueva explorada, +reward por encontrar estados inválidos (out-of-bounds, NaN values), -reward por acciones repetitivas.
+3. Definir la reward function: +reward por área nueva explorada, +reward por estados inválidos (out-of-bounds, NaN values), -reward por acciones repetitivas.
 4. Entrenar durante 1-5M steps con PPO vía SB3.
-5. El agente entrenado se convierte en un "explorador" que corre el juego 24/7 detectando regresiones.
+5. El agente entrenado corre el juego 24/7 detectando regresiones.
 
 **Tiempo estimado**: 1-2 semanas para primer agente; 3-4 semanas para sistema de QA completo.
 **ROI**: reducción de 60-70% en QA manual según benchmarks de la industria.
 
 ---
 
-## Receta 3: Backend multijugador + AI features
+## Receta 3: Backend inteligente con Nakama + AI (matchmaking y engagement)
 
-**Caso de uso**: Juego multijugador con matchmaking inteligente, anti-cheat conductual, y analytics de retención.
+**Caso de uso**: Matchmaking predictivo por skill, anti-cheat conductual, notificaciones de re-engagement.
 
 **Stack**:
 ```
-Godot 4 (MIT) — cliente
-└── SDK nakama-godot (Apache-2.0)
-    ↕ WebSocket / HTTP
-Nakama server (Apache-2.0)              ← backend multiplayer
-    ├── Matchmaking hook (TypeScript)
-    │   └── Modelo ONNX de matching     ← PyTorch → exportado como ONNX
-    ├── Server-side events               ← cada acción del jugador logeada
-    │   └── PostHog (MIT)               ← analytics de comportamiento
-    ├── Anti-cheat hook (Go)
-    │   └── Detección de anomalías      ← velocidad, puntería, recursos anómalos
-    └── Open Match (Apache-2.0)         ← matchmaking enchufable de Google
+Nakama (Apache-2.0)                      ← backend multiplayer
+└── TypeScript runtime hooks              ← lógica server-side
+    └── TensorFlow.js / ONNX Runtime     ← modelos ML en Node.js
+        ├── Matchmaking ML               ← predice "match quality" antes de confirmar
+        ├── Anti-cheat GNN               ← detecta boosting / account sharing
+        └── Churn predictor              ← activa rewards para jugadores en riesgo
 ```
 
 **Repos**:
-- [heroiclabs/nakama](https://github.com/heroiclabs/nakama) — Apache-2.0, 12.8k stars. Backend completo.
-- [heroiclabs/nakama-godot](https://github.com/heroiclabs/nakama-godot) — Apache-2.0. SDK oficial Godot.
-- [googleforgames/open-match](https://github.com/googleforgames/open-match) — Apache-2.0. Matchmaking framework de Google.
-- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars. Product analytics self-hosted.
+- [heroiclabs/nakama](https://github.com/heroiclabs/nakama) — Apache-2.0, 12.8k stars. Core backend.
+- [googleforgames/open-match](https://github.com/googleforgames/open-match) — Apache-2.0. Matchmaking enchufable.
+- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars. Player events.
+- [pytorch/geometric](https://github.com/pyg-team/pytorch_geometric) — MIT, 22k stars. GNNs para churn (PyTorch Geometric).
 
 **Cómo conectar**:
-1. Instalar Nakama via Docker. Configurar SDK en Godot.
-2. Crear server-side hooks en TypeScript que interceptan eventos: `after_match_create`, `before_authenticate`.
-3. En el hook de matchmaking: llamar al modelo ONNX que predice la "calidad" de un partido (skill balance, latencia, historial de jugadores).
-4. Anti-cheat: loguear posición + velocidad + kills por segundo. Si supera umbral estadístico (z-score > 3), flag para revisión.
-5. PostHog recibe eventos → dashboards de retención, churn prediction, session analysis.
+1. Implementar Nakama hook `matchmakerMatched` → llamar a modelo ML que puntúa el "match quality" → confirmar o rechazar.
+2. Log de eventos a PostHog via SDK TypeScript → feature engineering para modelo churn.
+3. Entrenar GNN con PyTorch Geometric sobre grafo jugador-partida → exportar a ONNX → cargar en hook Nakama.
+4. Open Match para cola de matchmaking con función de evaluación personalizada.
 
-**Tiempo estimado**: 3-4 semanas para stack completo.
+**Tiempo estimado**: 3-4 semanas para matchmaking ML; 4-6 semanas para churn + anti-cheat.
 
 ---
 
-## Receta 4: Mundo procedural con AI
+## Receta 4: Editor AI-assisted con MCP (godot-ai + Claude Code)
 
-**Caso de uso**: Generación infinita de contenido: niveles, quests, diálogos, texturas.
+**Caso de uso**: Desarrollo de juego asistido por AI directamente en el editor Godot. Velocidad 2x en producción de contenido.
 
 **Stack**:
 ```
-Godot 4 (MIT) — runtime del juego
-    ├── PCG de niveles:
-    │   └── Wave Function Collapse (WFC) en GDScript
-    │       └── LLM para describir constraints en lenguaje natural → parámetros WFC
-    ├── PCG de narrativa:
-    │   └── LLM (Claude / Llama) para generar quests + diálogos dinámicos
-    │       └── Lore base en ChromaDB (RAG) → coherencia narrativa
-    └── PCG de assets:
-        └── Stable Diffusion (API) para texturas procedurales
-            └── [o opcional] AI-generated music con MusicGen (MIT)
-
+Godot 4.4 (MIT)                          ← editor del juego
+└── godot-ai (MIT)                        ← MCP server: 120+ operaciones, 41 tools
+    └── Claude Code / Cursor              ← LLM con acceso al editor via MCP
+        ├── Build scenes desde descripción
+        ├── Generar scripts GDScript
+        ├── Wire signals automáticamente
+        └── Refactoring y debugging
 ```
 
 **Repos**:
-- [godotengine/godot](https://github.com/godotengine/godot) — MIT, 112k stars. WFC implementable nativamente.
-- [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) — MIT, 1.1k stars. Generación procedural de mundos con AI (TypeScript).
-- [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0, 21.7k stars. Para quests y narrativa con agentes que recuerdan.
-- [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. Simulación social para worlds persistentes.
+- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. MCP server Godot.
 
 **Cómo conectar**:
-1. Definir el "grammar" del nivel: tipos de habitaciones, conexiones posibles, reglas de juego.
-2. LLM recibe descripción del jugador y contexto del mundo → genera constraints para el generador.
-3. WFC aplica constraints → produce layout de nivel que respeta coherencia.
-4. Para quests: agente con memoria (generative_agents pattern) genera objetivos basados en historial del jugador.
-5. Assets: llamada a Stable Diffusion API con prompt generado por LLM → texturas coherentes con el bioma.
+1. Instalar godot-ai como addon en Godot 4.4.
+2. Configurar Claude Code con el MCP server de godot-ai (puerto local).
+3. Usar prompts en lenguaje natural para crear escenas, scripts, y assets directamente en el editor.
+4. Combinar con LimboAI para generar behavior trees desde descripción de comportamiento.
 
-**Tiempo estimado**: 4-6 semanas para sistema básico; 3-4 meses para calidad AAA-like.
+**Tiempo estimado**: 1-2 días para setup; beneficio inmediato en productividad.
+**Benchmark**: caso *Zombonks* (Unreal Aura, similar): lanzamiento en 5 meses vs 10+ estimados.
 
 ---
 
-## Receta 5: Game Support Agent (in-game chatbot)
+## Receta 5: Generación procedural de juegos web con OpenGame
 
-**Caso de uso**: Agente de soporte conversacional dentro del juego. Responde preguntas sobre mecánicas, ayuda a jugadores atascados, reemplaza FAQ estático.
+**Caso de uso**: Prototipado ultra-rápido o generación de contenido de juegos desde prompts de texto.
 
 **Stack**:
 ```
-Godot 4 UI (MIT) — chat overlay en el juego
-    ↕ HTTP
-FastAPI server (Python)
-    ├── LlamaIndex (MIT) — RAG sobre documentación del juego
-    │   ├── game_manual.md → chunks embedidos en ChromaDB
-    │   ├── patchnotes.md
-    │   └── community_faq.md
-    └── LLM (Claude Haiku / GPT-4o-mini / Llama local)
-        └── System prompt: "Eres el asistente de [nombre del juego]. Solo respondes sobre mecánicas y soporte. No spoilers."
+OpenGame framework (Apache-2.0)          ← framework agentico
+└── GameCoder-27B                        ← LLM especializado (RL-trained en game code)
+    └── OpenGame-Bench                   ← evaluación: Build Health + Visual Usability + Intent Alignment
+        └── Headless browser execution   ← validación automática del juego generado
 ```
 
 **Repos**:
-- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars. RAG + agentes sobre datos propios.
-- [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0. Vector database para embeddings.
+- [leigest519/OpenGame](https://github.com/leigest519/OpenGame) — Apache-2.0, ~2.3k stars. Framework completo.
 
-**Cómo conectar**:
-1. Preparar el corpus del juego: manual, patch notes, FAQs, descripciones de ítems → convertir a Markdown.
-2. Indexar en ChromaDB con LlamaIndex usando embeddings de OpenAI o Sentence Transformers (MIT).
-3. FastAPI expone endpoint POST `/ask` que recibe pregunta del jugador.
-4. LlamaIndex recupera chunks relevantes (top-5 por similitud coseno).
-5. LLM recibe chunks + pregunta → genera respuesta natural en el tono del juego.
-6. Godot muestra respuesta en UI in-game con animación.
+**Cómo usar**:
+1. Instalar OpenGame framework (TypeScript/Node.js).
+2. Describir el juego en texto: "Crea un juego de plataformas con enemigos que aumentan de velocidad cada nivel".
+3. OpenGame genera el código del juego web completo, lo ejecuta en headless browser, lo evalúa.
+4. Iterar sobre el resultado con más prompts.
 
-**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku. Para volumen alto: Llama 3.1 8B local en servidor.
-**Tiempo estimado**: 1-2 semanas para MVP funcional.
+**Tiempo estimado**: Minutos para un prototipo básico; horas para un juego completo.
+**Limitación**: Juegos web (HTML5/JavaScript). No aplica para Unity/Godot/Unreal nativos.
 
 ---
 
-## Receta 6: AI Dev Tooling — Godot MCP
+## Receta 6: MMO con Carbon Engine + AI de Facciones (NUEVO Jul 2026)
 
-**Caso de uso**: Estudio que quiere usar AI para acelerar desarrollo en Godot (generación de scenes, scripts, assets).
+**Caso de uso**: Construir un MMO desde base AAA probada en producción con simulación de facciones driven by AI.
 
 **Stack**:
 ```
-Claude Code / Cursor / Codex (cualquier cliente MCP)
-    ↕ Model Context Protocol
-godot-ai (MIT)                          ← MCP server local
-    ↕ Godot Editor API
-Godot 4 Editor (MIT)                   ← editor abierto
-    ├── Scene building desde descripción natural
-    ├── Script GDScript generado y editado
-    ├── Signals wired automáticamente
-    └── Materials, animations, UI configurados
+Carbon Engine (MIT)                      ← engine de EVE Online (Fenris Creations)
+└── Destiny module                       ← física + pathfinding server-authoritative
+└── Trinity module                       ← rendering
+└── Capa AI:
+    ├── LLMs para NPCs de facción        ← diálogo + decisiones diplomáticas
+    ├── Concordia (Apache-2.0)           ← simulación social de agentes NPC
+    ├── RL para comportamiento           ← facciones aprenden del comportamiento de jugadores
+    └── PostHog + Grafana               ← analytics de jugadores en tiempo real
 ```
 
 **Repos**:
-- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. 120+ operaciones, ~41 MCP tools.
-- [FlamxGames/godot-ai-assistant-hub](https://github.com/FlamxGames/godot-ai-assistant-hub) — MIT. Alternativa con Ollama/Gemini/OpenRouter.
+- [carbonengine org](https://github.com/carbonengine) — MIT / Apache-2.0. 20+ módulos (nuevo Jul 2026).
+- [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. Simulación social LLM.
+- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars.
 
-**Cómo configurar**:
-1. Instalar godot-ai desde Godot Asset Library o GitHub.
-2. Configurar Claude Code para conectarse al MCP server local (puerto configurable).
-3. En Claude Code: `/add-context-window --mcp godot` y empezar a usar lenguaje natural.
-4. Ejemplos de prompts: "Crea una escena de un jugador con física de plataformer", "Añade un sistema de inventario al player.gd", "Wire el signal `body_entered` del Area2D al método `on_enemy_hit`".
+**Notas**:
+- **Estado**: Carbon Engine recién open-sourced (1 Jul 2026). Comunidad en formación.
+- Evaluar en 6-12 meses cuando el ecosistema OSS madure.
+- Ideal para proyectos enterprise con 18+ meses de runway.
 
-**Tiempo estimado**: Setup en 1 día. ROI inmediato.
+**Tiempo estimado**: 6-12 meses para MMO completo sobre Carbon Engine.
 
 ---
 
-## Receta 7: Model Selection para Game AI (usando lmgame-Bench) 🆕
+## Receta 7: Analytics + Churn Prediction con GNNs
 
-**Caso de uso**: Elegir el LLM/VLM correcto para una tarea gaming específica antes de comprometerse con un stack.
+**Caso de uso**: Predecir churn de jugadores F2P 14 días en adelante para activar retención proactiva.
 
 **Stack**:
 ```
-GamingAgent (MIT)                         ← framework de evaluación ICLR 2026
-└── lmgame-Bench environments:
-    ├── Tetris          → evalúa reacción rápida + coordinación visio-motora
-    ├── Sokoban         → evalúa planificación a largo plazo
-    ├── 2048            → evalúa razonamiento numérico + estrategia
-    ├── Super Mario Bros → evalúa navegación + timing reactivo
-    └── Ace Attorney    → evalúa coherencia narrativa + memoria larga
+PostHog (MIT)                            ← player event collection
+└── Python pipeline                      ← feature engineering
+    └── PyTorch Geometric (MIT)          ← GNN sobre grafo jugador-sesión-amigos
+        └── Modelo GNN entrenado         ← AUROC 75.83 (vs 62.44 LightGBM baseline)
+            └── Score diario por jugador
+                └── Nakama hook          ← activa reward si score > umbral
 ```
 
-**Protocolo de selección**:
-1. Identificar el tipo de tarea del NPC/agente: ¿planificación, reacción, narrativa, mixto?
-2. Clonar [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) y ejecutar los 3 juegos más relevantes para el caso de uso.
-3. Comparar modelos candidatos: Claude claude-sonnet-5, GPT-4o, Gemini 1.5 Pro, Llama 3.1 70B.
-4. Seleccionar modelo con mejor score en la tarea relevante — no el "mejor en general".
-5. Para latencia: siempre benchmark tiempo de respuesta en el game loop real (target < 100ms para NPCs reactivos).
+**Repos**:
+- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars. Eventos de jugador.
+- [pyg-team/pytorch_geometric](https://github.com/pyg-team/pytorch_geometric) — MIT, 22k stars. GNNs.
+- [grafana/grafana](https://github.com/grafana/grafana) — Apache-2.0, 67k stars. Dashboards.
 
-**Costos estimados de benchmark**:
-- ~$15-30 por modelo evaluado (API) para 3 juegos x 50 episodios cada uno.
-- Tiempo: 2-4 horas de ejecución por modelo.
+**Cómo construir el grafo**:
+- Nodos: jugadores, sesiones, ítems comprados, amigos.
+- Edges: jugó-en, compró, es-amigo-de, invitó-a.
+- Features de nodo: session_length, days_since_login, spend_total, friend_count.
+- Target: churn_in_14_days (binario).
 
-**Output**: Tabla comparativa modelo × tarea → decisión documentada y reproducible.
-
-**Por qué importa**: El 52% de developers teme overselling de AI. Un benchmark propio da evidencia objetiva al cliente.
-
----
-
-## Tabla resumen
-
-| Patrón | Stack principal | Esfuerzo | ROI esperado |
-|--------|----------------|---------|--------------|
-| NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion (datos industria) |
-| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual |
-| Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención |
-| Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability |
-| Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual |
-| AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
-| **Model Selection Benchmark** | GamingAgent + lmgame-Bench | 2-4 horas ejecución | Decisión documentada, evita overselling |
+**Tiempo estimado**: 4-6 semanas para pipeline completo con modelo y dashboard.
+**Impacto esperado**: 20-35% reducción de churn con sistema de rewards basado en score.
 
 ---
-*Repos verificados en GitHub 2026-07-02. URLs directas incluidas.*
+*Todas las recetas usan repos verificados con URLs reales. Licencias MIT/Apache-2.0 aptas para uso comercial. Actualizado 2026-07-12.*

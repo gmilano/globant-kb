@@ -1,30 +1,24 @@
 # Mapa de mercado — Gaming AI
 
 > Players, tamaños, oportunidades. Foco LATAM + posicionamiento Globant.
-> Última actualización: 2026-07-11
+> Última actualización: 2026-07-12
 
-## Tamaño de mercado global (actualizado julio 2026)
+## Tamaño de mercado global
 
-| Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte |
-|----------|------------|------------|------|-----------|
-| AI in Games (global, amplio) | — | $10.1B | 33.2% | → $75.1B en 2030 |
-| Generative AI in Gaming | $1.79B | $2.21B | 23.1% | → $5.09B en 2030 |
-| NPCs + Digital Humans | — | 28.6% del total AI gaming | — | mayor segmento |
-| LATAM Gaming market | $25.70B | $28.04B | 9.12% | 2026-2034 |
-| LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad |
-| Juegos en Steam con AI declarada | — | 7,300+ | — | julio 2026 |
-| Juegos Godot en Steam | — | 2,864 | ~2x YoY | julio 2026 |
+| Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte | Fuente |
+|----------|------------|------------|------|-----------|--------|
+| AI in Gaming (amplio) | $7.7B | **$10.1B** | 33.2% | → $75.1B en 2033 | Persistence MR |
+| Generative AI in Gaming | $1.79B | **$2.21B** | 23.2% | → $5.09B en 2030 | GlobeNewswire Jul 2026 |
+| AI in Games (Technavio) | — | — | 40.7% | +$34.1B en 2025-2030 | Technavio |
+| NPCs + Digital Humans | — | **28.6% del total** | — | Mayor segmento AI gaming | Research & Markets |
+| LATAM Gaming market | $25.70B | $28.04B | 9.12% | 2026-2034 | Statista |
+| LATAM AI investment | 1.12% del gasto AI global | — | — | vs 6.6% del PIB = brecha/oportunidad | IDC |
 
-**Fuentes**: Business Research Company (jul 2026), GlobeNewswire (jul 2026), SNS Insider, GDC 2026 State of Industry.
-
-**Adopción** (actualizado julio 2026):
-- **87%** de estudios usa AI agents en workflows (Google Cloud survey, jun-jul 2025)
-- **50%** de estudios usa AI activamente en desarrollo (2026)
-- **36%** de profesionales de la industria usa herramientas de AI generativa en su trabajo (GDC 2026)
-- Solo **30%** de empleados de estudios usan AI vs **58%** en publishers/marketing/PR (GDC 2026)
-- **52%** de game developers ve AI generativa negativamente — subió de 30% en 2025 (GDC 2026)
-- **85%** de gamers tiene actitud negativa hacia AI en juegos (GDC 2026)
-- AI reduce tiempo de creación de assets **70-90%** y costos **$100K-$500K** por título
+**Adopción (GDC 2026 — State of the Game Industry)**:
+- **50%** de estudios de juego usa AI activamente en el desarrollo
+- **30%** de empleados en estudios usa AI (vs **58%** en publishers/marketing)
+- **7,300+ juegos** en Steam declaran uso de AI (doble vs 2024)
+- **52%** de profesionales cree que GenAI **daña** la industria — tensión adoption vs rechazo
 
 ---
 
@@ -32,11 +26,12 @@
 
 | Empresa | Tipo | Fortaleza AI | Debilidad | Modelo |
 |---------|------|-------------|-----------|--------|
-| **Unity Technologies** | Engine propietario | Unity AI 6.2 integrado (Assistant, Generators, Inference Engine). ML-Agents OSS 19.5k stars. | Controversia pricing 2023, recuperando confianza. Cerrado para AAA top-tier. | Revenue share + suscripción |
+| **Unity Technologies** | Engine propietario | Unity AI 6.2 integrado (Assistant, Generators, Inference Engine). ML-Agents OSS 19.5k stars. | Controversia pricing 2023, recuperando confianza. | Revenue share + suscripción |
 | **Epic Games (Unreal)** | Engine propietario | MetaHuman AI. Aura agent (Ramen VR, ene 2026). Persona Device para Fortnite creator. | Curva de aprendizaje alta. Royalty 5% > $1M. | Royalty |
 | **Roblox** | Plataforma UGC | AI Studio (MCP). CUBE 3D 1.8B params para objetos 3D. OpenGameEval OSS. Creators: $1B+/año via DevEx. | Audiencia mayormente juvenil. Limitado para juegos "serios". | Revenue share |
-| **Microsoft / Xbox** | Cloud + tools | Azure AI Services para gaming. Sponsor O3DE. Phi-3/4 on-device. | No tiene engine propio competitivo. | Cloud usage |
-| **NVIDIA** | GPU + SDK | ACE (ASR+NLP+TTS+animación NPC realtime). RTX Neural Shading. Fork Godot con path tracing (GDC 2026, MIT). | Dependencia de hardware NVIDIA. Caro para indie. | Hardware + SDK |
+| **Fenris Creations** | Engine OSS | **Carbon Engine open-sourced Jul 2026** (MIT). 20+ módulos AAA. Primer MMO engine OSS de producción. | Comunidad OSS nueva — ecosistema en formación. | OSS (MIT) |
+| **Microsoft / Xbox** | Cloud + tools | Azure AI Services para gaming. Sponsor O3DE. Phi-3/4 on-device. NVIDIA partnership. | No tiene engine propio competitivo. | Cloud usage |
+| **NVIDIA** | GPU + SDK | ACE (ASR+NLP+TTS+animación NPC realtime). RTX Neural Shading. Inversión en engines open source (2026). | Dependencia de hardware NVIDIA. Caro para indie. | Hardware + SDK |
 | **Google DeepMind** | Research + cloud | Concordia OSS (simulación social). Gemini API. Gemma 3n on-device (demostrado en Godot). | Sin engine/plataforma de distribución propia. | Cloud API |
 | **Amazon/AWS** | Cloud + engine | O3DE (Apache 2.0). AWS Bedrock para LLMs. GameLift para multiplayer. | O3DE adopción baja vs Unity/Unreal. | Cloud usage |
 | **Inworld AI** | AI NPC platform (cerrado) | Personajes AI con voz, memoria, emoción. Partner NVIDIA (Covert Protocol). | Pricing por personaje, cerrado. | SaaS |
@@ -58,6 +53,8 @@
 | **O3DE Foundation (Linux)** | o3de | ~9.5k | Apache 2.0 |
 | **limbonaut** | limboai | ~2.8k | MIT |
 | **bitbrain** | beehave | ~3.2k | MIT |
+| **Fenris Creations** | carbonengine (20+ módulos) | nuevo | MIT / Apache-2.0 |
+| **lmgame-org (UC Berkeley)** | GamingAgent | ~1k | MIT |
 
 ---
 
@@ -80,6 +77,7 @@
 |-------------|--------|-------------|
 | **AI NPC para estudios LATAM** | Studios locales no pueden pagar Inworld/Convai. Stack OSS asequible. | Stack Godot + LLM + LimboAI a precio accesible |
 | **Backend gaming inteligente** | Nakama es OSS pero requiere customización ML para diferenciarse. | "Nakama + AI layer" — matchmaking predictivo, anti-cheat, engagement |
+| **Carbon Engine MMO** | Engine EVE Online open-sourced Jul 2026. Studios LATAM pueden construir MMOs sin licencia AAA. | Integración AI sobre Carbon Engine para NPCs + world simulation |
 | **iGaming LATAM + AI** | Brasil legalizó iGaming 2025. Mercado enorme en regulación + personalización. | Anti-fraud ML, recomendación, soporte con agentes |
 | **QA automatizado con AI** | Studios mid-size LATAM sin QA bots. Gap enorme vs AAA. | godot_rl_agents + RL agents como servicio horizontal |
 | **Analytics + churn prediction** | F2P mobile dominante en LATAM. Retención = survival. | PostHog + GNNs (PyTorch Geometric) para churn prediction |
@@ -87,25 +85,4 @@
 | **Exportación gaming LATAM** | Studios LATAM buscan diferenciarse en mercado global con AI. | Globant como acelerador de AI integration |
 
 ---
-
-## Posicionamiento Globant AI Studios
-
-### Propuesta de valor diferenciada
-1. **Stack OSS end-to-end**: Godot + Nakama + SB3 + LimboAI + capa AI (sin lock-in de plataforma cerrada)
-2. **Delivery LATAM**: costo y velocidad vs Accenture/Deloitte; calidad vs estudios locales
-3. **Gaming Studio + AI Studios**: combinación única de gaming domain + AI practice
-4. **Patterns listos para demos rápidos**: recipes de `compose/patterns.md` → PoC en 2-3 semanas
-
-### Cuentas objetivo (perfil)
-- Estudios AAA/AA con presencia en LATAM buscando reducir costos de QA con AI
-- Plataformas iGaming entrando a Brasil/México que necesitan anti-fraud + personalización
-- Operadores de gaming online con churn problems
-- Studios indie/mid-size buscando competir con AAA usando AI a bajo costo
-
-### Competencia
-- **Accenture, Wipro**: presencia enterprise pero sin foco en gaming AI
-- **Studios locales** (Aquiris Brasil, Luderia México): potenciales clientes más que competidores
-- **Inworld/Convai**: plataformas cerradas caras → Globant puede ofrecer alternativa OSS consultiva
-
----
-*Fuentes: Business Research Company, GlobeNewswire (jul 2026), SNS Insider, GDC 2026 State of Industry, agentmarketcap.ai, marketdataforecast.com (actualizado 2026-07-11)*
+*Fuentes: gdconf.com/GDC-2026-SOTI, globenewswire.com/2026/07/03, persistencemarketresearch.com, technavio.com, gamingonlinux.com (Carbon Engine). Verificado 2026-07-12.*
