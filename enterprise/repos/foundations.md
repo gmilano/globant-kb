@@ -1,29 +1,44 @@
-# 🏗️ Repos fundacionales — Enterprise
+# 🏗️ Foundational Repos — Enterprise AI
 
-> Bases sobre las cuales construir soluciones enterprise con AI encima.
-> Licencia abierta, comunidad activa. Última actualización: 2026-07-13 (v6)
+> Core foundations to build enterprise AI solutions on. Open license, active community.
+> Last updated: 2026-07-13 (v4)
 
-## Plataformas y frameworks base
+## Agent Frameworks & Orchestration
 
-| Repo | Licencia | Stars | Descripción | ¿Base para AI? |
-|------|----------|-------|-------------|----------------|
-| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | ~52k★ | Suite completa ERP/CRM/HR/POS/manufactura; módulos Python, ORM propio, 50+ idiomas | ✅ API REST + MCP servers disponibles |
-| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~36k★ | ERP manufactura/logística/RRHH sobre Frappe; fuerte en India/LATAM; Python | ✅ erpnext-mcp-server (MIT, 104★) |
-| [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k★ | Framework low-code Python/JS para apps web reales; base de ERPNext, Frappe Cloud | ✅ MIT puro, extensible |
-| [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | ~45k★ | CRM open-source moderna, alternativa Salesforce; MCP nativo en Cloud (jul 2026) | ✅ MCP nativo, GraphQL API |
-| [mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | ~30k★ | Mensajería enterprise self-hosted; Mattermost Agents v2 con AI integrado | ✅ Bot framework + AI plugins |
-| [nextcloud/server](https://github.com/nextcloud/server) | AGPL-3.0 | ~27k★ | Colaboración enterprise: docs, archivos, calendario, email; Nextcloud Hub 25 | ✅ AppAPI para AI apps, MCP plugin |
-| [Combodo/iTop](https://github.com/Combodo/iTop) | AGPL-3.0 | ~1k★ | ITSM completo: CMDB, incidentes, cambios, problemas, SLA; personalizable XML | ✅ REST API + módulos Python |
-| [glpi-project/glpi](https://github.com/glpi-project/glpi) | GPL-2.0 | ~4.5k★ | Gestión de activos IT + helpdesk; usado por miles de empresas en LATAM | ✅ API REST, plugins AI disponibles |
-| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~1.1k★ | Suite enterprise completa Apache: ERP, CRM, eCommerce, HRMS; Java | ✅ Apache-2.0 puro, integración JVM |
-| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | ~126k★ | Framework LLM más usado; chains, RAG, tool-calling, agentes; base de muchos stacks | ✅ MIT, 1000+ integraciones |
+| Repo | License | Stars | Why it's foundational |
+|------|---------|-------|-----------------------|
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~18k | Stateful graph-based orchestration; checkpointing, streaming, HITL — the production standard for auditable enterprise agentic workflows. |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~58k | Event-driven async multi-agent framework from Microsoft Research; becoming MAF — the enterprise Microsoft standard. |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~32k | Role-based multi-agent crews; battle-tested at 1,500+ enterprises including Fortune 500. |
+| [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) | MIT | ~12k | Type-safe agent building with structured output validation; essential for compliance-sensitive enterprise pipelines. |
+| [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~24k | Microsoft's enterprise AI SDK (C#/Python/Java); merging with AutoGen into MAF; planner-based orchestration for Azure. |
 
-## Plataformas visuales / no-code
+## Workflow Automation Platforms
 
-| Repo | Licencia | Stars | Descripción |
-|------|----------|-------|-------------|
-| [nocobase/nocobase](https://github.com/nocobase/nocobase) | AGPL-3.0 | ~15k★ | Builder no-code extensible basado en plugins; ERP/CRM/ops internos sin código |
-| [opf/openproject](https://github.com/opf/openproject) | GPL-3.0 | ~9k★ | Gestión de proyectos enterprise: Gantt, sprints, presupuestos, Wiki; Ruby on Rails |
+| Repo | License | Stars | Why it's foundational |
+|------|---------|-------|-----------------------|
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0 | ~182k | Visual workflow automation with 400+ integrations and native AI nodes; self-hostable; leading OSS enterprise automation platform. |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~136k | Production AI workflow platform with RAG, model routing, observability; 100k+ enterprise deployments; API-first design. |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | ~146k | Python-based visual LLM workflow builder; RAG, agentic chains, MCP support. |
+| [temporalio/temporal](https://github.com/temporalio/temporal) | MIT | ~12k | Durable execution engine for long-running enterprise workflows; survives outages; essential for complex multi-step agentic tasks. |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | ~51k | Node.js visual LangChain builder for enterprise; rapid prototype-to-prod for chatbots and RAG flows. |
+
+## Enterprise Platform Foundations (ERP/CRM)
+
+| Repo | License | Stars | Why it's foundational |
+|------|---------|-------|-----------------------|
+| [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | Low-code Python web framework; the foundation of ERPNext and Frappe HR; MIT license makes it AI-customizable. |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~36.4k | Leading open source ERP; full accounting, manufacturing, HR, CRM, projects; extensive REST API for AI integration. |
+| [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | ~45.5k | Modern open-source CRM built for developers; native MCP server for AI-agent integration; fastest-growing OSS CRM 2026. |
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | ~52.8k | World's most deployed OSS ERP; 12M+ users; massive ecosystem; LGPL allows enterprise customization. |
+| [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) | MIT | ~104 | MCP bridge between AI assistants and ERPNext; purchase orders, inventory, HR, finance as agent tools. |
+
+## Observability & Infrastructure
+
+| Repo | License | Stars | Why it's foundational |
+|------|---------|-------|-----------------------|
+| [open-telemetry/opentelemetry-python](https://github.com/open-telemetry/opentelemetry-python) | Apache-2.0 | ~2k | Industry-standard observability; built into AutoGen/MAF; required for enterprise agentic audit trails. |
+| [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Apache-2.0 | ~16k | Pythonic orchestration with @flow/@task decorators; production scheduling, observability, and collaboration for AI pipelines. |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*See also: `verticals/solutions.md` for complete vertical platforms.*

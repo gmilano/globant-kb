@@ -1,215 +1,219 @@
-# 🧩 Patrones de composición — Enterprise
+# 🧩 Composition Patterns — Enterprise AI
 
-> Recetas concretas combinando repos + agentes + AI. Listas para proponer a clientes.
-> Última actualización: 2026-07-13 (v6)
+> Concrete recipes combining specific repos + agents + wiring instructions.
+> Last updated: 2026-07-13 (v4)
 
-## Arquitectura base
+## Pattern Stack Reference
 
 ```
-[Plataforma vertical base: Odoo / ERPNext / Twenty / iTop]
-          ↓ (MCP Server o REST API)
-[Capa de orquestación: n8n / Dify / LangGraph / CrewAI]
+[Enterprise Platform (Odoo / ERPNext / Twenty / n8n)]
+          ↓ MCP / REST API
+[AI Orchestration Layer (LangGraph / CrewAI / n8n AI nodes)]
           ↓
-[Agentes especializados: PydanticAI / OpenAI Agents SDK / Agno]
-          ↓ (A2A Protocol para multi-org)
-[LLM Backend: Claude / GPT-4o / Ollama on-prem]
+[LLM (Claude Sonnet 5 / GPT-4o / local Mistral via Ollama)]
           ↓
-[UI conversacional: chatbot web / Slack bot / Teams bot]
+[Observability (OpenTelemetry → Grafana)]
+          ↓
+[Human Approval (HITL checkpoint / n8n wait node / email/Slack)]
 ```
 
 ---
 
-## P1 — ERP Copilot sobre Odoo/ERPNext
+## P1 — Agentic ERP Automation (Odoo + LangGraph + Claude)
 
-**Propósito**: Asistente conversacional en lenguaje natural para empleados del ERP; consultas, actualizaciones y reportes sin navegar módulos.
+**Problem**: Purchase orders, vendor approvals, and inventory reordering are manual, error-prone, and slow.
 
 **Stack**:
-- `odoo/odoo` (LGPL-3.0, ~52k★) — base ERP
-- `rakeshgangwar/erpnext-mcp-server` (MIT) — bridge MCP para ERPNext
-- `n8n-io/n8n` (fair-code, ~100k★) — trigger/router de workflows
-- `langchain-ai/langchain` (MIT, ~126k★) — cadena RAG sobre documentación ERP
-- Claude (Anthropic API) — LLM con razonamiento sobre contexto empresarial
+- [odoo/odoo](https://github.com/odoo/odoo) (LGPL) — ERP data source
+- MCP server for Odoo (custom, 1 week to build) or REST API integration
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — orchestration with HITL checkpoints
+- Claude Sonnet 5 — LLM reasoning
+- [open-telemetry/opentelemetry-python](https://github.com/open-telemetry/opentelemetry-python) (Apache) — audit logging
 
 **Wiring**:
-```
-Usuario → chatbot web → n8n webhook → LangChain RAG (docs Odoo + datos cliente)
-        → MCP Server Odoo → operación (crear factura, buscar proveedor, etc.)
-        → Claude genera respuesta en lenguaje natural → usuario
+```python
+# LangGraph supervisor agent manages specialist sub-agents
+from langgraph.graph import StateGraph
+from langgraph.checkpoint.memory import MemorySaver
+
+# Agents: PurchaseOrderAgent, VendorEvalAgent, ApprovalAgent
+# HITL: interrupt() before any PO > $10k
+# Tools: odoo_create_po, odoo_check_inventory, odoo_get_vendor_history
 ```
 
-**Tiempo estimado**: 6–10 semanas  
-**Caso LATAM**: clientes con Odoo en Brasil/México que necesitan cumplimiento Reforma Tributaria + NF-e
+**Estimated effort**: 8–12 weeks | **Expected ROI**: 40–60% reduction in PO processing time; 15–25% reduction in procurement errors
 
 ---
 
-## P2 — Agente de Mesa de Servicio IT (ITSM)
+## P2 — Enterprise CRM AI Copilot (Twenty + CrewAI + n8n)
 
-**Propósito**: Agente multi-step que resuelve tickets de IT de nivel 1 sin intervención humana: reset passwords, provisión de accesos, diagnóstico básico.
+**Problem**: Sales reps spend 30% of time on manual data entry, follow-up scheduling, and pipeline updates.
 
 **Stack**:
-- `Combodo/iTop` (AGPL-3.0, ~1k★) — ITSM/CMDB base
-- `crewAIInc/crewAI` (MIT, ~44k★) — multi-agente con roles: Triage, Diagnóstico, Acción, Escalado
-- `langchain-ai/langgraph` (MIT, ~24k★) — grafo stateful para flujo incident → resolve/escalate
-- `pydantic/pydantic-ai` (MIT, ~18k★) — validación type-safe de acciones en CMDB
-- `n8n-io/n8n` — integración con Active Directory, email, Slack
+- [twentyhq/twenty](https://github.com/twentyhq/twenty) (AGPL) — CRM with native MCP server
+- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) (MIT) — role-based agents
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache-2.0) — trigger workflows on CRM events
+- Claude Sonnet 5 — email drafting, deal analysis
 
-**Wiring**:
-```
-Ticket iTop → CrewAI Triage Agent → LangGraph decisión → 
-  si resolvible: n8n ejecuta acción (reset pass / AD group)
-  si no: escalar con contexto completo a agente humano
-        → PydanticAI valida + actualiza CMDB → cierra ticket
-```
+**Crew roles**:
+- `ResearchAgent` — enriches contact data from web
+- `EmailAgent` — drafts personalized follow-ups
+- `PipelineAgent` — updates deal stages and forecasts
+- `SchedulingAgent` — proposes meeting slots via calendar API
 
-**Tiempo estimado**: 8–12 semanas  
-**Métricas**: reducción 40% tickets Nivel 1, tiempo resolución −60%
+**n8n trigger**: New contact created in Twenty → fire CrewAI crew → output back to Twenty via MCP
+
+**Estimated effort**: 6–8 weeks | **Expected ROI**: Sales rep saves 6–8h/week (matches Microsoft 6.4h/wk benchmark); 20–30% pipeline velocity improvement
 
 ---
 
-## P3 — Pipeline de Inteligencia Documental
+## P3 — Multi-Agent Knowledge Management (Dify + ERPNext + RAG)
 
-**Propósito**: Procesar automáticamente contratos, facturas, órdenes de compra entrantes: clasificar, extraer datos estructurados, actualizar ERP.
+**Problem**: Enterprise knowledge is siloed across ERP, wikis, emails, and documents; employees can't find answers fast.
 
 **Stack**:
-- `deepset-ai/haystack` (Apache-2.0, ~18k★) — pipelines RAG + extracción documental
-- `pydantic/pydantic-ai` (MIT, ~18k★) — schemas tipo-seguros para extracción
-- `n8n-io/n8n` — intake (email, S3, Drive) + output (ERP update, notificaciones)
-- `frappe/erpnext` (GPL-3.0, ~36k★) — destino de datos estructurados
-- Claude (claude-sonnet-5) — extracción + clasificación avanzada
+- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — RAG platform with knowledge base management
+- [frappe/erpnext](https://github.com/frappe/erpnext) (GPL) — ERP data source
+- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) (MIT) — MCP bridge
+- Vector DB: Weaviate (BSD) or Chroma (Apache-2.0)
+- Claude Haiku 4.5 — fast retrieval responses
 
 **Wiring**:
 ```
-Email/S3 → n8n trigger → Haystack PDF/OCR pipeline →
-  PydanticAI extrae: vendor, monto, líneas, fechas, tipo_doc →
-  Claude valida y completa campos ambiguos →
-  n8n actualiza ERPNext vía API → alerta Slack si confianza < 0.85
+Documents (PDF, Confluence, Sharepoint) → Dify knowledge base ingestion
+ERPNext live data → MCP server → Dify tool call
+Employee query → Dify RAG + tool routing → grounded answer with citations
 ```
 
-**Tiempo estimado**: 4–6 semanas  
-**Caso real**: automatización facturación en empresas con 500+ facturas/mes
+**Key feature**: Dify's built-in knowledge chunking + citation tracking; no hallucination about company-specific data
+
+**Estimated effort**: 4–6 weeks | **Expected ROI**: 50–70% reduction in internal support tickets; 2–3h/week saved per knowledge worker
 
 ---
 
-## P4 — CRM Intelligence con Twenty + MCP
+## P4 — Compliance-Ready Workflow Automation (n8n + LangGraph + HITL)
 
-**Propósito**: Enriquecer el CRM automáticamente: investigar prospectos, redactar emails personalizados, generar seguimientos basados en señales de actividad.
+**Problem**: Regulated enterprises (banking, insurance) need AI automation with mandatory human approval checkpoints and full audit trails.
 
 **Stack**:
-- `twentyhq/twenty` (AGPL-3.0, ~45k★) — CRM con MCP Server nativo
-- `openai/openai-agents-python` (MIT, ~25k★) — agente con handoff entre especialistas
-- `agno-agi/agno` (MIT, ~39k★) — orquestación de swarm en alta concurrencia
-- Claude (via MCP) — investigación web + redacción contextual
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache-2.0) — business process trigger and integration layer
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — HITL checkpointing and state persistence
+- [temporalio/temporal](https://github.com/temporalio/temporal) (MIT) — durable execution for long-running approvals (days/weeks)
+- OpenTelemetry (Apache) — immutable audit log
 
-**Wiring**:
+**Pattern**:
 ```
-Nuevo contacto en Twenty → MCP trigger → OpenAI Agents SDK →
-  Agente Investigador: busca empresa/persona en web → 
-  Agente Redactor: draft email personalizado →
-  Agente Seguimiento: programa tarea en Twenty vía MCP →
-  Todo escrito directamente al CRM sin intervención humana
+n8n trigger (new loan application)
+  → LangGraph DocumentReviewAgent (extracts data, flags risks)
+  → interrupt() — human underwriter reviews in UI
+  → LangGraph DecisionAgent (generates approval letter or rejection)
+  → Temporal durable task (waits for customer e-signature, up to 30 days)
+  → n8n notification (CRM update, email, document storage)
+  → OpenTelemetry logs every decision + human approval timestamp
 ```
 
-**Tiempo estimado**: 3–5 semanas  
-**Diferenciador**: Twenty MCP nativo elimina integraciones custom frágiles
+**Compliance features**: Full decision audit trail; HITL timestamps; rollback via LangGraph state; immutable logs via OTel
+
+**Estimated effort**: 10–16 weeks | **Expected ROI**: 60–80% reduction in processing time; audit-ready by default
 
 ---
 
-## P5 — Knowledge Base Corporativa (RAG + Collab)
+## P5 — Internal Developer Productivity Agent (OpenHands + MAF + Jira/GitHub)
 
-**Propósito**: Base de conocimiento interna que responde en lenguaje natural sobre políticas, procedimientos, manuales técnicos y decisiones históricas.
+**Problem**: Engineering teams spend 30–40% of time on boilerplate, PR reviews, documentation, and bug triaging.
 
 **Stack**:
-- `nextcloud/server` (AGPL-3.0, ~27k★) — almacenamiento docs empresa
-- `FlowiseAI/Flowise` (MIT, ~51k★) — builder visual RAG + chatbot
-- `langchain-ai/langchain` (MIT) — índice vectorial sobre documentos Nextcloud
-- Qdrant / pgvector — vector store self-hosted
-- Ollama (on-prem) o Claude — LLM según restricciones de datos
+- [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) (MIT) — software engineering agent
+- [microsoft/autogen](https://github.com/microsoft/autogen) (MIT) — multi-agent coordination (MAF pattern)
+- GitHub MCP server (MIT) — repo access, PR creation, issue management
+- Claude Sonnet 5 — code generation and review
 
-**Wiring**:
-```
-Docs Nextcloud → Flowise indexer (chunking + embedding) → Qdrant →
-  Empleado pregunta en chatbot → Flowise RAG → 
-  Claude/Ollama responde con fuentes citadas → 
-  Flowise guarda historial para analytics uso
-```
+**Crew**:
+- `TriageAgent` — classifies incoming GitHub issues, assigns priority
+- `CodeAgent` (OpenHands) — implements fixes for labeled bugs
+- `ReviewAgent` — reviews PRs against team coding standards
+- `DocAgent` — generates/updates docs for merged PRs
 
-**Tiempo estimado**: 3–4 semanas  
-**On-prem**: 100% self-hosted para clientes con datos sensibles (legal, salud, gobierno)
+**Estimated effort**: 8–12 weeks | **Expected ROI**: 20–35% dev velocity improvement; SWE-bench validated performance on real bugs
 
 ---
 
-## P6 — Multi-Agente Financiero (Reporting + Forecast)
+## P6 — Agentic Business Intelligence (Superset + LangGraph + Natural Language)
 
-**Propósito**: Automatizar el cierre financiero mensual: conciliaciones, detección de anomalías, generación de reportes narrativos para directivos.
+**Problem**: Business users can't write SQL; BI team is bottlenecked by dashboard requests.
 
 **Stack**:
-- `frappe/erpnext` (GPL-3.0, ~36k★) — datos contables fuente
-- `langchain-ai/langgraph` (MIT, ~24k★) — pipeline stateful: extrae → analiza → narra
-- `crewAIInc/crewAI` (MIT, ~44k★) — roles: CFO Agent, Auditor Agent, Narrator Agent
-- `pydantic/pydantic-ai` (MIT) — schemas para datos financieros (sin errores de tipo)
-- Claude (claude-sonnet-5) — narración ejecutiva + detección anomalías
+- [apache/superset](https://github.com/apache/superset) (Apache-2.0) — BI platform with REST API
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — agent with SQL generation + retry loop
+- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — chat UI + knowledge base (schema docs)
+- Claude Sonnet 5 — NL → SQL translation with schema-aware prompting
 
-**Wiring**:
+**Flow**:
 ```
-ERPNext cierre mes → LangGraph extrae cuentas + movimientos →
-  CrewAI CFO Agent: análisis varianza vs presupuesto →
-  CrewAI Auditor Agent: detecta anomalías (regla 3σ + ML) →
-  CrewAI Narrator: redacta MD ejecutivo con gráficos →
-  Output: PDF + Slack summary → aprobación CFO (HITL)
+User asks: "Show me sales by region for Q2 2026 vs Q2 2025"
+→ Dify retrieves schema documentation
+→ LangGraph SQLGenerationAgent writes SELECT query
+→ LangGraph ValidationAgent checks for injection risks + schema correctness
+→ Superset REST API executes query, returns chart
+→ Agent narrates the insight in plain language
 ```
 
-**Tiempo estimado**: 8–14 semanas  
-**ROI esperado**: cierre financiero 30–50% más rápido (dato IDC 2026)
+**Estimated effort**: 6–10 weeks | **Expected ROI**: 80% reduction in ad-hoc BI request backlog; business users self-serve in <30 seconds
 
 ---
 
-## P7 — Microsoft Ecosystem Agent Mesh
+## P7 — Enterprise Self-Hosted AI Assistant (OpenClaw/Fork + Ollama + Mattermost)
 
-**Propósito**: Para clientes 100% Microsoft: agente enterprise que orquesta Copilot Studio, MAF 1.0, Azure AI Foundry y sistemas existentes.
+**Problem**: Employees need an internal AI assistant but CIO blocks cloud LLMs due to data privacy (no data leaves the firewall).
 
 **Stack**:
-- Microsoft Agent Framework 1.0 (MAF, MIT, base AutoGen) — orquestación
-- Azure AI Foundry — runtime managed + monitoreo
-- A2A Protocol (Linux Foundation) — coordinación entre agentes de distintos vendors
-- MCP Servers para Dynamics 365, SharePoint, Teams
-- `microsoft/autogen` (~54k★) — agentes custom si se necesita
-- Claude / GPT-4o / Phi-4 — según task
+- [openclaw/openclaw](https://github.com/openclaw/openclaw) fork (MIT) — self-hosted AI assistant skeleton
+- Ollama (MIT) + Mistral 7B or LLaMA 3.3 — local LLM inference (no cloud)
+- [mattermost/mattermost](https://github.com/mattermost/mattermost) (AGPL) — chat interface
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache) — tool integrations (calendar, ERP, HR)
+- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) (MIT) — ERP tool access
 
-**Wiring**:
-```
-Teams bot → MAF 1.0 router →
-  A2A: coordina con agente externo (proveedor, cliente) →
-  MCP: lee/escribe en Dynamics 365 / SharePoint →
-  Sub-agentes MAF: Finance Agent, HR Agent, Supply Chain Agent →
-  Azure AI Foundry: logging, tracing, cost control →
-  Respuesta final en Teams con HITL si decisión > umbral
-```
+**Key selling point**: 100% on-premise; LGPD/GDPR compliant; no data to any cloud vendor; Mattermost is already deployed at many enterprises
 
-**Tiempo estimado**: 10–16 semanas  
-**Para**: clientes Fortune 500 con Azure como cloud primario
+**Estimated effort**: 6–10 weeks | **Expected ROI**: Replaces $30–75/user/month Microsoft Copilot or Google Agentspace; saves $360–$900/user/year
 
 ---
 
-## P8 — Onboarding Agente de Empleados
+## P8 — Supply Chain Multi-Agent System (ERPNext + CrewAI + Temporal)
 
-**Propósito**: Automatizar el proceso completo de onboarding: creación de cuentas, asignación de equipos, plan de capacitación, buddy assignment, check-ins.
+**Problem**: Supply chain disruptions require real-time response across procurement, logistics, and finance — currently siloed.
 
 **Stack**:
-- `mattermost/mattermost` (AGPL-3.0, ~30k★) — canal onboarding + bot
-- `opf/openproject` (GPL-3.0, ~9k★) — tareas y milestones de onboarding
-- `crewAIInc/crewAI` (MIT) — roles: HR Coordinator, IT Provisioner, Buddy Matcher
-- `n8n-io/n8n` — integraciones: AD, email, Google Workspace, sistemas RRHH
-- Claude — personalización de mensajes y materiales de bienvenida
+- [frappe/erpnext](https://github.com/frappe/erpnext) (GPL) — inventory, procurement, supplier data
+- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) (MIT) — specialist crew
+- [temporalio/temporal](https://github.com/temporalio/temporal) (MIT) — durable long-running supply chain workflows
+- Claude Sonnet 5 — disruption analysis and mitigation planning
 
-**Wiring**:
-```
-HRIS nuevo empleado → n8n trigger → CrewAI HR Coordinator →
-  IT Provisioner: crea cuentas AD + email + accesos →
-  Buddy Matcher: sugiere buddy basado en skills/equipo →
-  Mattermost: mensaje bienvenida + channel #onboarding-{nombre} →
-  OpenProject: crea plan 90 días con milestones →
-  Check-in automático día 30/60/90 con Claude-drafted preguntas
-```
+**Crew**:
+- `SupplyMonitorAgent` — polls supplier APIs, detects delays
+- `ImpactAnalysisAgent` — calculates downstream SKU impact
+- `ReorderAgent` — initiates emergency POs with alternative suppliers
+- `FinanceAgent` — updates cash flow projections
+- `CommunicationsAgent` — drafts supplier and customer notifications
 
-**Tiempo estimado**: 4–6 semanas  
-**LATAM**: adaptable a requisitos legales laborales de cada país
+**Estimated effort**: 12–18 weeks | **Expected ROI**: 30–50% reduction in stockouts; 20–40% faster disruption response time
+
+---
+
+## P9 — HR Automation Agent (Frappe HR + LangGraph + n8n)
+
+**Problem**: HR team spends 60% of time on repetitive tasks: onboarding, leave approvals, payroll queries, performance reviews.
+
+**Stack**:
+- [frappe/hrms](https://github.com/frappe/hrms) (GPL) — HR and payroll platform
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — workflow orchestration with HITL
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache) — trigger on HR events
+- Claude Haiku 4.5 — fast responses to employee queries
+
+**Workflows**:
+- New hire → automated IT provisioning, org chart update, welcome package
+- Leave request → policy check → auto-approve within limits, escalate edge cases
+- Employee question → RAG over HR policies → instant answer
+- Performance cycle → automated review collection, manager reminders, insights
+
+**Estimated effort**: 6–10 weeks | **Expected ROI**: HR team saves 15–25h/week; onboarding time reduced 50%; employee satisfaction +30%

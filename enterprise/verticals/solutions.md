@@ -1,51 +1,58 @@
-# 🏭 Verticales de partida — Enterprise
+# 🏭 Vertical Solutions — Enterprise AI
 
-> Plataformas enterprise existentes, customizables con AI encima.
-> Modelo: partir de algo funcional → añadir capa agéntica → entregar al cliente.
-> Última actualización: 2026-07-13 (v6)
+> Existing open-source enterprise platforms customizable with AI.
+> Model: start with something functional, add an agentic layer on top.
+> Last updated: 2026-07-13 (v4)
 
-## Plataformas recomendadas
+## Core Enterprise Platforms (ERP / CRM / ITSM / Collab)
 
-| Plataforma | Licencia | Repo | Stack | Caso de uso enterprise |
-|------------|----------|------|-------|----------------------|
-| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) (~52k★) | Python, PostgreSQL | ERP completo: ventas, compras, manufactura, RRHH, contabilidad, POS, marketing. Módulo AI disponible. |
-| **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) (~36k★) | Python/Frappe, MariaDB | ERP manufactura y logística fuerte; popular en India, Brasil, México. erpnext-mcp-server MIT. |
-| **Twenty CRM** | AGPL-3.0 | [twentyhq/twenty](https://github.com/twentyhq/twenty) (~45k★) | TypeScript, React, GraphQL | CRM moderna, alternativa Salesforce; MCP Server nativo (cloud + self-hosted). AI en lenguaje natural. |
-| **iTop** | AGPL-3.0 | [Combodo/iTop](https://github.com/Combodo/iTop) (~1k★) | PHP, MySQL | ITSM completo: CMDB, incidentes, cambios, SLA; ideal para departamentos TI. Personalizable XML. |
-| **GLPI** | GPL-2.0 | [glpi-project/glpi](https://github.com/glpi-project/glpi) (~4.5k★) | PHP, MySQL | Gestión activos IT + helpdesk; enorme adopción LATAM (gobierno, educación, empresa). |
-| **Nextcloud Hub** | AGPL-3.0 | [nextcloud/server](https://github.com/nextcloud/server) (~27k★) | PHP, Vue.js | Colaboración enterprise: docs, archivos, videollamadas, email; self-hosted GDPR-compliant. |
-| **Mattermost** | AGPL-3.0 | [mattermost/mattermost](https://github.com/mattermost/mattermost) (~30k★) | Go, React | Mensajería team enterprise; Mattermost Agents v2 integra bots AI. Alternativa Slack self-hosted. |
-| **OpenProject** | GPL-3.0 | [opf/openproject](https://github.com/opf/openproject) (~9k★) | Ruby on Rails | Gestión proyectos: Gantt, sprints, presupuestos, Wiki; ideal para PMOs y desarrollo SW. |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) (~1.1k★) | Java | Suite enterprise Apache: ERP, CRM, eCommerce, HRMS; 100% Apache-2.0 sin restricciones. |
-| **NocoBase** | AGPL-3.0 | [nocobase/nocobase](https://github.com/nocobase/nocobase) (~15k★) | TypeScript, Node.js | Builder no-code extensible: ERP/CRM/ops internos con plugins; AI-driven data model. |
-| **Dolibarr** | GPL-3.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) (~5k★) | PHP | ERP/CRM para pymes: facturas, clientes, inventario, contabilidad; modular y ligero. |
+| Platform | Repo | License | Stars | Stack | AI Opportunity |
+|----------|------|---------|-------|-------|----------------|
+| **Odoo** | [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | ~52.8k | Python/PostgreSQL | 50+ modules (CRM, Inventory, Manufacturing, HR, Accounting); MCP server enables any AI agent to read/write ERP data; AI Studio in v18 adds native LLM triggers |
+| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~36.4k | Python/MariaDB (Frappe) | Full ERP with REST API; AI layer via [erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) — purchase orders, inventory, HR as agent tools |
+| **Twenty CRM** | [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | ~45.5k | TypeScript/React/PostgreSQL | Modern developer CRM; native MCP server for Claude/GPT integration; fastest-growing OSS CRM; self-hosted free, cloud $9/user/mo |
+| **Frappe Framework** | [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | Python/JS | Low-code web framework under ERPNext; MIT license; build custom ERP/CRM modules with AI hooks |
+| **Mattermost** | [mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | ~32k | Go/React | Self-hosted Slack alternative; AI Copilot feature (MIT plugin); enterprise teams can deploy LLM assistants inside the chat |
+| **Nextcloud** | [nextcloud/server](https://github.com/nextcloud/server) | AGPL-3.0 | ~29k | PHP | Enterprise file/collaboration; AI assistant (text generation, summarization) built into Nextcloud AI suite |
 
-## Cómo customizar con AI
+## Workflow Automation Platforms
 
-### Patrón estándar Globant
+| Platform | Repo | License | Stars | Stack | AI Opportunity |
+|----------|------|---------|-------|-------|----------------|
+| **n8n** | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0 | ~182k | TypeScript | 400+ integrations + native AI nodes (Claude, GPT-4, Gemini, Ollama); self-hosted; wire AI into any enterprise workflow |
+| **Dify** | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~136k | Python/TypeScript | Production AI workflow platform; RAG pipeline, model routing, agentic workflows, built-in observability; 100k+ enterprise deployments |
+| **Temporal** | [temporalio/temporal](https://github.com/temporalio/temporal) | MIT | ~12k | Go | Durable execution for long-running agentic workflows; survives outages; mandatory for enterprise AI tasks >5min |
+| **Prefect** | [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Apache-2.0 | ~16k | Python | @flow/@task decorator orchestration; production scheduling + observability for AI data pipelines |
+
+## Specialized Enterprise Verticals
+
+| Platform | Repo | License | Stars | Domain | AI Opportunity |
+|----------|------|---------|-------|--------|----------------|
+| **Metabase** | [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | ~41k | BI/Analytics | Add natural language query layer (LLM → SQL) via MCP; AI-powered dashboard generation |
+| **Superset** | [apache/superset](https://github.com/apache/superset) | Apache-2.0 | ~65k | BI/Analytics | Apache project; REST API enables AI agents to generate charts and run SQL queries programmatically |
+| **GLPI** | [glpi-project/glpi](https://github.com/glpi-project/glpi) | GPL-2.0 | ~4.5k | ITSM/Helpdesk | Self-hosted IT service management; AI layer for ticket triage, auto-assignment, and resolution suggestion |
+| **Frappe HR** | [frappe/hrms](https://github.com/frappe/hrms) | GPL-3.0 | ~1.5k | HR/Payroll | MIT-licensed Frappe framework; AI agents for leave approval, payroll processing, performance reviews |
+
+## How to Add AI to Any Platform
 
 ```
-1. Deploy plataforma base (Docker / bare metal)
-2. Conectar MCP Server (Twenty, ERPNext, iTop tienen servidores ya)
-3. Añadir agente de orquestación (n8n / Dify / CrewAI)
-4. Configurar LLM backend (Claude / local Ollama para on-prem)
-5. Exponer UI conversacional (chatbot embebido o Slack/Teams bot)
+1. Expose data via REST API or MCP server
+          ↓
+2. Configure AI agent with tool access (Claude + MCP or LangGraph + tools)
+          ↓
+3. Build agentic workflows (n8n or Dify for visual, LangGraph for code)
+          ↓
+4. Add approval checkpoints (HITL via LangGraph interrupt() or n8n wait node)
+          ↓
+5. Deploy observability (OpenTelemetry → Grafana; CrewAI enterprise metrics)
 ```
 
-### MCP Servers disponibles por plataforma
+## License Quick Reference for Enterprise Legal
 
-| Plataforma | MCP Server | Notas |
-|------------|------------|-------|
-| Twenty CRM | Nativo en Cloud; self-hosted en roadmap | Leer/escribir CRM en lenguaje natural |
-| ERPNext | [erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) MIT | 51 herramientas vía Frappe API |
-| 1C:Enterprise | [MCP35](https://github.com/infaton/MCP35) MIT | 51 tools para ERP ruso 1C |
-| Odoo | API REST + Python ORM | MCP wrapper a construir |
-| GLPI | REST API | MCP wrapper a construir |
-
-## Sectores LATAM con mayor adopción
-
-- **Brasil**: Reforma Tributaria + IA → Odoo/ERPNext con módulos fiscales actualizados
-- **México**: manufactura maquiladora → ERPNext + agentes predictive maintenance
-- **Colombia**: servicios financieros → Odoo + agentes KYC/AML
-- **Argentina**: PyMEs → Dolibarr + agentes de cotización automática
-- **Chile**: Energía/Minería → automatización operacional → agentes de planning y reportes ERP
+| License | Can Customize? | Can Keep Private? | Globant Recommendation |
+|---------|---------------|-------------------|------------------------|
+| MIT | ✅ Yes | ✅ Yes | Green light |
+| Apache-2.0 | ✅ Yes | ✅ Yes | Green light |
+| LGPL-3.0 (Odoo) | ✅ Yes (modules) | ✅ Yes (modules are LGPL-OK) | Green light for Odoo modules |
+| AGPL-3.0 | ⚠️ Yes but must open-source if you expose via network | ❌ Must open SaaS | Consult legal |
+| GPL-3.0 | ⚠️ Copyleft | ❌ Modifications must be GPL | Consult legal |

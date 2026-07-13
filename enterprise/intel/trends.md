@@ -1,53 +1,64 @@
-# 📡 Tendencias — Enterprise AI
+# 📡 Trends — Enterprise AI (2026-07-13)
 
-> Última actualización: 2026-07-13 (v6)
+> Current and emerging trends shaping enterprise AI deployments.
+> Last updated: 2026-07-13 (v4)
 
-## Tendencias clave 2026
+## T1 — Agentic AI Is the New Enterprise App Layer
 
-### T1 — Microsoft Agent Framework 1.0 GA (abril 2026)
-Microsoft unificó AutoGen y Semantic Kernel en MAF 1.0: un SDK unificado con APIs de largo soporte, orquestación multi-agente, estado de sesión gestionado y soporte A2A + MCP. AutoGen pasa a mantenimiento. Para enterprises en ecosistema Microsoft, MAF 1.0 es el camino de producción.
+Gartner predicts 40% of enterprise applications will embed task-specific AI agents by EOY 2026, up from <5% in 2025 — one of the fastest technology adoption curves in enterprise history. More than 80% of organizations believe "AI agents are the new enterprise apps, triggering a reconsideration of investments in packaged apps." The question is no longer *if* but *which framework* and *how to govern*.
 
-### T2 — A2A Protocol: 150+ organizaciones (mayo 2026)
-El Agent-to-Agent Protocol (Linux Foundation) superó 150 organizaciones en su primer año. Microsoft, Google y AWS lo integraron en sus plataformas cloud. A2A define cómo los agentes se coordinan entre sí inter-organizacionalmente; MCP define cómo se conectan a herramientas. Juntos forman la capa base de interoperabilidad enterprise.
+## T2 — Human-In-The-Loop (HITL) as Enterprise Compliance Primitive
 
-### T3 — MCP como "app store" del enterprise
-MCP (Model Context Protocol) se estableció como el estándar universal de conexión agente→herramienta. Twenty CRM, ERPNext, 1C:Enterprise, y docenas de ERPs ya tienen MCP servers. El patrón: cualquier sistema legacy puede exponerse como MCP server y volverse "AI-accessible" sin reescritura.
+LangGraph 0.4's hardened `interrupt()` + checkpoint API is becoming the compliance standard for regulated enterprise workflows. Banks, insurers, and pharma companies require audit trails and human approval checkpoints before agents can take irreversible actions (wire transfers, drug dispensing orders, contract signatures). HITL is now a sales requirement, not a nice-to-have.
 
-### T4 — Gartner: inflexión del 40% (2026)
-Gartner confirma la transición: de <5% de apps enterprise con agentes en 2025 a 40% a fin de 2026. El cambio es estructural, no incremental. 57% de organizaciones ya tienen agentes en producción (algún nivel).
+## T3 — Microsoft Agent Framework (MAF) Consolidation
 
-### T5 — ROI enterprise de 171% promedio
-Los deployments agénticos enterprise retornan 171% en promedio (EE.UU.: 192%), triplicando el ROI de la automatización RPA tradicional. Áreas con mayor ROI: atención al cliente (−40h/mes/equipo), finanzas (cierre 30−50% más rápido), software engineering (coding agents).
+AutoGen + Semantic Kernel merging into a single MAF is the biggest enterprise AI architectural event of 2026. Azure-native enterprises (the majority of Fortune 500) are converging on MAF as their standard agentic platform. This creates a service opportunity for SI partners who can implement MAF patterns at scale.
 
-### T6 — Dify Platform Maturity ($30M Pre-A, 1M+ apps)
-Dify se consolida como plataforma enterprise open-source: $30M en financiación, 131k★ en GitHub, más de 1 millón de apps en producción con clientes como Maersk y Novartis. Su propuesta: RAG + agentic workflows + MCP + multi-LLM en un solo stack auto-hospedable.
+## T4 — MCP (Model Context Protocol) Becomes Enterprise Standard
 
-### T7 — n8n como action-layer de facto
-n8n supera los 3.000 clientes enterprise y ~100k★ GitHub. Su arquitectura de "nodos AI" conecta LLMs a 400+ sistemas (Slack, Salesforce, SAP, HubSpot) sin código. Se convirtió en el "glue layer" preferido entre agentes y sistemas existentes.
+Anthropic's MCP is winning the "how do AI agents talk to enterprise systems" battle. ERPNext, Twenty CRM, and Odoo are all shipping MCP servers. Enterprise architects are now specifying MCP support as a procurement requirement when evaluating new software platforms. MCP replaces custom API integrations.
 
-### T8 — Data quality como bloqueador #1
-Más del 50% de organizaciones cita la calidad de datos como principal obstáculo para escalar agentes. Enterprises que resuelven sus pipelines de datos antes de escalar reportan resultados sustancialmente mejores. Patrón emergente: agentes de calidad de datos como prerequisito.
+## T5 — Self-Hosted AI for Data Residency
 
-### T9 — Human-in-the-loop como estándar de gobernanza
-Las organizaciones más maduras implementan HITL por defecto: aprobaciones humanas en decisiones de alto riesgo, auditoría de acciones agénticas, rollback automático. CrewAI, LangGraph y MAF tienen HITL como feature de primera clase.
+84% of enterprises plan to increase AI agent investments in 2026, but data sovereignty concerns are pushing many (especially in LATAM, EU) toward self-hosted LLMs (Ollama + LLaMA 3.3 / Mistral / Qwen 2.5) combined with self-hosted orchestration (n8n, Dify). The "cloud AI with on-premise data" pattern is losing to "everything on my infrastructure."
 
-### T10 — On-premises/self-hosted por gobernanza de datos
-Crecimiento de preferencia por self-hosted: Dify, n8n, Flowise, y los propios ERPs pueden correrse completamente on-prem. Sectores financiero, salud y gobierno exigen datos que no salgan del perímetro. Claude + Ollama + ERPNext on-prem es stack viable.
+## T6 — ROI Pressure Accelerates Production Deployments
 
-### T11 — Vertical AI platforms embediendo agentes
-ServiceNow, Workday, Salesforce y SAP están embediendo agentes directamente en sus plataformas. El riesgo para Globant: los clientes "enterprise vanilla" comprarán agentes pre-hechos. La oportunidad: integraciones custom, workflows complejos y verticales específicas no cubiertos.
+Enterprise deployments of agentic AI return an average 171% ROI (US: 192%). This exceeds traditional automation ROI by 3x. CFOs are now requiring AI agent ROI projections before approving any tech spend — and the numbers are there. Time-to-production pressure is compressing; POCs are expected to show ROI within 90 days.
 
-### T12 — Multi-agent orchestration supera single-agent
-2026 marca la transición de agentes únicos a orquestación multi-agente. LangGraph, CrewAI, MAF 1.0 y Agno resuelven diferentes aspectos: flujos de grafo, roles, estado de sesión, y alta concurrencia respectivamente.
+## T7 — Visual AI Builders Democratize Enterprise Agent Development
 
-### T13 — LATAM: Brasil lidera adopción enterprise AI
-Brasil encabeza LATAM en adopción: Reforma Tributaria 2026 fuerza digitalización masiva de ERPs. Empresas que no automatizan cumplimiento fiscal quedan fuera de mercado. Oportunidad directa para Globant con clientes actuales en Brasil.
+n8n (182k★), Dify (136k★), Langflow (146k★), and Flowise (51k★) collectively surpassed 500k combined GitHub stars. Gartner's 2026 Low-Code/No-Code Magic Quadrant added a dedicated "AI-augmented development" axis. Product managers and business analysts are building working AI agents without engineering help — changing who controls AI roadmaps.
 
-### T14 — Benchmarks de agentes enterprise emergiendo
-Aparecen los primeros benchmarks específicos para tareas enterprise: procesamiento de facturas, resolución de tickets ITSM, actualización de CRM. Los frameworks que puntúan en estos benchmarks (no SWE-bench) van a capturar mercado enterprise.
+## T8 — Multi-Agent Orchestration at Production Scale
 
-### T15 — Código como commodity; orquestación como diferenciador
-Con coding agents al 72% en SWE-bench (OpenHands), el código es cada vez más commodity. El diferenciador enterprise se mueve a: integración de sistemas legados, gobernanza de datos, compliance regulatorio, y orquestación de procesos complejos multi-step.
+Single agents are hitting limits. Enterprises are adopting multi-agent patterns: CrewAI role-based crews, LangGraph supervisor/worker graphs, AutoGen/MAF hierarchical teams. The pattern: one orchestrator agent manages 5-20 specialist agents (research, write, review, approve, execute). Used by 60%+ Fortune 500 (CrewAI data).
 
----
-*Pipeline automático — se actualiza cada hora.*
+## T9 — AI-Native ERP/CRM Replacing Legacy Systems
+
+Twenty CRM (45.5k★, +125% in 12 months) and modern Odoo (v18 with AI Studio) are beating legacy players on developer experience + AI readiness. Mid-market companies ($10M-$500M revenue) are migrating from Salesforce/SAP to OSS alternatives with better AI hooks. Globant opportunity: migration + AI augmentation engagement.
+
+## T10 — Enterprise Knowledge Graphs + RAG at Scale
+
+Vector DB + RAG is table stakes. The frontier is combining knowledge graphs (Neo4j, Apache AGE) with RAG for structured reasoning over enterprise data. Enterprises with complex product catalogs, compliance documents, or supply chains are investing in graph-based agentic retrieval.
+
+## T11 — Agentic Process Automation (APA) Replacing RPA
+
+Traditional RPA (UiPath, Automation Anywhere) is being disrupted by APA — agents that understand intent, handle exceptions, and adapt to UI changes without re-scripting. UiPath's 2026 Agentic Automation Trends Report acknowledges the shift. Open-source APA stacks: Browser-Use + LangGraph + n8n.
+
+## T12 — Observability as Enterprise AI Governance
+
+OpenTelemetry tracing built into AutoGen/MAF, LangSmith for LangGraph, and Dify's built-in observability are becoming enterprise requirements. Regulated industries require agent decision logs for audit. "If your AI agent can't explain what it did and why, it can't be deployed in our environment" — common procurement requirement in 2026.
+
+## T13 — Pydantic AI and Type-Safe Agents for Compliance
+
+Banks and insurers are adopting Pydantic AI over less-typed frameworks because structured output validation prevents hallucination-induced data corruption. A wire transfer instruction with an invalid IBAN must fail loudly, not silently pass incorrect data downstream.
+
+## T14 — Agent-to-Agent (A2A) Protocol Emerging
+
+Google's Agent-to-Agent (A2A) protocol (Linux Foundation, 150+ orgs by May 2026) is gaining traction alongside MCP. While MCP connects agents to tools/data, A2A connects agents to other agents across organizations. Enterprise scenario: Globant client's procurement agent talks directly to supplier's fulfillment agent via A2A. Microsoft, Google, and AWS have all integrated it into their cloud platforms.
+
+## T15 — LATAM Enterprise AI Catching Up Fast
+
+Brazil, Mexico, Colombia, and Chile are showing the fastest enterprise AI adoption growth in the Americas after the US. LATAM-specific drivers: nearshoring demand driving manufacturing digitization (Mexico), Pix and open finance creating data infrastructure for AI (Brazil), Brazil's 2026 Tax Reform forcing ERP digitization, government digital transformation programs (Colombia, Chile). Globant's LATAM footprint is a structural advantage here.
