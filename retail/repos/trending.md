@@ -1,35 +1,36 @@
-# 📈 Repos trending — Retail & Ecommerce (2026-07-12)
+# Trending Repos — Retail AI
 
-> Repos con actividad significativa esta semana. Mix de plataformas + agentes + herramientas.
+> Last updated: 2026-07-13
 
-## Trending con stars significativas
+## High-Signal Trending (Jul 2026)
 
-| Repo | Licencia | Stars | Por qué está trending |
-|------|----------|-------|----------------------|
-| [Shopify/shop-chat-agent](https://github.com/Shopify/shop-chat-agent) | Apache-2.0 | — | Reference app oficial de Shopify para storefront chat agents; parte del Spring '26 Edition que abrió UCP a todos los devs sin aprobación previa |
-| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | — | Blueprint GenAI para transformar imágenes simples en catálogos enriquecidos; Nemotron VLM + FLUX.1 para variantes de imagen; usado por Grid Dynamics en retailers enterprise |
-| [HKUDS/LightRAG](https://github.com/HKUDS/LightRAG) | MIT | ~25k | Crecimiento sostenido; backend OpenSearch unificado; cada vez más usado para RAG sobre catálogos de producto y knowledge bases de retail |
-| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~600 | Shopify UCP integra/extiende ACP; el estándar de checkout agentico consolida posición con 1M+ merchants |
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | ~35k | Superó los 35k★; Medusa 2.0 con módulos desacoplados; ecosistema medusa-mcp creciendo |
-| [redis-developer/shopping-ai-agent-langgraph-js-demo](https://github.com/redis-developer/shopping-ai-agent-langgraph-js-demo) | — | — | Demo de agente de compras grocery con LangGraph.js + Redis semantic caching; recipe tools + product search semántico |
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|-------------|
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | ~31.3k | v2 Cloud launch; Claude Code agent skills; headless + MCP-native commerce |
+| [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | ~22k | 300k npm/week; go-to TypeScript framework for retail agent orchestration |
+| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~800 | ACP beta live on Walmart + Shopify 1M+ merchants; open standard for agentic checkout |
+| [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | ~1.5k | LangGraph multi-agent blueprint; image search + cart; NIM microservices |
+| [bagisto/bagisto](https://github.com/bagisto/bagisto) | OSL-3.0 | ~24.7k | Active 21k+ commits; Laravel ecosystem; growing AI plugin ecosystem |
+| [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | ~4.7k | Resurgence: used as hybrid RecSys backbone within RAG/LLM recommendation pipelines |
+| [mercurjs/mercur](https://github.com/mercurjs/mercur) | MIT | ~500 | Open-source multi-vendor marketplace on Medusa v2; B2B + B2C |
+| [ashishpatel26/500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects) | MIT | ~32k | Growing reference for retail AI agent use cases; product search, pricing, fulfillment |
 
-## Proyectos nuevos a seguir (<30 días)
+## Domain-Specific Rising Stars
 
-| Repo | Licencia | Descripción |
-|------|----------|-------------|
-| [Shopify/shop-chat-agent](https://github.com/Shopify/shop-chat-agent) | Apache-2.0 | Storefront chat agent reference; punto de partida para proyectos conversacionales sobre Shopify UCP |
-| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | Enriquecimiento de catálogo con GenAI: títulos, descripciones, categorías, lifestyle images localizadas |
-| [redis-developer/shopping-ai-agent-langgraph-js-demo](https://github.com/redis-developer/shopping-ai-agent-langgraph-js-demo) | — | Patrón LangGraph.js + Redis para grocery shopping agent; semantic caching para alto volumen |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [minimalart/mcp-medusa](https://github.com/minimalart/mcp-medusa) | MIT | ~65 | MCP server for Medusa — exposes admin API tools to Claude + agents |
+| [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | ~65 | Alternative MCP server for Medusa JS SDK |
+| [guymorita/recommendationRaccoon](https://github.com/guymorita/recommendationRaccoon) | MIT | ~816 | Redis-backed collaborative filtering, Node.js; used as lightweight RecSys |
+| [grahamjenson/list_of_recommender_systems](https://github.com/grahamjenson/list_of_recommender_systems) | MIT | ~5k | Curated RecSys resources: algorithms, frameworks, papers |
 
-## Plataformas establecidas con actividad reciente
+## Commerce Infrastructure Ecosystem
 
-| Repo | Licencia | Stars | Actividad notable |
-|------|----------|-------|-------------------|
-| [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) | MIT | ~140 | Soporte para Shopify UCP endpoint; RAG anti-hallucination para catálogos agénticos |
-| [nitin27may/e-commerce-agents](https://github.com/nitin27may/e-commerce-agents) | MIT | ~200 | Integración con Shopify UCP; puerto .NET completo + MCP servers lanzados |
-| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-3.0 | ~10.4k | Plugins AI para WooCommerce en crecimiento; WooCommerce Blocks + AI chatbot integrations |
-| [saleor/saleor](https://github.com/saleor/saleor) | BSD-3-Clause | ~23k | Actualización a BSD-3-Clause; GraphQL nativo clave para queries eficientes de agentes |
-| [microsoft/RecAI](https://github.com/microsoft/RecAI) | MIT | ~1.2k | Nuevos benchmarks RecLM-eval publicados; Microsoft establece métricas estándar para LLM+RecSys |
+| Repo | Stars | Context |
+|------|-------|--------|
+| [odoo/odoo](https://github.com/odoo/odoo) | ~51k | Dominant open ERP; Odoo 17/18 adding AI copilot features |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | ~24k | Retail ERP; Frappe team building AI extensions for Frappe Cloud |
+| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | ~10.4k | 6M+ stores; AI plugins (Jetpack AI, WooCommerce AI) gaining traction |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline auto-update — refreshed each run.*

@@ -1,47 +1,38 @@
-# 🎯 Agentes AI — Retail & Ecommerce
+# Top AI Agents — Retail & Consumer
 
-> Agentes y herramientas AI open source para retail, ecommerce y comercio agentico.
-> Foco: MIT / Apache 2.0. Última actualización: 2026-07-12
+> Open source AI agents and tools for the retail industry. Focus: MIT / Apache 2.0.
+> Last updated: 2026-07-13
 
-## Agentes y herramientas destacadas
+## Featured Agents & Tools
 
-| Nombre | Repo | Licencia | Stars | Descripción |
-|--------|------|----------|-------|-------------|
-| Enthusiast | [upsidelab/enthusiast](https://github.com/upsidelab/enthusiast) | MIT | ~140 | AI agent ecommerce-nativo con RAG anti-hallucination; búsqueda por lenguaje natural en catálogos; integración nativa Shopify / Shopware / Medusa / Solidus; soporte Shopify UCP endpoint (Apr 2026) |
-| e-commerce-agents | [nitin27may/e-commerce-agents](https://github.com/nitin27may/e-commerce-agents) | MIT | ~200 | 6 agentes especializados (product discovery, orders, pricing, reviews, inventory, support) colaborando via protocolo A2A sobre Microsoft Agent Framework; FastAPI + Next.js + PostgreSQL + pgvector; MCP data-access layer (mcp-product, mcp-inventory); puerto .NET lanzado |
-| shop-chat-agent | [Shopify/shop-chat-agent](https://github.com/Shopify/shop-chat-agent) | Apache-2.0 | — | Reference app oficial de Shopify para storefront chat agent; integra UCP Skill con 20 años de conocimiento commerce; accede a catálogo + checkout de millones de merchants via UCP MCP endpoint |
-| RecAI / InteRecAgent | [microsoft/RecAI](https://github.com/microsoft/RecAI) | MIT | ~1.2k | Puente LLM ↔ RecSys de Microsoft Research; InteRecAgent usa LLM como cerebro + RecSys clásico como tools; incluye RecLM-emb (item retrieval semántico), RecExplainer (explicabilidad), RecLM-gen (fine-tuning dominio); benchmarks RecLM-eval publicados |
-| NVIDIA Retail Catalog Enrichment | [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | — | Blueprint GenAI para enriquecimiento de catálogos a escala; Nemotron VLM genera títulos, descripciones, categorías y variantes de imagen multilocale; corre en NVIDIA NIM; Grid Dynamics lo usa en producción para retailers grandes |
-| Agentic Commerce Protocol | [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~600 | Estándar abierto (OpenAI + Stripe) para checkout agentico; define cart, fulfillment, payment token delegation y OAuth 2.0; Etsy + Shopify (1M+ merchants) + Walmart en producción; PayPal como segundo PSP; ahora integrado con Shopify UCP |
-| reco-gym | [criteo-research/reco-gym](https://github.com/criteo-research/reco-gym) | Apache-2.0 | ~480 | Entorno RL para recomendación de productos de Criteo Research; simula flujo de usuario real en ecommerce para entrenar agentes de recomendación; base estándar para investigación RecSys con RL |
-| LightRAG | [HKUDS/LightRAG](https://github.com/HKUDS/LightRAG) | MIT | ~25k | RAG con indexación graph-based para catálogos y knowledge bases de producto; backend OpenSearch unificado; multimodal (PDF, imágenes, tablas); setup wizard Docker; ideal para Q&A sobre catálogos y manuales |
-| stockpyl | [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | ~165 | Python para inventory optimization y supply chain simulation; EOQB, newsvendor, Wagner-Whitin, política (s,S); base matemática para agentes de reposición automática |
-| AgentScope | [agentscope-ai/agentscope](https://github.com/agentscope-ai/agentscope) | Apache-2.0 | ~6k | Framework multi-agente de Alibaba con monitoreo visual; producción probada en pricing dinámico, inventory y atención al cliente en ecommerce a escala |
-| Shopping AI Agent (Redis) | [redis-developer/shopping-ai-agent-langgraph-js-demo](https://github.com/redis-developer/shopping-ai-agent-langgraph-js-demo) | — | — | Agente de compras grocery con LangGraph.js + Redis semantic caching; recipe tools + product search; demuestra semantic caching para respuestas ultrarrápidas en alto volumen |
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| Medusa Agent Skills | [medusajs/medusa-agent-skills](https://github.com/medusajs/medusa-agent-skills) | MIT | ~31k (main) | Official agent skills for ecommerce: storefront scaffolding, product catalog, cart flows. Works with Claude Code + any AI agent via MCP. |
+| NVIDIA Retail Shopping Assistant | [NVIDIA-AI-Blueprints/retail-shopping-assistant](https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant) | Apache-2.0 | ~1.5k | Multi-agent shopping advisor built with LangGraph: image-based search, real-time streaming, cart management, product Q&A. |
+| WebShop | [princeton-nlp/WebShop](https://github.com/princeton-nlp/WebShop) | MIT | ~1.2k | Simulated e-commerce environment with 1.18M real products for training and benchmarking shopping agents. EMNLP 2022. |
+| LightFM | [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | ~4.7k | Hybrid recommendation algorithm (collaborative + content-based). Used in production at Lyst, Catalant. Cython-optimized for scale. |
+| reco-gym | [criteo-research/reco-gym](https://github.com/criteo-research/reco-gym) | Apache-2.0 | ~482 | Reinforcement learning environment for the recommendation problem. Criteo Research. OpenAI Gym interface. |
+| stockpyl | [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | ~164 | Python inventory optimization and simulation: EOQ, newsvendor, (r,Q), multi-echelon supply chains. |
+| Mastra | [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | ~22k | TypeScript agent framework (300k npm/week). Ideal for composing retail workflows: search, recommend, checkout, fulfillment. |
+| Agentic Commerce Protocol | [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~800 | Open standard by OpenAI + Stripe for AI agents to complete purchases. Walmart, Shopify (1M+ merchants), Etsy live. Beta 2026. |
+| ShoppingBench | [princeton-nlp/ShoppingBench](https://github.com/princeton-nlp/ShoppingBench) | MIT | ~350 | Benchmark for AI shopping agents: 200 tasks × 5 evaluators × 2,766-product live catalog. GPT-4.1 scores <50%. |
+| 500 AI Agents Projects | [ashishpatel26/500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects) | MIT | ~32k | Curated collection of 500+ AI agent use cases including retail: product recommendations, inventory, customer service, pricing. |
 
----
+## Notable Honorable Mentions
 
-## Frameworks de orquestación recomendados para Retail
+| Name | Repo | License | Stars | Notes |
+|------|------|---------|-------|-------|
+| mcp-medusa | [minimalart/mcp-medusa](https://github.com/minimalart/mcp-medusa) | MIT | ~65 | MCP server exposing all Medusa admin API tools to Claude/any AI agent |
+| recommendationRaccoon | [guymorita/recommendationRaccoon](https://github.com/guymorita/recommendationRaccoon) | MIT | ~816 | Redis-backed collaborative filtering recommendation engine, Node.js |
+| Demand-Forecasting | [DavieObi/Demand-Forecasting-and-Inventory-Optimization](https://github.com/DavieObi/Demand-Forecasting-and-Inventory-Optimization) | MIT | ~50 | ARIMA + ML demand forecasting for retail inventory |
+| ShopEZ AI Agent | [ankurbaliga8/ShopEZ-AI-Agent](https://github.com/ankurbaliga8/ShopEZ-AI-Agent) | MIT | ~120 | Autonomous shopping on Amazon/Walmart via GPT-4o + Browser Use + Playwright |
 
-| Framework | Repo | Licencia | Caso de uso retail clave |
-|-----------|------|----------|--------------------------|
-| LangGraph | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | Workflows de pricing/inventory con memoria persistente y human-in-the-loop |
-| CrewAI | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | Investigación de competencia, análisis de tendencias de producto; 52.8k★ |
-| Microsoft Agent Framework | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | Orquestación A2A+MCP para suites enterprise de retail (ERP + CRM + commerce) |
-| DeerFlow | [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | Apache-2.0 | ~70.7k★; sub-agents + memory + sandboxes; GitHub Trending #1 Feb 2026 |
-| Dify | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | Low-code RAG + agentes para equipos de negocio en retail (sin código); ~144k★ |
+## License Summary
 
----
-
-## Herramientas especializadas retail
-
-| Herramienta | Repo | Licencia | Función |
-|-------------|------|----------|---------|
-| medusa-mcp | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | MCP server para Medusa.js SDK; permite a agentes interactuar con ecommerce backend via MCP |
-| Shopify AI Toolkit | [shopify.dev/docs/agents](https://shopify.dev/docs/agents) | Apache-2.0 | UCP Skill open-source; Checkout MCP; Catalog API; registro de agentes sin aprobación previa (Spring '26) |
-| recommendationRaccoon | [guymorita/recommendationRaccoon](https://github.com/guymorita/recommendationRaccoon) | MIT | Collaborative filtering en Node.js + Redis para recomendaciones en tiempo real |
-| shelfops | [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | — | Retail shelf audit con visión (Cerebras Gemma 4 vs local Gemma); detección de compliance en lineal |
-| smart-retail-analytics | [intel-iot-devkit/smart-retail-analytics](https://github.com/intel-iot-devkit/smart-retail-analytics) | Apache-2.0 | Analytics de engagement, tráfico de tienda y shelf inventory con OpenVINO CV |
+| License | Count | Key Projects |
+|---------|-------|-------------|
+| MIT | 6 | Medusa, WebShop, ShoppingBench, stockpyl, 500-AI-Agents, mcp-medusa |
+| Apache 2.0 | 4 | LightFM, reco-gym, Mastra, NVIDIA blueprint, ACP |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Auto-updated by the ingest pipeline.*

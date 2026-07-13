@@ -1,88 +1,60 @@
-# 🏭 Verticales de partida — Retail & Ecommerce
+# Vertical Solutions — Retail & Consumer
 
-> Plataformas verticales existentes customizables con AI agéntica.
-> Modelo: partir de algo funcional con datos reales, añadir capa agéntica arriba.
-> Última actualización: 2026-07-12
+> Existing platforms customizable with AI. Start with a working system, add the agentic layer on top.
+> Last updated: 2026-07-13
 
-## Plataformas recomendadas por vertical de retail
+## Commerce Platforms (AI-Customizable)
 
-| Plataforma | Licencia | Repo / URL | Stack | Caso de uso principal | Stars |
-|------------|----------|------------|-------|-----------------------|-------|
-| **Medusa.js** | MIT | [medusajs/medusa](https://github.com/medusajs/medusa) | Node.js / TypeScript / PG | Ecommerce headless composable; B2C y B2B; API-first; modular; medusa-mcp para integración LLM | ~35k |
-| **Saleor** | BSD-3-Clause | [saleor/saleor](https://github.com/saleor/saleor) | Python / Django / GraphQL | Ecommerce headless B2B enterprise; GraphQL nativo hace queries de agentes muy eficientes | ~23k |
-| **Shopify (UCP)** | Propietario + Apache-2.0 Toolkit | [shopify.dev/docs/agents](https://shopify.dev/docs/agents) | SaaS + UCP MCP endpoint | Mayor ecosistema de merchants; Spring '26 abrió UCP a todos los devs; shop-chat-agent como referencia | SaaS |
-| **WooCommerce** | GPL-3.0 | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | PHP / WordPress | Mayor base instalada global; REST API v3 completa; plugins AI disponibles | ~10.4k |
-| **PrestaShop** | OSL-3.0 | [PrestaShop/PrestaShop](https://github.com/PrestaShop/PrestaShop) | PHP / Symfony | Ecommerce SME + mid-market LATAM; módulos AI Knowband (chatbot + vector search) | ~9k |
-| **Bagisto** | MIT | [bagisto/bagisto](https://github.com/bagisto/bagisto) | PHP / Laravel / Vue.js | Ecommerce Laravel; multi-canal; LATAM-friendly; APIs REST + WebSocket | ~16k |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java | ERP + ecommerce enterprise; catálogo, inventario, pedidos, CRM integrados | ~700 |
-| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python / JavaScript | All-in-one ERP+ecommerce; módulo ecommerce maduro + POS + inventario; muy adoptado en LATAM | ~53k |
-| **Solidus** | BSD-3 | [solidusio/solidus](https://github.com/solidusio/solidus) | Ruby on Rails | Retailers medianos/grandes; compatible con Enthusiast AI agent | ~5k |
+| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
+|----------|---------|------|-------|-----------------|----------------|
+| **Medusa** | MIT | [medusajs/medusa](https://github.com/medusajs/medusa) | Node.js / TypeScript | Headless commerce; D2C, B2B, marketplace | MCP server + agent skills; Claude Code integration native |
+| **Bagisto** | OSL-3.0 | [bagisto/bagisto](https://github.com/bagisto/bagisto) | Laravel / PHP | Multi-channel, multi-currency ecommerce | REST/GraphQL APIs; AI plugins via Bagisto marketplace |
+| **WooCommerce** | GPL-3.0 | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | WordPress / PHP | SMB to mid-market online stores (6M+ active) | Plugin ecosystem; Jetpack AI; WooCommerce Blocks |
+| **Mercur** | MIT | [mercurjs/mercur](https://github.com/mercurjs/mercur) | Node.js (on Medusa v2) | Multi-vendor marketplace B2B + B2C | Inherits Medusa MCP + agent skills |
 
-## Plataformas de gestión de punto de venta (POS)
+## ERP & Omnichannel Suites
 
-| Plataforma | Licencia | Repo | Stack | Descripción |
-|------------|----------|------|-------|-------------|
-| **Odoo POS** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python / JS | POS integrado con ERP Odoo; offline-capable; popular en LATAM |
-| **ERPNext Retail** | MIT | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/JS | ERP con módulo retail + POS; MCP-integrable; ideal para agentes de inventario |
-| **UniCenta** | GPL-3.0 | [UniCenta/unicentaoPOS](https://github.com/UniCenta/unicentaoPOS) | Java | POS para restaurantes y retail; Java cross-platform |
+| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
+|----------|---------|------|-------|-----------------|----------------|
+| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python / JavaScript | Full ERP: POS, inventory, CRM, ecommerce, accounting | Python APIs; Odoo.sh; Odoo AI Copilot (v17+); MCP servers emerging |
+| **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Frappe / Python | Retail, distribution, manufacturing ERP | Frappe Cloud AI extensions; REST API; webhook-driven agents |
+| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java | Enterprise ecommerce + ERP; highly customizable | Java APIs; used as backend for AI-augmented enterprise retail |
 
-## CRM para retail
+## Specialized Retail Infrastructure
 
-| Plataforma | Licencia | Repo | Descripción |
-|------------|----------|------|-------------|
-| **SuiteCRM** | AGPL-3.0 | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | CRM completo; PHP; popular en LATAM; base para agentes de customer service |
-| **Dolibarr** | GPL-3.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | ERP+CRM integrado para SME; retail, inventario, billing; 18k★ |
-| **ERPNext Retail** | MIT | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/JS; ERP con módulo retail + POS; muy adoptado en LATAM; base para AI agents |
+| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
+|----------|---------|------|-------|-----------------|----------------|
+| **OpenBB** | AGPLv3 | [OpenBB-finance/OpenBBTerminal](https://github.com/OpenBB-finance/OpenBBTerminal) | Python | Financial analytics (pricing, margins, demand) | MCP v4; agent-native; LLM integrations built-in |
+| **Dolibarr** | GPL-3.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | SMB ERP+CRM (inventory, invoices, suppliers) | REST API; webhook; Claude agents via HTTP tools |
+| **SuiteCRM** | LGPL | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | PHP | CRM for retail: customer 360, campaigns, service | REST API v8; AI-driven lead scoring via webhooks |
 
-## Cómo añadir capa agéntica
+## Retail AI Middleware
 
-### Opción A: Medusa.js + Enthusiast + medusa-mcp (Globant stack recomendado)
+| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
+|----------|---------|------|-------|-----------------|----------------|
+| **Agentic Commerce Protocol** | Apache-2.0 | [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Open spec | Agent ↔ merchant transaction standard | Native protocol for AI agents to discover + purchase |
+| **LightFM** | Apache-2.0 | [lyst/lightfm](https://github.com/lyst/lightfm) | Python / Cython | Hybrid recommendations (collab + content) | Add as recommendation microservice to any platform |
+| **Mastra** | Apache-2.0 | [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | TypeScript | Agent orchestration for retail workflows | Workflow engine over any platform's API |
 
-```
-1. Fork medusajs/medusa → instancia con catálogo real
-2. Deploy medusa-mcp (SGFGOV/medusa-mcp) → expone SDK via MCP
-3. Deploy upsidelab/enthusiast → RAG anti-hallucination sobre catálogo
-4. Conectar Enthusiast + LangGraph → workflows multi-step
-5. Exponer ACP/UCP endpoint → checkout agentico para AI shopping agents
-```
-
-### Opción B: Shopify + shop-chat-agent + UCP (onboarding rápido)
+## How to Customize with AI (Recommended Pattern)
 
 ```
-1. Store Shopify existente (1M+ merchants disponibles)
-2. Registrar agente en Developer Dashboard (sin aprobación desde Spring '26)
-3. Fork Shopify/shop-chat-agent → agente chat personalizado
-4. Integrar UCP Skill → acceso a catálogo + checkout completo
-5. Deploy Claude Haiku como LLM backend → bajo costo para alto volumen
+1. Choose platform (Medusa for composable; Odoo for all-in-one; ERPNext for LATAM SMB)
+2. Stand up MCP server (medusa-mcp / odoo-mcp / custom) for agent access
+3. Add recommendation layer: LightFM or NVIDIA blueprint
+4. Wire Mastra (TypeScript) or LangGraph (Python) for workflow orchestration
+5. Integrate ACP for multi-agent checkout if Stripe-enabled
+6. Expose conversational UI: WhatsApp (LATAM), web chat, or voice
 ```
 
-### Opción C: Odoo/ERPNext + agentes (enterprise con ERP)
+## LATAM-Specific Recommendations
 
-```
-1. ERPNext/Odoo con datos reales de inventario y clientes
-2. Exponer APIs REST/GraphQL → wrapper MCP tool
-3. LangGraph agent con tools: get_inventory, update_order, recommend_product
-4. Claude Haiku para bajo costo en alta frecuencia (alerts, restock)
-5. Claude Sonnet para análisis complejo (demand forecasting narrativo)
-```
-
-### Opción D: NVIDIA Catalog Enrichment (retailer con catálogo grande)
-
-```
-1. Dataset de imágenes de productos + metadata básica
-2. Deploy NVIDIA Blueprint (Retail-Catalog-Enrichment) via NIM APIs
-3. Nemotron VLM genera: títulos, descripciones, categorías, tags por locale
-4. FLUX.1 genera lifestyle images culturalmente apropiadas
-5. Import resultados a Medusa/Saleor/Shopify → catálogo enriquecido a escala
-```
-
-### Patterns de integración
-
-- **Catálogo** → Medusa/Saleor API → LightRAG (indexación semántica) → Enthusiast (Q&A agente)
-- **Inventario** → stockpyl (optimización) → LangGraph (orquestación) → alertas automáticas
-- **Checkout** → ACP/UCP (protocolo) → Stripe/PayPal/MercadoPago → order sin fricción
-- **Recomendaciones** → RecAI/InteRecAgent → Claude Haiku re-ranking → API REST
-- **Warehouse** → NVIDIA MAIW (5 agentes) → digital twin + ERP → operaciones autónomas
+| Market | Recommended Stack | Rationale |
+|--------|------------------|----------|
+| Brazil | Medusa + PIX (via Stripe/Efi) + WhatsApp Business | PIX dominates payments; WhatsApp 97% smartphone penetration |
+| Mexico | ERPNext + OXXO/SPEI + MercadoPago | SMB-friendly ERP; SPEI instant transfers; ML marketplace dominance |
+| Argentina | Dolibarr + MercadoPago + custom AI | Currency complexity; offline-first needed; SMB scale |
+| Colombia | Odoo Community + PSE/Wompi | Growing D2C; Odoo widely deployed by SIs |
 
 ---
-*Ver también: `repos/foundations.md` para repos técnicos base.*
+*See also: `repos/foundations.md` for core repos, `compose/patterns.md` for integration recipes.*

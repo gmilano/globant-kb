@@ -1,51 +1,40 @@
-# 🏗️ Repos fundacionales — Retail & Ecommerce
+# Foundational Repos — Retail & Consumer
 
-> Bases sobre las cuales construir. Licencia abierta, comunidad activa, producción probada.
-> Última actualización: 2026-07-12
+> Bases to build on. Open license, active community.
+> Last updated: 2026-07-13
 
-## Plataformas ecommerce headless (base para añadir capa agéntica)
+## Commerce Platforms
 
-| Repo | Licencia | Stars | Stack | Descripción | Base para AI |
-|------|----------|-------|-------|-------------|---------------|
-| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | ~35k | Node.js / TypeScript / PostgreSQL | Plataforma ecommerce headless líder; API-first, modular; Medusa 2.0 con módulos desacoplados; 14k+ desarrolladores en comunidad | ✅ Excelente — REST APIs para cada entidad; medusa-mcp server disponible |
-| [saleor/saleor](https://github.com/saleor/saleor) | BSD-3-Clause | ~23k | Python / Django / GraphQL | Plataforma headless con GraphQL nativo; fuerte en B2B; Saleor Apps marketplace para extensiones | ✅ Muy buena — GraphQL hace queries de agentes muy eficientes |
-| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-3.0 | ~10.4k | PHP / WordPress | Mayor base instalada global; REST API completa v2/v3; WooCommerce Blocks con React | ⚠️ Buena — notar licencia GPL para extensiones |
-| [PrestaShop/PrestaShop](https://github.com/PrestaShop/PrestaShop) | OSL-3.0 | ~9k | PHP / Symfony | ERP + ecommerce; módulos AI disponibles (chatbot con vector search); popular en LATAM | ✅ Buena — API REST + módulos AI Knowband disponibles |
-| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~700 | Java / Groovy | Apache OFBiz: ERP + ecommerce enterprise; ScipioERP es fork más moderno con B2B/B2C avanzado | ✅ Buena — base para enterprise retail con ERP integrado |
-| [bagisto/bagisto](https://github.com/bagisto/bagisto) | MIT | ~16k | PHP / Laravel / Vue.js | Ecommerce Laravel; multi-canal (web, mobile, marketplace); LATAM friendly; activo en 2026 | ✅ Buena — APIs REST + canal WhatsApp compatible |
-| [itswadesh/svelte-commerce](https://github.com/itswadesh/svelte-commerce) | MIT | ~1.8k | SvelteKit / Node.js | Storefront headless SSR para cualquier backend; ideal como UI layer para arquitecturas agénticas | ✅ Excelente como UI layer para sistemas agénticos |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|----------|
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | ~31.3k | Headless, composable commerce platform. Node.js. Official MCP server + agent skills. v2 stable. The OSS alternative to Commercetools/Elastic Path. | Yes — MCP + agent skills native |
+| [bagisto/bagisto](https://github.com/bagisto/bagisto) | OSL-3.0 | ~24.7k | Laravel-based ecommerce platform. Multi-channel, multi-currency, multi-inventory. 21k+ commits. Used in production globally. | Yes — REST/GraphQL APIs |
+| [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-3.0 | ~10.4k | Most-deployed ecommerce platform (WordPress). 6M+ active stores. Extensive plugin ecosystem. AI plugin integrations maturing. | Partial — via plugins |
+| [gz-yami/mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | ~5.1k | Full-stack Java mall system (Spring Boot + Vue). Supports mini-apps, H5, PC, O2O, cross-border. Popular in APAC/China markets. | Partial — Java microservices |
 
-## Infraestructura de datos y búsqueda (crítica para AI retail)
+## ERP & Back-Office (Retail-Grade)
 
-| Repo | Licencia | Stars | Función retail |
-|------|----------|-------|----------------|
-| [meilisearch/meilisearch](https://github.com/meilisearch/meilisearch) | MIT | ~48k | Motor de búsqueda ultrarrápido typo-tolerant; integración nativa Medusa/Saleor; base para product discovery |
-| [opensearch-project/OpenSearch](https://github.com/opensearch-project/OpenSearch) | Apache-2.0 | ~10k | Búsqueda + vector store unificado; backend de LightRAG; ideal para catálogos grandes con semántica |
-| [pgvector/pgvector](https://github.com/pgvector/pgvector) | MIT | ~16k | Vector similarity search en PostgreSQL; usado en e-commerce-agents para product search semántico |
-| [redis-developer/shopping-ai-agent-langgraph-js-demo](https://github.com/redis-developer/shopping-ai-agent-langgraph-js-demo) | — | — | Patrón con Redis semantic caching para grocery agent; demuestra latencias sub-100ms en búsquedas repetidas |
-| [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | ~165 | Inventory optimization: EOQB, newsvendor, Wagner-Whitin, (s,S) — base para agentes de reposición |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|----------|
+| [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | ~51k | Full ERP suite: POS, inventory, CRM, ecommerce, accounting, manufacturing. Python. World's most-deployed open ERP. | Yes — Python APIs + MCP servers emerging |
+| [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~24k | Full ERP for retail, distribution, manufacturing. Multi-currency, FHIR-adjacent. Used in 100+ countries. Frappe/Python. | Yes — REST API + Frappe AI extensions |
+| [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | ~1k | Apache OFBiz — enterprise-grade ecommerce + ERP. Java. 20+ year project. Most customizable; used as basis for large retail deployments. | Yes — Java APIs |
 
-## AI Blueprints (nuevos 2026 — base para proyectos enterprise)
+## AI / Recommendation Infrastructure
 
-| Repo | Licencia | Stars | Función |
-|------|----------|-------|----------|
-| [NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment](https://github.com/NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment) | Apache-2.0 | — | GenAI para catálogos: Nemotron VLM genera títulos, descripciones, categorías, lifestyle images localizadas a escala |
-| [NVIDIA-AI-Blueprints](https://github.com/NVIDIA-AI-Blueprints) | Apache-2.0 | — | Hub de blueprints NVIDIA; incluye MAIW (Multi-Agent Intelligent Warehouse) con 5 agentes especializados |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|----------|
+| [lyst/lightfm](https://github.com/lyst/lightfm) | Apache-2.0 | ~4.7k | Hybrid recommendation: BPR, WARP, logistic loss. Collaborative + content-based. Cython. Used at scale by Lyst, Catalant. | Core RecSys engine |
+| [criteo-research/reco-gym](https://github.com/criteo-research/reco-gym) | Apache-2.0 | ~482 | OpenAI Gym environment for training RL recommendation agents. Criteo Research. Synthetic + real data. | RL recommendation training |
+| [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | ~164 | Inventory optimization: EOQ, newsvendor, (r,Q), METRIC multi-echelon. Python. Supply chain simulation. | Inventory + demand planning |
+| [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~800 | Open standard for AI agent ↔ merchant transactions. OpenAI + Stripe. Enables any agent to discover, browse, and purchase. | Protocol foundation |
 
-## Plataformas de análisis y BI para retail
+## Agent Orchestration (Retail Context)
 
-| Repo | Licencia | Stars | Función |
-|------|----------|-------|----------|
-| [apache/superset](https://github.com/apache/superset) | Apache-2.0 | ~64k | BI y dashboards para métricas de retail; connectors PG/MySQL/BigQuery |
-| [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | ~40k | Analytics self-hosted con AI query; sencillo para equipos de tienda |
-
-## MCP Servers para ecommerce (integración con LLMs)
-
-| Repo | Licencia | Descripción |
-|------|----------|-------------|
-| [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | MCP server para Medusa.js SDK — permite a LLMs gestionar catálogo, orders, clientes via MCP |
-| [nitin27may/e-commerce-agents](https://github.com/nitin27may/e-commerce-agents) | MIT | MCP servers mcp-product + mcp-inventory sobre HTTP streamable; patrón de referencia A2A |
-| Shopify UCP MCP endpoint | Apache-2.0 (Toolkit) | Shopify AI Toolkit UCP Skill; endpoint público (sin aprobación previa Spring '26); acceso a millones de merchants |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|----------|
+| [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | ~22k | TypeScript agent framework. 300k npm/week. Workflows, memory, tool registry. Ideal for retail workflow automation. | Native agent framework |
+| [medusajs/medusa-agent-skills](https://github.com/medusajs/medusa-agent-skills) | MIT | — | Agent skills holding ecommerce best practices for Claude Code + other AI coding agents. Storefront scaffolding, product management. | First-class agent skills |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*See also: `verticals/solutions.md` for complete vertical platforms.*
