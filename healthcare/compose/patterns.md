@@ -1,181 +1,235 @@
-# 🧩 Composition Patterns — Healthcare
+# 🧩 Composition Patterns — Healthcare AI
 
-> Concrete recipes for building solutions combining repos + agents + AI.
-> Last updated: 2026-07-12 (v11)
+> Concrete recipes combining real repos + agents for healthcare solutions.
+> Last updated: 2026-07-13 (v12)
 
-## Base Stack
+## Base Architecture
 
 ```
-[Vertical EHR Platform (OpenEMR / OpenMRS / CARE)]
-          ↓
-[HAPI FHIR — standard interoperability layer]
-          ↓
-[openmed — HIPAA de-identification + clinical NER]
-          ↓
-[Specialized Agents (MDAgents / CHA / MedRAX)]
-          ↓
-[Claude / MedGemma local — reasoning layer]
-          ↓
-[Conversational UI / REST API for client]
+[EHR Platform (OpenEMR / Medplum / OpenMRS)]
+                    ↓ FHIR R4 API
+           [HAPI FHIR Server]
+                    ↓
+           [openmed — on-device NLP + PII scrubbing]
+                    ↓
+    [AI Agents Layer (MDAgents / EHRAgent)]
+                    ↓
+    [Evaluation (MedAgentBench / PhysicianBench)]
+                    ↓
+        [UI / API (Medplum React / OpenEMR modules)]
 ```
 
 ---
 
-## Recipe 1: AI Ambient Scribe for LATAM Clinics
+## Recipe 1 — AI Ambient Scribe (US Primary Care)
 
-**Goal**: Automatically transcribe and structure medical consultations in Spanish/Portuguese, generating SOAP notes in OpenEMR.
+**Goal**: Reduce physician documentation time by 40%+ using open-source ambient transcription + auto-note generation.
 
-**Key repos**:
-- `openai/whisper` (MIT) — audio → text transcription
-- `maziyarpanahi/openmed` (Apache-2.0) — HIPAA de-identification before sending to cloud
-- Claude API (Anthropic) — structured SOAP note generation in ES/PT
-- `openemr/openemr` (GPL-3.0) — FHIR ingest of generated note
+**Stack**:
+- **Base EHR**: [medplum/medplum](https://github.com/medplum/medplum) (Apache-2.0) — FHIR-native, HIPAA-compliant
+- **Transcription**: [openai/whisper](https://github.com/openai/whisper) (MIT) — self-hosted for PHI-safe audio
+- **NLP Pipeline**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0) — clinical NER + PII scrubbing before any LLM call
+- **Note Generation**: MDAgents-style orchestration → GPT-4o / Claude Sonnet via API after PII removal
+- **FHIR Write-back**: HAPI FHIR server writes structured note as FHIR DocumentReference
 
 **Wiring**:
-```
-Consultation audio → Whisper (transcription)
-→ openmed (de-identify PHI before cloud send)
-→ Claude API (prompt: "Generate SOAP note: {clean_text}")
-→ FHIR DocumentReference → OpenEMR via REST API
+```python
+# Simplified flow
+audio = capture_encounter_audio()
+transcript = whisper.transcribe(audio)  # self-hosted
+clean_transcript = openmed.scrub_pii(transcript)  # PHI removed
+clinical_note = claude.generate_soap_note(clean_transcript)
+fhir_client.create_document_reference(note=clinical_note, patient_id=patient_fhir_id)
 ```
 
-**Estimated time**: 4-6 weeks MVP  
-**Client ROI**: -65% physician documentation time
+**Timeline**: 8–12 weeks | **Est. ROI**: 40% documentation reduction = ~2hrs/physician/day saved
 
 ---
 
-## Recipe 2: Multi-Agent Clinical Decision Support
+## Recipe 2 — Prior Authorization Agent (Revenue Cycle Automation)
 
-**Goal**: Multi-agent clinical decision support system for complex cases (virtual MDTeam).
+**Goal**: Automate prior authorization submission and tracking, reducing manual work by 70% and approval time from 3 days to 4 hours.
 
-**Key repos**:
-- `mitmedialab/MDAgents` (MIT) — multi-LLM clinical orchestration
-- `hapifhir/hapi-fhir` (Apache-2.0) — FHIR R4 patient data access
-- `medspacy/medspacy` (MIT) — entity extraction from clinical history
-- `openmrs/openmrs-core` (MPL-2.0) — EHR data source
-- Claude Sonnet 5 — "internist" agent + Haiku 4.5 — specialist agents (cardio, neuro, etc.)
+**Stack**:
+- **EHR Data Source**: [openemr/openemr](https://github.com/openemr/openemr) (GPL-2.0) FHIR API for patient + procedure data
+- **Agent Framework**: [mitmedialab/MDAgents](https://github.com/mitmedialab/MDAgents) (MIT) — multi-agent for payer-specific rule application
+- **Computer Use**: Claude computer-use or Playwright for payer portal navigation
+- **Clinical NLP**: [medspacy/medspacy](https://github.com/medspacy/medspacy) (MIT) — extract clinical criteria from notes
+- **Audit Layer**: MedBeads pattern (immutable log of every AI action for compliance)
 
 **Wiring**:
 ```
-Clinical case trigger (OpenMRS webhook)
-→ HAPI FHIR: GET /Patient/{id}/everything
-→ medspacy: extract entities (diagnoses, medications, labs)
-→ MDAgents: assign team (solo vs. group based on complexity)
-  → Internist Agent (Claude Sonnet): summary + hypothesis
-  → Cardiologist / Neurologist Agent (Claude Haiku): specialist perspective
-  → Critic Agent: evaluates evidence, requests more info if data gaps
-→ Consensus → structured recommendation → OpenMRS note + physician alert
+OpenEMR FHIR → extract [procedure, diagnosis, clinical notes]
+                    ↓
+medspacy: extract [medical necessity criteria, ICD-10/CPT codes]
+                    ↓
+MDAgents: [payer-rules-agent] + [clinical-criteria-agent] → prior auth package
+                    ↓
+computer-use agent: submit to payer portal + monitor status
+                    ↓
+OpenEMR: write authorization number + status back via FHIR
 ```
 
-**Estimated time**: 8-10 weeks  
-**Regulatory**: Requires clinical validation + ANVISA/COFEPRIS approval for diagnostic support
+**Timeline**: 10–14 weeks | **Est. ROI**: 60-70% prior auth automation = $180K/year for 5-physician practice
 
 ---
 
-## Recipe 3: Automated Pharmacovigilance (ANVISA / COFEPRIS)
+## Recipe 3 — Multi-Agent Clinical Decision Support (MDAgents Pattern)
 
-**Goal**: Automatically detect adverse drug event signals and generate regulatory reports.
+**Goal**: Deploy multi-LLM collaboration for complex differential diagnosis, matching specialist-level reasoning without specialist referral for common cases.
 
-**Key repos**:
-- `jihyechoi77/malade` (MIT) — multi-agent RAG over FDA/ANVISA drug labels
-- `langroid/langroid` (MIT) — underlying multi-agent framework of MALADE
-- `openemr/openemr` (GPL-3.0) — prescription + history data source
-- `hapifhir/hapi-fhir` (Apache-2.0) — structured MedicationRequest + AdverseEvent FHIR
+**Stack**:
+- **Framework**: [mitmedialab/MDAgents](https://github.com/mitmedialab/MDAgents) (MIT)
+- **EHR Context**: [wshi83/EhrAgent](https://github.com/wshi83/EhrAgent) (MIT) — retrieves relevant patient history from FHIR EHR
+- **Evidence Retrieval**: [ninglab/KGARevion](https://github.com/ninglab/KGARevion) (MIT) — knowledge-graph RAG over clinical literature
+- **Safety Check**: [ShenghaiRong/MALADE](https://github.com/ShenghaiRong/MALADE) (MIT) — drug interaction verification
+- **Evaluation**: [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) (MIT)
 
-**Wiring**:
+**Agent Roles** (MDAgents pattern):
 ```
-OpenEMR: new prescriptions + follow-up notes (via FHIR webhook)
-→ HAPI FHIR: GET /MedicationRequest + /Condition + /Observation
-→ MALADE:
-  Agent 1 (Researcher): finds ADE in drug label (RAG over FDA labels / ANVISA)
-  Agent 2 (Pharmacovigilance): cross-references patient symptoms with known ADEs
-  Agent 3 (Critic): evaluates causality (WHO-UMC scale)
-→ If signal > threshold: generate structured MedDRA + E2B(R3) report
-→ Alert physician + record in OpenEMR + optional send to ANVISA/COFEPRIS
+Clinical Query Input
+       ↓
+EHRAgent: fetch relevant patient history from FHIR
+       ↓
+[Diagnostic Team — MDAgents adaptive assembly]
+  ├── Internist LLM: primary differential
+  ├── Specialist LLM: domain-specific reasoning
+  └── KGARevion RAG: evidence-based guidelines
+       ↓
+MALADE: drug safety check on proposed treatments
+       ↓
+Synthesis: final recommendation + confidence + sources
+       ↓
+MedAgentBench: automated evaluation before deployment
 ```
 
-**Estimated time**: 6-8 weeks  
-**Differentiator**: Spanish/Portuguese support for LATAM regulatory reports
+**Timeline**: 12–16 weeks | **Applicability**: Hospital systems, specialist clinics, telemedicine
 
 ---
 
-## Recipe 4: AI Radiology Pipeline
+## Recipe 4 — LATAM Community Health Worker Copilot (OpenMRS + WhatsApp)
 
-**Goal**: Automated chest X-ray analysis with structured report integrated in radiology workflow.
+**Goal**: Give community health workers (CHW) in rural Brazil/Colombia/Peru an AI copilot via WhatsApp to improve triage accuracy and care coordination.
 
-**Key repos**:
-- `OHIF/Viewers` (MIT) — web DICOM viewer with plugin system
-- `TorchIO-project/torchio` (Apache-2.0) — 3D medical image preprocessing
-- `bowang-lab/MedRAX` (MIT) — multi-tool reasoning agent for chest X-ray
-- `hapifhir/hapi-fhir` (Apache-2.0) — ImagingStudy + DiagnosticReport FHIR
+**Stack**:
+- **EHR**: [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) (MPL-2.0) — community health data
+- **CHW Copilot Agent**: [LLM4IMAS/IMAS](https://github.com/LLM4IMAS/IMAS) (MIT) — low-resource multi-agent pipeline
+- **On-Device NLP**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0) — clinical NLP in Portuguese/Spanish, no cloud
+- **Messaging**: WhatsApp Business API → FastAPI bridge → IMAS agent
+- **Clinical Data**: OpenMRS FHIR module for patient record access
+- **Digital Public Good**: [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) (MIT) for facility management
 
-**Wiring**:
+**Flow**:
 ```
-DICOM upload (PACS / Orthanc) → DICOMweb endpoint
-→ OHIF Viewer: display to radiologist
-→ torchio: preprocessing + normalization → tensor
-→ MedRAX:
-  Tool 1: Pathology detection (pneumonia, effusion, cardiomegaly)
-  Tool 2: Structure segmentation
-  Tool 3: Comparison with prior studies (FHIR ImagingStudy history)
-  Tool 4: Structured SNOMED/LOINC report generation
-→ FHIR DiagnosticReport → HAPI FHIR → OpenEMR
-→ OHIF Viewer overlay: findings with probabilities + marked areas
+CHW sends symptom report via WhatsApp (PT/ES)
+       ↓
+openmed: clinical NER + PII check (on-device)
+       ↓
+IMAS: [triage-agent] → severity classification
+      [referral-agent] → nearest facility recommendation
+      [protocol-agent] → ministry-of-health protocol lookup
+       ↓
+OpenMRS: log encounter + update patient record via FHIR
+       ↓
+WhatsApp: response to CHW in local language
 ```
 
-**Estimated time**: 10-12 weeks (includes radiologist validation)
+**Timeline**: 8–12 weeks | **Languages**: Portuguese, Spanish | **Connectivity**: Works on 2G (async queue)
 
 ---
 
-## Recipe 5: Rural Healthcare Delivery (Salud Sin Fronteras)
+## Recipe 5 — Radiology AI Second Read (Open-Source Stack)
 
-**Goal**: AI support for rural LATAM clinics: triage, differential diagnosis, and referral without permanent connectivity.
+**Goal**: AI-assisted second read for chest X-rays and CT scans, flagging critical findings for radiologist review — reducing missed findings.
 
-**Key repos**:
-- `uheal/imas` (MIT) — agentic framework for rural healthcare delivery
-- `openmrs/openmrs-core` (MPL-2.0) — EHR adapted for low-resource settings
-- `Institute4FutureHealth/CHA` (MIT) — conversational health agent
-- `maziyarpanahi/openmed` (Apache-2.0) — on-device models without cloud (12 languages)
-- MedGemma-4B (Apache-2.0, Google) — local model via Ollama
+**Stack**:
+- **Viewer**: [OHIF/Viewers](https://github.com/OHIF/Viewers) (MIT) — DICOM web viewer
+- **AI Framework**: [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI) (Apache-2.0) — medical imaging AI
+- **3D Preprocessing**: [TorchIO-project/torchio](https://github.com/TorchIO-project/torchio) (Apache-2.0) — 3D transforms + augmentation
+- **Report Agent**: [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) (MIT) — multimodal RAG for radiology report generation
+- **FHIR Integration**: HAPI FHIR for DiagnosticReport resource creation
 
-**Wiring**:
+**Architecture**:
 ```
-Health promoter (Android mobile, no stable internet)
-→ CHA: guided symptom conversation (ES / PT / indigenous languages)
-→ openmed on-device: local clinical NER, no PHI to cloud
-→ IMAS: care plan based on PAHO/WHO protocols
-→ MedGemma-4B (Ollama local): differential diagnosis
-→ OpenMRS local (SQLite sync): EHR registration
-→ When connected: sync to central OpenMRS + referral if needed
+DICOM Study arrives
+       ↓
+torchio: preprocess 3D volume (normalization, resampling)
+       ↓
+MONAI model: auto-segmentation + finding detection
+       ↓
+OHIF Viewer: overlay findings as annotations
+       ↓
+MedRAX: generate structured radiology report draft
+       ↓
+HAPI FHIR: create DiagnosticReport resource
+       ↓
+Radiologist: review + sign in OHIF
 ```
 
-**Estimated time**: 12-16 weeks (includes field work + validation)  
-**Social impact**: Healthcare coverage in zones without permanent physicians
+**Timeline**: 12–20 weeks (includes model training/fine-tuning) | **ROI**: 25-35% radiologist throughput increase
 
 ---
 
-## Recipe 6: Revenue Cycle Management (RCM) Automation
+## Recipe 6 — OpenEMR + AI for Small Practice (LATAM SMB)
 
-**Goal**: Automate prior authorization, coverage verification, and denial prediction for LATAM hospitals.
+**Goal**: AI-powered practice management for small clinics in Brazil/Mexico/Argentina — affordable, deployable on local server, LGPD/NOM-compliant.
 
-**Key repos**:
-- `openemr/openemr` (GPL-3.0) — claims + clinical data source
-- `hapifhir/hapi-fhir` (Apache-2.0) — Claim + CoverageEligibilityRequest FHIR
-- Claude API — agent for form completion and denial prediction
-- `medspacy/medspacy` (MIT) — diagnosis extraction for clinical justification
+**Stack**:
+- **EHR**: [openemr/openemr](https://github.com/openemr/openemr) (GPL-2.0) — free, self-hosted, ONC-certified
+- **AI Module**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0) — on-device, no cloud costs
+- **Appointment Agent**: Simple LangGraph agent on LangChain for scheduling optimization
+- **Billing Agent**: ICD-10 code suggestion agent using medspacy + clinical note parsing
+- **Deploy**: Docker Compose on local server (no cloud dependency)
 
-**Wiring**:
+**Modules Activated**:
 ```
-Physician creates order / prescription in OpenEMR
-→ FHIR Claim draft: CoverageEligibilityRequest to insurer
-→ RCM Agent:
-  Sub-agent Eligibility: verifies coverage in real-time
-  Sub-agent Justification: extracts DX + medspacy → generates medical letter
-  Sub-agent Prior Auth: fills insurer form + predicts approval probability
-  Sub-agent Denial Predictor: if high risk → suggests alternative codes
-→ Dashboard: authorization status per order + alerts
-→ If denied: Appeal Agent drafts appeal with evidence
+OpenEMR core (scheduling + billing + clinical notes)
+       ↓
+openmed module (clinical NER, auto-coding suggestions)
+       ↓
+Appointment-AI: schedule optimization + patient reminders via WhatsApp
+Billing-AI: ICD-10/procedure code validation before claim submission
+Note-AI: SOAP note auto-draft from quick symptom input
 ```
 
-**Estimated time**: 6-8 weeks  
-**ROI**: 15-25% denial reduction + 70% less administrative time
+**Timeline**: 6–8 weeks | **Cost**: $0 software + server (~$200/month)
+
+---
+
+## Recipe 7 — Clinical AI Evaluation Harness (Enterprise)
+
+**Goal**: Before deploying any clinical AI product, run it through a standardized evaluation pipeline to meet health system procurement requirements.
+
+**Stack**:
+- **Primary Eval**: [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) (MIT) — EHR agent task completion
+- **Clinical Tasks**: [HealthRex/PhysicianBench](https://github.com/HealthRex/PhysicianBench) (MIT) — 100 tasks, 21 specialties
+- **LLM Comparison**: [nyuolab/clinical-llm-benchmarks](https://github.com/nyuolab/clinical-llm-benchmarks) (MIT) — general vs. specialized
+- **Safety Check**: HealthBench scores (via OpenAI API) for baseline safety
+- **Reporting**: Custom CI/CD pipeline generating clinical AI scorecard
+
+**Output**: Clinical AI Scorecard per model/agent version:
+- MedAgentBench task completion rate
+- PhysicianBench specialty coverage
+- Hallucination rate (HealthBench)
+- FHIR tool use accuracy
+- Safety refusal rate
+
+**Timeline**: 4–6 weeks to set up harness | **Ongoing**: Run on every model/agent update
+
+---
+
+## Recipe 8 — Pharmacovigilance Agent (Pharma / CDISC)
+
+**Goal**: AI agent that continuously monitors post-market drug safety signals from FDA FAERS, medical literature, and clinical notes.
+
+**Stack**:
+- **Core Agent**: [ShenghaiRong/MALADE](https://github.com/ShenghaiRong/MALADE) (MIT) — AUC 0.90 on drug-AE detection (NeurIPS 2024)
+- **Evidence Retrieval**: KGARevion (Harvard) — knowledge graph over drug interaction databases
+- **NLP**: openmed (Apache-2.0) — clinical note NER for adverse event extraction
+- **Data Sources**: FDA FAERS (public), PubMed, clinical trial registries
+- **Reporting**: FHIR AdverseEvent resources
+
+**Timeline**: 8–12 weeks | **Applicability**: Pharma companies, large health systems, CROs
+
+---
+*Auto-updated by the ingest pipeline.*

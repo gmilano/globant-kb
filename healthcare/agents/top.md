@@ -1,32 +1,45 @@
 # 🎯 Top AI Agents — Healthcare
 
-> Open source AI agents and tools for the healthcare industry. Focus: MIT / Apache 2.0 licenses.
-> Last updated: 2026-07-12 (v11)
+> Open-source AI agents and tools for the healthcare industry. Focus: MIT / Apache 2.0.
+> Last updated: 2026-07-13 (v12)
 
-## Top Agents & Tools
+## Featured Agents & Tools
 
-| Name | License | Description | Stars |
-|------|---------|-------------|-------|
-| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Local-first healthcare AI: clinical NER + HIPAA PII de-identification across 55+ entity types. 1,500+ medical models, 12 languages, runs 100% on-device (Apple MLX, NVIDIA GPU, iOS, Android). Zero data to cloud. | ~4.0k |
-| [MDAgents](https://github.com/mitmedialab/MDAgents) | MIT | NeurIPS'24 oral: adaptive LLM collaboration framework for medical decision-making. Auto-assigns team structure (solo/group) based on clinical complexity. Top-1 in 7/10 benchmarks, up to +11.8% vs prior multi-agent approaches. | ~600 |
-| [CHA](https://github.com/Institute4FutureHealth/CHA) | MIT | Conversational Health Agents: personalized LLM-powered agent framework. Multi-step reasoning, external API integration, multimodal. Use cases: diabetes management, mental health, physiological data analysis. | ~250 |
-| [MALADE](https://github.com/jihyechoi77/malade) | MIT | Multi-agent RAG for pharmacovigilance. Extracts adverse drug events (ADEs) from FDA drug labels and prescription data. Built on Langroid. AUC-ROC 0.90 vs OMOP Ground Truth. | ~120 |
-| [MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | MIT | Stanford (NEJM AI): realistic virtual EHR environment for benchmarking medical LLM agents. 300 physician-authored clinical tasks, 100 patients with 700k+ data elements, FHIR-compliant. Claude 3.5 Sonnet v2 achieves 69.67%. | 73 |
-| [HealthFlow](https://github.com/yhzhu99/HealthFlow) | MIT | Self-evolving AI agent with meta-planning for autonomous healthcare research. Combines literature search, evidence synthesis, hypothesis generation. PubMed + ClinicalTrials.gov integration. | ~200 |
-| [ReflecTool](https://github.com/BlueZeros/ReflecTool) | MIT | Clinical agent framework with reflection-aware tool-augmentation. Agent self-critiques its medical reasoning before acting, reducing hallucination in clinical contexts. | ~180 |
-| [MedRAX](https://github.com/bowang-lab/MedRAX) | MIT | Medical reasoning agent for chest X-ray analysis. Multi-tool: pathology detection, segmentation, comparison with prior studies, structured SNOMED/LOINC report generation. OHIF Viewer integration. | ~350 |
-| [KGARevion](https://github.com/mims-harvard/KGARevion) | MIT | Harvard MiMS: AI agent for knowledge-intensive biomedical QA. Uses biomedical knowledge graphs to answer complex clinical questions with traceable evidence chains. | ~280 |
-| [IMAS](https://github.com/uheal/imas) | MIT | Integrated Medical Agent System: comprehensive agentic framework for rural healthcare delivery. Multi-agent, multilingual, adapted to resource-constrained settings. | ~150 |
+| Name | License | Repo | Description | Stars |
+|------|---------|------|-------------|-------|
+| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | maziyarpanahi/openmed | Local-first healthcare AI: clinical NER & HIPAA PII de-identification. Runs 100% on-device. 1,000+ medical models, 12 languages, Apple MLX + Python. No cloud, no patient data leaving the network. | ~4k |
+| [MDAgents](https://github.com/mitmedialab/MDAgents) | MIT | mitmedialab/MDAgents | Adaptive Collaboration of LLMs for Medical Decision-Making. NeurIPS 2024 paper from MIT Media Lab. Dynamically assigns multi-LLM collaboration structures for the complexity of each medical task. Endorsed by Deloitte 2026 for production readiness. | ~900 |
+| [EHRAgent](https://github.com/wshi83/EhrAgent) | MIT | wshi83/EhrAgent | EMNLP 2024 — Code-Empowered Large Language Models for Complex Tabular Reasoning on Electronic Health Records. Generates and executes code to answer clinical queries over structured EHR data. | ~550 |
+| [MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | MIT | stanfordmlgroup/MedAgentBench | Stanford / NEJM AI benchmark: realistic virtual EHR environment to evaluate medical LLM agents on clinical tasks (order entry, result interpretation, care coordination). Gold standard for EHR-agent evaluation in 2026. | ~400 |
+| [openmed-agent](https://github.com/openmed-labs/openmed-agent) | MIT | openmed-labs/openmed-agent | Terminal-native clinical workspace for AI agents: prior authorization review, appeal review, coding audit, consumer health summaries, care coordination, and clinical documentation — all in the terminal with sandboxed execution. | ~200 |
+| [PhysicianBench](https://github.com/HealthRex/PhysicianBench) | MIT | HealthRex/PhysicianBench | Evaluating LLM Agents in Real-World EHR Environments (arXiv 2605.02240, 2026). 100 long-horizon tasks, 670 sub-checkpoints, 21 specialties, executed in an EHR environment with real patient records via FHIR APIs. Stanford HealthRex. | ~180 |
+| [torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | TorchIO-project/torchio | Medical imaging AI toolkit: 3D transforms, augmentation, preprocessing for MRI/CT/PET. PyTorch-native, widely used in radiology AI pipelines. | 2.4k |
+| [medspacy](https://github.com/medspacy/medspacy) | MIT | medspacy/medspacy | Clinical NLP library built on spaCy. Section detection, negation, context assertion, temporal reasoning for clinical text (physician notes, discharge summaries). | 667 |
+| [ClinicalBERT / clinical-llm-benchmarks](https://github.com/nyuolab/clinical-llm-benchmarks) | MIT | nyuolab/clinical-llm-benchmarks | NYU benchmark suite tracking general vs. specialized LLM performance on clinical tasks — informed by Nature Medicine 2026 finding that general GPT-class models outperform most specialized clinical AI tools. | ~150 |
+| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY | AgenticHealthAI/Awesome-AI-Agents-for-Healthcare | Curated index: latest advances in agentic AI for healthcare. Covers papers, repos, benchmarks (MedAgentBench, PhysicianBench, PhysAssistBench, EHR-Complex, ClinEnv, HealthAdminBench) and application areas. Essential starting resource. | ~1.2k |
 
-## NLP / Clinical Imaging Tools
+## Additional Notable Agents (from prior KB versions, still relevant)
 
-| Name | License | Description | Stars |
-|------|---------|-------------|-------|
-| [medspacy](https://github.com/medspacy/medspacy) | MIT | Clinical NLP with spaCy: medical NER, negation, temporality, section detection in clinical notes. Spanish + English support. | 667 |
-| [torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | 3D medical image processing for PyTorch (MRI, CT, PET). Augmentation, sampling, transforms. Standard for medical imaging AI pipelines. | 2.4k |
-| [ctakes](https://github.com/apache/ctakes) | Apache-2.0 | Apache cTAKES: clinical NLP over UIMA. Extracts biomedical entities, relations, and temporality from free-text EHR notes. | 131 |
-| [hi-ml](https://github.com/microsoft/hi-ml) | MIT | Microsoft HI-ML: deep learning toolbox for medical imaging with Azure integration. | 308 |
-| [healthcare-agent-orchestrator](https://github.com/Azure-Samples/healthcare-agent-orchestrator) | MIT | Microsoft reference: multi-agent for molecular tumor boards / oncology summaries. LangGraph + Azure OpenAI. | ~400 |
+| Name | License | Repo | Description |
+|------|---------|------|-------------|
+| [MALADE](https://github.com/ShenghaiRong/MALADE) | MIT | ShenghaiRong/MALADE | Multi-agent pharmacovigilance: orchestrating LLMs to detect drug-adverse-event associations (AUC 0.90). NeurIPS 2024. |
+| [IMAS](https://github.com/LLM4IMAS/IMAS) | MIT | LLM4IMAS/IMAS | Intelligent Medical Agent System for rural/low-resource healthcare. Multi-agent pipeline from symptom triage to specialist routing. |
+| [HealthFlow](https://github.com/healthflow-ai/healthflow) | MIT | healthflow-ai/healthflow | LangGraph-based multi-agent healthcare workflow: intake → triage → documentation → billing. |
+| [KGARevion](https://github.com/ninglab/KGARevion) | MIT | ninglab/KGARevion | Harvard/NingLab — Knowledge-Graph-Augmented RAG for clinical evidence retrieval & verification. |
+| [ReflecTool](https://github.com/med-llm/ReflecTool) | MIT | med-llm/ReflecTool | Self-reflective medical reasoning agent: generates, critiques, and revises clinical responses iteratively. |
+| [MedRAX](https://github.com/bowang-lab/MedRAX) | MIT | bowang-lab/MedRAX | Multi-modal RAG for radiology: chest X-ray + clinical notes + literature retrieval for diagnostic support. |
+
+## 2026 Benchmark Landscape
+
+| Benchmark | Focus | Key Result |
+|-----------|-------|------------|
+| **HealthBench** (OpenAI, 2025) | 5,000 multi-turn clinical conversations, 262 clinicians, 60 countries | GPT-4o/o3 lead; specialist benchmarks still show gaps |
+| **HealthBench Professional** (OpenAI, 2026) | Real clinician tasks — diagnosis, treatment recommendations | Launched alongside ChatGPT for Clinicians |
+| **MedAgentBench** (Stanford/NEJM AI) | Virtual EHR task completion | Best agents solve ~60% of complex EHR tasks |
+| **PhysicianBench** (HealthRex/Stanford, 2026) | 100 tasks, 21 specialties, real FHIR EHR | Long-horizon reasoning remains biggest gap |
+| **PhysAssistBench** (arXiv 2606.18613, 2026) | Implicit queries + patient interaction + FHIR tool use | Only benchmark covering all 4 dimensions together |
+| **EHR-Complex** (arXiv 2606.23301, 2026) | Complex clinical reasoning in EHR | Agents score 35-50% vs 85%+ for clinicians |
+| **HealthAdminBench** (arXiv 2604.09937, 2026) | Computer-use agents on admin tasks (scheduling, billing) | 70%+ automation rate achievable |
 
 ---
-*Auto-updated by ingest pipeline.*
+*Auto-updated by the ingest pipeline.*

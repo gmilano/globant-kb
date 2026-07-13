@@ -1,35 +1,52 @@
 # 📈 Trending Agents — Healthcare
 
-> Last updated: 2026-07-12 (v11)
+> What's new and gaining momentum this week.
+> Last updated: 2026-07-13 (v12)
 
-## This week's highlights (July 2026)
+## Breaking This Week
 
-| Name | License | Why trending | Stars |
+### HealthBench Professional Launch (OpenAI, July 2026)
+OpenAI launched **ChatGPT for Clinicians** alongside **HealthBench Professional** — a benchmark evaluating AI on authentic clinician tasks (diagnosis, treatment recommendation, patient communication). This has become the de-facto evaluation standard for clinical AI deployments. Health systems and vendors now compare hallucination rates, safety margins, and clinical guideline adherence before deployment.
+
+### PhysicianBench + PhysAssistBench Wave (June–July 2026)
+Two new benchmarks from Stanford HealthRex and collaborators are setting the 2026 standard:
+- **PhysicianBench** (arXiv 2605.02240): 100 long-horizon tasks in real EHR via FHIR APIs, 21 specialties, 670 sub-checkpoints. Shows current agents struggle with multi-step clinical reasoning.
+- **PhysAssistBench** (arXiv 2606.18613): The only benchmark covering implicit queries, patient interaction, FHIR tool use, and multi-turn evaluation simultaneously.
+
+### Agentic AI Adoption Surge (Q2 2026)
+- 68% of healthcare organizations now using AI agents (up from ~40% in 2025)
+- Mount Sinai and Mayo Clinic leading enterprise deployments of multi-agent clinical systems
+- 42% reduction in documentation time reported with ambient AI scribes + agentic summarization
+
+## Top Repos by Momentum (July 2026)
+
+| Repo | License | Why Trending | Stars |
 |------|---------|-------------|-------|
-| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | Launched OpenMedKit for Android/iOS; 1,500 new Apache-2.0 models on HuggingFace. On-device HIPAA AI for mobile clinics. | ~4.0k |
-| [MDAgents](https://github.com/mitmedialab/MDAgents) | MIT | Featured in Deloitte Agentic AI in Healthcare Report 2026. Being trialed by hospitals for clinical decision support. NeurIPS'24 oral. | ~600 |
-| [care_fe](https://github.com/ohcnetwork/care_fe) | MIT | July sprint: new AI triage + telemedicine modules. Active Digital Public Good deployment in 3 countries. | 611 |
-| [MedRAX](https://github.com/bowang-lab/MedRAX) | MIT | New OHIF Viewer integration for end-to-end radiology AI workflow. | ~350 |
-| [HealthFlow](https://github.com/yhzhu99/HealthFlow) | MIT | New preprint: real-time PubMed + ClinicalTrials.gov integration via autonomous meta-planning. | ~200 |
-| [MedAgentGym](https://github.com/wshi83/MedAgentGym) | MIT | Training environment for LLM agents in code-based medical reasoning. Cited in 12+ recent papers as evaluation standard. | ~300 |
-| [healthcare-agent-orchestrator](https://github.com/Azure-Samples/healthcare-agent-orchestrator) | MIT | Microsoft reference implementation: multi-agent for tumor board molecular oncology summaries. LangGraph + Azure OpenAI. | ~400 |
+| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | On-device clinical AI — HIPAA compliance without cloud risk. Growing with EU AI Act enforcement. | ~4k |
+| [MDAgents](https://github.com/mitmedialab/MDAgents) | MIT | Deloitte cited as production-ready in 2026 healthcare AI report. Enterprise validation wave. | ~900 |
+| [MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | MIT | Published in NEJM AI — clinical credibility drives adoption as eval harness | ~400 |
+| [PhysicianBench](https://github.com/HealthRex/PhysicianBench) | MIT | New June 2026 paper, immediate traction in academic + enterprise eval circles | ~180 |
+| [EHRAgent](https://github.com/wshi83/EhrAgent) | MIT | Renewed interest as EHR integration becomes the #1 enterprise AI priority | ~550 |
+| [Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY | Go-to index for healthcare AI teams starting new projects | ~1.2k |
+| [openmed-agent](https://github.com/openmed-labs/openmed-agent) | MIT | Terminal-first clinical AI workspace filling gap between chatbots and full EHR integration | ~200 |
+| [care_fe](https://github.com/ohcnetwork/care_fe) | MIT | Digital Public Good for healthcare delivery — LATAM + India deployments accelerating | 611 |
 
-## Recent papers with repos (2026)
+## Emerging Papers to Watch (June–July 2026)
 
-| Paper / Repo | Date | Contribution |
-|-------------|------|--------------|
-| [EvoClinician](https://github.com/yf-he/EvoClinician) | Jun 2026 | Self-evolving agent for multi-turn diagnosis via test-time evolutionary learning |
-| [DoctorAgent-RL](https://github.com/JarvisUSTC/DoctorAgent-RL) | May 2026 | RL for multi-turn clinical dialogue: agent learns when to request additional information |
-| [FHIR-AgentBench](https://github.com/glee4810/FHIR-AgentBench) | Mar 2026 | First realistic benchmark of LLM agents for EHR interoperability via FHIR APIs |
-| [MedTutor-R1](https://github.com/Zhitao-He/MedTutor-R1) | Feb 2026 | Socratic medical teaching: multi-agent simulating teacher + student for medical education |
-| [CP-Env](https://github.com/SPIRAL-MED/CP_ENV) | Feb 2026 | Controllable hospital virtual environment for evaluating LLMs on clinical pathways |
+| Paper | Key Contribution |
+|-------|-----------------|
+| [ClinEnv](https://arxiv.org/pdf/2606.02568) | Interactive Multi-Stage Long Horizon EHR Environment for Agents — new simulation testbed |
+| [EHR-Complex](https://arxiv.org/pdf/2606.23301) | Benchmarking Medical Agents for Complex Clinical Reasoning — shows 35-50% agent accuracy vs 85% clinician |
+| [MedBeads](https://arxiv.org/pdf/2602.01086) | Agent-Native, Immutable Data Substrate for Trustworthy Medical AI — auditability + provenance layer |
+| [HealthAdminBench](https://arxiv.org/pdf/2604.09937) | Computer-Use Agents on Healthcare Administration Tasks — 70%+ automation rate for scheduling/billing |
+| [AgentRx](https://chil2026.org) | Benchmark of LLM agents for multimodal clinical prediction tasks — presented at CHIL 2026 |
 
-## Emerging: MedGemma + TxGemma (Google, Apache-2.0)
+## Strategic Signals for Globant
 
-Google launched MedGemma and TxGemma in May 2026 under Apache-2.0:
-- **MedGemma-4B/27B**: multimodal medical model (text + images) on HuggingFace
-- **TxGemma**: specialized in therapeutics and pharmacology
-- Ollama local support for on-premise deployment → key for HIPAA compliance in LATAM
+1. **EHR integration is the moat**: Clients want AI that reads/writes Epic/Oracle via FHIR — `EHRAgent` + HAPI FHIR is the stack.
+2. **Evaluation-first sales cycle**: No health system buys without HealthBench / PhysicianBench scores — build eval harnesses early.
+3. **On-device is a wedge**: `openmed` (Apache-2.0) enables HIPAA-compliant AI demos without any cloud data exposure — perfect for pilot engagements.
+4. **Multi-agent orchestration**: Single-LLM calls won't pass clinical muster; MDAgents pattern (adaptive collaboration) is becoming the standard.
 
 ---
-*Auto-updated by ingest pipeline.*
+*Auto-updated by the ingest pipeline.*
