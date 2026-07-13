@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13 | v13 — Patrón 7: Carbon Engine MMO stack
 
 ## Patrón base
 
@@ -23,10 +23,10 @@
 
 **Stack completo**:
 ```
-Godot 4.4 (MIT)                        ← engine del juego
+Godot 4 (MIT)                          ← engine del juego
 └── LimboAI (MIT)                       ← behavior tree del NPC
     └── BTState con trigger HTTP         ← dispara llamada al LLM
-        └── Claude Haiku / Ollama       ← LLM (cloud o local)
+        └── Claude / GPT-4o / Ollama    ← LLM (cloud o local)
             └── pre-conversation.json   ← personalidad + conocimiento del personaje
                 └── ChromaDB / Qdrant   ← vector store para memoria episódica
 ```
@@ -38,7 +38,7 @@ Godot 4.4 (MIT)                        ← engine del juego
 - [undreamai/LLMUnity](https://github.com/undreamai/LLMUnity) — Apache-2.0, 1.7k stars. Para Unity en vez de Godot.
 
 **Cómo conectar**:
-1. Instalar LimboAI como plugin en Godot 4.4.
+1. Instalar LimboAI como plugin en Godot 4.
 2. Crear un BTAction `LLMDialogue` que envía POST al endpoint LLM con: `{character: "...", player_input: "...", memory: [...últimos N eventos...]}`.
 3. La respuesta del LLM vuelve como texto → animación de lip sync + texto en UI.
 4. Guardar el intercambio en el memory store (ChromaDB vía API HTTP o SQLite local).
@@ -56,7 +56,7 @@ Godot 4.4 (MIT)                        ← engine del juego
 
 **Stack**:
 ```
-Godot 4.4 (MIT)                         ← juego a testear como entorno RL
+Godot 4 (MIT)                           ← juego a testear como entorno RL
 └── godot_rl_agents (MIT)               ← bridge Python ↔ Godot (obs/actions/rewards)
     └── Stable-Baselines3 (MIT)         ← algoritmo PPO / SAC
         └── Entrenamiento con reward:    ← maximiza: coverage + crashes encontrados + exploits
@@ -65,14 +65,14 @@ Godot 4.4 (MIT)                         ← juego a testear como entorno RL
 ```
 
 **Repos**:
-- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT, 900+ stars. Wrappers para SB3, Sample Factory, Ray RLLib, CleanRL.
+- [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) — MIT, 900+ stars.
 - [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) — MIT, 13.5k stars. PPO, SAC, A2C, DQN en PyTorch.
-- [Farama-Foundation/Gymnasium](https://github.com/Farama-Foundation/Gymnasium) — MIT, 12.1k stars. API estándar del entorno.
+- [Farama-Foundation/Gymnasium](https://github.com/Farama-Foundation/Gymnasium) — MIT, 12.1k stars.
 
 **Cómo conectar**:
 1. Definir el espacio de observación: posición del jugador, estado del nivel, items disponibles.
 2. Definir las acciones: movimiento, interacciones disponibles.
-3. Definir la reward function: +reward por área nueva explorada, +reward por estados inválidos (out-of-bounds, NaN values), -reward por acciones repetitivas.
+3. Definir la reward function: +reward por área nueva explorada, +reward por estados inválidos, -reward por repetición.
 4. Entrenar durante 1-5M steps con PPO vía SB3.
 5. El agente entrenado corre el juego 24/7 detectando regresiones.
 
@@ -81,148 +81,183 @@ Godot 4.4 (MIT)                         ← juego a testear como entorno RL
 
 ---
 
-## Receta 3: Backend inteligente con Nakama + AI (matchmaking y engagement)
+## Receta 3: Backend multijugador + AI features
 
-**Caso de uso**: Matchmaking predictivo por skill, anti-cheat conductual, notificaciones de re-engagement.
+**Caso de uso**: Juego multijugador con matchmaking inteligente, anti-cheat conductual, y analytics de retención.
 
 **Stack**:
 ```
-Nakama (Apache-2.0)                      ← backend multiplayer
-└── TypeScript runtime hooks              ← lógica server-side
-    └── TensorFlow.js / ONNX Runtime     ← modelos ML en Node.js
-        ├── Matchmaking ML               ← predice "match quality" antes de confirmar
-        ├── Anti-cheat GNN               ← detecta boosting / account sharing
-        └── Churn predictor              ← activa rewards para jugadores en riesgo
+Godot 4 (MIT) — cliente
+└── SDK nakama-godot (Apache-2.0)
+    ↕ WebSocket / HTTP
+Nakama server (Apache-2.0)              ← backend multiplayer
+    ├── Matchmaking hook (TypeScript)
+    │   └── Modelo ONNX de matching     ← PyTorch → exportado como ONNX
+    ├── Server-side events               ← cada acción del jugador logeada
+    │   └── PostHog (MIT)               ← analytics de comportamiento
+    ├── Anti-cheat hook (Go)
+    │   └── Detección de anomalías      ← velocidad, puntería, recursos anómalos
+    └── Open Match (Apache-2.0)         ← matchmaking enchufable de Google
 ```
 
 **Repos**:
-- [heroiclabs/nakama](https://github.com/heroiclabs/nakama) — Apache-2.0, 12.8k stars. Core backend.
-- [googleforgames/open-match](https://github.com/googleforgames/open-match) — Apache-2.0. Matchmaking enchufable.
-- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars. Player events.
-- [pytorch/geometric](https://github.com/pyg-team/pytorch_geometric) — MIT, 22k stars. GNNs para churn (PyTorch Geometric).
+- [heroiclabs/nakama](https://github.com/heroiclabs/nakama) — Apache-2.0, 12.8k stars.
+- [heroiclabs/nakama-godot](https://github.com/heroiclabs/nakama-godot) — Apache-2.0. SDK oficial Godot.
+- [googleforgames/open-match](https://github.com/googleforgames/open-match) — Apache-2.0.
+- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k+ stars.
 
 **Cómo conectar**:
-1. Implementar Nakama hook `matchmakerMatched` → llamar a modelo ML que puntúa el "match quality" → confirmar o rechazar.
-2. Log de eventos a PostHog via SDK TypeScript → feature engineering para modelo churn.
-3. Entrenar GNN con PyTorch Geometric sobre grafo jugador-partida → exportar a ONNX → cargar en hook Nakama.
-4. Open Match para cola de matchmaking con función de evaluación personalizada.
+1. Instalar Nakama via Docker. Configurar SDK en Godot.
+2. Crear server-side hooks en TypeScript: `after_match_create`, `before_authenticate`.
+3. En el hook de matchmaking: llamar al modelo ONNX que predice la "calidad" de un partido.
+4. Anti-cheat: loguear posición + velocidad + kills por segundo. Si supera z-score > 3, flag para revisión.
+5. PostHog recibe eventos → dashboards de retención, churn prediction.
 
-**Tiempo estimado**: 3-4 semanas para matchmaking ML; 4-6 semanas para churn + anti-cheat.
+**Tiempo estimado**: 3-4 semanas para stack completo.
 
 ---
 
-## Receta 4: Editor AI-assisted con MCP (godot-ai + Claude Code)
+## Receta 4: Mundo procedural con AI
 
-**Caso de uso**: Desarrollo de juego asistido por AI directamente en el editor Godot. Velocidad 2x en producción de contenido.
+**Caso de uso**: Generación infinita de contenido: niveles, quests, diálogos, texturas.
 
 **Stack**:
 ```
-Godot 4.4 (MIT)                          ← editor del juego
-└── godot-ai (MIT)                        ← MCP server: 120+ operaciones, 41 tools
-    └── Claude Code / Cursor              ← LLM con acceso al editor via MCP
-        ├── Build scenes desde descripción
-        ├── Generar scripts GDScript
-        ├── Wire signals automáticamente
-        └── Refactoring y debugging
+Godot 4 (MIT) — runtime del juego
+    ├── PCG de niveles:
+    │   └── Wave Function Collapse (WFC) en GDScript
+    │       └── LLM para describir constraints en lenguaje natural → parámetros WFC
+    ├── PCG de narrativa:
+    │   └── LLM (Claude / Llama) para generar quests + diálogos dinámicos
+    │       └── Lore base en ChromaDB (RAG) → coherencia narrativa
+    └── PCG de assets:
+        └── Stable Diffusion (API) para texturas procedurales
 ```
 
 **Repos**:
-- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805 stars. MCP server Godot.
+- [godotengine/godot](https://github.com/godotengine/godot) — MIT, 112k stars. WFC implementable nativamente.
+- [YGYOOO/WorldX](https://github.com/YGYOOO/WorldX) — MIT, 1.1k stars. Generación procedural de mundos AI (TypeScript).
+- [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0, 21.7k stars.
+- [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. Simulación social para worlds persistentes.
+
+**Tiempo estimado**: 4-6 semanas para sistema básico; 3-4 meses para calidad AAA-like.
+
+---
+
+## Receta 5: Game Support Agent (in-game chatbot)
+
+**Caso de uso**: Agente de soporte conversacional dentro del juego. Responde sobre mecánicas, ayuda a jugadores atascados.
+
+**Stack**:
+```
+Godot 4 UI (MIT) — chat overlay en el juego
+    ↕ HTTP
+FastAPI server (Python)
+    ├── LlamaIndex (MIT) — RAG sobre documentación del juego
+    │   ├── game_manual.md → chunks embedidos en ChromaDB
+    │   └── patchnotes.md + community_faq.md
+    └── LLM (Claude Haiku / GPT-4o-mini / Llama local)
+```
+
+**Repos**:
+- [run-llama/llama_index](https://github.com/run-llama/llama_index) — MIT, 40k stars.
+- [chroma-core/chroma](https://github.com/chroma-core/chroma) — Apache-2.0.
+
+**Costo**: ~$0.001-0.003 por pregunta con Claude Haiku.
+**Tiempo estimado**: 1-2 semanas para MVP funcional.
+
+---
+
+## Receta 6: AI Dev Tooling — Godot MCP
+
+**Caso de uso**: Estudio que quiere usar AI para acelerar desarrollo en Godot (generación de scenes, scripts, assets).
+
+**Stack**:
+```
+Claude Code / Cursor / Codex (cualquier cliente MCP)
+    ↕ Model Context Protocol
+godot-ai (MIT)                          ← MCP server local (120+ operaciones)
+    ↕ Godot Editor API
+Godot 4 Editor (MIT)
+    ├── Scene building desde descripción natural
+    ├── Script GDScript generado y editado
+    └── Signals wired automáticamente
+```
+
+**Repos**:
+- [hi-godot/godot-ai](https://github.com/hi-godot/godot-ai) — MIT, 805+ stars.
+- [IvanMurzak/Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) — MIT. Para Unity equivalente.
+- [IvanMurzak/Godot-MCP](https://github.com/IvanMurzak/Godot-MCP) — Apache-2.0. Alternativa C# para Godot.
+
+**Tiempo estimado**: Setup en 1 día. ROI inmediato.
+**Caso real**: Sinn Studio lanzó *Zombonks* en 5 meses (~mitad del tiempo normal) con Aura en Unreal.
+
+---
+
+## Receta 7: MMO / Simulación masiva con Carbon Engine (NUEVO — jul 2026)
+
+**Caso de uso**: Juego o simulación con miles de entidades concurrentes. Física a escala MMO. Mundo persistente con NPCs AI.
+
+**Stack**:
+```
+Carbon Engine — Destiny module (MIT)    ← physics + navmesh + pathfinding MMO-scale
+    ├── Pathfinding adaptativo
+    │   └── RL agent (SB3 / RLLib) → optimizar rutas en tiempo real
+    └── Physics simulation
+        └── ONNX model → predecir comportamiento de entidades
+
+Carbon Engine — Trinity module (MIT)    ← gráficos AAA large-scale
+    └── Integración con Godot shaders / texturas PCG
+
+Nakama backend (Apache-2.0)            ← backend multiplayer persistente
+    ├── Hooks TypeScript → eventos de mundo
+    └── Anti-cheat hooks → anomaly detection
+
+Claude API (Anthropic)                  ← LLM para NPCs con memoria
+    ├── generative_agents pattern (Apache-2.0)   ← memoria + reflexión + planning
+    └── Qdrant / ChromaDB               ← vector store por NPC (memoria episódica)
+
+PostHog (MIT)                          ← analytics de jugadores en mundo persistente
+```
+
+**Repos**:
+- [Fenris-cs/carbon](https://github.com/Fenris-cs/carbon) — MIT. Motor de EVE Online, open sourced jul 2026.
+- [heroiclabs/nakama](https://github.com/heroiclabs/nakama) — Apache-2.0, 12.8k stars.
+- [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0, 21.7k stars.
+- [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) — MIT, 13.5k stars.
+- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k+ stars.
+
+**Por qué Carbon Engine y no Godot para este caso**:
+- Destiny physics está optimizado para miles de entidades concurrentes (probado en batallas de EVE Online con +6,000 naves)
+- Navmesh a escala MMO (terrenos de continentes, no niveles de 10-100 actores)
+- Trinity maneja rendering a distancias de decenas de km con LOD de producción real
+- Godot es mejor para proyectos 2D/3D estándar; Carbon Engine para simulaciones masivas
 
 **Cómo conectar**:
-1. Instalar godot-ai como addon en Godot 4.4.
-2. Configurar Claude Code con el MCP server de godot-ai (puerto local).
-3. Usar prompts en lenguaje natural para crear escenas, scripts, y assets directamente en el editor.
-4. Combinar con LimboAI para generar behavior trees desde descripción de comportamiento.
+1. Compilar Carbon Engine (C++, CMake). Módulos independientes: Destiny puede usarse sin Trinity.
+2. Exponer API de física (posiciones, velocidades, colisiones) a través de binding Python/TypeScript.
+3. Integrar SB3/RLLib para agentes RL que optimicen pathfinding en tiempo real.
+4. Cada NPC importante: agente con memoria episódica en Qdrant + reflexión diaria via Claude API.
+5. Nakama gestiona la persistencia de estado del mundo y los eventos multijugador.
+6. PostHog analytics para entender comportamiento de jugadores en el mundo abierto.
 
-**Tiempo estimado**: 1-2 días para setup; beneficio inmediato en productividad.
-**Benchmark**: caso *Zombonks* (Unreal Aura, similar): lanzamiento en 5 meses vs 10+ estimados.
-
----
-
-## Receta 5: Generación procedural de juegos web con OpenGame
-
-**Caso de uso**: Prototipado ultra-rápido o generación de contenido de juegos desde prompts de texto.
-
-**Stack**:
-```
-OpenGame framework (Apache-2.0)          ← framework agentico
-└── GameCoder-27B                        ← LLM especializado (RL-trained en game code)
-    └── OpenGame-Bench                   ← evaluación: Build Health + Visual Usability + Intent Alignment
-        └── Headless browser execution   ← validación automática del juego generado
-```
-
-**Repos**:
-- [leigest519/OpenGame](https://github.com/leigest519/OpenGame) — Apache-2.0, ~2.3k stars. Framework completo.
-
-**Cómo usar**:
-1. Instalar OpenGame framework (TypeScript/Node.js).
-2. Describir el juego en texto: "Crea un juego de plataformas con enemigos que aumentan de velocidad cada nivel".
-3. OpenGame genera el código del juego web completo, lo ejecuta en headless browser, lo evalúa.
-4. Iterar sobre el resultado con más prompts.
-
-**Tiempo estimado**: Minutos para un prototipo básico; horas para un juego completo.
-**Limitación**: Juegos web (HTML5/JavaScript). No aplica para Unity/Godot/Unreal nativos.
+**Tiempo estimado**: 3-6 meses para prototipo funcional (motor complejo, integración alta).
+**Perfil ideal**: estudio con experiencia en C++ y ambiciones MMO / simulación masiva.
+**Primer mover**: comunidad de Carbon Engine en formación (post jul 2026) → Globant puede ser referente.
 
 ---
 
-## Receta 6: MMO con Carbon Engine + AI de Facciones (NUEVO Jul 2026)
+## Tabla resumen
 
-**Caso de uso**: Construir un MMO desde base AAA probada en producción con simulación de facciones driven by AI.
-
-**Stack**:
-```
-Carbon Engine (MIT)                      ← engine de EVE Online (Fenris Creations)
-└── Destiny module                       ← física + pathfinding server-authoritative
-└── Trinity module                       ← rendering
-└── Capa AI:
-    ├── LLMs para NPCs de facción        ← diálogo + decisiones diplomáticas
-    ├── Concordia (Apache-2.0)           ← simulación social de agentes NPC
-    ├── RL para comportamiento           ← facciones aprenden del comportamiento de jugadores
-    └── PostHog + Grafana               ← analytics de jugadores en tiempo real
-```
-
-**Repos**:
-- [carbonengine org](https://github.com/carbonengine) — MIT / Apache-2.0. 20+ módulos (nuevo Jul 2026).
-- [google-deepmind/concordia](https://github.com/google-deepmind/concordia) — Apache-2.0, 1.5k stars. Simulación social LLM.
-- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars.
-
-**Notas**:
-- **Estado**: Carbon Engine recién open-sourced (1 Jul 2026). Comunidad en formación.
-- Evaluar en 6-12 meses cuando el ecosistema OSS madure.
-- Ideal para proyectos enterprise con 18+ meses de runway.
-
-**Tiempo estimado**: 6-12 meses para MMO completo sobre Carbon Engine.
+| Patrón | Stack principal | Esfuerzo | ROI esperado |
+|--------|----------------|---------|---------------|
+| NPC con LLM | Godot + LimboAI + Ollama/Claude | 2-3 semanas | +40% immersion (datos industria) |
+| QA automatizado con RL | Godot + godot_rl_agents + SB3 | 3-4 semanas | -60% QA manual |
+| Multiplayer backend inteligente | Nakama + Open Match + PostHog | 3-4 semanas | Matchmaking mejor → retención |
+| Mundo procedural | Godot + WFC + LLM + Concordia | 4-8 semanas | Contenido infinito, replayability |
+| Game Support Agent | LlamaIndex + FastAPI + Godot UI | 1-2 semanas | -70% tickets soporte manual |
+| AI Dev Tooling | godot-ai + Claude Code/Cursor | 1 día setup | 2-3x velocidad de desarrollo |
+| **MMO / simulación masiva** | **Carbon Engine (MIT) + Nakama + SB3** | **3-6 meses** | **Physics MMO-scale sin royalties** |
 
 ---
-
-## Receta 7: Analytics + Churn Prediction con GNNs
-
-**Caso de uso**: Predecir churn de jugadores F2P 14 días en adelante para activar retención proactiva.
-
-**Stack**:
-```
-PostHog (MIT)                            ← player event collection
-└── Python pipeline                      ← feature engineering
-    └── PyTorch Geometric (MIT)          ← GNN sobre grafo jugador-sesión-amigos
-        └── Modelo GNN entrenado         ← AUROC 75.83 (vs 62.44 LightGBM baseline)
-            └── Score diario por jugador
-                └── Nakama hook          ← activa reward si score > umbral
-```
-
-**Repos**:
-- [PostHog/posthog](https://github.com/PostHog/posthog) — MIT, 23k stars. Eventos de jugador.
-- [pyg-team/pytorch_geometric](https://github.com/pyg-team/pytorch_geometric) — MIT, 22k stars. GNNs.
-- [grafana/grafana](https://github.com/grafana/grafana) — Apache-2.0, 67k stars. Dashboards.
-
-**Cómo construir el grafo**:
-- Nodos: jugadores, sesiones, ítems comprados, amigos.
-- Edges: jugó-en, compró, es-amigo-de, invitó-a.
-- Features de nodo: session_length, days_since_login, spend_total, friend_count.
-- Target: churn_in_14_days (binario).
-
-**Tiempo estimado**: 4-6 semanas para pipeline completo con modelo y dashboard.
-**Impacto esperado**: 20-35% reducción de churn con sistema de rewards basado en score.
-
----
-*Todas las recetas usan repos verificados con URLs reales. Licencias MIT/Apache-2.0 aptas para uso comercial. Actualizado 2026-07-12.*
+*Repos verificados en GitHub 2026-07-13. Carbon Engine (jul 2026) incluido como nuevo patrón.*

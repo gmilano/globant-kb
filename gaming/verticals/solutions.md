@@ -2,14 +2,14 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13 | v13 — Carbon Engine añadido como vertical MMO
 
 ## Stack recomendado: Godot + Nakama
 
 La combinación más potente disponible en open source hoy para juegos online:
 
 ```
-Godot 4.4 (MIT) — motor del juego
+Godot (MIT) — motor del juego
     + LimboAI / Beehave — NPC behavior trees
     + godot_rl_agents — entrenamiento RL de agentes
     + godot-ai — MCP server para AI-assisted dev
@@ -20,33 +20,20 @@ Nakama (Apache-2.0) — backend multiplayer
     + PostHog (MIT) — analytics de jugador
 ```
 
-## Stack alternativo MMO: Carbon Engine
-
-Para proyectos MMO enterprise (julio 2026):
-
-```
-Carbon Engine (MIT) — framework MMO probado en producción (EVE Online)
-    + Destiny module — física + pathfinding server-authoritative
-    + Trinity module — rendering
-    + AI capa propia — LLMs para NPCs + RL para comportamiento de facciones
-    ↕ Nakama o backend propio
-```
-
 ---
 
 ## Plataformas base completas
 
 | Plataforma | Licencia | URL | Stars | Stack | Caso de uso |
 |------------|----------|-----|-------|-------|-------------|
-| **Godot Engine** | MIT | [godotengine/godot](https://github.com/godotengine/godot) | 112k | C++/GDScript/C# | Engine 2D/3D completo. Godot 4.4 powers ~12% de Steam releases. Ecosistema AI más rico open source. |
-| **Carbon Engine** | MIT / Apache-2.0 | [carbonengine](https://github.com/carbonengine) | nuevo | C++ | **NUEVO Jul 2026**: Engine de EVE Online. 20+ módulos AAA. Destiny (física), Trinity (gráficos). Base para MMOs. |
+| **Godot Engine** | MIT | [godotengine/godot](https://github.com/godotengine/godot) | 112k+ | C++/GDScript/C# | Engine 2D/3D completo. Base para integrar NPCs AI, PCG, diálogo. Ecosistema AI más rico open source. |
+| **Carbon Engine** | MIT (core) | [Fenris-cs/carbon](https://github.com/Fenris-cs/carbon) | — | C++ (20+ módulos) | **Nuevo jul 2026.** Motor de EVE Online. Destiny (physics + navmesh MMO-scale) + Trinity (gráficos AAA). Único motor MIT con physics probada en MMO masivo (20 años). Ideal para MMOs y simulaciones a gran escala. |
 | **Open 3D Engine** | Apache-2.0 | [o3de/o3de](https://github.com/o3de/o3de) | 9.5k | C++ | Engine AAA. Sponsors AWS/Epic/Intel. Para proyectos enterprise con AWS Bedrock. |
 | **Nakama** | Apache-2.0 | [heroiclabs/nakama](https://github.com/heroiclabs/nakama) | 12.8k | Go + SDKs | Backend de juego completo. Matchmaking, leaderboards, chat, social. 500k devs. |
 | **Colyseus** | MIT | [colyseus/colyseus](https://github.com/colyseus/colyseus) | 6.2k | Node.js/TypeScript | Servidor multiplayer web. Ideal para browser games y webapps. |
 | **MonoGame** | MIT | [MonoGame/MonoGame](https://github.com/MonoGame/MonoGame) | 11k | C# | Framework C# cross-platform. Para devs .NET que quieren añadir AI. |
-| **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. pgvector para RAG. |
-| **GDevelop** | MIT | [4ian/GDevelop](https://github.com/4ian/GDevelop) | 12k | JS/C++ | No-code 2D engine con AI generativa integrada. Ideal para prototipos rápidos AI-first. |
-| **Bevy** | MIT | [bevyengine/bevy](https://github.com/bevyengine/bevy) | 38k | Rust | ECS engine v0.16 (2026). Para proyectos Rust-native con AI moderno. |
+| **Stride** | MIT | [stride3d/stride](https://github.com/stride3d/stride) | 7.7k | C# | Engine 3D PBR completo. Alternativa Unity para devs .NET sin controversia de pricing. |
+| **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k+ | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. pgvector para RAG. |
 
 ---
 
@@ -64,33 +51,124 @@ Proyectos completos que pueden usarse como base con fork:
 
 ## Cómo customizar cada plataforma con AI
 
-### Godot (recomendado — ecosistema AI más rico)
+### Godot + AI (stack recomendado para la mayoría de proyectos)
 
-**Paso 1 — Dev tooling**: Instalar [godot-ai](https://github.com/hi-godot/godot-ai) (MIT) para conectar Claude Code o Cursor al editor via MCP. 120+ operaciones disponibles.
+**Opción A — NPC local sin API externa (indie/privacy-first)**
+```
+Godot Engine (MIT)
+    ↓ plugin via Asset Library
+local-llm-npc / NobodyWho (Godot AssetLib)
+    ↓ HTTP local
+Ollama con Gemma 3n / Llama 3.1 8B
+    ↓
+NPC con diálogo dinámico, sin latencia de red, sin costo de API
+```
+Repos: [code-forge-temple/local-llm-npc](https://github.com/code-forge-temple/local-llm-npc) (MIT)
 
-**Paso 2 — NPC AI**: Añadir [LimboAI](https://github.com/limbonaut/limboai) (MIT) para behavior trees + [Beehave](https://github.com/bitbrain/beehave) (MIT) para comportamiento reactivo. Conectar vía BTAction HTTP al LLM.
+**Opción B — RAG sobre lore del juego (narrativa coherente)**
+```
+Godot Engine (MIT)
+    ↓ llamada HTTP a FastAPI
+LlamaIndex (MIT) + ChromaDB (Apache-2.0)
+    ↓ retrieval de lore, quests, personajes
+Claude Haiku / GPT-4o-mini (API)
+    ↓
+NPC que "conoce" el universo del juego y no inventa lore
+```
 
-**Paso 3 — RL**: Instalar [godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) (MIT) + Stable-Baselines3 para entrenar agentes de QA, oponentes adaptativos o pathfinding.
-
-**Paso 4 — Backend**: Conectar Nakama (Apache-2.0) vía SDK oficial. Añadir hooks TypeScript/Go para AI server-side.
-
-**Paso 5 — Analytics**: PostHog (MIT) para player events. Grafana (Apache-2.0) para dashboards. PyTorch Geometric para churn prediction con GNNs.
-
-### Carbon Engine (nuevo Jul 2026 — para MMOs AAA)
-
-**Paso 1**: Clonar módulos del engine desde [carbonengine org](https://github.com/carbonengine). Evaluar Destiny (física/pathfinding) + Trinity (gráficos).
-
-**Paso 2**: Integrar capa AI para NPCs (LLM + vector store), comportamiento de facciones (RL), y procedural content.
-
-**Paso 3**: Backend propio o Nakama para persistencia y matchmaking.
-
-**Nota**: Engine nuevo en OSS — comunidad en formación. Considerar para proyectos con 12+ meses de tiempo.
-
-### Open 3D Engine (O3DE — para enterprise + AWS)
-
-Integrar **AWS Bedrock** para LLMs via [aws-sdk-cpp](https://github.com/aws/aws-sdk-cpp) (Apache-2.0).
-Usar **Amazon GameLift** para multiplayer managed + **Amazon IVS** para streaming in-game.
-O3DE tiene arquitectura de componentes extensible para añadir AI modules como entidades ECS.
+**Opción C — RL training + MCP dev tooling (studio workflow)**
+```
+Godot Engine (MIT)
+    ├── godot_rl_agents → entrenar agentes / QA bots
+    └── godot-ai (MCP) → Claude Code conectado al editor
+```
 
 ---
-*Fuentes: youngju.dev/blog/2026-05-16, gamingonlinux.com, gdconf.com/GDC-2026-SOTI, GitHub (verificado 2026-07-12)*
+
+### Carbon Engine + AI (MMO y simulaciones masivas — nuevo jul 2026)
+
+```
+Carbon Engine — Destiny module (MIT)
+    ├── Physics + Pathfinding MMO-scale
+    │   └── Integrar ML para: pathfinding adaptativo con RL, anti-cheat conductual
+    └── Trinity module (MIT)
+        └── Gráficos AAA para mundos persistentes
+Nakama backend (Apache-2.0)
+    └── Hooks TS/Go para AI server-side
+AWS Bedrock / Claude API
+    └── NPCs LLM para MMO: diálogo contextual, memoria por personaje
+```
+
+Perfil: estudio que quiere MMO/simulación masiva con physics probada en producción real.
+Ventaja vs O3DE: 20 años de battle-testing en EVE Online, no prototipo de investigación.
+
+---
+
+### Nakama + AI (backend inteligente)
+
+Nakama expone hooks server-side en Go, TypeScript y Lua. Interceptar eventos y llamar a modelos:
+
+```
+Nakama server (Apache-2.0)
+    ├── Hook: after_match_create
+    │   └── ONNX model (PyTorch exportado) → matchmaking scoring
+    ├── Hook: after_authenticate
+    │   └── Clasificador ML → detectar cuenta nueva vs botfarm
+    ├── Hook: stream de eventos en partida
+    │   └── Anomaly detection → anti-cheat conductual
+    └── Cron job Nakama
+        └── Churn prediction model → trigger re-engagement notification
+```
+
+Módulos AI a añadir:
+- **Matchmaking predictivo**: modelo que predice balance de partida (skill + latencia + historial)
+- **Anti-cheat conductual**: z-score en velocidad, puntería, recursos → flag automático
+- **Churn prevention**: score diario por jugador → notificación personalizada si en riesgo
+
+---
+
+### Supabase para juegos asíncronos/persistentes
+
+Ideal para: RPGs, idle games, juegos de turnos, social games, UGC platforms.
+
+```
+Supabase (PostgreSQL + realtime + auth + storage + pgvector)
+    ├── Edge Functions (Deno/TypeScript)
+    │   └── Trigger en evento de juego → llama LLM API
+    ├── pgvector extension
+    │   └── Embeddings del lore/personajes → RAG sin ChromaDB externo
+    └── Realtime subscriptions
+        └── Live updates de estado de juego
+```
+
+---
+
+### O3DE + AWS AI (proyectos enterprise/AAA)
+
+```
+Open 3D Engine (Apache-2.0)
+    ↓ AWS Gem (plugin nativo)
+AWS Bedrock (Claude / Llama on AWS)    ← LLM para NPCs y PCG
+AWS GameLift                           ← multiplayer servers managed
+AWS Comprehend                         ← análisis de toxicidad en chat
+AWS Rekognition                        ← moderación de contenido UGC
+```
+
+---
+
+## Tabla fit por caso de uso
+
+| Caso de uso | Plataforma base | Capa AI | Esfuerzo |
+|-------------|----------------|---------|----------|
+| NPC con LLM local | Godot | LimboAI + Ollama | 2-3 semanas |
+| NPC con memoria persistente | Godot | Generative Agents pattern + Claude API | 3-4 semanas |
+| Multiplayer backend inteligente | Nakama | ONNX hooks + PostHog | 3-4 semanas |
+| Backend social/persistente + AI | Supabase | Edge Functions + pgvector + LLM | 2-3 semanas |
+| RL training / QA automatizado | Godot + godot_rl_agents | SB3 + PPO | 2-4 semanas |
+| AI-assisted game dev | Godot + godot-ai | Claude Code / Cursor via MCP | 1 día setup |
+| Juego AAA con AI cloud | O3DE | AWS Bedrock / GameLift | Meses (enterprise) |
+| RPG con PCG y narrativa generativa | Luanti fork + Godot | Concordia + LlamaIndex + LLM | 6-10 semanas |
+| MMO / simulación masiva | **Carbon Engine (Destiny + Trinity)** | Nakama + Claude API + RL anti-cheat | 3-6 meses |
+
+---
+*Fuentes: heroiclabs.com, supabase.com/blog, godotengine.org, o3de.org, fenris.com, PC Gamer, GamingOnLinux (verificado 2026-07-13)*
