@@ -1,16 +1,16 @@
 # 🧩 Patrones de composición — Energy
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13
 
 ## Arquitectura base
 
 ```
-[Plataforma vertical base (OpenEMS / openremote / PyPSA)]
+[Plataforma vertical base (OpenEMS / FlexMeasures / EVerest / PyPSA)]
           ↓
 [Capa de integración: Node-RED / MQTT / REST / MCP Server]
           ↓
-[Agentes AI: LLM + herramientas especializadas (pandapower, sinergym, opfgym)]
+[Agentes AI: LLM + herramientas especializadas (pandapower, Grid2Op, sinergym)]
           ↓
 [UI conversacional + dashboards (operador / cliente final)]
 ```
@@ -64,14 +64,13 @@ def run_pandapower_analysis(scenario: str) -> dict:
 **Objetivo**: Sistema de predicción de demanda que combina modelos estadísticos + ML + un agente que decide cuál modelo usar según el contexto (festivos, clima, eventos).
 
 **Stack**:
-- `kristenmartino/gridpulse` (MIT) — base de forecasting con XGBoost, Prophet, SARIMAX
 - `PyPSA/PyPSA` (MIT) — integración del forecast en optimización del sistema
 - `e2nIEE/pandapower` (BSD-3) — validación de la red con la demanda proyectada
+- XGBoost / Prophet / SARIMAX (MIT) — ensemble de modelos de forecasting
 - `mlflow/mlflow` (Apache-2.0) — tracking y comparación de modelos
 
 **Agente orquestador**:
 ```python
-# El agente selecciona el mejor modelo según contexto
 def select_forecast_model(context: ForecastContext) -> str:
     if context.has_holiday or context.unusual_weather:
         return "prophet"   # mejor en eventos atípicos
@@ -80,8 +79,7 @@ def select_forecast_model(context: ForecastContext) -> str:
     else:
         return "xgboost"   # mejor en operación normal
 
-# Validación automática: el agente corre pandapower con el forecast
-def validate_forecast_against_grid(forecast_mw: float, net: pandapowerNet):
+def validate_forecast_against_grid(forecast_mw: float, net):
     net.load.p_mw = forecast_mw
     pp.runpp(net)
     return check_voltage_violations(net)
@@ -115,7 +113,6 @@ HVAC / BESS / EV Charger
 
 **Customización para cliente**:
 ```python
-# Configuración del entorno para edificio específico del cliente
 env_config = {
     "building_file": "client_office_medellin.idf",
     "weather_file": "COL_Bogota_weather.epw",
@@ -135,19 +132,17 @@ env = gym.make("Sinergym-v1", config=env_config)
 **Objetivo**: Agregar recursos energéticos distribuidos (BESS, FV, EV) y participar automáticamente en mercados de respuesta a demanda.
 
 **Stack**:
+- `FlexMeasures/flexmeasures` (Apache-2.0) — scheduling y optimización de portafolio DER (LF Energy)
 - `openremote/openremote` (AGPL-3.0) — plataforma de gestión de activos DER
 - `OpenEMS/openems` (Apache-2.0) — control en tiempo real de cada activo
-- `PyPSA/PyPSA` (MIT) — optimización del portafolio agregado
 - Claude claude-sonnet-5 (Anthropic) — agente de negociación con operador de red
 
 **Agente de negociación**:
 ```python
-# El agente decide cuándo y cuánto flexibilidad ofrecer al mercado
 @tool
 def get_portfolio_flexibility(horizon_hours: int) -> dict:
-    """Returns available up/down flexibility of the DER portfolio."""
-    assets = openremote.get_assets(type=["BESS", "EV", "FV"])
-    return pypsa_optimizer.compute_flexibility(assets, horizon_hours)
+    """Returns available up/down flexibility of the DER portfolio via FlexMeasures."""
+    return flexmeasures_client.get_flexibility_prognosis(horizon_hours)
 
 @tool  
 def submit_demand_response_bid(mw: float, duration_h: float, price_eur_mwh: float):
@@ -156,7 +151,7 @@ def submit_demand_response_bid(mw: float, duration_h: float, price_eur_mwh: floa
 ```
 
 **Tiempo estimado**: 4-8 semanas (depende de integración con mercado local)
-**Revenue**: utilities LATAM pagas de $20-80 USD/MWh por capacidad de respuesta
+**Revenue**: utilities LATAM pagan $20-80 USD/MWh por capacidad de respuesta
 
 ---
 
@@ -242,6 +237,113 @@ report = agent.run("Generate monthly energy report for November 2026")
 
 ---
 
+## P8: Grid Foundation Model Pipeline (OpenGridFM + Grid2Op + RL2Grid)
+
+**Objetivo**: Fine-tuning y evaluación de un foundation model específico para redes eléctricas del cliente, usando el stack LF Energy completo.
+
+**Cuándo usar**: cliente utility/TSO que quiere un modelo propio entrenado sobre sus datos históricos de red para razonamiento avanzado sobre topología, contingencias y flujo de potencia.
+
+**Stack**:
+- `OpenGridFM` (LF Energy 2026) — framework para entrenar y desplegar GridFMs
+- `Grid2op/grid2op` (LGPLv2.1, LF Energy) — entorno de simulación realista para el pre-entrenamiento
+- `emarche/RL2Grid` (MIT) — benchmark estandarizado con TSOs para evaluación objetiva
+- `AINETUS` (LF Energy 2026) — capa XAI + HMI para integración en sala de control
+- Claude claude-sonnet-5 — orquestador de alto nivel para tareas de razonamiento complejo
+
+**Pipeline de desarrollo**:
+```
+1. Datos históricos de red del cliente (SCADA, EMS, mercado)
+         ↓
+2. Pre-procesamiento + Grid2Op (simulación de red + eventos históricos)
+         ↓
+3. Fine-tuning con OpenGridFM (GridFM sobre datos del cliente)
+         ↓
+4. Evaluación con RL2Grid (39 tareas estandarizadas con TSOs)
+         ↓
+5. AINETUS (capa XAI: el modelo explica sus decisiones al operador)
+         ↓
+6. Despliegue en sala de control (HMI + alerta proactiva)
+```
+
+**Implementación clave**:
+```python
+# Evaluación del modelo con RL2Grid
+from rl2grid import GridBenchmark, RL2GridEnv
+
+benchmark = GridBenchmark(tasks="all_39", client_grid=client_network)
+results = benchmark.evaluate(model=gridFM_client, episodes=100)
+
+# Resultado: score normalizado por familia de tareas
+print(results.summary())
+# -> topology_optimization: 0.87, redispatch: 0.91, curtailment: 0.83
+```
+
+**Tiempo estimado**: 10-16 semanas (piloto con 6 meses de datos históricos)
+**ROI**: reducción de violaciones de red en 30-50%; apoyo a operadores en contingencias N-1
+
+---
+
+## P9: EV Charging AI Platform (EVerest + OpenEMS + FlexMeasures)
+
+**Objetivo**: Plataforma de EV charging inteligente que optimiza la carga según precio de energía, capacidad de la red y demanda del edificio — todo open source.
+
+**Cuándo usar**: cliente con flota de cargadores propios (empresa, parking, hotel) que quiere AI para reducir costos y gestionar la carga inteligentemente.
+
+**Stack**:
+- `EVerest/EVerest` (Apache-2.0, LF Energy) — firmware de cargadores EV; OCPP 2.0.1; AC/DC
+- `OpenEMS/openems` (Apache-2.0) — gestión energética del edificio (BESS, FV, red)
+- `FlexMeasures/flexmeasures` (Apache-2.0, LF Energy) — scheduling inteligente de carga según precio spot
+- `node-red/node-red` (Apache-2.0) — integración entre sistemas
+- Claude claude-haiku-4-5 via MCP — decisiones rápidas de scheduling (costo-latencia óptimo)
+
+**Arquitectura**:
+```
+EV Plugged In → EVerest (OCPP 2.0.1)
+                     ↓
+              OpenEMS (monitoreo del edificio: BESS SoC, FV generation, demand)
+                     ↓
+              FlexMeasures (scheduling: cuándo cargar, a qué potencia)
+                     ↓
+              MCP Server (herramientas: get_price_forecast, get_ev_soc, set_charge_rate)
+                     ↓
+              Claude Agent (decide: cargar ahora vs diferir vs V2G si disponible)
+```
+
+**Lógica de scheduling**:
+```python
+@tool
+def get_optimal_charge_schedule(ev_id: str, target_soc: float, departure_time: str) -> dict:
+    """
+    Uses FlexMeasures to compute optimal charge schedule.
+    Minimizes cost while guaranteeing target SoC at departure.
+    """
+    ev_asset = flexmeasures.get_asset(ev_id)
+    schedule = flexmeasures.compute_schedule(
+        asset=ev_asset,
+        target_soc=target_soc,
+        deadline=departure_time,
+        price_sensor="day_ahead_price",
+        constraints={"max_power_kw": 22.0}
+    )
+    return schedule
+
+@tool
+def set_ev_charge_rate(ev_id: str, power_kw: float):
+    """Sets EV charge rate via EVerest OCPP interface."""
+    return everest_client.set_charging_profile(ev_id, power_kw)
+```
+
+**Casos de uso LATAM**:
+- **Chile**: optimización según precio spot CDEC (variación horaria)
+- **Brasil**: integración con bandeiras tarifárias (verde/amarela/vermelha) de ANEEL
+- **México**: gestión de demanda máxima para evitar cargos de capacidad CFE
+- **Colombia**: demand response con XM para participar en mercado de regulación
+
+**Tiempo estimado**: 6-10 semanas (incluyendo integración con cargadores reales)
+**Ahorro típico**: 20-35% reducción en costos de energía para carga de flotas EV
+
+---
+
 ## Selección de patrón según cliente
 
 | Tipo de cliente | Patrón recomendado | Quick win |
@@ -250,4 +352,6 @@ report = agent.run("Generate monthly energy report for November 2026")
 | Generadora renovable | P2 Forecasting + P4 DER Aggregation | P2 (2-3 sem) |
 | Corporativo con edificios | P3 Building RL + P7 Analytics | P7 (2-3 sem) |
 | Startup de flexibilidad | P4 DER Aggregation + P6 MCP-MQTT | P6 (1-2 sem) |
-| Operador de red | P1 Grid Copilot + P2 Forecasting | P2 (2-3 sem) |
+| Operador de red (TSO/DSO) | P8 Grid Foundation Model + P1 Grid Copilot | P1 (3-4 sem) |
+| Empresa con flota EV / parking | P9 EV Charging AI | P9 (6-10 sem) |
+| Operador de red avanzado | P8 Grid Foundation Model (OpenGridFM+RL2Grid) | Piloto 10-16 sem |
