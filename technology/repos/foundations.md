@@ -1,40 +1,39 @@
-# 🏗️ Repos fundacionales — Technology / Software Development
+# 🏗️ Repos fundacionales — Technology
 
-> Bases sobre las cuales construir soluciones AI para clientes tech.
-> Licencia abierta, comunidad activa, producción-ready.
-> Última actualización: 2026-07-13 (v12)
+> Bases sobre las cuales construir soluciones de AI para tecnología. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-13
 
-## Frameworks de agentes y LLM
-
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|-------------|
-| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | ~142k | Framework estándar para apps LLM: chains, memory, tools, RAG. La "stdlib" del ecosistema. | Sí — toda la cadena de valor |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~33k | Multi-agent con state machines y grafos cíclicos. 34.5M descargas/mes. Arquitectura de facto para flujos complejos. | Sí — orquestación multi-step |
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~80k | Agente de coding autónomo y sandboxed (ex-OpenDevin). Corre en CI, headless, con Docker. | Sí — base para coding automation |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Framework minimalista: LLM escribe Python, no JSON. Setup en 5 minutos. | Sí — prototipado ágil |
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | ~86k | Web automation para agentes: click, forms, scraping. Convierte cualquier web en API para agents. | Sí — integración web legacy |
-
-## Coding agents (terminal / IDE)
+## Plataformas y frameworks base
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|-------------|
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | ~181k | Terminal coding agent con 75+ providers y LSP. Referencia del mercado. | Sí — punto de entrada standard |
-| [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | Apache-2.0 | ~45k | Git-native pair programmer: edita archivos, hace commits, trabaja con todo modelo. | Sí — workflows disciplinados |
-| [block/goose](https://github.com/block/goose) | Apache-2.0 | ~51k | MCP-first agent de Block. 3000+ servidores MCP. Linux Foundation governance. | Sí — ecosistema MCP |
+|------|----------|-------|-------------|--------------|
+| [vllm-project/vllm](https://github.com/vllm-project/vllm) | Apache-2.0 | ~86k | Inference engine high-throughput y memory-efficient para LLMs; v0.25.0 jul-2026; 2000+ contributors; PagedAttention | Sí — capa de serving local/cloud |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | Plataforma LLM con workflow visual, RAG nativo, observability, 1M+ apps desplegadas | Sí — base full-stack para apps |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~34k | Graph-based orchestration de agentes; 34.5M monthly downloads; estándar enterprise 2026 | Sí — orchestration layer |
+| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~61k | Capa de memoria universal para agentes; v2.0 jun-2026; soporta vector DB, graph, key-value | Sí — persistencia entre sesiones |
+| [BerriAI/litellm](https://github.com/BerriAI/litellm) | MIT | ~53k | Gateway/proxy para 100+ LLM APIs en formato OpenAI; cost tracking, guardrails, load balancing | Sí — abstracción multi-provider |
+| [langfuse/langfuse](https://github.com/langfuse/langfuse) | MIT | ~31k | Open source LLM observability: trazas, evals, métricas, prompt management, datasets | Sí — observabilidad LLMOps |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Agentes que razonan y actúan en código Python (no JSON); mínimo overhead, máxima flexibilidad | Sí — agentes ligeros HuggingFace |
+| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~80k | Software dev agent de gama completa: escribe código, corre tests, gestiona repos; sandbox dockerizado | Sí — agente dev autónomo |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | ~44k | Multi-agent teams con roles definidos; 5.2M monthly downloads; YAML-driven, enterprise-ready | Sí — multi-agent orchestration |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | ~50k+ | Convierte cualquier LLM en agente de browser; CDP nativo (no Playwright), web scraping + automation | Sí — browser automation layer |
 
-## Plataformas LLM / aplicaciones
+## MCP Ecosystem (base de integración)
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|-------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | LLM app platform con GUI, RAG, agents, 300+ modelos. Auto-hosteable. | Sí — plataforma end-to-end |
-| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | ~140k | Visual builder drag-and-drop para agentes y RAG. Demo-ready para clientes. | Sí — MVP visual en horas |
+| Repo | Licencia | Stars | Descripción |
+|------|----------|-------|-------------|
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Apache-2.0 | ~10k | Implementaciones de referencia MCP: filesystem, git, GitHub, postgres, fetch, memory, etc. |
+| [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) | Apache-2.0 | ~30k | MCP server para automatización de browser con Playwright; integra con Claude Code y Copilot |
+| [Sqcows/forgejo-mcp](https://github.com/Sqcows/forgejo-mcp) | MIT | — | MCP server para Forgejo/Gitea: 103 tools, repos/issues/PRs/orgs/users/admin |
 
-## Evaluación y benchmarks
+## Self-hosted Git + Developer Platforms
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|-------------|
-| [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) | MIT | ~8k | Benchmark estándar para evaluar coding agents en issues reales de GitHub. | Sí — medir calidad de agentes |
-| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | MIT | ~3k | Convierte codebases en grafos de conocimiento consultables. Base para onboarding agents. | Sí — context sobre repos grandes |
+| Repo | Licencia | Stars | Descripción |
+|------|----------|-------|-------------|
+| [go-gitea/gitea](https://github.com/go-gitea/gitea) | MIT | ~46k | Self-hosted git service ligero escrito en Go; MCP-ready, GitHub-compatible API |
+| [forgejo/forgejo](https://codeberg.org/forgejo/forgejo) | GPL-3.0 | — | Fork community de Gitea; gobernanza abierta; foco en privacidad y autonomía |
+| [backstage/backstage](https://github.com/backstage/backstage) | Apache-2.0 | ~30k | Developer portal de Spotify (ahora CNCF); catálogo de servicios, templates, TechDocs |
+| [ollama/ollama](https://github.com/ollama/ollama) | MIT | ~120k+ | Servidor local para modelos LLM (Llama, Mistral, Gemma, etc.); API compatible con OpenAI |
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

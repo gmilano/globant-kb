@@ -1,26 +1,39 @@
-# 📈 Agentes AI trending — Technology (semana del 2026-07-13)
+# 📈 Agentes en tendencia — Technology
 
-> Qué está ganando tracción esta semana en el ecosistema AI / dev tools.
+> Lo más nuevo y activo esta semana en el ecosistema AI para tecnología.
+> Última actualización: 2026-07-13
 
-## Movimientos destacados
+## Proyectos en tendencia (semana del 7-jul-2026)
 
-### opencode supera los 181k stars (anomalyco/opencode)
-Sigue siendo el coding agent más popular de GitHub por amplio margen. 7.5M developers lo usan mensualmente. El equipo (rebrandeado a Anomaly) lanzó soporte nativo para LSP en repos grandes y mejoró la integración MCP con servidores de filesystem y base de datos. **Por qué importa**: punto de entrada estándar para cualquier propuesta de AI-augmented development.
+| Proyecto | Repo | Movimiento | Qué es |
+|----------|------|-----------|--------|
+| Orca ADE | [stablyai/orca](https://github.com/stablyai/orca) | 🔥 Viral | ADE open-source para fleets de agentes paralelos; corre Claude Code, Codex, OpenCode en worktrees simultáneos desde desktop/mobile |
+| GitHub Spec-Kit | [github/spec-kit](https://github.com/github/spec-kit) | ⬆️ Nuevo | Toolkit de GitHub para spec-driven development: escribe spec → agente genera código → valida contra spec; mayo 2026 |
+| forgejo-mcp | [Sqcows/forgejo-mcp](https://github.com/Sqcows/forgejo-mcp) | ⬆️ Subiendo | MCP server para Forgejo/Gitea: 103 tools (repos/issues/PRs/orgs); stdio + HTTP transports; compatible Claude/Cursor |
+| openclaw-memory-kit | [AlekseiUL/openclaw-memory-kit](https://github.com/AlekseiUL/openclaw-memory-kit) | ⬆️ Nuevo | Sistema completo de memoria y persistencia de contexto cross-sesión para agentes OpenClaw |
+| claude-code-security-review | [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | ⬆️ Activo | GitHub Action: security review automatizado con Claude en cada PR; 5.4k★ |
+| code-review-graph | [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) | ⬆️ Activo | Grafo local-first de inteligencia de código para MCP y CLI; memoria persistente del codebase |
+| dtctl | [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | ⬆️ Nuevo | CLI para gestionar recursos de la plataforma Dynatrace — construido para humanos y agentes AI (MCP-ready) |
+| agent-toolkit-for-kapitan | [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | ⬆️ Nuevo | MCP server + agent skills para que LLMs inspeccionen/compilen/differencien proyectos Kapitan (Kubernetes config) |
 
-### browser-use cruza 86k stars (browser-use/browser-use — MIT)
-Web automation para agentes AI. Permite que cualquier LLM controle un browser: click, forms, scraping estructurado. Ganó tracción masiva como capa de integración para agentes que necesitan consumir sistemas web legacy sin API. **Por qué importa**: base para automatizar integraciones con portales B2B sin APIs modernas.
+## Hitos de la semana (jul-2026)
 
-### Bumblebee — supply chain scanner MCP (Perplexity AI — Apache-2.0)
-2.6k★ en mayo 2026, crecimiento acelerado. Escanea dependencias, servidores MCP y extensiones de editor en busca de paquetes sospechosos. Surge ante la explosión de adopción de MCP sin revisión de seguridad. **Por qué importa**: seguridad en el stack MCP es ahora un requisito enterprise, no opcional.
+- **vLLM v0.25.0** (11-jul-2026): soporte mejorado multimodal + serving distribuido multi-GPU
+- **Mem0 v2.0** (jun-2026): de-facto estándar de memoria agentica; integrado en OpenHands, CrewAI, LangGraph nativamente
+- **MCP milestone**: 97M monthly SDK downloads; 10,000+ server implementations activas; bajo Linux Foundation
+- **Langfuse × ClickHouse**: integración nativa anunciada; 26M+ SDK installs/mes; 19 de las Fortune 50 como clientes
+- **Gartner**: 60% del código nuevo será generado por AI a fin de 2026; 80% empresas US ya usan agentic AI
 
-### Graphify (Graphify-Labs/graphify — MIT)
-Convierte codebases en grafos de conocimiento consultables para coding agents. Los agentes pueden preguntar sobre la arquitectura del repo antes de editar. **Por qué importa**: resuelve el problema de context window en repos grandes; base para onboarding agents.
+## Tendencia estructural: del asistente al agente autónomo
 
-### Orca (stablyai/orca — Apache-2.0)
-Agent development environment para correr flotas de coding agents en paralelo. Permite paralelizar tareas de coding a escala. **Por qué importa**: primer runner OSS para parallel agent fleets; diferenciador en proyectos de migración masiva.
+El shift más relevante de H1 2026: los developers ya no "piden sugerencias" a una IA, sino que
+delegan tareas completas a agentes que planifican, codifican, corren tests y abren PRs.
+El patrón "bounded autonomy" (autonomía delimitada con puntos de escalada humana) es el
+estándar enterprise: los agentes toman decisiones rutinarias, pero escalan las de alto riesgo.
 
-### LangGraph supera a CrewAI en stars (langchain-ai/langgraph — MIT, ~33k)
-LangGraph superó a CrewAI en stars durante el Q1 2026 por adopción enterprise. Su arquitectura de grafos con state máquinas es la preferida para flujos complejos con branching. 34.5M descargas mensuales.
+## Señal LATAM
 
----
-*Pipeline automático — v12.*
+- Equipos de desarrollo en Argentina, Colombia y Brasil lideran adopción de coding agents en LATAM
+- Mayor demanda: agentes que entiendan legacy (COBOL, RPG) + modernización a cloud-native
+- MCP servers para ERPs locales (SAP, Oracle) son el gap más solicitado por clientes enterprise
+- "Vibe coding" adoptado en startups; enterprise prefiere spec-driven development (trazabilidad)

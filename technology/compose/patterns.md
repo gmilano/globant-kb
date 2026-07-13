@@ -1,177 +1,214 @@
-# 🧩 Patrones de composición — Technology / Software Development
+# 🧩 Patrones de composición — Technology
 
-> Recetas concretas para construir soluciones AI combinando repos + agentes.
-> Cada patrón: repos específicos + cómo conectarlos + tiempo estimado.
-> Última actualización: 2026-07-13 (v12)
+> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Última actualización: 2026-07-13
+
+## Arquitectura base
+
+```
+[Plataforma DevOps base (Gitea/Backstage/n8n)]
+          ↓
+[MCP server (forgejo-mcp / API wrapper)]
+          ↓
+[Orchestration (LangGraph / smolagents / Dify)]
+          ↓
+[Agente especializado (opencode / OpenHands / Cline)]
+          ↓
+[Memoria persistente (Mem0)]  +  [Observabilidad (Langfuse)]
+          ↓
+[UI conversacional / API / ChatOps (Mattermost bot)]
+```
 
 ---
 
-## P1 — AI Code Review en Pull Requests (CI)
+## P1: AI Code Review Pipeline (CI/CD → PR automático)
 
-**Problema**: el code review manual es el cuello de botella más común en equipos de software.
+**Objetivo:** Revisar seguridad y calidad en cada PR sin intervención humana.
 
+**Stack:**
+- `anthropics/claude-code-security-review` (MIT, ~5.4k★) — GitHub Action que llama a Claude
+- `tirth8205/code-review-graph` (MIT, ~19k★) — grafo de inteligencia de código local-first
+- `langfuse/langfuse` (MIT, ~31k★) — traza y registra cada review
+- `modelcontextprotocol/servers` (Apache-2.0) — MCP filesystem para acceso al repo
+
+**Cómo wiring:**
+```yaml
+# .github/workflows/ai-review.yml
+on: [pull_request]
+jobs:
+  security-review:
+    uses: anthropics/claude-code-security-review/.github/workflows/review.yml@main
+    with:
+      model: claude-sonnet-5
+      langfuse_enabled: true
 ```
-Gitea o GitHub (PR event webhook)
-  → GitHub Actions / Gitea CI
-  → OpenHands (All-Hands-AI/OpenHands, MIT) en modo headless
-      · Lee el diff del PR
-      · Ejecuta tests en sandbox
-      · Analiza calidad con SonarQube (LGPL) via MCP
-  → Comentarios automáticos en el PR con findings
-  → Cline (cline/cline, Apache-2.0) en IDE del developer para fix suggestions
-```
 
-**Repos clave**: `All-Hands-AI/OpenHands` + `SonarSource/sonarqube` + `cline/cline`  
-**Licencias**: MIT + LGPL-3.0 + Apache-2.0  
-**Tiempo estimado**: 2–3 semanas para MVP con Gitea self-hosted  
-**ROI**: reducción 40-60% en tiempo de code review; detección de bugs antes de merge
+**Tiempo estimado:** 1 día de setup  
+**ROI:** Reduce ciclo de security review de días a minutos; detección de vulnerabilidades antes de merge
 
 ---
 
-## P2 — Terminal Coding Agent con MCP Stack Corporativo
+## P2: Legacy Modernization Agent (COBOL/RPG → Cloud-native)
 
-**Problema**: el developer necesita un agente que entienda el stack completo de la empresa (Jira, Confluence, Postgres, GitHub, Kubernetes).
+**Objetivo:** Analizar, documentar y migrar código legacy a lenguajes modernos con validación funcional.
 
+**Stack:**
+- `All-Hands-AI/OpenHands` (MIT, ~80k★) — agente dev completo con sandbox dockerizado
+- `langchain-ai/langgraph` (MIT, ~34k★) — orchestration del pipeline multi-paso
+- `mem0ai/mem0` (Apache-2.0, ~61k★) — persistir contexto del codebase entre sesiones largas
+- `langfuse/langfuse` (MIT) — audit trail completo de cada decisión del agente
+- `BerriAI/litellm` (MIT, ~53k★) — abstracción multi-provider (Claude para análisis, Gemini para traducción)
+
+**Flujo:**
 ```
-opencode (anomalyco/opencode, MIT) — agente terminal principal
-  └─ MCP servers conectados:
-      · @modelcontextprotocol/server-filesystem — acceso al repo local
-      · @modelcontextprotocol/server-postgres — queries a BD de producción (read-only)
-      · Gitea MCP server — PRs, issues, wikis
-      · Kubernetes MCP server — estado del cluster
-      · Confluence MCP server — documentación técnica
-  └─ opencode "sabe todo" sobre el sistema del cliente
-  └─ Developer escribe en lenguaje natural: "fix el bug del ticket JIRA-4821"
+1. Análizar módulo COBOL → documentación en Markdown (agente 1: análisis)
+2. Identificar dependencias y flujo de datos (grafo)
+3. Generar tests de comportamiento en base a la documentación
+4. Traducir a Python/TypeScript (agente 2: traducción)
+5. Correr tests de equivalencia funcional
+6. Si pasan → PR automático; si fallan → iteración del agente
 ```
 
-**Repos clave**: `anomalyco/opencode` + `wong2/awesome-mcp-servers` (catálogo)  
-**Licencias**: MIT  
-**Tiempo estimado**: 1–2 semanas para instalar y configurar el stack MCP  
-**ROI**: 9.4h ahorradas/developer/semana (industria promedio)
+**Tiempo estimado:** 8–16 semanas (por módulo de ~50k LOC COBOL)  
+**Diferenciador LATAM:** Bancos y telcos de Argentina, Brasil, Colombia tienen deuda legacy crítica
 
 ---
 
-## P3 — Visual Agent Builder para Non-Developers
+## P3: Multi-Agent Coding Fleet (Orca + LangGraph)
 
-**Problema**: áreas de negocio (producto, ops, legal) quieren agentes pero no pueden escribir código.
+**Objetivo:** Acelerar desarrollo paralelizando tareas con fleet de coding agents.
 
+**Stack:**
+- `stablyai/orca` (MIT) — ADE para gestionar fleet de agentes en worktrees paralelos
+- `sst/opencode` (MIT, ~183k★) — coding agent para cada worktree
+- `langchain-ai/langgraph` (MIT, ~34k★) — orchestration y coordinación entre agentes
+- `mem0ai/mem0` (Apache-2.0) — memoria compartida entre agentes del fleet
+
+**Patrón:**
 ```
-Dify (langgenius/dify, Apache-2.0) — plataforma self-hosted
-  └─ Workflow visual builder:
-      · Nodo LLM (Anthropic claude-sonnet-5 o Ollama local)
-      · Nodo Knowledge Base (documentos internos, PDFs, wikis)
-      · Nodo Tool: browser-use (browser-use/browser-use, MIT) para scraping web
-      · Nodo Output: email / Slack / Webhook
-  └─ Usuarios de negocio construyen y modifican flujos sin código
-  └─ IT mantiene el Dify self-hosted (Docker Compose)
+Orquestador (LangGraph)
+├── Agente A (opencode en worktree-feature-A): implementa feature X
+├── Agente B (opencode en worktree-feature-B): implementa feature Y
+├── Agente C (opencode en worktree-tests): escribe tests de integración
+└── Agente D (opencode en worktree-docs): actualiza documentación
+          ↓
+Merge automático con validación cruzada
 ```
 
-**Repos clave**: `langgenius/dify` + `browser-use/browser-use`  
-**Licencias**: Apache-2.0 + MIT  
-**Tiempo estimado**: 1 semana setup + 2–3 semanas para primeros workflows de negocio  
-**ROI**: autonomía de áreas de negocio; reducción de backlog de IT para automatizaciones simples
+**Tiempo estimado:** 2–4 semanas de setup; luego productivo desde día 1  
+**Reducción de ciclo:** 4× vs desarrollo secuencial en proyectos medianos-grandes
 
 ---
 
-## P4 — Migración / Refactoring Masivo con Parallel Agent Fleet
+## P4: LLMOps Stack Self-Hosted (LATAM enterprise)
 
-**Problema**: migrar un monolito legacy (50k+ archivos) a microservicios o modernizar tech stack requiere meses de trabajo manual.
+**Objetivo:** Stack completo de AI engineering observable, auditable y sin lock-in cloud para enterprise con restricciones de data residency.
 
+**Stack:**
+- `ollama/ollama` (MIT, ~120k★) — inference local (modelos hasta 70B con GPU)
+- `vllm-project/vllm` (Apache-2.0, ~86k★) — serving distribuido para modelos grandes
+- `BerriAI/litellm` (MIT, ~53k★) — gateway unificado OpenAI-compatible
+- `langfuse/langfuse` (MIT, ~31k★) — observabilidad self-hosted
+- `langgenius/dify` (Apache-2.0, ~144k★) — plataforma de apps LLM
+
+**Arquitectura:**
 ```
-Orca (stablyai/orca, Apache-2.0) — orchestrator de fleet de agentes
-  └─ Divide el repositorio en módulos independientes
-  └─ Lanza N instancias paralelas de OpenHands (MIT):
-      · Agente 1: módulo auth → microservicio FastAPI
-      · Agente 2: módulo payments → microservicio Go
-      · Agente N: módulo reports → microservicio Python
-  └─ Cada agente ejecuta tests locales en su sandbox
-  └─ Agente orquestador valida integración entre módulos
-  └─ aider (paul-gauthier/aider, Apache-2.0) para commits disciplinados
-  └─ SonarQube valida calidad del código generado antes de merge
+Clientes (app / agente / IDE)
+          ↓
+LiteLLM Proxy (gateway unificado, routing, cost control)
+    ├── Ollama (modelos locales: Llama 3, Mistral, Gemma)
+    ├── vLLM (modelos grandes: Qwen 72B, DeepSeek)
+    └── API externa (Claude / GPT-4.1 para tareas complejas)
+          ↓
+Langfuse (trazas, evals, costos, dashboards)
+          ↓
+Dify (workflow builder, RAG, API management)
 ```
 
-**Repos clave**: `stablyai/orca` + `All-Hands-AI/OpenHands` + `paul-gauthier/aider` + `SonarSource/sonarqube`  
-**Licencias**: Apache-2.0 + MIT + Apache-2.0 + LGPL-3.0  
-**Tiempo estimado**: 4–8 semanas para migración que tomaría 6–12 meses manual  
-**ROI**: 5–10x aceleración en modernización de legado; diferenciador competitivo de Globant
+**Tiempo estimado:** 3–5 semanas  
+**Por qué LATAM:** Regulaciones de LGPD (Brasil), Ley 1581 (Colombia) exigen que datos sensibles no salgan del país
 
 ---
 
-## P5 — DevOps ChatOps Agent sobre Mattermost
+## P5: ChatOps DevOps Agent (Mattermost + MCP)
 
-**Problema**: el equipo de ops recibe alertas en Grafana pero necesita actuar en Kubernetes y GitHub. Flujo manual y lento.
+**Objetivo:** Agente conversacional en Slack/Mattermost que actúa sobre el DevOps stack.
 
+**Stack:**
+- `mattermost/mattermost` (Apache-2.0) — plataforma self-hosted de mensajería
+- `Sqcows/forgejo-mcp` (MIT) — 103 tools sobre Gitea/Forgejo (repos, issues, PRs)
+- `modelcontextprotocol/servers` (Apache-2.0) — MCP servers adicionales (DB, monitoring)
+- `langchain-ai/langgraph` (MIT) — orchestration del agente ChatOps
+- `langfuse/langfuse` (MIT) — audit trail de comandos ejecutados por el agente
+
+**Capacidades del agente:**
 ```
-Grafana (grafana/grafana, AGPL-3.0) — alertas de observabilidad
-  → Webhook a Mattermost (mattermost/mattermost, Apache-2.0)
-  → Bot de ChatOps con MCP tools:
-      · Kubernetes MCP — listar pods, escalar deployments, rollback
-      · GitHub MCP — listar PRs, mergear hotfix aprobado
-      · Dify MCP — invocar flujo de diagnóstico automatizado
-  → Developer escribe en canal: "/rollback payment-service v2.3.1"
-  → Agente ejecuta rollback con confirmación HITL (bounded autonomy)
-  → Log auditado en Mattermost para compliance
+"@devbot: ¿cuántos PRs abiertos tiene el equipo backend?"
+"@devbot: crea un issue con los bugs del standup de hoy"
+"@devbot: mergea los PRs que pasaron CI en el repo payments"
+"@devbot: ¿qué se deployó ayer a producción?"
+"@devbot: rollback del último deploy en staging"
 ```
 
-**Repos clave**: `mattermost/mattermost` + `grafana/grafana` + MCP servers propios  
-**Licencias**: Apache-2.0 + AGPL-3.0  
-**Tiempo estimado**: 3–4 semanas  
-**ROI**: MTTR (Mean Time to Recover) reducido 50–70%; cumplimiento de audit trail
+**Tiempo estimado:** 4–8 semanas  
+**Clave de governance:** Bounded autonomy — el agente ejecuta acciones rutinarias pero pide confirmación humana en deploys a producción
 
 ---
 
-## P6 — AI Onboarding Agent para Nuevos Developers
+## P6: Developer Portal AI-Native (Backstage + AI)
 
-**Problema**: onboarding de un developer nuevo en una codebase grande toma 2–4 semanas. El conocimiento del repo está disperso en Confluence + código + Slack.
+**Objetivo:** Portal de developer experience con capacidades AI: onboarding automatizado, búsqueda semántica, runbooks inteligentes.
 
-```
-Graphify (Graphify-Labs/graphify, MIT)
-  → Indexa el codebase → knowledge graph consultable
-  → MCP server sobre el graph
+**Stack:**
+- `backstage/backstage` (Apache-2.0, ~30k★) — developer portal base (Spotify/CNCF)
+- Plugin AI custom con LiteLLM + LangGraph
+- `mem0ai/mem0` (Apache-2.0) — personalización por developer
+- `langfuse/langfuse` (MIT) — tracking de consultas y satisfacción
 
-opencode (MIT) o Cline (Apache-2.0)
-  → Conectado al MCP de Graphify + Confluence MCP + GitHub MCP
-  → Developer nuevo pregunta en lenguaje natural:
-      "¿Qué módulos debo modificar para añadir un nuevo tipo de pago?"
-      "¿Quién es el owner de la autenticación y cuándo fue el último cambio?"
-  → Agente responde con context del grafo + links a código + historia de cambios
+**Features AI añadidas:**
+- **Onboarding agent**: guía a nuevo dev por setup, docs relevantes, a quién preguntar
+- **Búsqueda semántica**: "¿dónde está el código que maneja pagos?" → responde con links reales
+- **Runbook navigator**: "el servicio payments está caído" → agente recorre runbook y ejecuta pasos
+- **Tech radar explicado**: "¿por qué dejamos de usar Kafka?" → agente busca ADRs y explica la decisión
 
-smolagents (huggingface/smolagents, Apache-2.0)
-  → Agente ligero que responde preguntas de arquitectura en el chat interno
-```
-
-**Repos clave**: `Graphify-Labs/graphify` + `anomalyco/opencode` + `huggingface/smolagents`  
-**Licencias**: MIT + MIT + Apache-2.0  
-**Tiempo estimado**: 2–3 semanas (indexar repo + configurar agente)  
-**ROI**: onboarding de 2–4 semanas → 3–5 días; retención de conocimiento institucional
+**Tiempo estimado:** 6–10 semanas  
+**Impacto medible:** -40% tiempo de onboarding; -60% tickets "¿dónde está X?" en Slack
 
 ---
 
-## P7 — MCP Security Scanner en Pipeline CI/CD
+## P7: Spec-Driven Development Pipeline
 
-**Problema**: la adopción de MCP servers sin revisión crea vulnerabilidades de supply chain en el stack de AI.
+**Objetivo:** Desarrollo riguroso donde el agente genera código que debe validar contra una especificación formal.
 
+**Stack:**
+- `github/spec-kit` (MIT) — toolkit spec-driven de GitHub (mayo 2026)
+- `sst/opencode` (MIT, ~183k★) o `All-Hands-AI/OpenHands` (MIT) — coding agent
+- `langchain-ai/langgraph` (MIT) — pipeline de validación iterativa
+- `langfuse/langfuse` (MIT) — traza iteraciones y métricas de conformidad
+
+**Flujo:**
 ```
-Bumblebee (PerplexityAI/bumblebee, Apache-2.0)
-  → Escanea: dependencias npm/pip, MCP servers en .mcp.json, extensiones de editor
-  → CI pipeline: bloquea MCP servers con indicadores de riesgo
-  → Reporte de supply chain risk en cada PR
-
-Integrado con:
-  · GitHub Actions (YAML)
-  · Gitea CI (si self-hosted)
-  · Slack/Mattermost alert si se detecta paquete sospechoso
-  · SonarQube (LGPL) para correlacionar con code quality
-
-Governance:
-  · Lista blanca de MCP servers aprobados por el cliente
-  · Bounded autonomy: agentes solo pueden usar MCP servers del registry aprobado
+1. Humano escribe especificación formal (OpenAPI, schema, comportamiento esperado)
+2. Spec-Kit la parsea y genera casos de prueba
+3. Coding agent implementa código que intenta pasar los tests
+4. Validador verifica conformidad con spec
+5. Si falla → agente itera con razonamiento sobre el error
+6. Si pasa → PR con coverage report de spec conformance
 ```
 
-**Repos clave**: `PerplexityAI/bumblebee` + `SonarSource/sonarqube` + CI de elección  
-**Licencias**: Apache-2.0 + LGPL-3.0  
-**Tiempo estimado**: 1 semana para integración básica  
-**ROI**: prevención de incidentes de seguridad en stack AI; requerimiento creciente en enterprise
+**Cuándo usar:** Enterprise con requisitos de compliance, auditoría o cuando "vibe coding" no da garantías suficientes  
+**Tiempo estimado:** 2–3 semanas de framework; luego por feature
 
 ---
-*Fuentes: benchmark de adopción JetBrains 2025; Gartner 2026 AI Coding Agents Market Guide; New Stack — 5 Key Trends Agentic Development 2026.*
+
+## Guía de selección de patrón
+
+| Si el cliente tiene... | Usar patrón |
+|------------------------|-------------|
+| Código legacy COBOL/RPG | P2 Legacy Modernization |
+| Equipo grande, proyectos paralelos | P3 Multi-Agent Fleet |
+| Requisitos de data residency | P4 LLMOps Self-Hosted |
+| Stack DevOps en Gitea/Forgejo | P5 ChatOps Agent |
+| Muchos developers, onboarding lento | P6 Developer Portal |
+| Enterprise con compliance estricto | P7 Spec-Driven |
+| Cualquier proyecto con PRs | P1 Code Review CI/CD |

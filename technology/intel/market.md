@@ -1,60 +1,64 @@
-# 🗺️ Mapa de mercado — Technology / AI Dev Tools
+# 🗺️ Mapa de mercado — Technology
 
-> Players, tamaño de mercado, oportunidades. Foco LATAM + global.
-> Última actualización: 2026-07-13 (v12)
+> Players, oportunidades y posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-13
 
 ## Tamaño de mercado
 
 | Segmento | 2026 | Proyección | CAGR | Fuente |
-|----------|------|------------|------|---------|
-| AI en software development | $718M | $9.2B (2033) | 43.5% | Persistence Market Research |
-| AI coding agents (enterprise) | $9.8B–$11B annualizado | — | — | Gartner Q1 2026 |
-| Global AI spending | $2.53T | — | +44% YoY | Gartner 2026 |
-| IT spending global | $6.31T | — | +13.5% YoY | Gartner 2026 |
-| Software spending | $1.44T | — | +15.1% YoY | Gartner 2026 |
+|----------|------|------------|------|--------|
+| AI Coding Tools (global) | $9.35B | — | 52.4% (→ 2030) | Mordor Intelligence |
+| Enterprise AI Coding Agents | $9.8B–$11B | — | — | Gartner, abr-2026 |
+| Agentic AI (todos los sectores) | $10.8B | — | — | Gartner 2026 |
+| AI in Software Development | — | $9.2B | 43.5% | MarketsAndMarkets |
 
-## Players globales — Proprietary vs Open
+**Señales clave:**
+- Cursor: $2B ARR (líder comercial en AI IDEs)
+- GitHub Copilot: más desplegado por headcount enterprise
+- Claude Code: 46% developer satisfaction score — lidera en satisfacción
+- OpenAI Codex: 2M+ weekly active users
+- 80% empresas US ya usan agentic AI (solo 41% en producción)
+- Gartner: 60% del nuevo código será AI-generado a fin de 2026
+- Gartner: 75% devs usarán coding agents para 2028 (vs <10% en 2023)
 
-| Player | Tipo | Producto AI | Fortaleza | Debilidad |
-|--------|------|-------------|-----------|----------|
-| GitHub (Microsoft) | Closed | Copilot Enterprise | Integración nativa GitHub; 85% mindshare | Vendor lock-in; caro en escala ($19/dev/mes) |
-| Cursor | Closed | Cursor IDE | UX superior; fork VS Code | Precio; no auto-hosteable |
-| JetBrains | Closed | AI Assistant | Integración IDE profunda | Solo JetBrains ecosystem |
-| anomalyco | Open | opencode | 181k★; multi-provider; gratis | Requiere setup |
-| All-Hands AI | Open | OpenHands | CI/headless; sandboxed | Más complejo de operar |
-| Block (Square) | Open | Goose | MCP-first; Linux Foundation | Menos conocido |
-| Paul Gauthier | Open | Aider | Git-native; disciplinado | CLI only |
-| Hugging Face | Open | smolagents | Simple; Python-native | Menos features |
+## Players globales
 
-## Adopción — Estadísticas clave 2026
+| Empresa | Tipo | Fortaleza | Debilidad |
+|---------|------|-----------|-----------|
+| **GitHub (Microsoft)** | Comercial | Copilot más adoptado; integración VS Code + GitHub | Lock-in Microsoft; observabilidad limitada |
+| **Anthropic** | Comercial + OSS | Claude Code lidera satisfacción; MCP estándar | Precio API; sin IDE propio |
+| **OpenAI** | Comercial + OSS | Codex 2M+ users; Agents SDK; GPT-5 | Dependencia cloud; API cost |
+| **Google** | Comercial + OSS | Gemini CLI Apache-2.0; 1M context; gratis terminal | Fragmentación (Gemini/Vertex/AIStudio) |
+| **Cursor** | Comercial | $2B ARR; AI-native IDE líder; Composer + Agent | Solo propietario |
+| **Windsurf** | Comercial | 1M+ users; fuerte en onboarding; adquirida Cognition | Menor ecosistema que Cursor |
+| **LangChain / LangGraph** | OSS + Enterprise | 34.5M downloads/mes; estándar orchestration | Curva aprendizaje; verbose |
+| **HuggingFace** | OSS + Hub | smolagents; Transformers; Hub modelos; Spaces | Business model difuso |
+| **Dify** | OSS + SaaS | 144k★; $30M Serie B mar-2026; 1M apps | Gobernanza VC; China-first |
+| **Block (Square)** | OSS | Goose en Linux Foundation; multi-model | Solo OSS, sin oferta enterprise propia |
+| **ClickHouse** | Comercial | Adquirió Langfuse ene-2026; LLMOps nativo en DB | No es nativo AI |
 
-- **85%** de developers usan herramientas AI diariamente (JetBrains 2025 Dev Survey)
-- **71%** usan AI tools diario (GitHub Octoverse 2025)
-- **46%** del código nuevo es AI-assisted; proyectado **60%** para fin de 2026 (Gartner)
-- **40%** de apps enterprise tendrán AI agents task-specific para fin de 2026 (Gartner)
-- **9.4 horas** ahorradas por developer por semana (promedio industria)
-- **19.3%** de ganancia neta de productividad reportada por engineering leaders
-- **30-35%** de mejora de productividad en todo el SDLC (Deloitte)
-- **80%** de orgs evolucionarán a equipos de ingeniería pequeños + AI-augmented para 2030 (Gartner)
+## Oportunidades AI en LATAM
 
-## Oportunidades para Globant
+| Oportunidad | Mercado | Ventana | Modelo |
+|-------------|---------|---------|--------|
+| Modernización legacy COBOL/RPG | Bancos, telcos, gobierno LATAM | 2026–2028 | Agente que analiza + migra + valida |
+| DevOps agentico para pymes | Colombia, Argentina, México | 2026 | Gitea + Orca stack self-hosted |
+| MCP servers para SAP/Oracle local | Manufactura, retail enterprise | 2026–2027 | Wrapper MCP sobre APIs existentes |
+| Observabilidad LLMOps self-hosted | Empresas con restricción cloud | 2026 | Langfuse on-prem + Ollama |
+| Developer portals AI-native | Tech hubs (Buenos Aires, Medellín, CDMX) | 2026 | Backstage + AI plugin + Dify |
+| Vibe coding / spec-driven para startups | Toda LATAM | Ya | Taller + toolchain open source |
 
-### Mercado LATAM
-- **Argentina / Brasil / México**: empresas tech mid-market sin acceso a Copilot Enterprise por costos o compliance. Open source stack = entrada natural.
-- **Sectores regulados** (fintech, salud, gobierno): Dify self-hosted + OpenHands + modelos locales (Ollama) = el pitch perfecto.
-- **ISVs y software houses**: necesitan acelerar su SDLC 30%+ para competir. Un AI-augmented dev team diseñado por Globant como servicio.
+## Posicionamiento Globant AI Studios
 
-### Servicios de alto valor
-1. **AI Engineering Assessment**: auditar stack actual → roadmap de adopción → ROI calculado
-2. **Coding Agent Deployment**: instalar y configurar opencode/Cline/OpenHands para el equipo del cliente
-3. **MCP Layer Design**: construir servidores MCP sobre sistemas internos del cliente
-4. **Parallel Agent Pipelines**: usar Orca + OpenHands para migración o modernización masiva a escala
+**Fortalezas para capitalizar:**
+- Escala de ingeniería LATAM + US + Europa — pueden deployar fleet de coding agents en proyectos grandes
+- Expertise en legacy modernization — el caso de uso más urgente en LATAM enterprise
+- Relaciones con clientes Fortune 500 — upsell de AI coding tooling sobre engagement existente
 
-## Posicionamiento Globant
+**Narrativa recomendada:**
+> "Globant no solo usa AI para codificar más rápido — construimos el stack de AI engineering para que tu equipo lo haga. Open source, self-hosted, auditable."
 
-- Globant puede ofrecer el **stack open source certificado**: opencode + Cline + OpenHands + Dify, testeado y governance-ready
-- Diferenciador: **no vendor lock-in**, todo MIT/Apache 2.0, cliente mantiene control
-- Punto de entrada LATAM: empresas que no pueden pagar $19-39/dev/mes en herramientas proprietary
-
----
-*Fuentes: Gartner 2026 IT Spending Forecast; Deloitte 2026 Software Industry Outlook; JetBrains Developer Ecosystem Survey 2025; Persistence Market Research AI in Software Development.*
+**Diferenciador clave:**
+- Stack 100% open source (sin lock-in propietario)
+- Patrón "bounded autonomy": agentes autónomos + puntos de escalada humana + audit trail completo
+- Observabilidad desde día 1 con Langfuse self-hosted

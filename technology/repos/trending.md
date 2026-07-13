@@ -1,28 +1,23 @@
-# 📈 GitHub Trending — Technology AI (semana del 2026-07-13)
+# 📈 Repos trending — Technology
 
-> Repos ganando estrellas activamente esta semana. Actualizado v12.
+> GitHub trending en AI/dev-tools esta semana. Actualizado: 2026-07-13
 
-| Repo | Licencia | Stars | Movimiento | Por qué importa |
-|------|----------|-------|------------|-----------------|
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | ~181k | +2k/semana | Sigue liderando. Cada actualización suma miles de stars. |
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | ~86k | +1.5k/semana | Web automation para agents se vuelve mainstream. |
-| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | ~95k | Estable | CLI open source de OpenAI. Referencia para comparar. |
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~80k | +800/semana | Crecimiento sostenido post-renaming desde OpenDevin. |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | +500/semana | La plataforma LLM más deployada en enterprise China+LATAM. |
-| [block/goose](https://github.com/block/goose) | Apache-2.0 | ~51k | +400/semana | Adopción acelerada tras Linux Foundation governance. |
-| [PerplexityAI/bumblebee](https://github.com/PerplexityAI/bumblebee) | Apache-2.0 | ~2.6k | +300/semana | Supply chain scanner MCP. Nueva categoría: agent security. |
-| [stablyai/orca](https://github.com/stablyai/orca) | Apache-2.0 | ~1k | Nuevo | Fleet runner para parallel coding agents. Early adopter opportunity. |
-| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | MIT | ~3k | +200/semana | Codebase → knowledge graph para AI assistants. |
-| [bradAGI/awesome-cli-coding-agents](https://github.com/bradAGI/awesome-cli-coding-agents) | MIT | ~4k | +150/semana | Directorio curado de agents CLI. Mapa del ecosistema. |
-
-## Por qué esta semana es diferente
-
-El ecosistema está consolidándose en tres capas:
-1. **Agentes CLI** (opencode, codex, aider, goose) — ejecución autónoma
-2. **IDE integration** (Cline) — experiencia asistida
-3. **Plataformas visuales** (Dify, Langflow) — demos y non-dev users
-
-La capa de **infraestructura MCP** (servidores, seguridad, registry) está creciendo más rápido que los agentes mismos.
+| Nombre | Repo | Licencia | Stars | Por qué trending |
+|--------|------|----------|-------|-----------------|
+| opencode | [sst/opencode](https://github.com/sst/opencode) | MIT | ~183k | Coding agent terminal líder en open source; 75+ providers; LSP; Go-based |
+| Gemini CLI | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | ~106k | Terminal agent de Google con 1M context; abr-2026; viral por ser totalmente gratis |
+| ollama | [ollama/ollama](https://github.com/ollama/ollama) | MIT | ~120k+ | Correr LLMs locales con una línea; la puerta de entrada al AI local para devs |
+| OpenHands | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~80k | Software dev agent completo; alternativa open source a Devin; sandbox dockerizado |
+| Mem0 | [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~61k | Memoria persistente para agentes; v2.0 jun-2026; de-facto estándar |
+| browser-use | [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | ~50k+ | Browser automation con LLMs; migró a CDP directo; crecimiento explosivo |
+| Goose | [block/goose](https://github.com/block/goose) | Apache-2.0 | ~51k | CLI agent de Block/Square bajo Linux Foundation; multi-model MCP-native |
+| Orca ADE | [stablyai/orca](https://github.com/stablyai/orca) | MIT | — | Fleet de coding agents paralelos desde desktop/mobile; viral en jul-2026 |
+| vLLM | [vllm-project/vllm](https://github.com/vllm-project/vllm) | Apache-2.0 | ~86k | LLM inference engine; v0.25.0 con mejoras multimodales; 2000+ contributors |
+| forgejo-mcp | [Sqcows/forgejo-mcp](https://github.com/Sqcows/forgejo-mcp) | MIT | — | MCP server para Forgejo/Gitea; 103 tools; built with Claude Code |
+| agent-toolkit-for-kapitan | [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | Apache-2.0 | — | MCP + agent skills para Kubernetes config management con Kapitan |
+| dtctl | [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | Apache-2.0 | ~160 | CLI Dynatrace para humanos y agentes AI; observabilidad platform-as-code |
+| GitHub Spec-Kit | [github/spec-kit](https://github.com/github/spec-kit) | MIT | — | Spec-driven development con AI agents; validación contra especificación |
+| claude-code-security-review | [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | MIT | ~5.4k | GitHub Action de security review con Claude; análisis en cada PR automático |
 
 ---
-*Pipeline automático — v12.*
+*Pipeline automático — se actualiza cada hora.*

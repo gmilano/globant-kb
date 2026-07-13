@@ -1,59 +1,43 @@
-# 🏭 Verticales de partida — Technology / Software Companies
+# 🏭 Verticales de partida — Technology
 
-> Plataformas open source usadas por empresas de tecnología.
-> Estrategia: partir de algo funcional y producción-ready, añadir capa agéntica encima.
-> Última actualización: 2026-07-13 (v12)
+> Plataformas existentes customizables con AI. Modelo: partir de algo funcional, añadir capa agéntica encima.
+> Última actualización: 2026-07-13
 
 ## Plataformas recomendadas
 
-| Plataforma | Licencia | Repo | Stack | Caso de uso principal |
-|------------|----------|------|-------|-----------------------|
-| [Gitea](https://github.com/go-gitea/gitea) | MIT | go-gitea/gitea | Go | Self-hosted Git para empresas que no pueden usar GitHub Cloud. Base para AI code review agents. |
-| [Supabase](https://github.com/supabase/supabase) | Apache-2.0 | supabase/supabase | Postgres + TypeScript | Firebase open source. Backend-as-a-Service con auth, storage, realtime, functions. |
-| [Appwrite](https://github.com/appwrite/appwrite) | BSD-3-Clause | appwrite/appwrite | PHP + TypeScript | BaaS multi-plataforma. Auth, DB, Functions, Storage. Self-hosteable. |
-| [Grafana](https://github.com/grafana/grafana) | AGPL-3.0 | grafana/grafana | Go + TypeScript | Observabilidad y dashboards. Integra con cualquier datasource. |
-| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | langgenius/dify | Python + Next.js | LLM app platform completo. Puede reemplazar MLflow + LangChain + prompt management juntos. |
-| [Portainer](https://github.com/portainer/portainer) | zlib | portainer/portainer | Go | Container management (Docker/Kubernetes). UI para devops no-expertos. |
-| [SonarQube Community](https://github.com/SonarSource/sonarqube) | LGPL-3.0 | SonarSource/sonarqube | Java | Code quality y security analysis. Se integra con CI/CD. Base para AI code review. |
-| [Mattermost](https://github.com/mattermost/mattermost) | Apache-2.0 | mattermost/mattermost | Go + TypeScript | Slack open source con bots MCP y AI integrations. Governa en enterprises con compliance. |
+| Plataforma | Licencia | URL | Stack | Caso de uso AI |
+|------------|----------|-----|-------|----------------|
+| **Gitea** | MIT | [go-gitea/gitea](https://github.com/go-gitea/gitea) | Go | Self-hosted git + CI/CD; añadir MCP server → agente revisa PRs, genera changelogs, detecta deuda técnica |
+| **Forgejo** | GPL-3.0 | [codeberg.org/forgejo](https://codeberg.org/forgejo/forgejo) | Go | Fork community de Gitea; gobernanza abierta; + forgejo-mcp (103 tools) para AI-first DevOps |
+| **Backstage** | Apache-2.0 | [backstage/backstage](https://github.com/backstage/backstage) | React/Node | Developer portal CNCF; catálogo de servicios; + plugin AI para onboarding, tech radar, runbooks |
+| **Dify** | Apache-2.0 | [langgenius/dify](https://github.com/langgenius/dify) | Python/Next.js | Plataforma full-stack LLM: workflow visual, RAG, API, 1M+ apps en prod; base para cualquier producto AI |
+| **Ollama** | MIT | [ollama/ollama](https://github.com/ollama/ollama) | Go | Servidor local de LLMs; API OpenAI-compatible; base para edge AI, air-gapped, LATAM con baja latencia |
+| **Langfuse** | MIT | [langfuse/langfuse](https://github.com/langfuse/langfuse) | TypeScript | Observabilidad LLMOps self-hosted; trazas, evals, costos, dashboards; obligatorio en producción |
+| **n8n** | Fair-code | [n8n-io/n8n](https://github.com/n8n-io/n8n) | TypeScript | Workflow automation con 400+ integraciones; añadir nodos AI → automatización enterprise sin código |
+| **Mattermost** | Apache-2.0 | [mattermost/mattermost](https://github.com/mattermost/mattermost) | Go/React | Slack self-hosted; añadir bots AI con MCP → ChatOps con agentes que actúan sobre DevOps stack |
+| **Kapitan** | Apache-2.0 | [kapicorp/kapitan](https://github.com/kapicorp/kapitan) | Python | Config management Kubernetes/Helm; + agent-toolkit-for-kapitan MCP → agente gestiona infra K8s |
+| **OpenTelemetry** | Apache-2.0 | [open-telemetry/opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector) | Go | Colector de trazas/métricas/logs; base para observabilidad AI-native (Langfuse integra nativo) |
 
-## Cómo añadir AI encima
+## Cómo customizar con AI
 
-### Sobre Gitea → AI Code Review Agent
-```
-Gitea webhooks (PR events)
-  → OpenHands o Claude Code Action
-  → Análisis de diff con LLM
-  → Comentarios automáticos en el PR
-  → SonarQube para quality gates
-```
+### Patrón genérico
 
-### Sobre Supabase → AI Data Assistant
-```
-Supabase (Postgres + Auth + Realtime)
-  → MCP server de Supabase (oficial, MIT)
-  → Agente Cline / opencode con acceso al schema
-  → Queries en lenguaje natural
-  → Alertas proactivas via Grafana + LLM
-```
+1. **Fork del repo base** (Gitea, Backstage, Dify...)
+2. **Añadir endpoint AI** → conectar a LiteLLM (abstracción multi-provider: OpenAI/Anthropic/Ollama local)
+3. **Wrappear flujos existentes** → LangGraph para orchestration, Mem0 para persistencia de contexto
+4. **Observabilidad** → Langfuse para trazas, costos y evals desde día 1
+5. **MCP server** → exponer capacidades de la plataforma al agente (forgejo-mcp como modelo a seguir)
+6. **UI conversacional** → Dify o interfaz custom sobre la plataforma base
 
-### Sobre Dify → Enterprise AI Portal
-```
-Dify (auto-hosted)
-  → Modelos propios (Ollama local o Anthropic API)
-  → Conectado a bases de datos internas via MCP
-  → UI de agentes para usuarios no-técnicos
-  → Audit log nativo (compliance)
-```
+### Stack mínimo recomendado (open source, self-hosted)
 
-### Sobre Mattermost → DevOps ChatOps Agent
 ```
-Mattermost (self-hosted, compliance)
-  → Bot con MCP tools: Kubernetes, GitHub, CI/CD
-  → Agente que responde /deploy, /rollback, /status
-  → Integración con Grafana para alertas
-  → Logs auditables para SOC
+Git: Gitea/Forgejo  +  forgejo-mcp
+CI/CD: Gitea Actions o Woodpecker CI
+Modelos: Ollama (local) + LiteLLM (gateway multi-provider)
+Orchestration: LangGraph o smolagents
+Memoria: Mem0
+Observabilidad: Langfuse
+Portal dev: Backstage con plugin AI
+ChatOps: Mattermost + bot MCP
 ```
-
----
-*Ver también: `repos/foundations.md` para frameworks base.*
