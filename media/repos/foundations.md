@@ -1,7 +1,7 @@
 # Foundational Repos — Media & Entertainment
 
 > Core open source repositories for building AI-powered media solutions. Real repos, real licenses.
-> Last updated: 2026-07-12 (v14)
+> Last updated: 2026-07-13 (v15)
 
 ## Foundational Repositories
 
@@ -19,6 +19,10 @@
 | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | ~3k | Video asset management (CMS) | Python/Django/React video and media CMS with adaptive streaming, captions, chapters, playlists, and REST API. Self-hosted alternative to Vimeo/Brightcove for enterprise media libraries. |
 | [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Audio processing / effects | Spotify's Python audio-effects library. Loads VST3/AU plugins, processes audio 300× faster than pySoX. Powers AI DJ and Voice Translation at Spotify. Foundation for audio post-production automation. |
 | [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | ~27.5k | Image generation studio | Creative engine for Stable Diffusion and FLUX models. Professional UI with canvas, workflow graphs, and model manager. Production-tested by studios for concept art and asset creation. |
+| [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~24k | Open Sora alternative (full training) | Most-starred Apache-2.0 video generation repo. Key differentiator: ships complete training code + inference, enabling custom video model fine-tuning. LoRA fine-tuning for brand/style consistency. Alternative to Wan2.2 for teams needing full training pipeline ownership. |
+| [assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher) | MIT | ~20k | Autonomous research agent | Multi-agent web research system generating 5–6 page sourced reports. Core newsroom application: background research for breaking news, feature journalism, analyst briefs. Runs against any LLM including Claude; configurable search depth. |
+| [stanford-oval/storm](https://github.com/stanford-oval/storm) | MIT | ~25k | LLM article generation | Stanford STORM: researches a topic via multi-perspective questions and web search → full Wikipedia-quality article with citations. Ideal for newsroom background packages, knowledge base articles, and editorial research. Modular pipeline: drop-in any LLM (Claude) and search provider. |
+| [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) | Apache-2.0 | ~8k | Commercial-grade on-device TTS | 82M-parameter TTS running on CPU; 54 voice presets, 8 languages including Spanish and Portuguese. Apache-2.0 means no per-character costs for commercial deployment. Foundation for LATAM podcast narration, dubbing, and short-form content voiceover at scale. |
 
 ---
 *See also: `verticals/solutions.md` for full vertical platforms.*

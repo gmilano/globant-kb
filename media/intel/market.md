@@ -1,7 +1,7 @@
 # Market Intelligence — Media & Entertainment AI
 
 > Key players, market map, and Globant positioning. Updated July 2026.
-> Last updated: 2026-07-12 (v14)
+> Last updated: 2026-07-13 (v15)
 
 ## Market Size & Growth
 
@@ -22,6 +22,17 @@
 - Studios and OTT platforms using AI across all production phases; AI no longer optional in competitive environments
 - Authenticity backlash: Gallup poll (Sep 2025) shows confidence in news at record low (28%); "human-guided, AI-assisted" commands premium over "AI-made"
 - Agentic AI replacing full repetitive workflows in broadcast, streaming, and post-production (NewscastStudio / EY 2026)
+
+## Newsroom & Journalism Metrics (Reuters Institute Digital News Report 2026)
+
+- **75%** of news executives expect "agentic tools" to have a "large" or "very large" impact in the near future
+- **40%** forecast decline in search referrals over the next 3 years from AI answer engines (Google AI Overviews, ChatGPT)
+- **Only 20%** of publishers expect AI licensing deals to become a major revenue source; most see them as marginal
+- Washington Post cut **~30%** of workforce in early 2026, citing AI as a contributing factor; signals structural workforce shift
+- Newsquest (UK regional publisher) deployed **30+ AI-assisted reporters** using News Creator tool — up to 30 AI-drafted stories per day, human-checked
+- Personalized news briefing tools (Huxe, OpenAI Pulse) gaining adoption as publishers seek audience retention against AI chatbots
+- AI "answer engines" diverting audiences before they reach publisher sites — search referral traffic in secular decline
+- Agentic newsroom workflows (research → draft → verify → publish) moving from pilot to operational at scale
 
 ## Key Players — Closed Source (Competition Context)
 
@@ -47,6 +58,8 @@
 | HeyGen | HyperFrames | Open-sourced HTML-to-video engine; builds agent ecosystem around enterprise platform |
 | OpenMMLab | FoleyCrafter | IJCV 2026 research → Apache-2.0 production; V2A becomes standard pipeline step |
 | Spotify (FAIR) | Pedalboard | Open engineering asset; talent acquisition and ecosystem play |
+| HPC-AI Tech | Open-Sora | Full training pipeline open-source; strongest Apache-2.0 alternative to proprietary video models |
+| Stanford NLP | STORM | MIT academic research → newsroom adoption; first serious open tool for AI-assisted article generation |
 
 ## LATAM Opportunity
 
@@ -58,10 +71,12 @@
 | Agent-native marketing video at scale | Brands need 500+ video variants/month; HyperFrames enables agent-composed production | HyperFrames (Apache-2.0) + Claude + MediaCMS |
 | Music and audio for advertising | Brazil alone is #7 global ad market | AudioCraft MusicGen (MIT code) for background scoring |
 | Podcast monetization infrastructure | LATAM podcast market growing 28% YoY | Castopod (AGPL) + Whisper transcription + Claude summaries |
+| AI newsroom for regional publishers | 40% search referral decline forces efficiency; LATAM regional newsrooms underserved | GPT-Researcher (MIT) + STORM (MIT) + Claude + Kokoro-82M (Apache-2.0) |
+| On-premise TTS for high-volume narration | ElevenLabs API costs prohibitive at LATAM scale; CPU-only deployment needed | Kokoro-82M (Apache-2.0) — Spanish/Portuguese, CPU, 54 presets, $0 per-character |
 
 ## Globant Positioning
 
-**Differentiation**: Globant can position as the integrator that connects open source AI media tools (Wan2.2, LTX-Video, HyperFrames, FoleyCrafter, ComfyUI, AudioCraft) with enterprise media workflows (rights management, content moderation, multi-platform distribution) — a layer clients cannot assemble themselves.
+**Differentiation**: Globant can position as the integrator that connects open source AI media tools (Wan2.2, LTX-Video, HyperFrames, FoleyCrafter, ComfyUI, AudioCraft, GPT-Researcher, STORM) with enterprise media workflows (rights management, content moderation, multi-platform distribution) — a layer clients cannot assemble themselves.
 
 **Sweet spots**:
 1. AI-powered localization pipelines for OTT and broadcast clients
@@ -69,6 +84,7 @@
 3. Self-hosted media AI infrastructure for clients with IP/data residency requirements
 4. LATAM short-form video production tools for creator platforms
 5. Agent-native video composition pipelines for brands requiring high-volume variant production
+6. AI newsroom systems (GPT-Researcher + STORM + Claude) for regional publishers facing search referral decline
 
 ---
 *Auto-updated by ingest pipeline.*

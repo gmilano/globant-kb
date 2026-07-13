@@ -1,7 +1,7 @@
 # Top AI Agents — Media & Entertainment
 
 > Open source AI agents and tools for Media & Entertainment. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Last updated: 2026-07-12 (v14)
+> Last updated: 2026-07-13 (v15)
 
 ## Featured Agents & Tools
 
@@ -19,6 +19,10 @@
 | Pedalboard | [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Spotify's Python audio-effects library. Load VST3/Audio Unit plugins, process audio up to 300× faster than pySoX. Powers Spotify AI DJ and AI Voice Translation internally. |
 | HunyuanVideo | [Tencent-Hunyuan/HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Tencent CL | ~16k | Tencent's open large video generation model. Commercial use permitted up to 100M MAU. High-fidelity long-form video synthesis; integrates with ComfyUI. |
 | Mochi 1 | [genmoai/mochi](https://github.com/genmoai/mochi) | Apache-2.0 | ~4k | Genmo text-to-video model targeting high motion quality and realistic dynamics. 480p, requires 80GB VRAM for full precision; 4-bit quantized versions available for 24GB consumer GPUs. |
+| Open-Sora 2.0 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~24k | HPC-AI Tech open-source Sora alternative. Full training + inference pipeline for high-fidelity video generation. Most-starred Apache-2.0 video gen project. Supports LoRA fine-tuning and multi-resolution outputs. |
+| GPT-Researcher | [assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher) | MIT | ~20k | Autonomous AI research agent for deep web research and 5–6 page report generation. Key newsroom application: feed a breaking news topic → get sourced research brief in minutes. Inspired by Stanford STORM; multi-agent source verification. |
+| STORM | [stanford-oval/storm](https://github.com/stanford-oval/storm) | MIT | ~25k | Stanford LLM-powered knowledge curation system. Researches a topic via web search + multi-perspective question asking → generates full-length Wikipedia-quality article with citations. Direct newsroom use case: background research for feature journalism at scale. |
+| Kokoro-82M | [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) | Apache-2.0 | ~8k | Lightweight 82M-parameter TTS model. Apache-2.0 for commercial use; 54 voice presets across 8 languages including Spanish and Portuguese. Runs on CPU. Foundation for AI narration, podcast auto-voicing, and LATAM dubbing pilots without per-character API costs. |
 
 ---
 *Auto-updated by ingest pipeline.*

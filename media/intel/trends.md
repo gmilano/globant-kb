@@ -1,7 +1,7 @@
 # Industry Trends — Media & Entertainment AI
 
 > Current signals shaping the media and entertainment AI landscape. July 2026.
-> Last updated: 2026-07-12 (v14)
+> Last updated: 2026-07-13 (v15)
 
 ## Macro Trends
 
@@ -40,6 +40,18 @@ HyperFrames (heygen-com/hyperframes, Apache-2.0, ~22k stars, Q2 2026): LLM agent
 
 ### T12: Video-to-Audio Generation Reaches Production Maturity
 FoleyCrafter (open-mmlab/FoleyCrafter, Apache-2.0, IJCV 2026): feed silent video, receive synchronized, realistic sound effects. Semantic adapter + temporal controller enables frame-accurate audio-video alignment. ComfyUI node available July 2026. Combined with LTX-2.3 native sync, the full post-production audio pipeline — foley, music scoring, dubbing — is now automatable end-to-end. Estimated 30–40% cost reduction on audio post for short-form content.
+
+### T13: Newsroom Agentic AI Crosses the Tipping Point
+Reuters Institute Digital News Report 2026 (June 2026) is the strongest institutional signal yet: **75% of news executives** expect agentic AI tools to have a "large" or "very large" impact on the industry in the near future. Three converging forces are driving adoption:
+
+1. **Search referral collapse**: Publishers forecast a 40% decline in search referrals over 3 years as Google AI Overviews and ChatGPT divert readers before they reach publisher sites. Newsrooms need to do more with less traffic.
+2. **Structural workforce reduction**: Washington Post −30% headcount (early 2026), citing AI. Cost pressure is making AI newsroom tools from pilot to operational requirement.
+3. **Autonomous research agents maturing**: GPT-Researcher (MIT, ~20k★) and Stanford STORM (MIT, ~25k★) provide production-quality research automation. A journalist can get a sourced 5-page research brief on any breaking topic in ~5 minutes. Newsquest deploying AI-drafted stories at 30/day per journalist with human final edit.
+
+**Implication for Globant**: Regional broadcasters and publishers (especially LATAM) face the same economics at 1/10th the budget. Globant can deliver turnkey AI newsroom systems (GPT-Researcher + STORM + Claude + MediaCMS) as a managed service.
+
+### T14: On-Premise TTS Replaces API for LATAM Volume Production
+ElevenLabs at $0.03–0.08/1,000 characters is economically prohibitive for high-volume LATAM content production. Kokoro-82M (Apache-2.0, hexgrad/Kokoro-82M, ~8k★) changes the equation: 82M parameters, CPU-viable, 54 presets, 8 languages including Spanish and Portuguese, no per-character costs. For a podcast network publishing 200+ episodes/month with auto-narration, the cost difference is $0 vs. $30–80K/year in API fees. Combined with Whisper.cpp (MIT) for ASR and Claude for translation, the complete LATAM localization stack runs fully on-premise.
 
 ## Regulatory and Ethical Context
 
