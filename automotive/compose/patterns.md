@@ -1,277 +1,219 @@
-# 🧩 Patrones de composición — Automotive
+# Patrones de Composición — Automotive
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-12 (v8)
+> Última actualización: 2026-07-13
 
-## Arquitectura base
+## Patrón base
 
 ```
 [Plataforma vertical base (open source)]
           ↓
-[Capa de integración AI / MCP server]
+[Capa de datos en tiempo real (EMQX / ROS 2)]
           ↓
-[Agentes especializados de Automotive]
+[Servidores MCP especializados por dominio]
           ↓
-[UI conversacional / API / edge device]
+[Agente Claude con herramientas específicas]
+          ↓
+[UI conversacional / API / Dashboard]
 ```
 
 ---
 
-## Patrón 1: Fleet Intelligence Platform
-> **Caso**: Empresa de transporte LATAM quiere reducir costos operativos y accidentes
+## Receta P1: Mantenimiento Predictivo de Flota
 
-**Stack**:
-- `fleetbase/fleetbase` (AGPL-3.0) — fleet management OS modular, dashboard, API REST
-- `traccar/traccar` (Apache-2.0) — GPS tracking, geofencing, telemetría en tiempo real
-- `emqx/emqx` (Apache-2.0) — MQTT broker + MCP-over-MQTT bridge para AI agents
-- LangGraph + Claude Sonnet — agente de análisis y predicción
-- WhatsApp API (Twilio) — notificaciones a conductores y dispatchers
+**Caso de uso**: Detectar fallas antes de que ocurran en flotas de camiones, buses o maquinaria de manufactura.
 
-**Flujo**:
+**Tiempo estimado**: 6-8 semanas | **Costo infra**: ~$500-2.000/mes
+
+### Stack
+- **Base**: [Fleetbase](https://github.com/fleetbase/fleetbase) — gestión de flota (GPS, despacho, historial)
+- **Datos**: [EMQX](https://github.com/emqx/emqx) — broker MQTT para telemetría de vehículos en tiempo real
+- **AI Engine**: [predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) — análisis de vibraciones y fallas
+- **Agente**: Claude claude-sonnet-5 con herramientas MCP de diagnóstico
+- **Alertas**: WhatsApp Business API + Claude para notificaciones en lenguaje natural
+
+### Arquitectura
 ```
-Dispositivo GPS → MQTT → EMQX broker
-    → MCP-over-MQTT: AI agent consulta telemetría en tiempo real
-    → LangGraph agent (análisis de comportamiento, Z-score sobre velocidad/ralentí)
-    → Claude Sonnet (genera reporte en español/portugués)
-    → Fleetbase API: actualiza driver score + alerta dispatcher
-    → WhatsApp: "Conductor López: exceso de velocidad en Ruta 9, km 45"
-    → Dashboard Fleetbase: mapa en tiempo real + KPIs + scoring
+Sensores vehiculares (OBD-II / CAN bus)
+          ↓ MQTT
+    EMQX Broker
+          ↓
+  predictive-maintenance-mcp
+    (análisis espectral, FFT, detección de fallas)
+          ↓ MCP tools
+    Claude Agent
+    ("El motor del camión ABC-123 muestra vibración anómala en rodamiento trasero.
+      Probabilidad de falla en 72hs: 87%. Recomendar revisión urgente.")
+          ↓
+  Fleetbase (crear orden de trabajo)
+  + WhatsApp al jefe de flota
 ```
 
-**Tiempo estimado**: 4-6 semanas a MVP
-**Por qué funciona**: Fleetbase maneja la capa de gestión; Traccar + EMQX exponen telemetría vía MCP; Claude cierra el loop en lenguaje natural.
+### Customización LATAM
+- Idioma: español / portugués nativo
+- Offline mode: Ollama local para rutas sin conectividad (guía incluida en repo)
+- Integración: SURA / Rimac seguros para reportes automáticos de mantenimiento
 
 ---
 
-## Patrón 2: Taller Automotriz Inteligente (LATAM SMB)
-> **Caso**: Red de talleres independientes que quiere digitalizar diagnóstico y presupuestación
+## Receta P2: AI Copilot para Concesionario
 
-**Stack**:
-- `frappe/erpnext` + Car Repair Management app (MIT/GPL-3) — ERP de taller
-- `libracore/erpnext_repairs` (MIT) — módulo de reparaciones
-- Auto.dev MCP Server — consulta de specs, recalls y datos de vehículo
-- MCP server custom sobre API Frappe — puente AI ↔ ERP
-- Claude Haiku (edge/low-cost) — diagnóstico en lenguaje natural
+**Caso de uso**: Agente conversacional para gestión de leads, presupuestos, agendamiento de servicio y seguimiento post-venta en concesionarios.
 
-**Flujo**:
+**Tiempo estimado**: 8-10 semanas | **Costo infra**: ~$300-800/mes
+
+### Stack
+- **Base**: [Odoo](https://github.com/odoo/odoo) — CRM, inventario de vehículos, servicio técnico
+- **Agente**: Claude con tools MCP que exponen la API Odoo
+- **Canal**: WhatsApp Business (Twilio) + Web chat
+- **Reportes**: Odoo BI + generación automática de informes por Claude
+
+### Arquitectura
 ```
-Mecánico conecta lector OBD-II → envía códigos P0300, P0420
-    → Auto.dev MCP: VIN decode + recall lookup + specs técnicas
-    → MCP Frappe: repuestos disponibles, precios, tiempo estimado
-    → Claude Haiku: "El vehículo tiene falla de encendido en cilindro 1 y catalizador agotado.
-       Repuestos en stock: bujías (4 unidades, $12). Recall activo: campaña #SA-045.
-       Tiempo estimado: 2 horas. Presupuesto: $145."
-    → ERPNext: genera orden de trabajo + presupuesto automático
+Cliente (WhatsApp / Web)
+          ↓
+    Claude Agent
+    (interpreta intención: test drive, precio, servicio)
+          ↓ MCP tools
+    Odoo API
+    (consulta stock, crea lead, agenda cita)
+          ↓
+    Respuesta personalizada al cliente
+    + Notificación al vendedor
 ```
 
-**Tiempo estimado**: 6-8 semanas
-**Diferenciador LATAM**: Español/portugués nativo, precios en moneda local, lookup de recalls en tiempo real vía Auto.dev MCP.
+### Valor medido
+- 40% reducción en tiempo de respuesta a leads
+- 25% mejora en conversión de leads a test drive
+- 60% automatización de consultas repetitivas
 
 ---
 
-## Patrón 3: In-Cabin Voice Agent (OEM / Aftermarket)
-> **Caso**: OEM o proveedor Tier-1 quiere diferenciarse con asistente de voz conversacional
+## Receta P3: Pipeline de Validación ADAS
 
-**Stack**:
-- NVIDIA DRIVE AGX Thor o Qualcomm Snapdragon Ride Flex (edge compute en vehículo)
-- Whisper v3 (MIT) — ASR multilingüe en device
-- Claude Haiku / Sonnet (on-cloud o fine-tuned pequeño on-device)
-- `NVlabs/OmniDrive` — comprensión 3D de la escena para contexto
-- Coqui TTS (Apache-2.0) — síntesis de voz en español/portugués
+**Caso de uso**: Validar comportamiento de un agente autónomo en escenarios de prueba antes de pruebas en vehículo real.
 
-**Flujo**:
+**Tiempo estimado**: 4-6 semanas (setup) + continuo | **Costo infra**: GPU cloud ~$2.000-5.000/mes
+
+### Stack
+- **Simulador**: [CARLA](https://github.com/carla-simulator/carla) — simulación fotorrealista de escenarios de conducción
+- **AV Stack**: [Autoware](https://github.com/autowarefoundation/autoware) o [openpilot](https://github.com/commaai/openpilot) — agente de conducción
+- **Evaluador**: [PCLA](https://github.com/MasoudJTehrani/PCLA) — framework de evaluación de métricas
+- **Orquestador**: Claude Agent — diseña escenarios de prueba, analiza resultados, genera reportes
+- **Bridge**: [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) — conecta CARLA con Autoware
+
+### Arquitectura
 ```
-Conductor: "Tengo frío y hay un embotellamiento en la autopista"
-    → Whisper: transcripción en tiempo real
-    → OmniDrive: estado de la escena (velocidad, ruta, tiempo)
-    → Claude: "Subiendo temperatura a 22°C. Hay 8 km de tráfico en la Panamericana,
-               sugiero desvío por Libertador. ¿Quieres que lo active en el GPS?"
-    → Coqui TTS: respuesta en audio natural en español
-    → CAN bus: ajuste de clima automático
+Claude Agent
+(genera escenarios: "intersección con peatón + lluvia + visibilidad reducida")
+          ↓
+    CARLA Simulator
+    (ejecuta escenario, genera sensor data)
+          ↓ ROS Bridge
+    Autoware / openpilot
+    (toma decisiones de conducción)
+          ↓ PCLA metrics
+    Claude Agent
+    (analiza: colisiones, confort, cumplimiento de señales)
+          ↓
+    Reporte: "Tasa de éxito: 94.2%. Fallas en: semáforos con oclusión parcial."
 ```
-
-**Tiempo estimado**: 10-14 semanas (hardware + integración CAN)
-**Oportunidad**: Español/portugués sub-atendidos por asistentes actuales (Siri, Alexa Auto). Mercedes, Honda, VW aún sin solución para LATAM.
 
 ---
 
-## Patrón 4: AV Simulation & Validation Pipeline
-> **Caso**: Equipo de ingeniería AV quiere evaluar modelos de conducción en condiciones LATAM
+## Receta P4: In-Cabin AI Conversacional
 
-**Stack**:
-- `carla-simulator/carla` (MIT) — entorno de simulación fotorrealista
-- `MasoudJTehrani/PCLA` (Apache-2.0) — framework de testing automatizado
-- `NVlabs/alpamayo` (Apache-2.0) o `NVIDIA/LCDrive` — modelo VLA a evaluar
-- `autowarefoundation/autoware_universe` — stack AV baseline
-- GitHub Actions / CI pipeline — evaluación continua en PR
+**Caso de uso**: Asistente multimodal dentro del vehículo. Control por voz + contexto + integración con servicios del ecosistema del vehículo.
 
-**Flujo**:
+**Tiempo estimado**: 10-14 semanas | **Costo infra**: Hardware + cloud ~$1.000-3.000/mes
+
+### Stack
+- **Arquitectura**: [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) — multi-agent cloud-edge
+- **Modelos**: Claude Haiku (edge, intent detection) + Claude Sonnet (cloud, planificación)
+- **Audio**: ASR local + TTS (edge) para baja latencia
+- **Integración**: CAN bus adapter → MCP tool para control vehicular
+- **Maps/POI**: HERE o Mapbox API como MCP tool
+
+### Arquitectura
 ```
-PR con cambios en modelo/stack
-    → CARLA lanza escenarios: lluvia, tráfico mixto, señales LATAM
-    → PCLA ejecuta suite de tests: L2 ADAS, maniobras de emergencia
-    → Alpamayo (chain-of-thought explícito para debugging) vs LCDrive (latent CoT para velocidad)
-    → Métricas: L2 displacement error, collision rate, comfort score, tokens/inference
-    → Reporte automático en PR comentario
+Voz del conductor
+          ↓ ASR (edge)
+    Intent Agent (Haiku, edge)
+    (clasificar: navegación / música / control HVAC / pregunta general)
+          ↓ si complejo
+    Planning Agent (Sonnet, cloud)
+    (planificar: "Busca restaurante vegetariano en ruta a destino")
+          ↓ VAL safety layer
+    Vehicle Control (CAN bus MCP)
+    + Maps MCP + Music MCP
+          ↓
+    Respuesta TTS al conductor
 ```
 
-**Tiempo estimado**: 3-4 semanas (pipeline CI)
-**Valor**: Evaluar trade-off explicabilidad (Alpamayo) vs eficiencia embebida (LCDrive) antes de hardware real.
+### Seguridad
+- VAL (Vehicle Abstraction Layer) como gate de seguridad antes de cualquier control vehicular
+- Todas las acciones de control pasan por validación de estado actual del vehículo
+- Modo degradado local si pierde conectividad
 
 ---
 
-## Patrón 5: Predictive Maintenance Agent (Concesionario / Flota)
-> **Caso**: Concesionario o flota corporativa quiere anticipar fallas antes de que ocurran
+## Receta P5: SDV OTA Intelligence Agent
 
-**Stack**:
-- `emqx/emqx` (Apache-2.0) — MQTT broker + MCP bridge para telemetría vehicular
-- `jmnda-dev/fleetms` (MIT) — historial de mantenimientos, órdenes de servicio
-- LangGraph — agente de análisis de series temporales
-- Claude Sonnet — generación de alertas y recomendaciones
-- SMTP/WhatsApp — notificación al fleet manager
+**Caso de uso**: Agente que gestiona el ciclo de vida de actualizaciones OTA en una flota de vehículos SDV. Decide qué versiones desplegar, en qué orden, con qué rollback plan.
 
-**Flujo**:
+**Tiempo estimado**: 12-16 semanas | **Costo infra**: Kubernetes cluster + ~$3.000/mes
+
+### Stack
+- **Base SDV**: [Eclipse S-CORE](https://github.com/eclipse-score) + [Eclipse SDV Blueprints](https://github.com/eclipse-sdv-blueprints) — foundation vehicular
+- **Comunicación**: [EMQX](https://github.com/emqx/emqx) — delivery y confirmación de OTA a vehículos
+- **Orquestación**: Claude Agent con herramientas de fleet state, version registry, rollback
+- **CI/CD**: GitHub Actions → build → CARLA validation → fleet deployment
+
+### Arquitectura
 ```
-Sensor: temperatura de aceite subiendo gradualmente (15 días de datos)
-    → EMQX MCP: AI agent recibe telemetría en tiempo real vía MCP-over-MQTT
-    → LangGraph: detecta tendencia anómala via Z-score
-    → fleetms API: último cambio de aceite hace 8,500 km (vence a 10,000)
-    → Claude: "Vehículo ABC-123 muestra calentamiento inusual de aceite.
-               Próximo mantenimiento en 1,500 km pero la tendencia sugiere revisión
-               anticipada. Recomiendo agendar en los próximos 3 días."
-    → fleetms: genera OS preventiva + notifica al conductor
+Nuevo release de software vehicular (GitHub tag)
+          ↓ CI
+    CARLA + PCLA (validación automatizada)
+          ↓ si pass
+    Claude OTA Agent
+    ("¿Desplegar v2.3.1 al 5% de la flota primero?")
+    [Analiza: historial de fallas, conectividad de vehículos, horario óptimo]
+          ↓ EMQX
+    OTA delivery a vehículos seleccionados
+          ↓ monitoring 24h
+    Auto-rollback si métricas caen
 ```
-
-**Tiempo estimado**: 5-7 semanas
-**ROI**: Reducción de 40-60% en fallas en ruta. fleetms (MIT) — sin restricciones para producto comercial.
 
 ---
 
-## Patrón 6: L2 ADAS Deployment para OEM Local
-> **Caso**: OEM o ensambladora LATAM quiere agregar ADAS L2 sin licencias costosas
+## Receta P6: Manufactura Automotriz — Calidad + Trazabilidad AI
 
-**Stack**:
-- `autowarefoundation/autoware_vision_pilot` (Apache-2.0) — stack L2 ADAS con pesos
-- `autowarefoundation/autoware_universe` — planificación y percepción extendida
-- `carla-simulator/carla` — validación en simulación
-- NVIDIA Jetson Orin o Qualcomm Snapdragon Ride Flex — hardware edge en vehículo
-- `Zwc2003/DriveAgent-R1` (MIT) — fine-tuning para casos borde LATAM
+**Caso de uso**: AI para inspección de calidad visual en línea de ensamblaje + trazabilidad de componentes + mantenimiento predictivo de equipos de producción. Mercado objetivo: maquiladoras México.
 
-**Flujo**:
-```
-Cámara frontal → VisionPilot: detección de carril y vehículos
-    → Autoware Universe: planificación de trayectoria
-    → DriveAgent-R1 (fine-tuned LATAM): manejo de casos borde
-       (motocicletas entre carriles, señales oxidadas, baches)
-    → CAN bus: comandos de dirección y freno
-    → Validación: suite PCLA en CARLA antes de cada OTA update
-```
+**Tiempo estimado**: 10-14 semanas | **Costo infra**: GPUs edge + cloud ~$5.000/mes
 
-**Tiempo estimado**: 16-24 semanas (incluye certificación ISO 26262)
-**Ahorro**: ~$2,000-5,000 por vehículo vs. soluciones propietarias (Mobileye, etc.)
+### Stack
+- **ERP**: [ERPNext/Frappe](https://github.com/frappe/frappe) — BOM, producción, trazabilidad
+- **Visión**: PyTorch + YOLO (detección de defectos) en cámaras de línea
+- **Mantenimiento**: [predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) para equipos de producción
+- **Agente**: Claude con herramientas de quality database, production metrics, maintenance history
+- **Dashboard**: Frappe + reportes AI generados
+
+### KPIs objetivo
+- Detección de defectos: >99% precision, <0.1% false negative
+- Reducción de downtime por mantenimiento no planificado: 40-60%
+- Trazabilidad completa de componentes: 100% (cumplimiento IATF 16949)
+- ROI estimado: 18-24 meses
 
 ---
 
-## Patrón 7: Multi-Modal Driving World Model (Research)
-> **Caso**: Lab de AI / OEM grande quiere construir modelo fundacional propio para AV
+## Selección de receta por perfil de cliente
 
-**Stack**:
-- `OpenDriveLab/UniAD` (Apache-2.0) — framework unificado percepción+predicción+plan
-- `NVlabs/OmniDrive` (Apache-2.0) — representación 3D sparse-query + VQA
-- `opendilab/LMDrive` (Apache-2.0) — conducción guiada por lenguaje
-- Metis (arXiv:2606.15869) — world-action model generalizable
-- nuScenes / Waymo Open Dataset — datos de pre-entrenamiento
-- `carla-simulator/carla` — generación de datos sintéticos para casos borde
-
-**Flujo de entrenamiento**:
-```
-nuScenes + CARLA synthetic data + datos LATAM propios
-    → UniAD: pre-entrenamiento backbone percepción
-    → OmniDrive: fine-tuning 3D + VQA tasks
-    → LMDrive: instruction following en closed-loop
-    → Metis: world-action model para generalización a escenarios no vistos
-    → CARLA + PCLA: evaluación continua
-    → Resultado: modelo fundacional AD con capacidad multilingüe + escenarios LATAM
-```
-
-**Tiempo estimado**: 6-12 meses (investigación)
-**Oportunidad**: Globant como partner técnico para OEMs que quieren independencia de NVIDIA/Qualcomm.
-
----
-
-## Patrón 8: LATAM EV Fleet + Charging Optimization
-> **Caso**: Empresa de delivery o transporte urbano LATAM con flota de EVs
-
-**Stack**:
-- `fleetbase/fleetbase` (AGPL-3.0) — gestión de flota, pedidos, accounting
-- `emqx/emqx` (Apache-2.0) — MQTT + MCP bridge para SOC en tiempo real
-- LangGraph + Claude Sonnet — agente de routing con restricciones de carga
-- OpenStreetMap + OSRM — rutas + puntos de carga disponibles
-
-**Flujo**:
-```
-Flota de 20 EVs en operación
-    → EMQX MCP: SOC (state of charge) en tiempo real por vehículo vía MCP-over-MQTT
-    → LangGraph agent: reasigna pedidos considerando autonomía restante
-    → Claude: "Vehículo 7 necesita carga en 45 min. Cargador disponible
-               en Av. Corrientes 1200, a 3 min de su ruta actual. ¿Desvío?"
-    → Fleetbase: registro de costos de energía por vehículo + dashboard
-```
-
-**Tiempo estimado**: 6-8 semanas
-**Diferenciador**: Optimización en tiempo real en español + integración con redes de carga LATAM.
-
----
-
-## Patrón 9: MCP-over-MQTT Connected Fleet Intelligence (NUEVO v8)
-> **Caso**: Integrar AI agents nativamente con flotas existentes que ya hablan MQTT, sin cambiar el stack vehicular
-
-**Stack**:
-- `emqx/emqx` (Apache-2.0, ~15k stars) — MQTT broker con MCP-over-MQTT bridge nativo
-- `traccar/traccar` (Apache-2.0) o cualquier telemática MQTT existente
-- Claude Sonnet 5 vía Anthropic API — agente conversacional sobre datos vehiculares
-- LangGraph — orquestador multi-step para análisis complejo
-
-**Flujo**:
-```
-Telemetría vehicular (GPS, RPM, temperatura, fuel, DTC codes)
-    → Publicada en topics MQTT: vehicles/{id}/telemetry
-    → EMQX MCP bridge: expone topics MQTT como tools MCP
-    → Claude puede invocar: get_vehicle_telemetry(id), get_fleet_summary(), get_anomalies()
-    → Flujo conversacional: "¿Cuál es el vehículo con mayor consumo de combustible esta semana?"
-    → Claude accede a datos MQTT reales via MCP + devuelve análisis + recomendación
-    → Sin modificar un solo microcontrolador ni firmware vehicular
-```
-
-**Tiempo estimado**: 2-3 semanas para integración básica sobre flota existente
-**Diferenciador**: Zero-touch para el stack vehicular. Cualquier flota MQTT-connected se vuelve AI-native en semanas.
-**Por qué ahora**: EMQX MCP-over-MQTT es nuevo en 2026 — ventana de oportunidad antes de que sea estándar de mercado.
-
----
-
-## Patrón 10: V2X Cooperative Perception Agent (NUEVO v8)
-> **Caso**: Ciudad o autopista inteligente quiere mejorar seguridad vehicular con percepción cooperativa
-
-**Stack**:
-- `emqx/emqx` (Apache-2.0) — broker MQTT V2X (Vehicle-to-Everything)
-- DriveX Foundation Model (a publicar post-CVPR 2026) — percepción cooperativa nativa V2X
-- `Zwc2003/DriveAgent-R1` (MIT) — agente con Active Perception por vehículo
-- `autowarefoundation/autoware_universe` (Apache-2.0) — stack AV en vehículo
-- `carla-simulator/carla` (MIT) — simulación de escenario V2X cooperativo
-
-**Flujo**:
-```
-Intersección inteligente: infraestructura + 4 vehículos + 2 peatones
-    → Cada vehículo publica percepción local via MQTT V2X topic
-    → EMQX: broker de mensajes V2X, latencia <10ms
-    → DriveX Foundation Model en servidor edge de la intersección:
-        funde percepción de todos los agentes → mapa cooperativo
-        predice trayectorias de todos los participantes
-        detecta conflictos: "Vehículo 3 y peatón 1 van a colisionar en 2.3s"
-    → DriveAgent-R1 en cada vehículo: recibe alerta via MCP + ajusta plan
-    → Resultado: frenada anticipada antes de que el sensor local detecte al peatón
-```
-
-**Tiempo estimado**: 12-16 semanas (simulación) + 24+ semanas (despliegue real)
-**Valor**: La percepción cooperativa reduce accidentes en hasta 30% en intersecciones (dato de industria).
-**Aplicación LATAM**: Ciudades como São Paulo, CDMX y Buenos Aires con iniciativas de Smart City activas.
+| Perfil cliente | Receta recomendada | Tiempo | ROI |
+|----------------|-------------------|--------|-----|
+| Concesionario LATAM (50+ empleados) | P2 — AI Dealer Copilot | 8-10 sem | 12 meses |
+| Flota logística (200+ vehículos) | P1 — Predictive Maintenance | 6-8 sem | 18 meses |
+| OEM / Tier-1 (validación AV) | P3 — ADAS Validation Pipeline | 4-6 sem setup | ROI en safety |
+| OEM premium (in-cabin experience) | P4 — In-Cabin AI | 10-14 sem | 24 meses |
+| OEM con SDV (gestión OTA) | P5 — OTA Intelligence Agent | 12-16 sem | 18 meses |
+| Maquiladora automotriz (México) | P6 — Manufactura AI | 10-14 sem | 18-24 meses |

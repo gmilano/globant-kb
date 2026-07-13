@@ -1,69 +1,118 @@
-# 📡 Tendencias — Automotive AI
+# Tendencias — Automotive AI 2026
 
-> Última actualización: 2026-07-12 (v8)
+> Señales clave del mercado. Qué está pasando y qué significa para los proyectos.
+> Última actualización: 2026-07-13
 
-## Macro-tendencias 2026
+## T1 — Software-Defined Vehicles (SDV) como prioridad estratégica #1
 
-### T1 — Del SDV al ADV: "AI-Defined Vehicle"
-CES 2026 marcó el cambio de narrativa: ya no es "Software-Defined Vehicle" sino "AI-Defined Vehicle". La ventaja competitiva no está en el software sino en la capacidad de **desplegar, validar, monitorear, actualizar y monetizar AI de forma segura a escala**. Qualcomm acuñó "Snapdragon Chassis Agents" — AI agents nativos en el SoC que actúan de forma independiente según contexto. Los ganadores dominan el ciclo completo de MLOps automotriz.
+**Señal**: 45% de OEMs y suppliers priorizan SDV sobre todo lo demás. 57%+ de equipos de desarrollo desplegando arquitecturas SDV globalmente (IoT Analytics, 2026).
 
-### T2 — VLA Chain-of-Thought → Latent CoT para Hardware Embebido
-Dos paradigmas co-existen en 2026:
-- **Chain-of-Thought explícito** (Alpamayo): el vehículo "explica" sus decisiones en texto — crítico para certificación regulatoria y debugging.
-- **Latent Chain-of-Thought** (LCDrive, CVPR 2026): reemplaza tokens de texto con representaciones latentes espaciales — comparable calidad a la mitad del costo computacional en embedded hardware.
-La elección entre ambos depende del hardware disponible y del requerimiento de explicabilidad.
+**Qué significa**: El vehículo como plataforma de software. OTA updates frecuentes (Tesla weekly, BYD semanal). BMW "Neue Klasse" (2026) con OS X cloud-native. Separación hardware/software = oportunidad de servicios continuos.
 
-### T3 — ADAS Open-Source Democratiza OEMs
-Autoware VisionPilot (Apache-2.0 incluyendo pesos del modelo) permite a cualquier OEM implementar L2 ADAS sin pagar licencias a Mobileye o Continental. El modo "mapless" (sin mapas 3D previos) reduce aún más la barrera de entrada. Disruptivo para mercados emergentes. El L3 es el segmento de mayor crecimiento proyectado 2025-2030.
-
-### T4 — Agentes VLM Superan Benchmarks con Modelos Pequeños
-DriveAgent-R1 (ICLR 2026): modelo 3B parámetros que supera a sistemas mucho más grandes gracias a Active Perception (usa tools de visión bajo incertidumbre) y Hybrid Thinking. World-Action Models como Metis buscan unificar modelado del mundo + predicción de acciones. Tendencia: **calidad ≠ tamaño del modelo**, los agentes con razonamiento estructurado dominan.
-
-### T5 — In-Cabin AI Agent: El Nuevo Diferenciador Premium
-- Mercedes-Benz: LLM voice agent on-device en MB.OS con Liquid AI (H2 2026)
-- Lucid: SoundHound AI conversacional offline
-- LG AI Cabin Platform: GenAI on-device para análisis de cabina + entorno externo
-- BMW 2026 Neue Klasse: AWS-powered asistente en nube
-- Honda, VW: domain-specific automotive LMs para in-car queries, mantenimiento, energía
-El mercado del AI chatbot automotriz proyecta $25B para 2033 (CAGR 25%). El mercado In-Cabin AI global es $3.39B (2025) → $4.22B (2033).
-
-### T6 — Robotaxi Race: L4 en Escenarios Reales
-Lucid Gravity robotaxi con Uber apunta a despliegue en late 2026. NVIDIA Alpamayo como "cerebro" razonador para L4. La batalla por la monetización del transporte autónomo ha comenzado. El segmento transporte lidera el mercado AV con 76% de share en 2026 (logistics, ride-hailing, delivery, automatización industrial).
-
-### T7 — Edge AI en Vehículo: NVIDIA DRIVE AGX Thor + Qualcomm Snapdragon
-Dos plataformas dominan el compute embebido en vehículos 2026:
-- **NVIDIA DRIVE AGX Thor**: LCDrive + OmniDrive corren directamente con TensorRT Edge-LLM
-- **Qualcomm Snapdragon Ride Flex**: mixed-criticality platform (cockpit + ADAS + end-to-end AI en un SoC); Qualcomm + Google expanden colaboración para SDV; Qualcomm vSoC en Google Cloud para validación virtual
-La computación migra del cloud al vehículo por latencia, privacidad y conectividad intermitente.
-
-### T8 — MCP para Vehículos Conectados: El Nuevo Paradigma
-2026 ve emerger el protocolo MCP como estándar para conectar agentes AI con sistemas vehiculares:
-- **MCP-over-MQTT** (EMQX, Apache-2.0): puente entre telemetría vehicular MQTT y agentes AI
-- **Auto.dev MCP Server**: agentes pueden consultar VIN, recalls, specs directamente
-- **AutoUnify ServiceMCP**: primer AI-commerce para agendamiento automotriz vía Claude/ChatGPT
-- **AutoMobile MCP**: plataforma de simulación de diagnóstico vehicular estandarizada
-Este patrón convierte cualquier flota MQTT-connected en una flota AI-native sin cambiar el stack vehicular.
-
-### T9 — Fleet AI para Transporte Comercial
-Flotas de camiones, taxis y delivery adoptan AI para optimización de rutas, predicción de mantenimiento y análisis de conductor. Fleetbase (AGPL-3.0, 2k stars, 8k+ operaciones) emerge como la plataforma de referencia open-source para fleet management moderno. El mercado LATAM de fleet management está aún sin consolidar — oportunidad para integradores.
-
-### T10 — Diagnóstico OBD-II + LLM: App del Mecánico
-Conectores OBD-II baratos (<$20) + Auto.dev MCP + Claude = diagnóstico en lenguaje natural. Aplicaciones B2C y B2B para talleres independientes en LATAM. Las cadenas de concesionarios grandes ya lo tienen, el mercado informal no.
-
-### T11 — V2X y Percepción Cooperativa: La Siguiente Frontera
-DriveX Workshop @ CVPR 2026 (4ª edición, Denver) consolidó el consenso: los foundation models deben ser nativamente conscientes de restricciones V2X. Percepción multi-agente (vehículo ↔ infraestructura ↔ peatón), predicción distribuida y planificación cooperativa para intersecciones inteligentes son el foco 2026-2027.
-
-### T12 — Qualcomm + Wayve: La Alianza Que Rearma el Ecosistema
-Marzo 2026: Qualcomm + Wayve (startup AV UK) anunciaron partnership para integrar el modelo end-to-end de Wayve en el Snapdragon Ride. Señal: los OEMs están buscando alternativas a NVIDIA para el compute de AV. Wayve trae un enfoque NVIDIA-independent; Qualcomm aporta el SoC y el ecosistema de automakers.
-
-### T13 — Seguridad y Certificación como Competencia Clave
-Con vehículos controlados por AI, la seguridad funcional (ISO 26262, SOTIF) y la explicabilidad son mandatorios. LCDrive resuelve latencia; Alpamayo resuelve explicabilidad. Los frameworks open-source con trazas de razonamiento facilitan la certificación regulatoria. Upstream Security expande cobertura OWASP a MCP, LLM y APIs vehiculares.
-
-### T14 — Datasets de Conducción LATAM: El Vacío Estratégico
-Los modelos actuales están entrenados principalmente en datasets de EE.UU., Europa y China. La conducción en LATAM (señalización diferente, tráfico caótico, motos, calles sin marcas) requiere fine-tuning específico. **El que acumule datos LATAM primero gana.** LCDrive y DriveAgent-R1 son los mejores candidatos para fine-tuning con datasets locales.
-
-### T15 — BYD y el SDV Chino en LATAM
-BYD lidera ventas de EVs en varios países LATAM. Su arquitectura DiLink AI y ecosistema software propio llega con el vehículo. Los integradores necesitan conocer el stack BYD para ofrecer servicios sobre esa base.
+**Oportunidad Globant**: Integración SDV, Eclipse S-CORE, continuous deployment vehicular.
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+
+## T2 — Arquitectura Zonal reemplaza ECUs distribuidas
+
+**Señal**: Transición de sistemas distribuidos (100+ ECUs) a arquitecturas zonales con 3-5 compute units centrales. Reduce peso de cableado, costo, y complejidad.
+
+**Qué significa**: Centralización = más capacidad de AI on-vehicle. Qualcomm SA8295P en BMW, GM, Stellantis. NVIDIA Orin (254 TOPS) estándar L2/L3. NVIDIA Thor (2.000 TOPS) para L4.
+
+**Oportunidad Globant**: Software zonal, middleware de comunicación entre zonas, testing de integración.
+
+---
+
+## T3 — ADAS L3 → L4 expansion y robotaxis comerciales
+
+**Señal**: L3 highway pilot en múltiples OEMs (Mercedes Drive Pilot, BMW). L4 robotaxis en expansión: Waymo Las Vegas (2025) + cobra rides 2026. Zoox Las Vegas late 2025, SF pronto. China: BYD/Huawei NOA dominando L2+ urbano.
+
+**Qué significa**: El stack autónomo se está comercializando. El desafío se mueve a escala, safety validation y operaciones.
+
+**Oportunidad Globant**: Backend de operaciones para robotaxi, safety AI, simulation & validation pipelines.
+
+---
+
+## T4 — NVIDIA Alpamayo: modelos open-weights con razonamiento para AVs
+
+**Señal**: CES 2026 — NVIDIA lanza Alpamayo, familia open-source de modelos para AVs. 10B params, video input, genera trayectorias + chain-of-thought. Primer envío en Mercedes-Benz CLA (Q1 2026). Dataset: 1.727h, 25 países. AlpaSim también open-source.
+
+**Qué significa**: Primera vez que modelos AV de grado producción son open. Compite con FSD (Tesla) y Waymo (ambos propietarios). Democratización de reasoning para autonomía.
+
+**Oportunidad Globant**: Fine-tuning de Alpamayo para clientes OEM, integración con pipelines de validación CARLA.
+
+---
+
+## T5 — LCDrive: razonamiento latente 2x más eficiente (CVPR 2026)
+
+**Señal**: NVIDIA Research presenta LCDrive en CVPR 2026. Reemplaza chain-of-thought textual por representaciones latentes compactas. Misma calidad de trayectoria a la mitad del costo computacional en hardware embebido.
+
+**Qué significa**: Eficiencia crítica para despliegue edge en vehículos. Reduce costos de inferencia on-device para sistemas autónomos.
+
+**Oportunidad Globant**: Optimización de inferencia AI para clientes con hardware vehicular limitado.
+
+---
+
+## T6 — MCP como protocolo de integración industrial
+
+**Señal**: Emergen servidores MCP para industria física: `predictive-maintenance-mcp`, `mcp-motor-current-signature-analysis`. LLMs (Claude, GPT, Ollama) consultando señales de vibraciones, corriente, temperatura directamente.
+
+**Qué significa**: La misma arquitectura MCP que conecta LLMs a bases de datos y APIs se extiende a sensores físicos. Mantenimiento predictivo conversacional es un caso de uso inmediato.
+
+**Oportunidad Globant**: Construir servidores MCP especializados para equipos de producción automotriz, líneas de ensamblaje, flotas.
+
+---
+
+## T7 — In-Cabin AI: VLMs y asistentes multimodales
+
+**Señal**: Mercedes MBUX con Google Automotive AI Agent (Gemini). Qualcomm Snapdragon Cockpit con VLMs procesando interacciones AI en edge. BMW Next-Gen cockpit con OS X. Arquitecturas como cockpit-agent (cloud-edge multi-agent).
+
+**Qué significa**: El cockpit como plataforma AI de conversación, reconocimiento de contexto, control del vehículo mediante lenguaje natural.
+
+**Oportunidad Globant**: Diseño de experiencia in-cabin, integración de VLMs con sistemas de entretenimiento y control.
+
+---
+
+## T8 — V2X y MQTT como backbone de inteligencia vehicular
+
+**Señal**: EMQX adoptado por SAIC-VW para millones de vehículos. V2X (Vehicle-to-Everything) crece como estándar de comunicación. Satellite links + edge computing para cobertura en zonas sin red.
+
+**Qué significa**: La flota conectada genera datos en tiempo real procesables por AI. Oportunidades en analytics de flota, alertas predictivas, optimización de tráfico.
+
+**Oportunidad Globant**: Arquitecturas de datos IoV (Internet of Vehicles) con EMQX + AI analytics.
+
+---
+
+## T9 — EVs y optimización de carga como caso AI
+
+**Señal**: Proliferación de EVs en toda LATAM (especialmente Chile, Brasil). Optimización de rutas de carga, gestión de baterías, predicción de demanda en charging networks.
+
+**Qué significa**: Nuevo dominio de optimización donde AI agrega valor inmediato. Flotas de taxis/delivery que migran a EV necesitan herramientas de planificación.
+
+**Oportunidad Globant**: Agentes de optimización de carga + routing para flotas EV en LATAM.
+
+---
+
+## T10 — Manufactura automotriz + AI: calidad y predicción
+
+**Señal**: México = 4to productor mundial de vehículos. Maquiladoras (BMW San Luis Potosí, GM Silao, Ford Cuautitlán) invirtiendo en Industry 4.0. Computer vision para inspección de calidad. Mantenimiento predictivo para líneas de ensamblaje.
+
+**Qué significa**: El mayor mercado de servicios AI para Globant en automotive es manufactura, no los vehículos en sí.
+
+**Oportunidad Globant**: Visión computacional para calidad, agentes de mantenimiento predictivo, digital twins de línea de producción.
+
+---
+
+## Resumen ejecutivo
+
+| Tendencia | Madurez | Urgencia | Prioridad Globant |
+|-----------|---------|---------|-------------------|
+| SDV / Zonal architecture | Alta | Alta | ★★★★★ |
+| Mantenimiento predictivo MCP | Media | Alta | ★★★★★ |
+| In-Cabin AI (VLMs) | Media | Alta | ★★★★☆ |
+| Robotaxi backend/ops | Baja-Media | Media | ★★★☆☆ |
+| ADAS validation (CARLA) | Media | Media | ★★★★☆ |
+| V2X / IoV analytics | Alta | Media | ★★★★☆ |
+| EV charging optimization | Media | Alta (LATAM) | ★★★★☆ |
+| Alpamayo fine-tuning | Baja | Baja | ★★★☆☆ |
+| Manufactura / quality AI | Alta | Alta | ★★★★★ |
