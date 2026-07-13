@@ -1,50 +1,47 @@
-# Agentes Trending — Automotive
+# 📈 Agentes & Repos Trending — Automotive
 
-> Lo nuevo esta semana. Repos en ascenso, proyectos recientes, señales tempranas.
-> Última actualización: 2026-07-13
+> Lo nuevo esta semana / mes. Foco en movimientos de julio 2026.
+> Última actualización: 2026-07-13 (v10)
 
-## Novedades destacadas (julio 2026)
+## Novedades destacadas — julio 2026
 
-### NVIDIA Alpamayo — CES 2026 (enero) → producción Q1 2026
-- **Repo**: [NVlabs/alpamayo](https://github.com/NVlabs/alpamayo)
-- **Qué es**: Familia de modelos open-weights de NVIDIA para AVs. 10B params, razonamiento basado en video, genera trayectorias con cadena de pensamiento. Primer envío en Mercedes-Benz CLA (Q1 2026).
-- **Por qué importa**: Primera vez que NVIDIA publica modelos de peso abierto para conducción autónoma. Compite directamente con Tesla FSD (propietario) y Waymo (propietario). AlpaSim (simulación) también open-source.
-- **Dataset**: 1.727 horas de datos de conducción de 25 países, 2.500+ ciudades, multi-cámara/LiDAR/radar.
+### 1. openpilot v0.11.1 — 60.6k★ en GitHub
+- **Repo**: [commaai/openpilot](https://github.com/commaai/openpilot) — MIT
+- **Qué hay de nuevo**: Release junio 2026 con mejoras en driver monitoring. Soporte añadido para Honda Passport 2026, Acura TLX 2021, Honda City 2023, Honda Odyssey 2021-25. De 50k★ a 60.6k★ en 2026.
+- **Relevancia Globant**: El ADAS OS más adoptado en producción; ideal como base para demos y PoC de IA conversacional vehicular.
 
-### predictive-maintenance-mcp — MCP nativo para industria
-- **Repo**: [LGDiMaggio/predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp)
-- **Qué es**: Servidor MCP que conecta LLMs con análisis de vibraciones industriales y diagnóstico de fallas. Compatible con Claude, GPT, Ollama.
-- **Por qué importa**: Primer framework MCP para mantenimiento predictivo con validación científica (Politecnico di Torino). Publicado en Zenodo con DOI. Casos de uso inmediatos para flotas y manufactura automotriz.
+### 2. autoware_vision_pilot — L2 ADAS end-to-end, Apache-2.0
+- **Repo**: [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) — Apache-2.0
+- **Qué hay de nuevo**: Primera versión del L2 ADAS gratuito de la Autoware Foundation. Arquitectura híbrida End-to-End: modelos de percepción IA en paralelo con modelos E2E. Funciona con una sola cámara frontal monocular (1-2MP, 52-55° HFoV), sin mapas HD. Incluye pesos de modelos, pipelines de entrenamiento y arquitecturas de modelos.
+- **Relevancia Globant**: Punto de entrada más bajo de la industria para L2 ADAS comercial — Apache-2.0 permite uso en productos.
 
-### autoware_vision_pilot — ADAS L2 totalmente open-source
-- **Repo**: [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot)
-- **Qué es**: Stack ADAS L2 gratuito y completamente open-source impulsado por AI End-to-End. Conducción autónoma para vehículos privados.
-- **Por qué importa**: Autoware Foundation expande su portafolio más allá de L4 hacia el mercado masivo. Integración con hardware de bajo costo.
+### 3. Eclipse SDV — masa crítica con 32 empresas
+- **Org**: [eclipse-sdv](https://eclipsesdv.org/) — Apache-2.0 (proyectos)
+- **Qué hay de nuevo**: CES 2026 (enero): 32 empresas globales en el MoU SDV. Mayo 2026: Hyundai Mobis se une a la iniciativa. Eclipse S-CORE v0.5 GA noviembre 2025; v1.0 completo planeado 2026. Informe "2026 State of Automotive Software Development" publicado.
+- **Relevancia Globant**: El ecosistema SDV open-source está madurando. 32 OEMs significa que los futuros contratos de software vehicular requerirán conocimiento de estos proyectos.
 
-### Eclipse S-CORE v0.5 — SDV foundation alcanza primer milestone
-- **Org**: [eclipse-score](https://github.com/eclipse-score)
-- **Qué es**: Core de software seguro, modular y open-source para vehículos definidos por software. Primera versión pública (nov 2025). Release completa planificada 2026.
-- **Por qué importa**: 76 repos, respaldo de la industria (Bosch, Continental, BMW). Base para proyectos SDV sin lock-in de vendor.
+### 4. NVIDIA DriveOS 7 + NIM Microservices para Automotive
+- **Qué hay de nuevo**: DriveOS 7 en Thor: múltiples VMs QNX + Linux para entornos seguros AV e in-cabin. Nuevos NIM microservices: **BEVFormer** (3D perception transformer) y **SparseDrive** (motion prediction + planning simultáneo). JLR vehículos 2026+ sobre NVIDIA DRIVE AI platform.
+- **Relevancia Globant**: El stack NVIDIA es el reference architecture para cualquier cliente OEM. Conocerlo permite posicionar Globant como SI especializado.
 
-### LCDrive — razonamiento latente para AV (CVPR 2026)
-- **Paper**: CVPR 2026 (NVIDIA Research)
-- **Qué es**: Reemplaza el razonamiento textual (chain-of-thought) en AVs por representaciones latentes compactas. Calidad de trayectoria comparable a la mitad del costo de tokens en hardware embebido.
-- **Por qué importa**: Eficiencia 2x en inferencia on-vehicle. Clave para despliegues edge.
+### 5. AI-Defined Vehicle (AIDV) — nueva categoría estratégica
+- **Qué hay de nuevo**: El concepto de "AI-Defined Vehicle" está emergiendo como categoría más allá del SDV. La visión: el vehículo como nodo de servicios de alto margen, no como hardware depreciable. 91% de ejecutivos ve autonomía como clave de monetización.
+- **Relevancia Globant**: Oportunidad de posicionamiento temprano en la narrativa AIDV con clientes del sector.
 
-### cockpit-agent — Multi-Agent para cabina inteligente
-- **Repo**: [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent)
-- **Qué es**: Arquitectura cloud-edge multi-agent para cabinas inteligentes. Intención local rápida, planificación LLM en nube, control vehicular seguro (VAL).
-- **Señal temprana**: Patrón de arquitectura que se está popularizando en proyectos de in-cabin AI.
+### 6. Autoware Foundation — cockpit + autonomy separation
+- **Qué hay de nuevo**: La Autoware Foundation está separando explícitamente el stack de conducción autónoma (autoware) del stack de cabina inteligente (nuevos proyectos). Cada dominio puede actualizarse por OTA independientemente.
+- **Relevancia Globant**: Architectural pattern relevante para proyectos SDV donde hay dos equipos paralelos.
 
-## Sectores en ascenso
+## Repos activos esta semana
 
-| Área | Señal | Oportunidad |
-|------|-------|-------------|
-| Mantenimiento predictivo MCP | 2+ repos activos, publicaciones académicas | Integración inmediata con Claude para flotas |
-| SDV / Eclipse S-CORE | 76 repos, release 2026 | Base para proyectos SDV en OEMs europeos |
-| Reasoning AVs (Alpamayo) | Open weights, CES momentum | Alternativa a modelos propietarios para clientes |
-| In-cabin AI (VLMs) | Qualcomm, Mercedes, BMW | Proyectos de experiencia digital en vehículo |
-| Robotaxis (Waymo, Zoox) | Expansión comercial 2026 | Oportunidades en backend / ops / safety AI |
+| Repo | Actualización | Stars | Nota |
+|------|--------------|-------|------|
+| [commaai/openpilot](https://github.com/commaai/openpilot) | v0.11.1 jun-2026 | 60.6k | Driver monitoring improvements |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | 2026 launch | ~600 | Primera versión pública L2 ADAS |
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | activo jul-2026 | 1.7k | Paquetes de universo Autoware |
+| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | activo 2026 | 2k | Nuevas integraciones de contabilidad |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | activo 2026 | 77 | CARLA agent testing framework |
+| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | activo 2026 | ~10 | Cloud-edge IVI multi-agent |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline automático — v10 2026-07-13.*

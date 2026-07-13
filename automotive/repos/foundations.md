@@ -1,36 +1,48 @@
-# Repos Fundacionales — Automotive
+# 🏗️ Repos Fundacionales — Automotive
 
-> Bases sobre las cuales construir soluciones. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-13
+> Bases sobre las cuales construir soluciones AI para la industria automotriz.
+> Licencia abierta, comunidad activa, mantenimiento sostenido.
+> Última actualización: 2026-07-13 (v10)
 
-## Plataformas y frameworks base
+## Stack de Conducción Autónoma
 
 | Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|---------------|
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | ~50k | Sistema operativo de conducción autónoma. Upgrading a ADAS en 300+ vehículos soportados (Toyota, Honda, Hyundai, GM, Ford). Pipeline completo de percepción, control y logging. | Sí — ADAS production-grade |
-| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | ~11.8k | Stack líder mundial de conducción autónoma open-source. ROS 2-based. Módulos: percepción, localización, planificación, control. Usado en shuttles, delivery robots, vehículos de prueba L4. | Sí — L4 autonomy stack |
-| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | ~14k | Simulador open-source para investigación y desarrollo de conducción autónoma. Soporte de sensores LiDAR, cámara, radar, GPS. Escenarios configurables, tráfico generativo, API Python/C++. | Sí — validación y entrenamiento |
-| [emqx/emqx](https://github.com/emqx/emqx) | Apache-2.0 | ~15k | Broker MQTT más escalable del mundo. Backbone de comunicación en tiempo real para IoT, IIoT, vehículos conectados y V2X. SAIC-VW procesa millones de vehículos con EMQX. MCP-native con Agent Hub. | Sí — data backbone IoV |
-| [ros2/ros2](https://github.com/ros2/ros2) | Apache-2.0 | ~5.6k | Robot Operating System 2.0 — meta-OS para robótica. Base de Autoware y la mayoría de stacks AV. Arquitectura de nodos y topics ideal para sistemas vehiculares complejos en evolución. | Sí — middleware fundamental |
-| [eclipse-score](https://github.com/eclipse-score) | Apache-2.0 | (org, 76 repos) | Eclipse Safe Open Vehicle Core. Core de software seguro y modular para SDVs. Multi-processor interop, ECUs de alto rendimiento. Primera versión pública nov 2025. Release completa 2026. | Sí — SDV foundation |
-| [eclipse-sdv-blueprints](https://github.com/eclipse-sdv-blueprints) | Apache-2.0 | (org) | Blueprints de referencia para Software-Defined Vehicles del Eclipse Foundation. Digital twins, comunicación, orquestación, in-vehicle services. Usado por Bosch, BMW, Continental. | Sí — SDV reference architecture |
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | ~2k | OS modular de logística y cadena de suministro. Fleet-Ops integrado. GPS tracking, despacho, optimización de rutas, facturas, nómina. 8.000+ operaciones logísticas en producción. | Sí — fleet management base |
+|------|----------|-------|-------------|--------------|
+| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | 60.6k | ADAS OS en producción; 300+ autos; v0.11.1 jun-2026; driver monitoring, lane-keep, ACC | ★★★ — base ideal para custom ADAS |
+| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | 11.8k | Stack L4 completo: percepción, predicción, planificación, control; ROS 2 | ★★★ — arquitectura de referencia OEM |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | ~600 | L2 ADAS end-to-end; una cámara, sin mapas HD; pesos + pipelines de training incluidos | ★★★ — más bajo costo de entrada L2 |
+| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | 14.1k | Simulador AV: sensores LiDAR/cámara/radar, clima, towns, agentes de referencia | ★★★ — entorno de validación estándar |
+| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | 534 | Plataforma AV modular sobre CARLA y autos reales; latency-accuracy tradeoffs | ★★ — investigación + PoC |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | Framework para probar agentes autónomos en CARLA | ★★ — CI/testing de agentes AV |
+| [cjy1992/gym-carla](https://github.com/cjy1992/gym-carla) | MIT | 620 | OpenAI Gym wrapper para CARLA; entrenamiento RL de políticas | ★★ — RL research en conducción |
+| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | 637 | Puente ROS/ROS2 ↔ CARLA; necesario para integrar stack Autoware con simulador | ★★ — integración ROS |
 
-## Repos CARLA ecosystem
+## Stack de Conectividad e IoT Vehicular
 
-| Repo | Licencia | Stars | Descripción |
-|------|----------|-------|-------------|
-| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | ~637 | Bridge ROS ↔ CARLA. Conecta el simulador con el ecosistema ROS 2 / Autoware. |
-| [cjy1992/gym-carla](https://github.com/cjy1992/gym-carla) | MIT | ~620 | Wrapper OpenAI Gym para CARLA. Entrena agentes RL directamente en el simulador. |
-| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | ~534 | Plataforma AV modular sobre CARLA. Pipelines de percepción, predicción y planificación componibles. |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | ~77 | Framework de testing y evaluación de agentes autónomos en CARLA. |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [emqx/emqx](https://github.com/emqx/emqx) | Apache-2.0 | 15k | Broker MQTT 5.0 distribuido; < 1ms latencia; V2X y telemática; SAIC, VW en prod | ★★★ — backbone telemática |
+| [openremote/openremote](https://github.com/openremote/openremote) | AGPLv3 | ~4k | Plataforma IoT + fleet telematics; soporte Teltonika nativo; geofencing, alertas | ★★ — IoT vehicular self-hosted |
+| [openremote/fleet-management](https://github.com/openremote/fleet-management) | AGPLv3 | 180 | Implementación completa de fleet management sobre OpenRemote | ★★ — fleet telemática |
 
-## Repos MCP / Mantenimiento Predictivo
+## Stack SDV (Software-Defined Vehicle)
 
-| Repo | Licencia | Descripción |
-|------|----------|-------------|
-| [LGDiMaggio/predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) | MIT | Servidor MCP para mantenimiento predictivo con LLMs. Análisis de vibraciones, detección de fallas, reportes. |
-| [LGDiMaggio/mcp-motor-current-signature-analysis](https://github.com/LGDiMaggio/mcp-motor-current-signature-analysis) | MIT | MCP para MCSA — detección de fallas en motores eléctricos por firma de corriente. |
+| Repo | Licencia | Repos | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [eclipse-sdv](https://github.com/orgs/eclipse-sdv/repositories) | Apache-2.0 | 76 | Middleware SDV: Eclipse S-CORE, Kuksa.val, Velocitas; AUTOSAR-based; 32 OEMs | ★★★ — futuro de software vehicular |
+| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | 450+ | Data broker vehicular para Vehicle Signal Specification (VSS); gRPC | ★★★ — señales vehiculares estándar |
+
+## Stack de Gestión de Flotas
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | 2k | OS de logística y flota; despacho, tracking, órdenes, ERP integrado; 8000+ ops | ★★★ — flota self-hosted completo |
+
+## Simulación de Sensores
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|--------------|
+| [PJLab-ADG/PCSim](https://github.com/PJLab-ADG/PCSim) | Apache-2.0 | 272 | Simulación LiDAR point cloud; colocación óptima de sensores (ICRA 2023) | ★ — research sensors |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas (ERP, DMS, fleet).*

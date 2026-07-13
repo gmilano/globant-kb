@@ -1,27 +1,45 @@
-# Repos Trending — Automotive
+# 📊 Repos Trending — Automotive
 
-> GitHub trending esta semana. Señales de lo que la comunidad está construyendo.
-> Última actualización: 2026-07-13
+> GitHub trending en automotive AI — julio 2026.
+> Última actualización: 2026-07-13 (v10)
 
-| Nombre | Licencia | Stars | Descripción |
-|--------|----------|-------|-------------|
-| [NVlabs/alpamayo](https://github.com/NVlabs/alpamayo) | Open Weights | — | Familia de modelos NVIDIA para AVs con razonamiento. 10B params, video input, trayectorias + traces. Incluye AlpaSim (simulación end-to-end open-source). Lanzado CES 2026. |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | — | Stack ADAS L2 gratuito y open-source impulsado por AI E2E. Conducción autónoma para vehículos de consumo. Nuevo de Autoware Foundation (julio 2026). |
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | ~1.7k | Universo de módulos Autoware. Percepción, predicción, planificación avanzada. Actualizado activamente con mejoras weekly. |
-| [LGDiMaggio/predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) | MIT | ~200 | Servidor MCP para diagnóstico predictivo con LLMs. Publicado en Zenodo (DOI). Creciendo rápido en la comunidad MCP industrial. |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | ~77 | Framework para testear agentes autónomos en CARLA. Métricas de seguridad y confort. |
-| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | MIT | ~10 | Sistema Multi-Agent cloud-edge para cabinas inteligentes. Orquestación cross-domain, VAL safety, HMI streaming. Arquitectura emergente para in-cabin AI. |
-| [eclipse-score](https://github.com/eclipse-score) | Apache-2.0 | (org, 76 repos) | Eclipse Safe Open Vehicle Core. Primer release público (v0.5, nov 2025). Respaldo de Bosch, BMW, Continental. Base de software segura para SDVs. |
-| [angelomorgado/CARLA-GymDrive](https://github.com/angelomorgado/CARLA-GymDrive) | MIT | — | Generación de episodios de conducción autónoma para CARLA en entorno Gym. Fácil creación de escenarios para entrenar/testear agentes. |
-| [vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture](https://github.com/vaisakhvenugopal/Deconstructing-BYD-s-Technology-Architecture) | CC0 | ~30 | Deep-dive en la arquitectura SDV de BYD. Análisis técnico de la estrategia AI-DV del líder mundial en EVs. Referencia para entender el modelo chino. |
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | ~2k | OS modular de logística. Fleet-Ops integrado. 8.000+ operaciones en producción. Creciendo como base para proyectos de gestión de flotas con AI. |
+## Top repos por movimiento de estrellas (jul-2026)
 
-## Señales de la comunidad
+| Repo | Licencia | Stars | Actividad | Descripción |
+|------|----------|-------|-----------|-------------|
+| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | 60.6k ↑ | v0.11.1 jun-2026 | ADAS OS; +10k★ en 2026; soporte Honda Passport 2026 añadido |
+| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | 11.8k ↑ | activo jul-2026 | L4 AV stack; consolidando dominancia como referencia de industria |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | ~600 ↑↑↑ | lanzado 2026 | L2 ADAS end-to-end; nuevo, crecimiento acelerado |
+| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | 14.1k | estable | Simulador AV de referencia; base de papers CVPR/ICCV 2026 |
+| [emqx/emqx](https://github.com/emqx/emqx) | Apache-2.0 | 15k | activo | MQTT V2X; adoptado en OEMs chinos (SAIC, BYD partners) |
+| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | 2k ↑ | activo 2026 | Fleet OS open-source; crecimiento en LATAM y APAC |
+| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | 450 ↑ | activo 2026 | Data broker VSS; impulso por Eclipse SDV momentum |
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | activo semanal | Paquetes de universo Autoware; actualizado continuamente |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 ↑ | activo 2026 | CARLA agent testing; referenciado en cursos universitarios AV |
+| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | MIT | ~10 ↑↑↑ | activo jul-2026 | In-cabin multi-agent cloud-edge; concepto emergente IVI |
 
-- **Razonamiento AV**: Alpamayo inaugura una nueva categoría — modelos open-weights con chain-of-thought para conducción. Esperar más proyectos derivados en H2 2026.
-- **MCP para industria**: Los repos de LGDiMaggio establecen un patrón — cada dominio físico (vibración, corriente, temperatura) como servidor MCP consultable por LLMs.
-- **In-cabin AI**: cockpit-agent y similares señalan el auge de arquitecturas multi-agent para la experiencia dentro del vehículo.
-- **SDV foundations**: Eclipse S-CORE y eclipse-sdv-blueprints están ganando tracción como alternativa vendor-neutral a las plataformas propietarias.
+## Repos emergentes a seguir
+
+| Repo | Licencia | Stars | Por qué seguir |
+|------|----------|-------|----------------|
+| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | 637 | Integración CARLA-ROS2; necesario para stacks híbridos |
+| [cjy1992/gym-carla](https://github.com/cjy1992/gym-carla) | MIT | 620 | RL en CARLA; usado en investigación de agentes de conducción |
+| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | 534 | AV platform modular; citado en papers de latency-accuracy |
+| [openremote/fleet-management](https://github.com/openremote/fleet-management) | AGPLv3 | 180 | Fleet telemática completa; crecimiento en startups logística |
+| [PJLab-ADG/PCSim](https://github.com/PJLab-ADG/PCSim) | Apache-2.0 | 272 | Simulación LiDAR point cloud; colocación óptima de sensores |
+
+## Eclipse SDV — ecosistema en expansión (jul-2026)
+
+El ecosistema Eclipse SDV tiene 76+ repositorios bajo la org [eclipse-sdv](https://github.com/orgs/eclipse-sdv/repositories). Proyectos clave:
+
+| Proyecto | Licencia | Descripción |
+|----------|----------|-------------|
+| Eclipse S-CORE | Apache-2.0 | Middleware SDV completo; v0.5 GA nov-2025; v1.0 target 2026 |
+| Eclipse Kuksa | Apache-2.0 | Data broker + client SDK para Vehicle Signal Specification (VSS) |
+| Eclipse Velocitas | Apache-2.0 | Toolchain para apps vehiculares portables; CI/CD nativo |
+| Eclipse uProtocol | Apache-2.0 | Protocolo de mensajería para ECUs y cloud |
+
+> **CES 2026**: 32 empresas en el consorcio SDV. Hyundai Mobis se unió mayo 2026. TRATON (VW trucks) también a bordo. La adopción está acelerando hacia vehículos de producción para 2030.
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline automático — v10 2026-07-13.*

@@ -1,55 +1,67 @@
-# Verticales de Partida — Automotive
+# 🏭 Plataformas Verticales — Automotive
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-13
+> Plataformas open-source existentes que se pueden customizar con AI.
+> Modelo: partir de algo funcional (ERP, DMS, fleet, ADAS) y añadir capa agéntica encima.
+> Última actualización: 2026-07-13 (v10)
 
-## Plataformas recomendadas
+## Gestión de Flotas (Fleet Management)
 
-| Plataforma | Licencia | Repo / URL | Stack | Caso de uso principal |
-|------------|----------|------------|-------|----------------------|
-| **Fleetbase** | AGPL-3.0 | [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | Laravel, Ember.js, PostgreSQL | Fleet management OS. GPS tracking, despacho, optimización de rutas, API modular. 8.000+ ops en prod. |
-| **Odoo (Automotive)** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python, JavaScript, PostgreSQL | ERP integral: CRM de concesionario, inventario de vehículos, servicio técnico, taller, contabilidad. Módulos específicos para dealers. |
-| **ERPNext / Frappe** | MIT | [frappe/frappe](https://github.com/frappe/frappe) | Python, Vue.js, MariaDB | ERP para manufactura automotriz. BOM, producción, calidad, logística. Customizable con módulos Frappe. |
-| **Eclipse SDV Blueprints** | Apache-2.0 | [eclipse-sdv-blueprints](https://github.com/eclipse-sdv-blueprints) | Rust, Python, C++, Kubernetes | Blueprints de referencia para SDV. Digital twins, in-vehicle services, cloud connectivity. Base para OEMs. |
-| **Eclipse S-CORE** | Apache-2.0 | [eclipse-score](https://github.com/eclipse-score) | C++, Rust, CMake | Core de software seguro para ECUs de alto rendimiento. Multi-processor, AUTOSAR-compatible. SDV foundation. |
-| **Autoware** | Apache-2.0 | [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | C++, Python, ROS 2 | Stack completo L4 para vehículos autónomos. Base para proyectos de autonomía comercial. |
-| **openpilot** | MIT | [commaai/openpilot](https://github.com/commaai/openpilot) | Python, C++, cereal | OS de conducción. Upgrade ADAS para 300+ vehículos. Base para proyectos de asistencia al conductor. |
-| **Open-DMS (Odoo-based)** | LGPL-3.0 | Concepto sobre Odoo | Python, JS | Sistema de gestión de concesionarios sobre Odoo. CRM, inventario, finanzas, taller. Requiere customización. |
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
+|------------|----------|-----------|-------|-------------|
+| **Fleetbase** | AGPL-3.0 | [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | Laravel + Ember.js + PostgreSQL | OS completo de logística y flota: despacho, tracking, órdenes, sin fee/driver |
+| **OpenRemote Fleet** | AGPLv3 | [openremote/fleet-management](https://github.com/openremote/fleet-management) | Java + PostgreSQL + MQTT | Telemática IoT: GPS tracking, geofencing, alertas; soporte nativo Teltonika |
 
-## Cómo customizar con AI
+**Cómo agregar AI:**
+- Añadir un agente LangGraph conectado a la API de Fleetbase para despacho predictivo
+- Entrenar modelo de mantenimiento predictivo con datos de telemetría OpenRemote
+- Chatbot de WhatsApp para conductores usando EMQX + Claude Haiku
 
-### Fleetbase + Agentes AI
-1. Desplegar Fleetbase self-hosted (Docker)
-2. Conectar EMQX como broker MQTT para telemetría de flota
-3. Añadir servidor MCP `predictive-maintenance-mcp` para diagnóstico
-4. Integrar Claude como agente de despacho y alertas predictivas
-5. Dashboard de alertas con explicaciones en lenguaje natural
+## ERP / DMS para Concesionarias y Fabricantes
 
-### Odoo Automotive + AI
-1. Instalar Odoo con módulos de concesionario (CRM, Servicio, Inventario)
-2. Exponer API Odoo como herramientas MCP
-3. Agente Claude para atención al cliente, presupuestos automáticos, scheduling de servicio
-4. Integración WhatsApp Business para LATAM (Odoo + Twilio + Claude)
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
+|------------|----------|-----------|-------|-------------|
+| **Odoo Fleet** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python + PostgreSQL + JS | Fleet management + DMS integrado al ERP; 12M+ usuarios globales |
+| **ERPNext Manufacturing** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python (Frappe) + MariaDB | ERP de manufactura automotriz: BOM, producción, calidad, mantenimiento |
+| **Frappe Dealership Mgmt** | MIT | [cloud.frappe.io/marketplace](https://cloud.frappe.io/marketplace/apps/dealership_management) | Python (Frappe) | DMS: ventas de vehículos, contratos, servicio post-venta |
 
-### Eclipse SDV Blueprints + AI
-1. Partir de los blueprints de referencia (in-vehicle, cloud connectivity)
-2. Añadir Alpamayo (modelos NVIDIA) para razonamiento autónomo
-3. EMQX como middleware de comunicación V2X
-4. Pipeline de CI/CD con CARLA + PCLA para validación de comportamiento
+**Cómo agregar AI:**
+- Agente de calificación de leads sobre Odoo CRM automotriz (LangGraph + Claude)
+- Predicción de demanda sobre ERPNext con datos históricos + agente de compras
+- Frappe Dealership + agente de conversación para test drives y financing
 
-### ERPNext Manufacturing + AI
-1. Instalar ERPNext para manufactura automotriz
-2. Configurar módulos de BOM, producción y calidad
-3. Añadir agente de predicción de demanda (PyTorch + datos históricos)
-4. Integrar `predictive-maintenance-mcp` para equipos de producción
+## Conducción Autónoma y ADAS
 
-## Oportunidades LATAM específicas
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
+|------------|----------|-----------|-------|-------------|
+| **openpilot** | MIT | [commaai/openpilot](https://github.com/commaai/openpilot) | Python + C++; Android/Linux | ADAS OS producción: 300+ autos; lane-keep, ACC, driver monitoring |
+| **Autoware** | Apache-2.0 | [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | C++ + Python; ROS 2 | Stack L4 completo; modular; usado por Toyota, Tier IV, Apex.AI |
+| **autoware_vision_pilot** | Apache-2.0 | [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | PyTorch + Python | L2 ADAS end-to-end; una cámara, sin mapas HD; pesos incluidos |
+| **CARLA Simulator** | MIT | [carla-simulator/carla](https://github.com/carla-simulator/carla) | C++ + Python; Unreal Engine | Simulador AV: sensores, clima, agentes, towns; base de validación |
 
-| País | Vertical | Plataforma base | Oportunidad |
-|------|----------|----------------|-------------|
-| Brasil | Concesionarios (LATAM mayor mercado auto) | Odoo + Claude | Atención al cliente AI, gestión de test drives, financing automation |
-| México | Maquiladoras / manufactura | ERPNext + mantenimiento predictivo | Reducción downtime en líneas de ensamblaje (BMW, GM, Ford, Stellantis) |
-| Argentina | Flotas logísticas | Fleetbase + EMQX | Despacho inteligente, ahorro combustible |
-| Colombia | Transporte masivo | Fleetbase + CARLA sim | Planificación de rutas, seguridad de conductores |
-| Chile | Minería (flotas off-road) | Fleetbase + predictive-maintenance-mcp | Mantenimiento predictivo de maquinaria pesada (Codelco, SQM) |
+**Cómo agregar AI:**
+- Agente LLM sobre openpilot para diagnóstico verbal de fallas
+- Autoware + agente de planificación de rutas en tiempo real con LangGraph
+- CARLA + autoware_vision_pilot para validar nuevos modelos de percepción antes de desplegar
+
+## Conectividad Vehicular (V2X / IoT)
+
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso |
+|------------|----------|-----------|-------|-------------|
+| **EMQX** | Apache-2.0 | [emqx/emqx](https://github.com/emqx/emqx) | Erlang; MQTT 5.0 | Broker de telemática vehicular: telemetría, V2X, OTA updates |
+| **Eclipse Kuksa** | Apache-2.0 | [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Rust + gRPC; VSS | Data broker para señales vehiculares; interfaz estándar del ecosistema SDV |
+| **Eclipse Velocitas** | Apache-2.0 | [eclipse-velocitas](https://github.com/eclipse-velocitas) | Python + GitHub Actions | Toolchain para apps vehiculares portables; CI/CD; target AUTOSAR Adaptive |
+
+**Cómo agregar AI:**
+- EMQX → Kafka → agente de anomaly detection en tiempo real
+- Kuksa databroker + agente de diagnóstico OBD-II conversacional
+- Velocitas + agente de pruebas automáticas de vehicle apps
+
+## SDV Platform (en producción 2026-2030)
+
+| Plataforma | Licencia | Repo / URL | Adopción | Caso de uso |
+|------------|----------|-----------|----------|-------------|
+| **Eclipse S-CORE** | Apache-2.0 | [eclipse-sdv org](https://github.com/orgs/eclipse-sdv/repositories) | 32 OEMs; v0.5 GA | Middleware SDV: adaptive AUTOSAR, POSIX, capa común para OEMs |
+| **NVIDIA DriveOS** | Propietario | developer.nvidia.com/drive | JLR 2026+, Toyota | OS vehicular con VMs QNX+Linux; NIM microservices BEVFormer/SparseDrive |
+
+---
+*Ver también: `repos/foundations.md` para repos de componentes individuales.*

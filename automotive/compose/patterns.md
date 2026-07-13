@@ -1,219 +1,240 @@
-# Patrones de Composición — Automotive
+# 🧩 Patrones de Composición — Automotive AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-13
+> Cada patrón menciona repos específicos, cómo conectarlos, y tiempo estimado.
+> Última actualización: 2026-07-13 (v10)
+
+---
 
 ## Patrón base
 
 ```
-[Plataforma vertical base (open source)]
+[Plataforma vertical open-source]
           ↓
-[Capa de datos en tiempo real (EMQX / ROS 2)]
+[Capa de integración: EMQX / Kuksa / REST API]
           ↓
-[Servidores MCP especializados por dominio]
+[Agente LangGraph / CrewAI + LLM (Claude/Ollama)]
           ↓
-[Agente Claude con herramientas específicas]
-          ↓
-[UI conversacional / API / Dashboard]
+[UI conversacional / WhatsApp / Dashboard]
 ```
 
 ---
 
-## Receta P1: Mantenimiento Predictivo de Flota
+## P1: Fleet AI — Mantenimiento Predictivo de Flota
 
-**Caso de uso**: Detectar fallas antes de que ocurran en flotas de camiones, buses o maquinaria de manufactura.
+**Problema**: Flotas de camiones/buses con averías no planificadas que cuestan $X00k/mes en LATAM.
 
-**Tiempo estimado**: 6-8 semanas | **Costo infra**: ~$500-2.000/mes
+**Stack**:
+- [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) (AGPL-3.0) — Fleet OS: vehículos, conductores, órdenes
+- [emqx/emqx](https://github.com/emqx/emqx) (Apache-2.0) — Ingest de telemetría OBD-II en tiempo real (MQTT)
+- [openremote/fleet-management](https://github.com/openremote/fleet-management) (AGPLv3) — Dashboard telemática + alertas geofencing
+- LangGraph + Claude claude-haiku-4-5 — Agente de diagnóstico y scheduling de mantenimiento
+- Frappe ERPNext (GPL) — Work orders y gestión de talleres
 
-### Stack
-- **Base**: [Fleetbase](https://github.com/fleetbase/fleetbase) — gestión de flota (GPS, despacho, historial)
-- **Datos**: [EMQX](https://github.com/emqx/emqx) — broker MQTT para telemetría de vehículos en tiempo real
-- **AI Engine**: [predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) — análisis de vibraciones y fallas
-- **Agente**: Claude claude-sonnet-5 con herramientas MCP de diagnóstico
-- **Alertas**: WhatsApp Business API + Claude para notificaciones en lenguaje natural
-
-### Arquitectura
+**Cómo conectar**:
 ```
-Sensores vehiculares (OBD-II / CAN bus)
-          ↓ MQTT
-    EMQX Broker
-          ↓
-  predictive-maintenance-mcp
-    (análisis espectral, FFT, detección de fallas)
-          ↓ MCP tools
-    Claude Agent
-    ("El motor del camión ABC-123 muestra vibración anómala en rodamiento trasero.
-      Probabilidad de falla en 72hs: 87%. Recomendar revisión urgente.")
-          ↓
-  Fleetbase (crear orden de trabajo)
-  + WhatsApp al jefe de flota
+Vehículo → OBD-II dongle → EMQX broker (MQTT)
+EMQX → Rule Engine → Kafka → LangGraph Agent
+Agent tools: [query_vehicle_history, predict_failure_ml, create_work_order_erpnext, notify_driver_whatsapp]
+OpenRemote → dashboard geofencing + alertas visuales
+Fleetbase → dispatching + driver assignment
 ```
 
-### Customización LATAM
-- Idioma: español / portugués nativo
-- Offline mode: Ollama local para rutas sin conectividad (guía incluida en repo)
-- Integración: SURA / Rimac seguros para reportes automáticos de mantenimiento
+**Customización clave**:
+- Modelo ML de predicción de fallas entrenado con datos históricos OBD (temperatura, RPM, vibración)
+- Claude Haiku para diagnóstico conversacional en español/portugués para conductores
+- WhatsApp Business API para notificaciones al conductor y coordinador de flota
+
+**Tiempo estimado**: 8-12 semanas
+**ROI esperado**: -30% downtime, -40% costos de mantenimiento (datos industria)
+**Mercado objetivo**: Operadores de flota México, Brasil, Colombia (>50 vehículos)
 
 ---
 
-## Receta P2: AI Copilot para Concesionario
+## P2: Dealer Copilot — Agente de Ventas para Concesionarias
 
-**Caso de uso**: Agente conversacional para gestión de leads, presupuestos, agendamiento de servicio y seguimiento post-venta en concesionarios.
+**Problema**: 40,000+ concesionarias en LATAM con procesos de calificación de leads manuales; 60% de leads no contactados en < 1 hora.
 
-**Tiempo estimado**: 8-10 semanas | **Costo infra**: ~$300-800/mes
+**Stack**:
+- [odoo/odoo](https://github.com/odoo/odoo) Fleet + CRM (LGPL-3.0) — Base de datos vehicular, inventario, CRM
+- Frappe Dealership Management (MIT) — Alternativa Frappe: contratos, financiamiento, servicio
+- LangGraph + Claude claude-sonnet-5 — Agente de calificación y seguimiento de leads
+- WhatsApp Business API — Canal principal de comunicación LATAM
 
-### Stack
-- **Base**: [Odoo](https://github.com/odoo/odoo) — CRM, inventario de vehículos, servicio técnico
-- **Agente**: Claude con tools MCP que exponen la API Odoo
-- **Canal**: WhatsApp Business (Twilio) + Web chat
-- **Reportes**: Odoo BI + generación automática de informes por Claude
-
-### Arquitectura
+**Cómo conectar**:
 ```
-Cliente (WhatsApp / Web)
-          ↓
-    Claude Agent
-    (interpreta intención: test drive, precio, servicio)
-          ↓ MCP tools
-    Odoo API
-    (consulta stock, crea lead, agenda cita)
-          ↓
-    Respuesta personalizada al cliente
-    + Notificación al vendedor
+Lead entra por WhatsApp / web form
+→ Agente LangGraph:
+   - tools: [query_inventory_odoo, check_financing_options, schedule_test_drive, update_crm_odoo]
+   - Califica intención (nuevo/usado, presupuesto, modelo)
+   - Agenda test drive o deriva a vendedor humano
+→ Odoo CRM actualizado automáticamente
+→ Vendedor recibe summary + transcripción
 ```
 
-### Valor medido
-- 40% reducción en tiempo de respuesta a leads
-- 25% mejora en conversión de leads a test drive
-- 60% automatización de consultas repetitivas
+**Customización clave**:
+- Catálogo de vehículos sincronizado en tiempo real desde Odoo
+- Flujo de financiamiento con opciones de crédito LATAM (Banorte, Itaú, etc.)
+- Handoff a vendedor humano cuando el lead indica "quiero hablar con alguien"
+- Spanish/Portuguese-first, tono adaptable por marca (premium vs. budget)
+
+**Tiempo estimado**: 6-10 semanas
+**ROI esperado**: +25-40% conversión de leads, -70% carga de trabajo de calificación manual
+**Mercado objetivo**: Grupos concesionarios México, Brasil, Argentina
 
 ---
 
-## Receta P3: Pipeline de Validación ADAS
+## P3: ADAS Simulation Lab — Validación CI de Agentes de Conducción
 
-**Caso de uso**: Validar comportamiento de un agente autónomo en escenarios de prueba antes de pruebas en vehículo real.
+**Problema**: OEMs y Tier-1s necesitan validar modelos ADAS antes de desplegar; el proceso manual es lento y caro.
 
-**Tiempo estimado**: 4-6 semanas (setup) + continuo | **Costo infra**: GPU cloud ~$2.000-5.000/mes
+**Stack**:
+- [carla-simulator/carla](https://github.com/carla-simulator/carla) (MIT) — Simulador AV: sensores, clima, agentes, towns
+- [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) (Apache-2.0) — L2 ADAS modelo base a validar/extender
+- [erdos-project/pylot](https://github.com/erdos-project/pylot) (Apache-2.0) — Pipeline de percepción + planificación + control
+- [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) (Apache-2.0) — Framework de testing para agentes en CARLA
+- [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) (MIT) — Integración ROS2 ↔ CARLA
+- LangGraph + Claude — Agente de análisis de resultados y generación de reportes
 
-### Stack
-- **Simulador**: [CARLA](https://github.com/carla-simulator/carla) — simulación fotorrealista de escenarios de conducción
-- **AV Stack**: [Autoware](https://github.com/autowarefoundation/autoware) o [openpilot](https://github.com/commaai/openpilot) — agente de conducción
-- **Evaluador**: [PCLA](https://github.com/MasoudJTehrani/PCLA) — framework de evaluación de métricas
-- **Orquestador**: Claude Agent — diseña escenarios de prueba, analiza resultados, genera reportes
-- **Bridge**: [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) — conecta CARLA con Autoware
-
-### Arquitectura
+**Cómo conectar**:
 ```
-Claude Agent
-(genera escenarios: "intersección con peatón + lluvia + visibilidad reducida")
-          ↓
-    CARLA Simulator
-    (ejecuta escenario, genera sensor data)
-          ↓ ROS Bridge
-    Autoware / openpilot
-    (toma decisiones de conducción)
-          ↓ PCLA metrics
-    Claude Agent
-    (analiza: colisiones, confort, cumplimiento de señales)
-          ↓
-    Reporte: "Tasa de éxito: 94.2%. Fallas en: semáforos con oclusión parcial."
+CI/CD trigger (GitHub Actions) → CARLA headless en cloud GPU
+→ Scenarios automáticos (PCLA): rain, highway, urban, night
+→ autoware_vision_pilot ejecuta manejo autónomo en cada escenario
+→ Pylot captura métricas: colisiones, confort, latencia
+→ LangGraph Agent analiza logs + genera reporte de safety
+→ Claude redacta executive summary + recommendations
+→ Artifact guardado en S3 + notificación Slack
 ```
+
+**Customización clave**:
+- Suite de escenarios personalizados por cliente (carreteras LATAM, condiciones de lluvia tropical)
+- Integración con autoware_vision_pilot para benchmark antes/después de fine-tuning
+- Dashboard web con métricas históricas de safety score por versión de modelo
+
+**Tiempo estimado**: 10-16 semanas
+**ROI esperado**: -60% tiempo de validación vs. pruebas manuales, catch de regresiones en CI
+**Mercado objetivo**: Tier-1 suppliers, startups ADAS, labs universitarios automotrices
 
 ---
 
-## Receta P4: In-Cabin AI Conversacional
+## P4: In-Cabin AI Agent — Asistente Inteligente en Vehículo
 
-**Caso de uso**: Asistente multimodal dentro del vehículo. Control por voz + contexto + integración con servicios del ecosistema del vehículo.
+**Problema**: Los asistentes de voz vehiculares actuales (regla-based) no pueden manejar consultas complejas, multi-turno o contextuales.
 
-**Tiempo estimado**: 10-14 semanas | **Costo infra**: Hardware + cloud ~$1.000-3.000/mes
+**Stack**:
+- [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) (MIT) — Sistema multi-agente cloud-edge para cabina
+- [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) (Apache-2.0) — Señales vehiculares (velocidad, fuel, temperatura)
+- [emqx/emqx](https://github.com/emqx/emqx) (Apache-2.0) — Mensajería edge-cloud < 1ms
+- Whisper (MIT) — STT on-device para reconocimiento de voz
+- Ollama + llama3 / Claude Haiku — LLM on-device o cloud según latencia requerida
+- Android Automotive OS / QNX — Plataforma IVI
 
-### Stack
-- **Arquitectura**: [cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) — multi-agent cloud-edge
-- **Modelos**: Claude Haiku (edge, intent detection) + Claude Sonnet (cloud, planificación)
-- **Audio**: ASR local + TTS (edge) para baja latencia
-- **Integración**: CAN bus adapter → MCP tool para control vehicular
-- **Maps/POI**: HERE o Mapbox API como MCP tool
-
-### Arquitectura
+**Cómo conectar**:
 ```
-Voz del conductor
-          ↓ ASR (edge)
-    Intent Agent (Haiku, edge)
-    (clasificar: navegación / música / control HVAC / pregunta general)
-          ↓ si complejo
-    Planning Agent (Sonnet, cloud)
-    (planificar: "Busca restaurante vegetariano en ruta a destino")
-          ↓ VAL safety layer
-    Vehicle Control (CAN bus MCP)
-    + Maps MCP + Music MCP
-          ↓
-    Respuesta TTS al conductor
+Usuario dice "¿Cuánta autonomía me queda para llegar a Monterrey?"
+→ Whisper (on-device, ~200ms) → texto
+→ cockpit-agent: edge intent router
+   - Intención local (ruta, música, clima) → responde en 400ms total
+   - Intención compleja (hotel, reserva, diagnóstico) → relay a cloud LLM
+→ Kuksa databroker: fuel_level, range_estimate, location
+→ Claude Haiku (cloud): razonamiento + respuesta natural
+→ EMQX: control de actuadores (AC, pantalla, audio)
+→ TTS → respuesta de voz al usuario (< 1.2s total)
 ```
 
-### Seguridad
-- VAL (Vehicle Abstraction Layer) como gate de seguridad antes de cualquier control vehicular
-- Todas las acciones de control pasan por validación de estado actual del vehículo
-- Modo degradado local si pierde conectividad
+**Customización clave**:
+- Wakeword personalizado por marca ("Hey [Marca]")
+- Integración con Google Maps / Apple Maps para routing
+- Seguridad: comandos de vehículo (frenos, acelarador) nunca expuestos al LLM; solo via APIs validadas
+- Soporte multi-idioma (ES, PT, EN) sin cambio de modelo
+
+**Tiempo estimado**: 12-18 semanas (desde PoC a integración IVI)
+**ROI esperado**: NPS +15 puntos en cabina; diferenciación de producto para OEM
+**Mercado objetivo**: OEMs medianos buscando IVI inteligente sin coste de Google/Amazon
 
 ---
 
-## Receta P5: SDV OTA Intelligence Agent
+## P5: SDV OTA Intelligence — Actualizaciones Inteligentes de Software Vehicular
 
-**Caso de uso**: Agente que gestiona el ciclo de vida de actualizaciones OTA en una flota de vehículos SDV. Decide qué versiones desplegar, en qué orden, con qué rollback plan.
+**Problema**: Los OEMs necesitan actualizar software de millones de vehículos de forma segura, priorizando por criticidad y condición del vehículo.
 
-**Tiempo estimado**: 12-16 semanas | **Costo infra**: Kubernetes cluster + ~$3.000/mes
+**Stack**:
+- [eclipse-sdv org / Eclipse S-CORE](https://github.com/orgs/eclipse-sdv/repositories) (Apache-2.0) — Middleware SDV: apps, services, comunicación
+- [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) (Apache-2.0) — Telemetría de estado del vehículo pre-update
+- [emqx/emqx](https://github.com/emqx/emqx) (Apache-2.0) — Canal de distribución OTA MQTT
+- LangGraph + Claude claude-sonnet-5 — Agente de decisión de rollout + monitoreo post-deploy
+- Grafana + ClickHouse — Observabilidad de flota post-update
 
-### Stack
-- **Base SDV**: [Eclipse S-CORE](https://github.com/eclipse-score) + [Eclipse SDV Blueprints](https://github.com/eclipse-sdv-blueprints) — foundation vehicular
-- **Comunicación**: [EMQX](https://github.com/emqx/emqx) — delivery y confirmación de OTA a vehículos
-- **Orquestación**: Claude Agent con herramientas de fleet state, version registry, rollback
-- **CI/CD**: GitHub Actions → build → CARLA validation → fleet deployment
-
-### Arquitectura
+**Cómo conectar**:
 ```
-Nuevo release de software vehicular (GitHub tag)
-          ↓ CI
-    CARLA + PCLA (validación automatizada)
-          ↓ si pass
-    Claude OTA Agent
-    ("¿Desplegar v2.3.1 al 5% de la flota primero?")
-    [Analiza: historial de fallas, conectividad de vehículos, horario óptimo]
-          ↓ EMQX
-    OTA delivery a vehículos seleccionados
-          ↓ monitoring 24h
-    Auto-rollback si métricas caen
+Nueva versión SW lista en artefacto storage
+→ Agente LangGraph:
+   tools: [query_fleet_state_kuksa, segment_vehicles_by_risk, create_rollout_plan, trigger_ota_emqx, monitor_rollout_grafana]
+1. Segmenta flota: vehículos < 20% batería, en movimiento, o en zona sin cobertura → excluidos
+2. Genera plan de rollout: 1% → 5% → 20% → 100% con métricas de abort
+3. Monitorea: error rates, crashlogs, performance regressions post-update
+4. Abort automático si error rate > threshold
+5. Report ejecutivo diario por Claude
 ```
+
+**Customización clave**:
+- Integración con Vehicle Signal Specification (VSS) via Kuksa para condiciones precisas
+- Rollback automático via EMQX si el vehículo reporta falla post-update
+- Dashboard de OEM con estado en tiempo real del rollout
+
+**Tiempo estimado**: 14-20 semanas
+**ROI esperado**: -90% tiempo de rollout manual, 0 recalls por software defectuoso en rollout
+**Mercado objetivo**: OEMs con > 100,000 vehículos conectados
 
 ---
 
-## Receta P6: Manufactura Automotriz — Calidad + Trazabilidad AI
+## P6: Manufactura Automotriz LATAM — Calidad + Productividad AI
 
-**Caso de uso**: AI para inspección de calidad visual en línea de ensamblaje + trazabilidad de componentes + mantenimiento predictivo de equipos de producción. Mercado objetivo: maquiladoras México.
+**Problema**: Plantas automotrices en México tienen procesos de control de calidad manuales con alta tasa de re-trabajo; sin predicción de fallas en línea.
 
-**Tiempo estimado**: 10-14 semanas | **Costo infra**: GPUs edge + cloud ~$5.000/mes
+**Stack**:
+- [frappe/erpnext](https://github.com/frappe/erpnext) (GPL-3.0) — ERP de manufactura: BOM, órdenes de producción, calidad
+- [emqx/emqx](https://github.com/emqx/emqx) (Apache-2.0) — Ingest de sensores de línea (temperatura, vibración, torque)
+- LangGraph + Claude claude-sonnet-5 — Agente de control de calidad + alertas predictivas
+- Visión computacional (OpenCV + YOLOv10) — Inspección automática de piezas
+- Grafana — Dashboard de KPIs de producción en tiempo real
 
-### Stack
-- **ERP**: [ERPNext/Frappe](https://github.com/frappe/frappe) — BOM, producción, trazabilidad
-- **Visión**: PyTorch + YOLO (detección de defectos) en cámaras de línea
-- **Mantenimiento**: [predictive-maintenance-mcp](https://github.com/LGDiMaggio/predictive-maintenance-mcp) para equipos de producción
-- **Agente**: Claude con herramientas de quality database, production metrics, maintenance history
-- **Dashboard**: Frappe + reportes AI generados
+**Cómo conectar**:
+```
+Línea de ensamblaje → Sensores IoT → EMQX (MQTT)
+EMQX → Rule engine → Kafka → LangGraph Agent:
+  tools: [detect_anomaly_vibration, trigger_quality_inspection, create_work_order_erpnext, alert_shift_supervisor]
 
-### KPIs objetivo
-- Detección de defectos: >99% precision, <0.1% false negative
-- Reducción de downtime por mantenimiento no planificado: 40-60%
-- Trazabilidad completa de componentes: 100% (cumplimiento IATF 16949)
-- ROI estimado: 18-24 meses
+Cámara de inspección → YOLOv10 (defect detection) → si defecto:
+  → agente crea registro de no-conformidad en ERPNext
+  → notifica a operador con descripción del defecto en español
+  → sugiere acción correctiva basada en historial
+
+Diariamente: Claude genera reporte de calidad + recomendaciones de mejora de proceso
+```
+
+**Customización clave**:
+- Modelos de visión fine-tuned con defectos específicos del cliente (soldadura, pintura, ensamblaje)
+- Integración con sistemas MES existentes (SAP ME, Siemens Opcenter) via REST
+- Tablero multilenguaje (ES) para operadores de planta
+
+**Tiempo estimado**: 10-16 semanas
+**ROI esperado**: -25% tasa de defectos, -35% re-trabajo, -50% tiempo de inspección manual
+**Mercado objetivo**: Plantas Tier-1 y Tier-2 en México (Guanajuato, Puebla, Monterrey)
 
 ---
 
-## Selección de receta por perfil de cliente
+## Guía de selección de patrón
 
-| Perfil cliente | Receta recomendada | Tiempo | ROI |
-|----------------|-------------------|--------|-----|
-| Concesionario LATAM (50+ empleados) | P2 — AI Dealer Copilot | 8-10 sem | 12 meses |
-| Flota logística (200+ vehículos) | P1 — Predictive Maintenance | 6-8 sem | 18 meses |
-| OEM / Tier-1 (validación AV) | P3 — ADAS Validation Pipeline | 4-6 sem setup | ROI en safety |
-| OEM premium (in-cabin experience) | P4 — In-Cabin AI | 10-14 sem | 24 meses |
-| OEM con SDV (gestión OTA) | P5 — OTA Intelligence Agent | 12-16 sem | 18 meses |
-| Maquiladora automotriz (México) | P6 — Manufactura AI | 10-14 sem | 18-24 meses |
+| Si el cliente tiene... | Recomienda... |
+|------------------------|---------------|
+| Flota de > 50 vehículos sin telemetría | P1 — Fleet AI Mantenimiento |
+| Concesionaria o grupo dealer | P2 — Dealer Copilot |
+| Necesidad de validar ADAS / modelos AV | P3 — ADAS Simulation Lab |
+| OEM buscando diferenciación en cabina | P4 — In-Cabin AI Agent |
+| OEM con > 100k vehículos conectados | P5 — SDV OTA Intelligence |
+| Planta de manufactura automotriz | P6 — Manufactura LATAM |
+
+---
+*Ver: `agents/top.md` para lista completa de agentes. `verticals/solutions.md` para plataformas base.*
