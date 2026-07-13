@@ -1,366 +1,53 @@
-# Trends — Enterprise AI
+# 📡 Tendencias — Enterprise AI
 
-> Current signals, patterns, and technology shifts shaping enterprise AI in 2026. Updated 2026-07-13 (v6).
+> Última actualización: 2026-07-13 (v6)
 
-## Macro Signals
+## Tendencias clave 2026
 
-- **79%** of organizations report AI agents adopted; **57%** have agents in production workflows (Accelirate 2026)
-- **40%** of enterprise apps will have task-specific AI agents by end of 2026 — up from <5% in 2025 (Gartner)
-- **171% average ROI** from enterprise agentic AI deployments (US: 192%)
-- **40%+** of agentic AI projects will be canceled by 2027 (Gartner) — quality gap is real
-- **$2.6–4.4 trillion** annual value potential from AI agents across business functions (McKinsey)
-- **82%** of enterprises have AI agents their security teams did **not** know existed (Cloud Security Alliance 2026)
-- **$9.14B → $139.19B** agentic AI market by 2034, CAGR 40.50% (Fortune Business Insights 2026)
-- **90% vs 53%** — multi-agent coordination vs single-agent goal success rate (AWS research, 2026)
-- **37%** performance gap between lab benchmark results and production deployments — do not ship lab numbers as guarantees
-- **82.7%** accuracy achieved by domain-specific agents vs 59–63% for general LLMs, at 4.4–10.8× lower cost per query
-- **200+** AI-related data exposure incidents per month per enterprise on average (2026 data)
-- **28%** of Fortune 500 companies adopted MCP in under 18 months since its release (July 2026)
+### T1 — Microsoft Agent Framework 1.0 GA (abril 2026)
+Microsoft unificó AutoGen y Semantic Kernel en MAF 1.0: un SDK unificado con APIs de largo soporte, orquestación multi-agente, estado de sesión gestionado y soporte A2A + MCP. AutoGen pasa a mantenimiento. Para enterprises en ecosistema Microsoft, MAF 1.0 es el camino de producción.
+
+### T2 — A2A Protocol: 150+ organizaciones (mayo 2026)
+El Agent-to-Agent Protocol (Linux Foundation) superó 150 organizaciones en su primer año. Microsoft, Google y AWS lo integraron en sus plataformas cloud. A2A define cómo los agentes se coordinan entre sí inter-organizacionalmente; MCP define cómo se conectan a herramientas. Juntos forman la capa base de interoperabilidad enterprise.
+
+### T3 — MCP como "app store" del enterprise
+MCP (Model Context Protocol) se estableció como el estándar universal de conexión agente→herramienta. Twenty CRM, ERPNext, 1C:Enterprise, y docenas de ERPs ya tienen MCP servers. El patrón: cualquier sistema legacy puede exponerse como MCP server y volverse "AI-accessible" sin reescritura.
+
+### T4 — Gartner: inflexión del 40% (2026)
+Gartner confirma la transición: de <5% de apps enterprise con agentes en 2025 a 40% a fin de 2026. El cambio es estructural, no incremental. 57% de organizaciones ya tienen agentes en producción (algún nivel).
+
+### T5 — ROI enterprise de 171% promedio
+Los deployments agénticos enterprise retornan 171% en promedio (EE.UU.: 192%), triplicando el ROI de la automatización RPA tradicional. Áreas con mayor ROI: atención al cliente (−40h/mes/equipo), finanzas (cierre 30−50% más rápido), software engineering (coding agents).
+
+### T6 — Dify Platform Maturity ($30M Pre-A, 1M+ apps)
+Dify se consolida como plataforma enterprise open-source: $30M en financiación, 131k★ en GitHub, más de 1 millón de apps en producción con clientes como Maersk y Novartis. Su propuesta: RAG + agentic workflows + MCP + multi-LLM en un solo stack auto-hospedable.
+
+### T7 — n8n como action-layer de facto
+n8n supera los 3.000 clientes enterprise y ~100k★ GitHub. Su arquitectura de "nodos AI" conecta LLMs a 400+ sistemas (Slack, Salesforce, SAP, HubSpot) sin código. Se convirtió en el "glue layer" preferido entre agentes y sistemas existentes.
+
+### T8 — Data quality como bloqueador #1
+Más del 50% de organizaciones cita la calidad de datos como principal obstáculo para escalar agentes. Enterprises que resuelven sus pipelines de datos antes de escalar reportan resultados sustancialmente mejores. Patrón emergente: agentes de calidad de datos como prerequisito.
+
+### T9 — Human-in-the-loop como estándar de gobernanza
+Las organizaciones más maduras implementan HITL por defecto: aprobaciones humanas en decisiones de alto riesgo, auditoría de acciones agénticas, rollback automático. CrewAI, LangGraph y MAF tienen HITL como feature de primera clase.
+
+### T10 — On-premises/self-hosted por gobernanza de datos
+Crecimiento de preferencia por self-hosted: Dify, n8n, Flowise, y los propios ERPs pueden correrse completamente on-prem. Sectores financiero, salud y gobierno exigen datos que no salgan del perímetro. Claude + Ollama + ERPNext on-prem es stack viable.
+
+### T11 — Vertical AI platforms embediendo agentes
+ServiceNow, Workday, Salesforce y SAP están embediendo agentes directamente en sus plataformas. El riesgo para Globant: los clientes "enterprise vanilla" comprarán agentes pre-hechos. La oportunidad: integraciones custom, workflows complejos y verticales específicas no cubiertos.
+
+### T12 — Multi-agent orchestration supera single-agent
+2026 marca la transición de agentes únicos a orquestación multi-agente. LangGraph, CrewAI, MAF 1.0 y Agno resuelven diferentes aspectos: flujos de grafo, roles, estado de sesión, y alta concurrencia respectivamente.
+
+### T13 — LATAM: Brasil lidera adopción enterprise AI
+Brasil encabeza LATAM en adopción: Reforma Tributaria 2026 fuerza digitalización masiva de ERPs. Empresas que no automatizan cumplimiento fiscal quedan fuera de mercado. Oportunidad directa para Globant con clientes actuales en Brasil.
+
+### T14 — Benchmarks de agentes enterprise emergiendo
+Aparecen los primeros benchmarks específicos para tareas enterprise: procesamiento de facturas, resolución de tickets ITSM, actualización de CRM. Los frameworks que puntúan en estos benchmarks (no SWE-bench) van a capturar mercado enterprise.
+
+### T15 — Código como commodity; orquestación como diferenciador
+Con coding agents al 72% en SWE-bench (OpenHands), el código es cada vez más commodity. El diferenciador enterprise se mueve a: integración de sistemas legados, gobernanza de datos, compliance regulatorio, y orquestación de procesos complejos multi-step.
 
 ---
-
-## T1 — Multi-Agent Orchestration Replaces Single-Agent Workflows
-
-Complex enterprise tasks exceed what any single agent context window can handle. The industry has standardized on four orchestration patterns:
-- **Graph-based** (LangGraph, Microsoft Agent Framework) — stateful, checkpointable
-- **Role-based** (CrewAI, Agno) — agent roles with delegation
-- **Handoff-based** (OpenAI Agents SDK, MAF) — explicit agent handoffs
-- **Hierarchical** (Google ADK) — manager/worker trees
-
-**Implication**: Multi-agent wins over single-agent in every enterprise benchmark. Design for agent teams, not individual agents.
-
-## T2 — Microsoft Agent Framework v1.0 GA (April 2026)
-
-AutoGen + Semantic Kernel merged into a single MIT-licensed SDK. Ships with:
-- Stable orchestration patterns (sequential, concurrent, handoff, group chat, Magentic-One)
-- Streaming + checkpointing + human-in-the-loop + pause/resume
-- A2A (Agent-to-Agent) and MCP (Model Context Protocol) native support
-- LTS (Long-Term Support) commitment
-
-**Implication**: For Microsoft/Azure/C#/.NET enterprises, Agent Framework is the default choice from April 2026.
-
-## T3 — MCP (Model Context Protocol) Becomes Enterprise Standard
-
-Every major agent framework now ships with native MCP support: n8n, Dify, Microsoft Agent Framework, LangGraph, CrewAI, Strands Agents, Google ADK. MCP provides a standard way to connect AI agents to tools, APIs, and systems.
-
-**Key MCP servers for enterprise**: ERPNext MCP, 1C:Enterprise MCP (51 tools), SAP OData→MCP, Jira MCP, Confluence MCP, Salesforce MCP. **97M+ SDK downloads; 10,000+ enterprise MCP servers deployed** as of April 2026.
-
-**Implication**: Integration cost drops when the enterprise system has an MCP server. Pattern: `[Enterprise System + MCP server] → [Any Agent Framework]`.
-
-## T4 — OWASP Agentic AI Top 10 + EU AI Act Enforcement (August 2, 2026)
-
-**EU AI Act enforcement date: August 2, 2026** — penalties reach **€35M or 7% of global annual turnover**.
-
-High-risk AI classification under Annex III applies to agents used for:
-- Recruiting decisions
-- Credit assessment
-- Critical infrastructure management
-- Clinical decision support
-- Law enforcement
-
-In multi-agent chains, **every agent performing a high-risk function** is subject to requirements — not just the orchestrator. Any agent that invokes APIs (including MCP servers) is in scope for cybersecurity and logging mandates.
-
-**OWASP Agentic AI Top 10** (December 2025): 1. Goal hijacking 2. Tool misuse 3. Identity abuse 4. Memory poisoning 5. Cascading failures 6. Rogue agents 7. Data exfiltration 8. Excessive autonomy 9. Audit evasion 10. Supply chain compromise.
-
-**Microsoft Agent Governance Toolkit** (MIT, April 2026): Runtime governance covering all 10 OWASP risks; Cedar policy-as-code; sub-millisecond enforcement.
-
-**Implication**: EU AI Act enforcement starts 21 days from today (July 12, 2026). Every engagement touching regulated domains must run Governance Toolkit from day one.
-
-## T5 — OpenTelemetry as Universal Agent Tracing Standard
-
-Industry converging on OTEL as the standard for collecting agent telemetry:
-- Pydantic AI, smolagents, Strands Agents, Microsoft Agent Framework, Google ADK all emit OTEL traces
-- Langfuse supports OTEL natively (joined ClickHouse Jan 2026; millisecond queries over millions of traces)
-- MLflow (Apache-2.0) offers observability + evals + AI gateway with no paywall
-
-**Implication**: Build agent stacks with OTEL from day one. Langfuse + self-hosted ClickHouse = enterprise-grade with MIT license.
-
-## T6 — RAG Quality = 60-70% of Agent Performance
-
-The #1 production finding in 2026: an agent with poor retrieval will fail regardless of the orchestration framework. Key factors:
-- Document quality and chunking strategy
-- Vector store selection and embedding model
-- Reranking and hybrid search
-- Citation tracking for compliance
-
-**RAGFlow** (Apache-2.0, 73k★) addresses the hard part: deep OCR, table extraction, grounded citations, traceable answers. Enterprise must-have for compliance-regulated industries.
-
-## T7 — Memory Layers Become Mandatory
-
-Single-session agents hit a wall at enterprise scale. **Mem0** (Apache-2.0, 26k★) provides:
-- User-level memory (preferences, history)
-- Session-level memory (conversation context)
-- Agent-level memory (learned patterns, state)
-
-**Implication**: Every production enterprise agent needs a memory layer.
-
-## T8 — Open-Source ERP Gets AI Second Look
-
-From ERP Today (2026): Enterprise procurement teams reconsidering open-source ERP as AI changes what's possible:
-- SAP/Oracle have AI behind expensive license tiers
-- Odoo (€7B valuation Jan 2026), ERPNext, NocoBase can be AI-augmented with full control at 10-50% of cost
-- NocoBase ships with AI employee model built in
-
-**Market**: Open-source ERP at $5.31B (2026), CAGR 9.66%.
-
-## T9 — Digital Workers Replace RPA
-
-Single-agent workflows are giving way to coordinated teams of specialized agents:
-- "Digital workers" can handle multi-step cross-functional processes
-- 16% of organizations running cross-functional agent processes spanning multiple departments
-- n8n + LangGraph replacing legacy RPA (UiPath, Automation Anywhere) in LATAM BPO
-- Customer service agents already saving teams 40+ hours monthly
-
-**Pattern**: Map current RPA flows → identify decision points → replace with LLM agents → orchestrate with LangGraph → monitor with Langfuse.
-
-## T10 — Gartner 2026 Hype Cycle for Agentic AI
-
-Gartner's 2026 Hype Cycle positions agentic AI at the Peak of Inflated Expectations. Key implications:
-- Buyers are over-optimistic; pilots will fail at higher rates
-- Firms that design for production from day one will win
-- "Production-grade" means: checkpointing, HITL, tracing, evals, policy enforcement
-
-## T11 — Dify + n8n as "Enterprise AI Middleware" Tier
-
-These two platforms are emerging as the glue between legacy enterprise systems and modern AI:
-- **n8n**: 400+ connectors; native AI agent nodes; MCP; connects SAP/Salesforce/Jira to LLMs
-- **Dify**: Visual RAG + workflow + LLMOps; non-technical teams can build AI apps
-
-**Together**: n8n for integration, Dify for AI logic. Self-hosted. No vendor lock-in. MIT/Apache-2.0.
-
-## T12 — NocoBase as AI-Native SME ERP Alternative
-
-NocoBase (AGPL-3.0, 21.6k★) ships an "AI employee" model that:
-- Understands business context (customers, orders, projects)
-- Participates in approval workflows with permission-based access
-- Automatically generates follow-up records
-- Responds using enterprise knowledge bases
-
-At $8k/5yr vs Odoo's $150k for a 50-person team, this is a LATAM SME disruption story.
-
-## T13 — The "40% Cancellation" Warning (Gartner)
-
-Gartner predicts 40%+ of agentic AI projects will be canceled by 2027 because:
-1. Agents layered onto broken processes fail faster
-2. No evaluation framework = no ability to improve
-3. Compliance and security requirements halt deployment
-4. RAG quality failure erodes trust
-
-**Globant response**: Design-first methodology. Week 1: map process, define success metrics. Week 2: RAG quality baseline. Week 3: governance policy. Demo in week 4.
-
-## T14 — ByteDance DeerFlow — Super-Agent Harness Pattern
-
-ByteDance open-sourced **DeerFlow** (Apache-2.0), a "super-agent harness" that:
-- Orchestrates sub-agents with defined roles
-- Provides memory, sandbox execution, and extensible skills
-
-Establishes the pattern: coordinator agent + specialized sub-agents + shared memory + tool registry.
-
-## T15 — Langfuse + ClickHouse — Enterprise Observability at Scale
-
-In January 2026, Langfuse joined ClickHouse, gaining millisecond queries over millions of traces and enterprise-scale compliance (SOC2, GDPR). Self-hosted MIT license maintained. Processes billions of observations/month for 2,300+ companies.
-
-## T16 — Hyperscaler-Native Agent SDKs (New in v4)
-
-Three hyperscalers now have production-grade, open-source agent SDKs:
-
-| SDK | Hyperscaler | License | Production Proof |
-|-----|-------------|---------|------------------|
-| [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | Microsoft/Azure | MIT | GA Apr 2026; LTS; A2A+MCP |
-| [Strands Agents](https://github.com/strands-agents/harness-sdk) | AWS | Apache-2.0 | Amazon Q Developer, AWS Glue in production; 16.7M downloads/month |
-| [Google ADK](https://github.com/google/adk-python) | Google/GCP | Apache-2.0 | Gemini Enterprise Agent Platform; July 7 2026 release; Python/TS/Go/Java/Kotlin |
-
-**Implication**: For enterprise clients already on a cloud, use the hyperscaler's native SDK — it has the deepest IAM, billing, and observability integration, plus GSI support (Accenture/PwC on Strands; official Google Cloud support on ADK).
-
-## T17 — Shadow AI: The Governance Crisis (New in v4)
-
-Cloud Security Alliance (2026): **82% of enterprises have AI agents or workflows their security teams did not know existed.** Sources of shadow AI:
-1. Business units deploying agents with n8n, Dify, or no-code tools without IT review
-2. Developers using personal API keys to run agents against production data
-3. MCP servers connecting agents to enterprise systems without change control
-4. Vendor SaaS with embedded AI agents not disclosed in contracts
-
-**EU AI Act impact**: Shadow AI agents in high-risk domains create uninventoried compliance liability.
-
-**Globant positioning**: AI governance audit as an entry offer. Map all agents → classify by risk tier → apply Governance Toolkit → establish change control. Shadow AI discovery = consulting engagement.
-
-## T18 — Anthropic Market Share Inversion (New in v4)
-
-- **Anthropic**: 40% of enterprise LLM spend (2026) — up from 12% two years ago
-- **OpenAI**: ~25% (down from ~50%)
-- **Driver**: Claude's compliance-friendly safety, tool use, and extended context length suit enterprise regulated workflows
-
-**Implication**: Claude is the default LLM for regulated enterprise use cases. Build Globant's enterprise AI patterns around Claude for production; use open-weight models (Llama, Mistral) only for on-premises data residency requirements.
-
-## T19 — EU AI Act Annex III Delay to December 2027 (Critical Correction, v5)
-
-The **Digital Omnibus** political agreement (May 2026) materially changed the EU AI Act enforcement timeline:
-
-| Provision | Original Date | Updated Date |
-|-----------|--------------|-------------|
-| GPAI (General-Purpose AI) enforcement | August 2, 2026 | **August 2, 2026** (unchanged) |
-| Article 50 transparency obligations | August 2, 2026 | **August 2, 2026** (unchanged) |
-| Annex III high-risk system compliance (HR, credit, critical infra, medical, law enforcement) | August 2, 2026 | **December 2, 2027** (16-month extension) |
-
-**What this means for enterprise AI projects:**
-- **August 2, 2026** is still a hard date for GPAI disclosure and Article 50: any chatbot/assistant visible to EU users must display AI interaction notices
-- The GPAI regulator (European Commission) is now active and can demand technical documentation, evaluation results, and fine up to **€35M or 7% of global turnover**
-- High-risk Annex III use cases (recruiting bots, credit scoring, clinical decision support) now have until **December 2027** — but this should be used for preparation, not delay
-- **50%+ of organizations lack AI system inventories** — even with the extension, governance must start now
-
-**Implication**: Correct any messaging that called August 2 the "Annex III deadline." Update client proposals accordingly. The GPAI/Article 50 urgency is real; the Annex III urgency is now for December 2027 planning.
-
----
-
-## T20 — SAP + ServiceNow Deploy Autonomous AI Workforces (Sapphire / Knowledge 2026)
-
-Enterprise software incumbents moved from "co-pilot" to "autonomous agent" in Q2 2026:
-
-**SAP (Sapphire 2026 — Autonomous Suite):**
-- **224 AI agents + 51 AI assistants** across procurement, finance, HR, supply chain, and manufacturing
-- Architecture principle: ERP as the "brain" — agents have full transactional context and governance guardrails from the source system
-- Differentiator vs Google/Microsoft: ERP-native governance means agents don't hallucinate on business data
-
-**ServiceNow (Knowledge 2026 — Autonomous Workforce + Action Fabric):**
-- IT service desk (L1), CRM, employee services, and security/risk specialists available
-- **Action Fabric**: allows third-party agents (Anthropic Claude, Microsoft Copilot) to securely trigger governed actions inside ServiceNow
-- "AI Control Tower for business reinvention" — governance kill switch for any agent
-- Josh Bersin analysis: ServiceNow is positioning to manage the **entire enterprise AI control layer**, not just ITSM
-
-**Microsoft (BUILD 2026 — Agent 365):**
-- **Agent 365**: cross-cloud agent identity and access management — covers agents running on AWS and Google Cloud, not just Azure
-- Extends Microsoft's governance story to heterogeneous multi-cloud agent estates
-
-**Implication**: Clients with SAP/ServiceNow are getting autonomous agent capabilities with their existing licenses. Globant's value shifts to (a) customization and integration work (b) governance layer for agents that span multiple vendors, and (c) open-source alternatives for organizations not in these ecosystems.
-
----
-
-## T21 — BYOM (Bring Your Own Model): The Security Blind Spot
-
-**Definition**: Employees running quantized LLMs locally on AI-PCs, MacBooks, and smartphones — using tools like Ollama, LM Studio, or GPT4All — bypassing all network-based controls.
-
-**Why it matters:**
-- Traditional DLP (Data Loss Prevention) and CASB tools operate at the network layer — they are blind to local model inference
-- A lawyer summarizing a contract with a local LLM cannot be detected or governed by conventional enterprise security tools
-- AI-PCs (NPU-equipped laptops from Microsoft/Dell/HP/Lenovo) are shipping at volume in 2026 — every laptop refresh potentially adds a local model
-
-**Scale in 2026:**
-- **47%** of GenAI users access tools through unmanaged personal accounts
-- **$670,000** additional average cost per data breach when AI tools were involved (IBM 2025)
-- Microsoft Edge RSAC 2026: announced browser-level shadow AI detection — but only covers browser-based tools, not local models
-
-**Implication**: Enterprise governance must expand to cover endpoint AI, not just API calls and web traffic. Agno's AgentOS (RBAC + self-hosted) and Mattermost Agents V2 (sovereign AI + local LLM) are open-source responses to this challenge. Governance Toolkit alone is insufficient — add endpoint detection to the architecture.
-
----
-
-## T22 — MCP Enterprise-Managed Authorisation (EMA) Goes Stable (July 2026)
-
-**What changed**: MCP's Enterprise-Managed Authorisation (EMA) extension was promoted to **stable status** in July 2026.
-
-**What EMA does**: Allows organizations to control which MCP servers their agents can access, and by whom, via the company's existing SSO/IdP (identity provider). No more per-agent API key management.
-
-**Ecosystem adoption (stable status):**
-- SaaS vendors already supporting EMA: Asana, Atlassian, Canva, Figma, Linear, Supabase
-- Slack support in progress
-- Gartner forecast: **75% of API gateway vendors** will natively support MCP features in 2026
-- CData estimate: **30% of enterprise application vendors** will launch MCP servers in 2026
-
-**MCP's governance lineage**: Donated to Linux Foundation Agentic AI Foundation (AAIF) in December 2025 (Anthropic, OpenAI, Block as co-founders; AWS, Google, Microsoft, Cloudflare, Bloomberg as platinum members). Now vendor-neutral — not an Anthropic product.
-
-**New compose pattern** (P10 added in v5): MCP EMA SSO integration — wire an enterprise IdP (Okta/Azure AD) to MCP server authorization, so agent access to enterprise systems follows existing RBAC policies.
-
----
-
-## T23 — Lab-to-Production Gap: The 37% Performance Drop
-
-AWS research (2026) quantifies what practitioners have observed anecdotally: **multi-agent systems lose 37% of their benchmark performance when deployed in production** versus controlled lab evaluation.
-
-**Root causes identified:**
-1. **Latency variability**: API throttling, network jitter, and model response time variance compound across agent hops
-2. **State pollution**: In-production agents accumulate unexpected state from real user interactions vs. clean lab test cases
-3. **Tool failure cascades**: Production APIs fail at rates test harnesses don't simulate
-4. **Context bleed**: Long-running agents in production accumulate context that degrades reasoning quality
-
-**Implication**: Do not use lab benchmarks in client proposals without a production discount. Use the CLASSic evaluation framework (Cost, Latency, Accuracy, Stability, Security) from day one, and run production load tests with synthetic traffic before launch. Langfuse's eval harness + LangGraph's checkpointing are the primary mitigation tools.
-
-## T24 — A2A Protocol v1.0: Signed Agent Identity + Enterprise Multi-Tenancy
-
-**What changed**: The Linux Foundation promoted A2A to v1.0 stable (July 2026) — first production-grade specification for cross-vendor agent delegation.
-
-**Key enterprise additions**:
-- **Signed Agent Cards**: JWS cryptographic verification (RFC 7515 + RFC 8785 canonicalization) — agents prove identity before receiving delegation. Critical for regulated industries where you must audit who acted.
-- **Native multi-tenancy**: A single A2A endpoint can serve multiple agents or tenants. No custom sharding code.
-- **OAuth 2.0 hardened**: Device Code flow (RFC 8628) for headless/IoT agents; PKCE required; insecure implicit + password flows removed.
-- **SDK coverage**: Python, TypeScript, Java, Go, .NET — all three hyperscalers ship native A2A in their agent runtimes.
-
-**For Globant**: Any multi-vendor agent architecture (e.g., LangGraph on AWS + ADK on GCP + SAP agents) can now interoperate via A2A v1.0 without custom middleware. Use Signed Agent Cards as the audit anchor in EU AI Act compliance designs.
-
-## T25 — AP2 (Agent Payments Protocol): Autonomous Commerce Layer
-
-**What**: Google and 60+ partners (Mastercard, PayPal, Adyen, American Express, Coinbase, Etsy, Forter, Intuit, Revolut, Salesforce, ServiceNow, UnionPay, Worldpay) launched AP2 — an open extension on top of A2A + MCP enabling autonomous agent-driven transactions.
-
-**Current capabilities** (as of May 2026):
-- Purchases at AP2-compliant merchants
-- Non-repudiable cryptographic audit trail for every agent payment
-- B2B: autonomous procurement on Google Cloud Marketplace; license auto-scaling
-
-**Roadmap** (not yet live): Recurring bills, P2P transfers, financial account operations.
-
-**Why it matters**: The first open protocol that makes autonomous purchasing legally auditable and cryptographically verifiable. Moves AI agent ROI from cost savings to revenue generation (agents that can buy and sell).
-
-**Globant opportunity**:
-- LATAM e-commerce clients: add AP2 to agent checkout flows without custom payment API
-- B2B procurement: autonomous vendor selection + PO issuance + payment (P12 pattern)
-- FinTech LATAM: AP2 + Open Finance BR/MX regulatory infrastructure
-
-## T26 — OWASP Agentic AI Maturity Model v2.01: Governance Has a Scorecard
-
-**What**: OWASP published the State of Agentic AI Security and Governance v2.01 (June 2026), adding the **Enterprise Adoption Maturity Model** — a two-axis scorecard that gives Globant a structured conversation framework with CISOs and AI governance leads.
-
-**The two axes**:
-- **Governance Level** (0–4): ad hoc → basic controls → structured policies → continuous monitoring → adaptive telemetry-driven control
-- **Adoption Tier** (AT0–AT8): Shadow AI → vendor-embedded assistants → platform-integrated agents → citizen-developer flows → code-executing agents → custom in-house builds → cross-org federated networks
-
-**New in v2.01**:
-- 42 regulatory instruments tracked across 10 jurisdictions
-- Agent identity section (ties to A2A v1.0 Signed Agent Cards)
-- AI SBOM + supply chain provenance requirements
-- Live incidents/exploits tracker
-
-**Stat**: 29% of Fortune 500 and ~19% of Global 2000 are already live/contracted with a leading AI vendor (a16z, April 2026) — most without formal governance at Level 2+.
-
-**Globant positioning**: Use the AT0→AT3 maturity gap as the sales narrative. Discovery week delivers a scored readout; governance retrofit brings the client to AT3/Level 2. Clear deliverable, clear value.
-
-## T27 — Mastra v1.0: TypeScript Fills the LangGraph Gap for Full-Stack Teams
-
-**What**: [Mastra](https://github.com/mastra-ai/mastra) (Apache-2.0, YC W25) shipped v1.0 in January 2026 and raised a $22M Series A from Spark Capital (April 2026). By July 2026: ~26k★, 1.8M npm downloads/month.
-
-**What Mastra provides** (unique in TS ecosystem):
-- Graph-based workflows (`.then()`, `.branch()`, `.parallel()`) — same mental model as LangGraph in Python
-- Native memory: user/session/agent with semantic search
-- MCP client built in
-- OTEL-native observability (token usage, latency, costs)
-- Enterprise edition: RBAC, SSO, IAM, VPC isolation
-
-**Production reference clients**: Replit, SoftBank, PayPal, Plaid, Marsh McLennan.
-
-**Why it matters**: Before Mastra, enterprise TypeScript/Node.js teams had to either use Python for agents or accept immature TS libraries. Now the entire agent stack — including memory, MCP tools, and observability — ships in one production-grade TS SDK.
-
-**For Globant**: Web-first teams building Next.js/Node.js enterprise apps can now ship production agents in their native language without switching to Python for the AI layer.
-
-## T28 — Odoo 20 Agentic AI Shift (September 2026 Launch)
-
-**What**: Odoo 20 will launch at Odoo Experience Brussels (September 24–26, 2026), introducing a full shift from **reactive AI** (chatbots, content generation) to **autonomous agentic AI** that plans and executes workflows independently.
-
-**Key AI changes in v20**:
-- Autonomous AI agents replace chatbot assistant model — agents execute across modules (accounting, CRM, purchasing) without human prompts
-- Natural language search across the full ERP data model
-- Read-replica database architecture: 10,000+ simultaneous users (up from 5,000)
-- Deepest AI structural changes in: Payroll, Planning, Marketing Automation, Website/eCommerce, Accounting, Phone/Communication, POS
-
-**Migration path**: Odoo 19 (current) → Odoo 20 (Oct 2026 stable); stable 20.1 in Q4 2026.
-
-**Globant angle**: Clients on Odoo 19 or planning Odoo implementation have a concrete AI upgrade path without changing ERP vendors. Odoo 20 agents + custom Globant extensions (LangGraph/Mastra on top) = differentiated offering vs. standard Odoo partners.
-
----
-*Auto-updated by ingest pipeline — v6 2026-07-13*
+*Pipeline automático — se actualiza cada hora.*
