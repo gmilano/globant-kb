@@ -1,65 +1,66 @@
-# 🏭 Verticales de partida — Energy
+# Vertical Solutions — Energy
 
-> Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agentica arriba.
-> Última actualización: 2026-07-13
+> Existing open-source platforms to customize with AI. Strategy: start with something functional, add agentic layer on top.
+> Last updated: 2026-07-13
 
-## Plataformas recomendadas
+## EV Charging Management
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **OpenEMS** | Apache-2.0 | [OpenEMS/openems](https://github.com/OpenEMS/openems) | Java, OSGi, TypeScript/Angular | EMS completo para BESS, FV, microrredes, EV charging; edge runtime + cloud backend |
-| **FlexMeasures** | Apache-2.0 | [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Python, REST API, plugins | EMS de flexibilidad (LF Energy/Seita) para BESS, bombas de calor, carga industrial; scheduling optimizado |
-| **EVerest** | Apache-2.0 | [EVerest/EVerest](https://github.com/EVerest/EVerest) | C++, Python, modular | Stack firmware open source LF Energy para cargadores EV (AC/DC); v2026.02.0 LTS, múltiples OEMs en producción |
-| **openremote** | AGPL-3.0 | [openremote/openremote](https://github.com/openremote/openremote) | Java, Kotlin, TypeScript, Docker | IoT platform para gestión de activos energéticos, automatización, API REST/MQTT/WS |
-| **Node-RED** | Apache-2.0 | [node-red/node-red](https://github.com/node-red/node-red) | Node.js, flow-based | Integración de PLCs, APIs, MQTT, SCADA; backbone de IIoT y automatización energética |
-| **PyPSA** | MIT | [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | Python, SciPy, linopt | Modelo de optimización de sistema eléctrico; base para planificación de utilities |
-| **SEAPATH** | Apache-2.0 | [seapath](https://github.com/seapath) | Linux, KVM, Yocto | Hipervisor para subestaciones digitales IEC 61850; producción en utilities europeas |
-| **ThingsBoard** | Apache-2.0 | [thingsboard/thingsboard](https://github.com/thingsboard/thingsboard) | Java, React, Docker | IoT platform con dashboards SCADA + AI rules engine; casos de uso en utilities |
-| **sinergym** | MIT | [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | Python, EnergyPlus, Gymnasium | Simulador de edificios para optimización RL de consumo; base para agentes de demanda |
-| **CUPID** | Apache-2.0 | [LF Energy CUPID](https://lfenergy.org/projects/cupid/) | C++, IEEE 2030.5 | Toolkit de interoperabilidad DER; client/server library + convertidor de protocolos legacy para ADMS/DERMS |
-| **SOGNO** | Apache-2.0 | [LF Energy SOGNO](https://lfenergy.org/projects/sogno/) | Microservicios, APIs abiertas | Plataforma modular para automatización de redes; reemplaza monolitos de sala de control por microservicios |
+| Platform | License | Stars | Stack | AI Customization |
+|----------|---------|-------|-------|----------------|
+| [EVerest](https://github.com/EVerest/everest-core) | Apache-2.0 | ~500 | C++/Python, OCPP 1.6/2.0.1, ISO 15118, OCPI, V2G | FlexMeasures plugin for AI scheduling; LLM agent for fleet optimization. v2026.02.0 LTS. OEMs: Tritium, Pionix. |
+| [evcc](https://github.com/evcc-io/evcc) | MIT | ~12k | Go binary, 200+ charger integrations, REST + MQTT API | Tariff-aware AI load shifting; solar surplus charging; webhook/API for agent integration. Best-in-class UX. |
+| [open-e-mobility](https://github.com/sap/e-mobility-charging-stations-simulator) | Apache-2.0 | ~600 | Node.js, OCPP 1.6/2.0, multi-tenant | SAP-backed; smart charging features; AI agent via REST hooks |
+| [OpenOCPP](https://github.com/c3t-eng/open-ocpp) | Apache-2.0 | ~80 | Embedded C++, OCPP 1.6/2.0, CSMS | ChargeLab-supported; firmware-level EV charger AI integration |
 
-## Plataformas especializadas por dominio
+## Energy Management Systems (EMS)
 
-### EV Charging (EVerest ecosystem)
-- **EVerest**: el stack más completo y abierto para cargadores EV — desde firmware hasta OCPP 2.0.1
-- **Pionix**: empresa que comercializa EVerest con soporte; provee a Tritium y otros OEMs
-- **Patrón**: EVerest (firmware) + OpenEMS (gestión energética edificio) + FlexMeasures (demand response)
+| Platform | License | Stars | Stack | AI Customization |
+|----------|---------|-------|-------|----------------|
+| [OpenEMS](https://github.com/OpenEMS/openems) | Apache-2.0 | ~1.1k | Java OSGi, REST/JSON-RPC, modular controllers | Controller modules for RL-based dispatch; REST API for AI agents; 50+ device integrations |
+| [evcc](https://github.com/evcc-io/evcc) | MIT | ~12k | Go, REST, MQTT, modbus | (see above) Best for prosumer + small commercial sites |
+| [MyEMS](https://github.com/MyEMS/myems) | MIT (core) | ~1k | Python + React, REST API | Supports electricity/gas/water/cooling/heating + BESS + solar + VPP; AI module hooks via REST |
+| [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~600 | Python Flask, REST API, plugin system | Native AI scheduling core — it IS the AI layer; add custom ML forecasters via plugin |
 
-### Flexibilidad y BESS
-- **FlexMeasures**: el "FastAPI para flexibilidad energética" — scheduling BESS en 15 minutos, APIs REST, plugins
-- **OpenEMS**: control en tiempo real de cada activo BESS/FV; deploy en edge gateways
-- **openremote**: agregación de portafolio de activos distribuidos con MQTT/REST
+## Grid Operations & SCADA
 
-### Simulación y planificación de red
-- **PyPSA**: estándar de investigación para optimización de sistemas eléctricos con renovables
-- **pandapower**: análisis de distribución con integración Python/ML directa
-- **pypsa-earth**: cuando el cliente necesita modelar a escala nacional o regional
-- **Grid2Op + RL2Grid**: entrenamiento y benchmarking de agentes RL para control de red
+| Platform | License | Stars | Stack | AI Customization |
+|----------|---------|-------|-------|----------------|
+| [SOGNO Platform](https://github.com/sogno-platform) | Apache-2.0 | ~300 | Microservices, Kubernetes, gRPC | LF Energy microservices for grid automation; ML service injection via gRPC |
+| [OpenRemote](https://github.com/openremote/openremote) | AGPL-3.0 | ~1.8k | Java, React, MQTT, REST | 100% open IoT + asset management; rules engine extensible with ML predictions |
+| [OpenDSS (Python)](https://github.com/dss-extensions/OpenDSSDirect.py) | BSD-3-Clause | ~200 | Python wrapper for EPRI OpenDSS | Distribution system simulator; used in PowerGym, GridLearn; AI agent integration via Python |
 
-### SCADA / OT / Subestaciones
-- **Node-RED**: flow-based, fácil de integrar con Modbus/MQTT/OPC-UA y endpoints AI
-- **SEAPATH**: subestaciones digitales — el estándar IEC 61850 con Linux (LF Energy, prod. 2025)
-- **SOGNO**: modernización de sala de control hacia microservicios; APIs abiertas para integración AI
+## BESS / Storage Optimization
 
-### DER / Interoperabilidad
-- **CUPID**: resolver la fragmentación en comunicación DER — IEEE 2030.5 sobre arquitectura message-driven
-- **openremote + FlexMeasures**: gestión y optimización de portafolios DER (FV + BESS + EV + FV)
+| Platform | License | Stars | Stack | AI Customization |
+|----------|---------|-------|-------|----------------|
+| [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~600 | Python, REST, Celery | Built-in BESS scheduling with ML forecasting; market price integration |
+| [bess-optimizer](https://github.com/FlexPwr/bess-optimizer) | MIT | ~90 | Python, Pyomo | Three-market optimization model; customizable with ML price forecasts |
+| [BESS-Analytics](https://github.com/sztistvan/BESS-Analytics) | MIT | ~50 | Python, browser-based | Sizing + simulation tool; add AI recommendations on top |
 
-### Edificios y eficiencia
-- **sinergym**: base para agentes RL de optimización de HVAC y consumo de edificios
-- **IBM/rl-testbed-for-energyplus**: testbed RL específico para EnergyPlus
+## Virtual Power Plants (VPP)
 
-## Cómo customizar con AI
+| Platform | License | Stars | Stack | AI Customization |
+|----------|---------|-------|-------|----------------|
+| [OpenEMS](https://github.com/OpenEMS/openems) | Apache-2.0 | ~1.1k | Java OSGi, modular | VPP aggregation via controller modules; AI dispatch agent via REST |
+| [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~600 | Python, REST | Native VPP use case: aggregate flexibility from many sites for grid services |
 
-1. **Fork del repo base** (ej. OpenEMS, FlexMeasures, EVerest)
-2. **Exposición de datos**: conectar fuentes (MQTT, REST, OPC-UA, SQL) con Node-RED o adaptadores
-3. **Capa de agentes**: integrar agente LLM (Claude/GPT-4o/Gemini) con herramientas sobre el sistema base
-4. **Entrenamiento RL** (opcional): usar sinergym/opfgym/Grid2Op para entrenar agentes de control
-5. **UI conversacional**: chat interface sobre el sistema base para operadores / clientes finales
-6. **Observabilidad**: MLflow o similar para tracking de decisiones del agente
-7. **Benchmarking**: usar PSAB / EnergyAgentBench / RL2Grid para validar calidad del agente
+## How to Add AI Layer
 
----
-*Ver también: `agents/top.md` para agentes AI específicos del sector.*
+```
+1. Pick a vertical platform (e.g., OpenEMS for EMS, EVerest for EV charging)
+2. Fork + deploy (Docker Compose templates available for all above)
+3. Expose REST/MQTT API endpoints to an AI orchestration layer (LangGraph / FlexMeasures)
+4. Add a forecasting service (Claude + custom ML model or EMQX data pipeline)
+5. Build conversational UI for operators (Claude claude-sonnet-4-5 + MCP tools)
+6. Close the loop: AI agent → schedule → actuate via platform API
+```
+
+## LATAM Fit
+
+| Platform | LATAM Suitability |
+|----------|-----------------|
+| evcc | Strong: Brazil/Chile/Mexico prosumers; Spanish/Portuguese UI; low server footprint |
+| OpenEMS | Strong: industrial + commercial; works in air-gapped environments |
+| EVerest | Growing: LATAM EV market expanding; Pionix partnership in BR/MX |
+| MyEMS | Strong: multi-building portfolios (hospitals, factories, universities) common in LATAM |
+| FlexMeasures | Good: demand response programs emerging in BR/CL/CO; B2B API integration |

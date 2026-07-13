@@ -1,39 +1,49 @@
-# 📈 Repos trending — Energy (jul 2026)
+# Trending Repos — Energy (2026-07-13)
 
-> Repositorios con momentum esta semana. Señal = estrellas + commits + menciones en papers.
-> Última actualización: 2026-07-13
+> GitHub repos gaining momentum in energy AI this week.
 
-## Trending en GitHub (energy + AI)
+## Hot Repos (High Activity)
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | Plataforma IoT open source para integrar dispositivos, añadir inteligencia y construir apps de gestión energética. Tutorial EMS wiki publicado. | ~1.8k |
-| [Grid2op/grid2op](https://github.com/Grid2op/grid2op) | LGPLv2.1 | Testbed LF Energy para agentes RL en sistemas de potencia; base de RL2Grid y PSAB benchmark 2026. 7° Power Grid Model Meetup jul 2026. | ~1.1k |
-| [EVerest/EVerest](https://github.com/EVerest/EVerest) | Apache-2.0 | Stack firmware open source LF Energy para cargadores EV; v2026.02.0 = primera versión LTS; en producción en Tritium, Pionix y otros OEMs. | ~620 |
-| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | EMS de LF Energy para optimizar flexibilidad (BESS, bombas calor, carga flexible); v0.31 jul 2026; adoptado por startups europeas y LATAM. | ~300 |
-| [emarche/RL2Grid](https://github.com/emarche/RL2Grid) | MIT | Benchmark RL estandarizado sobre Grid2Op con TSOs europeos; 39 tareas, CleanRL extendido, wandb; paper en OpenReview 2026. | ~180 |
-| [pypsa-meets-earth/pypsa-earth](https://github.com/pypsa-meets-earth/pypsa-earth) | MIT | Primer modelo global sector-coupled de alta resolución; paper en Applied Energy 2025; modelos de hidrógeno para Global South. | ~350 |
-| [PowerGridModel/power-grid-model](https://github.com/PowerGridModel/power-grid-model) | MPL-2.0 | Librería Python/C++ para análisis de distribución; 10M+ descargas; stage "Early Adoption" en LF Energy (jun 2026). | ~290 |
-| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | Gymnasium para RL en edificios; soporte Google Cloud y multi-agente; paper actualización 2026 publicado. | ~280 |
-| [OpenEMS/openems](https://github.com/OpenEMS/openems) | Apache-2.0 | Sistema modular de gestión energética; nuevas integraciones ML y soporte AI en EV charging; release reciente. | ~780 |
-| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | CC0 | Recursos curados de AI para electricidad; referencia activa de la comunidad investigadora. | ~200 |
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|-------------|
+| [evcc-io/evcc](https://github.com/evcc-io/evcc) | MIT | ~12k | Weekly releases; solar surplus charging with AI tariff optimization; 200+ EV charger integrations; adopted by prosumers + small businesses across EU |
+| [lf-energy/opengridfm](https://github.com/lf-energy/opengridfm) | Apache-2.0 | ~120 | NEW Jun 2026: LF Energy grid foundation models (IBM + Hydro-Québec). Pre-trained on grid operations data; utilities fine-tune with private SCADA feeds |
+| [lf-energy/ainetus](https://github.com/lf-energy/ainetus) | Apache-2.0 | ~150 | NEW Jun 2026: XAI for control rooms. RL grid agents + explainable interface for TSO operators. Regulatory-driven demand |
+| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~600 | v0.31 Jul 2026; BESS arbitrage + DR scheduling; MCP-compatible endpoints being added |
+| [emarche/RL2Grid](https://github.com/emarche/RL2Grid) | MIT | ~200 | ICLR-adjacent 2026 paper; 39 standardized grid RL tasks; TSO collaboration drives adoption |
 
-## Repos LF Energy de interés inmediato (nuevos 2026)
+## LF Energy Ecosystem (35+ Projects)
 
-| Nombre | Licencia | Descripción | Estado |
-|--------|----------|-------------|--------|
-| OpenGridFM | TBD | Foundation models para redes eléctricas; framework open source LF Energy para GridFMs. | Nuevo jun 2026 |
-| AINETUS | TBD | AI for Safety-Critical Network Infrastructures; RL + XAI + HMI para salas de control de operadores. | Nuevo jun 2026 |
-| CUPID | Apache-2.0 | Interoperability toolkit DER (IEEE 2030.5); client/server library + legacy protocol converter. | Nuevo LF Energy 2026 |
-| SOGNO | Apache-2.0 | Plataforma modular para automatización de redes; microservicios open source para operadores. | En maduración |
+| Project | License | Focus |
+|---------|---------|------|
+| [Grid2Op](https://github.com/rte-france/Grid2Op) | LGPL-2.1 | Grid simulation + RL benchmark |
+| [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | Flexibility scheduling (BESS, DR, EV) |
+| [EVerest](https://github.com/EVerest/everest-core) | Apache-2.0 | EV charging OS (LTS Feb 2026) |
+| [OpenGridFM](https://github.com/lf-energy/opengridfm) | Apache-2.0 | Grid foundation models |
+| [AINETUS](https://github.com/lf-energy/ainetus) | Apache-2.0 | RL + XAI for control rooms |
+| [CUPID](https://github.com/lf-energy/cupid) | Apache-2.0 | IEEE 2030.5 DER interoperability |
+| [SOGNO](https://github.com/sogno-platform) | Apache-2.0 | Microservices grid automation |
+| [Power Grid Model](https://github.com/PowerGridModel/power-grid-model) | Apache-2.0 | C++ distribution power system core (10M+ DL) |
+| [OpenRemote](https://github.com/openremote/openremote) | AGPL-3.0 | IoT platform + asset management |
 
-## Por qué son relevantes para Globant
+## Rising Stars (New / Niche)
 
-- **EVerest + OpenEMS**: stack completo para proyectos de EV charging + gestión energética con capa AI
-- **FlexMeasures**: plataforma lista para BESS y demand response en LATAM (Brasil, Chile, Colombia)
-- **Grid2Op + RL2Grid**: framework de evaluación de agentes RL — base para demos técnicas a utilities
-- **OpenGridFM + AINETUS**: proyectos LF Energy del futuro — posición temprana como partner de implementación
-- **Power Grid Model**: 10M+ descargas, producción en 3 DSOs — credibilidad técnica para propuestas
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [NREL/autob2g](https://github.com/NREL/autob2g) | MIT | ~80 | Agentic simulation for grid-interactive buildings (arXiv 2603.26005). LLM orchestrates HVAC + EV + BESS |
+| [sztistvan/BESS-Analytics](https://github.com/sztistvan/BESS-Analytics) | MIT | ~50 | Browser-based solar + battery sizing tool for prosumers |
+| [FlexPwr/bess-optimizer](https://github.com/FlexPwr/bess-optimizer) | MIT | ~90 | BESS three-market optimization with Pyomo; day-ahead + intraday + balancing |
+| [ChargePi/oscp-go](https://github.com/ChargePi/oscp-go) | MIT | ~3 | Open Smart Charging Protocol (OSCP) SDK for Go; enables grid-aware EV charging |
+| [OpenEnergyPlatform/awesome-sustainable-technology](https://github.com/OpenEnergyPlatform/awesome-sustainable-technology) | CC-BY-4.0 | ~1.5k | Curated list of 300+ energy AI projects, datasets, and tools |
+
+## Benchmarks Shaping the Field (2026)
+
+| Benchmark | Source | Focus |
+|-----------|--------|------|
+| [PSAB](https://arxiv.org/abs/2606.20950) | arXiv Jun 2026 | 41 problem families, 8 power systems areas, deterministic |
+| [EnergyAgentBench](https://arxiv.org/abs/2605.15230) | arXiv May 2026 | 70 task variants, 5 agent families, 1414 evaluation runs |
+| [PowerAgentBench-Dyn](https://arxiv.org/abs/2606.20401) | Harvard + Politecnico + UBITECH | Dynamic grid control benchmark |
+| [RL2Grid](https://github.com/emarche/RL2Grid) | TSO collaboration | 39 realistic grid RL tasks |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated by the ingest pipeline.*

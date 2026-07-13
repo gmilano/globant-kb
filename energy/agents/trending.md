@@ -1,46 +1,55 @@
-# 📈 Agentes trending — Energy (semana del 2026-07-13)
+# Trending AI Agents — Energy (Week of 2026-07-13)
 
-> Qué está ganando momentum esta semana en la intersección AI × energía.
-> Última actualización: 2026-07-13
+> What's new, gaining traction, or generating discussion in energy AI this week.
 
-## Repos con actividad destacada
+## Breaking This Week
 
-| Nombre | Licencia | Descripción | Señal |
-|--------|----------|-------------|-------|
-| [EVerest/EVerest](https://github.com/EVerest/EVerest) | Apache-2.0 | Stack open source de EV charging (LF Energy); v2026.02.0 es la primera versión bajo nueva estrategia LTS. En producción en OEMs (Tritium, Pionix). | LTS estable, adopción OEM |
-| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | EMS de flexibilidad (LF Energy); v0.31 lanzada. Usado por startups de energía en Europa y LATAM para BESS y demand response. | v0.31 lanzada jul 2026 |
-| [emarche/RL2Grid](https://github.com/emarche/RL2Grid) | MIT | Benchmark RL para operaciones de red eléctrica; desarrollado con TSOs europeos, 39 tareas, paper en OpenReview. | Paper + benchmark activo |
-| [Grid2op/grid2op](https://github.com/Grid2op/grid2op) | LGPLv2.1 | Testbed LF Energy para agentes RL; base de RL2Grid y múltiples papers de benchmark 2026. 7° Power Grid Model Meetup 2026. | Meetup LF Energy jul 2026 |
-| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | Plataforma IoT open source para gestión de activos energéticos; nuevo tutorial EMS publicado. | Tutorial EMS publicado |
-| [OpenEMS/openems](https://github.com/OpenEMS/openems) | Apache-2.0 | Sistema modular de gestión energética; nuevas integraciones ML para predicción de demanda y soporte AI en EV charging. | Release reciente |
-| [pypsa-meets-earth/pypsa-earth](https://github.com/pypsa-meets-earth/pypsa-earth) | MIT | Modelo global sector-coupled de alta resolución; paper sector-coupled en Applied Energy 2025; adopción en proyectos de hidrógeno. | Adopción global creciente |
-| [OpenEnergyPlatform/awesome-sustainable-technology](https://github.com/OpenEnergyPlatform/awesome-sustainable-technology) | MIT | Lista curada actualizada de proyectos open source para energía sostenible. | Referencia activa ~1.1k★ |
+### OpenGridFM — Grid Foundation Models at LF Energy
+- **Repo**: [lf-energy/opengridfm](https://github.com/lf-energy/opengridfm)
+- **License**: Apache-2.0
+- **Why it matters**: IBM + Hydro-Québec leading open pre-trained foundation models for electrical grids. Utilities fine-tune on their own SCADA/ADMS data. Addresses the labeled-data scarcity problem in grid AI.
+- **Status**: LF Energy Sandbox approved Jun 2026. Early-access available.
 
-## Señal de investigación (papers clave jul 2026)
+### AINETUS — XAI for Power Grid Control Rooms
+- **Repo**: [lf-energy/ainetus](https://github.com/lf-energy/ainetus)
+- **License**: Apache-2.0
+- **Why it matters**: Combines RL grid agents with explainability (XAI) layers for TSO/DSO control room operators. Regulators require human-in-the-loop for grid switching decisions; AINETUS makes the RL agent’s actions auditable.
+- **Status**: LF Energy Sandbox Jun 2026.
 
-- **[EnergyAgentBench](https://arxiv.org/pdf/2605.15230)** (arXiv 2605.15230): primer benchmark multi-familia de agentes LLM sobre datos reales de infraestructura energética — 70 variantes de tareas en 5 familias, 1,414 runs evaluados en mayo 2026.
-- **[PowerAgentBench-Dyn](https://arxiv.org/abs/2606.20401)** (arXiv 2606.20401, Harvard + Politecnico di Milano + UBITECH): benchmark para agentic AI en estudios dinámicos de sistemas eléctricos; tareas que requieren razonamiento, uso de herramientas e ingeniería iterativa.
-- **[Power Systems Agent Benchmark (PSAB)](https://arxiv.org/pdf/2606.20950)** (arXiv 2606.20950): benchmark ejecutable con 41 familias de tareas en 8 áreas de ingeniería eléctrica — evaluación determinista con flags de factibilidad, scores normalizados y violaciones explícitas.
-- **[How Do Tool-Augmented LLM Agents Perform?](https://arxiv.org/pdf/2606.26346)** (arXiv 2606.26346): evaluación de agentes LLM con herramientas en tareas reales de analítica energética; señales positivas para adopción en producción.
-- **[RL2Grid](https://arxiv.org/abs/2503.23101)** (arXiv 2503.23101): benchmark RL estandarizado desarrollado con TSOs europeos sobre Grid2Op; 39 tareas, baselines DQN/PPO/SAC/TD3.
+### AutoB2G — Agentic Grid-Interactive Buildings (NREL)
+- **Paper**: [arXiv:2603.26005](https://arxiv.org/abs/2603.26005)
+- **License**: MIT
+- **Why it matters**: LLM orchestrator coordinates HVAC, EV chargers, and BESS within a building to provide grid services. Bridges gap between CityLearn research and real deployments.
+- **Status**: NREL 2026 research release.
 
-## LF Energy — Noticias junio 2026
+### EVerest v2026.02.0 LTS — Enterprise EV Charging Ready
+- **Repo**: [EVerest/everest-core](https://github.com/EVerest/everest-core)
+- **License**: Apache-2.0
+- **Why it matters**: First LTS release. Tritium, Pionix, and other hardware OEMs shipping on EVerest. ISO 15118 Plug & Charge + V2G supported. FlexMeasures integration for AI scheduling.
 
-LF Energy anunció en junio 2026:
-- **3 nuevos proyectos hosted**: OpenGridFM, AINETUS, y CUPID (ver verticals/solutions.md)
-- **Nuevos miembros**: utilities y vendors adicionales sumados al consorcio
-- **Power Grid Model** superó **10 millones de descargas** y avanzó a stage "Early Adoption"; en producción en los 3 grandes DSOs holandeses (Alliander, Enexis, Stedin)
-- **EVerest v2026.02.0**: primera versión LTS bajo nueva estrategia de soporte a largo plazo
+### RL2Grid — Standardized Grid RL Benchmark
+- **Repo**: [emarche/RL2Grid](https://github.com/emarche/RL2Grid)
+- **Paper**: [OpenReview](https://openreview.net/forum?id=7J2C4QnQrl)
+- **License**: MIT
+- **Why it matters**: 39 tasks covering N-1 contingency, topology optimization, redispatching. TSO engineers co-designed. Enables apples-to-apples comparison of RL agents on real grid topologies.
 
-## OpenGridFM — Foundation Models para el Grid (nuevo proyecto LF Energy)
+## Repos Gaining Traction
 
-**Qué es**: framework open source para hacer emerger foundation models específicos para redes eléctricas (GridFMs).
-**Por qué importa**: los foundation models generales (LLMs) tienen limitaciones para razonamiento sobre sistemas de potencia — OpenGridFM busca el "momento GPT" para el sector eléctrico con modelos pre-entrenados sobre datos de red.
-**Para Globant**: posición temprana en el stack de modelos energéticos del futuro.
+| Repo | Stars | Signal |
+|------|-------|--------|
+| [evcc-io/evcc](https://github.com/evcc-io/evcc) | ~12k | Go EV smart charging; AI load shifting via electricity tariff APIs; 200+ charger integrations |
+| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | ~600 | LF Energy v0.31 Jul 2026; BESS + DR + solar; REST API + MCP-compatible |
+| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | ~2.5k | Energy system optimization; pairs with AI forecasting for capacity planning |
+| [PowerGridModel/power-grid-model](https://github.com/PowerGridModel/power-grid-model) | ~400 | LF Energy C++ core; 10M+ PyPI downloads; pandapower solver integration |
+| [OpenEnergyPlatform/awesome-sustainable-technology](https://github.com/OpenEnergyPlatform/awesome-sustainable-technology) | ~1.5k | Curated energy AI resource list; essential reference for tech selection |
 
-## Tendencia de la semana
+## Industry Signals
 
-> **Benchmarking de agentes LLM en energía** es la aceleración de la semana: PSAB (41 familias), EnergyAgentBench (70 variantes), PowerAgentBench-Dyn y PFBench salieron en pocas semanas. La industria ya tiene los criterios objetivos para contratar agentes AI — Globant puede usar estos benchmarks para demostrar calidad en propuestas a utilities.
+- **IEA (Jul 2026)**: AI fault detection can cut outage duration 30–50%; AI could unlock 175 GW of existing transmission capacity.
+- **LF Energy Summit 2026**: First US investor-owned utility joined LF Energy; AI energy systems research roadmap published.
+- **Siemens $1B grid investment (Feb 2026)**: Power-grid manufacturing expansion in US driven by AI data center electricity demand.
+- **Data center demand**: Global DC electricity demand projected to double to 945 TWh by 2030 — driving massive grid modernization investment.
+- **Morgan Stanley**: AI-driven energy investment reshaping utility capex; grid-scale storage + renewable integration accelerating.
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated by the ingest pipeline.*
