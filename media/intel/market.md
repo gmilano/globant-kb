@@ -1,14 +1,16 @@
 # Market Intelligence — Media & Entertainment AI
 
 > Key players, market map, and Globant positioning. Updated July 2026.
-> Last updated: 2026-07-13 (v15)
+> Last updated: 2026-07-13 (v16)
 
 ## Market Size & Growth
 
 | Segment | 2025/2026 Value | 2030 Projection | CAGR | Source |
 |---------|----------------|-----------------|------|--------|
+| **GenAI in Content Creation** | **$28.75B (2026)** | **$77.22B (2030)** | **33.5%** | **GlobeNewswire Jul 7, 2026** |
 | GenAI in M&E | $3.16B (2026) | $8.06B (2030) | 26.5% | GlobeNewswire Jul 7, 2026 |
-| AI in Media (broad) | $35.77B (2026) | $60.35B (2030) | **26.3%** | Research and Markets 2026 |
+| AI in Media (broad) | $18.47B (2026) | — | **35.1%** | GlobeNewswire Jul 7, 2026 |
+| AI in Media (Research and Markets) | $35.77B (2026) | $60.35B (2030) | **26.3%** | Research and Markets 2026 |
 | AI Video Generator | $847M (2026) | $3.35B (2034) | 18.80% | Fortune Business Insights 2026 |
 | Text-to-Video segment | — | — | **38.6%** | digen.ai / AVB 2026 |
 | AI Video Market (total) | — | — | **36.20%** | market.us 2026 |
@@ -25,6 +27,7 @@
 
 ## Newsroom & Journalism Metrics (Reuters Institute Digital News Report 2026)
 
+- **Weekly AI use in newsrooms doubled**: 18% → 34% in one year; 64% of newsrooms now use AI as embedded infrastructure (in CMS, not just experimentation)
 - **75%** of news executives expect "agentic tools" to have a "large" or "very large" impact in the near future
 - **40%** forecast decline in search referrals over the next 3 years from AI answer engines (Google AI Overviews, ChatGPT)
 - **Only 20%** of publishers expect AI licensing deals to become a major revenue source; most see them as marginal
@@ -43,6 +46,7 @@
 | Kling (Kuaishou) | Kling 3.0 | Cinematic realism, native audio | Chinese competitor, free tier |
 | Adobe | Firefly Video | Enterprise creative cloud | $25B market cap tailwind |
 | ElevenLabs | Voice AI | Audio/voice cloning leader | $1.1B valuation (2024), Series B+ |
+| **Resemble AI** | **Chatterbox (MIT)** | **SoTA open TTS; real-time broadcast voice agents** | **~25k GitHub stars; 1M+ HuggingFace downloads; Perth C2PA watermarker** |
 | HeyGen | HyperFrames + AI Video | Agent-native video pioneer | Open-sourced HyperFrames (Apache-2.0); enterprise scale |
 | Stability AI | Stable Audio, SDXL | Open weights (community) | Restructured 2024, licensing change |
 
@@ -73,6 +77,7 @@
 | Podcast monetization infrastructure | LATAM podcast market growing 28% YoY | Castopod (AGPL) + Whisper transcription + Claude summaries |
 | AI newsroom for regional publishers | 40% search referral decline forces efficiency; LATAM regional newsrooms underserved | GPT-Researcher (MIT) + STORM (MIT) + Claude + Kokoro-82M (Apache-2.0) |
 | On-premise TTS for high-volume narration | ElevenLabs API costs prohibitive at LATAM scale; CPU-only deployment needed | Kokoro-82M (Apache-2.0) — Spanish/Portuguese, CPU, 54 presets, $0 per-character |
+| **Real-time broadcast voice dubbing** | **Live news and sports require <1s latency for simultaneous interpretation; $200–500/hr human interpreter cost** | **SRS (MIT) + Whisper.cpp (MIT) + Claude Haiku + Chatterbox Turbo (MIT, 75ms) = ~775ms end-to-end; $0 TTS cost** |
 
 ## Globant Positioning
 

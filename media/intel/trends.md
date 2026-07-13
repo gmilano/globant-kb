@@ -1,7 +1,7 @@
 # Industry Trends — Media & Entertainment AI
 
 > Current signals shaping the media and entertainment AI landscape. July 2026.
-> Last updated: 2026-07-13 (v15)
+> Last updated: 2026-07-13 (v16)
 
 ## Macro Trends
 
@@ -53,9 +53,21 @@ Reuters Institute Digital News Report 2026 (June 2026) is the strongest institut
 ### T14: On-Premise TTS Replaces API for LATAM Volume Production
 ElevenLabs at $0.03–0.08/1,000 characters is economically prohibitive for high-volume LATAM content production. Kokoro-82M (Apache-2.0, hexgrad/Kokoro-82M, ~8k★) changes the equation: 82M parameters, CPU-viable, 54 presets, 8 languages including Spanish and Portuguese, no per-character costs. For a podcast network publishing 200+ episodes/month with auto-narration, the cost difference is $0 vs. $30–80K/year in API fees. Combined with Whisper.cpp (MIT) for ASR and Claude for translation, the complete LATAM localization stack runs fully on-premise.
 
+### T15: Chatterbox Turbo Unlocks Real-Time Broadcast Voice Agents
+Resemble AI's Chatterbox Turbo (MIT, 350M parameters, 75ms latency, 6× real-time throughput) is the first fully open TTS model fast enough for live broadcast applications. The complete pipeline: SRS (MIT, RTMP ingest) → Whisper.cpp (500ms streaming chunks, ~200ms transcription) → Claude Haiku (language detection + translation, ~200ms) → Chatterbox Turbo (TTS, 75ms) = **~775ms total end-to-end latency** for simultaneous language dubbing of live streams. Three variants cover the full use-case spectrum: Turbo for real-time agents, Original (500M, paralinguistic tags: [sigh],[gasp],[laugh]) for creative production, and Multilingual V3 (500M, 23+ languages) for global localization. Zero-shot voice cloning from a 5-second reference audio sample — ElevenLabs-tier quality at $0 API cost. 1M+ HuggingFace downloads and 25k GitHub stars confirm rapid commercial adoption.
+
+**Implication for Globant**: The real-time broadcast voice agent pattern (P9) is now deployable using MIT-licensed components end-to-end. Previous barrier: proprietary TTS APIs with $200–500/hr equivalent human interpreter costs and >1s latency. Current state: self-hosted, commercial-grade, sub-second, $0 per-minute TTS.
+
+### T16: EU AI Act Full Obligations Active August 2, 2026
+Article 50 of the EU AI Act enters full enforcement on **August 2, 2026**, requiring all AI-generated audio, video, and text content to carry provenance markers. Violations: up to **7% of annual global revenue**. C2PA (Coalition for Content Provenance and Authenticity) is the de-facto technical standard — adopted by Adobe, Microsoft, Google, and now baked into Chatterbox's Perth watermarker. Perth watermarks survive MP3 re-encoding and are extractable by C2PA-compatible readers. For European broadcast clients, Perth + Chatterbox is the open-source compliance stack.
+
+**Scope**: Any AI system that generates synthetic speech, video deepfakes, or machine-generated text for public distribution. Exceptions: clearly satirical/artistic works. No exception for size of organization — regional newsrooms and indie studios are equally subject.
+
+**Implication for Globant**: Every media AI engagement with EU clients (OTT, broadcast, publishing) now requires C2PA-compatible provenance infrastructure as a non-negotiable deliverable. Chatterbox Perth watermarker (MIT) + C2PA metadata pipeline is the integration layer Globant can offer as a compliance service.
+
 ## Regulatory and Ethical Context
 
-- **Synthetic media disclosure**: EU AI Act requires labeling AI-generated content (enforcement Aug 2026). US: no federal law yet, but platform-level enforcement (YouTube/TikTok mandatory watermarking).
+- **Synthetic media disclosure**: EU AI Act Article 50 full enforcement **August 2, 2026** — AI-generated audio/video/text must carry C2PA-compatible provenance markers; violations up to 7% annual global revenue. US: no federal law yet, but platform-level enforcement (YouTube/TikTok mandatory watermarking).
 - **Music licensing**: AudioCraft weights are CC-BY-NC due to training data licensing complexity. Commercial audio generation remains legally murky — Suno/Udio lawsuits ongoing.
 - **Deepfake and likeness rights**: Growing state-level legislation in US (California, Texas, New York). Any AI dubbing or likeness project requires explicit consent workflows.
 - **Agent-generated content provenance**: As HyperFrames + LLM agent pipelines produce fully automated video at scale, content provenance and watermarking (C2PA standard) become compliance requirements for enterprise clients.

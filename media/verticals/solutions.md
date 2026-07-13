@@ -1,13 +1,14 @@
 # Vertical Solutions — Media & Entertainment
 
 > Real open source platforms that can be customized with AI. The strategy: start from something functional, layer agentic AI on top.
-> Last updated: 2026-07-13 (v15)
+> Last updated: 2026-07-13 (v16)
 
 ## Platforms for AI Customization
 
 | Platform | Repo | License | Stack | Use Case | AI Opportunity |
 |----------|------|---------|-------|----------|----------------|
-| **MediaCMS** | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | Python/Django + React | Enterprise video CMS and media library | Add AI-powered auto-tagging, transcript generation (Whisper), smart search, content moderation, and chapter generation. REST API enables agent integration. Central asset hub for all AI-generated content pipelines (P1–P8). |
+| **MediaCMS** | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | Python/Django + React | Enterprise video CMS and media library | Add AI-powered auto-tagging, transcript generation (Whisper — built-in), smart search, content moderation, and chapter generation. REST API enables agent integration. Central asset hub for all AI-generated content pipelines (P1–P9). |
+| **SRS** | [ossrs/srs](https://github.com/ossrs/srs) | **MIT** | C++ | Live streaming infrastructure (RTMP/WebRTC/HLS/SRT/MPEG-DASH) | **NEW v16: MIT license. ~29k★. Real-time AI intelligence layers: Whisper.cpp for live transcription, Claude Haiku for topic tagging (<2s latency), Chatterbox Turbo for real-time broadcast dubbing (75ms latency). SRS 8.0 (codename Kai) in development. Foundation for AI broadcast infrastructure — hooks into stream pipeline at any stage without proprietary lock-in.** |
 | **Open Streaming Platform** | [arut/nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module) + OSP | MIT | Python/Flask + NGINX | Self-hosted live streaming (Twitch/YouTube alternative) | Layer real-time AI commentary, live transcription, sentiment analysis, and automated highlight clipping. |
 | **Restreamer** | [datarhei/restreamer](https://github.com/datarhei/restreamer) | Apache-2.0 | Go + React | H.264 real-time video distribution and multi-destination push | Add AI-powered adaptive bitrate logic, scene change detection for dynamic transcription triggers, and content-aware CDN routing. |
 | **InvokeAI** | [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | Python + FastAPI + React | AI image and concept art generation studio | Build agent workflows for batch concept art, storyboard generation, brand asset creation, and style-consistent visual development pipelines. |

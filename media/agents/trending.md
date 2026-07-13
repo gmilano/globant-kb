@@ -1,12 +1,13 @@
 # Trending AI Agents — Media & Entertainment
 
 > What's new and moving this week (July 2026). Validated repos with real GitHub presence.
-> Last updated: 2026-07-13 (v15)
+> Last updated: 2026-07-13 (v16)
 
 ## 🔥 Hot This Week
 
 | Name | Repo | License | Trend Signal | Why It Matters |
 |------|------|---------|-------------|----------------|
+| **Chatterbox** | [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) | **MIT** | **~25k stars; 1M+ HuggingFace downloads** | **Resemble AI's SoTA open TTS family hit 25k GitHub stars and over 1M HF downloads. Three variants: Original (voice cloning, paralinguistics), Turbo (75ms latency/6× real-time, real-time broadcast voice agents), Multilingual V3 (23+ languages). Zero-shot voice cloning from 5s reference audio. MIT license = commercial self-hosting at $0 API cost. Perth watermarker for C2PA-compatible AI audio provenance (EU AI Act Aug 2, 2026).** |
 | HyperFrames | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | Apache-2.0 | ~22k stars, Q2 2026 breakout | HeyGen's agent-native video renderer: write HTML → render MP4. Agents compose videos the same way they write code — no timeline editors, no API keys per frame. Compatible with Claude Code, Cursor, Codex, Gemini CLI. 20 loadable skills. The missing link between LLM agents and production video output. |
 | FoleyCrafter | [open-mmlab/FoleyCrafter](https://github.com/open-mmlab/FoleyCrafter) | Apache-2.0 | IJCV 2026 publication; ComfyUI node Jul 2026 | OpenMMLab video-to-audio: feed silent video → get synchronized, realistic sound effects. Solves the V2A gap that's been blocking fully automated post-production pipelines. Semantic adapter + temporal controller for frame-accurate sync. |
 | OpenMontage | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | AGPL-3.0 | Topped GitHub Trending Jun 2026 | First agentic video production system with 500+ skills. Turns Claude Code into a full studio — scripting, stock footage retrieval, editing, rendering. Explosive community growth. |
@@ -15,12 +16,16 @@
 | Open Generative AI | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | 7.5k stars in days (Apr 2026) | Self-hosted alternative to Midjourney/Runway/Sora. 200+ models in one UI. Growing as studios want to keep IP on-premise. |
 | Wan2GP | [deepbeepmeep/Wan2GP](https://github.com/deepbeepmeep/Wan2GP) | Apache-2.0 | Active July 2026 | GPU-poor optimized runner for Wan 2.1/2.2, LTX-2, HunyuanVideo, Flux. Key enabler: lets indie creators and small studios run frontier video models on a single GPU. |
 | GPT-Researcher | [assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher) | MIT | ~20k stars, accelerating 2026 | Autonomous AI research agent generating 5–6 page sourced briefs on any topic. Reuters Institute 2026: 75% of news execs say agentic tools will have large/very large impact — GPT-Researcher is the open-source tool that makes it concrete. Powers rapid background research in newsrooms. |
-| Open-Sora 2.0 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | ~24k, most-starred Apache video gen repo | HPC-AI Tech's open Sora alternative. Full training + inference pipeline; LoRA fine-tuning supported. Growing LoRA ecosystem for brand consistency and style transfer. Key differentiator: permissive Apache-2.0 with complete training code (unlike Wan2.2 which only ships inference). |
+| Open-Sora 2.0 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | **~29k (+5k since v15)**, most-starred Apache video gen repo | HPC-AI Tech's open Sora alternative. Full training + inference pipeline; LoRA fine-tuning supported. Growing LoRA ecosystem for brand consistency and style transfer. Key differentiator: permissive Apache-2.0 with complete training code (unlike Wan2.2 which only ships inference). |
 | Kokoro-82M | [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) | Apache-2.0 | ~8k; CPU-viable | 82M-parameter TTS with 54 voice presets, 8 languages, runs on CPU. July 2026: LATAM media teams adopting for Spanish/Portuguese narration in cost-sensitive markets. Apache-2.0 enables commercial deployment without ElevenLabs per-character API costs. |
 
 ## 📊 Context: What's Driving These Trends
 
-1. **Agent-native video composition** — HyperFrames (22k★, Apache-2.0) closes the loop: LLM agents can now write HTML compositions and render production-ready video without timeline editors or cloud APIs. The "agent writes code → code becomes video" workflow is the 2026 inflection.
+1. **Chatterbox Turbo unlocks real-time media voice agents** — 75ms latency, 6× real-time throughput, MIT license, zero-shot voice cloning. First time a fully open TTS model is fast enough for real-time broadcast agents (live commentary, automated anchor, language dubbing in-stream). 25k GitHub stars and 1M HuggingFace downloads confirm rapid adoption.
+
+2. **EU AI Act full obligations Aug 2, 2026** — AI-generated audio must carry provenance markers. Chatterbox's Perth watermarker (C2PA-compatible, survives MP3 compression) is the open-source implementation becoming broadcast compliance infrastructure for European media clients.
+
+3. **Agent-native video composition** — HyperFrames (22k★, Apache-2.0) closes the loop: LLM agents can now write HTML compositions and render production-ready video without timeline editors or cloud APIs. The "agent writes code → code becomes video" workflow is the 2026 inflection.
 
 2. **Video-to-audio gap closing** — FoleyCrafter (IJCV 2026) enables automated foley and sound design from silent video. Combined with LTX-2.3's native audio sync, the post-production audio pipeline is now fully automatable.
 

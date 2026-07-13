@@ -1,7 +1,7 @@
 # Composition Patterns — Media & Entertainment
 
 > Concrete recipes combining specific repos + agents to build production-ready solutions.
-> Last updated: 2026-07-13 (v15)
+> Last updated: 2026-07-13 (v16)
 
 ```
 [Open Source Media Platform (MediaCMS / InvokeAI / Castopod / Owncast)]
@@ -44,7 +44,7 @@
 **Stack**:
 - **Transcription**: [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT) for source language ASR
 - **Translation**: Claude API (claude-sonnet-5) for English → Spanish/Portuguese with cultural adaptation
-- **Voice synthesis**: [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) (Apache-2.0) for on-premise TTS (or ElevenLabs API for premium voices)
+- **Voice synthesis**: [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) (MIT) Multilingual V3 for zero-shot voice cloning across 23+ languages (or [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) Apache-2.0 for high-volume CPU-only narration)
 - **Audio processing**: [spotify/pedalboard](https://github.com/spotify/pedalboard) (GPL-3.0) for audio normalization and effects
 - **Lip sync**: [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) (Apache-2.0) LipDub mode for visible-speaker scenes
 - **Foley & sound effects**: [open-mmlab/FoleyCrafter](https://github.com/open-mmlab/FoleyCrafter) (Apache-2.0) for automated environmental audio
@@ -217,6 +217,37 @@
 
 ---
 
+## P9: Real-Time Broadcast Voice Agent (SRS + Chatterbox Turbo)
+
+**Problem**: Live broadcaster needs simultaneous language dubbing of a live stream (news, sports, corporate event) at sub-second latency — without $200–500/hr human interpreters or proprietary cloud TTS.
+
+**Stack**:
+- **Streaming infrastructure**: [ossrs/srs](https://github.com/ossrs/srs) (MIT) — RTMP/WebRTC/HLS/SRT ingest and distribution; SRS 8.0 (codename Kai) in development
+- **Real-time transcription**: [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT) — streaming mode, 500ms chunk processing, ~200ms transcription latency
+- **Translation + language detection**: Claude (claude-haiku-4-5) — source language detection + translation into target language(s), ~200ms
+- **Voice synthesis**: [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) Turbo (MIT) — 350M parameters, 75ms latency, 6× real-time throughput; zero-shot voice cloning from 5s reference audio
+- **Provenance / compliance**: Chatterbox Perth watermarker (C2PA-compatible) — AI audio provenance baked into every output frame; required for EU AI Act Article 50 (Aug 2, 2026)
+- **Distribution**: SRS HLS/WebRTC output → CDN for viewer delivery; secondary RTMP output for re-streaming
+
+**Wiring**:
+1. Live RTMP stream ingested by SRS → audio extracted in 500ms chunks via SRS HTTP callback hook
+2. Whisper.cpp processes each chunk in streaming mode → transcript fragment with timestamps (~200ms)
+3. Claude Haiku receives transcript fragment → detects source language → translates to target language(s) with broadcaster context prompt (~200ms)
+4. Chatterbox Turbo synthesizes dubbed audio from translated text using reference voice (~75ms)
+5. Perth watermarker stamps C2PA provenance on synthesized audio (adds <5ms)
+6. Dubbed audio mixed back into SRS stream pipeline → output to HLS/WebRTC for viewer delivery
+7. Monitoring dashboard shows live transcript, translation quality scores, and latency metrics per language channel
+
+**Latency profile**: ~975ms total end-to-end (500ms chunk + 200ms Whisper + 200ms Claude + 75ms Chatterbox). Tunable: shorter chunks = lower latency, less Whisper accuracy.
+
+**Cost model**: $0 for TTS, Whisper, and SRS; ~$0.0002/minute for Claude Haiku translation per language channel. Compare: $200–500/hr human simultaneous interpreters; $0.05–0.15/min cloud TTS APIs.
+
+**Compliance**: Chatterbox Perth watermarker provides C2PA-compatible provenance markers, satisfying EU AI Act Article 50 (full enforcement Aug 2, 2026). Critical for European broadcast clients.
+
+**Estimated time to MVP**: 3–5 weeks. **LATAM angle**: Spanish ↔ Portuguese ↔ English dubbing of regional news and sports at zero per-minute TTS cost. Enables LATAM broadcasters to serve multilingual audiences without interpreter budget.
+
+---
+
 ## Pattern Selection Guide
 
 | Client Situation | Recommended Pattern |
@@ -229,6 +260,7 @@
 | Ad agency, background music at scale | P6: Music Scoring Service |
 | Brand team, 200+ video variants/month | P7: Agent-Native Marketing Video |
 | Regional news publisher, search referral decline | P8: AI Newsroom Research & Content |
+| Live broadcaster, simultaneous multilingual dubbing | P9: Real-Time Broadcast Voice Agent |
 
 ---
 *Auto-updated by ingest pipeline.*
