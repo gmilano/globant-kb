@@ -1,45 +1,28 @@
 # 🏗️ Repos fundacionales — Education
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-12 (v12)
+> Última actualización: 2026-07-13
 
-## Plataformas LMS y CMS educativo
+## Plataformas LMS y ERP
 
-| Repo | Licencia | Descripción | Stars | ¿Base para AI? |
-|------|----------|-------------|-------|----------------|
-| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | La plataforma LMS más usada del mundo: 300M+ usuarios, 240+ países, PHP + JavaScript, AI Subsystem v2 en v4.6 | ~7.2k | Sí — REST API + Webservices + plugin ecosystem + AI subsystem interface |
-| [openedx/edx-platform](https://github.com/openedx/edx-platform) | AGPL-3.0 | Open edX LMS+CMS (Django + React): 70M+ usuarios, base de Coursera/edX, Harvard+MIT; AI Course Creator Plugin GA 2026 | ~8.1k | Sí — XBlock API, LTI 1.3, SCORM, AI grading, openedx-ai-extensions |
-| [instructure/canvas-lms](https://github.com/instructure/canvas-lms) | AGPL-3.0 | Canvas: LMS líder en educación superior EE.UU., Ruby on Rails + React; integración oficial Anthropic Claude anunciada Q3 2026 | ~5.6k | Sí — REST API, LTI, GraphQL API |
-| [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | AGPL-3.0 | Next-gen open source learning platform: block-based Notion-like editor, AI study assistant, multi-tenant, auto-certificados, pagos, TypeScript + Python, self-hostable | ~400 | Sí — API-first, AI-native desde el diseño, alternativa moderna a Moodle |
-| [openfun/richie](https://github.com/openfun/richie) | MIT | CMS open source para portales educativos (France Université Numérique); Django + React — MIT ✅ | ~311 | Sí — base limpia para portal educativo + AI recommendation layer |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | E-learning open source moderno: contenido, learner tracking, assessments; AI hooks integrados desde el inicio | ~200 | Sí — alternativa moderna a Moodle/Open edX con AI-native design |
-| [moodlehq/moodleapp](https://github.com/moodlehq/moodleapp) | Apache-2.0 | App móvil oficial de Moodle (Ionic + Angular); API Moodle Mobile — Apache 2.0 ✅ | ~979 | Sí — shell para añadir features AI nativas en móvil |
+| Repo | Licencia | Stars | Descripción | ¿Base para AI? |
+|------|----------|-------|-------------|----------------|
+| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | ~7k | LMS más deployado del mundo. 260M+ usuarios, 200+ países, 60k+ plugins. PHP + PostgreSQL/MySQL. Plugin MCP disponible (Jul 2026). | ✅ — plugin MCP oficial |
+| [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | AGPL-3.0 | ~7.5k | LMS detrás de edX.org (Harvard + MIT). 70M+ usuarios. Python/Django + XBlock. LTI Advantage Complete certified 2025. | ✅ — XBlock + AI integrations |
+| [frappe/lms](https://github.com/frappe/lms) | MIT | ~1.8k | LMS 100% open source para empresas, educadores y creadores de cursos. Basado en Frappe Framework (Python). Deploy en minutos. | ✅ — MIT, Python, fácil extensión |
+| [frappe/education](https://github.com/frappe/education) | MIT | ~1.8k | Education Management System basado en ERPNext. Admisiones, asistencia, notas, cuotas, biblioteca. Integra con Frappe LMS. | ✅ — ERP completo, MIT |
+| [moodlehq/moodleapp](https://github.com/moodlehq/moodleapp) | Apache-2.0 | ~979 | App móvil oficial de Moodle (Ionic + Angular). iOS + Android. Offline-capable. | ✅ — mobile AI features |
+| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | ~468 | Framework para construir componentes de aprendizaje custom en Open edX. Punto de extensión principal para añadir AI. | ✅ — extensión nativa Open edX |
+| [openfun/richie](https://github.com/openfun/richie) | MIT | ~311 | CMS open source para construir portales educativos. Django + React. Usado por France Université Numérique. | ✅ — portal frontend para LMS |
+| [sakaiproject/sakai](https://github.com/sakaiproject/sakai) | Apache-2.0 | ~1.2k | LMS universitario (Apereo Foundation). Origen: MIT, Stanford, Michigan, Indiana. Java + Spring. Muy usado en LATAM universitaria. | ✅ — Java, Apache-2.0, LATAM |
 
-## Frameworks de AI/RAG para construir sobre plataformas educativas
+## Frameworks de IA educativa
 
-| Repo | Licencia | Descripción | Stars | ¿Base para AI? |
-|------|----------|-------------|-------|----------------|
-| [run-llama/llama_index](https://github.com/run-llama/llama_index) | MIT | Framework RAG y agentes: data connectors, query engines, chat engines. Base interna de DeepTutor. Python | ~40k | Sí — motor RAG de referencia para cualquier LMS |
-| [getzep/graphiti](https://github.com/getzep/graphiti) | Apache-2.0 | Knowledge graphs temporales para AI agents: rastrea cómo cambian los hechos, provenance, ontología aprendida | ~3.2k | Sí — curriculum knowledge graph para tutores adaptativos |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | Framework multi-agente con estado persistente: cycles, branching, checkpointing — base de AITutorAgent y EduAgent | ~34k | Sí — orquestador de agentes para flujos pedagógicos complejos |
-| [mlabonne/llm-course](https://github.com/mlabonne/llm-course) | MIT | Curso completo sobre LLMs con roadmaps y Colab notebooks; recurso de referencia para onboarding de equipos | ~38k | Sí — base de contenido reutilizable y plantilla de curriculum |
-| [DataTalksClub/llm-zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) | MIT | Curso gratuito 10 semanas sobre LLMs en producción: RAG, evaluación, monitoring | ~5.5k | Sí — plantilla de curso AI auto-hosteable + materiales libres |
-
-## Plataformas de Assessment
-
-| Repo | Licencia | Descripción | Stars | ¿Base para AI? |
-|------|----------|-------------|-------|----------------|
-| [oat-sa/tao-core](https://github.com/oat-sa/tao-core) | GPL-2.0 | Open Assessment Tool (TAO): assessments adaptativos IRT, SCORM, QTI 2.2 — adoptado por ETS, Pearson | ~400 | Sí — assessment platform con IA calibración de dificultad |
-| [oppia/oppia](https://github.com/oppia/oppia) | Apache-2.0 | Lecciones interactivas con feedback inteligente (Google-backed); Python + TypeScript | ~11k | Sí — lecciones adaptativas + AI feedback integrado |
-| [h5p/h5p-php-library](https://github.com/h5p/h5p-php-library) | MIT | Contenido interactivo embebible en Moodle/Canvas/WordPress; 75+ tipos de actividad | ~1.1k | Sí — actividades interactivas en cualquier LMS |
-| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | Framework para construir componentes de aprendizaje personalizados — mejor licencia del ecosistema edX | ~468 | Sí — montar cualquier herramienta AI como XBlock plugin |
-
-## Education ERP / School Management
-
-| Repo | Licencia | Descripción | Stars | ¿Base para AI? |
-|------|----------|-------------|-------|----------------|
-| [frappe/education](https://github.com/frappe/education) | AGPL-3.0 | Frappe Education (ERPNext): admisiones, asistencia, calificaciones, fees, biblioteca | ~565 | Sí — ERP educativo + AI hooks via Frappe hooks system |
-| [frappe/lms](https://github.com/frappe/lms) | MIT | Frappe LMS: 100% open source para empresas y educadores; integración ERPNext — MIT ✅ | ~1.2k | Sí — LMS MIT con integración ERP nativa |
+| Repo | Licencia | Stars | Descripción |
+|------|----------|-------|-------------|
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | ~22k | Framework agentico de tutoring. Ver `agents/top.md`. |
+| [openedx/openedx-learning](https://github.com/openedx/openedx-learning) | Apache-2.0 | ~120 | Librería core para modelar contenidos de aprendizaje en Open edX. Base del XBlock SDK. |
+| [GeminiLight/gen-mentor](https://github.com/GeminiLight/gen-mentor) | MIT | ~250 | Framework multi-agente ITS (WWW 2025 Oral). Ver `agents/top.md`. |
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

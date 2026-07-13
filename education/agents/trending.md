@@ -1,43 +1,26 @@
-# 📈 Agentes AI trending — Education (semana 2026-07-12 v12)
+# 📈 Agentes trending — Education
 
-> Repos con actividad reciente, nuevas releases o virales en HN/Reddit/GitHub Trending.
+> Última actualización: 2026-07-13
 
-## Repos más activos esta semana
+## Lo nuevo esta semana
 
-| Repo | Stars | Actividad | Por qué importa |
-|------|-------|-----------|----------------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | ~28k | EduHub marketplace con 12+ MCP servers educativos en beta; v2.2 estable | Primer LMS agent-native en superar 25k★; EduHub de community skills es moat de distribución; referencia de arquitectura para cualquier producto EdTech AI |
-| [plastic-labs/tutor-gpt](https://github.com/plastic-labs/tutor-gpt) | ~907 | v3.1 — ToM mejorado para asignaturas STEM; Honcho memory API pública | Único tutor que modela el estado cognitivo real del estudiante; diferenciador técnico validado |
-| [GarethManning/education-agent-skills](https://github.com/GarethManning/education-agent-skills) | ~220 | Trending agent-skills topic GitHub; 40 nuevas skills pedagógicas añadidas | Plug-and-play para elevar calidad pedagógica de cualquier agente Claude/Codex sin construir desde cero |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | ~420 | PR merged: soporte ES-LA + PT-BR mejorado; integración Open edX | Referencia LATAM: español latinoamericano + portugués brasileño nativos |
-| [Ebimsv/AITutorAgent](https://github.com/Ebimsv/AITutorAgent) | ~350 | +150★ en 7 días; trending topic education-ai GitHub | LangGraph + SQLite: stack accesible para equipos pequeños; Streamlit UI lista para demos |
-| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | ~221 | Integration hooks para Moodle plugin; BKT mejorado | BKT sin backend = deploy en CDN estático; nueva integración Moodle lo hace más práctico |
-| [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | ~400 | AGPLv3, bloque Notion-like, AI study assistant integrado, self-hostable | Alternativa moderna a Moodle/Teachable — TypeScript/Python, multi-tenant, AI-first desde el diseño |
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | ~120 | Next.js 16 + Claude; storytelling gamificado K-children | Nicho K-2 / early childhood AI learning — escaso en open source |
+| Nombre | Licencia | Descripción | Por qué importa |
+|--------|----------|-------------|------------------|
+| [DeepTutor v1.0](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Rewrite completo (200k LOC, Abr 2026). Agent-native: Chat, Quiz, Research, Visualize, Solve, Mastery Path en un loop. 30+ LLM providers. | El repositorio de AI educativa de mayor crecimiento. 0→22k★ en 7 meses. Fork-worthy para cualquier engagement de tutoring. |
+| [Canvas MCP v1.2.0](https://github.com/vishalsachdev/canvas-mcp) | MIT | 90 MCP tools para Canvas LMS. Nueva: accessibility scanner. FERPA-compliant (anonimización automática). | Canvas es el LMS #1 en universidades EEUU. Tener MCP permite que cualquier LLM actúe sobre el LMS directamente. |
+| [Moodle MCP Plugin](https://moodle.org/plugins/webservice_mcp) | MIT | Plugin oficial Moodle: expone external functions vía JSON-RPC 2.0 para clientes MCP. | Moodle tiene 260M+ usuarios. Este plugin convierte al LMS en un "AI-ready backend" sin código custom. |
+| [OpenTutor (block-based)](https://github.com/zijinz456/OpenTutor) | MIT | Workspace local: sube material → AI genera notas, quizzes, flashcards, tutor adaptativo. 10+ LLM providers. Self-hosted. | Ideal para instituciones con restricciones de privacidad. Zero APIs externas con Ollama. |
+| [vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | E-learning platform moderna con tracking de learners, assessments y content delivery. | Proyecto joven (2025) pero creciendo. TypeScript + Kotlin. Alternativa moderna a Moodle para startups EdTech. |
+| [GenMentor](https://github.com/GeminiLight/gen-mentor) | MIT | Multi-agent ITS para goal-oriented learning. Paper oral en WWW 2025 (Industry Track). | Fundamento académico sólido. Arquitectura: Planning Agent + Teaching Agent + Evaluation Agent. Extensible. |
+| [StudyAlpha](https://github.com/google/studyalpha) | Apache-2.0 | AI Study Coach multi-agente con memoria + predicción de debilidades. Google × Kaggle 2026. | Patrón de referencia para "AI coach corporativo". Multi-agent con memory-augmented reasoning. |
 
-## Novedades de plataformas base (julio 2026)
+## Repos en ascenso (GitHub trending edu-AI, jul 2026)
 
-- **Open edX AI Course Creator** (GA jul 2026): genera cursos completos desde un prompt en Authoring Studio; LLM-powered content generation nativo. Open edX Conference 2026.
-- **Moodle 4.6 AI Subsystem v2**: interfaz estándar para plugins AI; primeros plugins quiz AI certificados; soporte MCP server para agentes externos.
-- **Canvas x Anthropic Claude** (Q3 2026): integración oficial con Claude para grading assistance + lesson planning + student Q&A.
-- **Microsoft Education AI Toolkit v2** (abril 2026): capacidades agénticas para automatizar enrollment, scheduling, grading + tutoring at scale.
-- **OECD Digital Education Outlook 2026** (publicación julio 2026): primer informe de política educativa que incluye recomendaciones específicas para AI agentic systems en aulas.
-
-## Papers relevantes (julio 2026)
-
-- **"Open TutorAI: An Open-source Platform for Personalized and Immersive Learning"** (arXiv:2602.07176, feb 2026) — arquitectura modular multi-agente con learner analytics integrado.
-- **"LecturaAgents: A Multi-Agent Framework for Adaptive Personalized AI-Assisted Learning"** (arXiv:2606.16428, jun 2026) — diseño de referencia multi-agente para ITS adaptativos.
-- **"GraphMASAL: Graph-based Multi-Agent System for Adaptive Learning"** (arXiv:2511.11035) — KG + multi-agent para personalización curricular.
-- **AI in Education — Frontiers systematic review 2026**: 42% mejora en outcomes con AI personalizado; 71% HE institutions desplegando adaptive learning.
-- **OECD Digital Education Outlook 2026**: primeras políticas nacionales sobre AI agentic en educación; foco en academic integrity, teacher oversight, student data privacy.
-
-## Señal de mercado: academic integrity como freno al scaling (nuevo v12)
-
-Según GlobeNewswire (Jul 8, 2026) y OECD Digital Education Outlook 2026:
-- **77%** de estudiantes no tienen entrenamiento formal en uso responsable de AI
-- **42%** de educadores citan academic integrity como preocupación #1 antes de adoptar AI tutors
-- Compradores institucionales en 2026 exigen: control docente, audit trails, protección de privacidad y reglas de datos claras **antes** de confiar en herramientas AI
-- **Implicación para Globant**: productos con governance-first (human-in-the-loop, explainability, audit logs) se venden más rápido que los más precisos sin esas garantías
+- **[HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor)** — 22k★, +2k/semana en pico. El "Open edX" de los AI tutors.
+- **[Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE)** — paper arXiv Feb 2026, avatar-based + chat modalities.
+- **[GeminiLight/gen-mentor](https://github.com/GeminiLight/gen-mentor)** — WWW 2025 oral, referenciado en múltiples papers de ITS 2026.
+- **[ECuiDev/obsidian-quiz-generator](https://github.com/ECuiDev/obsidian-quiz-generator)** — integra con Obsidian vault, crece por adopción de knowledge workers.
+- **[jmshea/jupyterquiz](https://github.com/jmshea/jupyterquiz)** — trending en comunidades Jupyter/STEM.
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Pipeline automático — se actualiza cada hora.*

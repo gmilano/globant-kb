@@ -1,64 +1,77 @@
-# 📡 Tendencias — Education AI (2026-07-12 v12)
+# 📡 Tendencias — Education AI
 
-> Señales recientes de mercado, tech y adopción.
+> Última actualización: 2026-07-13
 
-## T1 — Agentic tutoring reemplaza LMS estático
+## T1 — La Universidad Agentica (2026)
 
-Los LMS tradicionales (Moodle, Canvas) evolucionan de "repositorio de contenido + quiz" a **plataformas agénticas**: DeepTutor (~28k★) es el ejemplo más avanzado — un agente que navega entre Chat, Quiz, Research, Visualize y Mastery Path de forma autónoma. El patrón emergente en 2026: **LMS como backend de datos + agente AI como frontend pedagógico**. Microsoft Education AI Toolkit v2 (abril 2026) añade capacidades agénticas para automatizar flujos administrativos multi-step (enrollment, scheduling, grading).
+Inside Higher Ed acuñó "Agentic AI University" en enero 2026. Tres tipos de agentes ya operativos en instituciones piloto:
+- **Teacher Agent**: asigna trabajo, genera contenido, adapta dificultad
+- **Student Agent**: agenda sesiones de estudio, gestiona spaced repetition
+- **Admin Agent**: califica, emite reportes, detecta deserción temprana
 
-## T2 — El problema 2-Sigma finalmente atacable con AI
+Implicación para Globant: los clientes que piden "chatbot educativo" en realidad están buscando este modelo agentico.
 
-Benjamin Bloom demostró en 1984 que tutoría 1-a-1 produce mejoras de 2 desviaciones estándar vs. aula tradicional. En 2026, proyectos como **Bloom** (Li-Evan/Bloom, MIT), **OATutor** y **Khanmigo** demuestran que un LLM con scaffolding pedagógico puede aproximar ese resultado. Investigación en Frontiers in Education (2026) confirma **42% de mejora en outcomes** con AI personalizado; y **70% mejor course completion** con AI-personalized learning vs. lineales (8allocate 2026).
+## T2 — MCP como capa universal de LMS (2026)
 
-## T3 — 86% de adopción EdTech AI — mayor de cualquier industria
+El Model Context Protocol (MCP) se convirtió en el protocolo estándar para conectar LLMs con sistemas LMS:
+- **Moodle**: plugin oficial `webservice_mcp` (MIT, Jun 2026) expone todas las funciones externas como herramientas MCP
+- **Canvas**: `canvas-mcp` (vishalsachdev, MIT, 107★) — 90 MCP tools, FERPA-compliant con anonimización automática
+- **Open edX**: LearnWise AI integra via API nativa; LTI Advantage Complete certified
 
-Education lidera la adopción de GenAI entre todas las industrias (86% de organizaciones, 2026). **92%** de estudiantes usan AI activamente; docentes pasaron de **25% → 53%** en un año. **71%** de HE institutions desplegarán adaptive learning en 2026 (vs. 34% en 2023). El freno ya no es adopción sino **calidad pedagógica y governance**: el mercado maduro exige audit trails y control docente antes de escalar.
+Esto significa que Claude / GPT-4o / Llama puede leer notas, crear quizzes, asignar tareas, y gestionar matriculaciones directamente en el LMS sin integraciones custom.
 
-## T4 — MCP protocol llega a las aulas
+## T3 — AI tutors a escala de nación
 
-El Model Context Protocol (97M descargas/mes, Linux Foundation) está siendo adoptado en EdTech: **Anki MCP Server** conecta AI assistants a spaced repetition. Open edX Redwood y **Moodle 4.6 AI Subsystem v2** abren APIs que permiten conectar agentes externos vía MCP. DeepTutor EduHub marketplace ya tiene 12+ MCP servers educativos. Patrón: **MCP server por LMS** = agente accede a grades, assignments, calendar sin reescribir la plataforma base.
+- **Khanmigo** (Khan Academy): creció 17x en un año → 700k usuarios, 380+ distritos
+- **Duolingo**: 52.7M DAU, $1B+ revenue, eligió sacrificar $50M bookings para mantener acceso gratuito
+- **Patrón emergente**: "National AI Tutor" programs — India, Brasil, México evalúan adopción a escala estatal
 
-## T5 — Soberanía de datos de estudiantes: on-prem AI obligatorio
+Implicación: el modelo "chatbot educativo" está siendo reemplazado por "AI tutor con memoria, adaptación y reporting institucional".
 
-La protección de datos de menores (COPPA, FERPA EE.UU., GDPR Europa, LGPD Brasil, Ley Habeas Data Colombia) impulsa despliegues on-prem de LLMs. **EU AI Act** (agosto 2026) clasifica los sistemas de evaluación educativa como "alto riesgo" — compliance obligatorio para cualquier plataforma que opere en Europa. Stack "sovereign AI" para educación: **Moodle/Open edX** on-prem + **Ollama** (MIT, ~110k★) + modelos cuantizados (Llama 3.3 70B / Qwen 2.5). Gobiernos LATAM exigen esto en nuevas licitaciones públicas.
+## T4 — Adaptive learning: de nicho a mainstream
 
-## T6 — Open edX AI Course Creator: generación de cursos en minutos
+- 71% de instituciones de higher ed deployarán adaptive learning en 2026 (vs 34% en 2023)
+- 42% de mejora en outcomes cuando se personaliza contenido + ritmo + modalidad + tono
+- RL agents seleccionan el "next best learning activity" entre miles de posibles paths
+- Knowledge Graphs personalizados por alumno reemplazan "currícula fijas"
 
-Open edX lanzó en 2026 el **AI Course Creator Plugin** integrado en Authoring Studio: genera cursos completos desde un prompt, incluyendo estructura de módulos, texto de lecciones, ejercicios y evaluaciones. Presentado como GA en la Open edX Conference 2026. El patrón se extiende: plataformas como **LearnHouse** (AGPL-3.0, ~400★) integran AI content generation nativa con su block editor Notion-like desde el inicio.
+## T5 — Regulación AI en educación (EEUU, LATAM)
 
-## T7 — Multimodal learning: ver, escuchar, hablar en tiempo real
+- **Ohio**: todas las escuelas públicas deben tener política formal de AI para el 1 julio 2026
+- **Maryland**: guía AI + integración AI literacy + coordinadores AI obligatorios
+- **Brasil**: Conselho Nacional de Educação analiza marco regulatorio (Q3 2026)
+- **Patrón**: FERPA compliance se convierte en prerequisito técnico para vender AI en instituciones públicas EEUU
 
-Tutores multimodales en tiempo real: STT (Deepgram / Whisper) → LLM → TTS (ElevenLabs / Kokoro) forman el pipeline estándar de 2026. Gemini Live API habilita el patrón live video+audio+texto. Para tutores de idiomas: pronunciación nativa evaluada implícitamente, corrección en el acto — Duolingo Max usa este stack en propietario; la versión open source está disponible.
+## T6 — Self-hosted tutors: privacidad primero
 
-## T8 — LATAM: 400M hispanohablantes subatendidos
+- Instituciones con restricciones de privacidad (K-12 Europa, gobierno LATAM) adoptan **Ollama + OpenTutor** — zero API keys, zero cloud
+- DeepTutor soporta 30+ providers incluyendo modelos locales
+- El ecosistema "AI edu sin cloud" crece: OpenTutor, LocalAI, AnythingLLM + Frappe Education
 
-España y LATAM tienen poca oferta EdTech AI en español de calidad. **Open-TutorAI CE** con soporte ES-LA + PT-BR nativo; **Frappe LMS** (MIT) con localización española; **LearnHouse** con multi-tenant y multi-idioma. La oportunidad: adaptar plataformas open source con contenidos curriculares locales (BNCC Brasil, Plan SEP México, currículo Argentina). Duolingo y Khan Academy dominan inglés — el nicho hispanohablante sigue abierto.
+## T7 — GenAI EdTech: boom de startups
 
-## T9 — Theory of Mind en tutores: más allá del chatbot
+- 2,800+ startups AI-edu en 2026 (18x desde 2023)
+- $4.2B en VC en 2025 = 62% de todo el funding edtech ese año
+- Señal de consolidación: 2U + edX fusión (2026), Chegg en decline
+- Categorías calientes: AI tutors personalizados, detección de deserción, admisiones automatizadas, credenciales verificables
 
-Los mejores tutores AI de 2026 no solo responden preguntas — modelan el **estado cognitivo del estudiante**: qué sabe, qué cree que sabe, dónde está confundido. **tutor-gpt** (plastic-labs, GPL-3.0, ~907★) implementa ToM con Honcho memory layer. Derivado de investigación en psicología cognitiva, este enfoque produce tutores que calibran cuándo hacer preguntas vs. explicar, cuándo el estudiante está frustrado vs. confiado.
+## T8 — Multimodalidad en tutoring
 
-## T10 — Knowledge Graphs para currículo adaptativo
+- Video + audio + código + diagramas en el mismo loop de tutoring
+- DeepTutor v1.0: visualización integrada en el agente de tutoring
+- Síntesis de voz educativa: Kokoro-82M (Apache-2.0) para TTS en cursos LATAM (ES/PT)
+- Screen recording + AI analysis para feedback en tiempo real (programación, diseño)
 
-Los LLMs alucinan sin estructura. Los mejores sistemas de tutoring en 2026 usan **Knowledge Graphs** del currículo: qué conceptos existen, cómo se relacionan, qué prerrequisitos tienen. **Graphiti** (Apache, 3.2k★), **adaptive-knowledge-graph** (MIT), y el GraphRAG de DeepTutor lo implementan. Patrón: KG del currículo → BKT mastery scores → siguiente concepto óptimo a enseñar.
+## T9 — AI y evaluación: del quiz al portfolio
 
-## T11 — EU AI Act agosto 2026: educational assessment = alto riesgo
+- AI reemplaza tests de opción múltiple por evaluaciones de competencias abiertas
+- Cognii: AI writing tutor con grading automático de respuestas abiertas
+- GitHub Copilot + DeepTutor en cursos de programación: el "homework" es ahora una sesión de pair programming AI
+- Credenciales verificables en blockchain (W3C VC standard) + AI para validar competencias
 
-La EU AI Act entró en vigor plenamente en agosto 2026 para sistemas de "alto riesgo" — y **sistemas de evaluación educativa** caen en esta categoría. Esto obliga a: explicabilidad de decisiones, logs auditables, human oversight, documentación técnica, evaluación de sesgo. **responsible-ai-tutor-k12** (MIT) es el primer proyecto con governance-first design para K-12. Las instituciones europeas necesitan proveedores que entreguen compliance desde el día 1.
+## T10 — L&D corporativo: el mayor caso de uso en 2026
 
-## T12 — Spaced Repetition + AI: memoria a largo plazo escalable
-
-Anki sigue siendo el gold standard de spaced repetition (SM-2 algorithm). En 2026, la combinación AI-generation + spaced repetition scheduling es el stack dominante para memorización eficiente. **Anki MCP Server** conecta AI agents con mazos Anki via MCP. **flashcards-open-source-app** lleva el patrón a móvil. Aplicación práctica para Globant: corporate training con retention tracking.
-
-## T13 — Academic Integrity y Governance: freno al scaling en 2026 (nuevo v12)
-
-El éxito masivo de AI en education viene con una crisis de integrity latente. Según GlobeNewswire y OECD Digital Education Outlook 2026:
-- **77%** de estudiantes reportan no tener entrenamiento formal en uso responsable de AI
-- **42%** de educadores citan academic integrity como su preocupación #1 antes de adoptar AI tutors
-- Los compradores institucionales (buyers) en julio 2026 exigen **antes de firmar**: control docente, audit trails completos, reglas de privacidad y transparencia sobre cuándo usa AI el estudiante
-- **Implicación tech**: agentes que loguean qué preguntas hicieron estudiantes, qué respuestas recibieron y con qué modelo, son requerimiento de contrato — no feature opcional
-- **Implicación de negocio para Globant**: governance-first products (human-in-the-loop, explainability, audit logs) cierran más rápido que los más precisos sin esas garantías
-- **OECD 2026** recomienda que todos los países regulen AI agentic systems en educación antes de 2027 — mercado de compliance educativo emergente
-
----
-*Fuentes: Frontiers in Education 2026, Research and Markets, Grand View Research, Precedence Research, GlobeNewswire jul 2026, OECD Digital Education Outlook 2026, 8allocate Agentic AI in Education 2026, X-Pilot AI Education Report 2026, Open edX Conference 2026.*
+- Sana Labs (Apache, $85M): HP, Spotify, Volvo usan AI para capacitación interna
+- Frappe LMS + LLM = el stack preferido para L&D en empresas medianas LATAM
+- ROI medible: 23% mejora en outcomes, 15-25% mayor retención, reducción de costo/trainee
+- Globant oportunidad: L&D agentico para clientes Fortune 500 con presencia en LATAM

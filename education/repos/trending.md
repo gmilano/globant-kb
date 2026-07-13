@@ -1,25 +1,19 @@
-# 📈 Repos trending — Education (semana 2026-07-12 v12)
+# 📈 Repos trending — Education
 
-> Repos con crecimiento rápido, nuevas releases, o impulso en HN / r/learnmachinelearning / GitHub Trending.
+> Última actualización: 2026-07-13
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | Agent-native learning workspace: Chat, Quiz, Research, Visualize, Solve, Mastery Path — multi-engine RAG + memoria 3 capas + EduHub MCP marketplace | ~28k |
-| [plastic-labs/tutor-gpt](https://github.com/plastic-labs/tutor-gpt) | GPL-3.0 | AI tutor con Theory-of-Mind reasoning; Honcho memory layer; TypeScript | ~907 |
-| [Ebimsv/AITutorAgent](https://github.com/Ebimsv/AITutorAgent) | MIT | LangGraph tutoring system — tutoriales, Q&A, evaluación; SQLite + Streamlit | ~350 |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Apache-2.0 | Plataforma multi-agente 12 idiomas: exam cloning, knowledge graphs, teach-back | ~420 |
-| [GarethManning/education-agent-skills](https://github.com/GarethManning/education-agent-skills) | MIT | 165 habilidades pedagógicas evidence-based para Claude / Codex / Hermes | ~220 |
-| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | Adaptive tutoring con BKT (Bayesian Knowledge Tracing); ReactJS + Firebase | ~221 |
-| [learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | AGPL-3.0 | Next-gen LMS open source: block editor Notion-like, AI study assistant, multi-tenant, self-hostable — TypeScript + Python | ~400 |
-| [StudentTraineeCenter/edu-agent](https://github.com/StudentTraineeCenter/edu-agent) | MIT | LangGraph + RAG: convierte docs en entorno tutoring — quizzes, flashcards, mind maps | ~180 |
-| [Li-Evan/Bloom](https://github.com/Li-Evan/Bloom) | MIT | Tutor socrático 2-Sigma: syllabus adaptativo, ajusta cada lección al nivel real | ~196 |
-| [MysterionRise/adaptive-knowledge-graph](https://github.com/MysterionRise/adaptive-knowledge-graph) | MIT | KG + LLMs locales + IRT/BKT + privacy-first RAG — sin cloud requerido | ~90 |
-| [zijinz456/OpenTutor](https://github.com/zijinz456/OpenTutor) | MIT | Block-based adaptive workspace local-first: notas, quizzes, flashcards, tutor — 10+ LLM providers | ~95 |
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | AI Kids Academy (4–16 años): storytelling gamificado, coding, game-dev, fonética + Claude API | ~120 |
-| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | AI-powered flashcards + spaced repetition — iOS, Android, web | ~90 |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | E-learning open source moderno: contenido, tracking, assessments + AI hooks | ~200 |
-| [petetrujillo/responsible-ai-tutor-k12](https://github.com/petetrujillo/responsible-ai-tutor-k12) | MIT | Tutor K-12 governance-first: RAG curricular, FERPA-compliant, human-in-the-loop | ~60 |
-| [frappe/lms](https://github.com/frappe/lms) | MIT | Frappe LMS 100% open source: courses, cohorts, statistics, Frappe + Vue.js — MIT ✅ | ~1.2k |
+| Nombre | Licencia | Stars | Descripción |
+|--------|----------|-------|-------------|
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | ~22k | Agent-native tutoring workspace (HKU Data Intelligence Lab). Chat + Quiz + Research + Visualize + Solve + Mastery Path. 30+ LLM providers. v1.0 rewrite Apr 2026. |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | MIT | ~300 | Plataforma educativa LLM-powered: tutoring adaptativo, avatar-based + chat. arXiv 2602.07176 (Feb 2026). |
+| [GeminiLight/gen-mentor](https://github.com/GeminiLight/gen-mentor) | MIT | ~250 | Multi-agent ITS framework. Planning + Teaching + Evaluation agents. WWW 2025 Industry Track Oral. |
+| [zijinz456/OpenTutor](https://github.com/zijinz456/OpenTutor) | MIT | ~500 | Block-based adaptive learning. Local, self-hosted, 10+ LLM providers. Upload material → notas, quizzes, flashcards, tutor. |
+| [vishalsachdev/canvas-mcp](https://github.com/vishalsachdev/canvas-mcp) | MIT | ~107 | 90 MCP tools para Canvas LMS. v1.2.0 con accessibility scanner. FERPA-compliant. |
+| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | ~14 | E-learning platform moderna. Learner tracking, assessments. TypeScript + Kotlin. |
+| [ECuiDev/obsidian-quiz-generator](https://github.com/ECuiDev/obsidian-quiz-generator) | MIT | ~175 | Genera flashcards interactivos desde Obsidian notes vía OpenAI/Ollama. |
+| [jmshea/jupyterquiz](https://github.com/jmshea/jupyterquiz) | MIT | ~166 | Quiz generator para Jupyter Notebooks. STEM, cursos interactivos. |
+| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | ~24 | AI flashcards app (iOS, Android, web). Spaced repetition + AI improvement. |
+| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | ~1 | Kids AI Academy (4-16 años): storytelling, coding, game-dev, phonics, escape rooms. Next.js + Drizzle + Claude. |
 
 ---
 *Pipeline automático — se actualiza cada hora.*

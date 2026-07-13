@@ -1,76 +1,57 @@
 # 🏭 Verticales de partida — Education
 
 > Plataformas verticales existentes customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-12 (v12)
+> Modelo: partir de algo funcional, añadir capa agentica arriba.
+> Última actualización: 2026-07-13
 
-## Plataformas LMS — punto de entrada recomendado
+## Plataformas recomendadas
 
-| Plataforma | Licencia | URL | Stack | Usuarios / Escala | Caso de uso |
-|------------|----------|-----|-------|-------------------|-------------|
-| **Moodle** | GPL-3.0 | [github.com/moodle/moodle](https://github.com/moodle/moodle) | PHP + JS + PostgreSQL/MySQL | 300M+ usuarios, 240+ países | K-12, universidad, corporativo — el más customizable vía plugins; AI Subsystem v2 en v4.6 |
-| **Open edX** | AGPL-3.0 | [github.com/openedx/edx-platform](https://github.com/openedx/edx-platform) | Django + React + MongoDB | 70M+ usuarios, base de edX/Coursera | MOOCs, certificaciones, upskilling corporativo; AI Course Creator Plugin GA 2026 |
-| **Canvas LMS** | AGPL-3.0 | [github.com/instructure/canvas-lms](https://github.com/instructure/canvas-lms) | Ruby on Rails + React | #1 en educación superior EE.UU. | Higher education, distritos K-12 grandes; integración Anthropic Claude Q3 2026 |
-| **LearnHouse** | AGPL-3.0 | [github.com/learnhouse/learnhouse](https://github.com/learnhouse/learnhouse) | TypeScript + Python | ~400★, crecimiento rápido 2026 | Alternativa moderna a Moodle/Udemy/Skool — AI-native, block editor, multi-tenant, self-hostable |
-| **Vacademy** | AGPL-3.0 | [github.com/Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | Python + TypeScript | ~200★ emergente | E-learning moderno AI-native desde el diseño |
-| **Richie** | MIT | [github.com/openfun/richie](https://github.com/openfun/richie) | Django + React | France Université Numérique | Portal educativo / catálogo de cursos — MIT ✅ ideal para portales personalizados |
+| Plataforma | Licencia | Repo | Stack | Caso de uso |
+|------------|----------|------|-------|-------------|
+| **Moodle** | GPL-3.0 | [moodle/moodle](https://github.com/moodle/moodle) | PHP + PostgreSQL | LMS K-12 y universidad. 260M+ usuarios. Plugin MCP oficial disponible → cualquier LLM puede interactuar con el LMS vía JSON-RPC 2.0. Ideal para proyectos con instituciones educativas establecidas. |
+| **Open edX** | AGPL-3.0 | [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Python/Django + XBlock | MOOC a escala. 70M+ usuarios. Usado por Harvard, MIT, instituciones LATAM. XBlock permite añadir AI tutors como componentes. LTI Advantage Complete. |
+| **Frappe LMS** | MIT | [frappe/lms](https://github.com/frappe/lms) | Python + Frappe | L&D corporativo y cursos online. MIT = máxima libertad de customización. Deploy rápido con Frappe Cloud. Base ideal para AI coaching empresarial. |
+| **Frappe Education** | MIT | [frappe/education](https://github.com/frappe/education) | Python + ERPNext | ERP escolar completo: admisiones, asistencia, notas, cuotas, biblioteca. MIT. Integra con Frappe LMS para combinar gestión escolar + contenido. LATAM-ready. |
+| **OpenEduCat** | LGPL-3.0 | [openeducat/openeducat_erp](https://github.com/openeducat/openeducat_erp) | Python + Odoo | El único que integra LMS + SIS + cuotas + app de padres en una sola DB (Odoo/PostgreSQL). LGPL-3 = uso comercial libre. Ideal para colegios privados LATAM. |
+| **Sakai** | Apache-2.0 | [sakaiproject/sakai](https://github.com/sakaiproject/sakai) | Java + Spring | LMS universitario de la Apereo Foundation. Muy presente en universidades latinoamericanas. Apache-2.0 = uso comercial sin restricciones. |
+| **Richie** | MIT | [openfun/richie](https://github.com/openfun/richie) | Django + React | CMS de portal educativo. Front-end para Open edX o LMS independiente. Usado en France Université Numérique. MIT, ideal como capa UI con AI search. |
+| **Vacademy** | AGPL-3.0 | [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | TypeScript + Kotlin | Plataforma e-learning moderna con tracking de learners y gestión de assessments. Nueva (2025), creciendo rápido en Asia-Pacífico. |
 
-## Plataformas de Assessment y Quiz
+## Cómo customizar con AI
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **Open Assessment Tool (TAO)** | GPL-2.0 | [github.com/oat-sa/tao-core](https://github.com/oat-sa/tao-core) | PHP + JavaScript | Assessments adaptativos IRT, SCORM, QTI 2.2 — adoptado por ETS, Pearson, Prometric |
-| **Oppia** | Apache-2.0 | [github.com/oppia/oppia](https://github.com/oppia/oppia) | Python + TypeScript | Lecciones interactivas con feedback inteligente; Google-backed; 11k★ |
-| **H5P** | MIT | [github.com/h5p/h5p-php-library](https://github.com/h5p/h5p-php-library) | PHP + JS | Contenido interactivo embebible en Moodle/Canvas/WP; 75+ tipos de actividad |
-
-## Plataformas de Tutoring Adaptativo
-
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **DeepTutor** | Apache-2.0 | [github.com/HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | FastAPI + Next.js | Learning workspace completo: Chat, Quiz, Research, Mastery Path; ~28k★; EduHub MCP marketplace |
-| **Open-TutorAI CE** | Apache-2.0 | [github.com/Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Python + Web | Multi-agente, knowledge graphs, 12 idiomas; LATAM-ready (ES-LA + PT-BR) |
-| **OATutor** | MIT | [github.com/CAHLR/OATutor](https://github.com/CAHLR/OATutor) | React + Firebase | Tutoring adaptativo con BKT; sin backend propio — deploy estático |
-
-## Education ERP / School Management
-
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **Frappe Education** | AGPL-3.0 | [github.com/frappe/education](https://github.com/frappe/education) | Python + Vue.js (ERPNext) | School management: admisiones, asistencia, calificaciones, fees, biblioteca; 565★ |
-| **Frappe Learning (LMS)** | MIT | [github.com/frappe/lms](https://github.com/frappe/lms) | Python + Vue.js | LMS 100% open source para empresas y educadores; integración nativa con ERPNext — MIT ✅ |
-| **OpenEduCat** | LGPL-3.0 | [github.com/openeducat/openeducat_erp](https://github.com/openeducat/openeducat_erp) | Python (Odoo) | ERP educativo completo: LMS + SIS + fees + parent app en una BD |
-
-## Plataformas de Video / Contenido
-
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| **PeerTube** | AGPL-3.0 | [github.com/Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | TypeScript + PostgreSQL | Video educativo federado; auto-hosted con HLS adaptive streaming |
-| **Jellyfin** | GPL-2.0 | [github.com/jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | C# .NET | Media server para biblioteca de contenido educativo; API para AI search |
-
-## Cómo customizar con AI (patrón recomendado)
-
+### Capa 1: MCP sobre el LMS existente
 ```
-1. Seleccionar LMS base (Moodle / Open edX / LearnHouse / Vacademy según contexto del cliente)
-2. Añadir AI service layer:
-   - Endpoint OpenAI-compatible (Ollama local para privacy-first, Claude API para calidad)
-   - MCP server custom: expone grades, assignments, calendar al agente
-3. Envolver flujos existentes con agentes:
-   - Quiz generation: LMS grades API → LLM → preguntas calibradas por KG
-   - Adaptive content: BKT score → LLM selector → siguiente lección óptima
-   - Tutoring chat: contexto del curso en RAG → Claude → respuesta fundamentada
-4. UI conversacional (Next.js / React) sobre la plataforma base
-5. Métricas de aprendizaje: LRS (xAPI / SCORM) → dashboard AI-powered
-6. Governance layer: audit logs, human-in-the-loop hooks, academic integrity checks (v12)
+Moodle / Open edX / Canvas
+       ↓ MCP Plugin (JSON-RPC 2.0)
+Claude / GPT / Ollama
+       ↓ Tool calls
+Acciones en el LMS (crear quiz, ver notas, asignar tarea)
 ```
 
-## Decisión rápida: ¿qué plataforma elegir?
+### Capa 2: XBlock / Plugin AI
+```
+Open edX Platform
+  └── XBlock AI Tutor
+        ├── DeepTutor backend (Apache-2.0)
+        ├── Quiz generation (GenMentor)
+        └── Knowledge map personalizado por alumno
+```
 
-| Contexto del cliente | Recomendación |
-|---------------------|---------------|
-| Corporativo / upskilling | **Open edX** — XBlock API + LTI 1.3, escala horizontal |
-| K-12 / Universidad LATAM | **Moodle** — GPL, plugins ES/PT maduros, comunidad activa |
-| Startup EdTech AI-first | **LearnHouse** o **Vacademy** — AI-native, ramp-up rápido, TypeScript/Python |
-| Tutoring 1-a-1 AI-first | **DeepTutor** — agent-native desde el inicio, ~28k★ respaldo, EduHub MCP |
-| Assessments / Certificaciones | **Open Assessment Tool (TAO)** — QTI, IRT, adoptado por ETS |
-| School management + ERP | **Frappe Education** + **Frappe LMS** — ERPNext + LMS en un stack |
-| Privacy regulatoria K-12 | **OATutor** + **Moodle** on-prem + **Ollama** — sin cloud externo |
-| Corporate LMS + AI | **Frappe LMS** (MIT) + Claude API — integración ERPNext, licencia limpia |
+### Capa 3: ERP + AI agent side-car
+```
+Frappe Education (ERP escolar)
+  └── Agent side-car (Python + CrewAI/Agno)
+        ├── Agent de admisiones (procesa docs, responde consultas)
+        ├── Agent de notas (análisis de rendimiento, alertas tempranas)
+        └── Agent de cobros (recordatorios, planes de pago)
+```
+
+## Selección por tipo de cliente
+
+| Cliente | Plataforma recomendada | Razón |
+|---------|------------------------|-------|
+| Universidad latinoamericana | Open edX + XBlock AI | Escala, MOOC, certificaciones |
+| Colegio K-12 privado | Frappe Education + OpenEduCat | ERP escolar + app padres |
+| Empresa (L&D corporativo) | Frappe LMS + DeepTutor | MIT, deploy rápido, AI coaching |
+| Ministerio / institución pública | Moodle + MCP Plugin | GPL-3, mayor ecosistema, LATAM support |
+| EdTech startup | Open edX Sumac o Vacademy | Escalable, moderno, cloud-native |
