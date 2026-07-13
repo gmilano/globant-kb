@@ -1,6 +1,6 @@
 # 📡 Tendencias — Travel & Hospitality
 
-> Última actualización: 2026-07-11 (v9)
+> Última actualización: 2026-07-13 (v10)
 
 ## Tendencias clave 2026
 
@@ -82,15 +82,46 @@
 - Tensión entre distribución tradicional (GDS) y direct connect via MCP/API
 - **Implicación Globant**: clientes aerolínea quieren Direct Booking API con AI layer
 
+### T12 — "Vibe Operating": AI operacional, no experimental (HITEC 2026)
+- HITEC 2026 acuñó "vibe operating" — el equivalente hotelero de "vibe coding": AI que opera el hotel, no solo asiste.
+- El cuello de botella ya no es la calidad del modelo, sino la conectividad de datos.
+- 6,000+ ejecutivos en HITEC: consenso de que la mayoría de empresas adopta AI sin arquitectura de datos que la sostenga.
+- Los que ganan: combinan AI-driven discoverability + inventario real-time + checkout moderno que convierte.
+- **Implicación Globant**: antes de proponer AI, auditar la infraestructura de datos del cliente — si no hay data layer, empezar ahí.
+
+### T13 — Corporate Travel lidera, Leisure sigue con cautela
+- Business travel: >50% de viajeros corporativos ya usan AI; safeguards corporativos facilitan adopción.
+- Solo 31% de programas corporativos tienen AI booking con enforcement de policy en tiempo real (oportunidad).
+- Leisure: ~30% de viajeros desconfían de que un agente AI tome decisiones de viaje por ellos.
+- Datos de HITEC 2026: AI-driven visitors convierten más (44.7% llegan al booking engine vs 25.9% organic).
+- **Implicación Globant**: para clientes B2B (agencias corporativas, TMCs), el ROI de AI es inmediato. Para B2C, necesita HITL configurable.
+
+### T14 — Ecosistema MCP para travel explota: 10+ servidores activos
+- MCP está superando a las APIs REST como protocolo de integración en travel tech.
+- **Nuevos MCP servers (jul 2026)**:
+  - `trvl` (MikkoParkkola, MIT): 21 providers, Go binary, zero-config
+  - `tripgo-mcp-server` (skedgo): routing multi-modal
+  - `tripadvisor-mcp` (pab1it0, MIT): reviews y fotos TripAdvisor
+  - `mcp-amadeus` (donghyun-chae): Amadeus APIs
+  - `Dida-hotel-MCP-CN` (DIDA-AI, MIT): 2M+ hoteles B2B
+  - `wanderlog-mcp` (shaikhspeare, MIT): itinerarios conversacionales
+  - `mcp_travelassistant` (skarlekar, MIT): suite multi-servicio
+  - Apaleo MCP (comercial): primer PMS con MCP nativo
+  - Expedia B2B MCP (anunciado): coming 2026
+- **Implicación Globant**: construir un agente de viajes hoy = orquestar MCP servers, no integrar APIs directamente.
+
 ## Tendencias confirmadas desde v8 (jul 2026)
 
-| Tendencia | Estado | Update |
+| Tendencia | Estado | Update (v10, jul 13 2026) |
 |-----------|--------|--------|
-| AI in Tourism USD 13.38B por 2030 CAGR 28.7% | ✅ Confirmado | Agentic AI booking market añade +$12.1B layer |
+| AI in Tourism USD 13.38B por 2030 CAGR 28.7% | ✅ Confirmado | McKinsey/Skift confirma momentum; VC 10%→45% AI-enabled |
 | Agentic AI como diferenciador | ✅ En ejecución | TripGenie 400% YoY; 60%+ empresas travel experimentando |
-| MCP para travel APIs | ✅ Acelerado | Dida MCP + Airbnb MCP + Expedia B2B MCP anunciado |
+| MCP para travel APIs | ✅ Acelerado | 10+ MCP servers activos (trvl, tripgo, tripadvisor, Apaleo) |
 | WhatsApp LATAM | ✅ Validado | HAIP tiene ChatGPT gateway integrado |
-| AI-native PMS | ✅ Confirmado | HAIP: primer PMS con 12 agentes AI nativos de serie |
+| AI-native PMS | ✅ Confirmado | HAIP (OSS) + Apaleo (comercial) con Agent Hub |
+| Corporate travel AI leads leisure | ✅ Nuevo | 67% automatización corp vs 31% con enforcement real-time |
+| Smart hospitality $52B (2030) | ✅ Validado | HITEC 2026 datos: IoT+AI+conectividad como categoría $52B |
+| Skift insight: "agentes para consumidores que no existen" | ⚠️ Tensión | Mar 2026: warn de over-engineering para mercado leisure aún no listo |
 
 ---
-*Fuentes: IDC, McKinsey, Skift, AltexSoft, Phocuswright, Kantar, PYMNTS, TravelDailyNews, eHotelier, PROS, Trip.com.*
+*Fuentes: IDC, McKinsey, Skift, AltexSoft, Phocuswright, Kantar, PYMNTS, TravelDailyNews, eHotelier, PROS, Trip.com, HITEC 2026, GBTA, Business Travel News, Harmelin Media, Mobi.AI, StealthAgents.*

@@ -1,18 +1,18 @@
 # 🧩 Patrones de composición — Travel & Hospitality
 
 > Recetas concretas para construir soluciones usando los repos y agentes identificados.
-> Última actualización: 2026-07-11 (v9)
+> Última actualización: 2026-07-13 (v10)
 
 ## Arquitectura base
 
 ```
 [Plataforma vertical] HAIP (hotel AI-native) / OTAIP (agencia/OTA) / QloApps / ExcursioX
           ↓
-[Datos de viaje] OpenTravelData + LetsFG (vuelos) + Dida Hotel MCP (hoteles)
+[Datos de viaje] OpenTravelData + LetsFG (vuelos) + Dida Hotel MCP (hoteles) + trvl (multi-proveedor)
           ↓
 [Orquestador] LangGraph (datarootsio template) / azure-ai-travel-agents / OTAIP
           ↓
-[MCP Servers] mcp_travelassistant + wanderlog-mcp + Dida MCP + LetsFG MCP
+[MCP Servers] trvl + mcp_travelassistant + wanderlog-mcp + Dida MCP + LetsFG MCP + tripgo-mcp
           ↓
 [Canal] Chat web / WhatsApp (Twilio) / API REST / Email / ChatGPT gateway (HAIP)
 ```
@@ -111,7 +111,7 @@ LangGraph Agent
   ↓
 Claude genera respuesta en español con opciones rankeadas
   ↓
-"Te encontré vuelo a $398 (Avianca directo) + hotel a $92/noche 🏖️ ¿Reservo?"
+"Te encontré vuelo a $398 (Avianca directo) + hotel a $92/noche ¿Reservo?"
   ↓
 Tool: letsfg_book(flight_offer) → confirmación
 Tool: dida_book(hotel_id, dates, guest_data) → voucher PDF
@@ -313,6 +313,83 @@ Pasajero B (primera vez, compró tarifa económica):
 ```
 
 **Tiempo estimado**: 6-8 semanas | **Impacto**: operador puede manejar 3x más clientes con el mismo equipo
+
+---
+
+## Patrón P11: Universal Travel Search sin API Keys (trvl + Claude)
+
+**Caso de uso**: Agente de búsqueda de viajes que funciona en cualquier contexto (Claude Desktop, VS Code, Cursor) sin configurar APIs — del usuario final al developer.
+
+**Stack**:
+- Búsqueda: [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) (MIT) — Go binary, sin API keys, 21 providers
+- LLM: Claude (via MCP client nativo)
+- Instalación: `trvl mcp install --client claude` — listo en 30 segundos
+- Reviews: [pab1it0/tripadvisor-mcp](https://github.com/pab1it0/tripadvisor-mcp) (MIT) — calidad de destino
+- Routing local: [skedgo/tripgo-mcp-server](https://github.com/skedgo/tripgo-mcp-server) — movilidad last mile
+
+**Flujo**:
+```
+Usuario en Claude Desktop: "Vuelo + hotel + cómo llegar desde el aeropuerto en Barcelona, 10-15 ago, budget EUR800"
+  ↓
+Claude usa MCP tools de trvl
+  ├─ trvl.search_flights(origin, dest, dates) → Google Flights: EUR320 (directo 8h)
+  ├─ trvl.search_hotels(dest, dates) → Google Hotels: 5 opciones EUR60-120/noche
+  ├─ tripadvisor_mcp.get_reviews(hotel_id) → 4.5★, 1,200 reseñas
+  └─ tripgo_mcp.route(BCN_airport, hotel_address) → Metro L9 EUR5.15 + bus → 40 min
+  ↓
+Claude presenta: "Encontré vuelo por EUR322 (Vueling directo) + Hotel Catalonia (4★, EUR82/noche, 4.5★) + ruta metro EUR5.15. Total: EUR730 de EUR800 budget."
+  ↓
+Usuario: "Reserva" → trvl genera booking URLs reales (Aviasales/Hotellook/RentalCars)
+  ↓
+Usuario completa pago en la página del partner (segura, sin datos en el agente)
+```
+
+**Ventajas**:
+- **Zero API keys**: trvl ruta a través de 21 providers sin credenciales del developer
+- **Instala en 30 segundos**: `trvl mcp install --client claude`
+- **Multi-modal completo**: vuelo + hotel + transporte local en una conversación
+- **98.9% menos tokens**: 1 herramienta inteligente vs 66 herramientas separadas
+
+**Tiempo estimado**: 1-2 días para MVP | **Costo infra**: $0 (solo Claude API)
+
+---
+
+## Patrón P12: Corporate Travel Policy Agent (Amadeus + LangGraph + Policy Engine)
+
+**Caso de uso**: Agente de gestión de viajes corporativos que verifica y aplica políticas de la empresa en tiempo real — no después con auditorías.
+
+**Stack**:
+- Vuelos: [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) (MIT) — Amadeus Self-Service + multi-modelo
+- Framework: LangGraph con [datarootsio/langgraph-template-travel-planner](https://github.com/datarootsio/langgraph-template-travel-planner) (MIT)
+- Policy engine: JSON config con reglas de empresa (clase, budget por destino, aerolíneas preferidas)
+- Expense tracking: integración con Ramp/Navan/SAP Concur vía API
+- LLM: Claude (policy interpretation + explicación en lenguaje natural)
+
+**Flujo**:
+```
+Viajero: "Necesito vuelo a NYC para reunión 18-20 agosto, vuelo de regreso el lunes"
+  ↓
+Policy Agent (LangGraph)
+  ├─ check_policy(user_role="manager", route="BUE→NYC", days=3)
+  │     → Policy: Business class si vuelo >8h, hotel hasta $250/noche, budget trip $3,500
+  ├─ search_flights(Amadeus) → 3 opciones business class $2,100-2,400
+  ├─ search_hotels(Amadeus Hotels) → 4 opciones $180-240/noche OK dentro de policy
+  ├─ budget_check: $2,400 + $720 hotel + $200 misc = $3,320 OK dentro de $3,500
+  ├─ pre_approve(trip_id) → booking autorizado con referencia
+  └─ notify_manager(trip_summary) → email automático con PDF aprobación
+  ↓
+"Tu viaje está pre-aprobado. Vuelo Business $2,280 (United, JFK directo) + Hotel Marriott Times Sq $215/noche. ¿Confirmo?"
+  ↓
+Tool: create_booking(amadeus, flight_offer) → PNR generado
+Tool: add_to_expense_tracker(ramp_api, booking_data) → registrado en Ramp
+```
+
+**Contexto de negocio**:
+- Solo 31% de programas corporativos tienen enforcement real-time → oportunidad
+- AI-enabled programs capturan 8-15% savings vs manuales
+- Expense processing AI: $6.85 vs $26.63 manual (74% reducción)
+
+**Tiempo estimado**: 8-12 semanas | **ROI**: 8-15% savings en T&E + >70% reducción en tiempo de administración
 
 ---
 

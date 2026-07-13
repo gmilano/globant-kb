@@ -2,13 +2,14 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agentica arriba.
-> Última actualización: 2026-07-11 (v9)
+> Última actualización: 2026-07-13 (v10)
 
 ## Plataformas recomendadas
 
 | Plataforma | Licencia | URL | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
 | **HAIP** | Apache-2.0 | [github.com/TelivityAI/haip](https://github.com/TelivityAI/haip) | TypeScript / Node.js / NestJS | Hotel AI Platform: PMS completo con 12 agentes AI nativos. Reservas, folio, tarifas, housekeeping, auditoría nocturna, channel 450+ OTAs, booking directo, Stripe, Keycloak. ChatGPT gateway para booking conversacional. ~40 ★ |
+| **Apaleo** | Comercial + API abierta | [apaleo.com](https://apaleo.com/) | Cloud / REST + MCP | PMS cloud API-first con MCP server nativo (primero en la industria). Apaleo Agent Hub = marketplace de agentes AI para hoteles. La API expone reservas, folio, housekeeping, revenue como herramientas MCP. Arquitectura abierta para integrar n agentes via un protocolo. |
 | **OTAIP** | Apache-2.0 | [github.com/telivity-otaip/otaip](https://github.com/telivity-otaip/otaip) | Python / TypeScript | Open Travel AI Platform: 75 agentes en 12 etapas operativas para OTAs y agencias de viaje. Integración a APIs de proveedores reales. ~25 ★ |
 | **QloApps** | OSL-3.0 | [github.com/Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP (PrestaShop base), MySQL | PMS + Booking Engine + Hotel Website open source. Reservas, disponibilidad, tarifas, check-in/out. Customizable. ~500 ★ |
 | **ExcursioX** | MIT | [github.com/moizkamran/ExcursioX](https://github.com/moizkamran/ExcursioX) | PHP/JS | Travel CRM con ticketing, booking y hotel management. Para agencias de viaje. |
@@ -22,13 +23,18 @@
 
 | Necesidad del cliente | Plataforma recomendada | Ventaja |
 |-----------------------|----------------------|---------|
-| Hotel boutique / cadena con AI nativo | HAIP | PMS con 12 agentes AI de serie, Apache-2.0, channel 450+ OTAs |
+| Hotel boutique / cadena con AI nativo (OSS) | HAIP | PMS con 12 agentes AI de serie, Apache-2.0, channel 450+ OTAs |
+| Hotel con PMS cloud moderno + Agent Hub | Apaleo | MCP server nativo, marketplace de agentes, API abierta |
 | Hotel boutique / cadena clásico | QloApps | PMS completo, OSS, customizable, PHP maduro |
 | OTA o agencia grande | OTAIP | 75 agentes en 12 etapas, orquestación domain-specific |
 | Agencia de viajes digital | ExcursioX o Wander-Desk | CRM + booking + ops en un repo |
 | Motor de búsqueda de vuelos | LetsFG | 400+ aerolíneas sin markup, MCP Server incluido |
+| Motor de búsqueda multi-proveedor (zero-config) | trvl | Go binary, sin API keys, 21 providers, instala en 1 min |
+| Booking con APIs reales + multi-modelo | Agentic-Travel-Planner | Amadeus+Aviasales, Claude/OpenAI/Gemini intercambiables |
 | Motor de búsqueda de vuelos (datos) | OPTD + Travel Search Engine v1 | Datos abiertos + grafo |
 | Booking B2B hoteles via AI | Dida Hotel MCP | 2M+ hoteles, MCP nativo, real-time, gratis |
+| Reviews y calidad de destino | tripadvisor-mcp | TripAdvisor Content API via MCP, MIT |
+| Routing multi-modal "last mile" | tripgo-mcp-server | Tren+bus+ferry+bici+rideshare combinados |
 | Tour operator / paquetes LATAM | ExcursioX + OPTD + Dida MCP | CRM + rutas + hoteles, 100% open source |
 
 ## Cómo customizar con AI

@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Travel & Hospitality
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-11 (v9)
+> Última actualización: 2026-07-13 (v10)
 
 ## Plataformas y frameworks base
 
@@ -18,6 +18,10 @@
 | [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | MIT | Suite MCP servers: itinerarios, vuelos, alojamiento, eventos locales, clima, presupuesto. Ejemplo canónico de composición MCP para travel. ~35 ★ | Sí — referencia de arquitectura MCP para travel |
 | [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | MCP gateway B2B: 2M+ hoteles, inventario real-time, sin límite de llamadas. OAuth-based. Lanzado 9 jul 2026. | Sí — gateway de datos hoteleros para agentes AI |
 | [LetsFG/LetsFG](https://github.com/LetsFG/LetsFG) | MIT | Agent-native flight search: 400+ aerolíneas, 200+ conectores NDC/GDS en paralelo. CLI + SDK + MCP Server. Precios sin markup de OTA. ~500 ★ | Sí — acceso directo a inventario aéreo para agentes AI |
+| [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) | MIT | Travel MCP server en Go: binario único, sin API keys, 21 providers (Google Flights/Hotels, Trivago, Airbnb, ferries, trenes). 1 herramienta MCP + 66 aliases = 98.9% menos tokens. Multi-leg, hidden city, comparación de puntos. ~120 ★ | Sí — gateway universal de búsqueda multi-proveedor para agentes AI |
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | Agentic workflow framework-free en Python + MCP. Bookings reales vía Amadeus + Aviasales + Hotellook + RentalCars. Multi-modelo (OpenAI/Claude/Gemini). In-process MCP server custom. ~80 ★ | Sí — referencia arquitectónica de agente de viajes sin frameworks de terceros |
+| [skedgo/tripgo-mcp-server](https://github.com/skedgo/tripgo-mcp-server) | MIT | MCP server para TripGo: routing multi-modal (vuelo + tren + bus + ferry + bicicleta + rideshare). Horarios reales, precios, movilidad combinada. ~30 ★ | Sí — movilidad "last mile" y transporte intersticial para itinerarios completos |
+| [pab1it0/tripadvisor-mcp](https://github.com/pab1it0/tripadvisor-mcp) | MIT | MCP server para TripAdvisor Content API: búsqueda de destinos, reseñas, fotos, restaurantes, atracciones. Datos de calidad de viajeros reales sin scraping. ~25 ★ | Sí — capa de reviews y reputación para agentes de recomendación |
 
 ## Data fundacional
 
@@ -32,15 +36,16 @@
 ## Cómo construir sobre estas bases
 
 ```
-[Datos] opentraveldata + OpenStreetMap
+[Datos] opentraveldata + OpenStreetMap + TripAdvisor MCP (reviews) + trvl (multi-proveedor)
               ↓
 [PMS/CRM] HAIP (hotel AI-native) / QloApps (hotel clásico) / ExcursioX (agencia)
               ↓
 [Orquestación] OTAIP (75 agentes travel) / azure-ai-travel-agents (enterprise)
               ↓
-[MCP Servers] Dida-hotel-MCP + mcp_travelassistant + LetsFG MCP
+[MCP Servers] trvl (21 providers, no API keys) + Dida-hotel-MCP + mcp_travelassistant
+              + LetsFG MCP + tripgo-mcp (multi-modal) + tripadvisor-mcp (reviews)
               ↓
-[Orquestador] LangGraph (datarootsio template)
+[Orquestador] LangGraph (datarootsio template) / Agentic-Travel-Planner (framework-free)
               ↓
 [UI/API] Chat conversacional / API REST / WhatsApp / Booking engine
 ```
