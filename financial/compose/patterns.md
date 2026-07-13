@@ -1,20 +1,20 @@
 # 🧩 Patrones de composición — Financial Services AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13
 
 ## Stack base
 
 ```
 [Plataforma financiera base (Fineract / OpenBB / ERPNext)]
           ↓
-[Capa MCP — datos de mercado, GL, transacciones]
+[Capa MCP — datos de mercado, GL, transacciones, Open Finance]
           ↓
 [Agentes especializados (TradingAgents / FinRobot / kyc-analyst)]
           ↓
-[Orquestador LLM (Claude / GPT-4o / FinGPT fine-tuned)]
+[Orquestador LLM multi-provider (Claude / GPT-4o / FinGPT fine-tuned / DeepSeek)]
           ↓
-[UI conversacional / API / Dashboard compliance]
+[UI conversacional / API / Dashboard compliance / App nativa]
 ```
 
 ---
@@ -25,21 +25,24 @@
 ```
 OpenBB v4 (MCP-native) → Alpha Vantage MCP + Quiver Quant MCP
     ↓
-TradingAgents framework (TauricResearch/TradingAgents)
-    • BullAnalyst — busca catalizadores positivos
-    • BearAnalyst — identifica riesgos y tesis bajista
+TradingAgents v0.2.4 (TauricResearch/TradingAgents)
+    • BullAnalyst — busca catalizadores positivos (structured-output JSON)
+    • BearAnalyst — identifica riesgos y tesis bajista (structured-output JSON)
     • FundamentalsAgent — P/E, EV/EBITDA, DCF simplificado
     • SentimentAgent — FinGPT sobre noticias + Twitter/X
     • RiskManager — evalúa VaR y position sizing
     • FundManager — sintetiza y decide
     ↓
-Reporte en Markdown con trazabilidad de cada agente
+LangGraph checkpoint: el análisis se puede pausar/reanudar (clave en earnings season)
+    ↓
+Reporte en Markdown con trazabilidad de cada agente (audit trail para reguladores)
     ↓
 Almacenado en base de conocimiento interna (vector DB)
 ```
 
 **Por qué funciona**: replica el workflow de un comité de inversión. El banco puede mostrar al regulador
-qué agente dijo qué y por qué se tomó la decisión. Audit trail nativo.
+qué agente dijo qué y por qué se tomó la decisión. Structured-output en v0.2.4 hace que cada paso
+sea parseable y testeable automáticamente. El checkpoint resume permite retomar análisis sin perder contexto.
 
 ---
 
@@ -165,7 +168,7 @@ Claude como interfaz conversacional para el cliente final
 Canal: WhatsApp Business API + web widget
 ```
 
-**Por qué Fineract**: licencia Apache-2.0, sin royalties, en producción en bancos de 80+ países,
+**Por qué Fineract**: licencia Apache-2.0, sin royalties, en producción en 400+ instituciones de 80+ países,
 documentación extensa, comunidad ASF activa. El riesgo regulatorio es mínimo vs sistemas propietarios.
 
 ---
@@ -191,6 +194,63 @@ Revisor humano valida y firma digitalmente (SPED)
 **Por qué ahora**: la Reforma Tributaria brasileña entra en implementación gradual 2026-2032.
 Las empresas con operaciones en Brasil necesitan sistemas que entiendan tanto el régimen viejo (PIS/COFINS)
 como el nuevo (CBS/IBS). Este agente puede ser un producto vertical altamente diferenciado.
+
+---
+
+## Receta 8: Open Finance Personal Finance Agent (Brasil / Chile)
+**Tiempo estimado**: 2-3 semanas | **Licencias**: MIT + Apache-2.0
+
+```
+Open Finance MCP (open-finance-ai — MIT)
+    • Brasil: conecta vía CPF + credenciales bancarias (Open Finance Fase 4)
+    • Chile: conecta vía CMF APIs (implementación obligatoria desde abr 2026)
+    ↓
+Datos reales del usuario: extractos, movimientos, balances, productos activos
+    sin datos sensibles transmitidos externamente
+    ↓
+Claude como orquestador del agente personal financiero
+    ↓
+Features:
+    • Resumen de gastos por categoría (mes/trimestre/año)
+    • Alerta de saldo bajo o gasto inusual
+    • Forecast de flujo de caja a 30-90 días
+    • Comparador de tasas (crédito, ahorro, seguros) vía datos del ecosistema
+    • Detección de cargos duplicados o suscripciones olvidadas
+    ↓
+UI: app móvil (React Native + Claude API) o WhatsApp bot
+```
+
+**Por qué ahora**: Open Finance Brasil ya es operacional; Chile activó mandato en abril 2026.
+Este patrón no requiere ninguna integración bancaria propietaria — solo las APIs reguladas abiertas
+y un MCP que las expone a Claude. Time-to-market: 2-3 semanas de backend, 1-2 semanas de UI.
+
+**Modelo de negocio sugerido**: SaaS B2B para bancos (white-label assistant) o B2C directo en Brasil/Chile.
+
+---
+
+## Receta 9: FinGAIA Evaluation Sprint (Pre-Go-Live de Agentes Financieros)
+**Tiempo estimado**: 1 semana | **Licencias**: MIT
+
+```
+Sistema de agentes financieros del cliente (cualquier arquitectura)
+    ↓
+FinGAIA benchmark (SUFE-AIFLM-Lab/FinGAIA — MIT)
+    • Seleccionar las 407 tareas relevantes por vertical del cliente
+    • Ejecutar el sistema en modo zero-shot
+    • Medir accuracy por subdominio y nivel de dificultad
+    ↓
+Gap analysis vs baseline humano (>84%) y vs best LLM zero-shot (48.9%)
+    ↓
+Plan de mejora priorizado:
+    • Fine-tuning con datos del cliente
+    • RAG sobre normativas regulatorias específicas
+    • Human-in-the-loop en tareas con accuracy < 60%
+    ↓
+Contrato de mantenimiento: re-ejecutar FinGAIA cada trimestre para medir regresiones
+```
+
+**Por qué incluirlo**: da credibilidad técnica ante el cliente (muestra rigor), protege a Globant de
+expectativas desalineadas ("el AI hace todo solo"), y crea un engagement recurrente de evaluación.
 
 ---
 

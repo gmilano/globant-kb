@@ -1,31 +1,43 @@
 # 🎯 Agentes AI — Financial Services
 
 > Agentes y herramientas AI open source para la industria financiera. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13
 
 ## Agentes y herramientas destacadas
 
 | Nombre | Repo | Licencia | Descripción | Stars |
 |--------|------|----------|-------------|-------|
-| TradingAgents | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | Apache-2.0 | Multi-agent LLM trading firm: analysts bull/bear, fundamentals, técnicos, riesgo, portfolio manager y fondo debatiendo en cadena antes de cada trade | 80k+ |
-| ai-hedge-fund | [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 14 agentes modelados sobre inversores legendarios (Buffett, Munger, Burry…) + 5 agentes analíticos (Valuación, Sentimiento, Fundamentals, Técnicos, Riesgo) | 59k |
-| FinRobot | [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | MIT | Plataforma de agentes AI para análisis financiero; unifica LLMs, RL y quant analytics; research automation + algorithmic trading | 4.5k |
-| FinGPT | [AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | MIT | LLM financiero open source; LoRA fine-tuning sobre noticias y tweets para sentiment analysis; benchmarks sobre FLARE suite | 14k |
-| FinRL | [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Reinforcement learning aplicado a finanzas; entornos de mercado (equities, crypto, FX), PPO/SAC/TD3 out-of-the-box | 10k |
-| Vibe-Trading | [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | Research workspace conversacional: conecta prompts NL con loaders de datos de mercado, generación de estrategias, backtest, reports y memoria persistente | 16.9k |
-| OpenBB | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | Open Data Platform para quants y agentes AI; integra múltiples fuentes de datos, MCP-native desde v4, hub de extensiones | 38k |
-| kyc-analyst | [vyayasan/kyc-analyst](https://github.com/vyayasan/kyc-analyst) | MIT | Plugin KYC/AML compliance automation con 17 checkpoints human-in-the-loop, fuentes de datos públicas gratuitas y scoring de riesgo determinístico; corre sobre Claude | 350 |
-| jube | [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | AGPL-3.0 | AML y detección de fraude en tiempo real: ML supervisado/no-supervisado, reglas con velocity checks, sanctions screening, case management con audit trail | 890 |
+| TradingAgents | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | Apache-2.0 | Multi-agent LLM trading firm: analysts bull/bear, fundamentals, técnicos, riesgo, portfolio manager y fondo debatiendo en cadena antes de cada trade. v0.2.4 (abril 2026): structured-output agents, LangGraph checkpoint resume, DeepSeek/Qwen/GLM/Azure support | 82k+ |
+| ai-hedge-fund | [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 14 agentes modelados sobre inversores legendarios (Buffett, Munger, Burry…) + 5 agentes analíticos (Valuación, Sentimiento, Fundamentals, Técnicos, Riesgo). El más popular por claridad de código y documentación | 60k+ |
+| FinRobot | [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | MIT | Plataforma multi-agent para análisis financiero; unifica LLMs, RL y quant analytics. **Desktop v0.1.0** (jul 2026): app macOS nativa con PydanticAI + FastAPI + React/Tauri para research workflows sin código | 7.3k |
+| FinGPT | [AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | MIT | LLM financiero open source; LoRA fine-tuning sobre noticias y tweets para sentiment analysis; benchmarks sobre FLARE suite; modelos en HuggingFace | 14.5k |
+| FinRL | [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Reinforcement learning aplicado a finanzas; entornos de mercado (equities, crypto, FX), PPO/SAC/TD3 out-of-the-box | 10.2k |
+| Vibe-Trading | [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | Research workspace conversacional: 48 herramientas, 77 finance skills, 29 presets multi-agente. NL → estrategia → backtest → reporte, lookahead-banned alphas, audit ledger y kill-switch. HKUDS (mismo equipo que DeepTutor) | 19.9k |
+| OpenBB | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | Open Data Platform para quants y agentes AI; v4 MCP-native por defecto; "connect once, consume everywhere" — Python, Workspace, Excel, MCP y REST desde un hub; alternativa open a Bloomberg/Refinitiv | 39k |
+| kyc-analyst | [vyayasan/kyc-analyst](https://github.com/vyayasan/kyc-analyst) | MIT | Plugin KYC/AML compliance automation con 17 checkpoints human-in-the-loop, fuentes de datos públicas gratuitas y scoring de riesgo determinístico; corre sobre Claude | 420 |
+| jube | [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | AGPL-3.0 | AML y detección de fraude en tiempo real: ML supervisado/no-supervisado, reglas con velocity checks, sanctions screening, case management con audit trail | 920 |
 | FinMem | [pipiku915/FinMem-LLM-StockTrading](https://github.com/pipiku915/FinMem-LLM-StockTrading) | MIT | LLM trading agent con memoria en capas (short/long-term layered memory) y perfil de carácter; supera baselines en retornos Sharpe ratio-ajustados | 1.2k |
+
+---
+
+## Benchmark de referencia: FinGAIA (julio 2025)
+
+[SUFE-AIFLM-Lab/FinGAIA](https://github.com/SUFE-AIFLM-Lab/FinGAIA) · MIT · arXiv:2507.17186
+
+407 tareas cubriendo 7 subdominios financieros (securities, funds, banking, insurance, futures, trusts, asset management) en tres niveles de dificultad (análisis básico → decisión de activos → gestión estratégica de riesgo). Evaluó 10 LLMs en zero-shot: **el mejor (ChatGPT) alcanzó 48.9%**, aún 35+ puntos por debajo de expertos humanos. Referencia de facto para medir qué tan lejos están los agentes de alcanzar paridad con analistas.
+
+**Falla más común identificada**: Cross-modal Alignment Deficiency (no conectar datos tabulares con contexto textual) y Financial Terminological Bias (jerga específica de subsectores).
 
 ---
 
 ## Notas de uso para Globant
 
-- **TradingAgents + ai-hedge-fund**: los dos frameworks de trading multi-agente más maduros; combinarlos con OpenBB como data layer es el stack de referencia 2026.
-- **FinRobot / FinRL / FinGPT** (AI4Finance Foundation): ecosistema cerrado y cohesivo, ideal como base de investigación o PoC para clientes bancarios.
+- **TradingAgents + ai-hedge-fund**: los dos frameworks de trading multi-agente más maduros; combinarlos con OpenBB como data layer es el stack de referencia 2026. TradingAgents v0.2.4 agrega soporte multi-provider (Azure, DeepSeek, Qwen) — ideal para clientes que no quieren depender de un solo LLM vendor.
+- **FinRobot Desktop v0.1.0**: nuevo differenciador — app nativa macOS para research sin código; útil para demos a bancos de inversión LATAM donde los analistas no programan.
+- **FinGPT / FinRL / FinRobot** (AI4Finance Foundation): ecosistema cohesivo, ideal como base de investigación o PoC para clientes bancarios.
 - **kyc-analyst**: plug-and-play sobre Claude; acelera compliance en bancos LATAM que aún procesan KYC manualmente.
 - **jube**: AGPL-3.0 permite uso pero requiere análisis de copyleft antes de embeber en producto cliente.
+- **FinGAIA**: úsalo como benchmark en propuestas para mostrar al cliente dónde están los límites de los LLMs genéricos y por qué necesitan fine-tuning o agentes especializados.
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*
