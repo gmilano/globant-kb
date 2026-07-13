@@ -126,4 +126,31 @@ Los modelos de forecasting clásicos (ARIMA, XGBoost) se complementan con LLMs:
 - Tools: stockpyl (base matemática) + LangChain (orquestación) + Claude Sonnet (análisis narrativo)
 - Accuracy improvement: 15-25% en productos de moda/temporada vs solo series temporales
 
+## Tendencia 13 (nueva — julio 2026): NRF 2026 — "What now?" reemplazó a "What if?" (★★★)
+
+El **NRF Retail's Big Show 2026** (enero 2026, NYC) marcó el punto de inflexión donde la industria pasó de exploración a ejecución. Key takeaways:
+
+- **"From analysis to action"**: retailers mueven AI de BI/analytics a operaciones activas diarias
+- **Walmart + Google Wing**: expansión a 160+ locaciones de drone delivery en US (anunciado NRF 2026)
+- **"Value-seeking consumers"**: demografía dominante post-inflación; AI ayuda a retailers a detectar riesgo de churn y ofrecer descuento personalizado sin erosionar márgenes
+- **Convergencia de datos**: retailers integran first-party data (purchase history, loyalty) con AI para hiperpersonalización en tiempo real
+- **Operaciones autónomas**: AI ya gestiona reordering, pricing y scheduling en algunos retailers sin aprobación humana caso por caso
+
+**Shoptalk Spring 2026** (mayo 2026) continuó el tema con el foco en:
+- Agentic commerce como el "paradigma mobile-first" de los 2020s
+- Retail Media Networks + AI targeting como fuente de P&L independiente
+- Emotional connection + loyalty en la era AI (el riesgo de que la personalización masiva se sienta "fría")
+
+## Tendencia 14 (nueva — julio 2026): Shopping Agent Benchmarks revelan gap real (★★)
+
+La publicación de benchmarks académicos en 2025-2026 cuantifica el estado real de los agentes de shopping:
+
+- **GPT-4.1 en ShoppingBench**: <50% success rate en tareas de compra multi-step (2.5M productos)
+- **Gaps identificados**: navegación multi-sitio, persistencia de preferencias, razonamiento de tradeoffs precio/calidad
+- **Oportunidad**: fine-tuning de modelos sobre datos de retailer específico mejora sustancialmente los resultados
+- **Stack para evaluar**: WebShop (entrenamiento, 1.18M productos) → ShoppingBench (evaluación) → producción Medusa
+- Todos los benchmarks relevantes están bajo MIT: base ideal para proyectos de Globant con clientes retailers
+
 ---
+
+*Actualizado: 2026-07-13 (v16)*

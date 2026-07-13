@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Retail & Ecommerce AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13 (v16)
 
 ## Tamaño de mercado
 

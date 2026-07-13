@@ -1,8 +1,20 @@
-# 📈 Agentes AI trending — Retail (Semana 2026-07-12)
+# 📈 Agentes AI trending — Retail (Semana 2026-07-13)
 
 > Lo nuevo y notable esta semana en el ecosistema AI de retail y ecommerce.
 
-## Novedad principal: Shopify abre el comercio agéntico a todos (Spring '26)
+## Novedad principal: Google Universal Commerce Protocol + convergencia ACP/UCP
+
+Tras el Spring '26 Edition de Shopify (junio 2026), **Google lanzó el Universal Commerce Protocol (UCP)** en colaboración con major retailers, estandarizando cómo los AI agents personalizan y completan experiencias de shopping cross-retailer. Esto marca una convergencia clave:
+
+- **Shopify UCP**: endpoint MCP para millones de merchants Shopify, ya abierto a todos los desarrolladores
+- **Google UCP**: protocolo para personalización y recomendaciones cross-retailer; integra con Google Shopping + Gemini
+- **OpenAI/Stripe ACP**: especificación de pagos y fulfillment agéntico (charter members: Shopify, Walmart, Etsy, PayPal)
+
+Los tres protocolos apuntan a la misma visión: **cualquier agente AI puede descubrir, recomendar y comprar en cualquier tienda**, sin fricciones. Walmart se integró con Google Wing para drone delivery (160+ locaciones US) y conectó su catálogo a Gemini AI.
+
+**Señal de adopción**: Morgan Stanley proyecta ~50% de los shoppers online usando AI agents hacia 2030, representando ~25% del gasto online.
+
+## Novedad anterior (2026-07-12): Shopify abre el comercio agéntico a todos (Spring '26)
 
 Con el **Spring '26 Edition** (junio 2026), Shopify eliminó el requisito de aprobación para UCP (Universal Commerce Protocol) y abrió el acceso agentico a todos los desarrolladores. Cualquier builder puede ahora registrar su agente en el Developer Dashboard y llamar al MCP endpoint público, accediendo a productos de millones de merchants a través de ChatGPT, Copilot, Shop App y otros AI surfaces.
 
@@ -51,11 +63,26 @@ WAREHOUSE OPERATIONAL ASSISTANT (orchestrator)
 - Repo: [NVIDIA-AI-Blueprints](https://github.com/NVIDIA-AI-Blueprints) (Apache-2.0)
 - Base: NVIDIA NIM + Nemotron models + NVIDIA Omniverse para digital twin
 
+## Nuevos benchmarks para shopping agents (julio 2026)
+
+Una oleada de benchmarks académicos evalúa la capacidad de los LLMs en tareas de shopping:
+
+| Benchmark | Paper | Descripción | Resultado clave |
+|-----------|-------|-------------|-----------------|
+| ShoppingBench | arxiv:2508.04266 | 2.5M productos reales, tareas multi-step | GPT-4.1: <50% success rate — amplio margen de mejora |
+| DeepShop | arxiv:2506.02839 | Deep research shopping en múltiples sitios | Agents fallan en comparativas complejas cross-site |
+| AgenticShop | arxiv:2602.12315 | Product curation personalizada, open-web | Gaps en razonamiento de preferencias implícitas |
+| EComAgentBench | arxiv:2606.17698 | Long-horizon tasks con intent distribuido | Agents no persisten contexto en sesiones largas |
+| WebMall | arxiv:2508.13024 | Comparison shopping en múltiples tiendas | Multi-shop navigation sigue siendo el mayor cuello de botella |
+
+**Oportunidad Globant**: los benchmarks muestran que los agents open source tienen un gap real vs. expectativas de producción. Hay un mercado para servicios de fine-tuning y evaluación de shopping agents específicos de retailer.
+
 ## Proyectos a seguir (nuevos <30 días)
 
 - **Shopify/shop-chat-agent** — reference app oficial para agentes de tienda
 - **NVIDIA-AI-Blueprints/Retail-Catalog-Enrichment** — enriquecimiento GenAI de catálogos
 - **redis-developer/shopping-ai-agent-langgraph-js-demo** — patrón LangGraph.js + Redis para grocery
+- **yifeizhangcs/awesome-agentic-commerce** — lista curada de recursos agentic commerce
 
 ---
 *Pipeline automático — se actualiza cada hora.*
