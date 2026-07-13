@@ -1,7 +1,7 @@
 # Foundational Repos — Enterprise AI
 
 > The core open-source repositories every enterprise AI engagement should know. Curated for Globant: real URLs, verified licenses, active communities.
-> Last updated: 2026-07-12 (v5)
+> Last updated: 2026-07-13 (v6)
 
 ## Core Orchestration Foundations
 
@@ -14,6 +14,8 @@
 | [google/adk-python](https://github.com/google/adk-python) | Apache-2.0 | ~20.1k | Google | ADK 2.0 GA: code-first agent toolkit (Python/TS/Go/Java/Kotlin); graph workflows; Vertex AI Agent Runtime | Moody's + Dun & Bradstreet production references; native Vertex AI; fastest-growing framework at launch |
 | [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | MIT | ~25.6k | OpenAI | Multi-agent workflows with Handoffs, Guardrails, Tracing; provider-agnostic (100+ LLMs); enterprise sandboxing Apr 2026 | Successor to Swarm; default SDK for OpenAI API users; TypeScript companion; 25.6k ★ |
 | [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) | MIT | ~18.4k | pydantic | Type-safe agent framework; model-agnostic; durable execution; Pydantic Logfire tracing | Best for finance/legal/data pipelines needing validated structured outputs; durable execution stable |
+| [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | ~26k | Mastra AI (YC W25) | TypeScript/Node.js agent framework v1.0 GA (Jan 2026); graph workflows, memory, tools, MCP, OTEL observability; $22M Series A Apr 2026 | 1.8M npm/month; production at Replit, SoftBank, PayPal, Plaid; only full-featured TS-native agent SDK |
+| [run-llama/llama_index](https://github.com/run-llama/llama_index) | MIT | ~42k | LlamaIndex | Workflows 1.0 stable (Jun 2026): event-driven typed step composition; async-first; typed events prevent schema drift in production | Replaces older monolithic query-engine assembly; standard for enterprise event-driven agentic pipelines |
 | [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~40k | Microsoft Research | Conversational multi-agent framework — **maintenance mode; migrate to MAF for new projects** | Large installed base; proven at Azure enterprise scale; migration guides published |
 | [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~27.9k | Microsoft | AI SDK for .NET, Python, Java — **maintenance mode; migrating to MAF** | Best-in-class .NET plugin ecosystem; 3-language support |
 
@@ -51,4 +53,4 @@
 | [relaticle/relaticle](https://github.com/relaticle/relaticle) | MIT | — | Relaticle | Open-source CRM with native AI agent support via 30 MCP tools; Laravel + Filament; self-hostable | MIT license; 30 MCP tools expose full CRM to agents; most MCP-complete open-source CRM |
 
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+*Auto-updated by ingest pipeline — v6 2026-07-13*

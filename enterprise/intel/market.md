@@ -1,6 +1,6 @@
 # Market Intelligence — Enterprise AI
 
-> Key players, market sizing, and competitive landscape for enterprise AI agents. Updated 2026-07-12 (v5).
+> Key players, market sizing, and competitive landscape for enterprise AI agents. Updated 2026-07-13 (v6).
 
 ## Market Size & Growth
 
@@ -34,6 +34,10 @@
 | Domain-specific agent accuracy | 82.7% vs 59–63% for general LLMs at 4.4–10.8× lower cost | Agent benchmarking 2026 |
 | Lab-to-production performance gap | 37% drop from benchmark to production results | AWS / industry research 2026 |
 | IBM AskHR reference deployment | 94% containment rate; 75% ticket reduction; 11.5M interactions | IBM enterprise AI 2026 |
+| Global 2000 roles involving AI agents by end 2026 | 40% (IDC projection) | IDC 2026 |
+| Fortune 500 live/contracted with a leading AI vendor | 29% already live; ~19% of Global 2000 | Andreessen Horowitz, April 2026 |
+| A2A protocol adopters | 150+ organizations; embedded in AWS/Azure/GCP | Linux Foundation, April 2026 |
+| AP2 (Agent Payments Protocol) early adopters | 60+ organizations incl. Mastercard, PayPal, Adyen, AmEx | Google Cloud / AP2 Protocol, May 2026 |
 
 ## Key Enterprise AI Players
 
@@ -79,16 +83,19 @@
 | NocoBase | NocoBase | ~21.6k | AGPL-3 | Commercial license |
 | Langfuse | Langfuse | ~9k | MIT (OSS) | Langfuse Cloud (ClickHouse); joined ClickHouse Jan 2026 |
 
-## Protocol Stack: A2A + MCP
+## Protocol Stack: A2A + MCP + AP2
 
-The industry converged on two complementary protocols in 2026:
+The industry converged on three complementary open protocols in 2026:
 
 | Protocol | Direction | Status | Adoption |
 |----------|-----------|--------|----------|
-| **MCP** (Model Context Protocol) | Vertical: agent ↔ tool | Standard | 10,000+ enterprise servers; 97M+ SDK downloads; supported by all major agent frameworks |
-| **A2A** (Agent-to-Agent) | Horizontal: agent ↔ agent | Production | 150+ orgs in production (Apr 2026); embedded in AWS Bedrock AgentCore, Azure AI Foundry, Google Cloud |
+| **MCP** (Model Context Protocol) | Vertical: agent ↔ tool | Standard (AAIF/LF) | 10,000+ enterprise servers; 97M+ SDK downloads; all major agent frameworks; EMA stable Jul 2026 |
+| **A2A** (Agent-to-Agent) v1.0 | Horizontal: agent ↔ agent | Stable (LF, Jul 2026) | 150+ orgs; AWS/Azure/GCP native; signed Agent Cards; multi-tenancy; OAuth2 PKCE |
+| **AP2** (Agent Payments Protocol) | Commerce: agent ↔ merchant | Early adoption (May 2026) | 60+ orgs (Mastercard, PayPal, Adyen, AmEx, Coinbase, ServiceNow, Salesforce); extension on A2A+MCP |
 
-Architecture pattern: **MCP for tool access within each agent + A2A for delegation between agents**. A LangGraph orchestrator can delegate to a Vertex AI agent via A2A, which then calls ERPNext via MCP — no custom integration code.
+Architecture pattern: **MCP for tool access within each agent + A2A v1.0 for agent delegation + AP2 for autonomous commerce**. A LangGraph orchestrator can delegate to a Vertex AI agent via A2A, which calls ERPNext via MCP, and completes a procurement payment via AP2 — no custom integration code.
+
+**Forrester "Physical AI" signal (2026)**: Next frontier after software agents — agents coordinating robots, sensors, and supply chain systems in real time. Entry point for Globant: industrial IoT clients with existing ERP + warehouse automation.
 
 ## LATAM Opportunity Map
 
@@ -149,4 +156,4 @@ Gartner predicts 40%+ of agentic AI projects will be canceled by 2027 due to:
 | Dun & Bradstreet | Google ADK | Fortune 500 reference deployment |
 
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+*Auto-updated by ingest pipeline — v6 2026-07-13*

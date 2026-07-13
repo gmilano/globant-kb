@@ -1,6 +1,6 @@
 # Trending GitHub Repos — Enterprise AI
 
-> High-momentum repos in enterprise AI — measured by star velocity, fork rate, and production deployments. Updated 2026-07-12 (v5).
+> High-momentum repos in enterprise AI — measured by star velocity, fork rate, and production deployments. Updated 2026-07-13 (v6).
 
 ## Top Trending (2026 Star Velocity Leaders)
 
@@ -8,6 +8,7 @@
 |------|---------|-------|--------------|______________|
 | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Fair-code | ~182k | ↑↑↑ | Native MCP client/server; AI agent nodes; 500+ enterprise integrations; highest-star workflow automation project |
 | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | ↑↑↑ | Fastest-growing AI platform by stars; visual workflows + RAG + LLMOps; 100k star record holder |
+| [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | ~26k | ↑↑↑ NEW | TypeScript agent v1.0 GA; $22M Series A; 1.8M npm/month; fills Python-LangGraph gap for TS teams |
 | [infiniflow/ragflow](https://github.com/infiniflow/ragflow) | Apache-2.0 | ~73k | ↑↑↑ | 2,596% YoY growth; enterprise RAG with citations; solves compliance hallucination problem |
 | [agno-agi/agno](https://github.com/agno-agi/agno) | MIT | ~39.8k | ↑↑↑ | Rebranded from Phidata Jan 2025; AgentOS enterprise RBAC; data sovereignty focus; surged past Agno 26k estimate |
 | [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | ~40k | → maintenance | Now in maintenance mode; MAF is the successor; 856k monthly downloads from existing installs |
@@ -23,6 +24,7 @@
 | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | MIT | ~11.6k | ↑↑↑ | GA April 2026; Agent Harness + Hosted Agents at BUILD 2026; A2A + MCP native; LTS |
 | [microsoft/agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | MIT | ~3.2k | ↑↑↑ | GPAI/Article 50 Aug 2026 + BYOM wave; OWASP Agentic AI Top 10; Cedar policy-as-code |
 | [bytedance/deerflow](https://github.com/bytedance/deerflow) | Apache-2.0 | growing | ↑↑↑ | ByteDance super-agent harness; #1 GitHub Trending after v2.0; sub-agents + memory + skills |
+| [run-llama/llama_index](https://github.com/run-llama/llama_index) | MIT | ~42k | ↑↑ | Workflows 1.0 stable Jun 2026; event-driven typed steps replacing older query-engine assembly |
 
 ## Notable Emerging Repos (Watch List)
 
@@ -50,4 +52,4 @@
 | [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | The underlying MIT-licensed low-code framework; AI integration points |
 
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+*Auto-updated by ingest pipeline — v6 2026-07-13*

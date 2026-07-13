@@ -1,8 +1,77 @@
 # Trending AI Agents & Repos — Enterprise
 
-> What's new and surging this week in enterprise AI. Refreshed 2026-07-12 (v5).
+> What's new and surging this week in enterprise AI. Refreshed 2026-07-13 (v6).
 
 ## Breaking This Week (July 2026)
+
+### A2A Protocol v1.0 Stable: Signed Agent Cards + Native Multi-Tenancy
+
+The Linux Foundation officially released **A2A Protocol v1.0** (July 2026) — the first stable, production-ready specification for agent-to-agent communication:
+
+- **Signed Agent Cards**: Cryptographic identity verification (JWS/RFC 7515 + JSON Canonicalization RFC 8785) — agents prove who they are before delegation
+- **Native multi-tenancy**: A single endpoint serves multiple agents or tenants without bolted-on workarounds
+- **OAuth 2.0 modernized**: Device Code flow (RFC 8628) for CLI/IoT/headless agents; PKCE support; insecure implicit + password flows removed
+- **Ecosystem scale**: 150+ organizations; embedded in all three hyperscaler platforms (Azure AI Foundry, Bedrock AgentCore Runtime, Google Cloud)
+- **AP2 extension** (see T25): agent-driven payments built on A2A + MCP; 60+ orgs including Mastercard, PayPal, Adyen, American Express, Coinbase
+
+**Pattern**: `LangGraph/CrewAI/MAF → A2A v1.0 → peer agent (different vendor/framework)` — interoperability without custom integration code.
+
+---
+
+### AP2 — Agent Payments Protocol: Autonomous Commerce Arrives
+
+Google announced **Agent Payments Protocol (AP2)**, an open A2A + MCP extension for agent-driven transactions. 60+ early adopters include Adyen, American Express, Ant International, Coinbase, Etsy, Forter, Intuit, Mastercard, PayPal, Revolut, Salesforce, ServiceNow, UnionPay, Worldpay.
+
+**Key capabilities (as of May 2026):**
+- Purchases at merchants (live)
+- Non-repudiable cryptographic audit trail for every transaction
+- B2B use cases: autonomous procurement on Google Cloud Marketplace, license auto-scaling
+- Recurring bills, P2P transfers, financial-account moves: planned
+
+**Globant angle**: LATAM e-commerce and B2B procurement clients can add autonomous purchasing agent flows without custom payment integration.
+
+---
+
+### OWASP State of Agentic AI Security and Governance v2.01 (June 2026)
+
+OWASP published its updated report (June 3, 2026) introducing the **Enterprise Adoption Maturity Model** — a two-axis decision tool:
+
+| Governance Level | Description |
+|----------------|-------------|
+| Level 0 | Ad hoc awareness |
+| Level 1 | Basic controls |
+| Level 2 | Structured policies |
+| Level 3 | Continuous monitoring |
+| Level 4 | Adaptive, telemetry-driven control |
+
+| Adoption Tier | What the org is running |
+|--------------|------------------------|
+| AT0 | Shadow AI (unmanaged) |
+| AT1–AT3 | Vendor-embedded assistants, platform agents, citizen-developer flows |
+| AT4–AT6 | Code-executing agents, custom in-house builds |
+| AT7–AT8 | Cross-org federated agent networks |
+
+**New in v2.01**: 42 regulatory instruments across 10 jurisdictions; agent identity section; AI SBOM + supply chain provenance; live incidents/exploits tracker.
+
+**Stat**: 29% of Fortune 500 and ~19% of Global 2000 are already live/contracted with a leading AI vendor (a16z, April 2026).
+
+**Globant positioning**: Shadow AI audit offer now has a structured maturity scoring framework. AT0→AT3 readout becomes the entry deliverable.
+
+---
+
+### Mastra $22M Series A — TypeScript AI Agents Goes Enterprise
+
+[Mastra](https://github.com/mastra-ai/mastra) (Apache-2.0, ~26k★) raised a $22M Series A from Spark Capital (April 2026), bringing total funding to $35M. Created by the team behind Gatsby, Y Combinator W25.
+
+**Traction (July 2026):**
+- 1.8M npm downloads/month
+- Production deployments: Replit, SoftBank, PayPal, Plaid, Marsh McLennan
+- TypeScript/Node.js: graph workflows + memory + MCP client + OTEL observability in one SDK
+- Enterprise features (RBAC, SSO, IAM, VPC isolation) under source-available Enterprise License
+
+**Why it matters for Globant**: TypeScript-first enterprise teams now have a production-grade agent framework with the same features as LangGraph in Python — fills a gap for full-stack web teams.
+
+---
 
 ### EU AI Act Timeline Correction: GPAI Enforcement August 2 — But Annex III High-Risk Pushed to December 2027
 
@@ -56,7 +125,8 @@ Google ADK reached v2.0 GA with:
 ## This Month's Fastest-Rising Enterprise Repos
 
 | Repo | License | Signal | Why Trending |
-|------|---------|--------|--------------|
+|------|---------|--------|______________|
+| [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | ~26k★; 1.8M npm/month; $22M Series A | TypeScript agent framework v1.0 GA; only TS framework with graph workflows + memory + MCP + OTEL natively |
 | [strands-agents/harness-sdk](https://github.com/strands-agents/harness-sdk) | Apache-2.0 | 16.7M downloads/month | AWS production SDK at critical mass; renamed to harness-sdk; TS SDK + community providers added |
 | [google/adk-python](https://github.com/google/adk-python) | Apache-2.0 | 20.1k ★; ADK 2.0 GA | Multi-language; Vertex AI Agent Runtime; Moody's + D&B as references |
 | [agno-agi/agno](https://github.com/agno-agi/agno) | MIT | 39.8k ★ | Rebranded from Phidata; AgentOS control plane with RBAC; data sovereignty focus |
@@ -92,7 +162,7 @@ Google ADK reached v2.0 GA with:
 ## Shadow AI Scale: Updated Numbers
 
 | Metric | 2026 Data |
-|--------|-----------|
+|--------|----------|
 | Enterprises with undiscovered AI agents | 82% (Cloud Security Alliance) |
 | GenAI users on unmanaged personal accounts | 47% |
 | AI data exposure incidents per enterprise per month | 200+ |
@@ -103,4 +173,4 @@ Google ADK reached v2.0 GA with:
 **Globant positioning**: Shadow AI discovery + endpoint AI governance is now a board-level offer. Entry pitch: "We'll audit your AI estate in 2 weeks, classify by EU AI Act risk tier, and deploy a governance layer in 6 weeks."
 
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+*Auto-updated by ingest pipeline — v6 2026-07-13*

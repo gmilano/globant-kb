@@ -1,7 +1,7 @@
 # Top AI Agents & Frameworks — Enterprise
 
 > Open source AI agents and orchestration frameworks for enterprise. Focus: MIT / Apache 2.0 / permissive licenses Globant can build on.
-> Last updated: 2026-07-12 (v5)
+> Last updated: 2026-07-13 (v6)
 
 ## Agent Orchestration Frameworks
 
@@ -19,6 +19,8 @@
 | [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) | MIT | ~25.6k | OpenAI | Multi-agent workflows with Handoffs, Guardrails, and Tracing; provider-agnostic (100+ LLMs) | Enterprise sandboxing added Apr 2026; successor to Swarm; TypeScript companion SDK |
 | [PydanticAI](https://github.com/pydantic/pydantic-ai) | MIT | ~18.4k | pydantic | Type-safe agent framework with model-agnostic support (OpenAI/Anthropic/Gemini/Ollama/Bedrock) and durable execution | Best for validated structured outputs; finance/legal/data pipelines; Pydantic Logfire native tracing |
 | [Smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Hugging Face | Minimal code-first agent framework with CodeAct execution and OpenTelemetry-native tracing | Minimal footprint; CodeAct; integrates all HF models; OTEL tracing built in |
+| [Mastra](https://github.com/mastra-ai/mastra) | Apache-2.0 | ~26k | Mastra AI (YC W25) | Modern TypeScript/Node.js agent framework; v1.0 GA Jan 2026; graph workflows, memory, tools, MCP, observability; $22M Series A Apr 2026 | 1.8M npm downloads/month; production at Replit/SoftBank/PayPal/Plaid/Marsh McLennan; enterprise RBAC/SSO under Enterprise License |
+| [LlamaIndex Workflows](https://github.com/run-llama/llama_index) | MIT | ~42k | LlamaIndex | Workflows 1.0 stable (Jun 2026): event-driven typed step composition for multi-step LLM apps; async-first; replaces older query-engine assembly pattern | De-facto standard for event-driven agentic pipelines; typed events prevent schema drift in production |
 | [AutoGen](https://github.com/microsoft/autogen) | MIT | ~40k | Microsoft Research | Conversational multi-agent framework — **now in maintenance mode; succeeded by Microsoft Agent Framework** | Still valid for existing deployments; migrate to MAF for new projects |
 | [Semantic Kernel](https://github.com/microsoft/semantic-kernel) | MIT | ~27.9k | Microsoft | AI SDK for .NET, Python, Java — **now in maintenance mode; migrating to MAF** | Best-in-class .NET/C# plugin ecosystem; 3-language support |
 
@@ -42,10 +44,12 @@
 | Microsoft / .NET / Azure shops | **Microsoft Agent Framework** | GA v1.0 April 2026; A2A+MCP; LTS; Agent Harness + Hosted Agents added at BUILD 2026 |
 | AWS / Bedrock shops | **Strands Agents** | Same SDK AWS runs in production; 16.7M downloads/month; Bedrock AgentCore native |
 | Google Cloud / Vertex AI shops | **Google ADK 2.0** | Apache-2.0; Python/TS/Go/Java/Kotlin; Vertex AI Agent Runtime; Moody's/D&B reference deployments |
+| TypeScript / Node.js / full-stack teams | **Mastra** | Apache-2.0; v1.0 GA; 1.8M npm/month; graph workflows + memory + MCP + OTEL in one TS SDK |
 | No-code / low-code workflows | **Dify** or **Flowise** | Visual builders; self-hostable; API-first |
 | Legacy system integration | **n8n** | 500+ connectors; AI nodes; MCP native |
 | Enterprise RAG / knowledge base | **RAGFlow** | Deep doc understanding; citation-grounded answers |
 | Type-safe structured outputs (finance/legal) | **PydanticAI** | Validation at model boundary; durable execution; Logfire tracing |
+| Event-driven multi-step LLM pipelines | **LlamaIndex Workflows 1.0** | Typed events; async steps; stable API; replaces monolithic query-engine patterns |
 | Data sovereignty / RBAC control | **Agno (AgentOS)** | RBAC + self-hosted trace/memory/knowledge in your own DB |
 | OpenAI API-first / rapid agent build | **OpenAI Agents SDK** | Enterprise sandboxing; provider-agnostic; TS companion |
 | Minimal footprint / HF models | **Smolagents** | Code-first; tiny core; OTEL built in |
@@ -70,9 +74,11 @@
 | Agno | ✅ Yes | MIT — AgentOS enterprise control plane; data sovereignty |
 | OpenAI Agents SDK | ✅ Yes | MIT — provider-agnostic; 25.6k ★ |
 | PydanticAI | ✅ Yes | MIT — type-safe; durable execution; Logfire tracing |
+| Mastra | ✅ Yes (core) | Apache-2.0 core — 1.8M npm/month; Enterprise License for RBAC/SSO (source-available) |
+| LlamaIndex Workflows | ✅ Yes | MIT — stable Workflows 1.0; event-driven typed composition |
 | Langfuse | ✅ Yes | MIT self-hosted — full data control |
 | Agent Governance Toolkit | ✅ Yes | MIT — runtime policy enforcement |
 | MLflow | ✅ Yes | Apache-2.0 — Linux Foundation backed |
 
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+*Auto-updated by ingest pipeline — v6 2026-07-13*
