@@ -1,54 +1,66 @@
-# 📡 Tendencias — Technology
+# 📡 Tendencias — Technology / AI Dev Tools (2026-07-13, v12)
 
-> Tendencias actuales en AI para la industria tech y desarrollo de software.
-> Última actualización: 2026-07-12
+> Qué está cambiando en el ecosistema AI para software development. Señales fuertes.
 
-## Top 10 Tendencias (julio 2026)
+## T1 — De copilots a agentes autónomos
 
-### T1 — Terminal-first AI coding agents como nuevo paradigma
+El shift más grande desde la nube. Los copilots sugerían código; los agentes de 2026 **investigan, ejecutan, iteran y validan** sin dirección step-by-step. OpenHands corre CI headless. OpenCode ejecuta pipelines completos. Aider hace commits directamente.
 
-Claude Code, Gemini CLI y OpenCode están redefiniendo dónde vive la AI del developer. La tendencia es clara: los mejores tools están en el terminal, no en el browser. Terminal-Bench 2.1 (leaderboard público) muestra a Codex CLI + GPT-5.5 en #1 (83.4%) y Claude Code + Opus 4.8 en #2 (78.9%). Los IDEs (Cursor, Windsurf, Copilot) siguen siendo relevantes pero el poder está en el terminal.
+**Señal**: 40% de apps enterprise tendrán AI agents task-specific para fin de 2026 (Gartner), vs <5% en 2025.
 
-### T2 — De copilots a agentes autónomos
+## T2 — Vibe coding goes mainstream
 
-El mercado pasó de "autocomplete inteligente" a "agentes que leen el repo completo, hacen plan, ejecutan, testean y crean el PR". Claude Code pasó de 34% a 78% de sesiones multi-archivo en un año. La pregunta en enterprise ya no es "¿usamos AI?" sino "¿cuánta autonomía le damos?"
+"Natural-language-driven development" pasó de buzzword a práctica estándar. Desarrolladores junior generan features completas en prompts. La curva de aprendizaje del código disminuye; la curva de aprendizaje del **prompt engineering + revisión** aumenta.
 
-### T3 — Bounded autonomy como patrón enterprise dominante
+**Señal**: Gartner proyecta 60% de nuevo código AI-generado para fin de 2026. Ya en 46%.
 
-Las empresas más maduras en AI coding usan "bounded autonomy": límites operacionales claros (el agente no puede pushear a main sin aprobación), rutas de escalación a humanos para decisiones de alto riesgo, y audit trails completos. Esto viene de observar fallos en deployments sin guardrails.
+## T3 — MCP se convierte en el protocolo universal
 
-### T4 — MCP como protocolo universal para developer tools
+Model Context Protocol (Anthropic, nov 2024) es el standard de facto para conectar agentes a herramientas. En H1 2026: Claude Code, Cline, Goose, Codex CLI, OpenHands — todos soportan MCP. 3000+ servidores MCP disponibles. Goose conecta a todos ellos.
 
-El Model Context Protocol (Anthropic) se convierte en el "USB-C" del ecosistema AI. Ya está integrado en Gemini CLI, n8n, Continue, Dify, GitHub Copilot. Cualquier tool que no tenga MCP soport quedará desconectado del ecosistema. Oportunidad: crear servidores MCP para tools internas de clientes.
+**Por qué importa**: cualquier sistema interno puede convertirse en "herramienta para agents" con un servidor MCP. Esta es la capa de integración del futuro.
 
-### T5 — BYOK y self-hosting como diferenciadores competitivos
+## T4 — Terminal-first domina sobre IDE
 
-La preocupación por privacidad de código y costo de tokens impulsa BYOK (bring-your-own-key) y self-hosting. OpenCode conecta con 75+ providers; Ollama + Open WebUI permiten correr LLMs 100% localmente. En LATAM este trend se amplifica por requerimientos de residencia de datos.
+opencode (~181k★) vs Copilot en IDE. Los agentes más potentes son terminales porque tienen acceso total al filesystem, git, tests, y CI. Los IDE agents (Cline) son el segundo tier para trabajo asistido. Los agentes terminales son el primero para trabajo autónomo.
 
-### T6 — Multi-agent software teams (MetaGPT / CrewAI)
+**Señal**: opencode tiene 7.5M usuarios activos mensuales. Creció de 0 a top 5 más rápido que cualquier dev tool en la historia de GitHub.
 
-El patrón de "un agente" evoluciona a "un equipo de agentes": PM → Architect → Developer → QA → Security Reviewer, cada uno especializado. MetaGPT (~50k★) y CrewAI (~30k★) son las implementaciones open source más maduras. Enterprise pattern: equipo de 5-8 agentes con roles definidos.
+## T5 — Bounded autonomy como patrón de gobernanza
 
-### T7 — AI-native CI/CD y DevOps
+El anti-patrón es "agente sin límites". El patrón 2026 es **bounded autonomy**: límites operacionales claros, escalation paths obligatorios a humanos en decisiones de alto riesgo, audit trails completos. Enterprise dice: "agents with guardrails, not agents without".
 
-CI/CD pipelines que incluyen agentes AI como step nativo: auto-fix de tests fallidos, code review automatizado (claude-code-security-review), generación de changelogs, actualización de documentación. El developer hace merge request y el agente completa el ciclo.
+**Señal**: Aparece como requisito en 60%+ de RFPs enterprise de AI dev tools (New Stack 2026).
 
-### T8 — Vibe coding y no-engineers escribiendo software
+## T6 — AI-first team restructuring
 
-La adopción masiva de AI coding tools baja la barrera de entrada: diseñadores, PMs y domain experts están "vibing" código funcional con Dify + n8n + Flowise. No reemplaza ingenieros senior, pero multiplica la producción de MVPs y automatizaciones internas.
+Gartner predice 80% de orgs evolucionarán a equipos de engineering pequeños + AI-augmented para 2030. En 2026 ya está pasando: startups de 5 engineers con AI haciendo el trabajo de 20.
 
-### T9 — LLM fine-tuning y RAG sobre código base privado
+**Por qué importa para Globant**: los clientes van a pedir menos headcount + más AI tooling. El modelo de negocio evoluciona de staffing puro a "AI-augmented teams designed by Globant".
 
-Las empresas con grandes codebases privadas invierten en RAG sobre su código (usando embeddings de repos internos) y fine-tuning de modelos para su stack específico. Dify y Open WebUI facilitan esto. Clave para Globant: ofrecerlo como servicio diferenciado.
+## T7 — Seguridad en el stack MCP como nueva categoría
 
-### T10 — AI governance y compliance para código AI-generated
+La explosión de servidores MCP sin revisión de seguridad crea una nueva superficie de ataque. Bumblebee (Perplexity AI) es el primer scanner OSS de supply chain para MCP. En enterprise, el CTO firma el MCP registry igual que firma el npm audit.
 
-Gartner proyecta que el 60% del código nuevo en 2026 será AI-generado. Esto crea necesidad de auditoría, trazabilidad y compliance. El mercado de "AI code governance" es emergente: quién generó cada línea, con qué modelo, qué licencias incluye el código generado, etc.
+**Señal**: Bumblebee ganó 2.6k★ en semanas. Nueva categoría: agent security tooling.
 
-## Repos más activos esta semana (julio 2026)
+## T8 — Open source gana vs proprietary en coding agents
 
-- [anomalyco/opencode](https://github.com/anomalyco/opencode) — Terminal coding agent OSS #1, 172k★ y creciendo
-- [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) — Terminal agent de Google, 105k★, MCP nativo
-- [langgenius/dify](https://github.com/langgenius/dify) — AI app platform production-ready, 136k★
-- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Workflow automation con AI y MCP, 162k★
-- [all-hands-ai/OpenHands](https://github.com/all-hands-ai/OpenHands) — Software engineering agent en sandbox Docker, 60k★
+Por primera vez, el mejor coding agent (opencode, MIT) supera en adoption a los proprietary (Copilot, Cursor) en número de proyectos activos. Razones: multi-provider (no lock-in), gratis, auto-hosteable, community-driven.
+
+**Señal**: 181k★ opencode vs ~95k codex (ambos open source) vs Copilot que no tiene repo público. La comunidad optó por open.
+
+## T9 — Parallel agent fleets para tareas masivas
+
+Migración de codebase, i18n, refactoring masivo: en 2026 se hace con flotas de agentes paralelos (Orca, OpenHands en CI paralelo). Un agente trabaja un módulo, otro trabaja otro, un agente orquestador consolida. Lo que tomaba meses toma días.
+
+**Por qué importa**: diferenciador de alto valor para proyectos de modernización de legado.
+
+## T10 — Knowledge graphs sobre codebases como context layer
+
+Graphify y repos similares construyen grafos consultables del codebase. Los agentes usan el grafo para responder "¿qué módulos dependen de X?" antes de editar. Resuelve el problema del context window en repos grandes (millones de líneas).
+
+**Señal**: Categoría emergente en julio 2026. Adopción en repositories >500k LOC.
+
+---
+*Fuentes: Gartner 2026; Deloitte 2026 Software Outlook; New Stack 2026; GitHub Octoverse 2025; JetBrains Dev Survey 2025.*

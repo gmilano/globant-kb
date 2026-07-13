@@ -1,20 +1,28 @@
-# 📈 Repos Trending — Technology
+# 📈 GitHub Trending — Technology AI (semana del 2026-07-13)
 
-> GitHub trending repos para la industria tech/software, semana del 7-12 julio 2026.
-> Última actualización: 2026-07-12
+> Repos ganando estrellas activamente esta semana. Actualizado v12.
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | The open source coding agent — 75+ AI providers, terminal-native, 7.5M devs/mes | ~172k |
-| [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | Terminal AI agent oficial de Google con ReAct loop, MCP nativo y acceso a Google Workspace | ~105k |
-| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | Lightweight coding agent de OpenAI para terminal; sandboxed, BYOK, multi-plataforma | ~95k |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | Production AI app platform: RAG, workflow builder, multi-provider LLM, self-hosted | ~136k |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0 | Workflow automation fair-code con AI nativo y soporte MCP; alternativa OSS a Zapier/Make | ~162k |
-| [cline/cline](https://github.com/cline/cline) | Apache-2.0 | Agente de coding para VS Code / JetBrains / Cursor que edita archivos, ejecuta commands y navega web | ~63k |
-| [all-hands-ai/OpenHands](https://github.com/all-hands-ai/OpenHands) | MIT | Software engineering agent autónomo (ex-OpenDevin); sandbox Docker, crea PRs completos | ~60k |
-| [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | Apache-2.0 | Git-native terminal coding agent; cada edición AI → commit revisable; 60+ modelos | ~46k |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | Framework multi-agente Microsoft Research; conversaciones entre agentes con tool calling | ~58k |
-| [ollama/ollama](https://github.com/ollama/ollama) | MIT | Corre LLMs localmente (Llama, Mistral, Gemma, Phi, DeepSeek); API compatible con OpenAI | ~120k |
+| Repo | Licencia | Stars | Movimiento | Por qué importa |
+|------|----------|-------|------------|-----------------|
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | ~181k | +2k/semana | Sigue liderando. Cada actualización suma miles de stars. |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | ~86k | +1.5k/semana | Web automation para agents se vuelve mainstream. |
+| [openai/codex](https://github.com/openai/codex) | Apache-2.0 | ~95k | Estable | CLI open source de OpenAI. Referencia para comparar. |
+| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~80k | +800/semana | Crecimiento sostenido post-renaming desde OpenDevin. |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | +500/semana | La plataforma LLM más deployada en enterprise China+LATAM. |
+| [block/goose](https://github.com/block/goose) | Apache-2.0 | ~51k | +400/semana | Adopción acelerada tras Linux Foundation governance. |
+| [PerplexityAI/bumblebee](https://github.com/PerplexityAI/bumblebee) | Apache-2.0 | ~2.6k | +300/semana | Supply chain scanner MCP. Nueva categoría: agent security. |
+| [stablyai/orca](https://github.com/stablyai/orca) | Apache-2.0 | ~1k | Nuevo | Fleet runner para parallel coding agents. Early adopter opportunity. |
+| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | MIT | ~3k | +200/semana | Codebase → knowledge graph para AI assistants. |
+| [bradAGI/awesome-cli-coding-agents](https://github.com/bradAGI/awesome-cli-coding-agents) | MIT | ~4k | +150/semana | Directorio curado de agents CLI. Mapa del ecosistema. |
+
+## Por qué esta semana es diferente
+
+El ecosistema está consolidándose en tres capas:
+1. **Agentes CLI** (opencode, codex, aider, goose) — ejecución autónoma
+2. **IDE integration** (Cline) — experiencia asistida
+3. **Plataformas visuales** (Dify, Langflow) — demos y non-dev users
+
+La capa de **infraestructura MCP** (servidores, seguridad, registry) está creciendo más rápido que los agentes mismos.
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline automático — v12.*

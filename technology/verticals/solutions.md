@@ -1,53 +1,59 @@
-# 🏭 Verticales de Partida — Technology
+# 🏭 Verticales de partida — Technology / Software Companies
 
-> Plataformas verticales existentes customizables con AI para la industria tech.
-> Modelo: partir de algo funcional y maduro, añadir capa agéntica encima.
-> Última actualización: 2026-07-12
+> Plataformas open source usadas por empresas de tecnología.
+> Estrategia: partir de algo funcional y producción-ready, añadir capa agéntica encima.
+> Última actualización: 2026-07-13 (v12)
 
 ## Plataformas recomendadas
 
-| Plataforma | Licencia | URL | Stack | Caso de uso AI |
-|------------|----------|-----|-------|----------------|
-| **Dify** | Apache-2.0 | [langgenius/dify](https://github.com/langgenius/dify) | Python / TypeScript / Next.js | Base para apps AI productivas: RAG pipelines, workflow agéntico, model management, API gateway para LLMs |
-| **n8n** | Apache-2.0 | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Node.js / TypeScript / Vue | Automatización AI no-code/low-code; trigger → agente → acción; MCP client nativo desde v1.70+ |
-| **Open WebUI** | MIT | [open-webui/open-webui](https://github.com/open-webui/open-webui) | Python / Svelte | Chat UI self-hosted sobre Ollama + cualquier API OpenAI-compatible; RAG, tools, multimodal |
-| **Flowise** | Apache-2.0 | [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Node.js / TypeScript | Builder visual drag-and-drop de LLM flows y agentes; para prototipos rápidos y teams sin código |
-| **MLflow** | Apache-2.0 | [mlflow/mlflow](https://github.com/mlflow/mlflow) | Python / React | Tracking de experimentos ML, model registry, serving; estándar de facto para MLOps en enterprise |
-| **Kubeflow** | Apache-2.0 | [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Kubernetes / Python | ML pipelines productivos en k8s; training distribuido, model serving, hyperparameter tuning |
-| **Gitea** | MIT | [go-gitea/gitea](https://github.com/go-gitea/gitea) | Go / JavaScript | Git service self-hosted liviano; base para flujos DevOps con AI integrado en CI/CD |
-| **Plane** | Apache-2.0 | [makeplane/plane](https://github.com/makeplane/plane) | Python / Next.js | Project management open source (alternativa a Linear/Jira); base para AI-powered project tracking |
-| **Appsmith** | Apache-2.0 | [appsmithorg/appsmith](https://github.com/appsmithorg/appsmith) | Java / TypeScript | Builder de internal tools; conecta con cualquier DB/API y añade UI conversacional con AI |
-| **Mattermost** | MIT | [mattermost/mattermost](https://github.com/mattermost/mattermost) | Go / React | Team communications self-hosted; plataforma para bots AI y asistentes internos en enterprise |
+| Plataforma | Licencia | Repo | Stack | Caso de uso principal |
+|------------|----------|------|-------|-----------------------|
+| [Gitea](https://github.com/go-gitea/gitea) | MIT | go-gitea/gitea | Go | Self-hosted Git para empresas que no pueden usar GitHub Cloud. Base para AI code review agents. |
+| [Supabase](https://github.com/supabase/supabase) | Apache-2.0 | supabase/supabase | Postgres + TypeScript | Firebase open source. Backend-as-a-Service con auth, storage, realtime, functions. |
+| [Appwrite](https://github.com/appwrite/appwrite) | BSD-3-Clause | appwrite/appwrite | PHP + TypeScript | BaaS multi-plataforma. Auth, DB, Functions, Storage. Self-hosteable. |
+| [Grafana](https://github.com/grafana/grafana) | AGPL-3.0 | grafana/grafana | Go + TypeScript | Observabilidad y dashboards. Integra con cualquier datasource. |
+| [Dify](https://github.com/langgenius/dify) | Apache-2.0 | langgenius/dify | Python + Next.js | LLM app platform completo. Puede reemplazar MLflow + LangChain + prompt management juntos. |
+| [Portainer](https://github.com/portainer/portainer) | zlib | portainer/portainer | Go | Container management (Docker/Kubernetes). UI para devops no-expertos. |
+| [SonarQube Community](https://github.com/SonarSource/sonarqube) | LGPL-3.0 | SonarSource/sonarqube | Java | Code quality y security analysis. Se integra con CI/CD. Base para AI code review. |
+| [Mattermost](https://github.com/mattermost/mattermost) | Apache-2.0 | mattermost/mattermost | Go + TypeScript | Slack open source con bots MCP y AI integrations. Governa en enterprises con compliance. |
 
-## Cómo customizar con AI
+## Cómo añadir AI encima
 
-### Patrón estándar (3-4 semanas)
-
+### Sobre Gitea → AI Code Review Agent
 ```
-1. Fork del repo base (Dify, n8n, o Gitea según el caso)
-2. Definir el dominio de conocimiento (embeddings de docs internos)
-3. Configurar provider AI: Anthropic / OpenAI / Ollama local
-4. Wrappear flujos existentes con agentes (LangGraph o CrewAI)
-5. Exponer UI conversacional o API REST para el cliente
+Gitea webhooks (PR events)
+  → OpenHands o Claude Code Action
+  → Análisis de diff con LLM
+  → Comentarios automáticos en el PR
+  → SonarQube para quality gates
 ```
 
-### Integración AI sobre DevOps existente
-
+### Sobre Supabase → AI Data Assistant
 ```
-Gitea (self-hosted Git)
-      ↓
-CI/CD pipeline (Gitea Actions / Jenkins / GitHub Actions)
-      ↓
-Claude Code Security Review (GitHub Action MIT)
-      ↓
-MLflow (tracking de métricas / model registry)
-      ↓
-Kubeflow (deployment en k8s)
+Supabase (Postgres + Auth + Realtime)
+  → MCP server de Supabase (oficial, MIT)
+  → Agente Cline / opencode con acceso al schema
+  → Queries en lenguaje natural
+  → Alertas proactivas via Grafana + LLM
 ```
 
-### Stack mínimo viable para AI dev tools interno
+### Sobre Dify → Enterprise AI Portal
+```
+Dify (auto-hosted)
+  → Modelos propios (Ollama local o Anthropic API)
+  → Conectado a bases de datos internas via MCP
+  → UI de agentes para usuarios no-técnicos
+  → Audit log nativo (compliance)
+```
 
-- **Backend**: Dify (orquestación) + MLflow (tracking) + Ollama (modelos locales)
-- **Frontend**: Open WebUI (chat) + Plane (PM)
-- **Automatización**: n8n (triggers y workflows)
-- **Infra**: Kubernetes + Kubeflow para training; Docker para serving
+### Sobre Mattermost → DevOps ChatOps Agent
+```
+Mattermost (self-hosted, compliance)
+  → Bot con MCP tools: Kubernetes, GitHub, CI/CD
+  → Agente que responde /deploy, /rollback, /status
+  → Integración con Grafana para alertas
+  → Logs auditables para SOC
+```
+
+---
+*Ver también: `repos/foundations.md` para frameworks base.*

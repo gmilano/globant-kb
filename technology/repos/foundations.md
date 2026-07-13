@@ -1,32 +1,40 @@
-# 🏗️ Repos Fundacionales — Technology
+# 🏗️ Repos fundacionales — Technology / Software Development
 
-> Bases sobre las cuales construir soluciones AI para la industria tech.
-> Licencia abierta, comunidad activa, probados en producción.
-> Última actualización: 2026-07-12
+> Bases sobre las cuales construir soluciones AI para clientes tech.
+> Licencia abierta, comunidad activa, producción-ready.
+> Última actualización: 2026-07-13 (v12)
 
-## Plataformas y frameworks base
+## Frameworks de agentes y LLM
 
-| Repo | Licencia | Descripción | Stars | ¿Base para AI? |
-|------|----------|-------------|-------|----------------|
-| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | Framework LLM más popular; chains, RAG, tool calling, memory, agents sobre cualquier modelo | ~100k | Sí — framework base |
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | Flujos de agentes con estado persistente (grafos cíclicos); ideal para workflows multi-step complejos | ~18k | Sí — orquestación |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | Plataforma completa de producción para apps AI: RAG, workflow builder, model management, API, self-hosted | ~136k | Sí — plataforma completa |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0 | Workflow automation con AI nativo y soporte MCP client/server; 162k estrellas, alternativa open source a Zapier | ~162k | Sí — automatización |
-| [ollama/ollama](https://github.com/ollama/ollama) | MIT | Corre LLMs localmente (Llama, Mistral, Gemma, Phi, DeepSeek); API compatible OpenAI; Linux/Mac/Windows | ~120k | Sí — inferencia local |
-| [open-webui/open-webui](https://github.com/open-webui/open-webui) | MIT | Chat UI self-hosted para LLMs locales y APIs; soporte Ollama + OpenAI; RAG integrado | ~60k | Sí — frontend AI |
-| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | Plataforma ML lifecycle: tracking, model registry, serving, evaluación; 20k estrellas, estándar de facto MLOps | ~20k | Sí — MLOps |
-| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | ML workflows nativos en Kubernetes: pipelines, model training, serving; estándar enterprise k8s ML | ~14k | Sí — ML at scale |
-| [zenml-io/zenml](https://github.com/zenml-io/zenml) | Apache-2.0 | ML pipeline platform modular; integra con Airflow, Kubeflow, MLflow, Seldon; de pipelines a agentes | ~4.5k | Sí — pipelines |
-| [iterative/dvc](https://github.com/iterative/dvc) | Apache-2.0 | Data Version Control — versiona datasets y modelos en Git; estándar para reproducibilidad ML | ~14k | Sí — data versioning |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|-------------|
+| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | MIT | ~142k | Framework estándar para apps LLM: chains, memory, tools, RAG. La "stdlib" del ecosistema. | Sí — toda la cadena de valor |
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~33k | Multi-agent con state machines y grafos cíclicos. 34.5M descargas/mes. Arquitectura de facto para flujos complejos. | Sí — orquestación multi-step |
+| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~80k | Agente de coding autónomo y sandboxed (ex-OpenDevin). Corre en CI, headless, con Docker. | Sí — base para coding automation |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | ~27k | Framework minimalista: LLM escribe Python, no JSON. Setup en 5 minutos. | Sí — prototipado ágil |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | ~86k | Web automation para agentes: click, forms, scraping. Convierte cualquier web en API para agents. | Sí — integración web legacy |
 
-## Frameworks de agentes especializados
+## Coding agents (terminal / IDE)
 
-| Repo | Licencia | Descripción | Stars |
-|------|----------|-------------|-------|
-| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | Multi-agent framework de Microsoft; conversaciones entre agentes, human-in-the-loop, tool calling | ~58k |
-| [geekan/MetaGPT](https://github.com/geekan/MetaGPT) | MIT | Software company en código: roles PM/Arch/Dev/QA coordinados por LLMs; genera código completo desde spec | ~50k |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | Orquestación de crews de agentes especializados; mejor-en-clase para multi-agent coordination | ~30k |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | Agentes minimalistas donde el LLM escribe Python code como actions; sin DSL, máxima flexibilidad | ~27k |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|-------------|
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | ~181k | Terminal coding agent con 75+ providers y LSP. Referencia del mercado. | Sí — punto de entrada standard |
+| [paul-gauthier/aider](https://github.com/paul-gauthier/aider) | Apache-2.0 | ~45k | Git-native pair programmer: edita archivos, hace commits, trabaja con todo modelo. | Sí — workflows disciplinados |
+| [block/goose](https://github.com/block/goose) | Apache-2.0 | ~51k | MCP-first agent de Block. 3000+ servidores MCP. Linux Foundation governance. | Sí — ecosistema MCP |
+
+## Plataformas LLM / aplicaciones
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|-------------|
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k | LLM app platform con GUI, RAG, agents, 300+ modelos. Auto-hosteable. | Sí — plataforma end-to-end |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | ~140k | Visual builder drag-and-drop para agentes y RAG. Demo-ready para clientes. | Sí — MVP visual en horas |
+
+## Evaluación y benchmarks
+
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|-------------|
+| [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) | MIT | ~8k | Benchmark estándar para evaluar coding agents en issues reales de GitHub. | Sí — medir calidad de agentes |
+| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | MIT | ~3k | Convierte codebases en grafos de conocimiento consultables. Base para onboarding agents. | Sí — context sobre repos grandes |
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

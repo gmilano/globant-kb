@@ -1,44 +1,26 @@
-# 📈 Agentes Trending — Technology
+# 📈 Agentes AI trending — Technology (semana del 2026-07-13)
 
-> Lo nuevo esta semana en AI para desarrollo de software y herramientas tech.
-> Última actualización: 2026-07-12
+> Qué está ganando tracción esta semana en el ecosistema AI / dev tools.
 
-## Movimientos destacados (semana del 7-12 julio 2026)
+## Movimientos destacados
 
-### 🔥 OpenCode supera 172k estrellas — nuevo líder open source
+### opencode supera los 181k stars (anomalyco/opencode)
+Sigue siendo el coding agent más popular de GitHub por amplio margen. 7.5M developers lo usan mensualmente. El equipo (rebrandeado a Anomaly) lanzó soporte nativo para LSP en repos grandes y mejoró la integración MCP con servidores de filesystem y base de datos. **Por qué importa**: punto de entrada estándar para cualquier propuesta de AI-augmented development.
 
-[anomalyco/opencode](https://github.com/anomalyco/opencode) consolida su posición como el coding agent open source más estrellado de GitHub, superando a Gemini CLI (~105k) y OpenAI Codex (~95k). OpenCode tiene 7.5M desarrolladores mensuales activos y 900+ contribuidores. Es terminal-native, conecta con 75+ AI providers y soporta completamente BYOK.
+### browser-use cruza 86k stars (browser-use/browser-use — MIT)
+Web automation para agentes AI. Permite que cualquier LLM controle un browser: click, forms, scraping estructurado. Ganó tracción masiva como capa de integración para agentes que necesitan consumir sistemas web legacy sin API. **Por qué importa**: base para automatizar integraciones con portales B2B sin APIs modernas.
 
-### 🚀 Gemini CLI mantiene momentum post-lanzamiento
+### Bumblebee — supply chain scanner MCP (Perplexity AI — Apache-2.0)
+2.6k★ en mayo 2026, crecimiento acelerado. Escanea dependencias, servidores MCP y extensiones de editor en busca de paquetes sospechosos. Surge ante la explosión de adopción de MCP sin revisión de seguridad. **Por qué importa**: seguridad en el stack MCP es ahora un requisito enterprise, no opcional.
 
-Google lanzó [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) en Q2 2026 con Apache-2.0, llegando rápidamente a 105k estrellas. Implementa loop ReAct, soporte MCP nativo (client + server), acceso a búsqueda web y espacio de trabajo de Google. Es el rival directo de Claude Code en el segmento terminal-first.
+### Graphify (Graphify-Labs/graphify — MIT)
+Convierte codebases en grafos de conocimiento consultables para coding agents. Los agentes pueden preguntar sobre la arquitectura del repo antes de editar. **Por qué importa**: resuelve el problema de context window en repos grandes; base para onboarding agents.
 
-### 📊 Reporte Anthropic: 78% de sesiones son multi-archivo
+### Orca (stablyai/orca — Apache-2.0)
+Agent development environment para correr flotas de coding agents en paralelo. Permite paralelizar tareas de coding a escala. **Por qué importa**: primer runner OSS para parallel agent fleets; diferenciador en proyectos de migración masiva.
 
-El [2026 Agentic Coding Trends Report](https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf) muestra que en Q1 2026, el 78% de sesiones de Claude Code involucran ediciones multi-archivo, vs 34% en Q1 2025. El patrón "bounded autonomy" (agentes con límites claros + escalación humana) es el dominante en enterprise.
-
-### 🤝 MCP se consolida como protocolo universal para dev tools
-
-El Model Context Protocol (MCP) de Anthropic ya es soportado nativamente por Gemini CLI, n8n, Continue, Dify y decenas de dev tools. GitHub confirmó MCP support en Copilot. Se convierte en el "USB-C del ecosistema AI para desarrolladores".
-
-### 💡 smolagents de HuggingFace: el framework más minimalista
-
-[huggingface/smolagents](https://github.com/huggingface/smolagents) con 27k estrellas gana tracción como el framework más limpio para agentes: el LLM escribe código Python directamente como actions, sin DSL intermedio. Ideal para research y prototipos.
-
-### 🏭 OpenHands (ex-OpenDevin) en producción en enterprises
-
-[all-hands-ai/OpenHands](https://github.com/all-hands-ai/OpenHands) supera 60k estrellas y reporta deployments productivos en enterprise. Corre tareas largas en sandbox Docker, crea PRs completos, escribe tests y gestiona CI/CD sin intervención humana.
-
-## Métricas de mercado (julio 2026)
-
-| Métrica | Valor |
-|---------|-------|
-| Código generado por AI | 46% de todo el código escrito |
-| Devs usando AI weekly | 95% |
-| Desarrolladores con AI daily | 20M+ |
-| Nuevo código AI por fin de 2026 | 60% (Gartner) |
-| Velocidad multi-archivo Claude Code | 78% sesiones |
-| Market AI coding tools | $12.8B |
+### LangGraph supera a CrewAI en stars (langchain-ai/langgraph — MIT, ~33k)
+LangGraph superó a CrewAI en stars durante el Q1 2026 por adopción enterprise. Su arquitectura de grafos con state máquinas es la preferida para flujos complejos con branching. 34.5M descargas mensuales.
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline automático — v12.*

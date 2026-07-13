@@ -1,177 +1,177 @@
-# 🧩 Patrones de Composición — Technology
+# 🧩 Patrones de composición — Technology / Software Development
 
-> Recetas concretas para construir soluciones AI para clientes tech.
-> Cada patrón nombra repos específicos + cómo conectarlos.
-> Última actualización: 2026-07-12
-
-## Patrón base
-
-```
-[Plataforma vertical base (open source)]
-          ↓
-[Capa de integración AI — LangGraph / n8n / Dify]
-          ↓
-[Agentes especializados — OpenHands / CrewAI / MetaGPT]
-          ↓
-[UI conversacional / API para el cliente]
-```
+> Recetas concretas para construir soluciones AI combinando repos + agentes.
+> Cada patrón: repos específicos + cómo conectarlos + tiempo estimado.
+> Última actualización: 2026-07-13 (v12)
 
 ---
 
-## P1 — AI-Native Software Delivery (4-6 semanas)
+## P1 — AI Code Review en Pull Requests (CI)
 
-> **Problema**: Software factory quiere reducir 40% el tiempo de dev en proyectos nuevos.
+**Problema**: el code review manual es el cuello de botella más común en equipos de software.
 
-**Stack**:
-- [anomalyco/opencode](https://github.com/anomalyco/opencode) (MIT) — coding agent terminal para devs
-- [all-hands-ai/OpenHands](https://github.com/all-hands-ai/OpenHands) (MIT) — agente autónomo para tareas largas (crear módulos completos)
-- [go-gitea/gitea](https://github.com/go-gitea/gitea) (MIT) — Git self-hosted con Gitea Actions para CI/CD
-- [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) (MIT) — security review automático en cada PR
-- [mlflow/mlflow](https://github.com/mlflow/mlflow) (Apache-2.0) — tracking de métricas de calidad de código
-
-**Arquitectura**:
 ```
-Developer → opencode (terminal, tareas cortas)
-         → OpenHands (sandbox Docker, tareas largas: módulo completo)
-         → Gitea (PR creado por agente)
-         → Gitea Actions → claude-code-security-review (automático)
-         → Merge si pasa seguridad
-         → MLflow: tracking de métricas (cobertura tests, vulnerabilidades)
+Gitea o GitHub (PR event webhook)
+  → GitHub Actions / Gitea CI
+  → OpenHands (All-Hands-AI/OpenHands, MIT) en modo headless
+      · Lee el diff del PR
+      · Ejecuta tests en sandbox
+      · Analiza calidad con SonarQube (LGPL) via MCP
+  → Comentarios automáticos en el PR con findings
+  → Cline (cline/cline, Apache-2.0) en IDE del developer para fix suggestions
 ```
 
-**Tiempo estimado**: 4-6 semanas para setup + onboarding equipo.
+**Repos clave**: `All-Hands-AI/OpenHands` + `SonarSource/sonarqube` + `cline/cline`  
+**Licencias**: MIT + LGPL-3.0 + Apache-2.0  
+**Tiempo estimado**: 2–3 semanas para MVP con Gitea self-hosted  
+**ROI**: reducción 40-60% en tiempo de code review; detección de bugs antes de merge
 
 ---
 
-## P2 — Self-Hosted AI Dev Platform para Enterprise (6-8 semanas)
+## P2 — Terminal Coding Agent con MCP Stack Corporativo
 
-> **Problema**: Enterprise con restricciones de datos quiere toda la AI on-premise, sin mandar código a APIs externas.
+**Problema**: el developer necesita un agente que entienda el stack completo de la empresa (Jira, Confluence, Postgres, GitHub, Kubernetes).
 
-**Stack**:
-- [ollama/ollama](https://github.com/ollama/ollama) (MIT) — LLMs 100% locales (Llama 3.3, DeepSeek, Qwen)
-- [open-webui/open-webui](https://github.com/open-webui/open-webui) (MIT) — chat UI self-hosted sobre Ollama
-- [langchain-ai/langchain](https://github.com/langchain-ai/langchain) (MIT) — framework para conectar LLM local con tools internas
-- [paul-gauthier/aider](https://github.com/paul-gauthier/aider) (Apache-2.0) — coding agent git-native con soporte Ollama
-- [mlflow/mlflow](https://github.com/mlflow/mlflow) (Apache-2.0) — MLOps tracking completamente on-premise
-
-**Arquitectura**:
 ```
-Ollama (servidor GPU interno, modelos locales)
-     ↓
-Open WebUI (chat interno, RAG sobre docs de la empresa)
-     ↓
-Aider (coding agent local → Git commits automáticos)
-     ↓
-LangChain: chains custom sobre sistemas legacy (API internas)
-     ↓
-MLflow: tracking de uso y calidad
+opencode (anomalyco/opencode, MIT) — agente terminal principal
+  └─ MCP servers conectados:
+      · @modelcontextprotocol/server-filesystem — acceso al repo local
+      · @modelcontextprotocol/server-postgres — queries a BD de producción (read-only)
+      · Gitea MCP server — PRs, issues, wikis
+      · Kubernetes MCP server — estado del cluster
+      · Confluence MCP server — documentación técnica
+  └─ opencode "sabe todo" sobre el sistema del cliente
+  └─ Developer escribe en lenguaje natural: "fix el bug del ticket JIRA-4821"
 ```
 
-**Resultado**: Zero data leaves the building. Compliance total con LGPD/GDPR.
+**Repos clave**: `anomalyco/opencode` + `wong2/awesome-mcp-servers` (catálogo)  
+**Licencias**: MIT  
+**Tiempo estimado**: 1–2 semanas para instalar y configurar el stack MCP  
+**ROI**: 9.4h ahorradas/developer/semana (industria promedio)
 
 ---
 
-## P3 — Multi-Agent Software Team (MetaGPT Pattern) (3-4 semanas)
+## P3 — Visual Agent Builder para Non-Developers
 
-> **Problema**: Cliente quiere generar un MVP completo desde un PRD (Product Requirements Document).
+**Problema**: áreas de negocio (producto, ops, legal) quieren agentes pero no pueden escribir código.
 
-**Stack**:
-- [geekan/MetaGPT](https://github.com/geekan/MetaGPT) (MIT) — multi-agent software company
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — orquestación del workflow multi-agente con estado
-- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) (MIT) — crew alternativo para tareas especializadas (QA, security)
-- [all-hands-ai/OpenHands](https://github.com/all-hands-ai/OpenHands) (MIT) — ejecución de código en sandbox
-
-**Arquitectura**:
 ```
-Input: PRD del cliente
-     ↓
-MetaGPT: roles asignados a LLMs
-  - Product Manager → user stories, backlog
-  - Architect → diseño de sistema, tech stack
-  - Developer → código (usa OpenHands para ejecución)
-  - QA → tests, casos de edge
-  - Security → review con claude-code-security-review
-     ↓
-Output: repo Git con código, tests, docs y CI/CD configurado
+Dify (langgenius/dify, Apache-2.0) — plataforma self-hosted
+  └─ Workflow visual builder:
+      · Nodo LLM (Anthropic claude-sonnet-5 o Ollama local)
+      · Nodo Knowledge Base (documentos internos, PDFs, wikis)
+      · Nodo Tool: browser-use (browser-use/browser-use, MIT) para scraping web
+      · Nodo Output: email / Slack / Webhook
+  └─ Usuarios de negocio construyen y modifican flujos sin código
+  └─ IT mantiene el Dify self-hosted (Docker Compose)
 ```
 
-**Tiempo estimado**: 3-4 semanas para customizar MetaGPT al stack del cliente.
+**Repos clave**: `langgenius/dify` + `browser-use/browser-use`  
+**Licencias**: Apache-2.0 + MIT  
+**Tiempo estimado**: 1 semana setup + 2–3 semanas para primeros workflows de negocio  
+**ROI**: autonomía de áreas de negocio; reducción de backlog de IT para automatizaciones simples
 
 ---
 
-## P4 — AI-Powered DevOps Automation con n8n (2-3 semanas)
+## P4 — Migración / Refactoring Masivo con Parallel Agent Fleet
 
-> **Problema**: DevOps team quiere automatizar triage de issues, generación de runbooks y alertas inteligentes.
+**Problema**: migrar un monolito legacy (50k+ archivos) a microservicios o modernizar tech stack requiere meses de trabajo manual.
 
-**Stack**:
-- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache-2.0) — workflow orchestration con AI nativo
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — agentes para análisis de logs
-- [mlflow/mlflow](https://github.com/mlflow/mlflow) (Apache-2.0) — tracking de incidentes y métricas
-- [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) (Apache-2.0) — CLI Dynatrace para AI agents
-
-**Arquitectura**:
 ```
-Alert (PagerDuty / Dynatrace → dtctl)
-     ↓
-n8n trigger → AI analysis (LangGraph agent con logs)
-     ↓
-Auto-triage: clasifica severidad, asigna owner
-     ↓
-Si P1: crea runbook AI + escalación Slack/Teams automática
-Si P2-P3: crea ticket + draft solución en GitLab/Jira
-     ↓
-Post-mortem: MLflow tracking del incidente + métricas de resolución
+Orca (stablyai/orca, Apache-2.0) — orchestrator de fleet de agentes
+  └─ Divide el repositorio en módulos independientes
+  └─ Lanza N instancias paralelas de OpenHands (MIT):
+      · Agente 1: módulo auth → microservicio FastAPI
+      · Agente 2: módulo payments → microservicio Go
+      · Agente N: módulo reports → microservicio Python
+  └─ Cada agente ejecuta tests locales en su sandbox
+  └─ Agente orquestador valida integración entre módulos
+  └─ aider (paul-gauthier/aider, Apache-2.0) para commits disciplinados
+  └─ SonarQube valida calidad del código generado antes de merge
 ```
 
-**Tiempo estimado**: 2-3 semanas. Muy buen ROI visible desde la primera semana.
+**Repos clave**: `stablyai/orca` + `All-Hands-AI/OpenHands` + `paul-gauthier/aider` + `SonarSource/sonarqube`  
+**Licencias**: Apache-2.0 + MIT + Apache-2.0 + LGPL-3.0  
+**Tiempo estimado**: 4–8 semanas para migración que tomaría 6–12 meses manual  
+**ROI**: 5–10x aceleración en modernización de legado; diferenciador competitivo de Globant
 
 ---
 
-## P5 — Internal Knowledge Base + Code Assistant (3-4 semanas)
+## P5 — DevOps ChatOps Agent sobre Mattermost
 
-> **Problema**: Dev team pierde 2+ horas/día buscando cómo funciona el sistema legacy.
+**Problema**: el equipo de ops recibe alertas en Grafana pero necesita actuar en Kubernetes y GitHub. Flujo manual y lento.
 
-**Stack**:
-- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — plataforma AI con RAG nativo
-- [ollama/ollama](https://github.com/ollama/ollama) (MIT) — modelos locales para privacidad
-- [open-webui/open-webui](https://github.com/open-webui/open-webui) (MIT) — UI de chat para el equipo
-- [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) (MIT) — grafo de conocimiento del codebase
-
-**Arquitectura**:
 ```
-Codebase (repos legacy) → code-review-graph (indexa el grafo de código)
-Docs internas (Confluence, Notion, PDFs) → Dify (embeddings + RAG)
-     ↓
-Open WebUI: "¿Cómo funciona el módulo de pagos?" → respuesta con contexto real
-     ↓
-Dify: si la pregunta requiere código → tool call a code-review-graph → respuesta con refs exactas al repo
+Grafana (grafana/grafana, AGPL-3.0) — alertas de observabilidad
+  → Webhook a Mattermost (mattermost/mattermost, Apache-2.0)
+  → Bot de ChatOps con MCP tools:
+      · Kubernetes MCP — listar pods, escalar deployments, rollback
+      · GitHub MCP — listar PRs, mergear hotfix aprobado
+      · Dify MCP — invocar flujo de diagnóstico automatizado
+  → Developer escribe en canal: "/rollback payment-service v2.3.1"
+  → Agente ejecuta rollback con confirmación HITL (bounded autonomy)
+  → Log auditado en Mattermost para compliance
 ```
 
-**Resultado**: Onboarding de nuevos devs de 3 semanas → 3 días.
+**Repos clave**: `mattermost/mattermost` + `grafana/grafana` + MCP servers propios  
+**Licencias**: Apache-2.0 + AGPL-3.0  
+**Tiempo estimado**: 3–4 semanas  
+**ROI**: MTTR (Mean Time to Recover) reducido 50–70%; cumplimiento de audit trail
 
 ---
 
-## P6 — Automated Code Quality Gates (1-2 semanas)
+## P6 — AI Onboarding Agent para Nuevos Developers
 
-> **Problema**: Equipo no tiene tiempo para code review manual de todos los PRs.
+**Problema**: onboarding de un developer nuevo en una codebase grande toma 2–4 semanas. El conocimiento del repo está disperso en Confluence + código + Slack.
 
-**Stack**:
-- [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) (MIT) — GitHub Action de security review
-- [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) (MIT) — contexto del codebase para review más preciso
-- [mlflow/mlflow](https://github.com/mlflow/mlflow) (Apache-2.0) — tracking de hallazgos y métricas de calidad
-
-**Arquitectura**:
 ```
-PR creado → GitHub Actions trigger
-     ↓
-claude-code-security-review: analiza diff vs OWASP Top 10
-     ↓
-code-review-graph: añade contexto del codebase (¿esta función ya existe?)
-     ↓
-Si crítico: bloquea PR + comenta con fix sugerido
-Si warning: aprueba con comentarios opcionales
-     ↓
-MLflow: tracking de vulnerabilidades encontradas/ciclo, tiempo de resolución
+Graphify (Graphify-Labs/graphify, MIT)
+  → Indexa el codebase → knowledge graph consultable
+  → MCP server sobre el graph
+
+opencode (MIT) o Cline (Apache-2.0)
+  → Conectado al MCP de Graphify + Confluence MCP + GitHub MCP
+  → Developer nuevo pregunta en lenguaje natural:
+      "¿Qué módulos debo modificar para añadir un nuevo tipo de pago?"
+      "¿Quién es el owner de la autenticación y cuándo fue el último cambio?"
+  → Agente responde con context del grafo + links a código + historia de cambios
+
+smolagents (huggingface/smolagents, Apache-2.0)
+  → Agente ligero que responde preguntas de arquitectura en el chat interno
 ```
 
-**Tiempo estimado**: 1-2 semanas para configurar + integrar en CI/CD existente. Rápido win.
+**Repos clave**: `Graphify-Labs/graphify` + `anomalyco/opencode` + `huggingface/smolagents`  
+**Licencias**: MIT + MIT + Apache-2.0  
+**Tiempo estimado**: 2–3 semanas (indexar repo + configurar agente)  
+**ROI**: onboarding de 2–4 semanas → 3–5 días; retención de conocimiento institucional
+
+---
+
+## P7 — MCP Security Scanner en Pipeline CI/CD
+
+**Problema**: la adopción de MCP servers sin revisión crea vulnerabilidades de supply chain en el stack de AI.
+
+```
+Bumblebee (PerplexityAI/bumblebee, Apache-2.0)
+  → Escanea: dependencias npm/pip, MCP servers en .mcp.json, extensiones de editor
+  → CI pipeline: bloquea MCP servers con indicadores de riesgo
+  → Reporte de supply chain risk en cada PR
+
+Integrado con:
+  · GitHub Actions (YAML)
+  · Gitea CI (si self-hosted)
+  · Slack/Mattermost alert si se detecta paquete sospechoso
+  · SonarQube (LGPL) para correlacionar con code quality
+
+Governance:
+  · Lista blanca de MCP servers aprobados por el cliente
+  · Bounded autonomy: agentes solo pueden usar MCP servers del registry aprobado
+```
+
+**Repos clave**: `PerplexityAI/bumblebee` + `SonarSource/sonarqube` + CI de elección  
+**Licencias**: Apache-2.0 + LGPL-3.0  
+**Tiempo estimado**: 1 semana para integración básica  
+**ROI**: prevención de incidentes de seguridad en stack AI; requerimiento creciente en enterprise
+
+---
+*Fuentes: benchmark de adopción JetBrains 2025; Gartner 2026 AI Coding Agents Market Guide; New Stack — 5 Key Trends Agentic Development 2026.*
