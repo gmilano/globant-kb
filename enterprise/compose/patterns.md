@@ -1,7 +1,7 @@
 # Composition Patterns — Enterprise AI
 
 > Concrete recipes for building enterprise AI solutions. Each names specific repos, how to wire them, estimated effort, and Globant positioning.
-> Last updated: 2026-07-12 (v5)
+> Last updated: 2026-07-13 (v6)
 
 ---
 
@@ -416,4 +416,80 @@ On-premises data center / private cloud (EU sovereign)
 **LATAM angle**: LGPD compliance + data residency requirements make this compelling for Brazilian regulated enterprises
 
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+
+## P12 — TypeScript-First Agent Platform (Mastra + n8n + Langfuse)
+
+**Use case**: Enterprise with a TypeScript/Node.js engineering culture (fintech, e-commerce, SaaS) that wants to build production AI agents without switching to Python for the AI layer.
+
+**Repos**:
+- [mastra-ai/mastra](https://github.com/mastra-ai/mastra) — Apache-2.0 — TypeScript agent framework v1.0; graph workflows, memory, MCP, OTEL
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Fair-code — Trigger layer and legacy system integration (500+ connectors)
+- [langfuse/langfuse](https://github.com/langfuse/langfuse) — MIT — Observability (Mastra emits OTEL; Langfuse ingests OTEL natively)
+
+**Architecture**:
+```
+Enterprise Event (Salesforce webhook / cron / Slack command)
+    ↓
+n8n: receive trigger → normalize payload → call Mastra HTTP endpoint
+    ↓
+Mastra Agent (TypeScript):
+    ├── Graph workflow: steps in typed .then()/.branch()/.parallel() chains
+    ├── Memory: per-user / per-session context via Mastra Memory API
+    ├── MCP client: calls enterprise systems (Jira MCP, ERPNext MCP, Atlassian MCP)
+    └── EMA: MCP EMA enforces user IdP RBAC on each tool call
+    ↓
+Langfuse: trace every agent call; token cost attribution; eval quality scores
+    ↓
+n8n: write back to source systems + notify Slack/Teams
+```
+
+**Key decision points**:
+- Mastra v1.0 GA: stable API; `.then()/.branch()/.parallel()` workflow DSL mirrors LangGraph patterns in TS
+- Same SaaS pattern Replit, PayPal, and Plaid use in production
+- Enterprise License needed for RBAC/SSO in client-facing production (confirm with Mastra sales)
+- n8n fair-code: check license if the automation runs client-facing
+
+**Effort**: 3–4 weeks PoC; 2–3 months production with MCP EMA + governance
+**Ideal for**: TypeScript teams; LATAM SaaS and fintech companies already on Node.js; React/Next.js shops extending into AI
+
+---
+
+## P13 — Agentic Procurement with AP2 Autonomous Payments (A2A + AP2 + LangGraph + Odoo)
+
+**Use case**: Procurement agent that autonomously identifies the best vendor, negotiates or selects a price, creates a PO in Odoo, and completes the payment via AP2 — all with cryptographic audit trail and HITL approval gate for orders above a threshold.
+
+**Repos**:
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — Orchestration with HITL checkpointing (pause for human approval above threshold)
+- [odoo/odoo](https://github.com/odoo/odoo) — LGPL-3 — ERP backbone: purchase orders, vendor master, inventory
+- AP2 Protocol (open, May 2026) — A2A + MCP extension for agent-driven payments; Mastercard/PayPal/Adyen supported
+
+**Architecture**:
+```
+Trigger: inventory level drops below reorder point (Odoo webhook)
+    ↓
+LangGraph: Procurement Agent workflow
+    ├── Step 1: query vendor catalog via MCP (Odoo purchase module)
+    ├── Step 2: score vendors (price, lead time, reliability history)
+    ├── Step 3: select best offer → draft PO in Odoo via REST
+    ├── Step 4 (conditional): if PO value > $10,000 → HITL pause → manager approves
+    └── Step 5: execute payment via AP2 Protocol
+            ├── AP2 creates non-repudiable cryptographic payment intent
+            ├── Routes to AP2-compliant payment processor (Adyen / Mastercard)
+            └── Writes payment confirmation + audit trail back to Odoo
+    ↓
+Langfuse: full trace of vendor selection reasoning + payment event log
+    ↓
+HITL notification: Slack/email with decision context + one-click approve
+```
+
+**Key decision points**:
+- AP2 is an open protocol extension — does not require a specific payment vendor; works with any AP2-compliant processor
+- LangGraph HITL checkpoint suspends the workflow; resumes on approval without re-running prior steps
+- Odoo 20 (Oct 2026) ships autonomous procurement agents natively — integrate, don't replace
+- A2A v1.0 Signed Agent Cards provide verifiable identity for every action in the payment chain
+
+**Effort**: 4–6 weeks PoC (if Odoo already implemented); 3–4 months production with AP2 processor integration
+**Revenue / cost case**: Autonomous procurement reduces approval cycle time 60–80%; AP2 eliminates manual payment entry and enables vendor rebates for faster payment
+
+---
+*Auto-updated by ingest pipeline — v6 2026-07-13*

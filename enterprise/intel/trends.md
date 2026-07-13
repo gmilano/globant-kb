@@ -1,6 +1,6 @@
 # Trends — Enterprise AI
 
-> Current signals, patterns, and technology shifts shaping enterprise AI in 2026. Updated 2026-07-12 (v5).
+> Current signals, patterns, and technology shifts shaping enterprise AI in 2026. Updated 2026-07-13 (v6).
 
 ## Macro Signals
 
@@ -283,5 +283,84 @@ AWS research (2026) quantifies what practitioners have observed anecdotally: **m
 
 **Implication**: Do not use lab benchmarks in client proposals without a production discount. Use the CLASSic evaluation framework (Cost, Latency, Accuracy, Stability, Security) from day one, and run production load tests with synthetic traffic before launch. Langfuse's eval harness + LangGraph's checkpointing are the primary mitigation tools.
 
+## T24 — A2A Protocol v1.0: Signed Agent Identity + Enterprise Multi-Tenancy
+
+**What changed**: The Linux Foundation promoted A2A to v1.0 stable (July 2026) — first production-grade specification for cross-vendor agent delegation.
+
+**Key enterprise additions**:
+- **Signed Agent Cards**: JWS cryptographic verification (RFC 7515 + RFC 8785 canonicalization) — agents prove identity before receiving delegation. Critical for regulated industries where you must audit who acted.
+- **Native multi-tenancy**: A single A2A endpoint can serve multiple agents or tenants. No custom sharding code.
+- **OAuth 2.0 hardened**: Device Code flow (RFC 8628) for headless/IoT agents; PKCE required; insecure implicit + password flows removed.
+- **SDK coverage**: Python, TypeScript, Java, Go, .NET — all three hyperscalers ship native A2A in their agent runtimes.
+
+**For Globant**: Any multi-vendor agent architecture (e.g., LangGraph on AWS + ADK on GCP + SAP agents) can now interoperate via A2A v1.0 without custom middleware. Use Signed Agent Cards as the audit anchor in EU AI Act compliance designs.
+
+## T25 — AP2 (Agent Payments Protocol): Autonomous Commerce Layer
+
+**What**: Google and 60+ partners (Mastercard, PayPal, Adyen, American Express, Coinbase, Etsy, Forter, Intuit, Revolut, Salesforce, ServiceNow, UnionPay, Worldpay) launched AP2 — an open extension on top of A2A + MCP enabling autonomous agent-driven transactions.
+
+**Current capabilities** (as of May 2026):
+- Purchases at AP2-compliant merchants
+- Non-repudiable cryptographic audit trail for every agent payment
+- B2B: autonomous procurement on Google Cloud Marketplace; license auto-scaling
+
+**Roadmap** (not yet live): Recurring bills, P2P transfers, financial account operations.
+
+**Why it matters**: The first open protocol that makes autonomous purchasing legally auditable and cryptographically verifiable. Moves AI agent ROI from cost savings to revenue generation (agents that can buy and sell).
+
+**Globant opportunity**:
+- LATAM e-commerce clients: add AP2 to agent checkout flows without custom payment API
+- B2B procurement: autonomous vendor selection + PO issuance + payment (P12 pattern)
+- FinTech LATAM: AP2 + Open Finance BR/MX regulatory infrastructure
+
+## T26 — OWASP Agentic AI Maturity Model v2.01: Governance Has a Scorecard
+
+**What**: OWASP published the State of Agentic AI Security and Governance v2.01 (June 2026), adding the **Enterprise Adoption Maturity Model** — a two-axis scorecard that gives Globant a structured conversation framework with CISOs and AI governance leads.
+
+**The two axes**:
+- **Governance Level** (0–4): ad hoc → basic controls → structured policies → continuous monitoring → adaptive telemetry-driven control
+- **Adoption Tier** (AT0–AT8): Shadow AI → vendor-embedded assistants → platform-integrated agents → citizen-developer flows → code-executing agents → custom in-house builds → cross-org federated networks
+
+**New in v2.01**:
+- 42 regulatory instruments tracked across 10 jurisdictions
+- Agent identity section (ties to A2A v1.0 Signed Agent Cards)
+- AI SBOM + supply chain provenance requirements
+- Live incidents/exploits tracker
+
+**Stat**: 29% of Fortune 500 and ~19% of Global 2000 are already live/contracted with a leading AI vendor (a16z, April 2026) — most without formal governance at Level 2+.
+
+**Globant positioning**: Use the AT0→AT3 maturity gap as the sales narrative. Discovery week delivers a scored readout; governance retrofit brings the client to AT3/Level 2. Clear deliverable, clear value.
+
+## T27 — Mastra v1.0: TypeScript Fills the LangGraph Gap for Full-Stack Teams
+
+**What**: [Mastra](https://github.com/mastra-ai/mastra) (Apache-2.0, YC W25) shipped v1.0 in January 2026 and raised a $22M Series A from Spark Capital (April 2026). By July 2026: ~26k★, 1.8M npm downloads/month.
+
+**What Mastra provides** (unique in TS ecosystem):
+- Graph-based workflows (`.then()`, `.branch()`, `.parallel()`) — same mental model as LangGraph in Python
+- Native memory: user/session/agent with semantic search
+- MCP client built in
+- OTEL-native observability (token usage, latency, costs)
+- Enterprise edition: RBAC, SSO, IAM, VPC isolation
+
+**Production reference clients**: Replit, SoftBank, PayPal, Plaid, Marsh McLennan.
+
+**Why it matters**: Before Mastra, enterprise TypeScript/Node.js teams had to either use Python for agents or accept immature TS libraries. Now the entire agent stack — including memory, MCP tools, and observability — ships in one production-grade TS SDK.
+
+**For Globant**: Web-first teams building Next.js/Node.js enterprise apps can now ship production agents in their native language without switching to Python for the AI layer.
+
+## T28 — Odoo 20 Agentic AI Shift (September 2026 Launch)
+
+**What**: Odoo 20 will launch at Odoo Experience Brussels (September 24–26, 2026), introducing a full shift from **reactive AI** (chatbots, content generation) to **autonomous agentic AI** that plans and executes workflows independently.
+
+**Key AI changes in v20**:
+- Autonomous AI agents replace chatbot assistant model — agents execute across modules (accounting, CRM, purchasing) without human prompts
+- Natural language search across the full ERP data model
+- Read-replica database architecture: 10,000+ simultaneous users (up from 5,000)
+- Deepest AI structural changes in: Payroll, Planning, Marketing Automation, Website/eCommerce, Accounting, Phone/Communication, POS
+
+**Migration path**: Odoo 19 (current) → Odoo 20 (Oct 2026 stable); stable 20.1 in Q4 2026.
+
+**Globant angle**: Clients on Odoo 19 or planning Odoo implementation have a concrete AI upgrade path without changing ERP vendors. Odoo 20 agents + custom Globant extensions (LangGraph/Mastra on top) = differentiated offering vs. standard Odoo partners.
+
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+*Auto-updated by ingest pipeline — v6 2026-07-13*

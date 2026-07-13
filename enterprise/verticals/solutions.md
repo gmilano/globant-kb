@@ -1,13 +1,13 @@
 # Vertical Solutions — Enterprise
 
 > Real enterprise platforms that can be customized with AI on top. Model: start with a working system, add an agentic layer.
-> Last updated: 2026-07-12 (v5)
+> Last updated: 2026-07-13 (v6)
 
 ## ERP Platforms
 
 | Platform | License | Stars | URL | Stack | AI Integration Strategy |
 |----------|---------|-------|-----|-------|------------------------|
-| **Odoo** | LGPL-3 (community) | ~49.1k | [odoo/odoo](https://github.com/odoo/odoo) | Python/OWL/PostgreSQL | 9 AI features shipped 2026; Odoo 19 current; Odoo 20 (Sep 2026): AI-assisted accounting, website support, auto-record creation; >€7B valuation |
+| **Odoo** | LGPL-3 (community) | ~49.1k | [odoo/odoo](https://github.com/odoo/odoo) | Python/OWL/PostgreSQL | Odoo 19 current; **Odoo 20 launching Odoo Experience Brussels Sep 24-26, 2026** (stable Oct 2026): autonomous AI agents (not chatbots) execute across modules; natural language ERP search; read-replica DB for 10k+ users; >€7B valuation |
 | **ERPNext** | GPL-3.0 | ~36.7k | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/Frappe/MariaDB | v16 "Frappe Caffeine" (stable Dec 2025): 2× performance. AI ecosystem: NextAI (Gemini), changAI (on-prem RAG), Raven AI, MCP server bridge |
 | **NocoBase** | AGPL-3.0 | ~21.6k | [nocobase/nocobase](https://github.com/nocobase/nocobase) | TypeScript/Node.js/PostgreSQL | **Most AI-native ERP**: AI Employee is an operational role, not a chatbot; participates in approvals, creates records, analyzes data; supports Claude/Cursor coding agents |
 | **Apache OFBiz** | Apache-2.0 | ~1.1k | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java/Spring | API-first; Globant-safe Apache-2.0; ERP + SCM + CRM; build AI layer via REST API |
@@ -115,7 +115,16 @@ Step 5: Governance (required for EU AI Act Aug 2026)
 | **AAIF (Agentic AI Foundation)** | Open | Linux Foundation | Fastest-growing LF project; Anthropic, OpenAI, Block as co-founders; AWS, Google, Microsoft as platinum; home of MCP governance |
 | **OPEA (Open Platform for Enterprise AI)** | Apache-2.0 | Linux Foundation | Standard stack for enterprise AI pipelines; Red Hat, NetApp, Nutanix founding; composable AI system building blocks |
 | **MCP (Model Context Protocol)** | Open (AAIF) | Linux Foundation / AAIF | 10,000+ public servers; 97M+ SDK downloads; 28% Fortune 500 adoption; EMA stable July 2026 |
-| **A2A (Agent-to-Agent)** | Open | Google (AAIF) | Agent-to-agent delegation; 150+ orgs production (Apr 2026); embedded in AWS/Azure/GCP |
+| **A2A (Agent-to-Agent) v1.0** | Open (LF) | Google / AAIF | Stable Jul 2026: signed Agent Cards (JWS/RFC 7515), native multi-tenancy, OAuth 2.0 PKCE; 150+ orgs; all three hyperscaler runtimes |
+| **AP2 (Agent Payments Protocol)** | Open extension | Google + 60+ partners | A2A + MCP extension for autonomous agent-driven commerce; Mastercard, PayPal, Adyen, AmEx, Coinbase, ServiceNow, Salesforce; live for merchant purchases May 2026 |
+
+## AI Security Standards (June 2026 Update)
+
+| Standard | Publisher | Description |
+|----------|-----------|-------------|
+| **OWASP Agentic AI Top 10** (2026) | OWASP | 10 risks: goal hijacking, tool misuse, identity abuse, memory poisoning, cascading failures, rogue agents, data exfiltration, excessive autonomy, audit evasion, supply chain compromise |
+| **State of Agentic AI Security v2.01** | OWASP (Jun 2026) | Enterprise Adoption Maturity Model (AT0–AT8 × Levels 0–4); 42 regulatory instruments; agent identity; AI SBOM + supply chain provenance |
+| **AI Security Solutions Landscape Q2 2026** | OWASP GenAI | Maps open-source and commercial tools to agentic lifecycle stages and threat mitigations |
 
 ---
-*Auto-updated by ingest pipeline — v5 2026-07-12*
+*Auto-updated by ingest pipeline — v6 2026-07-13*
