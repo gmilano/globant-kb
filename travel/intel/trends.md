@@ -1,127 +1,87 @@
-# 📡 Tendencias — Travel & Hospitality
+# 📡 Tendencias — Travel & Hospitality AI
 
-> Última actualización: 2026-07-13 (v10)
+> Última actualización: 2026-07-13 (v11)
 
-## Tendencias clave 2026
+## T1 — ⚠️ URGENTE: Amadeus Self-Service sunset (17 julio 2026)
 
-### T1 — Agentic AI ejecuta bookings (no solo recomienda)
-- IDC: 30% de los bookings de viaje serán ejecutados por AI agents para 2030
-- Trip.com/TripGenie: 60% de interacciones ya son booking-related
-- Phocuswright: 60%+ de empresas travel experimentando con agentic AI
-- Kantar: 40% de viajeros ya usan AI tools para planificación; 62% abiertos a usar más
-- El gap: business travel lidera (safeguards corporativos), leisure market desconfía (~30%)
-- **Implicación Globant**: diseñar agentes con "human-in-the-loop" como opción configurable
+Amadeus cierra el portal self-service el **17 julio 2026**. En días. Cualquier proyecto con claves self-service debe migrar YA. La alternativa más limpia para startups es **Duffel** ($3/orden, NDC nativo). Para enterprise: portal Amadeus Enterprise.
 
-### T2 — MCP como protocolo de travel tech
-- Julio 2026: Dida lanza primer MCP gateway B2B (2M+ hoteles, 3er mayor B2B travel del mundo)
-- Microsoft Azure lanza azure-ai-travel-agents como referencia enterprise con MCP
-- Airbnb MCP server: AI agents buscan alojamiento sin API key
-- Expedia B2B MCP server: anunciado, permitirá a partners conectar AI agents al inventario de Expedia
-- Ecosistema: wanderlog-mcp, mcp_travelassistant, LetsFG MCP — creciendo rápido
-- AltexSoft: "MCP está cambiando cómo las plataformas de travel acceden a datos en tiempo real"
-- **Implicación Globant**: construir con MCP desde el día 1 para cualquier cliente travel
+Impacto: rediseño de toda la capa de integración de vuelos en travel-tech. Oportunidad para proyectos que ya usen Duffel o NDC directo.
 
-### T3 — AI-native PMS vs. AI bolt-on
-- HAIP: primer PMS hotel donde los agentes AI son "ciudadanos de primera clase" desde la arquitectura
-- 12 agentes nativos (pricing dinámico, predicción cancelaciones, housekeeping scheduling, etc.)
-- OTAIP: orquestación de 75 agentes en 12 etapas para OTAs/agencias — domain-specific
-- Contraste con soluciones tradicionales: añaden AI como feature, no como fundamento
-- **Implicación Globant**: diferenciarse con arquitecturas AI-native, no AI bolt-on
+## T2 — Agentic booking: search → book → pay en una conversación
 
-### T4 — Agent-native flight search (sin markup de OTA)
-- LetsFG: 400+ aerolíneas via NDC/GDS en paralelo; $20-50 más barato que Booking.com/Kayak
-- Los agentes AI acceden a precios de aerolínea directamente, sin intermediario OTA
-- Modelo: MCP Server + SDK para integrar en cualquier agente
-- Amenaza para OTAs: IDC y PYMNTS notan que "AI travel agents pack a threat for travel aggregators"
-- **Implicación Globant**: integrar LetsFG como componente de búsqueda de vuelos en agentes de viaje
+Marzo 2026: Sabre + MindTrip + PayPal lanzaron la primera pipeline agéntica end-to-end: planificación conversacional, inventario real-time (420+ aerolíneas, 2M+ hoteles), pago integrado. La industria tiene ahora un estándar de referencia. El año 2026 es cuando el modelo deja de ser demo y se convierte en producción.
 
-### T5 — Google AI Mode booking (anunciado, pendiente launch)
-- Google anunció booking agentico de vuelos/hoteles en AI Mode
-- Usuario describe viaje → IA compara vuelos/hoteles reales → booking sin cambiar de pestaña
-- Google NO será merchant of record; transacciones van a Booking.com, Expedia, Marriott, IHG, Wyndham
-- Como Jun 2026: no lanzado públicamente, sin fecha confirmada
-- **Implicación Globant**: el inventario de los clientes hoteleros/aéreos necesita estar listo para agentes (structured data, direct API)
+## T3 — Consumer adoption gap: la brecha de confianza
 
-### T6 — Pricing dinámico AI (airlines + hotels)
-- Shift de sistemas rule-based hacia pricing personalizado y multi-canal
-- HAIP: agente de pricing dinámico nativo en el PMS
-- PROS: "next leap in airline offer creation via agentic AI"
-- Crecimiento fuerte en patentes de AI pricing en aerolíneas (2026)
-- **Implicación Globant**: oportunidad con aerolíneas LATAM para revenue management AI
+Solo el **2%** de consumidores US están dispuestos a usar agentes autónomos para reservar viajes. El **80%** de ejecutivos de viaje planean desplegarlos a escala. La barrera no es técnica: es confianza, accountability y protección al consumidor. El mercado corporativo lidera porque tiene salvaguardas (política de empresa, aprobaciones, auditoría).
 
-### T7 — Memoria persistente entre viajes
-- Los agentes más avanzados recuerdan preferencias entre sesiones y viajes
-- TripGenie: +45% tasa de revisita a 7 días con AI que recuerda
-- IDC: 50% de presupuestos AI en hospitality irán a personalización para 2030
-- Stack de memoria: Mem0 (Apache-2.0), Zep, MemGPT
-- **Implicación Globant**: incluir capa de memoria en todos los agentes de viaje
+## T4 — HITEC 2026: de la innovación a la implementación
 
-### T8 — WhatsApp como canal de booking en LATAM
-- >90% penetración WhatsApp en Brasil, México, Colombia, Argentina
-- Turistas esperan reservar por chat; baja penetración de apps nativas
-- HAIP tiene ChatGPT gateway integrado para booking conversacional
-- Twilio WhatsApp + LangGraph + MCP = stack completo de travel agent por WhatsApp
-- **Implicación Globant**: diferenciación regional con agentes Spanish-native en WhatsApp
+HITEC 2026 (San Antonio, junio, 6.100+ profesionales) fue el año del "enough talk, let's build":
+- **25%** de empresas de hospitalidad escalando IA activamente
+- **<10%** son "AI future-built" según BCG
+- **Barrera #1**: fragmentación de datos — "si tus datos están sucios, los agentes no te ven"
+- IDC predice: **30% de reservas de viaje** ejecutadas por AI para 2030
 
-### T9 — Disruption management autónomo
-- Agentes de nueva generación manejan disrupciones: vuelo cancelado → alternativas → rebook → notificación
-- langgraph-travel-agent: Amadeus + Twilio para rerouting en tiempo real
-- "Military-grade SOS protocols" en algunos proyectos emergentes
-- **Implicación Globant**: sell to airlines/hotels como "disruption management agent"
+## T5 — IDC: 30% de reservas por agentes AI para 2030
 
-### T10 — Turismo regenerativo + sostenibilidad
-- Viajeros (especialmente Millennials/Gen Z) buscan viajes con impacto positivo
-- AI para calcular huella de carbono, sugerir alternativas sostenibles, conectar con comunidades locales
-- Tendencia creciente en 2026 especialmente en LATAM (ecoturismo)
-- **Implicación Globant**: diferenciación con "sustainable travel agent" para operadores eco
+IDC forecasta que el número de agentes AI activos globalmente pasará de 28M (2025) a 2.2B (2030), con tareas ejecutadas creciendo al 524% CAGR. En viajes específicamente: 30% de reservas por agentes para 2030.
 
-### T11 — Consolidación GDS vs Direct Connect
-- Amadeus primer target multi-año EPS (2026-2028): AI como driver de distribución
-- Agentic AI podría bypassear GDS conectando directamente con aerolíneas via NDC
-- LetsFG: 195 conectores directos NDC como alternativa al GDS tradicional
-- Tensión entre distribución tradicional (GDS) y direct connect via MCP/API
-- **Implicación Globant**: clientes aerolínea quieren Direct Booking API con AI layer
+## T6 — MCP ecosystem: 10+ travel MCP servers
 
-### T12 — "Vibe Operating": AI operacional, no experimental (HITEC 2026)
-- HITEC 2026 acuñó "vibe operating" — el equivalente hotelero de "vibe coding": AI que opera el hotel, no solo asiste.
-- El cuello de botella ya no es la calidad del modelo, sino la conectividad de datos.
-- 6,000+ ejecutivos en HITEC: consenso de que la mayoría de empresas adopta AI sin arquitectura de datos que la sostenga.
-- Los que ganan: combinan AI-driven discoverability + inventario real-time + checkout moderno que convierte.
-- **Implicación Globant**: antes de proponer AI, auditar la infraestructura de datos del cliente — si no hay data layer, empezar ahí.
+El ecosistema MCP de viajes está explotando en 2026:
+- **trvl**: Go binary, 21+ proveedores, 0 API keys
+- **mcp-travel-assistant**: Google Travel + Amadeus
+- **travel-mcp-server**: vuelos + hoteles + flight tracking
+- **tripadvisor-mcp**: reviews + photos
+- **Dida-hotel-MCP-CN**: 2M+ hoteles B2B
+- **mcp-amadeus**: Amadeus Enterprise MCP
 
-### T13 — Corporate Travel lidera, Leisure sigue con cautela
-- Business travel: >50% de viajeros corporativos ya usan AI; safeguards corporativos facilitan adopción.
-- Solo 31% de programas corporativos tienen AI booking con enforcement de policy en tiempo real (oportunidad).
-- Leisure: ~30% de viajeros desconfían de que un agente AI tome decisiones de viaje por ellos.
-- Datos de HITEC 2026: AI-driven visitors convierten más (44.7% llegan al booking engine vs 25.9% organic).
-- **Implicación Globant**: para clientes B2B (agencias corporativas, TMCs), el ROI de AI es inmediato. Para B2C, necesita HITL configurable.
+Cualquier agente puede acceder a datos reales de viajes en minutos vía MCP.
 
-### T14 — Ecosistema MCP para travel explota: 10+ servidores activos
-- MCP está superando a las APIs REST como protocolo de integración en travel tech.
-- **Nuevos MCP servers (jul 2026)**:
-  - `trvl` (MikkoParkkola, MIT): 21 providers, Go binary, zero-config
-  - `tripgo-mcp-server` (skedgo): routing multi-modal
-  - `tripadvisor-mcp` (pab1it0, MIT): reviews y fotos TripAdvisor
-  - `mcp-amadeus` (donghyun-chae): Amadeus APIs
-  - `Dida-hotel-MCP-CN` (DIDA-AI, MIT): 2M+ hoteles B2B
-  - `wanderlog-mcp` (shaikhspeare, MIT): itinerarios conversacionales
-  - `mcp_travelassistant` (skarlekar, MIT): suite multi-servicio
-  - Apaleo MCP (comercial): primer PMS con MCP nativo
-  - Expedia B2B MCP (anunciado): coming 2026
-- **Implicación Globant**: construir un agente de viajes hoy = orquestar MCP servers, no integrar APIs directamente.
+## T7 — Business travel lidera adopción agéntica
 
-## Tendencias confirmadas desde v8 (jul 2026)
+El viaje corporativo tiene safeguards naturales que generan confianza: políticas de empresa, aprobaciones de manager, integración con HR y finanzas. Esto resuelve el problema de accountability. Las TMCs (Travel Management Companies) están siendo las primeras en desplegar agentes en producción.
 
-| Tendencia | Estado | Update (v10, jul 13 2026) |
-|-----------|--------|--------|
-| AI in Tourism USD 13.38B por 2030 CAGR 28.7% | ✅ Confirmado | McKinsey/Skift confirma momentum; VC 10%→45% AI-enabled |
-| Agentic AI como diferenciador | ✅ En ejecución | TripGenie 400% YoY; 60%+ empresas travel experimentando |
-| MCP para travel APIs | ✅ Acelerado | 10+ MCP servers activos (trvl, tripgo, tripadvisor, Apaleo) |
-| WhatsApp LATAM | ✅ Validado | HAIP tiene ChatGPT gateway integrado |
-| AI-native PMS | ✅ Confirmado | HAIP (OSS) + Apaleo (comercial) con Agent Hub |
-| Corporate travel AI leads leisure | ✅ Nuevo | 67% automatización corp vs 31% con enforcement real-time |
-| Smart hospitality $52B (2030) | ✅ Validado | HITEC 2026 datos: IoT+AI+conectividad como categoría $52B |
-| Skift insight: "agentes para consumidores que no existen" | ⚠️ Tensión | Mar 2026: warn de over-engineering para mercado leisure aún no listo |
+Estadísticas 2026:
+- 67% de potencial de automatización en viaje corporativo
+- 31% de empresas con enforcement de política en tiempo real
+- 74% reportan ahorros en gestión de gastos con AI
+
+## T8 — Data fragmentation como barrera primaria
+
+La fragmentación de datos es el obstáculo #1 — no la calidad de los modelos. Sistemas legacy desconectados, plataformas dispares, datos de clientes incompletos. Un hotel que no tiene sus datos en orden no puede ser "visible" para un agente de reservas externo. Los proyectos de data unification preceden a los de AI en hospitalidad.
+
+## T9 — Disruption handling / rebooking como killer use case
+
+Los agentes AI brillan en disrupciones: vuelo cancelado → buscar alternativas → rebook hotel → actualizar transporte → notificar al viajero. Todo en < 2 minutos, automático. Las aerolíneas y OTAs que resuelven esto primero ganan lealtad masiva.
+
+Arquitectura típica: LangGraph + AviationStack (flight status) + Amadeus/Duffel + hotel-MCP.
+
+## T10 — Hotel Revenue Management AI democratizado
+
+Hasta ahora, el revenue management dinámico era solo para cadenas hoteleras grandes (con sistemas de $50K+/año). HAIP (Apache-2.0) y herramientas similares lo democratizan. Un hotel independiente puede tener pricing dinámico, demanda forecasting y predicción de cancelaciones por primera vez.
+
+## T11 — Hotel Direct Booking vs OTA (comisiones AI-saved)
+
+OTAs cobran 15-20% de comisión. HAIP incluye motor de reservas directo sin comisiones. AI chatbots en la web del hotel convierten mejor (personalización) y sin intermediarios. El stack: HAIP + chatbot conversacional = hotel independiente con ventaja competitiva real.
+
+## T12 — NDC/ONE Order momentum: el viaje hacia oferta-orden
+
+Las aerolíneas están migrando de EDIFACT (GDS legacy) a NDC (New Distribution Capability) y ONE Order. Esto permite oferta dinámica, ancillaries personalizados y contenido rico. Los agentes AI funcionan mucho mejor con NDC que con GDS legacy porque los datos son estructurados y ricos.
+
+## T13 — Vibe operating en hospitalidad
+
+"Vibe operating" (término de HITEC 2026): el personal del hotel usa AI para optimizar operaciones en tiempo real sin expertise técnico — como "vibe coding" pero para ops. Yield management, asignación de habitaciones, scheduling de limpieza: conversacional.
+
+## T14 — LATAM WhatsApp como canal de reservas
+
+En LATAM, WhatsApp no es una app de mensajería — es el sistema operativo de comunicaciones. Los hoteles boutique en México, Colombia, Brasil reciben el 60-80% de consultas por WhatsApp. Integrar motor de reservas con WhatsApp Business API + AI es el proyecto con mejor ROI inmediato.
+
+## T15 — GenAI en viajes: $1.26B → $5.79B (CAGR 18.64%)
+
+El mercado de GenAI específicamente en viajes crece de $1.26B (2026) a $5.79B (2035) con CAGR 18.64% (Precedence Research). Más conservador que las cifras generales de AI, pero sólido. El crecimiento más rápido: personalización de itinerarios, revenue management hotelero y customer service automatizado.
 
 ---
-*Fuentes: IDC, McKinsey, Skift, AltexSoft, Phocuswright, Kantar, PYMNTS, TravelDailyNews, eHotelier, PROS, Trip.com, HITEC 2026, GBTA, Business Travel News, Harmelin Media, Mobi.AI, StealthAgents.*
+*Fuentes: IDC, HITEC 2026, Precedence Research, McKinsey "Remapping Travel with Agentic AI", Skift, PhocusWire, Amadeus developer portal, GitHub.*
