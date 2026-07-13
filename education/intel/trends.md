@@ -1,77 +1,117 @@
 # 📡 Tendencias — Education AI
 
+> Tendencias con señal real, no hype. Foco en lo que impacta decisiones de proyecto.
 > Última actualización: 2026-07-13
 
-## T1 — La Universidad Agentica (2026)
+## T1 — Agentes de tutoría AI como mainstream (no experimento)
 
-Inside Higher Ed acuñó "Agentic AI University" en enero 2026. Tres tipos de agentes ya operativos en instituciones piloto:
-- **Teacher Agent**: asigna trabajo, genera contenido, adapta dificultad
-- **Student Agent**: agenda sesiones de estudio, gestiona spaced repetition
-- **Admin Agent**: califica, emite reportes, detecta deserción temprana
+DeepTutor 23.7k★, deeptutor.info live, paper arXiv abr 2026. HolonIQ lista tutoría AI como mainstream 2026. Khanmigo millones de usuarios activos. Gap: versiones open-source institucionales que universidades puedan desplegar con sus propios datos.
 
-Implicación para Globant: los clientes que piden "chatbot educativo" en realidad están buscando este modelo agentico.
+**Para Globant**: DeepTutor fork como base para tutores personalizados por materia/cliente.
 
-## T2 — MCP como capa universal de LMS (2026)
+---
 
-El Model Context Protocol (MCP) se convirtió en el protocolo estándar para conectar LLMs con sistemas LMS:
-- **Moodle**: plugin oficial `webservice_mcp` (MIT, Jun 2026) expone todas las funciones externas como herramientas MCP
-- **Canvas**: `canvas-mcp` (vishalsachdev, MIT, 107★) — 90 MCP tools, FERPA-compliant con anonimización automática
-- **Open edX**: LearnWise AI integra via API nativa; LTI Advantage Complete certified
+## T2 — Aprendizaje adaptativo con knowledge tracing real
 
-Esto significa que Claude / GPT-4o / Llama puede leer notas, crear quizzes, asignar tareas, y gestionar matriculaciones directamente en el LMS sin integraciones custom.
+Bayesian Knowledge Tracing (pyBKT) y Deep Knowledge Tracing adoptados en producción. OATutor (UC Berkeley) demostró que es posible open-source. LLMs integrados al loop BKT para hints inteligentes cuando p(conocimiento) < threshold.
 
-## T3 — AI tutors a escala de nación
+**Para Globant**: pyBKT + LangGraph + DeepTutor = tutoría adaptativa con evidencia pedagógica rigurosa.
 
-- **Khanmigo** (Khan Academy): creció 17x en un año → 700k usuarios, 380+ distritos
-- **Duolingo**: 52.7M DAU, $1B+ revenue, eligió sacrificar $50M bookings para mantener acceso gratuito
-- **Patrón emergente**: "National AI Tutor" programs — India, Brasil, México evalúan adopción a escala estatal
+---
 
-Implicación: el modelo "chatbot educativo" está siendo reemplazado por "AI tutor con memoria, adaptación y reporting institucional".
+## T3 — AI nativa en LMS (Moodle 5.0, Open edX, Canvas)
 
-## T4 — Adaptive learning: de nicho a mainstream
+Moodle 4.5: AI subsystem plugin-based. Moodle 5.0 (feb 2026): API estandarizada para cualquier LLM. Open edX: modelo XBlock. Canvas: LTI 1.3 + canvas-mcp (MIT). Los LMS son plataformas abiertas a agentes.
 
-- 71% de instituciones de higher ed deployarán adaptive learning en 2026 (vs 34% en 2023)
-- 42% de mejora en outcomes cuando se personaliza contenido + ritmo + modalidad + tono
-- RL agents seleccionan el "next best learning activity" entre miles de posibles paths
-- Knowledge Graphs personalizados por alumno reemplazan "currícula fijas"
+**Para Globant**: Build plugins Moodle/XBlock reutilizables como producto horizontal.
 
-## T5 — Regulación AI en educación (EEUU, LATAM)
+---
 
-- **Ohio**: todas las escuelas públicas deben tener política formal de AI para el 1 julio 2026
-- **Maryland**: guía AI + integración AI literacy + coordinadores AI obligatorios
-- **Brasil**: Conselho Nacional de Educação analiza marco regulatorio (Q3 2026)
-- **Patrón**: FERPA compliance se convierte en prerequisito técnico para vender AI en instituciones públicas EEUU
+## T4 — Self-hosted AI por privacidad y presupuesto (FERPA, LGPD, LPDP)
 
-## T6 — Self-hosted tutors: privacidad primero
+Instituciones educativas no pueden enviar datos a APIs externas. Tendencia: modelos locales (Llama 3.3, Phi-4) con Ollama on-prem. LiteLLM como proxy unificado. OpenTutor (100% local) como referencia.
 
-- Instituciones con restricciones de privacidad (K-12 Europa, gobierno LATAM) adoptan **Ollama + OpenTutor** — zero API keys, zero cloud
-- DeepTutor soporta 30+ providers incluyendo modelos locales
-- El ecosistema "AI edu sin cloud" crece: OpenTutor, LocalAI, AnythingLLM + Frappe Education
+**Para Globant**: Oferta "AI Education Stack Self-Hosted" = LMS + Ollama + LiteLLM + Langfuse.
 
-## T7 — GenAI EdTech: boom de startups
+---
 
-- 2,800+ startups AI-edu en 2026 (18x desde 2023)
-- $4.2B en VC en 2025 = 62% de todo el funding edtech ese año
-- Señal de consolidación: 2U + edX fusión (2026), Chegg en decline
-- Categorías calientes: AI tutors personalizados, detección de deserción, admisiones automatizadas, credenciales verificables
+## T5 — Generación automática de evaluaciones (quiz gen)
 
-## T8 — Multimodalidad en tutoring
+moodle-qbank_genai (MIT), moodle-local_aiquestions (GPL), EduGears AI (LTI 1.3). Quiz gen = mayor ROI inmediato y menor riesgo percibido. Menor fricción: no requiere cambio de plataforma.
 
-- Video + audio + código + diagramas en el mismo loop de tutoring
-- DeepTutor v1.0: visualización integrada en el agente de tutoring
-- Síntesis de voz educativa: Kokoro-82M (Apache-2.0) para TTS en cursos LATAM (ES/PT)
-- Screen recording + AI analysis para feedback en tiempo real (programación, diseño)
+**Para Globant**: MVP 4-8 semanas con impacto medible. Puerta de entrada a deals más grandes.
 
-## T9 — AI y evaluación: del quiz al portfolio
+---
 
-- AI reemplaza tests de opción múltiple por evaluaciones de competencias abiertas
-- Cognii: AI writing tutor con grading automático de respuestas abiertas
-- GitHub Copilot + DeepTutor en cursos de programación: el "homework" es ahora una sesión de pair programming AI
-- Credenciales verificables en blockchain (W3C VC standard) + AI para validar competencias
+## T6 — LATAM EdTech boom con foco en equity
 
-## T10 — L&D corporativo: el mayor caso de uso en 2026
+- Google.org $4.6M en LATAM para AI education (2026)
+- UNESCO Observatory on AI in Education LATAM (jun 2026)
+- 92% estudiantes + 79% faculty LATAM usando AI
+- Elevify (Brasil) $1.35M seed
+- Chamilo: adopción alta Colombia/Ecuador/Perú, comunidad en español
+- IDB: 193 soluciones AI education analizadas para LATAM
 
-- Sana Labs (Apache, $85M): HP, Spotify, Volvo usan AI para capacitación interna
-- Frappe LMS + LLM = el stack preferido para L&D en empresas medianas LATAM
-- ROI medible: 23% mejora en outcomes, 15-25% mayor retención, reducción de costo/trainee
-- Globant oportunidad: L&D agentico para clientes Fortune 500 con presencia en LATAM
+**Para Globant**: LATAM = mayor urgencia + menor cobertura. Ventana 18-24 meses.
+
+---
+
+## T7 — Evaluación de calidad pedagógica de agentes AI
+
+AITutor-EvalKit (arXiv:2512.03688): scaffolding, Socratic guidance, feedback accuracy, hallucination rate. AIED 2026 publicó benchmarks de tutores AI. Instituciones piden eval frameworks — no solo "¿funciona?" sino "¿es pedagógicamente sólido?".
+
+**Para Globant**: Incluir eval harness en todos los proyectos de tutoría AI.
+
+---
+
+## T8 — Agentes para gestión escolar y administrativa
+
+Admisiones automatizadas, detección de abandono, scheduling, comunicación con padres. Frappe Education tiene los datos + webhooks = ideal para disparar agentes en eventos escolares.
+
+**Para Globant**: Deal tipo con áreas administrativas universitarias (ROI: -30-50% carga administrativa).
+
+---
+
+## T9 — Corporate L&D como mercado prioritario 2026
+
+L&D corporativo adopta AI más rápido: presupuesto, ROI medible, sin burocracia regulatoria, urgencia de reskilling. Frappe LMS ideal para L&D: Python moderno, sin costo de licencia.
+
+**Para Globant**: L&D AI = Frappe LMS + DeepTutor + Langfuse para clientes del portafolio actual.
+
+---
+
+## T10 — Detección de riesgo académico con AI
+
+Modelos predictivos de abandono usando datos LMS (tiempo, completitud, quizzes). Open edX + Moodle exponen datos vía API. LangGraph orquesta: datos LMS → modelo de riesgo → alerta docente → intervención.
+
+**Para Globant**: Add-on de alto valor en cualquier proyecto LMS — ROI en retención de estudiantes.
+
+---
+
+## T11 — Immersive learning: AR/VR + AI Simulation
+
+Meta Quest 3 ($499) en laboratorios universitarios. AI genera escenarios simulados. Horizonte de implementación real: 2027-2028. Monitorear.
+
+---
+
+## T12 — Multilingüismo y accesibilidad LATAM
+
+Español/Portugués requisitos no opcionales. Llama 3.3, Mistral Nemo 12B, Phi-4: buen soporte multi-idioma. Oportunidad diferenciadora: tutores AI en lenguas indígenas (Quechua, Nahuatl, Guaraní) para contratos gubernamentales.
+
+---
+
+## T13 — Regulación: AI en educación como "high-risk"
+
+EU AI Act (full obligations ago 2026) clasifica AI de evaluación en educación como "high-risk" (Art. 10). FERPA (US) + LGPD (Brasil) + LPDP (Argentina). Oportunidad: arquitecturas privacy-by-design con Langfuse + Ollama self-hosted.
+
+---
+
+## Señales para monitorear
+
+| Señal | Por qué importa | Horizonte |
+|-------|----------------|----------|
+| Moodle 5.1 AI subsystem core | Estándar de plugins AI Moodle | Q3 2026 |
+| Open edX Sumac (2026.1) | AI features nativas | Q4 2026 |
+| UNESCO AI Education Policy Guidelines | Marco regulatorio LATAM | 2026-2027 |
+| Google Classroom + Gemini | Puede desplazar Open edX en K-12 LATAM | 2026 |
+| AITutor-EvalKit en RFPs | Si aparece en licitaciones, se vuelve requisito | 2026 |

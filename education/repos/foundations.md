@@ -1,28 +1,35 @@
 # 🏗️ Repos fundacionales — Education
 
-> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
+> Bases sólidas con licencia abierta y comunidad activa sobre las cuales construir soluciones AI.
 > Última actualización: 2026-07-13
 
 ## Plataformas LMS y ERP
 
-| Repo | Licencia | Stars | Descripción | ¿Base para AI? |
-|------|----------|-------|-------------|----------------|
-| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | ~7k | LMS más deployado del mundo. 260M+ usuarios, 200+ países, 60k+ plugins. PHP + PostgreSQL/MySQL. Plugin MCP disponible (Jul 2026). | ✅ — plugin MCP oficial |
-| [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | AGPL-3.0 | ~7.5k | LMS detrás de edX.org (Harvard + MIT). 70M+ usuarios. Python/Django + XBlock. LTI Advantage Complete certified 2025. | ✅ — XBlock + AI integrations |
-| [frappe/lms](https://github.com/frappe/lms) | MIT | ~1.8k | LMS 100% open source para empresas, educadores y creadores de cursos. Basado en Frappe Framework (Python). Deploy en minutos. | ✅ — MIT, Python, fácil extensión |
-| [frappe/education](https://github.com/frappe/education) | MIT | ~1.8k | Education Management System basado en ERPNext. Admisiones, asistencia, notas, cuotas, biblioteca. Integra con Frappe LMS. | ✅ — ERP completo, MIT |
-| [moodlehq/moodleapp](https://github.com/moodlehq/moodleapp) | Apache-2.0 | ~979 | App móvil oficial de Moodle (Ionic + Angular). iOS + Android. Offline-capable. | ✅ — mobile AI features |
-| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | ~468 | Framework para construir componentes de aprendizaje custom en Open edX. Punto de extensión principal para añadir AI. | ✅ — extensión nativa Open edX |
-| [openfun/richie](https://github.com/openfun/richie) | MIT | ~311 | CMS open source para construir portales educativos. Django + React. Usado por France Université Numérique. | ✅ — portal frontend para LMS |
-| [sakaiproject/sakai](https://github.com/sakaiproject/sakai) | Apache-2.0 | ~1.2k | LMS universitario (Apereo Foundation). Origen: MIT, Stanford, Michigan, Indiana. Java + Spring. Muy usado en LATAM universitaria. | ✅ — Java, Apache-2.0, LATAM |
+| Repo | Licencia | Stars | Descripción | Base para AI |
+|------|----------|-------|-------------|---------------|
+| [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Apache-2.0 | ~8.5k | Plataforma LMS y Studio de Open edX. Powers edX.org y miles de sitios educativos. Backend Python/Django. | ✅ XBlock API + webhooks para agentes |
+| [frappe/lms](https://github.com/frappe/lms) | MIT | ~3.1k | LMS 100% open-source. Frappe/ERPNext. Portal de cursos, cohorts, evaluaciones. Python/Vue. | ✅ API REST nativa + integración ERPNext |
+| [frappe/education](https://github.com/frappe/education) | MIT | ~850 | Sistema de gestión escolar/universitaria completo. Admisiones, asistencia, calificaciones, biblioteca, cuotas. On-top ERPNext. | ✅ Datos ricos para agentes (riesgo académico) |
+| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | ~23.7k | Agente de tutoría personalizada nativo-agente de HKU. Multi-agente, 30+ LLM providers, 200k+ LOC. | ✅ Arquitectura de referencia lista para fork |
+| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~520 | Primer ITS totalmente open-source. Bayesian Knowledge Tracing, ReactJS + Firebase. UC Berkeley CAHLR Lab. | ✅ BKT engine reutilizable para knowledge tracing |
+| [CAHLR/pyBKT](https://github.com/CAHLR/pyBKT) | MIT | ~350 | Implementación Python de Bayesian Knowledge Tracing. Librería académica de referencia. | ✅ Drop-in library para knowledge tracing |
+| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | ~468 | Framework para construir componentes de aprendizaje custom en Open edX. | ✅ SDK estándar para extender Open edX con AI |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | MIT | ~1.8k | Plataforma AI educativa open-source (Community Edition). Tutoría personalizada multi-modal. | ✅ Arquitectura modular lista para customizar |
 
-## Frameworks de IA educativa
+## Herramientas de soporte
 
 | Repo | Licencia | Stars | Descripción |
 |------|----------|-------|-------------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | ~22k | Framework agentico de tutoring. Ver `agents/top.md`. |
-| [openedx/openedx-learning](https://github.com/openedx/openedx-learning) | Apache-2.0 | ~120 | Librería core para modelar contenidos de aprendizaje en Open edX. Base del XBlock SDK. |
-| [GeminiLight/gen-mentor](https://github.com/GeminiLight/gen-mentor) | MIT | ~250 | Framework multi-agente ITS (WWW 2025 Oral). Ver `agents/top.md`. |
+| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | ~5.5k | LMS más usado del mundo. 300M+ usuarios. AI subsystem nativo desde Moodle 4.5. 1,800+ plugins. |
+| [openedx/openedx-events](https://github.com/openedx/openedx-events) | Apache-2.0 | ~55 | Framework de eventos Open edX para hooks. Agentes reactivos a enrollment/grade/completion. |
+| [cgrevisse/moodle-qbank_genai](https://github.com/cgrevisse/moodle-qbank_genai) | MIT | ~90 | Plugin GenAI para quiz generation en Moodle. |
+
+## Notas de arquitectura
+
+- **Open edX + XBlock**: La combinación más usada en universidades empresariales. XBlock = contrato de integración.
+- **Frappe LMS + Education**: La opción más adecuada para LATAM — Python moderno, comunidad en español/portugués.
+- **OATutor + pyBKT**: Combinación académicamente rigurosa para knowledge tracing real.
+- **DeepTutor**: El punto de entrada más rápido para tutoría AI production-ready.
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas desplegables.*

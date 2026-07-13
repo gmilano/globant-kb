@@ -1,196 +1,201 @@
-# 🧩 Patrones de composición — Education
+# 🧩 Patrones de composición — Education AI
 
-> Recetas concretas para construir soluciones combinando repos + agentes + AI.
+> Recetas concretas para construir soluciones educativas AI.
+> Cada patrón: repos específicos + cómo conectarlos + tiempo estimado.
 > Última actualización: 2026-07-13
 
 ## Arquitectura base
 
 ```
-[Plataforma vertical base (Moodle / Open edX / Frappe LMS)]
-          ↓  MCP Plugin / XBlock / REST API
-[Capa de orquestación agentica (CrewAI / Agno / LangChain)]
+[LMS open-source (Moodle / Open edX / Frappe LMS)]
+          ↓ (API REST / webhooks / MCP)
+[Orquestador de agentes (LangGraph)]
           ↓
-[Agentes especializados de Education]
-  ├── Tutor Agent (DeepTutor / GenMentor)
-  ├── Assessment Agent (quiz, grading, feedback)
-  ├── Analytics Agent (alertas deserción, rendimiento)
-  └── Admin Agent (admisiones, horarios, cuotas)
+[Agentes especializados (DeepTutor / AITutorAgent / pyBKT)]
           ↓
-[UI conversacional / API para el cliente]
+[Capa de observabilidad (Langfuse self-hosted)]
+          ↓
+[Modelos: Ollama local o Claude API]
 ```
 
 ---
 
-## Patrón P1: AI Tutor sobre Moodle/Canvas (MVP 2-3 semanas)
+## P1 — AI Tutor sobre Moodle (instituciones existentes)
 
-**Caso de uso**: Universidad con Moodle/Canvas existente quiere añadir tutor AI sin cambiar su LMS.
+**Caso**: Universidad con Moodle quiere tutoría AI sin migrar de plataforma.
 
-**Stack**:
-- **LMS**: Moodle (GPL-3.0) + `webservice_mcp` plugin **o** Canvas + `canvas-mcp` (MIT, 107★)
-- **LLM**: Claude Sonnet 5 via Anthropic API (o Ollama local para privacidad)
-- **Tutor**: DeepTutor (Apache-2.0, 22k★) en modo API
-- **Orquestación**: Agno (MIT, 39.8k★) para el loop agentico
+**Stack**: `moodle/moodle`(GPL) + `cgrevisse/moodle-qbank_genai`(MIT) + `Ebimsv/AITutorAgent`(MIT) + Ollama local + Langfuse + LTI 1.3
 
-**Flujo**:
+**Arquitectura**:
 ```
-Alumno pregunta en el chat del LMS
-→ MCP Plugin captura contexto (curso, tema, historial)
-→ LLM determina intent (explicar / generar quiz / dar hint)
-→ DeepTutor genera respuesta pedagógica con Socratic dialogue
-→ Respuesta vuelve al LMS con citación de fuentes del curso
-→ Progreso se registra en el perfil del alumno
+Moodle (LTI 1.3) → AITutorAgent (LangGraph) → Ollama (Llama 3.3)
+                     ↓ moodle-qbank_genai → Langfuse
 ```
 
-**Tiempo estimado**: 2-3 semanas (MVP), 6-8 semanas (producción con FERPA/LGPD compliance)  
-**Inversión**: ~$50k USD para MVP universitario  
-**Diferenciador Globant**: FERPA/LGPD-compliant por diseño (anonimización antes del LLM call)
+**Cómo**:
+1. Habilitar AI subsystem Moodle 4.5+ con proveedor Ollama
+2. Instalar moodle-qbank_genai, configurar endpoint Ollama
+3. Desplegar AITutorAgent como FastAPI + SQLite (estado por estudiante)
+4. Registrar como LTI 1.3 tool en Moodle
+5. Langfuse para tracking + eval pedagógica
+
+**Tiempo**: 6-10 semanas | **Costo infra**: ~$0/mes (self-hosted) | **ROI**: -40% consultas docentes, +15-25% resultados quizzes
 
 ---
 
-## Patrón P2: ERP Escolar + AI Agents (8-12 semanas)
+## P2 — ERP escolar LATAM + AI (K-12 / universidades pequeñas)
 
-**Caso de uso**: Colegio K-12 privado LATAM quiere automatizar admisiones, cobranzas y comunicación con padres.
+**Caso**: Colegio/universidad LATAM sin ERP que necesita sistema completo + AI desde cero.
 
-**Stack**:
-- **ERP Base**: Frappe Education (MIT, 1.8k★) + OpenEduCat (LGPL-3.0) para gestión de cuotas
-- **Orquestación**: CrewAI (MIT, 52k★) con 3 agentes especializados
-- **LLM**: Claude Haiku 4.5 (rapidez + costo bajo para alta frecuencia)
-- **Canal**: WhatsApp Business API + Web chat
+**Stack**: `frappe/education`(MIT) + `frappe/lms`(MIT) + `HKUDS/DeepTutor`(Apache-2.0) + Langfuse + Claude API
 
-**Agentes**:
+**Arquitectura**:
 ```
-AdmisionesAgent:
-  - Lee formularios de inscripción (PDF/web)
-  - Valida documentos con AI (visión)
-  - Responde preguntas de proceso 24/7
-  - Escala a humano si hay casos edge
-
-CobranzasAgent:
-  - Revisa estado de cuotas en Frappe Education
-  - Envía recordatorios personalizados (WhatsApp)
-  - Ofrece planes de pago alternativos
-  - Reportes mensuales para dirección
-
-ComunicacionAgent:
-  - Resume boletines de notas en lenguaje simple para padres
-  - Alerta sobre ausencias y bajo rendimiento
-  - Coordina reuniones en agenda de docentes
+Frappe Education (ERP) → webhooks → LangGraph
+    ├─ DeepTutor (tutoría)
+    ├─ Agente riesgo académico (asistencia + notas)
+    └─ Agente comunicación padres (WhatsApp/email)
+          → Claude API + Langfuse
 ```
 
-**Tiempo estimado**: 8-12 semanas  
-**ROI esperado**: 40-60% reducción carga administrativa, 15-25% mejora retención
+**Cómo**:
+1. Deploy Frappe Education en VPS (Docker, 1-2 días)
+2. Fork DeepTutor → customizar curriculum local (materia, nivel, idioma)
+3. LangGraph: webhooks Frappe → agentes especializados
+4. Trigger riesgo: asistencia < 70% o nota < 50 → alerta docente + tutor
+
+**Tiempo**: 10-16 semanas | **Costo infra**: ~$200-500/mes | **ROI**: -30% abandono, -50% carga admin
 
 ---
 
-## Patrón P3: Adaptive Quiz Engine (4-6 semanas)
+## P3 — Quiz adaptativo con knowledge tracing (BKT)
 
-**Caso de uso**: EdTech startup o universidad quiere quizzes adaptativos que ajusten dificultad en tiempo real.
+**Caso**: Evaluación adaptativa real — preguntas calibradas al nivel actual del estudiante.
 
-**Stack**:
-- **Plataforma**: Open edX (AGPL-3.0) + XBlock custom
-- **Quiz generation**: GenMentor (MIT, 250★) para generación de preguntas goal-oriented
-- **Adaptive engine**: Reinforcement Learning con bandits multi-armed (Python + Gymnasium)
-- **Almacenamiento**: Knowledge Graph del alumno (Neo4j o NetworkX)
-- **LLM**: Claude Sonnet 5 para generación de explicaciones
+**Stack**: `CAHLR/pyBKT`(MIT) + `CAHLR/OATutor`(MIT) + `HKUDS/DeepTutor`(Apache-2.0) + `openedx/XBlock`(Apache-2.0) + `cgrevisse/moodle-qbank_genai`(MIT)
 
-**Flujo**:
+**Arquitectura**:
 ```
-Alumno completa quiz inicial
-→ GenMentor mapea conceptos evaluados a Knowledge Graph
-→ RL agent selecciona próxima pregunta (maximiza aprendizaje, minimiza frustración)
-→ Si respuesta incorrecta: LLM genera explicación Socrática (DeepTutor style)
-→ Si respuesta correcta: sube dificultad, expande knowledge map
-→ Mastery report al docente: qué saben, qué falta, tiempo estimado para completar
+Estudiante responde → pyBKT actualiza p(conocimiento)
+    if p < 0.6: DeepTutor genera hint Socrático + pregunta más informativa
+    else: avanza a siguiente habilidad
+    → Langfuse registra interacción (eval pedagógica)
 ```
 
-**Métricas target**: 42% mejora en outcomes (benchmarks 2026), 23% mejora vs quiz estático
+**Cómo**:
+1. Mapear curriculum en skill graph (habilidades + prerequisitos)
+2. Cargar banco de preguntas (OATutor JSON format)
+3. pyBKT service: actualiza p(conocimiento) tras cada respuesta
+4. DeepTutor fork: recibe p(conocimiento) + contexto → hint Socrático
+5. XBlock/LTI para integración en LMS
+
+**Tiempo**: 12-20 semanas | **Diferenciador**: BKT = gold standard académico
 
 ---
 
-## Patrón P4: L&D Corporativo con AI Coach (6-8 semanas)
+## P4 — L&D corporativo AI (capacitación interna empresas)
 
-**Caso de uso**: Empresa con 500-5000 empleados quiere modernizar capacitación interna con AI coaching.
+**Caso**: Empresa 5,000+ empleados. Sin pagar $200k/año en licencias propietarias.
 
-**Stack**:
-- **LMS base**: Frappe LMS (MIT, 1.8k★) — deploy en Frappe Cloud en horas
-- **AI Coach**: StudyAlpha pattern (Apache-2.0) — multi-agent con memoria + predicción de debilidades
-- **Contenido**: cursos existentes + generación AI de nuevo contenido (Claude + DALL-E)
-- **Analytics**: dashboard de progreso por equipo, identificación de skill gaps
+**Stack**: `frappe/lms`(MIT) + `HKUDS/DeepTutor`(Apache-2.0) + `Ebimsv/AITutorAgent`(MIT) + Langfuse + `kirill-markin/flashcards-open-source-app`(MIT)
 
-**Agentes**:
+**Arquitectura**:
 ```
-OnboardingAgent: personalized 30-60-90 day plan por rol
-CoachAgent: available 24/7, responde dudas del job-specific content
-AssessmentAgent: crea evaluaciones basadas en KPIs del rol
-ManagerReportAgent: resumen semanal de progreso por equipo para HRBP
+Frappe LMS (rutas + cursos + certificaciones)
+    → LangGraph
+        ├─ DeepTutor (onboarding por rol: tech, ventas, ops)
+        ├─ AITutorAgent (Q&A procedimientos = RAG sobre docs internos)
+        └─ Quiz agent (evaluación + certificación automática)
+    → Langfuse (dashboard HR: completitud, scores)
 ```
 
-**Tiempo estimado**: 6-8 semanas  
-**ROI benchmark**: Sana Labs (HP, Spotify, Volvo) reporta 23% mejora en retención de conocimiento
+**Cómo**:
+1. Deploy Frappe LMS (Docker Compose, 1 día)
+2. Ingestar materiales training (PDF/PPTX → RAG)
+3. AITutorAgent RAG sobre docs internos
+4. DeepTutor por rol
+5. Langfuse dashboard para HR
+
+**Tiempo**: 8-14 semanas | **Costo**: $0 licencias + $300-800/mes infra | **ROI**: -40% onboarding, -60% consultas HR
 
 ---
 
-## Patrón P5: LATAM University MOOCs + AI Tutor (12-16 semanas)
+## P5 — MOOCs LATAM en español/portugués (Open edX)
 
-**Caso de uso**: Universidad latinoamericana con 10k-100k estudiantes quiere un tutor AI masivo en español/portugués.
+**Caso**: Universidad/ministerio quiere MOOC regional con AI tutoring integrado.
 
-**Stack**:
-- **LMS**: Open edX Sumac (AGPL-3.0) — producción en AWS/GCP
-- **Tutor AI**: DeepTutor (Apache-2.0) fork con prompts en ES/PT
-- **TTS**: Kokoro-82M (Apache-2.0, 8k★) para síntesis de voz en español
-- **LLM**: Claude Sonnet 5 (español nativo, razonamiento) + Ollama fallback local
-- **Analytics**: detección temprana de deserción con ML (scikit-learn + alertas)
+**Stack**: `openedx/openedx-platform`(Apache-2.0) + `openedx/XBlock`(Apache-2.0) + `HKUDS/DeepTutor`(Apache-2.0) + `openedx/openedx-events`(Apache-2.0) + Langfuse + Ollama (Llama 3.3 / Mistral Nemo 12B)
 
-**Diferenciadores LATAM**:
-- Español/Portugués nativo en todos los agentes
-- Modo offline-first para zonas con conectividad limitada
-- LGPD/Ley 25.326 compliance por diseño
-- Costo por estudiante: ~$0.02 USD/interacción (vs $5-10 USD tutor humano)
+**Cómo**:
+1. Deploy Open edX en cloud regional (AWS LATAM / GCP São Paulo)
+2. Contenido español/portugués con localización completa
+3. XBlock "AI Tutor" que llama DeepTutor por contexto del curso
+4. Webhooks openedx-events: enrollment → personalize → completion
+5. Agente retención: inactivo 7 días → WhatsApp/email proactivo
 
-**Tiempo estimado**: 12-16 semanas  
-**Escala**: validado para 50k+ estudiantes concurrentes con arquitectura event-driven
+**Tiempo**: 16-24 semanas | **Escala**: 100k-1M+ usuarios | **Diferenciador**: idioma nativo + datos en país
 
 ---
 
-## Patrón P6: AI para Admisiones Universitarias (4-6 semanas)
+## P6 — Admisiones inteligentes (agente para procesos de ingreso)
 
-**Caso de uso**: Departamento de admisiones con alta demanda en temporada (nov-feb).
+**Caso**: Universidad 50k+ postulantes/año quiere automatizar pre-screening + orientación.
 
-**Stack**:
-- **CRM Base**: Frappe CRM (MIT) o integración con Salesforce Edu
-- **MCP Bridge**: canvas-mcp o moodle-mcp para verificar historial de interés del prospecto
-- **Agent**: Agno (MIT) con tool calls a CRM, calendario, documentos
-- **LLM**: Claude Haiku 4.5 (velocidad + bajo costo en alta frecuencia)
+**Stack**: `frappe/education`(MIT) + LangGraph + Claude API (claude-haiku-4-5) + WhatsApp Business API + Langfuse
 
-**Capacidades**:
+**Arquitectura**:
 ```
-✅ Responde preguntas sobre programas, requisitos, costos (24/7)
-✅ Procesa documentos de aplicación (transcripts, cartas)
-✅ Agenda tours y entrevistas (integra con Google Calendar)
-✅ Hace seguimiento personalizado por etapa del funnel
-✅ Escala a asesor humano para casos complejos (HITL)
-✅ Reportes de conversión por canal/campaña para marketing
+Postulante → Frappe Education (webhook: new_application)
+    → LangGraph
+        ├─ Agente orientación (WhatsApp: carrera, requisitos)
+        ├─ Agente pre-screening (documentos, puntajes)
+        └─ Agente seguimiento (estado, fechas, próximos pasos)
+    → Frappe Education: actualiza estado en tiempo real
+    → Langfuse: conversion rate, tiempo respuesta, satisfaction
 ```
 
-**Tiempo estimado**: 4-6 semanas  
-**ROI**: 40-60% reducción costo/lead, 25% mejora en tasa de conversión prospecto→matriculado
+**Tiempo**: 8-12 semanas | **ROI**: -70% tiempo staff admisiones, +30% tasa de conversión
 
 ---
 
-## Patrón P7: Self-Hosted Tutor sin Cloud (2-3 semanas)
+## P7 — Self-hosted AI education stack (privacidad total)
 
-**Caso de uso**: Institución pública con restricciones de privacidad estrictas (datos no pueden salir a cloud).
+**Caso**: Institución sin datos a APIs externas (FERPA, LGPD, LPDP, EU AI Act Art.10).
 
-**Stack**:
-- **LLM local**: Ollama (MIT) con Llama 3.3 70B o Mistral 7B
-- **Tutor**: OpenTutor (MIT, zijinz456) — diseñado para correr 100% local
-- **LMS**: Moodle (GPL-3.0) + webservice_mcp plugin
-- **Hardware**: servidor on-prem con GPU A100/H100 (o cloud privado)
+**Stack completo on-prem**: Moodle o Open edX + Ollama (Llama 3.3 70B Q4_K_M) + LiteLLM (MIT) + Langfuse self-hosted + `HKUDS/DeepTutor`(Apache-2.0) + `CAHLR/pyBKT`(MIT)
 
-**Ventajas**:
-- Zero dependencia de APIs externas
-- Datos de alumnos nunca salen del datacenter institucional
-- Cumple con GDPR, LGPD, regulaciones estatales EEUU (Ohio Jul 2026)
-- Costo operativo predecible (hardware propio)
+```
+[LMS] → [LiteLLM proxy] → [Ollama on-prem]
+              ↓
+       [DeepTutor + pyBKT] → [Langfuse self-hosted]
+```
 
-**Limitación**: capacidad de razonamiento limitada vs GPT-4o/Claude — compensar con RAG robusto sobre el contenido del curso.
+**Cómo**:
+1. Server on-prem (mín: 2x A100 GPU o 4x A10G)
+2. Ollama + Llama 3.3 70B (Q4_K_M, 40GB VRAM)
+3. LiteLLM: fallback a Claude API si Ollama cae (filtro PII)
+4. LMS AI subsystem apuntando a LiteLLM
+5. DeepTutor con base_url LiteLLM local
+
+**Tiempo**: 4-8 semanas | **Costo**: $2,000-5,000/mes GPU vs $0 datos a terceros
+
+---
+
+## Guía de selección
+
+```
+¿El cliente ya tiene LMS?
+├─ Moodle → P1 (LTI 1.3 + Ollama)
+├─ Open edX → P5 (MOOCs LATAM)
+└─ No → ¿Qué necesita?
+      ├─ ERP escolar completo → P2 (Frappe Education)
+      ├─ L&D corporativo → P4
+      ├─ Evaluación rigurosa → P3 (BKT)
+      ├─ Admisiones → P6
+      └─ Privacidad total → P7
+
+¿Cuánto tiempo?
+├─ < 8 semanas → P1 o P6 (MVP rápido)
+├─ 8-16 semanas → P2, P4, P7
+└─ > 16 semanas → P3, P5 (escala)
+```
