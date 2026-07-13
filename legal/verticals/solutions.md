@@ -1,90 +1,53 @@
-# 🏭 Verticales de partida — Legal Services
+# Verticales de partida — Legal Services
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agéntica arriba.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13
 
 ## Plataformas recomendadas
 
 | Plataforma | Licencia | URL | Stack | Caso de uso |
 |------------|----------|-----|-------|-------------|
-| **OpenContracts** | MIT | [github.com/Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Python/Django + React + PostgreSQL + Qdrant | Document intelligence platform — contract repository con anotación, extracción, RAG y MCP nativo |
-| **Docassemble** | MIT | [github.com/jhpyle/docassemble](https://github.com/jhpyle/docassemble) | Python + YAML + Docker | Guided interviews + document assembly — intake legal, wills, NDAs, peticiones judiciales |
-| **ContraxSuite** | AGPLv3* | [github.com/LexPredict/lexpredict-contraxsuite](https://github.com/LexPredict/lexpredict-contraxsuite) | Python/Django + Celery + Elasticsearch | Contract analytics — extracción de cláusulas, clustering, exportación estructurada |
-| **OpenLawOffice** | LGPL | [github.com/NodineLegal/OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | .NET + SQL Server | Case management — archivos de casos, facturación, tareas, calendarios para firmas legales |
-| **J-Lawyer** | AGPL | [j-lawyer.org](https://www.j-lawyer.org/) | Java + MySQL | Gestión de firma legal completa (Alemania). Amplia comunidad. Base para customización EU. |
-| **SuiteCRM** | AGPL | [suitecrm.com](https://suitecrm.com) | PHP + MySQL | CRM de base — casos, contactos, pipeline de clientes para despachos. SuiteASSURED para compliance. |
-| **lavern** | Apache-2.0 | [github.com/AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Python + agentes Claude/Mistral/Ollama | Multi-agent legal review — documentos, contratos, due diligence con debate protocol |
+| **Docassemble** | MIT | [github.com/jhpyle/docassemble](https://github.com/jhpyle/docassemble) | Python, YAML, Markdown, Docker | Guided interviews + document assembly. Usado en portales de tribunales de EE.UU. Base perfecta para automatizar formularios legales con AI. |
+| **OpenContracts** | MIT | [github.com/Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | Python, React, GraphQL, Docker | DMS agentico self-hosted. Citation graph, MCP server nativo, API REST. Para law firms y legal ops que necesitan inteligencia documental propia. |
+| **OpenLawOffice** | MIT | [github.com/NodineLegal/OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | .NET/ASP.NET | Law office management: case management, billing, tasking. Base para construir AI layer sobre gestión de casos. |
+| **ArkCase CE** | Apache-2.0 | [arkcase.com/product/arkcase-open-source](https://www.arkcase.com/product/arkcase-open-source-case-management-platform/) | Java, Spring, Angular | Case management empresarial: FOIA, Complaint, Incident, Correspondence. Gov + enterprise. Modular con plugins. |
+| **Lavern** | Apache-2.0 | [github.com/AnttiHero/lavern](https://github.com/AnttiHero/lavern) | TypeScript, Node.js | Agentic law firm completa: 67 agentes, debate protocol, human gates, audit bundle. Para law firms queriendo una plataforma AI propia. |
+| **Nomos** (HAQQ) | Open (self-hostable) | [opensource.legal](https://opensource.legal/) | Python/TypeScript | "Cursor for legal" — agent-native legal interface. Legal AI Engine + abogado como usuarios de primera clase. |
+| **Mike** | Open (BYOK) | [mikeoss.com](https://mikeoss.com/) | — | Clon OSS de Harvey/Legora. Bring-your-own API key, sin per-seat pricing. Para firms que necesitan capacidades premium sin los costos premium. |
+| **open-agreements** | MIT | [github.com/open-agreements/open-agreements](https://github.com/open-agreements/open-agreements) | — | Fill standard legal agreement templates → DOCX firmables. Micro-herramienta para automatizar contratos estándar. |
 
-*AGPLv3: requiere due diligence sobre licencia antes de desplegar para cliente. Contactar LexPredict para licencia comercial.
+## Ecosistema de datos legales
 
----
+| Fuente | Licencia | Cobertura |
+|--------|----------|-----------|
+| [CourtListener](https://courtlistener.com) | Apache-2.0 | 250M+ páginas de datos de tribunales EE.UU. Búsqueda full-text, API REST. |
+| [Harvard Caselaw Access Project](https://case.law) | Open | 6.9M casos, 360 años de case law estadounidense. Completamente abierto desde 2024. |
+| [Justia](https://law.justia.com) | Free access | US federal + state law, codes, regulations. |
 
-## Cómo customizar cada plataforma con AI
+## Cómo customizar con AI
 
-### OpenContracts (Recomendado para nuevos proyectos)
-
-OpenContracts es la plataforma más AI-ready del ecosistema: ya tiene MCP integrado, RAG sobre corpus, y API completa.
-
-```
-1. Deploy self-hosted (Docker Compose — ver README)
-2. Cargar corpus de contratos del cliente (PDF/DOCX via API)
-3. Conectar Claude Desktop / cursor via MCP server built-in
-4. Configurar annotation schema por tipo de contrato
-5. Agregar agentes especializados (lavern-style) para review workflows
-6. Exponer API para integración con sistemas ERP/CRM del cliente
-```
-
-Tiempo estimado: **2-3 semanas** para MVP funcional con corpus real.
-
-### Docassemble (Para automatización de documentos y acceso a justicia)
+### Arquitectura recomendada para law firm / legal ops
 
 ```
-1. Deploy en Docker (imagen oficial disponible)
-2. Crear entrevistas YAML para el flujo específico (ej: generación de NDA)
-3. Agregar endpoint AI: llamada a Claude API para análisis o redacción
-4. Wrappear con lógica condicional en Python
-5. Conectar a firma electrónica (HelloSign API) o DMS del cliente
-6. Deploy en servidor del cliente o cloud soberano
+[Plataforma vertical base — Docassemble / OpenContracts / ArkCase]
+          ↓
+[Capa MCP — legal-mcp servers (US statutes, patent, CanLII)]
+          ↓
+[Agentes especializados — lavern / claude-legal-skill / SaulLM]
+          ↓
+[Orchestration — LangGraph / CrewAI / lavern debate protocol]
+          ↓
+[Human gate — revisión abogado antes de output final]
+          ↓
+[UI conversacional / API para el cliente]
 ```
 
-Tiempo estimado: **1-2 semanas** por flujo de documento.
+### Pasos de implementación
 
-### ContraxSuite (Para contract analytics sobre corpus existente)
-
-```
-1. Deploy vía Docker Compose
-2. Importar contratos existentes del cliente (bulk upload)
-3. Configurar field extractors con LexNLP (+ fine-tuning si hace falta)
-4. Agregar análisis LLM: campo "contract summary" con Claude
-5. Exportar resultados a Excel/Power BI para el cliente
-6. Considerar licencia comercial si el producto va a producción
-```
-
-Tiempo estimado: **3-4 semanas** para pipeline completo.
-
----
-
-## Matriz de selección
-
-| Necesidad del cliente | Plataforma recomendada | Alternativa |
-|----------------------|----------------------|-------------|
-| Contract repository + AI queries | OpenContracts | ContraxSuite |
-| Automatizar generación de documentos | Docassemble | OpenContracts |
-| Due diligence / M&A document review | lavern | OpenContracts |
-| Gestión de casos para firma legal | OpenLawOffice | SuiteCRM |
-| CRM para despacho de abogados | SuiteCRM | OpenLawOffice |
-| NLP/extracción de contratos (interno) | LexNLP + Blackstone | ContraxSuite |
-| Legal AI assistant conversacional | lavern + Claude | legal-mcp + Claude |
-
----
-
-## Ecosistema complementario (no open source, pero de referencia)
-
-| Plataforma | Tipo | Relevancia |
-|------------|------|------------|
-| [Harvey AI](https://harvey.ai) | Propietario | $11B valuation, jun 2026. AI para firmas legales grandes. Referencia de lo que el mercado espera. |
-| [Clio](https://clio.com) | Propietario | $5B valuation. Practice management + AI. 150k firmas. API disponible para integración. |
-| [Ironclad](https://ironcladapp.com) | Propietario | CLM (Contract Lifecycle Management) — benchmark para enterprise. |
-| [Legora](https://legora.com) | Propietario | $5.55B valuation. "2026 es el año de los agentes en legal AI" (su propio blog). |
-| [Robin AI](https://robinai.com) | Propietario | Contract drafting + review. UK-based. Competidor directo de Harvey en EMEA. |
+1. **Fork del repo base** — elegir según caso de uso (Docassemble para formularios, OpenContracts para DMS, ArkCase para case management)
+2. **Conectar MCP servers** — agregar legal-mcp para datos jurisdiccionales relevantes
+3. **Agregar capa de agentes** — lavern para multi-agent review o claude-legal-skill para contract review puntual
+4. **Implementar human gates** — nunca output legal sin revisión humana (ver lavern's mandatory gates)
+5. **Audit trail** — logging obligatorio para cumplimiento EU AI Act (desde agosto 2026)
+6. **Fine-tuning opcional** — SaulLM-7B como base para dominio jurídico específico (LATAM, sector, etc.)

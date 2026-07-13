@@ -1,87 +1,68 @@
-# 🗺️ Mapa de mercado — Legal Services AI
+# Mapa de mercado — Legal Services AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-12
+> Última actualización: 2026-07-13
 
 ## Tamaño de mercado
 
-| Métrica | Valor | Fuente |
-|---------|-------|--------|
-| LegalTech AI — 2026 | **$3.7B** | Research and Markets, jul 2026 |
-| LegalTech AI — 2030 | **$11.06B** | Research and Markets (CAGR 31.5%) |
-| Legal Technology (total) — 2026 | **$29B** | New Market Pitch |
-| US Contract Analytics AI — 2026 | **$1.2B** | Research and Markets |
-| CAGR Legal AI Software | **31.4–32.1%** | Technavio / MarketsAndMarkets |
+| Métrica | Valor |
+|---------|-------|
+| AI Legal Software market (2026) | $3.7B |
+| AI Legal Software market (2030 proyección) | $11.06B |
+| CAGR | 31.5% |
+| Legal Tech total (MarketsandMarkets 2025→2030) | $3.11B → $10.82B (CAGR 28.3%) |
+| Legal Tech raised Q1 2026 | $2.3B |
+| GenAI adoption en corporate legal (1 año) | 23% → 52% |
+| AI time savings (abogados que lo usan) | 61% dicen que ahorra tiempo semanalmente |
+| Training on responsible AI use | <50% de los firms lo proveen |
 
-## Players globales
+## Players globales — Closed Source / Propietario
 
-| Empresa | Tipo | Fortaleza | Debilidad | Relevancia para Globant |
-|---------|------|-----------|-----------|------------------------|
-| **Harvey AI** | Privado | $11B valuation (jun 2026); AI para big law; generative AI nativa; partner con OpenAI | Solo para firmas grandes; muy caro | Competidor en enterprise legal; referencia de capacidades |
-| **Legora** | Privado | $5.55B valuation; "2026 = Year of Agents"; workflow automation | Europa-centric | Partner o competidor en EMEA |
-| **Clio** | Privado | $5B; 150k firmas; practice management + AI integrado | SMB-focused; limitado para enterprise | API disponible — potencial integración |
-| **Thomson Reuters** | Público | Westlaw AI, CoCounsel; distribución masiva; marca confiable | Lento en innovación; legacy systems | Competidor en investigación legal; partnership posible |
-| **LexisNexis** | Público (RELX) | Lexis+ AI; 80% del mercado jurídico US; datos incomparables | Costoso; closed ecosystem | Misma posición que Thomson Reuters |
-| **Wolters Kluwer** | Público | ELM (Enterprise Legal Management); compliance; global | Burocrático; pricing opaco | Competidor en compliance corporativo |
-| **Ironclad** | Privado | CLM líder; $3B+ valuation; Salesforce-integrated | Solo CLM; no legal research | Referencia para contract management |
-| **Icertis** | Privado | CLM enterprise; $5B; SAP/Microsoft integration | Solo enterprise | Competidor en segmento enterprise |
-| **Robin AI** | Privado | Contract drafting + review; EMEA-strong; UK-based | Tamaño pequeño | Potencial partner en UK/Europa |
-| **Spellbook** | Privado | Contract drafting in Word; SMB-focused; simple UX | Nicho de drafting | Competidor SMB |
+| Empresa | Valuación | ARR | Fortaleza | Debilidad |
+|---------|-----------|-----|-----------|----------|
+| **Harvey** | $11B (mar 2026) | — | LLM nativo legal, integraciones BigLaw | Precio premium, black box |
+| **Legora** | $5.55B (abr 2026) | $100M+ ARR | Multi-jurisdicción, plataforma de plataformas | Concentración geográfica |
+| **Clio** | $5B | — | LPM + billing + AI, SMB law firms | Adquirió vLex ($1B) — integración pendiente |
+| **Ironclad** | — | — | CLM (Contract Lifecycle Management), enterprise | Solo contratos, no litigación |
+| **Filevine** | — | — | Case management + AI para litigación | US-centric |
 
-## Valuaciones de referencia (mid-2026)
+## Players Open Source / Ecosistema
 
-```
-Harvey AI     → $11.0B  (+375% vs dic 2024)
-Legora        → $5.55B  (Series C, ene 2026)
-Clio          → $5.0B   (estable)
-Ironclad      → $3.2B   (estable)
-Icertis       → $5.0B   (estable)
-```
+| Proyecto | Licencia | Posición |
+|----------|----------|---------- |
+| **lavern** | Apache-2.0 | Agentic law firm open source — única alternativa OSS a Harvey a nivel arquitectónico |
+| **OpenContracts** | MIT | DMS agentico — alternativa open a Ironclad para equipos técnicos |
+| **Docassemble** | MIT | Government/nonprofit document automation — domina portales de tribunales |
+| **SaulLM** | MIT | Open weights legal LLM — base para fine-tuning jurídico |
+| **Mike** | OSS | Harvey/Legora clone — BYOK, sin per-seat |
+
+## Hallazgos críticos 2026
+
+| Evento | Impacto |
+|--------|--------|
+| **$145K en sanciones por hallucination en NY** (abr 2026) | Riesgo legal real de AI sin human gates. HEC Paris documenta 486 casos ante tribunales globalmente (324 en EE.UU.) |
+| **Harvey $200M @ $11B** (mar 2026) | La valuación del sector AI legal ya supera el tamaño del mercado total de software legal — burbuja o nueva normalidad |
+| **Legora $550M @ $5.55B** (abr 2026) | Cruce de $100M ARR — el modelo "plataforma de plataformas" está funcionando |
+| **$2.3B recaudados en Q1 2026** | Solo 3 empresas dominan el capital: Harvey, Legora, y Clio. Consolidación acelerada |
+| **EU AI Act — full obligations agosto 2, 2026** | Agentes en sector legal son sistemas de "alto riesgo". Risk management, data governance, logging, transparency y human oversight obligatorios. Penalidades: 7% revenue global o €35M |
+| **Digital Omnibus (mayo 2026)** | EU pospone algunos deadlines para sistemas de alto riesgo, pero transparencia sigue siendo obligatoria desde agosto 2 |
 
 ## Oportunidades AI en LATAM
 
-### Brasil — Mayor mercado
-- **Reforma Tributária 2026-2033**: IBS (Imposto sobre Bens e Serviços) + CBS (Contribuição sobre Bens e Serviços) crean enorme demanda de AI para compliance tributario
-- Firmas grandes (Pinheiro Neto, Machado Meyer, Mattos Filho) comenzando a adoptar Harvey/Clio
-- Mercado de 1.3M+ abogados — mayor del mundo en términos absolutos
-- Oportunidad: plataforma de AI legal en portugués para SMB (< $500/mes — ningún player bien posicionado)
-
-### Argentina
-- Reforma procesal laboral + tributaria genera demanda de compliance
-- Alta sensibilidad a costos — oportunidad para alternativas open source
-- Empresas multinacionales con equipos legales locales buscan herramientas accesibles
-
-### México
-- USMCA compliance, manufacturing legal (nearshoring boom) — alta demanda
-- Regulación fintech, cripto, e-commerce creciendo → compliance needs
-- Mercado de 400k+ abogados, creciendo
-
-### Colombia / Chile / Perú
-- Modernización judicial activa (Colombia: Plan de Modernización Judicial 2024-2028)
-- Startups legales emergentes — early adopters de AI
-- Gobierno como posible cliente (sistemas judiciales estatales)
+| Oportunidad | Jurisdicción | Por qué ahora |
+|-------------|-------------|---------------|
+| **Reforma Tributária Brasil** | Brasil | IBS + CBS reemplazan 5 impuestos. Compliance legal masivo para 5M+ empresas. Alta urgencia: transición 2026-2033 |
+| **Open Finance MX + BR** | México, Brasil | Integración regulatoria requiere AI para contracts, KYC, AML legal |
+| **Digitalización de tribunales** | LATAM general | Muchos países sin portales. Docassemble + AI puede replicar modelo EE.UU. |
+| **NOM-151 / firma electrónica** | México | NOM-151 y FEA crean mercado para document assembly automatizado |
+| **Multi-jurisdicción corporate legal** | Global / LATAM | Multinacionales LATAM necesitan compliance en 6-10 jurisdicciones |
 
 ## Posicionamiento Globant
 
-### Ventajas competitivas de Globant en Legal AI
-1. **Delivery en LATAM**: costos competitivos vs firmas US/EU para implementaciones custom
-2. **Experiencia enterprise**: capaz de implementar para firmas grandes y corporaciones
-3. **No-vendor-lock**: construcción sobre open source (OpenContracts, Docassemble, lavern) — diferenciador vs Harvey/Clio
-4. **Multi-idioma**: expertise en español/portugués — ningún player grande cubre bien LATAM
-5. **Integraciones**: capacidad de conectar legal AI con ERP/CRM/DMS existentes del cliente
+**Propuesta diferencial**: Globant puede construir y entregar soluciones legales AI sobre bases open source (lavern, OpenContracts, Docassemble) con:
+- Full control sobre datos del cliente (self-hosted, sin cloud del vendor)
+- Compliance con EU AI Act desde día 1 (audit trails, human gates, logging)
+- Adaptación para LATAM (español, portugués, jurisdicciones locales)
+- Sin lock-in a Harvey/Legora: el cliente mantiene su stack
 
-### Segmentos target sugeridos
-| Segmento | Tamaño | Propuesta | Competencia |
-|----------|--------|-----------|-------------|
-| In-house legal teams (empresas Fortune 500 LATAM) | $$$ | Contract intelligence + compliance automation | Harvey (caro), Ironclad |
-| Firmas legales medias (50-200 abogados) | $$ | Plataforma integrada AI + practice management | Clio (sin LATAM support) |
-| Gobierno / Poder Judicial | $$$ | Sistemas de IA para modernización judicial | Ningún player posicionado |
-| Legal aid / acceso a justicia | $ (proyecto social) | Docassemble + AI para ciudadanos | Ninguno (oportunidad) |
-
-### Riesgo a monitorear
-- **Harvey en expansión LATAM** (Q3 2026 anunciado): podría cerrar el gap antes de que Globant establezca posición
-- **Gartner warning**: >40% de proyectos agentic AI cancelados por 2027 por falta de ROI claro — propuestas deben tener métricas de ahorro concretas
-- **EU AI Act + Ley de IA LATAM**: sistemas de AI en contextos legales = posible "alto riesgo" — compliance desde el diseño
-
----
-*Mapa actualizado con datos de Research and Markets, HAQQ Blog, Bloomberg Law, Forbes, Artificial Lawyer.*
+**Target primario**: Departamentos legales de empresas Fortune 500 con presencia LATAM que necesitan compliance multi-jurisdicción y control de datos.
