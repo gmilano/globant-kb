@@ -1,30 +1,42 @@
-# GitHub Trending — Education AI
+# 📈 Repos trending — Education (v6)
 
-> Repos gaining momentum in education AI as of 2026-07-14 (v5).
+> Repos con mayor momentum esta semana. Señales de adopción real.
+> Última actualización: 2026-07-14
 
-## Trending Now
+## Trending activo — Julio 2026
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | ~25k | Agent-native personalized learning assistant: six specialist agents, persistent memory, Skills API — breakout 2026 |
-| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | Deep Knowledge Tracing benchmark toolkit; MoC-KT + DenoiseKT new models in 2026; used in LAK/EDM papers |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | ~200 | Open-source LMS with AI content delivery, assessment, and learner tracking; active APAC deployments |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | BSD-3-Clause | ~50 | Community Edition AI tutoring platform: multi-LLM, local RAG, voice, 3D avatars; arxiv:2602.07176 |
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | ~50 | AI Kids Academy ages 4–16: gamified storytelling + coding + game-dev + phonics; Next.js 16 + Claude |
-| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | ~50 | AI-powered flashcards with spaced repetition; iOS/Android/web; multi-LLM backend |
-| [098765d/AI_Tutor](https://github.com/098765d/AI_Tutor) | MIT | ~120 | LLM + RAG tutoring agent: course docs as knowledge base, multi-turn, citation grounding |
-| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~280 | Adaptive ITS with BKT — CHI 2023 best paper; LTI-ready; math + CS curricula |
-| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | ~1.4k | Survey repo: 400+ AI/LLM education papers — knowledge tracing, tutoring, scoring, student modeling |
-| [Geralt-Targaryen/Awesome-Education-LLM](https://github.com/Geralt-Targaryen/Awesome-Education-LLM) | MIT | ~500 | Curated LLM for education papers organized by task (QA, tutoring, assessment, feedback generation) |
+| Nombre | Repo | Licencia | Señal | Por qué importa |
+|--------|------|----------|-------|----------------|
+| DeepTutor | [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | **22k+ ★** (+8k Jun 2026) | El tutoring agent más adoptado de 2026. Lifelong tutoring con memoria persistente y Heartbeat system. |
+| open-tutor-ai-CE | [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | BSD-3-Clause | ~800 ★, crecimiento sostenido | Tutoring multimodal: voz + video + avatares 3D. Docker-first. |
+| pykt-toolkit | [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | 1.2k ★, 4 nuevos modelos May 2026 | MoC-KT + MTKT + DenoiseKT May 2026. Toolkit referencia para knowledge tracing. |
+| instructional_agents | [DaRL-GenAI/instructional_agents](https://github.com/DaRL-GenAI/instructional_agents) | Apache-2.0 | ~200 ★, EACL 2026 | Automatización diseño instruccional. Interés creciente post-publicación EACL. |
+| awesome-ai-llm4education | [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | 1.5k ★ | KB investigación educativa AI. Referencia en múltiples papers 2026. |
+| vacademy_platform | [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | ~500 ★, activo 2026 | E-learning moderna con LMS + tracking + assessment. Alternativa moderna a Moodle. |
+| OATutor | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~300 ★, UC Berkeley | ITS con BKT para STEM. 15+ papers 2026. Base probada para tutoring adaptativo. |
+| GibbonEdu/core | [GibbonEdu/core](https://github.com/GibbonEdu/core) | GPL-3.0 | 1.2k ★ | School management. Integración AI 2026 con agentes de asistencia. |
+| flashcards-open-source-app | [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | ~24 ★ (early) | AI flashcards con spaced repetition iOS/Android/Web. Stack moderno. |
+| eduadapt-ai | [mwasifanwar/eduadapt-ai](https://github.com/mwasifanwar/eduadapt-ai) | MIT | ~150 ★ | RL-based adaptive learning: content, path y assessment personalizados en tiempo real. |
 
-## Recently Released (H1 2026)
+## Repos emergentes a seguir
 
-| Repo | Date | What It Does |
-|------|------|-------------|
-| MoC-KT (in pykt) | May 2026 | Mixture-of-Concepts Knowledge Tracing — SOTA on ASSISTments/EdNet |
-| DeepTutor Skills API | Apr 2026 | User-authored agent skills — extend DeepTutor with custom domain agents |
-| openedx-ai-extensions v0.2 | Mid-2026 | Streaming educator assistant + function-calling tools for Open edX |
-| LectūraAgents | Jun 2026 | Multi-agent embodied tutoring framework (arXiv:2606.16428) |
+| Nombre | Repo | Licencia | Señal |
+|--------|------|----------|-------|
+| ai4kids | [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | sin definir | Kids AI portal 4-16 años: gamified storytelling, coding, phonics. Claude + Next.js 16. |
+| LearnX-Radar | [Yusuprozimemet/LearnX-Radar](https://github.com/Yusuprozimemet/LearnX-Radar) | MIT | Daily learning radar para developers. |
+| openedx-ai-extensions | openedx org | Apache-2.0 | Extensiones AI oficiales Open edX: streaming chat + educator assistant. Mid-2026 GA. |
+
+## Actividad por stack tecnológico
+
+```
+Stack más frecuente repos education AI (Jul 2026):
+  Python + LangChain + Moodle API    → 35%
+  ReactJS + Firebase + BKT           → 20% (ITS clásico)
+  Next.js + Claude API               → 15% (consumer)
+  Django + Open edX + LLM            → 15% (enterprise/gov)
+  Streamlit + pyKT                   → 10% (research)
+  Node.js + WhatsApp + LMS           → 5%  (LATAM-first)
+```
 
 ---
-*Pipeline auto-updated hourly.*
+*Pipeline automático — se actualiza cada hora. v6.*

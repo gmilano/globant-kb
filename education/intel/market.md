@@ -1,69 +1,71 @@
-# Market Map — Education AI
+# 🗺️ Mapa de mercado — Education (v6)
 
-> Key players, opportunities, Globant positioning. Focus: LATAM + global.
-> Last updated: 2026-07-14 (v5)
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-14
 
-## Market Size
+## Tamaño de mercado (2026)
 
-| Segment | 2026 | 2030 | CAGR | Source |
-|---------|------|------|------|--------|
-| AI in Education (total) | $10.6B | $42.48B | 40.9% | ResearchAndMarkets |
-| EdTech (total market) | $214.58B | $588.72B | 13.45% | Fortune Business Insights |
-| Adaptive Learning Platforms | $3.2B | $12.7B | 31.7% | MarketsandMarkets |
-| Intelligent Tutoring Systems | $1.1B | $5.8B | 40.2% | Grand View Research |
-| AI-Powered Assessment | $0.8B | $4.1B | 38.5% | Mordor Intelligence |
+| Segmento | 2026 | 2030 | CAGR | Fuente |
+|----------|------|------|------|--------|
+| AI in Education (global) | $11.4B | $57.2B | 25.9% | Grand View Research |
+| AI in Education (Mordor) | $6.9B | $41.0B | 42.8% | Mordor Intelligence |
+| GenAI in Teaching | $2.1B | $9.1B | 42.8% | Markets & Markets |
+| e-Learning global | $250B | $450B | 15.2% | Various |
+| Adaptive Learning platforms | — | $12B | 28% | Technavio |
 
-## Global Players
+**Consenso**: Mercado AI Education $7B-$11B en 2026, crecimiento 25-43% CAGR hasta 2030-2033.
 
-| Company | Type | AI Offering | Strength | Weakness |
-|---------|------|-------------|----------|----------|
-| **Instructure (Canvas)** | LMS vendor | Closed AI via AWS Bedrock + OpenAI | #1 US HE market share | Expensive, closed AI stack |
-| **D2L (Brightspace)** | LMS vendor | D2L Lumi AI tools | Enterprise, healthcare, govt | Not open source |
-| **Anthology (Blackboard)** | LMS vendor | Intelligent Experiences (IE) | Legacy K-12 + HE footprint | Declining share, M&A churn |
-| **Pearson** | Publisher/EdTech | AI tutoring (proprietary) | Content depth | Closed, high cost |
-| **Khan Academy** | Nonprofit | Khanmigo (GPT-4 powered) | 140M+ users, free K-12 | Not white-label, US-centric |
-| **Duolingo** | Language learning | Duolingo Max (GPT-4) | 500M users, mobile-first | Narrow domain (language only) |
-| **Chegg** | Student services | Chegg AI (declining market) | HE homework help | Disrupted by ChatGPT |
-| **Coursera** | MOOC platform | AI-generated courses, coaching | 90M users, global | Commoditized content |
-| **edX (2U)** | MOOC platform | Open edX + AI features | Harvard/MIT brand | Financial distress in 2024 |
-| **OpenAI Education** | AI provider | ChatGPT Edu, API programs | SOTA models | Not an LMS; disruptive |
+## Players globales
 
-## Open Source Players
+| Empresa | Tipo | Fortaleza AI | Debilidades | Oportunidad Globant |
+|---------|------|-------------|-------------|---------------------|
+| **Instructure (Canvas)** | Comercial/SaaS | Canvas AI 2026: copilot grading, content suggestions | Caro, lock-in | Migración Open edX + AI layer |
+| **Blackboard/Anthology** | Comercial/SaaS | Scale HE norteamericano | Legacy, caos post-fusión | Reemplazo Moodle/Open edX + agents |
+| **Khanmigo (Khan Academy)** | Nonprofit | Tutoring Socrático, 400k+ teachers | No OSS, restrictivo | Inspiración UX, no base técnica |
+| **Duolingo Max** | Consumer/AI | GPT-4 roleplay | No enterprise, no API | Patrón consumer LATAM |
+| **Coursera** | MOOC/SaaS | AI course generation | No customizable | Enterprise L&D con Open edX |
+| **ibl.ai** | Startup | Agentic LMS sobre Moodle | Early stage | Competidor/partner potencial |
+| **Mathia (Carnegie Learning)** | EdTech/AI | ITS matemáticas K-12, 30 años datos | Closed, US-centric | OATutor + pyKT como alternativa open |
+| **Microsoft Education AI Toolkit** | Cloud/Enterprise | Agentic workflows admin Apr 2026 | Requiere Azure | Globant como implementador neutral |
 
-| Project | Org Type | Reach | AI Maturity |
-|---------|----------|-------|-------------|
-| Moodle | Community + Moodle HQ | 400M+ users | AI subsystem in v4.5 |
-| Open edX | Axim Collaborative (nonprofit) | 1000s institutions | openedx-ai-extensions, XBlock AI |
-| Sakai | Apereo Foundation | 100s universities | Community AI development |
-| HKUDS DeepTutor | Academic (HKU) | 25k stars | Agent-native, research-grade |
-| CAHLR OATutor | Academic (UC Berkeley) | Research + classroom | BKT + LLM integration |
+## Oportunidades AI en LATAM
 
-## Opportunities in LATAM
+| País | Situación | Oportunidad |
+|------|-----------|-------------|
+| **Brasil** | CAPES + SIED Open edX nacional; LGPD activo | Personalización + compliance LGPD |
+| **México** | SEP modernización; UNAM Moodle masivo | Dropout prediction bachillerato (abandono 40%+) |
+| **Colombia** | MiX (Mi Educación X) Open edX; MEN digital | Content generation español + dropout |
+| **Argentina** | UBA/UNC Moodle; crisis financiera | Tutoring AI local Ollama sin costo OpenAI |
+| **Chile** | Mineduc digital; universidades con presupuesto | AI assessment + adaptive learning HE |
+| **Perú** | Aprendo en Casa legacy | Modernización: Open edX + AI tutoring rural |
 
-| Opportunity | Why Now | Globant Angle |
-|-------------|---------|---------------|
-| **Moodle AI customization** for universities | 80%+ LATAM HE LMS market share; AI subsystem ready but unimplemented | Moodle plugin dev + AI agent layer; QA + compliance in Spanish/Portuguese |
-| **Open edX national platforms** | Brazil (CAPES), Argentina (SIED), Mexico (MiX) run Open edX nationally | Custom AI tutors + content generation in local curriculum contexts |
-| **Dropout prediction for national systems** | LATAM HE dropout rates 40–60%; governments paying for retention analytics | Build pyKT-based retention agents on top of existing LMS data |
-| **AI content localization** | English-first AI tools fail for Spanish/Portuguese students | Fine-tuned models + RAG on local curriculum; regional language support |
-| **Corporate learning (L&D)** | 40% of enterprise apps embed L&D agents by EOY 2026 | Agentic corporate training: onboarding, compliance, skills assessment |
-| **K-12 ministries** | Multiple LATAM education ministries exploring AI; regulatory vacuum | Public sector EdTech: curriculum agents + teacher copilots |
+### Problemas LATAM que AI resuelve
 
-## Globant Positioning
+1. **Deserción escolar alta** (40-60% bachillerato MX/CO/BR) → Dropout prediction + intervención agentic
+2. **Brecha docente** (falta profesores STEM rurales) → Instructional Agents + tutoring AI
+3. **Idioma** (español/portugués) → LLMs fine-tuned, contenido localizado
+4. **WhatsApp primario** (120M BR, 88M MX, 35M CO) → Education bots WhatsApp
+5. **Infraestructura limitada** (rural) → Ollama local + offline-first
+6. **Regulación datos** (LGPD, Ley 1581) → Self-hosted AI
 
-| Capability | Differentiation |
-|------------|----------------|
-| Open edX customization | Deep XBlock + plugin expertise; production deployments |
-| Moodle AI integration | tool_ai plugin integration; multilingual support |
-| Knowledge Tracing | pyKT + OATutor integration for adaptive content |
-| Agent orchestration | LangGraph / CrewAI multi-agent tutoring workflows |
-| LATAM compliance | LGPD (Brazil), PDPA (Chile), Ley 1581 (Colombia) data sovereignty |
-| Spanish/Portuguese NLP | Regional model fine-tuning and RAG curriculum corpora |
+## Posicionamiento Globant
 
-## M&A / Investment Signals
+```
+Globant AI Studios — Education Practice
+├── FAST TRACK: Moodle/Open edX + DeepTutor (4-8 sem → MVP productivo)
+├── ENTERPRISE: OpenEduCat + Multi-Agent Admin Suite (Odoo)
+├── LATAM-NATIVE: Chamilo/Open edX + WhatsApp bot + español/portugués
+├── RESEARCH GRADE: pyKT + OATutor → Adaptive Learning certificable
+└── CONTENT AUTOMATION: Instructional Agents → 40% menos carga docente
+```
 
-- EdTech VC funding: $2.4B in 2024 (–89% from 2021 peak) — consolidation phase
-- EdTech M&A: $28B across 342 transactions in 2024 — strategic acquirers active
-- 2U/edX financial distress → Open edX governance transferred to Axim Collaborative
-- Chegg market cap collapse ($1.2B → ~$200M) — AI disruption visible
-- Pearson exploring AI-first pivot; Khan Academy Khanmigo as template for nonprofit AI
+| Segmento | Fit Globant | Por qué |
+|----------|-------------|--------|
+| Universidades públicas LATAM | ⭐⭐⭐⭐⭐ | Ya tienen Moodle/Open edX, necesitan AI layer, presupuesto público |
+| Redes colegios privados | ⭐⭐⭐⭐ | OpenEduCat + agentes admin, ROI claro |
+| Corporativo L&D (retail, banca, telco) | ⭐⭐⭐⭐⭐ | Open edX + LangGraph, KPIs claros |
+| EdTech startups LATAM | ⭐⭐⭐ | Product build AI-native |
+| Gobierno / programas nacionales | ⭐⭐⭐⭐ | Escala masiva, compliance crítico |
+
+---
+*v6 — actualizado automáticamente por el pipeline de ingest.*

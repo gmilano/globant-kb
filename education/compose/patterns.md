@@ -1,368 +1,376 @@
-# Composition Patterns — Education AI
+# 🧩 Patrones de composición — Education (v6)
 
-> Concrete recipes: specific repos + agents + wiring instructions.
-> Last updated: 2026-07-14 (v5)
+> Recetas concretas combinando repos + agentes + AI. 8 patrones con código Python.
+> Última actualización: 2026-07-14
 
-## Architecture Blueprint
+## Arquitectura base
 
 ```
-[Open LMS Base]             ← Moodle / Open edX / Canvas / Vacademy
-        ↓ LTI 1.3 / REST API
-[AI Middleware Layer]        ← FastAPI / LangGraph / CrewAI
-        ↓
-[Specialist Agents]          ← Tutoring / Assessment / Retention / Copilot
-        ↓ student events
-[Knowledge Tracing]          ← pyKT (DKT / AKT / MoC-KT)
-        ↓ mastery scores
-[Adaptive Sequencer]         ← Next-problem selection / difficulty control
-        ↓
-[LLM Backend]               ← Claude 3.7 / Llama 3.1-8B / Qwen2.5-VL (local)
+[Plataforma LMS base (Moodle / Open edX / OpenEduCat)]
+          ↓
+[Capa de datos: activity logs, grades, attendance]
+          ↓
+[Knowledge Tracing (pyKT) + Analytics]
+          ↓
+[Agentes especializados (LangGraph / CrewAI)]
+          ├── Tutoring Agent (DeepTutor / OATutor)
+          ├── Content Generation Agent (Instructional Agents)
+          ├── Dropout Prediction Agent
+          └── Admin Agent (scheduling, alerts, enrollment)
+          ↓
+[UI conversacional / WhatsApp / Avatar / API para el cliente]
 ```
 
 ---
 
-## P1 — Adaptive ITS on Open edX
+## P1 — Agentic Tutoring sobre Open edX (MVP corporativo)
+**Tiempo**: 6-8 sem | **Licencias**: Apache-2.0 (Open edX + DeepTutor)
 
-**Goal**: Add a full Intelligent Tutoring System to an existing Open edX platform.
-
-**Stack**:
-- **Base**: [openedx/openedx-platform](https://github.com/openedx/openedx-platform) via [overhangio/tutor](https://github.com/overhangio/tutor)
-- **Knowledge Tracing**: [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) (AKT model, ASSISTments-pretrained)
-- **Tutoring Agent**: [CAHLR/OATutor-LLM-Learner](https://github.com/CAHLR/OATutor-LLM-Learner) (BKT + LLM hints)
-- **AI Extensions**: [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions)
-- **LLM**: Claude 3.7 Sonnet via Anthropic API (or Llama 3.1-8B via Ollama for on-prem)
-
-**Wiring**:
 ```python
-# 1. Deploy Tutor + openedx-ai-extensions plugin
-tutor plugins install openedx-ai-extensions
-tutor local launch
+# xblock_deeptutor/xblock_deeptutor.py
+import requests
+from xblock.core import XBlock
+from xblock.fields import Scope, String, Dict
 
-# 2. Configure AI provider in Open edX admin (AI subsystem)
-# Settings → Plugins → openedx-ai-extensions → provider=anthropic, key=CLAUDE_API_KEY
+class DeepTutorXBlock(XBlock):
+    student_model = Dict(scope=Scope.user_state, default={})
+    deeptutor_url = String(scope=Scope.settings, default="http://deeptutor-service:8000")
+    
+    def student_view(self, context=None):
+        student_id = self.runtime.anonymous_student_id
+        profile = self._get_or_create_student_profile(student_id, str(self.course_id))
+        frag = Fragment()
+        frag.add_content(self.render_template('deeptutor_view.html', {
+            'tutor_url': f"{self.deeptutor_url}/chat/{profile['session_id']}",
+        }))
+        return frag
+    
+    def _get_or_create_student_profile(self, student_id, course_id):
+        return requests.post(
+            f"{self.deeptutor_url}/api/students/profile",
+            json={"student_id": student_id, "course_id": course_id,
+                  "knowledge_state": self.student_model}
+        ).json()
+    
+    @XBlock.json_handler
+    def save_progress(self, data, suffix=''):
+        self.student_model.update(data.get('knowledge_state', {}))
+        return {"status": "saved"}
+```
 
-# 3. Hook learner events to pyKT
-from pykt.models import AKTNet
-import json
+```yaml
+# docker-compose.yml (fragmento)
+services:
+  deeptutor:
+    image: hkuds/deeptutor:latest
+    environment: [LLM_PROVIDER=anthropic, ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}, MEMORY_BACKEND=redis]
+    ports: ["8001:8000"]
+  pykt-service:
+    image: pykt-team/pykt-api:latest
+    environment: [MODEL=MoC-KT, DATASET=ednet]
+    ports: ["8002:8000"]
+```
 
-def on_problem_submit(user_id, kc_id, correct):
-    kt_model = AKTNet.load("akt-assistments.pt")
-    mastery = kt_model.predict(user_id, kc_id, correct)
-    next_problem = select_next_problem(mastery, threshold=0.85)
-    return {"next_problem_id": next_problem, "mastery": mastery}
+---
 
-# 4. XBlock delivers LLM hint when student requests help
-def get_hint(problem_id, student_attempt):
-    response = claude.messages.create(
-        model="claude-sonnet-5",
-        messages=[{"role":"user","content":f"Student attempted: {student_attempt}. Give a Socratic hint, not the answer."}]
+## P2 — Knowledge Tracing + Dropout Prediction (Moodle)
+**Tiempo**: 4-6 sem | **Licencias**: GPL-3.0 (Moodle) + MIT (pyKT)
+
+```python
+# moodle_kt_agent/dropout_predictor.py
+from pykt.models import MoC_KT
+from langchain_anthropic import ChatAnthropic
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain.tools import tool
+import requests
+
+@tool
+def get_moodle_activity_logs(student_id: int, course_id: int, days: int = 30) -> dict:
+    """Obtiene logs de actividad del estudiante en Moodle via REST API."""
+    response = requests.get("https://moodle.institution.edu/webservice/rest/server.php", params={
+        "wstoken": "MOODLE_API_TOKEN", "wsfunction": "core_user_get_users_by_field",
+        "moodlewsrestformat": "json", "field": "id", "values[0]": student_id,
+    })
+    return {"student_id": student_id, "activity_count": 15, "last_login_days_ago": 7}
+
+@tool
+def predict_dropout_risk(activity_data: dict) -> dict:
+    """Predice riesgo de abandono usando MoC-KT (pyKT)."""
+    model = MoC_KT.from_pretrained("pykt-team/moc-kt-ednet")
+    kt_result = model.predict({
+        "questions": activity_data.get("exercise_ids", []),
+        "responses": activity_data.get("correct_flags", []),
+    })
+    risk_score = (
+        0.4 * (1 - kt_result["avg_knowledge"]) +
+        0.3 * (1 if activity_data.get("last_login_days_ago", 0) > 7 else 0) +
+        0.3 * (1 if activity_data.get("activity_count", 0) < 5 else 0)
     )
-    return response.content[0].text
-```
+    return {"risk_score": risk_score,
+            "risk_level": "HIGH" if risk_score > 0.7 else "MEDIUM" if risk_score > 0.4 else "LOW",
+            "knowledge_gaps": kt_result.get("weak_skills", [])}
 
-**Estimated build**: 3-4 weeks (2 engineers + 1 ML engineer)
+@tool
+def send_intervention(student_id: int, risk_data: dict, channel: str = "email") -> dict:
+    """Envía intervención personalizada al estudiante en riesgo."""
+    llm = ChatAnthropic(model="claude-sonnet-5")
+    message = llm.invoke(f"Genera mensaje motivación (150 palabras, español/portugués, empático) para estudiante en riesgo {risk_data['risk_level']}. Gaps: {risk_data['knowledge_gaps']}")
+    return {"status": "sent", "channel": channel}
+
+tools = [get_moodle_activity_logs, predict_dropout_risk, send_intervention]
+llm = ChatAnthropic(model="claude-sonnet-5")
+dropout_agent = AgentExecutor(agent=create_tool_calling_agent(llm, tools, prompt=...), tools=tools)
+
+def run_daily_dropout_scan(course_ids: list):
+    for course_id in course_ids:
+        dropout_agent.invoke({"input": f"Analiza curso {course_id}, envía intervención a riesgo ALTO o MEDIO."})
+```
 
 ---
 
-## P2 — Multi-Agent Tutoring on Moodle
+## P3 — Instructional Agents: Automatización Docente
+**Tiempo**: 3-4 sem | **Licencias**: Apache-2.0 (instructional_agents)
 
-**Goal**: Add a DeepTutor-style multi-agent tutoring system to Moodle, wired through the Moodle AI subsystem.
-
-**Stack**:
-- **Base**: [moodle/moodle](https://github.com/moodle/moodle) v4.5+ (tool_ai subsystem)
-- **Agent Framework**: LangGraph (MIT) for multi-agent orchestration
-- **Agents**: TutorAgent, QuizAgent, ExplainerAgent, AssessmentAgent
-- **Reference Architecture**: [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) (agent skill pattern)
-- **LLM**: Claude 3.7 Sonnet (tool_ai backend configuration)
-
-**Wiring**:
 ```python
-# LangGraph multi-agent graph for Moodle AI block
+# course_generator/crew.py
+from crewai import Agent, Task, Crew, Process
+from langchain_anthropic import ChatAnthropic
+
+llm = ChatAnthropic(model="claude-sonnet-5", temperature=0.3)
+
+teaching_faculty = Agent(role="Teaching Faculty",
+    goal="Definir objetivos y aprobar materiales del curso",
+    backstory="Experto 10+ años docencia LATAM.", llm=llm, allow_delegation=True)
+instructional_designer = Agent(role="Instructional Designer",
+    goal="Diseñar estructura pedagógica ADDIE",
+    backstory="Especialista taxonomía Bloom.", llm=llm)
+teaching_assistant = Agent(role="Teaching Assistant",
+    goal="Generar ejercicios y evaluaciones",
+    backstory="Crea contenido evaluación alineado a objetivos.", llm=llm)
+content_writer = Agent(role="Content Writer",
+    goal="Escribir scripts y slides LaTeX/Markdown",
+    backstory="Redactor técnico educativo en español.", llm=llm)
+
+def generate_course(topic: str, level: str, duration_weeks: int, language: str = "es"):
+    task_syllabus = Task(
+        description=f"Syllabus {duration_weeks} sem sobre {topic}. Nivel: {level}. Idioma: {language}. Bloom + cronograma + bibliografía LATAM.",
+        agent=instructional_designer, expected_output="Syllabus Markdown")
+    task_slides = Task(
+        description="Slides Markdown (Marp/Reveal.js) por unidad: 3-5 puntos, 1 ejercicio, 1 ejemplo LATAM.",
+        agent=content_writer, expected_output="Slides Markdown", context=[task_syllabus])
+    task_assessments = Task(
+        description="1 quiz/unidad (10 preguntas), 1 proyecto + rúbrica, banco 50 ítems. Exportar Moodle XML.",
+        agent=teaching_assistant, expected_output="Evaluaciones Moodle XML", context=[task_syllabus])
+    task_review = Task(
+        description=f"Verificar alineación, corrección factual, nivel {level}, ejemplos LATAM.",
+        agent=teaching_faculty, expected_output="Aprobación o cambios",
+        context=[task_syllabus, task_slides, task_assessments])
+    crew = Crew(
+        agents=[instructional_designer, content_writer, teaching_assistant, teaching_faculty],
+        tasks=[task_syllabus, task_slides, task_assessments, task_review],
+        process=Process.sequential, verbose=True)
+    return crew.kickoff()
+
+# result = generate_course("Introducción a ML con Python", "universitario primer año", 8, "es")
+```
+
+---
+
+## P4 — WhatsApp LATAM Education Bot (Chamilo/Moodle)
+**Tiempo**: 2-3 sem | **Licencias**: MIT/Apache (n8n fair-code)
+
+```python
+# whatsapp_edu_bot/bot.py
+from langchain_anthropic import ChatAnthropic
+from langchain.memory import ConversationBufferWindowMemory
+from langchain.chains import ConversationChain
+import requests
+
+class WhatsAppEduBot:
+    def __init__(self, student_phone: str, lms_token: str, lms_url: str):
+        self.phone = student_phone
+        self.lms_token = lms_token
+        self.lms_url = lms_url
+        self.llm = ChatAnthropic(model="claude-haiku-4-5-20251001")  # Haiku = bajo costo
+        self.memory = ConversationBufferWindowMemory(k=10)
+    
+    def handle_message(self, message: str) -> str:
+        r = requests.get(f"{self.lms_url}/webservice/rest/server.php", params={
+            "wstoken": self.lms_token, "wsfunction": "core_enrol_get_users_courses",
+            "moodlewsrestformat": "json", "userid": self._get_user_id()})
+        courses = [c['fullname'] for c in r.json() if c.get('progress', 0) < 100]
+        system = f"Eres tutor AI. Cursos activos: {', '.join(courses[:3])}. Respuestas cortas, ejemplos LATAM, español."
+        chain = ConversationChain(llm=self.llm, memory=self.memory)
+        return chain.predict(input=f"[{system}]\n\nEstudiante: {message}")
+    
+    def send_daily_reminder(self):
+        pending = self._get_pending_activities()
+        if pending:
+            self._send_whatsapp(self.phone, f"Tienes {len(pending)} actividad(es) pendiente(s): {pending[0]['name']}. Necesitas ayuda?")
+    
+    def _get_user_id(self): return 12345
+    def _get_pending_activities(self): return []
+    def _send_whatsapp(self, phone, message):
+        requests.post("https://graph.facebook.com/v19.0/PHONE_ID/messages",
+            headers={"Authorization": f"Bearer {WHATSAPP_TOKEN}"},
+            json={"messaging_product": "whatsapp", "to": phone, "type": "text", "text": {"body": message}})
+```
+**n8n**: WhatsApp Webhook → Lookup Moodle → `bot.handle_message()` → send reply. Cron 6am: `send_daily_reminder()` todos los estudiantes.
+
+---
+
+## P5 — Adaptive Learning Engine (Open edX + pyKT + LangGraph)
+**Tiempo**: 8-12 sem | **Licencias**: Apache-2.0 (Open edX + LangGraph) + MIT (pyKT)
+
+```python
+# adaptive_engine/graph.py
 from langgraph.graph import StateGraph, END
-from typing import TypedDict, Annotated
+from typing import TypedDict, List
+from pykt.models import MoC_KT
+from langchain_anthropic import ChatAnthropic
 
-class TutoringState(TypedDict):
-    student_id: str
-    course_id: str
-    current_topic: str
-    mastery_score: float
-    conversation_history: list
-    active_agent: str
+class LearningState(TypedDict):
+    student_id: str; current_unit: str; knowledge_state: dict
+    recent_responses: List[dict]; recommended_content: str; intervention_needed: bool
 
-def tutor_node(state: TutoringState):
-    # Socratic dialogue — never give direct answers
-    response = claude.messages.create(
-        model="claude-sonnet-5",
-        system="You are a Socratic tutor. Guide with questions, never give answers directly.",
-        messages=state["conversation_history"]
-    )
-    return {"conversation_history": state["conversation_history"] + [response]}
+def assess_knowledge(state):
+    if not state["recent_responses"]: return state
+    model = MoC_KT.from_pretrained("pykt-team/moc-kt-ednet")
+    kt = model.predict({"questions": [r["question_id"] for r in state["recent_responses"]],
+                        "responses": [r["correct"] for r in state["recent_responses"]]})
+    state["knowledge_state"] = kt["skill_mastery"]
+    return state
 
-def quiz_node(state: TutoringState):
-    # Generate formative quiz from current topic
-    questions = generate_quiz(state["current_topic"], n=3, difficulty=state["mastery_score"])
-    return {"quiz_items": questions}
+def recommend_content(state):
+    weak = [s for s, m in state["knowledge_state"].items() if m < 0.6]
+    if not weak:
+        state["recommended_content"] = "advanced_challenge"
+        return state
+    llm = ChatAnthropic(model="claude-sonnet-5")
+    resp = llm.invoke(f"Estudiante con gaps en: {weak[:3]}. Recomienda: video 5min, ejercicio, tip. JSON.")
+    state["recommended_content"] = resp.content
+    return state
 
-def assessment_node(state: TutoringState):
-    # Evaluate mastery from quiz performance
-    mastery = evaluate_mastery(state["quiz_items"], state["quiz_responses"])
-    return {"mastery_score": mastery}
+def check_intervention(state):
+    critical = sum(1 for m in state["knowledge_state"].values() if m < 0.4)
+    state["intervention_needed"] = critical > len(state["knowledge_state"]) * 0.6
+    return state
 
-def router(state: TutoringState):
-    if state["mastery_score"] < 0.6:
-        return "tutor"  # More tutoring
-    elif state["mastery_score"] < 0.85:
-        return "quiz"   # Formative quiz
-    else:
-        return END      # Mastered — advance topic
+def route(state):
+    avg = sum(state["knowledge_state"].values()) / max(len(state["knowledge_state"]), 1)
+    return "advance_to_next_unit" if avg > 0.8 else "recommend_content"
 
-graph = StateGraph(TutoringState)
-graph.add_node("tutor", tutor_node)
-graph.add_node("quiz", quiz_node)
-graph.add_node("assessment", assessment_node)
-graph.add_conditional_edges("assessment", router)
-graph.set_entry_point("tutor")
+wf = StateGraph(LearningState)
+wf.add_node("assess_knowledge", assess_knowledge)
+wf.add_node("recommend_content", recommend_content)
+wf.add_node("check_intervention", check_intervention)
+wf.add_node("advance_to_next_unit", lambda s: {**s, "current_unit": "next"})
+wf.set_entry_point("assess_knowledge")
+wf.add_conditional_edges("assess_knowledge", route,
+    {"recommend_content": "recommend_content", "advance_to_next_unit": "advance_to_next_unit"})
+wf.add_edge("recommend_content", "check_intervention")
+wf.add_edge("check_intervention", END)
+wf.add_edge("advance_to_next_unit", END)
+adaptive_engine = wf.compile()
 ```
-
-**Moodle Integration**: Deploy as Moodle block plugin calling this LangGraph service via REST.
-
-**Estimated build**: 4-5 weeks (2 engineers + Moodle specialist)
 
 ---
 
-## P3 — Dropout Prediction Retention Agent
+## P6 — Open TutorAI CE: Tutoring con Avatares para LATAM
+**Tiempo**: 2-3 sem | **Licencias**: BSD-3-Clause (Open TutorAI CE)
 
-**Goal**: Real-time student dropout risk scoring with automated counselor alerts, built on LMS data.
-
-**Stack**:
-- **LMS Data Source**: Moodle / Open edX event logs (xAPI / Caliper / Moodle standard_log)
-- **Knowledge Tracing**: [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) for mastery trajectory
-- **ML Model**: scikit-learn GradientBoosting or XGBoost on engagement features (F1=0.895 baseline)
-- **Agent**: LangGraph retention agent → drafts counselor outreach messages
-- **Notification**: LMS messaging API or Slack/email
-
-**Feature Engineering**:
-```python
-def compute_risk_features(student_id, lms_db, window_days=14):
-    return {
-        "login_frequency": count_logins(student_id, window_days),
-        "assignment_completion_rate": assignments_done / assignments_due,
-        "grade_trend": linear_trend(get_grades(student_id, window_days)),
-        "forum_participation": count_forum_posts(student_id, window_days),
-        "video_watch_pct": avg_video_completion(student_id, window_days),
-        "days_since_last_access": days_since_login(student_id),
-        "peer_interaction_score": peer_messages_sent(student_id, window_days),
-    }
-
-def retention_agent(student_id, risk_score):
-    if risk_score > 0.7:
-        # Draft personalized outreach for counselor review
-        draft = claude.messages.create(
-            model="claude-sonnet-5",
-            system="You are a student success counselor. Draft a warm, non-alarming check-in email.",
-            messages=[{"role":"user","content":f"Student {student_id} risk signals: {get_risk_summary(student_id)}"}]
-        )
-        # Queue for counselor review — never auto-send
-        notify_counselor(student_id, draft.content[0].text, risk_score)
-```
-
-**Estimated build**: 2-3 weeks (1 ML engineer + 1 backend engineer)
-
----
-
-## P4 — AI-Powered Instructor Copilot
-
-**Goal**: Reduce instructor workload — quiz generation, rubric creation, grading assistance, student Q&A routing.
-
-**Stack**:
-- **Base**: Any LMS with LTI 1.3 (Moodle / Open edX / Canvas)
-- **Agent Framework**: CrewAI v0.105 (role-based agents)
-- **Agents**: ContentAgent (quiz/rubric gen), GradingAgent (auto-grade + explain), RoutingAgent (student Q&A)
-- **LLM**: Claude 3.7 Sonnet
-
-**CrewAI Setup**:
-```python
-from crewai import Agent, Task, Crew
-
-content_agent = Agent(
-    role="Instructional Designer",
-    goal="Generate pedagogically sound quizzes, rubrics, and learning objectives from course material",
-    backstory="Expert in Bloom's taxonomy and formative assessment design",
-    llm="claude-sonnet-5"
-)
-
-grading_agent = Agent(
-    role="Assessment Specialist",
-    goal="Grade student submissions against rubric criteria; provide specific formative feedback",
-    backstory="Expert in writing constructive, growth-oriented academic feedback",
-    llm="claude-sonnet-5"
-)
-
-routing_agent = Agent(
-    role="Teaching Assistant",
-    goal="Answer Tier-1 student questions from course content; escalate Tier-2 to instructor",
-    backstory="Knows the course syllabus, deadlines, and content structure intimately",
-    llm="claude-sonnet-5"
-)
-
-# Quiz generation task
-quiz_task = Task(
-    description="Generate 5 multiple-choice questions at Bloom's Apply level for topic: {topic}",
-    agent=content_agent,
-    expected_output="JSON array of question objects with stem, options, correct_answer, explanation"
-)
-
-crew = Crew(agents=[content_agent, grading_agent, routing_agent], tasks=[quiz_task])
-```
-
-**Estimated build**: 3-4 weeks (2 engineers)
-
----
-
-## P5 — Self-Hosted AI Tutoring (LATAM On-Premise)
-
-**Goal**: Full AI tutoring stack for institutions with data residency requirements (LGPD, etc.) — no cloud LLM calls.
-
-**Stack**:
-- **LMS**: Moodle (GPL-3.0) + Tutor or Open edX local
-- **LLM**: Llama 3.1-8B-Instruct via Ollama (Apache-2.0) — runs on single A10 GPU
-- **Tutoring App**: [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) (BSD-3)
-- **Knowledge Tracing**: [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) (MIT)
-- **RAG**: LlamaIndex (MIT) over institution's course content
-- **Infrastructure**: Docker Compose on-prem
-
-**Deployment**:
 ```bash
-# 1. Install Ollama and pull Llama 3.1-8B
-curl -fsSL https://ollama.ai/install.sh | sh
-ollama pull llama3.1:8b
-
-# 2. Configure Open TutorAI CE for local LLM
-# docker-compose.yml → LLM_PROVIDER=ollama, OLLAMA_URL=http://ollama:11434
-
-# 3. Index course content for RAG
-python -c "
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
-docs = SimpleDirectoryReader('/course-content').load_data()
-index = VectorStoreIndex.from_documents(docs)
-index.storage_context.persist('/index-store')
-"
-
-# 4. Wire pyKT for adaptive sequencing (fully local)
-python train_kt.py --model dkt --dataset local_logs --output /models/kt_local.pt
+git clone https://github.com/Open-TutorAi/open-tutor-ai-CE
+cd open-tutor-ai-CE
+cat > .env << EOF
+LLM_PROVIDER=anthropic
+ANTHROPIC_API_KEY=your_key_here
+LANGUAGE=es
+VOICE_PROVIDER=elevenlabs  # o Coqui TTS local para compliance
+TTS_LANGUAGE=es-419         # español latinoamericano
+EOF
+docker-compose up -d
+# Integrar en Moodle:
+# <iframe src="https://tutor.institution.edu/session/{student_id}" width="800" height="600"></iframe>
 ```
 
-**Cost**: ~$2,000/mo (A10 GPU cloud) or $15,000 capex (on-prem GPU server) for institution of 10k students.
-
-**Estimated build**: 4-6 weeks (1 DevOps + 1 ML engineer + 1 backend)
+**Personalización LATAM**: Coqui TTS (Apache-2.0) para compliance; curriculum BNCC/SEP/MEN como contexto; Ollama local si datos de menores.
 
 ---
 
-## P6 — Corporate L&D Agentic Onboarding
+## P7 — Multi-Agent Assessment Pipeline (Evaluación Automática)
+**Tiempo**: 4-6 sem | **Licencias**: MIT (OATutor) + Apache-2.0 (CrewAI)
 
-**Goal**: Agentic onboarding system for enterprise clients — new hire personalized learning paths, compliance tracking, skills assessment.
-
-**Stack**:
-- **Base**: [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) (AGPL-3.0) or Open edX
-- **Agent Framework**: LangGraph with HITL (Human-in-the-Loop) for manager approval gates
-- **Agents**: OnboardingPlannerAgent, ContentCuratorAgent, AssessmentAgent, ComplianceAgent
-- **LLM**: Claude 3.7 Sonnet
-
-**Onboarding Flow**:
 ```python
-# Day 1: Assess existing skills
-skill_profile = assessment_agent.run(
-    user_id=new_hire_id,
-    role=job_description,
-    assessment_type="diagnostic"
-)
+# assessment_pipeline/crew.py
+from crewai import Agent, Task, Crew, Process
+from langchain_anthropic import ChatAnthropic
 
-# Generate personalized 90-day path
-learning_path = planner_agent.run(
-    skill_gaps=skill_profile["gaps"],
-    role_requirements=job_description,
-    available_content=course_catalog,
-    timeline_days=90
-)
+llm = ChatAnthropic(model="claude-sonnet-5", temperature=0.1)
+q_gen = Agent(role="Question Generator", goal="Generar preguntas calibradas Bloom", backstory="Experto psychometrics.", llm=llm)
+rubric = Agent(role="Rubric Designer", goal="Rúbricas detalladas para respuestas abiertas", backstory="Evaluación formativa.", llm=llm)
+grader = Agent(role="Auto Grader", goal="Evaluar respuestas con feedback constructivo", backstory="Evaluador empático.", llm=llm)
 
-# Compliance modules: flag mandatory completions
-compliance_tasks = compliance_agent.run(
-    role=job_description,
-    location=employee_location,
-    regulations=["GDPR", "SOC2", "industry_reqs"]
-)
-
-# HITL: manager reviews and approves path before activation
-manager_review_gate(learning_path, compliance_tasks, manager_id)
+def run_assessment_cycle(topic, student_responses, level):
+    t1 = Task(description=f"10 preguntas {topic}/{level}. Bloom: 4 conocimiento, 3 comprensión, 2 aplicación, 1 análisis. JSON.",
+              agent=q_gen, expected_output="JSON 10 preguntas")
+    t2 = Task(description="Rúbricas: 4-5 criterios, niveles 0-4pts, ejemplos, errores comunes.",
+              agent=rubric, expected_output="Rúbricas Markdown", context=[t1])
+    t3 = Task(description=f"Evalúa {student_responses[:5]}. Puntaje + feedback 2-3 oraciones + sugerencias.",
+              agent=grader, expected_output="Feedback por respuesta", context=[t1, t2])
+    return Crew(agents=[q_gen, rubric, grader], tasks=[t1, t2, t3], process=Process.sequential).kickoff()
 ```
-
-**Estimated build**: 5-6 weeks (2 engineers + product manager for L&D design)
 
 ---
 
-## P7 — AI-Powered Flashcard + Spaced Repetition System
+## P8 — LATAM Dropout Prevention Stack (Gobierno/Universidad Pública)
+**Tiempo**: 8-10 sem | **Licencias**: GPL-3.0 (Moodle) + MIT (pyKT) | **100% self-hosted**
 
-**Goal**: AI-generated study materials from course content with adaptive scheduling.
-
-**Stack**:
-- **Base**: [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) (MIT)
-- **Content Generation**: Claude 3.7 Sonnet — extract key concepts → generate Q&A pairs
-- **Scheduling**: SM-2 spaced repetition algorithm (built-in)
-- **RAG**: LlamaIndex over course PDFs/slides
-
-**Card Generation Pipeline**:
 ```python
-def generate_cards_from_content(content_path: str, n_cards: int = 20):
-    # Extract key concepts via LLM
-    concepts = claude.messages.create(
-        model="claude-sonnet-5",
-        system="Extract the {n} most important concepts from this educational content. Output JSON.",
-        messages=[{"role":"user","content": read_content(content_path)}]
-    )
-    
-    # Generate Q&A pairs for each concept
-    cards = []
-    for concept in concepts:
-        card = claude.messages.create(
-            model="claude-sonnet-5",
-            system="Create a Bloom's-level 'Remember/Understand' flashcard Q&A for this concept.",
-            messages=[{"role":"user","content":concept}]
-        )
-        cards.append({"front": card.question, "back": card.answer, "tags": [concept]})
-    
-    return cards
-```
+# dropout_prevention/self_hosted_stack.py
+"""
+Arquitectura 100% self-hosted (LGPD/Ley 1581 compliant):
+[Moodle LMS] → [ETL] → [pyKT local] → [Risk Scores] → [Intervention Engine]
+                                                ↓
+                             [Ollama Llama 3 70B local] → mensaje personalizado
+                             [WhatsApp Business API*]   → *solo metadata, no datos edu
+"""
+from pykt.models import MoC_KT
+from langchain_community.llms import Ollama
+from langchain.prompts import PromptTemplate
 
-**Estimated build**: 1-2 weeks (1 engineer — leverage existing flashcard app codebase)
+local_llm = Ollama(model="llama3:70b", base_url="http://ollama-server:11434")
+
+def generate_intervention_message(student_name, risk_level, weak_skills, language="es"):
+    """LLM 100% local — datos nunca salen del país."""
+    prompt = PromptTemplate.from_template("""
+    Genera mensaje de apoyo para estudiante universitario/a.
+    Nombre: {name} | Riesgo: {risk} | Dificultades: {skills} | Idioma: {lang}
+    Requisitos: empático, no alarmante, recursos concretos, max 4 oraciones, pregunta check-in.
+    Solo el mensaje.
+    """)
+    return local_llm.invoke(prompt.format(
+        name=student_name, risk=risk_level,
+        skills=", ".join(weak_skills[:3]), lang=language))
+
+# Cron job semanal:
+# python run_weekly_scan.py --course-id 42 --send-interventions
+```
 
 ---
 
-## P8 — LATAM University AI Platform (End-to-End)
+## Resumen de patrones
 
-**Goal**: Full AI-augmented LMS deployment for a LATAM university with 20k+ students.
-
-**Stack**:
-- **LMS**: Open edX via Tutor (AGPL-3.0) — standard for LATAM national platforms
-- **AI Layer**: openedx-ai-extensions (Apache-2.0) + custom XBlocks
-- **Knowledge Tracing**: pyKT AKT model fine-tuned on local logs
-- **Tutoring**: Multi-agent LangGraph tutor wired to course content via RAG
-- **Retention**: Dropout prediction agent (P3 pattern) → counselor dashboard
-- **LLM**: Hybrid — Claude API for connected users; Llama 3.1-8B local for offline/rural
-- **Data Residency**: AWS LATAM regions (São Paulo, Santiago) or on-prem
-
-**Architecture**:
-```
-[Open edX (Tutor)]
-    ├─ AI Tutor XBlock → LangGraph multi-agent → Claude / Llama
-    ├─ Assessment XBlock → auto-grading → formative feedback
-    ├─ Retention Dashboard → pyKT mastery + dropout risk → counselor alerts  
-    ├─ Instructor Copilot → quiz gen + rubric gen + Q&A routing
-    └─ Analytics → xAPI → LRS (Learning Record Store) → BI dashboards
-```
-
-**Timeline**: 12-16 weeks (team of 5-6)
-**Cost**: $150k-250k build + $30-50k/yr infra for 20k students
+| Patrón | Tiempo | Presupuesto | Mejor para |
+|--------|--------|-------------|----------|
+| P1 — DeepTutor + Open edX | 6-8 sem | Medio | Corporativo L&D, universidades modernas |
+| P2 — Dropout Prediction (Moodle) | 4-6 sem | Bajo-Medio | Universidades con Moodle existente |
+| P3 — Instructional Agents | 3-4 sem | Bajo | Instituciones con escasez de docentes |
+| P4 — WhatsApp LATAM Bot | 2-3 sem | Bajo | Colegios, bachillerato, acceso móvil |
+| P5 — Adaptive Engine (LangGraph) | 8-12 sem | Alto | Plataforma MOOC propia |
+| P6 — Open TutorAI Avatares | 2-3 sem | Bajo | Demo/piloto, diferenciador visual |
+| P7 — Assessment Pipeline | 4-6 sem | Medio | HE, certificaciones, formación profesional |
+| P8 — LATAM Dropout self-hosted | 8-10 sem | Medio | Gobierno, universidades públicas, LGPD |
 
 ---
-
-*Patterns reference real repos — verify licenses before commercial deployment.*
+*v6 — actualizado automáticamente por el pipeline de ingest.*

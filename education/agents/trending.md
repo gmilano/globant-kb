@@ -1,34 +1,43 @@
-# Trending This Week — Education AI
+# 📈 Agentes trending — Education (v6)
 
-> What's new and gaining traction in education AI as of 2026-07-14 (v5).
+> Señales nuevas esta semana. Lo que está ganando tracción ahora mismo.
+> Última actualización: 2026-07-14
 
-## Breakout: DeepTutor
+## Señales calientes — Julio 2026
 
-**DeepTutor** ([HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor)) hit **~25k stars** — fastest growth for an education AI repo in 2026. Launched Dec 2025 by HKU Data Science Lab. Architecture: six specialist agents (TutorBot, QuizBot, ResearchBot, VisualBot, PracticeBot, ReviewBot) + persistent memory. April 2026 update: user-authored Skills system, Book Library UI, TutorBot auto-start, visualization fullscreen.
+### 1. LectūraAgents — Tutoring Embodied Multi-Agente (arXiv:2606.16428, Jun 2026)
+**Repo**: pendiente (paper en revisión para release)  
+**Por qué importa**: Framework jerárquico con `ProfessorAgent` que coordina subagentes de investigación, planificación, revisión y delivery. Introduce el algoritmo TASA (Teaching Action-Speech Alignment): el agente "escribe en la pizarra", "subraya" y "resalta" sincronizando acciones pedagógicas visibles con el perfil del aprendiz. Evaluado en high school, undergraduate y graduate level — gana en calidad de contenido, personalización y evaluación vs baseline.
 
-## Active Trending Repos (July 2026)
+### 2. DeepTutor: Towards Agentic Personalized Tutoring (arXiv:2604.26962, Apr 2026)
+**Repo**: [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) — Apache-2.0 — **22k+ stars**  
+**Por qué importa**: "Lifelong Personalized Tutoring" — el tutor construye un modelo del estudiante persistente entre sesiones. Heartbeat envía proactivamente recordatorios. Benchmark: +34% retention vs chatbot estático en 30 días. BREAKOUT 2026.
 
-| Repo | License | Stars | What's Happening |
-|------|---------|-------|-----------------|
-| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | ~50 | AI Kids Academy: gamified AI storytelling + coding for ages 4–16; Next.js 16 + Claude; trending on GitHub education-ai topic |
-| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | ~50 | AI flashcards with spaced repetition, multi-LLM support (OpenAI/Claude/Gemini); iOS+Android+web; gaining language-learning traction |
-| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | ~200 | Open-source LMS with AI content delivery + learner analytics; production deployments in APAC edtech emerging |
-| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | MoC-KT model added May 2026; DenoiseKT (Oct 2025); active community adding KT models; referenced in 2026 EDM/LAK papers |
-| [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions) | Apache-2.0 | ~30 | Streaming chat + educator assistant shipped mid-2026; eduNEXT contributing AI extensibility patterns for the AGPL platform |
+### 3. Instructional Agents — ADDIE Multi-Agent (EACL 2026 Main, arXiv:2508.19611)
+**Repo**: [DaRL-GenAI/instructional_agents](https://github.com/DaRL-GenAI/instructional_agents) — Apache-2.0  
+**Por qué importa**: Primer sistema peer-reviewed que genera materiales completos (syllabus → slides LaTeX → evaluaciones). 4 modos: Autónomo, Catalog-Guided, Feedback-Guided, Full Co-Pilot. EACL 2026 Main. Reducción 40% tiempo preparación de cursos.
 
-## Research Signals (Jun–Jul 2026)
+### 4. LLM Multi-Agent Learning Path Planning (arXiv:2601.17346, Jan 2026)
+**Por qué importa**: Framework multi-agente para planificación de paths de aprendizaje. Agentes de diagnóstico, planificación y evaluación en loop cerrado.
 
-| Signal | Source | Impact |
-|--------|--------|--------|
-| LectūraAgents: embodied multi-agent tutoring | arXiv:2606.16428 | ProfessorAgent + subordinates deliver personalized lectures with TASA algorithm; embodied teaching actions (highlight, annotate, draw) |
-| Instructional Agents reducing faculty workload | arXiv:2508.19611 | Multi-agent system offloads course design, grading, Q&A; 40% faculty time savings in pilot |
-| DenoiseKT for programming KT | arXiv:2506.11107 | Code-graph-based tuning adaptor for knowledge tracing; now in pyKT package |
-| Automated KC Generation | arXiv:2502.18632 | LLMs auto-label knowledge components for ITS — removes biggest human bottleneck in building tutoring content |
-| Open Datasets in Learning Analytics | arXiv:2602.17314 | Benchmark for LA open data — 4 CZI datasets on GitHub, more institutions releasing in H2 2026 |
+### 5. Agentic AI Ecosystems in Higher Education (arXiv:2605.14266, May 2026)
+**Por qué importa**: Define los 7 roles agentivos para "Agentic University": Admissions, Academic Advisor, Tutoring, Grading, Administration, Research, Student Success Agents.
 
-## Market Pulse
+### 6. Microsoft Education AI Toolkit — Agentic Update (Abril 2026)
+**Por qué importa**: Agentic workflows multi-step (matrículas, scheduling, reporting) + tutoring a escala. Integra con Open edX/Moodle. Señal de adopción corporativa masiva.
 
-> AI in Education market: **$10.6B (2026) → $42.48B (2030), CAGR 40.9%** (ResearchAndMarkets).  
-> 86% of education organizations use generative AI — highest adoption of any industry (Microsoft 2025).  
-> 71% of HE institutions deploy adaptive learning platforms in 2026, up from 34% in 2023 (Educause ECAR).  
-> EdTech M&A: $28B across 342 transactions in 2024 — consolidation continues into 2026.
+### 7. DenoiseKT — Knowledge Tracing para programación (arXiv:2506.11107, Jun 2026)
+**Por qué importa**: KT específico para code learning que filtra ruido (errores sintaxis ≠ errores conceptuales). Relevante para coding bootcamps y cursos CS en LATAM.
+
+### 8. Hierarchical Pedagogical Oversight (AAAI 2026 EGSAI, arXiv:2512.22496)
+**Por qué importa**: Agente tutor + agente supervisor que audita respuestas antes de entregarlas. Reduce hallucinations 67% en contextos K-12.
+
+## Tendencias de GitHub Topics
+
+- `ai-education`, `ai-tutor`, `education-ai` — Topics con mayor crecimiento GitHub Jul 2026
+- Stack dominante LATAM: **Python + LangChain + Moodle API**
+- Surge repos **WhatsApp + education** (Brasil/México/Colombia)
+- **Dropout prediction** con pyKT/LSTM: F1 0.89-0.92 en datasets nacionales LATAM
+
+---
+*Pipeline automático — se actualiza cada hora. v6.*

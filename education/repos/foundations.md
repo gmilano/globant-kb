@@ -1,38 +1,40 @@
-# Foundational Repos — Education
+# 🏗️ Repos fundacionales — Education (v6)
 
-> Bases to build on. Open license, active community, real-world deployments.
-> Last updated: 2026-07-14 (v5)
+> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
+> Última actualización: 2026-07-14
 
-## Core Platforms & Frameworks
+## Plataformas y frameworks base
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|-----------|
-| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | ~7.2k | World's most deployed LMS — 400M+ users, 240+ countries; Moodle AI subsystem in v4.5 (tool/ai plugin) | Yes — plugin API, MoodleNet, AI subsystem |
-| [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | AGPL-3.0 | ~7.4k | Open edX LMS + Studio powering edX.org (Harvard/MIT origin); Python/Django; XBlock extensibility; AI plugin layer | Yes — XBlock, openedx-ai-extensions |
-| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | ~468 | Framework for building custom learning components in Open edX LMS; the right extension point for AI tutors | Yes — core extension mechanism |
-| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | Python library for 10+ Deep Knowledge Tracing models (DKT, SAKT, AKT, MoC-KT, DenoiseKT); 7 benchmark datasets; active through 2026 | Yes — student modeling backbone |
-| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~280 | Open Adaptive Tutoring System with BKT; ReactJS + Firebase; LTI integration; Section 508 accessible; CHI 2023 award | Yes — full ITS stack |
-| [overhangio/tutor](https://github.com/overhangio/tutor) | AGPLv3 | ~3.4k | Docker-based Open edX distribution — standard deploy tool for institutions; plugin system for extensions | Yes — plugin system for AI add-ons |
-| [instructure/canvas-lms](https://github.com/instructure/canvas-lms) | AGPL-3.0 | ~5.3k | Canvas LMS — 30M+ users, US HE market leader; Ruby on Rails; active fork/plugin ecosystem | Partial — closed AI features, but hooks available |
-| [sakai-project/sakai](https://github.com/sakai-project/sakai) | ECL-2.0 | ~1.2k | Sakai CLE — university consortium LMS (Michigan, Indiana, MIT, Stanford origins); Java/Spring; gradebook, forums, assessment | Partial — community AI extensions emerging |
-| [richie-education/richie](https://github.com/richie-education/richie) | MIT | ~311 | Open-source CMS for education portals (France Université Numérique); Django + React; course catalog, search, enrollment | Yes — REST API for AI overlays |
-| [moodlehq/moodleapp](https://github.com/moodlehq/moodleapp) | Apache-2.0 | ~979 | Official Moodle mobile app (iOS + Android); Ionic + Angular; push notifications, offline mode | Yes — mobile AI channel |
+| Repo | Licencia | Descripción | Stars | ¿Base para AI? |
+|------|----------|-------------|-------|----------------|
+| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | LMS líder mundial: 400M+ usuarios, 150k+ sitios. Plugin AI subsystem v4.5+ con OpenAI/Azure/Ollama/DeepSeek. | 6.2k | ✅ plugin ecosystem masivo |
+| [openedx/edx-platform](https://github.com/openedx/edx-platform) | Apache-2.0 | El LMS detrás de edX (Harvard+MIT). MOOC-grade. Python/Django. Base para portales corporativos y gubernamentales. | 7.1k | ✅ XBlock API + MCP bridges |
+| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | Framework para construir componentes de aprendizaje en Open edX. Entry point para integrar agentes AI. | 468 | ✅ entry point ideal para AI |
+| [openfun/richie](https://github.com/openfun/richie) | MIT | CMS para portales educativos: Django + React. MOOCs grande escala. France Université Numérique. | 311 | ✅ portal front para AI tutors |
+| [GibbonEdu/core](https://github.com/GibbonEdu/core) | GPL-3.0 | Plataforma gestión escolar flexible. SIS + academic records + scheduling. Complementa Moodle. | ~1.2k | ✅ SIS base para agentes admin |
+| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | PyTorch knowledge tracing: 10+ modelos DL (MoC-KT, DenoiseKT, MTKT), 7 datasets, 5 escenarios. Referencia del campo. | 1.2k | ✅ core para adaptive learning |
+| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | Open-source Adaptive Tutoring System con BKT. ReactJS + Firebase. 80+ problem sets matemáticos, scaffold hints. UC Berkeley. | ~300 | ✅ ITS base para STEM |
+| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | BSD-3-Clause | Tutoring multimodal: LLMs + avatares 3D + voice + video. Docker-first. arXiv:2602.07176. | ~800 | ✅ tutoring productizable |
+| [DaRL-GenAI/instructional_agents](https://github.com/DaRL-GenAI/instructional_agents) | Apache-2.0 | Multi-agent ADDIE: genera materiales de curso end-to-end. EACL 2026. 5 roles + 4 modos de operación. | ~200 | ✅ automatización docente |
+| [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | Colección curada papers AI+LLM para educación. Knowledge tracing, tutoring agents, evaluación, generación. | 1.5k | ✅ research base |
 
-## Knowledge Tracing & Student Modeling
+## Por qué estos repos
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | Benchmark library: DKT, SAKT, AKT, SimpleKT, MoC-KT, DenoiseKT, 10+ models |
-| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~280 | BKT-based adaptive problem selection; extensible step/hint/mastery system |
-| [CAHLR/OATutor-LLM-Learner](https://github.com/CAHLR/OATutor-LLM-Learner) | MIT | ~40 | OATutor + LLM hint/explanation generation; drop-in for math tutoring |
+### LMS Base (Moodle + Open edX)
+Los dos LMS open-source más deployados del mundo. Moodle domina K-12 e institucional; Open edX domina MOOC y corporativo. APIs REST maduras, ecosistemas de plugins maduros. LATAM: UNAM, USP, UBA, UNAL ya los tienen.
 
-## AI Extension Points
+### Knowledge Tracing (pyKT)
+Toolkit estándar para modelar el conocimiento del estudiante: predice performance futura, detecta gaps, personaliza recomendaciones. MoC-KT + DenoiseKT (May-Jun 2026) son SOTA.
 
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions) | Apache-2.0 | ~30 | Official Open edX AI plugin: streaming chat, educator assistant, flashcards, function calling |
-| [openedx/openedx-tutor-plugins](https://github.com/openedx/openedx-tutor-plugins) | Apache-2.0 | ~80 | Community Tutor plugin collection — discovery, forum, credentials, notes |
-| [eduNEXT/eox-core](https://github.com/eduNEXT/eox-core) | AGPL-3.0 | ~120 | Open edX extension plugin (eduNEXT): enrollment, grading overrides, AI hooks |
+### Tutoring Systems (OATutor + Open TutorAI CE)
+- OATutor: ITS clásico con BKT, production-ready, UC Berkeley.
+- Open TutorAI CE: Moderno, multimodal, avatar-native — diferenciador visual.
+
+### Automatización Docente (Instructional Agents)
+Genera materiales completos: syllabus → slides → evaluaciones. EACL 2026 da credibilidad técnica.
+
+### SIS (GibbonEdu)
+Datos de asistencia, notas, scheduling — inputs para agentes de predicción de abandono.
 
 ---
-*See also: `verticals/solutions.md` for full vertical platforms.*
+*Ver también: `verticals/solutions.md` para plataformas verticales completas. v6.*

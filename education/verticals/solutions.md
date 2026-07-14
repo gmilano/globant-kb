@@ -1,53 +1,78 @@
-# Vertical Solutions — Education
+# 🏭 Verticales de partida — Education (v6)
 
-> Existing open-source platforms Globant can customize with AI layers.
-> Model: start from something functional, add an agentic layer on top.
-> Last updated: 2026-07-14 (v5)
+> Plataformas verticales existentes customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica arriba.
+> Última actualización: 2026-07-14
 
-## Recommended Platforms
+## Plataformas recomendadas
 
-| Platform | License | Repo | Stack | Scale | AI Opportunity |
-|----------|---------|------|-------|-------|----------------|
-| **Moodle** | GPL-3.0 | [moodle/moodle](https://github.com/moodle/moodle) | PHP + MySQL/PostgreSQL | 400M+ users, 240+ countries | AI subsystem (v4.5): plug in tutoring agents, automated grading, copilot for instructors; Moodle AI plugin (tool/ai) provides provider abstraction |
-| **Open edX** | AGPL-3.0 | [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Python/Django + React | edX.org + 1000s of institutions | XBlock for AI exercises; openedx-ai-extensions (streaming AI chat, flashcards, educator assistant); MOOC-at-scale |
-| **Canvas LMS** | AGPL-3.0 | [instructure/canvas-lms](https://github.com/instructure/canvas-lms) | Ruby on Rails + React | 30M+ users, US HE #1 | LTI 1.3 integration point; AI tools via partnership APIs; gradebook + outcome data accessible |
-| **Sakai** | ECL-2.0 | [sakai-project/sakai](https://github.com/sakai-project/sakai) | Java/Spring | University consortia | Gradebook, forums, assessments — wrap each with specialized AI agents; lower competition than Moodle/Canvas |
-| **Tutor (Open edX distro)** | AGPL-3.0 | [overhangio/tutor](https://github.com/overhangio/tutor) | Docker + Python | Production standard | Plugin system: add AI tutoring, analytics, content generation as Tutor plugins; fastest Open edX deployment path |
-| **Richie** | MIT | [richie-education/richie](https://github.com/richie-education/richie) | Django + React + Elasticsearch | FUN (France Université Numérique) scale | Course catalog + enrollment CMS; REST API → layer AI recommender + personalization on top |
-| **Vacademy** | AGPL-3.0 | [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | TypeScript + Java | APAC deployments | Modern LMS with learner tracking + assessment; AI content delivery ready; newer codebase |
+| Plataforma | Repo | Licencia | Users/Sites | Stack | Caso de uso |
+|------------|------|----------|-------------|-------|-------------|
+| **Moodle** | [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | 400M usuarios / 150k sites | PHP + MySQL/PostgreSQL | LMS universal: K-12, HE, corporativo. Plugin AI v4.5+. |
+| **Open edX** | [openedx/edx-platform](https://github.com/openedx/edx-platform) | Apache-2.0 | 50M+ estudiantes (edX.org) | Python/Django + React | MOOC, formación corporativa, universidades grandes. XBlock. |
+| **OpenEduCat** | [OpenEduCat-Inc/OpenEduCat](https://github.com/OpenEduCat-Inc/OpenEduCat) | LGPL-3.0 | 3M+ usuarios / 100+ países | Odoo (Python) | Education ERP: admisiones + SIS + gradebook + LMS. |
+| **Gibbon SIS** | [GibbonEdu/core](https://github.com/GibbonEdu/core) | GPL-3.0 | 1,200+ schools | PHP + MySQL | School management: SIS + scheduling + academic records. Complementa Moodle. |
+| **Chamilo LMS** | [chamilo/chamilo-lms](https://github.com/chamilo/chamilo-lms) | GPL-2.0 | 70M+ users | PHP | LMS lightweight, muy popular LATAM (Colombia, Ecuador, Bolivia). |
+| **Richie CMS** | [openfun/richie](https://github.com/openfun/richie) | MIT | 5+ national MOOC portals | Django + React | Portal MOOC. France Université Numérique. MIT — máxima libertad. |
+| **Sakai LMS** | [sakaiproject/sakai](https://github.com/sakaiproject/sakai) | Apache-2.0 | 400+ institutions | Java/Spring | LMS institucional universitario norteamericano. |
+| **ILIAS** | [ILIAS-eLearning/ILIAS](https://github.com/ILIAS-eLearning/ILIAS) | GPL-3.0 | 14M users | PHP | LMS robusto Europa (Alemania, Suiza, Austria). |
 
-## Specialized EdTech Verticals
+## Cómo customizar con AI
 
-| Platform | License | Repo | Use Case |
-|----------|---------|------|----------|
-| OATutor | MIT | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | Adaptive intelligent tutoring for STEM (math, CS); BKT-based; LTI for LMS integration |
-| Open TutorAI CE | BSD-3-Clause | [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | AI tutoring platform with voice/video + 3D avatars; multi-LLM; standalone or embedded |
-| Richie CMS | MIT | [richie-education/richie](https://github.com/richie-education/richie) | Education portal CMS for course catalogs and search |
-
-## How to Add AI to Any Platform
+### Patrón 1: Moodle + AI Agents (recomendado K-12 y universidades LATAM)
 
 ```
-1. Deploy base platform (Moodle / Open edX / Canvas via Tutor)
-           ↓
-2. Expose LMS data via LTI 1.3 or REST API
-           ↓
-3. Add AI middleware (FastAPI / LangGraph / CrewAI) 
-           — calls LMS API for grades, progress, course structure
-           — calls LLM (Claude / Llama / Qwen) for tutoring, generation
-           ↓
-4. Embed AI widgets in LMS via LTI tool or iframe plugin
-           — Chat tutor panel, quiz generator, feedback copilot
-           ↓
-5. Feed learner events back to Knowledge Tracing model (pyKT)
-           — Adaptive difficulty sequencing
-           — Dropout risk scoring → retention alerts
+Moodle LMS (GPL-3.0)
+  └── tool_ai subsystem (Moodle 4.5+)
+       ├── Provider: OpenAI / Azure OpenAI / Ollama (local)
+       ├── Placements: course assistant, text editor, question bank
+       └── Custom plugins: qbank_genai, local_aiquestions, block_ai_chat
+  └── Moodle REST API
+       └── pyKT agent — knowledge tracing sobre logs
+       └── DeepTutor adapter — tutoring personalizado
 ```
+**Tiempo**: 4-6 sem | **Licencia**: GPL-3.0 | **Para**: UNAM, USP, UBA, UNAL (ya tienen Moodle)
 
-## LMS AI Plugin Landscape (2026)
+### Patrón 2: Open edX + XBlock AI (corporativo / MOOC)
 
-| Platform | Native AI | Best Plugin/Extension |
-|----------|-----------|-----------------------|
-| Moodle | tool_ai (v4.5, provider-agnostic) | openai (community), local_ai, MoodleNet AI |
-| Open edX | openedx-ai-extensions (Apache-2.0) | eduNEXT eox-core + AI persona XBlocks |
-| Canvas | Closed AI (AWS Bedrock, OpenAI, Khanmigo) | LTI 1.3 custom tools |
-| Sakai | Community plugins in development | LTI 1.3 + custom AI servlets |
+```
+Open edX (Apache-2.0)
+  └── XBlock AI: DeepTutor + Instructional Agents + pyKT
+  └── Analytics Pipeline: Dropout Prediction Agent
+       (Input: EventTracking logs → pyKT → alertas instructores)
+```
+**Tiempo**: 6-10 sem | **Licencia**: Apache-2.0 propietizable | **Para**: Retail, banca, telco LATAM
+
+### Patrón 3: OpenEduCat + AI Admin Agents (ERP institucional)
+
+```
+OpenEduCat (LGPL-3.0, base Odoo)
+  └── Odoo AI module:
+       Enrolment Agent + Attendance Agent + Grading Agent + Parent Communication Agent
+```
+**Tiempo**: 3-5 sem | **Licencia**: LGPL propietizable | **Para**: Colegios privados y redes LATAM
+
+### Patrón 4: Chamilo + WhatsApp LATAM
+
+```
+Chamilo LMS (GPL-2.0)
+  └── Chamilo REST API → n8n → WhatsApp Business API
+       Agentes: Quiz, Progress, Reminder
+```
+**Tiempo**: 2-4 sem | **Para**: LATAM — WhatsApp como canal primario
+
+## AI Features disponibles en plataformas (2026)
+
+| Feature | Moodle (4.5+) | Open edX | OpenEduCat |
+|---------|---------------|----------|------------|
+| AI Chat en curso | ✅ (plugin) | ✅ (XBlock) | Parcial |
+| Generación de preguntas | ✅ (qbank_genai) | Via XBlock | ❌ |
+| Resúmenes automáticos | ✅ | ✅ | ❌ |
+| Knowledge Tracing | Via plugin | Via XBlock | ❌ |
+| Dropout Prediction | Via plugin | ✅ (Insights) | Via Odoo |
+| Proveedor local (Ollama) | ✅ | Parcial | ❌ |
+| API REST | ✅ | ✅ | ✅ (Odoo) |
+| LATAM compliance (LGPD) | Via config | Via config | Via Odoo |
+
+---
+*v6 — actualizado automáticamente por el pipeline de ingest.*

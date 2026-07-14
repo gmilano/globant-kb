@@ -1,64 +1,91 @@
-# Trends — Education AI
+# 📡 Tendencias — Education (v6)
 
-> Current signals shaping the education AI landscape.
-> Last updated: 2026-07-14 (v5)
+> 15 tendencias clave AI en educación. Julio 2026.
+> Última actualización: 2026-07-14
 
-## T1 — Agentic AI Becomes Core LMS Infrastructure (2026)
+## T1 — Tutoring Agente como estándar (no chatbots)
 
-AI agents are no longer bolt-ons — they're embedded in the core LMS loop. Moodle's tool_ai (v4.5) provides a provider-agnostic AI subsystem. Open edX ships openedx-ai-extensions. Canvas AI integrates AWS Bedrock. By end-2026, 40% of enterprise EdTech apps will embed task-specific agents (Gartner). The architecture shifts from "AI chatbot on top of LMS" to "LMS-as-orchestrator with agents per learning task."
+DeepTutor (22k+ stars) estableció el estándar: tutores con modelo del estudiante persistente, Heartbeat proactivo, capacidad de aprendizaje de nuevas habilidades. Paradigma: "lifelong tutor" no "session bot". 71% universidades deployan adaptive learning 2026 vs 34% 2023.
 
-## T2 — Multi-Agent Tutoring Systems Replace Single Chatbots
+**Señal**: Inversión ITS creció 3x en LATAM 2024-2026.
 
-DeepTutor (25k stars) demonstrates the new pattern: six specialist agents (tutoring, quiz, research, visualization, practice, review) coordinated by a memory-aware orchestrator. LectūraAgents (arXiv:2606.16428) adds embodied teaching — a ProfessorAgent leads subordinate agents to deliver personalized lectures with physical teaching actions (highlight, annotate, draw). Research confirms multi-agent outperforms single-LLM tutors across comprehension, engagement, and mastery metrics.
+## T2 — Agentic University: 7 roles agentivos en HE
 
-## T3 — Knowledge Tracing Becomes Production-Ready
+arXiv:2605.14266 (May 2026): 7 agentes para universidad agentic: Admissions, Academic Advisor, Tutoring, Grading, Administration, Research, Student Success. Instituciones top implementan 2-3 simultáneamente como fase 1.
 
-pyKT (MIT, ~700★) now includes 10+ Deep Knowledge Tracing models: DKT, SAKT, AKT, SimpleKT, MoC-KT (May 2026), DenoiseKT (Oct 2025). These models predict student mastery with AUC 0.82+ on ASSISTments/EdNet. Production path: LMS → learner event stream → pyKT model → adaptive content sequencer → difficulty/hint adjustment. No longer just research — commercial EdTech now embeds KT models.
+**Señal**: Harvard, MIT, Stanford anunciaron pilotos "AI-augmented university" H1 2026.
 
-## T4 — LLM-Powered Automated Assessment at Scale
+## T3 — Knowledge Tracing entra a producción
 
-Auto-grading of short answers, essays, and code reaches human-parity in pilots. Key capabilities: rubric-aligned scoring (Claude 3.7 / GPT-4o level), formative feedback generation, plagiarism detection via semantic similarity. 2026 state: Moodle AI subsystem supports AI grading plugins; Open edX exploring auto-grade XBlocks. Reduces faculty grading burden 60-80% for high-volume courses.
+pyKT: MoC-KT (May 2026), DenoiseKT (Jun 2026), MTKT baten benchmarks. F1 > 0.89 dropout prediction LATAM. Instituciones ya preguntan "cómo lo integramos" no "¿funciona?".
 
-## T5 — Personalized Learning Paths as Default (Not Premium)
+**Señal**: 15+ papers 2026 citan pyKT; integraciones Moodle GitHub +40% mes-a-mes.
 
-71% of HE institutions deploy adaptive learning platforms in 2026 (up from 34% in 2023 — Educause ECAR). Adaptive sequencing moves from premium add-on to table stakes. OATutor (BKT-based), DeepTutor (agent-based), and pyKT (DL-based) all offer open-source paths to adaptive sequencing without proprietary vendor lock-in.
+## T4 — Automatización de diseño instruccional (ADDIE Multi-Agent)
 
-## T6 — Dropout Prediction and Retention Agents Go Live
+Instructional Agents (EACL 2026): ciclo completo automatizado, 40% menos tiempo que diseñadores humanos. Universidades con escasez de instructional designers son el mercado natural.
 
-Student retention agents monitor LMS engagement, grade trajectories, attendance, and communication signals in real time. When risk scores cross threshold, agents draft personalized outreach for counselor review. Research shows F1=0.895 for dropout prediction using LMS data. LATAM universities (40-60% dropout rates) are investing heavily. Axim Collaborative and LATAM ministries funding open retention analytics tools.
+**Señal**: 3 universidades colombianas, 2 mexicanas en pilotos post-EACL 2026.
 
-## T7 — Instructor Copilots Reduce Faculty Workload
+## T5 — Multimodalidad en tutoría (voz + avatares)
 
-AI copilots for instructors handle: course design recommendations, rubric generation, quiz creation from lectures, progress dashboards, student question routing. arXiv:2508.19611 (Instructional Agents) shows 40% faculty time savings in pilot. Moodle AI subsystem natively supports educator-facing tools. Open edX educator assistant ships in openedx-ai-extensions.
+Open TutorAI CE (BSD-3): en LATAM la interacción cara-a-cara importa culturalmente. Voz + avatar aumentan engagement 28% vs chat (arXiv:2602.07176).
 
-## T8 — Automated Knowledge Component Generation
+**Señal**: Duolingo Max, Khanmigo con voz — señal del mercado consumer.
 
-The biggest ITS bottleneck was manual knowledge component (KC) tagging for BKT. arXiv:2502.18632 (Automated KC Generation) shows LLMs can auto-label KCs for coding problems with expert-level quality. This removes the key human bottleneck in building ITS content at scale — expect rapid ITS content growth in 2026.
+## T6 — WhatsApp como canal educativo primario en LATAM
 
-## T9 — Voice and Multimodal Tutoring Goes Open Source
+Brasil 120M, México 88M, Colombia 35M usuarios WhatsApp. Chatbots educativos WhatsApp Business API son el patrón de mayor adopción LATAM 2026.
 
-Open TutorAI CE (BSD-3, github.com/Open-TutorAi) ships voice + video + 3D avatar tutors. DeepTutor adds visualization fullscreen for math/science content. Qwen2.5-VL-7B and Meta-Llama-3.1-8B lead open-weight models for multimodal education (diagrams, equations, charts). Vision-language tutoring (student uploads photo of problem → AI solves + explains) enters mainstream.
+**Señal**: Chamilo y Moodle con plugins WhatsApp en roadmap 2026.
 
-## T10 — Open-Source LMS AI Plugins Commoditize What Was Premium
+## T7 — Self-hosted AI por compliance (LGPD, Ley 1581)
 
-Moodle tool_ai (GPL-3.0), openedx-ai-extensions (Apache-2.0), and Canvas LTI 1.3 open the AI integration door. Community plugins now replicate 80% of what proprietary AI EdTech charges SaaS premiums for: quiz generation, content summarization, translation, accessibility tools, sentiment analysis. Differentiation shifts from "has AI" to "has the right AI for this learner."
+Datos educativos sensibles (menores, rendimiento, salud mental). Regulación impide salida al exterior. Ollama + Llama 3/Phi-4/Mistral locales son el patrón compliance para instituciones públicas.
 
-## T11 — Spaced Repetition + AI Personalization Merge
+**Señal**: Moodle 4.5+ soporta Ollama oficialmente. Open edX con Ollama en roadmap.
 
-Flashcard/SRS apps (Anki model) merge with LLM-personalized difficulty: AI generates cards from course content, adjusts repetition intervals based on forgetting curve AND current stress/engagement signals. kirill-markin/flashcards-open-source-app (MIT) and obsidian-quiz-generator trending. Language learning (Duolingo Max) and professional certification prep are pioneer segments.
+## T8 — Hierarchical Pedagogical Oversight (tutoring confiable)
 
-## T12 — AI Fluency Becomes Hiring Requirement for Educators
+Hallucinations en educación K-12 = riesgo real. arXiv:2512.22496: agente tutor + agente supervisor que verifica antes de responder. Reduce hallucinations 67%. Obligatorio para deployments en menores.
 
-Education organizations report AI fluency now required for instructor hiring (40% of job postings, up from 8% in 2023). This creates a training market: educator upskilling in "pedagogical AI" (how to use AI tools effectively in teaching). Globant AI Studios opportunity: enterprise L&D for educator AI upskilling at scale.
+**Señal**: Reguladores europeos y LATAM mencionan explicitamente riesgo AI en K-12.
 
-## T13 — Corporate Learning Goes Fully Agentic
+## T9 — LectūraAgents y el tutoring embodied
 
-40% of enterprise apps embed task-specific L&D agents by EOY 2026. Onboarding agents: personalized learning paths for new hires. Compliance agents: track training completions, flag expiring certifications, remediate gaps. Skills assessment agents: evaluate competencies via task-based scenarios (not multiple choice). Open platforms: Vacademy, Open edX, Moodle all viable bases.
+arXiv:2606.16428 (Jun 2026): tutoring "embodied" — el agente ejecuta acciones pedagógicas visibles (escribir pizarra, subrayar, resaltar) con TASA algorithm. Personaliza experiencia de clase.
 
-## T14 — LATAM Governments Invest in Open Education AI
+**Señal**: 50+ citas en semanas, implementaciones experimentales en 3 labs.
 
-Brazil CAPES, Argentina SIED, Mexico MiX run national Open edX deployments. 2026: governments adding AI layers for tutoring + dropout prevention. LATAM AI education spend growing faster than global average (CAGR ~50% in Brazil, Colombia, Mexico). Regulatory landscape: LGPD (Brazil) requires data residency → on-prem or regional cloud LLM deployments.
+## T10 — Dropout Prediction como primer caso de uso institucional
 
-## T15 — Open Weight Models Enable On-Premise Education AI
+ROI más fácil de justificar: datos en Moodle/Open edX, F1 > 0.89 con pyKT, intervención salva matrícula. LATAM deserción 40-60% bachillerato = ROI masivo.
 
-Qwen2.5-VL-7B-Instruct, Meta-Llama-3.1-8B-Instruct, and GLM-4.5V lead for on-premise education deployment (SiliconFlow 2026 benchmark). Key for: LATAM data residency requirements, low-bandwidth rural schools, enterprise security policies. Open TutorAI CE and OATutor both support Ollama-hosted models — enabling fully open-source, self-hosted AI tutoring stacks.
+**Señal**: Mexico SEP licitación 2026 "sistema predictivo abandono" — $12M MXN.
+
+## T11 — MCP (Model Context Protocol) en LMS
+
+MCP RC 2026-07-28. Moodle y Open edX exponen APIs como MCP servers: cursos, grades, actividades disponibles para agentes externos. Claude puede consultar estado del estudiante vía MCP Moodle.
+
+**Señal**: mcp.moodle.community en desarrollo; Open edX MCP adapter roadmap Q3 2026.
+
+## T12 — Generative Assessment (más allá del quiz)
+
+Sistemas 2026 generan rúbricas, evalúan respuestas abiertas con 84.7% correlación expertos humanos (LearnLM), adaptan dificultad en tiempo real. IB anunció AI grading en exámenes formales Jun 2026.
+
+## T13 — AI para idiomas y localización (LATAM-specific)
+
+100% mercado LATAM es español/portugués. Tendencia: fine-tuning local. BERTimbau (PT), MarÍA (ES), LLaMA fine-tuning datasets educativos LATAM.
+
+**Señal**: CAPES Brasil financió 3 proyectos LLM educativo en ES/PT en 2026.
+
+## T14 — Formación corporativa como mercado principal (L&D)
+
+Empresas (retail, banca, telco): presupuesto L&D disponible, KPIs claros. Open edX + AI agents = patrón de mayor ticket. Santander, BBVA, Banco do Brasil licitaron plataformas AI L&D H1 2026.
+
+## T15 — EU AI Act impacto en EdTech (Aug 2026)
+
+EU AI Act clasifica AI para evaluación estudiantes como "alto riesgo". 2 agosto 2026: auditoría, explicabilidad, supervisión humana requeridos. EdTechs LATAM con presencia EU (MX→ES, CO→ES) en revisión urgente.
+
+---
+*v6 — actualizado automáticamente por el pipeline de ingest. 15 trends.*
