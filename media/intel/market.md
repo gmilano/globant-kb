@@ -1,95 +1,64 @@
-# Market Intelligence — Media & Entertainment AI
+# 🗺️ Market Map — Media & Entertainment AI
 
-> Key players, market map, and Globant positioning. Updated July 2026.
-> Last updated: 2026-07-13 (v16)
+> Key players, market sizing, opportunities. LATAM + global focus.
+> Last updated: 2026-07-14 (v9)
 
-## Market Size & Growth
+## Market Size (2026)
 
-| Segment | 2025/2026 Value | 2030 Projection | CAGR | Source |
-|---------|----------------|-----------------|------|--------|
-| **GenAI in Content Creation** | **$28.75B (2026)** | **$77.22B (2030)** | **33.5%** | **GlobeNewswire Jul 7, 2026** |
-| GenAI in M&E | $3.16B (2026) | $8.06B (2030) | 26.5% | GlobeNewswire Jul 7, 2026 |
-| AI in Media (broad) | $18.47B (2026) | — | **35.1%** | GlobeNewswire Jul 7, 2026 |
-| AI in Media (Research and Markets) | $35.77B (2026) | $60.35B (2030) | **26.3%** | Research and Markets 2026 |
-| AI Video Generator | $847M (2026) | $3.35B (2034) | 18.80% | Fortune Business Insights 2026 |
-| Text-to-Video segment | — | — | **38.6%** | digen.ai / AVB 2026 |
-| AI Video Market (total) | — | — | **36.20%** | market.us 2026 |
-| AI Music Generation | $1.98B (2026) | — | — | AVB 2026 |
-| AI Image Generation | $15.18B (2026) | — | — | AVB 2026 |
+| Segment | 2026 Size | 2030 Projection | CAGR | Source |
+|---------|-----------|-----------------|------|--------|
+| AI in Media & Entertainment (total) | $35.77B | $87.44B | 25.2% | Research & Markets 2026 |
+| Generative AI in M&E | $3.16B | $8.06B | 26.4% | GlobeNewswire Jul 2026 |
+| GenAI in Content Creation | $28.75B | $77.22B | 28–33.5% | GlobeNewswire Jul 7 2026 |
+| AI Content Generation | $6B | $45B (2033) | 35% | Coherent Market Insights |
 
-## Adoption Metrics (2026 — Real Numbers)
+**Key stat:** Morgan Stanley estimates AI could reduce TV and film production costs by up to **30%**, with key applications in content personalization, VFX automation, AI dubbing/localization, and audience analytics.
 
-- **85%+** of global media consumption via connected TV, mobile-first, and hybrid OTT platforms (Deloitte 2026)
-- GenAI has shifted from pilot projects to operational dependency across the full value chain — ideation, production, localization, distribution, monetization
-- Studios and OTT platforms using AI across all production phases; AI no longer optional in competitive environments
-- Authenticity backlash: Gallup poll (Sep 2025) shows confidence in news at record low (28%); "human-guided, AI-assisted" commands premium over "AI-made"
-- Agentic AI replacing full repetitive workflows in broadcast, streaming, and post-production (NewscastStudio / EY 2026)
+## Global Players
 
-## Newsroom & Journalism Metrics (Reuters Institute Digital News Report 2026)
+| Company | Type | AI Strategy | Open Source |
+|---------|------|-------------|-------------|
+| Netflix | Streaming/Studio | Acquired Warner Bros. Discovery (~$72B equity, ~$82.7B EV, 2026). Acquired InterPositive (16-person AI post-prod studio). Catalog as AI training data moat. | No |
+| Disney | Studio/Streaming | Disney+OpenAI partnership. Beta: AI tool generating TV commercials (Jul 2026). Agentic advertising capabilities with buy-side AI agents. | No |
+| Fox | Broadcaster | First end-to-end **agentic advertising platform** — AI agents transact with one another autonomously. Industry first. | No |
+| Warner Bros. Discovery | Studio (→ Netflix) | Agentic ad automation in modern media buying. Library as AI training data (~72B USD valuation). | No |
+| Meta | Platform/AI Lab | AudioCraft/MusicGen (MIT license), segment-anything, many open models. | Yes |
+| Tencent | Studio/Platform | HunyuanVideo (13B video gen), HunyuanVideo-Foley (SFX sync). Community license. | Partial |
+| Lightricks | Tools | LTX-Video 2.3 (22B, audio+video), ComfyUI nodes. Commercial license required. | Partial |
+| Alibaba Tongyi | AI Lab | Wan 2.2 MoE video model — Apache-2.0, fully commercial. Best open license for video gen. | Yes |
+| ACE Studio + StepFun | AI Music | ACE-Step 1.5 — Apache-2.0 music foundation model rivaling Suno. | Yes |
 
-- **Weekly AI use in newsrooms doubled**: 18% → 34% in one year; 64% of newsrooms now use AI as embedded infrastructure (in CMS, not just experimentation)
-- **75%** of news executives expect "agentic tools" to have a "large" or "very large" impact in the near future
-- **40%** forecast decline in search referrals over the next 3 years from AI answer engines (Google AI Overviews, ChatGPT)
-- **Only 20%** of publishers expect AI licensing deals to become a major revenue source; most see them as marginal
-- Washington Post cut **~30%** of workforce in early 2026, citing AI as a contributing factor; signals structural workforce shift
-- Newsquest (UK regional publisher) deployed **30+ AI-assisted reporters** using News Creator tool — up to 30 AI-drafted stories per day, human-checked
-- Personalized news briefing tools (Huxe, OpenAI Pulse) gaining adoption as publishers seek audience retention against AI chatbots
-- AI "answer engines" diverting audiences before they reach publisher sites — search referral traffic in secular decline
-- Agentic newsroom workflows (research → draft → verify → publish) moving from pilot to operational at scale
+## Agentic Advertising — Emerging Segment
 
-## Key Players — Closed Source (Competition Context)
+| Player | What | Status |
+|--------|------|--------|
+| Fox | End-to-end agentic ad platform (AI buys + sells ad inventory) | Live 2026 |
+| Disney | AI commercial generation tool | Beta Jul 2026 |
+| Warner Bros. | Agentic ad automation for media buying | Live 2026 |
+| Versus AI | AI second-screen engagement overlays (Disney+/Paramount+/HBO/NFL) | Live Jul 2026 |
+| **Open-source alternative** | Owncast + Claude Haiku + Redis pub/sub (Interactive CTV) | Build now |
 
-| Company | Product | Position | Funding / Scale |
-|---------|---------|----------|------------------|
-| Runway | Gen-3 Alpha | Video generation leader | $1.5B valuation, enterprise sales |
-| Sora (OpenAI) | Sora 2.0 | Premium T2V, enterprise | Part of $157B valuation |
-| Kling (Kuaishou) | Kling 3.0 | Cinematic realism, native audio | Chinese competitor, free tier |
-| Adobe | Firefly Video | Enterprise creative cloud | $25B market cap tailwind |
-| ElevenLabs | Voice AI | Audio/voice cloning leader | $1.1B valuation (2024), Series B+ |
-| **Resemble AI** | **Chatterbox (MIT)** | **SoTA open TTS; real-time broadcast voice agents** | **~25k GitHub stars; 1M+ HuggingFace downloads; Perth C2PA watermarker** |
-| HeyGen | HyperFrames + AI Video | Agent-native video pioneer | Open-sourced HyperFrames (Apache-2.0); enterprise scale |
-| Stability AI | Stable Audio, SDXL | Open weights (community) | Restructured 2024, licensing change |
+## AI in Content Production — Cost Impact
 
-## Open Source Ecosystem — Key Actors
+| Application | Cost Reduction | Status |
+|-------------|---------------|--------|
+| VFX automation | 30–50% | Early production adoption |
+| AI dubbing/localization | 60–80% vs human | Available now (open source) |
+| Short-form video generation | 91% (from $4.5k to $400/min) | Available now |
+| AI script writing | 20–40% | Available now |
+| Content personalization | Drives 27.4% of AI segment revenue | Major streaming use case |
 
-| Actor | Flagship | Strategy |
-|-------|----------|----------|
-| Alibaba (Tongyi) | Wan2.2 | Apache-2.0 for community adoption; outcompeting Runway on open models |
-| Meta (FAIR) | AudioCraft | Open audio as a platform play; weights CC-BY-NC |
-| Tencent (Hunyuan) | HunyuanVideo | Commercial-friendly Tencent license; building enterprise media stack |
-| Lightricks | LTX-Video + LTX-Desktop | Open weights strategy to build studio ecosystem around LTX Pro (cloud) |
-| Zhipu AI / Tsinghua | CogVideoX | Academic-commercial hybrid; Apache-2.0 on smaller models drives adoption |
-| HeyGen | HyperFrames | Open-sourced HTML-to-video engine; builds agent ecosystem around enterprise platform |
-| OpenMMLab | FoleyCrafter | IJCV 2026 research → Apache-2.0 production; V2A becomes standard pipeline step |
-| Spotify (FAIR) | Pedalboard | Open engineering asset; talent acquisition and ecosystem play |
-| HPC-AI Tech | Open-Sora | Full training pipeline open-source; strongest Apache-2.0 alternative to proprietary video models |
-| Stanford NLP | STORM | MIT academic research → newsroom adoption; first serious open tool for AI-assisted article generation |
+## LATAM Opportunities
 
-## LATAM Opportunity
-
-| Opportunity | Why Now | Open Source Fit |
-|-------------|---------|------------------|
-| Spanish/Portuguese content localization | OTT platforms expanding; Netflix/Disney need LATAM dubbing at scale | Whisper (MIT) + Pedalboard (GPL-3.0) + LTX-Video LipDub + FoleyCrafter (Apache-2.0) |
-| Self-hosted media production for studios | IP protection concerns; no cloud data residency in much of LATAM | ComfyUI + Wan2.2 (Apache) on-premise stack |
-| Short-form video for social (LATAM growth market) | TikTok/Reels driving creator economy in Brazil, Mexico, Colombia | OpenMontage (AGPL) + Wan2GP on creator hardware |
-| Agent-native marketing video at scale | Brands need 500+ video variants/month; HyperFrames enables agent-composed production | HyperFrames (Apache-2.0) + Claude + MediaCMS |
-| Music and audio for advertising | Brazil alone is #7 global ad market | AudioCraft MusicGen (MIT code) for background scoring |
-| Podcast monetization infrastructure | LATAM podcast market growing 28% YoY | Castopod (AGPL) + Whisper transcription + Claude summaries |
-| AI newsroom for regional publishers | 40% search referral decline forces efficiency; LATAM regional newsrooms underserved | GPT-Researcher (MIT) + STORM (MIT) + Claude + Kokoro-82M (Apache-2.0) |
-| On-premise TTS for high-volume narration | ElevenLabs API costs prohibitive at LATAM scale; CPU-only deployment needed | Kokoro-82M (Apache-2.0) — Spanish/Portuguese, CPU, 54 presets, $0 per-character |
-| **Real-time broadcast voice dubbing** | **Live news and sports require <1s latency for simultaneous interpretation; $200–500/hr human interpreter cost** | **SRS (MIT) + Whisper.cpp (MIT) + Claude Haiku + Chatterbox Turbo (MIT, 75ms) = ~775ms end-to-end; $0 TTS cost** |
+- **Dubbing/localization at scale**: LATAM content market requires ES/PT localization. AutoDub + WhisperX enables 100+ language pipelines at near-zero cost.
+- **Short-form content explosion**: TikTok/Instagram Reels dominate LATAM. mediago-drama pipeline pattern applicable to Portuguese/Spanish web novel → short drama.
+- **Live streaming**: Owncast enables self-hosted live media for telcos, broadcasters, sports rights holders in Brazil/Argentina/Mexico.
+- **Music**: ACE-Step + YuE for LATAM music labels launching AI music services without paying $30k+/month for Suno API access.
+- **CMS localization**: Strapi + Ghost for Spanish/Portuguese news media with AI content assist.
 
 ## Globant Positioning
 
-**Differentiation**: Globant can position as the integrator that connects open source AI media tools (Wan2.2, LTX-Video, HyperFrames, FoleyCrafter, ComfyUI, AudioCraft, GPT-Researcher, STORM) with enterprise media workflows (rights management, content moderation, multi-platform distribution) — a layer clients cannot assemble themselves.
-
-**Sweet spots**:
-1. AI-powered localization pipelines for OTT and broadcast clients
-2. Agentic content production (OpenMontage + HyperFrames patterns) for marketing agencies
-3. Self-hosted media AI infrastructure for clients with IP/data residency requirements
-4. LATAM short-form video production tools for creator platforms
-5. Agent-native video composition pipelines for brands requiring high-volume variant production
-6. AI newsroom systems (GPT-Researcher + STORM + Claude) for regional publishers facing search referral decline
-
----
-*Auto-updated by ingest pipeline.*
+- **Build on**: Wan 2.2 (Apache-2.0), ACE-Step (Apache-2.0), AudioCraft (MIT), WhisperX (BSD), Owncast (MIT), Strapi (MIT)
+- **Service layer**: AI dubbing pipelines, interactive CTV, agentic advertising platforms, white-label creative studios
+- **Avoid**: Proprietary tools (Suno, ElevenLabs per-seat) — substitute with open equivalents
+- **Opportunity size**: $3.16B GenAI M&E (2026) growing to $8B by 2030 at 26.4% CAGR

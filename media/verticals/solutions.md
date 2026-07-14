@@ -1,51 +1,43 @@
-# Vertical Solutions — Media & Entertainment
+# 🏭 Vertical Solutions — Media & Entertainment
 
-> Real open source platforms that can be customized with AI. The strategy: start from something functional, layer agentic AI on top.
-> Last updated: 2026-07-13 (v16)
+> Existing open source platforms customizable with AI. Model: start from something functional, add agentic layer on top.
+> Last updated: 2026-07-14 (v9)
 
-## Platforms for AI Customization
+## Video Distribution & Streaming Platforms
 
-| Platform | Repo | License | Stack | Use Case | AI Opportunity |
-|----------|------|---------|-------|----------|----------------|
-| **MediaCMS** | [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | Python/Django + React | Enterprise video CMS and media library | Add AI-powered auto-tagging, transcript generation (Whisper — built-in), smart search, content moderation, and chapter generation. REST API enables agent integration. Central asset hub for all AI-generated content pipelines (P1–P9). |
-| **SRS** | [ossrs/srs](https://github.com/ossrs/srs) | **MIT** | C++ | Live streaming infrastructure (RTMP/WebRTC/HLS/SRT/MPEG-DASH) | **NEW v16: MIT license. ~29k★. Real-time AI intelligence layers: Whisper.cpp for live transcription, Claude Haiku for topic tagging (<2s latency), Chatterbox Turbo for real-time broadcast dubbing (75ms latency). SRS 8.0 (codename Kai) in development. Foundation for AI broadcast infrastructure — hooks into stream pipeline at any stage without proprietary lock-in.** |
-| **Open Streaming Platform** | [arut/nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module) + OSP | MIT | Python/Flask + NGINX | Self-hosted live streaming (Twitch/YouTube alternative) | Layer real-time AI commentary, live transcription, sentiment analysis, and automated highlight clipping. |
-| **Restreamer** | [datarhei/restreamer](https://github.com/datarhei/restreamer) | Apache-2.0 | Go + React | H.264 real-time video distribution and multi-destination push | Add AI-powered adaptive bitrate logic, scene change detection for dynamic transcription triggers, and content-aware CDN routing. |
-| **InvokeAI** | [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | Python + FastAPI + React | AI image and concept art generation studio | Build agent workflows for batch concept art, storyboard generation, brand asset creation, and style-consistent visual development pipelines. |
-| **Jellyfin** | [jellyfin/jellyfin](https://github.com/jellyfin/jellyfin) | GPL-2.0 | .NET + React | Self-hosted media server and streaming (Plex alternative) | Add AI: content recommendation, auto-subtitle via Whisper, content discovery agents, mood-based playlist generation with AudioCraft. |
-| **Castopod** | [ad-aures/castopod](https://github.com/ad-aures/castopod) | AGPL-3.0 | PHP/Laravel | Podcast hosting platform (self-hosted) | Layer AI: auto-transcription, show notes generation, chapter markers, SEO optimization, Kokoro-82M voice narration for audio articles, ad insertion automation. |
-| **Stremio** (core) | [Stremio/stremio-core](https://github.com/Stremio/stremio-core) | GPL-2.0 | Rust | Streaming media aggregator | Build AI-powered content discovery addons, personalized recommendation engines, and watchlist prediction agents. |
-| **Owncast** | [owncast/owncast](https://github.com/owncast/owncast) | MIT | Go | Self-hosted live streaming + chat (Twitch alternative) | MIT license, single-binary deploy. Add AI real-time transcription (Whisper.cpp), live topic tagging (Claude Haiku), auto-highlight detection, and clip generation. Ideal for independent broadcasters and LATAM news channels requiring IP control. |
+| Platform | License | URL | Stack | AI Customization Entry Points |
+|----------|---------|-----|-------|-------------------------------|
+| PeerTube | AGPL-3.0 | [github.com/Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | Node.js/Angular/PostgreSQL | REST API for metadata, plugins for auto-captioning with Whisper, ActivityPub for syndication |
+| Owncast | MIT | [github.com/owncast/owncast](https://github.com/owncast/owncast) | Go/React | Webhooks for stream events, Claude integration for real-time interactive CTV, Redis pub/sub for second-screen |
+| MediaCMS | AGPL-3.0 | [github.com/mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | Python/Django/React | REST API for metadata tagging, Whisper subtitle generation via API, custom recommendation hooks |
 
-## How to Layer AI on Top
+## Content Management Systems (CMS)
 
-### Step 1: Fork + Deploy the Base Platform
-Pick a platform matching the client's use case. Deploy self-hosted to ensure IP protection.
+| Platform | License | URL | Stack | AI Customization Entry Points |
+|----------|---------|-----|-------|-------------------------------|
+| Strapi | MIT | [github.com/strapi/strapi](https://github.com/strapi/strapi) | Node.js | 64k+ stars. Plugin API for AI content generation, media library, REST + GraphQL. |
+| Ghost | MIT | [github.com/TryGhost/Ghost](https://github.com/TryGhost/Ghost) | Node.js | Newsletter + publishing platform. Webhook-driven AI content assist, built-in member analytics. |
+| Decap CMS | MIT | [github.com/decaporg/decap-cms](https://github.com/decaporg/decap-cms) | React/YAML | Git-backed headless CMS. Config-driven, add AI workflow via GitHub Actions. |
 
-### Step 2: Add AI Microservices
-Wire in:
-- **Transcription**: Whisper or whisper.cpp via REST endpoint
-- **Video generation**: Wan2.2 or LTX-Video via ComfyUI API
-- **Agent-native video**: HyperFrames (Apache-2.0) for LLM-composed video output
-- **Audio generation**: AudioCraft MusicGen for background music
-- **Video-to-audio**: FoleyCrafter (Apache-2.0) for automated foley and sound design
-- **Agent orchestration**: OpenMontage for multi-step production workflows
-- **Newsroom research**: GPT-Researcher (MIT) + STORM (MIT) for automated content research
-- **On-premise TTS**: Kokoro-82M (Apache-2.0) for Spanish/Portuguese narration at zero per-character cost
+## Audio / Music Production Platforms
 
-### Step 3: Expose an Agentic Layer
-Build an agent (LangGraph + Claude) that can:
-- Accept natural language production requests
-- Invoke the appropriate AI microservices in sequence
-- Use HyperFrames for structured video composition (HTML → MP4 via agent skills)
-- Return deliverables (video files, transcripts, assets) back to the platform
+| Platform | License | URL | Stack | AI Customization Entry Points |
+|----------|---------|-----|-------|-------------------------------|
+| AudioCraft | MIT (code) | [github.com/facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | Python/PyTorch | API for MusicGen (text-to-music) and AudioGen (text-to-SFX). Retrain on custom audio datasets. |
+| ACE-Step | Apache-2.0 | [github.com/ace-step/ACE-Step](https://github.com/ace-step/ACE-Step) | Python/Gradio | Local music gen API. Brand voice fine-tuning, lyrics-to-song, integrate into content assembly pipelines. |
 
-### Step 4: LATAM Localization
-- Use whisper.cpp for Spanish/Portuguese transcription
-- Use Pedalboard for audio normalization before AI voice dubbing
-- Deploy Kokoro-82M for on-premise TTS (CPU-viable; $0 per-character vs. ElevenLabs API)
-- Deploy Wan2.2 locally to meet data residency requirements in Brazil/Argentina
-- FoleyCrafter for automated foley on locally produced content (saves costly sound design)
+## AI Creative Suites
 
----
-*Auto-updated by ingest pipeline.*
+| Platform | License | URL | Stack | AI Customization Entry Points |
+|----------|---------|-----|-------|-------------------------------|
+| ComfyUI | GPL-3.0 | [github.com/comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI) | Python/Vue | Node-graph workflow for image/video. 2,000+ community nodes. Embed headlessly via API for automated pipelines. |
+| Open-Generative-AI | MIT | [github.com/anil-matcha/open-generative-ai](https://github.com/anil-matcha/open-generative-ai) | Next.js | 200+ models. White-label for clients. Add auth, billing, custom model fine-tuning as managed service. |
+| InvokeAI | Apache-2.0 | [github.com/invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Python/React | 27.5k stars. Professional canvas, board management. REST API + workflows for enterprise creative teams. |
+
+## How to Customize with AI
+
+1. **Fork the base repo** and deploy on client infrastructure (AWS/GCP/on-prem)
+2. **Add AI inference endpoint** — local (Ollama/Whisper.cpp) or managed (Claude API/Bedrock)
+3. **Wire in MCP servers** for tool access: file system, CMS API, video transcoding, asset library
+4. **Wrap existing workflows with agents** — auto-tagging, caption generation, content moderation, recommendation
+5. **Conversational UI on top** — Claude-powered chat interface for content teams

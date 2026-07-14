@@ -1,266 +1,278 @@
-# Composition Patterns — Media & Entertainment
+# 🧩 Composition Patterns — Media & Entertainment AI
 
-> Concrete recipes combining specific repos + agents to build production-ready solutions.
-> Last updated: 2026-07-13 (v16)
+> Concrete recipes: specific repos + agents + wiring. Build-ready.
+> Last updated: 2026-07-14 (v9)
+
+## Architecture Base
 
 ```
-[Open Source Media Platform (MediaCMS / InvokeAI / Castopod / Owncast)]
+[Open-source vertical platform (Owncast / PeerTube / MediaCMS / Strapi)]
           ↓
-[AI Microservices (Wan2.2, LTX-Video, AudioCraft, Whisper, FoleyCrafter, Kokoro-82M)]
+[AI Inference Layer (Claude API / Ollama / local Whisper / ComfyUI API)]
           ↓
-[Orchestration Agent (OpenMontage / HyperFrames / GPT-Researcher / LangGraph + Claude)]
+[Specialized Media AI agents (ACE-Step / WhisperX / Wan2GP / open-dubbing)]
           ↓
-[Client-facing API or conversational UI]
+[Conversational UI / MCP server / REST API for client]
 ```
 
 ---
 
-## P1: Agentic Video Production Studio
+## P1 — AI Dubbing Pipeline (Open Source, 100+ Languages)
 
-**Problem**: Client needs to produce 50+ short-form marketing videos per month at 1/10 the current cost.
+**Use case:** Dub any video into 100+ languages locally, no per-minute API fees.
 
-**Stack**:
-- **Orchestration**: [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) (AGPL-3.0) — 12 pipelines, 500+ agent skills
-- **Video generation**: [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) (Apache-2.0) via ComfyUI API
-- **Image generation**: [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) (Apache-2.0) for stills
-- **Audio**: [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) MusicGen for background scoring
-- **UI**: OpenMontage natural language interface + Claude for script direction
+**Stack:**
+- `shyhirt/AutoDub` (MIT) — orchestrator: Whisper transcription → Ollama LLM translation → XTTS v2 voice cloning
+- `facebook/demucs` (MIT) — vocal isolation to separate speech from music/SFX
+- `m-bain/whisperX` (BSD-4) — word-level timestamps for lip-sync alignment
+- `claude-sonnet-5` — translation quality review and cultural adaptation pass
 
-**Wiring**:
-1. Client describes video in natural language → OpenMontage agent decomposes into pipeline steps
-2. Script generation → scene breakdown → asset generation (Wan2.2 for video, InvokeAI for stills)
-3. MusicGen generates background score from scene mood description
-4. OpenMontage's editing pipeline assembles timeline, adds transitions, exports
-5. MediaCMS stores and serves final assets with metadata
+**Wiring:**
+```python
+# 1. Separate vocals from background audio
+demucs.separate(input_video)  # → vocals.wav + bg_music.wav
 
-**Estimated time to MVP**: 3–4 weeks. **Differentiator**: Apache-2.0 Wan2.2 means no per-video API costs.
+# 2. Transcribe with word-level timestamps
+whisperx.transcribe(vocals.wav, language="auto")  # → transcript + timestamps
 
----
+# 3. Translate with cultural adaptation
+claude.message(f"Translate to {target_lang}, preserve timing: {transcript}")
 
-## P2: AI Dubbing and Localization Pipeline (LATAM)
+# 4. Synthesize dubbed audio with voice clone of original speaker
+xtts_v2.synthesize(translated_text, speaker_embedding=original_speaker)
 
-**Problem**: OTT platform needs to dub 200 hours of English content into Spanish/Portuguese per quarter.
+# 5. Mix dubbed audio back with background music
+ffmpeg.merge(dubbed_audio, bg_music.wav)
+```
 
-**Stack**:
-- **Transcription**: [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT) for source language ASR
-- **Translation**: Claude API (claude-sonnet-5) for English → Spanish/Portuguese with cultural adaptation
-- **Voice synthesis**: [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) (MIT) Multilingual V3 for zero-shot voice cloning across 23+ languages (or [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) Apache-2.0 for high-volume CPU-only narration)
-- **Audio processing**: [spotify/pedalboard](https://github.com/spotify/pedalboard) (GPL-3.0) for audio normalization and effects
-- **Lip sync**: [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) (Apache-2.0) LipDub mode for visible-speaker scenes
-- **Foley & sound effects**: [open-mmlab/FoleyCrafter](https://github.com/open-mmlab/FoleyCrafter) (Apache-2.0) for automated environmental audio
-- **CMS integration**: [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) (AGPL-3.0) REST API for asset management
-
-**Wiring**:
-1. Video ingested into MediaCMS → triggers Whisper.cpp transcription job
-2. Claude translates transcript with regional localization (Mexico vs. Argentina Spanish)
-3. Kokoro-82M generates dubbed audio track in target language (CPU-viable; $0 per-character)
-4. Pedalboard normalizes audio, matches room tone from original
-5. LTX-Video LipDub resyncs visible speaker lip movements
-6. FoleyCrafter regenerates ambient sound layer in target acoustic profile
-7. Dubbed version stored in MediaCMS with original; both served via adaptive streaming
-
-**Cost model**: ~$0.02/minute for Claude translation + $0 for on-premise Kokoro TTS and video/audio processing.
+**Effort:** 3–5 weeks | **Cost:** ~$0.001–0.01/minute of content (Claude API for QA only)
+**LATAM opportunity:** ES/PT dubbing for streaming services, education, YouTube channels
 
 ---
 
-## P3: AI-Powered Podcast Production (Castopod + Claude + Whisper)
+## P2 — AI Music Generation Studio (ACE-Step + AudioCraft)
 
-**Problem**: Podcast network needs auto-transcription, show notes, chapter markers, and SEO-optimized descriptions for 30+ episodes/week.
+**Use case:** White-label music generation for media clients — background scores, jingles, licensed-free music.
 
-**Stack**:
-- **Platform**: [ad-aures/castopod](https://github.com/ad-aures/castopod) (AGPL-3.0) self-hosted podcast hosting
-- **Transcription**: [openai/whisper](https://github.com/openai/whisper) (MIT) large-v3 model
-- **Content agent**: Claude (claude-sonnet-5) for show notes, chapter markers, social copy, SEO titles
-- **Audio enhancement**: [spotify/pedalboard](https://github.com/spotify/pedalboard) (GPL-3.0) for noise reduction and leveling
-- **Audio narration**: [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) (Apache-2.0) for auto-generated episode previews and article audio versions
+**Stack:**
+- `ace-step/ACE-Step` (Apache-2.0) — text+lyrics → full song with vocals
+- `fspecii/ace-step-ui` (MIT) — professional Gradio UI
+- `facebookresearch/audiocraft` (MIT code) — MusicGen for instrumental background + AudioGen for SFX
+- `multimodal-art-projection/YuE` (Apache-2.0) — long-form (5 min) compositions with vocals
 
-**Wiring**:
-1. Episode uploaded to Castopod → webhook triggers processing pipeline
-2. Whisper generates full transcript with timestamps
-3. Claude ingests transcript → outputs: JSON chapter markers, HTML show notes, 5 social variants, SEO title+description
-4. Pedalboard processes audio: noise gate, EQ, loudness normalization (−14 LUFS for podcast standards)
-5. Kokoro-82M generates short audio preview/trailer in Spanish or Portuguese for social distribution
-6. All metadata pushed back to Castopod via REST API; episode publishes with full SEO package
+**Wiring:**
+```python
+# Brand jingle generation
+musicgen.generate(
+    descriptions=["upbeat corporate 30s jingle, strings, modern pop"],
+    duration=30
+)
 
-**Output per episode**: transcript, chapter markers, show notes, 5 social posts, SEO package, audio preview — in ~8 minutes unattended.
+# Full song from brief
+ace_step.generate(
+    lyrics="[verse] ...",
+    style="latin pop, guitar, female vocal",
+    duration=180
+)
 
----
+# SFX for video
+audiogen.generate(descriptions=["thunder storm", "crowd cheer", "city ambience"])
+```
 
-## P4: Short-Form Drama Pipeline (Novel → Video Series)
-
-**Problem**: Digital publisher wants to convert popular web novels into short-drama video series for LATAM social platforms (inspired by Chinese 短剧 market).
-
-**Stack**:
-- **Script agent**: Claude (claude-opus-4-8) for novel-to-screenplay adaptation, scene breakdown
-- **Video generation**: [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) (Apache-2.0) for scene visualization
-- **Character consistency**: Wan2.2 LoRA trained on character reference sheets (fine-tuned in 2–4 hours)
-- **Agentic pipeline**: [mediago-dev/mediago-drama](https://github.com/mediago-dev/mediago-drama) (Apache-2.0) as reference pattern
-- **Music**: [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) MusicGen for episode scores
-- **Distribution**: MediaCMS + social API integrations (TikTok, Instagram Reels, YouTube Shorts)
-
-**Wiring**:
-1. Novel chapter submitted → Claude breaks into 10–15 scenes with visual descriptions and dialogue
-2. Wan2.2 (with character LoRA) generates 5–10 second clips per scene
-3. AudioCraft scores each scene based on mood tag from Claude
-4. FFmpeg assembles clips into 1–3 minute episode with music and optional Whisper-generated captions
-5. Auto-posted to LATAM social platforms via MediaCMS distribution layer
-
-**Business model**: $0.05–0.10 per episode production cost vs. $2–5K traditional production.
+**Effort:** 2–4 weeks | **Cost:** ~$0 model cost (local GPU) + $0.01–0.05/prompt (Claude for briefs)
+**LATAM opportunity:** Music labels in BR/AR/MX, ad agencies, gaming studios
 
 ---
 
-## P5: Real-Time Live Stream Intelligence Agent
+## P3 — Self-Hosted AI Creative Studio (Open-Generative-AI)
 
-**Problem**: News broadcaster needs real-time transcription, topic tagging, highlight detection, and social clip generation during live broadcasts.
+**Use case:** White-label creative platform for media clients replacing Midjourney/Sora/Runway subscriptions.
 
-**Stack**:
-- **Streaming infrastructure**: [datarhei/restreamer](https://github.com/datarhei/restreamer) (Apache-2.0) for RTMP ingest and distribution
-- **Real-time transcription**: [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT) streaming mode
-- **Intelligence agent**: Claude (claude-haiku-4-5) for real-time topic classification and quote extraction (low-latency tier)
-- **Highlight agent**: Claude (claude-sonnet-5) for summarization and clip recommendation
-- **Clip generation**: Wan2GP + Wan2.2 for AI-illustrated highlight cards
-- **Distribution**: [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) (AGPL-3.0) for VOD and clip library
+**Stack:**
+- `anil-matcha/open-generative-ai` (MIT) — 200+ image/video models, self-hosted, no filters
+- `deepbeepmeep/Wan2GP` (Apache-2.0) — Wan 2.2 / LTX-2 / HunyuanVideo local runner
+- `comfyanonymous/ComfyUI` (GPL-3.0) — node-graph workflow engine for complex pipelines
+- `claude-sonnet-5` via MCP — creative brief → visual prompt expansion agent
 
-**Wiring**:
-1. Live RTMP stream ingested by Restreamer → audio extracted in 30-second chunks
-2. Whisper.cpp processes each chunk → rolling transcript with timestamps
-3. Claude Haiku classifies topics, extracts key quotes in near-real-time (<2s latency)
-4. Claude Sonnet identifies highlight moments from accumulated transcript → generates clip markers
-5. Highlighted segments auto-clipped and published to MediaCMS with AI-generated social captions
-6. Dashboard shows live topic tags, quote stream, and clip queue for human editor approval
+**Wiring:**
+```
+Client brief → Claude prompt engineer → Open-Generative-AI (text-to-video)
+                                      → ComfyUI workflow (img2img / ControlNet)
+                                      → Asset stored in Strapi CMS
+                                      → Delivered via branded CDN
+```
 
----
-
-## P6: AI Music and Audio Scoring Service
-
-**Problem**: Ad agency needs licensed background music for 500+ ad variations per month; stock music libraries are too generic.
-
-**Stack**:
-- **Music generation**: [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) MusicGen large (MIT code, CC-BY-NC weights — verify commercial license with Meta for production)
-- **Audio post**: [spotify/pedalboard](https://github.com/spotify/pedalboard) (GPL-3.0) for mastering, EQ, and format export
-- **Prompt engineering agent**: Claude for generating precise MusicGen prompts from ad brief/mood board
-- **Variation engine**: LangGraph for generating 10+ style variations per brief
-- **Asset management**: [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) for scored asset library with rights metadata
-
-**Note on licensing**: AudioCraft model weights are CC-BY-NC 4.0. For fully commercial output, investigate alternative models: Suno API, Udio API, or Meta commercial licensing. The pipeline pattern is the same regardless of underlying music model.
-
-**Wiring**:
-1. Ad brief + mood board submitted → Claude generates 10 MusicGen prompt variations
-2. AudioCraft generates 30s–2min audio tracks for each prompt (parallel generation)
-3. Pedalboard post-processes: normalize to −14 LUFS, EQ for ad contexts, export MP3/WAV
-4. Human curator reviews in MediaCMS, approves/rejects, tags for brief categories
-5. Approved tracks available via API to ad production pipeline with metadata (BPM, key, mood, duration)
+**Effort:** 4–6 weeks | **Cost:** GPU infra ($200–500/month) + Claude API (~$50–200/month)
+**Revenue model:** $2k–10k/month per client vs. $500–3k/month SaaS per-seat
 
 ---
 
-## P7: Agent-Native Marketing Video Pipeline (HyperFrames + Claude)
+## P4 — AI Subtitle Generator (Whisper + PeerTube)
 
-**Problem**: Marketing team needs 200+ branded video variants per month for multi-market campaigns — each variant differs by language, market, offer, and format (16:9, 9:16, 1:1). Traditional production is $500–2,000 per variant.
+**Use case:** Automatic subtitles + search indexing for video library at scale.
 
-**Stack**:
-- **Video rendering**: [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) (Apache-2.0) — HTML-to-video, agent-native
-- **Composition agent**: Claude (claude-sonnet-5) as the composition writer — generates HTML video compositions from brand briefs
-- **Asset generation**: [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) (Apache-2.0) for static brand assets
-- **Localization**: [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT) + Claude for script translation
-- **Voice narration**: [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) (Apache-2.0) for Spanish/Portuguese voiceover at $0/character
-- **Asset management**: [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) (AGPL-3.0) for variant library with metadata
-- **Orchestration**: LangGraph (MIT) for multi-market variant generation loop
+**Stack:**
+- `ggml-org/whisper.cpp` (MIT) — fast local transcription, outputs SRT/VTT
+- `m-bain/whisperX` (BSD-4) — word-level timestamps + speaker diarization for multi-speaker videos
+- `Chocobozzz/PeerTube` (AGPL-3.0) — video platform with subtitle support via REST API
+- `absadiki/subsai` (Apache-2.0) — web UI + CLI for subtitle generation
 
-**Wiring**:
-1. Campaign brief (offer text, brand assets, market list) submitted → Claude generates HyperFrames HTML composition template
-2. LangGraph loops over market × format variants → Claude fills data-start/data-duration attributes per variant
-3. HyperFrames CLI renders each HTML composition → deterministic MP4 via headless Chrome + FFmpeg
-4. InvokeAI generates or resizes brand imagery to target aspect ratios per format
-5. Whisper.cpp + Claude localizes voiceover scripts; Kokoro-82M generates Spanish/Portuguese audio tracks on-premise
-6. All variants stored in MediaCMS with searchable metadata (market, format, offer, language)
-7. Brand manager reviews → approves → distributes via MediaCMS API to ad platforms
+**Wiring:**
+```python
+# For each video in library:
+whisperx.transcribe(video, language="auto")  # → timestamped transcript
+subtitles.to_srt(transcript)                 # → .srt file
 
-**Key insight**: HyperFrames renders are deterministic — same HTML + same data = same MP4. This enables version control, A/B testing, and audit trails for regulated industries.
+# Upload to PeerTube via API
+peertube_api.upload_caption(video_id, srt_content, language)
 
-**Estimated time to MVP**: 2–3 weeks. **Cost model**: ~$0.01–0.05 per video variant vs. $500–2,000 traditional production.
+# Index transcripts for full-text search
+elasticsearch.index(video_id, transcript_text)
+```
 
-**LATAM angle**: High-value for brands serving Brazil/Mexico/Argentina with per-country legal/language variant requirements. HyperFrames' deterministic rendering also satisfies content compliance audit requirements (CONAR in Brazil, CONARP in Argentina).
+**Effort:** 2–3 weeks | **Cost:** ~$0 (local CPU/GPU) | **Scale:** 1,000+ videos/day on single server
 
 ---
 
-## P8: AI Newsroom Research & Content Pipeline
+## P5 — Interactive CTV Second-Screen (Owncast + Claude)
 
-**Problem**: Regional broadcaster or digital publisher needs to compete as search referrals drop 40% (Reuters Institute 2026). Must produce more high-quality content faster with a smaller editorial team.
+**Use case:** Real-time AI engagement layer during live sports/events, open alternative to Versus AI.
 
-**Stack**:
-- **Research agent**: [assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher) (MIT) — autonomous multi-source web research → sourced research brief
-- **Article generation**: [stanford-oval/storm](https://github.com/stanford-oval/storm) (MIT) — multi-perspective outline + Wikipedia-quality article draft
-- **Editorial AI**: Claude (claude-sonnet-5) — adapts STORM draft to house style, brand voice, regional context; generates social variants
-- **Narration/audio**: [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) (Apache-2.0) — auto-generates audio narration in Spanish/Portuguese for podcast/audio article distribution
-- **Transcription**: [openai/whisper](https://github.com/openai/whisper) (MIT) — converts interview audio to text for journalist review
-- **CMS**: [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) (AGPL-3.0) — stores articles, audio, video with metadata and REST API for distribution
-- **Orchestration**: LangGraph (MIT) — event-driven pipeline from topic assignment to publish queue
+**Stack:**
+- `owncast/owncast` (MIT) — self-hosted live streaming with webhook events
+- `claude-haiku-4-5` — real-time audience intelligence (sub-100ms latency)
+- Redis pub/sub — event stream from stream → AI → viewers
+- Next.js — second-screen web app with live AI overlays
 
-**Wiring**:
-1. Editor assigns topic via Slack/webhook → LangGraph pipeline activates
-2. GPT-Researcher runs multi-source web sweep → returns sourced research brief (5–6 pages, JSON)
-3. STORM generates structured outline + full draft with inline citations
-4. Claude adapts draft to house style: adjusts tone, adds regional context (Brazil/Mexico/Argentina), checks factual claims, flags for human review
-5. Whisper processes any related interview audio → transcript injected into Claude for quote integration
-6. Kokoro-82M generates audio narration of final article in Spanish or Portuguese
-7. All outputs (article, audio, social posts, citations) pushed to MediaCMS via REST API
-8. Human editor reviews in MediaCMS editorial queue → approves → publishes with one click
-9. Personalized briefing version (shorter, Huxe-style) generated for newsletter/app distribution
+**Wiring:**
+```
+Live stream event (viewer count, chat spike, goal scored)
+    → Owncast webhook
+    → Redis pub/sub
+    → Claude Haiku (contextual question/poll/stat generation)
+    → WebSocket push to second-screen app
+    → Viewer sees: "37th minute goal — Messi's 8th this season. Quick: was this from a free kick?"
+```
 
-**Human-in-the-loop gates**: Claude flags low-confidence factual claims for human review. STORM outputs always reviewed before publish. Kokoro audio reviewed if story is sensitive.
-
-**Output per topic**: sourced research brief + full article draft + audio narration + 5 social variants + SEO package — in ~12 minutes unattended.
-
-**LATAM angle**: Spanish/Portuguese STORM + Claude + Kokoro pipeline enables regional newsrooms (Brazil, Mexico, Argentina) to compete on content volume against well-funded national players. Full on-premise deployment available; no external API dependency except Claude.
-
-**Estimated time to MVP**: 2–3 weeks. **Cost model**: ~$0.05–0.10/article for Claude API; Kokoro TTS and Whisper at $0 on-premise.
+**Effort:** 4–6 weeks | **Cost:** $0.25/$1.25 per million input/output tokens (Claude Haiku)
+**LATAM opportunity:** Football/soccer rights holders in BR/AR/CO/MX
 
 ---
 
-## P9: Real-Time Broadcast Voice Agent (SRS + Chatterbox Turbo)
+## P6 — Agentic Newsroom (CMS-Embedded Publishing Agent)
 
-**Problem**: Live broadcaster needs simultaneous language dubbing of a live stream (news, sports, corporate event) at sub-second latency — without $200–500/hr human interpreters or proprietary cloud TTS.
+**Use case:** AI agent embedded in CMS that auto-drafts, researches, fact-checks, and publishes.
 
-**Stack**:
-- **Streaming infrastructure**: [ossrs/srs](https://github.com/ossrs/srs) (MIT) — RTMP/WebRTC/HLS/SRT ingest and distribution; SRS 8.0 (codename Kai) in development
-- **Real-time transcription**: [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) (MIT) — streaming mode, 500ms chunk processing, ~200ms transcription latency
-- **Translation + language detection**: Claude (claude-haiku-4-5) — source language detection + translation into target language(s), ~200ms
-- **Voice synthesis**: [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) Turbo (MIT) — 350M parameters, 75ms latency, 6× real-time throughput; zero-shot voice cloning from 5s reference audio
-- **Provenance / compliance**: Chatterbox Perth watermarker (C2PA-compatible) — AI audio provenance baked into every output frame; required for EU AI Act Article 50 (Aug 2, 2026)
-- **Distribution**: SRS HLS/WebRTC output → CDN for viewer delivery; secondary RTMP output for re-streaming
+**Stack:**
+- `TryGhost/Ghost` (MIT) — publishing platform with REST API
+- `strapi/strapi` (MIT) — headless CMS for structured content
+- `claude-sonnet-5` — writing, research, fact-checking agent
+- `openai/whisper` (MIT) — transcribing press conferences/interviews
+- `m-bain/whisperX` (BSD-4) — speaker attribution for interview transcripts
 
-**Wiring**:
-1. Live RTMP stream ingested by SRS → audio extracted in 500ms chunks via SRS HTTP callback hook
-2. Whisper.cpp processes each chunk in streaming mode → transcript fragment with timestamps (~200ms)
-3. Claude Haiku receives transcript fragment → detects source language → translates to target language(s) with broadcaster context prompt (~200ms)
-4. Chatterbox Turbo synthesizes dubbed audio from translated text using reference voice (~75ms)
-5. Perth watermarker stamps C2PA provenance on synthesized audio (adds <5ms)
-6. Dubbed audio mixed back into SRS stream pipeline → output to HLS/WebRTC for viewer delivery
-7. Monitoring dashboard shows live transcript, translation quality scores, and latency metrics per language channel
+**Wiring:**
+```
+Input sources: RSS, press release, video interview, wire service
+    → Whisper/WhisperX transcribes audio/video
+    → Claude Sonnet 5 drafts article with citations
+    → Editor reviews in Ghost/Strapi interface
+    → Claude fact-checks against source material
+    → One-click publish to Ghost (web + newsletter) + social (via Ghost webhooks)
+```
 
-**Latency profile**: ~975ms total end-to-end (500ms chunk + 200ms Whisper + 200ms Claude + 75ms Chatterbox). Tunable: shorter chunks = lower latency, less Whisper accuracy.
-
-**Cost model**: $0 for TTS, Whisper, and SRS; ~$0.0002/minute for Claude Haiku translation per language channel. Compare: $200–500/hr human simultaneous interpreters; $0.05–0.15/min cloud TTS APIs.
-
-**Compliance**: Chatterbox Perth watermarker provides C2PA-compatible provenance markers, satisfying EU AI Act Article 50 (full enforcement Aug 2, 2026). Critical for European broadcast clients.
-
-**Estimated time to MVP**: 3–5 weeks. **LATAM angle**: Spanish ↔ Portuguese ↔ English dubbing of regional news and sports at zero per-minute TTS cost. Enables LATAM broadcasters to serve multilingual audiences without interpreter budget.
+**Effort:** 6–8 weeks | **Cost:** ~$0.10–0.50 per article (Claude API)
+**Revenue model:** $10k–50k implementation + $2k–5k/month managed service for news orgs
 
 ---
 
-## Pattern Selection Guide
+## P7 — Novel-to-Short-Drama Pipeline
 
-| Client Situation | Recommended Pattern |
-|-----------------|-----------------------|
-| Marketing agency, high-volume short-form | P1: Agentic Video Studio |
-| OTT platform, localization at scale | P2: AI Dubbing Pipeline |
-| Podcast network, content operations | P3: Podcast Production |
-| Digital publisher, LATAM short drama | P4: Short-Form Drama |
-| News broadcaster, live intelligence | P5: Live Stream Agent |
-| Ad agency, background music at scale | P6: Music Scoring Service |
-| Brand team, 200+ video variants/month | P7: Agent-Native Marketing Video |
-| Regional news publisher, search referral decline | P8: AI Newsroom Research & Content |
-| Live broadcaster, simultaneous multilingual dubbing | P9: Real-Time Broadcast Voice Agent |
+**Use case:** Convert written content (novels, scripts, blogs) to short-form video automatically.
+
+**Stack:**
+- `mediago-dev/mediago-drama` (Apache-2.0) — novel → script → storyboard agent workbench
+- `claude-sonnet-5` — scene breakdown, character adaptation, dialogue polishing
+- `Lightricks/ltx-video` or `deepbeepmeep/Wan2GP` — script scene → video generation
+- `ace-step/ACE-Step` (Apache-2.0) — generate background music matching scene mood
+- `Softcatala/open-dubbing` (Apache-2.0) — dub to local language
+
+**Wiring:**
+```
+Source text (novel chapter / script)
+    → Claude: break into 15–30s scenes with visual descriptions
+    → LTX-Video / Wan 2.2: generate each scene video clip
+    → ACE-Step: generate scene-matched background music
+    → FFmpeg: assemble clips + music + subtitles
+    → open-dubbing: ES/PT dubbed version
+    → Output: TikTok/Reels-ready short drama episode
+```
+
+**Effort:** 8–12 weeks | **Cost:** GPU ($300–800/month) + Claude API ($100–300/month)
+**LATAM opportunity:** WebToon/web novel adaptation for MX/BR/AR audiences
 
 ---
-*Auto-updated by ingest pipeline.*
+
+## P8 — AI Content Moderation + Recommendation (MediaCMS)
+
+**Use case:** AI-powered content safety and personalized discovery for self-hosted media platform.
+
+**Stack:**
+- `mediacms-io/mediacms` (AGPL-3.0) — video platform with REST API hooks
+- `meta-llama/Llama-Guard-3` (MIT) — open source content moderation model
+- `openai/clip` (MIT) — visual embedding for content-based recommendation
+- `m-bain/whisperX` (BSD-4) — transcript for text-based moderation + search
+- `claude-sonnet-5` — content policy explanation, edge-case moderation review
+
+**Wiring:**
+```
+New video upload → MediaCMS webhook
+    → WhisperX: transcript → keyword flag scan
+    → LlamaGuard: safety classification
+    → CLIP: visual embedding for similarity-based recommendation
+    → If flagged: Claude reviews context → accept/reject/human review queue
+    → Recommendation: cosine similarity on CLIP + transcript embeddings
+```
+
+**Effort:** 6–10 weeks | **Cost:** ~$0 (local models) + Claude API for edge-case review
+
+---
+
+## P9 — AI Podcast Production Suite
+
+**Use case:** End-to-end AI assistance for podcast creation, distribution, and monetization.
+
+**Stack:**
+- `m-bain/whisperX` (BSD-4) — full transcript with speaker labels
+- `claude-sonnet-5` — show notes, chapter markers, highlights, social clips script
+- `facebookresearch/audiocraft` (MIT) — intro/outro music generation
+- `shyhirt/AutoDub` (MIT) — multilingual episode versions
+- `TryGhost/Ghost` (MIT) — podcast website with newsletter distribution
+
+**Wiring:**
+```
+Raw audio recording
+    → WhisperX: transcript + speaker diarization
+    → Claude: generate show notes / chapter markers / 3 tweet versions / 1 LinkedIn post
+    → AudioCraft MusicGen: generate custom intro music from brief
+    → AutoDub: generate ES/PT episode version
+    → Ghost: publish episode + show notes + newsletter to subscribers
+```
+
+**Effort:** 3–5 weeks | **Cost:** ~$0.05–0.20 per episode (Claude API)
+**LATAM:** Podcast market growing 40%+ in BR/MX/CO — high demand for multilingual distribution
+
+---
+
+## Quick-Start Decision Matrix
+
+| Client Need | Start with | Add AI layer | Timeline |
+|-------------|-----------|--------------|----------|
+| Video dubbing | AutoDub + Demucs | Claude QA pass | 3–5w |
+| Music generation | ACE-Step + ACE-Step UI | Custom fine-tune | 2–4w |
+| Creative studio | Open-Generative-AI | ComfyUI workflows | 4–6w |
+| Subtitle library | whisper.cpp + PeerTube | WhisperX + search index | 2–3w |
+| Live event AI | Owncast + Redis | Claude Haiku real-time | 4–6w |
+| Newsroom AI | Ghost + Strapi | Claude Sonnet 5 agent | 6–8w |
+| Short-drama pipeline | mediago-drama | LTX-Video + ACE-Step | 8–12w |
+| Content moderation | MediaCMS | LlamaGuard + CLIP | 6–10w |
+| Podcast production | WhisperX + Ghost | Claude content agent | 3–5w |

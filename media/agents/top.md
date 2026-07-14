@@ -1,29 +1,33 @@
-# Top AI Agents — Media & Entertainment
+# 🎯 Top AI Agents & Tools — Media & Entertainment
 
-> Open source AI agents and tools for Media & Entertainment. Focus: MIT / Apache 2.0 licenses Globant can build on.
-> Last updated: 2026-07-13 (v16)
+> Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0 / BSD.
+> Last updated: 2026-07-14 (v9)
 
-## Featured Agents & Tools
+## Video Generation Agents
 
-| Name | Repo | License | Stars | Description |
-|------|------|---------|-------|-------------|
-| OpenMontage | [calesthio/OpenMontage](https://github.com/calesthio/OpenMontage) | AGPL-3.0 | ~45k | World's first open-source agentic video production system — 12 pipelines, 52 tools, 500+ agent skills. Turn Claude Code into a full video production studio; handles scripting, asset gen, editing, and final composition. |
-| HyperFrames | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | Apache-2.0 | ~22k | HeyGen's agent-native video rendering engine: write HTML, render video. Compositions are plain HTML files with data-start/data-duration attributes; headless Chrome + FFmpeg encodes deterministic MP4s. Ships 20 loadable agent skills. Works with Claude Code, Cursor, Codex. |
-| Wan2.2 | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | Alibaba Tongyi Lab MoE video diffusion model; world's first open-source MoE video gen. 5B active params, 720P@24fps T2V and I2V, runs on RTX 4090. 65.6% more image data and 83.2% more video data than Wan2.1. |
-| LTX-Video (LTX-2.3) | [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache-2.0 | ~7k | Lightricks 22B-parameter DiT model. First open model with native 4K@50fps synchronized audio+video. Supports T2V, I2V, A2V, V2V, LipDub, and keyframe interpolation. Released March 2026. |
-| CogVideoX | [THUDM/CogVideo](https://github.com/THUDM/CogVideo) | Apache-2.0 (2B) | ~12.7k | Zhipu AI / Tsinghua text-to-video diffusion; 2B and 5B variants. 10-second clips at 768×1360@16fps. CogVideoX-2B fully Apache-2.0; 5B uses Tsinghua model license (commercial use permitted). |
-| Open Generative AI | [Anil-matcha/Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) | MIT | ~9k | Self-hosted studio with 200+ image and video generation models (Flux, Wan, Kling, Sora, Veo). No content filters. Workspaces for Image, Video, Lip Sync, and Cinema production. Hit GitHub Trending Apr 2026. |
-| FoleyCrafter | [open-mmlab/FoleyCrafter](https://github.com/open-mmlab/FoleyCrafter) | Apache-2.0 | ~2.5k | OpenMMLab video-to-audio generation framework (IJCV 2026). Produces lifelike, temporally synchronized sound effects from silent video. Semantic adapter + temporal controller for precise audio-video alignment. ComfyUI node available. |
-| AudioCraft (MusicGen) | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT (code) | ~21k | Meta PyTorch library for audio/music generation. Includes MusicGen (text-to-music), AudioGen (text-to-sound), and EnCodec (neural audio codec). Code MIT; model weights CC-BY-NC 4.0. |
-| **Chatterbox** | [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) | **MIT** | **~25k** | **Resemble AI's SoTA open-source TTS family. Three variants: Original (500M, creative paralinguistics), Turbo (350M, 75ms latency/6× real-time for live agents), Multilingual V3 (23+ languages). Zero-shot voice cloning from 5s reference audio — ElevenLabs-tier quality, MIT license, self-hostable. 1M+ HuggingFace downloads. Perth watermarker for synthetic audio provenance. Key differentiator vs. Kokoro: voice cloning without fine-tuning; Turbo enables real-time broadcast voice agents.** |
-| ComfyUI | [comfy-org/ComfyUI](https://github.com/comfy-org/ComfyUI) | GPL-3.0 | ~69k | Node-based visual AI pipeline for image and video generation. Dominant open-source UI for diffusion models in 2026. Supports FLUX, SD3.5, Wan2.2, HunyuanVideo, CogVideoX, LTX-Video via custom nodes. 1,000+ node packages. |
-| Pedalboard | [spotify/pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0 | ~5.5k | Spotify's Python audio-effects library. Load VST3/Audio Unit plugins, process audio up to 300× faster than pySoX. Powers Spotify AI DJ and AI Voice Translation internally. |
-| HunyuanVideo | [Tencent-Hunyuan/HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Tencent CL | ~16k | Tencent's open large video generation model. Commercial use permitted up to 100M MAU. High-fidelity long-form video synthesis; integrates with ComfyUI. |
-| Mochi 1 | [genmoai/mochi](https://github.com/genmoai/mochi) | Apache-2.0 | ~4k | Genmo text-to-video model targeting high motion quality and realistic dynamics. 480p, requires 80GB VRAM for full precision; 4-bit quantized versions available for 24GB consumer GPUs. |
-| Open-Sora 2.0 | [hpcaitech/Open-Sora](https://github.com/hpcaitech/Open-Sora) | Apache-2.0 | **~29k** | HPC-AI Tech open-source Sora alternative. Full training + inference pipeline for high-fidelity video generation. Most-starred Apache-2.0 video gen project. Supports LoRA fine-tuning and multi-resolution outputs. Open-Sora 2.0 (11B) on par with HunyuanVideo and Step-Video on VBench. |
-| GPT-Researcher | [assafelovic/gpt-researcher](https://github.com/assafelovic/gpt-researcher) | MIT | ~20k | Autonomous AI research agent for deep web research and 5–6 page report generation. Key newsroom application: feed a breaking news topic → get sourced research brief in minutes. Inspired by Stanford STORM; multi-agent source verification. |
-| STORM | [stanford-oval/storm](https://github.com/stanford-oval/storm) | MIT | ~25k | Stanford LLM-powered knowledge curation system. Researches a topic via web search + multi-perspective question asking → generates full-length Wikipedia-quality article with citations. Direct newsroom use case: background research for feature journalism at scale. |
-| Kokoro-82M | [hexgrad/Kokoro-82M](https://github.com/hexgrad/Kokoro-82M) | Apache-2.0 | ~8k | Lightweight 82M-parameter TTS model. Apache-2.0 for commercial use; 54 voice presets across 8 languages including Spanish and Portuguese. Runs on CPU. Foundation for AI narration, podcast auto-voicing, and LATAM dubbing pilots without per-character API costs. |
+| Name | License | Description | Stars |
+|------|---------|-------------|-------|
+| [ComfyUI](https://github.com/comfyanonymous/ComfyUI) | GPL-3.0 | Node-based visual workflow for Stable Diffusion, video gen (LTX, Wan, HunyuanVideo), ControlNet, LoRA. Industry standard for AI media pipelines. | 100k+ |
+| [Wan2GP](https://github.com/deepbeepmeep/Wan2GP) | Apache-2.0 | Fast AI video generator for GPU-poor setups. Supports Wan 2.1/2.2 MoE, LTX-2, HunyuanVideo, Flux. Free to run locally, no license fee. | ~8k |
+| [LTX-Video](https://github.com/Lightricks/ltx-video) | Lightricks License | 22B-parameter DiT video model. First open model with synchronized audio+video in single pass (dialogue, ambience, lip-sync). Native 4K @50fps, stereo 24kHz audio. Released Mar 2026. | ~7k |
+| [HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Tencent Community | Tencent flagship open video model. v1.5: 8.3B params, faster inference. Broad commercial use with review. ComfyUI nodes available. | ~20k |
+| [Open-Generative-AI](https://github.com/anil-matcha/open-generative-ai) | MIT | Self-hosted studio with 200+ image/video models (Flux, Wan, LTX, HunyuanVideo). 40+ text-to-video models, 60+ image-to-video, lip sync studio. No content filters. | ~21.8k |
+
+## Audio / Music Generation Agents
+
+| Name | License | Description | Stars |
+|------|---------|-------------|-------|
+| [AudioCraft](https://github.com/facebookresearch/audiocraft) | MIT (code) / CC-BY-NC (models) | Meta FAIR library for audio generation: MusicGen (text-to-music), AudioGen (text-to-SFX), EnCodec audio tokenizer. Training + inference. | ~22k |
+| [ACE-Step](https://github.com/ace-step/ACE-Step) | Apache-2.0 | Music generation foundation model by ACE Studio + StepFun. v1.5 (Feb 2026): first open model to genuinely rival Suno v4.5 quality. Text-to-full-track with vocals. | ~6k |
+| [YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | Full-song generation (up to 5 min) with synchronized vocals and accompaniment from lyrics. Multi-language, multi-genre. Advanced pitch/timing/emotion control. | ~5k |
+
+## Speech / Transcription / Dubbing Agents
+
+| Name | License | Description | Stars |
+|------|---------|-------------|-------|
+| [WhisperX](https://github.com/m-bain/whisperX) | BSD-4-Clause | Whisper with word-level timestamps, speaker diarization (pyannote), batch inference, voice activity detection. Production-grade for subtitle sync. | ~14k |
+| [open-dubbing](https://github.com/Softcatala/open-dubbing) | Apache-2.0 | End-to-end AI dubbing: Whisper transcription → LLM translation → TTS (Coqui/MMS/Edge). Demucs vocal isolation. Supports 100+ languages. | ~1k |
+| [AutoDub](https://github.com/shyhirt/AutoDub) | MIT | Video translator + dubber: Whisper + XTTS v2 voice cloning + Ollama local LLM translation. 100+ languages, zero API keys required (fully local). | ~800 |
 
 ---
-*Auto-updated by ingest pipeline.*
+*Updated automatically by the ingest pipeline.*
