@@ -1,225 +1,377 @@
 # Composition Patterns — Energy AI
 
-> Concrete recipes for building energy AI solutions. Each pattern names specific repos + how to wire them.
-> Last updated: 2026-07-13
+> Concrete recipes for building solutions combining repos + agents + AI.
+> Last updated: 2026-07-14
 
-## Architecture Baseline
+## Architecture Base
 
 ```
-[Vertical Platform (OpenEMS / EVerest / evcc / FlexMeasures)]
-          ↓ REST / MQTT / gRPC
-[Data Layer (EMQX / TimescaleDB / InfluxDB)]
+[Open Source Vertical Platform]   ← EVerest / FlexMeasures / Grid2Op / RapidSCADA
           ↓
-[AI Orchestration (LangGraph / FlexMeasures / Claude MCP)]
-          ↓ schedules / setpoints
-[Actuators (EV chargers / BESS inverters / smart meters)]
-          ↑↓
-[Operator UI (conversational Claude claude-sonnet-4-5 + dashboards)]
+[Data & Simulation Layer]         ← Grid2Op / OpenG2G / sinergym / CityLearn
+          ↓
+[Agentic AI Layer]                ← PowerMCP / PowerDAG / LangGraph / CrewAI
+          ↓
+[Foundation Model / LLM]         ← PowerFM fine-tuned + Claude API
+          ↓
+[Operator UI / API]               ← Conversational control room or REST endpoint
 ```
 
 ---
 
-## P1 — BESS Arbitrage Agent (FlexMeasures + bess-optimizer + Claude Sonnet)
+## P1 — Grid RL Agent: Topology Control (Flagship)
 
-**Problem**: Battery storage operators leave money on the table by not optimally scheduling charge/discharge across day-ahead, intraday, and balancing markets.
+**Goal**: Train an RL agent that keeps a transmission network operational under N-1 contingencies.
 
-**Stack**:
-- [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) v0.31 — scheduling engine + market price integration
-- [bess-optimizer](https://github.com/FlexPwr/bess-optimizer) — Pyomo three-market optimization model
-- Claude claude-sonnet-4-5 — natural language interface + exception handling
-- TimescaleDB — price + telemetry history
+**Stack**: Grid2Op + RL2Grid + Stable-Baselines3 + PowerFM
 
-**Wiring**:
-1. BESS telemetry (SOC, power, temperature) → MQTT → FlexMeasures
-2. Day-ahead market prices (API: EPEX SPOT, OMIE, XM, CENACE) → FlexMeasures
-3. FlexMeasures triggers bess-optimizer every 15 min; Pyomo solves MILP schedule
-4. Schedule sent to inverter via Modbus/SunSpec REST
-5. Claude agent monitors deviations; explains schedule rationale to operator
+```python
+import grid2op
+from lightsim2grid import LightSimBackend
+from stable_baselines3 import PPO
 
-**Time**: 6–10 weeks | **ROI**: 15–35% improvement in battery revenue | **LATAM fit**: Chile/Colombia wholesale markets, Brazil BESS-as-service
+env = grid2op.make(
+    "l2rpn_wcci_2020",
+    backend=LightSimBackend(),     # 100x faster than PandaPower
+    reward_class=L2RPNReward
+)
 
----
+from rl2grid import RL2GridEnv
+rl_env = RL2GridEnv(env, difficulty="hard")
 
-## P2 — EV Fleet Smart Charging (EVerest + evcc + FlexMeasures + Claude)
+model = PPO("MlpPolicy", rl_env, verbose=1, n_steps=2048)
+model.learn(total_timesteps=500_000)
 
-**Problem**: Fleet operators with 50–500 EVs face grid capacity constraints at depot charging; uncoordinated charging causes demand spikes and high energy costs.
+from rl2grid.eval import BenchmarkRunner
+scores = BenchmarkRunner(rl_env).run(model, n_episodes=100)
+print(scores)
+```
 
-**Stack**:
-- [EVerest](https://github.com/EVerest/everest-core) — OCPP 2.0.1 charging station management
-- [evcc](https://github.com/evcc-io/evcc) — per-vehicle smart charging logic + tariff optimization
-- [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) — fleet-level scheduling (V2G, DR participation)
-- Claude claude-sonnet-4-5 + MCP — fleet operator natural language dashboard
-
-**Wiring**:
-1. EV chargers (OCPP) → EVerest CSMS → REST API
-2. Fleet management system (vehicle SOC, schedules) → FlexMeasures
-3. FlexMeasures optimizes overnight charging: minimize cost, respect grid capacity, meet readiness SLA
-4. evcc per-charger logic executes setpoints from FlexMeasures
-5. Claude agent: "Which vehicles won’t be ready by 6am?" → queries FlexMeasures → natural language answer
-
-**Time**: 6–10 weeks | **ROI**: 20–40% energy cost reduction; eliminate demand charge penalties | **LATAM fit**: Brazil bus fleets, Mexico logistics, Chile delivery
+**Repos**: [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) + [AI4Electricity/RL2Grid](https://github.com/AI4Electricity/RL2Grid)
+**Estimated build time**: 4-6 weeks (training included)
 
 ---
 
-## P3 — Grid RL Control Agent (Grid2Op + RL2Grid + AINETUS)
+## P2 — LLM Power System Analyst via MCP
 
-**Problem**: Power grid operators make real-time topology decisions under N-1 contingency constraints that are too complex and fast for manual analysis.
+**Goal**: Let operators query grid simulators in natural language and get structured analysis.
 
-**Stack**:
-- [Grid2Op](https://github.com/rte-france/Grid2Op) — grid simulation environment
-- [RL2Grid](https://github.com/emarche/RL2Grid) — 39-task benchmark for training + evaluation
-- [AINETUS](https://github.com/lf-energy/ainetus) — XAI layer for operator trust + regulatory compliance
-- Stable-Baselines3 / RLlib — RL training
-- [pandapower](https://github.com/e2nIEE/pandapower) — power flow validation
+**Stack**: PowerMCP + Claude API (claude-sonnet-5) + PowerDAG workflow
 
-**Wiring**:
-1. Train RL agent on Grid2Op environment; benchmark on RL2Grid tasks
-2. Integrate AINETUS XAI: agent actions annotated with saliency maps + natural language explanations
-3. Deploy in shadow mode alongside operators; measure decision quality vs. expert
-4. AINETUS dashboard shows: proposed action, confidence, explanation, rollback option
-5. Operator approves; action sent to SCADA via OPC-UA/IEC 61850
+```python
+import anthropic
 
-**Time**: 12–20 weeks (includes regulatory review) | **ROI**: reduce N-1 violations 40–70%; 30–50% outage reduction (IEA) | **LATAM fit**: Colombia XM, Brazil ONS, Chile Coordinator Eléctrico
+client = anthropic.Anthropic()
 
----
+def grid_analyst(operator_query: str, grid_model_path: str) -> dict:
+    response = client.beta.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=4096,
+        tools=[
+            {"type": "mcp", "server": "powermcp-opendss", "tool": "run_power_flow"},
+            {"type": "mcp", "server": "powermcp-opendss", "tool": "check_n1_contingency"},
+            {"type": "mcp", "server": "powermcp-opendss", "tool": "get_violations"},
+            {"type": "mcp", "server": "powermcp-psse", "tool": "run_fault_analysis"},
+        ],
+        messages=[{
+            "role": "user",
+            "content": f"Grid model: {grid_model_path}\n\nOperator query: {operator_query}"
+        }],
+        system="""You are a senior power systems engineer. Use the available grid simulation
+        tools to answer operator queries. Always check N-1 contingency security.
+        Return structured findings with: severity, affected equipment, recommended action."""
+    )
+    return response
 
-## P4 — Building Demand Response Platform (CityLearn + sinergym + OpenEMS + FlexMeasures)
+result = grid_analyst(
+    "Is the substation at bus 47 secure after the outage on line 12-14?",
+    "/models/rte_118bus.json"
+)
+```
 
-**Problem**: Commercial buildings (offices, malls, hospitals) can earn revenue by reducing energy demand during grid stress events, but current DR programs require manual participation.
-
-**Stack**:
-- [CityLearn](https://github.com/intelligent-environments-lab/CityLearn) — MARL training for building coordination
-- [sinergym](https://github.com/ugr-sail/sinergym) — EnergyPlus-based RL environment per building type
-- [OpenEMS](https://github.com/OpenEMS/openems) — production building EMS with REST API
-- [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) — DR event scheduling + utility program integration
-- [AutoB2G](https://github.com/NREL/autob2g) — LLM orchestration layer for HVAC + EV + BESS
-
-**Wiring**:
-1. Train DR policy on sinergym (HVAC model) + CityLearn (multi-building coordination)
-2. Deploy to OpenEMS; RL policy runs as custom OpenEMS Controller
-3. FlexMeasures receives DR event from utility (Demand Response API); schedules pre-cooling + setpoint shift
-4. AutoB2G coordinates HVAC, EV chargers, and BESS simultaneously during DR event
-5. Post-event report auto-generated by Claude claude-sonnet-4-5 for utility submission
-
-**Time**: 10–16 weeks | **ROI**: $50K–$500K/year per building cluster in DR payments | **LATAM fit**: Brazil ANEEL demand response program, Colombia SUI, Chilean industrial DR
+**Repos**: [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) + Claude API
+**Key insight**: PowerMCP gives any LLM access to PowerWorld, PSS/E, OpenDSS, PSCAD via MCP — no custom integration needed.
 
 ---
 
-## P5 — Grid Foundation Model Pipeline (OpenGridFM + Grid2Op + pandapower)
+## P3 — EV Fleet Smart Charging (Most Commercial)
 
-**Problem**: Utilities lack the labeled operational data and ML expertise to train grid AI models from scratch. Every utility reinvents the same models.
+**Goal**: Optimize EV fleet charging to minimize cost, reduce peak demand, and earn DR revenue.
 
-**Stack**:
-- [OpenGridFM](https://github.com/lf-energy/opengridfm) — pre-trained grid foundation model (IBM + Hydro-Québec)
-- [Grid2Op](https://github.com/rte-france/Grid2Op) — synthetic data generation for fine-tuning
-- [pandapower](https://github.com/e2nIEE/pandapower) — power flow validation
-- [Power Grid Model](https://github.com/PowerGridModel/power-grid-model) — fast batch inference
+**Stack**: EVerest → Open e-Mobility CSMS → FlexMeasures → LangGraph agent
 
-**Wiring**:
-1. Utility provides 6–12 months of SCADA/ADMS logs (anonymized if needed)
-2. Fine-tune OpenGridFM on utility-specific topology + operational history
-3. Validate fine-tuned model on Grid2Op benchmark tasks + RL2Grid suite
-4. Deploy to production: fault detection → pandapower power flow validation → alert to SCADA
-5. Model continuously updated via FlexMeasures feedback loop
+```python
+from flexmeasures_client import FlexMeasuresClient
+from langgraph.graph import StateGraph
+from anthropic import Anthropic
 
-**Time**: 10–16 weeks | **ROI**: 30–50% outage reduction (IEA); 175 GW unlocked capacity potential | **LATAM fit**: Any T1/T2 utility in BR/CL/CO/MX; differentiated offering
+client = Anthropic()
+fm = FlexMeasuresClient(url="https://your-flexmeasures.io")
 
----
+def create_ev_fleet_agent():
+    graph = StateGraph(FleetState)
 
-## P6 — Renewable Curtailment Reduction (PyPSA + FlexMeasures + Claude Sonnet)
+    def forecast_node(state):
+        price_forecast = fm.get_sensor_data("day_ahead_price", hours=24)
+        grid_capacity = fm.get_sensor_data("grid_connection_limit", hours=24)
+        return {**state, "price_forecast": price_forecast, "grid_capacity": grid_capacity}
 
-**Problem**: High-renewable grids (Chile 50%+, Brazil Nordeste) curtail GWh of wind/solar daily because grid constraints prevent export. BESS + AI dispatch can recover this revenue.
+    def schedule_node(state):
+        schedule = fm.trigger_schedule(
+            asset_id="ev_fleet_1",
+            flex_model={"max_soc_pct": 95, "min_soc_pct": 20, "prefer_cheap_hours": True},
+            flex_context={"price_sensor": "entsoe_da", "grid_sensor": "dso_limit"}
+        )
+        return {**state, "schedule": schedule}
 
-**Stack**:
-- [PyPSA](https://github.com/PyPSA/PyPSA) — power system optimization (LP/MILP capacity + dispatch)
-- [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) — real-time BESS + flexible load dispatch
-- Claude claude-sonnet-4-5 — renewable operator copilot
-- Weather forecasting API (Open-Meteo, open-source) — solar/wind inflow forecasts
+    def explain_node(state):
+        explanation = client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=512,
+            messages=[{"role": "user", "content":
+                f"Explain this EV charging schedule to a fleet manager: {state['schedule']}\n"
+                f"Price forecast: {state['price_forecast']}\n"
+                f"Estimated cost savings vs unmanaged charging?"}]
+        )
+        return {**state, "explanation": explanation.content[0].text}
 
-**Wiring**:
-1. PyPSA models grid topology + renewable generation + BESS capacity
-2. Weather forecast → PyPSA day-ahead curtailment prediction (16h horizon)
-3. FlexMeasures schedules BESS charging during predicted curtailment windows
-4. Claude claude-sonnet-4-5: "Should we curtail Unit 4 tomorrow?" → PyPSA run → natural language recommendation
-5. Operator confirms; setpoints sent to inverter controller
+    graph.add_node("forecast", forecast_node)
+    graph.add_node("schedule", schedule_node)
+    graph.add_node("explain", explain_node)
+    graph.add_edge("forecast", "schedule")
+    graph.add_edge("schedule", "explain")
+    graph.set_entry_point("forecast")
+    return graph.compile()
 
-**Time**: 8–12 weeks | **ROI**: 15–40% curtailment reduction; direct revenue for renewable operator | **LATAM fit**: Chile (50%+ renewable), Brazil Nordeste, Colombia Guajira wind
+fleet_agent = create_ev_fleet_agent()
+result = fleet_agent.invoke({"fleet_id": "depot_BR_001", "date": "2026-07-15"})
+print(result["explanation"])
+```
 
----
-
-## P7 — Virtual Power Plant (OpenEMS + FlexMeasures + EMQX + LangGraph)
-
-**Problem**: Small prosumers and industrial DER owners can’t individually participate in energy markets, but aggregated they represent significant grid flexibility.
-
-**Stack**:
-- [OpenEMS](https://github.com/OpenEMS/openems) — per-site EMS (BESS + solar + EV)
-- [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) — VPP aggregation + market bidding
-- [EMQX](https://github.com/emqx/emqx) — MQTT broker for 1000s of DER telemetry streams
-- [LangGraph](https://github.com/langchain-ai/langgraph) — multi-agent VPP coordination (forecast → bid → dispatch → settle)
-- Claude claude-sonnet-4-5 — VPP operator dashboard + customer reporting
-
-**Wiring**:
-1. Each DER site runs OpenEMS; telemetry → EMQX → FlexMeasures
-2. FlexMeasures aggregates flexibility; LangGraph VPP agent builds day-ahead bid
-3. Market bid submitted to grid operator (OMIE, MIBEL, XM, CENACE)
-4. Dispatch signals → EMQX → OpenEMS per site
-5. Settlement: FlexMeasures calculates per-site earnings; Claude generates customer reports
-
-**Time**: 14–20 weeks | **ROI**: 10–30% revenue from grid services for DER owners; 5–15% margin for aggregator | **LATAM fit**: Brazil ANEEL DER framework, Chile CNE prosumer regulations, Colombia DER rules 2025
+**Repos**: [EVerest/EVerest](https://github.com/EVerest/EVerest) + [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures)
+**Revenue angle**: DR revenue from managed charging can offset 20-40% of charging costs for large fleets.
 
 ---
 
-## P8 — Predictive Maintenance for Renewable Assets (FlexMeasures + LangGraph + Claude)
+## P4 — Building Energy MARL Demand Response
 
-**Problem**: Wind turbines and solar inverters generate terabytes of sensor data but maintenance is still time-based schedules. Unplanned downtime costs $22K/hour at large wind farms.
+**Goal**: Coordinate 50-200 buildings with shared MARL policy to reduce district peak demand 20-40%.
 
-**Stack**:
-- [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) — asset monitoring + anomaly detection scheduling
-- [EMQX](https://github.com/emqx/emqx) — MQTT IoT data ingestion from turbines/inverters
-- [LangGraph](https://github.com/langchain-ai/langgraph) — multi-step diagnostic agent (anomaly → root cause → work order)
-- Claude claude-sonnet-4-5 — maintenance copilot for field technicians
-- TimescaleDB — time-series anomaly history
+**Stack**: CityLearn + Stable-Baselines3 (MAPPO) + FlexMeasures (OpenADR dispatch)
 
-**Wiring**:
-1. Wind turbine sensors (vibration, temperature, power curves) → EMQX → TimescaleDB
-2. FlexMeasures anomaly detection: deviation from expected power curve → trigger LangGraph agent
-3. LangGraph agent: correlate anomaly → retrieve similar past cases → generate diagnostic hypothesis
-4. Claude mobile: technician asks "What’s wrong with Turbine 12?" → diagnosis + repair procedure
-5. Work order auto-created; post-repair validation scheduled
+```python
+from citylearn.citylearn import CityLearnEnv
+from citylearn.wrappers import NormalizedObservationWrapper
+from stable_baselines3 import PPO
+from stable_baselines3.common.vec_env import DummyVecEnv
 
-**Time**: 8–12 weeks | **ROI**: 25–40% reduction in unplanned downtime; $22K/hour avoided at wind farms | **LATAM fit**: Brazil (18GW wind, Nordeste), Chile (3.5GW wind), Argentina (Patagonia wind)
+schema = {
+    "buildings": [f"Building_{i}" for i in range(50)],
+    "simulation_start_date": "2026-01-01",
+    "simulation_end_date": "2026-12-31",
+    "reward_function": "IndependentSACReward"
+}
+env = NormalizedObservationWrapper(CityLearnEnv(schema=schema))
+vec_env = DummyVecEnv([lambda: env])
 
----
+model = PPO("MlpPolicy", vec_env, verbose=1, n_steps=8760, batch_size=256, n_epochs=10)
+model.learn(total_timesteps=2_000_000)
+# Actions → FlexMeasures → OpenADR → BMS
+```
 
-## P9 — EV Charging + Building Energy AI (evcc + MyEMS + Claude + MCP)
-
-**Problem**: Commercial buildings with EV parking lots need to balance building load, EV charging demand, and rooftop solar to minimize electricity bills and demand charges.
-
-**Stack**:
-- [evcc](https://github.com/evcc-io/evcc) — per-EV smart charging with solar surplus + tariff optimization
-- [MyEMS](https://github.com/MyEMS/myems) — building energy monitoring (electricity, cooling, solar)
-- Claude claude-sonnet-4-5 + MCP — building manager conversational interface
-- [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) — coordinated optimization across EV + building + solar
-
-**Wiring**:
-1. Building smart meters + EV chargers + solar inverter → MyEMS (REST/Modbus)
-2. evcc handles individual EV sessions; passes aggregated EV load to FlexMeasures
-3. FlexMeasures solves daily optimization: solar first, tariff valleys for EV charging, demand peak avoidance
-4. Claude MCP: building manager asks "How much did we save this week?" → MyEMS query → narrative report
-5. Weekly AI report emailed: energy cost, CO2 saved, EV sessions, solar self-consumption rate
-
-**Time**: 4–8 weeks | **ROI**: 15–30% energy bill reduction; eliminate demand charge overruns | **LATAM fit**: Office parks, shopping centers, hospitals in BR/CL/CO/MX with EV fleets
+**Repos**: [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) + FlexMeasures
+**LATAM fit**: Colombia (IPSE rural microgrids), Chile (solar curtailment management)
 
 ---
 
-## Pattern Selection Guide
+## P5 — AI-Augmented SCADA Operations
 
-| Client Type | Best Starting Pattern |
-|-------------|---------------------|
-| Utility / TSO / DSO | P3 (Grid RL) or P5 (Grid Foundation Model) |
-| BESS / Storage Operator | P1 (BESS Arbitrage) |
-| EV Fleet Operator | P2 (EV Fleet Charging) |
-| Renewable Developer | P6 (Curtailment Reduction) or P8 (Predictive Maintenance) |
-| Commercial Building Owner | P4 (Building DR) or P9 (EV + Building) |
-| Energy Aggregator / VPP | P7 (VPP) |
-| Small/Medium Enterprise (LATAM) | P9 (start small) → P4 (scale to DR) |
+**Goal**: Add conversational AI to existing SCADA — explain alarms, diagnose faults, suggest corrective actions.
+
+**Stack**: RapidSCADA + PowerMCP + LangGraph + Claude API
+
+```python
+from langgraph.graph import StateGraph, MessagesState
+from anthropic import Anthropic
+import requests
+
+client = Anthropic()
+SCADA_API = "http://rapidscada-server:8888/api"
+
+def build_scada_assistant():
+    graph = StateGraph(MessagesState)
+
+    def fetch_alarms(state):
+        alarms = requests.get(f"{SCADA_API}/alarms/active").json()
+        critical = [a for a in alarms if a["severity"] in ("HIGH", "CRITICAL")]
+        return {"messages": state["messages"] + [
+            {"role": "tool", "content": f"Active critical alarms: {critical}"}
+        ]}
+
+    def diagnose(state):
+        response = client.messages.create(
+            model="claude-sonnet-5",
+            max_tokens=2048,
+            system="""You are a power systems control room expert.
+            Analyze SCADA alarms, identify root cause, and suggest corrective actions.
+            Prioritize safety: never suggest actions that could cause cascading failures.
+            Format: Root Cause | Affected Equipment | Immediate Action | Long-term Fix""",
+            messages=state["messages"]
+        )
+        return {"messages": state["messages"] + [response]}
+
+    graph.add_node("fetch_alarms", fetch_alarms)
+    graph.add_node("diagnose", diagnose)
+    graph.add_edge("fetch_alarms", "diagnose")
+    graph.set_entry_point("fetch_alarms")
+    return graph.compile()
+
+assistant = build_scada_assistant()
+result = assistant.invoke({"messages": [
+    {"role": "user", "content": "We have 3 transformer alarms on feeder F-12 after the storm"}
+]})
+```
+
+**Repos**: [RapidSCADA](https://rapidscada.org/) + [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP)
+**LATAM fit**: Industrial utilities in MX, BR, AR where SCADA is established but AI layer is missing.
+
+---
+
+## P6 — AI Datacenter-Grid Coordination
+
+**Goal**: Help AI infrastructure clients design demand-response strategies to accelerate grid interconnection.
+
+**Stack**: OpenG2G + LangGraph optimization agent + utility API
+
+```python
+from openg2g import DatacenterGridSimulator, InferenceWorkload, GridBackend
+from anthropic import Anthropic
+
+client = Anthropic()
+
+def datacenter_flexibility_analysis(
+    datacenter_config: dict,
+    grid_model: str,
+    interconnection_capacity_mw: float
+) -> dict:
+    sim = DatacenterGridSimulator(
+        datacenter=InferenceWorkload(**datacenter_config),
+        grid=GridBackend(model=grid_model),
+        timestep_minutes=5
+    )
+    baseline = sim.run(controller="passthrough", duration_hours=24)
+    flex = sim.run(controller="inference_scheduler",
+                   target_peak_mw=interconnection_capacity_mw,
+                   duration_hours=24)
+    analysis = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{"role": "user", "content":
+            f"Baseline peak: {baseline.peak_demand_mw:.1f} MW\n"
+            f"Interconnection limit: {interconnection_capacity_mw:.1f} MW\n"
+            f"Flexible schedule peak: {flex.peak_demand_mw:.1f} MW\n"
+            f"Inference SLA impact: {flex.p99_latency_vs_baseline:.1%}\n\n"
+            f"Recommend DR contract strategy and estimated queue-jump benefit?"}]
+    )
+    return {"simulation": flex, "recommendation": analysis.content[0].text}
+```
+
+**Repos**: [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) + Claude API
+**Market**: Every hyperscaler and colo provider building >100 MW AI compute faces this problem.
+
+---
+
+## P7 — VPP Orchestration (FlexMeasures + OpenADR)
+
+**Goal**: Aggregate distributed assets (batteries, EV chargers, HVAC) into a virtual power plant.
+
+**Stack**: FlexMeasures + OpenADR 2.0 + LangGraph + PowerFM demand forecasting
+
+```python
+from flexmeasures_client import FlexMeasuresClient
+from anthropic import Anthropic
+
+fm = FlexMeasuresClient(url="https://vpp.flexmeasures.io")
+client = Anthropic()
+
+def vpp_daily_bid(assets: list, market_date: str) -> dict:
+    total_flex_up_kw = sum(fm.get_flex_capacity(a, direction="up") for a in assets)
+    total_flex_down_kw = sum(fm.get_flex_capacity(a, direction="down") for a in assets)
+
+    bid_strategy = client.messages.create(
+        model="claude-haiku-4-5",
+        max_tokens=512,
+        messages=[{"role": "user", "content":
+            f"VPP portfolio: {len(assets)} assets\n"
+            f"Available flex up: {total_flex_up_kw:.0f} kW\n"
+            f"Available flex down: {total_flex_down_kw:.0f} kW\n"
+            f"Day-ahead prices (EUR/MWh): {fm.get_da_prices(market_date)}\n\n"
+            f"Suggest optimal bid: volume, price floor, activation probability?"}]
+    )
+
+    schedule = fm.trigger_schedule(
+        asset_group="vpp_portfolio_1",
+        flex_model={"bid_strategy": bid_strategy.content[0].text},
+        flex_context={"market": "day_ahead", "openADR_endpoint": "https://utility.oadr.io"}
+    )
+    return {"bid_strategy": bid_strategy.content[0].text, "schedule": schedule}
+```
+
+**Repos**: [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) + [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM)
+**Revenue model**: VPP operators earn $15-40/MWh capacity payments; Globant builds and operates the platform.
+
+---
+
+## P8 — Grid Foundation Model Fine-Tuning (LATAM Utility)
+
+**Goal**: Fine-tune OpenGridFM on a LATAM utility's grid data for load forecasting + fault prediction.
+
+**Stack**: OpenGridFM + PowerFM + utility SCADA historian + Anthropic API
+
+```python
+from opengridfm import GridFMTrainer, GridSimulator, NetworkTopology
+from anthropic import Anthropic
+import pandas as pd
+
+# Load utility grid topology (ANAREDE / PSS/E format common in LATAM)
+network = NetworkTopology.from_psse("/data/utility_mx_network.raw")
+simulator = GridSimulator(network)
+
+# Generate synthetic training profiles
+trainer = GridFMTrainer(
+    simulator=simulator,
+    n_scenarios=50_000,
+    weather_integration=True,
+    output_dir="/data/gridfm_pretraining"
+)
+trainer.generate_profiles()
+
+# Fine-tune PowerFM on utility historical data
+historical = pd.read_parquet("/data/utility_mx_historian_2022_2026.parquet")
+trainer.fine_tune(
+    base_model="PowerFM/powerFM-base",
+    training_data=historical,
+    tasks=["load_forecast_15min", "fault_detection", "voltage_anomaly"],
+    output_model="/models/utility_mx_gridfm_v1"
+)
+
+# Deploy as LLM tool
+client = Anthropic()
+def grid_forecast_with_llm(query: str):
+    return client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        tools=[{
+            "name": "load_forecast",
+            "description": "Forecast load for utility MX grid (fine-tuned GridFM)",
+            "input_schema": {"type": "object", "properties": {
+                "horizon_hours": {"type": "integer"},
+                "substation_id": {"type": "string"}
+            }}
+        }],
+        messages=[{"role": "user", "content": query}]
+    )
+```
+
+**Repos**: [LF Energy OpenGridFM](https://lfenergy.org/projects/opengridfm/) + [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM)
+**LATAM fit**: Utility SCADA historians in BR/MX/CL hold 10-20 years of grid data — perfect for GridFM fine-tuning.

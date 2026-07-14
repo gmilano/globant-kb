@@ -1,55 +1,46 @@
-# Trending AI Agents — Energy (Week of 2026-07-13)
+# Trending This Week — Energy AI
 
-> What's new, gaining traction, or generating discussion in energy AI this week.
+> What's new and gaining traction in energy AI. Last updated: 2026-07-14
 
-## Breaking This Week
+## Breaking: New Benchmarks Redefine Energy AI Evaluation (Jun 2026)
 
-### OpenGridFM — Grid Foundation Models at LF Energy
-- **Repo**: [lf-energy/opengridfm](https://github.com/lf-energy/opengridfm)
-- **License**: Apache-2.0
-- **Why it matters**: IBM + Hydro-Québec leading open pre-trained foundation models for electrical grids. Utilities fine-tune on their own SCADA/ADMS data. Addresses the labeled-data scarcity problem in grid AI.
-- **Status**: LF Energy Sandbox approved Jun 2026. Early-access available.
+Three complementary benchmarks dropped in June 2026, establishing rigorous standards for power system AI agents:
 
-### AINETUS — XAI for Power Grid Control Rooms
-- **Repo**: [lf-energy/ainetus](https://github.com/lf-energy/ainetus)
-- **License**: Apache-2.0
-- **Why it matters**: Combines RL grid agents with explainability (XAI) layers for TSO/DSO control room operators. Regulators require human-in-the-loop for grid switching decisions; AINETUS makes the RL agent’s actions auditable.
-- **Status**: LF Energy Sandbox Jun 2026.
+- **PSABench** ([arXiv:2606.20950](https://arxiv.org/abs/2606.20950)): 41 executable task families across power flow, stability, protection, DER, microgrids, reliability, power quality, and forecasting. First truly executable benchmark for energy AI.
+- **PowerAgentBench-Dyn** ([arXiv:2606.20401](https://arxiv.org/abs/2606.20401)): Harvard SEAS + Politecnico di Milano + UBITECH — evaluates agents on dynamic studies (transient stability, fault analysis).
+- **EnergyAgentBench** ([arXiv:2605.15230](https://arxiv.org/abs/2605.15230)): 70 task variants spanning datacenter siting, LCOE optimization, causal grid diagnosis. First multi-family agentic benchmark on live energy infrastructure data.
 
-### AutoB2G — Agentic Grid-Interactive Buildings (NREL)
-- **Paper**: [arXiv:2603.26005](https://arxiv.org/abs/2603.26005)
-- **License**: MIT
-- **Why it matters**: LLM orchestrator coordinates HVAC, EV chargers, and BESS within a building to provide grid services. Bridges gap between CityLearn research and real deployments.
-- **Status**: NREL 2026 research release.
+**Signal**: The energy AI field is maturing fast — benchmarks are the leading indicator. Globant should track agent scores on PSABench as proxy for solution quality.
 
-### EVerest v2026.02.0 LTS — Enterprise EV Charging Ready
-- **Repo**: [EVerest/everest-core](https://github.com/EVerest/everest-core)
-- **License**: Apache-2.0
-- **Why it matters**: First LTS release. Tritium, Pionix, and other hardware OEMs shipping on EVerest. ISO 15118 Plug & Charge + V2G supported. FlexMeasures integration for AI scheduling.
+## OpenG2G: AI Inference Load as Grid Flexibility (May 2026)
 
-### RL2Grid — Standardized Grid RL Benchmark
-- **Repo**: [emarche/RL2Grid](https://github.com/emarche/RL2Grid)
-- **Paper**: [OpenReview](https://openreview.net/forum?id=7J2C4QnQrl)
-- **License**: MIT
-- **Why it matters**: 39 tasks covering N-1 contingency, topology optimization, redispatching. TSO engineers co-designed. Enables apples-to-apples comparison of RL agents on real grid topologies.
+[github.com/gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) | MIT | arXiv:2605.05519
 
-## Repos Gaining Traction
+OpenG2G models AI datacenters and the power grid as a co-simulation loop. As hyperscalers build multi-GW campuses, their inference workloads become the largest controllable flexible load on the grid. Companion paper "Inference as Flexibility" (arXiv:2606.21833) shows transmission-connected AI data centres can provide meaningful ramp management.
 
-| Repo | Stars | Signal |
-|------|-------|--------|
-| [evcc-io/evcc](https://github.com/evcc-io/evcc) | ~12k | Go EV smart charging; AI load shifting via electricity tariff APIs; 200+ charger integrations |
-| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | ~600 | LF Energy v0.31 Jul 2026; BESS + DR + solar; REST API + MCP-compatible |
-| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | ~2.5k | Energy system optimization; pairs with AI forecasting for capacity planning |
-| [PowerGridModel/power-grid-model](https://github.com/PowerGridModel/power-grid-model) | ~400 | LF Energy C++ core; 10M+ PyPI downloads; pandapower solver integration |
-| [OpenEnergyPlatform/awesome-sustainable-technology](https://github.com/OpenEnergyPlatform/awesome-sustainable-technology) | ~1.5k | Curated energy AI resource list; essential reference for tech selection |
+**Why it matters**: Every large tech client building AI infra faces grid interconnection delays. OpenG2G provides the simulation layer to design demand-response strategies that get them interconnected faster.
 
-## Industry Signals
+## PowerDAG: 100% Task Success on Distribution Grid Analysis (Mar 2026)
 
-- **IEA (Jul 2026)**: AI fault detection can cut outage duration 30–50%; AI could unlock 175 GW of existing transmission capacity.
-- **LF Energy Summit 2026**: First US investor-owned utility joined LF Energy; AI energy systems research roadmap published.
-- **Siemens $1B grid investment (Feb 2026)**: Power-grid manufacturing expansion in US driven by AI data center electricity demand.
-- **Data center demand**: Global DC electricity demand projected to double to 945 TWh by 2030 — driving massive grid modernization investment.
-- **Morgan Stanley**: AI-driven energy investment reshaping utility capex; grid-scale storage + renewable integration accelerating.
+[arXiv:2603.17418](https://arxiv.org/abs/2603.17418) | Power-Agent org | MIT
 
----
-*Auto-updated by the ingest pipeline.*
+Supervisory agentic AI for distribution grid analysis. Achieved 100% success rate with GPT-5.2 on standardized distribution grid tasks vs. 41–88% for ReAct, 30–90% for LangChain, 9–41% for CrewAI baselines.
+
+## EVerest 2026.02.0-LTS: Stable API for EV Charger Development
+
+[github.com/EVerest/EVerest](https://github.com/EVerest/EVerest) | Apache-2.0 | LF Energy
+
+First stable release under the new ~6-month cadence. Adds TPM 2.0 security, X.509-signed OTA updates, AsyncAPI reference docs, and ISO 15118-20 (Plug&Charge) readiness. US Joint Office of Energy + Transportation officially partnered with LF Energy on EVerest for national EVSE interoperability.
+
+## FlexMeasures 0.30+ Road to VPP + S2 / OpenADR
+
+v0.30.3 landed Jan 2026. Two biggest roadmap items confirmed: VPP algorithm module and OpenADR / S2 standard support. Both unlock DR revenue streams for fleet operators, municipalities, and building portfolios.
+
+## Repos to Watch
+
+| Repo | Why Watch |
+|------|----------|
+| [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | MCP servers for PowerWorld/PSS/E/OpenDSS — standard grid-to-LLM interface |
+| [AI4Electricity/RL2Grid](https://github.com/AI4Electricity/RL2Grid) | ICLR 2026 benchmark — standard comparison point for grid RL agents |
+| [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) | Datacenter-grid coordination — emergent $100B+ market |
+| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | Curated papers, datasets, software, benchmarks for ML + power systems |

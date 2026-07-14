@@ -1,48 +1,63 @@
-# Trends — Energy AI (2026-07-13)
+# Trends — Energy AI
 
-> Current signals shaping the energy AI landscape. 15 trends ranked by impact on Globant engagements.
+> Key trends shaping the energy AI landscape. Last updated: 2026-07-14
 
-## T1 — Grid Foundation Models (OpenGridFM) — LF Energy Jun 2026
-OpenGridFM became an LF Energy Sandbox project in June 2026, co-led by IBM and Hydro-Québec. Like foundation models in NLP, these are large models pre-trained on grid operational data that utilities fine-tune with their own SCADA/ADMS data. This eliminates the labeled-data problem that has blocked grid AI adoption. **Impact**: enables faster AI deployment at utilities without needing proprietary training from scratch.
+## T1 — Agentic AI Entering Grid Operations (★★★★★)
 
-## T2 — AINETUS: Explainable AI for TSO/DSO Control Rooms — Jun 2026
-AINETUS (LF Energy Sandbox Jun 2026) combines reinforcement learning grid agents with XAI layers designed for energy control room operators. Regulators in EU, US, and LATAM require human-in-the-loop for grid switching. AINETUS solves the trust problem: RL agents propose actions, XAI explains why, operator approves. **Impact**: unlocks RL deployment at TSOs/DSOs where pure black-box AI was blocked.
+PowerDAG (100% task success), X-GridAgent, and AINETUS show that multi-agent LLM systems can now autonomously execute distribution grid analysis tasks (fault localization, restoration planning, DER dispatch). Three new benchmarks (PSABench, PowerAgentBench-Dyn, EnergyAgentBench) in June 2026 created evaluation infrastructure — agent scores on PSABench will become the energy AI equivalent of MMLU.
 
-## T3 — EVerest LTS Enables Enterprise EV Charging AI
-EVerest v2026.02.0 LTS (Feb 2026) is the first production-stable release of the LF Energy EV charging OS. Tritium, Pionix, and other OEMs now ship on EVerest. ISO 15118 Plug & Charge + V2G supported. FlexMeasures integration makes AI scheduling plug-and-play. **Impact**: enterprise EV charging AI projects can now build on a stable, vendor-neutral stack.
+## T2 — MCP as the Universal Grid-to-LLM Bridge (★★★★★)
 
-## T4 — AI Energy Demand Surge Reshapes Grid Investment
-IEA projects global data center electricity demand doubling to 945 TWh by 2030. AI models alone drive >1 trillion kWh/year increase through 2030. This is triggering unprecedented grid investment: Siemens $1B manufacturing expansion (Feb 2026), Goldman Sachs projecting $500B+ US grid capex. **Impact**: every grid operator needs AI for capacity planning, demand forecasting, and DER integration NOW.
+PowerMCP provides MCP servers for PowerWorld, PSS/E, OpenDSS, and PSCAD — the four dominant power system simulators. Any LLM (Claude, GPT, Gemini) can now query and control grid simulations via tool calls, without custom integration. Every power system software vendor will need an MCP server by 2027.
 
-## T5 — IEA Validates AI Grid ROI
-IEA Jul 2026 findings: AI fault detection reduces outage durations 30–50%; AI-enabled sensors could unlock 175 GW of existing transmission capacity. These are now industry-standard ROI benchmarks. **Impact**: utilities can justify AI investment with IEA authority; Globant can use these in proposals.
+## T3 — AI Datacenter Load as Grid Flexibility Asset (★★★★★)
 
-## T6 — RL Benchmark Race: RL2Grid + EnergyAgentBench
-RL2Grid (MIT, 39 tasks), EnergyAgentBench (70 variants, 1414 runs), PSAB (41 problem families), and PowerAgentBench-Dyn all published/updated in May–Jul 2026. Grid RL is going through the same benchmark maturation that LLMs went through in 2023–2024. **Impact**: Globant can differentiate by benchmarking RL agents before deploying to production.
+OpenG2G (arXiv:2605.05519) and "Inference as Flexibility" (arXiv:2606.21833) establish the paradigm: AI inference workloads are the largest new controllable flexible load on the grid. Hyperscalers facing multi-year interconnection delays can shift inference timing to reduce peak demand and get connected faster. $100B+ opportunity as hyperscalers build 5-10 GW campuses.
 
-## T7 — BESS + Arbitrage Agents Going Mainstream
-Battery energy storage system AI is crossing from research to deployment. FlexMeasures v0.31, bess-optimizer (Pyomo), and Autobidder (Tesla) are all production-ready. Claude claude-sonnet-4-5 can orchestrate multi-market BESS schedules with natural language interfaces. An autonomous BESS arbitrage agent for AEMO NEM built with Claude Opus 4 was open-sourced in 2026. **Impact**: BESS optimization is a high-value, fast-ROI engagement for utilities and industrial clients.
+## T4 — EV Charging Standardization Around OCPP 2.1 + ISO 15118-20 (★★★★☆)
 
-## T8 — EV Fleet Electrification Creates AI Demand
-Fleet electrification (logistics, buses, corporate vehicles) is accelerating across LATAM. Brazil, Chile, Mexico all have EV fleet programs. Smart charging coordination for 100+ vehicle fleets requires AI: grid impact management, overnight charging optimization, V2G participation. **Impact**: fleet charging AI is a greenfield market with clear ROI — 20–40% energy cost reduction typical.
+EVerest 2026.02.0-LTS + US Joint Office endorsement signals that the open-source EV charging stack is winning. OCPP 2.1 enables bidirectional charging (V2G/V2H), ISO 15118-20 enables Plug&Charge automation. CPOs building on EVerest reduce firmware costs 60-80%.
 
-## T9 — Virtual Power Plants (VPPs) as Grid Services
-VPPs aggregate flexibility from BESS, prosumers, EV chargers, and industrial loads to sell grid services. FlexMeasures, OpenEMS, and AutoGrid all support VPP architectures. New DER regulations in EU, California, Brazil, and Colombia are opening VPP markets. **Impact**: VPP platform is a platform play — aggregate clients into a revenue-sharing grid service.
+## T5 — Renewables Surpassed Coal in Global Electricity Generation (★★★★★)
 
-## T10 — Grid-Interactive Buildings (AutoB2G / CityLearn)
-AutoB2G (NREL, 2026) and CityLearn demonstrate LLM orchestrators coordinating HVAC, EV chargers, and BESS within buildings to provide grid services. This bridges the lab-to-production gap. sinergym enables RL training on EnergyPlus simulations. **Impact**: building energy AI (commercial RE, hospitals, factories) is a large addressable market in LATAM.
+2025: 793 GW of new renewable capacity added globally (83% solar PV) — renewables overtook coal as world's largest electricity source for the first time. This structural shift creates AI demand: intermittent generation requires AI-based forecasting, flexibility scheduling, and real-time grid balancing. Every utility is now an AI buyer.
 
-## T11 — Renewable Curtailment Reduction with AI
-Chile’s 50%+ renewable grid and similar high-penetration grids experience curtailment (wasted solar/wind when supply exceeds demand). AI-driven BESS dispatch + real-time forecasting can reduce curtailment 30–60%. PyPSA + FlexMeasures is the open-source stack. **Impact**: direct revenue uplift for renewable operators; strong ROI case for Chilean and European engagements.
+## T6 — Grid Foundation Models (GridFMs) Emerging (★★★★☆)
 
-## T12 — Open Energy Data APIs Expanding
-Grid operators (XM Colombia, Coordinator Eléctrico Chile, CENACE Mexico, ONS Brazil) are publishing more open data APIs. This unlocks AI use cases that previously required proprietary data agreements. **Impact**: easier to prototype and demo AI solutions for LATAM utilities.
+OpenGridFM (LF Energy) and PowerFM (Harvard SEAS) are building the GPT moment for power grids: foundation models pre-trained on grid simulation data, fine-tunable for specific networks. Unlike generic LLMs, GridFMs understand power flow physics natively. First production GridFMs expected 2026-2027.
 
-## T13 — Carbon Accounting + AI Integration
-Chile’s $5/ton CO2 tax, EU ETS, and corporate Scope 2 commitments are driving demand for AI-powered carbon optimization. Energy management systems (MyEMS, OpenEMS) adding carbon tracking. Claude agents can optimize across cost + carbon simultaneously. **Impact**: carbon-aware AI energy management is a premium offering for ESG-focused enterprise clients.
+## T7 — VPP + OpenADR/S2 Demand Flexibility Going Mainstream (★★★★☆)
 
-## T14 — evcc Community Explosion (12k Stars)
-evcc crossed 12k GitHub stars in 2026 — the largest open-source smart home EV charging project. Weekly releases, 200+ integrations, tariff-aware AI charging. It’s becoming the de facto prosumer EMS in EU and growing in LATAM. **Impact**: evcc is a strong starting point for prosumer + SMB energy AI products.
+FlexMeasures roadmap confirms VPP algorithm and OpenADR/S2 standard support landing 2026. Virtual Power Plants aggregate distributed assets (batteries, EVs, HVAC) into a schedulable resource sold into capacity markets. Globant can build VPP orchestration platforms for utilities and aggregators in EU and US markets.
 
-## T15 — LF Energy Ecosystem Reaches Critical Mass (35+ Projects)
-LF Energy now hosts 35+ production-quality energy open source projects. The ecosystem covers every layer: power flow (Grid2Op, pandapower), scheduling (FlexMeasures), EV charging (EVerest), IoT (OpenRemote), control rooms (AINETUS), and grid AI (OpenGridFM, Power Grid Model). First US investor-owned utility joined LF Energy in 2026. **Impact**: building on LF Energy stack gives enterprise credibility, vendor neutrality, and long-term community support.
+## T8 — AI-Based Fault Detection Reducing Outage Durations 30-50% (★★★★☆)
+
+IEA estimates AI-based fault detection reduces outage durations 30-50%. Remote sensors + AI can unlock 175 GW of transmission capacity on existing lines without new infrastructure. Single biggest grid efficiency play deployable now with PowerAgent / PowerMCP stack.
+
+## T9 — AI-Augmented Grid Control Rooms (★★★★☆)
+
+AINETUS (LF Energy) targets control room operators: RL recommendations + explainable AI + uncertainty estimation displayed to human operators. This "augmented operator" model is the near-term commercial path — regulators are more comfortable, operators maintain control, efficiency improves.
+
+## T10 — Multi-Agent RL for Building Energy Communities (★★★☆☆)
+
+CityLearn v2.6.0 and wider building energy MARL literature show coordinating 50-200 buildings with shared RL policies reduces district-level peak demand 20-40% vs individual optimization. OpenADR integration makes it a DR revenue source.
+
+## T11 — LF Energy Ecosystem Consolidation (★★★★☆)
+
+LF Energy now hosts 35+ projects: EVerest, FlexMeasures, Grid2Op, AINETUS, OpenGridFM, Power Grid Model, CoMPAS, and more. Composable open-source stack for any utility digital transformation. LF Energy membership gives Globant governance access, co-marketing with utilities, early access to new projects.
+
+## T12 — Predictive Maintenance as AI Entry Point (★★★☆☆)
+
+Transformer health monitoring, substation equipment anomaly detection, and wind turbine blade analysis are the "safe" AI use cases utilities approve first. PowerFM's pre-trained fault detection models lower entry cost. This is Globant's foot-in-the-door for larger grid AI deals.
+
+## T13 — Climate Resilience Driving Grid AI Urgency (★★★★☆)
+
+Extreme weather events (2025: record European heat, US storm seasons) are accelerating utility investment in AI-based grid resilience: faster outage prediction, automated restoration, wildfire-triggered de-energization. PowerDAG's supervisory agent framework maps directly to this use case.
+
+## T14 — Energy AI Benchmarks Maturing (★★★★☆)
+
+June 2026 saw three major energy AI benchmarks published (PSABench, PowerAgentBench-Dyn, EnergyAgentBench) — leading indicator of field maturity. Reproducible evaluation enables competitive market development. Globant should score its agent solutions against PSABench.
+
+## T15 — Siemens $1B US Grid Investment Signal (★★★☆☆)
+
+Siemens AG announced ~$1B expansion of US power grid manufacturing capacity (Feb 2026) driven by AI data center electricity demand. Signals that the grid upgrade supercycle is real. Utilities getting new Siemens equipment will need AI integration services — Globant opportunity alongside Siemens Xcelerator deployments.

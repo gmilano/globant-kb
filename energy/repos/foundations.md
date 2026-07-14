@@ -1,46 +1,32 @@
 # Foundational Repos — Energy
 
-> Production-grade open source bases to build on. Open license, active community.
-> Last updated: 2026-07-13
+> Bases to build on: open license, active community, production-proven.
+> Last updated: 2026-07-14
 
-## Power Grid Simulation & Analysis
-
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | LGPL-2.1 | ~1.1k | RTE France power grid RL environment. Simulates real-time grid operations: topology control, redispatching, N-1 contingency. L2RPN competition base. LF Energy member. | Yes — Gymnasium-compatible, reward shaping |
-| [e2nIEE/pandapower](https://github.com/e2nIEE/pandapower) | BSD-3-Clause | ~1.5k | Python power flow calculation tool (Newton-Raphson, DC/AC). Used in GridLearn, AutoB2G, research pipelines. Integrates with PowerGridModel C++ solvers. | Yes — programmatic power flow for AI agents |
-| [PyPSA/PyPSA](https://github.com/PyPSA/PyPSA) | MIT | ~2.5k | Python for Power System Analysis. Energy system optimization (linear/non-linear). Used for capacity expansion, grid planning, sector coupling (power+heat+hydrogen). | Yes — LP/MILP optimization backbone |
-| [PowerGridModel/power-grid-model](https://github.com/PowerGridModel/power-grid-model) | Apache-2.0 | ~400 | LF Energy C++ library for distribution power system analysis. 10M+ PyPI downloads. Pandapower and Alliander use it as core solver. Fast batch calculations for ML pipelines. | Yes — high-throughput power flow for ML |
-
-## Energy Management Systems
+## Core Platforms & Frameworks
 
 | Repo | License | Stars | Description | AI-Ready? |
 |------|---------|-------|-------------|----------|
-| [OpenEMS/openems](https://github.com/OpenEMS/openems) | Apache-2.0 | ~1.1k | Modular Java platform for energy storage, renewable integration, EV charging, heat pumps, and time-of-use tariffs. REST/JSON-RPC API. Commercial deployments in Europe. | Yes — REST API for AI orchestration |
-| [evcc-io/evcc](https://github.com/evcc-io/evcc) | MIT | ~12k | Go-based smart EV charging + home energy management. 200+ charger integrations, solar surplus charging, tariff-aware scheduling. Active weekly releases. | Yes — API hooks for AI optimization |
-| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~600 | LF Energy scheduling/optimization platform for BESS, demand response, EV fleets, and solar+storage. v0.31 Jul 2026. REST API + plugin system. | Yes — AI scheduling engine core |
+| [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | LGPL-2.1 | ~1.1k★ | RTE France's power grid simulation framework for RL/AI agents — realistic AC dynamics, N-1 contingencies, thermal limits; backbone of NeurIPS L2RPN competitions | Yes — native RL gym |
+| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~630★ | Intelligent EMS: schedules batteries, EVs, heat pumps using forecasts, market prices, OpenADR/S2; LF Energy incubation; PyPI v0.30.3 | Yes — REST API + AI scheduling |
+| [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | BSD-3-Clause | ~750★ | Farama Gymnasium env for multi-agent RL on building energy: demand response, heat pumps, batteries, EVs (v2.6.0) | Yes — MARL environment |
+| [EVerest/EVerest](https://github.com/EVerest/EVerest) | Apache-2.0 | ~500★ | LF Energy EV charging software stack: full firmware for AC/DC chargers, OCPP 1.6/2.0.1/2.1, ISO 15118-20, Plug&Charge, TPM 2.0 (v2026.02.0-LTS) | Yes — modular, LLM-extensible |
+| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | ~400★ | Gymnasium environment wrapping EnergyPlus for building simulation: HVAC control, demand response, multi-agent; integrates with Stable-Baselines3 | Yes — native RL gym |
+| [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) | MIT | ~160★ | AI datacenter–power grid co-simulation: models inference workloads as controllable flexible loads (arXiv:2605.05519) | Yes — AI-first design |
+| [AI4Electricity/RL2Grid](https://github.com/AI4Electricity/RL2Grid) | MIT | ~220★ | ICLR 2026 benchmark for RL in power grid operations — standardized tasks, state/action spaces, reward functions built on Grid2Op | Yes — evaluation framework |
+| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | ~1.8k★ | Full-stack IoT/energy platform: device management, rules engine, dashboards, REST+MQTT APIs | Partial — REST APIs for AI integration |
+| [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM) | MIT | ~90★ | Foundation models for power/energy: fine-tuned and domain-trained models for load forecasting, fault detection, grid simulation, agent control | Yes — model hub |
+| [lfenergy/opengridfm](https://lfenergy.org/projects/opengridfm/) | Apache-2.0 | ~120★ | LF Energy grid foundation model framework: Foundational Grid Simulator, network topology specs, profile generators for training GridFMs | Yes — pre-training platform |
 
-## EV Charging Stack
+## Supporting Libraries
 
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [EVerest/everest-core](https://github.com/EVerest/everest-core) | Apache-2.0 | ~500 | LF Energy EV charging OS. OCPP 1.6/2.0.1, ISO 15118, OCPI, V2G, Plug & Charge. v2026.02.0 LTS. OEMs: Tritium, Pionix. FlexMeasures plugin for AI scheduling. | Yes — FlexMeasures integration |
-| [OpenEMS/openems](https://github.com/OpenEMS/openems) | Apache-2.0 | ~1.1k | (see above) — also covers EV charging integration | Yes |
-
-## RL / ML Environments
-
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | BSD-3-Clause | ~700 | Farama Foundation Gymnasium env for MARL in building energy coordination and grid demand response. Official NREL-backed. Used in competition tracks. | Core RL environment |
-| [ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | MIT | ~400 | Gymnasium env for building energy control via EnergyPlus. Multi-zone buildings, weather variability, reward customization. Integrates with Stable-Baselines3. | Core RL environment |
-| [emarche/RL2Grid](https://github.com/emarche/RL2Grid) | MIT | ~200 | Standardized RL benchmark for power grids (39 tasks). Full AC power flow, N-1 contingency, stochastic events. Enables reproducible agent comparison. | Benchmark harness |
-
-## Energy System Modeling
-
-| Repo | License | Stars | Description | AI-Ready? |
-|------|---------|-------|-------------|----------|
-| [MyEMS/myems](https://github.com/MyEMS/myems) | MIT (core) | ~1k | Building/factory/hospital energy monitoring + optimization. Python + React. Supports electricity, water, gas, cooling, heating, solar, BESS, microgrids, VPPs. | Yes — REST API + data export |
-| [FlexPwr/bess-optimizer](https://github.com/FlexPwr/bess-optimizer) | MIT | ~90 | Three-market BESS optimization (day-ahead, intraday, balancing) using Pyomo. Integrates with FlexMeasures for deployment. | Yes — optimization core for BESS |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [IBM/rl-testbed-for-energyplus](https://github.com/IBM/rl-testbed-for-energyplus) | MIT | ~217★ | IBM RL testbed for power consumption optimization using EnergyPlus |
+| [santoshphilip/eppy](https://github.com/santoshphilip/eppy) | MIT | ~199★ | Python scripting language for EnergyPlus IDF files |
+| [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | MIT | ~120★ | MCP servers for PowerWorld, PSS/E, OpenDSS, PSCAD — LLM-to-simulator interface |
+| [ChargePi/oscp-go](https://github.com/ChargePi/oscp-go) | MIT | ~3★ | Open Smart Charging Protocol (OSCP) SDK for Go |
+| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | MIT | ~300★ | Curated collection: papers, datasets, software, benchmarks for ML × electricity |
 
 ---
 *See also: `verticals/solutions.md` for full vertical platforms.*

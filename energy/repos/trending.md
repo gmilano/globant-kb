@@ -1,49 +1,30 @@
-# Trending Repos — Energy (2026-07-13)
+# Trending Repos — Energy AI
 
-> GitHub repos gaining momentum in energy AI this week.
-
-## Hot Repos (High Activity)
+> What's gaining momentum on GitHub and arXiv. Last updated: 2026-07-14
 
 | Repo | License | Stars | Why Trending |
 |------|---------|-------|-------------|
-| [evcc-io/evcc](https://github.com/evcc-io/evcc) | MIT | ~12k | Weekly releases; solar surplus charging with AI tariff optimization; 200+ EV charger integrations; adopted by prosumers + small businesses across EU |
-| [lf-energy/opengridfm](https://github.com/lf-energy/opengridfm) | Apache-2.0 | ~120 | NEW Jun 2026: LF Energy grid foundation models (IBM + Hydro-Québec). Pre-trained on grid operations data; utilities fine-tune with private SCADA feeds |
-| [lf-energy/ainetus](https://github.com/lf-energy/ainetus) | Apache-2.0 | ~150 | NEW Jun 2026: XAI for control rooms. RL grid agents + explainable interface for TSO operators. Regulatory-driven demand |
-| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~600 | v0.31 Jul 2026; BESS arbitrage + DR scheduling; MCP-compatible endpoints being added |
-| [emarche/RL2Grid](https://github.com/emarche/RL2Grid) | MIT | ~200 | ICLR-adjacent 2026 paper; 39 standardized grid RL tasks; TSO collaboration drives adoption |
+| [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) | MIT | ~160★ | AI datacenter–grid co-simulation (arXiv:2605.05519, May 2026) — addresses hyperscaler grid interconnection crisis |
+| [Power-Agent/PowerDAG](https://github.com/Power-Agent/PowerDAG) | MIT | ~70★ | 100% success on distribution grid analysis vs ReAct/LangChain/CrewAI (arXiv:2603.17418, Harvard SEAS) |
+| [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) | MIT | ~120★ | MCP servers for PowerWorld, PSS/E, OpenDSS, PSCAD — standard LLM-to-simulator bridge |
+| [AI4Electricity/RL2Grid](https://github.com/AI4Electricity/RL2Grid) | MIT | ~220★ | ICLR 2026 grid RL benchmark — standardized evaluation driving reproducible research |
+| [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | ~630★ | VPP + OpenADR/S2 roadmap confirmed — demand-flexibility revenue unlocking for EMS operators |
+| [EVerest/EVerest](https://github.com/EVerest/EVerest) | Apache-2.0 | ~500★ | First stable LTS release (2026.02.0) + US Joint Office partnership — de facto open EV charging stack |
+| [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM) | MIT | ~90★ | Energy foundation model hub — pre-trained models for load forecasting, fault detection, simulation |
+| [openremote/openremote](https://github.com/openremote/openremote) | AGPL-3.0 | ~1.8k★ | IoT+energy platform gaining adoption in smart grid and fleet deployments |
+| [AI4Electricity/Awesome-AI-for-Electricity](https://github.com/AI4Electricity/Awesome-AI-for-Electricity) | MIT | ~300★ | Curated ML-for-electricity resource list — growing rapidly as energy AI research accelerates |
+| [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | BSD-3-Clause | ~750★ | v2.6.0b2 with new DER models (heat pumps, EVs) and multi-agent scenarios |
 
-## LF Energy Ecosystem (35+ Projects)
+## arXiv Preprints Worth Cloning Now
 
-| Project | License | Focus |
-|---------|---------|------|
-| [Grid2Op](https://github.com/rte-france/Grid2Op) | LGPL-2.1 | Grid simulation + RL benchmark |
-| [FlexMeasures](https://github.com/FlexMeasures/flexmeasures) | Apache-2.0 | Flexibility scheduling (BESS, DR, EV) |
-| [EVerest](https://github.com/EVerest/everest-core) | Apache-2.0 | EV charging OS (LTS Feb 2026) |
-| [OpenGridFM](https://github.com/lf-energy/opengridfm) | Apache-2.0 | Grid foundation models |
-| [AINETUS](https://github.com/lf-energy/ainetus) | Apache-2.0 | RL + XAI for control rooms |
-| [CUPID](https://github.com/lf-energy/cupid) | Apache-2.0 | IEEE 2030.5 DER interoperability |
-| [SOGNO](https://github.com/sogno-platform) | Apache-2.0 | Microservices grid automation |
-| [Power Grid Model](https://github.com/PowerGridModel/power-grid-model) | Apache-2.0 | C++ distribution power system core (10M+ DL) |
-| [OpenRemote](https://github.com/openremote/openremote) | AGPL-3.0 | IoT platform + asset management |
-
-## Rising Stars (New / Niche)
-
-| Repo | License | Stars | Description |
-|------|---------|-------|-------------|
-| [NREL/autob2g](https://github.com/NREL/autob2g) | MIT | ~80 | Agentic simulation for grid-interactive buildings (arXiv 2603.26005). LLM orchestrates HVAC + EV + BESS |
-| [sztistvan/BESS-Analytics](https://github.com/sztistvan/BESS-Analytics) | MIT | ~50 | Browser-based solar + battery sizing tool for prosumers |
-| [FlexPwr/bess-optimizer](https://github.com/FlexPwr/bess-optimizer) | MIT | ~90 | BESS three-market optimization with Pyomo; day-ahead + intraday + balancing |
-| [ChargePi/oscp-go](https://github.com/ChargePi/oscp-go) | MIT | ~3 | Open Smart Charging Protocol (OSCP) SDK for Go; enables grid-aware EV charging |
-| [OpenEnergyPlatform/awesome-sustainable-technology](https://github.com/OpenEnergyPlatform/awesome-sustainable-technology) | CC-BY-4.0 | ~1.5k | Curated list of 300+ energy AI projects, datasets, and tools |
-
-## Benchmarks Shaping the Field (2026)
-
-| Benchmark | Source | Focus |
-|-----------|--------|------|
-| [PSAB](https://arxiv.org/abs/2606.20950) | arXiv Jun 2026 | 41 problem families, 8 power systems areas, deterministic |
-| [EnergyAgentBench](https://arxiv.org/abs/2605.15230) | arXiv May 2026 | 70 task variants, 5 agent families, 1414 evaluation runs |
-| [PowerAgentBench-Dyn](https://arxiv.org/abs/2606.20401) | Harvard + Politecnico + UBITECH | Dynamic grid control benchmark |
-| [RL2Grid](https://github.com/emarche/RL2Grid) | TSO collaboration | 39 realistic grid RL tasks |
+| Paper | arXiv | Repo |
+|-------|-------|------|
+| PSABench — 41-task power engineering benchmark | [2606.20950](https://arxiv.org/abs/2606.20950) | Harvard SEAS / Power-Agent |
+| PowerAgentBench-Dyn — dynamic studies evaluation | [2606.20401](https://arxiv.org/abs/2606.20401) | Harvard × Polimi × UBITECH |
+| EnergyAgentBench — 70 live-infra task variants | [2605.15230](https://arxiv.org/abs/2605.15230) | LLM agents on real energy data |
+| Inference as Flexibility — AI load as grid ramp | [2606.21833](https://arxiv.org/abs/2606.21833) | Datacenter demand response |
+| OpenG2G — datacenter–grid co-sim | [2605.05519](https://arxiv.org/abs/2605.05519) | [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) |
+| PowerDAG — distribution grid agent | [2603.17418](https://arxiv.org/abs/2603.17418) | [Power-Agent/PowerDAG](https://github.com/Power-Agent/PowerDAG) |
 
 ---
-*Auto-updated by the ingest pipeline.*
+*Automated pipeline — updated each run.*
