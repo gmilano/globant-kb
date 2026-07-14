@@ -1,63 +1,212 @@
-# Trends — Energy AI
+# Trends — Energy AI · 2026-07-14
+> v9 · 15 trends · Cycle 2 refresh with Jul 2026 signals
 
-> Key trends shaping the energy AI landscape. Last updated: 2026-07-14
+## T1 — MCP Becomes the Standard Interface for Power System AI
+**Signal strength: ★★★★★ · Timeline: Now**
 
-## T1 — Agentic AI Entering Grid Operations (★★★★★)
+PowerMCP (Power-Agent/PowerMCP, MIT) wraps PowerWorld, PSS-E, and OpenDSS as MCP tool servers. Any Claude/GPT/LLM can now call `run_powerflow()` as a tool call — no custom integration code per simulator.
 
-PowerDAG (100% task success), X-GridAgent, and AINETUS show that multi-agent LLM systems can now autonomously execute distribution grid analysis tasks (fault localization, restoration planning, DER dispatch). Three new benchmarks (PSABench, PowerAgentBench-Dyn, EnergyAgentBench) in June 2026 created evaluation infrastructure — agent scores on PSABench will become the energy AI equivalent of MMLU.
+Implication: Energy AI projects that don't adopt MCP for simulator integration are building technical debt. MCP RC 2026-07-28 (stateless, EMA auth) further solidifies this.
 
-## T2 — MCP as the Universal Grid-to-LLM Bridge (★★★★★)
+**Action:** Default to PowerMCP + PowerDAG for any power-system analysis engagement.
 
-PowerMCP provides MCP servers for PowerWorld, PSS/E, OpenDSS, and PSCAD — the four dominant power system simulators. Any LLM (Claude, GPT, Gemini) can now query and control grid simulations via tool calls, without custom integration. Every power system software vendor will need an MCP server by 2027.
+---
 
-## T3 — AI Datacenter Load as Grid Flexibility Asset (★★★★★)
+## T2 — Agentic Distribution Grid Analysis Matures (PSABench Standard)
+**Signal strength: ★★★★★ · Timeline: Now**
 
-OpenG2G (arXiv:2605.05519) and "Inference as Flexibility" (arXiv:2606.21833) establish the paradigm: AI inference workloads are the largest new controllable flexible load on the grid. Hyperscalers facing multi-year interconnection delays can shift inference timing to reduce peak demand and get connected faster. $100B+ opportunity as hyperscalers build 5-10 GW campuses.
+PowerDAG (arXiv:2603.17418) achieves 100% task success on PSABench (arXiv:2606.20950 — 41-task executable benchmark). This is the first proof that agentic AI can reliably replace manual power engineering analysis workflows.
 
-## T4 — EV Charging Standardization Around OCPP 2.1 + ISO 15118-20 (★★★★☆)
+- PSABench is now the evaluation standard — cite it in proposals
+- PowerAgentBench-Dyn (Harvard + Polimi + UBITECH, arXiv:2606.20401) covers dynamic studies
+- EnergyAgentBench: 70 live-infrastructure task variants
 
-EVerest 2026.02.0-LTS + US Joint Office endorsement signals that the open-source EV charging stack is winning. OCPP 2.1 enables bidirectional charging (V2G/V2H), ISO 15118-20 enables Plug&Charge automation. CPOs building on EVerest reduce firmware costs 60-80%.
+**Action:** Run any energy AI system against PSABench before client delivery.
 
-## T5 — Renewables Surpassed Coal in Global Electricity Generation (★★★★★)
+---
 
-2025: 793 GW of new renewable capacity added globally (83% solar PV) — renewables overtook coal as world's largest electricity source for the first time. This structural shift creates AI demand: intermittent generation requires AI-based forecasting, flexibility scheduling, and real-time grid balancing. Every utility is now an AI buyer.
+## T3 — Domain Foundation Models for Energy (PowerFM Pattern)
+**Signal strength: ★★★★☆ · Timeline: 6–12 months**
 
-## T6 — Grid Foundation Models (GridFMs) Emerging (★★★★☆)
+PowerFM (Power-Agent/PowerFM, MIT) demonstrates the foundation model registry pattern for energy: domain-adapted checkpoints (PowerBERT, LoadFormer, GridSim-LLM) with standardized inference APIs.
 
-OpenGridFM (LF Energy) and PowerFM (Harvard SEAS) are building the GPT moment for power grids: foundation models pre-trained on grid simulation data, fine-tunable for specific networks. Unlike generic LLMs, GridFMs understand power flow physics natively. First production GridFMs expected 2026-2027.
+Key insight: Don't fine-tune from scratch for each engagement — use PowerFM checkpoints as starting points, adapt with client SCADA data.
 
-## T7 — VPP + OpenADR/S2 Demand Flexibility Going Mainstream (★★★★☆)
+**Models to know:**
+- LoadFormer: probabilistic load forecasting, −12% MAPE vs LSTM baseline
+- FaultScan-VLM: inspection image → defect classification (91% acc)
+- GridSim-LLM: IEC topology Q&A (78% exact match)
 
-FlexMeasures roadmap confirms VPP algorithm and OpenADR/S2 standard support landing 2026. Virtual Power Plants aggregate distributed assets (batteries, EVs, HVAC) into a schedulable resource sold into capacity markets. Globant can build VPP orchestration platforms for utilities and aggregators in EU and US markets.
+---
 
-## T8 — AI-Based Fault Detection Reducing Outage Durations 30-50% (★★★★☆)
+## T4 — Building-Grid Integration via LLM Orchestration (B2G Wave)
+**Signal strength: ★★★★☆ · Timeline: 2026–2027**
 
-IEA estimates AI-based fault detection reduces outage durations 30-50%. Remote sensors + AI can unlock 175 GW of transmission capacity on existing lines without new infrastructure. Single biggest grid efficiency play deployable now with PowerAgent / PowerMCP stack.
+AutoB2G (arXiv:2603.26005, Mar 2026) uses LLMs to automate the full Building-to-Grid (B2G) co-simulation workflow from a natural-language task description. Zero code required from the analyst.
 
-## T9 — AI-Augmented Grid Control Rooms (★★★★☆)
+- Extends CityLearn V2 + sinergym ecosystem
+- MARLEM (arXiv:2602.16063) adds multi-agent RL for prosumer markets
+- OptAgent (arXiv:2601.20005) handles HVAC scheduling side
 
-AINETUS (LF Energy) targets control room operators: RL recommendations + explainable AI + uncertainty estimation displayed to human operators. This "augmented operator" model is the near-term commercial path — regulators are more comfortable, operators maintain control, efficiency improves.
+**Significance:** Democratizes B2G studies — utilities without simulation expertise can run complex grid-building interaction scenarios.
 
-## T10 — Multi-Agent RL for Building Energy Communities (★★★☆☆)
+---
 
-CityLearn v2.6.0 and wider building energy MARL literature show coordinating 50-200 buildings with shared RL policies reduces district-level peak demand 20-40% vs individual optimization. OpenADR integration makes it a DR revenue source.
+## T5 — VPP & Demand Response Automation Reaches Production Scale
+**Signal strength: ★★★★★ · Timeline: Now**
 
-## T11 — LF Energy Ecosystem Consolidation (★★★★☆)
+FlexMeasures v0.31 adds forecasting REST API and stable OpenADR 2.0b VEN — completing the production-ready VPP stack. Utilities can now enroll prosumers, receive DR signals, and dispatch assets without custom software.
 
-LF Energy now hosts 35+ projects: EVerest, FlexMeasures, Grid2Op, AINETUS, OpenGridFM, Power Grid Model, CoMPAS, and more. Composable open-source stack for any utility digital transformation. LF Energy membership gives Globant governance access, co-marketing with utilities, early access to new projects.
+- S2 protocol (CER-IoP) connector in beta — residential integration coming
+- OpenADR 3.0 in development — FlexMeasures tracking
+- Demand response market growing as renewable variability drives balancing needs
 
-## T12 — Predictive Maintenance as AI Entry Point (★★★☆☆)
+**LATAM opportunity:** Brazilian utilities running DR pilot programs with Eletrobras smart meter rollout — FlexMeasures is the open-source play.
 
-Transformer health monitoring, substation equipment anomaly detection, and wind turbine blade analysis are the "safe" AI use cases utilities approve first. PowerFM's pre-trained fault detection models lower entry cost. This is Globant's foot-in-the-door for larger grid AI deals.
+---
 
-## T13 — Climate Resilience Driving Grid AI Urgency (★★★★☆)
+## T6 — EV Charging Intelligence Enters OEM Production
+**Signal strength: ★★★★★ · Timeline: Now**
 
-Extreme weather events (2025: record European heat, US storm seasons) are accelerating utility investment in AI-based grid resilience: faster outage prediction, automated restoration, wildfire-triggered de-energization. PowerDAG's supervisory agent framework maps directly to this use case.
+EVerest 2026.02.0 LTS is the first long-term support release of the open EV charging firmware stack. Multiple commercial OEMs shipping EVerest-based products.
 
-## T14 — Energy AI Benchmarks Maturing (★★★★☆)
+Key additions:
+- ISO 15118-20: Bidirectional charging (V2G) out of box
+- TPM 2.0: Hardware security module for fleet key management
+- OCPP 2.0.1: Latest protocol for managed charging
 
-June 2026 saw three major energy AI benchmarks published (PSABench, PowerAgentBench-Dyn, EnergyAgentBench) — leading indicator of field maturity. Reproducible evaluation enables competitive market development. Globant should score its agent solutions against PSABench.
+**Integration:** EVerest + FlexMeasures = complete V2G fleet management platform, fully open source.
 
-## T15 — Siemens $1B US Grid Investment Signal (★★★☆☆)
+---
 
-Siemens AG announced ~$1B expansion of US power grid manufacturing capacity (Feb 2026) driven by AI data center electricity demand. Signals that the grid upgrade supercycle is real. Utilities getting new Siemens equipment will need AI integration services — Globant opportunity alongside Siemens Xcelerator deployments.
+## T7 — EU AI Act August 2026: Energy = High-Risk Domain
+**Signal strength: ★★★★★ · Timeline: URGENT — Aug 2, 2026**
+
+EU AI Act full enforcement begins Aug 2, 2026. Energy grid AI = high-risk under Annex III, Section 2 (safety components in critical infrastructure).
+
+**Affected systems:**
+- AI control and safety systems for thermal, nuclear, renewable generation
+- Grid management, load forecasting, real-time dispatch
+- Automated fault detection, isolation, restoration
+
+**Requirements (must be in place before deployment):**
+- Functioning risk management system
+- Data governance framework
+- Technical documentation
+- Human oversight mechanisms
+- Transparency and explainability
+
+**Penalties:** Up to €35M or 7% of global turnover.
+
+**78% of organizations have not taken meaningful steps toward compliance** as of mid-2026.
+
+**Action:** Every energy AI engagement in EU or for EU-connected clients needs EU AI Act compliance layer. agentic-ai-hems transparent ReAct traces + AINETUS Shapley XAI are starting points. Note: Annex III deadline pushed to Dec 2, 2027; Annex I to Aug 2, 2028 — substantive obligations unchanged.
+
+---
+
+## T8 — P2P Energy Trading with LLM-Enhanced Agents
+**Signal strength: ★★★☆☆ · Timeline: 2026–2028**
+
+New arXiv:2507.14995 (Jul 2026): LLM-enhanced multi-agent RL for real-time P2P energy markets. Each prosumer agent uses LLM for strategic bidding, RL for execution. +23% revenue vs pure RL.
+
+- MARLEM (arXiv:2602.16063) provides the simulation environment
+- Regulatory frameworks for P2P markets emerging in EU, Australia, Singapore
+- LATAM: Chile exploring P2P pilots; Brazil prosumer market (Resolução 482 + REN 687) growing
+
+**Action:** Position this as next-gen offering for utilities planning prosumer/community energy programs.
+
+---
+
+## T9 — Battery AI Optimization (BESS + ML) Commercial Break-Out
+**Signal strength: ★★★★☆ · Timeline: Now**
+
+Grid-scale BESS deployments accelerating globally — AI optimization for state-of-charge management, degradation prediction, market arbitrage increasingly essential.
+
+Key tools:
+- `lp_opt` — linear programming for BESS scheduling (MIT)
+- `long-live-the-battery` — ML cycle life prediction (MIT)
+- `simses` — techno-economic simulation of stationary BESS (MIT)
+- Custom ML (LSTM/Transformer) for remaining useful life (RUL) prediction
+
+**Commercial context:** Grid BESS market growing rapidly; AI optimization can add 15–30% revenue to arbitrage strategies.
+
+---
+
+## T10 — LATAM Smart Grid Modernization Accelerates
+**Signal strength: ★★★★☆ · Timeline: Now**
+
+Brazil leads:
+- Eletrobras + C3 AI Grid Intelligence in production (fault prediction at scale)
+- 3.6M smart meter national rollout in motion
+- Data center + AI infrastructure summit (Santiago, Jul 2026)
+
+Chile: Atacama solar curtailment → AI scheduling critical; renewable export ambitions.
+
+Colombia: Bogotá smart city; renewable expansion targets.
+
+**LATAM market:** Smart grid projected to ~$14B by 2033 in the region.
+
+**Globant advantage:** Regional offices + open-source expertise = alternative to C3 AI for mid-size utilities that can't afford premium commercial platforms.
+
+---
+
+## T11 — AI Data Centers as Grid Flexibility Resources
+**Signal strength: ★★★★☆ · Timeline: 2026–2028**
+
+OpenG2G (arXiv:2605.05519, MIT) models AI inference load as a grid flexibility resource. Hyperscale data centers consuming enormous and growing power — but also capable of flexible scheduling.
+
+Key concept: "Compute on demand" matches "energy on demand" — GPU cluster scheduling becomes a grid balancing tool.
+
+**Implication:** Energy + tech practice convergence. Globant serves both sectors.
+
+---
+
+## T12 — Renewables Surpassed Coal Globally (2025)
+**Signal strength: ★★★★★ · Baseline established**
+
+793 GW of renewable capacity added globally in 2025 — first year renewables generation surpassed coal globally. AI role:
+- Forecasting variable generation (wind, solar)
+- Curtailment management
+- Grid stability with high renewable penetration
+
+**Impact on AI demand:** Every GW of renewable adds forecasting, scheduling, and optimization workload. Direct correlation to energy AI market growth.
+
+---
+
+## T13 — Grid Foundation Models Emerge (OpenGridFM)
+**Signal strength: ★★★☆☆ · Timeline: 2026–2027**
+
+LF Energy announced OpenGridFM as new project (Jun 2026) — grid foundation model pre-training framework. Goal: pre-train on global grid data → fine-tune per utility.
+
+- Similar to PowerFM but at infrastructure level (hosted by LF Energy)
+- Foundation model for grid topology, historical SCADA, incident records
+- Expected GitHub repo launch Q3 2026
+
+**Watch:** OpenGridFM will likely be the reference for utility-scale AI models.
+
+---
+
+## T14 — Multi-Agent RL for Decentralized Energy Markets
+**Signal strength: ★★★☆☆ · Timeline: 2027+**
+
+MARLEM (arXiv:2602.16063, Feb 2026) provides the open framework for simulating prosumer markets with multi-agent RL — each agent learns to maximize its own revenue while market clears.
+
+Auction mechanisms supported: pay-as-bid, uniform pricing, double auction. Open datasets included.
+
+**Research → commercial path:** Simulate in MARLEM → validate strategies → deploy with FlexMeasures as scheduler.
+
+---
+
+## T15 — LF Energy Ecosystem Maturity Inflection
+**Signal strength: ★★★★★ · Baseline**
+
+Jun 2026 LF Energy portfolio update shows unprecedented velocity:
+- EVerest: 2026.02.0 LTS → commercial OEMs shipping
+- PowSyBl: TenneT ReFlow 10× speedup in production
+- FlexMeasures v0.31: forecasting API + OpenADR stable
+- OperatorFabric v4.0: production release
+- Power Grid Model v1.13.x: distribution grid simulation
+- New projects: OpenGridFM, AINETUS graduated
+- New members joining across Europe and LATAM
+
+**Implication:** LF Energy is to power systems what Linux Foundation is to cloud — the neutral home for production-grade open infrastructure. Globant should join as Associate Member for BD/credibility signal.

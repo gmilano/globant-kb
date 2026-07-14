@@ -1,64 +1,170 @@
-# Vertical Platforms — Energy
+# Vertical Solutions — Energy Industry
+> v9 · Updated 2026-07-14 · Real platforms with AI integration paths
 
-> Full-featured platforms customizable with AI. Strategy: start with a working system, add agentic layer on top.
-> Last updated: 2026-07-14
+## Strategy: Platform + Agentic Layer
 
-## Recommended Platforms
-
-| Platform | License | URL | Stack | Use Case |
-|----------|---------|-----|-------|----------|
-| **EVerest** | Apache-2.0 | [github.com/EVerest/EVerest](https://github.com/EVerest/EVerest) | C++17, Python, MQTT | EV charging firmware stack — AC/DC chargers, OCPP 1.6/2.0.1/2.1, ISO 15118-20, Plug&Charge, TPM 2.0 (v2026.02.0-LTS, LF Energy) |
-| **FlexMeasures** | Apache-2.0 | [github.com/FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) | Python, PostgreSQL, Redis | Energy management & scheduling EMS — batteries, EV chargers, heat pumps; OpenADR, S2, VPP support (LF Energy) |
-| **Open e-Mobility** | Apache-2.0 | [github.com/SAP/e-mobility-charging-stations-simulator](https://github.com/SAP/e-mobility-charging-stations-simulator) | Node.js, MongoDB (MEAN) | Smart charging CSMS — multi-protocol OCPP, smart charging profiles, load balancing for EV fleets |
-| **OpenOCPP** | Apache-2.0 | [openocpp.com](https://openocpp.com/) | C++ embedded | Hardware-agnostic OCPP 1.6J + 2.0.1 pre-certified firmware for EV charger manufacturers (ChargeLab) |
-| **openremote** | AGPL-3.0 | [github.com/openremote/openremote](https://github.com/openremote/openremote) | Java, TypeScript, MQTT | 100% open-source IoT + energy platform: device management, rules engine, REST/MQTT APIs |
-| **RapidSCADA** | LGPL-3.0 | [rapidscada.org](https://rapidscada.org/) | C#, .NET | Full-featured open SCADA: real-time data, alarms, trending, Modbus/OPC-UA |
-| **sinergym** | MIT | [github.com/ugr-sail/sinergym](https://github.com/ugr-sail/sinergym) | Python, EnergyPlus | Building energy simulation Gym: HVAC control, demand response — AI agent training environment |
-| **CityLearn** | BSD-3-Clause | [github.com/intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) | Python, Gymnasium | Multi-building MARL for demand response and urban energy coordination (v2.6.0b2) |
-| **Grid2Op** | LGPL-2.1 | [github.com/rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) | Python | Power grid control simulation — N-1 contingencies, AC power flow, RL agent interface |
-| **OpenPLC** | GPL-3.0 | [openplcproject.com](https://openplcproject.com/) | C, Python | Open-source PLC runtime (IEC 61131-3 languages) + editor — low-cost automation control |
-
-## How to Add AI on Top
-
-### EMS + AI Scheduling Agent
 ```
-FlexMeasures (base EMS scheduling)
-  ↓ REST API  
-LangGraph agent (decision loop)
-  ↓  
-PowerMCP (query grid simulator for constraints)
-  ↓  
-Claude API (natural-language flexibility reports for operators)
+[Vertical platform (open source, production-proven)]
+                  ↓
+[AI integration: LLM + agent framework + MCP tools]
+                  ↓
+[Client-facing: dashboard / chatbot / API / mobile]
 ```
 
-### EV Fleet Intelligence
-```
-EVerest (charger firmware, OCPP 2.0.1)
-  ↓ MQTT events
-Open e-Mobility (CSMS — charge point management)
-  ↓ REST API
-FlexMeasures (optimization scheduling)
-  ↓
-LLM agent (operator chat, anomaly explanation)
+Start with a platform that already handles domain complexity (protocols, device drivers, data models), add intelligence on top.
+
+---
+
+## Tier 1 — Build On These Today
+
+### 1. FlexMeasures (LF Energy)
+**[github.com/FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures)**
+- **License:** Apache-2.0
+- **Stack:** Python, Flask, PostgreSQL, Redis, Celery
+- **Focus:** Demand response, VPP, battery scheduling, EV charging optimization
+- **AI-native:** Built-in probabilistic forecasting, schedule optimization API, sensor belief propagation
+- **Protocols:** OpenADR 2.0b, S2 (CER-IoP), REST API
+- **Quickstart:** `docker compose up` → running EMS in 10 min
+- **AI integration:** Plug FlexMeasures schedules into CrewAI / LangGraph for multi-asset coordination
+
+**Globant engagement template:**
+> FlexMeasures as EMS backbone + PowerDAG for operator-facing LLM → Complete AI-augmented EMS in 8 weeks
+
+---
+
+### 2. OpenEMS
+**[github.com/OpenEMS/openems](https://github.com/OpenEMS/openems)**
+- **License:** Apache-2.0 (LGPL-2.1 for OSGI components)
+- **Stack:** Java, OSGi, React frontend
+- **Focus:** Full EMS: solar PV, BESS, EV charging, heat pumps, grid metering, ToU tariffs
+- **Protocols:** Modbus, KEBA P30, SunSpec, MQTT, REST
+- **Version:** 2026.3.0 (Mar 2026)
+- **AI integration:** Add a Controller component that calls FlexMeasures or an LLM for schedule decisions
+
+**Production deployments:** German community energy, Austrian industrial, LATAM solar-BESS installations
+
+---
+
+### 3. EVerest (LF Energy)
+**[github.com/EVerest/everest-core](https://github.com/EVerest/everest-core)**
+- **License:** Apache-2.0
+- **Stack:** C++17, Python modules, MQTT internal bus
+- **Focus:** EV charging station firmware — the complete charging stack
+- **Version:** 2026.02.0 LTS (first long-term support release)
+- **Protocols:** OCPP 1.6 / 2.0.1, ISO 15118-2 / -20 (V2G), OCPI, OpenADR
+- **OEMs using EVerest:** Multiple commercial charger manufacturers (NDA-protected)
+- **TPM 2.0:** Hardware security module support for fleet key management
+- **AI integration:** ISO 15118 session data → FlexMeasures schedule → EVerest set-point via OCPP
+
+---
+
+### 4. OpenEnergyMonitor / emonCMS
+**[github.com/openenergymonitor/emoncms](https://github.com/openenergymonitor/emoncms)**
+- **License:** Apache-2.0
+- **Stack:** PHP, MySQL, Redis, MQTT
+- **Focus:** Energy monitoring, visualization, time-series data management
+- **Hardware:** emonPi (Raspberry Pi shield), emonTx, CT clamps
+- **Community:** 100k+ installations globally; strong LATAM hobbyist/SMB community
+- **AI integration:** emonCMS feeds → FlexMeasures sensor data → AI scheduling
+
+**LATAM fit:** Low cost, Raspberry Pi based, community-maintained Spanish docs. Good fit for Brazilian/Colombian SMB solar monitoring.
+
+---
+
+## Tier 2 — Grid Infrastructure
+
+### 5. Open Smart Grid Platform / Grid eXchange Fabric (GXF)
+**[github.com/OSGP/open-smart-grid-platform](https://github.com/OSGP/open-smart-grid-platform)**
+- **License:** Apache-2.0
+- **Stack:** Java, Spring Boot, PostgreSQL
+- **Focus:** Generic IoT platform for grid devices — smart meters, street lighting, substations
+- **Protocols:** OSLP (own protocol), IEC 61850, DLMS/COSEM, OSLP
+- **Operator:** Dutch public space (cities, DSOs in Netherlands)
+- **AI integration:** GXF event stream → LLM anomaly detection → OperatorFabric alert card
+
+---
+
+### 6. PowSyBl (LF Energy)
+**[github.com/powsybl/powsybl-core](https://github.com/powsybl/powsybl-core)**
+- **License:** MPL-2.0
+- **Stack:** Java
+- **Focus:** Grid modeling, load flow analysis, security analysis, contingency calculation
+- **Version:** 2026.0.0 (final release train, IIDM 1.16, AC/DC load flow)
+- **Production use:** TenneT ReFlow platform (10× grid security analysis speedup)
+- **AI integration:** PowSyBl simulation results → PowerDAG / GridMind reasoning → operator recommendation
+
+---
+
+### 7. OperatorFabric (LF Energy)
+**[github.com/opfab/operatorfabric-core](https://github.com/opfab/operatorfabric-core)**
+- **License:** MPL-2.0
+- **Stack:** Java, Angular, Spring Cloud
+- **Focus:** Control room operator UI — structured notification cards, real-time grid events
+- **Version:** v4.0.0.RELEASE
+- **AI integration:** AINETUS / GridMind recommendations → OperatorFabric card with explanation + action buttons
+
+---
+
+### 8. PyPSA (Python for Power System Analysis)
+**[github.com/PyPSA/PyPSA](https://github.com/PyPSA/PyPSA)**
+- **License:** MIT
+- **Stack:** Python, pandas, scipy, linopt
+- **Focus:** Sector-coupled energy system optimization: electricity + heat + hydrogen + transport
+- **Scale:** Continental European grid models (PyPSA-Eur), national energy plans
+- **AI integration:** LLM generates scenario narratives → PyPSA computes cost/capacity → LLM interprets and recommends
+
+---
+
+### 9. SEAPATH (LF Energy)
+**[github.com/seapath](https://github.com/seapath)**
+- **License:** Apache-2.0
+- **Stack:** Linux, DPDK, Kubernetes, Yocto
+- **Focus:** Real-time grid automation platform for running virtualized protection and automation apps
+- **Key:** Replaces proprietary RTUs with open Linux-based real-time systems
+- **AI integration:** SEAPATH event bus → agentic protection coordination agent
+
+---
+
+### 10. OpenRemote
+**[github.com/openremote/openremote](https://github.com/openremote/openremote)**
+- **License:** AGPL-3.0 (commercial license available)
+- **Stack:** Java, TypeScript, PostgreSQL, MQTT
+- **Focus:** IoT + energy management + smart city — rules engine, asset modeling, dashboards
+- **Stars:** ~1.8k — strong LATAM community presence
+- **AI integration:** OpenRemote rules → LangGraph agent for complex multi-asset decisions → OpenRemote actuate
+
+---
+
+## Customization Playbook
+
+### Standard AI Integration Pattern
+```python
+# 1. Read from vertical platform
+readings = platform_api.get_sensor_data(asset_id, last_24h=True)
+
+# 2. Forecast with FlexMeasures
+forecast = flexmeasures.get_forecast(sensor_id, horizon_hours=24)
+
+# 3. Optimize with PowerDAG / LLM agent
+schedule = powerdag_agent.run(
+    readings=readings,
+    forecast=forecast,
+    constraints=client_constraints,
+    objective="minimize_cost"
+)
+
+# 4. Apply to platform
+platform_api.set_schedule(asset_id, schedule)
 ```
 
-### AI-Augmented SCADA
-```
-RapidSCADA (real-time data acquisition, alarms, trends)
-  ↓ OPC-UA / REST
-PowerMCP (MCP server exposing grid data to LLM)
-  ↓
-Claude API (natural-language operations assistant)
-  ↓
-PowerDAG (agentic analysis pipeline for distribution faults)
-```
+### Platform Decision Matrix
 
-## LATAM Specifics
-
-| Country | Key Opportunity | Recommended Stack |
-|---------|----------------|------------------|
-| Brazil | Grid expansion + EV fleet growth (Petrobras, Electra) | EVerest + Open e-Mobility + FlexMeasures |
-| Chile | Solar curtailment crisis, dispatch optimization | FlexMeasures + Grid2Op RL agents |
-| Colombia | Rural electrification microgrids (IPSE) | CityLearn + EVerest mini-grid modules |
-| Mexico | Industrial demand response (CENACE) | RapidSCADA + PowerMCP + FlexMeasures |
-| Argentina | Smart metering (EDESUR, EDENOR) | openremote + FlexMeasures |
+| Client Scenario | Primary Platform | AI Layer | Notes |
+|-----------------|------------------|----------|-------|
+| Community energy / prosumer | FlexMeasures | agentic-ai-hems | OpenADR connects to utility |
+| Industrial facility EMS | OpenEMS | FlexMeasures + LLM | OSGi controller |
+| EV charging network | EVerest | FlexMeasures + V2G | ISO 15118 V2G |
+| Grid operator control room | PowSyBl + OperatorFabric | GridMind + AINETUS | Deterministic + explainable |
+| National grid planning | PyPSA | LLM scenario builder | Scenario narratives |
+| IoT / LATAM SMB | OpenRemote / emonCMS | Ollama local LLM | Low cost, Spanish docs |
+| Smart city / DSO | GXF (OSGP) | LangGraph + alerts | Protocol variety |

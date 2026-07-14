@@ -1,89 +1,135 @@
-# Market Map — Energy AI
+# Market Intelligence — Energy AI
+> v9 · Updated 2026-07-14 · Cycle 2 refresh
 
-> Key players, market sizing, LATAM opportunities, Globant positioning.
-> Last updated: 2026-07-14
+## Market Size & Forecasts
 
-## Market Size (2026)
+### AI in Energy (Broad)
 
-| Segment | 2026 Size | 2030 Target | CAGR | Source |
-|---------|-----------|-------------|------|--------|
-| AI in Energy (broad) | $22.82B | $60.6B | 21.4% | StartUs Insights / GlobeNewswire Jun 2026 |
-| AI-Powered Smart Grid | $7.54B | $12.79B | 13.9% | Research and Markets |
-| AI in Energy Distribution | $7.1B | $42.7B (2033) | 29.2% | Persistence MR |
-| AI in Renewable Energy | Growing rapidly | TBD | ~20%+ | Datam Intelligence |
-| GenAI in Energy (sub-segment) | Fast-scaling | — | 18.73% | StartUs Insights |
+| Source | 2026 | 2030 | CAGR | Notes |
+|--------|------|------|------|-------|
+| Yahoo Finance / Industry Report | $22.8B | $60.6B | 21.4% | Broadest definition |
+| MarketsandMarkets | est. ~$13B | $58.7B | 36.9% | From $8.9B in 2024 |
+| Grand View Research | $6.0B | $22.2B (2033) | 20.4% | Conservative, includes only software |
+| StartUs Insights | — | — | High-double digit | Emerging tech focus |
 
-**Reference**: AI in Energy Distribution is the fastest-growing sub-segment at 29.2% CAGR to 2033.
+### GenAI in Energy (Subset)
 
-## Global Players
+| Source | 2026 | 2030 | CAGR |
+|--------|------|------|------|
+| Research and Markets | $1.47B | $3.46B | 23.9% |
 
-| Company | Type | Strength | AI Energy Play |
-|---------|------|----------|----------------|
-| Siemens AG | Industrial OEM | Grid manufacturing, SCADA, DERs | $1B US grid investment (Feb 2026); Siemens Xcelerator AI platform |
-| Schneider Electric | Industrial OEM | EMS, SCADA, building automation | EcoStruxure AI-enhanced grid management |
-| ABB | Industrial OEM | HVDC, grid automation, robotics | Ability platform + AI grid control |
-| GE Vernova | Utility tech | Grid software, wind/gas turbines | Predix AI for grid analytics |
-| Google / DeepMind | Hyperscaler | Data center power optimization | 30% cooling energy reduction with RL |
-| Microsoft | Hyperscaler | AI-datacenter-grid coordination | OpenG2G ecosystem, nuclear PPA (TMI restart 2025) |
-| RTE France | TSO | Grid2Op, L2RPN research competitions | Open-source RL for grid control |
-| Seita / LF Energy | OSS | FlexMeasures EMS, Apache-2.0 | Demand flexibility scheduling, VPP |
-| Harvard SEAS (Power-Agent) | Research | PowerAgent suite, benchmarks | Open-source agentic AI for all grid layers |
-| LF Energy | Foundation | EVerest, FlexMeasures, AINETUS, OpenGridFM | Open ecosystem for energy transition |
+### Agentic AI in Energy (High-Growth Subset)
 
-## Open Source Ecosystem Map
+| Source | 2026 | 2034 | CAGR |
+|--------|------|------|------|
+| Vocal.media / Futurism | — | $10.7B | — |
+| Mordor Intelligence (Agentic AI cross-industry) | $9.89B | $57.42B (2031) | 42.1% |
 
-```
-Grid Simulation & RL Training
-  └── Grid2Op (LGPL) — RTE France, L2RPN
-  └── RL2Grid (MIT) — ICLR 2026 benchmark
-  └── sinergym (MIT) — building sim, EnergyPlus
-  └── CityLearn (BSD) — multi-building MARL
+### AI in Nuclear Energy (Emerging)
 
-Agentic AI Layer
-  └── PowerAgent Suite (MIT) — Harvard SEAS
-      ├── PowerMCP — LLM-to-simulator bridge
-      ├── PowerDAG — distribution grid analysis
-      ├── PowerWF — operational workflows
-      └── PowerFM — domain foundation models
-  └── AINETUS (Apache) — LF Energy, RL+XAI for operators
-  └── OpenGridFM (Apache) — LF Energy, GridFM pre-training
+| Source | 2026 | 2030 | CAGR |
+|--------|------|------|------|
+| GlobeNewswire (Jul 2026) | — | $9.66B | 20.1% |
 
-Energy Management & Scheduling
-  └── FlexMeasures (Apache) — LF Energy, EMS + VPP
-  └── openremote (AGPL) — IoT + energy platform
-  └── CityLearn (BSD) — demand response MARL
+---
 
-EV Charging
-  └── EVerest (Apache) — LF Energy, charger firmware LTS
-  └── Open e-Mobility (Apache) — CSMS
-  └── OpenOCPP (Apache) — charger embedded software
+## Key Players Map
 
-SCADA / Control
-  └── RapidSCADA (LGPL) — industrial SCADA
-  └── OpenPLC (GPL) — PLC runtime
+### Hyperscalers & Cloud (AI Infrastructure for Energy)
+| Player | Offering | Signal |
+|--------|----------|--------|
+| **Microsoft Azure** | Azure AI + OpenAI for utilities; PowerBI Energy | Partnering with grid operators in EU |
+| **Google Cloud** | Vertex AI for smart grid; Earth Engine renewables | LATAM Airlines partnership (energy adjacent) |
+| **AWS** | SageMaker energy forecasting; IoT Greengrass | São Paulo region (sa-east-1) — LATAM primary |
+| **IBM** | Maximo for asset management; IBM EL (energy language model) | 30+ utility clients globally |
 
-Datacenter-Grid
-  └── OpenG2G (MIT) — AI load as grid flexibility
-```
+### Commercial AI Energy Platforms
+| Player | Offering | Signal |
+|--------|----------|--------|
+| **C3 AI** | Grid Intelligence (Eletrobras Brazil partnership) | Continental-scale deployment proof |
+| **AutoGrid** (now Enel X) | VPP + demand response SaaS | Acquired; Enel X positioning globally |
+| **Uplight** | Utility customer engagement + DR automation | US-focused; 80+ utility clients |
+| **Itron** | Smart metering + Riva grid analytics | 100M+ smart meters globally |
+| **Landis+Gyr** | Smart metering + grid analytics | European + LATAM deployments |
 
-## LATAM Opportunities
+### Open Source Ecosystem Leaders
+| Organization | Key Projects | Governance |
+|--------------|-------------|------------|
+| **LF Energy** | EVerest, FlexMeasures, PowSyBl, OperatorFabric, SEAPATH, AINETUS, OpenGridFM | Linux Foundation |
+| **Harvard SEAS PowerAgent** | PowerMCP, PowerDAG, PowerFM, PowerWF, PowerSkills | Academic open source |
+| **Argonne National Laboratory** | GridMind | US DOE |
+| **OpenEMS e.V.** | OpenEMS | European non-profit |
+| **OpenEnergyMonitor** | emonCMS, emonPi | Community |
 
-| Opportunity | Country | Size Signal | Approach |
-|------------|---------|-------------|----------|
-| EV charging network rollout | Brazil, Mexico, Chile | EV sales +40% YoY in BR (2025) | EVerest + Open e-Mobility CSMS build |
-| Solar curtailment optimization | Chile | Atacama overproduction crisis | FlexMeasures + Grid2Op RL dispatch agent |
-| Rural microgrid electrification | Colombia, Peru, Bolivia | IPSE, MINEM targets | CityLearn MARL + EVerest mini-grid |
-| Industrial demand response | Mexico, Brazil | CENACE, ANEEL DR programs | RapidSCADA + FlexMeasures + PowerMCP |
-| Smart meter AI analytics | Argentina, Colombia | AMI rollout (EDESUR, ENEL) | openremote + PowerFM load forecasting |
-| AI datacenter grid coordination | Brazil, Chile | Hyperscaler buildouts | OpenG2G simulation + inference scheduling |
+---
+
+## LATAM Energy AI Intelligence
+
+### Brazil — Largest LATAM Market
+
+| Signal | Detail |
+|--------|--------|
+| **Eletrobras + C3 AI** | Grid Intelligence deployed across Brazil's national grid — fault prediction, transmission monitoring |
+| **Smart Meters Plan** | Ministry of Mines and Energy: 3.6M smart meters national rollout (public consultation 2025 → implementation 2026) |
+| **AI Infrastructure** | São Paulo data centers growing; AWS sa-east-1 primary; Brazil largest DC market in LATAM |
+| **GridTech LATAM 2026** | Conference series: Brazil smart grid transformation focus — AI sparks new current in power grid |
+| **ANEEL regulation** | Brazilian electricity regulator beginning AI governance framework for utilities |
+| **LGPD compliance** | Lei Geral de Proteção de Dados — energy AI must handle consumer metering data under LGPD |
+
+### Chile — Renewables Leader
+
+| Signal | Detail |
+|--------|--------|
+| **Renewable energy resources** | Atacama Desert: world's best solar irradiance; AI for curtailment management |
+| **Data center attraction** | Santiago hub — renewable energy + political stability attracting hyperscaler AI DC investment |
+| **GridTech LATAM** | Chilean grid as model for renewable integration challenges |
+| **S2 protocol** | CER-IoP working group includes Chilean utilities |
+
+### Colombia, Mexico, Argentina
+
+| Country | Signal | Opportunity |
+|---------|--------|-------------|
+| **Colombia** | PSE energy market; smart city Bogotá; renewable expansion | FlexMeasures VPP for distributed solar |
+| **Mexico** | CFE (state utility) AI programs; OXXO microgrids; solar belt | OpenEMS + BESS for commercial/industrial |
+| **Argentina** | Grid stability challenges; YPF energy transition; Mendoza solar | GridMind-style operator support |
+
+---
+
+## Market Drivers 2026
+
+### Demand Side
+1. **AI Data Center Power** — Hyperscale data centers driving 30–40% increase in power demand projections; OpenG2G concept (inference load as grid flexibility resource)
+2. **EV Fleet Growth** — EV charging load complexity requires automated VPP and demand response
+3. **Prosumer Explosion** — Rooftop solar + BESS creates P2P trading opportunity (MARLEM, arXiv:2602.16063)
+
+### Supply Side
+1. **Renewables Surpassed Coal** — 793 GW added globally in 2025; renewable variability requires AI forecasting and scheduling
+2. **Grid Aging** — European and LATAM grids need AI-assisted predictive maintenance
+3. **Energy Poverty** — LATAM residential AI optimization (agentic-ai-hems pattern) reduces bills
+
+### Regulatory Drivers
+1. **EU AI Act Aug 2, 2026** — Energy grid AI = high-risk (see trends.md T7)
+2. **OpenADR 3.0** — New demand response protocol with better API; FlexMeasures implementing
+3. **Brazil Smart Meter Mandate** — 3.6M meters → real-time data → AI scheduling opportunity
+4. **US DOE AI for Grid** — Argonne National Lab (GridMind) + NREL investments
+
+---
 
 ## Globant Positioning
 
-**Core differentiators**:
-1. **Full-stack energy AI**: Grid simulation (Grid2Op + RL2Grid) → EMS scheduling (FlexMeasures) → operator UX (LLM + Claude API).
-2. **EV charging expertise**: EVerest + Open e-Mobility + OCPP 2.1 + ISO 15118-20 — complete open-source stack.
-3. **Agentic grid operations**: PowerAgent suite + LangGraph + Claude API → conversational grid control room passing PSABench.
-4. **LATAM presence**: Physical delivery in BR, MX, AR, CO, CL aligned with highest-growth energy AI markets.
-5. **Open-source contribution**: Globant as LF Energy member + EVerest/FlexMeasures contributor — early access and client credibility.
+### Strengths to Lead With
+- Open-source expertise: FlexMeasures, OpenEMS, EVerest implementation
+- LATAM footprint: Brazil/Colombia/Chile/Mexico offices aligned to market
+- AI/ML capability: PowerDAG/GridMind integration, LLM agent development
+- Compliance: EU AI Act and LGPD navigation for energy clients
 
-**Recommended GTM**: Lead with EV charging (EVerest + FlexMeasures) as fastest-moving market, expand to demand response and grid analytics.
+### Competitive Gap
+- Domain expertise (grid engineering, SCADA, IEC protocols): **hire or partner**
+- Hardware integration (smart meters, EV chargers): **partner with Landis+Gyr, Itron**
+- Utility regulatory experience: **partner with local consultants (e.g., ICONTEC Colombia, ANEEL-adjacent firms Brazil)**
+
+### Target Client Profiles
+1. **Mid-size distribution utilities** (LATAM): Need AI for fault prediction + DR programs; can't afford SAP/C3 AI; open-source viable
+2. **Industrial energy consumers** (manufacturing, mining): BESS optimization + demand flexibility = direct cost savings
+3. **EV fleet operators**: Charging optimization + V2G fleet management
+4. **Renewable energy developers**: Curtailment reduction + forecasting for PPA compliance

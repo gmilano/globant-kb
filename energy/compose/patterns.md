@@ -1,377 +1,419 @@
-# Composition Patterns — Energy AI
+# Composition Patterns — Energy Industry
+> v9 · Updated 2026-07-14 · 8 concrete recipes with real repos
 
-> Concrete recipes for building solutions combining repos + agents + AI.
-> Last updated: 2026-07-14
-
-## Architecture Base
+## Architecture Template
 
 ```
-[Open Source Vertical Platform]   ← EVerest / FlexMeasures / Grid2Op / RapidSCADA
-          ↓
-[Data & Simulation Layer]         ← Grid2Op / OpenG2G / sinergym / CityLearn
-          ↓
-[Agentic AI Layer]                ← PowerMCP / PowerDAG / LangGraph / CrewAI
-          ↓
-[Foundation Model / LLM]         ← PowerFM fine-tuned + Claude API
-          ↓
-[Operator UI / API]               ← Conversational control room or REST endpoint
+[Vertical platform (open source, production-proven)]
+                  ↓
+[Data layer: time-series DB + message broker]
+                  ↓
+[AI layer: LLM + agent framework + MCP tools]
+                  ↓
+[Output: schedule commands / operator alerts / user interface]
 ```
 
 ---
 
-## P1 — Grid RL Agent: Topology Control (Flagship)
+## P1 — Smart Home Energy Agent (Residential HEMS)
 
-**Goal**: Train an RL agent that keeps a transmission network operational under N-1 contingencies.
-
-**Stack**: Grid2Op + RL2Grid + Stable-Baselines3 + PowerFM
+**Use case:** Residential customer bill reduction through intelligent load scheduling.
+**Repos:** `agentic-ai-hems` + `FlexMeasures` + Ollama (local LLM)
+**License:** MIT + Apache-2.0
 
 ```python
-import grid2op
-from lightsim2grid import LightSimBackend
-from stable_baselines3 import PPO
+# Pattern: ReAct Agent for Home Energy Management
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_community.llms import Ollama
+from flexmeasures_client import FlexMeasuresClient
 
-env = grid2op.make(
-    "l2rpn_wcci_2020",
-    backend=LightSimBackend(),     # 100x faster than PandaPower
-    reward_class=L2RPNReward
+# Tools the agent can use
+tools = [
+    get_spot_price_tool,          # Nordpool / EPEX day-ahead API
+    get_appliance_state_tool,     # Home automation (Home Assistant / openHAB)
+    set_appliance_schedule_tool,  # EV charger, washing machine, dishwasher
+    get_weather_forecast_tool,    # PV generation forecast
+    flexmeasures_schedule_tool,   # Battery/heat pump optimization
+]
+
+llm = Ollama(model="llama3.1:8b")  # Local LLM for LGPD/GDPR compliance
+agent = create_react_agent(llm, tools, react_prompt)
+executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+# Run scheduling cycle (every 15 min or on price signal)
+result = executor.invoke({
+    "input": "It's 17:00. Peak price starts at 18:00 for 3 hours. "
+             "EV at 40% charge (need 80% by 07:00 tomorrow). "
+             "Battery at 60%. Optimize tonight's schedule to minimize cost."
+})
+# ReAct trace: visible reasoning chain → EU AI Act transparency requirement met
+```
+
+**Deployment:** Raspberry Pi + Ollama (Llama3.1-8B 4-bit) = €80/home, fully local, LGPD compliant.
+
+**LATAM fit:** Brazil (ANEEL net metering Resolução 687), Chile solar prosumer, Colombia.
+
+---
+
+## P2 — VPP Orchestration with FlexMeasures + CrewAI
+
+**Use case:** Virtual Power Plant managing 50+ prosumer assets for demand response.
+**Repos:** `FlexMeasures` + `CrewAI` + `OpenADR 2.0b`
+**License:** Apache-2.0 + MIT
+
+```python
+from crewai import Agent, Task, Crew
+from flexmeasures_client import FlexMeasuresClient
+
+fm = FlexMeasuresClient(host="https://vpp.utility.com", token=TOKEN)
+
+# Specialist agents
+forecast_agent = Agent(
+    role="Demand Forecasting Specialist",
+    goal="Predict aggregate prosumer load for next 24h",
+    tools=[fm.get_forecasts, weather_api, historical_load_tool],
+    llm="claude-sonnet-5"
 )
 
-from rl2grid import RL2GridEnv
-rl_env = RL2GridEnv(env, difficulty="hard")
-
-model = PPO("MlpPolicy", rl_env, verbose=1, n_steps=2048)
-model.learn(total_timesteps=500_000)
-
-from rl2grid.eval import BenchmarkRunner
-scores = BenchmarkRunner(rl_env).run(model, n_episodes=100)
-print(scores)
-```
-
-**Repos**: [rte-france/Grid2Op](https://github.com/rte-france/Grid2Op) + [AI4Electricity/RL2Grid](https://github.com/AI4Electricity/RL2Grid)
-**Estimated build time**: 4-6 weeks (training included)
-
----
-
-## P2 — LLM Power System Analyst via MCP
-
-**Goal**: Let operators query grid simulators in natural language and get structured analysis.
-
-**Stack**: PowerMCP + Claude API (claude-sonnet-5) + PowerDAG workflow
-
-```python
-import anthropic
-
-client = anthropic.Anthropic()
-
-def grid_analyst(operator_query: str, grid_model_path: str) -> dict:
-    response = client.beta.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        tools=[
-            {"type": "mcp", "server": "powermcp-opendss", "tool": "run_power_flow"},
-            {"type": "mcp", "server": "powermcp-opendss", "tool": "check_n1_contingency"},
-            {"type": "mcp", "server": "powermcp-opendss", "tool": "get_violations"},
-            {"type": "mcp", "server": "powermcp-psse", "tool": "run_fault_analysis"},
-        ],
-        messages=[{
-            "role": "user",
-            "content": f"Grid model: {grid_model_path}\n\nOperator query: {operator_query}"
-        }],
-        system="""You are a senior power systems engineer. Use the available grid simulation
-        tools to answer operator queries. Always check N-1 contingency security.
-        Return structured findings with: severity, affected equipment, recommended action."""
-    )
-    return response
-
-result = grid_analyst(
-    "Is the substation at bus 47 secure after the outage on line 12-14?",
-    "/models/rte_118bus.json"
+schedule_agent = Agent(
+    role="VPP Scheduler",
+    goal="Maximize DR revenue while respecting comfort constraints",
+    tools=[fm.post_schedule, grid_price_tool, constraint_check_tool],
+    llm="claude-sonnet-5"
 )
+
+comms_agent = Agent(
+    role="Prosumer Communication Manager",
+    goal="Notify prosumers of DR events via WhatsApp/email",
+    tools=[whatsapp_tool, email_tool, openadr_ven_tool],
+    llm="claude-haiku-4-5"
+)
+
+tasks = [
+    Task(description="Forecast tomorrow's aggregate load for enrolled assets",
+         agent=forecast_agent, expected_output="24h probabilistic forecast JSON"),
+    Task(description="Generate DR dispatch schedule for upcoming peak event",
+         agent=schedule_agent, expected_output="Per-asset schedule commands"),
+    Task(description="Send OpenADR event notifications to enrolled prosumers",
+         agent=comms_agent, expected_output="Notification confirmation log"),
+]
+
+crew = Crew(agents=[forecast_agent, schedule_agent, comms_agent], tasks=tasks)
+result = crew.kickoff()
 ```
 
-**Repos**: [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP) + Claude API
-**Key insight**: PowerMCP gives any LLM access to PowerWorld, PSS/E, OpenDSS, PSCAD via MCP — no custom integration needed.
+**Scale:** Single FlexMeasures instance handles 10k+ assets. CrewAI crew runs per DR event.
 
 ---
 
-## P3 — EV Fleet Smart Charging (Most Commercial)
+## P3 — Grid Analysis Automation (PowerDAG + PowerMCP)
 
-**Goal**: Optimize EV fleet charging to minimize cost, reduce peak demand, and earn DR revenue.
-
-**Stack**: EVerest → Open e-Mobility CSMS → FlexMeasures → LangGraph agent
-
-```python
-from flexmeasures_client import FlexMeasuresClient
-from langgraph.graph import StateGraph
-from anthropic import Anthropic
-
-client = Anthropic()
-fm = FlexMeasuresClient(url="https://your-flexmeasures.io")
-
-def create_ev_fleet_agent():
-    graph = StateGraph(FleetState)
-
-    def forecast_node(state):
-        price_forecast = fm.get_sensor_data("day_ahead_price", hours=24)
-        grid_capacity = fm.get_sensor_data("grid_connection_limit", hours=24)
-        return {**state, "price_forecast": price_forecast, "grid_capacity": grid_capacity}
-
-    def schedule_node(state):
-        schedule = fm.trigger_schedule(
-            asset_id="ev_fleet_1",
-            flex_model={"max_soc_pct": 95, "min_soc_pct": 20, "prefer_cheap_hours": True},
-            flex_context={"price_sensor": "entsoe_da", "grid_sensor": "dso_limit"}
-        )
-        return {**state, "schedule": schedule}
-
-    def explain_node(state):
-        explanation = client.messages.create(
-            model="claude-haiku-4-5",
-            max_tokens=512,
-            messages=[{"role": "user", "content":
-                f"Explain this EV charging schedule to a fleet manager: {state['schedule']}\n"
-                f"Price forecast: {state['price_forecast']}\n"
-                f"Estimated cost savings vs unmanaged charging?"}]
-        )
-        return {**state, "explanation": explanation.content[0].text}
-
-    graph.add_node("forecast", forecast_node)
-    graph.add_node("schedule", schedule_node)
-    graph.add_node("explain", explain_node)
-    graph.add_edge("forecast", "schedule")
-    graph.add_edge("schedule", "explain")
-    graph.set_entry_point("forecast")
-    return graph.compile()
-
-fleet_agent = create_ev_fleet_agent()
-result = fleet_agent.invoke({"fleet_id": "depot_BR_001", "date": "2026-07-15"})
-print(result["explanation"])
-```
-
-**Repos**: [EVerest/EVerest](https://github.com/EVerest/EVerest) + [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures)
-**Revenue angle**: DR revenue from managed charging can offset 20-40% of charging costs for large fleets.
-
----
-
-## P4 — Building Energy MARL Demand Response
-
-**Goal**: Coordinate 50-200 buildings with shared MARL policy to reduce district peak demand 20-40%.
-
-**Stack**: CityLearn + Stable-Baselines3 (MAPPO) + FlexMeasures (OpenADR dispatch)
+**Use case:** Automate distribution grid studies (load flow, fault analysis, DER dispatch optimization) for utility engineering teams.
+**Repos:** `Power-Agent/PowerMCP` + `Power-Agent/PowerDAG` + `Power-Agent/PowerFM`
+**License:** MIT
 
 ```python
-from citylearn.citylearn import CityLearnEnv
-from citylearn.wrappers import NormalizedObservationWrapper
-from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import DummyVecEnv
+from poweragent_mcp import PowerMCPClient
+from poweragent_dag import PowerDAGAgent
 
-schema = {
-    "buildings": [f"Building_{i}" for i in range(50)],
-    "simulation_start_date": "2026-01-01",
-    "simulation_end_date": "2026-12-31",
-    "reward_function": "IndependentSACReward"
-}
-env = NormalizedObservationWrapper(CityLearnEnv(schema=schema))
-vec_env = DummyVecEnv([lambda: env])
+# Connect to power system simulator via MCP
+simulator = PowerMCPClient(
+    tool="opendsss",  # or "powerworld", "psse"
+    host="http://localhost:8000"
+)
 
-model = PPO("MlpPolicy", vec_env, verbose=1, n_steps=8760, batch_size=256, n_epochs=10)
-model.learn(total_timesteps=2_000_000)
-# Actions → FlexMeasures → OpenADR → BMS
-```
-
-**Repos**: [intelligent-environments-lab/CityLearn](https://github.com/intelligent-environments-lab/CityLearn) + FlexMeasures
-**LATAM fit**: Colombia (IPSE rural microgrids), Chile (solar curtailment management)
-
----
-
-## P5 — AI-Augmented SCADA Operations
-
-**Goal**: Add conversational AI to existing SCADA — explain alarms, diagnose faults, suggest corrective actions.
-
-**Stack**: RapidSCADA + PowerMCP + LangGraph + Claude API
-
-```python
-from langgraph.graph import StateGraph, MessagesState
-from anthropic import Anthropic
-import requests
-
-client = Anthropic()
-SCADA_API = "http://rapidscada-server:8888/api"
-
-def build_scada_assistant():
-    graph = StateGraph(MessagesState)
-
-    def fetch_alarms(state):
-        alarms = requests.get(f"{SCADA_API}/alarms/active").json()
-        critical = [a for a in alarms if a["severity"] in ("HIGH", "CRITICAL")]
-        return {"messages": state["messages"] + [
-            {"role": "tool", "content": f"Active critical alarms: {critical}"}
-        ]}
-
-    def diagnose(state):
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=2048,
-            system="""You are a power systems control room expert.
-            Analyze SCADA alarms, identify root cause, and suggest corrective actions.
-            Prioritize safety: never suggest actions that could cause cascading failures.
-            Format: Root Cause | Affected Equipment | Immediate Action | Long-term Fix""",
-            messages=state["messages"]
-        )
-        return {"messages": state["messages"] + [response]}
-
-    graph.add_node("fetch_alarms", fetch_alarms)
-    graph.add_node("diagnose", diagnose)
-    graph.add_edge("fetch_alarms", "diagnose")
-    graph.set_entry_point("fetch_alarms")
-    return graph.compile()
-
-assistant = build_scada_assistant()
-result = assistant.invoke({"messages": [
-    {"role": "user", "content": "We have 3 transformer alarms on feeder F-12 after the storm"}
-]})
-```
-
-**Repos**: [RapidSCADA](https://rapidscada.org/) + [Power-Agent/PowerMCP](https://github.com/Power-Agent/PowerMCP)
-**LATAM fit**: Industrial utilities in MX, BR, AR where SCADA is established but AI layer is missing.
-
----
-
-## P6 — AI Datacenter-Grid Coordination
-
-**Goal**: Help AI infrastructure clients design demand-response strategies to accelerate grid interconnection.
-
-**Stack**: OpenG2G + LangGraph optimization agent + utility API
-
-```python
-from openg2g import DatacenterGridSimulator, InferenceWorkload, GridBackend
-from anthropic import Anthropic
-
-client = Anthropic()
-
-def datacenter_flexibility_analysis(
-    datacenter_config: dict,
-    grid_model: str,
-    interconnection_capacity_mw: float
-) -> dict:
-    sim = DatacenterGridSimulator(
-        datacenter=InferenceWorkload(**datacenter_config),
-        grid=GridBackend(model=grid_model),
-        timestep_minutes=5
-    )
-    baseline = sim.run(controller="passthrough", duration_hours=24)
-    flex = sim.run(controller="inference_scheduler",
-                   target_peak_mw=interconnection_capacity_mw,
-                   duration_hours=24)
-    analysis = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1024,
-        messages=[{"role": "user", "content":
-            f"Baseline peak: {baseline.peak_demand_mw:.1f} MW\n"
-            f"Interconnection limit: {interconnection_capacity_mw:.1f} MW\n"
-            f"Flexible schedule peak: {flex.peak_demand_mw:.1f} MW\n"
-            f"Inference SLA impact: {flex.p99_latency_vs_baseline:.1%}\n\n"
-            f"Recommend DR contract strategy and estimated queue-jump benefit?"}]
-    )
-    return {"simulation": flex, "recommendation": analysis.content[0].text}
-```
-
-**Repos**: [gpu2grid/openg2g](https://github.com/gpu2grid/openg2g) + Claude API
-**Market**: Every hyperscaler and colo provider building >100 MW AI compute faces this problem.
-
----
-
-## P7 — VPP Orchestration (FlexMeasures + OpenADR)
-
-**Goal**: Aggregate distributed assets (batteries, EV chargers, HVAC) into a virtual power plant.
-
-**Stack**: FlexMeasures + OpenADR 2.0 + LangGraph + PowerFM demand forecasting
-
-```python
-from flexmeasures_client import FlexMeasuresClient
-from anthropic import Anthropic
-
-fm = FlexMeasuresClient(url="https://vpp.flexmeasures.io")
-client = Anthropic()
-
-def vpp_daily_bid(assets: list, market_date: str) -> dict:
-    total_flex_up_kw = sum(fm.get_flex_capacity(a, direction="up") for a in assets)
-    total_flex_down_kw = sum(fm.get_flex_capacity(a, direction="down") for a in assets)
-
-    bid_strategy = client.messages.create(
-        model="claude-haiku-4-5",
-        max_tokens=512,
-        messages=[{"role": "user", "content":
-            f"VPP portfolio: {len(assets)} assets\n"
-            f"Available flex up: {total_flex_up_kw:.0f} kW\n"
-            f"Available flex down: {total_flex_down_kw:.0f} kW\n"
-            f"Day-ahead prices (EUR/MWh): {fm.get_da_prices(market_date)}\n\n"
-            f"Suggest optimal bid: volume, price floor, activation probability?"}]
-    )
-
-    schedule = fm.trigger_schedule(
-        asset_group="vpp_portfolio_1",
-        flex_model={"bid_strategy": bid_strategy.content[0].text},
-        flex_context={"market": "day_ahead", "openADR_endpoint": "https://utility.oadr.io"}
-    )
-    return {"bid_strategy": bid_strategy.content[0].text, "schedule": schedule}
-```
-
-**Repos**: [FlexMeasures/flexmeasures](https://github.com/FlexMeasures/flexmeasures) + [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM)
-**Revenue model**: VPP operators earn $15-40/MWh capacity payments; Globant builds and operates the platform.
-
----
-
-## P8 — Grid Foundation Model Fine-Tuning (LATAM Utility)
-
-**Goal**: Fine-tune OpenGridFM on a LATAM utility's grid data for load forecasting + fault prediction.
-
-**Stack**: OpenGridFM + PowerFM + utility SCADA historian + Anthropic API
-
-```python
-from opengridfm import GridFMTrainer, GridSimulator, NetworkTopology
-from anthropic import Anthropic
-import pandas as pd
-
-# Load utility grid topology (ANAREDE / PSS/E format common in LATAM)
-network = NetworkTopology.from_psse("/data/utility_mx_network.raw")
-simulator = GridSimulator(network)
-
-# Generate synthetic training profiles
-trainer = GridFMTrainer(
+# Initialize agentic grid analysis
+agent = PowerDAGAgent(
     simulator=simulator,
-    n_scenarios=50_000,
-    weather_integration=True,
-    output_dir="/data/gridfm_pretraining"
-)
-trainer.generate_profiles()
-
-# Fine-tune PowerFM on utility historical data
-historical = pd.read_parquet("/data/utility_mx_historian_2022_2026.parquet")
-trainer.fine_tune(
-    base_model="PowerFM/powerFM-base",
-    training_data=historical,
-    tasks=["load_forecast_15min", "fault_detection", "voltage_anomaly"],
-    output_model="/models/utility_mx_gridfm_v1"
+    foundation_model="PowerFM/LoadFormer",  # from Power-Agent/PowerFM
+    llm="claude-sonnet-5",
+    supervision_mode="just-in-time"  # human checkpoint at critical decisions
 )
 
-# Deploy as LLM tool
-client = Anthropic()
-def grid_forecast_with_llm(query: str):
-    return client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1024,
-        tools=[{
-            "name": "load_forecast",
-            "description": "Forecast load for utility MX grid (fine-tuned GridFM)",
-            "input_schema": {"type": "object", "properties": {
-                "horizon_hours": {"type": "integer"},
-                "substation_id": {"type": "string"}
-            }}
-        }],
-        messages=[{"role": "user", "content": query}]
-    )
+# Run distribution grid analysis task
+report = agent.run(
+    task="Analyze the impact of adding 500 kW solar PV at bus 23. "
+         "Check voltage violations, identify corrective switching actions, "
+         "and recommend DER dispatch schedule to maintain N-1 security.",
+    grid_file="utility_33bus_network.dss",
+    constraints={"voltage_pu": (0.95, 1.05), "thermal_loading_pct": 90}
+)
+
+# Output: structured report with PSABench-scored confidence
+print(report.analysis)
+print(report.recommendations)
+print(report.reasoning_trace)  # Full audit trail for regulatory review
 ```
 
-**Repos**: [LF Energy OpenGridFM](https://lfenergy.org/projects/opengridfm/) + [Power-Agent/PowerFM](https://github.com/Power-Agent/PowerFM)
-**LATAM fit**: Utility SCADA historians in BR/MX/CL hold 10-20 years of grid data — perfect for GridFM fine-tuning.
+**Benchmark:** PowerDAG achieves 100% task success on PSABench (41 engineering tasks).
+
+---
+
+## P4 — EV Charging Fleet Manager (EVerest + FlexMeasures)
+
+**Use case:** Managed EV charging fleet for corporate campus, logistics operator, or public network.
+**Repos:** `EVerest/everest-core` + `FlexMeasures/flexmeasures` + `LangGraph`
+**License:** Apache-2.0
+
+```python
+from langgraph.graph import StateGraph
+from flexmeasures_client import FlexMeasuresClient
+from everest_client import EVerestOCPPClient
+
+fm = FlexMeasuresClient(host="https://fleet-ems.com", token=TOKEN)
+ev = EVerestOCPPClient(csms_url="wss://fleet-ems.com/ocpp")
+
+def fleet_scheduling_graph():
+    workflow = StateGraph(FleetState)
+
+    def observe(state):
+        """Read all charger states and grid price"""
+        state.charger_status = ev.get_all_charger_status()
+        state.spot_price = get_spot_price()
+        state.grid_limit_kw = get_grid_limit()
+        return state
+
+    def forecast_demand(state):
+        """AI: predict charging demand for next 4h"""
+        state.demand_forecast = fm.get_forecast(
+            sensor_ids=state.ev_fleet_sensor_ids,
+            horizon=timedelta(hours=4)
+        )
+        return state
+
+    def optimize_schedule(state):
+        """FlexMeasures: compute cost-optimal charging schedule"""
+        state.schedule = fm.post_schedule(
+            flex_model={
+                "asset_ids": state.charger_asset_ids,
+                "optimization_objective": "minimize_cost",
+                "constraints": {
+                    "grid_limit_kw": state.grid_limit_kw,
+                    "soc_targets": state.driver_soc_targets  # from mobile app
+                }
+            }
+        )
+        return state
+
+    def dispatch(state):
+        """Apply schedule to chargers via OCPP 2.0.1"""
+        for charger_id, charge_rate in state.schedule.items():
+            ev.set_charging_profile(charger_id, charge_rate)
+        return state
+
+    workflow.add_sequence([observe, forecast_demand, optimize_schedule, dispatch])
+    return workflow.compile()
+```
+
+**V2G extension:** ISO 15118-20 in EVerest 2026.02.0 LTS enables bidirectional charging — fleet sells energy back to grid during peak.
+
+---
+
+## P5 — P2P Energy Trading Agent (MARLEM + LLM Strategy)
+
+**Use case:** Prosumer marketplace where homes/businesses trade surplus solar generation.
+**Repos:** `arXiv:2602.16063 (MARLEM)` + LangGraph + FlexMeasures
+**License:** MIT (MARLEM)
+
+```python
+from langchain_anthropic import ChatAnthropic
+from langgraph.graph import StateGraph
+
+class ProsumerTradingAgent:
+    """LLM-enhanced bidding strategy + RL execution (arXiv:2507.14995 pattern)"""
+
+    def __init__(self, prosumer_id: str, llm_model: str = "claude-sonnet-5"):
+        self.llm = ChatAnthropic(model=llm_model)
+        self.rl_policy = load_trained_rl_policy(prosumer_id)  # MARLEM-trained
+
+    def generate_strategy(self, market_context: dict) -> dict:
+        """LLM generates high-level bidding strategy"""
+        strategy_prompt = f"""
+        Current market: {market_context['spot_price']} $/kWh
+        My solar forecast: {market_context['solar_forecast_kwh']} kWh next hour
+        Battery SoC: {market_context['battery_soc_pct']}%
+        Neighbors selling: {market_context['peer_offers']}
+
+        Generate an optimal bidding strategy for the next P2P auction.
+        Consider: maximize revenue, maintain min battery reserve 20%,
+        prefer selling to neighbors over grid export.
+        """
+        strategy = self.llm.invoke(strategy_prompt)
+        return parse_strategy(strategy.content)
+
+    def execute_bid(self, strategy: dict) -> dict:
+        """RL policy executes bid within strategy bounds"""
+        action = self.rl_policy.act(
+            state=get_current_state(),
+            strategy_bounds=strategy  # LLM strategy constrains RL action space
+        )
+        return submit_market_bid(action)
+```
+
+**LATAM:** Chile P2P pilot markets; Brazil Resolução 482 prosumer rules create this opportunity.
+
+---
+
+## P6 — Building-Grid Co-Simulation (AutoB2G Pattern)
+
+**Use case:** Utility or grid operator wants to study the impact of flexible buildings on grid stability — without writing simulation code.
+**Repos:** `arXiv:2603.26005 (AutoB2G)` + CityLearn V2 + sinergym
+**License:** Apache-2.0
+
+```python
+from autob2g import AutoB2GOrchestrator
+
+# Natural language → full B2G co-simulation
+orchestrator = AutoB2GOrchestrator(
+    simulator="citylearn_v2",
+    llm="claude-sonnet-5"
+)
+
+# Analyst describes task in natural language
+result = orchestrator.run(
+    task="""
+    Simulate a district of 50 homes with rooftop solar (5 kW avg) and 
+    EV chargers (7.4 kW). Study the impact of coordinated V2G charging
+    on grid peak load for a typical Brazilian summer weekday.
+    Objective: minimize peak grid demand between 18:00-21:00.
+    """,
+    iterations=3  # Auto-refine if simulation diverges
+)
+
+print(result.peak_reduction_pct)   # e.g., "38% peak reduction achieved"
+print(result.narrative_report)     # LLM-written findings
+print(result.simulation_code)      # Generated + validated CityLearn code
+```
+
+**Client value:** Energy consultants / utilities can run B2G studies without Python expertise.
+
+---
+
+## P7 — LATAM WhatsApp Energy Bot (FlexMeasures + WhatsApp Business API)
+
+**Use case:** Residential prosumers in Brazil/Colombia receive energy advice and DR alerts via WhatsApp — the dominant channel in LATAM.
+**Repos:** FlexMeasures + WhatsApp Business Cloud API + LangGraph + Ollama (local)
+**License:** Apache-2.0 + MIT
+
+```python
+from langgraph.graph import StateGraph
+from flexmeasures_client import FlexMeasuresClient
+from whatsapp_business import WhatsAppClient
+
+fm = FlexMeasuresClient(host="https://ems.utility.com.br", token=TOKEN)
+wa = WhatsAppClient(token=WA_TOKEN, phone_id=PHONE_ID)
+
+def handle_whatsapp_message(user_id: str, message: str) -> str:
+    """Route WhatsApp energy queries to FlexMeasures + LLM"""
+
+    # Detect intent
+    if any(w in message.lower() for w in ["conta", "bill", "energia", "solar"]):
+        # Fetch user's energy data from FlexMeasures
+        consumption = fm.get_beliefs(
+            sensor_id=get_user_sensor(user_id),
+            event_starts_after=last_30_days()
+        )
+        solar = fm.get_beliefs(sensor_id=get_solar_sensor(user_id))
+
+        # LLM in Portuguese
+        response = llm.invoke(f"""
+        O usuário perguntou: {message}
+        Consumo últimos 30 dias: {consumption.to_json()}
+        Geração solar: {solar.to_json()}
+        Responda em português, de forma clara e amigável.
+        """)
+        return response.content
+
+    elif "alerta" in message.lower() or "pico" in message.lower():
+        # DR event check
+        events = fm.get_upcoming_dr_events(user_id=user_id)
+        return format_dr_alert_pt(events)
+
+# WhatsApp webhook handler
+@app.post("/webhook/whatsapp")
+def whatsapp_webhook(payload: dict):
+    user_id = payload["from"]
+    message = payload["text"]["body"]
+    reply = handle_whatsapp_message(user_id, message)
+    wa.send_message(to=user_id, text=reply)
+```
+
+**LATAM context:**
+- Brazil: 120M+ WhatsApp users; Pix payment integration for energy credits
+- Colombia: 35M+ WhatsApp users; PSE meter payment integration
+- Mexico: 88M+ users; CFE tariff queries
+
+---
+
+## P8 — EU AI Act Compliance Wrapper for Energy AI
+
+**Use case:** Wrap any energy AI agent to meet EU AI Act requirements for high-risk systems (grid management, load dispatch, fault detection).
+**Repos:** AINETUS + agentic-ai-hems ReAct traces + LangGraph interrupt-resume
+**License:** Apache-2.0 + MIT
+
+```python
+from langgraph.graph import StateGraph, interrupt
+from ainetus import XAIExplainer
+import logging
+
+audit_log = logging.getLogger("eu_ai_act_audit")
+
+class EUAIActCompliantEnergyAgent:
+    """Wrapper that adds human oversight, documentation, and XAI to energy agents"""
+
+    def __init__(self, base_agent, xai_explainer: XAIExplainer):
+        self.agent = base_agent
+        self.xai = xai_explainer
+
+    def run(self, task: str, require_human_approval: bool = True):
+        # 1. Log input for technical documentation (Art. 11)
+        audit_log.info(f"TASK_INPUT: {task}")
+
+        # 2. Run agent with full reasoning trace
+        result = self.agent.run(task)
+
+        # 3. Generate XAI explanation (Art. 13 - transparency)
+        explanation = self.xai.explain(
+            action=result.action,
+            reasoning_trace=result.reasoning_trace,
+            shapley_values=self.xai.compute_shapley(result)
+        )
+
+        # 4. Human oversight checkpoint (Art. 14) for high-impact actions
+        if require_human_approval and result.impact_level == "high":
+            approval = interrupt({
+                "action": result.action,
+                "explanation": explanation,
+                "confidence": result.confidence,
+                "prompt": "Approve this grid action? [yes/no/modify]"
+            })
+            if approval["decision"] != "yes":
+                result.action = approval.get("modified_action", "no_action")
+
+        # 5. Audit trail (Art. 12 - logging)
+        audit_log.info(f"ACTION: {result.action}, APPROVED: {require_human_approval}, "
+                       f"EXPLANATION: {explanation.summary}")
+
+        return result
+
+# Usage with PowerDAG
+base_agent = PowerDAGAgent(simulator=simulator, llm="claude-sonnet-5")
+xai = XAIExplainer(method="shapley")  # AINETUS XAI backend
+compliant_agent = EUAIActCompliantEnergyAgent(base_agent, xai)
+
+# High-impact grid switching requires human approval
+result = compliant_agent.run(
+    task="Isolate fault on feeder F3, restore load via tie switch TS-12",
+    require_human_approval=True
+)
+```
+
+**Compliance checklist for this pattern:**
+- ✅ Art. 9: Risk management system (interrupt for high-impact actions)
+- ✅ Art. 11: Technical documentation (audit_log + reasoning traces)
+- ✅ Art. 12: Logging (structured audit trail)
+- ✅ Art. 13: Transparency (XAI explanation to operators)
+- ✅ Art. 14: Human oversight (interrupt-resume checkpoint)
+- ⚠️ Art. 15: Accuracy/robustness: add PSABench score to documentation
+
+**Timeline:** Annex III high-risk deadline Dec 2, 2027; start implementation now.
