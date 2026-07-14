@@ -17,7 +17,7 @@
 | Dida Hotel MCP | MIT (MCP server) | [github.com/DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MCP/OAuth | 2M+ hoteles B2B; OAuth auth; gratis para socios aprobados; lanzado Jul 9 2026 |
 | mcp-amadeus (community) | MIT | [github.com/donghyun-chae/mcp-amadeus](https://github.com/donghyun-chae/mcp-amadeus) | MCP/Python | Wrapper MCP sobre Amadeus APIs; self-hosted; ideal para POCs rápidos |
 | ftl-booking | MIT | [github.com/GlenDC/ftl-booking](https://github.com/GlenDC/ftl-booking) | Python, API-first | Booking engine hotelero seguro; minimalista, extensible con AI layer |
-| PHPTRAVELS (framework) | Commercial (open core) | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | PHP | Agencia de viajes: flights + hotels + tours + visa + transfers; open core |
+| PHPTRAVELS (framework) | Commercial (open core) | [phptravels.com/open-source-travel-management-software](https://phptravels.com/open-source-travel-management-software) | PHP | Agencia de viajes: flights + hotels + tours + visa + transfers; open core |
 
 ## Cómo customizar con AI (patrón Globant)
 

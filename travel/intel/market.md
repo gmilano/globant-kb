@@ -13,7 +13,7 @@
 | North America share | — | 42.5% | — | — | MarketIntelo |
 | Agentic AI (cross-industry) | — | $201.9B | — | — | IDC 2026 |
 
-**Señal IDC (2026)**: "Agentic AI will redefine travel and hospitality in 2026"
+**Señal IDC (2026)**: "Agentic AI will redefine travel and hospitality in 2026" — hospitality, dining, y travel operarán con agentes que median discovery, comparison, booking y service.
 
 ## Brecha consumidor vs ejecutivos
 
@@ -31,7 +31,7 @@
 | Sabre | GDS + MCP | MCP Server enterprise + IQ (50PB datos) | Partnership Ultra Group + Linex agentic |
 | Travelport | GDS + MCP | TripServices (API-first) + Anthropic MCP | 400+ agencias Europe via Orchestra (1 Jul 2026) |
 | Amadeus | GDS + APIs | REST APIs + MCP (community) | Portal developer abierto, sandbox |
-| Expedia Group | OTA + MCP | Inventario abierto a agentes AI | MCP server Claude live 6 May 2026 |
+| Expedia Group | OTA + MCP | Inventario abierto a agentes AI + Intelligent XP Platform | MCP server Claude live 6 May 2026 |
 | Booking.com | OTA | API partner network | MCP adoption confirmada |
 | Dida Holdings | B2B Hotels | MCP nativo + 2M+ hoteles | MCP lanzado 9 Jul 2026 |
 | MindTrip | AI-native OTA | Sabre + PayPal + conversational UI | Flights live May 2026 |
@@ -49,7 +49,7 @@
 | Argentina | — | Turismo post-devaluación + receptivo | Receptivo extranjero en USD |
 | Chile | WhatsApp | Primer mercado LATAM Airlines AI agent (abr 2025) | Referencia de go-live regional |
 
-**WhatsApp LATAM signal**: al 2027, el 65% de transacciones WhatsApp en LATAM serán asistidas o gestionadas por AI agents. WhatsApp Pay proyectado en 6+ países LATAM fin 2026.
+**WhatsApp LATAM signal**: al 2027, el 65% de transacciones WhatsApp en LATAM serán asistidas o completamente gestionadas por AI agents. WhatsApp Pay proyectado en 6+ países LATAM fin 2026.
 
 ## Posicionamiento Globant
 
