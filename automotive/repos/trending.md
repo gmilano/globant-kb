@@ -1,62 +1,44 @@
-# 📊 Repos Trending — Automotive
+# Repos trending — automotive
 
-> GitHub trending en automotive AI — julio 2026.
-> Última actualización: 2026-07-14 (v11)
+> GitHub trending y papers con código para automotive AI — julio 2026.
+> Última actualización: 2026-07-14 (v12)
 
-## Top repos por movimiento de estrellas (jul-2026)
+## Repos con mayor momentum (jul 2026)
 
-| Repo | Licencia | Stars | Actividad | Descripción |
-|------|----------|-------|-----------|-------------|
-| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | 60.6k ↑ | v0.11.1 abr-2026 | ADAS OS; World Model training; +10k★ en 2026 |
-| [autowarefoundation/autoware](https://github.com/autowarefoundation/autoware) | Apache-2.0 | 11.8k ↑ | activo jul-2026 | L4 AV stack; consolidando dominancia como referencia |
-| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | 14.1k | UE5 dev branch activo | UE5 migration + digital twins + NuRec 25.07 |
-| [emqx/emqx](https://github.com/emqx/emqx) | Apache-2.0 | 15k | activo | MQTT V2X; adoptado en OEMs chinos (SAIC, BYD partners) |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | ~600 ↑↑↑ | lanzado 2026 | L2 ADAS end-to-end; crecimiento acelerado |
-| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | 450 ↑ | activo 2026 | Data broker VSS Rust; impulso SDV; audit de seguridad |
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | AGPL-3.0 | 2k ↑ | activo 2026 | Fleet OS; crecimiento en LATAM y APAC |
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | activo semanal | Paquetes de universo Autoware; actualizado continuamente |
+| Repo | Licencia | Stars | Señal | Descripción |
+|------|----------|-------|-------|-------------|
+| [NVlabs/alpamayo](https://github.com/NVlabs/alpamayo) | Apache-2.0 | ~2k | CES 2026 + v1.5 Mar | NVIDIA reasoning VLA 10B con chain-of-thought. Primer modelo AV con reasoning traces públicos. AlpaSim incluido |
+| [DriveVLA/OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) | Apache-2.0 | ~800 | AAAI 2026 | E2E VLA 3B/7B para AD. SOTA nuScenes. Código + pesos + training pipeline completamente abiertos |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | Apache-2.0 | ~400 | Lanzado Q1 2026 | E2E AI ADAS para producción OEM. Apache 2.0, código certificable |
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | Apache-2.0 | 1.7k | Commits diarios | Autoware Universe: todo el stack AD en un repo. Base para proyectos reales de AD |
+| [liulin815/DriveWorld-VLA](https://github.com/liulin815/DriveWorld-VLA) | MIT | ~300 | Feb 2026 | World-model + VLA unificado. SOTA NAVSIMv1+v2. arXiv:2602.06521 |
+| [commaai/openpilot](https://github.com/commaai/openpilot) | MIT | 61k+ | Releases mensuales | ADAS OS más popular OSS. World model training v0.11. 30k+ comunidad Discord |
+| [carla-simulator/carla](https://github.com/carla-simulator/carla) | MIT | 14k+ | UE5 migration activa | Migración UE5 en branch ue5-dev. Leaderboard AD v2.1 activo |
+| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | Creciendo | Testing harness para agentes autónomos en CARLA |
+| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | MIT | ~50 | Nuevo Jul 2026 | Multi-agent SDV cockpit: edge intent + cloud LLM planning + VAL safety execution |
+| [philippnormann/ev-charging-optimization](https://github.com/philippnormann/ev-charging-optimization) | MIT | 20 | Base estable | EV fleet charging route optimization |
 
-## VLA repos emergentes 2026 — nueva categoría en tracking
+---
+
+## Papers con código inminente (jul 2026)
+
+| Paper | ArXiv | Estado | Descripción |
+|-------|-------|--------|-------------|
+| WCog-VLA | [2607.08375](https://arxiv.org/abs/2607.08375) | Preprint Jul 2026 | Dual-level world-cognitive VLA para E2E AD |
+| CLEAR | [2607.02841](https://arxiv.org/abs/2607.02841) | Preprint Jul 2026 | Closed-loop RL a escala para CARLA E2E |
+| BLUE | [2606.08684](https://arxiv.org/abs/2606.08684) | Preprint Jun 2026 | 0.11M-param efficiency adapter para VLA on-vehicle |
+| nuReasoning | [2605.31572](https://arxiv.org/abs/2605.31572) | Disponible | Dataset + benchmark 20k-clip long-tail AD |
+| Safe2Drive | [2606.00191](https://arxiv.org/abs/2606.00191) | Disponible | Benchmark evaluación seguridad en E2E AD |
+
+---
+
+## Repos SDV en ascenso (Eclipse ecosystem)
 
 | Repo | Licencia | Stars | Descripción |
 |------|----------|-------|-------------|
-| [DriveVLA/OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) | Apache-2.0 | ~400 ↑↑ | AAAI 2026; VLA 3B/7B SOTA; nuevo en trending — seguir de cerca |
-| [liulin815/DriveWorld-VLA](https://github.com/liulin815/DriveWorld-VLA) | Apache-2.0 | ~200 ↑ | World model + VLA para AD; feb 2026; crecimiento orgánico |
-| [autonomousvision/navsim](https://github.com/autonomousvision/navsim) | Apache-2.0 | ~1k | NAVSIM benchmark usado por DriveWorld-VLA y otros |
-| [nutonomy/nuscenes-devkit](https://github.com/nutonomy/nuscenes-devkit) | Apache-2.0 | 2.3k | Dataset/benchmark referencia; buscado por VLA papers |
-
-## Repos en seguimiento continuo
-
-| Repo | Licencia | Stars | Por qué seguir |
-|------|----------|-------|----------------|
-| [carla-simulator/ros-bridge](https://github.com/carla-simulator/ros-bridge) | MIT | 637 | Integración CARLA-ROS2; necesario para stacks híbridos |
-| [cjy1992/gym-carla](https://github.com/cjy1992/gym-carla) | MIT | 620 | RL en CARLA; usado en investigación de agentes de conducción |
-| [erdos-project/pylot](https://github.com/erdos-project/pylot) | Apache-2.0 | 534 | AV platform modular; citado en papers de latency-accuracy |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | Apache-2.0 | 77 | CARLA agent testing; referenciado en cursos universitarios AV |
-| [openremote/fleet-management](https://github.com/openremote/fleet-management) | AGPLv3 | 180 | Fleet telemática; crecimiento en startups logística LATAM |
-| [PJLab-ADG/PCSim](https://github.com/PJLab-ADG/PCSim) | Apache-2.0 | 272 | Simulación LiDAR; colocación óptima de sensores |
-
-## Eclipse SDV — ecosistema en expansión (jul-2026)
-
-El ecosistema Eclipse SDV tiene 76+ repositorios bajo la org [eclipse-sdv](https://github.com/orgs/eclipse-sdv/repositories). Proyectos clave:
-
-| Proyecto | Licencia | Descripción |
-|----------|----------|-------------|
-| Eclipse S-CORE | Apache-2.0 | Middleware SDV completo; v0.5 GA nov-2025; v1.0 target 2026 |
-| Eclipse Kuksa | Apache-2.0 | Data broker VSS (Rust + gRPC); security audit publicado 2026 |
-| Eclipse Velocitas | Apache-2.0 | Toolchain para apps vehiculares portables; CI/CD nativo |
-| Eclipse uProtocol | Apache-2.0 | Protocolo de mensajería para ECUs y cloud |
-
-> **CES 2026**: 32 empresas en el consorcio SDV incluyendo Hyundai Mobis (mayo 2026) y TRATON (VW trucks). S-CORE v1.0 completo planeado para 2026 apuntando a vehículos de producción 2030. La adopción está acelerando.
-
-## Papers + código que verán tracción (a seguir)
-
-| Título | arXiv | Código | Qué esperar |
-|--------|-------|--------|-------------|
-| BLUE (efficient VLA) | 2606.08684 | Publicado | Uso en producción ADAS on-vehicle |
-| nuReasoning | 2605.31572 | [nureasoning.github.io](https://nureasoning.github.io/) | Benchmark estándar para AD reasoning |
-| WCog-VLA | 2607.08375 | Pendiente | Dual-level world-cognitive AD |
-| CoWorld-VLA | 2605.10426 | Pendiente | Multi-expert world model AD |
+| [eclipse-sdv-blueprints](https://github.com/eclipse-sdv-blueprints) | Apache-2.0 | ~300 | SDV blueprints de referencia (32 OEMs, S-Core v1.0 Q4 2026) |
+| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | Apache-2.0 | ~500 | Vehicle Signal Specification (VSS) data broker para SDV |
+| [eclipse-kuksa/kuksa.val.services](https://github.com/eclipse-kuksa/kuksa.val.services) | Apache-2.0 | ~200 | Vehicle service implementations para SDV |
 
 ---
-*Pipeline automático — v11 2026-07-14.*
+*Pipeline automático — se actualiza cada hora.*
