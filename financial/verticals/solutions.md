@@ -8,86 +8,74 @@
 
 | Plataforma | Licencia | Repo / URL | Stack | Caso de uso principal |
 |------------|----------|------------|-------|----------------------|
-| Apache Fineract | Apache-2.0 | [apache/fineract](https://github.com/apache/fineract) | Java/Spring, REST API | Core banking: préstamos, ahorro, GL, KYC; 400+ instituciones en 80+ países, 20M+ clientes; API-first |
-| ERPNext (Frappe) | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/JS | ERP contabilidad + finanzas; módulos de cuentas, activos, nómina; popular en LATAM |
+| Apache Fineract | Apache-2.0 | [apache/fineract](https://github.com/apache/fineract) | Java/Spring, REST API | Core banking: préstamos, ahorro, GL, KYC; 400+ instituciones en 80+ países, 20M+ clientes; release 24.09; API-first para integración con agentes |
+| FinAegis | Apache-2.0 | [FinAegis/core-banking-prototype-laravel](https://github.com/FinAegis/core-banking-prototype-laravel) | Laravel 12 / PHP 8.4, DDD, CQRS | Core banking production-grade con 61 módulos DDD con event sourcing: pagos, lending, compliance, x402/MPP machine payments, wallet non-custodial. **MCP-native**: mcp.zelta.app expone 12 herramientas bancarias OAuth-protected. **NUEVO v6** |
+| ERPNext (Frappe) | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python/JS, Frappe Framework | ERP contabilidad + finanzas; módulos de cuentas, activos, nómina; popular en empresas medianas LATAM |
 | Apache OFBiz | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java EE | ERP completo con GL, cuentas por cobrar/pagar, presupuestos, inventario |
 | Dolibarr ERP/CRM | GPL-3.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | ERP/CRM para PyMEs: facturas, inventario, POS, cuentas bancarias; muy popular en LATAM |
-| FinAegis | Apache-2.0 | [finaegis.org](https://finaegis.org/) | Laravel/DDD | Core banking production-grade con 61 módulos: pagos, lending, compliance, cross-border |
-| OpenBB Platform | AGPLv3 | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | Python | Open Data Platform: multi-provider (Bloomberg, Alpha Vantage, Quiver Quant), MCP-native v4 |
+| OpenBB Platform | AGPLv3 | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | Python | Open Data Platform: multi-provider (Bloomberg, Alpha Vantage, Quiver Quant), MCP-native v4, Workspace para analistas |
 | Backtrader | GPL-3.0 | [mementum/backtrader](https://github.com/mementum/backtrader) | Python | Backtesting y live trading; broker connectors para Interactive Brokers, Alpaca |
-| jube AML/Fraud | AGPL-3.0 | [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | .NET/PostgreSQL | Monitoreo de transacciones en tiempo real: AML + fraude + sanctions screening |
+| jube AML/Fraud | AGPL-3.0 | [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | .NET/PostgreSQL | Monitoreo de transacciones AML + fraude en tiempo real: ML, velocity checks, sanctions screening, case management |
 | Hummingbot | Apache-2.0 | [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot) | Python | Market making y arbitraje en crypto/DeFi; high-frequency; 19k ★ |
-| Open Finance MCP | MIT | [open-finance-ai/open-finance-mcp](https://github.com/open-finance-ai) | Python/MCP | Conecta cuentas bancarias de Brasil (Open Finance v4) y Chile a Claude vía MCP |
-
-## MCP Servers financieros — infraestructura de datos 2026
-
-| MCP Server | Licencia | URL | Caso de uso |
-|------------|----------|-----|-------------|
-| finance-trading-ai-agents-mcp | MIT | [aitrados/finance-trading-ai-agents-mcp](https://github.com/aitrados/finance-trading-ai-agents-mcp) | Arquitectura departamental (Research/Quant/Risk/Macro); one-click deploy; análisis financiero completo |
-| tradingview-mcp | MIT | [atilaahmettaner/tradingview-mcp](https://github.com/atilaahmettaner/tradingview-mcp) | Datos de mercado TradingView: TA, screeners, backtesting — stocks/crypto/forex/futuros |
-| financekit-mcp | MIT | [vdalhambra/financekit-mcp](https://github.com/vdalhambra/financekit-mcp) | 17 herramientas: quotes, TA, crypto CoinGecko, risk metrics (Sharpe/Sortino/Beta) |
-| financial-datasets-mcp | MIT | [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) | SEC filings, income statements, balance sheets, stock prices |
-| Alpaca MCP | Apache-2.0 | Alpaca Markets | Live trade execution: stocks, ETFs, crypto, options |
-| Sharpe crypto MCP | Comercial | sharpe.ai | Funding rates 13 venues perpetual, Deribit options, futures en 10 exchanges |
-| OpenBB MCP v4 | AGPLv3 | OpenBB-finance/OpenBB | Multi-provider hub: Bloomberg, Alpha Vantage, Quiver Quant |
+| open-paper-trading-mcp | MIT | [Open-Agent-Tools/open-paper-trading-mcp](https://github.com/Open-Agent-Tools/open-paper-trading-mcp) | Python/FastAPI | Paper trading simulator con MCP server (43 tools): sandbox zero-risk para entrenar agentes. **NUEVO v6** |
 
 ## Ecosistema Open Finance LATAM
 
-| País | Estado Open Finance | API Estándar | Oportunidad |
-|------|---------------------|--------------|-------------|
-| Brasil | Fase 4 — operacional | API Banco Central BR + Open Finance MCP | Personal finance agent, comparador de productos, AML sobre rails Pix. **55% del deal flow fintech LatAm Q1 2026** |
-| Chile | Implementación obligatoria desde abr 2026 | CMF Chile — APIs en definición final | Primeros movers: advisory bots sobre datos bancarios reales |
-| México | Regulación CNBV en curso | CNBV APIs | Conexión con Fintechs Ley Fintech; SPEI data |
-| Colombia | Marco en desarrollo | SFC Colombia | Market en early stage — ventana competitiva |
-| Argentina | Sin marco regulatorio aún | — | Oportunidad en FinTechs no-bancarias |
+| País | Estado Open Finance | API Estándar | Métricas / Oportunidad |
+|------|---------------------|--------------|------------------------|
+| Brasil | Fase 4 — operacional | API Banco Central BR | **42M consents activos, 1.5B llamadas API/semana**, Pix 54.7% de TODAS las transacciones (42.9B ops H2 2025). **Pix Automático** (H2 2026): pagos recurrentes automáticos. 55% del deal flow fintech LatAm Q1 2026 |
+| Chile | Implementación obligatoria desde abr 2026 | CMF Chile — APIs finalizadas | Primeros movers: advisory bots sobre datos bancarios reales; Open Finance activo |
+| México | Regulación CNBV en curso | CNBV APIs (Ley Fintech) | 77% AI adoption, 80% bank partnerships; Fintech Law pionera pero estancada en regulación secundaria |
+| Colombia | Marco obligatorio en curso | SFC Colombia | Early stage — ventana competitiva open |
+| Argentina | Sin marco regulatorio formal | — | Oportunidad en FinTechs no-bancarias y wallets digitales |
+
+> **Señal clave Brasil**: 42B+ operaciones Pix en H2 2025. El Open Finance brasileño es el más activo del mundo. El patrón "Open Finance → MCP → LLM" tiene product-market fit demostrado aquí primero.
+
+## Infraestructura de Pagos Agenticos
+
+| Player | Producto | Launch | Descripción |
+|--------|----------|--------|-------------|
+| Mastercard | Agent Pay for Machines (AP4M) | 10 jun 2026 | Pagos M2M: agentes pagan a agentes con velocidad de máquina. Agentic Tokens (credential + agent + merchant + consent en blockchain). 30+ partners: Stripe, Adyen, Coinbase, Cloudflare, OKX, Ripple, Polygon, Solana |
+| Visa | Intelligent Commerce | jun 2026 | Integración estratégica con OpenAI; Anthropic también es partner. Tokens de commerce para agentes |
+| Alpaca | MCP Server | 2026 | Live trade execution vía MCP: "compra 10 acciones de AAPL" → ejecuta. Regulado en EEUU |
 
 ## Cómo customizar con AI
 
-### Opción A — Apache Fineract + agentes compliance + MAS SAFR governance
+### Opción A — Apache Fineract + agentes compliance (KYC/AML)
 ```
 Apache Fineract (core banking API)
     ↓
 Webhook events (desembolso, pago, apertura cuenta)
     ↓
 kyc-analyst agent (KYC/AML scoring con Claude — MIT)
-    • Policy Bound: mandato pre-aprobado por riesgo officer
-    • Real-Time Validation: score verificado antes de aprobar onboarding
     ↓
 jube (monitoreo continuo de transacciones — AGPL-3.0)
     ↓
-Audit Log inmutable (MAS SAFR Auditability pillar)
+FINOS AIGF MCP (EU AI Act compliance layer — Apache-2.0)
     ↓
 Dashboard compliance para oficiales de riesgo
 ```
 
-### Opción B — OpenBB + TradingAgents + MCP financial stack
+### Opción B — FinAegis + MCP (core banking agentico)
 ```
-tradingview-mcp + financekit-mcp + OpenBB MCP v4 (datos, TA, risk metrics)
+FinAegis (core banking — 61 módulos DDD, event sourcing)
+    ↓
+mcp.zelta.app (12 banking tools OAuth-protected)
+    ↓
+Claude / cualquier LLM + FINOS AIGF MCP (governance)
+    ↓
+AI-powered CFO assistant: alertas liquidez, reconciliación, préstamos auto-aprobados con HITL
+```
+
+### Opción C — OpenBB + TradingAgents (research desk)
+```
+OpenBB MCP v4 (datos equities, macro, noticias — multi-provider)
     ↓
 TradingAgents v0.3.1 (bull/bear/riesgo debate, structured-output, multi-provider)
-    [IMPORTANTE: usar v0.3.1 — v0.2.x tenía look-ahead bias]
-    ↓
+    ↓ [fix look-ahead bias — usar v0.3.1, no v0.2.x]
 FinGPT sentiment layer (noticias + tweets en tiempo real)
     ↓
 Reporte de inversión + trazabilidad de decisión (LangGraph checkpoints)
-    ↓
-Alpaca MCP para ejecución live (si autorizado por cliente)
-```
-
-### Opción C — ERPNext + FinRobot (CFO assistant)
-```
-ERPNext (contabilidad + GL + cash flow)
-    ↓
-Conector MCP que expone GL, cash flow, AR/AP como contexto
-    ↓
-FinRobot (AI4Finance-Foundation/FinRobot — MIT)
-    • Análisis de estados financieros
-    • Comparación con peers de la industria (datos OpenBB)
-    • Proyección de flujo de caja a 30/60/90 días
-    ↓
-Claude como orquestador + generador de reportes narrativos
-    ↓
-CFO dashboard: semáforo de liquidez, alertas de deuda, escenarios
 ```
 
 ### Opción D — Open Finance MCP + Claude (personal finance LATAM)
@@ -96,35 +84,40 @@ Open Finance de Brasil/Chile (conector MCP)
     ↓
 Datos de cuenta real (extractos, movimientos, balance) vía MCP
     ↓
-Claude como asistente personal financiero
+Claude como asistente personal financiero (con Pix Automático integration H2 2026)
     ↓
-Features: resumen de gastos, alerta de saldo, forecast de flujo, comparador de créditos
+Features: resumen de gastos, alerta saldo, forecast flujo, comparador de créditos, pagos automáticos
 ```
 
-### Opción E — finance-trading-ai-agents-mcp + Claude (financial AI agent one-click)
+### Opción E — ATLAS pattern (self-improving trading agents)
 ```
-finance-trading-ai-agents-mcp (one-click deploy local)
-    • Research Department: fundamentals, noticias
-    • Quant Department: indicadores técnicos, backtesting
-    • Risk Department: VAR, correlation, drawdown
-    • Macro Department: económico, FX, bonos
+TradingAgents v0.3.1 (agentes base con point-in-time correctness)
     ↓
-Claude Desktop o Cursor con MCP habilitado
+ATLAS Darwinian selection loop (Sharpe ratio como loss function)
     ↓
-Analista puede consultar en lenguaje natural sin código:
-    "¿cuál es el VAR de AAPL a 95% en los últimos 6 meses?"
-    "dame el momentum ranking del sector financiero LATAM"
+Agentes con peor performance → prompt rewrite automático cada 5 días
+    ↓
+open-paper-trading-mcp (validación sin riesgo antes de Alpaca live)
+    ↓
+Alpaca MCP (ejecución live regulada)
 ```
 
 ## Stack LATAM recomendado para PoC rápido
 
-Para un banco o fintech en Argentina/Brasil/México:
-1. **Fineract** como core banking (o conectar al core existente vía API)
-2. **kyc-analyst** para KYC/AML con revisores humanos (SAFR-compliant: policy bound + audit log)
-3. **FinGPT** fine-tuned sobre noticias en español/portugués (datos de Bloomberg Brasil, Ambito)
-4. **Claude** como orquestador conversacional del agente bancario
-5. **Open Finance MCP** (si Brasil/Chile) para datos bancarios reales sin scraping
-6. **financekit-mcp** para risk metrics y comparación de portfolios
+```python
+# Stack mínimo para demo de personal finance LATAM (Brasil / Chile)
+stack = {
+    "core_banking": "Apache Fineract (Apache-2.0) OR FinAegis (Apache-2.0)",
+    "data_layer": "OpenBB Platform MCP v4 (AGPLv3) + financial-datasets-mcp (MIT)",
+    "trading_sim": "open-paper-trading-mcp (MIT)",
+    "compliance": "FINOS AIGF MCP (Apache-2.0) + kyc-analyst (MIT)",
+    "llm": "Claude Sonnet 5 via Anthropic API",
+    "payments": "Alpaca MCP (live) OR Mastercard AP4M (enterprise)",
+}
+# Total tiempo estimado PoC: 3-4 semanas
+# Costo infra: <$500/mes en cloud para piloto
+# Licencias: Apache-2.0 / MIT — sin riesgo legal para producto cliente
+```
 
 ---
-*Ver también: `agents/top.md` para agentes AI especializados.*
+*Actualizado automáticamente por el pipeline de ingest. v6.*

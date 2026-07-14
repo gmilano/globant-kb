@@ -7,66 +7,63 @@
 
 | Nombre | Repo | Licencia | Descripción | Stars |
 |--------|------|----------|-------------|-------|
-| TradingAgents | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | Multi-agent LLM trading firm: analysts bull/bear, fundamentals, técnicos, riesgo, portfolio manager y fondo debatiendo en cadena antes de cada trade. **v0.3.1 (jul 2026)**: fix crítico de look-ahead bias en Alpha Vantage (backtests v0.2.x inflados), soporte Claude Sonnet 5 / Fable 5, Bedrock auth, FRED + Polymarket como data vendors | 82k+ |
+| TradingAgents | [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | Multi-agent LLM trading firm: analistas bull/bear, fundamentals, técnicos, riesgo, portfolio manager debatiendo en cadena antes de cada trade. **v0.3.1 (jul 2026)**: fix crítico de look-ahead bias en Alpha Vantage, soporte Claude Sonnet 5 / Fable 5, Bedrock auth, FRED + Polymarket como data vendors | 82k+ |
 | ai-hedge-fund | [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) | MIT | 14 agentes modelados sobre inversores legendarios (Buffett, Munger, Burry…) + 5 agentes analíticos (Valuación, Sentimiento, Fundamentals, Técnicos, Riesgo). El más popular por claridad de código y documentación | 60k+ |
-| FinRobot | [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | MIT | Plataforma multi-agent para análisis financiero; unifica LLMs, RL y quant analytics. **Desktop v0.1.0** (jul 2026): app macOS nativa con PydanticAI + FastAPI + React/Tauri para research workflows sin código | 7.3k |
+| ATLAS | [chrisworsey55/atlas-gic](https://github.com/chrisworsey55/atlas-gic) | MIT | Sistema de trading auto-mejorante: 25 agentes en 4 capas (macro/sector/filosofía/decisión) con Darwinian selection usando Sharpe ratio como loss function. El peor agente reescribe sus propios prompts cada 5 días. 9 agentes generados autónomamente; +22% return en 173 días deployment real. **NUEVO v6** | 2.1k |
+| Vibe-Trading | [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | Research workspace conversacional: 48 herramientas, 77 finance skills, 29 presets multi-agente. NL → estrategia → backtest → reporte, lookahead-banned alphas, audit ledger y kill-switch | 19.9k |
+| AI-Trader | [HKUDS/AI-Trader](https://github.com/HKUDS/AI-Trader) | MIT | **100% fully automated agent-native trading platform** (may 2026, HKUDS). Agentes se conectan en segundos, colaboran y debaten para hallar las mejores ideas. Cross-Platform Signal Sync, One-Click Copy Trading, cobertura Stocks/Crypto/Forex/Options/Futures. Compatible con Claude Code, Cursor, OpenClaw, Codex. **NUEVO v6** | 8.7k |
+| FinRobot | [AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | MIT | Plataforma multi-agent para análisis financiero. **Desktop v0.1.0** (jul 2026): app macOS nativa con PydanticAI + FastAPI + React/Tauri para research sin código. Separa cómputo determinístico (DCF, DDM, LBO, Monte Carlo) de narración LLM | 7.3k |
 | FinGPT | [AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | MIT | LLM financiero open source; LoRA fine-tuning sobre noticias y tweets para sentiment analysis; benchmarks sobre FLARE suite; modelos en HuggingFace | 14.5k |
-| FinRL | [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Reinforcement learning aplicado a finanzas; entornos de mercado (equities, crypto, FX), PPO/SAC/TD3 out-of-the-box | 10.2k |
-| Vibe-Trading | [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | MIT | Research workspace conversacional: 48 herramientas, 77 finance skills, 29 presets multi-agente. NL → estrategia → backtest → reporte, lookahead-banned alphas, audit ledger y kill-switch. HKUDS (mismo equipo que DeepTutor) | 19.9k |
-| OpenBB | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | Open Data Platform para quants y agentes AI; v4 MCP-native por defecto; "connect once, consume everywhere" — Python, Workspace, Excel, MCP y REST desde un hub; alternativa open a Bloomberg/Refinitiv | 39k |
-| kyc-analyst | [vyayasan/kyc-analyst](https://github.com/vyayasan/kyc-analyst) | MIT | Plugin KYC/AML compliance automation con 17 checkpoints human-in-the-loop, fuentes de datos públicas gratuitas y scoring de riesgo determinístico; corre sobre Claude | 420 |
+| FinRL | [AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Reinforcement learning aplicado a finanzas; entornos multi-asset (equities, crypto, FX), PPO/SAC/TD3 out-of-the-box | 10.2k |
+| FinSight | [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | **ACL 2026 Main** — pipeline multi-etapa: recolección → análisis + VLM chart refinement → redacción → reporte institucional. Score **8.09** vs OpenAI Deep Research 6.11 y Gemini 6.82. Un ticker → reporte en 20 min | ~800 |
+| OpenBB | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | Open Data Platform para quants y agentes AI; v4 MCP-native; "connect once, consume everywhere" — Python, Workspace, Excel, MCP y REST; alternativa open a Bloomberg/Refinitiv | 39k |
+| kyc-analyst | [vyayasan/kyc-analyst](https://github.com/vyayasan/kyc-analyst) | MIT | Plugin KYC/AML con 17 checkpoints human-in-the-loop, fuentes de datos públicas y scoring de riesgo determinístico; corre sobre Claude | 420 |
+| open-paper-trading-mcp | [Open-Agent-Tools/open-paper-trading-mcp](https://github.com/Open-Agent-Tools/open-paper-trading-mcp) | MIT | Simulador paper trading dual-interface (REST API + MCP server) con 43 herramientas. Options chain + Greeks, multi-asset. Diseñado para entrenar AI agents sin riesgo financiero. **NUEVO v6** | 1.2k |
 | jube | [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | AGPL-3.0 | AML y detección de fraude en tiempo real: ML supervisado/no-supervisado, reglas con velocity checks, sanctions screening, case management con audit trail | 920 |
-| FinSight | [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | **ACL 2026 Main** — pipeline de investigación financiera multi-etapa: recolección de datos → análisis + VLM chart refinement → redacción → reporte publicable. Score **8.09** vs OpenAI Deep Research 6.11 y Gemini Deep Research 6.82. Un ticker → reporte institucional en 20 min | ~800 |
-| FinMem | [pipiku915/FinMem-LLM-StockTrading](https://github.com/pipiku915/FinMem-LLM-StockTrading) | MIT | LLM trading agent con memoria en capas (short/long-term layered memory) y perfil de carácter; supera baselines en retornos Sharpe ratio-ajustados | 1.2k |
-| finance-trading-ai-agents-mcp | [aitrados/finance-trading-ai-agents-mcp](https://github.com/aitrados/finance-trading-ai-agents-mcp) | MIT | MCP server con arquitectura departamental (Research/Quant/Risk/Macro): one-click deploy local, expone análisis financiero completo a cualquier agente LLM sin SDK custom | nuevo |
+| FinMem | [pipiku915/FinMem-LLM-StockTrading](https://github.com/pipiku915/FinMem-LLM-StockTrading) | MIT | LLM trading agent con memoria en capas (short/long-term) y perfil de carácter; supera baselines en Sharpe ratio | 1.2k |
 
 ---
 
-## Benchmarks de referencia
+## MCP Servers financieros — Ecosistema 2026
 
-### BigFinanceBench (jun 2026)
+| MCP Server | Repo | Licencia | Descripción |
+|------------|------|----------|-------------|
+| open-paper-trading-mcp | [Open-Agent-Tools/open-paper-trading-mcp](https://github.com/Open-Agent-Tools/open-paper-trading-mcp) | MIT | Paper trading + AI agent training sandbox — 43 tools |
+| tradingview-mcp | [atilaahmettaner/tradingview-mcp](https://github.com/atilaahmettaner/tradingview-mcp) | MIT | Datos en tiempo real, análisis técnico, screeners desde TradingView |
+| financial-datasets-mcp | [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) | MIT | API de datos de acciones vía MCP; el más estrellado por ser el más universal |
+| mcp-trader | [wshobson/mcp-trader](https://github.com/wshobson/mcp-trader) | MIT | MCP server para stock traders: portfolio, watchlist, análisis |
+| Alpaca MCP | [alpaca.markets/mcp-server](https://alpaca.markets/mcp-server) | Apache-2.0 | Ejecución de trades REALES vía MCP — stocks, ETFs, crypto, options |
+| FinAegis MCP | [finaegis.org/features/mcp](https://finaegis.org/features/mcp) | Apache-2.0 | 12 herramientas bancarias OAuth-protected con límites de gasto por token; endpoint: mcp.zelta.app |
+| FINOS AIGF MCP | [finos.org AIGF MCP](https://www.finos.org/blog/operationalizing-ai-governance-finos-aigf-mcp-server) | Apache-2.0 | AI Governance Framework como MCP: risk catalogues, EU AI Act, OWASP — para regulated finance |
+| OpenBB MCP | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | Datos multi-provider expuestos como MCP — v4 default |
 
-[RogoAI/big-finance-benchmark](https://huggingface.co/datasets/RogoAI/big-finance-benchmark) · arXiv:2606.03829 · Rogo + OpenAI
+> 💡 **Stack recomendado**: financial-datasets-mcp (raw data) + open-paper-trading-mcp (simulación sin riesgo) + Alpaca MCP (live execution) + FINOS AIGF MCP (compliance EU AI Act).
 
-928 tareas de research financiero con rúbricas de 36,241 puntos que evalúan derivación completa (selección de fuente, definición contable, cálculo, supuestos) — no solo el resultado. Mejor agente frontier: **58.8%** — headroom masivo vs analistas humanos. El benchmark más riguroso para financial research agents en 2026, proveniente de contexto de producción buy-side.
+---
 
-### ICBCBench (jun 2026)
-
-[DeepFin-Intelligence/ICBCBench](https://github.com/DeepFin-Intelligence/ICBCBench) · arXiv:2606.17458 · 50+ expertos, 40+ organizaciones
-
-Primer benchmark de consorcio industrial para financial deep research. Dual-track: tareas objetivas verificables + evaluación de reportes long-form (expert alignment, citation consistency, source quality). Resultados revelan gaps en complex reasoning, factual grounding y calidad de reporte.
+## Benchmarks de referencia — Suite 2026
 
 ### FinGAIA (jul 2025)
-
 [SUFE-AIFLM-Lab/FinGAIA](https://github.com/SUFE-AIFLM-Lab/FinGAIA) · MIT · arXiv:2507.17186
 
-407 tareas en 7 subdominios financieros. Mejor LLM zero-shot: **48.9%** — 35+ puntos debajo de expertos humanos.
+407 tareas en 7 subdominios financieros. Resultado: **el mejor LLM alcanzó 48.9%** vs >84% expertos humanos.
 
----
+### BigFinanceBench (jun 2026)
+[RogoAI/big-finance-benchmark](https://huggingface.co/datasets/RogoAI/big-finance-benchmark) · arXiv:2606.03829
 
-## MCP Ecosystem financiero — infraestructura 2026
-
-| MCP Server | Licencia | Casos de uso |
-|------------|----------|--------------|
-| finance-trading-ai-agents-mcp | MIT | Arquitectura departamental completa |
-| tradingview-mcp | MIT | TA en tiempo real, screeners, backtesting |
-| financekit-mcp | MIT | Risk metrics (Sharpe, Sortino, Beta) + crypto |
-| OpenBB MCP v4 | AGPLv3 | Multi-provider: Bloomberg, AlphaVantage, QuiverQuant |
-| Alpaca MCP | Apache-2.0 | Live trade execution regulada |
-| Open Finance MCP | MIT | Datos bancarios reales BR/CL vía Open Finance |
-| Sharpe crypto MCP | Comercial | 13 venues perpetual, Deribit options |
+928 tareas workflow-grounded con rúbricas de 36,241 puntos evaluando derivación completa (fuente + cálculo + supuestos). El mejor agente frontier: **solo 58.8% del rubric score**.
 
 ---
 
 ## Notas de uso para Globant
 
-- **TradingAgents + ai-hedge-fund**: los dos frameworks de trading multi-agente más maduros; combinarlos con OpenBB como data layer es el stack de referencia 2026. TradingAgents v0.3.1 fix de look-ahead bias es crítico antes de cualquier demo o propuesta.
-- **FinRobot Desktop v0.1.0**: app nativa macOS para research sin código; útil para demos a bancos de inversión LATAM donde los analistas no programan.
-- **kyc-analyst**: plug-and-play sobre Claude; acelera compliance en bancos LATAM que aún procesan KYC manualmente. Stack: kyc-analyst + jube + Claude API ≈ $500-2k/mes vs $30-50k/año de vendor.
-- **finance-trading-ai-agents-mcp**: nuevo patrón — exponer el stack de análisis completo como MCP en lugar de integrar herramientas directamente. Permite a cualquier LLM acceder a análisis departamental sin código custom.
-- **FinSight** (ACL 2026, MIT): primer agente open source que supera a OpenAI Deep Research y Gemini — ideal para sell-side y IR teams. 20 min por reporte vs 8h de analista.
-- **BigFinanceBench + ICBCBench**: usar ambos como criterio de aceptación en proyectos de financial AI. BigFinanceBench para research workflow; ICBCBench para deep research institucional.
-- **MAS SAFR**: incluir como framework de governance en toda propuesta de agentes financieros. Globant puede diferenciarse ofreciendo SAFR-compliant agent design desde el diseño inicial.
+- **AI-Trader + Vibe-Trading (HKUDS)**: mismo equipo HKU — Vibe-Trading es el research workspace (NL → análisis), AI-Trader es el exchange nativo para agentes (análisis → ejecución). Stack complementario potente.
+- **ATLAS**: primer agente en producción real que auto-reescribe sus propios prompts basado en Sharpe ratio — patrón Karpathy autoresearch aplicado a finanzas. Replicable para otros dominios.
+- **TradingAgents v0.3.1**: fix de look-ahead bias crítico — cualquier benchmark anterior al fix no es válido. Exigir v0.3.1+ en propuestas y demos.
+- **MCP stack completo**: financial-datasets-mcp + Alpaca MCP + FinAegis MCP + FINOS AIGF MCP cubre ciclo completo: dato → análisis → ejecución → compliance. Arquitectura lista para EU AI Act.
+- **open-paper-trading-mcp**: sandbox zero-risk para entrenar y evaluar agentes de trading antes de conectar a Alpaca live — crítico para demos en bancos regulados.
+- **FinRobot Desktop v0.1.0**: diferenciador en demos a bancos LATAM donde analistas no programan en Python.
+- **jube (AGPL-3.0)**: requiere análisis de copyleft antes de embeber en producto cliente; considerar kyc-analyst (MIT) para compliance más simple.
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Actualizado automáticamente por el pipeline de ingest. v6.*

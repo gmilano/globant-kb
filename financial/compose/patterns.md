@@ -1,652 +1,474 @@
 # 🧩 Patrones de composición — Financial Services AI
 
-> Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-14 (v6) | EU AI Act deadline: **2026-08-02 — 19 días**
-
-## Stack base
-
-```
-[Plataforma financiera base (Fineract / OpenBB / ERPNext)]
-          ↓
-[Capa MCP — datos de mercado, GL, transacciones, Open Finance]
-          ↓
-[Agentes especializados (TradingAgents / FinRobot / kyc-analyst)]
-          ↓
-[Governance Layer — MAS SAFR: policy bound + audit log + human gates]
-          ↓
-[Orquestador LLM multi-provider (Claude / GPT-4o / FinGPT fine-tuned / DeepSeek)]
-          ↓
-[UI conversacional / API / Dashboard compliance / App nativa]
-```
+> Recetas concretas para construir soluciones combinando repos + agentes + MCPs.
+> Última actualización: 2026-07-14 (v6)
 
 ---
 
-## Receta 1: AI Research Desk para banco de inversión
-**Tiempo estimado**: 3-4 semanas | **Licencias**: Apache-2.0 + AGPLv3
+## P1 — Multi-Agent Research Desk (TradingAgents + OpenBB + FinGPT)
 
+**Caso de uso**: banco de inversión o gestora que quiere automatizar research de equities con calidad institucional.
+
+**Stack**:
+```
+OpenBB MCP v4 (datos multi-provider: fundamentals, macro, news)
+    ↓
+TradingAgents v0.3.1 (debate bull/bear/riesgo con LangGraph checkpoints)
+    ↓
+FinGPT (sentiment analysis sobre noticias + earnings call transcripts)
+    ↓
+FinSight pipeline (VLM chart refinement + redacción de reporte)
+    ↓
+Output: research report institucional con audit trail completo
+```
+
+**Código base**:
 ```python
+from tradingagents import TradingAgentsGraph
+from openbb import obb
 import anthropic
 
 client = anthropic.Anthropic()
 
-def financial_research_agent(ticker: str, research_question: str) -> dict:
-    """
-    Pipeline: OpenBB MCP + TradingAgents multi-agent debate + FinSight-style report
-    """
-    response = client.beta.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=8192,
-        mcp_servers=[
-            {"url": "http://localhost:3001", "name": "openbb-mcp"},      # OpenBB v4
-            {"url": "http://localhost:3002", "name": "tradingview-mcp"}, # TA + screeners
-            {"url": "http://localhost:3003", "name": "financekit-mcp"},  # risk metrics
-        ],
-        messages=[{
-            "role": "user",
-            "content": f"""Analyze {ticker} as a multi-agent investment committee:
-            
-1. BullAnalyst: find 3 strongest positive catalysts using OpenBB fundamentals data
-2. BearAnalyst: identify 3 key risks and bear thesis (use recent news + technicals)  
-3. FundamentalsAgent: calculate P/E, EV/EBITDA, DCF at 3 scenarios (bull/base/bear)
-4. RiskManager: compute VAR 95%, max drawdown, Sharpe ratio using financekit-mcp
-5. FundManager: synthesize and give BUY/HOLD/SELL with conviction 1-10
+obb.user.preferences.output_type = "dataframe"
 
-Research question: {research_question}
+ta = TradingAgentsGraph(
+    llm_provider="anthropic",
+    model="claude-sonnet-5-20260101",
+    data_provider="openbb",
+    enable_checkpoint=True,
+    use_point_in_time=True
+)
 
-Return structured JSON with each agent's output and final recommendation.
-Include: reasoning_trace, data_sources_used, confidence_score."""
-        }]
-    )
-    
-    # Each agent response is JSON-typed (structured-output pattern)
-    return response
-
-# Usage
-result = financial_research_agent("ITUB4", "Should we increase position ahead of Q2 earnings?")
+result = ta.run_analysis(
+    ticker="AAPL",
+    start_date="2026-01-01",
+    end_date="2026-07-01",
+    debate_rounds=3
+)
 ```
 
-**Por qué funciona**: replica el workflow de un comité de inversión. El banco puede mostrar al regulador qué agente dijo qué. Structured-output hace que cada paso sea parseable y testeable. LangGraph checkpoints permiten retomar sin perder contexto.
+**Tiempo de implementación**: 2-3 semanas | **Licencias**: MIT + AGPLv3
 
 ---
 
-## Receta 2: KYC/AML Pipeline SAFR-compliant para Fintech LATAM
-**Tiempo estimado**: 2-3 semanas | **Licencias**: MIT + AGPL-3.0
+## P2 — Self-Improving Trading System (Patrón ATLAS)
 
+**Caso de uso**: firma de gestión de activos que quiere agentes que mejoran autónomamente con feedback de mercado.
+
+**Stack**:
+```
+TradingAgents v0.3.1 (base de agentes especializados)
+    ↓
+ATLAS Darwinian loop (Sharpe ratio como loss function)
+    ↓
+Peor agente → prompt rewrite automático cada 5 días
+    ↓
+open-paper-trading-mcp (validación sin riesgo de nuevas estrategias)
+    ↓
+Alpaca MCP (ejecución live con límites de riesgo)
+```
+
+**Código conceptual**:
 ```python
 import anthropic
-import json
-from datetime import datetime
+from mcp import MCPClient
 
 client = anthropic.Anthropic()
+paper_trading_mcp = MCPClient("http://localhost:8080")
 
-# SAFR Policy: mandato pre-aprobado por Chief Risk Officer
-POLICY = {
-    "max_auto_approve_risk_score": 30,     # 0-100: autoaproba si riesgo < 30
-    "require_human_review_above": 70,       # humano obligatorio si > 70
-    "blocked_countries": ["KP", "IR", "SY"],
-    "max_transaction_without_enhanced_dd": 10000,  # USD
-}
+def evaluate_agent_performance(agent_id: str, days: int = 5) -> float:
+    trades = paper_trading_mcp.call_tool("get_agent_trades", {"agent_id": agent_id, "days": days})
+    returns = [t["pnl"] for t in trades["trades"]]
+    if len(returns) < 2:
+        return 0.0
+    import numpy as np
+    return (np.mean(returns) / np.std(returns)) * (252 ** 0.5)
 
-def kyc_agent_safr_compliant(customer_data: dict) -> dict:
-    """
-    kyc-analyst pattern + MAS SAFR compliance:
-    - Policy Bound Execution: solo opera dentro del POLICY dict
-    - Real-Time Validation: verifica antes de aprobar
-    - Auditability: log inmutable de cada paso
-    """
-    audit_log = {
-        "timestamp": datetime.utcnow().isoformat(),
-        "customer_id": customer_data.get("id"),
-        "policy_version": "1.0",
-        "steps": []
-    }
-    
-    # Step 1: Policy validation (SAFR: Policy Bound Execution)
-    if customer_data.get("country") in POLICY["blocked_countries"]:
-        audit_log["steps"].append({"step": "policy_check", "result": "BLOCKED", "reason": "sanctioned_country"})
-        return {"decision": "BLOCKED", "audit_log": audit_log, "human_required": False}
-    
-    # Step 2: AI risk assessment
+def rewrite_agent_prompt(agent_id: str, current_prompt: str, performance_history: list) -> str:
     response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=2048,
-        messages=[{
-            "role": "user",
-            "content": f"""Perform KYC risk assessment for:
-{json.dumps(customer_data, indent=2)}
-
-Check against: OFAC SDN list patterns, PEP indicators, adverse news signals,
-transaction pattern anomalies, beneficial ownership complexity.
-
-Return JSON: {{
-  "risk_score": 0-100,
-  "risk_factors": ["factor1", "factor2"],
-  "pep_indicators": true/false,
-  "enhanced_dd_required": true/false,
-  "reasoning": "brief explanation"
-}}"""
-        }]
+        model="claude-sonnet-5-20260101",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": f"Improve underperforming trading agent.\nCurrent prompt: {current_prompt}\nPerformance: {performance_history}\nReturn ONLY new prompt."}]
     )
-    
-    risk_result = json.loads(response.content[0].text)
-    risk_score = risk_result["risk_score"]
-    
-    audit_log["steps"].append({
-        "step": "ai_risk_assessment", 
-        "risk_score": risk_score,
-        "factors": risk_result["risk_factors"],
-        "model": "claude-sonnet-5"
-    })
-    
-    # Step 3: Policy decision (SAFR: Real-Time Validation before execution)
-    if risk_score <= POLICY["max_auto_approve_risk_score"]:
-        decision = "APPROVED"
-        human_required = False
-    elif risk_score >= POLICY["require_human_review_above"]:
-        decision = "PENDING_HUMAN_REVIEW"
-        human_required = True
-    else:
-        decision = "ENHANCED_DD_REQUIRED"
-        human_required = True
-    
-    audit_log["steps"].append({"step": "policy_decision", "decision": decision, "risk_score": risk_score})
-    
-    return {
-        "decision": decision,
-        "risk_score": risk_score,
-        "human_required": human_required,
-        "audit_log": audit_log,  # SAFR: Auditability — log inmutable
-        "risk_factors": risk_result["risk_factors"]
-    }
-```
-
-**Costo vs vendor**: kyc-analyst + jube + Claude API ≈ $500-2k/mes vs $30-50k/año de vendor.
-
----
-
-## Receta 3: Portfolio Optimizer para Asset Manager LATAM
-**Tiempo estimado**: 2-3 semanas | **Licencias**: MIT + BSD-3
-
-```
-yfinance / Alpha Vantage MCP → datos históricos multi-asset + bonos LATAM
-    ↓
-PyPortfolioOpt (robertmartin8/PyPortfolioOpt — MIT)
-    • Mean-Variance con restricciones ESG
-    • Black-Litterman con views de analistas
-    • Hierarchical Risk Parity para portfolios alternativos
-    ↓
-Riskfolio-Lib (dcajasn/Riskfolio-Lib — BSD-3)
-    • CVaR optimization
-    • Stress testing con escenarios históricos
-    ↓
-Agente conversacional (Claude) que explica la recomendación en lenguaje natural
-    ↓
-Rebalanceo automático via Alpaca MCP (si cliente lo autoriza)
-```
-
-**Diferenciador LATAM**: incluir bonos soberanos AR/BR/MX, dólar CCL, inflación como inputs del modelo.
-
----
-
-## Receta 4: CFO Assistant para empresa mediana
-**Tiempo estimado**: 3-4 semanas | **Licencias**: GPL-3.0 + MIT
-
-```
-ERPNext → módulo de cuentas (GL, cash flow, AR/AP)
-    ↓
-Conector MCP que expone datos contables como contexto
-    ↓
-FinRobot (AI4Finance-Foundation/FinRobot — MIT)
-    • Análisis de estados financieros
-    • Comparación con peers de la industria (datos OpenBB)
-    • Proyección de flujo de caja a 30/60/90 días
-    ↓
-Claude como orquestador + generador de reportes narrativos
-    ↓
-CFO dashboard: semáforo de liquidez, alertas de deuda, escenarios
-```
-
-**Caso LATAM**: CFO de empresa argentina con ingresos en pesos y deuda en dólares. El agente monitorea la brecha cambiaria y alerta cuando la cobertura de deuda cae por debajo del ratio objetivo.
-
----
-
-## Receta 5: Equity Research Automation (FinSight pipeline)
-**Tiempo estimado**: 4-5 semanas | **Licencias**: MIT
-
-```python
-import anthropic
-
-client = anthropic.Anthropic()
-
-def equity_research_pipeline(ticker: str, sector: str) -> str:
-    """
-    FinSight-style pipeline: ACL 2026, score 8.09 vs OpenAI Deep Research 6.11
-    Un ticker → reporte institucional en ~20 min
-    """
-    response = client.beta.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=16000,
-        mcp_servers=[
-            {"url": "http://localhost:3001", "name": "openbb-mcp"},
-            {"url": "http://localhost:3002", "name": "financekit-mcp"},
-            {"url": "http://localhost:3003", "name": "financial-datasets-mcp"},
-        ],
-        messages=[{
-            "role": "user",
-            "content": f"""Generate institutional equity research report for {ticker} ({sector}).
-
-Follow the FinSight multi-stage pipeline:
-
-STAGE 1 — DataCollection:
-- Fetch financials: income statement, balance sheet, cash flow (3 years)
-- Get market data: price history, volume, technical indicators
-- Collect news: last 30 days earnings, management changes, sector news
-- Macro context: sector performance, comparable companies
-
-STAGE 2 — Analysis:  
-- Calculate key ratios: P/E, EV/EBITDA, ROE, ROIC, debt ratios
-- Peer comparison: identify 5 closest comps, score vs each metric
-- Historical trend: revenue CAGR, margin expansion/contraction
-- Risk factors: top 5 with probability and impact assessment
-
-STAGE 3 — Report Generation:
-- Executive Summary (3 sentences: thesis, key catalyst, key risk)
-- Investment Thesis (BUY/HOLD/SELL, target price, time horizon)
-- Financials analysis with table
-- Peer comparison table  
-- Risk factors with mitigation
-- Conclusion
-
-Format: professional sell-side research note. Include data sources for each claim."""
-        }]
-    )
-    
     return response.content[0].text
 
-# Usage
-report = equity_research_pipeline("VALE3", "Mining/Commodities LATAM")
+def darwinian_selection_loop(agents: dict, iterations: int = 30):
+    for day in range(iterations):
+        performances = {aid: evaluate_agent_performance(aid) for aid in agents}
+        worst_agent = min(performances, key=performances.get)
+        if day % 5 == 0 or performances[worst_agent] < -0.5:
+            agents[worst_agent]["prompt"] = rewrite_agent_prompt(
+                worst_agent, agents[worst_agent]["prompt"], list(performances.values())
+            )
+    return agents
 ```
 
-**Escala**: un equipo de 3 analistas puede cubrir **50+ empresas en earnings season** vs 10-15 sin AI.
+**Tiempo de implementación**: 4-6 semanas | **Licencias**: MIT
 
 ---
 
-## Receta 6: Core Banking Modernization con AI Layer
-**Tiempo estimado**: 6-8 semanas | **Licencias**: Apache-2.0
+## P3 — Core Banking Agentico (FinAegis + FINOS AIGF MCP)
 
+**Caso de uso**: banco regional o fintech que quiere core banking con IA nativa y compliance EU AI Act desde día uno.
+
+**Stack**:
 ```
-Sistema core legacy (COBOL / AS400 / sistema propietario)
+FinAegis (core banking: 61 módulos DDD, event sourcing, CQRS)
     ↓
-Apache Fineract (apache/fineract — Apache-2.0) como middleware moderno
-    • Expone APIs REST sobre el core legacy
-    • Gestión de productos: préstamos, ahorro, GL
+mcp.zelta.app (12 banking tools: accounts, loans, payments, compliance)
     ↓
-Capa de agentes:
-    • Agente de onboarding (kyc-analyst SAFR-compliant)
-    • Agente de cobranza (predicción de default con FinRL patterns)
-    • Agente de ventas cruzadas (recomendación de productos)
+FINOS AIGF MCP (EU AI Act + OWASP risk catalogue como MCP)
     ↓
-Claude como interfaz conversacional para el cliente final
+Claude como orchestrator (con HITL para decisiones de alto riesgo)
     ↓
-Canal: WhatsApp Business API + web widget
+Audit log inmutable (requerido EU AI Act Anexo III)
 ```
 
-**Por qué Fineract**: Apache-2.0, sin royalties, en producción en 400+ instituciones en 80+ países.
-
----
-
-## Receta 7: Agente de Compliance Tributario (Brasil — Reforma Tributaria)
-**Tiempo estimado**: 4-6 semanas | **Licencias**: MIT + GPL
-
-```
-ERPNext (contabilidad) → extrae operaciones del período
-    ↓
-RAG sobre normativas (PDFs de la Receita Federal, Portal Nacional)
-    construido con LangChain + ChromaDB (MIT)
-    ↓
-Agente de clasificación tributaria (CBS/IBS/IS)
-    • Identifica la alícuota aplicable por tipo de operación
-    • Detecta operaciones en el régimen de transición (2026-2032)
-    ↓
-Claude genera el borrador de declaración con notas técnicas
-    ↓
-Revisor humano valida y firma digitalmente (SPED)
-    ↓
-Audit log inmutable (registro de cada clasificación + norma citada)
-```
-
-**Por qué ahora**: Reforma Tributária brasileña en implementación gradual 2026-2032.
-
----
-
-## Receta 8: Open Finance Personal Finance Agent (Brasil / Chile)
-**Tiempo estimado**: 2-3 semanas | **Licencias**: MIT + Apache-2.0
-
-```
-Open Finance MCP (open-finance-ai — MIT)
-    • Brasil: conecta vía CPF + credenciales bancarias (Open Finance Fase 4)
-    • Chile: conecta vía CMF APIs (implementación obligatoria desde abr 2026)
-    ↓
-Datos reales del usuario: extractos, movimientos, balances, productos activos
-    sin datos sensibles transmitidos externamente
-    ↓
-Claude como orquestador del agente personal financiero
-    ↓
-Features:
-    • Resumen de gastos por categoría
-    • Alerta de saldo bajo o gasto inusual
-    • Forecast de flujo de caja a 30-90 días
-    • Comparador de tasas (crédito, ahorro, seguros)
-    • Detección de cargos duplicados o suscripciones olvidadas
-    ↓
-UI: app móvil (React Native + Claude API) o WhatsApp bot
-```
-
-**Modelo de negocio**: SaaS B2B para bancos (white-label) o B2C directo en Brasil/Chile.
-
----
-
-## Receta 9: Financial AI Evaluation Sprint (Pre-Go-Live)
-**Tiempo estimado**: 1 semana | **Licencias**: MIT
-
-```
-Sistema de agentes financieros del cliente (cualquier arquitectura)
-    ↓
-Suite de benchmarks 2026:
-    • FinGAIA (SUFE-AIFLM-Lab/FinGAIA — MIT) — 407 tareas, conocimiento general
-    • BigFinanceBench (RogoAI — arXiv:2606.03829) — 928 tareas, workflow buy-side
-    • ICBCBench (DeepFin-Intelligence — arXiv:2606.17458) — consorcio industrial, deep research
-    ↓
-Gap analysis:
-    • FinGAIA: % vs baseline humano (>84%) y vs best LLM (48.9%)
-    • BigFinanceBench: rubric score % vs 58.8% best frontier
-    • ICBCBench: expert alignment + citation consistency
-    ↓
-Plan de mejora priorizado:
-    • Fine-tuning con datos del cliente
-    • RAG sobre normativas regulatorias
-    • Human-in-the-loop en tareas con accuracy < 60%
-    ↓
-Contrato de mantenimiento: re-ejecutar suite cada trimestre
-```
-
-**Deal size**: $30-80k por evaluación + $15-30k/año mantenimiento.
-
----
-
-## Receta 10: EU AI Act Compliance Sprint
-**Tiempo estimado**: 2-6 semanas por cliente | **Licencias**: MIT + Apache-2.0
-
-```
-Inventario de sistemas AI del cliente (entrevistas + análisis de arquitectura)
-    ↓
-Clasificación EU AI Act Anexo III
-    • scoring crediticio / decisiones de préstamo → alto riesgo
-    • monitoreo AML / transacciones → alto riesgo
-    • suscripción de seguros → alto riesgo
-    • chatbots de atención al cliente → riesgo limitado
-    ↓
-Para cada sistema de alto riesgo:
-    (a) Risk Management System (documento vivo)
-    (b) Audit Log inmutable — cada decisión: input, model version, output, timestamp, reasoning
-    (c) Human Oversight Mechanism — workflow de revisión en decisiones críticas
-    (d) Explainability layer — SHAP/LIME para ML; CoT capture para LLMs
-    ↓
-Conformity Assessment prep:
-    • Technical documentation (Art. 11)
-    • Instructions for use (Art. 13)
-    • Declaration of conformity (Art. 47)
-    ↓
-BigFinanceBench / FinGAIA evaluation sprint para medir calidad del sistema
-    ↓
-Entregable: carpeta de conformidad + informe de gaps + roadmap de remediación
-```
-
-**Deadline**: 2 agosto 2026 — **19 días**. Sanción: €35M o 7% del facturado global.
-**Deal size**: €40k-€250k por cliente financiero en UE.
-
----
-
-## Receta 11: FinSight — Research Factory para sell-side / IR teams
-**Tiempo estimado**: 4-6 semanas | **Licencias**: MIT + AGPLv3
-
-```
-Ticker o sector de input
-    ↓
-FinSight (RUC-NLPIR/FinSight — MIT) — ACL 2026, supera OpenAI Deep Research (8.09 vs 6.11)
-    • DataCollectionAgent → OpenBB MCP (fundamentals, filings, news, macro)
-    • AnalysisAgent → ratios financieros, análisis de pares, comparación histórica
-    • VLMChartAgent → genera charts → VLM critica calidad → itera hasta publicable
-    • Chain-of-Analysis → destila insights en segmentos estructurados
-    • ReportGenerationAgent → reporte institucional con charts + citas
-    ↓
-Revisión humana del analista (30-45 min vs 8h original)
-    ↓
-Alertas: cuando nuevo filing o earnings event → trigger automático del pipeline
-```
-
-**Escala**: 3 analistas cubren **50+ empresas en earnings season** vs 10-15 sin AI.
-**Deal size**: $120k-$500k (bancos de inversión, gestoras, IR advisories).
-
----
-
-## Receta 12: Agente de Trading con Pagos Autónomos (Mastercard Agent Pay)
-**Tiempo estimado**: 8-12 semanas | **Licencias**: MIT
-
-```
-TradingAgents v0.3.1 (TauricResearch — MIT)
-    • BullAnalyst / BearAnalyst / FundamentalsAgent / TechnicalsAgent
-    • RiskManager con límites de posición y VaR
-    • FundManager con decisión final
-    ↓
-Capa de ejecución de pagos:
-    • Mastercard Agent Pay for Machines (30+ partners: Stripe, Adyen, Coinbase)
-      → Agentic Token: agent + merchant scope + policy
-      → Micropagos M2M en stablecoins para posiciones DeFi
-    • Alpaca MCP para ejecución en equities (paper trading first)
-    • CCXT (MIT, 43k★) para ejecución en exchanges crypto
-    ↓
-Audit log inmutable de cada transacción (EU AI Act + MAS SAFR compliant)
-Human gate: trades > threshold → aprobación humana requerida
-    ↓
-Dashboard de posiciones, P&L, audit trail de decisiones
-```
-
-**Prerequisito**: SAFR policy bound (mandato pre-aprobado), kill-switch configurable.
-**Deal size**: $300k-$1.5M.
-
----
-
-## Receta 13: SAFR-Compliant Agent Governance Layer (MAS SAFR v1.0)
-**Tiempo estimado**: 2-4 semanas | **Licencias**: MIT + Apache-2.0
-
+**Código base**:
 ```python
 import anthropic
-import json
-from datetime import datetime
-from typing import Callable
+from mcp import MCPClient
+
+client = anthropic.Anthropic()
+banking_mcp = MCPClient("https://mcp.zelta.app", headers={"Authorization": f"Bearer {FINAEGIS_TOKEN}"})
+aigf_mcp = MCPClient("https://aigf.finos.org/mcp")
+
+def process_loan_application(applicant_id: str, amount: float, purpose: str):
+    customer_data = banking_mcp.call_tool("get_customer_profile", {"id": applicant_id})
+    ai_risks = aigf_mcp.call_tool("assess_ai_decision_risk", {
+        "decision_type": "credit_scoring",
+        "regulation": "EU_AI_ACT_ANNEX_III",
+        "data_sensitivity": "HIGH"
+    })
+    response = client.messages.create(
+        model="claude-sonnet-5-20260101",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": f"Evaluate loan for {applicant_id}. Amount: {amount} EUR. Risks: {ai_risks}. Provide structured recommendation with explainability for EU AI Act compliance."}]
+    )
+    return {"recommendation": response.content[0].text, "requires_human_review": amount > 50000, "audit_log": ai_risks}
+```
+
+**Tiempo de implementación**: 3-4 semanas | **Licencias**: Apache-2.0 | **Revenue**: $500k-2M
+
+---
+
+## P4 — Personal Finance Agent LATAM (Open Finance + Claude)
+
+**Caso de uso**: asistente financiero personal para el mercado latinoamericano usando Open Finance de Brasil/Chile.
+
+**Stack**:
+```
+Open Finance Brasil (API Banco Central BR) o Chile (CMF APIs)
+    ↓ [consentimiento del usuario]
+Datos reales: extractos, movimientos, saldo, deudas, inversiones
+    ↓
+Claude como asistente financiero personal (con Pix Automático H2 2026)
+    ↓
+Features: resumen de gastos, alertas de saldo, forecast de flujo, comparador de créditos
+    ↓ [opcional]
+Mastercard AP4M o Pix Automático (pagos recurrentes auto-gestionados)
+```
+
+**Código base**:
+```python
+import anthropic
+from openbanking_br import OpenFinanceBR
+
+client = anthropic.Anthropic()
+of = OpenFinanceBR(consent_token=USER_CONSENT_TOKEN)
+
+def personal_finance_assistant(user_question: str, user_id: str) -> str:
+    accounts = of.get_accounts(user_id)
+    transactions = of.get_transactions(user_id, days=30)
+    credit_cards = of.get_credit_cards(user_id)
+    response = client.messages.create(
+        model="claude-sonnet-5-20260101",
+        max_tokens=1000,
+        system="Você é um assistente financeiro pessoal. Use os dados do Open Finance para dar conselhos práticos. Nunca compartilhe dados além do necessário.",
+        messages=[{"role": "user", "content": f"Contas: {accounts}\nTransações: {transactions[:20]}\nPergunta: {user_question}"}]
+    )
+    return response.content[0].text
+```
+
+**Tiempo de implementación**: 2-3 semanas | **Licencias**: MIT | **Revenue**: SaaS $10-30/usuario/mes
+
+---
+
+## P5 — KYC/AML Automation con EU AI Act Compliance
+
+**Caso de uso**: banco o fintech que necesita automatizar KYC/AML con trazabilidad para EU AI Act.
+
+**Stack**:
+```
+kyc-analyst (17 checkpoints HITL, MIT) — primera capa de scoring
+    ↓
+jube (monitoreo transacciones en tiempo real, AGPL-3.0) — detección continua
+    ↓
+FINOS AIGF MCP (EU AI Act mapping, OWASP) — compliance layer
+    ↓
+Claude (orquestador con explicabilidad obligatoria)
+    ↓
+Audit log inmutable + Human Review Queue (requerido por EU AI Act)
+```
+
+**Código base**:
+```python
+import anthropic
+from mcp import MCPClient
+
+client = anthropic.Anthropic()
+aigf_mcp = MCPClient("https://aigf.finos.org/mcp")
+
+def kyc_aml_check(customer_id: str, transaction: dict) -> dict:
+    risk_context = aigf_mcp.call_tool("get_regulatory_requirements", {
+        "system_type": "aml_monitoring", "jurisdiction": "EU", "regulation": "EU_AI_ACT_ANNEX_III"
+    })
+    response = client.messages.create(
+        model="claude-sonnet-5-20260101",
+        max_tokens=1500,
+        system=f"EU AI Act HIGH-RISK AML system. Requirements: {risk_context}. List EVERY factor, assign confidence, flag if >€10k, reference regulation, output JSON for audit.",
+        messages=[{"role": "user", "content": f"Analyze AML risk: {transaction}\nCustomer: {customer_id}"}]
+    )
+    return {"explanation": response.content[0].text, "requires_human": transaction.get("amount", 0) > 10000, "regulatory_basis": "EU_AI_ACT_ANNEX_III + AMLD6"}
+```
+
+**Tiempo de implementación**: 3-4 semanas | **Licencias**: MIT + AGPL-3.0 | **Revenue**: $200k-600k
+
+---
+
+## P6 — Paper Trading Sandbox para Entrenar y Evaluar Agentes
+
+**Caso de uso**: empresa que quiere validar agentes de trading antes de conectarlos a dinero real.
+
+**Stack**:
+```
+open-paper-trading-mcp (43 tools: stocks, options, ETFs, bonds)
+    ↓ [entrenamiento y evaluación sin riesgo]
+TradingAgents v0.3.1 (agentes multi-experto)
+    ↓ [si Sharpe ratio > threshold]
+financial-datasets-mcp (datos reales para backtesting)
+    ↓ [si performance validada]
+Alpaca MCP (ejecución live regulada)
+```
+
+**Código base**:
+```python
+import anthropic
+from mcp import MCPClient
+
+client = anthropic.Anthropic()
+paper_mcp = MCPClient("http://localhost:8080")
+
+def run_trading_agent_session(strategy_prompt: str, capital: float = 100000) -> dict:
+    available_tools = paper_mcp.list_tools()
+    account = paper_mcp.call_tool("create_paper_account", {"initial_capital": capital, "currency": "USD"})
+    response = client.messages.create(
+        model="claude-sonnet-5-20260101",
+        max_tokens=4000,
+        tools=available_tools,
+        system=f"Trading agent in paper sandbox. Strategy: {strategy_prompt}. Account: {account['account_id']}. Run 5 decisions with position sizing (max 10%) and document reasoning.",
+        messages=[{"role": "user", "content": "Begin trading session."}]
+    )
+    final_portfolio = paper_mcp.call_tool("get_portfolio", {"account_id": account["account_id"]})
+    return {"session_pnl": final_portfolio["total_pnl"], "sharpe_ratio": final_portfolio["sharpe_ratio"], "ready_for_live": final_portfolio["sharpe_ratio"] > 1.5}
+```
+
+**Tiempo de implementación**: 1-2 semanas | **Licencias**: MIT
+
+---
+
+## P7 — FinSight Research Automation (ACL 2026)
+
+**Caso de uso**: sell-side o IR team que quiere generar research reports de calidad institucional automáticamente.
+
+**Stack**:
+```
+FinSight pipeline (ACL 2026, MIT):
+    1. DataCollectionAgent → fundamentals + filings + noticias + macro
+    2. AnalysisAgent → ratios financieros + comparación de pares
+    3. VLMChartAgent → charts con critique iterativo de VLM
+    4. Chain-of-Analysis → insights estructurados
+    5. ReportGenerationAgent → report publicable con charts + citas
+```
+
+**Código conceptual**:
+```python
+import anthropic
+from finsight import FinSightPipeline
+
+client = anthropic.Anthropic()
+pipeline = FinSightPipeline(llm_provider="anthropic", model="claude-sonnet-5-20260101")
+
+def generate_equity_report(ticker: str, report_type: str = "initiating_coverage") -> str:
+    report = pipeline.run(
+        ticker=ticker,
+        report_type=report_type,
+        include_charts=True,
+        chart_critique_rounds=3,
+        citation_format="institutional"
+    )
+    return report.full_text_with_charts
+
+report = generate_equity_report("NVDA", "initiating_coverage")
+# Score benchmark: 8.09 vs OpenAI Deep Research 6.11
+```
+
+**Tiempo de implementación**: 1 semana | **Licencias**: MIT | **Revenue**: $100k-300k
+
+---
+
+## P8 — Agentic Payments Loop (Mastercard AP4M + Alpaca MCP)
+
+**Caso de uso**: sistema de treasury o procurement que ejecuta pagos autónomamente con límites de riesgo.
+
+**Stack**:
+```
+Claude (agente de treasury/procurement)
+    ↓ [decisión de pago]
+Verificación de política (límites pre-configurados, anti-fraude)
+    ↓ [si dentro de límites]
+Mastercard AP4M (pago M2M con Agentic Tokens en blockchain)
+    ↓ [liquidación en segundos]
+Audit log con intent + policy + settlement
+    ↓ [si supera límites]
+Human-in-the-loop approval queue
+```
+
+**Código base**:
+```python
+import anthropic, json
 
 client = anthropic.Anthropic()
 
-class SAFRAgent:
-    """
-    MAS SAFR v1.0 compliant agent wrapper.
-    Co-authored with JPMorgan, Mastercard, Visa, HSBC, Ant International.
-    Four pillars: Policy Bound Execution, Real-Time Validation, Auditability, Interoperability.
-    """
-    
-    def __init__(self, policy: dict, agent_id: str):
-        self.policy = policy          # Policy Bound Execution — mandatos pre-aprobados
-        self.agent_id = agent_id
-        self.audit_log = []           # Auditability — log inmutable
-    
-    def execute(self, action: str, params: dict, human_validator: Callable = None) -> dict:
-        """Real-Time Validation before execution (SAFR pillar 2)."""
-        
-        # 1. Policy check
-        if not self._within_policy(action, params):
-            self._log("policy_violation", action, params, "BLOCKED")
-            return {"status": "BLOCKED", "reason": "outside_policy_mandate"}
-        
-        # 2. AI reasoning
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=2048,
-            messages=[{
-                "role": "user",
-                "content": f"Execute {action} with params: {json.dumps(params)}. "
-                          f"Policy constraints: {json.dumps(self.policy)}. "
-                          f"Return: reasoning, proposed_action, risk_level (low/medium/high), "
-                          f"confidence (0-1), requires_human_approval (bool)"
-            }]
-        )
-        
-        result = json.loads(response.content[0].text)
-        self._log("ai_reasoning", action, params, result)
-        
-        # 3. Human gate if needed (SAFR: human oversight activation)
-        if result.get("requires_human_approval") or result.get("risk_level") == "high":
-            if human_validator:
-                approved = human_validator(action, params, result)
-                if not approved:
-                    self._log("human_rejected", action, params, "REJECTED")
-                    return {"status": "REJECTED_BY_HUMAN", "reasoning": result}
-        
-        # 4. Execute and log (SAFR: Auditability)
-        self._log("execution", action, params, "EXECUTED")
-        return {"status": "EXECUTED", "result": result, "audit_log": self.audit_log[-3:]}
-    
-    def _within_policy(self, action: str, params: dict) -> bool:
-        allowed_actions = self.policy.get("allowed_actions", [])
-        max_amount = self.policy.get("max_transaction_amount", 0)
-        return (action in allowed_actions and 
-                params.get("amount", 0) <= max_amount)
-    
-    def _log(self, step: str, action: str, params: dict, result):
-        self.audit_log.append({
-            "timestamp": datetime.utcnow().isoformat(),
-            "agent_id": self.agent_id,
-            "step": step,
-            "action": action,
-            "params_hash": hash(str(params)),  # no almacena datos sensibles
-            "result": str(result)
-        })
-
-# Usage: treasury sweep agent
-TREASURY_POLICY = {
-    "allowed_actions": ["sweep_to_mmf", "fx_hedge", "short_term_invest"],
-    "max_transaction_amount": 100000,  # USD
+PAYMENT_POLICY = {
+    "auto_approve_limit": 5000,
     "require_human_above": 50000,
-    "restricted_currencies": ["KPW", "IRR"],
+    "allowed_categories": ["SaaS", "Cloud", "Office Supplies", "Travel"],
+    "daily_limit": 25000
 }
 
-agent = SAFRAgent(policy=TREASURY_POLICY, agent_id="treasury-001")
-result = agent.execute("sweep_to_mmf", {"amount": 75000, "currency": "USD"})
+def treasury_payment_agent(payment_request: dict) -> dict:
+    tools = [
+        {"name": "execute_payment", "description": "Execute via Mastercard AP4M", "input_schema": {"type": "object", "properties": {"amount": {"type": "number"}, "recipient": {"type": "string"}, "currency": {"type": "string"}}, "required": ["amount", "recipient", "currency"]}},
+        {"name": "escalate_for_human_approval", "description": "Escalate above policy limits", "input_schema": {"type": "object", "properties": {"reason": {"type": "string"}}}}
+    ]
+    response = client.messages.create(
+        model="claude-sonnet-5-20260101",
+        max_tokens=1000,
+        tools=tools,
+        system=f"Treasury agent. Policy: {json.dumps(PAYMENT_POLICY)}. Execute if within limits, escalate if above, always log reasoning.",
+        messages=[{"role": "user", "content": f"Process: {json.dumps(payment_request)}"}]
+    )
+    return {"status": "processed", "audit_log": response.content}
 ```
 
-**Por qué ahora**: MAS SAFR publicado julio 2026 con JP Morgan, Mastercard, Visa como co-autores → se convierte en estándar de facto en APAC y referencia para reguladores globales.
-
-**Deal size**: $60k-$200k (governance layer) + integración con sistemas existentes.
+**Tiempo de implementación**: 2-3 semanas | **Revenue**: $200k-500k
 
 ---
 
-## Receta 14: AML con Claude — FIS+Anthropic Pattern (open source replica)
-**Tiempo estimado**: 3-5 semanas | **Licencias**: MIT + AGPL-3.0
+## P9 — EU AI Act Compliance Sprint (deadline: 2 ago 2026)
 
+**Caso de uso**: firma financiera en Europa que necesita compliance urgente en 19 días.
+
+**Checklist de compliance (EU AI Act Anexo III — Financial Services)**:
+
+```markdown
+## Sistemas High-Risk en Finanzas
+
+### Scoring crediticio / decisiones de préstamo
+- [ ] Risk management system documentado
+- [ ] Human oversight points definidos
+- [ ] Data governance: qué datos, de dónde, desde cuándo
+- [ ] Technical documentation: modelo, versión, training data
+- [ ] Audit log: cada decisión con timestamp + inputs + output
+- [ ] Declaración de conformidad firmada
+
+### Monitoreo AML / fraude
+- [ ] Explicabilidad por qué se flaggeó una transacción (obligatorio)
+- [ ] False positive rate documentado
+- [ ] Procedimiento de revisión humana para falsos positivos
+
+### Penalización: €35M o 7% del facturado global
+```
+
+**Stack OSS para implementar**:
+```
+FINOS AIGF MCP → clasificación de riesgo (high vs limited)
+    ↓
+FINOS Common Controls → checklists ejecutables
+    ↓
+Audit log inmutable (cada decisión AI registrada)
+    ↓
+HITL checkpoints (supervisión humana documentada)
+    ↓
+Declaración de conformidad + registro ante autoridad
+```
+
+**Tiempo de implementación**: 4-8 semanas | **Licencias**: Apache-2.0 | **Revenue**: $150k-400k urgente
+
+---
+
+## P10 — Darwinian Multi-Agent Ensemble para Análisis Crediticio LATAM
+
+**Caso de uso**: institución financiera que quiere mejorar continuamente su scoring de crédito.
+
+**Concepto** (basado en ATLAS pattern):
 ```python
 import anthropic
-import json
 
 client = anthropic.Anthropic()
 
-AML_TYPOLOGIES = [
-    "structuring/smurfing",      # múltiples transacciones < umbral
-    "layering",                   # capas de transferencias para ocultar origen
-    "trade_based_laundering",     # over/under invoicing en comercio
-    "real_estate_laundering",     # compras inmobiliarias en efectivo
-    "crypto_mixing",              # uso de mixers/tumblers
-    "shell_company_network",      # empresas fachada interconectadas
-]
-
-def aml_investigation_agent(
-    customer_id: str,
-    transactions: list,
-    core_banking_data: dict
-) -> dict:
-    """
-    Replica del FIS+Anthropic Financial Crimes Agent pattern:
-    - Ensambla evidencia a través de sistemas core del banco
-    - Evalúa contra tipologías AML conocidas
-    - Surfea casos de mayor riesgo al investigador
-    - Cada conclusión vinculada a fuente de datos
-    """
-    
-    # Prepare evidence package
-    evidence = {
-        "customer_profile": core_banking_data.get("customer"),
-        "account_history": core_banking_data.get("account_history"),
-        "transaction_summary": {
-            "total_count": len(transactions),
-            "total_volume": sum(t["amount"] for t in transactions),
-            "avg_transaction": sum(t["amount"] for t in transactions) / max(len(transactions), 1),
-            "unique_counterparties": len(set(t.get("counterparty") for t in transactions)),
-            "transactions": transactions[:50]  # últimas 50
-        }
+CREDIT_ANALYSTS = {
+    "conservative_analyst": {
+        "prompt": "Analyze credit with extreme caution. Focus on debt-to-income, credit history, payment consistency.",
+        "sharpe_proxy": 0.0
+    },
+    "growth_analyst": {
+        "prompt": "Analyze credit with focus on growth potential and alternative data (Pix frequency, Open Finance cash flow, digital footprint).",
+        "sharpe_proxy": 0.0
+    },
+    "latam_specialist": {
+        "prompt": "Analyze considering LATAM factors: income informality, seasonal patterns, family networks, Pix volume as income proxy.",
+        "sharpe_proxy": 0.0
     }
-    
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        messages=[{
-            "role": "user",
-            "content": f"""Conduct AML investigation for customer {customer_id}.
+}
 
-Evidence package:
-{json.dumps(evidence, indent=2)}
-
-Known typologies to evaluate: {json.dumps(AML_TYPOLOGIES, indent=2)}
-
-For each typology:
-1. Check if patterns match
-2. If match: cite specific transactions (with IDs) as evidence
-3. Calculate probability 0-100 that typology applies
-4. Flag transactions that require Suspicious Activity Report (SAR)
-
-Return JSON:
-{{
-  "risk_level": "low|medium|high|critical",
-  "overall_aml_score": 0-100,
-  "typology_matches": [
-    {{
-      "typology": "...",
-      "probability": 0-100,
-      "evidence_transactions": ["txn_id_1", "txn_id_2"],
-      "explanation": "..."
-    }}
-  ],
-  "sar_required": true/false,
-  "sar_transactions": ["txn_ids"],
-  "investigator_notes": "...",
-  "data_sources_used": ["core_banking", "transaction_history"]
-}}
-
-Every conclusion MUST link to specific transaction IDs as evidence."""
-        }]
-    )
-    
-    result = json.loads(response.content[0].text)
-    
-    # Human investigator always has final decision
-    result["human_decision_required"] = result.get("aml_score", 0) > 40 or result.get("sar_required", False)
-    result["agent_id"] = "aml-001"
-    result["timestamp"] = "2026-07-14T00:00:00Z"
-    
-    return result
+def evaluate_credit_ensemble(application: dict) -> dict:
+    decisions = {}
+    for analyst_id, analyst in CREDIT_ANALYSTS.items():
+        response = client.messages.create(
+            model="claude-sonnet-5-20260101",
+            max_tokens=500,
+            system=analyst["prompt"],
+            messages=[{"role": "user", "content": f"Evaluate: {application}. Return JSON: {{approve: bool, confidence: 0-1, reasoning: str}}"}]
+        )
+        decisions[analyst_id] = response.content[0].text
+    return {
+        "decisions": decisions,
+        "ensemble_recommendation": "WEIGHTED_VOTE",
+        "weights": {k: v["sharpe_proxy"] for k, v in CREDIT_ANALYSTS.items()}
+    }
 ```
 
-**Inspirado en**: FIS + Anthropic Financial Crimes AI Agent (mayo 2026). BMO y Amalgamated Bank como early adopters.
-**Costo**: Open source replica con Claude API → $2k-5k/mes vs precio enterprise de FIS.
+**Tiempo de implementación**: 4-6 semanas | **Licencias**: MIT | **ROI esperado**: -15-25% tasa de default en underbanked LATAM
 
 ---
 
-*Ver también: `agents/top.md` para agentes individuales · `verticals/solutions.md` para plataformas base.*
+## Resumen de patrones
+
+| Patrón | Caso de uso | Tiempo | Licencias | Revenue potencial |
+|--------|-------------|--------|-----------|------------------|
+| P1 — Multi-Agent Research Desk | Investigación equities institucional | 2-3 sem | MIT + AGPLv3 | $150k-500k proyecto |
+| P2 — ATLAS Self-Improving System | Trading agents auto-optimizados | 4-6 sem | MIT | $300k-1M retainer |
+| P3 — Core Banking Agentico (FinAegis) | Banco digital con AI nativa | 3-4 sem | Apache-2.0 | $500k-2M proyecto |
+| P4 — Personal Finance LATAM | Asistente financiero Open Finance | 2-3 sem | MIT | SaaS $10-30/usuario/mes |
+| P5 — KYC/AML EU AI Act | Compliance automatizado | 3-4 sem | MIT + AGPL | $200k-600k proyecto |
+| P6 — Paper Trading Sandbox | Training ground para agentes | 1-2 sem | MIT | Componente de P2 |
+| P7 — FinSight Research Automation | Reports institucionales en 20 min | 1 sem | MIT | $100k-300k proyecto |
+| P8 — Agentic Payments Loop | Treasury/procurement autónomo | 2-3 sem | MIT | $200k-500k proyecto |
+| P9 — EU AI Act Compliance Sprint | Compliance 19 días deadline | 4-8 sem | Apache-2.0 | $150k-400k urgente |
+| P10 — Credit Ensemble LATAM | Crédito para underbanked | 4-6 sem | MIT | $500k+ + equity deal |
+
+---
+*Actualizado automáticamente por el pipeline de ingest. v6.*

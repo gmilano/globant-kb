@@ -1,119 +1,131 @@
 # 📈 Agentes trending — Financial Services
 
-> Lo más nuevo y en crecimiento esta semana. Última actualización: 2026-07-14 (v6)
-> ⚠️ EU AI Act deadline: **2026-08-02 — 19 días** | MAS SAFR framework v1.0 publicado
+> Lo más nuevo y en crecimiento. Última actualización: 2026-07-14 (v6)
+> ⚠️ EU AI Act deadline: **2026-08-02 — 19 días**
 
 ## Qué está explotando — semana del 14 jul 2026
 
-### 🔥 NUEVO: MAS SAFR (jul 2026) — el marco de referencia global para agentes financieros
-La Monetary Authority of Singapore (MAS) publicó **Safeguards for Agentic Finance at Runtime (SAFR) v1.0** en julio 2026, co-escrito con Ant International, Circle, HSBC, JP Morgan, Manulife, Mastercard, OCBC y Visa.
+### 🔥 NUEVO: ATLAS — Agentes de trading que reescriben sus propios prompts
+[chrisworsey55/atlas-gic](https://github.com/chrisworsey55/atlas-gic) | MIT
 
-SAFR define cómo se autorizan las acciones de los agentes, cómo se activa la supervisión humana y qué se registra en cada decisión. Los cuatro pilares:
-- **Policy Bound Execution**: el agente solo ejecuta dentro de mandatos pre-aprobados
-- **Real-Time Validation**: validación de acción antes de ejecutar (no post-hoc)
-- **Auditability**: log inmutable de cada paso de razonamiento y acción
-- **Interoperability**: agentes de distintos vendors operan bajo el mismo contrato de governance
+El framework más conceptualmente avanzado de 2026. Aplica tres ideas convergentes al mercado financiero:
+1. **Karpathy Autoresearch**: los prompts de los agentes son los "pesos" del sistema, optimizados vía feedback del mercado
+2. **Reflexividad de Soros**: el sistema modela cómo sus propias predicciones afectan el mercado
+3. **Swarm Agents de MiroFish**: enjambre de agentes especializados con selección competitiva
 
-Casos de uso aplicados: agent-assisted payments, treasury sweeps, wealth management, client engagement.
+**Arquitectura**: 25 agentes en 4 capas (macro, sector, superinvestor philosophy, decision). El agente con peor Sharpe ratio recibe un rewrite completo de sus prompts cada 5 días de trading. El mejor rewrite sobrevive; los fallidos se revierten vía git. 9 agentes fueron generados autónomamente para cubrir gaps detectados (credit markets, earnings calendar, options flow, etc.); 3 fueron eliminados por baja performance.
 
-**No es regulación obligatoria** — es un framework de referencia de la industria (no guidance supervisora). Pero al venir de MAS con JP Morgan, Mastercard y Visa como co-autores, **se convertirá en el estándar de facto en APAC y referencia global**. Globant debe incluir SAFR en propuestas para clientes financieros en Asia, Europa y LATAM.
+**Resultado**: +22% return en 173 días de deployment con capital real (General Intelligence Capital).
 
-### 🔥 NUEVO: Fiserv agentOS (mayo 2026) — el sistema operativo para agentes bancarios
-[Fiserv](https://www.fiserv.com/en/lp/agentos-by-fiserv.html) lanzó **agentOS** en mayo de 2026 como el "sistema operativo para agentic AI en banca". Principios de diseño: identity-bound execution, policy enforcement, observability y trazabilidad end-to-end.
+**Por qué importa para Globant**: primer demo de prompts-as-weights en producción financiera. El patrón es generalizable: cualquier sistema de agentes en cualquier dominio puede adoptar Darwinian selection. Argumenta a favor de arquitecturas de agentes con self-improvement vs hardcoded logic.
 
-**Agent Marketplace**: 4 agentes propios de Fiserv + 9 third-party partners:
-- Commercial Loan Onboarding Agent
-- Daily Operational Analysis & Reporting Agent
-- Agentic Deposit Intelligence
-- Agentic AML Triage Analysis
+---
 
-Partners en el marketplace cubren: customer engagement, financial crimes compliance, deposit intelligence, regulatory compliance, dispute management, reconciliation.
+### 🔥 NUEVO: AI-Trader — Trading 100% agent-native (HKUDS, may 2026)
+[HKUDS/AI-Trader](https://github.com/HKUDS/AI-Trader) | MIT
 
-GA prevista: **agosto 2026** (coincide con EU AI Act deadline). Desarrollado con OpenAI; AWS es partner estratégico de infraestructura.
+El mismo equipo que lanzó Vibe-Trading (workspace de research) ahora entrega AI-Trader: una plataforma donde los propios agentes AI son los participantes del mercado. Diferencia clave vs otros frameworks:
 
-**Por qué importa para Globant**: agentOS define el estándar de governance para bancos que usan Fiserv (centenares de instituciones). Si los clientes de Globant usan Fiserv, la arquitectura de agentes debe ser compatible con agentOS.
+- **Agent-native by design**: no es un bot que ejecuta reglas — es un exchange donde agentes compiten y colaboran
+- **Collective intelligence**: los agentes debaten ideas de trading entre sí antes de ejecutar
+- **Universal market access**: Stocks, Crypto, Forex, Options, Futures desde un solo endpoint
+- **One-Click Copy Trading**: seguir al top performer en tiempo real
+- **Agentes compatibles**: Claude Code, Cursor, OpenClaw, Codex, nanobot
 
-### 🔥 NUEVO: FIS + Anthropic Financial Crimes Agent (mayo 2026)
-[FIS anunció](https://www.fisglobal.com/about-us/media-room/press-release/2026/fis-brings-agentic-ai-to-banking-with-anthropic-starting-with-financial-crimes) partnership con Anthropic para construir el primer agente de AI para crímenes financieros de producción. El agente comprime investigaciones AML de horas a minutos:
+**Update crítico (9 abr 2026)**: streamlining masivo del codebase para hacerlo más fácil de modificar y operar por agentes. La intención explícita: que los agentes AI puedan entender, navegar y modificar su propio entorno de trading.
 
-1. Ensambla evidencia automáticamente a través de sistemas core del banco
-2. Evalúa actividad contra tipologías conocidas de AML
-3. Surfea casos de mayor riesgo al investigador con trazabilidad completa
+---
 
-Cada conclusión está vinculada a su fuente de datos; cada decisión queda con el investigador. Early adopters: BMO y Amalgamated Bank. GA: H2 2026.
+### 🔥 NUEVO: MCP Ecosystem Financiero 2026 — 12+ servidores listos
+Según la guía comparativa de [chartlibrary.io](https://chartlibrary.io/blog/financial-mcp-servers-compared), hay más de 12 MCP servers financieros disponibles en julio 2026:
 
-El equipo de Applied AI y forward-deployed engineers de Anthropic está embebido con FIS para co-diseño y transferencia de conocimiento.
+| MCP | Función | Por qué es diferente |
+|-----|---------|----------------------|
+| financial-datasets-mcp | Raw data (stocks) | El más universal — todos los agentes lo necesitan |
+| open-paper-trading-mcp | Simulación sin riesgo | 43 tools, options chain + Greeks, diseñado para entrenar agentes |
+| Alpaca MCP | Ejecución real | Único MCP con live trade execution regulado |
+| tradingview-mcp | Análisis técnico + screeners | Datos de TradingView para cualquier agente MCP |
+| mcp-trader | Portfolio management | Para traders humanos con asistente AI |
+| FinAegis MCP | Core banking + compliance | 12 herramientas bancarias con OAuth y límites de gasto |
+| FINOS AIGF MCP | Governance framework | EU AI Act + OWASP integrado como MCP — para finanzas reguladas |
 
-**Implicación**: Anthropic está posicionando Claude no solo como LLM genérico sino como componente central en infraestructura bancaria regulada. Agentes basados en Claude con audit trail nativo son el patrón emergente para AML + financial crimes.
+**Patrón emergente**: el stack de un agente financiero en 2026 = LLM + 3-4 MCPs especializados. Cada MCP resuelve una capa (datos/simulación/ejecución/compliance). No hay un MCP monolítico — es composición.
 
-### 🔥 NUEVO: finance-trading-ai-agents-mcp — MCP de arquitectura departamental
-[aitrados/finance-trading-ai-agents-mcp](https://github.com/aitrados/finance-trading-ai-agents-mcp) es un MCP server comprehensivo y gratuito para análisis financiero y trading cuantitativo. Deploy en un comando. La arquitectura imita la estructura real de una firma financiera:
-- **Research Department**: fundamentals, noticias, análisis sectorial
-- **Quant Department**: indicadores técnicos, backtesting, modelos estadísticos
-- **Risk Department**: VAR, correlation, drawdown analysis
-- **Macro Department**: calendarios económicos, FX, bonos soberanos
+---
 
-Integra con LLMs y permite a agentes acceder a análisis completo de mercado sin construir conectores individuales.
+### 🔥 NUEVO: FINOS AI Fund — Gobernanza AI financiera como OSS (jul 2026)
+[finos.org](https://www.finos.org/press/finos-launches-ai-fund)
 
-### TradingAgents v0.3.1 (jul 2026) — fix crítico de look-ahead bias
+El 1 de julio de 2026, FINOS (Fintech Open Source Foundation, Linux Foundation) lanzó el **FINOS AI Fund** con un Governing Board fundador compuesto por:
+- **DTCC** (Depository Trust & Clearing Corporation)
+- **Morgan Stanley**
+- **RBC** (Royal Bank of Canada)
+- **NatWest**
+
+Objetivo: estándares abiertos para agentic AI en servicios financieros regulados. Proyectos activos:
+- **AI Governance Framework (AIGF)**: catálogo de riesgos y mitigaciones + MCP server
+- **Common Controls for AI Services**: controles comunes con BMO, Citi, Morgan Stanley, RBC, Bank of America + Microsoft, Google Cloud, AWS
+- **Open Resource Broker (ORB)**: API unificada para HPC con MCP server (Morgan Stanley + AWS + RBC)
+- **CALM (Compliant Architecture for Lightweight Messaging)**: estándar de mensajería para AI en finanzas
+
+**Por qué importa**: los bancos tier-1 globales están contribuyendo su IP de governance como OSS — señal de que la capa de compliance AI se está commoditizando. Las firmas que dominen la implementación de AIGF/Common Controls antes del 2 ago 2026 capturan el revenue de EU AI Act compliance.
+
+---
+
+### 🔥 TradingAgents v0.3.1 — Fix crítico de look-ahead bias
 [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | MIT | 82k+★
 
-**v0.3.1**: fix crítico de look-ahead filtering en Alpha Vantage — backtests con v0.2.x usaban datos del futuro. Claude Sonnet 5 + Fable 5 support; Bedrock auth; FRED + Polymarket como data vendors. Todos los benchmarks publicados con v0.2.x son sospechosos.
+**Fix crítico**: Alpha Vantage look-ahead filtering — backtests con v0.2.x usaban datos del futuro, inflando los resultados. Cualquier paper o repo que cite TradingAgents con v0.2.x tiene resultados no reproducibles.
 
-### BigFinanceBench (arXiv:2606.03829, jun 2026) — 58.8% gap
-928 tareas financieras de nivel experto, 36,241 puntos de rúbrica que evalúan derivación completa (no solo resultado). Mejor agente frontier: **58.8%** rubric score. Headroom masivo vs analistas humanos.
+**Impacto del fix de look-ahead**: al evaluar repositorios de trading AI en 2026, exigir point-in-time correctness. La mayoría de backtests publicados pre-julio 2026 no son válidos.
 
-### ICBCBench (arXiv:2606.17458, jun 2026) — consorcio de 50+ expertos
-[DeepFin-Intelligence/ICBCBench](https://github.com/DeepFin-Intelligence/ICBCBench) — benchmark industrial para financial deep research. 50+ expertos de 40+ organizaciones financieras. Dual-track: tareas objetivas con respuestas verificables + evaluación de reportes long-form (expert alignment, citation consistency, source quality). Resultado: gaps sustanciales en reasoning complejo, grounding factual y calidad de reporte.
+**Multi-provider 2026**: soporte completo para Azure, DeepSeek, Qwen, NVIDIA, Kimi, Groq, Mistral + nuevos data vendors (FRED economic data, Polymarket prediction market feeds).
 
-### FinSight ACL 2026 — supera a OpenAI Deep Research
-[RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | ~800★
+---
 
-Pipeline multi-etapa: DataCollectionAgent → AnalysisAgent → VLMChartAgent → Chain-of-Analysis → ReportGenerationAgent. Score: **8.09** vs OpenAI Deep Research 6.11. Un ticker → reporte institucional en ~20 min.
+### FinRobot Desktop v0.1.0 — App nativa para analistas sin código
+[AI4Finance-Foundation/FinRobot](https://github.com/AI4Finance-Foundation/FinRobot) | MIT
 
-### Mastercard Agent Pay for Machines (10 jun 2026) — pagos M2M en producción
-30+ partners: Stripe, Adyen, Coinbase, Cloudflare, OKX, Ripple, Polygon, Solana. Micropagos M2M, stablecoins. Los agentes ya no solo recomiendan — **transaccionan**.
+App macOS nativa (PydanticAI + FastAPI + React/Tauri) que lleva workflows de equity research multi-agente a analistas que solo usan Excel. Separación explícita: cómputo determinístico (DCF, DDM, LBO, Monte Carlo) en código Python puro; LLMs solo para narración, síntesis y reportes.
 
-## MCP Ecosystem financiero — explosión de servidores (julio 2026)
+**Impacto LATAM**: los bancos de inversión en Brasil, México, Colombia donde los analistas no programan ahora tienen una puerta de entrada agentica sin fricción técnica.
 
-| MCP Server | Repo | Licencia | Descripción |
-|------------|------|----------|-------------|
-| finance-trading-ai-agents-mcp | [aitrados/finance-trading-ai-agents-mcp](https://github.com/aitrados/finance-trading-ai-agents-mcp) | MIT | Deploy en un comando; arquitectura departamental (research/quant/risk/macro) |
-| tradingview-mcp | [atilaahmettaner/tradingview-mcp](https://github.com/atilaahmettaner/tradingview-mcp) | MIT | Real-time market data, TA, screeners, backtesting — stocks/crypto/forex/futuros |
-| financekit-mcp | [vdalhambra/financekit-mcp](https://github.com/vdalhambra/financekit-mcp) | MIT | 17 herramientas: quotes, TA, crypto CoinGecko, risk metrics (Sharpe/Sortino/Beta) |
-| Sharpe crypto MCP | [sharpe.ai/crypto-mcp](https://sharpe.ai/crypto-mcp) | — | Funding rates de 13 venues perpetual, options Deribit, futures en 10 exchanges |
-| financial-datasets-mcp | [financial-datasets/mcp-server](https://github.com/financial-datasets/mcp-server) | MIT | SEC filings, income statements, balance sheets, cash flow, stock prices via Financial Datasets API |
-| Alpaca MCP | Alpaca Markets | Apache-2.0 | Live trade execution — stocks, ETFs, crypto, options vía broker regulado |
-| Open Finance MCP | open-finance-ai | MIT | Open Finance de Brasil/Chile conectado a Claude vía MCP |
-| OpenBB MCP v4 | [OpenBB-finance/OpenBB](https://github.com/OpenBB-finance/OpenBB) | AGPLv3 | MCP-native: Bloomberg, Alpha Vantage, Quiver Quant en un hub |
+---
 
-> 171+ financial MCP servers en mcpservers.org/category/finance — el ecosistema de datos de mercado más denso de todo MCP.
+### BigFinanceBench (arXiv:2606.03829, jun 2026) — 58.8% gap vs experto
+[RogoAI/big-finance-benchmark](https://huggingface.co/datasets/RogoAI/big-finance-benchmark) · Rogo + OpenAI
 
-## Patrones emergentes — semana del 14 jul 2026
+928 tareas de research financiero nivel analista con rúbricas de 36,241 puntos que evalúan el proceso completo (selección de fuente, definición contable, cálculo, supuestos), no solo el resultado. El mejor agente frontier: **58.8%**. El benchmark más riguroso disponible para financial AI en 2026.
+
+---
+
+## Patrones emergentes — julio 2026
 
 | Patrón | Descripción |
 |--------|-------------|
-| SAFR-compliant agent design | Policy bound execution + real-time validation + audit log inmutable desde diseño inicial |
-| Anthropic-in-core-banking | Claude como componente de infraestructura regulada (FIS AML, Visa, Mastercard) |
-| Department-architecture MCP | finance-trading-ai-agents-mcp como patrón de organización de herramientas en roles reales |
-| agentOS marketplace pattern | Compose Fiserv/third-party agents en un governance layer unificado |
-| ICBCBench as go-live gate | Usar benchmark industrial (50+ expertos) como criterio de aceptación antes de producción |
-| Multi-MCP financial stack | 3-5 MCP servers especializados (data/execution/compliance/research) vs SDK monolítico |
-| Structured-output trading agents | Agentes que devuelven JSON tipado, auditables y testeables |
-| Agentic payments closed-loop | Mastercard Agent Pay / Visa Intelligent Commerce — transacción autónoma end-to-end |
-| Look-ahead hygiene | TradingAgents v0.3.1 fix — backtests v0.2.x inflados; re-evaluación requerida |
+| **Prompts-as-weights (ATLAS)** | Tratar los prompts de los agentes como parámetros optimizables vía feedback real del mercado |
+| **Agent-native exchanges** | Plataformas diseñadas desde cero para que agentes AI sean los participantes principales |
+| **MCP composition stack** | 3-4 MCPs especializados por dominio > 1 MCP monolítico |
+| **Governance-as-Code** | AIGF + Common Controls como OSS — compliance EU AI Act vía librerías, no consultoría manual |
+| **Multi-provider LLM en finance** | Cambiar entre OpenAI/Anthropic/DeepSeek/Qwen según latencia/costo/regulación |
+| **Look-ahead hygiene** | Backtests pre-v0.3.1 de TradingAgents son no válidos; point-in-time correctness obligatorio |
+| **Agentic payments closed-loop** | Agentes que transaccionan autónomamente (Mastercard AP4M + Alpaca MCP) |
+| **Benchmark-first proposals** | FinGAIA + BigFinanceBench para demostrar gap LLM vs humano y justificar fine-tuning |
 
-## ⏰ EU AI Act — Countdown
+## ⏰ EU AI Act — Countdown: 19 días (al 14 jul 2026)
 
-**Deadline: 2026-08-02 — 19 días**
+**Deadline completo: 2026-08-02**
 
-Sistemas AI de alto riesgo en finanzas (Anexo III):
-- Scoring crediticio / decisiones de préstamo → alto riesgo
-- Monitoreo AML / transacciones → alto riesgo (FIS + Anthropic cubrirá esto)
-- Suscripción de seguros / pricing → alto riesgo
-- Detección de fraude que restringe acceso → alto riesgo
+Sistemas AI de alto riesgo en servicios financieros (Anexo III):
+- Scoring crediticio / decisiones de préstamo → **alto riesgo**
+- Monitoreo AML / transacciones → **alto riesgo**
+- Suscripción de seguros / pricing → **alto riesgo**
+- Detección de fraude que restringe acceso a servicios → **alto riesgo**
 
-Sanción: **€35M o 7% del facturado global anual**.
+Obligaciones: gestión de riesgos, supervisión humana, documentación técnica, audit log inmutable, declaración de conformidad.
+Sanción: **€35M o 7% del facturado global anual**, el mayor.
+
+**Revenue inmediato para Globant**: firmas financieras en Europa necesitan urgentemente auditoría de sistemas AI, diseño de audit logs y conformidad. FINOS AIGF MCP + FINOS Common Controls son las herramientas OSS disponibles — Globant puede ser el integrador.
 
 ---
-*Pipeline automático — se actualiza en cada ingest.*
+*Pipeline automático — se actualiza en cada ingest. v6.*
