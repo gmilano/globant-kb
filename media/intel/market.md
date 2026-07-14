@@ -1,64 +1,87 @@
-# 🗺️ Market Map — Media & Entertainment AI
+# Market Map — Media & Entertainment AI
 
-> Key players, market sizing, opportunities. LATAM + global focus.
-> Last updated: 2026-07-14 (v9)
+> Key players, market sizing, and competitive landscape.
+> Last updated: 2026-07-14 (v10 — full rewrite)
 
-## Market Size (2026)
+## Market Size (2026 Data)
 
-| Segment | 2026 Size | 2030 Projection | CAGR | Source |
-|---------|-----------|-----------------|------|--------|
-| AI in Media & Entertainment (total) | $35.77B | $87.44B | 25.2% | Research & Markets 2026 |
-| Generative AI in M&E | $3.16B | $8.06B | 26.4% | GlobeNewswire Jul 2026 |
-| GenAI in Content Creation | $28.75B | $77.22B | 28–33.5% | GlobeNewswire Jul 7 2026 |
-| AI Content Generation | $6B | $45B (2033) | 35% | Coherent Market Insights |
-
-**Key stat:** Morgan Stanley estimates AI could reduce TV and film production costs by up to **30%**, with key applications in content personalization, VFX automation, AI dubbing/localization, and audience analytics.
+| Segment | 2025 | 2026 Est. | 2030 Target | CAGR | Source |
+|---------|------|-----------|-------------|------|--------|
+| AI in M&E (total) | — | $35.77B | $87.44B | 25.2% | Multiple analysts |
+| AI in M&E (GrandView) | — | — | $99.48B | 24.2% | GrandView Research |
+| GenAI in Content Creation | $21.53B | $28.75B | $77.22B | 28% | GlobeNewswire Jul 2026 |
+| GenAI in M&E (narrow) | — | — | $8B+ | — | ResearchAndMarkets |
+| AI Content Generation Market | $6B | — | $45B | 35% | CoherentMarket 2033 |
+| AI in Advertising (GenAI) | — | $4.2B | $9.8B | 23.8% | R&M 2026→2030 |
 
 ## Global Players
 
-| Company | Type | AI Strategy | Open Source |
-|---------|------|-------------|-------------|
-| Netflix | Streaming/Studio | Acquired Warner Bros. Discovery (~$72B equity, ~$82.7B EV, 2026). Acquired InterPositive (16-person AI post-prod studio). Catalog as AI training data moat. | No |
-| Disney | Studio/Streaming | Disney+OpenAI partnership. Beta: AI tool generating TV commercials (Jul 2026). Agentic advertising capabilities with buy-side AI agents. | No |
-| Fox | Broadcaster | First end-to-end **agentic advertising platform** — AI agents transact with one another autonomously. Industry first. | No |
-| Warner Bros. Discovery | Studio (→ Netflix) | Agentic ad automation in modern media buying. Library as AI training data (~72B USD valuation). | No |
-| Meta | Platform/AI Lab | AudioCraft/MusicGen (MIT license), segment-anything, many open models. | Yes |
-| Tencent | Studio/Platform | HunyuanVideo (13B video gen), HunyuanVideo-Foley (SFX sync). Community license. | Partial |
-| Lightricks | Tools | LTX-Video 2.3 (22B, audio+video), ComfyUI nodes. Commercial license required. | Partial |
-| Alibaba Tongyi | AI Lab | Wan 2.2 MoE video model — Apache-2.0, fully commercial. Best open license for video gen. | Yes |
-| ACE Studio + StepFun | AI Music | ACE-Step 1.5 — Apache-2.0 music foundation model rivaling Suno. | Yes |
+### Platform & Infrastructure
 
-## Agentic Advertising — Emerging Segment
+| Company | Type | Key AI Product | Openness |
+|---------|------|----------------|----------|
+| **Google** | Cloud + Consumer | Agentic Production Environment (NAB 2026) + Veo 3.1 video | Proprietary; open ecosystem APIs |
+| **Meta / Facebook** | Platform + Research | AudioCraft (MIT), Llama (open weights), Segment Anything | OSS-first for research |
+| **Alibaba / Tongyi** | Cloud + Research | Wan 2.x video generation (Apache-2.0) | Full OSS weights + code |
+| **Lightricks** | Creative Tech | LTX-Video (Apache-2.0) | Full OSS |
+| **ByteDance** | Platform | Seedance 2.0 (closed), CapCut AI | Mostly proprietary |
+| **Runway** | AI Video Startup | Gen-4.5 | Proprietary API |
+| **OpenAI** | Foundation Model | Sora 2 (closed), Whisper (MIT) | Mixed |
+| **Avid** | Broadcast NLE | MediaCentral + Google Agentic AI (Apr 2026) | Proprietary NLE, open APIs |
 
-| Player | What | Status |
-|--------|------|--------|
-| Fox | End-to-end agentic ad platform (AI buys + sells ad inventory) | Live 2026 |
-| Disney | AI commercial generation tool | Beta Jul 2026 |
-| Warner Bros. | Agentic ad automation for media buying | Live 2026 |
-| Versus AI | AI second-screen engagement overlays (Disney+/Paramount+/HBO/NFL) | Live Jul 2026 |
-| **Open-source alternative** | Owncast + Claude Haiku + Redis pub/sub (Interactive CTV) | Build now |
+### Advertising & Ad-Tech
 
-## AI in Content Production — Cost Impact
+| Company | Move | Impact |
+|---------|------|--------|
+| **Fox** | Autonomous ad buying sell-side agents (pre-Cannes 2026) | First major broadcaster with fully agentic ad stack |
+| **Disney** | AI creative generation + in-house agentic ad tools (beta Jul 2026) | Pulling creative AI in-house |
+| **The Trade Desk** | Autonomous buying agents (Cannes Lions 2026) | Programmatic ad-buy fully automated |
+| **LiveRamp** | Agentic audience data layer | Connects AI agent ad-buyers to identity graph |
+| **Google** | Generative ad creative + agency AI (Cannes Lions 2026) | Bundling AI into Google Ad Manager |
 
-| Application | Cost Reduction | Status |
-|-------------|---------------|--------|
-| VFX automation | 30–50% | Early production adoption |
-| AI dubbing/localization | 60–80% vs human | Available now (open source) |
-| Short-form video generation | 91% (from $4.5k to $400/min) | Available now |
-| AI script writing | 20–40% | Available now |
-| Content personalization | Drives 27.4% of AI segment revenue | Major streaming use case |
+### Music & Audio
 
-## LATAM Opportunities
+| Company | Move | Openness |
+|---------|------|----------|
+| **ACE-Step** | ACE-Step 1.5 XL (4B DiT, Apache-2.0, Apr 2026) | Full OSS |
+| **Meta / audiocraft** | MusicGen + AudioGen (MIT code) | OSS code, CC-BY-NC-4.0 weights |
+| **Resemble AI** | Chatterbox (Apache-2.0) | Full OSS |
+| **MyShell** | OpenVoice v2 (MIT) | Full OSS |
+| **Nari Labs** | Dia TTS (Apache-2.0) | Full OSS |
+| **Suno** | Suno v4 | Proprietary |
+| **Udio** | Udio v2 | Proprietary |
 
-- **Dubbing/localization at scale**: LATAM content market requires ES/PT localization. AutoDub + WhisperX enables 100+ language pipelines at near-zero cost.
-- **Short-form content explosion**: TikTok/Instagram Reels dominate LATAM. mediago-drama pipeline pattern applicable to Portuguese/Spanish web novel → short drama.
-- **Live streaming**: Owncast enables self-hosted live media for telcos, broadcasters, sports rights holders in Brazil/Argentina/Mexico.
-- **Music**: ACE-Step + YuE for LATAM music labels launching AI music services without paying $30k+/month for Suno API access.
-- **CMS localization**: Strapi + Ghost for Spanish/Portuguese news media with AI content assist.
+### Video CMS / Distribution
 
-## Globant Positioning
+| Platform | Model | Relevance |
+|----------|-------|----------|
+| **MediaCMS** | AGPL-3.0 OSS | Self-hosted video CMS; AI integration community-led |
+| **PeerTube** | AGPL-3.0 OSS | Federated video; EU compliance; AI plugin ecosystem |
+| **Jellyfin** | GPL-2.0 OSS | Media server; 37k stars; AI plugin ecosystem |
+| **Brightcove** | SaaS (commercial) | Enterprise video cloud with AI captions, recommendations |
+| **Kaltura** | AGPL-3.0 (CE) | Enterprise video platform with AI analytics |
 
-- **Build on**: Wan 2.2 (Apache-2.0), ACE-Step (Apache-2.0), AudioCraft (MIT), WhisperX (BSD), Owncast (MIT), Strapi (MIT)
-- **Service layer**: AI dubbing pipelines, interactive CTV, agentic advertising platforms, white-label creative studios
-- **Avoid**: Proprietary tools (Suno, ElevenLabs per-seat) — substitute with open equivalents
-- **Opportunity size**: $3.16B GenAI M&E (2026) growing to $8B by 2030 at 26.4% CAGR
+## LATAM M&E Landscape
+
+| Country | Key Dynamics | AI M&E Opportunity |
+|---------|-------------|-------------------|
+| **Brazil** | Globo (largest LatAm broadcaster), OTT growth (Globoplay, Amazon, Netflix), Carnival live streaming | Dubbing automation (PT), LGPD-compliant AI analytics, live-event AI production |
+| **Mexico** | Televisa-Univision merger, massive streaming audience (Blim TV, Claro Video) | Spanish localization agents, telenovela AI production, AdTech LATAM |
+| **Colombia** | RCN + Caracol digital push, Canal Capital public media | Regional language adaptation, journalism AI tools |
+| **Argentina** | Telefe + Paramount+, vibrant indie film scene, economic-driven streaming preference | Low-cost AI post-production for indie films, subtitle generation |
+| **Chile** | TVN digital transformation, growing podcast market | AI podcast production, AI-driven newsroom tools |
+
+**LATAM Cross-Cutting Signal:** WhatsApp-first content distribution (WhatsApp newsletters, status) is uniquely powerful — AI agents that generate and distribute content via WhatsApp Business API are higher-impact than web-first approaches.
+
+## Competitive Positioning for Globant
+
+| Capability | Globant Build-On | Why |
+|-----------|-----------------|-----|
+| Agentic Ad-Tech stack | LangGraph + Prebid.js + OpenRTB | Match Fox/Disney moves for broadcaster clients |
+| Music / Audio localization | ACE-Step + OpenVoice + Whisper + LangGraph | Full OSS, no licensing fees; LATAM dubbing use case |
+| AI Video Production Pipeline | Wan 2.2 + LTX-Video + ComfyUI REST API + n8n | End-to-end open pipeline; on-premise for data sovereignty |
+| Content CMS + AI Agents | Ghost or Strapi + LangGraph | MIT-only stack; fast media client deployment |
+| Live Broadcast AI | Whisper.cpp + StreamDiffusion + Owncast | Edge-first, <100ms latency, on-premise compliant |
+
+---
+*Market data: GlobeNewswire (Jul 2026), GrandView Research, CoherentMarketInsights, ResearchAndMarkets.*

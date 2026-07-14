@@ -1,33 +1,40 @@
-# 🎯 Top AI Agents & Tools — Media & Entertainment
+# Top AI Agents — Media & Entertainment
 
-> Open source AI agents and tools for the media industry. Focus: MIT / Apache 2.0 / BSD.
-> Last updated: 2026-07-14 (v9)
+> Open-source AI agents and tools for the M&E industry. Focus: MIT / Apache 2.0 / BSD — licenses Globant can build on.
+> Last updated: 2026-07-14 (v10 — full rewrite)
 
-## Video Generation Agents
+## Core AI Agents & Tools
 
-| Name | License | Description | Stars |
-|------|---------|-------------|-------|
-| [ComfyUI](https://github.com/comfyanonymous/ComfyUI) | GPL-3.0 | Node-based visual workflow for Stable Diffusion, video gen (LTX, Wan, HunyuanVideo), ControlNet, LoRA. Industry standard for AI media pipelines. | 100k+ |
-| [Wan2GP](https://github.com/deepbeepmeep/Wan2GP) | Apache-2.0 | Fast AI video generator for GPU-poor setups. Supports Wan 2.1/2.2 MoE, LTX-2, HunyuanVideo, Flux. Free to run locally, no license fee. | ~8k |
-| [LTX-Video](https://github.com/Lightricks/ltx-video) | Lightricks License | 22B-parameter DiT video model. First open model with synchronized audio+video in single pass (dialogue, ambience, lip-sync). Native 4K @50fps, stereo 24kHz audio. Released Mar 2026. | ~7k |
-| [HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Tencent Community | Tencent flagship open video model. v1.5: 8.3B params, faster inference. Broad commercial use with review. ComfyUI nodes available. | ~20k |
-| [Open-Generative-AI](https://github.com/anil-matcha/open-generative-ai) | MIT | Self-hosted studio with 200+ image/video models (Flux, Wan, LTX, HunyuanVideo). 40+ text-to-video models, 60+ image-to-video, lip sync studio. No content filters. | ~21.8k |
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| ACE-Step 1.5 | [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | Apache-2.0 | ~6k | 4B DiT music foundation model; <2 s/song on A100; LoRA fine-tuning from a few tracks; outperforms most commercial alternatives locally |
+| AudioCraft / MusicGen | [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT (code) | ~22k | Meta's music + audio generation library (MusicGen + AudioGen + EnCodec); text-to-music, melody conditioning, self-supervised audio codec |
+| Wan 2.2 | [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | Alibaba Tongyi MoE video diffusion; 5-second 720p in ~9 min on RTX 4090; first/last frame control; 5000-char prompts; Wan-Bench 2.0 leader |
+| LTX-Video (LTX-2.3) | [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache-2.0 | ~9k | Only OSS model with native audio-video generation in one pass; 4K 50 FPS; IC-LoRA adapters, camera control LoRAs; 2B and 13B variants |
+| ComfyUI | [comfy-org/ComfyUI](https://github.com/comfy-org/ComfyUI) | GPL-3.0 | ~75k | Node-graph AI creative pipeline; natively supports image/video/3D/audio models; de-facto standard for local diffusion workflows; huge plugin ecosystem |
+| StreamDiffusion | [cumulo-autumn/StreamDiffusion](https://github.com/cumulo-autumn/StreamDiffusion) | Apache-2.0 | ~12k | Real-time interactive diffusion pipeline; minimal latency live video generation; plugs into OBS/streaming pipelines |
+| Marigold | [prs-eth/Marigold](https://github.com/prs-eth/Marigold) | Apache-2.0 | ~5k | Diffusion-based monocular depth estimation; Rolling Depth temporal consistency (CVPR 2025); plugs into VFX/compositing pipelines |
+| Dia TTS | [nari-labs/dia](https://github.com/nari-labs/dia) | Apache-2.0 | ~13k | 1.6B parameter TTS model generating realistic dialogue from transcripts with non-verbal cues (laughs, coughs); dubbing and voice-over automation |
+| OpenVoice v2 | [myshell-ai/OpenVoice](https://github.com/myshell-ai/OpenVoice) | MIT | ~32k | Instant voice cloning with granular style control (emotion, accent, rhythm); zero-shot cross-lingual dubbing; LATAM localization workhorse |
+| Chatterbox TTS | [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) | Apache-2.0 | ~9k | Production-quality TTS with emotion exaggeration control; ultra-stable voice cloning; streaming audio generation for real-time pipelines |
+| Media-AI Master List | [jayeshmepani/Media-AI](https://github.com/jayeshmepani/Media-AI) | MIT | ~2k | Curated index of 150+ AI media generation tools (text-to-image, video, audio, 3D, editing); updated continuously; useful as an agent's capability registry |
 
-## Audio / Music Generation Agents
+## Agent Orchestration Frameworks Used in M&E
 
-| Name | License | Description | Stars |
-|------|---------|-------------|-------|
-| [AudioCraft](https://github.com/facebookresearch/audiocraft) | MIT (code) / CC-BY-NC (models) | Meta FAIR library for audio generation: MusicGen (text-to-music), AudioGen (text-to-SFX), EnCodec audio tokenizer. Training + inference. | ~22k |
-| [ACE-Step](https://github.com/ace-step/ACE-Step) | Apache-2.0 | Music generation foundation model by ACE Studio + StepFun. v1.5 (Feb 2026): first open model to genuinely rival Suno v4.5 quality. Text-to-full-track with vocals. | ~6k |
-| [YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | Full-song generation (up to 5 min) with synchronized vocals and accompaniment from lyrics. Multi-language, multi-genre. Advanced pitch/timing/emotion control. | ~5k |
+| Framework | Repo | License | Why M&E Uses It |
+|-----------|------|---------|------------------|
+| LangGraph | [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | Stateful multi-agent workflows; HITL interrupts for content approval gates; used in agentic ad pipelines |
+| CrewAI | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | Role-based crews for content production (writer, editor, distributor agents); 100+ crew templates |
+| n8n | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | 400+ integrations; bridges broadcast metadata systems, CMS, CDN, and AI APIs in visual workflows |
 
-## Speech / Transcription / Dubbing Agents
+## Benchmark Reference
 
-| Name | License | Description | Stars |
-|------|---------|-------------|-------|
-| [WhisperX](https://github.com/m-bain/whisperX) | BSD-4-Clause | Whisper with word-level timestamps, speaker diarization (pyannote), batch inference, voice activity detection. Production-grade for subtitle sync. | ~14k |
-| [open-dubbing](https://github.com/Softcatala/open-dubbing) | Apache-2.0 | End-to-end AI dubbing: Whisper transcription → LLM translation → TTS (Coqui/MMS/Edge). Demucs vocal isolation. Supports 100+ languages. | ~1k |
-| [AutoDub](https://github.com/shyhirt/AutoDub) | MIT | Video translator + dubber: Whisper + XTTS v2 voice cloning + Ollama local LLM translation. 100+ languages, zero API keys required (fully local). | ~800 |
+| Model | Task | Score / Metric |
+|-------|------|----------------|
+| ACE-Step 1.5 XL | Music quality | Beats most commercial services (subjective ELO) |
+| Wan 2.2 / 2.7 | Video generation | #1 on Wan-Bench 2.0 open leaderboard (Apr 2026) |
+| LTX-2.3 | Audio-video sync | Only OSS model with native joint A/V generation |
+| Seedance 2.0 | Artificial Analysis ELO | #1 closed (Feb 2026); Wan 2.7 = best OSS slot |
 
 ---
-*Updated automatically by the ingest pipeline.*
+*Auto-updated by ingest pipeline. License review: Apache-2.0 / MIT are Globant-safe for commercial delivery; GPL-3.0 (ComfyUI) requires architecture isolation (API or container boundary).*

@@ -1,41 +1,53 @@
-# 🏗️ Foundational Repos — Media & Entertainment AI
+# Foundational Repos — Media & Entertainment AI
 
-> Battle-tested bases to build on. Open licenses, active communities.
-> Last updated: 2026-07-14 (v9)
+> These are the bedrock open-source projects for M&E AI. Real repos, real stars, real licenses Globant can build on.
+> Last updated: 2026-07-14 (v10 — full rewrite)
 
-## Video Generation Foundations
+## Vision & Image
 
-| Repo | License | Description | Stars |
-|------|---------|-------------|-------|
-| [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI) | GPL-3.0 | Node-based visual workflow engine for diffusion models. Supports LTX-Video, Wan, HunyuanVideo, FLUX. Industry standard for AI video pipelines. ComfyUI Manager adds 2,000+ extensions. | 100k+ |
-| [anil-matcha/open-generative-ai](https://github.com/anil-matcha/open-generative-ai) | MIT | Self-hosted creative studio: 200+ image/video/lip-sync models unified in one UI. Deploy on your infra, no filters, no subscription lock-in. | ~21.8k |
-| [deepbeepmeep/Wan2GP](https://github.com/deepbeepmeep/Wan2GP) | Apache-2.0 | Multi-model video runner: Wan 2.1/2.2, LTX-2, HunyuanVideo, Flux. Optimized for consumer GPUs. Free, no license fees. | ~8k |
-| [Lightricks/ltx-video](https://github.com/Lightricks/ltx-video) | Lightricks License | 22B-param DiT model, first synchronized audio+video in single pass. 4K @50fps, 24kHz stereo audio. ComfyUI nodes: [Lightricks/ComfyUI-LTXVideo](https://github.com/Lightricks/ComfyUI-LTXVideo). | ~7k |
-| [Tencent-Hunyuan/HunyuanVideo](https://github.com/Tencent-Hunyuan/HunyuanVideo) | Tencent Community | 13B → 8.3B (v1.5) video gen model. ComfyUI-native. Broad commercial with license review. HunyuanVideo-Foley adds synchronized SFX/audio. | ~20k |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [IDEA-Research/Grounded-Segment-Anything](https://github.com/IDEA-Research/Grounded-Segment-Anything) | Apache-2.0 | ~17.7k | GroundingDINO + SAM + Stable Diffusion — detect, segment, generate in one pipeline; powers content isolation and VFX roto |
+| [invoke-ai/InvokeAI](https://github.com/invoke-ai/InvokeAI) | Apache-2.0 | ~27.5k | Professional creative engine for Stable Diffusion; canvas, brushes, workflows; API-first; studio production image generation |
+| [Sanster/IOPaint](https://github.com/Sanster/IOPaint) | Apache-2.0 | ~23k | SOTA AI inpainting/outpainting — remove objects, restore photos, fill backgrounds; integrates into post-production pipelines |
+| [prs-eth/Marigold](https://github.com/prs-eth/Marigold) | Apache-2.0 | ~5k | Diffusion monocular depth estimation with Rolling Depth temporal consistency (CVPR 2025); feeds into VFX depth compositing |
+| [apple/ml-stable-diffusion](https://github.com/apple/ml-stable-diffusion) | MIT | ~17.9k | Stable Diffusion optimized for Apple Silicon via Core ML; on-device generation for mobile/tablet M&E apps |
+| [comfy-org/ComfyUI](https://github.com/comfy-org/ComfyUI) | GPL-3.0 | ~75k | Node-graph AI creative pipeline; de-facto standard local diffusion UI; video, 3D, audio nodes; use behind API boundary for commercial work |
 
-## Audio / Music Foundations
+## Audio & Music
 
-| Repo | License | Description | Stars |
-|------|---------|-------------|-------|
-| [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT (code) | Meta FAIR: MusicGen (text-to-music), AudioGen (text-to-SFX), EnCodec audio tokenizer. Training + inference. CC-BY-NC on model weights. | ~22k |
-| [ace-step/ACE-Step](https://github.com/ace-step/ACE-Step) | Apache-2.0 | Music generation foundation by ACE Studio + StepFun. v1.5 rivals Suno v4.5 quality. Text + lyrics → full track with vocals. Local, unlimited. | ~6k |
-| [multimodal-art-projection/YuE](https://github.com/multimodal-art-projection/YuE) | Apache-2.0 | Full-song generation up to 5 min: synchronized vocals, accompaniment, multi-language (EN/CN/JP/KR), multi-genre. Advanced timing/pitch/emotion control. | ~5k |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [facebookresearch/audiocraft](https://github.com/facebookresearch/audiocraft) | MIT (code) | ~22k | Meta's audio generation suite: MusicGen (text-to-music), AudioGen (sound effects), EnCodec (audio codec); 20k hours training data |
+| [ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5) | Apache-2.0 | ~6k | 4B DiT music foundation model; 3 variants (base/sft/turbo); <2 s/song on A100; LoRA fine-tuning; surpasses most commercial music APIs |
+| [myshell-ai/OpenVoice](https://github.com/myshell-ai/OpenVoice) | MIT | ~32k | Instant voice cloning with granular style control (emotion, accent, rhythm, speed); zero-shot cross-lingual — LATAM dubbing workhorse |
+| [nari-labs/dia](https://github.com/nari-labs/dia) | Apache-2.0 | ~13k | 1.6B TTS model generating dialogue with non-verbal cues (laughs, coughs, sighs); transcript-to-realistic-dialogue for dubbing/podcasts |
+| [resemble-ai/chatterbox](https://github.com/resemble-ai/chatterbox) | Apache-2.0 | ~9k | Production-grade TTS with emotion exaggeration control; ultra-stable voice identity across long-form content; streaming support |
+| [openai/whisper](https://github.com/openai/whisper) | MIT | ~104k | Robust speech recognition across 100+ languages; subtitle generation, transcription, diarization foundation |
+| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | ~51k | C/C++ Whisper port — runs on-device, embedded, and edge; sub-100 ms latency for live captioning |
 
-## Speech / Transcription Foundations
+## Video Generation
 
-| Repo | License | Description | Stars |
-|------|---------|-------------|-------|
-| [openai/whisper](https://github.com/openai/whisper) | MIT | OpenAI Whisper: robust multilingual speech recognition, 99 language support, transcription + translation. Foundation for all downstream ASR tools. | 104k+ |
-| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | C/C++ port of Whisper. Zero dependencies, runs on CPU/GPU/Apple Silicon/edge devices. Outputs SRT/VTT directly. Ideal for embedded media pipelines. | ~51k |
-| [m-bain/whisperX](https://github.com/m-bain/whisperX) | BSD-4-Clause | Whisper + word-level timestamps + speaker diarization (pyannote). 4× faster via CTranslate2. Production-grade for subtitle sync and transcript search. | ~14k |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [Wan-Video/Wan2.2](https://github.com/Wan-Video/Wan2.2) | Apache-2.0 | ~18k | Alibaba Tongyi MoE video diffusion; 5s 720p on RTX 4090; first/last frame control; Wan-Bench 2.0 open leader (Wan 2.7) |
+| [Lightricks/LTX-Video](https://github.com/Lightricks/LTX-Video) | Apache-2.0 | ~9k | LTX-2.3: only OSS model with native joint audio-video generation in one pass; 4K 50 FPS; IC-LoRA camera control |
+| [cumulo-autumn/StreamDiffusion](https://github.com/cumulo-autumn/StreamDiffusion) | Apache-2.0 | ~12k | Real-time interactive video diffusion pipeline; minimal-latency live generation; OBS/streaming integration |
 
-## Streaming / Distribution Foundations
+## Speech-to-Text / Subtitling
 
-| Repo | License | Description | Stars |
-|------|---------|-------------|-------|
-| [Chocobozzz/PeerTube](https://github.com/Chocobozzz/PeerTube) | AGPL-3.0 | Decentralized federated video platform (ActivityPub). v8.1 (Mar 2026): podcast support, domain-restricted embeds, 3× playback. Full REST API for AI integration. | ~14k |
-| [owncast/owncast](https://github.com/owncast/owncast) | MIT | Self-hosted live streaming + chat. Single-binary deploy. Built-in viewer stats, moderation, stream quality settings. Claude+Redis integration pattern (Interactive CTV). | ~10k |
-| [mediacms-io/mediacms](https://github.com/mediacms-io/mediacms) | AGPL-3.0 | Modern video/media CMS in Python/Django/React. REST API, HLS streaming, subtitle support, search. Best self-hosted YouTube alternative. | ~3k |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [openai/whisper](https://github.com/openai/whisper) | MIT | ~104k | Gold standard ASR for transcript generation, multilingual subtitle automation |
+| [ggml-org/whisper.cpp](https://github.com/ggml-org/whisper.cpp) | MIT | ~51k | Edge deployment; real-time CC for live broadcast |
+
+## Orchestration (M&E-relevant)
+
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | ~14k | Stateful multi-agent with HITL interrupts — content approval gates, editorial review loops |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Sustainable Use | ~52k | 400+ integrations; connects broadcast metadata systems, DAM, CDN, and AI APIs visually |
 
 ---
-*See also: `verticals/solutions.md` for complete vertical platforms.*
+*See verticals/solutions.md for full platform-level systems (CMS, DAM, streaming).*
+*GPL-3.0 (ComfyUI) requires API/container boundary for commercial products.*

@@ -1,51 +1,83 @@
-# 📡 Trends — Media & Entertainment AI
+# Trends — Media & Entertainment AI
 
-> Current signals and shifts. Updated: 2026-07-14 (v9)
+> Current trends driving industry change. Updated for H2 2026.
+> Last updated: 2026-07-14 (v10 — full rewrite)
 
-## T1 — Generative Video Moves to Primetime (Jul 2026)
-DiT-based video models (LTX-2.3, Wan 2.2, HunyuanVideo 1.5) are production-capable. LTX-2.3 generates synchronized audio+video in a single pass (dialogue, ambience, lip-sync). Studios experimenting with AI for filler scenes and environmental effects in primetime content. **Signal:** LTX-2.3 released Mar 5 2026; Wan 2.2 MoE (Alibaba) confirmed as best Apache-2.0 commercial option.
+## T1 — The Agentic Production Environment
 
-## T2 — Open-Source Suno Killers (Feb–Apr 2026)
-ACE-Step 1.5 (Apache-2.0) is the first open model rivaling Suno v4.5 quality. ACE-Step UI (MIT) adds professional local interface. YuE enables full-song (5 min) with vocals from lyrics. **Signal:** Eliminates $30–$120/month music gen subscriptions; enables white-label music features at near-zero marginal cost.
+Google Cloud coined "Agentic Production Environment" at NAB 2026 and it's becoming the industry framing. Avid integrated agentic AI into Media Composer and MediaCentral in April 2026 — agents handle ingest tagging, proxy creation, AI rough cuts, and compliance checks without human initiation. Every enterprise M&E client conversation should now include this layer.
 
-## T3 — Agentic Advertising Revolution (2026)
-Fox launched industry's first end-to-end agentic advertising platform where AI agents transact ad inventory autonomously. Disney beta-testing AI commercial generation tool (Jul 2026). Warner Bros. leading agentic ad automation for media buying. **Signal:** Upfront season 2026 explicitly incorporates AI agent deals with buy-side.
+**OSS stack:** LangGraph (HITL gates) + ComfyUI (stable REST API) + Whisper (ASR) + n8n (workflow glue)
 
-## T4 — AI Dubbing / Localization at Scale
-Open-source stack (Whisper → LLM translation → XTTS voice cloning → Demucs source separation) enables 100+ language dubbing at effectively zero cost at scale. AutoDub, open-dubbing, OmniVoice-Studio all released in 2025-2026. **Signal:** Eliminates human dubbing costs (60–80% reduction vs. studio dubbing).
+## T2 — From Generative to Agentic Video
 
-## T5 — Netflix + Warner Bros. AI Training Data Acquisition
-Netflix announced ~$72B equity acquisition of Warner Bros. Discovery. Strategic rationale: massive proprietary training dataset for video generation, character consistency, narrative structure, visual style. Also acquired InterPositive (16-person AI post-production studio). **Signal:** Content library = AI training moat. Consolidation accelerates.
+The shift is complete: AI video is no longer just "press button → get clip." Agents storyboard, render via virtual engines, edit, localize, and publish 30-second ads in minutes. Wan 2.7, LTX-2.3, and ComfyUI's stable API make the full stack open-source. ByteDance Seedance 2.0 leads on closed models; Wan leads open.
 
-## T6 — Self-Hosted AI Creative Studios
-Open-Generative-AI (21.8k stars, MIT) provides 200+ image/video model access without cloud subscriptions. Wan2GP enables Wan 2.2 / LTX-2 / HunyuanVideo locally on consumer GPUs. **Signal:** Enterprises shifting from SaaS creative tools to self-hosted infra — cost and data sovereignty drivers.
+**Signal:** Wan 3.0 (60B, 4K, 30s clips in one pass) expected mid-2026 — watch for Apache-2.0 release.
 
-## T7 — Synthetic Talent and Virtual Actors
-Virtual actors, AI idols, and synthetic celebrities entering acting/modeling careers. Computer-generated personalities with distinct AI-driven characteristics. **Signal:** Content personalization + modular storytelling enabling dynamically altered episode lengths to fit individuals' time constraints.
+## T3 — Autonomous Ad Buying (Live in Production)
 
-## T8 — Interactive CTV / Second-Screen AI
-Versus AI (backers: Katzenberg, Schmidt, Hoffman) provides AI engagement overlays for Disney+/Paramount+/HBO/NFL. Open-source alternative: Owncast + Claude Haiku + Redis pub/sub for real-time audience intelligence during live streams. **Signal:** $42B+ interactive CTV market, 5× conversion vs. standard ads.
+Pre-Cannes Lions 2026 (Jun 11–19), at least 8 major platforms shipped autonomous ad-buying agents. Fox's sell-side agents connect to buy-side agents from WPP and Horizon Media. Disney is building in-house. The Trade Desk, LiveRamp, and Google all shipped agentic layers. Programmatic is now agent-to-agent.
 
-## T9 — AI Metadata Tagging and Recommendation
-Content libraries require AI auto-tagging (genre, mood, scene, entity detection) to feed recommendation engines. WhisperX enables transcript-based search. SAM2 + CLIP enable visual tagging at scale. **Signal:** Netflix/Disney content personalization drives 27.4% of AI M&E revenue.
+**OSS opportunity:** Prebid.js + OpenRTB + LangGraph = open agentic AdTech stack
 
-## T10 — Content Flood and Quality Differentiation
-AI-generated content flooding social feeds creates premium for verified human creativity and authentic storytelling. Media companies redefining quality metrics. **Signal:** EY 2026 M&E trends: "simplicity, authenticity, and the rise of experiences" — human storytelling as differentiator.
+## T4 — Audio-Video Joint Generation (LTX-2.3 Milestone)
 
-## T11 — AI Podcast and Audio Content Scaling
-AI tools for podcast transcription (WhisperX), show notes generation, chapter markers, clipping for short-form, and multi-language distribution. **Signal:** Podcast industry scaling content without proportional staff increases.
+LTX-2.3 (Lightricks, Apache-2.0) is the first open-source model generating synchronized audio and video in a single diffusion pass at up to 4K / 50 FPS. This breaks the "audio and video always separate pipeline" assumption. Clients now expect joint generation.
 
-## T12 — Open MCP for Media Workflows (2026)
-Media companies building MCP servers to connect AI agents to asset libraries, CMS, transcription pipelines, and distribution APIs. Claude Code/Claude Sonnet 5 used for content production automation. **Signal:** Agentic workflows for metadata enrichment, content QA, multi-platform publishing.
+## T5 — Music Foundation Models Surpass Commercial APIs
 
-## T13 — AI in Sports Broadcasting
-Real-time AI commentary generation, auto-highlight clipping, personalized broadcast feeds, live stat overlay. AI agents that identify key moments and clip them for social distribution within seconds of occurrence. **Signal:** Fox end-to-end agentic ad platform starts in sports inventory.
+ACE-Step 1.5 XL (4B DiT, Apache-2.0) generates commercial-quality music in under 2 seconds on an A100. LoRA fine-tuning from as few as 10 tracks — enabling custom "brand music" generation with a model tuned to a client's catalog. Suno/Udio remain proprietary; ACE-Step is the OSS alternative.
 
-## T14 — Modular/Personalized Storytelling
-Dynamic episode lengths adapted to viewer time constraints. Non-linear narratives enabled by AI content generation for alternate scene paths. **Signal:** Attention span recognized as currency — platforms plan dynamic content length adjustment by 2026.
+## T6 — Voice Localization at Scale (LATAM Signal)
 
-## T15 — AI Content Moderation at Scale
-Social platforms and streaming services deploying AI moderation to handle AI-generated content flood. Open source: LlamaGuard (Meta, MIT), NudeNet, CLIP-based classifiers. **Signal:** As AI content volume exceeds human moderation capacity, AI-moderation becomes mandatory infrastructure.
+OpenVoice v2 (MIT) and Dia TTS (Apache-2.0) enable zero-shot cross-lingual voice cloning and dialogue generation with non-verbal cues. Combined with Whisper transcription, the full pipeline for dubbing a 30-minute episode into Spanish/Portuguese is now sub-$1 at scale. LATAM media clients are highest-impact target.
+
+**Stack:** Whisper → translate → OpenVoice / Dia TTS → lip-sync (Wav2Lip) → Wan video V2V
+
+## T7 — "AI Slop" Backlash Creates Premium for Authentic + AI-Assisted
+
+Synthetic content ("AI slop") is flooding feeds. Consumer research shows "authenticity" is now a premium signal — human-led storytelling with AI assistance is valued over fully automated content. Clients need quality thresholds and editorial gates. HITL (Human-in-the-Loop) in LangGraph becomes a selling point, not a workaround.
+
+## T8 — Mixture-of-Experts (MoE) for Video
+
+Wan 2.2 shipped the first video diffusion model with MoE architecture, enabling better capacity scaling without proportional compute cost. MoE video models will dominate the next generation. Watch: Wan 3.0 (60B MoE), competitive pressure on closed models.
+
+## T9 — Video-to-Video (V2V) Specialization
+
+The market is shifting toward V2V models trained on specific domains: architectural visualization, fashion, sports, medical. Domain-specific V2V outperforms general T2V on physical accuracy. Globant opportunity: fine-tune Wan or LTX on client-specific content domains using Apache-2.0 weights.
+
+## T10 — FAST (Free Ad-Supported Streaming Television) + AI
+
+FAST channels are growing globally (Pluto TV, Tubi, Samsung TV+). AI enables micro-content curation and dynamic ad insertion at scale. Open-source FAST infrastructure is emerging; AI recommendation and AI ad-matching agents are the high-value layer.
+
+## T11 — Real-Time AI in Live Broadcast
+
+Whisper.cpp (<100 ms latency) + StreamDiffusion enable real-time AI captioning, live translation, and visual effects in live broadcast. AI is moving from post-production to the live control room. Edge deployment (on-premise) is essential for broadcast SLAs.
+
+**Stack:** Owncast (MIT) + Whisper.cpp (MIT) + StreamDiffusion (Apache-2.0) + LangGraph HITL
+
+## T12 — AI Moderation at Platform Scale
+
+User-generated content platforms (PeerTube, Owncast, MediaCMS) are adding AI moderation layers. Dual-model architectures (fast pass + deep review) are emerging as the standard. Important for LATAM clients where political content sensitivity is high.
+
+**OSS tools:** Llama fine-tuned on content policies + CLIP for visual moderation
+
+## T13 — Multimodal Metadata Enrichment (CLIP + BLIP + Whisper)
+
+DAM pipelines are now automatically enriching assets with AI-generated tags, descriptions, transcripts, and semantic embeddings at ingest. Pimcore + AI agents = auto-tagged asset library. Reduces manual metadata work by 80%+.
+
+## T14 — Podcast AI Production Pipeline Maturity
+
+End-to-end podcast production with AI is now viable: recording → Whisper transcription → LLM show notes + chapter markers → ACE-Step music bed → Dia TTS ad reads → Castopod distribution. Latam podcast market ($multi-hundred million by 2028) is a strong beachhead.
+
+## T15 — EU AI Act (Aug 2, 2026) — M&E Impact
+The EU AI Act enforcement deadline (August 2, 2026) affects M&E in three areas:
+1. **AI-generated content disclosure** — synthetic media labels required; affects all AI video/audio output for EU audiences
+2. **Recommender systems** — high-risk classification for major platforms; algorithmic transparency requirements
+3. **Biometric data in content** — face/voice synthesis using real people requires consent
+
+**Action for Globant:** Every EU media client delivery must include AI content disclosure mechanisms and recommender system transparency logging. Build these as default components of the M&E AI stack.
 
 ---
-*15 trends tracked. Updated: 2026-07-14 (v9)*
+*Signals sourced from: Google Cloud Blog (NAB 2026), Cannes Lions coverage, GlobeNewswire market reports, GitHub star velocity, Deloitte/EY M&E Outlook 2026.*
