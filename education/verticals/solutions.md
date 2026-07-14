@@ -1,55 +1,53 @@
-# 🏭 Verticales de partida — Education
+# Vertical Solutions — Education
 
-> Plataformas existentes, customizables con AI. Estrategia: partir de algo funcional → añadir capa agéntica.
-> Última actualización: 2026-07-13
+> Existing open-source platforms Globant can customize with AI layers.
+> Model: start from something functional, add an agentic layer on top.
+> Last updated: 2026-07-14 (v5)
 
-## Plataformas recomendadas
+## Recommended Platforms
 
-| Plataforma | Licencia | Repo / URL | Stack | Usuarios / Escala | Caso de uso Globant |
-|------------|----------|-----------|-------|-------------------|---------------------|
-| **Moodle** | GPL-3.0+ | [moodle/moodle](https://github.com/moodle/moodle) | PHP/MySQL | 300M+ usuarios, 50k+ sitios | AI quiz gen, tutoría, detección riesgo académico, LMS corporativo |
-| **Open edX** | Apache-2.0 | [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Python/Django + React | 45M+ learners | MOOCs universitarios, certificaciones empresariales, XBlock AI |
-| **Frappe LMS** | MIT | [frappe/lms](https://github.com/frappe/lms) | Python/Vue/MariaDB | Startups + empresas medianas | L&D corporativo, cursos open, Mon School clone |
-| **Frappe Education** | MIT | [frappe/education](https://github.com/frappe/education) | Python/Vue + ERPNext | Escuelas K-12, universidades LATAM | ERP escolar: admisiones + asistencia + notas + cuotas + AI |
-| **OpenEduCat** | LGPLv3 | [openeducat.org](https://www.openeducat.org/) | Python/Odoo | Universidades medianas | ERP educativo: LMS + SIS + fees + parent app (PostgreSQL) |
-| **Chamilo** | GPL-3.0 | [chamilo/chamilo-lms](https://github.com/chamilo/chamilo-lms) | PHP/MySQL | LATAM y Europa | LMS liviano, español nativo, adopción alta Colombia/Ecuador/Perú |
-| **Sakai** | Apache-2.0 | [sakaiproject/sakai](https://github.com/sakaiproject/sakai) | Java/Spring | Consorcio US (Michigan, Indiana, MIT, Stanford) | LMS universitario, AI assessment via plugin API Java |
-| **OATutor** | MIT | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | React/Firebase | Investigación + K-12 | ITS con BKT para matemáticas adaptativas |
+| Platform | License | Repo | Stack | Scale | AI Opportunity |
+|----------|---------|------|-------|-------|----------------|
+| **Moodle** | GPL-3.0 | [moodle/moodle](https://github.com/moodle/moodle) | PHP + MySQL/PostgreSQL | 400M+ users, 240+ countries | AI subsystem (v4.5): plug in tutoring agents, automated grading, copilot for instructors; Moodle AI plugin (tool/ai) provides provider abstraction |
+| **Open edX** | AGPL-3.0 | [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Python/Django + React | edX.org + 1000s of institutions | XBlock for AI exercises; openedx-ai-extensions (streaming AI chat, flashcards, educator assistant); MOOC-at-scale |
+| **Canvas LMS** | AGPL-3.0 | [instructure/canvas-lms](https://github.com/instructure/canvas-lms) | Ruby on Rails + React | 30M+ users, US HE #1 | LTI 1.3 integration point; AI tools via partnership APIs; gradebook + outcome data accessible |
+| **Sakai** | ECL-2.0 | [sakai-project/sakai](https://github.com/sakai-project/sakai) | Java/Spring | University consortia | Gradebook, forums, assessments — wrap each with specialized AI agents; lower competition than Moodle/Canvas |
+| **Tutor (Open edX distro)** | AGPL-3.0 | [overhangio/tutor](https://github.com/overhangio/tutor) | Docker + Python | Production standard | Plugin system: add AI tutoring, analytics, content generation as Tutor plugins; fastest Open edX deployment path |
+| **Richie** | MIT | [richie-education/richie](https://github.com/richie-education/richie) | Django + React + Elasticsearch | FUN (France Université Numérique) scale | Course catalog + enrollment CMS; REST API → layer AI recommender + personalization on top |
+| **Vacademy** | AGPL-3.0 | [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | TypeScript + Java | APAC deployments | Modern LMS with learner tracking + assessment; AI content delivery ready; newer codebase |
 
-## Mapa de selección por caso de uso
+## Specialized EdTech Verticals
+
+| Platform | License | Repo | Use Case |
+|----------|---------|------|----------|
+| OATutor | MIT | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | Adaptive intelligent tutoring for STEM (math, CS); BKT-based; LTI for LMS integration |
+| Open TutorAI CE | BSD-3-Clause | [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | AI tutoring platform with voice/video + 3D avatars; multi-LLM; standalone or embedded |
+| Richie CMS | MIT | [richie-education/richie](https://github.com/richie-education/richie) | Education portal CMS for course catalogs and search |
+
+## How to Add AI to Any Platform
 
 ```
-¿Qué necesita el cliente?
-├── LMS corporativo / L&D → Frappe LMS (MIT, Python, fácil de customizar)
-├── MOOC universitario → Open edX (Apache-2.0, escala probada, XBlock AI)
-├── Escuela K-12 LATAM → Frappe Education o Chamilo (español, comunidad activa)
-├── Universidad con ERP → OpenEduCat o Frappe Education (ERP + LMS en uno)
-├── Tutoría adaptativa → OATutor + pyBKT o DeepTutor (agente AI)
-└── AI-first desde cero → DeepTutor + Frappe LMS + Open edX XBlock
+1. Deploy base platform (Moodle / Open edX / Canvas via Tutor)
+           ↓
+2. Expose LMS data via LTI 1.3 or REST API
+           ↓
+3. Add AI middleware (FastAPI / LangGraph / CrewAI) 
+           — calls LMS API for grades, progress, course structure
+           — calls LLM (Claude / Llama / Qwen) for tutoring, generation
+           ↓
+4. Embed AI widgets in LMS via LTI tool or iframe plugin
+           — Chat tutor panel, quiz generator, feedback copilot
+           ↓
+5. Feed learner events back to Knowledge Tracing model (pyKT)
+           — Adaptive difficulty sequencing
+           — Dropout risk scoring → retention alerts
 ```
 
-## Cómo añadir AI a cada plataforma
+## LMS AI Plugin Landscape (2026)
 
-### Moodle
-1. Habilitar AI subsystem (core desde Moodle 4.5), configurar proveedor Ollama/OpenAI
-2. Instalar `moodle-qbank_genai` o `moodle-local_aiquestions` para quiz gen
-3. Añadir agente de tutoría via LTI 1.3
-4. Pipeline: datos Moodle → LangGraph agent → respuestas contextuales
-
-### Open edX
-1. Crear XBlock custom con lógica del agente AI
-2. Conectar openedx-events para reactividad a enrollment/grade/completion
-3. Integrar API REST de Open edX para datos de progreso
-
-### Frappe LMS / Education
-1. Fork + activar API REST nativa de Frappe
-2. Crear DocType "AI Session" (conversaciones, evaluaciones)
-3. Webhooks Frappe → disparar agentes en eventos (bajo rendimiento, abandono)
-
-### OATutor (tutoría adaptativa)
-1. Fork del repo, cargar banco de preguntas (OATutor JSON)
-2. Extender motor BKT con pyBKT + LLM para hints inteligentes
-3. Conectar a Frappe LMS como sistema de registro de progreso
-
----
-*Ver también: `repos/foundations.md` para repos técnicos fundacionales.*
+| Platform | Native AI | Best Plugin/Extension |
+|----------|-----------|-----------------------|
+| Moodle | tool_ai (v4.5, provider-agnostic) | openai (community), local_ai, MoodleNet AI |
+| Open edX | openedx-ai-extensions (Apache-2.0) | eduNEXT eox-core + AI persona XBlocks |
+| Canvas | Closed AI (AWS Bedrock, OpenAI, Khanmigo) | LTI 1.3 custom tools |
+| Sakai | Community plugins in development | LTI 1.3 + custom AI servlets |

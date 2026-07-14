@@ -1,31 +1,31 @@
-# 🎯 Agentes AI — Education
+# AI Agents — Education
 
-> Agentes y herramientas AI open source para la industria educativa. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-13
+> Top open-source AI agents and tools for the education industry.
+> Focus: MIT / Apache 2.0 / BSD — licenses Globant can build on.
+> Last updated: 2026-07-14 (v5)
 
-## Agentes y herramientas destacadas
+## Top AI Agents & Tools
 
-| Nombre | Licencia | Repo | Descripción | Stars |
-|--------|----------|------|-------------|-------|
-| DeepTutor | Apache-2.0 | [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Agente de tutoría personalizada nativo-agente del Data Intelligence Lab de HKU. Multi-agente, 30+ LLM providers, soporte para tutoring, resolución de problemas, generación de quizzes, investigación y práctica de dominio. Creció a 23.7k★ en menos de 7 meses. | ~23.7k |
-| Open-TutorAI CE | MIT | [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | Plataforma educativa open-source de tutoría personalizada e inmersiva basada en LLMs. Community Edition. arXiv:2602.07176. Soporta múltiples modalidades de contenido y flujos de tutoría Socrática. | ~1.8k |
-| OpenTutor | MIT | [zijinz456/OpenTutor](https://github.com/zijinz456/OpenTutor) | Primer workspace de aprendizaje adaptativo block-based que corre 100% local. Upload cualquier material → notas AI, quizzes, flashcards y tutor adaptativo. 10+ LLM providers, zero cloud dependency. | ~900 |
-| AITutorAgent | MIT | [Ebimsv/AITutorAgent](https://github.com/Ebimsv/AITutorAgent) | Sistema de tutoría interactiva construido con LangGraph. Enseña cualquier materia con tutoriales estructurados, Q&A y evaluación de conocimiento. Persistencia de conversación con SQLite. Interfaces web y CLI. | ~650 |
-| OATutor | MIT | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | Sistema de tutoría inteligente open-source del CAHLR Lab (UC Berkeley). Usa Bayesian Knowledge Tracing (BKT) para estimación de dominio de habilidades. ReactJS + Firebase. Primer ITS totalmente open-source. | ~520 |
-| pyBKT | MIT | [CAHLR/pyBKT](https://github.com/CAHLR/pyBKT) | Implementación Python de Bayesian Knowledge Tracing y extensiones (correctness-weighted BKT, forgetting models). Librería académica de referencia para knowledge tracing en sistemas ITS. | ~350 |
-| AITutor-EvalKit | MIT | [paper: arXiv:2512.03688](https://arxiv.org/abs/2512.03688) | Kit de evaluación de calidad pedagógica de respuestas de tutores AI. Evalúa dimensiones como scaffolding, Socratic guidance, feedback accuracy. Referencia para validar calidad de agentes educativos. | ~200 |
-| GenMentor | MIT | [GenMentor org](https://github.com/topics/genmentor) | Sistema de mentoría generativa presentado como oral en WWW 2025. Combina LLMs con grafos de conocimiento para guía de aprendizaje adaptativa y career counseling personalizado. | ~180 |
-| StudyAlpha | Apache-2.0 | [StudyAlpha](https://github.com/topics/studyalpha) | Plataforma de estudio adaptativo desarrollada en colaboración Google×Kaggle. Combina análisis de datos de aprendizaje con generación de contenido AI para optimización de sesiones de estudio. | ~150 |
-| moodle-local_aiquestions | GPL-3.0 | [yedidiaklein/moodle-local_aiquestions](https://github.com/yedidiaklein/moodle-local_aiquestions) | Plugin Moodle para generación automática de preguntas de quiz vía AI (ChatGPT/OpenAI). Se integra directamente en el banco de preguntas de Moodle. Multiple question types. | ~140 |
-| moodle-qbank_genai | MIT | [cgrevisse/moodle-qbank_genai](https://github.com/cgrevisse/moodle-qbank_genai) | Plugin Moodle de generación de preguntas GenAI desde contenido del curso. Soporta GPT y otros LLMs. Preguntas editables post-generación por el docente. Compatible Moodle 5.0+. | ~90 |
+| Name | Repo | License | Stars | Description |
+|------|------|---------|-------|-------------|
+| DeepTutor | [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | ~25k | Agent-native personalized learning workspace: tutoring, quiz gen, research, visualization, mastery practice — six modes in one system with persistent memory and multi-agent orchestration (HKU Data Science Lab, Dec 2025) |
+| OATutor | [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~280 | Open-source Adaptive Tutoring System with Bayesian Knowledge Tracing (BKT) for skill mastery estimation; ReactJS + Firebase; Section 508 accessible; LTI integration; CHI 2023 best paper |
+| OATutor-LLM-Learner | [CAHLR/OATutor-LLM-Learner](https://github.com/CAHLR/OATutor-LLM-Learner) | MIT | ~40 | OATutor fork augmented with LLM-generated hints and explanations; drop-in for math/CS tutoring workflows |
+| Open TutorAI CE | [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | BSD-3-Clause | ~50 | Community Edition of AI-powered educational platform: multi-LLM provider support, local RAG, voice/video, customizable 3D avatars, personalized learning paths (arXiv:2602.07176) |
+| pyKT | [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | Python library for benchmarking Deep Learning Knowledge Tracing models (DKT, SAKT, AKT, SimpleKT, MoC-KT, DenoiseKT); 7+ datasets; sklearn-style API; active releases through 2026 |
+| Awesome AI/LLM for Education | [GeminiLight/awesome-ai-llm4education](https://github.com/GeminiLight/awesome-ai-llm4education) | MIT | ~1.4k | Curated survey of 400+ AI/LLM education papers — knowledge tracing, tutoring, question gen, essay scoring, student modeling |
+| Awesome Education LLM | [Geralt-Targaryen/Awesome-Education-LLM](https://github.com/Geralt-Targaryen/Awesome-Education-LLM) | MIT | ~500 | Curated list of LLM research and applications in education; organized by task (QA, tutoring, assessment, feedback) |
+| openedx-ai-extensions | [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions) | Apache-2.0 | ~30 | Official Open edX plugin for AI integration: flashcards, streaming chat, educator assistant, function-calling demos; installable via pip |
+| Vacademy Platform | [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | Apache-2.0 | ~200 | Open-source e-learning platform with learner tracking, assessment management, and AI content delivery; production-ready |
+| AI-Tutor (RAG+LLM) | [098765d/AI_Tutor](https://github.com/098765d/AI_Tutor) | MIT | ~120 | LLM + RAG course-specific tutoring agent; supports course documents as knowledge base, multi-turn conversations, citation grounding |
 
-## Notas de selección
+## Agentic Frameworks Research (arXiv 2026)
 
-- **DeepTutor** es el agente educativo de mayor tracción en 2026: apto para MVP de tutoría personalizada.
-- **OATutor + pyBKT** son la combinación académica de referencia para knowledge tracing riguroso.
-- **OpenTutor** es la opción más adecuada para instituciones con requerimientos de privacidad estrictos (todo local).
-- **AITutorAgent** tiene la menor barrera de entrada para integrar con workflows LangGraph existentes.
-- Los plugins de Moodle son el punto de entrada para instituciones ya en Moodle (300M+ usuarios globales).
+| Paper | arXiv | Key Contribution |
+|-------|-------|-----------------|
+| LectūraAgents | [2606.16428](https://arxiv.org/abs/2606.16428) | Hierarchical multi-agent (ProfessorAgent + subordinates): personalized embodied lectures with Teaching Action-Speech Alignment (TASA) algorithm |
+| Agentic AI for Education | [2604.16566](https://arxiv.org/abs/2604.16566) | Unified multi-agent framework for personalized learning + institutional intelligence (dropout prediction, retention) |
+| LLM Agents for Education | [2503.11733](https://arxiv.org/abs/2503.11733) | Survey: 200+ papers on LLM agents across tutoring, assessment, grading, admin workflows |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Auto-updated by the ingest pipeline.*

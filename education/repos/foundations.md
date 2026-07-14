@@ -1,35 +1,38 @@
-# 🏗️ Repos fundacionales — Education
+# Foundational Repos — Education
 
-> Bases sólidas con licencia abierta y comunidad activa sobre las cuales construir soluciones AI.
-> Última actualización: 2026-07-13
+> Bases to build on. Open license, active community, real-world deployments.
+> Last updated: 2026-07-14 (v5)
 
-## Plataformas LMS y ERP
+## Core Platforms & Frameworks
 
-| Repo | Licencia | Stars | Descripción | Base para AI |
-|------|----------|-------|-------------|---------------|
-| [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | Apache-2.0 | ~8.5k | Plataforma LMS y Studio de Open edX. Powers edX.org y miles de sitios educativos. Backend Python/Django. | ✅ XBlock API + webhooks para agentes |
-| [frappe/lms](https://github.com/frappe/lms) | MIT | ~3.1k | LMS 100% open-source. Frappe/ERPNext. Portal de cursos, cohorts, evaluaciones. Python/Vue. | ✅ API REST nativa + integración ERPNext |
-| [frappe/education](https://github.com/frappe/education) | MIT | ~850 | Sistema de gestión escolar/universitaria completo. Admisiones, asistencia, calificaciones, biblioteca, cuotas. On-top ERPNext. | ✅ Datos ricos para agentes (riesgo académico) |
-| [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Apache-2.0 | ~23.7k | Agente de tutoría personalizada nativo-agente de HKU. Multi-agente, 30+ LLM providers, 200k+ LOC. | ✅ Arquitectura de referencia lista para fork |
-| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~520 | Primer ITS totalmente open-source. Bayesian Knowledge Tracing, ReactJS + Firebase. UC Berkeley CAHLR Lab. | ✅ BKT engine reutilizable para knowledge tracing |
-| [CAHLR/pyBKT](https://github.com/CAHLR/pyBKT) | MIT | ~350 | Implementación Python de Bayesian Knowledge Tracing. Librería académica de referencia. | ✅ Drop-in library para knowledge tracing |
-| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | ~468 | Framework para construir componentes de aprendizaje custom en Open edX. | ✅ SDK estándar para extender Open edX con AI |
-| [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) | MIT | ~1.8k | Plataforma AI educativa open-source (Community Edition). Tutoría personalizada multi-modal. | ✅ Arquitectura modular lista para customizar |
+| Repo | License | Stars | Description | AI-Ready? |
+|------|---------|-------|-------------|-----------|
+| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | ~7.2k | World's most deployed LMS — 400M+ users, 240+ countries; Moodle AI subsystem in v4.5 (tool/ai plugin) | Yes — plugin API, MoodleNet, AI subsystem |
+| [openedx/openedx-platform](https://github.com/openedx/openedx-platform) | AGPL-3.0 | ~7.4k | Open edX LMS + Studio powering edX.org (Harvard/MIT origin); Python/Django; XBlock extensibility; AI plugin layer | Yes — XBlock, openedx-ai-extensions |
+| [openedx/XBlock](https://github.com/openedx/XBlock) | Apache-2.0 | ~468 | Framework for building custom learning components in Open edX LMS; the right extension point for AI tutors | Yes — core extension mechanism |
+| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | Python library for 10+ Deep Knowledge Tracing models (DKT, SAKT, AKT, MoC-KT, DenoiseKT); 7 benchmark datasets; active through 2026 | Yes — student modeling backbone |
+| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~280 | Open Adaptive Tutoring System with BKT; ReactJS + Firebase; LTI integration; Section 508 accessible; CHI 2023 award | Yes — full ITS stack |
+| [overhangio/tutor](https://github.com/overhangio/tutor) | AGPLv3 | ~3.4k | Docker-based Open edX distribution — standard deploy tool for institutions; plugin system for extensions | Yes — plugin system for AI add-ons |
+| [instructure/canvas-lms](https://github.com/instructure/canvas-lms) | AGPL-3.0 | ~5.3k | Canvas LMS — 30M+ users, US HE market leader; Ruby on Rails; active fork/plugin ecosystem | Partial — closed AI features, but hooks available |
+| [sakai-project/sakai](https://github.com/sakai-project/sakai) | ECL-2.0 | ~1.2k | Sakai CLE — university consortium LMS (Michigan, Indiana, MIT, Stanford origins); Java/Spring; gradebook, forums, assessment | Partial — community AI extensions emerging |
+| [richie-education/richie](https://github.com/richie-education/richie) | MIT | ~311 | Open-source CMS for education portals (France Université Numérique); Django + React; course catalog, search, enrollment | Yes — REST API for AI overlays |
+| [moodlehq/moodleapp](https://github.com/moodlehq/moodleapp) | Apache-2.0 | ~979 | Official Moodle mobile app (iOS + Android); Ionic + Angular; push notifications, offline mode | Yes — mobile AI channel |
 
-## Herramientas de soporte
+## Knowledge Tracing & Student Modeling
 
-| Repo | Licencia | Stars | Descripción |
-|------|----------|-------|-------------|
-| [moodle/moodle](https://github.com/moodle/moodle) | GPL-3.0 | ~5.5k | LMS más usado del mundo. 300M+ usuarios. AI subsystem nativo desde Moodle 4.5. 1,800+ plugins. |
-| [openedx/openedx-events](https://github.com/openedx/openedx-events) | Apache-2.0 | ~55 | Framework de eventos Open edX para hooks. Agentes reactivos a enrollment/grade/completion. |
-| [cgrevisse/moodle-qbank_genai](https://github.com/cgrevisse/moodle-qbank_genai) | MIT | ~90 | Plugin GenAI para quiz generation en Moodle. |
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | Benchmark library: DKT, SAKT, AKT, SimpleKT, MoC-KT, DenoiseKT, 10+ models |
+| [CAHLR/OATutor](https://github.com/CAHLR/OATutor) | MIT | ~280 | BKT-based adaptive problem selection; extensible step/hint/mastery system |
+| [CAHLR/OATutor-LLM-Learner](https://github.com/CAHLR/OATutor-LLM-Learner) | MIT | ~40 | OATutor + LLM hint/explanation generation; drop-in for math tutoring |
 
-## Notas de arquitectura
+## AI Extension Points
 
-- **Open edX + XBlock**: La combinación más usada en universidades empresariales. XBlock = contrato de integración.
-- **Frappe LMS + Education**: La opción más adecuada para LATAM — Python moderno, comunidad en español/portugués.
-- **OATutor + pyBKT**: Combinación académicamente rigurosa para knowledge tracing real.
-- **DeepTutor**: El punto de entrada más rápido para tutoría AI production-ready.
+| Repo | License | Stars | Description |
+|------|---------|-------|-------------|
+| [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions) | Apache-2.0 | ~30 | Official Open edX AI plugin: streaming chat, educator assistant, flashcards, function calling |
+| [openedx/openedx-tutor-plugins](https://github.com/openedx/openedx-tutor-plugins) | Apache-2.0 | ~80 | Community Tutor plugin collection — discovery, forum, credentials, notes |
+| [eduNEXT/eox-core](https://github.com/eduNEXT/eox-core) | AGPL-3.0 | ~120 | Open edX extension plugin (eduNEXT): enrollment, grading overrides, AI hooks |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas desplegables.*
+*See also: `verticals/solutions.md` for full vertical platforms.*

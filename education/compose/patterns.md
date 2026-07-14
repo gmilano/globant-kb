@@ -1,201 +1,368 @@
-# 🧩 Patrones de composición — Education AI
+# Composition Patterns — Education AI
 
-> Recetas concretas para construir soluciones educativas AI.
-> Cada patrón: repos específicos + cómo conectarlos + tiempo estimado.
-> Última actualización: 2026-07-13
+> Concrete recipes: specific repos + agents + wiring instructions.
+> Last updated: 2026-07-14 (v5)
 
-## Arquitectura base
+## Architecture Blueprint
 
 ```
-[LMS open-source (Moodle / Open edX / Frappe LMS)]
-          ↓ (API REST / webhooks / MCP)
-[Orquestador de agentes (LangGraph)]
-          ↓
-[Agentes especializados (DeepTutor / AITutorAgent / pyBKT)]
-          ↓
-[Capa de observabilidad (Langfuse self-hosted)]
-          ↓
-[Modelos: Ollama local o Claude API]
+[Open LMS Base]             ← Moodle / Open edX / Canvas / Vacademy
+        ↓ LTI 1.3 / REST API
+[AI Middleware Layer]        ← FastAPI / LangGraph / CrewAI
+        ↓
+[Specialist Agents]          ← Tutoring / Assessment / Retention / Copilot
+        ↓ student events
+[Knowledge Tracing]          ← pyKT (DKT / AKT / MoC-KT)
+        ↓ mastery scores
+[Adaptive Sequencer]         ← Next-problem selection / difficulty control
+        ↓
+[LLM Backend]               ← Claude 3.7 / Llama 3.1-8B / Qwen2.5-VL (local)
 ```
 
 ---
 
-## P1 — AI Tutor sobre Moodle (instituciones existentes)
+## P1 — Adaptive ITS on Open edX
 
-**Caso**: Universidad con Moodle quiere tutoría AI sin migrar de plataforma.
+**Goal**: Add a full Intelligent Tutoring System to an existing Open edX platform.
 
-**Stack**: `moodle/moodle`(GPL) + `cgrevisse/moodle-qbank_genai`(MIT) + `Ebimsv/AITutorAgent`(MIT) + Ollama local + Langfuse + LTI 1.3
+**Stack**:
+- **Base**: [openedx/openedx-platform](https://github.com/openedx/openedx-platform) via [overhangio/tutor](https://github.com/overhangio/tutor)
+- **Knowledge Tracing**: [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) (AKT model, ASSISTments-pretrained)
+- **Tutoring Agent**: [CAHLR/OATutor-LLM-Learner](https://github.com/CAHLR/OATutor-LLM-Learner) (BKT + LLM hints)
+- **AI Extensions**: [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions)
+- **LLM**: Claude 3.7 Sonnet via Anthropic API (or Llama 3.1-8B via Ollama for on-prem)
 
-**Arquitectura**:
+**Wiring**:
+```python
+# 1. Deploy Tutor + openedx-ai-extensions plugin
+tutor plugins install openedx-ai-extensions
+tutor local launch
+
+# 2. Configure AI provider in Open edX admin (AI subsystem)
+# Settings → Plugins → openedx-ai-extensions → provider=anthropic, key=CLAUDE_API_KEY
+
+# 3. Hook learner events to pyKT
+from pykt.models import AKTNet
+import json
+
+def on_problem_submit(user_id, kc_id, correct):
+    kt_model = AKTNet.load("akt-assistments.pt")
+    mastery = kt_model.predict(user_id, kc_id, correct)
+    next_problem = select_next_problem(mastery, threshold=0.85)
+    return {"next_problem_id": next_problem, "mastery": mastery}
+
+# 4. XBlock delivers LLM hint when student requests help
+def get_hint(problem_id, student_attempt):
+    response = claude.messages.create(
+        model="claude-sonnet-5",
+        messages=[{"role":"user","content":f"Student attempted: {student_attempt}. Give a Socratic hint, not the answer."}]
+    )
+    return response.content[0].text
 ```
-Moodle (LTI 1.3) → AITutorAgent (LangGraph) → Ollama (Llama 3.3)
-                     ↓ moodle-qbank_genai → Langfuse
-```
 
-**Cómo**:
-1. Habilitar AI subsystem Moodle 4.5+ con proveedor Ollama
-2. Instalar moodle-qbank_genai, configurar endpoint Ollama
-3. Desplegar AITutorAgent como FastAPI + SQLite (estado por estudiante)
-4. Registrar como LTI 1.3 tool en Moodle
-5. Langfuse para tracking + eval pedagógica
-
-**Tiempo**: 6-10 semanas | **Costo infra**: ~$0/mes (self-hosted) | **ROI**: -40% consultas docentes, +15-25% resultados quizzes
+**Estimated build**: 3-4 weeks (2 engineers + 1 ML engineer)
 
 ---
 
-## P2 — ERP escolar LATAM + AI (K-12 / universidades pequeñas)
+## P2 — Multi-Agent Tutoring on Moodle
 
-**Caso**: Colegio/universidad LATAM sin ERP que necesita sistema completo + AI desde cero.
+**Goal**: Add a DeepTutor-style multi-agent tutoring system to Moodle, wired through the Moodle AI subsystem.
 
-**Stack**: `frappe/education`(MIT) + `frappe/lms`(MIT) + `HKUDS/DeepTutor`(Apache-2.0) + Langfuse + Claude API
+**Stack**:
+- **Base**: [moodle/moodle](https://github.com/moodle/moodle) v4.5+ (tool_ai subsystem)
+- **Agent Framework**: LangGraph (MIT) for multi-agent orchestration
+- **Agents**: TutorAgent, QuizAgent, ExplainerAgent, AssessmentAgent
+- **Reference Architecture**: [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) (agent skill pattern)
+- **LLM**: Claude 3.7 Sonnet (tool_ai backend configuration)
 
-**Arquitectura**:
+**Wiring**:
+```python
+# LangGraph multi-agent graph for Moodle AI block
+from langgraph.graph import StateGraph, END
+from typing import TypedDict, Annotated
+
+class TutoringState(TypedDict):
+    student_id: str
+    course_id: str
+    current_topic: str
+    mastery_score: float
+    conversation_history: list
+    active_agent: str
+
+def tutor_node(state: TutoringState):
+    # Socratic dialogue — never give direct answers
+    response = claude.messages.create(
+        model="claude-sonnet-5",
+        system="You are a Socratic tutor. Guide with questions, never give answers directly.",
+        messages=state["conversation_history"]
+    )
+    return {"conversation_history": state["conversation_history"] + [response]}
+
+def quiz_node(state: TutoringState):
+    # Generate formative quiz from current topic
+    questions = generate_quiz(state["current_topic"], n=3, difficulty=state["mastery_score"])
+    return {"quiz_items": questions}
+
+def assessment_node(state: TutoringState):
+    # Evaluate mastery from quiz performance
+    mastery = evaluate_mastery(state["quiz_items"], state["quiz_responses"])
+    return {"mastery_score": mastery}
+
+def router(state: TutoringState):
+    if state["mastery_score"] < 0.6:
+        return "tutor"  # More tutoring
+    elif state["mastery_score"] < 0.85:
+        return "quiz"   # Formative quiz
+    else:
+        return END      # Mastered — advance topic
+
+graph = StateGraph(TutoringState)
+graph.add_node("tutor", tutor_node)
+graph.add_node("quiz", quiz_node)
+graph.add_node("assessment", assessment_node)
+graph.add_conditional_edges("assessment", router)
+graph.set_entry_point("tutor")
 ```
-Frappe Education (ERP) → webhooks → LangGraph
-    ├─ DeepTutor (tutoría)
-    ├─ Agente riesgo académico (asistencia + notas)
-    └─ Agente comunicación padres (WhatsApp/email)
-          → Claude API + Langfuse
-```
 
-**Cómo**:
-1. Deploy Frappe Education en VPS (Docker, 1-2 días)
-2. Fork DeepTutor → customizar curriculum local (materia, nivel, idioma)
-3. LangGraph: webhooks Frappe → agentes especializados
-4. Trigger riesgo: asistencia < 70% o nota < 50 → alerta docente + tutor
+**Moodle Integration**: Deploy as Moodle block plugin calling this LangGraph service via REST.
 
-**Tiempo**: 10-16 semanas | **Costo infra**: ~$200-500/mes | **ROI**: -30% abandono, -50% carga admin
+**Estimated build**: 4-5 weeks (2 engineers + Moodle specialist)
 
 ---
 
-## P3 — Quiz adaptativo con knowledge tracing (BKT)
+## P3 — Dropout Prediction Retention Agent
 
-**Caso**: Evaluación adaptativa real — preguntas calibradas al nivel actual del estudiante.
+**Goal**: Real-time student dropout risk scoring with automated counselor alerts, built on LMS data.
 
-**Stack**: `CAHLR/pyBKT`(MIT) + `CAHLR/OATutor`(MIT) + `HKUDS/DeepTutor`(Apache-2.0) + `openedx/XBlock`(Apache-2.0) + `cgrevisse/moodle-qbank_genai`(MIT)
+**Stack**:
+- **LMS Data Source**: Moodle / Open edX event logs (xAPI / Caliper / Moodle standard_log)
+- **Knowledge Tracing**: [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) for mastery trajectory
+- **ML Model**: scikit-learn GradientBoosting or XGBoost on engagement features (F1=0.895 baseline)
+- **Agent**: LangGraph retention agent → drafts counselor outreach messages
+- **Notification**: LMS messaging API or Slack/email
 
-**Arquitectura**:
+**Feature Engineering**:
+```python
+def compute_risk_features(student_id, lms_db, window_days=14):
+    return {
+        "login_frequency": count_logins(student_id, window_days),
+        "assignment_completion_rate": assignments_done / assignments_due,
+        "grade_trend": linear_trend(get_grades(student_id, window_days)),
+        "forum_participation": count_forum_posts(student_id, window_days),
+        "video_watch_pct": avg_video_completion(student_id, window_days),
+        "days_since_last_access": days_since_login(student_id),
+        "peer_interaction_score": peer_messages_sent(student_id, window_days),
+    }
+
+def retention_agent(student_id, risk_score):
+    if risk_score > 0.7:
+        # Draft personalized outreach for counselor review
+        draft = claude.messages.create(
+            model="claude-sonnet-5",
+            system="You are a student success counselor. Draft a warm, non-alarming check-in email.",
+            messages=[{"role":"user","content":f"Student {student_id} risk signals: {get_risk_summary(student_id)}"}]
+        )
+        # Queue for counselor review — never auto-send
+        notify_counselor(student_id, draft.content[0].text, risk_score)
 ```
-Estudiante responde → pyBKT actualiza p(conocimiento)
-    if p < 0.6: DeepTutor genera hint Socrático + pregunta más informativa
-    else: avanza a siguiente habilidad
-    → Langfuse registra interacción (eval pedagógica)
-```
 
-**Cómo**:
-1. Mapear curriculum en skill graph (habilidades + prerequisitos)
-2. Cargar banco de preguntas (OATutor JSON format)
-3. pyBKT service: actualiza p(conocimiento) tras cada respuesta
-4. DeepTutor fork: recibe p(conocimiento) + contexto → hint Socrático
-5. XBlock/LTI para integración en LMS
-
-**Tiempo**: 12-20 semanas | **Diferenciador**: BKT = gold standard académico
+**Estimated build**: 2-3 weeks (1 ML engineer + 1 backend engineer)
 
 ---
 
-## P4 — L&D corporativo AI (capacitación interna empresas)
+## P4 — AI-Powered Instructor Copilot
 
-**Caso**: Empresa 5,000+ empleados. Sin pagar $200k/año en licencias propietarias.
+**Goal**: Reduce instructor workload — quiz generation, rubric creation, grading assistance, student Q&A routing.
 
-**Stack**: `frappe/lms`(MIT) + `HKUDS/DeepTutor`(Apache-2.0) + `Ebimsv/AITutorAgent`(MIT) + Langfuse + `kirill-markin/flashcards-open-source-app`(MIT)
+**Stack**:
+- **Base**: Any LMS with LTI 1.3 (Moodle / Open edX / Canvas)
+- **Agent Framework**: CrewAI v0.105 (role-based agents)
+- **Agents**: ContentAgent (quiz/rubric gen), GradingAgent (auto-grade + explain), RoutingAgent (student Q&A)
+- **LLM**: Claude 3.7 Sonnet
 
-**Arquitectura**:
+**CrewAI Setup**:
+```python
+from crewai import Agent, Task, Crew
+
+content_agent = Agent(
+    role="Instructional Designer",
+    goal="Generate pedagogically sound quizzes, rubrics, and learning objectives from course material",
+    backstory="Expert in Bloom's taxonomy and formative assessment design",
+    llm="claude-sonnet-5"
+)
+
+grading_agent = Agent(
+    role="Assessment Specialist",
+    goal="Grade student submissions against rubric criteria; provide specific formative feedback",
+    backstory="Expert in writing constructive, growth-oriented academic feedback",
+    llm="claude-sonnet-5"
+)
+
+routing_agent = Agent(
+    role="Teaching Assistant",
+    goal="Answer Tier-1 student questions from course content; escalate Tier-2 to instructor",
+    backstory="Knows the course syllabus, deadlines, and content structure intimately",
+    llm="claude-sonnet-5"
+)
+
+# Quiz generation task
+quiz_task = Task(
+    description="Generate 5 multiple-choice questions at Bloom's Apply level for topic: {topic}",
+    agent=content_agent,
+    expected_output="JSON array of question objects with stem, options, correct_answer, explanation"
+)
+
+crew = Crew(agents=[content_agent, grading_agent, routing_agent], tasks=[quiz_task])
 ```
-Frappe LMS (rutas + cursos + certificaciones)
-    → LangGraph
-        ├─ DeepTutor (onboarding por rol: tech, ventas, ops)
-        ├─ AITutorAgent (Q&A procedimientos = RAG sobre docs internos)
-        └─ Quiz agent (evaluación + certificación automática)
-    → Langfuse (dashboard HR: completitud, scores)
-```
 
-**Cómo**:
-1. Deploy Frappe LMS (Docker Compose, 1 día)
-2. Ingestar materiales training (PDF/PPTX → RAG)
-3. AITutorAgent RAG sobre docs internos
-4. DeepTutor por rol
-5. Langfuse dashboard para HR
-
-**Tiempo**: 8-14 semanas | **Costo**: $0 licencias + $300-800/mes infra | **ROI**: -40% onboarding, -60% consultas HR
+**Estimated build**: 3-4 weeks (2 engineers)
 
 ---
 
-## P5 — MOOCs LATAM en español/portugués (Open edX)
+## P5 — Self-Hosted AI Tutoring (LATAM On-Premise)
 
-**Caso**: Universidad/ministerio quiere MOOC regional con AI tutoring integrado.
+**Goal**: Full AI tutoring stack for institutions with data residency requirements (LGPD, etc.) — no cloud LLM calls.
 
-**Stack**: `openedx/openedx-platform`(Apache-2.0) + `openedx/XBlock`(Apache-2.0) + `HKUDS/DeepTutor`(Apache-2.0) + `openedx/openedx-events`(Apache-2.0) + Langfuse + Ollama (Llama 3.3 / Mistral Nemo 12B)
+**Stack**:
+- **LMS**: Moodle (GPL-3.0) + Tutor or Open edX local
+- **LLM**: Llama 3.1-8B-Instruct via Ollama (Apache-2.0) — runs on single A10 GPU
+- **Tutoring App**: [Open-TutorAi/open-tutor-ai-CE](https://github.com/Open-TutorAi/open-tutor-ai-CE) (BSD-3)
+- **Knowledge Tracing**: [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) (MIT)
+- **RAG**: LlamaIndex (MIT) over institution's course content
+- **Infrastructure**: Docker Compose on-prem
 
-**Cómo**:
-1. Deploy Open edX en cloud regional (AWS LATAM / GCP São Paulo)
-2. Contenido español/portugués con localización completa
-3. XBlock "AI Tutor" que llama DeepTutor por contexto del curso
-4. Webhooks openedx-events: enrollment → personalize → completion
-5. Agente retención: inactivo 7 días → WhatsApp/email proactivo
+**Deployment**:
+```bash
+# 1. Install Ollama and pull Llama 3.1-8B
+curl -fsSL https://ollama.ai/install.sh | sh
+ollama pull llama3.1:8b
 
-**Tiempo**: 16-24 semanas | **Escala**: 100k-1M+ usuarios | **Diferenciador**: idioma nativo + datos en país
+# 2. Configure Open TutorAI CE for local LLM
+# docker-compose.yml → LLM_PROVIDER=ollama, OLLAMA_URL=http://ollama:11434
+
+# 3. Index course content for RAG
+python -c "
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+docs = SimpleDirectoryReader('/course-content').load_data()
+index = VectorStoreIndex.from_documents(docs)
+index.storage_context.persist('/index-store')
+"
+
+# 4. Wire pyKT for adaptive sequencing (fully local)
+python train_kt.py --model dkt --dataset local_logs --output /models/kt_local.pt
+```
+
+**Cost**: ~$2,000/mo (A10 GPU cloud) or $15,000 capex (on-prem GPU server) for institution of 10k students.
+
+**Estimated build**: 4-6 weeks (1 DevOps + 1 ML engineer + 1 backend)
 
 ---
 
-## P6 — Admisiones inteligentes (agente para procesos de ingreso)
+## P6 — Corporate L&D Agentic Onboarding
 
-**Caso**: Universidad 50k+ postulantes/año quiere automatizar pre-screening + orientación.
+**Goal**: Agentic onboarding system for enterprise clients — new hire personalized learning paths, compliance tracking, skills assessment.
 
-**Stack**: `frappe/education`(MIT) + LangGraph + Claude API (claude-haiku-4-5) + WhatsApp Business API + Langfuse
+**Stack**:
+- **Base**: [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) (AGPL-3.0) or Open edX
+- **Agent Framework**: LangGraph with HITL (Human-in-the-Loop) for manager approval gates
+- **Agents**: OnboardingPlannerAgent, ContentCuratorAgent, AssessmentAgent, ComplianceAgent
+- **LLM**: Claude 3.7 Sonnet
 
-**Arquitectura**:
+**Onboarding Flow**:
+```python
+# Day 1: Assess existing skills
+skill_profile = assessment_agent.run(
+    user_id=new_hire_id,
+    role=job_description,
+    assessment_type="diagnostic"
+)
+
+# Generate personalized 90-day path
+learning_path = planner_agent.run(
+    skill_gaps=skill_profile["gaps"],
+    role_requirements=job_description,
+    available_content=course_catalog,
+    timeline_days=90
+)
+
+# Compliance modules: flag mandatory completions
+compliance_tasks = compliance_agent.run(
+    role=job_description,
+    location=employee_location,
+    regulations=["GDPR", "SOC2", "industry_reqs"]
+)
+
+# HITL: manager reviews and approves path before activation
+manager_review_gate(learning_path, compliance_tasks, manager_id)
 ```
-Postulante → Frappe Education (webhook: new_application)
-    → LangGraph
-        ├─ Agente orientación (WhatsApp: carrera, requisitos)
-        ├─ Agente pre-screening (documentos, puntajes)
-        └─ Agente seguimiento (estado, fechas, próximos pasos)
-    → Frappe Education: actualiza estado en tiempo real
-    → Langfuse: conversion rate, tiempo respuesta, satisfaction
-```
 
-**Tiempo**: 8-12 semanas | **ROI**: -70% tiempo staff admisiones, +30% tasa de conversión
+**Estimated build**: 5-6 weeks (2 engineers + product manager for L&D design)
 
 ---
 
-## P7 — Self-hosted AI education stack (privacidad total)
+## P7 — AI-Powered Flashcard + Spaced Repetition System
 
-**Caso**: Institución sin datos a APIs externas (FERPA, LGPD, LPDP, EU AI Act Art.10).
+**Goal**: AI-generated study materials from course content with adaptive scheduling.
 
-**Stack completo on-prem**: Moodle o Open edX + Ollama (Llama 3.3 70B Q4_K_M) + LiteLLM (MIT) + Langfuse self-hosted + `HKUDS/DeepTutor`(Apache-2.0) + `CAHLR/pyBKT`(MIT)
+**Stack**:
+- **Base**: [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) (MIT)
+- **Content Generation**: Claude 3.7 Sonnet — extract key concepts → generate Q&A pairs
+- **Scheduling**: SM-2 spaced repetition algorithm (built-in)
+- **RAG**: LlamaIndex over course PDFs/slides
 
+**Card Generation Pipeline**:
+```python
+def generate_cards_from_content(content_path: str, n_cards: int = 20):
+    # Extract key concepts via LLM
+    concepts = claude.messages.create(
+        model="claude-sonnet-5",
+        system="Extract the {n} most important concepts from this educational content. Output JSON.",
+        messages=[{"role":"user","content": read_content(content_path)}]
+    )
+    
+    # Generate Q&A pairs for each concept
+    cards = []
+    for concept in concepts:
+        card = claude.messages.create(
+            model="claude-sonnet-5",
+            system="Create a Bloom's-level 'Remember/Understand' flashcard Q&A for this concept.",
+            messages=[{"role":"user","content":concept}]
+        )
+        cards.append({"front": card.question, "back": card.answer, "tags": [concept]})
+    
+    return cards
 ```
-[LMS] → [LiteLLM proxy] → [Ollama on-prem]
-              ↓
-       [DeepTutor + pyBKT] → [Langfuse self-hosted]
-```
 
-**Cómo**:
-1. Server on-prem (mín: 2x A100 GPU o 4x A10G)
-2. Ollama + Llama 3.3 70B (Q4_K_M, 40GB VRAM)
-3. LiteLLM: fallback a Claude API si Ollama cae (filtro PII)
-4. LMS AI subsystem apuntando a LiteLLM
-5. DeepTutor con base_url LiteLLM local
-
-**Tiempo**: 4-8 semanas | **Costo**: $2,000-5,000/mes GPU vs $0 datos a terceros
+**Estimated build**: 1-2 weeks (1 engineer — leverage existing flashcard app codebase)
 
 ---
 
-## Guía de selección
+## P8 — LATAM University AI Platform (End-to-End)
 
-```
-¿El cliente ya tiene LMS?
-├─ Moodle → P1 (LTI 1.3 + Ollama)
-├─ Open edX → P5 (MOOCs LATAM)
-└─ No → ¿Qué necesita?
-      ├─ ERP escolar completo → P2 (Frappe Education)
-      ├─ L&D corporativo → P4
-      ├─ Evaluación rigurosa → P3 (BKT)
-      ├─ Admisiones → P6
-      └─ Privacidad total → P7
+**Goal**: Full AI-augmented LMS deployment for a LATAM university with 20k+ students.
 
-¿Cuánto tiempo?
-├─ < 8 semanas → P1 o P6 (MVP rápido)
-├─ 8-16 semanas → P2, P4, P7
-└─ > 16 semanas → P3, P5 (escala)
+**Stack**:
+- **LMS**: Open edX via Tutor (AGPL-3.0) — standard for LATAM national platforms
+- **AI Layer**: openedx-ai-extensions (Apache-2.0) + custom XBlocks
+- **Knowledge Tracing**: pyKT AKT model fine-tuned on local logs
+- **Tutoring**: Multi-agent LangGraph tutor wired to course content via RAG
+- **Retention**: Dropout prediction agent (P3 pattern) → counselor dashboard
+- **LLM**: Hybrid — Claude API for connected users; Llama 3.1-8B local for offline/rural
+- **Data Residency**: AWS LATAM regions (São Paulo, Santiago) or on-prem
+
+**Architecture**:
 ```
+[Open edX (Tutor)]
+    ├─ AI Tutor XBlock → LangGraph multi-agent → Claude / Llama
+    ├─ Assessment XBlock → auto-grading → formative feedback
+    ├─ Retention Dashboard → pyKT mastery + dropout risk → counselor alerts  
+    ├─ Instructor Copilot → quiz gen + rubric gen + Q&A routing
+    └─ Analytics → xAPI → LRS (Learning Record Store) → BI dashboards
+```
+
+**Timeline**: 12-16 weeks (team of 5-6)
+**Cost**: $150k-250k build + $30-50k/yr infra for 20k students
+
+---
+
+*Patterns reference real repos — verify licenses before commercial deployment.*

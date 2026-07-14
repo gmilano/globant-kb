@@ -1,26 +1,34 @@
-# 📈 Agentes trending — Education
+# Trending This Week — Education AI
 
-> Lo nuevo esta semana en AI educativo. Foco: repos con momentum real.
-> Última actualización: 2026-07-13
+> What's new and gaining traction in education AI as of 2026-07-14 (v5).
 
-## Destacados de la semana (jul 2026)
+## Breakout: DeepTutor
 
-| Nombre | Licencia | Repo | Por qué trending | Stars |
-|--------|----------|------|-----------------|-------|
-| DeepTutor v1.0 | Apache-2.0 | [HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor) | Alcanzó 23.7k★ y lanzó deeptutor.info. Arquitectura multi-agente madura con 200k+ LOC. Paper en arXiv (abr 2026). Referenciado por HolonIQ como caso de referencia. | ~23.7k |
-| OpenTutor | MIT | [zijinz456/OpenTutor](https://github.com/zijinz456/OpenTutor) | Nuevo en jun 2026. Único workspace adaptativo block-based 100% local. Viral en HackerNews "offline AI tutoring". Elimina dependencia de APIs cloud — clave para instituciones LATAM con presupuesto limitado. | ~900 |
-| AITutorAgent | MIT | [Ebimsv/AITutorAgent](https://github.com/Ebimsv/AITutorAgent) | Momentum en jul 2026 por integración nativa con LangGraph 0.4. Ejemplo de referencia en la documentación oficial de LangGraph para casos de uso educativos. | ~650 |
-| moodle-qbank_genai | MIT | [cgrevisse/moodle-qbank_genai](https://github.com/cgrevisse/moodle-qbank_genai) | Plugin listado en el directorio oficial Moodle. Compatible con Moodle 5.0 (feb 2026). En proceso de revisión para inclusión en el core AI subsystem de Moodle 5.1. | ~90 |
-| canvas-mcp | MIT | [canvas-mcp](https://github.com/topics/canvas-mcp) | MCP server para Canvas LMS. FERPA-compliant por diseño — solo lee datos del LMS, no los expone a terceros. 107★, referenciado en integraciones con Claude y Cursor para asistencia docente. | ~107 |
-| Frappe Education | MIT | [frappe/education](https://github.com/frappe/education) | El módulo de gestión escolar del ecosistema ERPNext ganó tracción en LATAM como alternativa a SAP Education y Oracle. Integración nativa con Frappe LMS. | ~850 |
+**DeepTutor** ([HKUDS/DeepTutor](https://github.com/HKUDS/DeepTutor)) hit **~25k stars** — fastest growth for an education AI repo in 2026. Launched Dec 2025 by HKU Data Science Lab. Architecture: six specialist agents (TutorBot, QuizBot, ResearchBot, VisualBot, PracticeBot, ReviewBot) + persistent memory. April 2026 update: user-authored Skills system, Book Library UI, TutorBot auto-start, visualization fullscreen.
 
-## Señales de mercado esta semana
+## Active Trending Repos (July 2026)
 
-- **Moodle 5.1 roadmap** anuncia subsistema AI nativo con soporte a plugins de terceros.
-- **ibl.ai** lanzó "Agentic LMS" layered sobre Moodle: indica dirección del mercado hacia agentes sobre infraestructura existente.
-- **Google.org $4.6M** comprometidos para AI education en LATAM — targeting 1.25M estudiantes 2028.
-- **UNESCO Observatory on AI in Education LATAM** lanzado jun 2026.
-- **AI in Higher Education LATAM Survey 2026**: 92% estudiantes + 79% faculty activamente usando AI.
+| Repo | License | Stars | What's Happening |
+|------|---------|-------|-----------------|
+| [alfredang/ai4kids](https://github.com/alfredang/ai4kids) | MIT | ~50 | AI Kids Academy: gamified AI storytelling + coding for ages 4–16; Next.js 16 + Claude; trending on GitHub education-ai topic |
+| [kirill-markin/flashcards-open-source-app](https://github.com/kirill-markin/flashcards-open-source-app) | MIT | ~50 | AI flashcards with spaced repetition, multi-LLM support (OpenAI/Claude/Gemini); iOS+Android+web; gaining language-learning traction |
+| [Vacademy-io/vacademy_platform](https://github.com/Vacademy-io/vacademy_platform) | AGPL-3.0 | ~200 | Open-source LMS with AI content delivery + learner analytics; production deployments in APAC edtech emerging |
+| [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) | MIT | ~700 | MoC-KT model added May 2026; DenoiseKT (Oct 2025); active community adding KT models; referenced in 2026 EDM/LAK papers |
+| [openedx/openedx-ai-extensions](https://github.com/openedx/openedx-ai-extensions) | Apache-2.0 | ~30 | Streaming chat + educator assistant shipped mid-2026; eduNEXT contributing AI extensibility patterns for the AGPL platform |
 
----
-*Pipeline automático — se actualiza cada hora.*
+## Research Signals (Jun–Jul 2026)
+
+| Signal | Source | Impact |
+|--------|--------|--------|
+| LectūraAgents: embodied multi-agent tutoring | arXiv:2606.16428 | ProfessorAgent + subordinates deliver personalized lectures with TASA algorithm; embodied teaching actions (highlight, annotate, draw) |
+| Instructional Agents reducing faculty workload | arXiv:2508.19611 | Multi-agent system offloads course design, grading, Q&A; 40% faculty time savings in pilot |
+| DenoiseKT for programming KT | arXiv:2506.11107 | Code-graph-based tuning adaptor for knowledge tracing; now in pyKT package |
+| Automated KC Generation | arXiv:2502.18632 | LLMs auto-label knowledge components for ITS — removes biggest human bottleneck in building tutoring content |
+| Open Datasets in Learning Analytics | arXiv:2602.17314 | Benchmark for LA open data — 4 CZI datasets on GitHub, more institutions releasing in H2 2026 |
+
+## Market Pulse
+
+> AI in Education market: **$10.6B (2026) → $42.48B (2030), CAGR 40.9%** (ResearchAndMarkets).  
+> 86% of education organizations use generative AI — highest adoption of any industry (Microsoft 2025).  
+> 71% of HE institutions deploy adaptive learning platforms in 2026, up from 34% in 2023 (Educause ECAR).  
+> EdTech M&A: $28B across 342 transactions in 2024 — consolidation continues into 2026.
