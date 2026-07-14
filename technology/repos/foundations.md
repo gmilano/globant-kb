@@ -1,61 +1,58 @@
-# Foundational Repos — Technology
+# 🏗️ Foundational Repos — Technology
 
-> The essential open source foundations for building AI-powered technology products.
-> All permissive licenses (MIT / Apache 2.0) unless noted.
-> Last updated: 2026-07-14 (v6)
+> Core open source infrastructure to build AI-augmented technology solutions on top of.
+> Focus: MIT / Apache 2.0 / MPL-2.0 — licenses Globant can build commercial products on.
+> Last updated: 2026-07-14 (v7)
 
-## AI Coding Agents
+## Inference & LLM Serving
 
-| Repo | License | Stars | Why It's Foundational |
-|------|---------|-------|-----------------------|
-| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | 79.6k | Best open-source end-to-end software engineering agent. 72% SWE-bench Verified. Enterprise GA. Runs Claude, GPT-5, Gemini, local LLMs via Ollama. |
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | 165k | Most-starred open coding agent, 2026. Provider-agnostic CLI. Default replacement for Gemini CLI. |
-| [Aider-AI/aider](https://github.com/Aider-AI/aider) | Apache-2.0 | 42.4k | Git-native AI pair programmer. Best-in-class diff application and commit hygiene. Supports all frontier models. |
-| [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) | MIT | 15k | Original SWE-bench agent from Princeton NLP. Foundational research; ACI (Agent-Computer Interface) pattern. |
+| Repo | License | Stars | Description | Build On? |
+|------|---------|-------|-------------|----------|
+| [vllm-project/vllm](https://github.com/vllm-project/vllm) | Apache-2.0 | 40k+ | Definitive high-throughput LLM inference engine; PagedAttention; 8,033 tok/s on Blackwell (16.6× Ollama at scale); OpenAI-compatible API | Yes — production GPU serving |
+| [ollama/ollama](https://github.com/ollama/ollama) | MIT | 100k+ | Local LLM serving; Apple Silicon + CPU excellence; 45ms TTFT; best single-developer and edge story | Yes — local/edge/dev |
+| [ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp) | MIT | 70k+ | C++ LLM inference; GGUF format; CPU/GPU/Apple Metal; foundation for Ollama and many local tools | Yes — embedded/low-footprint |
+| [huggingface/transformers](https://github.com/huggingface/transformers) | Apache-2.0 | 130k+ | ML model hub and inference library; 500k+ models; fine-tuning and training foundation | Yes — model fine-tuning |
 
-## Multi-Agent Frameworks
+## Agent Orchestration Frameworks
 
-| Repo | License | Stars | Why It's Foundational |
-|------|---------|-------|-----------------------|
-| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 18k | Production standard for stateful, auditable agentic workflows. HITL checkpoints. v0.4. Used in 1,500+ orgs. |
-| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52.8k | Fastest prototype path for role-based multi-agent systems. v0.105. 5.2M monthly installs. |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 58.7k | Microsoft's multi-agent framework (now MAF). Conversational multi-agent with tool use. AutoGen 1.0 GA. |
-| [geekan/MetaGPT](https://github.com/geekan/MetaGPT) | MIT | 67.9k | Software company in a box: one prompt → PRD + architecture + code + tests. Role-based agent simulation. |
-| [huggingface/smolagents](https://github.com/huggingface/smolagents) | Apache-2.0 | 27.7k | Minimal, code-first agent framework from Hugging Face. Agents write and execute Python. Any HF model. |
+| Repo | License | Stars | Description | Build On? |
+|------|---------|-------|-------------|----------|
+| [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) | MIT | 14k+ | Stateful graph-based agent orchestration; HITL interrupt-resume; per-node timeouts; DeltaChannel; v1.0 GA Oct 2025 | Yes — complex stateful agents |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52k+ | Role-based multi-agent collaboration; pluggable backends; 100+ crew templates; 5.2M monthly downloads | Yes — task-crew patterns |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 45k+ | MAF 1.0 GA (Apr 2026): AutoGen + Semantic Kernel merged; Python/.NET/Java; native MCP + A2A; OTel; HITL | Yes — enterprise Microsoft stack |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k+ | Visual LLM workflow builder + RAG + plugin marketplace; 34M active builders; self-hostable | Yes — no/low-code agentic |
 
-## LLM App Platforms
+## Protocol & Interoperability Standards
 
-| Repo | License | Stars | Why It's Foundational |
-|------|---------|-------|-----------------------|
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 143k | Battle-tested LLM app platform. RAG pipelines, agentic workflows, 100k+ deployments. Go-to for enterprise LLMOps. |
-| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 146k | Visual low-code agent builder. Best for rapid prototyping + non-technical stakeholder demos. |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0* | 182k | Open-source workflow automation, 400+ integrations. 2026: AI-native agentic node support. Self-hostable. |
-| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Apache-2.0 | 51k | Node-based low-code LLM app builder. 500+ integrations, easy Docker deploy. |
+| Repo | License | Stars | Description | Build On? |
+|------|---------|-------|-------------|----------|
+| [modelcontextprotocol/specification](https://github.com/modelcontextprotocol/specification) | Apache-2.0 | 20k+ | MCP 2026-07-28 RC: stateless core, EMA auth, MCP Apps/Tasks extensions; 97M monthly SDK downloads; 10k+ active servers | Yes — tool connectivity standard |
+| [google/A2A](https://github.com/google/A2A) | Apache-2.0 | 22k+ | Agent-to-Agent protocol; Linux Foundation governance; 150+ orgs; live in Azure + Bedrock; complements MCP | Yes — multi-agent coordination |
 
-## MLOps & LLMOps
+## Infrastructure & DevOps
 
-| Repo | License | Stars | Why It's Foundational |
-|------|---------|-------|-----------------------|
-| [mlflow/mlflow](https://github.com/mlflow/mlflow) | Apache-2.0 | 20k+ | De facto open-source ML lifecycle platform. 30M+ monthly downloads. Linux Foundation. Experiment tracking, model registry, AI gateway. |
-| [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow) | Apache-2.0 | 10.3k | Kubernetes-native ML orchestration. CNCF project. Best for teams already on K8s. Pipelines record runs, params, metrics. |
-| [iterative/dvc](https://github.com/iterative/dvc) | Apache-2.0 | 14k | Data and pipeline versioning alongside code. 100% open source. Acquired by lakeFS (Nov 2025), license unchanged. |
-| [ray-project/ray](https://github.com/ray-project/ray) | Apache-2.0 | 35k | Distributed Python framework. Ray Serve for model serving, Ray Train for distributed training, RLlib for RL. |
-| [evidentlyai/evidently](https://github.com/evidentlyai/evidently) | Apache-2.0 | 6k | ML model monitoring and observability. Drift detection, data quality, LLM evals. |
+| Repo | License | Stars | Description | Build On? |
+|------|---------|-------|-------------|----------|
+| [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | 23k+ | Terraform OSS replacement after IBM/HashiCorp; ~95% parity; community-governed; CNCF member | Yes — IaC for AI infra |
+| [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | Apache-2.0 | 110k+ | Container orchestration; standard runtime for all agent workloads; 12M+ deployments globally | Yes — compute substrate |
+| [woodpecker-ci/woodpecker](https://github.com/woodpecker-ci/woodpecker) | Apache-2.0 | 4k+ | Lightweight CI/CD; Docker-native; 50 MB RAM; first-class Gitea/Forgejo integration; no vendor lock-in | Yes — self-hosted CI/CD |
+| [forgejo/forgejo](https://github.com/forgejo/forgejo) | MIT | 4k+ | Community fork of Gitea; truly open, no corporate strings; self-hosted Git forge; pairs with Woodpecker | Yes — self-hosted Git |
 
-## MCP Infrastructure
+## Observability (LGTM Stack)
 
-| Repo | License | Stars | Why It's Foundational |
-|------|---------|-------|-----------------------|
-| [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) | MIT | 8k+ | Official Python SDK for MCP. Tier 1 — first to ship each spec update. Essential for any Python-based MCP server. |
-| [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | MIT | 6k+ | Official TypeScript SDK for MCP. Tier 1. Foundation for Node/edge MCP servers. |
-| [jlowin/fastmcp](https://github.com/jlowin/fastmcp) | MIT | 8k | High-level Pythonic MCP server builder. Decorator-based API. Build production MCP servers in < 50 lines. |
+| Repo | License | Stars | Description | Build On? |
+|------|---------|-------|-------------|----------|
+| [grafana/grafana](https://github.com/grafana/grafana) | AGPL-3.0 | 62k+ | Visualization layer of LGTM stack; dashboards, alerts, plugin ecosystem; gold standard 2026 | Yes — observability UI |
+| [prometheus/prometheus](https://github.com/prometheus/prometheus) | Apache-2.0 | 54k+ | Metrics collection and alerting; integrates with every LLM serving framework; agent performance baseline | Yes — metrics backbone |
+| [grafana/loki](https://github.com/grafana/loki) | AGPL-3.0 | 23k+ | Log aggregation like Prometheus for logs; low-resource; pairs with Grafana | Yes — log aggregation |
 
-## Benchmarks & Evals
+## Coding Agents (Open Source Scaffolds)
 
-| Repo | License | Stars | Why It's Foundational |
-|------|---------|-------|-----------------------|
-| [swe-bench/SWE-bench](https://github.com/swe-bench/SWE-bench) | MIT | 4k | The gold-standard coding agent benchmark (SWE-bench Verified and Pro). Use to measure agent performance before shipping. |
-| [BerriAI/litellm](https://github.com/BerriAI/litellm) | MIT | 20k+ | Unified API for 100+ LLMs. Router, fallbacks, cost tracking. Use as an AI gateway layer in any platform. |
+| Repo | License | Stars | Description | Build On? |
+|------|---------|-------|-------------|----------|
+| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | Apache-2.0 | 40k+ | Production coding agent; 72% SWE-bench Verified; web UI + VSCode; Docker sandboxing; RBAC + audit trails | Yes — enterprise coding agent |
+| [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) | MIT | 15k+ | Agent-Computer Interface (ACI); canonical research scaffold; Mini-SWE-Agent variant 74% Verified in 100 lines | Yes — research and security agents |
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | 181k+ | Most-starred OSS coding agent 2026; terminal+desktop+IDE; 75+ providers; privacy-first; 7.5M monthly devs | Yes — dev-facing agent |
 
 ---
-*See also: `verticals/solutions.md` for complete vertical platforms.*
+*v7 — Updated 2026-07-14*

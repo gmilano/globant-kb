@@ -1,92 +1,91 @@
-# Market Map — Technology (AI Dev Tools)
+# 🗺️ Market Map — Technology
 
-> Key players, market data, and positioning.
-> Last updated: 2026-07-14 (v6)
+> Key players, market sizing, positioning. Focus: LATAM + global.
+> Last updated: 2026-07-14 (v7)
 
 ## Market Size & Growth
 
-| Segment | 2026 Size | Projection | CAGR | Source |
-|---------|-----------|------------|------|--------|
-| AI Code Tools (broad) | $9.35B | $29.96B (2031) | 26.23% | Mordor Intelligence |
-| Agentic AI Enterprise | $9.9B | $52.62B (2030) | ~40% | Multiple analysts |
-| AI in Software Development | $718M | $9.17B (2033) | 43.5% | Persistence MR |
-| AI Code Generation | $1.68B | $6.57B (2034) | 18.7% | Intel MR |
-| Global AI Agent Market | $7.84B (2025) | $52.62B (2030) | ~45% | Multiple analysts |
-| Agentic AI Spending (all sectors) | $201.9B | — | +141% YoY | Gartner |
+| Segment | 2026 Size | 2030/2031 Target | CAGR | Source |
+|---------|-----------|-----------------|------|--------|
+| Agentic AI (total) | $201.9B spending | — | +141% YoY | Gartner 2026 |
+| Agentic AI Dev Platforms | $14.62B | $66.38B (2031) | 35.34% | Mordor Intelligence |
+| MLOps | $4.39B | $89.91B (2034) | 45.8% | Fortune Business Insights |
+| LLMOps Platforms | $1.28B (2024 base) | — | 38.7% | DataIntelo |
+| AI Coding Agent Market | ~$9.8–$11B (annualized) | — | 119% | Gartner / Anthropic |
+| Global AI Agent Market | $7.84B (2025 base) | $52.62B (2030) | 46.3% | Precedence Research |
+| AI Developer Tooling | ~$35B combined | — | — | Multiple sources |
 
-## Developer Adoption Stats (2026)
+## Adoption Metrics (2026)
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| Developers using / planning AI tools | 84% | Deloitte 2026 |
-| Professional developers using AI daily | 51% | Stack Overflow 2026 |
-| Hours saved per dev per week (AI tools) | 3.6h | Deloitte 2026 |
-| AI productivity gain (software development) | 30–35% | Deloitte Software Industry Outlook |
-| New code that is AI-generated (2026) | 60% | Gartner forecast |
-| Enterprise apps with task-specific AI agents | 40% (target) | Gartner, end of 2026 |
-| GitHub AI repos year-over-year growth | +178% | GitHub Octoverse 2026 |
-| GitHub AI repos total | 4.3M+ | GitHub 2026 |
+- **60%** of new code is AI-generated (Gartner)
+- **40%** of enterprise apps will embed AI agents by end-2026 (Gartner)
+- **75%** of developers will use AI coding agents by 2028 (Gartner, up from <10% in 2023)
+- **19.3%** average net productivity gain from coding agents (Gartner enterprise survey)
+- **90%** of engineering leaders report improvements
+- **97M** monthly MCP SDK downloads; **10k+** active MCP servers
+- **23 min** average agentic coding session length in Q1 2026 (up from 4 min Q1 2025) — Anthropic report
+- **150+** organizations in A2A Protocol ecosystem (Linux Foundation)
 
-## MCP Ecosystem Stats (Jul 2026)
+## Global Market Map
 
-| Metric | Value |
-|--------|-------|
-| MCP monthly SDK downloads | 97M |
-| Active MCP server implementations | 10,000+ |
-| MCP governance | AAIF / Linux Foundation |
-| AAIF co-founders | Anthropic, Block, OpenAI |
-| AAIF backers | Google, Microsoft, AWS, Cloudflare, Bloomberg |
-| Next spec version | RC 2026-07-28 (final Jul 28, 2026) |
+### Tier 1: Model Providers (upstream)
+| Company | Positioning | Key Model | Coding Benchmark |
+|---------|------------|-----------|------------------|
+| Anthropic | Agentic coding leader; 2026 Agentic Coding Report authors | Fable 5 / Opus 4.8 | Fable 5: 80.3% SWE Pro; Opus 4.8: 69.2% SWE Pro |
+| OpenAI | ChatGPT Shopping + agentic enterprise; acquired OpenClaw | GPT-5.6 / Codex | Codex: 57% SWE Pro |
+| Google | ADK + A2A + Gemini Cloud; Vertex AI agent runtime | Gemini 3.1 Pro | 80.6% SWE Verified |
+| Meta | Open model leader; Llama 4 series; feeds Ollama/vLLM ecosystem | Llama 4 Scout/Maverick | Community fine-tunes |
+| Mistral AI | European OSS models; GDPR-native | Mistral Large 3 | EU regulatory compliance |
 
-## Competitive Landscape: AI Coding Tools
+### Tier 2: Dev Tool Platforms (midstream)
+| Company | Product | Model | Revenue Signal |
+|---------|---------|-------|----------------|
+| Anomaly (SST) | opencode (MIT, 181k stars) | Any (75+ providers) | OSS → enterprise services |
+| All-Hands-AI | OpenHands | Anthropic / OpenAI | Series A; enterprise RBAC |
+| LangChain Inc | LangGraph + LangSmith | Provider-agnostic | $25M+ ARR |
+| CrewAI | CrewAI Enterprise | Provider-agnostic | $18M Series A |
+| LangGenius | Dify (Apache-2.0) | Any | $7.5M Seed + enterprise |
+| Microsoft | MAF + GitHub Copilot + Azure AI | OpenAI + others | $10B+ Copilot ARR 2026 |
+| **SpaceX** | **Cursor** ($60B acquisition, Jun 2026) | Mix | Largest coding tool exit |
+| Skyvern AI | Skyvern (Apache-2.0) | Vision LLMs | $2.7M Seed; 10M+ workflows |
 
-| Layer | Open Source Leaders | Proprietary Leaders |
-|-------|--------------------|-----------------|
-| Coding Agent | OpenHands (MIT), opencode (MIT), Aider (Apache) | Claude Code, Cursor (SpaceX/acq), GitHub Copilot Workspace |
-| IDE Integration | Continue.dev (Apache), Tabby (Apache) | GitHub Copilot, Cursor, Windsurf |
-| Multi-Agent Orchestration | CrewAI (MIT), LangGraph (MIT), AutoGen/MAF (MIT) | Microsoft Copilot Studio, Salesforce Agentforce |
-| LLM App Platform | Dify (Apache), Langflow (MIT), Flowise (Apache) | AWS Bedrock AgentCore, Azure AI Foundry, Google Vertex AI |
-| MLOps | MLflow (Apache), Kubeflow (Apache), Ray (Apache) | Databricks, AWS SageMaker, Azure ML |
-| LLM Router / Gateway | LiteLLM (MIT), PortKey (MIT) | AWS Bedrock Gateway, Azure APIM AI |
-| Workflow Automation | n8n (Apache*), Temporal (MIT) | Zapier AI, Microsoft Power Automate |
+### Tier 3: Infrastructure (downstream)
+| Company | Product | License | Key Win |
+|---------|---------|---------|--------|
+| vLLM Project | vLLM | Apache-2.0 | 16.6× Ollama throughput at scale; Blackwell 8,033 tok/s |
+| Ollama | Ollama | MIT | Developer desktop standard; 100k+ stars |
+| OpenTofu | OpenTofu | MPL-2.0 | Terraform community replacement; CNCF |
+| Grafana Labs | LGTM Stack | AGPL-3.0 | Observability gold standard 2026 |
+| Woodpecker CI | Woodpecker | Apache-2.0 | Self-hosted CI rising vs GitHub Actions |
 
-## Key Players: OSS Champions
+## LATAM Market Intelligence
 
-| Company | Key OSS Projects | Model |
-|---------|-----------------|-------|
-| Anthropic | Claude Code (open protocol), MCP (AAIF), FastMCP (contrib) | API + OSS protocol |
-| Microsoft | AutoGen/MAF (MIT), Semantic Kernel (MIT) | OSS + Azure cloud |
-| LangChain | LangGraph (MIT), LangSmith (observability SaaS) | OSS core + SaaS |
-| CrewAI | crewAI (MIT) | OSS + enterprise tier |
-| Hugging Face | smolagents (Apache), Transformers (Apache) | OSS + Hub |
-| All Hands AI | OpenHands (MIT) | OSS + enterprise cloud |
-| Databricks | MLflow (Apache, donated to LF) | OSS + cloud platform |
-| Anyscale / Ray | Ray (Apache) | OSS + managed cloud |
-
-## M&A & Consolidation (2026)
-
-| Deal | Details |
-|------|----------|
-| SpaceX acquires Cursor | ~$60B all-stock deal (Jun 2026). Signals massive consolidation in AI coding tools. |
-| DVC acquired by lakeFS | Nov 2025. DVC remains 100% Apache-2.0 OSS. |
-| OpenAI acquires OpenClaw | Feb 2026. Fastest-growing OSS project in GitHub history (9k → 210k+ stars). |
-
-## LATAM Opportunity
-
-| Aspect | Detail |
-|--------|--------|
-| Globant recognition | 2026 Google Cloud Country Partner of the Year (Argentina); Adobe CX Orchestration Partner of Year (LATAM) |
-| Key LATAM markets | Brazil (LGPD compliance), Argentina, Colombia, Mexico |
-| Primary buyer | Enterprise CTOs / Engineering VPs investing in AI-native development |
-| Globant edge | Delivery at scale + AI Studios deep OSS expertise; LATAM dev rates with global toolchain quality |
-| Primary use case | Software factories: AI-augmented dev teams shipping 30-35% faster at lower cost |
+| Country | AI Dev Maturity | Key Signal | Globant Opportunity |
+|---------|----------------|-----------|---------------------|
+| **Brazil** | High — leads LATAM | TOTVS + Movidesk AI integration; LGPD data residency pressure | Self-hosted AI DevOps stack; LGPD-compliant RAG |
+| **Colombia** | Growing — startup ecosystem | Rappi engineering teams adopting coding agents | Coding agent implementation + training |
+| **Mexico** | Enterprise-driven | Large Banorte/BBVA tech stacks; OXXO digital transformation | LLM gateway + existing system integration |
+| **Argentina** | Cost-sensitive, high technical talent | OSS preference; remote engineering culture | Open source AI tooling builds; team augmentation |
+| **Chile** | Regulated — fintech/banking | CChC + Falabella digital; local data requirements | Audit-trail agents; regulated industry compliance |
 
 ## Globant Positioning
 
-| Strength | Opportunity |
-|----------|-------------|
-| Deep OSS expertise (OpenHands, LangGraph, CrewAI, MLflow) | Build AI Software Factory offerings for F500 + LATAM enterprise clients |
-| LATAM delivery footprint | Offshore AI-augmented dev at US quality, LATAM cost |
-| MCP early adoption | Build MCP servers for client internal tools → agent-ready enterprise |
-| Google Cloud Partner of Year | Vertex AI + OSS agents hybrid deployments |
-| AI Studios | Pre-built patterns per industry (this KB) → faster client engagement starts |
+**Strengths:**
+- Deep engineering talent in LATAM (Argentina/Colombia/Brazil/Mexico/Chile) — MCP + LangGraph expertise building
+- Near-shore for US enterprise clients adopting coding agents
+- Existing DevOps practice → AI-augmented DevOps modernization play
+
+**Key Opportunities:**
+1. **AI-Augmented SDLC**: Implement OpenHands + CI/CD pipeline AI review for enterprise clients
+2. **MCP Integration Practice**: Build MCP servers for client enterprise systems (ERP/CRM/databases)
+3. **Self-Hosted AI Stack**: For LATAM clients with data residency (LGPD/local): Dify + Ollama + Woodpecker + Forgejo
+4. **Agent Observatory**: Build on LGTM stack + AI anomaly detection for client platform engineering teams
+5. **Coding Agent Training**: Train client engineering orgs on agentic workflows (session length optimization)
+
+**Competitive Moat:**
+- LATAM data residency expertise (LGPD + PDPA + Argentine data law)
+- Multi-cloud (AWS sa-east-1 + Azure Brazil South + GCP Vinhedo) execution capability
+- A2A + MCP interoperability skills across heterogeneous enterprise systems
+
+---
+*v7 — Updated 2026-07-14*

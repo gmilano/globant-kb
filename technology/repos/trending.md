@@ -1,38 +1,47 @@
-# GitHub Trending Repos — Technology
+# 📈 Trending Repos — Technology
 
-> What's moving fast on GitHub this week (2026-07-14, v6).
-> Focus: AI developer tools, MCP, agentic infrastructure.
+> GitHub trending repos for AI + technology infrastructure. Week of 2026-07-14 (v7).
 
-## Top Movers This Week
+## Top Trending by Star Velocity
 
-| Repo | License | Stars | Why It's Trending |
-|------|---------|-------|-------------------|
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | 165k+ | Most-starred open coding agent 2026. Exploded after Gemini CLI closed-source. Provider-agnostic CLI default. |
-| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 143k | Surging as enterprise teams migrate from proprietary LLMOps to self-hosted. RAG + agents + workflows. |
-| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 146k | Visual agent builder. Hitting new star peaks as low-code AI app building goes mainstream. |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0* | 182k | AI-native workflow automation. Teams replacing Zapier/Make with self-hosted n8n + AI nodes. |
-| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 58.7k | Microsoft Agent Framework (MAF) launch driving renewed interest. AutoGen 1.0 GA. |
-| [jlowin/fastmcp](https://github.com/jlowin/fastmcp) | MIT | 8k | MCP RC 2026-07-28 driving massive MCP tooling interest. FastMCP is the quickest way to build MCP servers. |
-| [BerriAI/litellm](https://github.com/BerriAI/litellm) | MIT | 20k+ | Every team building multi-model agentic systems needs a unified LLM router. Essential infrastructure. |
-| [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | Apache-2.0 | 160+ | CLI for managing Dynatrace platform resources — built for humans and AI agents alike. |
-| [evidentlyai/evidently](https://github.com/evidentlyai/evidently) | Apache-2.0 | 6k | LLM monitoring + drift detection. Rising as teams ship agents to prod and need observability. |
-| [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | Apache-2.0 | — | MCP server + agent skills for Kapitan (K8s config management). Good pattern: vertical MCP tool for infra. |
+| Repo | License | Stars | Why Trending Now |
+|------|---------|-------|------------------|
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | 181k | v1.17.x adds Azure AI + GPT-5.6 support; 7.5M monthly devs; fastest-growing OSS coding agent after Gemini CLI closed |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 144k | Most-starred AI agent platform; 34M active builders; new plugin marketplace additions weekly |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | 100k | CDP migration complete; top OSS browser agent framework; production-ready 2026 |
+| [openclaw/openclaw](https://github.com/openclaw/openclaw) | MIT | 380k | Personal AI assistant with 13k+ skills; WhatsApp/Telegram/Signal connectors; fastest OSS to 100k stars ever |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | MIT | 52k | v1.14 with pluggable backends; 5.2M monthly downloads; 100+ templates |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 45k | MAF 1.0 GA: AutoGen + Semantic Kernel merged; MCP + A2A native; enterprise .NET/Python/Java |
+| [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | Apache-2.0 | 40k | 72% SWE-bench; RBAC + audit trails; weekly releases; Docker sandboxing |
+| [google/A2A](https://github.com/google/A2A) | Apache-2.0 | 22k | 150+ orgs; Azure AI Foundry + Amazon Bedrock; Linux Foundation; A2A+MCP interop stack |
+| [opentofu/opentofu](https://github.com/opentofu/opentofu) | MPL-2.0 | 23k | Terraform replacement; ~95% parity; CNCF member; IBM/HashiCorp acquisition aftermath |
+| [Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern) | Apache-2.0 | 21.5k | 85.85% WebVoyager; 10M+ workflows; vision-first browser automation |
 
-## Fleet Orchestration (Emerging)
+## Context Infrastructure (Breakout Category 2026)
 
-| Repo / Project | Status | Description |
-|----------------|--------|-------------|
-| Orca | Emerging | Agent development environment for fleets of parallel coding agents on desktop + mobile. |
-| Graphify | Emerging | Turns codebases, schemas, docs into queryable knowledge graphs for AI coding assistants. |
-| Voicebox | Emerging | Open-source AI voice studio (clone, dictate, create audio) — DevTools + documentation integration. |
+The dominant theme this week is **agent context infrastructure** — tools that make codebases and documents computationally accessible to AI agents, solving context-window limits.
 
-## MCP Server Ecosystem (Hot)
+| Repo | License | Description |
+|------|---------|-------------|
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | MIT | 43.8k stars; 23 production-grade engineering skills for coding agents; Google engineering culture |
+| [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) | Apache-2.0 | 85k stars; persistent context across agent sessions; captures everything |
+| [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) | MIT | Local-first code intelligence graph for MCP+CLI; persistent code memory |
+| [codebase-memory-mcp](https://github.com/codebase-memory-mcp/codebase-memory-mcp) | MIT | MCP server for codebase memory; solves context limits for large repos |
 
-The MCP server ecosystem is exploding ahead of the 2026-07-28 RC final publication:
-- **10,000+ active MCP server implementations** as of March 2026
-- 97M monthly SDK downloads
-- Every major cloud provider has committed to MCP
-- Pattern: teams build vertical MCP servers for their internal tools (like `agent-toolkit-for-kapitan`)
+## Observability & DevOps AI
+
+| Repo | License | Description |
+|------|---------|-------------|
+| [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | Apache-2.0 | CLI for Dynatrace built for humans and AI agents alike; MCP-compatible |
+| [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | Apache-2.0 | AI agent toolkit for Kapitan: MCP server + agent skills + rules for LLM coding agents |
+| [woodpecker-ci/woodpecker](https://github.com/woodpecker-ci/woodpecker) | Apache-2.0 | Lightweight CI/CD; 50MB RAM; first-class Gitea/Forgejo; rising alternative to GitHub Actions |
+
+## Security
+
+| Repo | License | Description |
+|------|---------|-------------|
+| [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | MIT | AI-powered security review GitHub Action using Claude; auto-reviews PRs |
+| [obra/superpowers](https://github.com/obra/superpowers) | MIT | 243k stars; agentic skills framework; software development methodology |
 
 ---
-*Pipeline auto-updated — refreshed each run.*
+*v7 — Updated 2026-07-14*
