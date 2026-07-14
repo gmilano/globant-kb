@@ -1,73 +1,42 @@
-# 🏭 Vertical Solutions — Travel & Hospitality
+# 🏭 Verticales de partida — Travel & Hospitality
 
-> Existing platforms customizable with AI. Model: start from something functional, add agentic layer on top.
-> Last updated: 2026-07-14 (v6)
+> Plataformas verticales existentes customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica arriba.
+> Última actualización: 2026-07-14 (v7)
 
-## Open Source Platforms
+## Plataformas recomendadas
 
-| Platform | License | GitHub | Stack | AI Extension Point | Best For |
-|----------|---------|--------|-------|--------------------|---------|
-| [QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | ~1.2k★ | PHP / PrestaShop | REST API → LLM agent wrapping; AI concierge on booking flow; dynamic pricing model | Independent hotels, boutique chains, tour operators needing full PMS + web + channel mgr |
-| [Free-Hotel-Booking-Engine](https://github.com/TravelXML/Free-Hotel-Booking-Engine) | MIT | ~80★ | PHP | Wrap availability search with conversational AI; add yield management agent | Rapid prototype booking engine with AI layer |
-| [amadeus-flight-booking-django](https://github.com/amadeus4dev/amadeus-flight-booking-django) | MIT | ~200★ | Python/Django | Replace search form with LLM intent parser; add post-booking agent notifications | Flight booking portal with conversational front-end |
+| Plataforma | Licencia | URL | Stack | Caso de uso |
+|------------|----------|-----|-------|-------------|
+| QloApps | OSL-3.0 (free) | [github.com/Qloapps/QloApps](https://github.com/Qloapps/QloApps) | PHP/MySQL, Docker | PMS hotelero + booking engine + website; base para hoteles boutique y cadenas independientes |
+| OpenTravelData (OPTD) | LGPL | [github.com/opentraveldata/opentraveldata](https://github.com/opentraveldata/opentraveldata) | CSV/Python | Data layer: 20K+ POR IATA, aeropuertos, rutas, ciudades — fundación para RAG travel |
+| Travelport TripServices | Commercial API (free dev tier) | [developer.travelport.com](https://developer.travelport.com) | REST, MCP | GDS agentic-ready: flights NDC + LCC + hotel; MCP server nativo desde Jun 2026 |
+| Sabre Mosaic + MCP Server | Commercial API | [developer.sabre.com/product-collection/mcp-server](https://developer.sabre.com/product-collection/mcp-server) | REST, MCP | GDS enterprise; MCP server expone 420+ airlines + retailing APIs a agentes AI |
+| Amadeus APIs | Commercial API (free sandbox) | [developers.amadeus.com](https://developers.amadeus.com) | REST | Vuelos, hoteles, actividades, punto de venta; sandbox gratuito hasta prod |
+| Expedia Intelligent Experience Platform | Commercial API | [developers.expediagroup.com/docs/ai-solutions](https://developers.expediagroup.com/docs/ai-solutions) | REST, MCP | Inventario OTA: hoteles + vuelos + actividades + autos; MCP server live May 2026 |
+| Dida Hotel MCP | MIT (MCP server) | [github.com/DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MCP/OAuth | 2M+ hoteles B2B; OAuth auth; gratis para socios aprobados; lanzado Jul 9 2026 |
+| mcp-amadeus (community) | MIT | [github.com/donghyun-chae/mcp-amadeus](https://github.com/donghyun-chae/mcp-amadeus) | MCP/Python | Wrapper MCP sobre Amadeus APIs; self-hosted; ideal para POCs rápidos |
+| ftl-booking | MIT | [github.com/GlenDC/ftl-booking](https://github.com/GlenDC/ftl-booking) | Python, API-first | Booking engine hotelero seguro; minimalista, extensible con AI layer |
+| PHPTRAVELS (framework) | Commercial (open core) | [phptravels.com](https://phptravels.com/open-source-travel-management-software) | PHP | Agencia de viajes: flights + hotels + tours + visa + transfers; open core |
 
-## Commercial Platforms with Open AI Integration
+## Cómo customizar con AI (patrón Globant)
 
-| Platform | Type | AI Integration Path | Key Data |
-|----------|------|---------------------|----------|
-| **Sabre Mosaic** | GDS (commercial) | Native MCP server (May 2026) — 420+ airlines, 2M hotels, real fare rules, agentic APIs | Industry's first travel MCP; Claude / OpenAI / any MCP client connects directly |
-| **Amadeus** | GDS (commercial) | Python SDK (MIT) + community MCP servers; self-service portal closes Jul 17 2026 | Richest flight data; SDK remains MIT open; partner API access required post-Jul 17 |
-| **Expedia Group** | OTA (commercial) | MCP connector for Claude (live Jun 2026, US); hotels + flights + cars | 30%+ self-serve support now AI-handled; MCP enables deep integration |
-| **Booking.com** | OTA (commercial) | ChatGPT Apps integration (OpenAI MCP); hotel search + booking | First OTA in ChatGPT apps ecosystem; accessible via OpenAI tool-use |
-| **DIDA** | B2B Hotel (commercial, free MCP) | [Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) MIT — 2M+ hotels, no key, no rate limit | World's 3rd-largest B2B hotel distribution; freely accessible via MCP |
-| **Hotelbeds** | B2B Hotel (commercial) | REST API → Python wrapper → LangGraph tool node | Used by HarimxChoi/langgraph-travel-agent in production |
-| **MindTrip** | Agentic platform (commercial) | Sabre + PayPal infrastructure; end-to-end flight booking live (May 2026) | First commercial agentic travel booking; reference for what Globant can build custom |
-
-## How to Layer AI on Existing Platforms
-
-### Pattern: QloApps + AI Concierge
 ```
-QloApps (hotel PMS + booking engine)
-         ↓ REST API
-LLM Agent (Claude / GPT-4o)
-         ↓ tool calls
-DIDA MCP (inventory check) + amadeus-python (flight upsell)
-         ↓ response
-Conversational UI (React / WhatsApp / Telegram)
+1. Seleccionar plataforma vertical base (QloApps / ftl-booking / PHPTRAVELS)
+2. Exponer APIs internas como MCP tools (usar FastMCP o sdk oficial)
+3. Conectar MCP servers de GDS (mcp-amadeus + Dida-hotel-MCP-CN)
+4. Desplegar agente orquestador (trip_planner_agent / travel-booking-agents)
+5. UI conversacional (WhatsApp LATAM / web chat / voice)
+6. Eval continuo con TripCraft + GroupTravelBench métricas
 ```
 
-### Pattern: Amadeus SDK + LangGraph
-```
-User intent (natural language)
-         ↓ LLM intent parsing
-LangGraph state machine
-         ↓ tool nodes
-amadeus-python (flight search + pricing + booking)
-+ Google Flights MCP (competitive cross-check)
-+ DIDA MCP (hotel add-on)
-         ↓ booking confirmation
-Twilio (SMS/WhatsApp notification)
-```
+## Comparativa licencias
 
-### Pattern: Sabre Mosaic MCP (Enterprise)
-```
-Enterprise travel portal
-         ↓ MCP protocol
-Sabre Mosaic MCP Server
-         ↓ GDS queries
-420+ airlines + 2M hotels (real fare rules)
-         ↓ agentic actions
-Claude / GPT-4o agent completes booking + payment via PayPal agentic commerce
-```
-
-## LATAM-Specific Vertical Opportunities
-
-| Opportunity | Platform Base | AI Layer | Market |
-|-------------|--------------|----------|--------|
-| LCC AI Yield Manager | amadeus-python | LangGraph price optimization agent | GOL, Aerolíneas Argentinas, LATAM |
-| Boutique Hotel AI Concierge | QloApps fork | Claude + DIDA MCP | AR/MX/CO boutique/eco hotels |
-| Tour Operator Trip Builder | Free-Hotel-Booking-Engine | CrewAI multi-agent itinerary | BR/PE/MX adventure travel |
-| Corporate Travel Bot | LangGraph + Amadeus | HITL approval + Twilio | Enterprise clients in LATAM |
-
----
-*See also: `repos/foundations.md` for underlying open source repos.*
+| Plataforma | ¿Globant puede deployar para cliente? | Restricciones |
+|------------|--------------------------------------|---------------|
+| QloApps (OSL-3.0) | Sí con restricciones | Modificaciones deben ser open source |
+| OPTD (LGPL) | Sí, uso libre | Modificaciones de la lib deben compartirse |
+| ftl-booking (MIT) | Sí, sin restricciones | — |
+| mcp-amadeus (MIT) | Sí | Requiere cuenta Amadeus (sandbox gratis) |
+| Dida-hotel-MCP-CN (MIT) | Sí | Requiere aprobación como socio B2B Dida |
+| Travelport / Sabre / Amadeus APIs | Sí | Contratos comerciales; free tiers para dev |

@@ -1,49 +1,43 @@
-# 📈 Trending This Week — Travel AI
+# 📈 Agentes trending — Travel (semana de 2026-07-14)
 
-> Last updated: 2026-07-14 (v6)
-> EU AI Act countdown: **19 days** to Aug 2 2026 deadline (high-risk transport systems affected)
+> Señales frescas esta semana. Foco en lo que está en movimiento ahora.
 
-## 🔥 Hot This Week
+## Señales calientes (Jul 2026)
 
-### MindTrip Flights — Live (May 6, 2026)
-Mindtrip officially launched "Mindtrip Flights" — the travel industry's first all-in-one agentic AI flight booking experience. Users describe their trip in natural language; MindTrip queries Sabre's Mosaic APIs (420+ airlines) and completes payment via PayPal's agentic commerce infrastructure — entirely within the conversational interface. Hotels to follow in Phase 2.
-- Partnership: **Sabre + PayPal + MindTrip** (announced Feb 12 2026, live May 6 2026)
-- Significance: first end-to-end agentic booking (natural language → GDS → payment) in production
+### 1. Dida Hotel MCP — lanzamiento oficial (9 Jul 2026)
+- **Repo**: [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) (MIT)
+- **Señal**: Dida Holdings (3er mayor B2B de hoteles global) lanzó MCP nativo con 2M+ propiedades.
+- **Impacto**: cualquier Claude Desktop / Cursor / ChatGPT puede reservar hoteles en minutos vía OAuth.
+- **Globant angle**: base lista para productos white-label de hotelería para clientes TMC/OTA.
 
-### Expedia + Claude — US Live (Jun 2026)
-Expedia's Claude integration is live in the US. Travelers search flights and hotels in natural language, receive real-time options with pricing, and tap through to Expedia to complete booking. 30%+ of Expedia Group self-serve support now handled by AI.
+### 2. Travelport TripServices — primera despliegue masivo (1 Jul 2026)
+- **Señal**: Travelport + Travelsoft conectaron TripServices a 400+ agencias europeas vía Orchestra.
+- **Arquitectura clave**: MCP como capa de ejecución; el LLM nunca "adivina" disponibilidad — llama la herramienta.
+- **Problema que resuelve**: estados de "confirmado" falsos en agentes anteriores — ahora la confirmación viene del GDS en tiempo real.
 
-### Amadeus Self-Service Portal Decommission — July 17, 2026
-Amadeus is shutting down its self-service developer portal on **July 17, 2026** (in 3 days from this update). API access is being restricted to select partners. Community-built Amadeus MCP servers (e.g., `technicalerikchan-amadeus-flight-search` on PulseMCP) provide a fallback for open access.
+### 3. MCP RC 2026-07-28 — protocolo stateless (impacta TODO el stack travel)
+- **Señal**: MCP elimina `Mcp-Session-Id`, el handshake `initialize`, y sticky routing.
+- **Impacto travel**: todos los MCP servers de viaje (Sabre, Amadeus, Expedia, Dida) deberán migrar.
+- **Action**: al construir MCP travel servers, diseñar stateless desde el inicio.
 
-### Sabre Mosaic MCP Server
-Sabre launched the travel industry's first official MCP server (May 2026), enabling developers to build autonomous AI agents that interact with airline inventory, fare rules, and booking workflows via MCP protocol natively.
+### 4. GroupTravelBench (arXiv:2605.25200, May 2026)
+- **Señal**: primer benchmark para planificación multi-persona y multi-turn.
+- **650 tareas** × 22 arquetipos de grupo × 3 niveles de dificultad; 3,718 perfiles reales + 338K POIs.
+- **Hallazgo clave**: todos los LLMs frontier fallan en fairness y cobertura de preferencias.
+- **Ref**: [arxiv.org/abs/2605.25200](https://arxiv.org/abs/2605.25200)
 
-## 📊 Repos with Momentum
+### 5. TravelEval (arXiv:2606.01046, Jun 2026)
+- **Señal**: framework comprehensivo para evaluar agentes LLM en viajes.
+- **Bottlenecks identificados**: multi-constraint optimization y preference aggregation.
+- **Ref**: [arxiv.org/abs/2606.01046](https://arxiv.org/abs/2606.01046)
 
-| Repo | Note |
-|------|------|
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | 2M+ hotel MCP, no API key, no rate limit — adoption accelerating |
-| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | Production LangGraph + Amadeus + Hotelbeds — most complete open example |
-| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | Framework-free MCP booking workflow — reference for Globant implementations |
-| [GongRzhe/TRAVEL-PLANNER-MCP-Server](https://github.com/GongRzhe/TRAVEL-PLANNER-MCP-Server) | Google Maps MCP for travel — steady ★ growth |
-| [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | Full MCP suite for Claude travel orchestration |
+### 6. Expedia MCP + Inventario Abierto (May 2026)
+- **Señal**: Expedia lanzó conector MCP para Claude el 6 May 2026. Acceso directo a inventario: hoteles, vuelos, actividades, autos.
+- **Dev**: [developers.expediagroup.com](https://developers.expediagroup.com/docs/ai-solutions)
 
-## 🌍 LATAM Signals
-
-- **Brazil**: AI travel adoption growing, 55% LATAM fintech deal share driving payment infra for agentic booking
-- **Argentina / Mexico**: Low-cost carrier (LCC) segment ripe for AI yield optimization — open tools via amadeus-python
-- **hotels-skill** (MIT, Booking.com scraper via Playwright) — no API key, relevant for markets where GDS access is costly
-- **Malaysia Airlines Mavis** (Ada platform) — agentic CX in production, template applicable to LATAM regional carriers (Aerolíneas, LATAM, GOL)
-
-## 📅 Upcoming Signals to Watch
-
-| Date | Event |
-|------|-------|
-| Jul 17, 2026 | Amadeus self-service portal closes — pivot to community MCPs or partner APIs |
-| Aug 2, 2026 | EU AI Act full effect — affects AI systems in aviation/transport classified as high-risk |
-| Q3 2026 | MindTrip Hotels Phase 2 launch (post-Flights) |
-| Q3 2026 | Sabre Mosaic agentic hotel APIs GA |
+### 7. LATAM Airlines AI Agent expandido (Q2 2026)
+- **Señal**: agente IA LATAM (Google Vertex AI) ahora live en Chile, Colombia, Perú, Ecuador → Brasil.
+- **Globant angle**: modelo de go-live regional por etapas que replicar para otros carriers LATAM.
 
 ---
-*Pipeline auto-updates each run.*
+*Pipeline automático — se actualiza cada hora.*

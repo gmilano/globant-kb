@@ -1,140 +1,96 @@
-# 📡 Industry Trends — Travel & Hospitality AI
+# 📡 Tendencias — Travel & Hospitality
 
-> Last updated: 2026-07-14 (v6)
-> EU AI Act full effect: **19 days** (Aug 2 2026) — aviation/transport AI classified high-risk
+> Última actualización: 2026-07-14 (v7)
 
----
+## T1 — MCP se convierte en el protocolo estándar del stack de viajes
 
-## T1 — End-to-End Agentic Booking Is Live (May 2026)
+Sabre, Amadeus, Travelport, Expedia y Dida Holdings tienen MCP servers en producción o beta en 2026. El MCP RC 2026-07-28 elimina `Mcp-Session-Id` y hace el protocolo stateless. Cualquier agente de viajes construido sobre MCP hereda acceso inmediato a GDS + hoteles + actividades sin integración bespoke.
 
-The Sabre + PayPal + MindTrip partnership delivered the travel industry's first end-to-end agentic booking system on May 6, 2026. Users describe trips in natural language → MindTrip queries Sabre's Mosaic APIs (420+ airlines) → PayPal handles payment — entirely within the conversational interface. Hotels Phase 2 is in progress. This collapses the traditional search-compare-book funnel into a single dialogue.
+**Signal strength**: Alta — adoption confirmada por 5 proveedores tier-1.
 
-**Signal strength**: HIGH — live in production, consumer-facing
+## T2 — Agentic booking va a producción; la confirmación real es el cuello de botella
 
----
+Travelport TripServices lanzó en Jun 11, 2026 con arquitectura MCP-first: el LLM no adivina disponibilidad, llama la herramienta. Primera despliegue masivo: 400+ agencias europeas (1 Jul 2026). El problema de confirmaciones falsas se resuelve a nivel de protocolo.
 
-## T2 — MCP Proliferation as New GDS Distribution Layer
+**Signal strength**: Alta — caso real en producción con 400+ agencias.
 
-Model Context Protocol is becoming the de-facto API standard for travel data distribution in 2026:
-- Sabre Mosaic: industry's first official travel MCP (May 2026)
-- Expedia: MCP connector for Claude live (Jun 2026)
-- DIDA: [hotel MCP](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) MIT, 2M+ hotels, free unlimited calls
-- Google Flights: community MCP servers (smamidipaka6, ravinahp)
-- Google Maps: travel planning MCP (GongRzhe)
+## T3 — Business travel lidera; leisure wary por trust
 
-Any LLM can now access real travel inventory without a GDS partnership. Barrier to entry for travel AI products has dropped dramatically.
+Solo el 2% de consumidores US están dispuestos a usar AI booking autónomo; el 80% de ejecutivos planean desplegarlo. Business travel adopta más rápido por safeguards corporativos (policy, budget, approval).
 
-**Signal strength**: HIGH — multiple live implementations across all major travel categories
+**Signal strength**: Alta — data Skift + IDC 2026.
 
----
+## T4 — Hoteles abriendo inventario vía MCP (Dida 2M+ propiedades, Jul 2026)
 
-## T3 — Amadeus Self-Service Portal Closing (Jul 17, 2026) ⚠️
+Dida Holdings lanzó MCP nativo con 2M+ propiedades el 9 Jul 2026. OAuth auth, inventory real-time, sin límite de llamadas. Marriott e IHG también preparando integración directa.
 
-Amadeus is decommissioning its self-service developer portal on **July 17, 2026** (3 days from this update). Open API access restricted to select partners. Impact:
-- The amadeus-python SDK (MIT) remains usable but requires partner credentials
-- Community-built Amadeus MCP servers (PulseMCP: `technicalerikchan-amadeus-flight-search`) provide alternative access
-- Google Flights MCP (`smamidipaka6/flights-mcp-server`) is the no-key alternative
+**Signal strength**: Alta — lanzamiento producción semana pasada.
 
-**Action for Globant**: establish Amadeus partner credentials OR pivot to Google Flights MCP + Sabre Mosaic MCP for client projects.
+## T5 — LATAM Airlines referencia el modelo de go-live regional escalonado
 
----
+Agente AI de LATAM (Google Vertex AI): beta Chile abr 2025 → Colombia, Perú, Ecuador jun 2025 → Brasil H2 2026. Modelo replicable para otros carriers y OTAs en LATAM.
 
-## T4 — Language-First Discovery Replacing OTA Search Funnels
+**Signal strength**: Alta — caso real LATAM con datos públicos.
 
-AI tools are reshaping trip planning in 2026:
-- Google Search: AI Canvas itinerary builder + global Flight Deals feature
-- ChatGPT: integrated Expedia + Booking.com apps (MCP)
-- Claude: Expedia integration live (US, Jun 2026)
-- 61% of Millennials/Gen Z willing to fully delegate trip planning to a trusted AI
+## T6 — WhatsApp es el canal de booking de facto en LATAM
 
-Traditional search → filter → compare → book funnel is being replaced by a single conversational exchange. OTAs are adapting as inventory sources, not the primary interface.
+WhatsApp Pay live en Brasil; proyectado en 6+ países LATAM fin 2026. Al 2027: 65% transacciones WhatsApp en LATAM = asistidas/gestionadas por AI. Pipeline WhatsApp → agente → Pix/OXXO/PSE es el MVP de mínima fricción.
 
-**Signal strength**: HIGH — multiple production deployments confirming trend
+**Signal strength**: Alta — datos eyeleven.com + scala-technologies.com 2026.
 
----
+## T7 — GroupTravelBench revela que los LLMs aún fallan en viajes grupales
 
-## T5 — ChatGPT Bailed on Travel Transactions (Mar 2026)
+650 tareas, 22 arquetipos, 3 niveles de dificultad. Hallazgo: todos los modelos frontier tienen gaps sustanciales en fairness y cobertura de preferencias para grupos. Requiere orchestration adicional para MICE/incentivos.
 
-ChatGPT launched then quickly retreated from direct travel transactions (CNBC/Skift, Mar 2026). OpenAI pivoted to a referral/app integration model — ChatGPT surfaces options, hands off to Expedia or Booking.com to complete the transaction. This protects OTA relationships and validates the "AI as discovery layer, OTA as transaction layer" architecture.
+**Signal strength**: Media — arXiv:2605.25200, May 2026.
 
-**Implication**: Agentic booking remains mostly B2C infrastructure plays (Sabre/MindTrip) or B2B enterprise tools — not consumer-facing LLM chatbots completing bookings directly.
+## T8 — TravelEval identifica los cuellos de botella reales del LLM de viajes
 
----
+Multi-constraint optimization y preference aggregation son los dos principales puntos de falla. Los agentes necesitan herramientas de search + constraint-checking explícitas.
 
-## T6 — AI-Driven Customer Support at Scale
+**Signal strength**: Media — arXiv:2606.01046, Jun 2026.
 
-Expedia Group: 30%+ of self-serve support interactions now handled by AI (Jun 2026). This is the fastest AI deployment path for travel companies — lower risk than agentic booking, immediate ROI through deflection.
+## T9 — Guardrails para itinerarios incoherentes (Iti-Validator)
 
-Pattern: LangGraph HITL agent handling cancellations, rebooking, refunds, FAQs — with escalation path to human agents.
+LLMs generan planes con inconsistencias temporales y espaciales. Iti-Validator valida contra datos reales de duración de vuelo y corrige automáticamente. Patrón: genera → valida → corrige → entrega.
 
----
+**Signal strength**: Media — arXiv:2510.24719; aplicable directamente en producción.
 
-## T7 — GDS MCP + Agentic Payment = New Travel Stack
+## T10 — Consumer trust gap es el riesgo principal del lado go-to-market
 
-Emerging stack for travel in 2026:
-```
-User (natural language)
-  → LLM (Claude / GPT-4o)
-  → GDS MCP (Sabre Mosaic MCP → real inventory)
-  → Agentic Payment (PayPal Agentic Commerce / Visa Intelligent Commerce)
-  → Booking confirmed
-```
+80% execs vs 2% consumers. Early adopters: viajeros business frecuentes, millennials tech-savvy, viajeros internacionales. Leisure mass market requiere transparency + HITL para los próximos 18-24 meses.
 
-Sabre + PayPal is the first production example. Visa (Intelligent Commerce, OpenAI+Anthropic partners, Jun 2026) is the next infrastructure layer. Machine-to-machine payments are moving from demo to production in travel.
+**Signal strength**: Alta — data Skift + OAG Mar 2026.
 
----
+## T11 — MindTrip marca el modelo AI-native OTA con Sabre + PayPal
 
-## T8 — Corporate Travel: Sabre + BizTrip.ai (Jul 2026)
+Partnership Sabre + PayPal + MindTrip (anunciado Feb 12, 2026; live May 2026): primer sistema end-to-end agentic. MindTrip accede a 420+ aerolíneas via Sabre Mosaic + pago via PayPal.
 
-Sabre and BizTrip.ai announced a strategic partnership (Jul 2026) to deliver agentic AI solutions for the global corporate travel market. Corporate travel has high policy complexity (approval flows, preferred vendors, expense integration) — ideal for LangGraph HITL patterns.
+**Signal strength**: Alta — lanzamiento público mayo 2026.
 
----
+## T12 — WebMCP habilita cualquier sitio de viajes para ser "agent-ready"
 
-## T9 — EU AI Act Impact on Travel AI (Aug 2, 2026)
+WebMCP traduce datos de sitios web en herramientas MCP consumibles por LLMs, sin que el proveedor construya un MCP server propio. Agencias pequeñas y operadores regionales accesibles para agentes AI sin inversión técnica.
 
-The EU AI Act becomes fully enforceable on August 2, 2026. Aviation and transport AI systems may be classified as **high-risk** depending on use case:
-- AI systems managing air traffic, crew scheduling, safety systems = HIGH RISK → strict conformity requirements
-- AI systems for booking/search/recommendations = lower risk category
-- Customer profiling for pricing = transparency requirements
+**Signal strength**: Media — phocuswire.com 2026.
 
-**Globant action**: audit any EU travel AI deployments before Aug 2 deadline.
+## T13 — NDC + LCC convergencia en GDS agénticos
+
+Travelport TripServices y Sabre Mosaic incluyen NDC e LCC en el mismo endpoint. El agente puede comparar legacy + NDC + LCC en una sola llamada MCP. Elimina la complejidad histórica de multi-fuente.
+
+**Signal strength**: Alta — en producción Travelport TripServices.
+
+## T14 — Open data + AI: OPTD como foundation del RAG de viajes
+
+OpenTravelData (20K+ POR con código IATA, aeropuertos, rutas, frecuencias) es el data layer gratuito para RAG de viajes. Combinado con Geonames + Wikipedia = knowledge base aérea/geográfica completa.
+
+**Signal strength**: Media — proyecto activo, licencia LGPL.
+
+## T15 — Evaluación sistemática como diferenciador de calidad del SI
+
+En 2026 existen benchmarks serios para agentes de viajes LLM: TripCraft (spatio-temporal, ACL 2025), GroupTravelBench (grupos/MICE, May 2026), TravelEval (multi-constraint, Jun 2026). Globant puede usarlos como suite QA diferenciadora pre-entrega.
+
+**Signal strength**: Alta — tres papers recientes + datasets públicos.
 
 ---
-
-## T10 — LATAM: WhatsApp + Conversational Booking
-
-WhatsApp penetration exceeds 90% in Brazil, Argentina, Mexico. Travel bookings via WhatsApp Business + AI agents is a viable go-to-market in LATAM where OTA app adoption lags. Pattern: LLM agent behind WhatsApp Business API, backed by DIDA MCP (hotels) + Google Flights MCP (flights) + local payment gateway.
-
----
-
-## T11 — Personalization at Loyalty Layer
-
-Airlines and hotel chains are deploying AI for loyalty personalization: upgrade offers, points redemption suggestions, dynamic ancillary pricing. Open source foundation: LangGraph + amadeus-python loyalty APIs.
-
----
-
-## T12 — Multimodal Trip Intelligence
-
-VLMs (vision-language models) entering travel: analyzing hotel photos for quality scoring, reading menus, understanding local transportation maps. Emerging use: AI that can look at a hotel's photos and verify claims in the listing.
-
----
-
-## T13 — Sustainable Travel AI
-
-AI-powered carbon footprint calculators and sustainable alternatives are becoming table stakes in EU/LATAM markets. Itinerary agents that optimize for sustainability alongside price are a differentiator.
-
----
-
-## T14 — Short-Term Rental (Airbnb/Vrbo Segment)
-
-Open source AI for STR management is emerging: dynamic pricing agents (using amadeus-like patterns adapted for STR), automated guest communication (LLM + WhatsApp), and market analysis. Underserved by current MCP/GDS ecosystem.
-
----
-
-## T15 — Voice-First Travel Agents
-
-Voice AI (ElevenLabs, Whisper) + travel agent backbone = full voice booking experience. Early production examples in airline IVR replacement — reducing call center costs. LATAM carriers (GOL, Aerolíneas) are candidates for Globant voice travel agents.
-
----
-
-*Trends T1–T7 are confirmed by multiple production sources as of Jul 2026. T8–T15 are strong signals with early production evidence.*
+*Pipeline automático — se actualiza cada hora.*
