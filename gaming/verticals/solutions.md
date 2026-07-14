@@ -2,7 +2,7 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
-> Última actualización: 2026-07-14 | v8 — GamingAgent eval pipeline, AlayaWorld world model añadidos
+> Última actualización: 2026-07-14 | v9 — AlayaRenderer neural rendering pipeline; Player2 NPC Godot plugin; COCOS 4 adquirida por SUD $72M
 
 ## Stack recomendado: Godot + Nakama
 
@@ -37,6 +37,19 @@ Nakama (Apache-2.0) — backend multiplayer
 | **Supabase** | Apache-2.0 | [supabase/supabase](https://github.com/supabase/supabase) | 80k+ | PostgreSQL + APIs | BaaS para juegos asíncronos: profiles, inventarios, leaderboards, UGC. pgvector para RAG. |
 
 ---
+
+## AI Rendering — Plataformas Neural (nuevo v9)
+
+| Plataforma | Licencia | URL | Descripción |
+|------------|----------|-----|-------------|
+| **AlayaRenderer** | Apache-2.0 | [ShandaAI/AlayaRenderer](https://github.com/ShandaAI/AlayaRenderer) | Generative World Renderer: dataset de 4M frames 720p/30fps (Cyberpunk 2077 + Black Myth: Wukong). Inverse rendering (RGB→G-buffer) + forward rendering estilizado. Base open-source para re-skin y remaster neural de juegos. arXiv:2604.02329. |
+| **AlayaWorld** | Apache-2.0 | [AlayaLab/AlayaWorld](https://github.com/AlayaLab/AlayaWorld) | World model interactivo open-source: 60s+ de juego coherente, pipeline completo (data, train, inference, deploy). Primera base viable para AI-native games. arXiv:2607.06291. |
+
+## Plataformas NPC AI Drop-in (nuevo v9)
+
+| Plataforma | Licencia | URL | Descripción |
+|------------|----------|-----|-------------|
+| **Player2 AI NPC Godot** | MIT | [elefant-ai/player2-ai-npc-godot](https://github.com/elefant-ai/player2-ai-npc-godot) | Nodo `Player2AINPC` drop-in para Godot. Event queue + long-term memory + function calls OOB. 40k+ comunidad Discord. En Godot Asset Library. Para prototipos y proyectos con timeline corto. |
 
 ## Plataformas de Evaluación y Training AI (nuevo v8)
 
@@ -206,7 +219,9 @@ AWS Rekognition                        ← moderación de contenido UGC
 | RPG con PCG y narrativa generativa | Luanti fork + Godot | Concordia + LlamaIndex + LLM | 6-10 semanas |
 | **Evaluación de agentes gaming** | GamingAgent + lmgame-Bench | 13 SOTA models baseline | 1 semana setup |
 | **LLM game fine-tuning** | GRL (lmgame-org) | Multi-turn RL training | 2-4 semanas |
-| **AI-native games (experimental)** | AlayaWorld (jul 2026) | World model pipeline | 2027+ producción |
+| **AI-native games (experimental)** | AlayaWorld (jul 2026, AlayaLab/AlayaWorld) | World model pipeline | 2027+ producción |
+| **Neural rendering / game remaster** | AlayaRenderer (abr 2026, ShandaAI/AlayaRenderer) | Inverse + forward neural rendering pipeline | Ya disponible experimentalmente |
+| **NPC drop-in plugin Godot** | Player2 AI NPC (elefant-ai) | `Player2AINPC` node + long-term memory | 1 día setup |
 
 ---
-*v8 actualizado 2026-07-14. GamingAgent/GRL añadidos como plataformas de evaluación/training. AlayaWorld referenciado como plataforma emergente para AI-native games. Carbon Engine y COCOS 4 consolidados.*
+*v9 actualizado 2026-07-14. AlayaRenderer (Apache-2.0, ShandaAI) y AlayaWorld (Apache-2.0, AlayaLab) añadidos como sección AI Rendering. Player2 AI NPC Godot (elefant-ai, MIT) añadido como plataforma NPC drop-in. COCOS 4: confirmado adquirido por SUD por $72M. AI in Games $10.64B→$163.1B (2034) CAGR 40.8%.*

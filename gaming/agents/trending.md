@@ -1,11 +1,59 @@
 # Agentes trending — Gaming AI
 
-> Tendencias activas en AI gaming. Última actualización: 2026-07-14 | v8
-> Nuevas señales: GamingAgent ICLR 2026, AlayaWorld world model open-source, COS-PLAY, GRL, NPC market $2.44B
+> Tendencias activas en AI gaming. Última actualización: 2026-07-14 | v9
+> Nuevas señales: AlayaRenderer neural rendering pipeline, Player2 AI NPC Godot plugin, Godot_AI C++ native, GRL×Google Tunix TPU collaboration, AI in Games $10.64B→$163.1B CAGR 40.8%
 
-## Señales nuevas — Semana de 2026-07-14
+## Señales nuevas — Semana de 2026-07-14 (v9 cycle-2)
 
-### 🔥 AlayaWorld — World Model open-source interactivo (julio 2026)
+### 🔥 AlayaRenderer — Generative World Renderer open-source (abril 2026)
+Repo: [ShandaAI/AlayaRenderer](https://github.com/ShandaAI/AlayaRenderer), Apache-2.0. Paper arXiv:2604.02329.
+
+**Qué hace**: primer pipeline de neural rendering open-source entrenado con datos reales de juegos AAA (Cyberpunk 2077 + Black Myth: Wukong).
+
+- **Dataset**: 4 millones de frames continuos a 720p/30FPS con 5 canales G-buffer por frame (depth, normals, albedo, metallic, roughness) — el dataset más grande de su tipo
+- **Inverse rendering**: deduce materiales y geometría desde RGB puro — no requiere acceso al engine
+- **Forward rendering**: a partir de materiales + prompt de texto → genera RGB con estilo arbitrario (re-skin completo del juego)
+- Demo de Game Editing online lanzado 4 abr 2026
+
+**Por qué importa para Globant**: permite crear pipelines de re-skinning de juegos completos o generación de assets con coherencia de materiales sin acceder al source del juego. Nuevo espacio de propuesta de valor para clientes de remaster / mobile port.
+
+### 🔥 Player2 AI NPC Godot Plugin (elefant-ai, MIT)
+Repo: [elefant-ai/player2-ai-npc-godot](https://github.com/elefant-ai/player2-ai-npc-godot). En Godot Asset Library.
+
+- Nodo `Player2AINPC` = AI brain drop-in: event queue, **long-term memory** y function calls implementados OOB
+- El dev solo define la descripción del NPC y llama `notify(stimulus)` — el plugin maneja el resto
+- 40,000+ jugadores activos en el Discord de Player2
+- Mismo equipo tiene plugin para Defold ([elefant-ai/player2-ai-npc-defold](https://github.com/elefant-ai/player2-ai-npc-defold))
+
+**Por qué importa**: la opción de menor fricción para añadir NPCs AI en Godot. Drop-in node con infraestructura de memoria lista. Para MVPs y proyectos de clients con timeline corto.
+
+### 🔥 Godot_AI — Módulo C++ nativo para Godot 4.7 (MIT)
+Repo: [spardanviro/Godot_AI](https://github.com/spardanviro/Godot_AI).
+
+- Native C++ = performance máxima dentro del editor, sin overhead Python/GDExtension
+- Multi-provider LLM chat directo (no solo Ollama — múltiples backends)
+- Generación de GDScript + **ejecución directa** en el editor
+- Contexto scene-aware: el LLM "ve" la escena actual
+- Inyección de API docs on-demand para el LLM
+
+**Por qué importa**: para studios con Godot 4.7+ que quieren tooling AI production-grade sin overhead de runtime, con acceso a múltiples providers.
+
+### 🔥 GRL × Google Tunix — LLM post-training en TPUs (dic 2025 / activo 2026)
+Repo: [lmgame-org/GRL](https://github.com/lmgame-org/GRL) × [google/tunix](https://github.com/google/tunix).
+Publicado en Google Open Source Blog.
+
+- **UCSD Hao AI Lab × Google TRC**: GRL corre en TPU v4 meshes via Tunix (JAX-native RL)
+- Pipeline: juegos como Sokoban/Tetris → benchmarks verificables con reward automático → post-training de LLMs (Qwen2.5, Llama)
+- Escala: multi-host, multi-turn RL en Google Cloud TPUs Research Cloud
+- Tunix disponible en PyPI: `pip install google-tunix`
+
+**Por qué importa**: valida GRL como infraestructura seria para LLM post-training vía juegos. El benchmark de referencia para fine-tuning de LLMs con juegos como entorno de entrenamiento.
+
+---
+
+## Señales sostenidas — activas en julio 2026
+
+### 1. AlayaWorld — World Model open-source interactivo (continuando desde julio 2026)
 Paper arXiv publicado **7-9 jul 2026** por Shanda AI Research (China). Pipeline de publicación completo previsto mid-jul 2026.
 
 **Qué hace**: genera entornos de video interactivos y espacialmente coherentes durante **más de 60 segundos** de juego continuo — el umbral más alto reportado en cualquier modelo open-source hasta la fecha.
@@ -95,24 +143,28 @@ PRs de "vibe coding" y agentes AI prohibidos en engine core. Plugins/addons sin 
 
 | Proyecto | URL | Señal |
 |----------|-----|-------|
-| **AlayaWorld** | Shanda AI Research (arXiv jul 2026) | World model open-source para gaming, 60s+ coherente. Publicación full pipeline mid-jul 2026. |
+| **AlayaRenderer** | [ShandaAI/AlayaRenderer](https://github.com/ShandaAI/AlayaRenderer) | Generative World Renderer, Apache-2.0, 4M AAA frames, arXiv:2604.02329. Neural rendering open-source pipeline. |
+| **AlayaWorld** | [AlayaLab/AlayaWorld](https://github.com/AlayaLab/AlayaWorld) | World model open-source para gaming, 60s+ coherente, arXiv:2607.06291. |
+| **Player2 AI NPC Godot** | [elefant-ai/player2-ai-npc-godot](https://github.com/elefant-ai/player2-ai-npc-godot) | Drop-in AI NPC plugin: event queue + long-term memory + function calls OOB. MIT, Asset Library. |
+| **Godot_AI** | [spardanviro/Godot_AI](https://github.com/spardanviro/Godot_AI) | Native C++ AI assistant module Godot 4.7, multi-provider LLM, GDScript gen+run. MIT. |
 | **GamingAgent** | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | ICLR 2026 benchmark LLM/VLM, MIT, CUA mode, 13 modelos evaluados. |
-| **GRL** | [lmgame-org/GRL](https://github.com/lmgame-org/GRL) | Multi-turn RL para LLM gaming fine-tuning, MIT. |
+| **GRL × Google Tunix** | [lmgame-org/GRL](https://github.com/lmgame-org/GRL) × [google/tunix](https://github.com/google/tunix) | Multi-turn RL en Google Cloud TPUs. UCSD Hao AI Lab. Publicado Google Open Source Blog. |
 | **COS-PLAY** | [wuxiyang1996/cos-play](https://github.com/wuxiyang1996/cos-play) | Co-evolving LLM + Skill Bank para long-horizon, MIT. |
-| **Carbon Engine** | [github.com/carbonengine](https://github.com/carbonengine) | MIT, 23 años battle-test EVE Online, ecosistema por construir. |
-| **COCOS 4** | [cocos2d/cocos-engine](https://github.com/cocos2d/cocos-engine) | MIT, AI-native, 500M users mobile. Domina Asia/LATAM mobile F2P. |
+| **Carbon Engine** | [github.com/carbonengine](https://github.com/carbonengine) | MIT, 23 años battle-test EVE Online, Trinity (gráficos) + Destiny (física). |
+| **COCOS 4** | [cocos2d/cocos-engine](https://github.com/cocos2d/cocos-engine) | MIT, AI-native, 500M users mobile. Adquirido por SUD ($72M). |
 
-## Señal de mercado — julio 2026
+## Señal de mercado — julio 2026 (v9 actualizado)
 
-- **AI in Video Games**: $2.88B (2025) → **$3.73B (2026)**, CAGR 29.4% (Business Research Company)
-- **AI in Games (broad)**: **$10.1B** (2026) → $75.1B (2033), CAGR 33.2% (Persistence MR)
-- **NPC Generation AI**: $1.86B (2025) → **$2.44B (2026)**, CAGR 31.4%
+- **AI in Games (Verified MR — mayor estimado)**: **$10.64B** (2026) → **$163.1B** (2034), CAGR **40.8%**
+- **AI in Games (broad, Persistence MR)**: **$10.1B** (2026) → $75.1B (2033), CAGR 33.2%
+- **AI in Video Games (BRC)**: $2.88B (2025) → **$3.73B** (2026), CAGR 29.4%
+- **Generative AI in Gaming**: $1.79B (2025) → **$2.21B** (2026), CAGR 23.1% → $5.09B (2030)
+- **NPC Generation AI**: $1.86B (2025) → **$2.44B** (2026), CAGR 31.4%
 - **AI Game Assets Generator**: $2.08B (2026) → $10.73B (2035), CAGR ~20%
-- **Generative AI in Gaming**: $1.79B (2025) → $2.21B (2026), CAGR 23.1%
 - 90% de devs integra AI en workflows; 50%+ de studios en producción
 - **7,300 juegos Steam** declaran AI (2026) — 2× 2024
 - **300% más juegos indie** logran 1M+ descargas (2024–2026)
 - Cost savings: 70-90% reducción en tiempo de creación de assets; $100K-$500K ahorros por título
 
 ---
-*Fuentes: arxiv.org/abs/2505.15146, arxiv.org/abs/2606.09826, techtimes.com (AlayaWorld jul 2026), gamingonlinux.com, blog.imseankim.com/gdc-2026, researchandmarkets.com/reports/6226388 (verificado 2026-07-14)*
+*v9 actualizado 2026-07-14. Fuentes: arxiv.org/abs/2604.02329 (AlayaRenderer), arxiv.org/abs/2607.06291 (AlayaWorld), github.com/elefant-ai (Player2 NPC), github.com/spardanviro (Godot_AI), opensource.googleblog.com (GRL×Tunix), arxiv.org/abs/2505.15146 (GamingAgent), verifiedmarketreports.com (AI in Games $163.1B 2034), blog.imseankim.com/gdc-2026, researchandmarkets.com/reports/6226388*

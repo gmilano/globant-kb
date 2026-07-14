@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Gaming
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-14 | v8 — GRL y GamingAgent añadidos como fundacionales para LLM gaming
+> Última actualización: 2026-07-14 | v9 — AlayaRenderer neural rendering añadido; Player2 NPC Godot plugin; GRL×Google Tunix TPU
 
 ## Game Engines
 
@@ -35,6 +35,13 @@
 | [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) | Apache-2.0 | Arquitectura Stanford para NPCs con memoria, reflexión y planificación (21.7k stars) | 21.7k |
 | [google-deepmind/concordia](https://github.com/google-deepmind/concordia) | Apache-2.0 | Simulación social multiagente de DeepMind. Para worlds persistentes y poblaciones de NPCs. | 1.5k |
 
+## AI Rendering — Neural y Generativo (nuevo v9)
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [ShandaAI/AlayaRenderer](https://github.com/ShandaAI/AlayaRenderer) | Apache-2.0 | **Generative World Renderer**. Pipeline neural rendering entrenado en 4M frames de Cyberpunk 2077 + Black Myth: Wukong (720p/30fps, 5 canales G-buffer). Capacidades: inverse rendering (RGB→materiales) + forward rendering estilizado (materiales+texto→RGB). arXiv:2604.02329 (abr 2026). | — |
+| [AlayaLab/AlayaWorld](https://github.com/AlayaLab/AlayaWorld) | Apache-2.0 | **Generative World Model**. Pipeline open-source para mundos de video interactivos, coherentes 60s+. arXiv:2607.06291 (jul 2026). | — |
+
 ## LLM Gaming Agents — Evaluation & Training (nuevo v8)
 
 | Repo | Licencia | Descripción | Stars |
@@ -67,4 +74,4 @@
 | [minetest/minetest](https://github.com/minetest/minetest) | LGPL-2.1 | Luanti: mundo voxel completo. Base para PCG + NPCs agenticos. |
 
 ---
-*v8 actualizado 2026-07-14. GamingAgent (ICLR 2026, MIT), GRL (multi-turn RL para LLM gaming, MIT) y COS-PLAY (co-evolving agents, MIT) añadidos como repos fundacionales para LLM gaming agent development.*
+*v9 actualizado 2026-07-14. AlayaRenderer (Apache-2.0, 4M AAA frames neural rendering) y AlayaWorld (Apache-2.0, 60s+ world model gaming) añadidos en nueva sección AI Rendering. GRL×Google Tunix TPU collaboration confirmado.*

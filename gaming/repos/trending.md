@@ -1,12 +1,15 @@
 # Repos trending — Gaming AI
 
-> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-14 | v8
+> Señales automáticas del pipeline + análisis manual. Última actualización: 2026-07-14 | v9
 
-## Nuevos en julio 2026
+## Nuevos en julio 2026 (v9 cycle-2)
 
 | Repo | Licencia | Descripción | Stars | Señal |
 |------|----------|-------------|-------|-------|
-| **AlayaWorld** (Shanda AI) | Apache-2.0 (esperado) | World model open-source para gaming interactivo. Genera entornos de video coherentes por **60+ segundos** continuos. arXiv publicado 7-9 jul 2026. Pipeline completo (data, arquitectura, training, inference, deploy) publicable mid-jul 2026. | ★ nuevo | Primer world model open-source viable para gaming real. |
+| **AlayaRenderer** (ShandaAI) | Apache-2.0 | **Generative World Renderer**. Pipeline neural rendering entrenado en 4M frames AAA (Cyberpunk 2077 + Black Myth: Wukong) con 5 G-buffer channels. Inverse rendering + re-render estilizado. arXiv:2604.02329 (abr 2026). Demo online desde 4-abr-2026. | — | Primer renderer neural open-source entrenado en AAA real. |
+| **AlayaWorld** (Shanda AI) | Apache-2.0 | World model open-source para gaming interactivo. Genera entornos de video coherentes por **60+ segundos** continuos. arXiv:2607.06291, publicado 7-9 jul 2026. Pipeline completo (data, arquitectura, training, inference, deploy). | ★ nuevo | Primer world model open-source viable para gaming real. |
+| **Player2 AI NPC Godot** | MIT | Plugin Godot oficial Player2: nodo `Player2AINPC` con event queue, long-term memory y function calls OOB. 40k+ community Discord. En Godot Asset Library. [elefant-ai/player2-ai-npc-godot](https://github.com/elefant-ai/player2-ai-npc-godot) | — | Opción más fácil para AI NPC en Godot con infraestructura de memoria lista. |
+| **Godot_AI** | MIT | Native C++ AI assistant module Godot 4.7: multi-provider LLM, GDScript code gen+execution, scene-aware context. [spardanviro/Godot_AI](https://github.com/spardanviro/Godot_AI) | — | El módulo C++ más completo para AI-assisted dev en Godot 4.7. |
 | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | ICLR 2026. LLM/VLM gaming agents + lmgame-Bench: 6 juegos, 13 modelos SOTA, CUA deployment. arXiv:2505.15146. | — | Benchmark estándar emergente para capacidades de LLMs en gaming. |
 | [lmgame-org/GRL](https://github.com/lmgame-org/GRL) | MIT | Multi-Turn RL Training con AgentTrainer para LLM game RL. Fine-tuning directo de LLMs en juegos. | — | Cierra el loop: evaluar (GamingAgent) → mejorar (GRL). |
 | [wuxiyang1996/cos-play](https://github.com/wuxiyang1996/cos-play) | MIT | COS-PLAY: Co-Evolving LLM Decision y Skill Bank Agents para long-horizon game play. | — | Patrón nuevo: agentes que aprenden y evolucionan habilidades durante el juego. |
@@ -64,4 +67,4 @@
 - **Godot Foundation AI ban** (1-jul-2026): PRs con AI en engine core prohibidos. Plugins/addons sin restricción.
 
 ---
-*v8 pipeline actualizado 2026-07-14. AlayaWorld (world model open-source, 60s+ coherente), GamingAgent (ICLR 2026, MIT), GRL (multi-turn RL gaming) y COS-PLAY añadidos como señales primarias de la semana.*
+*v9 pipeline actualizado 2026-07-14. AlayaRenderer (ShandaAI, Apache-2.0, 4M AAA frames, arXiv:2604.02329), Player2 AI NPC Godot plugin (elefant-ai, MIT, long-term memory OOB), Godot_AI (spardanviro, MIT, native C++ Godot 4.7), AlayaWorld full repo confirmed (AlayaLab/AlayaWorld) añadidos.*

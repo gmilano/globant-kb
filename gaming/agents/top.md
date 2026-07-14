@@ -1,7 +1,7 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-14 | v8 — GamingAgent ICLR 2026, AlayaWorld world model, COS-PLAY, GRL
+> Última actualización: 2026-07-14 | v9 — AlayaRenderer neural rendering, Player2 NPC Godot plugin, Godot_AI C++ module, GRL×Google Tunix TPU
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -29,10 +29,18 @@
 | Nombre | Repo | Licencia | Descripción | Stars |
 |--------|------|----------|-------------|-------|
 | Interactive LLM NPCs | [AkshitIreddy/Interactive-LLM-Powered-NPCs](https://github.com/AkshitIreddy/Interactive-LLM-Powered-NPCs) | MIT | LLM-driven dialogue para Cyberpunk 2077, GTA 5, AC. Vector stores para memoria ilimitada de NPCs + pre-conversation.json por personaje | 720+ |
+| **Player2 AI NPC Godot** | [elefant-ai/player2-ai-npc-godot](https://github.com/elefant-ai/player2-ai-npc-godot) | MIT | Plugin oficial Player2 para Godot: nodo `Player2AINPC` = AI brain completo. Event queue, **long-term memory** y function call implementation OOB. 40k+ players activos en Discord. En Godot Asset Library. | — |
 | LLMUnity | [undreamai/LLMUnity](https://github.com/undreamai/LLMUnity) | Apache-2.0 | Personajes Unity con LLMs locales o cloud. 1.7k stars. | 1.7k |
 | npcpy | [NPC-Worldwide/npcpy](https://github.com/NPC-Worldwide/npcpy) | MIT | Librería Python para NPC con LLMs multimodales | 1.4k |
 | npc-engine | [npc-engine/npc-engine](https://github.com/npc-engine/npc-engine) | MIT | Deep learning y NLP toolkit para juegos: chat-bot dialogue system, text semantic similarity, TTS | — |
 | COS-PLAY | [wuxiyang1996/cos-play](https://github.com/wuxiyang1996/cos-play) | MIT | **Co-Evolving LLM Decision y Skill Bank Agents** para long-horizon game play. El agente aprende habilidades nuevas y actualiza su banco de skills durante el juego. 2026. | — |
+
+## Godot AI Dev Tooling — C++ Native (nuevo v9)
+
+| Nombre | Repo | Licencia | Descripción | Stars |
+|--------|------|----------|-------------|-------|
+| **Godot_AI** | [spardanviro/Godot_AI](https://github.com/spardanviro/Godot_AI) | MIT | **Native C++ AI assistant module** para el editor Godot 4.7. Multi-provider LLM chat, generación + ejecución de GDScript, contexto scene-aware, inyección de API docs. El módulo C++ más completo para AI-assisted dev en Godot. | — |
+| AI Assistant Hub | [FlamxGames/godot-ai-assistant-hub](https://github.com/FlamxGames/godot-ai-assistant-hub) | MIT | Embeds AI assistants en Godot con capacidad de leer y escribir código en el Code Editor. Soporta Ollama, Google Gemini, OpenRouter. Publicado 2026-07-12. | — |
 
 ## Benchmark y Evaluación de Agentes Gaming
 
@@ -59,6 +67,13 @@
 | godot_rl_agents | [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) | MIT | RL sobre Godot con SB3, Sample Factory, Ray RLLib, CleanRL | 950+ |
 | stable-baselines3 | [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) | MIT | PPO, SAC, A2C, DQN en PyTorch para agentes gaming | 14k |
 
+## AI Rendering — Neural / Generativa (nuevo v9)
+
+| Nombre | Repo | Licencia | Descripción |
+|--------|------|----------|-------------|
+| **AlayaRenderer** | [ShandaAI/AlayaRenderer](https://github.com/ShandaAI/AlayaRenderer) | Apache-2.0 | **Generative World Renderer**. AI-native renderer para juegos y mundos virtuales. Dataset: **4M frames continuos 720p/30fps** de Cyberpunk 2077 + Black Myth: Wukong con 5 canales G-buffer (depth, normals, albedo, metallic, roughness). Capacidades: inverse rendering (RGB → materiales) + re-render con estilos arbitrarios (materiales + texto → RGB estilizado). Paper arXiv:2604.02329 (abr 2026). |
+| **AlayaWorld** | [AlayaLab/AlayaWorld](https://github.com/AlayaLab/AlayaWorld) | Apache-2.0 (esperado) | World model open-source para gaming interactivo. 60+ segundos de juego coherente. arXiv:2607.06291 (jul 2026). Pipeline completo: data, arquitectura, training, inference, deploy. |
+
 ## Pathfinding y AI de movimiento
 
 | Nombre | Repo | Licencia | Descripción | Stars |
@@ -82,4 +97,4 @@
 | O3DE | Apache-2.0 | Libre para uso comercial. Compatible con IP proprietaria del juego. |
 
 ---
-*v8 actualizado 2026-07-14. Nuevas señales: GamingAgent (lmgame-org, MIT, ICLR 2026) + lmgame-Bench; AlayaWorld world model (Shanda AI, jul 2026, open-source 60s+ coherent play); COS-PLAY co-evolving LLM agents; GRL multi-turn RL training para LLM gaming.*
+*v9 actualizado 2026-07-14. Nuevas señales: AlayaRenderer (ShandaAI, Apache-2.0, arXiv:2604.02329, 4M AAA frames, neural rendering); Player2 AI NPC Godot plugin (elefant-ai, MIT, event queue + long-term memory OOB); Godot_AI (spardanviro, MIT, C++ native module Godot 4.7, multi-provider LLM); AI Assistant Hub (FlamxGames, MIT, 2026-07-12). GRL × Google Tunix TPU collaboration confirmed.*

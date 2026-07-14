@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-14 | v8 — Nuevo: GamingAgent Eval Loop (P10), COS-PLAY Skill Evolution (P11)
+> Última actualización: 2026-07-14 | v9 — Nuevo: AlayaRenderer Neural Rendering Pipeline (P12), Player2 NPC Drop-in Godot (P13)
 
 ## Patrón base
 
@@ -396,6 +396,117 @@ Godot 4 (MIT) — engine
 
 ---
 
+## Receta 12: 🆕 AlayaRenderer — Neural Rendering Pipeline (abr 2026)
+
+**Caso de uso**: Re-skin visual completo de un juego existente, generación de assets estilizados, o mobile port visual con coherencia de materiales — sin acceso al source del engine.
+
+**Stack**:
+```
+[Assets del juego original (screenshots / video)]
+    ↓ inverse rendering
+AlayaRenderer (Apache-2.0) — ShandaAI/AlayaRenderer
+    ├── Encoder: RGB 720p → G-buffer (depth, normals, albedo, metallic, roughness)
+    ├── Style prompt: "medieval fantasy", "pixel art", "cel-shading", etc.
+    └── Decoder: G-buffer + style → RGB estilizado
+    ↓
+[Assets re-skinned coherentes para mobile port / remaster]
+    ↓ (opcional)
+AlayaWorld (Apache-2.0) — AlayaLab/AlayaWorld
+    └── World model para mundo interactivo con los nuevos assets
+```
+
+**Repos**:
+- [ShandaAI/AlayaRenderer](https://github.com/ShandaAI/AlayaRenderer) — Apache-2.0. Pipeline completo + dataset 4M frames.
+- [AlayaLab/AlayaWorld](https://github.com/AlayaLab/AlayaWorld) — Apache-2.0. World model si se necesita generación de mundo.
+
+**Cómo construir**:
+1. Clonar AlayaRenderer. Instalar dependencias (PyTorch + CUDA).
+2. Preparar corpus del juego: capturar screenshots o video del juego objetivo en varias condiciones de luz.
+3. Correr pipeline de inverse rendering: `python run_inverse.py --input assets/ --output gbuffers/` → genera G-buffers.
+4. Definir el estilo objetivo en el prompt (ej. "isometric mobile game, flat colors, vibrant").
+5. Forward rendering: `python run_forward.py --gbuffers gbuffers/ --style "mobile art" --output reskinned/`.
+6. Revisar coherencia: materiales metálicos/rugosos se transfieren automáticamente entre estilos.
+
+```python
+# Pipeline simplificado AlayaRenderer
+from alaya_renderer import InverseRenderer, ForwardRenderer
+
+# 1. Extraer G-buffers del juego origen (no requiere engine source)
+inv = InverseRenderer(checkpoint="alaya_inv_v1.ckpt")
+gbuffers = inv.run(input_frames="game_screenshots/", output_dir="gbuffers/")
+
+# 2. Re-renderizar con nuevo estilo
+fwd = ForwardRenderer(checkpoint="alaya_fwd_v1.ckpt")
+reskinned = fwd.run(
+    gbuffers=gbuffers,
+    style_prompt="mobile game, bright cel-shading, cartoon, flat colors",
+    output_dir="mobile_assets/"
+)
+print(f"Generados {len(reskinned)} frames estilizados coherentes")
+```
+
+**Caso de uso LATAM**: studios con juegos PC que quieren port mobile con visual diferenciado. Sin contratar artistas para re-hacer todos los assets.
+**Tiempo**: 2-4 semanas setup + tuning de estilo.
+**Ventaja**: dataset 4M frames de Cyberpunk 2077 + Black Myth: Wukong = mejor comprensión de AAA assets. Pipeline OSS sin licencias.
+
+---
+
+## Receta 13: 🆕 Player2 AI NPC Drop-in — Godot (2026)
+
+**Caso de uso**: Añadir NPCs AI con long-term memory y función de calls en Godot en menos de 1 día — máxima velocidad para MVPs y demos de cliente.
+
+**Stack**:
+```
+Godot 4 (MIT) — engine
+    └── Player2 AI NPC plugin (MIT) — elefant-ai/player2-ai-npc-godot
+        └── Player2AINPC node (AI brain)
+            ├── event_queue: stimuli del mundo → cola de eventos para el NPC
+            ├── long_term_memory: memory store persistente (incluido OOB)
+            └── function_calls: el NPC puede ejecutar acciones en el juego
+                └── Player2 cloud API (o self-hosted)
+```
+
+**Repos**:
+- [elefant-ai/player2-ai-npc-godot](https://github.com/elefant-ai/player2-ai-npc-godot) — MIT. Plugin oficial Player2 para Godot.
+- [elefant-ai/player2-ai-npc-defold](https://github.com/elefant-ai/player2-ai-npc-defold) — MIT. Variante para Defold.
+
+**Setup (1 día)**:
+1. Instalar plugin desde Godot Asset Library (buscar "Player2 AI NPC").
+2. Añadir nodo `Player2AINPC` al personaje NPC en la escena.
+3. Escribir descripción del NPC en el campo `description` (personalidad, conocimiento, contexto).
+4. En el código del juego, llamar `npc.notify("player_entered_tavern")` cuando ocurra algo relevante.
+5. El NPC responde automáticamente con diálogo coherente, recordando interacciones previas.
+
+```gdscript
+# En Godot GDScript — NPC de tabernero con Player2 plugin
+
+extends NPC
+
+@onready var ai_brain = $Player2AINPC
+
+func _ready():
+    ai_brain.description = """
+    Eres Magnus, el tabernero de la Posada del Oso Dorado.
+    Conoces los rumores del pueblo. Eres amigable pero desconfiado con extraños.
+    Recuerdas a los clientes habituales y guardas secretos sobre el pasado del alcalde.
+    """
+
+func player_enters_tavern(player_name: String):
+    ai_brain.notify("El jugador " + player_name + " entra a la taberna por primera vez esta noche.")
+
+func player_asks_question(question: String) -> String:
+    return await ai_brain.chat(question)  # long-term memory incluida OOB
+```
+
+**Diferencia vs Receta 1 (NPC con LLM básico)**:
+- Receta 1: setup manual de behavior tree + vector store + HTTP endpoint (~2-3 semanas)
+- Receta 13: `Player2AINPC` node + 1 función `notify()` → MVP en 1-2 horas
+
+**Limitación**: dependencia de Player2 cloud API (aunque MIT). Para producción a escala, evaluar si self-hosted o combinar con Receta 1 para más control.
+**Tiempo**: 1 día setup, 1-2 semanas para producción completa.
+
+---
+
 ## Tabla resumen
 
 | Patrón | Stack principal | Esfuerzo | ROI esperado |
@@ -411,6 +522,8 @@ Godot 4 (MIT) — engine
 | COCOS 4 Mobile AI | COCOS 4 + Claude Haiku + PostHog | 3-5 semanas | DDA + NPC para 500M+ LATAM players |
 | **GamingAgent Eval Loop** | GamingAgent + GRL + lmgame-Bench | 1-2 semanas/ciclo | Score objetivo vs ICLR 2026 benchmark |
 | **COS-PLAY Skill Evolution** | Godot + LimboAI + COS-PLAY | 3-5 semanas | NPC que mejora con tiempo de juego |
+| **AlayaRenderer Neural Rendering** | AlayaRenderer + (AlayaWorld opt.) | 2-4 semanas setup | Re-skin/mobile port sin contratar artistas |
+| **Player2 NPC Drop-in (Godot)** | Player2AINPC node + Godot 4 | 1 día MVP | NPC con long-term memory OOB, velocidad máxima |
 
 ---
-*v8 actualizado 2026-07-14. Repos verificados en GitHub. Recetas 10 (GamingAgent Eval Loop con GRL) y 11 (COS-PLAY Skill Evolution) añadidas. Qwen 3 mencionado como alternativa LLM OSS Apache-2.0 para gaming agents.*
+*v9 actualizado 2026-07-14. Repos verificados en GitHub. Recetas 12 (AlayaRenderer Neural Rendering Pipeline) y 13 (Player2 NPC Drop-in Godot) añadidas. GRL × Google Tunix TPU validation actualizada en Receta 10. ShandaAI ecosystem (AlayaRenderer + AlayaWorld) como nuevo diferenciador para gaming AI.*

@@ -1,13 +1,14 @@
 # Mapa de mercado — Gaming AI
 
 > Players, tamaños, oportunidades. Foco LATAM + posicionamiento Globant.
-> Última actualización: 2026-07-14 | v8 — NPC market $2.44B, 7300 Steam games, AlayaWorld world models
+> Última actualización: 2026-07-14 | v9 — AI in Games $10.64B→$163.1B CAGR 40.8%; AlayaRenderer neural rendering; ShandaAI ecosystem; GRL×Google Tunix
 
 ## Tamaño de mercado global
 
 | Segmento | Valor 2025 | Valor 2026 | CAGR | Horizonte |
 |----------|------------|------------|------|----------|
-| **AI in Games (broad, Persistence MR)** | — | **$10.1B** | 33.2% | → $75.1B en 2033 |
+| **AI in Games (Verified MR — max estimado)** | — | **$10.64B** | **40.8%** | → **$163.1B** en 2034 |
+| **AI in Games (Persistence MR)** | — | **$10.1B** | 33.2% | → $75.1B en 2033 |
 | **AI in Video Games (BRC)** | $2.88B | **$3.73B** | 29.4% | → largo plazo |
 | **Generative AI in Gaming** | $1.79B | **$2.21B** | 23.1% | → $5.09B en 2030 |
 | **AI Game Assets Generator** | — | **$2.08B** | ~20% | → $10.73B en 2035 |
@@ -36,7 +37,7 @@
 | **Roblox** | Plataforma UGC | AI Studio (MCP). CUBE 3D 1.8B params. Creators: $1B+/año via DevEx. | Audiencia mayormente juvenil. | Revenue share |
 | **Fenris Creations** | Engine OSS (nuevo) | Carbon Engine MIT (jul 2026): Trinity + Destiny + 24 módulos AAA de EVE Online. 23 años de battle-test. | Engine nuevo en OSS — ecosistema de terceros por desarrollar. | MIT, community-driven |
 | **SUD / Cocos** | Engine OSS (móvil) | COCOS 4 MIT (ene 2026). AI-native, features como MCPs/Agents. 500M+ players en juegos COCOS. | Percepción como "engine chino". JS/TS puede limitar devs C++. | MIT, community |
-| **Shanda AI Research** | Research (world models) | **AlayaWorld** (jul 2026): world model open-source para gaming, 60s+ coherente. Full pipeline. | Startup China, ecosistema aún por establecer. | Open-source (esperado Apache) |
+| **Shanda AI Research** | Research (world models + rendering) | **AlayaWorld** (jul 2026): world model open-source para gaming, 60s+ coherente. **AlayaRenderer** (abr 2026): pipeline neural rendering con 4M frames AAA (Cyberpunk+Black Myth). | Startup China, ecosistema aún por establecer. | Apache-2.0 |
 | **Microsoft / Xbox** | Cloud + tools | Azure AI Services para gaming. Sponsor O3DE. Phi-3/4 on-device. | No tiene engine propio competitivo. | Cloud usage |
 | **NVIDIA** | GPU + SDK | ACE (ASR+NLP+TTS+animación NPC realtime). RTX Neural Shading. Fork Godot con path tracing (GDC 2026, MIT). | Dependencia de hardware NVIDIA. | Hardware + SDK |
 | **Google DeepMind** | Research + cloud | Concordia OSS (simulación social). Gemini API. Gemma 3n on-device (demostrado en Godot). | Sin engine/plataforma de distribución propia. | Cloud API |
@@ -71,7 +72,8 @@
 
 | Evento | Fecha | Impacto |
 |--------|-------|--------|
-| **AlayaWorld open-source world model** | 7-9 jul 2026 | World model gaming 60s+ coherente publicado. Full pipeline mid-jul. Primer candidato viable para AI-native games. |
+| **AlayaWorld open-source world model** | 7-9 jul 2026 | World model gaming 60s+ coherente publicado. Full pipeline mid-jul. Primer candidato viable para AI-native games. Repo: AlayaLab/AlayaWorld. |
+| **AlayaRenderer neural rendering** | Abr 2026 | Generative World Renderer con 4M frames de Cyberpunk 2077 + Black Myth: Wukong. Inverse + forward neural rendering. ShandaAI/AlayaRenderer. |
 | Carbon Engine MIT release | 1 jul 2026 | Motor EVE Online disponible. Módulos Destiny + Trinity reutilizables. |
 | Godot Foundation AI ban | 1 jul 2026 | PRs AI en engine core prohibidos. Plugins libres. Calidad > velocidad. |
 | GDC 2026 developer survey | Q2 2026 | 52% devs dicen que GenAI daña la industria; 85% de gamers negativos; 7% devs positivos. |
@@ -108,8 +110,9 @@
 | **QA automatizado con AI** | Studios mid-size LATAM sin QA bots. Gap enorme vs AAA. | godot_rl_agents + RL agents como servicio horizontal |
 | **Analytics + churn prediction** | F2P mobile dominante en LATAM. Retención = survival. | PostHog + GNNs para churn prediction |
 | **AI Dev Tooling** | Unity/Godot MCP explosion — estudios quieren acelerar con AI. | Setup MCP + Claude Code → 2-3x velocidad dev. |
-| **LLM Gaming Agent eval** (nuevo) | GamingAgent + GRL pipeline MIT completo. Studios necesitan medir calidad de sus agentes. | Evaluation-as-a-service usando lmgame-Bench + benchmarks propios |
-| **World Models / AI-native games** (emergente) | AlayaWorld (jul 2026): primer world model gaming open-source viable. | Consultoría early-adopter para studios experimentales. 2027+ play. |
+| **LLM Gaming Agent eval** | GamingAgent + GRL pipeline MIT completo. GRL × Google Tunix TPU validation. Studios necesitan medir calidad de sus agentes. | Evaluation-as-a-service usando lmgame-Bench + benchmarks propios |
+| **Neural Rendering / Game Reskin** (nuevo v9) | AlayaRenderer (Apache-2.0, abr 2026): pipeline open-source para re-skin completo de juegos sin acceso al engine. | Servicio de visual remaster / mobile port con neural rendering |
+| **World Models / AI-native games** (emergente) | AlayaWorld (jul 2026): primer world model gaming open-source viable. Shanda AI Ecosystem (AlayaRenderer + AlayaWorld). | Consultoría early-adopter para studios experimentales. 2027+ play. |
 
 ---
 
@@ -132,4 +135,4 @@
 - Labs gaming experimentales interesados en world models (AlayaWorld) para prototipos
 
 ---
-*v8 actualizado 2026-07-14. Fuentes: thebusinessresearchcompany.com, researchandmarkets.com/reports/6226388, techtimes.com (AlayaWorld), gamingonlinux.com, iclr.cc/virtual/2026/poster/10007223 (GamingAgent), blog.imseankim.com/gdc-2026, arxiv.org (2505.15146, 2606.09826)*
+*v9 actualizado 2026-07-14. Fuentes: verifiedmarketreports.com (AI in Games $163.1B 2034 CAGR 40.8%), thebusinessresearchcompany.com, arxiv.org/abs/2604.02329 (AlayaRenderer), arxiv.org/abs/2607.06291 (AlayaWorld), techtimes.com, gamingonlinux.com, iclr.cc/virtual/2026 (GamingAgent), blog.imseankim.com/gdc-2026, opensource.googleblog.com (GRL×Tunix TPU)*
