@@ -1,7 +1,7 @@
 # 🧩 Patrones de composición — Financial Services AI
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-13
+> Última actualización: 2026-07-14 (v5) | EU AI Act deadline: **2026-08-02 — 19 días**
 
 ## Stack base
 
@@ -251,6 +251,98 @@ Contrato de mantenimiento: re-ejecutar FinGAIA cada trimestre para medir regresi
 
 **Por qué incluirlo**: da credibilidad técnica ante el cliente (muestra rigor), protege a Globant de
 expectativas desalineadas ("el AI hace todo solo"), y crea un engagement recurrente de evaluación.
+
+---
+
+---
+
+## Receta 10: EU AI Act Compliance Sprint (⏰ deadline: 2 ago 2026 — 19 días)
+**Tiempo estimado**: 2-6 semanas por cliente | **Licencias**: MIT + Apache-2.0 (herramientas propias)
+
+```
+Inventario de sistemas AI del cliente (entrevistas + análisis de arquitectura)
+    ↓
+Clasificación EU AI Act Annexo III
+    • scoring crediticio / decisiones de préstamo → alto riesgo
+    • monitoreo AML / transacciones → alto riesgo
+    • suscripción de seguros → alto riesgo
+    • chatbots de atención al cliente → riesgo limitado
+    ↓
+Para cada sistema de alto riesgo:
+    (a) Risk Management System (documento vivo de gestión de riesgos)
+    (b) Audit Log inmutable — log cada decisión con: input, model version, output, timestamp, reasoning
+    (c) Human Oversight Mechanism — workflow de revisión para decisiones críticas
+    (d) Explainability layer — SHAP/LIME para ML clásico; CoT capture para LLMs
+    ↓
+Conformity Assessment prep:
+    • Technical documentation (Art. 11)
+    • Instructions for use (Art. 13)
+    • Declaration of conformity (Art. 47)
+    ↓
+BigFinanceBench / FinGAIA evaluation sprint para medir calidad del sistema
+    ↓
+Entregable: carpeta de conformidad + informe de gaps + roadmap de remediación
+```
+
+**Por qué urgente**: €35M o 7% del facturado global. Los sistemas que no cumplan al 2 ago 2026 quedan ilegales en la UE.
+
+**Modelo de negocio**: engagement de 2-6 semanas + contrato de mantenimiento anual (re-auditoría, nuevos sistemas). **Deal size**: €40k-€250k por cliente financiero en UE.
+
+---
+
+## Receta 11: FinSight — Research Factory para sell-side / IR teams
+**Tiempo estimado**: 4-6 semanas | **Licencias**: MIT + AGPLv3
+
+```
+Ticker o sector de input
+    ↓
+FinSight (RUC-NLPIR/FinSight — MIT) — ACL 2026, supera OpenAI Deep Research
+    • DataCollectionAgent → OpenBB MCP (fundamentals, filings, news, macro)
+    • AnalysisAgent → ratios financieros, análisis de pares, comparación histórica
+    • VLMChartAgent → genera charts → VLM critica calidad → itera hasta publicable
+    • Chain-of-Analysis → destila insights en segmentos estructurados
+    • ReportGenerationAgent → reporte institucional con charts + citas
+    ↓
+Revisión humana del analista (30-45 min vs 8h original)
+    ↓
+Publicación en knowledge base interna con vector search
+    ↓
+Alertas: cuando nuevo filing o earnings event → trigger automático del pipeline
+```
+
+**Benchmark**: FinSight 8.09 vs OpenAI Deep Research 6.11 — el primer agente open source que supera a todas las alternativas comerciales en research financiero.
+
+**Escala**: un equipo de 3 analistas con este pipeline puede cubrir **50+ empresas en earnings season** vs 10-15 sin AI.
+
+**Deal size**: $120k-$500k (bancos de inversión, gestoras de activos, IR advisories)
+
+---
+
+## Receta 12: Agente de Trading con Pagos Autónomos (Mastercard Agent Pay)
+**Tiempo estimado**: 8-12 semanas | **Licencias**: MIT (TradingAgents)
+
+```
+TradingAgents v0.3.1 (TauricResearch — MIT)
+    • BullAnalyst / BearAnalyst / FundamentalsAgent / TechnicalsAgent
+    • RiskManager con límites de posición y VaR
+    • FundManager con decisión final
+    ↓
+Capa de ejecución de pagos:
+    • Mastercard Agent Pay for Machines (30+ partners: Stripe, Adyen, Coinbase)
+      → Agentic Token vinculado a: agente + merchant scope + policy
+      → Micropagos M2M en stablecoins para posiciones DeFi
+    • CCXT (MIT, 43k★) para ejecución en exchanges crypto
+    • Alpaca / Lean Engine para ejecución en equities (paper trading first)
+    ↓
+Audit log inmutable de cada transacción (EU AI Act compliant)
+Human oversight gate: para trades > threshold → requiere aprobación human
+    ↓
+Dashboard de posiciones, P&L en tiempo real, audit trail de decisiones
+```
+
+**Prerequisito**: policy de consentimiento explícita por transacción; límites configurables; kill-switch.
+
+**Mercado**: treasury automation para family offices, hedge funds cuantitativos, desks de crypto. **Deal size**: $300k-$1.5M
 
 ---
 

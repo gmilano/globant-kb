@@ -1,6 +1,6 @@
 # 📡 Tendencias — Financial Services AI
 
-> Última actualización: 2026-07-13
+> Última actualización: 2026-07-14 (v5) | EU AI Act deadline: **2026-08-02 — 19 días**
 
 ## Tendencias principales — julio 2026
 
@@ -95,5 +95,19 @@ Implicación para arquitecturas de solución: usar abstracción multi-provider d
 LangGraph o PydanticAI como orquestador + configuración de provider por entorno (dev: local Ollama;
 prod: Claude/Azure) se está convirtiendo en el patrón de referencia.
 
+### T15. TradingAgents v0.3.1 — fix de look-ahead bias que invalida resultados anteriores
+
+TradingAgents v0.3.1 (jul 2026) corrigió un filtro de look-ahead en Alpha Vantage que hacía que los backtests tuvieran acceso a datos del futuro. Resultado: **todos los benchmarks y papers publicados usando TradingAgents v0.2.x son sospechosos**. Esto crea dos oportunidades: (1) diferenciar propuestas de Globant mostrando awareness del problema; (2) ofrecer re-evaluación de sistemas de trading existentes con datos point-in-time correctos. El fix también añade Claude Sonnet 5 / Fable 5 support y Bedrock auth.
+
+### T16. BigFinanceBench — benchmark de producción revela el gap real en research financiero
+
+BigFinanceBench (arXiv:2606.03829, jun 2026) es el primer benchmark de research financiero workflow-grounded: 928 tareas de nivel experto, 36,241 puntos de rúbrica que evalúan la derivación completa (no solo el resultado). El mejor agente frontier alcanza **58.8%** — aún debajo de analistas humanos. Diferencia clave vs FinGAIA (48.9%): BigFinanceBench viene de contexto de producción buy-side y evalúa el proceso. Implicación: financial research agents necesitan supervisión humana obligatoria para cumplir con EU AI Act y con estándares fiduciarios.
+
+### T17. Agentic Payments — pagos M2M son infraestructura de producción (desde jun 2026)
+
+Mastercard Agent Pay for Machines se lanzó comercialmente el 10 jun 2026 con 30+ partners (Stripe, Adyen, Coinbase, Cloudflare, OKX, Ripple, Polygon, Solana). Visa Intelligent Commerce integró con OpenAI y Anthropic el mismo día. Los agentes financieros ya no son solo sistemas de recomendación — pueden **transaccionar de forma autónoma** con credenciales tokenizadas vinculadas a (agent, merchant, policy). Esto cambia el diseño de arquitecturas: treasury sweeps automáticos, procurement agentic, arbitraje liquidado en stablecoins.
+
+**Implicación de seguridad**: la autorización de pagos agenticos requiere política de consentimiento explícita, límites por transacción y auditoría inmutable — elementos que Globant puede incorporar por diseño.
+
 ---
-*Fuentes: Finastra, CIO Dive, The Fintech Times, Neurons Lab, Aspire Systems, Citizens Bank, Lloyds Banking Group, Mordor Intelligence, KPMG, arXiv:2507.17186 — julio 2026.*
+*Fuentes: Finastra, CIO Dive, The Fintech Times, Neurons Lab, Aspire Systems, Citizens Bank, Lloyds Banking Group, Mordor Intelligence, KPMG, arXiv:2507.17186, arXiv:2606.03829, Mastercard/Visa releases, Gartner — jul 2026.*

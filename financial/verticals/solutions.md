@@ -2,7 +2,7 @@
 
 > Plataformas verticales existentes customizables con AI.
 > Modelo: partir de algo funcional, añadir capa agentica arriba.
-> Última actualización: 2026-07-13
+> Última actualización: 2026-07-14 (v5)
 
 ## Plataformas recomendadas
 
@@ -23,7 +23,7 @@
 
 | País | Estado Open Finance | API Estandar | Oportunidad |
 |------|---------------------|--------------|-------------|
-| Brasil | Fase 4 — operacional | API Banco Central BR + Open Finance MCP | Personal finance agent, comparador de productos, alertas de liquidez PyME |
+| Brasil | Fase 4 — operacional | API Banco Central BR + Open Finance MCP | Personal finance agent, comparador de productos, alertas de liquidez PyME. **55% del deal flow fintech LatAm en Q1 2026** — mercado más activo de la región |
 | Chile | Implementación obligatoria desde abr 2026 | CMF Chile — APIs en definición final | Primeros movers: advisory bots sobre datos bancarios reales |
 | México | Regulación CNBV en curso | CNBV APIs | Conexión con Fintechs Ley Fintech; SPEI data |
 | Colombia | Marco en desarrollo | SFC Colombia | Market en early stage — ventana competitiva |
@@ -48,8 +48,8 @@ Dashboard compliance para oficiales de riesgo
 ```
 OpenBB MCP server v4 (datos equities, macro, noticias)
     ↓
-TradingAgents v0.2.4 (bull/bear/riesgo debate, structured-output, multi-provider)
-    ↓
+TradingAgents v0.3.1 (bull/bear/riesgo debate, structured-output, multi-provider)
+    ↓ [fix look-ahead bias — usar v0.3.1, no v0.2.x]
 FinGPT sentiment layer (noticias + tweets en tiempo real)
     ↓
 Reporte de inversión generado + trazabilidad de decisión (LangGraph checkpoints)

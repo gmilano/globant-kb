@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Financial Services
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-13
+> Última actualización: 2026-07-14 (v5)
 
 ## Plataformas y frameworks base
 
@@ -27,13 +27,15 @@
 | [ccxt](https://github.com/ccxt/ccxt) | MIT | API unificada para +100 exchanges crypto; 43k ★; base para todo bot crypto |
 | [alpaca-trade-api](https://github.com/alpacahq/alpaca-trade-api-python) | Apache-2.0 | SDK para Alpaca (broker regulado EEUU con API gratuita); ideal para paper trading en agentes |
 
-## Benchmark: FinGAIA
+## Benchmarks — Suite 2026
 
-| Repo | Licencia | Descripción |
-|------|----------|-------------|
-| [SUFE-AIFLM-Lab/FinGAIA](https://github.com/SUFE-AIFLM-Lab/FinGAIA) | MIT | Benchmark end-to-end para evaluar AI agents en finanzas; 407 tareas en 7 subdominios (securities, funds, banking, insurance, futures, trusts, asset management); 3 niveles de dificultad; dataset público parcial + scripts de validación; SUFE + Fudan — arXiv:2507.17186 |
+| Repo | Licencia | Tareas | Mejor Agente | Descripción |
+|------|----------|--------|-------------|-------------|
+| [SUFE-AIFLM-Lab/FinGAIA](https://github.com/SUFE-AIFLM-Lab/FinGAIA) | MIT | 407 | 48.9% (ChatGPT zero-shot) | Benchmark de conocimiento financiero en 7 subdominios; SUFE + Fudan — arXiv:2507.17186 |
+| [RogoAI/big-finance-benchmark](https://huggingface.co/datasets/RogoAI/big-finance-benchmark) | — | 928 | **58.8% rubric score** | BigFinanceBench — workflow-grounded, evalúa derivación completa; Rogo + OpenAI — arXiv:2606.03829 (jun 2026) |
+| [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | benchmark incluido | FinSight: 8.09 (vs OAI 6.11) | Dataset de tareas de research financiero profundo — equity + industry level |
 
-**Uso**: ejecutar FinGAIA sobre el stack de agentes del cliente antes de go-live para medir gaps vs expertos humanos. Los resultados (mejor LLM: 48.9% en zero-shot) fundamentan la necesidad de fine-tuning y human-in-the-loop.
+**Cómo usar en propuestas**: ejecutar FinGAIA (conocimiento general) + BigFinanceBench (research workflow) sobre el stack del cliente antes del go-live. Los gaps identificados justifican fine-tuning, RAG sobre normativas y human-in-the-loop obligatorio — especialmente para cumplimiento con EU AI Act Anexo III.
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*

@@ -1,7 +1,7 @@
 # 🗺️ Mapa de mercado — Financial Services AI
 
 > Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-13
+> Última actualización: 2026-07-14 (v5)
 
 ## Tamaño de mercado
 
@@ -55,14 +55,26 @@
 | ElegantRL | 2.8k | RL de alta performance en GPU |
 | FinNLP | 1.2k | NLP financiero: NER, sentiment, event detection |
 
+## Infraestructura de Pagos Agenticos (jul 2026)
+
+| Player | Producto | Launch | Partners clave | Cobertura |
+|--------|---------|--------|----------------|-----------|
+| Mastercard | **Agent Pay for Machines** | 10 jun 2026 | Stripe, Adyen, Coinbase, Cloudflare, OKX, Ripple, Polygon, Solana | Tarjetas + cuentas bancarias + stablecoins; micropagos sub-centavo |
+| Mastercard | **Agent Pay (Consumer)** | Nov 2025 (EEUU full) | Microsoft, PayPal, Google, Citi, US Bank | Agentic Tokens: credencial tokenizada vinculada a agent+merchant+policy |
+| Visa | **Intelligent Commerce** | Activo 2026 | OpenAI (integración estratégica jun 10), Anthropic, Microsoft | Credenciales tokenizadas para agentes AI; behavioral auth |
+| Visa + Inflow | Virtual card para agentes | May 2026 | Inflow | Agentes AI reciben tarjetas Visa reales para compras autónomas |
+
+**Implicación estratégica**: los payment rails para agentes AI son infraestructura de producción desde junio 2026. Los agentes financieros pueden ahora transaccionar, no solo recomendar. Globant puede construir agentes de treasury, procurement y arbitraje que cierren el loop end-to-end.
+
 ## Benchmark Landscape 2026
 
-| Benchmark | Origen | Tareas | Mejor Resultado |
-|-----------|--------|--------|-----------------|
-| FinGAIA | SUFE + Fudan (arXiv:2507.17186) | 407 tareas, 7 subdominios, 3 niveles | ChatGPT: 48.9% zero-shot; humanos: >84% |
-| FLARE Suite | AI4Finance | Benchmarks NLP financiero (NER, Headline, sentiment) | FinGPT supera GPT-4 en tareas específicas |
-| FinLLM-Leaderboard | Open-Finance-Lab | Trading tasks + analysis | Referencia académica activa |
-| Look-Ahead-Bench | arXiv:2601.13770 | Bias temporal en LLMs financieros (point-in-time) | Detecta LLMs que usan datos del futuro |
+| Benchmark | Origen | Tareas | Mejor Resultado | Para Globant |
+|-----------|--------|--------|-----------------|-------------|
+| **BigFinanceBench** | Rogo + OpenAI (arXiv:2606.03829, jun 2026) | **928 tareas**, 36k puntos de rúbrica, workflow-grounded | Mejor agente: **58.8%**; headroom masivo | Eval harness para buy-side; argumento de venta más robusto |
+| FinGAIA | SUFE + Fudan (arXiv:2507.17186) | 407 tareas, 7 subdominios, 3 niveles | ChatGPT: 48.9% zero-shot; humanos: >84% | Benchmark de conocimiento financiero general |
+| FLARE Suite | AI4Finance | Benchmarks NLP financiero (NER, Headline, sentiment) | FinGPT supera GPT-4 en tareas específicas | NLP financiero en español/portugués |
+| FinLLM-Leaderboard | Open-Finance-Lab | Trading tasks + analysis | Referencia académica activa | — |
+| Look-Ahead-Bench | arXiv:2601.13770 | Bias temporal en LLMs financieros (point-in-time) | Detecta LLMs que usan datos del futuro — relevante post TradingAgents v0.3.1 fix | Evaluación de honestidad de backtests |
 
 ## Oportunidades AI en LATAM
 
@@ -84,5 +96,17 @@
 - **Argumento de ROI**: KPMG documenta 2.3× ROI en 13 meses; top performers $8 por $1. Financiero tiene el mayor ROI de AI por industria ($4.20 por $1 invertido).
 - **Benchmark como herramienta de venta**: FinGAIA (48.9% best LLM vs 84%+ humanos) justifica por qué los agentes genéricos no son suficientes y por qué se necesita integración experta.
 
+## LATAM — Deal Share actualizado Q1 2026
+
+Brazil: **55% de todos los deals fintech de LatAm** en Q1 2026 (18 transacciones) — subió desde posiciones anteriores. Consolidación del mercado: solo los que ejecutan, sobreviven (QED Investors, jul 2026).
+
+| País | Deal Share Q1 2026 | Señal clave | Oportunidad AI |
+|------|---------------------|------------|----------------|
+| Brasil | **55%** (18 txns) | Open Finance BACEN + Pix 2.0 scheduled payments | AML + fraud en rails Pix; agentes de datos Open Finance |
+| México | ~15% | 77% adopción AI; 80% partnerships banco-AI; sandbox CNBV activo | KYC automation; agentes de pago SPEI |
+| Colombia | ~10% | Daviplata 40M+ usuarios; open banking en desarrollo | Credit scoring economía informal; WhatsApp banking |
+| Argentina | ~8% | Multi-currency (ARS/USD/CCL); controles de capital en flux | Monitoreo FX; contabilidad multi-moneda con AI |
+| Chile | ~7% | Regs CMF open banking 2026; alta madurez fintech | Gestión de consentimiento; automatización de reporting regulatorio |
+
 ---
-*Fuentes: IDC, Finastra, Mordor Intelligence, KPMG, Neurons Lab, Bloomberg, Lloyds Banking Group, Citizens Bank, AiBusiness Weekly — julio 2026.*
+*Fuentes: IDC, Finastra, Mordor Intelligence, KPMG, Neurons Lab, Bloomberg, Lloyds Banking Group, Citizens Bank, AiBusiness Weekly, Mastercard/Visa press releases, arXiv:2606.03829, Brazil 55% Brazil Fintech Q1 2026 — jul 2026.*
