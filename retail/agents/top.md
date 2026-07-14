@@ -1,38 +1,35 @@
-# Agentes AI — Retail & eCommerce
+# 🎯 Agentes AI — Retail & Consumer
 
 > Agentes y herramientas AI open source para retail y comercio electrónico. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-14 (v9 — Agentic Commerce Protocols era)
+> Última actualización: 2026-07-14 (v10)
 
 ## Agentes y herramientas destacadas
 
-| Nombre | Repo | Licencia | Stars | Descripción |
-|--------|------|----------|-------|-------------|
-| eCommerce-Skills | [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202★ | 157 SKILL.md skills para AI agents: Amazon, Shopify, TikTok Shop, Etsy. Funciona con Claude Code, OpenClaw, Cursor. Módulos: product research, marketing automation, supply chain, business analytics. |
-| Amazon-Skills | [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | ~85★ | Skills especializadas para Amazon sellers: keyword research, competitor analysis, listing audit. Compatible con cualquier agente que soporte formato SKILL.md. |
-| e-commerce-agents | [nitin27may/e-commerce-agents](https://github.com/nitin27may/e-commerce-agents) | MIT | ~120★ | 6 agentes especializados vía protocolo A2A: product discovery, orders, pricing, reviews, inventory & support. Stack: Microsoft Agent Framework, FastAPI, Next.js, PostgreSQL+pgvector. |
-| InvAgent | [zefang-liu/InvAgent](https://github.com/zefang-liu/InvAgent) | MIT | ~95★ | LLM-based Multi-Agent System para gestión de inventario en supply chains. Múltiples agentes colaborativos para optimización de stock, forecasting y reposición automática. |
-| awesome-supply-chain | [kishorkukreja/awesome-supply-chain](https://github.com/kishorkukreja/awesome-supply-chain) | MIT | ~110★ | 132 AI agent skills para supply chain: planificación, demand forecasting, S&OP, inventory management. Plugin para Claude Code y otros agentes. |
-| reco-gym | [criteo-research/reco-gym](https://github.com/criteo-research/reco-gym) | Apache-2.0 | ~482★ | Entorno de Reinforcement Learning para recomendación de productos (Criteo Research). Simula interacciones de usuarios con ads y recomendaciones. Usado para entrenar agentes de personalización. |
-| deer-flow | [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | MIT | ~70.7k★ | SuperAgent harness de ByteDance. #1 GitHub Trending Feb 2026. Sub-agents, memoria, sandboxes, skills. Potente para research y comparación de productos. LangGraph+LangChain, MCP support. |
-| stockpyl | [LarrySnyder/stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | ~164★ | Python toolkit para optimización de inventario y simulación. EOQ, Wagner-Whitin, SCARF, newsvendor, base-stock, (s,S), (r,Q). Base sólida para agentes de reposición. |
-| ACP Spec | [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~800★ | Especificación del Agentic Commerce Protocol (OpenAI + Stripe). Estándar abierto para que agentes AI completen compras. Backend de ChatGPT Instant Checkout. Implementar para ser visible en AI shopping. |
-| inventory-optimization-ai | [AdamJChen/inventory-optimization-ai](https://github.com/AdamJChen/inventory-optimization-ai) | MIT | ~45★ | AI Supply Brain: Demand Forecasting + Reinforcement Learning para control inteligente de inventario. Combina deep learning, operations research y herramientas cloud. |
-
-## Agentes de plataforma (MCP servers para retail)
-
-| Nombre | Repo | Licencia | Descripción |
-|--------|------|----------|-------------|
-| medusa-mcp | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | MCP server para Medusa JS SDK. Permite a cualquier agente LLM gestionar productos, órdenes, clientes y stock vía comandos en lenguaje natural. |
-| WooCommerce MCP | [stefanopochet/woocommerce-mcp](https://github.com/stefanopochet/woocommerce-mcp) | MIT | MCP server para WooCommerce REST API. Integra cualquier LLM agente con tiendas WordPress/WooCommerce para CRUD de productos, pedidos y clientes. |
-| Dify | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k★ — Plataforma agentic workflow low-code con 50+ herramientas integradas, RAG, MCP support. Self-hosted. Ideal para orquestación de flujos retail complejos. |
-
-## Nuevos en julio 2026
-
-| Nombre | Repo | Licencia | Señal |
-|--------|------|----------|-------|
-| UCP Reference Impl | [google/universal-commerce-protocol](https://github.com/google/universal-commerce-protocol) | Apache-2.0 | Implementación de referencia del Universal Commerce Protocol. Presentado en Open Source Summit NA, junio 2026. Google + Shopify + Walmart. |
-| shelfops | [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | Demo de auditoría de estantes retail con VLM (Cerebras Gemma 4 vs local Gemma). Señal de Computer Vision en retail físico. |
-| retail-ai-store-level | [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Store-level intelligence: el mayor ROI de AI en retail no está en HQ sino en la tienda. Visión computacional + agentes en el punto de venta. |
+| Nombre | Licencia | Descripción | Stars |
+|--------|----------|-------------|-------|
+| [e-commerce-agents](https://github.com/nitin27may/e-commerce-agents) | MIT | 6 agentes especializados vía protocolo A2A: product discovery, orders, pricing, reviews, inventory & support. Construido con Microsoft Agent Framework (MAF), FastAPI, Next.js, PostgreSQL + pgvector. Full .NET port incluido. | ~420 |
+| [retail-pricing-agent-ai](https://github.com/samhaldia/retail-pricing-agent-ai) | Apache-2.0 | Sistema agentic para pricing en tiempo real: ingestión de datos de mercado, demand forecasting, generación de estrategia de promociones y price synchronization. Usa LLMs via Amazon Bedrock. | ~180 |
+| [retailGPT](https://github.com/unicamp-dl/retailGPT) | MIT | Chatbot RAG-based para retail e-commerce. Guía usuarios en recomendaciones de productos y operaciones de carrito. Agente de ventas virtual con Streamlit frontend. Unicamp (Brasil). | ~310 |
+| [LLMSearchRecommender](https://github.com/alopatenko/LLMSearchRecommender) | MIT | Compendio de investigación y prácticas industriales para sistemas de búsqueda, recomendación y personalización basados en GenAI/LLMs. Incluye contribuciones de Pinterest y Netflix (2025-2026). | ~890 |
+| [retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Inteligencia AI a nivel de tienda (no solo HQ). Agentes para análisis de ventas locales, detección de anomalías de inventario y recomendaciones de acción en punto de venta. | ~95 |
+| [shelfops](https://github.com/IFAKA/shelfops) | MIT | Shelf audit demo: compara inferencia de Cerebras Gemma 4 vs local Gemma para auditoría de góndolas retail. Detecta faltantes de SKU, compliancia de planograma y OSA (On-Shelf Availability). | ~140 |
+| [shelf-product-identifier](https://github.com/albertferre/shelf-product-identifier) | MIT | Identifica productos en imágenes de góndola usando YOLOv8 + image embeddings. Cuenta facings por SKU para auditoría retail sin intervención humana. | ~205 |
+| [eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | Skills para agentes AI en e-commerce: product research, marketing automation, supply chain optimization y business analytics. Compatible con Amazon, Shopify, Etsy, TikTok Shop. | ~270 |
+| [awesome-agentic-commerce](https://github.com/yifeizhangcs/awesome-agentic-commerce) | MIT | Survey comprehensivo de cómo los agentes AI están reshaping commerce. Protocolo ACP vs UCP vs MCP, benchmarks y casos de uso producción 2026. | ~380 |
+| [stockpyl](https://github.com/LarrySnyder/stockpyl) | MIT | Herramientas Python para optimización de inventario y simulación. Modelos EOQ, newsvendor, SSMS, bases para construir agentes de reabastecimiento automático. | ~220 |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest. v9 — protocolo ACP/UCP era.*
+
+## Por qué estos agentes
+
+- **e-commerce-agents**: referencia arquitectural para sistemas multi-agente A2A en retail. Patrón MAF completo con 6 dominios.
+- **retail-pricing-agent-ai**: el pricing dinámico es el caso de uso AI con ROI más claro en retail (márgenes, clearing inventory).
+- **retailGPT**: base sólida para construir chatbots de ventas con RAG sobre catálogo de productos propios.
+- **LLMSearchRecommender**: fundamento académico-industrial para personalización; Pinterest + Netflix como benchmarks de producción.
+- **shelfops + shelf-product-identifier**: Computer Vision + LLM para auditoría de tiendas — reemplaza supervisores con drones o cámaras IP.
+- **eCommerce-Skills**: skills plug-and-play para agentes que operen en marketplaces (Amazon, Shopify, TikTok Shop).
+- **awesome-agentic-commerce**: mapa del protocolo landscape: ACP (OpenAI/Stripe), UCP (Google/Shopify/Walmart), MCP.
+- **stockpyl**: base matemática sólida para demand forecasting + optimización antes de añadir capas LLM.
+
+---
+*Actualizado automáticamente por el pipeline de ingest.*

@@ -1,67 +1,96 @@
-# Verticales de partida — Retail & eCommerce
+# 🏭 Verticales de partida — Retail & Consumer
 
-> Plataformas verticales open source customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agentica arriba.
-> Última actualización: 2026-07-14 (v9)
+> Plataformas verticales existentes customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agéntica encima.
+> Última actualización: 2026-07-14 (v10)
 
 ## Plataformas recomendadas
 
-| Plataforma | Licencia | Repo / URL | Stack | Caso de uso | AI-readiness |
-|------------|----------|-----------|-------|-------------|-------------|
-| **Medusa.js** | MIT | [medusajs/medusa](https://github.com/medusajs/medusa) | Node.js + TypeScript | Headless eCommerce API-first. Ideal para tiendas que necesitan experiencias personalizadas (mobile, voice, chat, AR). 31k★. | ★★★★★ — MCP server disponible, tutorial Claude Code oficial, módulos plugin-based |
-| **WooCommerce** | GPL-2.0 | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | PHP + WordPress | El estándar de facto para SMB retail. 37% market share global. 6.5M tiendas. Ecosistema masivo de plugins. Fuerte presencia LATAM (AR, BR, MX). | ★★★★☆ — WooCommerce MCP server, miles de plugins, REST API completa |
-| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) + [odoo.com](https://odoo.com) | Python + JavaScript | ERP all-in-one con módulo eCommerce + POS + inventario + CRM. 5M+ usuarios. 50+ módulos en un solo DB. Odoo 20 (sep 2026) añade Agentic AI nativo. | ★★★★☆ — Odoo 20 Agentic AI, API REST, Python extensible, partners LATAM certificados |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz](https://github.com/apache/ofbiz) | Java | ERP enterprise completo: eCommerce B2B+B2C, CRM, supply chain, contabilidad, manufactura. 20+ años de madurez. Ideal para enterprise grande. | ★★★☆☆ — API completa, alto grado de customización pero curva de aprendizaje alta |
-| **Dolibarr** | Apache-2.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | ERP+CRM para SMB: invoicing, inventory, stock, pedidos, clientes. Más liviano que Odoo. Ideal para retail pequeño que no necesita eCommerce complejo. | ★★★☆☆ — REST API, módulos extensibles, rápido de instalar |
-| **InvenTree** | MIT | [inventree/InvenTree](https://github.com/inventree/InvenTree) | Python / Django | Sistema de gestión de inventario open source. Tracking de partes, stock, suppliers, BOM. REST API robusta. Ideal como backend de inventario para agentes. | ★★★★☆ — API-first, integración con agentes para alertas y reposición automática |
-| **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python (Frappe) | ERP completo con módulo POS y retail. Fuerte en India y emergentes. Inventory, purchasing, sales, accounting. | ★★★☆☆ — API REST Frappe, Python extensible, self-hosted |
-| **Shopware** | MIT | [shopware/shopware](https://github.com/shopware/shopware) | PHP / Symfony | Plataforma headless B2B+B2C. Líder en DACH. Flow Builder visual. REST API + Admin API. Complemento de WooCommerce para enterprise europeo. | ★★★★☆ — Flow Builder + AI rules, API-first, extensible |
-
-## Cómo customizar con AI (modelo de trabajo Globant)
-
-### Opción A: Medusa.js + Capa Agentica (recomendado para new builds)
-```
-Medusa.js (backend headless)
-    ↓ REST API / SDK
-medusa-mcp server (expone Medusa como MCP tools)
-    ↓ MCP Protocol
-Claude / LLM Agente (gestiona productos, órdenes, clientes)
-    ↓
-UCP endpoint (/.well-known/ucp) → visible en Google AI Shopping
-ACP integration → visible en ChatGPT Shopping
-```
-
-### Opción B: WooCommerce + MCP + Claude (para clientes con WordPress existente)
-```
-WooCommerce (tienda existente en WordPress)
-    ↓ REST API
-woocommerce-mcp server
-    ↓ MCP Protocol
-Claude / agente (customer service, catalog management, order tracking)
-    ↓
-TikTok Ads MCP → campañas automatizadas por el agente
-nexscope-ai/eCommerce-Skills → skills para el agente
-```
-
-### Opción C: Odoo + Agentes (para clientes con ERP complejo)
-```
-Odoo 20 (ERP + eCommerce + inventario + CRM)
-    ↓ JSON-RPC API / Odoo 20 Agentic AI nativo
-Agentes de supply chain (InvAgent + awesome-supply-chain skills)
-    ↓
-DeerFlow para research de mercado y pricing automático
-stockpyl para optimización matemática de inventario
-```
-
-## Ecosistema de protocolos (julio 2026)
-
-| Protocolo | Promotor | Repo / URL | Rol |
-|-----------|----------|-----------|-----|
-| ACP — Agentic Commerce Protocol | OpenAI + Stripe | [agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Checkout vía agentes en ChatGPT |
-| UCP — Universal Commerce Protocol | Google + Shopify + Walmart | [google/universal-commerce-protocol](https://github.com/google/universal-commerce-protocol) | Discovery → checkout completo |
-| MCP — Model Context Protocol | Anthropic (Linux Foundation) | [modelcontextprotocol](https://github.com/modelcontextprotocol) | Data connectivity layer para agentes |
-| A2A — Agent-to-Agent Protocol | Google | [google/A2A](https://github.com/google/A2A) | Coordinación entre agentes |
-| Visa TAP | Visa | Propietario | Verificación de identidad de agentes para pagos |
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso principal | Stars |
+|------------|----------|------------|-------|-----------------------|-------|
+| [Medusa](https://github.com/medusajs/medusa) | MIT | github.com/medusajs/medusa | Node.js, TypeScript, React | Tienda headless AI-first, marketplace, B2B — diseñada para agentes desde el día 1 | 32k |
+| [WooCommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | github.com/woocommerce/woocommerce | PHP, WordPress, React | PYME retail LATAM — 6M+ tiendas activas, mayor base instalada | 10.4k |
+| [Bagisto](https://github.com/bagisto/bagisto) | MIT | github.com/bagisto/bagisto | Laravel, Vue.js | Greenfield retail con PHP stack, multi-currency, multi-language, AI plugins nativos | 15k |
+| [PrestaShop](https://github.com/PrestaShop/PrestaShop) | OSL-3.0 | github.com/PrestaShop/PrestaShop | PHP, Symfony | Retail Europa + Brasil + México — módulos AI en marketplace oficial | 8.7k |
+| [Shopware](https://github.com/shopware/shopware) | MIT | github.com/shopware/shopware | PHP, Symfony, Vue.js | Retail con roadmap AI-first: Shopware Copilot (Apr 2026) + Agentic Commerce channel | 3.2k |
+| [Odoo](https://github.com/odoo/odoo) | LGPL-3.0 | github.com/odoo/odoo | Python, JavaScript | ERP completo con módulo retail/POS/e-commerce — AI features en Enterprise tier | 38k |
+| [ERPNext](https://github.com/frappe/erpnext) | GPL-3.0 | github.com/frappe/erpnext | Python, Frappe Framework | ERP open-source con POS y retail — muy usado en LATAM y Asia, marketplace de AI apps | 22k |
+| [Mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | github.com/gz-yami/mall4j | Java, Spring Boot | Marketplace multi-canal (PC, H5, app, WeChat/Alipay miniprogram) — referencia multi-canal | 5.1k |
 
 ---
-*v9 — Globant Retail & eCommerce KB. 2026-07-14.*
+
+## Cómo customizar con AI — Guía práctica
+
+### Modelo A: Medusa + LangGraph + MCP (greenfield)
+
+```
+Medusa (backend commerce) → medusa-mcp → LLM (Claude/GPT)
+         ↓                                      ↓
+   PostgreSQL + pgvector              LangGraph workflows
+         ↓                                      ↓
+   Next.js storefront ←——— Agentes A2A (MAF pattern) ←———
+```
+
+**Pasos**:
+1. Deploy Medusa 2.0 (Docker Compose, 15 min)
+2. Instalar medusa-mcp para exponer operaciones como herramientas MCP
+3. Construir agentes LangGraph que usen las herramientas MCP
+4. Opcional: implementar UCP endpoint para aparecer en Google AI Mode
+
+**Tiempo estimado**: 4-6 sprints para MVP completo con 3 agentes
+
+---
+
+### Modelo B: WooCommerce + Plugin AI (clientes existentes LATAM)
+
+```
+WooCommerce existente (cliente ya lo tiene)
+         ↓
+REST API WooCommerce (nativa)
+         ↓
+Capa Python/FastAPI (middleware Globant)
+         ↓
+LangChain Agent ← Catálogo de productos (RAG sobre WooCommerce DB)
+         ↓
+Interfaces: WhatsApp Business API / Chat web / MCP server
+```
+
+**Pasos**:
+1. Habilitar WooCommerce REST API (5 min)
+2. Construir RAG sobre catálogo: pgvector + embeddings
+3. LangChain agent con tools: buscar_producto, ver_orden, generar_recomendacion
+4. Exponer via WhatsApp Business API (patrón clave LATAM)
+
+**Tiempo estimado**: 2-3 sprints para chatbot de ventas funcional
+
+---
+
+### Modelo C: Bagisto + LLM directo (greenfield PHP)
+
+```
+Bagisto (Laravel) → AI Plugin integrado
+         ↓
+Soporte nativo: GPT-5, Gemini 3, Mistral, LLaMA 4, Qwen, Deepseek
+         ↓
+Casos de uso: chatbot, descripciones producto, soporte, búsqueda, recomendaciones
+```
+
+**Ventaja**: No requiere capa intermedia — los plugins AI son ciudadanos de primera clase.
+**Restricción**: AGPL en plugins comunitarios — revisar licencia antes de incluir en producto cliente.
+
+---
+
+## Decisión rápida: ¿qué plataforma para qué cliente?
+
+| Situación | Recomendación |
+|-----------|---------------|
+| Cliente nuevo, sin stack previo | Medusa (MIT, AI-native, headless) |
+| Cliente ya tiene WooCommerce/WordPress | No migrar — añadir capa AI encima via REST API |
+| Cliente con PHP/Laravel | Bagisto (MIT puro, AI plugins nativos) |
+| Cliente LATAM PYME, presupuesto limitado | WooCommerce + LangChain REST middleware |
+| Cliente con ERP existente (Odoo/ERPNext) | Añadir POS AI o agente de inventario — no reemplazar ERP |
+| Marketplace multi-vendedor | Medusa (marketplaces built-in) o Mall4j (multi-canal asiático) |
+| Retailer con presencia en Europa | Shopware (AI-first roadmap, GDPR nativo) o PrestaShop |
+
+---
+*Ver también: `repos/foundations.md` para frameworks AI base.*

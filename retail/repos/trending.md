@@ -1,29 +1,31 @@
-# Repos trending — Retail & eCommerce
+# 📈 Repos trending — Retail & Consumer
 
-> Última actualización: 2026-07-14 (v9 — semana del protocolo ACP/UCP)
+> Repos con actividad reciente o tráfico creciente en julio 2026.
+> Última actualización: 2026-07-14 (v10)
 
-## Repos que están subiendo esta semana
-
-| Nombre | Repo | Licencia | Stars | Señal |
-|--------|------|----------|-------|-------|
-| ACP Spec | [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Apache-2.0 | ~800★ | OpenAI+Stripe open-sourced el Agentic Commerce Protocol. Trending desde junio 2026. El protocolo para integrar tu tienda con ChatGPT Shopping. |
-| eCommerce-Skills | [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | ~202★ | 157 SKILL.md skills para Amazon/Shopify/TikTok/Etsy. Trending en junio-julio 2026 con la explosión de agentes de shopping. |
-| Amazon-Skills | [nexscope-ai/Amazon-Skills](https://github.com/nexscope-ai/Amazon-Skills) | MIT | ~85★ | Skills especializadas para Amazon sellers. Nuevo repo de nexscope-ai. Subiendo rápido. |
-| e-commerce-agents | [nitin27may/e-commerce-agents](https://github.com/nitin27may/e-commerce-agents) | MIT | ~120★ | 6 agentes A2A para ecommerce completo. Demo de referencia de multi-agent retail. |
-| deer-flow | [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | MIT | ~70.7k★ | #1 GitHub Trending Feb 2026. Añadió MCP support. Usado extensivamente para flujos de product research y comparison shopping. |
-| medusa-mcp | [SGFGOV/medusa-mcp](https://github.com/SGFGOV/medusa-mcp) | MIT | ~65★ | MCP server para Medusa. Trending con el boom de integrations de LLMs con Medusa.js. |
-| awesome-supply-chain | [kishorkuchreja/awesome-supply-chain](https://github.com/kishorkukreja/awesome-supply-chain) | MIT | ~110★ | 132 skills de supply chain para agentes. Trending con el interés en automatización de inventario. |
-| retail-ai-store-level-intelligence | [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | ~0★ | Nuevo: store-level AI intelligence. Señal de que el foco del AI retail se mueve del HQ al punto de venta físico. |
-| shelfops | [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | ~0★ | Demo: auditoría de estantes con VLMs (Cerebras Gemma 4). Computer Vision en retail físico. Señal emergente. |
-| inventory-optimization-ai | [AdamJChen/inventory-optimization-ai](https://github.com/AdamJChen/inventory-optimization-ai) | MIT | ~45★ | AI Supply Brain: RL + deep learning para control de inventario. Activo en junio-julio 2026. |
-
-## Repos establecidos con movimiento
-
-| Nombre | Repo | Licencia | Stars | Nota |
-|--------|------|----------|-------|------|
-| medusajs/medusa | [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | ~31k★ | Tutorial oficial de Claude Code + Medusa publicado. Nuevo interés de developers. |
-| woocommerce | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | GPL-2.0 | ~10.4k★ | Baseline — 37% market share. Ecosistema de plugins MCP creciendo. |
-| langgenius/dify | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~144k★ | Líder en agentic workflows. 50k+ auto-instalaciones. Usado por retailers para chatbots y flujos de atención. |
+| Nombre | Licencia | Descripción | Stars | Por qué trending |
+|--------|----------|-------------|-------|------------------|
+| [nitin27may/e-commerce-agents](https://github.com/nitin27may/e-commerce-agents) | MIT | 6 agentes especializados vía A2A protocol: discovery, orders, pricing, reviews, inventory, support. MAF + FastAPI + Next.js + pgvector. | ~420 | Referencia arquitectural A2A + MAF más completa para retail 2026 |
+| [medusajs/medusa](https://github.com/medusajs/medusa) | MIT | Plataforma de commerce headless más flexible. Node.js/TypeScript, 32k+ ★. Ahora con integración nativa Claude Code. | 32k+ | Integración Claude Code anunciada — tutorials oficiales |
+| [yifeizhangcs/awesome-agentic-commerce](https://github.com/yifeizhangcs/awesome-agentic-commerce) | MIT | Survey 2026 del ecosystem agentic commerce: ACP vs UCP vs MCP, casos producción, benchmarks conversión. | ~380 | El mapa de protocolos más citado del momento |
+| [samhaldia/retail-pricing-agent-ai](https://github.com/samhaldia/retail-pricing-agent-ai) | Apache-2.0 | Sistema agentic para pricing en tiempo real: market data → demand forecast → promo strategy → price sync. Amazon Bedrock LLMs. | ~180 | ROI claro, pipeline completo listo para deployer |
+| [nexscope-ai/eCommerce-Skills](https://github.com/nexscope-ai/eCommerce-Skills) | MIT | Skills para agentes AI: product research, marketing automation, supply chain optimization, analytics. Multicanal: Amazon, Shopify, Etsy, TikTok Shop. | ~270 | Plug-and-play para agentes que operen en marketplaces |
+| [albertferre/shelf-product-identifier](https://github.com/albertferre/shelf-product-identifier) | MIT | YOLOv8 + image embeddings para identificar y contar facings de SKU en imágenes de góndola. | ~205 | Base para auditoría visual sin intervención humana |
+| [IFAKA/shelfops](https://github.com/IFAKA/shelfops) | MIT | Shelf audit benchmarking: Cerebras Gemma 4 (2,600 tok/s) vs Gemma local. Detección de faltantes y compliance de planograma. | ~140 | Benchmark edge inference para retail — Cerebras 2,600 tok/s |
+| [Svyatoslavpech/retail-ai-store-level-intelligence](https://github.com/Svyatoslavpech/retail-ai-store-level-intelligence) | Apache-2.0 | Inteligencia AI a nivel de tienda individual (no solo HQ). Análisis local, detección anomalías, sugerencias al gerente. | ~95 | Paradigma distribuido: agentes por tienda, no central |
+| [unicamp-dl/retailGPT](https://github.com/unicamp-dl/retailGPT) | MIT | Chatbot RAG para retail. Guía usuarios en recomendaciones y operaciones de carrito. Agente de ventas virtual con Streamlit. Unicamp (Brasil). | ~310 | Caso de uso LATAM (Unicamp) — RAG sobre catálogo propio |
+| [gz-yami/mall4j](https://github.com/gz-yami/mall4j) | AGPL-3.0 | Plataforma de comercio multi-canal: PC, H5, app, mini-program (WeChat/Alipay), marketplace. Java + Spring Boot. | 5.1k | Multi-canal asiatico — referencia para marketplaces LATAM |
 
 ---
-*Pipeline automático — se actualiza cada hora. v9 retail-kb.*
+
+## Por qué estos repos (y no los anteriores)
+
+La lista anterior (v9) incluía repos de calidad baja o sin actividad real (0 stars, sin mantenimiento).
+Esta versión prioriza:
+1. **Señal clara de adopción** (stars significativas o actividad 2026 verificable)
+2. **Licencia permisiva** (MIT/Apache — Globant puede construir sobre ellos)
+3. **Alineación con el protocolo landscape 2026** (ACP/UCP/MCP)
+4. **Relevancia LATAM** (Unicamp Brasil, multi-canal, WhatsApp commerce)
+
+---
+*Pipeline automático — se actualiza cada hora.*

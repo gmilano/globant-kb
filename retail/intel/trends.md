@@ -1,72 +1,103 @@
-# Tendencias — Retail & eCommerce AI
+# 📡 Tendencias — Retail & Consumer AI
 
-> Última actualización: 2026-07-14 (v9 — Era del comercio agentico)
+> Señales de mercado, movimientos de protocolo, tecnología emergente.
+> Última actualización: 2026-07-14 (v10)
 
-## Tendencias macro (2026)
+## 15 Tendencias clave (julio 2026)
 
-### T1 — Guerra de protocolos de agentic commerce: ACP vs UCP vs MCP
-Tres estándares compiten para ser el "HTTP del commerce agentico":
-- **ACP** (OpenAI+Stripe): foco en el momento del checkout. Live en ChatGPT. Open source.
-- **UCP** (Google+Shopify+Walmart): foco en el journey completo (discovery → post-purchase). Open source. Presentado en Open Source Summit NA junio 2026.
-- **MCP** (Anthropic → Linux Foundation): capa de data connectivity. Base de todos los demás.
-- **Implicancia**: los retailers necesitarán implementar al menos 2 de 3 para ser visibles en todos los AI shopping surfaces.
+### T1 — Era dual-protocolo: ACP + UCP como requisito base
+ACP (Stripe + OpenAI) maneja el checkout dentro de ChatGPT.
+UCP (Google + Shopify + Walmart, lanzado en NRF 2026) cubre el journey completo desde discovery en Google AI Mode.
+Los retailers que no implementen ambos quedan invisibles en los dos canales de AI más grandes del mundo.
+**Para Globant**: UCP + ACP implementation es un servicio de corto plazo con ROI inmediato.
 
-### T2 — ChatGPT Shopping pivota: de checkout directo a merchant apps
-OpenAI discontinuó Instant Checkout (compra directa en ChatGPT) — problemas de inventario desactualizado y selección limitada. Nuevo modelo: **merchant apps dentro de ChatGPT**. Oportunidad para Globant: construir estas apps para retailers LATAM.
-- Fuente: CNBC, marzo 2026.
+### T2 — Tráfico AI supera al orgánico en retailers líderes
++393% YoY en Q1 2026 para tráfico referido por IA. Conversión +42% vs búsqueda tradicional.
+Black Friday 2025: +805% tráfico AI vs 2024. Los retailers que optimizan para AI discovery convierten mejor.
+**Implicación**: El SEO clásico se complementa con "AEO" (Agent Engine Optimization): datos estructurados,
+APIs limpias, UCP/ACP endpoints para que los agentes lean y actúen correctamente.
 
-### T3 — AI-driven orders: 15x crecimiento en 12 meses
-Los pedidos generados por agentes AI crecieron **15 veces** de enero 2025 a enero 2026. En Black Friday 2025, el tráfico referido por AI a sitios US retail saltó **+805% YoY**. El commerce agentico ya no es futuro — está pasando ahora.
+### T3 — Voice Commerce Agents: el segmento más veloz (36.25% CAGR)
+Los agentes de voz superan a los de texto en adopción por usuarios mayores de 50 y contextos manos-libres
+(cocina, manejo, ejercicio). Alexa shopping + Google Assistant + Claude voice son los canales.
+**Para Globant**: Voice-first UI pattern para clientes con SKUs de consumo masivo (supermercados, farmacias).
 
-### T4 — 58% reemplazó búsqueda con GenAI para productos
-La mayoría de los consumidores ya usa GenAI (ChatGPT, Gemini, Perplexity) para buscar productos en lugar de Google tradicional. **AEO (Answer Engine Optimization)** reemplaza a SEO como disciplina de visibilidad.
+### T4 — Agentic checkout reduce fricción y aumenta conversión 20-30%
+Los agentes que completan la compra directamente (sin redirigir a web) eliminan el abandono de carrito.
+ACP en ChatGPT: el usuario describe lo que quiere y el agente hace el checkout completo con PayPal/Worldpay.
+**Patrón**: ACP checkout → reduce pasos de 5-7 clicks a 1 confirmación de lenguaje natural.
 
-### T5 — Agentic shopping: de 15 clicks a 1-3 interacciones
-El proceso de compra tradicional requiere 10-15 interacciones. El comercio agentico lo reduce a 1-3. Esta compresión está reshapeando los funnel de conversión y el rol del contenido del producto.
+### T5 — Shelf AI reemplaza supervisores de tienda
+Computer Vision + LLM edge (Cerebras 2,600 tok/s) permite auditoría de góndolas en tiempo real.
+Cámaras IP estándar ($50-200) + modelo edge → alertas de OSA (Out-of-Stock Alerts) en <10 segundos.
+**Proyección**: Las cadenas de supermercados medianas adoptarán esto en 2026-2027 para reducir el ~8%
+de ventas perdidas por faltantes de productos.
 
-### T6 — Morgan Stanley: 50% online shoppers usarán AI agents para 2030
-Proyección de Morgan Stanley: cerca del 50% de los compradores online usarán agentes AI para 2030, cubriendo ~25% de su gasto. McKinsey proyecta $3-5 trillones en shopping agentico para 2030.
+### T6 — Hyper-personalización 1:1 via LLMs (fin de la segmentación masiva)
+Los LLMs permiten personalizar para cada usuario individual en lugar de segmentos.
+Pinterest (Feb 2026) y Netflix (Mar 2025) presentaron modelos de producción con two-tower + LLMs.
+**Para Globant**: LLMSearchRecommender como base de investigación; pgvector + embeddings como stack.
 
-### T7 — Medusa.js se posiciona como "commerce platform for agents"
-Medusa.js reposicionó su messaging en 2026: "The world's most flexible commerce platform for agents and developers." Tutorial oficial con Claude Code. MCP server disponible. Es la plataforma open source mejor preparada para el ecosistema de AI agents.
+### T7 — Autonomous replenishment — el inventario se gestiona solo
+Agentes que monitorean stock en tiempo real, predicen demanda (LSTM/ARIMA) y envían órdenes de compra
+automáticamente sin intervención humana. stockpyl es la base matemática; LangGraph para el flujo.
+**Caso de éxito benchmark**: Retailers que adoptan reabastecimiento autónomo reportan 20-30% reducción
+de stockouts y 15-20% reducción de exceso de inventario en primeros 3 meses.
 
-### T8 — UCP open source en Open Source Summit NA (junio 2026)
-Google presentó la implementación de referencia del Universal Commerce Protocol en Open Source Summit North America, junio 2026. El repo `google/universal-commerce-protocol` ya está disponible en GitHub. Los retailers implementan `/.well-known/ucp` para ser "descubribles" por agentes Google.
+### T8 — WhatsApp Commerce es el canal omnicanal de LATAM
+Brasil: 120M+ usuarios WhatsApp. México: 88M. Colombia: 35M.
+Meta lanzando WhatsApp Payments en LATAM — checkout nativo en chat sin salir de la app.
+**Patrón dominante**: Agente en WhatsApp → catálogo nativo → Pix/OXXO/PSE → confirmación en chat.
+Conversión 3-4x vs web para PYME.
 
-### T9 — TikTok Ads MCP — primer social en adoptar MCP (mayo 2026)
-TikTok lanzó en mayo 2026 un MCP server oficial para su plataforma de ads. Primera red social grande en adoptar MCP. Permite a agentes AI crear y gestionar campañas TikTok autónomamente. Crítico para LATAM (AR, MX, BR) donde TikTok Shop está explotando.
+### T9 — Multi-modal product search (imagen + texto + voz)
+Los usuarios buscan productos con foto de lo que ya tienen, descripción vaga o comando de voz.
+Google Lens + AI Mode permite "busca esto en tiendas cercanas" con imagen como input.
+**Para Globant**: Integrar Google Lens API + retailer catalog para habilitar "compra lo que ves".
 
-### T10 — AEO: Answer Engine Optimization reemplaza SEO
-Con el 58% de búsquedas de producto en AI engines (vs Google), el structured data y schema.org se convierte en el nuevo SEO. JSON-LD de product, offer, review, inventory ya no es opcional — es el vehículo para aparecer en respuestas de AI.
+### T10 — Dynamic pricing agentico reemplaza pricing estático
+Los agentes ajustan precios en tiempo real basándose en: competencia, demanda, inventario, segmento de usuario.
+retail-pricing-agent-ai (Apache-2.0) es la base open-source.
+**Impacto**: +3-8% de margen bruto documentado en pilotos con pricing dinámico activo.
 
-### T11 — SKILL.md format: plugins de skills para AI agents
-El formato SKILL.md (popularizado por nexscope-ai y OpenClaw) permite a los retailers empaquetar su catálogo, políticas y procesos como "skills" que cualquier agente puede consumir. 157 skills disponibles en eCommerce-Skills. Señal: el knowledge de retail se está empaquetando para ser machine-consumable.
+### T11 — AI-native fulfillment y última milla
+Agentes que optimizan rutas de entrega, asignan pedidos a almacenes más cercanos y predicen ventanas
+de entrega con ±15 minutos de precisión. Stock distribuido + AI routing = promesa de 1h delivery.
 
-### T12 — Odoo 20 Agentic AI (septiembre 2026)
-Odoo anunció para septiembre 2026 su versión 20 con Agentic AI nativo: agentes que ejecutan workflows proactivamente sin intervención humana. Primer ERP open source con agentes agenticos built-in. Cubre CRM, inventario, eCommerce, contabilidad. Impacto masivo para los 5M+ usuarios de Odoo.
+### T12 — Trust gap: <40% confían en compras autónomas completas
+La barrera principal de adopción masiva: los usuarios aceptan recomendaciones AI pero dudan en
+dejar que el agente haga el checkout sin revisión. HITL (Human-in-the-Loop) es el puente.
+**Patrón**: Agente propone → usuario confirma con 1 click → agente ejecuta. No skip HITL todavía.
 
-### T13 — Livestream shopping: 2026 como año de breakout
-Livestream shopping creció +21% YoY en 2025. TikTok Shop impulsa el modelo en LATAM. El rol del AI agent en livestream: moderación en tiempo real, gestión de inventario en picos de demanda, personalización de ofertas durante el stream.
+### T13 — EU AI Act (2 agosto 2026) — compliance para sistemas de recomendación
+Los sistemas de recomendación personalizada dirigidos a consumidores EU entran en categoría "alto riesgo"
+si usan perfiles comportamentales. Obligación de explicabilidad y opt-out.
+**Para Globant en clientes europeos**: Implementar explainability layer + consent management.
 
-### T14 — Store-level AI: el ROI más alto no está en HQ sino en la tienda
-Señal emergente: la AI más impactante en retail no está en headquarters (forecasting global) sino **en el punto de venta físico**: planogramas dinámicos, shelf auditing con Computer Vision, asistentes de venta en piso. Repos: `shelfops`, `retail-ai-store-level-intelligence`.
+### T14 — First-party data como activo central
+Con fin de cookies de terceros, los retailers compiten por datos propios: loyalty programs, apps, 
+WhatsApp opted-in. Los agentes que usan first-party data tienen tasas de personalización 5-7x mejores.
+**Para Globant**: Diseñar arquitecturas data-first desde el día 1 — no añadir como afterthought.
 
-### T15 — Supply chain AI: de forecasting a agentes autónomos de reposición
-La siguiente ola del supply chain AI no es solo mejores predicciones (ARIMA/LSTM) sino **agentes que actúan**: InvAgent gestiona pedidos de reposición autónomamente. La combinación InvAgent + stockpyl + awesome-supply-chain skills permite inventory management completamente agentico.
+### T15 — Agentic commerce para B2B supera a B2C en ROI
+El caso de uso más rentable no es consumidor final — es la compra B2B (retail ↔ distribuidor).
+Órdenes más grandes, ciclos más predecibles, usuarios más tolerantes a UI funcional (vs bonita).
+Magento B2B + LangGraph agent para reposición automática entre retailer y proveedor: ROI en <6 meses.
 
 ---
-## Timeline de eventos clave (2026)
 
-| Fecha | Evento | Impacto |
-|-------|--------|---------|
-| Ene 2026 | UCP presentado en NRF por Google+Shopify+Walmart | Protocolo de shopping agentico nacido |
-| Feb 2026 | DeerFlow 2.0 — #1 GitHub Trending, 70.7k★ | SuperAgent harness para research de productos |
-| May 2026 | TikTok Ads MCP lanzado | Primer social en ecosystem MCP |
-| Jun 2026 | UCP open source en Open Source Summit NA | Implementación de referencia disponible |
-| Jun 2026 | ACP de OpenAI+Stripe en GitHub | Spec del checkout protocol open sourced |
-| Jun 2026 | GenAI in Retail $1.55B en 2026 (GlobeNewswire) | Mercado confirmando tamaño |
-| Jul 2026 | ChatGPT pivot a merchant apps | Fin de Instant Checkout, nuevo modelo |
-| Sep 2026 | Odoo 20 Agentic AI (anunciado) | Primer ERP open con agentes nativos |
+## Velocímetro de adopción (escala 1-5 en LATAM)
+
+| Tecnología | Madurez Global | Adopción LATAM | Gap oportunidad |
+|------------|---------------|----------------|------------------|
+| WhatsApp Commerce | 5 | 4 | Medio |
+| AI Chatbot de ventas | 4 | 2 | Alto |
+| Dynamic pricing agentico | 3 | 1 | Muy alto |
+| Shelf audit Computer Vision | 3 | 1 | Muy alto |
+| Voice Commerce | 3 | 1 | Alto |
+| ACP / UCP protocols | 2 | 0.5 | Muy alto (early mover) |
+| Autonomous replenishment | 3 | 1 | Alto |
+| Multi-modal product search | 3 | 1 | Alto |
 
 ---
-*Globant AI Studios — Retail & eCommerce Intelligence. v9 — 2026-07-14.*
+*Fuentes: commercetools.com, eMarketer, Mordor Intelligence, Shopify Engineering, Google Developers Blog, MetaRouter.*
