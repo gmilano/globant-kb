@@ -1,6 +1,6 @@
 # 📡 Tendencias — Financial Services AI
 
-> Última actualización: 2026-07-14 (v5) | EU AI Act deadline: **2026-08-02 — 19 días**
+> Última actualización: 2026-07-14 (v6) | EU AI Act deadline: **2026-08-02 — 19 días** | MAS SAFR v1.0 publicado
 
 ## Tendencias principales — julio 2026
 
@@ -14,13 +14,15 @@ vs 2025 (Onereach AI). El gap 70-14% es la oportunidad: la mayoría está en PoC
 TradingAgents y ai-hedge-fund convergieron independientemente al mismo diseño:
 **bull agent + bear agent + risk manager + fund manager debaten antes de cada decisión**.
 Replica comités de inversión reales. Los bancos lo adoptan porque es explicable ante reguladores.
-TradingAgents v0.2.4 lo eleva con structured-output agents: los agentes devuelven JSON tipado,
+TradingAgents v0.3.1 eleva el patrón con structured-output: los agentes devuelven JSON tipado,
 auditables y testeables automáticamente.
 
 ### T3. MCP como capa universal de datos financieros
-El Model Context Protocol está reemplazando SDKs propietarios de datos. 2026:
+El Model Context Protocol está reemplazando SDKs propietarios de datos. Julio 2026: **171+ financial MCP servers** (mcpservers.org):
 - Bloomberg MCP (18 herramientas, requiere Terminal)
 - Alpha Vantage MCP (datos institucionales, gratis en tier basic)
+- tradingview-mcp (TA en tiempo real, screeners, backtesting)
+- financekit-mcp (risk metrics, crypto CoinGecko)
 - Quiver Quantitative MCP (datos alternativos: Congress trades, insider, reddit)
 - Open Finance MCP (Brasil operacional, Chile desde abr 2026)
 - OpenBB v4 es MCP-native por defecto
@@ -35,7 +37,6 @@ AI4Finance Foundation publica nuevos modelos en HuggingFace mensualmente.
 Brasil (Open Finance Phase 4) y Chile (implementación obligatoria desde **abril 2026**) abren datos
 que antes eran imposibles de obtener. México avanza con APIs CNBV. El patrón "Open Finance → MCP → Claude"
 habilita agentes de comparación de productos financieros, alertas de liquidez y forecasting para PyMEs.
-El Open Finance MCP (open-finance-ai) demuestra la integración en minutos.
 
 ### T6. KYC/AML automation: de vendor a open source
 kyc-analyst (MIT, Claude) demuestra que el stack "LLM + fuentes de datos públicas + checkpoints humanos"
@@ -62,7 +63,7 @@ estrecha. Los próximos 18 meses son críticos para posicionar soluciones.
 ### T10. "Vibe Trading" democratiza el análisis quant
 El patrón de Vibe-Trading (NL → backtest → report sin código) está bajando el costo de acceso a
 análisis cuantitativo. Analistas financieros sin Python pueden generar estrategias en minutos con
-48 herramientas integradas y 77 finance skills. Implication para Globant: los clientes que venían
+48 herramientas integradas y 77 finance skills. Los clientes que venían
 pidiendo "dashboards BI" ahora piden "asistentes conversacionales con datos de mercado".
 
 ### T11. Multi-modal finance: earnings calls + PDFs + market data juntos
@@ -73,41 +74,54 @@ FinRobot v2 soporta este pipeline. Los bancos de inversión lo están adoptando 
 ### T12. Crypto/DeFi + AI se fusionan
 hummingbot (Apache-2.0, 19k ★) y ccxt (MIT, 43k ★) siguen siendo la base.
 Nuevos: agentes de market making adaptativo, detección de MEV, yield optimization en DeFi.
-OpenAML (FINOS) aborda compliance AML en transacciones on-chain.
+Sharpe MCP (funding rates de 13 venues perpetual, Deribit options) es la capa de datos para crypto AI agents.
 
 ### T13. FinGAIA revela el gap real: LLMs genéricos vs expertos humanos
-El benchmark FinGAIA (arXiv:2507.17186, SUFE + Fudan, julio 2025) es el primer estudio riguroso
-que mide AI agents en las 7 verticales de finanzas (securities, funds, banking, insurance, futures,
-trusts, asset management) con 407 tareas y 3 niveles de dificultad.
-
-**Resultado clave**: el mejor LLM zero-shot (ChatGPT, 48.9%) aún queda **35+ puntos** por debajo de
-expertos financieros humanos. Cinco patrones de fallo sistemáticos identificados. Esto tiene dos
-implicaciones para Globant:
+El benchmark FinGAIA (arXiv:2507.17186, julio 2025): el mejor LLM zero-shot (ChatGPT, 48.9%) aún queda
+**35+ puntos** por debajo de expertos financieros humanos. Esto tiene dos implicaciones:
 1. **Argumento de venta**: los LLMs genéricos no son suficientes; se necesita fine-tuning + RAG + human-in-the-loop.
-2. **Checklist de entrega**: usar FinGAIA como evaluación pre-go-live del sistema de agentes del cliente.
+2. **Checklist de entrega**: usar FinGAIA + BigFinanceBench + ICBCBench como evaluación pre-go-live.
 
 ### T14. Multi-provider LLM: vendor independence como requisito de producción
 Los bancos regulados exigen no depender de un solo LLM provider por razones de continuidad operacional
-(DORA, Basel Committee guidance). TradingAgents v0.2.4 agrega soporte nativo para DeepSeek, Qwen,
-GLM y Azure — además de OpenAI y Anthropic. Vibe-Trading también es multi-model.
+(DORA, Basel Committee guidance). TradingAgents v0.3.1 soporta DeepSeek, Qwen, GLM, Azure, además de OpenAI y Anthropic.
 
-Implicación para arquitecturas de solución: usar abstracción multi-provider desde el diseño inicial.
-LangGraph o PydanticAI como orquestador + configuración de provider por entorno (dev: local Ollama;
-prod: Claude/Azure) se está convirtiendo en el patrón de referencia.
+Implicación: usar abstracción multi-provider desde el diseño inicial. LangGraph o PydanticAI como orquestador
++ configuración de provider por entorno (dev: local Ollama; prod: Claude/Azure) es el patrón de referencia.
 
 ### T15. TradingAgents v0.3.1 — fix de look-ahead bias que invalida resultados anteriores
+TradingAgents v0.3.1 (jul 2026) corrigió un filtro de look-ahead en Alpha Vantage. **Todos los benchmarks y papers publicados usando TradingAgents v0.2.x son sospechosos**. Dos oportunidades: (1) diferenciar propuestas mostrando awareness del problema; (2) ofrecer re-evaluación de sistemas de trading existentes con datos point-in-time correctos.
 
-TradingAgents v0.3.1 (jul 2026) corrigió un filtro de look-ahead en Alpha Vantage que hacía que los backtests tuvieran acceso a datos del futuro. Resultado: **todos los benchmarks y papers publicados usando TradingAgents v0.2.x son sospechosos**. Esto crea dos oportunidades: (1) diferenciar propuestas de Globant mostrando awareness del problema; (2) ofrecer re-evaluación de sistemas de trading existentes con datos point-in-time correctos. El fix también añade Claude Sonnet 5 / Fable 5 support y Bedrock auth.
+### T16. BigFinanceBench + ICBCBench — benchmarks de producción revelan el gap real
+**BigFinanceBench** (arXiv:2606.03829, jun 2026): 928 tareas, 36,241 puntos de rúbrica, workflow-grounded. Mejor agente: **58.8%**.
+**ICBCBench** (arXiv:2606.17458, jun 2026): benchmark de consorcio industrial, 50+ expertos, 40+ organizaciones. Dual-track objetivo+subjetivo. Gaps en complex reasoning, factual grounding, report quality.
 
-### T16. BigFinanceBench — benchmark de producción revela el gap real en research financiero
-
-BigFinanceBench (arXiv:2606.03829, jun 2026) es el primer benchmark de research financiero workflow-grounded: 928 tareas de nivel experto, 36,241 puntos de rúbrica que evalúan la derivación completa (no solo el resultado). El mejor agente frontier alcanza **58.8%** — aún debajo de analistas humanos. Diferencia clave vs FinGAIA (48.9%): BigFinanceBench viene de contexto de producción buy-side y evalúa el proceso. Implicación: financial research agents necesitan supervisión humana obligatoria para cumplir con EU AI Act y con estándares fiduciarios.
+Implicación: financial research agents necesitan supervisión humana obligatoria para cumplir EU AI Act y estándares fiduciarios.
 
 ### T17. Agentic Payments — pagos M2M son infraestructura de producción (desde jun 2026)
+Mastercard Agent Pay for Machines (10 jun 2026, 30+ partners). Visa Intelligent Commerce (OpenAI + Anthropic). Los agentes ya pueden **transaccionar de forma autónoma** con credenciales tokenizadas. Esto cambia el diseño de arquitecturas: treasury sweeps automáticos, procurement agentic, arbitraje liquidado en stablecoins.
 
-Mastercard Agent Pay for Machines se lanzó comercialmente el 10 jun 2026 con 30+ partners (Stripe, Adyen, Coinbase, Cloudflare, OKX, Ripple, Polygon, Solana). Visa Intelligent Commerce integró con OpenAI y Anthropic el mismo día. Los agentes financieros ya no son solo sistemas de recomendación — pueden **transaccionar de forma autónoma** con credenciales tokenizadas vinculadas a (agent, merchant, policy). Esto cambia el diseño de arquitecturas: treasury sweeps automáticos, procurement agentic, arbitraje liquidado en stablecoins.
+### T18. MAS SAFR — el estándar de governance para agentes financieros (jul 2026)
+La Monetary Authority of Singapore publicó **SAFR v1.0** (Safeguards for Agentic Finance at Runtime) en julio 2026, co-autoriado con Ant International, Circle, HSBC, JP Morgan, Manulife, Mastercard, OCBC y Visa.
 
-**Implicación de seguridad**: la autorización de pagos agenticos requiere política de consentimiento explícita, límites por transacción y auditoría inmutable — elementos que Globant puede incorporar por diseño.
+SAFR define cuatro pilares para agentes financieros seguros:
+- **Policy Bound Execution**: el agente opera solo dentro de mandatos pre-aprobados
+- **Real-Time Validation**: validación antes de ejecutar (no post-hoc)
+- **Auditability**: log inmutable de cada paso de razonamiento y acción
+- **Interoperability**: agentes de distintos vendors bajo el mismo contrato de governance
+
+No es regulación obligatoria — es framework de referencia de la industria. Al venir co-firmado por JP Morgan, Mastercard y Visa, **se convertirá en el estándar de facto en APAC y referencia para reguladores globales**. Los clientes financieros en Asia-Pacific ya lo están pidiendo como requisito de diseño.
+
+**Implicación para Globant**: incluir SAFR como framework de governance en toda propuesta de agentes financieros. Es diferenciador inmediato vs competidores que no lo conocen.
+
+### T19. Fiserv agentOS + FIS+Anthropic — infraestructura bancaria agentica de producción
+Dos lanzamientos de mayo 2026 que marcan el paso del PoC a producción:
+
+**Fiserv agentOS**: "operating system for agentic AI in banking". Identity-bound execution, policy enforcement, observability, trazabilidad. Agent Marketplace: 4 agentes propios + 9 third-party partners. GA agosto 2026. Desarrollado con OpenAI; AWS como partner de infraestructura.
+
+**FIS + Anthropic Financial Crimes Agent**: comprime investigaciones AML de horas a minutos. Cada conclusión vinculada a fuente de datos; cada decisión con el investigador. BMO y Amalgamated Bank como early adopters. GA H2 2026. Forward-deployed engineers de Anthropic embebidos con FIS.
+
+**Implicación**: Anthropic se posiciona como LLM de infraestructura bancaria regulada (no solo herramienta de productividad). Globant tiene ventaja diferencial en implementaciones que usan Claude para casos de uso regulados.
 
 ---
-*Fuentes: Finastra, CIO Dive, The Fintech Times, Neurons Lab, Aspire Systems, Citizens Bank, Lloyds Banking Group, Mordor Intelligence, KPMG, arXiv:2507.17186, arXiv:2606.03829, Mastercard/Visa releases, Gartner — jul 2026.*
+*Fuentes: Finastra, CIO Dive, The Fintech Times, Neurons Lab, MAS SAFR v1.0, FIS/Anthropic PR, Fiserv agentOS PR, arXiv:2507.17186, arXiv:2606.03829, arXiv:2606.17458, Mastercard/Visa releases, Gartner — jul 2026.*

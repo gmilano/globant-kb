@@ -1,7 +1,7 @@
 # 🎯 Agentes AI — Financial Services
 
 > Agentes y herramientas AI open source para la industria financiera. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-14 (v5)
+> Última actualización: 2026-07-14 (v6)
 
 ## Agentes y herramientas destacadas
 
@@ -18,39 +18,55 @@
 | jube | [jube-home/aml-fraud-transaction-monitoring](https://github.com/jube-home/aml-fraud-transaction-monitoring) | AGPL-3.0 | AML y detección de fraude en tiempo real: ML supervisado/no-supervisado, reglas con velocity checks, sanctions screening, case management con audit trail | 920 |
 | FinSight | [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | **ACL 2026 Main** — pipeline de investigación financiera multi-etapa: recolección de datos → análisis + VLM chart refinement → redacción → reporte publicable. Score **8.09** vs OpenAI Deep Research 6.11 y Gemini Deep Research 6.82. Un ticker → reporte institucional en 20 min | ~800 |
 | FinMem | [pipiku915/FinMem-LLM-StockTrading](https://github.com/pipiku915/FinMem-LLM-StockTrading) | MIT | LLM trading agent con memoria en capas (short/long-term layered memory) y perfil de carácter; supera baselines en retornos Sharpe ratio-ajustados | 1.2k |
+| finance-trading-ai-agents-mcp | [aitrados/finance-trading-ai-agents-mcp](https://github.com/aitrados/finance-trading-ai-agents-mcp) | MIT | MCP server con arquitectura departamental (Research/Quant/Risk/Macro): one-click deploy local, expone análisis financiero completo a cualquier agente LLM sin SDK custom | nuevo |
 
 ---
 
 ## Benchmarks de referencia
 
-### FinGAIA (jul 2025) (julio 2025)
-
-[SUFE-AIFLM-Lab/FinGAIA](https://github.com/SUFE-AIFLM-Lab/FinGAIA) · MIT · arXiv:2507.17186
-
-407 tareas cubriendo 7 subdominios financieros (securities, funds, banking, insurance, futures, trusts, asset management) en tres niveles de dificultad. Evaluó 10 LLMs en zero-shot: **el mejor (ChatGPT) alcanzó 48.9%**, aún 35+ puntos por debajo de expertos humanos.
-
-**Falla más común**: Cross-modal Alignment Deficiency (no conectar datos tabulares con contexto textual) y Financial Terminological Bias.
-
-### BigFinanceBench (jun 2026) — NUEVO
+### BigFinanceBench (jun 2026)
 
 [RogoAI/big-finance-benchmark](https://huggingface.co/datasets/RogoAI/big-finance-benchmark) · arXiv:2606.03829 · Rogo + OpenAI
 
-928 tareas de investigación financiera con rúbricas de derivación de 36,241 puntos que evalúan el proceso completo (selección de fuente, definición contable, cálculo, supuestos) — no solo el resultado final. Evalúa 10 agentes frontier: **el mejor alcanza solo 58.8% del rubric score**, identificando dónde fallan los agentes en flujos de trabajo de analistas reales.
+928 tareas de research financiero con rúbricas de 36,241 puntos que evalúan derivación completa (selección de fuente, definición contable, cálculo, supuestos) — no solo el resultado. Mejor agente frontier: **58.8%** — headroom masivo vs analistas humanos. El benchmark más riguroso para financial research agents en 2026, proveniente de contexto de producción buy-side.
 
-**Diferencia con FinGAIA**: BigFinanceBench es workflow-grounded (evalúa la derivación, no el resultado) y viene de un contexto de producción (Rogo sirve a buy-side funds). Es el benchmark más riguroso para financial research agents en 2026.
+### ICBCBench (jun 2026)
+
+[DeepFin-Intelligence/ICBCBench](https://github.com/DeepFin-Intelligence/ICBCBench) · arXiv:2606.17458 · 50+ expertos, 40+ organizaciones
+
+Primer benchmark de consorcio industrial para financial deep research. Dual-track: tareas objetivas verificables + evaluación de reportes long-form (expert alignment, citation consistency, source quality). Resultados revelan gaps en complex reasoning, factual grounding y calidad de reporte.
+
+### FinGAIA (jul 2025)
+
+[SUFE-AIFLM-Lab/FinGAIA](https://github.com/SUFE-AIFLM-Lab/FinGAIA) · MIT · arXiv:2507.17186
+
+407 tareas en 7 subdominios financieros. Mejor LLM zero-shot: **48.9%** — 35+ puntos debajo de expertos humanos.
+
+---
+
+## MCP Ecosystem financiero — infraestructura 2026
+
+| MCP Server | Licencia | Casos de uso |
+|------------|----------|--------------|
+| finance-trading-ai-agents-mcp | MIT | Arquitectura departamental completa |
+| tradingview-mcp | MIT | TA en tiempo real, screeners, backtesting |
+| financekit-mcp | MIT | Risk metrics (Sharpe, Sortino, Beta) + crypto |
+| OpenBB MCP v4 | AGPLv3 | Multi-provider: Bloomberg, AlphaVantage, QuiverQuant |
+| Alpaca MCP | Apache-2.0 | Live trade execution regulada |
+| Open Finance MCP | MIT | Datos bancarios reales BR/CL vía Open Finance |
+| Sharpe crypto MCP | Comercial | 13 venues perpetual, Deribit options |
 
 ---
 
 ## Notas de uso para Globant
 
-- **TradingAgents + ai-hedge-fund**: los dos frameworks de trading multi-agente más maduros; combinarlos con OpenBB como data layer es el stack de referencia 2026. TradingAgents v0.2.4 agrega soporte multi-provider (Azure, DeepSeek, Qwen) — ideal para clientes que no quieren depender de un solo LLM vendor.
-- **FinRobot Desktop v0.1.0**: nuevo differenciador — app nativa macOS para research sin código; útil para demos a bancos de inversión LATAM donde los analistas no programan.
-- **FinGPT / FinRL / FinRobot** (AI4Finance Foundation): ecosistema cohesivo, ideal como base de investigación o PoC para clientes bancarios.
-- **kyc-analyst**: plug-and-play sobre Claude; acelera compliance en bancos LATAM que aún procesan KYC manualmente.
-- **jube**: AGPL-3.0 permite uso pero requiere análisis de copyleft antes de embeber en producto cliente.
-- **FinSight** (ACL 2026, MIT): primer agente de investigación financiera open source que supera a OpenAI Deep Research y Gemini — ideal para sell-side y IR teams. 20 min por reporte vs 8h de analista.
-- **FinGAIA + BigFinanceBench**: úsalos como benchmarks en propuestas — FinGAIA (48.9%) para tareas de conocimiento financiero; BigFinanceBench (58.8%) para flujos de research de analistas. Ambos justifican por qué se necesita integración experta más allá de LLMs genéricos.
-- **TradingAgents v0.3.1**: el fix de look-ahead bias hace que los backtests sean confiables ahora — resultados de v0.2.x eran inflados.
+- **TradingAgents + ai-hedge-fund**: los dos frameworks de trading multi-agente más maduros; combinarlos con OpenBB como data layer es el stack de referencia 2026. TradingAgents v0.3.1 fix de look-ahead bias es crítico antes de cualquier demo o propuesta.
+- **FinRobot Desktop v0.1.0**: app nativa macOS para research sin código; útil para demos a bancos de inversión LATAM donde los analistas no programan.
+- **kyc-analyst**: plug-and-play sobre Claude; acelera compliance en bancos LATAM que aún procesan KYC manualmente. Stack: kyc-analyst + jube + Claude API ≈ $500-2k/mes vs $30-50k/año de vendor.
+- **finance-trading-ai-agents-mcp**: nuevo patrón — exponer el stack de análisis completo como MCP en lugar de integrar herramientas directamente. Permite a cualquier LLM acceder a análisis departamental sin código custom.
+- **FinSight** (ACL 2026, MIT): primer agente open source que supera a OpenAI Deep Research y Gemini — ideal para sell-side y IR teams. 20 min por reporte vs 8h de analista.
+- **BigFinanceBench + ICBCBench**: usar ambos como criterio de aceptación en proyectos de financial AI. BigFinanceBench para research workflow; ICBCBench para deep research institucional.
+- **MAS SAFR**: incluir como framework de governance en toda propuesta de agentes financieros. Globant puede diferenciarse ofreciendo SAFR-compliant agent design desde el diseño inicial.
 
 ---
 *Actualizado automáticamente por el pipeline de ingest.*

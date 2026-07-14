@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Financial Services
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-14 (v5)
+> Última actualización: 2026-07-14 (v6)
 
 ## Plataformas y frameworks base
 
@@ -11,7 +11,7 @@
 | [tf-quant-finance](https://github.com/google/tf-quant-finance) | Apache-2.0 | Librería TensorFlow de Google para finanzas cuantitativas: pricing de derivados, calibración de modelos estocásticos, Monte Carlo GPU-acelerado | 5.4k ★ |
 | [QuantLib](https://github.com/lballabio/QuantLib) | BSD-3-Clause | La librería quant de referencia en C++: opciones, bonos, FX, swaps, curvas de tasa, Monte Carlo, más de 20 años de historia y uso en producción en bancos globales | 5.2k ★ |
 | [FinRL](https://github.com/AI4Finance-Foundation/FinRL) | MIT | Reinforcement learning financiero: entornos multi-asset (equities, crypto, FX), algoritmos PPO/SAC/TD3, benchmarks NASDAQ/DOW/S&P | 10.2k ★ |
-| [Apache Fineract](https://github.com/apache/fineract) | Apache-2.0 | Core banking open source: gestión de clientes, cuentas de ahorro/préstamos, GL, reporting; usado en 400+ instituciones en 80+ países; 20M+ clientes activos. Release 24.09 (2026) con API-first architecture | 1.9k ★ — producción |
+| [Apache Fineract](https://github.com/apache/fineract) | Apache-2.0 | Core banking open source: gestión de clientes, cuentas de ahorro/préstamos, GL, reporting; usado en 400+ instituciones en 80+ países; 20M+ clientes activos. Release 24.09 con API-first architecture | 1.9k ★ — producción |
 | [PyPortfolioOpt](https://github.com/robertmartin8/PyPortfolioOpt) | MIT | Optimización de portfolios en Python: Mean-Variance, Black-Litterman, hierarchical risk parity, integración con pandas | 5.8k ★ |
 | [backtrader](https://github.com/mementum/backtrader) | GPL-3.0 | Framework de backtesting en Python; soporte multi-data, multi-strategy; cerebro integrado con broker simulado | 15.5k ★ |
 | [awesome-ai-in-finance](https://github.com/georgezouq/awesome-ai-in-finance) | MIT | Lista curada de LLMs, deep learning y estrategias quant en finanzas; referencia de investigación de la comunidad | 3.5k ★ |
@@ -33,9 +33,31 @@
 |------|----------|--------|-------------|-------------|
 | [SUFE-AIFLM-Lab/FinGAIA](https://github.com/SUFE-AIFLM-Lab/FinGAIA) | MIT | 407 | 48.9% (ChatGPT zero-shot) | Benchmark de conocimiento financiero en 7 subdominios; SUFE + Fudan — arXiv:2507.17186 |
 | [RogoAI/big-finance-benchmark](https://huggingface.co/datasets/RogoAI/big-finance-benchmark) | — | 928 | **58.8% rubric score** | BigFinanceBench — workflow-grounded, evalúa derivación completa; Rogo + OpenAI — arXiv:2606.03829 (jun 2026) |
+| [DeepFin-Intelligence/ICBCBench](https://github.com/DeepFin-Intelligence/ICBCBench) | — | multi-track | sustancial gap | **ICBCBench** — consorcio industrial, 50+ expertos, 40+ orgs; dual-track objetivo+subjetivo; arXiv:2606.17458 (jun 2026) |
 | [RUC-NLPIR/FinSight](https://github.com/RUC-NLPIR/FinSight) | MIT | benchmark incluido | FinSight: 8.09 (vs OAI 6.11) | Dataset de tareas de research financiero profundo — equity + industry level |
 
-**Cómo usar en propuestas**: ejecutar FinGAIA (conocimiento general) + BigFinanceBench (research workflow) sobre el stack del cliente antes del go-live. Los gaps identificados justifican fine-tuning, RAG sobre normativas y human-in-the-loop obligatorio — especialmente para cumplimiento con EU AI Act Anexo III.
+### Cómo usar los benchmarks en propuestas
+
+| Benchmark | Para qué usarlo |
+|-----------|------------------|
+| FinGAIA (48.9%) | Conocimiento financiero general; 7 subdominios; argumentar por qué base models no son suficientes |
+| BigFinanceBench (58.8%) | Financial research workflow buy-side; evalúa el proceso, no solo el resultado |
+| ICBCBench | Deep research institucional; aval de 50+ expertos de 40+ orgs; más rigoroso para enterprise |
+| FinSight (8.09) | Comparar vs OpenAI/Gemini Deep Research; sell-side y IR teams |
+
+Ejecutar los 4 sobre el sistema del cliente antes del go-live. Los gaps identificados justifican fine-tuning, RAG sobre normativas y human-in-the-loop — especialmente para cumplimiento con EU AI Act Anexo III y MAS SAFR.
+
+---
+
+## MCP Ecosystem — infraestructura fundacional 2026
+
+| MCP Server | Licencia | Función |
+|------------|----------|---------|
+| finance-trading-ai-agents-mcp | MIT | Arquitectura departamental completa |
+| tradingview-mcp | MIT | Datos de mercado + TA en tiempo real |
+| OpenBB MCP v4 | AGPLv3 | Multi-provider data hub |
+| Alpaca MCP | Apache-2.0 | Live trade execution regulada |
+| Open Finance MCP | MIT | Banking data reales BR/CL |
 
 ---
 *Ver también: `verticals/solutions.md` para plataformas verticales completas.*
