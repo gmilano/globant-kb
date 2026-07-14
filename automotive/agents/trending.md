@@ -1,47 +1,63 @@
 # 📈 Agentes & Repos Trending — Automotive
 
 > Lo nuevo esta semana / mes. Foco en movimientos de julio 2026.
-> Última actualización: 2026-07-13 (v10)
+> Última actualización: 2026-07-14 (v11)
+
+## Señal principal — La explosión de VLAs para Conducción Autónoma (2026)
+
+El año 2026 es el año de los **Vision-Language-Action (VLA) models** para AD: en 6 meses han surgido más arquitecturas VLA para conducción autónoma que en los 3 años anteriores combinados. El paradigma está reemplazando los pipelines modularizados clásicos (percepción → predicción → planificación) por modelos E2E que razonan en lenguaje natural antes de actuar.
 
 ## Novedades destacadas — julio 2026
 
-### 1. openpilot v0.11.1 — 60.6k★ en GitHub
-- **Repo**: [commaai/openpilot](https://github.com/commaai/openpilot) — MIT
-- **Qué hay de nuevo**: Release junio 2026 con mejoras en driver monitoring. Soporte añadido para Honda Passport 2026, Acura TLX 2021, Honda City 2023, Honda Odyssey 2021-25. De 50k★ a 60.6k★ en 2026.
-- **Relevancia Globant**: El ADAS OS más adoptado en producción; ideal como base para demos y PoC de IA conversacional vehicular.
+### 1. OpenDriveVLA — VLA SOTA para AD (AAAI 2026)
+- **Repo**: [DriveVLA/OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) — Apache-2.0
+- **Paper**: arXiv:2503.23463, aceptado AAAI 2026
+- **Qué hay de nuevo**: Modelos 3B y 7B para conducción autónoma E2E. Proyección jerárquica de tokens 2D+3D a espacio semántico unificado. **L2 error 0.33m en nuScenes — SOTA** sobre todos los modelos autoregresivos. Sigue comandos de alto nivel con robustez en escenarios complejos.
+- **Relevancia Globant**: Base open-source más validada para proyectos de AD con VLA. Ideal para PoC con OEMs o Tier-1s que buscan alternativa open-source a propietarios.
 
-### 2. autoware_vision_pilot — L2 ADAS end-to-end, Apache-2.0
-- **Repo**: [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) — Apache-2.0
-- **Qué hay de nuevo**: Primera versión del L2 ADAS gratuito de la Autoware Foundation. Arquitectura híbrida End-to-End: modelos de percepción IA en paralelo con modelos E2E. Funciona con una sola cámara frontal monocular (1-2MP, 52-55° HFoV), sin mapas HD. Incluye pesos de modelos, pipelines de entrenamiento y arquitecturas de modelos.
-- **Relevancia Globant**: Punto de entrada más bajo de la industria para L2 ADAS comercial — Apache-2.0 permite uso en productos.
+### 2. BLUE — VLA Eficiente para On-Vehicle Inference (jun 2026)
+- **Paper**: arXiv:2606.08684 — código/checkpoints/datos públicos
+- **Qué hay de nuevo**: Encontró que el lenguaje generado por VLA mejora el driving en solo 14.5% de rutas y lo degrada en 23.6%. Solución: gate 0.11M params sobre VLA frozen que decide per-frame si generar lenguaje o actuar directamente. **2.54x speedup** + **+8.9% success rate** sobre backbone base. 76.2% en Bench2Drive, 36 driving score en Longest6 v2.
+- **Relevancia Globant**: Resolver el problema de latencia de VLAs en producción — clave para proyectos IVI y ADAS on-vehicle donde latencia < 200ms es requerida.
 
-### 3. Eclipse SDV — masa crítica con 32 empresas
-- **Org**: [eclipse-sdv](https://eclipsesdv.org/) — Apache-2.0 (proyectos)
-- **Qué hay de nuevo**: CES 2026 (enero): 32 empresas globales en el MoU SDV. Mayo 2026: Hyundai Mobis se une a la iniciativa. Eclipse S-CORE v0.5 GA noviembre 2025; v1.0 completo planeado 2026. Informe "2026 State of Automotive Software Development" publicado.
-- **Relevancia Globant**: El ecosistema SDV open-source está madurando. 32 OEMs significa que los futuros contratos de software vehicular requerirán conocimiento de estos proyectos.
+### 3. nuReasoning — Benchmark de Razonamiento para AD Long-Tail (may 2026)
+- **Paper**: arXiv:2605.31572 — [nureasoning.github.io](https://nureasoning.github.io/)
+- **Qué hay de nuevo**: 20,000 clips de 20 segundos; datos multi-cámara + LiDAR + HD maps + anotaciones de razonamiento verificadas por humanos. 3 tipos: Spatial Reasoning, Decision Reasoning, Counterfactual Reasoning. Primer benchmark que une evaluación de razonamiento Y planificación en conducción real.
+- **Relevancia Globant**: Usar para evaluar cualquier agente de conducción ante escenarios de cola larga (lluvia tropical, intersecciones no señalizadas — comunes en LATAM).
 
-### 4. NVIDIA DriveOS 7 + NIM Microservices para Automotive
-- **Qué hay de nuevo**: DriveOS 7 en Thor: múltiples VMs QNX + Linux para entornos seguros AV e in-cabin. Nuevos NIM microservices: **BEVFormer** (3D perception transformer) y **SparseDrive** (motion prediction + planning simultáneo). JLR vehículos 2026+ sobre NVIDIA DRIVE AI platform.
-- **Relevancia Globant**: El stack NVIDIA es el reference architecture para cualquier cliente OEM. Conocerlo permite posicionar Globant como SI especializado.
+### 4. openpilot 0.11 — Nuevo Paradigma de Entrenamiento con World Model
+- **Repo**: [commaai/openpilot](https://github.com/commaai/openpilot) — MIT | 60.6k★
+- **Blog**: blog.comma.ai/011release
+- **Qué hay de nuevo**: v0.11 (marzo 2026) es el primer modelo de conducción entrenado con World Model (videos + planes generados por el World Model, no solo labels humanos). v0.11.1 (abril 2026): LM GT3 driver monitoring model con labels generados por VLM local. Enfoque en comma four hardware; comma 3X soportado hasta v0.10.3.
+- **Relevancia Globant**: La adopción del paradigma World Model en el ADAS OS más usado confirma la tendencia; base para demos "next-gen ADAS" con clientes.
 
-### 5. AI-Defined Vehicle (AIDV) — nueva categoría estratégica
-- **Qué hay de nuevo**: El concepto de "AI-Defined Vehicle" está emergiendo como categoría más allá del SDV. La visión: el vehículo como nodo de servicios de alto margen, no como hardware depreciable. 91% de ejecutivos ve autonomía como clave de monetización.
-- **Relevancia Globant**: Oportunidad de posicionamiento temprano en la narrativa AIDV con clientes del sector.
+### 5. Qualcomm Snapdragon Chassis Agents — CES 2026
+- **URL**: [qualcomm.com/news](https://www.qualcomm.com/news/onq/2026/01/from-software-defined-to-ai-defined-vehicle-snapdragon-chassis-agents)
+- **Qué hay de nuevo**: Snapdragon Chassis Agents: IA agéntica en hardware vehicular que personaliza funciones del vehículo en tiempo real. Pipeline Q1 FY2026 automotriz de **$45B design-win**; ingresos $1.1B (+15% YoY). Integración con Google Gemini Enterprise for Automotive para asistentes proactivos. OEMs: VW Group, BMW, Mercedes-Benz, Toyota.
+- **Relevancia Globant**: El hardware agentic vehicular ya es realidad comercial a escala. Posicionar proyectos de cockpit AI como extensión del ecosistema Snapdragon.
 
-### 6. Autoware Foundation — cockpit + autonomy separation
-- **Qué hay de nuevo**: La Autoware Foundation está separando explícitamente el stack de conducción autónoma (autoware) del stack de cabina inteligente (nuevos proyectos). Cada dominio puede actualizarse por OTA independientemente.
-- **Relevancia Globant**: Architectural pattern relevante para proyectos SDV donde hay dos equipos paralelos.
+### 6. Eclipse S-CORE v1.0 — 2026 milestone
+- **Org**: [eclipsesdv.org](https://eclipsesdv.org/) — Apache-2.0
+- **Qué hay de nuevo**: S-CORE v0.5 GA noviembre 2025; v1.0 planeado para 2026. 32 empresas en el MoU incluyendo Hyundai Mobis (mayo 2026) y TRATON (VW trucks). Informe "2026 State of Automotive Software Development" publicado. Eclipse Foundation posicionando SDV como el "Linux de los vehículos".
+- **Relevancia Globant**: 32 OEMs significa que los futuros proyectos SDV requerirán conocimiento de S-CORE. Ventana de oportunidad como SI especializado antes de mainstream (2028-2030).
+
+### 7. Familias VLA emergentes (WCog-VLA, CoWorld-VLA, ChainFlow-VLA)
+- **WCog-VLA** (arXiv:2607.08375, jul 2026): Dual-level World-Cognitive VLA — combina razonamiento a nivel de escena y predicción de acción.
+- **CoWorld-VLA** (arXiv:2605.10426, may 2026): Multi-Expert World Model con especialistas por dominio (urban, highway, weather).
+- **ChainFlow-VLA** (arXiv:2605.23270): Causal flow planning con VLMs; razonamiento causal explícito.
+- **Relevancia Globant**: El espacio VLA para AD está en plena exploración. OpenDriveVLA y BLUE son los más maduros para uso en producción.
 
 ## Repos activos esta semana
 
 | Repo | Actualización | Stars | Nota |
 |------|--------------|-------|------|
-| [commaai/openpilot](https://github.com/commaai/openpilot) | v0.11.1 jun-2026 | 60.6k | Driver monitoring improvements |
-| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | 2026 launch | ~600 | Primera versión pública L2 ADAS |
-| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | activo jul-2026 | 1.7k | Paquetes de universo Autoware |
-| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | activo 2026 | 2k | Nuevas integraciones de contabilidad |
-| [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) | activo 2026 | 77 | CARLA agent testing framework |
-| [SuperdeMan/cockpit-agent](https://github.com/SuperdeMan/cockpit-agent) | activo 2026 | ~10 | Cloud-edge IVI multi-agent |
+| [DriveVLA/OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) | AAAI 2026 accepted | ~400 | VLA SOTA AD — nuevo en tracking |
+| [commaai/openpilot](https://github.com/commaai/openpilot) | v0.11.1 abr-2026 | 60.6k | World Model training paradigm |
+| [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) | activo 2026 | ~600 | L2 ADAS gratuito, crecimiento acelerado |
+| [autowarefoundation/autoware_universe](https://github.com/autowarefoundation/autoware_universe) | activo jul-2026 | 1.7k | Paquetes de universo; actualizado semanal |
+| [eclipse-kuksa/kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker) | activo 2026 | 450 | Momentum SDV; audit de seguridad publicado |
+| [fleetbase/fleetbase](https://github.com/fleetbase/fleetbase) | activo 2026 | 2k | Nuevas integraciones contabilidad + API |
+| [liulin815/DriveWorld-VLA](https://github.com/liulin815/DriveWorld-VLA) | feb 2026 | ~200 | World model para VLA — nuevo |
 
 ---
-*Pipeline automático — v10 2026-07-13.*
+*Pipeline automático — v11 2026-07-14.*

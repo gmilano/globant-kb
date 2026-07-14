@@ -2,7 +2,7 @@
 
 > Recetas concretas para construir soluciones combinando repos + agentes + AI.
 > Cada patrón menciona repos específicos, cómo conectarlos, y tiempo estimado.
-> Última actualización: 2026-07-13 (v10)
+> Última actualización: 2026-07-14 (v11)
 
 ---
 
@@ -89,7 +89,7 @@ Lead entra por WhatsApp / web form
 **Problema**: OEMs y Tier-1s necesitan validar modelos ADAS antes de desplegar; el proceso manual es lento y caro.
 
 **Stack**:
-- [carla-simulator/carla](https://github.com/carla-simulator/carla) (MIT) — Simulador AV: sensores, clima, agentes, towns
+- [carla-simulator/carla](https://github.com/carla-simulator/carla) (MIT) — Simulador AV: sensores, clima, agentes, towns; UE5 branch
 - [autowarefoundation/autoware_vision_pilot](https://github.com/autowarefoundation/autoware_vision_pilot) (Apache-2.0) — L2 ADAS modelo base a validar/extender
 - [erdos-project/pylot](https://github.com/erdos-project/pylot) (Apache-2.0) — Pipeline de percepción + planificación + control
 - [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) (Apache-2.0) — Framework de testing para agentes en CARLA
@@ -109,7 +109,7 @@ CI/CD trigger (GitHub Actions) → CARLA headless en cloud GPU
 
 **Customización clave**:
 - Suite de escenarios personalizados por cliente (carreteras LATAM, condiciones de lluvia tropical)
-- Integración con autoware_vision_pilot para benchmark antes/después de fine-tuning
+- Integración con nuReasoning benchmark para validar razonamiento en escenarios long-tail
 - Dashboard web con métricas históricas de safety score por versión de modelo
 
 **Tiempo estimado**: 10-16 semanas
@@ -146,7 +146,7 @@ Usuario dice "¿Cuánta autonomía me queda para llegar a Monterrey?"
 **Customización clave**:
 - Wakeword personalizado por marca ("Hey [Marca]")
 - Integración con Google Maps / Apple Maps para routing
-- Seguridad: comandos de vehículo (frenos, acelarador) nunca expuestos al LLM; solo via APIs validadas
+- Seguridad: comandos de vehículo (frenos, acelerador) nunca expuestos al LLM; solo via APIs validadas
 - Soporte multi-idioma (ES, PT, EN) sin cambio de modelo
 
 **Tiempo estimado**: 12-18 semanas (desde PoC a integración IVI)
@@ -178,11 +178,6 @@ Nueva versión SW lista en artefacto storage
 5. Report ejecutivo diario por Claude
 ```
 
-**Customización clave**:
-- Integración con Vehicle Signal Specification (VSS) via Kuksa para condiciones precisas
-- Rollback automático via EMQX si el vehículo reporta falla post-update
-- Dashboard de OEM con estado en tiempo real del rollout
-
 **Tiempo estimado**: 14-20 semanas
 **ROI esperado**: -90% tiempo de rollout manual, 0 recalls por software defectuoso en rollout
 **Mercado objetivo**: OEMs con > 100,000 vehículos conectados
@@ -191,7 +186,7 @@ Nueva versión SW lista en artefacto storage
 
 ## P6: Manufactura Automotriz LATAM — Calidad + Productividad AI
 
-**Problema**: Plantas automotrices en México tienen procesos de control de calidad manuales con alta tasa de re-trabajo; sin predicción de fallas en línea.
+**Problema**: Plantas automotrices en México tienen procesos de control de calidad manuales con alta tasa de re-trabajo.
 
 **Stack**:
 - [frappe/erpnext](https://github.com/frappe/erpnext) (GPL-3.0) — ERP de manufactura: BOM, órdenes de producción, calidad
@@ -214,14 +209,57 @@ Cámara de inspección → YOLOv10 (defect detection) → si defecto:
 Diariamente: Claude genera reporte de calidad + recomendaciones de mejora de proceso
 ```
 
-**Customización clave**:
-- Modelos de visión fine-tuned con defectos específicos del cliente (soldadura, pintura, ensamblaje)
-- Integración con sistemas MES existentes (SAP ME, Siemens Opcenter) via REST
-- Tablero multilenguaje (ES) para operadores de planta
-
 **Tiempo estimado**: 10-16 semanas
 **ROI esperado**: -25% tasa de defectos, -35% re-trabajo, -50% tiempo de inspección manual
 **Mercado objetivo**: Plantas Tier-1 y Tier-2 en México (Guanajuato, Puebla, Monterrey)
+
+---
+
+## P7: VLA Fine-Tuning para Escenarios LATAM — Custom AD Agent
+
+**Problema**: Los modelos VLA de conducción autónoma (OpenDriveVLA, autoware_vision_pilot) están entrenados en datasets EE.UU./Europa; no manejan bien escenarios LATAM: intersecciones sin señalización, baches, motociclistas entre carriles, lluvias tropicales.
+
+**Stack**:
+- [DriveVLA/OpenDriveVLA](https://github.com/DriveVLA/OpenDriveVLA) (Apache-2.0) — VLA 3B/7B base; AAAI 2026 SOTA
+- [carla-simulator/carla](https://github.com/carla-simulator/carla) (MIT) — Simulador + digital twins de ciudades LATAM (OpenStreetMaps → CARLA)
+- [nutonomy/nuscenes-devkit](https://github.com/nutonomy/nuscenes-devkit) (Apache-2.0) — Formato de datos para fine-tuning
+- [MasoudJTehrani/PCLA](https://github.com/MasoudJTehrani/PCLA) (Apache-2.0) — Testing del agente fine-tuned en CARLA
+- BLUE gate (arXiv:2606.08684) — Capa de optimización para reducir latencia on-vehicle
+- LangGraph + Claude — Agente de curación de datos + evaluación automática de resultados
+
+**Cómo conectar**:
+```python
+# Fase 1: Recolección de datos LATAM
+# Dash cam data de flotas cliente en México/Brasil → formato nuScenes
+data_pipeline = [
+    "dash_cam_footage",        # video multi-cámara del cliente
+    "gps_track",               # trayectoria GPS
+    "carla_synthetic_data",    # escenarios sintéticos LATAM (baches, lluvia tropical)
+]
+
+# Fase 2: Fine-tuning OpenDriveVLA
+# Base: DriveVLA/OpenDriveVLA 3B (Apache-2.0)
+# Dataset: ~5k clips de conducción LATAM (real + sintético)
+# Compute: 8xA100, ~48h de fine-tuning
+
+# Fase 3: Validación con PCLA en CARLA
+scenarios = ["ciudad_mexico_noche", "sao_paulo_lluvia", "bogota_rush_hour", "carretera_federal_tope"]
+for scenario in scenarios:
+    result = pcla.run_agent(finetuned_vla, scenario)
+    metrics = {"l2_error": result.l2, "collision_rate": result.collisions, "comfort": result.comfort}
+
+# Fase 4: BLUE gate para optimización on-vehicle
+# 0.11M params gate → decide per-frame: language vs. action
+# → 2.54x speedup vs. VLA baseline → apto para edge compute vehicular
+```
+
+**Dataset mínimo viable**: 2,000 clips de 20s (60% real, 40% CARLA sintético)
+**Compute estimado**: 8xA100 × 48h ($4,000-8,000 en cloud)
+**Benchmark target**: L2 error < 0.45m en nuScenes LATAM subset; collision rate < 0.5% en CARLA LATAM scenarios
+
+**Tiempo estimado**: 16-24 semanas (data collection + fine-tuning + validation)
+**ROI esperado**: Modelo de AD específico para LATAM como IP diferenciadora; licenciable a OEMs/Tier-1s regionales
+**Mercado objetivo**: Startups de robottaxi/robotrucking en Brasil/México; OEMs con operaciones LATAM
 
 ---
 
@@ -235,6 +273,7 @@ Diariamente: Claude genera reporte de calidad + recomendaciones de mejora de pro
 | OEM buscando diferenciación en cabina | P4 — In-Cabin AI Agent |
 | OEM con > 100k vehículos conectados | P5 — SDV OTA Intelligence |
 | Planta de manufactura automotriz | P6 — Manufactura LATAM |
+| OEM o Tier-1 buscando AD para LATAM | P7 — VLA Fine-Tuning LATAM |
 
 ---
 *Ver: `agents/top.md` para lista completa de agentes. `verticals/solutions.md` para plataformas base.*
