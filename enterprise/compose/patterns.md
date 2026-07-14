@@ -1,219 +1,485 @@
-# 🧩 Composition Patterns — Enterprise AI
+# Composition Patterns — Enterprise AI
 
-> Concrete recipes combining specific repos + agents + wiring instructions.
-> Last updated: 2026-07-13 (v4)
+> Concrete recipes combining real repos + agents + AI for enterprise use cases.
+> Every pattern names specific repos, shows wiring code, and estimates delivery time.
+> Last updated: 2026-07-14
 
-## Pattern Stack Reference
+## Architecture Baseline
 
 ```
-[Enterprise Platform (Odoo / ERPNext / Twenty / n8n)]
-          ↓ MCP / REST API
-[AI Orchestration Layer (LangGraph / CrewAI / n8n AI nodes)]
+[Enterprise Vertical Platform]          ERPNext / Odoo / Twenty / Metabase
+          ↓ MCP or REST
+[Data / Context Layer]                  pgvector / Redis / MCP server
           ↓
-[LLM (Claude Sonnet 5 / GPT-4o / local Mistral via Ollama)]
+[Agent Orchestration]                   LangGraph / CrewAI / MAF
+          ↓ LangChain tools / MCP tools
+[AI Reasoning]                          Claude API / GPT-4o / local LLM
           ↓
-[Observability (OpenTelemetry → Grafana)]
+[Observability]                         OpenTelemetry → Grafana / LangSmith
           ↓
-[Human Approval (HITL checkpoint / n8n wait node / email/Slack)]
+[Human-in-the-Loop]                     HITL checkpoint (LangGraph/MAF)
+          ↓
+[Enterprise Channel]                    n8n / OpenClaw / Mattermost / WhatsApp
 ```
 
 ---
 
-## P1 — Agentic ERP Automation (Odoo + LangGraph + Claude)
+## P1 — Intelligent Document Processing (ERP AP Automation)
 
-**Problem**: Purchase orders, vendor approvals, and inventory reordering are manual, error-prone, and slow.
+**Use case**: Accounts payable automation — receive invoice via email, extract fields, validate against PO in ERPNext, trigger payment or flag exception.
 
-**Stack**:
-- [odoo/odoo](https://github.com/odoo/odoo) (LGPL) — ERP data source
-- MCP server for Odoo (custom, 1 week to build) or REST API integration
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — orchestration with HITL checkpoints
-- Claude Sonnet 5 — LLM reasoning
-- [open-telemetry/opentelemetry-python](https://github.com/open-telemetry/opentelemetry-python) (Apache) — audit logging
+**Repos**:
+- [frappe/erpnext](https://github.com/frappe/erpnext) — GPL-3.0 — ERP backend
+- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) — MIT — MCP bridge
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — HITL orchestration
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Apache-2.0 — email trigger + notification
 
-**Wiring**:
+**Architecture**:
+```
+Email (n8n trigger)
+  → PDF/image invoice → Claude Vision (extract fields)
+  → ERPNext MCP Server (lookup PO)
+  → LangGraph node: validate match
+      ↓ MATCH: trigger ERPNext payment API
+      ↓ MISMATCH: HITL checkpoint → human review → approve/reject
+  → n8n: send Slack/email notification
+```
+
+**Python Code (LangGraph HITL core)**:
 ```python
-# LangGraph supervisor agent manages specialist sub-agents
-from langgraph.graph import StateGraph
-from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph, END
+from langgraph.checkpoint.postgres import PostgresSaver
+import anthropic, requests
 
-# Agents: PurchaseOrderAgent, VendorEvalAgent, ApprovalAgent
-# HITL: interrupt() before any PO > $10k
-# Tools: odoo_create_po, odoo_check_inventory, odoo_get_vendor_history
+client = anthropic.Anthropic()
+
+def extract_invoice(state):
+    result = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": [
+                {"type": "image", "source": {"type": "base64", "media_type": "application/pdf", "data": state["invoice_b64"]}},
+                {"type": "text", "text": "Extract: vendor, invoice_number, amount, due_date, line_items as JSON"}
+            ]
+        }]
+    )
+    state["extracted"] = result.content[0].text
+    return state
+
+def validate_against_po(state):
+    # Call ERPNext via MCP server
+    resp = requests.get(
+        f"{MCP_SERVER_URL}/purchase-order",
+        params={"invoice_number": state["extracted"]["invoice_number"]}
+    )
+    state["po"] = resp.json()
+    state["match"] = abs(state["extracted"]["amount"] - state["po"]["amount"]) < 0.01
+    return state
+
+def route_validation(state):
+    return "approve" if state["match"] else "human_review"
+
+def approve_payment(state):
+    requests.post(f"{ERPNEXT_URL}/api/method/create_payment", json=state["extracted"])
+    return state
+
+# HITL: interrupt here; human reviews state["extracted"] vs state["po"]
+def human_review(state):
+    return state  # LangGraph pauses; resumes after human input
+
+builder = StateGraph(dict)
+builder.add_node("extract", extract_invoice)
+builder.add_node("validate", validate_against_po)
+builder.add_node("approve", approve_payment)
+builder.add_node("human_review", human_review)
+builder.set_entry_point("extract")
+builder.add_edge("extract", "validate")
+builder.add_conditional_edges("validate", route_validation, {"approve": "approve", "human_review": "human_review"})
+builder.add_edge("approve", END)
+builder.add_edge("human_review", "approve")  # after human approves
+
+checkpointer = PostgresSaver.from_conn_string("postgresql://...")
+graph = builder.compile(checkpointer=checkpointer, interrupt_before=["human_review"])
 ```
 
-**Estimated effort**: 8–12 weeks | **Expected ROI**: 40–60% reduction in PO processing time; 15–25% reduction in procurement errors
+**Delivery estimate**: 3–4 weeks MVP | **ROI**: 90% processing time reduction (industry benchmark)
 
 ---
 
-## P2 — Enterprise CRM AI Copilot (Twenty + CrewAI + n8n)
+## P2 — Enterprise Multi-Agent Sales Crew (CrewAI + ERP/CRM)
 
-**Problem**: Sales reps spend 30% of time on manual data entry, follow-up scheduling, and pipeline updates.
+**Use case**: Multi-agent sales pipeline — research prospect, personalize pitch, draft proposal, update CRM, schedule follow-up.
 
-**Stack**:
-- [twentyhq/twenty](https://github.com/twentyhq/twenty) (AGPL) — CRM with native MCP server
-- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) (MIT) — role-based agents
-- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache-2.0) — trigger workflows on CRM events
-- Claude Sonnet 5 — email drafting, deal analysis
+**Repos**:
+- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) — MIT — multi-agent orchestration
+- [twentyhq/twenty](https://github.com/twentyhq/twenty) — AGPL-3.0 — MCP-native CRM
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Apache-2.0 — trigger + scheduling
 
-**Crew roles**:
-- `ResearchAgent` — enriches contact data from web
-- `EmailAgent` — drafts personalized follow-ups
-- `PipelineAgent` — updates deal stages and forecasts
-- `SchedulingAgent` — proposes meeting slots via calendar API
+**Python Code**:
+```python
+from crewai import Agent, Task, Crew, Process
+from crewai_tools import MCPTool
 
-**n8n trigger**: New contact created in Twenty → fire CrewAI crew → output back to Twenty via MCP
+# Twenty CRM MCP server exposes leads, contacts, deals
+twenty_mcp = MCPTool(server_url="http://twenty-crm:3000/mcp")
 
-**Estimated effort**: 6–8 weeks | **Expected ROI**: Sales rep saves 6–8h/week (matches Microsoft 6.4h/wk benchmark); 20–30% pipeline velocity improvement
+research_agent = Agent(
+    role="Prospect Researcher",
+    goal="Research company background, recent news, pain points",
+    backstory="Expert B2B sales researcher with access to web and CRM",
+    tools=[twenty_mcp],
+    llm="claude-sonnet-5"
+)
 
----
+pitch_agent = Agent(
+    role="Sales Pitch Writer",
+    goal="Craft personalized value proposition based on research",
+    backstory="Senior enterprise sales executive with 15y experience",
+    llm="claude-sonnet-5"
+)
 
-## P3 — Multi-Agent Knowledge Management (Dify + ERPNext + RAG)
+crm_agent = Agent(
+    role="CRM Updater",
+    goal="Update deal stage, log activities, schedule follow-up in Twenty CRM",
+    tools=[twenty_mcp],
+    llm="claude-haiku-4-5-20251001"  # cheaper for deterministic CRUD
+)
 
-**Problem**: Enterprise knowledge is siloed across ERP, wikis, emails, and documents; employees can't find answers fast.
+research_task = Task(
+    description="Research {company_name}: size, industry, recent news, tech stack, pain points",
+    agent=research_agent, output_file="research.md"
+)
+pitch_task = Task(
+    description="Based on research, write a 3-paragraph personalized pitch. Focus on ROI.",
+    agent=pitch_agent, context=[research_task]
+)
+crm_task = Task(
+    description="Update {company_name} deal in Twenty CRM: add research notes, pitch draft, set follow-up for +3 days",
+    agent=crm_agent, context=[research_task, pitch_task]
+)
 
-**Stack**:
-- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — RAG platform with knowledge base management
-- [frappe/erpnext](https://github.com/frappe/erpnext) (GPL) — ERP data source
-- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) (MIT) — MCP bridge
-- Vector DB: Weaviate (BSD) or Chroma (Apache-2.0)
-- Claude Haiku 4.5 — fast retrieval responses
+crew = Crew(
+    agents=[research_agent, pitch_agent, crm_agent],
+    tasks=[research_task, pitch_task, crm_task],
+    process=Process.sequential,
+    verbose=True
+)
 
-**Wiring**:
-```
-Documents (PDF, Confluence, Sharepoint) → Dify knowledge base ingestion
-ERPNext live data → MCP server → Dify tool call
-Employee query → Dify RAG + tool routing → grounded answer with citations
-```
-
-**Key feature**: Dify's built-in knowledge chunking + citation tracking; no hallucination about company-specific data
-
-**Estimated effort**: 4–6 weeks | **Expected ROI**: 50–70% reduction in internal support tickets; 2–3h/week saved per knowledge worker
-
----
-
-## P4 — Compliance-Ready Workflow Automation (n8n + LangGraph + HITL)
-
-**Problem**: Regulated enterprises (banking, insurance) need AI automation with mandatory human approval checkpoints and full audit trails.
-
-**Stack**:
-- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache-2.0) — business process trigger and integration layer
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — HITL checkpointing and state persistence
-- [temporalio/temporal](https://github.com/temporalio/temporal) (MIT) — durable execution for long-running approvals (days/weeks)
-- OpenTelemetry (Apache) — immutable audit log
-
-**Pattern**:
-```
-n8n trigger (new loan application)
-  → LangGraph DocumentReviewAgent (extracts data, flags risks)
-  → interrupt() — human underwriter reviews in UI
-  → LangGraph DecisionAgent (generates approval letter or rejection)
-  → Temporal durable task (waits for customer e-signature, up to 30 days)
-  → n8n notification (CRM update, email, document storage)
-  → OpenTelemetry logs every decision + human approval timestamp
+result = crew.kickoff(inputs={"company_name": "Acme Corp"})
 ```
 
-**Compliance features**: Full decision audit trail; HITL timestamps; rollback via LangGraph state; immutable logs via OTel
-
-**Estimated effort**: 10–16 weeks | **Expected ROI**: 60–80% reduction in processing time; audit-ready by default
+**Delivery estimate**: 2–3 weeks | **ROI**: 5–8h per deal saved on research + CRM hygiene
 
 ---
 
-## P5 — Internal Developer Productivity Agent (OpenHands + MAF + Jira/GitHub)
+## P3 — Enterprise RAG over ERP Data (Dify + ERPNext)
 
-**Problem**: Engineering teams spend 30–40% of time on boilerplate, PR reviews, documentation, and bug triaging.
+**Use case**: Natural-language querying of ERPNext data — "What are our top 10 overdue invoices?" → live answer with breakdown.
 
-**Stack**:
-- [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) (MIT) — software engineering agent
-- [microsoft/autogen](https://github.com/microsoft/autogen) (MIT) — multi-agent coordination (MAF pattern)
-- GitHub MCP server (MIT) — repo access, PR creation, issue management
-- Claude Sonnet 5 — code generation and review
+**Repos**:
+- [langgenius/dify](https://github.com/langgenius/dify) — Apache-2.0 — RAG + agent platform
+- [frappe/erpnext](https://github.com/frappe/erpnext) — GPL-3.0 — ERP data source
+- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) — MIT — MCP bridge
 
-**Crew**:
-- `TriageAgent` — classifies incoming GitHub issues, assigns priority
-- `CodeAgent` (OpenHands) — implements fixes for labeled bugs
-- `ReviewAgent` — reviews PRs against team coding standards
-- `DocAgent` — generates/updates docs for merged PRs
-
-**Estimated effort**: 8–12 weeks | **Expected ROI**: 20–35% dev velocity improvement; SWE-bench validated performance on real bugs
-
----
-
-## P6 — Agentic Business Intelligence (Superset + LangGraph + Natural Language)
-
-**Problem**: Business users can't write SQL; BI team is bottlenecked by dashboard requests.
-
-**Stack**:
-- [apache/superset](https://github.com/apache/superset) (Apache-2.0) — BI platform with REST API
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — agent with SQL generation + retry loop
-- [langgenius/dify](https://github.com/langgenius/dify) (Apache-2.0) — chat UI + knowledge base (schema docs)
-- Claude Sonnet 5 — NL → SQL translation with schema-aware prompting
-
-**Flow**:
+**Architecture**:
 ```
-User asks: "Show me sales by region for Q2 2026 vs Q2 2025"
-→ Dify retrieves schema documentation
-→ LangGraph SQLGenerationAgent writes SELECT query
-→ LangGraph ValidationAgent checks for injection risks + schema correctness
-→ Superset REST API executes query, returns chart
-→ Agent narrates the insight in plain language
+User → Dify Chat App
+  → ERPNext MCP Tool (live data query, no ingestion lag)
+  → Claude API (reasoning + formatting)
+  → Response with drill-down links to ERPNext records
 ```
 
-**Estimated effort**: 6–10 weeks | **Expected ROI**: 80% reduction in ad-hoc BI request backlog; business users self-serve in <30 seconds
+**Setup (Dify config)**:
+```yaml
+# dify/tools/erpnext_mcp.yaml
+type: api
+name: ERPNext MCP
+description: Query live ERPNext data via MCP
+api:
+  base_url: http://erpnext-mcp:8000
+  endpoints:
+    - name: list_documents
+      method: GET
+      path: /resources/{doctype}
+      params: [filters, fields, limit]
+    - name: get_document
+      method: GET
+      path: /resources/{doctype}/{name}
+```
+
+**System Prompt**:
+```
+You are an enterprise data analyst with access to live ERPNext data via tools.
+Always query the tool before answering financial questions.
+Format currency in the user's locale. Include document links for drill-down.
+Never guess figures — if uncertain, query again.
+```
+
+**Delivery estimate**: 1–2 weeks | **Users**: Finance managers, operations directors, C-suite
 
 ---
 
-## P7 — Enterprise Self-Hosted AI Assistant (OpenClaw/Fork + Ollama + Mattermost)
+## P4 — Hyperautomation Pipeline (n8n + LangGraph)
 
-**Problem**: Employees need an internal AI assistant but CIO blocks cloud LLMs due to data privacy (no data leaves the firewall).
+**Use case**: End-to-end procurement automation — PO request → vendor selection → approval → PO creation in ERP.
 
-**Stack**:
-- [openclaw/openclaw](https://github.com/openclaw/openclaw) fork (MIT) — self-hosted AI assistant skeleton
-- Ollama (MIT) + Mistral 7B or LLaMA 3.3 — local LLM inference (no cloud)
-- [mattermost/mattermost](https://github.com/mattermost/mattermost) (AGPL) — chat interface
-- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache) — tool integrations (calendar, ERP, HR)
-- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) (MIT) — ERP tool access
+**Repos**:
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Apache-2.0 — event trigger + notification
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — multi-step reasoning + HITL
+- [frappe/erpnext](https://github.com/frappe/erpnext) — GPL-3.0 — ERP backend
 
-**Key selling point**: 100% on-premise; LGPD/GDPR compliant; no data to any cloud vendor; Mattermost is already deployed at many enterprises
+**Architecture**:
+```
+n8n Trigger: Slack command "/po request {item} {qty}"
+  → LangGraph workflow:
+      Node 1: Parse request + validate budget
+      Node 2: Query ERPNext for approved vendors
+      Node 3: AI compares vendor quotes (price, lead time, quality score)
+      Node 4: HITL checkpoint — CFO approval for >$10k
+      Node 5: Create PO in ERPNext via API
+  → n8n: notify requester + finance team
+```
 
-**Estimated effort**: 6–10 weeks | **Expected ROI**: Replaces $30–75/user/month Microsoft Copilot or Google Agentspace; saves $360–$900/user/year
+**n8n AI Agent node config**:
+```json
+{
+  "node": "AI Agent",
+  "model": "claude-sonnet-5",
+  "tools": [
+    {"type": "langgraph", "url": "http://langgraph-server:8000/po-workflow"},
+    {"type": "http", "url": "http://erpnext/api/resource/Purchase%20Order", "method": "POST"}
+  ],
+  "systemMessage": "You orchestrate procurement workflows. Always check budget before creating POs. Escalate to HITL for amounts over configured threshold."
+}
+```
+
+**Delivery estimate**: 4–6 weeks | **ROI**: 70% reduction in PO cycle time
 
 ---
 
-## P8 — Supply Chain Multi-Agent System (ERPNext + CrewAI + Temporal)
+## P5 — LATAM WhatsApp Enterprise Agent (OpenClaw + n8n)
 
-**Problem**: Supply chain disruptions require real-time response across procurement, logistics, and finance — currently siloed.
+**Use case**: Customer service / sales agent accessible via WhatsApp for LATAM SMEs — handles product queries, order status, appointment booking.
 
-**Stack**:
-- [frappe/erpnext](https://github.com/frappe/erpnext) (GPL) — inventory, procurement, supplier data
-- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) (MIT) — specialist crew
-- [temporalio/temporal](https://github.com/temporalio/temporal) (MIT) — durable long-running supply chain workflows
-- Claude Sonnet 5 — disruption analysis and mitigation planning
+**Repos**:
+- [openclaw/openclaw](https://github.com/openclaw/openclaw) — MIT — omnichannel AI assistant
+- [n8n-io/n8n](https://github.com/n8n-io/n8n) — Apache-2.0 — backend workflow + ERP sync
+- [frappe/erpnext](https://github.com/frappe/erpnext) — GPL-3.0 — order/inventory data
 
-**Crew**:
-- `SupplyMonitorAgent` — polls supplier APIs, detects delays
-- `ImpactAnalysisAgent` — calculates downstream SKU impact
-- `ReorderAgent` — initiates emergency POs with alternative suppliers
-- `FinanceAgent` — updates cash flow projections
-- `CommunicationsAgent` — drafts supplier and customer notifications
+**Architecture**:
+```
+WhatsApp Business API
+  → OpenClaw (WhatsApp channel + Task Brain)
+  → ClawHub Skill: ERPNext order lookup
+  → n8n webhook: update order status / create appointment
+  → OpenClaw: reply in Spanish/Portuguese via Claude
+```
 
-**Estimated effort**: 12–18 weeks | **Expected ROI**: 30–50% reduction in stockouts; 20–40% faster disruption response time
+**OpenClaw skill config** (openclaw-skill.yml):
+```yaml
+name: erpnext-orders
+description: Look up customer orders and status in ERPNext
+channel: whatsapp
+trigger: "order|pedido|meu pedido|status"
+action:
+  type: http
+  url: "${N8N_WEBHOOK_URL}/order-lookup"
+  method: POST
+  body:
+    customer_phone: "{{ message.from }}"
+    query: "{{ message.text }}"
+response_template: |
+  Hola {{customer_name}}, tu pedido {{order_id}} está {{status}}.
+  Fecha estimada de entrega: {{delivery_date}}.
+  ¿Necesitas algo más?
+```
+
+**n8n workflow** (webhook → ERPNext → response):
+```javascript
+// n8n Function node
+const phone = $input.first().json.customer_phone;
+const salesOrder = await $http.get(
+  `${ERPNEXT_URL}/api/resource/Sales Order`,
+  { params: { filters: JSON.stringify([["contact_mobile", "=", phone]]), fields: '["name","status","delivery_date"]' } }
+);
+return { order_id: salesOrder.data[0].name, status: salesOrder.data[0].status, delivery_date: salesOrder.data[0].delivery_date };
+```
+
+**Delivery estimate**: 2–3 weeks | **Market**: 75% of LATAM enterprises expect WhatsApp agents by end-2026
 
 ---
 
-## P9 — HR Automation Agent (Frappe HR + LangGraph + n8n)
+## P6 — Microsoft MAF Enterprise Approval Agent (.NET / Azure)
 
-**Problem**: HR team spends 60% of time on repetitive tasks: onboarding, leave approvals, payroll queries, performance reviews.
+**Use case**: Budget approval multi-agent system for Microsoft-stack enterprise — agent collects data, routes to approvers, enforces policy, logs audit trail.
 
-**Stack**:
-- [frappe/hrms](https://github.com/frappe/hrms) (GPL) — HR and payroll platform
-- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) (MIT) — workflow orchestration with HITL
-- [n8n-io/n8n](https://github.com/n8n-io/n8n) (Apache) — trigger on HR events
-- Claude Haiku 4.5 — fast responses to employee queries
+**Repos**:
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework) — MIT — MAF 1.0 SDK
+- n8n or Azure Logic Apps — trigger layer
+- Azure Monitor + OpenTelemetry — observability
 
-**Workflows**:
-- New hire → automated IT provisioning, org chart update, welcome package
-- Leave request → policy check → auto-approve within limits, escalate edge cases
-- Employee question → RAG over HR policies → instant answer
-- Performance cycle → automated review collection, manager reminders, insights
+**Python Code (MAF)**:
+```python
+from agent_framework import Agent, AgentGraph, HITLCheckpoint, OTelConfig
 
-**Estimated effort**: 6–10 weeks | **Expected ROI**: HR team saves 15–25h/week; onboarding time reduced 50%; employee satisfaction +30%
+otel = OTelConfig(endpoint="http://otel-collector:4317", service_name="budget-approval-agent")
+
+data_collector = Agent(
+    name="DataCollector",
+    instructions="Collect budget request details from the requestor and validate against policy.",
+    tools=["erp_query", "policy_lookup"],
+    model="claude-sonnet-5"
+)
+
+policy_validator = Agent(
+    name="PolicyValidator",
+    instructions="Validate the request against budget policy. Determine approval tier (auto / manager / CFO).",
+    tools=["policy_lookup"],
+    model="claude-haiku-4-5-20251001"
+)
+
+notifier = Agent(
+    name="Notifier",
+    instructions="Send approval notifications via Teams and log audit trail.",
+    tools=["teams_message", "audit_log"],
+    model="claude-haiku-4-5-20251001"
+)
+
+graph = AgentGraph(otel=otel)
+graph.add_node(data_collector)
+graph.add_node(policy_validator)
+graph.add_node(HITLCheckpoint(name="manager_approval", notify_via="teams"))
+graph.add_node(notifier)
+
+graph.add_edge(data_collector, policy_validator)
+graph.add_conditional_edge(
+    policy_validator,
+    condition=lambda state: state["approval_tier"],
+    routes={"auto": notifier, "manager": "manager_approval", "cfo": "manager_approval"}
+)
+graph.add_edge("manager_approval", notifier)
+
+result = await graph.run(thread_id="budget-req-001", initial_state={"request": budget_request})
+```
+
+**Delivery estimate**: 4–5 weeks | **Best for**: Microsoft Azure / .NET enterprise clients
+
+---
+
+## P7 — Enterprise Observability-First Agent Stack
+
+**Use case**: Build any enterprise agent with production-grade observability from day one — traces, evals, cost tracking, replay.
+
+**Repos**:
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT — orchestration
+- [langchain-ai/langsmith-sdk](https://github.com/langchain-ai/langsmith-sdk) — MIT — LLM observability
+- [open-telemetry/opentelemetry-python](https://github.com/open-telemetry/opentelemetry-python) — Apache-2.0 — standard tracing
+
+**Python Code**:
+```python
+from langsmith import traceable, Client
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+# OTel setup (routes to Grafana / Azure Monitor)
+provider = TracerProvider()
+provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter(endpoint="http://otel-collector:4317")))
+trace.set_tracer_provider(provider)
+tracer = trace.get_tracer("enterprise-agent")
+
+ls_client = Client()  # LangSmith traces + evals
+
+@traceable(name="enterprise-agent-run", run_type="chain")
+def run_enterprise_agent(user_input: str, session_id: str):
+    with tracer.start_as_current_span("agent-execution") as span:
+        span.set_attribute("session.id", session_id)
+        span.set_attribute("user.input.length", len(user_input))
+
+        # Run LangGraph workflow
+        result = graph.invoke(
+            {"messages": [{"role": "user", "content": user_input}]},
+            config={"configurable": {"thread_id": session_id}}
+        )
+
+        span.set_attribute("output.tokens", result.get("usage", {}).get("output_tokens", 0))
+        return result
+
+# Evaluation: run weekly evals against golden dataset
+def run_evals():
+    dataset = ls_client.read_dataset(dataset_name="enterprise-agent-golden")
+    ls_client.run_on_dataset(
+        dataset_name="enterprise-agent-golden",
+        llm_or_chain_factory=run_enterprise_agent,
+        evaluation=["criteria:correctness", "criteria:helpfulness"]
+    )
+```
+
+**Delivery estimate**: Add 1 week to any agent project | **Value**: Makes agent deployment defensible to enterprise stakeholders
+
+---
+
+## P8 — Open ERP + Local LLM (LATAM Data Sovereignty Stack)
+
+**Use case**: Enterprise AI over ERP data with no data leaving the country — on-prem ERPNext + local LLM + Langflow, fully air-gapped.
+
+**Repos**:
+- [frappe/erpnext](https://github.com/frappe/erpnext) — GPL-3.0 — ERP
+- [langflow-ai/langflow](https://github.com/langflow-ai/langflow) — MIT — visual agent builder
+- [ollama/ollama](https://github.com/ollama/ollama) — MIT — local LLM runtime
+- [rakeshgangwar/erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) — MIT — MCP bridge
+
+**Docker Compose Stack**:
+```yaml
+version: "3.9"
+services:
+  erpnext:
+    image: frappe/erpnext:v15
+    ports: ["8000:8000"]
+    environment:
+      - DB_HOST=mariadb
+      - REDIS_CACHE=redis:6379
+
+  erpnext-mcp:
+    image: ghcr.io/rakeshgangwar/erpnext-mcp-server:latest
+    environment:
+      - ERPNEXT_URL=http://erpnext:8000
+      - API_KEY=${ERPNEXT_API_KEY}
+    ports: ["8001:8000"]
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes: ["ollama-data:/root/.ollama"]
+    ports: ["11434:11434"]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+
+  langflow:
+    image: langflowai/langflow:latest
+    ports: ["7860:7860"]
+    environment:
+      - LANGFLOW_DATABASE_URL=postgresql://langflow:password@postgres/langflow
+      - OLLAMA_BASE_URL=http://ollama:11434
+
+volumes:
+  ollama-data:
+```
+
+**Langflow config**: Set Ollama as LLM provider → connect ERPNext MCP tool → build RAG flow → export as REST API.
+
+**Data flow** (fully local):
+```
+User query → Langflow → Ollama (Llama 3.1 70B or Mistral) → ERPNext MCP → Response
+                      ↑ No internet required after setup
+```
+
+**Delivery estimate**: 3–5 weeks | **Best for**: LATAM clients with LGPD/data residency requirements
+
+---
+
+*Auto-updated by the Globant AI Studios ingest pipeline.*

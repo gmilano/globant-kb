@@ -1,58 +1,63 @@
-# 🏭 Vertical Solutions — Enterprise AI
+# Enterprise Vertical Platforms — Open Source
 
-> Existing open-source enterprise platforms customizable with AI.
-> Model: start with something functional, add an agentic layer on top.
-> Last updated: 2026-07-13 (v4)
+> Real platforms: fork, deploy, add AI on top. Customizable with agentic layer.
+> Model: Start with a working system, then add the agentic layer above it.
+> Last updated: 2026-07-14
 
-## Core Enterprise Platforms (ERP / CRM / ITSM / Collab)
+## ERP Platforms
 
-| Platform | Repo | License | Stars | Stack | AI Opportunity |
-|----------|------|---------|-------|-------|----------------|
-| **Odoo** | [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 | ~52.8k | Python/PostgreSQL | 50+ modules (CRM, Inventory, Manufacturing, HR, Accounting); MCP server enables any AI agent to read/write ERP data; AI Studio in v18 adds native LLM triggers |
-| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | ~36.4k | Python/MariaDB (Frappe) | Full ERP with REST API; AI layer via [erpnext-mcp-server](https://github.com/rakeshgangwar/erpnext-mcp-server) — purchase orders, inventory, HR as agent tools |
-| **Twenty CRM** | [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | ~45.5k | TypeScript/React/PostgreSQL | Modern developer CRM; native MCP server for Claude/GPT integration; fastest-growing OSS CRM; self-hosted free, cloud $9/user/mo |
-| **Frappe Framework** | [frappe/frappe](https://github.com/frappe/frappe) | MIT | ~10.4k | Python/JS | Low-code web framework under ERPNext; MIT license; build custom ERP/CRM modules with AI hooks |
-| **Mattermost** | [mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | ~32k | Go/React | Self-hosted Slack alternative; AI Copilot feature (MIT plugin); enterprise teams can deploy LLM assistants inside the chat |
-| **Nextcloud** | [nextcloud/server](https://github.com/nextcloud/server) | AGPL-3.0 | ~29k | PHP | Enterprise file/collaboration; AI assistant (text generation, summarization) built into Nextcloud AI suite |
+| Platform | Repo | License | Stars | Stack | AI Readiness | Use Case |
+|----------|------|---------|-------|-------|--------------|----------|
+| ERPNext | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | 36k | Python/Frappe | Via marketplace: NextAI, ChatNext, changAI, MCP bridges | Full ERP: accounting, inventory, sales, HR, manufacturing, CRM. LATAM strong adoption. Fork-and-customize. |
+| Odoo 18 | [odoo/odoo](https://github.com/odoo/odoo) | LGPL-3.0 (Community) | 52k | Python/JS | Community: no native AI. Enterprise ($24.90/user): AI sales forecasting, smart assistant | World's most popular open ERP. 80+ modules, 40k+ marketplace apps. Community edition fully LGPL. |
+| Frappe Framework | [frappe/frappe](https://github.com/frappe/frappe) | MIT | 10k | Python/JS | Native REST API; custom doctypes; build AI integrations directly | Low-code framework powering ERPNext. MIT licensed. Best starting point for custom enterprise apps. |
+| Apache OFBiz | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Apache-2.0 | 1.1k | Java | REST API ready for AI layer | Java ERP + CRM + e-commerce + supply chain. Maintained by Apache Software Foundation. Enterprise-grade SCM. |
+| NocoBase | [nocobase/nocobase](https://github.com/nocobase/nocobase) | Apache-2.0 | 15k | Node.js/React | AI-native; plugin-driven; data-model driven design | No-code/low-code ERP builder. All source code open. Plugin architecture for AI extensions. Rising fast. |
 
-## Workflow Automation Platforms
+## CRM Platforms
 
-| Platform | Repo | License | Stars | Stack | AI Opportunity |
-|----------|------|---------|-------|-------|----------------|
-| **n8n** | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0 | ~182k | TypeScript | 400+ integrations + native AI nodes (Claude, GPT-4, Gemini, Ollama); self-hosted; wire AI into any enterprise workflow |
-| **Dify** | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | ~136k | Python/TypeScript | Production AI workflow platform; RAG pipeline, model routing, agentic workflows, built-in observability; 100k+ enterprise deployments |
-| **Temporal** | [temporalio/temporal](https://github.com/temporalio/temporal) | MIT | ~12k | Go | Durable execution for long-running agentic workflows; survives outages; mandatory for enterprise AI tasks >5min |
-| **Prefect** | [PrefectHQ/prefect](https://github.com/PrefectHQ/prefect) | Apache-2.0 | ~16k | Python | @flow/@task decorator orchestration; production scheduling + observability for AI data pipelines |
+| Platform | Repo | License | Stars | Stack | AI Readiness | Use Case |
+|----------|------|---------|-------|-------|--------------|----------|
+| Twenty | [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | 45k | Node.js/React/PostgreSQL | Native MCP server (Claude/ChatGPT/Cursor OOB); workflow automation engine | Modern CRM. Free self-hosted. $9/user/month cloud. Best CRM for AI-agent integration in 2026. |
+| SuiteCRM | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | AGPL-3.0 | 4k | PHP | REST API; AI via custom modules | SugarCRM fork. 1M+ deployments. Feature-rich sales/service/marketing. Customizable with AI modules. |
 
-## Specialized Enterprise Verticals
+## Work Management & Productivity
 
-| Platform | Repo | License | Stars | Domain | AI Opportunity |
-|----------|------|---------|-------|--------|----------------|
-| **Metabase** | [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | ~41k | BI/Analytics | Add natural language query layer (LLM → SQL) via MCP; AI-powered dashboard generation |
-| **Superset** | [apache/superset](https://github.com/apache/superset) | Apache-2.0 | ~65k | BI/Analytics | Apache project; REST API enables AI agents to generate charts and run SQL queries programmatically |
-| **GLPI** | [glpi-project/glpi](https://github.com/glpi-project/glpi) | GPL-2.0 | ~4.5k | ITSM/Helpdesk | Self-hosted IT service management; AI layer for ticket triage, auto-assignment, and resolution suggestion |
-| **Frappe HR** | [frappe/hrms](https://github.com/frappe/hrms) | GPL-3.0 | ~1.5k | HR/Payroll | MIT-licensed Frappe framework; AI agents for leave approval, payroll processing, performance reviews |
+| Platform | Repo | License | Stars | Stack | AI Readiness | Use Case |
+|----------|------|---------|-------|-------|--------------|----------|
+| Plane | [makeplane/plane](https://github.com/makeplane/plane) | AGPL-3.0 | 27k | Python/Next.js | AI assist features; REST API | Open-source Jira alternative. Project + sprint + issue tracking. Enterprise self-hosted. |
+| AppFlowy | [AppFlowy-IO/AppFlowy](https://github.com/AppFlowy-IO/AppFlowy) | AGPL-3.0 | 58k | Rust/Flutter | AI-native sidebar; local LLM support; plugin API | Open Notion alternative. AI writing assistant built-in. Self-hosted, private-data first. |
+| Mattermost | [mattermost/mattermost](https://github.com/mattermost/mattermost) | AGPL-3.0 | 30k | Go/React | AI agents via plugin system; MCP integration | Slack alternative for enterprise. Team messaging + workflow automation. Self-hostable. |
 
-## How to Add AI to Any Platform
+## BI & Analytics
+
+| Platform | Repo | License | Stars | Stack | AI Readiness | Use Case |
+|----------|------|---------|-------|-------|--------------|----------|
+| Metabase | [metabase/metabase](https://github.com/metabase/metabase) | AGPL-3.0 | 38k | Clojure/React | Metabot natural-language querying; AI-powered insights | Self-service BI. Natural language to SQL. Connect to any SQL database or warehouse. |
+| Apache Superset | [apache/superset](https://github.com/apache/superset) | Apache-2.0 | 62k | Python/React | SQL Lab + AI assist; REST API for agent integration | Enterprise data exploration + dashboards. Apache foundation. Zero vendor lock-in. |
+
+## Workflow Automation (No-Code Layer)
+
+| Platform | Repo | License | Stars | Stack | AI Readiness | Use Case |
+|----------|------|---------|-------|-------|--------------|----------|
+| n8n | [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0 | 182k | Node.js | AI agent nodes + LangChain built-in; 400+ integrations | Enterprise workflow automation with native AI agent support. Self-hostable. |
+| Dify | [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 136k | Python/Next.js | Full LLMOps: RAG + agents + observability | Best for chat-first RAG apps. LLM-agnostic (OpenAI, Anthropic, local). |
+| Langflow | [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 147k | Python | Native MCP; visual + REST API deployment | Python-first visual agent builder. Best for RAG + multi-agent enterprise flows. |
+
+## How to Add an Agentic Layer
 
 ```
-1. Expose data via REST API or MCP server
-          ↓
-2. Configure AI agent with tool access (Claude + MCP or LangGraph + tools)
-          ↓
-3. Build agentic workflows (n8n or Dify for visual, LangGraph for code)
-          ↓
-4. Add approval checkpoints (HITL via LangGraph interrupt() or n8n wait node)
-          ↓
-5. Deploy observability (OpenTelemetry → Grafana; CrewAI enterprise metrics)
+Step 1: Deploy the vertical platform (ERPNext / Odoo / Twenty)
+         ↓ Self-host or managed cloud
+Step 2: Expose data via MCP or REST
+         ↓ Use MCP server (Twenty native / erpnext-mcp-server / custom)
+Step 3: Build agent workflows
+         ↓ LangGraph (HITL) / CrewAI (role-based) / MAF (Microsoft shops)
+Step 4: Add orchestration layer
+         ↓ n8n (enterprise) / Langflow (Python) / Dify (RAG-first)
+Step 5: Add conversational UI
+         ↓ OpenClaw (omnichannel) / custom web chat / Mattermost bot
 ```
 
-## License Quick Reference for Enterprise Legal
-
-| License | Can Customize? | Can Keep Private? | Globant Recommendation |
-|---------|---------------|-------------------|------------------------|
-| MIT | ✅ Yes | ✅ Yes | Green light |
-| Apache-2.0 | ✅ Yes | ✅ Yes | Green light |
-| LGPL-3.0 (Odoo) | ✅ Yes (modules) | ✅ Yes (modules are LGPL-OK) | Green light for Odoo modules |
-| AGPL-3.0 | ⚠️ Yes but must open-source if you expose via network | ❌ Must open SaaS | Consult legal |
-| GPL-3.0 | ⚠️ Copyleft | ❌ Modifications must be GPL | Consult legal |
+---
+*Auto-updated by the Globant AI Studios ingest pipeline.*

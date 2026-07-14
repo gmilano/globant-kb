@@ -1,43 +1,80 @@
-# 📈 Trending AI Agents — Enterprise (Week of 2026-07-13)
+# Trending This Week — Enterprise AI
 
-> What's new and breaking in enterprise AI agents this week.
+> What's new, breaking, or surging in enterprise AI agent tooling.
+> Last updated: 2026-07-14
 
-## 🔥 Breaking This Week
+## Breaking Signals — July 2026
 
-### Microsoft Agent Framework (MAF) Unification
-AutoGen and Semantic Kernel are officially merging into the **Microsoft Agent Framework (MAF)**. Enterprise orgs with Azure investments get a single unified agentic SDK. The `spec-to-agents` reference implementation ([microsoft/spec-to-agents](https://github.com/microsoft/spec-to-agents)) demonstrates the new pattern: event-driven multi-agent planning with Semantic Kernel orchestration + AutoGen execution. This is the recommended path for enterprise Microsoft shops.
+### OpenClaw surpasses 380k GitHub Stars (Jan → Jul 2026)
+- [openclaw/openclaw](https://github.com/openclaw/openclaw) — MIT
+- Fastest-growing OSS project in GitHub history; overtook React as #1 most-starred software project in 60 days
+- Task Brain v2026.3.31 (beta): unified multi-step workflow management
+- ClawHub marketplace: 13,000+ installable agent skills (lead enrichment, calendar, revenue ops, etc.)
+- Enterprise governance: OpenAI + NVIDIA + Vercel + GitHub + Blacksmith + Convex backing the project
+- **Signal**: Becoming the enterprise "connective tissue" for AI-to-SaaS communication
 
-### LangGraph 0.4 — HITL Checkpoints Hardened
-LangGraph 0.4 (April 2026) sharpened state persistence and Human-In-The-Loop (HITL) checkpoints — critical for enterprise compliance where audit trails are mandatory. Surpassed CrewAI in GitHub stars in Q1 2026, driven by enterprise production deployments. The `interrupt()` + checkpoint API is now the de facto enterprise standard for agentic approval workflows.
+### Microsoft Agent Framework 1.0 GA (April 2026)
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework) — MIT
+- AutoGen + Semantic Kernel merged into single production SDK for Python + .NET + Java
+- AutoGen and Semantic Kernel moved to maintenance mode (bug fixes only, no new features)
+- Native OpenTelemetry — zero-glue traces in Grafana / Azure Monitor
+- HITL approvals first-class; graph-based multi-agent orchestration
+- **Signal**: Organizations on Azure / .NET should migrate from AutoGen/SK now
 
-### CrewAI 0.105 — Enterprise Observability
-CrewAI 0.105 (March 2026) ships enterprise observability (Prometheus metrics, Grafana dashboards) and scheduling (cron-based crew triggers). 1,500+ organizations in production; 60%+ Fortune 500 companies using it. New `CrewOutput` structured schema makes downstream integrations cleaner.
+### LangGraph v0.4 HITL Checkpoints (April 2026)
+- [langchain-ai/langgraph](https://github.com/langchain-ai/langgraph) — MIT
+- First-class HITL: interrupt graph → collect human input → resume at exact breakpoint
+- Sharper state persistence: pause + resume long-running flows without custom serialization
+- Native LangSmith tracing: traces, token counts, latency, replay — zero extra instrumentation
+- **Signal**: Strongest OSS choice for compliance-heavy enterprise flows requiring human oversight
 
-### Q2 2026: Busiest Agent Framework Quarter Ever
-April–July 2026 delivered more shipped features across the agent-framework ecosystem than any prior quarter in history. Gartner now predicts 40% of enterprise apps will embed task-specific AI agents by EOY 2026, up from <5% in 2025 — the fastest enterprise tech adoption curve ever measured.
+### CrewAI v0.105 Enterprise Observability (March 2026)
+- [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) — MIT
+- Enterprise observability dashboard: per-agent metrics, task completion rates, cost tracking
+- Scheduling layer: cron-style agent runs, retry policies, SLA monitoring
+- 100+ pre-built crew templates for AP processing, sales, HR, procurement
+- **Signal**: CrewAI strongest template library in class; best for role-based enterprise workflows
 
-### n8n 182k Stars — Enterprises Self-Hosting at Scale
-n8n crossed 182k GitHub stars. The native AI node ecosystem (OpenAI, Anthropic Claude, Gemini, Ollama) allows enterprises to wire AI into any existing workflow without a dedicated ML team. The Apache-2.0 (fair-code) `n8n-io/n8n` license is accepted by most enterprise legal teams.
+### Flowise Acquired by Workday (2026)
+- [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) — Apache-2.0 (remains open)
+- Workday integrating Flowise visual canvas into Workday Platform AI products
+- Open-source codebase and Apache license maintained post-acquisition
+- **Signal**: Low-code agentic workflows entering HR/Finance ERP mainstream
 
-### Pydantic AI Rising for Enterprise Data Pipelines
-Pydantic AI's type-safe approach to agent building is gaining traction in enterprises with strict schema contracts (banking, insurance, healthcare compliance). Structured outputs with Pydantic validation prevent hallucination-induced data corruption in automated pipelines.
+### Twenty CRM — MCP-Native Enterprise CRM (2026)
+- [twentyhq/twenty](https://github.com/twentyhq/twenty) — AGPL-3.0 — 45k★
+- Cloud workspaces ship with native MCP server for Claude, ChatGPT, Cursor integration
+- Free self-hosted; $9/user/month cloud; full REST API + webhook automation
+- **Signal**: First enterprise CRM with native AI-agent integration out of the box
 
-## 📊 GitHub Star Velocity (Last 30 Days)
+## Key Stats (Mid-2026)
 
-| Repo | Stars Added | Total |
-|------|------------|-------|
-| openclaw/openclaw | +12k | ~375k |
-| n8n-io/n8n | +3k | ~182k |
-| langflow-ai/langflow | +2.5k | ~146k |
-| langgenius/dify | +3k | ~136k |
-| crewAIInc/crewAI | +1.8k | ~32k |
-| langchain-ai/langgraph | +2.1k | ~18k |
-| pydantic/pydantic-ai | +1.2k | ~12k |
+| Metric | Value | Source |
+|--------|-------|---------|
+| Agentic AI market (2026) | $9.14B | IDC |
+| Projected market (2034) | $139.19B @ 40.5% CAGR | IDC |
+| Enterprises running agent in production | 31% | McKinsey / S&P Global |
+| Enterprise apps with AI agents by end-2026 | 40% (Gartner forecast) | Gartner Aug 2025 |
+| Avg enterprise ROI on agentic AI | 171% (US: 192%) | Accelirate 2026 |
+| McKinsey annual value potential | $2.6–4.4T | McKinsey MGI |
+| Agent projects that will fail by 2027 | >40% | Gartner warning |
+| LATAM AI agents market CAGR | 50.8% | LatamRepublic 2026 |
+| 84% of enterprises plan to increase AI agent investment | 84% | Accelirate survey |
 
-## 🎯 Globant Studio Signal
+## Hot Repos to Watch (July 2026)
 
-- **MAF unification** = opportunity to position Globant as the Microsoft-aligned enterprise agent integrator for Azure-native clients
-- **HITL checkpointing** in LangGraph = sellable as compliance/risk-reduction for regulated industries (banking, insurance, pharma)
-- **n8n self-hosted** = rapid enterprise pilot deployments without cloud vendor lock-in — ideal for LATAM clients with data residency requirements
-- Gartner's "40% of apps by EOY 2026" creates executive urgency — use this stat in client decks and RFPs
-- CrewAI's Fortune 500 penetration makes it a safe enterprise recommendation; pair with LangGraph for compliance-critical flows
+| Repo | Stars | License | Why It Matters |
+|------|-------|---------|----------------|
+| [openclaw/openclaw](https://github.com/openclaw/openclaw) | 380k | MIT | Enterprise self-hosted AI backbone |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | 182k | Apache | Strongest enterprise workflow automation |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | 147k | MIT | Python-native visual agent builder |
+| [langgenius/dify](https://github.com/langgenius/dify) | 136k | Apache | LLMOps + RAG platform |
+| [OpenHands/openhands](https://github.com/OpenHands/openhands) | 79k | MIT | Autonomous software dev agent |
+| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | 58k | MIT | Production .NET/Python agent SDK |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | 52k | MIT | Enterprise multi-agent orchestration |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | 51k | Apache | Visual LangChain canvas |
+| [twentyhq/twenty](https://github.com/twentyhq/twenty) | 45k | AGPL | MCP-native enterprise CRM |
+| [huggingface/smolagents](https://github.com/huggingface/smolagents) | 27k | Apache | HuggingFace minimal code-first agent |
+
+---
+*Auto-updated by the Globant AI Studios ingest pipeline.*
