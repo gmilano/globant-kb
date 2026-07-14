@@ -1,70 +1,80 @@
-# 🗺️ Mapa de mercado — Travel & Hospitality AI
+# 🗺️ Market Map — Travel & Hospitality AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-13 (v11)
+> Key players, market sizing, opportunities. Focus: LATAM + global.
+> Last updated: 2026-07-14 (v6)
 
-## Tamaño de mercado
+## Market Size
 
-| Segmento | 2026 | 2030/2035 | CAGR | Fuente |
-|----------|------|-----------|------|--------|
-| GenAI en Travel | $1.26B | $5.79B (2035) | 18.64% | Precedence Research |
-| AI en Travel & Hospitality | $2.95B | $13.38B (2030) | ~29% | múltiples |
-| Agentic AI (general) | $8.5B | $35-45B (2030) | ~40% | Deloitte TMT 2026 |
-| AI agents globales activos | 28M | 2.2B (2030) | 524% CAGR en tareas | IDC |
+| Segment | 2025/2026 | 2030/2034 | CAGR | Source |
+|---------|-----------|-----------|------|--------|
+| Agentic AI Travel Booking Platforms | $2.1B (2025) | $12.1B (2034) | 22.5% | MarketIntelo 2026 |
+| GenAI in Travel & Tourism | $1.27B (2026) | $5.79B (2030) | 18.64% | Precedence Research |
+| AI in Hospitality | $20.39B (2026) | $26.53B | 30.1% | Research & Markets |
+| Online Travel Agencies market | large baseline | Mordor Intelligence | AI reshaping distribution | Mordor 2026 |
+| IDC projection: AI-executed bookings | 0% today | 30% of all bookings by 2030 | — | IDC 2026 |
 
-### Predicciones clave
-- **IDC**: 30% de las reservas de viaje serán ejecutadas por agentes AI para 2030
-- **HITEC 2026**: 25% de empresas de hospitalidad escalando IA; <10% "AI future-built" (BCG)
-- **Consumer gap**: solo **2%** de consumidores US dispuestos a usar agentes autónomos; **80%** de ejecutivos planean desplegarlos
+## Key Players
 
-## Players globales
+### GDS (Global Distribution Systems)
 
-| Empresa | Tipo | Fortaleza | Posición AI |
-|---------|------|-----------|-------------|
-| **Booking.com** | OTA | 1er OTA global, ~$17B revenue | Agente de reservas conversacional en producción |
-| **Expedia** | OTA | Paquetes + fidelización | Agentic AI en fase beta |
-| **Marriott International** | Hotelería | 9.000+ propiedades | Partnership con techs para inventario agentic |
-| **IHG Hotels & Resorts** | Hotelería | InterContinental, Holiday Inn | Partnership para APIs agénticas |
-| **Sabre** | GDS/Tech | GDS + tecnología aerolíneas | Pipeline agéntica end-to-end con MindTrip + PayPal (mar 2026) |
-| **Amadeus** | GDS/Tech | GDS líder mundial | ⚠️ Cerrando Self-Service API (jul 17, 2026) — solo Enterprise |
-| **Airbnb** | P2P rental | 7M+ listings | AI search y personalización |
-| **Duffel** | API/Startup | NDC nativo, API simple | Reemplazante de Amadeus Self-Service; $3/orden |
-| **MindTrip** | AI startup | Planificación conversacional | Primera pipeline agéntica con Sabre + PayPal (mar 2026) |
-| **Apaleo** | PMS SaaS | Primer PMS con MCP nativo | Agent Hub marketplace; partner ideal para Globant |
+| Company | AI Position | Open Source |
+|---------|-------------|-------------|
+| **Sabre** | Strongest AI pivot: Mosaic MCP (May 2026), Sabre+PayPal+MindTrip end-to-end agentic booking live; BizTrip.ai corporate travel partnership | Mosaic MCP (commercial); amadeus-python (MIT, community) |
+| **Amadeus** | Rich data, SDK open; but self-service portal closing Jul 17 2026 — restricting open access | amadeus-python MIT SDK remains; community MCP servers as workaround |
+| **Travelport** | More conservative AI adoption; legacy GDS infrastructure | Minimal open source |
 
-## Evento clave: Amadeus Self-Service Sunset (17 julio 2026)
+### Online Travel Agencies
 
-Amadeus cierra su portal self-service para desarrolladores el **17 julio 2026** — en días desde ahora. Esto afecta a:
-- Todos los proyectos con claves `amadeus4dev/` self-service
-- SDKs: `amadeus-python`, `amadeus-node`, `amadeus-java`, etc.
-- Startups de travel tech que dependen del tier free
+| OTA | AI Integration (2026) | Revenue Impact |
+|-----|----------------------|----------------|
+| **Expedia Group** | Claude MCP live (Jun 2026, US); 30%+ self-serve support AI-handled; ChatGPT apps partner | "Reward and risk" positioning — traffic from AI channels growing, mix of new users + conversion |
+| **Booking.com** | ChatGPT Apps (OpenAI MCP) — hotel search + booking from within ChatGPT | First OTA in ChatGPT ecosystem alongside Expedia |
+| **Trip.com / Ctrip** | Heavy AI investment (Ctrip-Style-AI-Travel-Assistant pattern); APAC leadership | Largest APAC OTA; AI for personalization + customer service |
 
-**Ganadores**: Duffel (migración más simple), NDC directo, Amadeus Enterprise (para clientes con volumen).
+### Agentic Platforms (New Category)
 
-## Evento clave: Primer pipeline agéntico end-to-end (marzo 2026)
+| Platform | Status | Infrastructure | Differentiation |
+|----------|--------|---------------|-----------------|
+| **MindTrip** | Live: Flights (May 6 2026); Hotels (Phase 2) | Sabre GDS + PayPal agentic commerce | First end-to-end agentic booking consumer product |
+| **Google Travel** | Canvas itinerary builder + Flight Deals AI | Google Search AI Mode | Distribution moat via search |
+| **ChatGPT Travel** | Bailed on direct transactions (Mar 2026) → App integrations model | OpenAI MCP + Expedia + Booking.com | Referral model, not transaction model |
 
-**Sabre + MindTrip + PayPal**: planificación conversacional → inventario real-time (420+ aerolíneas, 2M+ hoteles) → pago integrado, todo en una conversación. Define el estándar del sector.
+### Corporate Travel
 
-## Barreras reales para adopción
+| Company | AI Signal | Globant Opportunity |
+|---------|-----------|---------------------|
+| **Sabre + BizTrip.ai** | Strategic partnership for agentic corporate travel (Jul 2026) | Build on Sabre Mosaic MCP for enterprise clients |
+| **Concur (SAP)** | AI expense + travel integration | Integration layer with LangGraph |
+| **TravelPerk** | AI-native corporate travel startup | White-label AI layer for LATAM |
 
-1. **Consumer trust gap**: 2% adopción vs 80% deployment intent — el problema no es técnico, es de confianza
-2. **Data fragmentation**: sistemas legacy + datos sucios = agentes que "no ven" al cliente ni al proveedor
-3. **Accountability gap**: ¿quién responde cuando el agente reserva mal? Regulación pendiente
-4. **Business travel leads leisure**: corporativo tiene safeguards (política, aprobaciones) que generan confianza; leisure sigue reluctante
+## Consumer Adoption Stats
 
-## Oportunidades AI en LATAM
+| Stat | Value | Source |
+|------|-------|--------|
+| Millennials/Gen Z willing to fully delegate trip planning to AI | 61% | MarketIntelo 2026 |
+| AI booking completion rate vs. traditional OTA funnel | +38% in pilots | MarketIntelo 2026 |
+| Expedia self-serve support handled by AI | 30%+ | Expedia/GeekWire Jun 2026 |
+| North America share of agentic AI travel market | 42.5% ($0.9B, 2025) | MarketIntelo 2026 |
+| IDC: share of bookings by AI agents by 2030 | up to 30% | IDC 2026 |
 
-| Oportunidad | Mercado | Por qué ahora |
+## LATAM Opportunities
+
+| Opportunity | Context | Globant Angle |
 |-------------|---------|---------------|
-| **WhatsApp Booking** | Brasil, Colombia, México, Argentina | WhatsApp dominante; hoteles boutique sin app nativa; canal conversacional natural |
-| **Revenue Management para hoteles independientes** | Toda LATAM | 80%+ hoteles son independientes; sin revenue manager; HAIP + AI es ventaja enorme |
-| **Corporate travel automation** | México, Brasil, Argentina | 67% potencial de automatización; multinacionales con políticas complejas |
-| **LATAM OTA challenger** | Regional | Sin Booking.com rival regional; oportunidad para OTA AI-native en español/portugués |
-| **Turismo rural / agro** | Brasil, Colombia, Costa Rica | Destinos únicos sin distribución digital; agentes AI como canal de descubrimiento |
+| LCC yield optimization | GOL (BR), Aerolíneas (AR), LATAM — high price sensitivity | amadeus-python + ML pricing agent |
+| Boutique/eco hotel AI concierge | AR, MX, CO, PE — growing sustainable tourism | QloApps fork + Claude + DIDA MCP |
+| Corporate travel automation | Large enterprise clients in BR, MX, AR | LangGraph + Sabre Mosaic MCP + HITL |
+| Regional GDS bridge | Sabre portal closing for small players — gap in API access | amadeus-python SDK + community MCPs |
+| WhatsApp travel booking | WhatsApp penetration >90% in LATAM | MCP agents + WhatsApp Business API |
 
-## Posicionamiento Globant
+## Competitive Positioning for Globant
 
-- **Sweet spot**: hoteles independientes y cadenas boutique LATAM que quieren AI sin PMS enterprise ($$$)
-- **Stack recomendado**: HAIP (Apache-2.0) + Claude + WhatsApp Business API + Duffel
-- **Diferenciador**: implementación en semanas vs meses; expertise en diseño de UX conversacional
-- **Quick win**: Revenue Management AI para grupos de 5-20 hoteles → ROI demostrable en 90 días
+| Capability | What Globant Builds | Client Benefit |
+|------------|---------------------|----------------|
+| Agentic booking layer | LangGraph + Amadeus/Sabre MCP + payment APIs | AI-first booking without replacing OTA |
+| Hotel AI concierge | QloApps + Claude + DIDA MCP | Boutique hotel differentiates vs. Booking.com |
+| Corporate travel bot | LangGraph HITL + Sabre Mosaic MCP + Twilio | Policy compliance + employee experience |
+| OTA search replacement | Conversational UI over multiple GDS sources | Travelers find options in one language interface |
+
+---
+*Auto-updated by ingest pipeline.*

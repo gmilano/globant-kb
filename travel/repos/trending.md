@@ -1,29 +1,35 @@
-# 📈 Repos trending — Travel & Hospitality AI
+# 📈 Trending Repos — Travel AI
 
-> Última actualización: 2026-07-13 (v11)
+> Last updated: 2026-07-14 (v6)
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) | PolyForm-NC | MCP travel server en Go. 21+ proveedores, 0 API keys, 1 herramienta inteligente. Claude/Cursor/Windsurf. | ~47 |
-| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | Python+MCP travel workflow. Amadeus + Aviasales + Open-Meteo. Multi-model (OpenAI/Anthropic/Google). | ~80 |
-| [TelivityAI/haip](https://github.com/TelivityAI/haip) | Apache-2.0 | Hotel AI Platform: PMS completo + 12 AI agents (revenue, pricing, cancelaciones). TypeScript/NestJS. | ~19 |
-| [lev-corrupted/travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) | MIT | MCP: vuelos + hoteles + flight tracking en tiempo real. Amadeus + AviationStack. | ~15 |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | MCP hotelero: 2M+ hoteles globales, datos del 3er mayor B2B de viajes del mundo, sin límite de llamadas. | ~5 |
-| [shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) | MIT | Multi-agent trip planner production-ready. Destinos, itinerarios, atracciones, playas. | ~74 |
-| [kbhujbal/Multi-Agent-AI-Travel-Advisor](https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor) | MIT | 7 agentes especializados + RAG + tool-calling para consejería de viajes. LangGraph. | ~53 |
-| [abhinavmathur-atlan/mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | MCP Concierge: Google Travel (SerpAPI) + Amadeus profesional. | ~6 |
-| [Qloapps/QloApps](https://github.com/Qloapps/QloApps) | OSL-3.0 | PMS hotelero open source. PHP, multiidioma, motor de reservas completo. Base madura para AI. | ~780 |
-| [adl1995/trip-planner](https://github.com/adl1995/trip-planner) | BSD-2-Clause | CLI planning de itinerarios. Ligero, extensible, buena base para wrappers AI. | ~368 |
+## Gaining Stars This Month
 
-## Repos activos / nuevos julio 2026
+| Repo | License | Stars | Why Trending |
+|------|---------|-------|-------------|
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | ~80★ | Framework-free MCP booking: flights + hotels + cars + payments in one Python workflow — cited as reference after MindTrip launch |
+| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | MIT | ~45★ | Best production LangGraph travel example: Amadeus + Hotelbeds + Twilio + HubSpot async orchestration |
+| [GongRzhe/TRAVEL-PLANNER-MCP-Server](https://github.com/GongRzhe/TRAVEL-PLANNER-MCP-Server) | MIT | ~120★ | Steady growth as Google Maps MCP becomes default destination intelligence layer |
+| [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | MIT | ~50★ | Full MCP suite featured in Claude travel use cases |
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | ~15★ | Adoption accelerating: 2M+ hotels free, no rate limit — preferred hotel MCP for open builds |
+| [smamidipaka6/flights-mcp-server](https://github.com/smamidipaka6/flights-mcp-server) | MIT | ~30★ | Spikes in interest after Amadeus portal shutdown announcement |
+| [Haohao-end/Ctrip-Style-AI-Travel-Assistant](https://github.com/Haohao-end/Ctrip-Style-AI-Travel-Assistant) | MIT | ~40★ | Stateful HITL multi-agent — cited for enterprise travel booking patterns |
+| [BjornMelin/openai-agents-travel-graph](https://github.com/BjornMelin/openai-agents-travel-graph) | MIT | ~35★ | OpenAI Agents SDK + LangGraph + Stagehand browser automation + Supabase persistence |
+| [Ashot72/booking.com-UI-agent](https://github.com/Ashot72/booking.com-UI-agent) | MIT | ~25★ | LangGraph Studio Booking.com agent with real API integration and modern UI |
+| [naakaarafr/AI-Travel-Agent-Advanced](https://github.com/naakaarafr/AI-Travel-Agent-Advanced) | MIT | ~30★ | CrewAI + Gemini: destination analysis + local expert + full itinerary with real-time web search |
 
-| Repo | Movimiento |
-|------|------------|
-| [TelivityAI/haip](https://github.com/TelivityAI/haip) | 🆕 Nuevo — primer PMS open source con 12 AI agents nativos |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | 🆕 Nuevo — MCP hotelero global, 2M+ hoteles, sin límites |
-| [lev-corrupted/travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) | 📈 Creciendo — MCP completo vuelos+hoteles+tracking |
-| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | 📈 Activo — actualizado mayo 2026, framework-free MCP |
-| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0, plataforma en desarrollo activo |
+## Recently Archived / Deprecated
+
+| Repo | Reason |
+|------|--------|
+| amadeus4dev self-service examples | Amadeus portal decommissioning Jul 17 2026 — migrate to partner APIs or community MCPs |
+
+## Infrastructure Repos (new this cycle)
+
+| Repo | License | Purpose |
+|------|---------|---------|
+| [lastmile-ai/mcp-agent](https://github.com/lastmile-ai/mcp-agent) | Apache-2.0 | Compose multiple travel MCP servers into a single agent |
+| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0 | Travel-specific data platform — early stage |
+| [UjjwalSaini07/Wander-Desk](https://github.com/UjjwalSaini07/Wander-Desk) | MIT | AI travel ops: Trip Management + CRM + Sales Copilot + Revenue Forecasting |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated each pipeline run.*

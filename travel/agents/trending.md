@@ -1,45 +1,49 @@
-# 📈 Trending esta semana — Travel & Hospitality AI
+# 📈 Trending This Week — Travel AI
 
-> Última actualización: 2026-07-13 (v11)
+> Last updated: 2026-07-14 (v6)
+> EU AI Act countdown: **19 days** to Aug 2 2026 deadline (high-risk transport systems affected)
 
-## Novedades más relevantes
+## 🔥 Hot This Week
 
-### 🔴 BREAKING: Amadeus Self-Service API sunset en DÍAS
-Amadeus cierra el portal self-service el **17 julio 2026**. Todos los proyectos que usen `amadeus4dev/*` con claves self-service deben migrar. Alternativas principales:
-- **[Duffel](https://duffel.com)** — $3/orden, sin registro complejo, ideal para startups. La migración más limpia.
-- **Amadeus Enterprise portal** — para clientes con volumen, contratos directos.
-- **NDC directo** — más control pero más trabajo de integración.
+### MindTrip Flights — Live (May 6, 2026)
+Mindtrip officially launched "Mindtrip Flights" — the travel industry's first all-in-one agentic AI flight booking experience. Users describe their trip in natural language; MindTrip queries Sabre's Mosaic APIs (420+ airlines) and completes payment via PayPal's agentic commerce infrastructure — entirely within the conversational interface. Hotels to follow in Phase 2.
+- Partnership: **Sabre + PayPal + MindTrip** (announced Feb 12 2026, live May 6 2026)
+- Significance: first end-to-end agentic booking (natural language → GDS → payment) in production
 
-### 🆕 HAIP — Hotel AI Platform (Apache-2.0)
-[TelivityAI/haip](https://github.com/TelivityAI/haip) — PMS hotelero open source con 12 agentes AI deterministas integrados. El único PMS open source con IA nativa para revenue management, pricing dinámico y housekeeping. Fundacional para cualquier engagement hotelero.
+### Expedia + Claude — US Live (Jun 2026)
+Expedia's Claude integration is live in the US. Travelers search flights and hotels in natural language, receive real-time options with pricing, and tap through to Expedia to complete booking. 30%+ of Expedia Group self-serve support now handled by AI.
 
-### 🆕 Sabre + MindTrip + PayPal — Agentic booking pipeline (marzo 2026)
-Primera pipeline de reserva agéntica end-to-end de la industria: planificación conversacional → inventario real-time (420+ aerolíneas, 2M hoteles) → pago integrado, todo en una conversación. Marca el estándar del sector.
+### Amadeus Self-Service Portal Decommission — July 17, 2026
+Amadeus is shutting down its self-service developer portal on **July 17, 2026** (in 3 days from this update). API access is being restricted to select partners. Community-built Amadeus MCP servers (e.g., `technicalerikchan-amadeus-flight-search` on PulseMCP) provide a fallback for open access.
 
-### 🆕 travel-mcp-server (MIT)
-[lev-corrupted/travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) — MCP server completo para vuelos + hoteles + tracking en tiempo real. Usa Amadeus + AviationStack. Útil para demo rápida antes del sunset de Amadeus SS.
+### Sabre Mosaic MCP Server
+Sabre launched the travel industry's first official MCP server (May 2026), enabling developers to build autonomous AI agents that interact with airline inventory, fare rules, and booking workflows via MCP protocol natively.
 
-### 🆕 Dida-hotel-MCP-CN (MIT)
-[DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) — MCP con acceso a 2M+ hoteles globales vía el 3er mayor B2B de viajes del mundo. Sin límite de llamadas, gratis. Fuente de datos hotelera potente para agentes.
+## 📊 Repos with Momentum
 
-## Repos activos recientes
+| Repo | Note |
+|------|------|
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | 2M+ hotel MCP, no API key, no rate limit — adoption accelerating |
+| [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | Production LangGraph + Amadeus + Hotelbeds — most complete open example |
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | Framework-free MCP booking workflow — reference for Globant implementations |
+| [GongRzhe/TRAVEL-PLANNER-MCP-Server](https://github.com/GongRzhe/TRAVEL-PLANNER-MCP-Server) | Google Maps MCP for travel — steady ★ growth |
+| [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | Full MCP suite for Claude travel orchestration |
 
-| Repo | Licencia | Por qué importa |
-|------|----------|-----------------|
-| [MikkoParkkola/trvl](https://github.com/MikkoParkkola/trvl) | PolyForm-NC | Go binary MCP, 0 config, 21+ proveedores. Demo inmediata con Claude. |
-| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | Framework-free, multi-model, producción. Amadeus + Aviasales + MCP. |
-| [TelivityAI/haip](https://github.com/TelivityAI/haip) | Apache-2.0 | PMS hotelero + 12 AI agents. Base para engagements hoteleros. |
-| [lev-corrupted/travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) | MIT | Vuelos + hoteles + flight tracking en MCP. |
-| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | 2M+ hoteles, sin límites, datos B2B. |
-| [voyant-travel/voyant](https://github.com/voyant-travel/voyant) | Apache-2.0 | Plataforma de viajes en desarrollo activo. |
+## 🌍 LATAM Signals
 
-## HITEC 2026 takeaways (junio 2026, San Antonio)
+- **Brazil**: AI travel adoption growing, 55% LATAM fintech deal share driving payment infra for agentic booking
+- **Argentina / Mexico**: Low-cost carrier (LCC) segment ripe for AI yield optimization — open tools via amadeus-python
+- **hotels-skill** (MIT, Booking.com scraper via Playwright) — no API key, relevant for markets where GDS access is costly
+- **Malaysia Airlines Mavis** (Ada platform) — agentic CX in production, template applicable to LATAM regional carriers (Aerolíneas, LATAM, GOL)
 
-- **6.100+ profesionales** de tecnología hotelera asistieron.
-- Tema central: **de la innovación a la implementación** — el año en que la IA se operacionaliza.
-- Solo **25%** de empresas de hospitalidad están escalando IA activamente; menos de **10%** son "AI future-built" (BCG).
-- Barrera #1: fragmentación de datos — "si tus datos están sucios, los agentes no te ven".
-- IDC predice: **30% de todas las reservas de viaje** serán ejecutadas por agentes AI para 2030.
+## 📅 Upcoming Signals to Watch
+
+| Date | Event |
+|------|-------|
+| Jul 17, 2026 | Amadeus self-service portal closes — pivot to community MCPs or partner APIs |
+| Aug 2, 2026 | EU AI Act full effect — affects AI systems in aviation/transport classified as high-risk |
+| Q3 2026 | MindTrip Hotels Phase 2 launch (post-Flights) |
+| Q3 2026 | Sabre Mosaic agentic hotel APIs GA |
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline auto-updates each run.*

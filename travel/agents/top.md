@@ -1,27 +1,45 @@
-# 🎯 Agentes AI — Travel & Hospitality
+# 🎯 Top AI Agents — Travel & Hospitality
 
-> Agentes y herramientas AI open source para la industria. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-13 (v11)
+> Open source AI agents and tools for the travel industry. Focus: MIT / Apache 2.0 / BSD.
+> Last updated: 2026-07-14 (v6)
 
-## Agentes y herramientas destacadas
+## Top Agents & Tools
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [trvl](https://github.com/MikkoParkkola/trvl) | PolyForm-NC-1.0* | MCP server + CLI en Go: vuelos, hoteles, trenes, ferries. Un solo binario, 21+ proveedores, sin API keys. Compatible con Claude, Cursor, Windsurf, Codex. *Comercial requiere licencia. | ~47 |
-| [Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | Workflow agnóstico de framework para planificación de viajes en Python + MCP. Usa Amadeus (vuelos/hoteles), Open-Meteo (clima), Aviasales, Hotellook, RentalCars. Multi-model: OpenAI / Anthropic / Google. | ~80 |
-| [Production-Ready-TripPlanner](https://github.com/shaheennabi/Production-Ready-TripPlanner-Multi-AI-Agents-Project) | MIT | Multi-agent TripPlanner production-ready: destinos, itinerarios, atracciones, playas. Agentes especializados con herramientas de industria. | ~74 |
-| [Multi-Agent-AI-Travel-Advisor](https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor) | MIT | 7 agentes especializados + RAG + tool-calling. Arquitectura completa de consejero de viajes con LangGraph. | ~53 |
-| [mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | MCP Concierge Server: Google Travel (SerpAPI) + Amadeus. Integra búsqueda consumer-facing con inventario profesional GDS. | ~6 |
-| [travel-mcp-server](https://github.com/lev-corrupted/travel-mcp-server) | MIT | MCP para agregación de viajes: búsqueda de vuelos y hoteles en tiempo real, tracking de vuelos, mejores fechas. Usa Amadeus + AviationStack APIs. | ~15 |
-| [HAIP Hotel AI Platform](https://github.com/TelivityAI/haip) | Apache-2.0 | PMS hotelero API-first (TypeScript/NestJS) con 12 agentes AI integrados: pricing dinámico, demanda, predicción de cancelaciones, auditoría nocturna, housekeeping, comunicaciones con huéspedes. | ~19 |
-| [Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | MCP con 2M+ hoteles globales. API directa al 3er mayor B2B de viajes. Búsqueda por ubicación, fecha, estrellas, personas, tags. Inventario y precios en tiempo real. Sin límite de llamadas. | ~5 |
-| [amadeus-python](https://github.com/amadeus4dev/amadeus-python) | MIT | SDK Python oficial para Amadeus Enterprise APIs. ⚠️ Self-Service sunset July 17, 2026 — migrar a Enterprise portal o Duffel. | ~680 |
-| [trip-planner](https://github.com/adl1995/trip-planner) | BSD-2-Clause | CLI tool para planificación de itinerarios. Ligero, extensible, base sólida para wrappers AI. | ~368 |
+| Agent | License | Repo | Description | Stars |
+|-------|---------|------|-------------|-------|
+| mcp_travelassistant | MIT | [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | Suite of MCP servers that orchestrates specialized services: flight search, hotel lookup, weather analysis, local events, budget tracking — all wired for Claude | ~50★ |
+| TRAVEL-PLANNER-MCP-Server | MIT | [GongRzhe/TRAVEL-PLANNER-MCP-Server](https://github.com/GongRzhe/TRAVEL-PLANNER-MCP-Server) | Google Maps + travel planning MCP: location search, POI details, travel time calculations, route optimization for any LLM agent | ~120★ |
+| Agentic-Travel-Planner | MIT | [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | Production-ready, framework-free agentic workflow in Python + MCP: books real inventory — flights, hotels, cars, weather, payments — in one conversational flow | ~80★ |
+| langgraph-travel-agent | MIT | [HarimxChoi/langgraph-travel-agent](https://github.com/HarimxChoi/langgraph-travel-agent) | Production LangGraph multi-agent system: async parallel orchestration across Amadeus, Hotelbeds, Twilio, HubSpot — full trip + CRM + notifications | ~45★ |
+| amadeus-python | MIT | [amadeus4dev/amadeus-python](https://github.com/amadeus4dev/amadeus-python) | Official Amadeus Python SDK: flight inspiration, cheapest dates, offers search, real-time pricing, flight booking creation — gateway to 420+ airlines | ~400★ |
+| ai-travel-agent (raunaqness) | MIT | [raunaqness/ai-travel-agent](https://github.com/raunaqness/ai-travel-agent) | LangGraph smart travel assistant: multi-LLM task routing (tool invocation vs. email generation), flights + hotels + personalized email confirmations | ~60★ |
+| flights-mcp-server | MIT | [smamidipaka6/flights-mcp-server](https://github.com/smamidipaka6/flights-mcp-server) | Google Flights MCP server: real-time flight search and price monitoring for LLM agents — no GDS account required | ~30★ |
+| flights-mcp (ravinahp) | MIT | [ravinahp/flights-mcp](https://github.com/ravinahp/flights-mcp) | Lightweight MCP server for flight search — integrates with Claude Desktop and any MCP client out of the box | ~25★ |
+| Dida-hotel-MCP-CN | MIT | [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | DIDA hotel MCP: 2M+ hotels, world's 3rd-largest B2B travel data source, real-time inventory + pricing, no API key or rate limit | ~15★ |
+| Ctrip-Style-AI-Travel-Assistant | MIT | [Haohao-end/Ctrip-Style-AI-Travel-Assistant](https://github.com/Haohao-end/Ctrip-Style-AI-Travel-Assistant) | Stateful multi-agent system (LangChain + LangGraph): intelligent task delegation, permission control, HITL verification for flights, hotels, cars, tours | ~40★ |
 
-### Notas clave
-- **⚠️ URGENTE**: Amadeus Self-Service API se apaga el **17 julio 2026** (en días). Migrar a [Duffel](https://duffel.com) (startups) o Amadeus Enterprise portal.
-- **trvl**: PolyForm Noncommercial — gratis para uso personal; comercial = EUR 500/mes por proyecto vía GitHub Sponsors.
-- **HAIP**: el proyecto de PMS más completo con AI nativa (12 agentes deterministas).
+## MCP Servers by Category
+
+### Flight Search
+| MCP Server | License | Key Capability |
+|------------|---------|----------------|
+| [smamidipaka6/flights-mcp-server](https://github.com/smamidipaka6/flights-mcp-server) | MIT | Google Flights — no GDS dependency |
+| [ravinahp/flights-mcp](https://github.com/ravinahp/flights-mcp) | MIT | Lightweight flight search, Claude Desktop-ready |
+| Sabre Mosaic MCP | Commercial | 420+ airlines, real fare rules, agentic APIs |
+
+### Hotel Search
+| MCP Server | License | Key Capability |
+|------------|---------|----------------|
+| [DIDA-AI/Dida-hotel-MCP-CN](https://github.com/DIDA-AI/Dida-hotel-MCP-CN) | MIT | 2M+ hotels, free unlimited calls |
+| [abhinavmathur-atlan/mcp-travel-assistant](https://github.com/abhinavmathur-atlan/mcp-travel-assistant) | MIT | Multi-service travel concierge with Google Maps |
+| Expedia MCP | Commercial | Claude-native hotel+flight+car search |
+
+### Multi-Modal Trip Planning
+| MCP Server | License | Key Capability |
+|------------|---------|----------------|
+| [skarlekar/mcp_travelassistant](https://github.com/skarlekar/mcp_travelassistant) | MIT | Full suite: flights + hotels + weather + events + budget |
+| [GongRzhe/TRAVEL-PLANNER-MCP-Server](https://github.com/GongRzhe/TRAVEL-PLANNER-MCP-Server) | MIT | Maps + POI + routes |
+| [Fieldy76/Agentic-Travel-Planner](https://github.com/Fieldy76/Agentic-Travel-Planner) | MIT | End-to-end booking in one flow |
 
 ---
-*Actualizado automáticamente por el pipeline de ingest.*
+*Auto-updated by ingest pipeline.*
