@@ -1,214 +1,317 @@
-# 🧩 Patrones de composición — Technology
+# Composition Patterns — Technology
 
-> Recetas concretas para construir soluciones combinando repos + agentes + AI.
-> Última actualización: 2026-07-13
-
-## Arquitectura base
-
-```
-[Plataforma DevOps base (Gitea/Backstage/n8n)]
-          ↓
-[MCP server (forgejo-mcp / API wrapper)]
-          ↓
-[Orchestration (LangGraph / smolagents / Dify)]
-          ↓
-[Agente especializado (opencode / OpenHands / Cline)]
-          ↓
-[Memoria persistente (Mem0)]  +  [Observabilidad (Langfuse)]
-          ↓
-[UI conversacional / API / ChatOps (Mattermost bot)]
-```
+> Concrete recipes for building AI-powered technology solutions using real OSS repos + agents.
+> Each pattern names the specific repos, how to wire them, and estimated Globant delivery scope.
+> Last updated: 2026-07-14 (v6)
 
 ---
 
-## P1: AI Code Review Pipeline (CI/CD → PR automático)
+## P1 — AI Software Factory (Full-Stack Agentic Dev)
 
-**Objetivo:** Revisar seguridad y calidad en cada PR sin intervención humana.
+**Goal**: A client engineering team wants to ship 30–35% faster using AI-augmented development.
 
-**Stack:**
-- `anthropics/claude-code-security-review` (MIT, ~5.4k★) — GitHub Action que llama a Claude
-- `tirth8205/code-review-graph` (MIT, ~19k★) — grafo de inteligencia de código local-first
-- `langfuse/langfuse` (MIT, ~31k★) — traza y registra cada review
-- `modelcontextprotocol/servers` (Apache-2.0) — MCP filesystem para acceso al repo
+**Stack**:
+- [OpenHands](https://github.com/All-Hands-AI/OpenHands) (MIT) — autonomous coding agent for isolated tasks
+- [LangGraph](https://github.com/langchain-ai/langgraph) (MIT) — workflow orchestration with HITL checkpoints
+- [Aider](https://github.com/Aider-AI/aider) (Apache-2.0) — Git-native pair programmer for incremental changes
+- [FastMCP](https://github.com/jlowin/fastmcp) (MIT) — MCP servers for client's internal tools (Jira, Confluence, internal APIs)
+- [claude-code-security-review](https://github.com/anthropics/claude-code-security-review) (MIT) — automated security review on every PR
+- Claude Opus 4.8 or Fable 5 via Anthropic API
 
-**Cómo wiring:**
+**Architecture**:
+```
+[Ticket (Jira MCP)] → [LangGraph orchestrator]
+                              ↓
+                    [OpenHands: write code]
+                              ↓
+                    [Aider: refine + Git commit]
+                              ↓
+                    [Security Review Action: PR scan]
+                              ↓
+                    [Human checkpoint: approve/reject]
+                              ↓
+                    [CI/CD: merge + deploy]
+```
+
+**Python wiring example**:
+```python
+from langgraph.graph import StateGraph
+from openhands import OpenHandsAgent
+
+def build_software_factory(ticket_text: str):
+    agent = OpenHandsAgent(model="claude-opus-4-8", mcp_servers=["jira", "github"])
+    graph = StateGraph(state_schema=dict)
+    graph.add_node("code", lambda s: agent.run(s["ticket"]))
+    graph.add_node("review", lambda s: run_security_review(s["pr_url"]))
+    graph.add_node("human", lambda s: human_approval_gate(s))
+    graph.add_edge("code", "review")
+    graph.add_edge("review", "human")
+    return graph.compile().invoke({"ticket": ticket_text})
+```
+
+**Delivery scope**: 6–12 weeks. $120k–$400k.
+
+---
+
+## P2 — Multi-Agent Code Review Pipeline
+
+**Goal**: Automated, multi-perspective code review on every PR — catching bugs, security issues, and style violations before a human reviewer touches it.
+
+**Stack**:
+- [CrewAI](https://github.com/crewAIInc/crewAI) (MIT, v0.105) — multi-agent crew coordination
+- [claude-code-security-review](https://github.com/anthropics/claude-code-security-review) (MIT) — security-focused agent (GitHub Action)
+- [Aider](https://github.com/Aider-AI/aider) (Apache-2.0) — diff-aware code understanding
+- [FastMCP](https://github.com/jlowin/fastmcp) (MIT) — MCP server exposing GitHub PR data
+- Claude Sonnet 5 or Opus 4.8
+
+**Agent crew**:
+```python
+from crewai import Agent, Task, Crew
+
+security_agent = Agent(role="Security Reviewer", goal="Find OWASP Top 10 + supply chain risks", llm="claude-opus-4-8")
+perf_agent = Agent(role="Performance Reviewer", goal="Find N+1 queries, memory leaks, O(n²) patterns", llm="claude-opus-4-8")
+style_agent = Agent(role="Code Style Reviewer", goal="Enforce coding standards, naming conventions", llm="claude-sonnet-5")
+arch_agent = Agent(role="Architecture Reviewer", goal="Flag violations of system design principles", llm="claude-opus-4-8")
+
+crew = Crew(agents=[security_agent, perf_agent, style_agent, arch_agent],
+            tasks=[review_task],
+            verbose=True)
+result = crew.kickoff(inputs={"pr_diff": pr_diff, "codebase_context": context})
+```
+
+**Delivery scope**: 3–5 weeks. $40k–$90k.
+
+---
+
+## P3 — LLMOps Platform (MLflow + Evidently + LiteLLM)
+
+**Goal**: A client is deploying multiple AI models and LLM features to production and needs unified observability, cost tracking, and drift detection.
+
+**Stack**:
+- [MLflow](https://github.com/mlflow/mlflow) (Apache-2.0) — experiment tracking, model registry, prompt management, AI gateway
+- [Evidently](https://github.com/evidentlyai/evidently) (Apache-2.0) — LLM output monitoring, drift detection, data quality
+- [LiteLLM](https://github.com/BerriAI/litellm) (MIT) — unified LLM gateway (cost tracking, rate limits, fallbacks)
+- [Ray Serve](https://github.com/ray-project/ray) (Apache-2.0) — scalable model serving
+- [DVC](https://github.com/iterative/dvc) (Apache-2.0) — data versioning
+
+**Architecture**:
+```
+[Client Apps]
+     ↓
+[LiteLLM Gateway] ←→ [Cost & rate tracking]
+     ↓
+[Models: Claude / GPT-5 / local via Ray Serve]
+     ↓
+[MLflow: log prompts, responses, latency]
+     ↓
+[Evidently: drift alerts, quality reports]
+     ↑
+[DVC: version training data + eval sets]
+```
+
+**Delivery scope**: 8–14 weeks. $150k–$500k.
+
+---
+
+## P4 — Self-Hosted Enterprise AI Platform (Dify + OpenHands + MCP)
+
+**Goal**: A LATAM enterprise (LGPD/PDPA compliance) wants a fully self-hosted AI platform with agentic workflows, zero data leaving their cloud.
+
+**Stack**:
+- [Dify](https://github.com/langgenius/dify) (Apache-2.0) — LLM app platform (RAG, workflows, agent orchestration)
+- [OpenHands](https://github.com/All-Hands-AI/OpenHands) (MIT) — software engineering agent for automated tasks
+- [n8n](https://github.com/n8n-io/n8n) (Apache-2.0*) — workflow automation connecting business systems
+- [FastMCP](https://github.com/jlowin/fastmcp) (MIT) — MCP servers for internal tools
+- [Ollama](https://github.com/ollama/ollama) (MIT) — on-premise model serving (Llama 3, Mistral)
+- Hosted on AWS São Paulo / GCP São Paulo / Azure Brazil South
+
+**Setup (Docker Compose)**:
 ```yaml
-# .github/workflows/ai-review.yml
-on: [pull_request]
-jobs:
-  security-review:
-    uses: anthropics/claude-code-security-review/.github/workflows/review.yml@main
-    with:
-      model: claude-sonnet-5
-      langfuse_enabled: true
+services:
+  dify:
+    image: langgenius/dify:latest
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}  # or use Ollama endpoint
+  n8n:
+    image: n8nio/n8n
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ./models:/root/.ollama
+  mcp-server:
+    build: ./internal-mcp-server  # FastMCP wrapping internal APIs
 ```
 
-**Tiempo estimado:** 1 día de setup  
-**ROI:** Reduce ciclo de security review de días a minutos; detección de vulnerabilidades antes de merge
+**Delivery scope**: 10–16 weeks. $180k–$600k.
 
 ---
 
-## P2: Legacy Modernization Agent (COBOL/RPG → Cloud-native)
+## P5 — Knowledge Graph Codebase Intelligence
 
-**Objetivo:** Analizar, documentar y migrar código legacy a lenguajes modernos con validación funcional.
+**Goal**: A large enterprise with a complex codebase (500k+ LOC) wants AI assistants that understand cross-cutting concerns, not just local file context.
 
-**Stack:**
-- `All-Hands-AI/OpenHands` (MIT, ~80k★) — agente dev completo con sandbox dockerizado
-- `langchain-ai/langgraph` (MIT, ~34k★) — orchestration del pipeline multi-paso
-- `mem0ai/mem0` (Apache-2.0, ~61k★) — persistir contexto del codebase entre sesiones largas
-- `langfuse/langfuse` (MIT) — audit trail completo de cada decisión del agente
-- `BerriAI/litellm` (MIT, ~53k★) — abstracción multi-provider (Claude para análisis, Gemini para traducción)
+**Stack**:
+- Graphify (emerging) — codebase → queryable knowledge graph
+- [FastMCP](https://github.com/jlowin/fastmcp) (MIT) — expose knowledge graph as MCP resource
+- [opencode](https://github.com/anomalyco/opencode) (MIT) — coding agent consuming the MCP graph
+- [LangGraph](https://github.com/langchain-ai/langgraph) (MIT) — orchestrate multi-step code analysis queries
+- [MLflow](https://github.com/mlflow/mlflow) (Apache-2.0) — track query quality and retrieval evals
 
-**Flujo:**
+**Pattern**:
 ```
-1. Análizar módulo COBOL → documentación en Markdown (agente 1: análisis)
-2. Identificar dependencias y flujo de datos (grafo)
-3. Generar tests de comportamiento en base a la documentación
-4. Traducir a Python/TypeScript (agente 2: traducción)
-5. Correr tests de equivalencia funcional
-6. Si pasan → PR automático; si fallan → iteración del agente
+[Codebase] → [Graphify: build knowledge graph]
+                     ↓
+              [FastMCP: expose as MCP tools]
+              (query_dependencies, find_callers,
+               impact_analysis, get_docs)
+                     ↓
+              [opencode / Claude Code]
+              (aware of full system structure)
+                     ↓
+              [LangGraph: multi-step reasoning]
+              (understand impact before changing)
 ```
 
-**Tiempo estimado:** 8–16 semanas (por módulo de ~50k LOC COBOL)  
-**Diferenciador LATAM:** Bancos y telcos de Argentina, Brasil, Colombia tienen deuda legacy crítica
+**Delivery scope**: 4–8 weeks. $60k–$150k.
 
 ---
 
-## P3: Multi-Agent Coding Fleet (Orca + LangGraph)
+## P6 — MetaGPT Software Project Generator
 
-**Objetivo:** Acelerar desarrollo paralelizando tareas con fleet de coding agents.
+**Goal**: Rapidly generate boilerplate, architecture documents, and initial code for new software projects from a high-level specification.
 
-**Stack:**
-- `stablyai/orca` (MIT) — ADE para gestionar fleet de agentes en worktrees paralelos
-- `sst/opencode` (MIT, ~183k★) — coding agent para cada worktree
-- `langchain-ai/langgraph` (MIT, ~34k★) — orchestration y coordinación entre agentes
-- `mem0ai/mem0` (Apache-2.0) — memoria compartida entre agentes del fleet
+**Stack**:
+- [MetaGPT](https://github.com/geekan/MetaGPT) (MIT, 67.9k stars) — full software company simulation
+- [Aider](https://github.com/Aider-AI/aider) (Apache-2.0) — refine and iterate on generated code
+- [LangGraph](https://github.com/langchain-ai/langgraph) (MIT) — orchestrate the generate → refine → test loop
+- [claude-code-security-review](https://github.com/anthropics/claude-code-security-review) (MIT) — automated security review of generated code
 
-**Patrón:**
+```python
+from metagpt.software_company import SoftwareCompany
+from metagpt.roles import ProjectManager, Architect, Engineer, QAEngineer
+
+company = SoftwareCompany()
+company.hire([ProjectManager(), Architect(), Engineer(), QAEngineer()])
+company.invest(investment=3.0)
+company.start_project(
+    "Build a REST API for inventory management with JWT auth, "
+    "PostgreSQL, Redis cache, and Docker deployment"
+)
+asyncio.run(company.run(n_round=5))
 ```
-Orquestador (LangGraph)
-├── Agente A (opencode en worktree-feature-A): implementa feature X
-├── Agente B (opencode en worktree-feature-B): implementa feature Y
-├── Agente C (opencode en worktree-tests): escribe tests de integración
-└── Agente D (opencode en worktree-docs): actualiza documentación
-          ↓
-Merge automático con validación cruzada
-```
 
-**Tiempo estimado:** 2–4 semanas de setup; luego productivo desde día 1  
-**Reducción de ciclo:** 4× vs desarrollo secuencial en proyectos medianos-grandes
+**Output**: PRD, architecture diagram, API spec, initial code, test cases.
+**Delivery scope**: 2–4 weeks. $25k–$60k.
 
 ---
 
-## P4: LLMOps Stack Self-Hosted (LATAM enterprise)
+## P7 — Agentic CI/CD Pipeline (Full Autonomous Software Delivery)
 
-**Objetivo:** Stack completo de AI engineering observable, auditable y sin lock-in cloud para enterprise con restricciones de data residency.
+**Goal**: Integrate AI agents into the full CI/CD pipeline — from ticket to production with human gates at key stages.
 
-**Stack:**
-- `ollama/ollama` (MIT, ~120k★) — inference local (modelos hasta 70B con GPU)
-- `vllm-project/vllm` (Apache-2.0, ~86k★) — serving distribuido para modelos grandes
-- `BerriAI/litellm` (MIT, ~53k★) — gateway unificado OpenAI-compatible
-- `langfuse/langfuse` (MIT, ~31k★) — observabilidad self-hosted
-- `langgenius/dify` (Apache-2.0, ~144k★) — plataforma de apps LLM
+**Stack**:
+- [OpenHands](https://github.com/All-Hands-AI/OpenHands) (MIT) — code the feature
+- [SWE-agent](https://github.com/princeton-nlp/SWE-agent) (MIT) — fix failing tests
+- [Aider](https://github.com/Aider-AI/aider) (Apache-2.0) — targeted fixes and refactoring
+- [claude-code-security-review](https://github.com/anthropics/claude-code-security-review) (MIT) — PR security scan
+- [LangGraph](https://github.com/langchain-ai/langgraph) (MIT) — orchestrate the full pipeline
+- GitHub Actions — CI/CD runner
 
-**Arquitectura:**
+**Pipeline**:
 ```
-Clientes (app / agente / IDE)
-          ↓
-LiteLLM Proxy (gateway unificado, routing, cost control)
-    ├── Ollama (modelos locales: Llama 3, Mistral, Gemma)
-    ├── vLLM (modelos grandes: Qwen 72B, DeepSeek)
-    └── API externa (Claude / GPT-4.1 para tareas complejas)
-          ↓
-Langfuse (trazas, evals, costos, dashboards)
-          ↓
-Dify (workflow builder, RAG, API management)
+Jira Ticket Created
+       ↓
+[LangGraph: classify + assign]
+       ↓
+[OpenHands: write implementation]
+       ↓
+[SWE-agent: fix test failures] ← loop until tests pass
+       ↓
+[PR Created: security review auto-runs]
+       ↓
+[Human Gate: senior dev approves diff]
+       ↓
+[Merge + Deploy: standard CI/CD]
+       ↓
+[Evidently: monitor prod for regressions]
 ```
 
-**Tiempo estimado:** 3–5 semanas  
-**Por qué LATAM:** Regulaciones de LGPD (Brasil), Ley 1581 (Colombia) exigen que datos sensibles no salgan del país
+**Delivery scope**: 12–20 weeks. $250k–$750k.
 
 ---
 
-## P5: ChatOps DevOps Agent (Mattermost + MCP)
+## P8 — LATAM Data-Sovereign AI Dev Platform
 
-**Objetivo:** Agente conversacional en Slack/Mattermost que actúa sobre el DevOps stack.
+**Goal**: Brazilian/Argentine client wants AI-assisted development but cannot use US cloud services for certain data categories (LGPD/PDPA). Fully on-premise or regional cloud.
 
-**Stack:**
-- `mattermost/mattermost` (Apache-2.0) — plataforma self-hosted de mensajería
-- `Sqcows/forgejo-mcp` (MIT) — 103 tools sobre Gitea/Forgejo (repos, issues, PRs)
-- `modelcontextprotocol/servers` (Apache-2.0) — MCP servers adicionales (DB, monitoring)
-- `langchain-ai/langgraph` (MIT) — orchestration del agente ChatOps
-- `langfuse/langfuse` (MIT) — audit trail de comandos ejecutados por el agente
+**Stack**:
+- [Ollama](https://github.com/ollama/ollama) (MIT) — on-premise LLM serving (Llama 3.3, Mistral, CodeLlama)
+- [opencode](https://github.com/anomalyco/opencode) (MIT) — coding agent pointed at Ollama endpoint
+- [n8n](https://github.com/n8n-io/n8n) (Apache-2.0*) — self-hosted workflow automation
+- [Dify](https://github.com/langgenius/dify) (Apache-2.0) — self-hosted LLM app platform
+- [MLflow](https://github.com/mlflow/mlflow) (Apache-2.0) — self-hosted experiment tracking
+- Deployed on AWS São Paulo or GCP São Paulo
 
-**Capacidades del agente:**
-```
-"@devbot: ¿cuántos PRs abiertos tiene el equipo backend?"
-"@devbot: crea un issue con los bugs del standup de hoy"
-"@devbot: mergea los PRs que pasaron CI en el repo payments"
-"@devbot: ¿qué se deployó ayer a producción?"
-"@devbot: rollback del último deploy en staging"
-```
+**Compliance checklist**:
+- All model inference on AWS São Paulo / GCP São Paulo (data residency)
+- No customer data sent to US endpoints
+- MLflow tracks all inference calls for audit trail (LGPD Art. 18 data subject rights)
+- n8n self-hosted eliminates SaaS data sharing concerns
+- Ollama: models run on-device / on-prem server; no external calls after download
 
-**Tiempo estimado:** 4–8 semanas  
-**Clave de governance:** Bounded autonomy — el agente ejecuta acciones rutinarias pero pide confirmación humana en deploys a producción
+**Delivery scope**: 14–22 weeks. $220k–$700k.
 
 ---
 
-## P6: Developer Portal AI-Native (Backstage + AI)
+## P9 — Agentic Developer Onboarding Assistant
 
-**Objetivo:** Portal de developer experience con capacidades AI: onboarding automatizado, búsqueda semántica, runbooks inteligentes.
+**Goal**: New developers onboard to a complex codebase in days, not weeks. AI assistant that knows the architecture, conventions, and recent changes.
 
-**Stack:**
-- `backstage/backstage` (Apache-2.0, ~30k★) — developer portal base (Spotify/CNCF)
-- Plugin AI custom con LiteLLM + LangGraph
-- `mem0ai/mem0` (Apache-2.0) — personalización por developer
-- `langfuse/langfuse` (MIT) — tracking de consultas y satisfacción
+**Stack**:
+- [Dify](https://github.com/langgenius/dify) (Apache-2.0) — RAG pipeline over internal docs, ADRs, runbooks
+- [FastMCP](https://github.com/jlowin/fastmcp) (MIT) — MCP server for codebase, Git history, CI results
+- [LangGraph](https://github.com/langchain-ai/langgraph) (MIT) — multi-step onboarding workflows
+- [smolagents](https://github.com/huggingface/smolagents) (Apache-2.0) — lightweight agent for answering specific questions
+- Claude Sonnet 5 (cost-effective for high-volume Q&A)
 
-**Features AI añadidas:**
-- **Onboarding agent**: guía a nuevo dev por setup, docs relevantes, a quién preguntar
-- **Búsqueda semántica**: "¿dónde está el código que maneja pagos?" → responde con links reales
-- **Runbook navigator**: "el servicio payments está caído" → agente recorre runbook y ejecuta pasos
-- **Tech radar explicado**: "¿por qué dejamos de usar Kafka?" → agente busca ADRs y explica la decisión
+**Onboarding agent capabilities**:
+- "Explain the authentication flow in this codebase"
+- "What changed in the payment module this month?"
+- "Create me a task for adding a new API endpoint following our patterns"
+- "Run the dev environment setup for me"
+- "Where should I put a new service for X feature?"
 
-**Tiempo estimado:** 6–10 semanas  
-**Impacto medible:** -40% tiempo de onboarding; -60% tickets "¿dónde está X?" en Slack
-
----
-
-## P7: Spec-Driven Development Pipeline
-
-**Objetivo:** Desarrollo riguroso donde el agente genera código que debe validar contra una especificación formal.
-
-**Stack:**
-- `github/spec-kit` (MIT) — toolkit spec-driven de GitHub (mayo 2026)
-- `sst/opencode` (MIT, ~183k★) o `All-Hands-AI/OpenHands` (MIT) — coding agent
-- `langchain-ai/langgraph` (MIT) — pipeline de validación iterativa
-- `langfuse/langfuse` (MIT) — traza iteraciones y métricas de conformidad
-
-**Flujo:**
-```
-1. Humano escribe especificación formal (OpenAPI, schema, comportamiento esperado)
-2. Spec-Kit la parsea y genera casos de prueba
-3. Coding agent implementa código que intenta pasar los tests
-4. Validador verifica conformidad con spec
-5. Si falla → agente itera con razonamiento sobre el error
-6. Si pasa → PR con coverage report de spec conformance
-```
-
-**Cuándo usar:** Enterprise con requisitos de compliance, auditoría o cuando "vibe coding" no da garantías suficientes  
-**Tiempo estimado:** 2–3 semanas de framework; luego por feature
+**Delivery scope**: 4–8 weeks. $50k–$150k.
 
 ---
 
-## Guía de selección de patrón
+## P10 — Observability-First Agent Deployment
 
-| Si el cliente tiene... | Usar patrón |
-|------------------------|-------------|
-| Código legacy COBOL/RPG | P2 Legacy Modernization |
-| Equipo grande, proyectos paralelos | P3 Multi-Agent Fleet |
-| Requisitos de data residency | P4 LLMOps Self-Hosted |
-| Stack DevOps en Gitea/Forgejo | P5 ChatOps Agent |
-| Muchos developers, onboarding lento | P6 Developer Portal |
-| Enterprise con compliance estricto | P7 Spec-Driven |
-| Cualquier proyecto con PRs | P1 Code Review CI/CD |
+**Goal**: Any production agent system needs observability from day one. This pattern adds the monitoring layer to any of the above.
+
+**Stack**:
+- [MLflow](https://github.com/mlflow/mlflow) (Apache-2.0) — experiment tracking + AI gateway + prompt management
+- [Evidently](https://github.com/evidentlyai/evidently) (Apache-2.0) — drift detection, LLM output quality
+- [LiteLLM](https://github.com/BerriAI/litellm) (MIT) — cost tracking, rate limiting, multi-model routing
+- OpenTelemetry (CNCF, Apache-2.0) — distributed tracing for agent calls
+
+**Metrics to track**:
+```python
+# MLflow: log every agent call
+mlflow.log_metrics({
+    "latency_ms": latency,
+    "token_cost_usd": cost,
+    "task_success_rate": success_rate,
+    "human_intervention_rate": human_rate
+})
+
+# Evidently: LLM quality monitoring
+report = Report(metrics=[TextEvals(column_name="response", descriptors=[
+    Sentiment(), TextLength(), IncludesWords(words_list=["error", "cannot", "sorry"])
+])])
+```
+
+**Add to any pattern**: +2 weeks, +$20k–$40k.
+
+---
+*Recipes are concrete and opinionated. Adjust model choices based on client data residency, cost constraints, and performance requirements.*

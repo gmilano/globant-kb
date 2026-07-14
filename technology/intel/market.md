@@ -1,64 +1,92 @@
-# 🗺️ Mapa de mercado — Technology
+# Market Map — Technology (AI Dev Tools)
 
-> Players, oportunidades y posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-13
+> Key players, market data, and positioning.
+> Last updated: 2026-07-14 (v6)
 
-## Tamaño de mercado
+## Market Size & Growth
 
-| Segmento | 2026 | Proyección | CAGR | Fuente |
-|----------|------|------------|------|--------|
-| AI Coding Tools (global) | $9.35B | — | 52.4% (→ 2030) | Mordor Intelligence |
-| Enterprise AI Coding Agents | $9.8B–$11B | — | — | Gartner, abr-2026 |
-| Agentic AI (todos los sectores) | $10.8B | — | — | Gartner 2026 |
-| AI in Software Development | — | $9.2B | 43.5% | MarketsAndMarkets |
+| Segment | 2026 Size | Projection | CAGR | Source |
+|---------|-----------|------------|------|--------|
+| AI Code Tools (broad) | $9.35B | $29.96B (2031) | 26.23% | Mordor Intelligence |
+| Agentic AI Enterprise | $9.9B | $52.62B (2030) | ~40% | Multiple analysts |
+| AI in Software Development | $718M | $9.17B (2033) | 43.5% | Persistence MR |
+| AI Code Generation | $1.68B | $6.57B (2034) | 18.7% | Intel MR |
+| Global AI Agent Market | $7.84B (2025) | $52.62B (2030) | ~45% | Multiple analysts |
+| Agentic AI Spending (all sectors) | $201.9B | — | +141% YoY | Gartner |
 
-**Señales clave:**
-- Cursor: $2B ARR (líder comercial en AI IDEs)
-- GitHub Copilot: más desplegado por headcount enterprise
-- Claude Code: 46% developer satisfaction score — lidera en satisfacción
-- OpenAI Codex: 2M+ weekly active users
-- 80% empresas US ya usan agentic AI (solo 41% en producción)
-- Gartner: 60% del nuevo código será AI-generado a fin de 2026
-- Gartner: 75% devs usarán coding agents para 2028 (vs <10% en 2023)
+## Developer Adoption Stats (2026)
 
-## Players globales
+| Metric | Value | Source |
+|--------|-------|--------|
+| Developers using / planning AI tools | 84% | Deloitte 2026 |
+| Professional developers using AI daily | 51% | Stack Overflow 2026 |
+| Hours saved per dev per week (AI tools) | 3.6h | Deloitte 2026 |
+| AI productivity gain (software development) | 30–35% | Deloitte Software Industry Outlook |
+| New code that is AI-generated (2026) | 60% | Gartner forecast |
+| Enterprise apps with task-specific AI agents | 40% (target) | Gartner, end of 2026 |
+| GitHub AI repos year-over-year growth | +178% | GitHub Octoverse 2026 |
+| GitHub AI repos total | 4.3M+ | GitHub 2026 |
 
-| Empresa | Tipo | Fortaleza | Debilidad |
-|---------|------|-----------|-----------|
-| **GitHub (Microsoft)** | Comercial | Copilot más adoptado; integración VS Code + GitHub | Lock-in Microsoft; observabilidad limitada |
-| **Anthropic** | Comercial + OSS | Claude Code lidera satisfacción; MCP estándar | Precio API; sin IDE propio |
-| **OpenAI** | Comercial + OSS | Codex 2M+ users; Agents SDK; GPT-5 | Dependencia cloud; API cost |
-| **Google** | Comercial + OSS | Gemini CLI Apache-2.0; 1M context; gratis terminal | Fragmentación (Gemini/Vertex/AIStudio) |
-| **Cursor** | Comercial | $2B ARR; AI-native IDE líder; Composer + Agent | Solo propietario |
-| **Windsurf** | Comercial | 1M+ users; fuerte en onboarding; adquirida Cognition | Menor ecosistema que Cursor |
-| **LangChain / LangGraph** | OSS + Enterprise | 34.5M downloads/mes; estándar orchestration | Curva aprendizaje; verbose |
-| **HuggingFace** | OSS + Hub | smolagents; Transformers; Hub modelos; Spaces | Business model difuso |
-| **Dify** | OSS + SaaS | 144k★; $30M Serie B mar-2026; 1M apps | Gobernanza VC; China-first |
-| **Block (Square)** | OSS | Goose en Linux Foundation; multi-model | Solo OSS, sin oferta enterprise propia |
-| **ClickHouse** | Comercial | Adquirió Langfuse ene-2026; LLMOps nativo en DB | No es nativo AI |
+## MCP Ecosystem Stats (Jul 2026)
 
-## Oportunidades AI en LATAM
+| Metric | Value |
+|--------|-------|
+| MCP monthly SDK downloads | 97M |
+| Active MCP server implementations | 10,000+ |
+| MCP governance | AAIF / Linux Foundation |
+| AAIF co-founders | Anthropic, Block, OpenAI |
+| AAIF backers | Google, Microsoft, AWS, Cloudflare, Bloomberg |
+| Next spec version | RC 2026-07-28 (final Jul 28, 2026) |
 
-| Oportunidad | Mercado | Ventana | Modelo |
-|-------------|---------|---------|--------|
-| Modernización legacy COBOL/RPG | Bancos, telcos, gobierno LATAM | 2026–2028 | Agente que analiza + migra + valida |
-| DevOps agentico para pymes | Colombia, Argentina, México | 2026 | Gitea + Orca stack self-hosted |
-| MCP servers para SAP/Oracle local | Manufactura, retail enterprise | 2026–2027 | Wrapper MCP sobre APIs existentes |
-| Observabilidad LLMOps self-hosted | Empresas con restricción cloud | 2026 | Langfuse on-prem + Ollama |
-| Developer portals AI-native | Tech hubs (Buenos Aires, Medellín, CDMX) | 2026 | Backstage + AI plugin + Dify |
-| Vibe coding / spec-driven para startups | Toda LATAM | Ya | Taller + toolchain open source |
+## Competitive Landscape: AI Coding Tools
 
-## Posicionamiento Globant AI Studios
+| Layer | Open Source Leaders | Proprietary Leaders |
+|-------|--------------------|-----------------|
+| Coding Agent | OpenHands (MIT), opencode (MIT), Aider (Apache) | Claude Code, Cursor (SpaceX/acq), GitHub Copilot Workspace |
+| IDE Integration | Continue.dev (Apache), Tabby (Apache) | GitHub Copilot, Cursor, Windsurf |
+| Multi-Agent Orchestration | CrewAI (MIT), LangGraph (MIT), AutoGen/MAF (MIT) | Microsoft Copilot Studio, Salesforce Agentforce |
+| LLM App Platform | Dify (Apache), Langflow (MIT), Flowise (Apache) | AWS Bedrock AgentCore, Azure AI Foundry, Google Vertex AI |
+| MLOps | MLflow (Apache), Kubeflow (Apache), Ray (Apache) | Databricks, AWS SageMaker, Azure ML |
+| LLM Router / Gateway | LiteLLM (MIT), PortKey (MIT) | AWS Bedrock Gateway, Azure APIM AI |
+| Workflow Automation | n8n (Apache*), Temporal (MIT) | Zapier AI, Microsoft Power Automate |
 
-**Fortalezas para capitalizar:**
-- Escala de ingeniería LATAM + US + Europa — pueden deployar fleet de coding agents en proyectos grandes
-- Expertise en legacy modernization — el caso de uso más urgente en LATAM enterprise
-- Relaciones con clientes Fortune 500 — upsell de AI coding tooling sobre engagement existente
+## Key Players: OSS Champions
 
-**Narrativa recomendada:**
-> "Globant no solo usa AI para codificar más rápido — construimos el stack de AI engineering para que tu equipo lo haga. Open source, self-hosted, auditable."
+| Company | Key OSS Projects | Model |
+|---------|-----------------|-------|
+| Anthropic | Claude Code (open protocol), MCP (AAIF), FastMCP (contrib) | API + OSS protocol |
+| Microsoft | AutoGen/MAF (MIT), Semantic Kernel (MIT) | OSS + Azure cloud |
+| LangChain | LangGraph (MIT), LangSmith (observability SaaS) | OSS core + SaaS |
+| CrewAI | crewAI (MIT) | OSS + enterprise tier |
+| Hugging Face | smolagents (Apache), Transformers (Apache) | OSS + Hub |
+| All Hands AI | OpenHands (MIT) | OSS + enterprise cloud |
+| Databricks | MLflow (Apache, donated to LF) | OSS + cloud platform |
+| Anyscale / Ray | Ray (Apache) | OSS + managed cloud |
 
-**Diferenciador clave:**
-- Stack 100% open source (sin lock-in propietario)
-- Patrón "bounded autonomy": agentes autónomos + puntos de escalada humana + audit trail completo
-- Observabilidad desde día 1 con Langfuse self-hosted
+## M&A & Consolidation (2026)
+
+| Deal | Details |
+|------|----------|
+| SpaceX acquires Cursor | ~$60B all-stock deal (Jun 2026). Signals massive consolidation in AI coding tools. |
+| DVC acquired by lakeFS | Nov 2025. DVC remains 100% Apache-2.0 OSS. |
+| OpenAI acquires OpenClaw | Feb 2026. Fastest-growing OSS project in GitHub history (9k → 210k+ stars). |
+
+## LATAM Opportunity
+
+| Aspect | Detail |
+|--------|--------|
+| Globant recognition | 2026 Google Cloud Country Partner of the Year (Argentina); Adobe CX Orchestration Partner of Year (LATAM) |
+| Key LATAM markets | Brazil (LGPD compliance), Argentina, Colombia, Mexico |
+| Primary buyer | Enterprise CTOs / Engineering VPs investing in AI-native development |
+| Globant edge | Delivery at scale + AI Studios deep OSS expertise; LATAM dev rates with global toolchain quality |
+| Primary use case | Software factories: AI-augmented dev teams shipping 30-35% faster at lower cost |
+
+## Globant Positioning
+
+| Strength | Opportunity |
+|----------|-------------|
+| Deep OSS expertise (OpenHands, LangGraph, CrewAI, MLflow) | Build AI Software Factory offerings for F500 + LATAM enterprise clients |
+| LATAM delivery footprint | Offshore AI-augmented dev at US quality, LATAM cost |
+| MCP early adoption | Build MCP servers for client internal tools → agent-ready enterprise |
+| Google Cloud Partner of Year | Vertex AI + OSS agents hybrid deployments |
+| AI Studios | Pre-built patterns per industry (this KB) → faster client engagement starts |

@@ -1,23 +1,38 @@
-# 📈 Repos trending — Technology
+# GitHub Trending Repos — Technology
 
-> GitHub trending en AI/dev-tools esta semana. Actualizado: 2026-07-13
+> What's moving fast on GitHub this week (2026-07-14, v6).
+> Focus: AI developer tools, MCP, agentic infrastructure.
 
-| Nombre | Repo | Licencia | Stars | Por qué trending |
-|--------|------|----------|-------|-----------------|
-| opencode | [sst/opencode](https://github.com/sst/opencode) | MIT | ~183k | Coding agent terminal líder en open source; 75+ providers; LSP; Go-based |
-| Gemini CLI | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | Apache-2.0 | ~106k | Terminal agent de Google con 1M context; abr-2026; viral por ser totalmente gratis |
-| ollama | [ollama/ollama](https://github.com/ollama/ollama) | MIT | ~120k+ | Correr LLMs locales con una línea; la puerta de entrada al AI local para devs |
-| OpenHands | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | MIT | ~80k | Software dev agent completo; alternativa open source a Devin; sandbox dockerizado |
-| Mem0 | [mem0ai/mem0](https://github.com/mem0ai/mem0) | Apache-2.0 | ~61k | Memoria persistente para agentes; v2.0 jun-2026; de-facto estándar |
-| browser-use | [browser-use/browser-use](https://github.com/browser-use/browser-use) | MIT | ~50k+ | Browser automation con LLMs; migró a CDP directo; crecimiento explosivo |
-| Goose | [block/goose](https://github.com/block/goose) | Apache-2.0 | ~51k | CLI agent de Block/Square bajo Linux Foundation; multi-model MCP-native |
-| Orca ADE | [stablyai/orca](https://github.com/stablyai/orca) | MIT | — | Fleet de coding agents paralelos desde desktop/mobile; viral en jul-2026 |
-| vLLM | [vllm-project/vllm](https://github.com/vllm-project/vllm) | Apache-2.0 | ~86k | LLM inference engine; v0.25.0 con mejoras multimodales; 2000+ contributors |
-| forgejo-mcp | [Sqcows/forgejo-mcp](https://github.com/Sqcows/forgejo-mcp) | MIT | — | MCP server para Forgejo/Gitea; 103 tools; built with Claude Code |
-| agent-toolkit-for-kapitan | [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | Apache-2.0 | — | MCP + agent skills para Kubernetes config management con Kapitan |
-| dtctl | [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | Apache-2.0 | ~160 | CLI Dynatrace para humanos y agentes AI; observabilidad platform-as-code |
-| GitHub Spec-Kit | [github/spec-kit](https://github.com/github/spec-kit) | MIT | — | Spec-driven development con AI agents; validación contra especificación |
-| claude-code-security-review | [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | MIT | ~5.4k | GitHub Action de security review con Claude; análisis en cada PR automático |
+## Top Movers This Week
+
+| Repo | License | Stars | Why It's Trending |
+|------|---------|-------|-------------------|
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | MIT | 165k+ | Most-starred open coding agent 2026. Exploded after Gemini CLI closed-source. Provider-agnostic CLI default. |
+| [langgenius/dify](https://github.com/langgenius/dify) | Apache-2.0 | 143k | Surging as enterprise teams migrate from proprietary LLMOps to self-hosted. RAG + agents + workflows. |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | MIT | 146k | Visual agent builder. Hitting new star peaks as low-code AI app building goes mainstream. |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Apache-2.0* | 182k | AI-native workflow automation. Teams replacing Zapier/Make with self-hosted n8n + AI nodes. |
+| [microsoft/autogen](https://github.com/microsoft/autogen) | MIT | 58.7k | Microsoft Agent Framework (MAF) launch driving renewed interest. AutoGen 1.0 GA. |
+| [jlowin/fastmcp](https://github.com/jlowin/fastmcp) | MIT | 8k | MCP RC 2026-07-28 driving massive MCP tooling interest. FastMCP is the quickest way to build MCP servers. |
+| [BerriAI/litellm](https://github.com/BerriAI/litellm) | MIT | 20k+ | Every team building multi-model agentic systems needs a unified LLM router. Essential infrastructure. |
+| [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | Apache-2.0 | 160+ | CLI for managing Dynatrace platform resources — built for humans and AI agents alike. |
+| [evidentlyai/evidently](https://github.com/evidentlyai/evidently) | Apache-2.0 | 6k | LLM monitoring + drift detection. Rising as teams ship agents to prod and need observability. |
+| [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | Apache-2.0 | — | MCP server + agent skills for Kapitan (K8s config management). Good pattern: vertical MCP tool for infra. |
+
+## Fleet Orchestration (Emerging)
+
+| Repo / Project | Status | Description |
+|----------------|--------|-------------|
+| Orca | Emerging | Agent development environment for fleets of parallel coding agents on desktop + mobile. |
+| Graphify | Emerging | Turns codebases, schemas, docs into queryable knowledge graphs for AI coding assistants. |
+| Voicebox | Emerging | Open-source AI voice studio (clone, dictate, create audio) — DevTools + documentation integration. |
+
+## MCP Server Ecosystem (Hot)
+
+The MCP server ecosystem is exploding ahead of the 2026-07-28 RC final publication:
+- **10,000+ active MCP server implementations** as of March 2026
+- 97M monthly SDK downloads
+- Every major cloud provider has committed to MCP
+- Pattern: teams build vertical MCP servers for their internal tools (like `agent-toolkit-for-kapitan`)
 
 ---
-*Pipeline automático — se actualiza cada hora.*
+*Pipeline auto-updated — refreshed each run.*

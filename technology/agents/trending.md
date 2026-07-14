@@ -1,39 +1,57 @@
-# 📈 Agentes en tendencia — Technology
+# Trending AI Agents & Tools — Technology
 
-> Lo más nuevo y activo esta semana en el ecosistema AI para tecnología.
-> Última actualización: 2026-07-13
+> What's new and moving fast this week (2026-07-14, v6).
 
-## Proyectos en tendencia (semana del 7-jul-2026)
+## This Week's Signals
 
-| Proyecto | Repo | Movimiento | Qué es |
-|----------|------|-----------|--------|
-| Orca ADE | [stablyai/orca](https://github.com/stablyai/orca) | 🔥 Viral | ADE open-source para fleets de agentes paralelos; corre Claude Code, Codex, OpenCode en worktrees simultáneos desde desktop/mobile |
-| GitHub Spec-Kit | [github/spec-kit](https://github.com/github/spec-kit) | ⬆️ Nuevo | Toolkit de GitHub para spec-driven development: escribe spec → agente genera código → valida contra spec; mayo 2026 |
-| forgejo-mcp | [Sqcows/forgejo-mcp](https://github.com/Sqcows/forgejo-mcp) | ⬆️ Subiendo | MCP server para Forgejo/Gitea: 103 tools (repos/issues/PRs/orgs); stdio + HTTP transports; compatible Claude/Cursor |
-| openclaw-memory-kit | [AlekseiUL/openclaw-memory-kit](https://github.com/AlekseiUL/openclaw-memory-kit) | ⬆️ Nuevo | Sistema completo de memoria y persistencia de contexto cross-sesión para agentes OpenClaw |
-| claude-code-security-review | [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | ⬆️ Activo | GitHub Action: security review automatizado con Claude en cada PR; 5.4k★ |
-| code-review-graph | [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) | ⬆️ Activo | Grafo local-first de inteligencia de código para MCP y CLI; memoria persistente del codebase |
-| dtctl | [dynatrace-oss/dtctl](https://github.com/dynatrace-oss/dtctl) | ⬆️ Nuevo | CLI para gestionar recursos de la plataforma Dynatrace — construido para humanos y agentes AI (MCP-ready) |
-| agent-toolkit-for-kapitan | [Moep90/agent-toolkit-for-kapitan](https://github.com/Moep90/agent-toolkit-for-kapitan) | ⬆️ Nuevo | MCP server + agent skills para que LLMs inspeccionen/compilen/differencien proyectos Kapitan (Kubernetes config) |
+### MCP RC 2026-07-28 — Final Spec Imminent
+The release candidate for the next Model Context Protocol specification dropped this week, targeting **July 28, 2026** as final publication date. Key changes:
+- Stateless core that scales on ordinary HTTP (no sticky sessions required)
+- MCP Apps extension: server-rendered UIs inside MCP clients
+- Tasks extension: long-running async work natively in the protocol
+- OAuth/OIDC-aligned authorization
+- Formal deprecation policy (12-month minimum between deprecation → removal)
+- SDK Tier 1 (Python, TypeScript) must ship support within the 10-week validation window
 
-## Hitos de la semana (jul-2026)
+MCP is now governed by the **Agentic AI Foundation (AAIF)** under the Linux Foundation, co-founded by Anthropic, Block, and OpenAI, backed by Google, Microsoft, AWS, Cloudflare, and Bloomberg.
 
-- **vLLM v0.25.0** (11-jul-2026): soporte mejorado multimodal + serving distribuido multi-GPU
-- **Mem0 v2.0** (jun-2026): de-facto estándar de memoria agentica; integrado en OpenHands, CrewAI, LangGraph nativamente
-- **MCP milestone**: 97M monthly SDK downloads; 10,000+ server implementations activas; bajo Linux Foundation
-- **Langfuse × ClickHouse**: integración nativa anunciada; 26M+ SDK installs/mes; 19 de las Fortune 50 como clientes
-- **Gartner**: 60% del código nuevo será generado por AI a fin de 2026; 80% empresas US ya usan agentic AI
+### SWE-bench Pro Reveals Realistic Coding Performance
+Scale AI's SWE-bench Pro (1,865 multi-language tasks, contamination-resistant) paints a sobering picture:
+- Claude Fable 5: 80.3% Pro (all-time high, currently suspended from leaderboard)
+- Claude Opus 4.8: **69.2%** (current active leader)
+- GPT-5.6 Sol: 64.6%
+- Standard commercial codebases: best models reach only **47.1%** on private proprietary code
+- Contrast with SWE-bench Verified where models report 80%+ — Pro is the more reliable signal
 
-## Tendencia estructural: del asistente al agente autónomo
+### OpenCode Overtakes Everything
+`anomalyco/opencode` now holds **165k+ stars**, making it the most-starred open-source coding agent. With Gemini CLI shut down (replaced by closed-source `agy` on June 18), OpenCode is the clear default provider-agnostic CLI for teams that don't want lock-in.
 
-El shift más relevante de H1 2026: los developers ya no "piden sugerencias" a una IA, sino que
-delegan tareas completas a agentes que planifican, codifican, corren tests y abren PRs.
-El patrón "bounded autonomy" (autonomía delimitada con puntos de escalada humana) es el
-estándar enterprise: los agentes toman decisiones rutinarias, pero escalan las de alto riesgo.
+### Agentic Fleet Tooling: Orca Emerges
+**Orca** — an agent development environment for running fleets of parallel coding agents across desktop and mobile — is trending this week. Reflects the emerging "fleet orchestration" pattern: instead of one coding agent, teams run N agents in parallel on different subtasks.
 
-## Señal LATAM
+### Graphify: Codebase Knowledge Graphs
+**Graphify** turns codebases, schemas, docs, and media into queryable knowledge graphs for AI coding assistants. Trending as teams look for better long-context retrieval over large repos without repeatedly hitting LLM context limits.
 
-- Equipos de desarrollo en Argentina, Colombia y Brasil lideran adopción de coding agents en LATAM
-- Mayor demanda: agentes que entiendan legacy (COBOL, RPG) + modernización a cloud-native
-- MCP servers para ERPs locales (SAP, Oracle) son el gap más solicitado por clientes enterprise
-- "Vibe coding" adoptado en startups; enterprise prefiere spec-driven development (trazabilidad)
+### Voicebox: Open AI Voice Studio
+Open-source AI voice studio for cloning, dictating, and creating audio — trending as teams integrate voice interfaces into developer tools and documentation systems.
+
+## Framework News
+
+| Event | Impact |
+|-------|--------|
+| AutoGen → MAF (Microsoft Agent Framework) | Microsoft merged AutoGen + Semantic Kernel; recommend MAF for new Microsoft-stack projects |
+| CrewAI v0.105 | Enterprise observability, scheduling, 60% F500 adoption |
+| LangGraph v0.4 | HITL checkpoints, state persistence improvements |
+| Gemini CLI sunset (Jun 18) | Replaced by closed `agy` binary; OpenCode fills the gap |
+| SpaceX acquires Cursor (~$60B) | Signals massive consolidation in AI coding tools space |
+
+## Key Metrics (Jul 2026)
+
+- MCP: **97M monthly SDK downloads**, **10,000+ active server implementations**
+- AI-generated code: **60% of all new code** by 2026 (Gartner)
+- Gartner: **40% of enterprise apps** will include task-specific AI agents by end of 2026
+- 84% of developers use or plan to use AI tools; 51% use them daily
+- AI coding tools save developers **3.6 hours/week** on average
+
+---
+*Pipeline auto-updated — refreshed each run.*
