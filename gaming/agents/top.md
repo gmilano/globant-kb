@@ -1,7 +1,7 @@
 # 🎮 Agentes AI — Gaming
 
 > Agentes y herramientas AI open source verificados. Foco: MIT / Apache 2.0.
-> Última actualización: 2026-07-13 | v7 — Carbon Engine, COCOS 4, OmniGameArena, MCP explosion
+> Última actualización: 2026-07-14 | v8 — GamingAgent ICLR 2026, AlayaWorld world model, COS-PLAY, GRL
 
 ## Ecosistema Godot (MIT — recomendado como base)
 
@@ -32,15 +32,32 @@
 | LLMUnity | [undreamai/LLMUnity](https://github.com/undreamai/LLMUnity) | Apache-2.0 | Personajes Unity con LLMs locales o cloud. 1.7k stars. | 1.7k |
 | npcpy | [NPC-Worldwide/npcpy](https://github.com/NPC-Worldwide/npcpy) | MIT | Librería Python para NPC con LLMs multimodales | 1.4k |
 | npc-engine | [npc-engine/npc-engine](https://github.com/npc-engine/npc-engine) | MIT | Deep learning y NLP toolkit para juegos: chat-bot dialogue system, text semantic similarity, TTS | — |
+| COS-PLAY | [wuxiyang1996/cos-play](https://github.com/wuxiyang1996/cos-play) | MIT | **Co-Evolving LLM Decision y Skill Bank Agents** para long-horizon game play. El agente aprende habilidades nuevas y actualiza su banco de skills durante el juego. 2026. | — |
 
 ## Benchmark y Evaluación de Agentes Gaming
 
 | Nombre | Repo | Licencia | Descripción | Stars |
 |--------|------|----------|-------------|-------|
-| OmniGameArena | [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) | MIT | Benchmark UE5 con 12 juegos (7 Solo, 3 PvP, 2 Coop) para evaluar VLM game agents. Introduce Improvement Dynamics Curve (IDC) — harness de agentic-reflection. Evalúa Claude, GPT, Gemini, Qwen vs NitroGen specialist. arXiv:2606.09826 (jun 2026) | — |
+| **GamingAgent** | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | **[ICLR 2026]** LLM/VLM gaming agents y model evaluation. lmgame-Bench (arXiv:2505.15146): 6 juegos (platformer, puzzle, narrativa) con API Gym-style. Evalúa 13 modelos SOTA. Módulos toggeables: percepción, memoria, razonamiento. CUA (Computer Use Agent) deployment para PC/laptop. | — |
+| OmniGameArena | [mxlin043/OmniGameArena](https://github.com/mxlin043/OmniGameArena) | MIT | Benchmark UE5 con 12 juegos (7 Solo, 3 PvP, 2 Coop) para evaluar VLM game agents. Introduce IDC (Improvement Dynamics Curve). arXiv:2606.09826 (jun 2026) | — |
 | Procgen | [openai/procgen](https://github.com/openai/procgen) | MIT | Benchmark OpenAI: entornos de juego generados proceduralmente para evaluar agentes RL | 2.1k |
 | OpenGame | [leigest519/OpenGame](https://github.com/leigest519/OpenGame) | MIT | Framework agentico end-to-end para generar juegos web con AI. Usa GameCoder-27B (RL-entrenado). Abr 2026. | 500+ |
 | ai-game-devtools | [Yuan-ManX/ai-game-devtools](https://github.com/Yuan-ManX/ai-game-devtools) | MIT | Hub curado: LLMs, World Models, Agents, Code, Texture, Shader, 3D, Audio, Analytics para game dev | — |
+
+## World Models para Gaming
+
+| Nombre | Repo / Fuente | Licencia | Descripción |
+|--------|--------------|----------|-------------|
+| **AlayaWorld** | Shanda AI Research — arXiv jul 2026 | Apache-2.0 (esperado) | World model open-source que genera entornos de video interactivos y espacialmente coherentes por **más de 60 segundos** de juego continuo — el umbral más alto de cualquier modelo público. Pipeline completo (datos, arquitectura, entrenamiento, inference, deploy) en publicación mid-jul 2026. |
+| awesome-game-generation | [JingyeChen/awesome-game-generation](https://github.com/JingyeChen/awesome-game-generation) | MIT | Tracking de papers y repos sobre world models y generación completa de juegos con AI | — |
+
+## RL Training para LLM Gaming Agents
+
+| Nombre | Repo | Licencia | Descripción |
+|--------|------|----------|-------------|
+| **GRL** | [lmgame-org/GRL](https://github.com/lmgame-org/GRL) | MIT | **Multi-Turn RL Training System** con AgentTrainer para Language Model Game Reinforcement Learning. Permite fine-tuning RL de LLMs directamente en entornos de juego. De los mismos creadores de GamingAgent (ICLR 2026). |
+| godot_rl_agents | [edbeeching/godot_rl_agents](https://github.com/edbeeching/godot_rl_agents) | MIT | RL sobre Godot con SB3, Sample Factory, Ray RLLib, CleanRL | 950+ |
+| stable-baselines3 | [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3) | MIT | PPO, SAC, A2C, DQN en PyTorch para agentes gaming | 14k |
 
 ## Pathfinding y AI de movimiento
 
@@ -65,4 +82,4 @@
 | O3DE | Apache-2.0 | Libre para uso comercial. Compatible con IP proprietaria del juego. |
 
 ---
-*v7 actualizado 2026-07-13. Nuevas señales: Carbon Engine MIT (jul-2026), COCOS 4 MIT (ene-2026), OmniGameArena benchmark (jun-2026), explosion MCP Unity/Godot.*
+*v8 actualizado 2026-07-14. Nuevas señales: GamingAgent (lmgame-org, MIT, ICLR 2026) + lmgame-Bench; AlayaWorld world model (Shanda AI, jul 2026, open-source 60s+ coherent play); COS-PLAY co-evolving LLM agents; GRL multi-turn RL training para LLM gaming.*

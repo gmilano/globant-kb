@@ -2,7 +2,7 @@
 
 > Plataformas verticales open source customizables con AI.
 > Modelo: partir de algo funcional y robusto, añadir capa agentica encima.
-> Última actualización: 2026-07-13 | v7 — Carbon Engine MIT, COCOS 4 MIT añadidos
+> Última actualización: 2026-07-14 | v8 — GamingAgent eval pipeline, AlayaWorld world model añadidos
 
 ## Stack recomendado: Godot + Nakama
 
@@ -38,6 +38,15 @@ Nakama (Apache-2.0) — backend multiplayer
 
 ---
 
+## Plataformas de Evaluación y Training AI (nuevo v8)
+
+| Plataforma | Licencia | URL | Descripción |
+|------------|----------|-----|-------------|
+| **GamingAgent + lmgame-Bench** | MIT | [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | ICLR 2026. Benchmark estándar para evaluar LLMs/VLMs en 6 juegos. 13 modelos SOTA evaluados. CUA mode (como humano). Plataforma de evaluación para equipos que quieren medir sus agentes. |
+| **GRL** | MIT | [lmgame-org/GRL](https://github.com/lmgame-org/GRL) | Multi-Turn RL Training para LLM gaming agents. Fine-tuning de modelos directamente en entornos de juego. Complementa a GamingAgent (evaluar → mejorar). |
+
+---
+
 ## Cómo customizar Carbon Engine con AI (nuevo — jul 2026)
 
 ```
@@ -69,7 +78,7 @@ COCOS 4 Engine (MIT, AI-native) — cocos2d/cocos-engine
         └── COCOS optimizado para bajo consumo de memoria
 ```
 
-**Perfil de proyecto**: Mobile gaming LATAM/Asia. F2P con personalización AI (dynamic difficulty, NPC dialogue, recomendación de items). Sin royalties, JS/TS = más amigable para AI codegen.
+**Perfil de proyecto**: Mobile gaming LATAM/Asia. F2P con personalización AI.
 
 ---
 
@@ -93,7 +102,7 @@ Godot Engine (MIT)
     ↓ plugin via Asset Library
 godot-ai (MIT) + LimboAI (MIT)
     ↓ HTTP local
-Ollama con Gemma 3n / Llama 3.1 8B
+Ollama con Gemma 3n / Llama 3.1 8B / Qwen 3
     ↓
 NPC con diálogo dinámico, sin latencia de red, sin costo de API
 ```
@@ -104,7 +113,7 @@ Godot Engine (MIT)
     ↓ llamada HTTP a FastAPI
 LlamaIndex (MIT) + ChromaDB (Apache-2.0)
     ↓ retrieval de lore, quests, personajes
-Claude Haiku / GPT-4o-mini (API)
+Claude Haiku / GPT-4o-mini / Llama local
     ↓
 NPC que "conoce" el universo del juego y no inventa lore
 ```
@@ -142,9 +151,9 @@ COCOS 4 (MIT, TypeScript)
     │   └── Claude Code / Cursor → genera escenas TS directamente
     ├── Dynamic Difficulty Adjustment (DDA)
     │   └── TS client → LLM API / modelo local
-    │   └── Ajusta dificultad en tiempo real según comportamiento del jugador
+    │   └── Ajusta dificultad en tiempo real
     ├── NPC dialogue
-    │   └── llamada a Claude Haiku / GPT-4o-mini (bajo costo en mobile)
+    │   └── llamada a Claude Haiku / GPT-4o-mini
     │   └── O Llama.cpp WASM para offline-first
     └── Personalización F2P
         └── Modelo de recomendación de items (TF Lite / ONNX en iOS/Android)
@@ -162,12 +171,6 @@ Supabase (PostgreSQL + realtime + auth + storage + pgvector)
     │   └── Embeddings del lore/personajes → RAG sin ChromaDB externo
     └── Realtime subscriptions
         └── Live updates de estado de juego
-
-Casos de uso:
-    ├── Recomendación de siguiente misión (LLM sobre historial del jugador)
-    ├── Descripción generativa de ítems de inventario (LLM)
-    ├── Soporte in-game via chatbot (RAG sobre pgvector + LLM)
-    └── Detección de cheating en juegos asíncronos (SQL analytics + ML)
 ```
 
 ---
@@ -191,6 +194,7 @@ AWS Rekognition                        ← moderación de contenido UGC
 |-------------|----------------|---------|----------|
 | NPC con LLM local | Godot | LimboAI + Ollama | 2-3 semanas |
 | NPC con memoria persistente | Godot | Generative Agents pattern + Claude API | 3-4 semanas |
+| NPC co-evolving (Skill Bank) | Godot / Unity | COS-PLAY pattern | 4-6 semanas |
 | Multiplayer backend inteligente | Nakama | ONNX hooks + PostHog | 3-4 semanas |
 | Backend social/persistente + AI | Supabase | Edge Functions + pgvector + LLM | 2-3 semanas |
 | RL training / QA automatizado | Godot + godot_rl_agents | SB3 + PPO | 2-4 semanas |
@@ -200,6 +204,9 @@ AWS Rekognition                        ← moderación de contenido UGC
 | MMO espacial / simulación masiva | Carbon Engine | RL + MARL (Destiny module) | 6+ semanas |
 | Mobile gaming LATAM/Asia F2P | COCOS 4 | MCP + Claude Haiku + DDA | 3-4 semanas |
 | RPG con PCG y narrativa generativa | Luanti fork + Godot | Concordia + LlamaIndex + LLM | 6-10 semanas |
+| **Evaluación de agentes gaming** | GamingAgent + lmgame-Bench | 13 SOTA models baseline | 1 semana setup |
+| **LLM game fine-tuning** | GRL (lmgame-org) | Multi-turn RL training | 2-4 semanas |
+| **AI-native games (experimental)** | AlayaWorld (jul 2026) | World model pipeline | 2027+ producción |
 
 ---
-*v7 actualizado 2026-07-13. Carbon Engine (MIT, jul-2026) y COCOS 4 (MIT, ene-2026) añadidos como verticales.*
+*v8 actualizado 2026-07-14. GamingAgent/GRL añadidos como plataformas de evaluación/training. AlayaWorld referenciado como plataforma emergente para AI-native games. Carbon Engine y COCOS 4 consolidados.*

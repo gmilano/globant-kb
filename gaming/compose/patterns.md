@@ -1,7 +1,7 @@
 # Patrones de composición — Gaming AI
 
 > Recetas concretas para construir soluciones. Repos verificados, URLs reales.
-> Última actualización: 2026-07-13 | v7 — Nuevos: Carbon Engine, COCOS 4 Mobile, Unity MCP
+> Última actualización: 2026-07-14 | v8 — Nuevo: GamingAgent Eval Loop (P10), COS-PLAY Skill Evolution (P11)
 
 ## Patrón base
 
@@ -42,7 +42,7 @@ Godot 4 (MIT)                          ← engine del juego
 2. Crear un BTAction `LLMDialogue` que envía POST al endpoint LLM con: `{character: "...", player_input: "...", memory: [...últimos N eventos...]}`.
 3. La respuesta vuelve como texto → lip sync + texto en UI.
 4. Guardar el intercambio en memory store (ChromaDB via HTTP o SQLite local).
-5. Opción local sin internet: Ollama con Llama 3.1 8B o Gemma 3n on-device.
+5. Opción local sin internet: Ollama con Qwen 3 / Llama 3.1 8B o Gemma 3n on-device.
 
 **Métricas esperadas**: +43% player retention, 2.3× playtime (benchmark industria 2026).
 **Tiempo**: 2-3 semanas MVP. **Costo cloud**: ~$0.01-0.05 por conversación con Claude Haiku.
@@ -222,7 +222,7 @@ Unity Editor
 
 ---
 
-## Receta 8: 🆕 Carbon Engine + AI (juegos espaciales/MMO) — jul 2026
+## Receta 8: Carbon Engine + AI (juegos espaciales/MMO) — jul 2026
 
 **Caso de uso**: Juego espacial, simulación masiva, MMO con física de flotas. Usando el motor de EVE Online.
 
@@ -247,18 +247,18 @@ Carbon Engine (MIT) — github.com/carbonengine
 - [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) — Apache-2.0.
 
 **Cómo construir**:
-1. Clonar carbon/Destiny como base de física → definir el mundo del juego (coordenadas, flotas, naves).
+1. Clonar carbon/Destiny como base de física → definir el mundo del juego.
 2. Envolver Destiny como entorno PettingZoo (multi-agente): cada flota = un agente.
 3. Entrenar con MARL: SB3 con algoritmo MAPPO → política de coordinación táctica.
 4. Añadir generative_agents para NPCs del universo: corporaciones, traders, facciones con memoria.
 5. Claude Haiku para decisiones narrativas de alto nivel cuando se detectan eventos especiales.
 
-**Perfil de proyecto**: MMO espacial, juego de flotas tácticas, simulación de economía de mercado.
+**Perfil de proyecto**: MMO espacial, juego de flotas tácticas, simulación de economía.
 **Tiempo**: 8-16 semanas. **Ventaja**: 23 años de física de EVE Online, MIT.
 
 ---
 
-## Receta 9: 🆕 COCOS 4 Mobile Gaming + AI (LATAM/Asia F2P) — jul 2026
+## Receta 9: COCOS 4 Mobile Gaming + AI (LATAM/Asia F2P) — jul 2026
 
 **Caso de uso**: Juego mobile F2P en COCOS 4 con personalización AI: Dynamic Difficulty Adjustment, diálogo NPC, retención predictiva.
 
@@ -286,12 +286,113 @@ COCOS 4 (MIT, TypeScript)              ← engine mobile
 **Cómo construir**:
 1. Setup COCOS 4 con PinK IDE (standalone) o VSCode.
 2. DDA: instrumentar el juego con métricas (deaths/min, progression rate, session length).
-3. Un microservicio Python consume métricas → predice "frustración" → ajusta parámetros via API al juego.
-4. Para NPC: llamada directa desde TypeScript al Claude API (no bridge C++).
+3. Microservicio Python consume métricas → predice "frustración" → ajusta parámetros via API al juego.
+4. Para NPC: llamada directa desde TypeScript al Claude API.
 5. PostHog recibe sesiones → modelo de churn en Python → notificación/incentivo automático.
 
-**Perfil de proyecto**: mobile gaming F2P LATAM con 100k+ DAU. DDA reduce churn; NPC dialogue aumenta retention.
+**Perfil de proyecto**: mobile gaming F2P LATAM con 100k+ DAU.
 **Tiempo**: 3-5 semanas MVP. **Mercado**: 500M+ jugadores en juegos COCOS.
+
+---
+
+## Receta 10: 🆕 GamingAgent Evaluation Loop — Medir y mejorar agentes (jul 2026)
+
+**Caso de uso**: Studio que quiere medir objetivamente la calidad de sus LLM/VLM gaming agents y mejorarlos iterativamente con RL.
+
+**Stack**:
+```
+[Tu juego / entorno de prueba]
+    ↓
+lmgame-Bench (MIT) — lmgame-org/GamingAgent
+    ├── Percepción (vision/screen)
+    ├── Memoria (episódica/de trabajo)
+    └── Razonamiento (chain-of-thought)
+    ↓
+Score por capacidad y por juego
+    ↓
+Identificar gaps → seleccionar LLM base (Qwen 3 / Llama / Claude)
+    ↓
+GRL (MIT) — lmgame-org/GRL
+    └── Multi-Turn RL Training en entorno de juego
+        └── AgentTrainer: reward shaping para capacidad débil
+    ↓
+Re-evaluar con lmgame-Bench → ciclo iterativo
+```
+
+**Repos**:
+- [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) — MIT. ICLR 2026. Benchmark + CUA deployment.
+- [lmgame-org/GRL](https://github.com/lmgame-org/GRL) — MIT. Multi-Turn RL Training.
+
+**Cómo implementar**:
+1. Instalar GamingAgent y configurar `lmgame-bench` con el entorno del juego cliente.
+2. Correr evaluación con modelo baseline (Claude Opus / Qwen 3 235B): obtener score por módulo (percepción, memoria, razonamiento).
+3. Identificar el módulo con peor score → diseñar reward function específica.
+4. Usar GRL para fine-tuning multi-turno del LLM base en el entorno.
+5. Re-evaluar → reportar mejora al cliente con métricas objetivas.
+6. Iterar. Benchmark público ICLR 2026 como referencia para "nivel de la industria".
+
+```python
+# Ejemplo simplificado: benchmark + fine-tune loop
+from lmgame_bench import GameEvaluator
+from grl import AgentTrainer
+
+# 1. Evaluar baseline
+evaluator = GameEvaluator(game="platformer", model="claude-sonnet-5")
+baseline_scores = evaluator.run(episodes=100)
+print(f"Baseline: perception={baseline_scores['perception']:.2f}, memory={baseline_scores['memory']:.2f}")
+
+# 2. Fine-tune en módulo débil
+trainer = AgentTrainer(
+    base_model="Qwen/Qwen3-32B",
+    game_env="platformer",
+    reward_module="memory"  # módulo con peor score
+)
+tuned_model = trainer.train(steps=10_000)
+
+# 3. Re-evaluar
+final_scores = evaluator.run(episodes=100, model=tuned_model)
+print(f"After GRL: memory={final_scores['memory']:.2f}")  # esperado: mejora
+```
+
+**Tiempo**: 1 semana setup + 1-2 semanas por ciclo de mejora.
+**Valor para cliente**: score objetivo de su agente vs benchmark ICLR 2026. Diferenciador competitivo.
+
+---
+
+## Receta 11: 🆕 COS-PLAY — NPC con Skill Evolution (jul 2026)
+
+**Caso de uso**: NPC o agente que aprende habilidades nuevas durante el juego y las reutiliza en situaciones similares futuras. Más dinámico que memoria vectorial pura.
+
+**Stack**:
+```
+Godot 4 (MIT) — engine
+    └── LimboAI (MIT) — behavior tree con hook a COS-PLAY
+        └── COS-PLAY (MIT) — wuxiyang1996/cos-play
+            ├── Decision Module (LLM)
+            │   └── Claude Haiku / Qwen 3 8B (razonamiento táctivo)
+            └── Skill Bank (store actualizable)
+                ├── Skill "dodge_projectile": aprendida en boss 1
+                ├── Skill "find_cover": aprendida en nivel 3
+                └── Skill "trade_economy": aprendida en facción X
+                     ↓ reutilizadas automáticamente en contextos similares
+```
+
+**Repos**:
+- [wuxiyang1996/cos-play](https://github.com/wuxiyang1996/cos-play) — MIT. COS-PLAY co-evolving agents.
+- [limbonaut/limboai](https://github.com/limbonaut/limboai) — MIT, 2.9k stars. BT host.
+
+**Cómo implementar**:
+1. Definir el Skill Bank inicial del NPC (vacío o con skills base).
+2. En cada turno: LLM decide acción → ejecuta → resultado → si outcome positivo, guardar como skill.
+3. Al siguiente encounter similar: retrieve skill del banco → proponer como acción prioritaria.
+4. Co-evolución: LLM refina las skills existentes con nuevas observaciones.
+
+**Diferencia vs Receta 1 (NPC con LLM básico)**:
+- Receta 1: memoria episódica pasiva (qué pasó) + LLM sin retroalimentación estructurada
+- Receta 11: memoria activa de habilidades (qué funcionó) + co-evolución LLM → Skill Bank → LLM
+
+**Perfil de proyecto**: RPGs con progresión del NPC, mundos abiertos con facciones, villanos adaptivos.
+**Tiempo**: 3-5 semanas implementación sobre stack Godot existente.
 
 ---
 
@@ -308,6 +409,8 @@ COCOS 4 (MIT, TypeScript)              ← engine mobile
 | AI Dev Tooling (Unity) | AnkleBreaker MCP + Claude/Cursor | 1 día setup | 2-3× velocidad de desarrollo |
 | Carbon Engine + AI (MMO) | Carbon + PettingZoo + MARL + GenAgents | 8-16 semanas | Motor AAA MIT, física masiva battle-tested |
 | COCOS 4 Mobile AI | COCOS 4 + Claude Haiku + PostHog | 3-5 semanas | DDA + NPC para 500M+ LATAM players |
+| **GamingAgent Eval Loop** | GamingAgent + GRL + lmgame-Bench | 1-2 semanas/ciclo | Score objetivo vs ICLR 2026 benchmark |
+| **COS-PLAY Skill Evolution** | Godot + LimboAI + COS-PLAY | 3-5 semanas | NPC que mejora con tiempo de juego |
 
 ---
-*v7 actualizado 2026-07-13. Repos verificados en GitHub. Recetas 7 (Unity MCP 288 tools), 8 (Carbon Engine MMO), 9 (COCOS 4 Mobile) añadidas.*
+*v8 actualizado 2026-07-14. Repos verificados en GitHub. Recetas 10 (GamingAgent Eval Loop con GRL) y 11 (COS-PLAY Skill Evolution) añadidas. Qwen 3 mencionado como alternativa LLM OSS Apache-2.0 para gaming agents.*

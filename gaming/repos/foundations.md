@@ -1,7 +1,7 @@
 # 🏗️ Repos fundacionales — Gaming
 
 > Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-13 | v7 — Carbon Engine MIT, COCOS 4 MIT añadidos
+> Última actualización: 2026-07-14 | v8 — GRL y GamingAgent añadidos como fundacionales para LLM gaming
 
 ## Game Engines
 
@@ -35,6 +35,14 @@
 | [joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents) | Apache-2.0 | Arquitectura Stanford para NPCs con memoria, reflexión y planificación (21.7k stars) | 21.7k |
 | [google-deepmind/concordia](https://github.com/google-deepmind/concordia) | Apache-2.0 | Simulación social multiagente de DeepMind. Para worlds persistentes y poblaciones de NPCs. | 1.5k |
 
+## LLM Gaming Agents — Evaluation & Training (nuevo v8)
+
+| Repo | Licencia | Descripción | Stars |
+|------|----------|-------------|-------|
+| [lmgame-org/GamingAgent](https://github.com/lmgame-org/GamingAgent) | MIT | **ICLR 2026** benchmark y deployment de LLM/VLM gaming agents. lmgame-Bench: 6 juegos, API Gym, 13 modelos SOTA evaluados. CUA mode para gaming sin acceso a API del engine. arXiv:2505.15146 | — |
+| [lmgame-org/GRL](https://github.com/lmgame-org/GRL) | MIT | Multi-Turn RL Training System con AgentTrainer para LLM game RL. Fine-tuning de LLMs en entornos de juego directamente. Del equipo GamingAgent ICLR 2026. | — |
+| [wuxiyang1996/cos-play](https://github.com/wuxiyang1996/cos-play) | MIT | COS-PLAY: Co-Evolving LLM Decision y Skill Bank Agents para long-horizon game play. | — |
+
 ## Pathfinding
 
 | Repo | Licencia | Descripción | Stars |
@@ -59,4 +67,4 @@
 | [minetest/minetest](https://github.com/minetest/minetest) | LGPL-2.1 | Luanti: mundo voxel completo. Base para PCG + NPCs agenticos. |
 
 ---
-*v7 actualizado 2026-07-13. Carbon Engine (EVE Online, MIT) y COCOS 4 (MIT) añadidos como engines fundacionales.*
+*v8 actualizado 2026-07-14. GamingAgent (ICLR 2026, MIT), GRL (multi-turn RL para LLM gaming, MIT) y COS-PLAY (co-evolving agents, MIT) añadidos como repos fundacionales para LLM gaming agent development.*
