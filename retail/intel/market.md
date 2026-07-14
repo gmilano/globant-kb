@@ -1,83 +1,87 @@
-# Market Map — Retail & Consumer AI
+# Mapa de mercado — Retail & eCommerce AI
 
-> Key players, market sizing, opportunities. LATAM + global focus.
-> Last updated: 2026-07-13
+> Players, oportunidades, posicionamiento. Foco LATAM + global.
+> Última actualización: 2026-07-14 (v9 — Era agentic commerce)
 
-## Market Size (2026)
+## Tamaño de mercado (julio 2026)
 
-| Segment | 2026 Value | 2031 Projection | CAGR | Source |
-|---------|-----------|----------------|------|
-| Agentic AI in Retail + eCommerce | $60.43B | $218.37B | 29.29% | Mordor Intelligence |
-| AI in Retail (broader) | $18.4B | — | — | Coherent Market Insights |
-| Voice Commerce Agents | Growing | — | 36.25% | Mordor Intelligence (fastest segment) |
-| US Agent-Driven eCommerce by 2030 | $300–500B | — | — | McKinsey / Morgan Stanley |
-| Global Agentic Commerce by 2030 | $3–5T | — | — | McKinsey estimate |
+| Segmento | 2026 | 2030/2031/2033 | CAGR | Fuente |
+|----------|------|----------------|------|--------|
+| Agentic AI in Retail & eCommerce | $60.43B | $218.37B (2031) | **29.29%** | Mordor Intelligence, 2026 |
+| AI in Retail (amplio) | $31.12B (2024) | $164.74B (2030) | **32%** | MarketsandMarkets |
+| AI in eCommerce | $9.70B | $47.87B (2033) | **25.7%** | Research, 2026 |
+| GenAI in Retail | $1.55B | $5.85B (2030) | **39.5%** | GlobeNewswire, jul 2026 |
+| Agentic Shopping (McKinsey) | — | $3–5T (2030) | — | McKinsey, 2026 |
 
-**Segment breakdown (2025 base year):**
-- Generative Dialogue Agents: 45.80% market share (dominant)
-- Voice-Commerce Agents: 36.25% CAGR (fastest growing)
-- North America: 37.35% share
-- Asia-Pacific: 34.88% CAGR (fastest region; unmanned stores driving growth)
+## Estadísticas clave (julio 2026)
 
-## Global Players
+| Métrica | Valor | Fuente |
+|---------|-------|--------|
+| Crecimiento de pedidos via AI (ene 2025 → ene 2026) | **15x** | commercetools |
+| Tráfico referido por AI a retail US — Black Friday 2025 YoY | **+805%** | searchengineland |
+| Consumidores que reemplazaron búsqueda con GenAI para productos | **58%** | research 2026 |
+| Interacciones pre-compra (tradicional vs agentic) | 10-15 → 1-3 | commercetools |
+| Online shoppers que usarán AI agents para 2030 (Morgan Stanley) | **~50%** (~25% spending) | Morgan Stanley |
+| Retailers usando o testeando AI | **89%** | survey 2026 |
+| Retailers que planean aumentar inversión AI | **97%** | survey 2026 |
+| Revenue lift de AI personalization (top performers) | **5-15% → 25%** | McKinsey |
 
-| Company | Type | AI Strength | OSS Footprint |
-|---------|------|------------|---------------|
-| **Amazon** | Retailer + platform | Rufus AI (shopping assistant); Just Walk Out (vision); personalization at scale | Minimal |
-| **Walmart** | Retailer | Store Companion chatbot; Autonomous waste-reduction agent; GenAI catalog enrichment | None |
-| **Shopify** | Platform | ACP integration; 1M+ merchants agent-discoverable; Sidekick AI copilot | WooCommerce history |
-| **Stripe** | Payments | ACP co-creator; Instant Checkout in ChatGPT; agentic payment infrastructure | ACP spec (Apache-2.0) |
-| **OpenAI** | AI provider | ChatGPT Instant Checkout (ACP); shopping agents; 4% fee on completed transactions | ACP spec |
-| **NVIDIA** | Compute + AI | Retail AI Blueprints (catalog enrichment, warehouse); NIM microservices; Omniverse for retail | Blueprints (Apache-2.0) |
-| **Salesforce** | CRM + Commerce | Einstein Commerce AI; Agentforce for retail; Data Cloud | Minimal |
-| **SAP** | ERP | Joule AI copilot; S/4HANA retail AI extensions | None |
-| **Commercetools** | Commerce platform | Agentic commerce playbook; MACH-native | None |
-| **Medusa** | OSS Commerce | MCP-native; agent skills; first AI-native headless platform | Full MIT |
-| **Mirakl** | Marketplace | AI-driven catalog, matching, fraud; Retail Media Network | None |
+## Players del ecosistema de Agentic Commerce
 
-## Key Market Events (2026)
+### Protocolos y plataformas
+| Player | Protocolo/Producto | Rol | Open Source |
+|--------|--------------------|-----|-------------|
+| OpenAI + Stripe | ACP — Agentic Commerce Protocol | Checkout en ChatGPT | Sí (spec) |
+| Google + Shopify + Walmart | UCP — Universal Commerce Protocol | Full shopping journey | Sí (ref impl) |
+| Anthropic (Linux Foundation) | MCP — Model Context Protocol | Data connectivity layer | Sí |
+| Google | A2A — Agent-to-Agent Protocol | Coordinación multi-agent | Sí |
+| Visa | TAP — Trusted Agent Protocol | Identidad de agentes para pagos | No |
+| Mastercard | Agent Pay for Machines | Pagos M2M | No |
 
-| Event | Date | Impact |
-|-------|------|--------|
-| ACP Beta Launch (Stripe + OpenAI) | Feb 2026 | Walmart + Etsy first; now 1M+ Shopify merchants |
-| NRF 2026 | Jan 2026 | Theme: "From what-if to what-now"; agentic commerce declared production-ready |
-| Shoptalk Spring 2026 | Apr 2026 | Agentic commerce dominant narrative; 10%→45% VC for AI-enabled retail |
-| NVIDIA Retail AI Blueprints | Jan 2026 | Multi-agent warehouse + catalog enrichment open-sourced |
-| McKinsey Remapping Commerce Report | 2026 | $1T US / $3-5T global agentic commerce potential by 2030 |
-| Morgan Stanley Forecast | 2026 | 10-20% US eCommerce agent-driven by 2030 |
+### Plataformas de eCommerce
+| Player | Tipo | Market Share | AI Stance 2026 |
+|--------|------|-------------|----------------|
+| Shopify | SaaS | ~25% enterprise | UCP early adopter, Shopify AI nativo, feeds ChatGPT via ACP |
+| WooCommerce | Open Source | **37%** global, dominante LATAM | REST API, plugins AI, MCP server disponible |
+| Medusa.js | Open Source | Creciendo en dev market | "Commerce platform for agents" — tutorial Claude Code oficial |
+| Odoo | Open Source | 5M+ usuarios | Odoo 20 Agentic AI (sep 2026) — primero ERP open con agentes nativos |
+| Amazon | Propietario | ~40% eCommerce US | AI shopping nativo, Rufus chatbot, no abre ecosystem |
+| Etsy | Propietario | Nicho artesanal | Primer merchant en ChatGPT Instant Checkout |
+| TikTok Shop | Propietario | Explosión en LATAM+Asia | TikTok Ads MCP (may 2026) — primer social en adoptar MCP |
 
-## Consumer Adoption Signals
+### AI Agents de shopping (propietarios)
+| Player | Producto | Estado |
+|--------|----------|--------|
+| OpenAI (ChatGPT) | Shopping + Instant Checkout → pivot a merchant apps | Vivo US, en expansión |
+| Google (Gemini) | Google Shopping AI + UCP | Beta, integrado en Search |
+| Perplexity | Shopping tab | Vivo — product cards con buy button |
+| Amazon | Rufus | Producción en US |
+| Shopify | Sidekick (AI assistant) | Disponible para merchants |
 
-- **73%** of consumers already using AI in shopping journey (2026)
-- **70%** comfortable with AI agent making purchases autonomously
-- **41%** use AI to research products; **33%** for reviews; **31%** for deals
-- **52%** comfortable sharing data (but **83%** have overlapping privacy concerns)
-- Answer Engine Optimization (AEO) replacing SEO as primary discovery channel
+## Oportunidades AI en LATAM
 
-## Retailer AI Spending
+| País | Oportunidad | Plataforma base | Urgencia |
+|------|------------|-----------------|---------|
+| Brasil | 55% de deal flow fintech/retail LATAM Q1 2026. Mercado Libre dominante. | WooCommerce + Mercado Pago MCP | Alta |
+| Argentina | Alta adopción de WhatsApp Commerce. Pymes necesitan agentes de atención. | WooCommerce + WhatsApp API | Alta |
+| México | TikTok Shop en explosión. Livestream shopping creciendo +21% YoY. | TikTok Ads MCP + Medusa | Alta |
+| Colombia | Crecimiento de marketplaces locales. Falabella + Rappi dominan. | Odoo + agentes de fulfillment | Media |
+| Chile | B2B retail maduro. Necesita supply chain AI (demand forecasting). | ERPNext / Odoo + InvAgent | Media |
 
-- **97%** of retailers plan to increase AI spending next fiscal year
-- **77%** allocate ≤5% of tech budget to AI (large upside)
-- Target's Store Companion: cuts new-hire ramp-up time
-- Walmart: autonomous spoilage-reduction engine live in stores
+## Posicionamiento Globant
 
-## LATAM Opportunities
+### Propuesta de valor diferencial
+1. **ACP + UCP Integration Factory** — Implementar ambos protocolos para retailers LATAM. Precio: $40k-$80k. Resultado: visible en ChatGPT + Google AI Shopping.
+2. **WooCommerce → Agentic Upgrade** — Para los 6.5M stores WooCommerce: añadir capa agentica (MCP server + Claude + nexscope skills). $30k-$60k.
+3. **Odoo 20 Agentic Upgrade** — Para clientes Odoo existentes: implementar workflows agenticos con Odoo 20. $50k-$150k.
+4. **Medusa AI Store** — New build headless con Medusa + UCP/ACP + agentes. $80k-$250k.
+5. **TikTok Commerce AI** — TikTok Ads MCP + social commerce para mercados AR/MX/BR. $40k-$120k.
 
-| Country | Opportunity | Market Signal |
-|---------|------------|---------------|
-| **Brazil** | PIX + WhatsApp + AI commerce | 97% WhatsApp penetration; PIX 50M+ daily transactions; $52B ecom market |
-| **Mexico** | D2C AI storefronts + OXXO last-mile | MercadoLibre dominant; growing D2C brand movement; SPEI instant payments |
-| **Colombia** | SMB AI-assisted ecommerce | Growing D2C; Rappi + Bancolombia AI pilots |
-| **Argentina** | Inflation-adaptive pricing agents | Currency volatility → dynamic pricing AI high-value |
-| **Chile** | B2B procurement AI | Strong enterprise digital maturity; ACP adoption potential |
-
-## Globant Positioning
-
-- **Entry**: Medusa + Mastra custom implementations for brands moving to composable commerce
-- **Differentiation**: LATAM-specific payment + logistics integrations (PIX, OXXO, MercadoPago, Rappi)
-- **High-margin**: ACP integration consulting + AI catalog enrichment (NVIDIA blueprint customization)
-- **Fast land**: AI shelf audit + inventory optimization for brick-and-mortar clients
-- **Platform play**: WhatsApp + AI commerce for LATAM SMB market (underserved by Shopify/Amazon)
+### Ventaja competitiva Globant en retail AI
+- Presencia en LATAM con entendimiento de WooCommerce + WhatsApp (dominantes en la región)
+- Conocimiento de plataformas open source (Odoo, Medusa) que aceleran delivery
+- Capacidad de integrar protocolos ACP/UCP desde primera hora
+- Equipo multilingüe — crítico para localización de agentes conversacionales
 
 ---
-*Sources: Mordor Intelligence (Jun 2026), Coherent Market Insights, McKinsey, Morgan Stanley, NRF Research.*
+*Globant AI Studios — Retail & eCommerce Intelligence. v9 — 2026-07-14.*

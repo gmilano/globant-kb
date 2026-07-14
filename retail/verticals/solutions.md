@@ -1,60 +1,67 @@
-# Vertical Solutions — Retail & Consumer
+# Verticales de partida — Retail & eCommerce
 
-> Existing platforms customizable with AI. Start with a working system, add the agentic layer on top.
-> Last updated: 2026-07-13
+> Plataformas verticales open source customizables con AI.
+> Modelo: partir de algo funcional, añadir capa agentica arriba.
+> Última actualización: 2026-07-14 (v9)
 
-## Commerce Platforms (AI-Customizable)
+## Plataformas recomendadas
 
-| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
-|----------|---------|------|-------|-----------------|----------------|
-| **Medusa** | MIT | [medusajs/medusa](https://github.com/medusajs/medusa) | Node.js / TypeScript | Headless commerce; D2C, B2B, marketplace | MCP server + agent skills; Claude Code integration native |
-| **Bagisto** | OSL-3.0 | [bagisto/bagisto](https://github.com/bagisto/bagisto) | Laravel / PHP | Multi-channel, multi-currency ecommerce | REST/GraphQL APIs; AI plugins via Bagisto marketplace |
-| **WooCommerce** | GPL-3.0 | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | WordPress / PHP | SMB to mid-market online stores (6M+ active) | Plugin ecosystem; Jetpack AI; WooCommerce Blocks |
-| **Mercur** | MIT | [mercurjs/mercur](https://github.com/mercurjs/mercur) | Node.js (on Medusa v2) | Multi-vendor marketplace B2B + B2C | Inherits Medusa MCP + agent skills |
+| Plataforma | Licencia | Repo / URL | Stack | Caso de uso | AI-readiness |
+|------------|----------|-----------|-------|-------------|-------------|
+| **Medusa.js** | MIT | [medusajs/medusa](https://github.com/medusajs/medusa) | Node.js + TypeScript | Headless eCommerce API-first. Ideal para tiendas que necesitan experiencias personalizadas (mobile, voice, chat, AR). 31k★. | ★★★★★ — MCP server disponible, tutorial Claude Code oficial, módulos plugin-based |
+| **WooCommerce** | GPL-2.0 | [woocommerce/woocommerce](https://github.com/woocommerce/woocommerce) | PHP + WordPress | El estándar de facto para SMB retail. 37% market share global. 6.5M tiendas. Ecosistema masivo de plugins. Fuerte presencia LATAM (AR, BR, MX). | ★★★★☆ — WooCommerce MCP server, miles de plugins, REST API completa |
+| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) + [odoo.com](https://odoo.com) | Python + JavaScript | ERP all-in-one con módulo eCommerce + POS + inventario + CRM. 5M+ usuarios. 50+ módulos en un solo DB. Odoo 20 (sep 2026) añade Agentic AI nativo. | ★★★★☆ — Odoo 20 Agentic AI, API REST, Python extensible, partners LATAM certificados |
+| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz](https://github.com/apache/ofbiz) | Java | ERP enterprise completo: eCommerce B2B+B2C, CRM, supply chain, contabilidad, manufactura. 20+ años de madurez. Ideal para enterprise grande. | ★★★☆☆ — API completa, alto grado de customización pero curva de aprendizaje alta |
+| **Dolibarr** | Apache-2.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | ERP+CRM para SMB: invoicing, inventory, stock, pedidos, clientes. Más liviano que Odoo. Ideal para retail pequeño que no necesita eCommerce complejo. | ★★★☆☆ — REST API, módulos extensibles, rápido de instalar |
+| **InvenTree** | MIT | [inventree/InvenTree](https://github.com/inventree/InvenTree) | Python / Django | Sistema de gestión de inventario open source. Tracking de partes, stock, suppliers, BOM. REST API robusta. Ideal como backend de inventario para agentes. | ★★★★☆ — API-first, integración con agentes para alertas y reposición automática |
+| **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Python (Frappe) | ERP completo con módulo POS y retail. Fuerte en India y emergentes. Inventory, purchasing, sales, accounting. | ★★★☆☆ — API REST Frappe, Python extensible, self-hosted |
+| **Shopware** | MIT | [shopware/shopware](https://github.com/shopware/shopware) | PHP / Symfony | Plataforma headless B2B+B2C. Líder en DACH. Flow Builder visual. REST API + Admin API. Complemento de WooCommerce para enterprise europeo. | ★★★★☆ — Flow Builder + AI rules, API-first, extensible |
 
-## ERP & Omnichannel Suites
+## Cómo customizar con AI (modelo de trabajo Globant)
 
-| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
-|----------|---------|------|-------|-----------------|----------------|
-| **Odoo** | LGPL-3.0 | [odoo/odoo](https://github.com/odoo/odoo) | Python / JavaScript | Full ERP: POS, inventory, CRM, ecommerce, accounting | Python APIs; Odoo.sh; Odoo AI Copilot (v17+); MCP servers emerging |
-| **ERPNext** | GPL-3.0 | [frappe/erpnext](https://github.com/frappe/erpnext) | Frappe / Python | Retail, distribution, manufacturing ERP | Frappe Cloud AI extensions; REST API; webhook-driven agents |
-| **Apache OFBiz** | Apache-2.0 | [apache/ofbiz-framework](https://github.com/apache/ofbiz-framework) | Java | Enterprise ecommerce + ERP; highly customizable | Java APIs; used as backend for AI-augmented enterprise retail |
-
-## Specialized Retail Infrastructure
-
-| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
-|----------|---------|------|-------|-----------------|----------------|
-| **OpenBB** | AGPLv3 | [OpenBB-finance/OpenBBTerminal](https://github.com/OpenBB-finance/OpenBBTerminal) | Python | Financial analytics (pricing, margins, demand) | MCP v4; agent-native; LLM integrations built-in |
-| **Dolibarr** | GPL-3.0 | [Dolibarr/dolibarr](https://github.com/Dolibarr/dolibarr) | PHP | SMB ERP+CRM (inventory, invoices, suppliers) | REST API; webhook; Claude agents via HTTP tools |
-| **SuiteCRM** | LGPL | [salesagility/SuiteCRM](https://github.com/salesagility/SuiteCRM) | PHP | CRM for retail: customer 360, campaigns, service | REST API v8; AI-driven lead scoring via webhooks |
-
-## Retail AI Middleware
-
-| Platform | License | Repo | Stack | Primary Use Case | AI Entry Point |
-|----------|---------|------|-------|-----------------|----------------|
-| **Agentic Commerce Protocol** | Apache-2.0 | [agentic-commerce-protocol/agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Open spec | Agent ↔ merchant transaction standard | Native protocol for AI agents to discover + purchase |
-| **LightFM** | Apache-2.0 | [lyst/lightfm](https://github.com/lyst/lightfm) | Python / Cython | Hybrid recommendations (collab + content) | Add as recommendation microservice to any platform |
-| **Mastra** | Apache-2.0 | [mastra-ai/mastra](https://github.com/mastra-ai/mastra) | TypeScript | Agent orchestration for retail workflows | Workflow engine over any platform's API |
-
-## How to Customize with AI (Recommended Pattern)
-
+### Opción A: Medusa.js + Capa Agentica (recomendado para new builds)
 ```
-1. Choose platform (Medusa for composable; Odoo for all-in-one; ERPNext for LATAM SMB)
-2. Stand up MCP server (medusa-mcp / odoo-mcp / custom) for agent access
-3. Add recommendation layer: LightFM or NVIDIA blueprint
-4. Wire Mastra (TypeScript) or LangGraph (Python) for workflow orchestration
-5. Integrate ACP for multi-agent checkout if Stripe-enabled
-6. Expose conversational UI: WhatsApp (LATAM), web chat, or voice
+Medusa.js (backend headless)
+    ↓ REST API / SDK
+medusa-mcp server (expone Medusa como MCP tools)
+    ↓ MCP Protocol
+Claude / LLM Agente (gestiona productos, órdenes, clientes)
+    ↓
+UCP endpoint (/.well-known/ucp) → visible en Google AI Shopping
+ACP integration → visible en ChatGPT Shopping
 ```
 
-## LATAM-Specific Recommendations
+### Opción B: WooCommerce + MCP + Claude (para clientes con WordPress existente)
+```
+WooCommerce (tienda existente en WordPress)
+    ↓ REST API
+woocommerce-mcp server
+    ↓ MCP Protocol
+Claude / agente (customer service, catalog management, order tracking)
+    ↓
+TikTok Ads MCP → campañas automatizadas por el agente
+nexscope-ai/eCommerce-Skills → skills para el agente
+```
 
-| Market | Recommended Stack | Rationale |
-|--------|------------------|----------|
-| Brazil | Medusa + PIX (via Stripe/Efi) + WhatsApp Business | PIX dominates payments; WhatsApp 97% smartphone penetration |
-| Mexico | ERPNext + OXXO/SPEI + MercadoPago | SMB-friendly ERP; SPEI instant transfers; ML marketplace dominance |
-| Argentina | Dolibarr + MercadoPago + custom AI | Currency complexity; offline-first needed; SMB scale |
-| Colombia | Odoo Community + PSE/Wompi | Growing D2C; Odoo widely deployed by SIs |
+### Opción C: Odoo + Agentes (para clientes con ERP complejo)
+```
+Odoo 20 (ERP + eCommerce + inventario + CRM)
+    ↓ JSON-RPC API / Odoo 20 Agentic AI nativo
+Agentes de supply chain (InvAgent + awesome-supply-chain skills)
+    ↓
+DeerFlow para research de mercado y pricing automático
+stockpyl para optimización matemática de inventario
+```
+
+## Ecosistema de protocolos (julio 2026)
+
+| Protocolo | Promotor | Repo / URL | Rol |
+|-----------|----------|-----------|-----|
+| ACP — Agentic Commerce Protocol | OpenAI + Stripe | [agentic-commerce-protocol](https://github.com/agentic-commerce-protocol/agentic-commerce-protocol) | Checkout vía agentes en ChatGPT |
+| UCP — Universal Commerce Protocol | Google + Shopify + Walmart | [google/universal-commerce-protocol](https://github.com/google/universal-commerce-protocol) | Discovery → checkout completo |
+| MCP — Model Context Protocol | Anthropic (Linux Foundation) | [modelcontextprotocol](https://github.com/modelcontextprotocol) | Data connectivity layer para agentes |
+| A2A — Agent-to-Agent Protocol | Google | [google/A2A](https://github.com/google/A2A) | Coordinación entre agentes |
+| Visa TAP | Visa | Propietario | Verificación de identidad de agentes para pagos |
 
 ---
-*See also: `repos/foundations.md` for core repos, `compose/patterns.md` for integration recipes.*
+*v9 — Globant Retail & eCommerce KB. 2026-07-14.*
