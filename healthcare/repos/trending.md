@@ -1,39 +1,30 @@
-# 📈 Trending Repos — Healthcare
+# Trending Repos — Healthcare AI
 
-> GitHub repos gaining momentum this week. Focus: real AI utility, real licenses.
-> Last updated: 2026-07-13 (v12)
+> GitHub momentum and new arrivals (July 2026).
+> Version: v5 — Updated: 2026-07-14
 
-## Top Trending (July 2026)
+## Hot This Month (June–July 2026)
 
 | Repo | License | Stars | Why Trending |
 |------|---------|-------|-------------|
-| [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | ~4k | On-device clinical AI + HIPAA PII scrubbing. EU AI Act compliance driving adoption wave. Apple MLX support unlocks Mac-based clinical workstations. |
-| [mitmedialab/MDAgents](https://github.com/mitmedialab/MDAgents) | MIT | ~900 | Deloitte 2026 healthcare AI report cited as production-ready. Enterprise validation triggering new adoptions. |
-| [wshi83/EhrAgent](https://github.com/wshi83/EhrAgent) | MIT | ~550 | EHR integration is 2026's top healthcare AI priority. EHRAgent is the reference for LLM-on-EHR data. |
-| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | ~2.5k | Apache-2.0 FHIR-native platform — only permissive-licensed full-stack healthcare platform with HIPAA + SOC2. |
-| [HealthRex/PhysicianBench](https://github.com/HealthRex/PhysicianBench) | MIT | ~180 | New June 2026 benchmark paper (arXiv 2605.02240). Immediate adoption as evaluation standard. |
-| [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) | MIT | ~400 | NEJM AI publication adds clinical legitimacy; cited in 2026 HITRUST AI framework. |
-| [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | MIT | 611 | Digital Public Good for healthcare delivery. LATAM deployments accelerating (Colombia, Peru). India national rollout. |
-| [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | CC-BY | ~1.2k | The go-to index for healthcare AI teams — tracks all new benchmarks and papers. |
-| [openmed-labs/openmed-agent](https://github.com/openmed-labs/openmed-agent) | MIT | ~200 | Terminal-native clinical AI workspace — growing among tech-savvy clinical teams wanting local control. |
-| [TorchIO-project/torchio](https://github.com/TorchIO-project/torchio) | Apache-2.0 | 2.4k | Medical imaging AI backbone — renewed interest as radiology AI moves from research to production. |
+| [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | 3.4k | Launched June 2026 — 1,500+ local medical models, 340M downloads. Privacy-first alternative to cloud medical AI. |
+| [AgenticHealthAI/Awesome-AI-Agents-for-Healthcare](https://github.com/AgenticHealthAI/Awesome-AI-Agents-for-Healthcare) | MIT | 1.2k | Rapidly-updated list: 103 new projects in 2026 alone. Go-to reference for healthcare AI agent landscape. |
+| [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI) | Apache-2.0 | 6.2k | MONAI 2026: Auto3DSeg, NVIDIA Triton real-time inference, federated learning. 15k+ clinical deployments worldwide. |
+| [actava-ai/chi-bench](https://github.com/actava-ai/chi-bench) | MIT | rising | CHI-Bench (May 2026): 72% agent failure rate signal driving attention to clinical workflow complexity. |
+| [HealthRex/PhysicianBench](https://github.com/HealthRex/PhysicianBench) | MIT | rising | Stanford HealthRex benchmark on real FHIR EHRs. 46% best agent score — sets honest bar for clinical AI. |
+| [congboma/MedGuards](https://github.com/congboma/MedGuards) | MIT | rising | Multi-agent medical error correction (arXiv:2606.25651). Safety layer for LLMs in clinical settings. |
+| [xSoVx/fhir-mcp](https://github.com/xSoVx/fhir-mcp) | Apache-2.0 | rising | FHIR MCP server riding the MCP wave — enables any Claude/LLM to query FHIR data with PHI protection. |
+| [rdmgator12/awesome-healthcare-mcp-servers](https://github.com/rdmgator12/awesome-healthcare-mcp-servers) | MIT | rising | Curated healthcare MCP servers: FHIR, clinical decision support, revenue cycle, HIPAA-compliant AI workflows. |
+| [medplum/medplum](https://github.com/medplum/medplum) | Apache-2.0 | 1.6k | Greenfield FHIR platform. TypeScript, Bots for serverless workflow automation, React kit. Used by AI health startups. |
+| [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | MIT | 611 | India's open-source ICU/hospital management platform (WHO Digital Public Good). AI agent integration actively developed. |
 
-## Fast-Rising New Repos (2026)
+## Notable Repos from Research (arXiv → GitHub)
 
-| Repo | License | Context |
-|------|---------|---------|
-| [nyuolab/clinical-llm-benchmarks](https://github.com/nyuolab/clinical-llm-benchmarks) | MIT | NYU — Code for Nature Medicine 2026 paper showing general LLMs outperform specialized clinical AI |
-| [openmed-labs/openmed-agent](https://github.com/openmed-labs/openmed-agent) | MIT | Terminal-native clinical workflows: prior auth, coding audit, care coordination |
-| [AIM-Research-Lab/Awesome-AI-Agents-Medicine](https://github.com/AIM-Research-Lab/Awesome-AI-Agents-Medicine) | CC-BY | Curated survey of AI agents in medicine — fast-growing index |
-| [yczhou001/Awesome-Medical-LLM-Agent](https://github.com/yczhou001/Awesome-Medical-LLM-Agent) | CC-BY | "Reasoning as the Engine" — medical LLMs to medical agents survey |
-
-## Context: Why Healthcare AI is Surging in 2026
-
-- **EHR vendor AI race**: Epic and Oracle Health integrating AI into core products → open-source alternatives must keep pace
-- **Agentic mandate**: 68% of healthcare orgs using AI agents — demand for customizable, auditable open-source options
-- **Benchmark maturation**: HealthBench → PhysicianBench → PhysAssistBench creates credibility ladder for clinical AI
-- **HIPAA + EU AI Act pressure**: Data sovereignty requirements favor on-device / self-hosted solutions
-- **LATAM growth**: Colombia, Peru, Argentina digitizing healthcare systems — OpenMRS/care_fe deployments expanding
+| Repo | Paper | Stars | Focus |
+|------|-------|-------|-------|
+| [UCSC-VLAA/ClinSeekAgent](https://github.com/UCSC-VLAA/ClinSeekAgent) | arXiv:2605.20176 | — | Multimodal clinical reasoning agent (+15.1 F1 on CXR) |
+| [congboma/MedGuards](https://github.com/congboma/MedGuards) | arXiv:2606.25651 | — | Medical error detection/correction multi-agent |
+| [souvikmajumder26/Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant) | — | 280 | Multi-agent clinical chatbot (LangChain) |
 
 ---
-*Auto-updated by the ingest pipeline.*
+*Pipeline automático — v5.*

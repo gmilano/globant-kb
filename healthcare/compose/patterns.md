@@ -1,235 +1,285 @@
-# 🧩 Composition Patterns — Healthcare AI
+# Composition Patterns — Healthcare AI
 
-> Concrete recipes combining real repos + agents for healthcare solutions.
-> Last updated: 2026-07-13 (v12)
+> Concrete recipes combining repos + agents + AI.
+> Version: v5 — Updated: 2026-07-14
 
-## Base Architecture
+## Architecture Base
 
 ```
-[EHR Platform (OpenEMR / Medplum / OpenMRS)]
-                    ↓ FHIR R4 API
-           [HAPI FHIR Server]
-                    ↓
-           [openmed — on-device NLP + PII scrubbing]
-                    ↓
-    [AI Agents Layer (MDAgents / EHRAgent)]
-                    ↓
-    [Evaluation (MedAgentBench / PhysicianBench)]
-                    ↓
-        [UI / API (Medplum React / OpenEMR modules)]
+[Open-source vertical platform (OpenMRS / Medplum / OpenEMR)]
+          ↓
+[FHIR R4 API + FHIR-MCP server (xSoVx/fhir-mcp)]
+          ↓
+[LLM Agent (Claude Sonnet 5 / claude-sonnet-5)]
+          ↓
+[Safety layer (MedGuards multi-agent error correction)]
+          ↓
+[On-device PHI processing (OpenMed Apache-2.0)]
+          ↓
+[Conversational UI / REST API for client]
 ```
 
 ---
 
-## Recipe 1 — AI Ambient Scribe (US Primary Care)
+## Pattern 1: Local-First Clinical NLP Pipeline (HIPAA by Design)
 
-**Goal**: Reduce physician documentation time by 40%+ using open-source ambient transcription + auto-note generation.
+**Use case**: Extract clinical entities + de-identify PHI from clinical notes without data leaving client infrastructure.
+
+**Repos**: `maziyarpanahi/openmed` + `medspacy/medspacy` + `apache/ctakes`
 
 **Stack**:
-- **Base EHR**: [medplum/medplum](https://github.com/medplum/medplum) (Apache-2.0) — FHIR-native, HIPAA-compliant
-- **Transcription**: [openai/whisper](https://github.com/openai/whisper) (MIT) — self-hosted for PHI-safe audio
-- **NLP Pipeline**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0) — clinical NER + PII scrubbing before any LLM call
-- **Note Generation**: MDAgents-style orchestration → GPT-4o / Claude Sonnet via API after PII removal
-- **FHIR Write-back**: HAPI FHIR server writes structured note as FHIR DocumentReference
-
-**Wiring**:
 ```python
-# Simplified flow
-audio = capture_encounter_audio()
-transcript = whisper.transcribe(audio)  # self-hosted
-clean_transcript = openmed.scrub_pii(transcript)  # PHI removed
-clinical_note = claude.generate_soap_note(clean_transcript)
-fhir_client.create_document_reference(note=clinical_note, patient_id=patient_fhir_id)
+# Step 1: De-identify PHI on-device with OpenMed
+from openmed import MedPipeline
+pipeline = MedPipeline(model="openmed/de-id-multilingual", device="local")
+clean_text = pipeline.deidentify(raw_note)  # 55+ PHI types removed
+
+# Step 2: Clinical NER with medspacy
+import medspacy
+nlp = medspacy.load()
+doc = nlp(clean_text)
+entities = [(e.text, e.label_) for e in doc.ents]  # medications, diagnoses, etc.
+
+# Step 3: Send clean structured data to Claude for reasoning
+import anthropic
+client = anthropic.Anthropic()
+response = client.messages.create(
+    model="claude-sonnet-5",
+    messages=[{"role": "user", "content": f"Analyze this clinical note: {entities}"}]
+)
 ```
 
-**Timeline**: 8–12 weeks | **Est. ROI**: 40% documentation reduction = ~2hrs/physician/day saved
+**Estimated timeline**: 3-4 weeks | **Target**: LATAM hospitals needing LGPD-safe NLP
 
 ---
 
-## Recipe 2 — Prior Authorization Agent (Revenue Cycle Automation)
+## Pattern 2: FHIR-Native Clinical Decision Support Agent
 
-**Goal**: Automate prior authorization submission and tracking, reducing manual work by 70% and approval time from 3 days to 4 hours.
+**Use case**: Clinician queries patient records in natural language; agent fetches FHIR data + provides evidence-based recommendations.
+
+**Repos**: `xSoVx/fhir-mcp` + `medplum/medplum` + Claude claude-sonnet-5 with MCP
 
 **Stack**:
-- **EHR Data Source**: [openemr/openemr](https://github.com/openemr/openemr) (GPL-2.0) FHIR API for patient + procedure data
-- **Agent Framework**: [mitmedialab/MDAgents](https://github.com/mitmedialab/MDAgents) (MIT) — multi-agent for payer-specific rule application
-- **Computer Use**: Claude computer-use or Playwright for payer portal navigation
-- **Clinical NLP**: [medspacy/medspacy](https://github.com/medspacy/medspacy) (MIT) — extract clinical criteria from notes
-- **Audit Layer**: MedBeads pattern (immutable log of every AI action for compliance)
+```python
+# Configure FHIR-MCP server (xSoVx/fhir-mcp)
+# fhir-mcp connects to Medplum FHIR server
 
-**Wiring**:
-```
-OpenEMR FHIR → extract [procedure, diagnosis, clinical notes]
-                    ↓
-medspacy: extract [medical necessity criteria, ICD-10/CPT codes]
-                    ↓
-MDAgents: [payer-rules-agent] + [clinical-criteria-agent] → prior auth package
-                    ↓
-computer-use agent: submit to payer portal + monitor status
-                    ↓
-OpenEMR: write authorization number + status back via FHIR
+import anthropic
+client = anthropic.Anthropic()
+
+# Claude calls FHIR-MCP tools automatically
+response = client.messages.create(
+    model="claude-sonnet-5",
+    tools=[{
+        "name": "fhir_search",
+        "description": "Search FHIR server for patient data",
+        "input_schema": {"type": "object", "properties": {"query": {"type": "string"}}}
+    }],
+    messages=[{
+        "role": "user",
+        "content": "What medications is patient #P12345 currently on? Any drug interactions?"
+    }]
+)
+# Agent fetches Patient, MedicationRequest, AllergyIntolerance resources
+# Returns structured drug interaction analysis
 ```
 
-**Timeline**: 10–14 weeks | **Est. ROI**: 60-70% prior auth automation = $180K/year for 5-physician practice
+**Estimated timeline**: 4-6 weeks | **CMS-0057-F compliant** | **Target**: Clinician copilot at US/LATAM health systems
 
 ---
 
-## Recipe 3 — Multi-Agent Clinical Decision Support (MDAgents Pattern)
+## Pattern 3: Autonomous Revenue Cycle Agent
 
-**Goal**: Deploy multi-LLM collaboration for complex differential diagnosis, matching specialist-level reasoning without specialist referral for common cases.
+**Use case**: Automate prior authorization requests, claim submission, and denial management.
+
+**Repos**: `openemr/openemr` (FHIR API) + `xSoVx/fhir-mcp` + CHI-Bench eval harness
+
+**Pipeline**:
+```
+[Claim / PA request] → [FHIR-MCP reads patient data] → [Claude agent]
+    → [Policy library RAG (1,290+ doc managed-care handbook)]
+    → [Authorization decision + documentation]
+    → [Submit via FHIR]
+    → [MedGuards safety check on output]
+```
+
+**CHI-Bench baseline**: Best frontier agent achieves 28% on these workflows → custom orchestration + policy RAG + fine-tuning can push toward 60%+.
+
+**Estimated timeline**: 8-12 weeks | **Pricing**: $150k-$500k engagement | **Target**: US insurers, large health systems
+
+---
+
+## Pattern 4: Medical Imaging AI Pipeline (MONAI + Claude)
+
+**Use case**: Automated radiology triage: segment → classify → generate structured radiology report.
+
+**Repos**: `Project-MONAI/MONAI` + `Project-MONAI/monai-deploy` + Claude Vision
 
 **Stack**:
-- **Framework**: [mitmedialab/MDAgents](https://github.com/mitmedialab/MDAgents) (MIT)
-- **EHR Context**: [wshi83/EhrAgent](https://github.com/wshi83/EhrAgent) (MIT) — retrieves relevant patient history from FHIR EHR
-- **Evidence Retrieval**: [ninglab/KGARevion](https://github.com/ninglab/KGARevion) (MIT) — knowledge-graph RAG over clinical literature
-- **Safety Check**: [ShenghaiRong/MALADE](https://github.com/ShenghaiRong/MALADE) (MIT) — drug interaction verification
-- **Evaluation**: [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) (MIT)
+```python
+import monai
+from monai.transforms import Compose, LoadImage, EnsureChannelFirst, ScaleIntensity
+from monai.networks.nets import UNet
+import anthropic
 
-**Agent Roles** (MDAgents pattern):
-```
-Clinical Query Input
-       ↓
-EHRAgent: fetch relevant patient history from FHIR
-       ↓
-[Diagnostic Team — MDAgents adaptive assembly]
-  ├── Internist LLM: primary differential
-  ├── Specialist LLM: domain-specific reasoning
-  └── KGARevion RAG: evidence-based guidelines
-       ↓
-MALADE: drug safety check on proposed treatments
-       ↓
-Synthesis: final recommendation + confidence + sources
-       ↓
-MedAgentBench: automated evaluation before deployment
+# Step 1: MONAI Auto3DSeg for organ/lesion segmentation
+model = UNet(...)  # or monai.auto3dseg for automated model selection
+seg_mask = model(dicom_image)
+
+# Step 2: Claude Vision for structured report generation
+client = anthropic.Anthropic()
+response = client.messages.create(
+    model="claude-sonnet-5",
+    messages=[{
+        "role": "user",
+        "content": [
+            {"type": "image", "source": {"type": "base64", "data": encoded_image}},
+            {"type": "text", "text": f"Segmentation findings: {seg_mask.summary()}. Generate structured radiology report."}
+        ]
+    }]
+)
 ```
 
-**Timeline**: 12–16 weeks | **Applicability**: Hospital systems, specialist clinics, telemedicine
+**Auto3DSeg**: 2-day training time vs weeks manually | **Estimated timeline**: 5-7 weeks
 
 ---
 
-## Recipe 4 — LATAM Community Health Worker Copilot (OpenMRS + WhatsApp)
+## Pattern 5: Multi-Agent Clinical Safety Stack
 
-**Goal**: Give community health workers (CHW) in rural Brazil/Colombia/Peru an AI copilot via WhatsApp to improve triage accuracy and care coordination.
+**Use case**: Any clinical LLM output passes through MedGuards before reaching clinicians.
+
+**Repos**: `congboma/MedGuards` + any base LLM
+
+```
+[Base LLM generates clinical recommendation]
+    → [MedGuards Detector Agent: identify potential errors]
+    → [MedGuards Localizer Agent: pinpoint error location]
+    → [MedGuards Corrector Agent: fix with KPCS scoring]
+    → [Confidence Arbitrator: resolve disagreements]
+    → [Verified safe output to clinician]
+```
+
+**No base LLM retraining required** | **Multilingual** (handles Spanish/Portuguese clinical notes) | **Estimated timeline**: 2-3 weeks as standalone add-on
+
+---
+
+## Pattern 6: Greenfield FHIR Health App (Medplum + Agents)
+
+**Use case**: Build a new telehealth or care coordination app AI-native from day one.
+
+**Repos**: `medplum/medplum` + `xSoVx/fhir-mcp` + `maziyarpanahi/openmed`
+
+```
+[Medplum FHIR backend (TypeScript, HIPAA+SOC2)]
+    ↓ Serverless Bots (event-driven workflows)
+[FHIR-MCP server for LLM access]
+    ↓
+[Claude claude-sonnet-5 clinical agent]
+    ↓
+[OpenMed for on-device PHI de-id (mobile)]
+    ↓
+[Medplum React UI Kit]
+```
+
+**Estimated timeline**: 6-8 weeks | **Pricing**: $80k-$250k | **Target**: Health tech startups, payer member apps, care coordination
+
+---
+
+## Pattern 7: LATAM Hospital EMR + AI Triage
+
+**Use case**: Deploy OpenMRS for underserved LATAM facilities + AI triage layer.
+
+**Repos**: `openmrs/openmrs-core` + `maziyarpanahi/openmed` (Spanish/Portuguese models) + `gnuhealth/gnuhealth`
+
+```
+[OpenMRS EMR (mobile-first, offline-capable)]
+    ↓ FHIR R4 API
+[OpenMed local NLP → Spanish/Portuguese clinical NER]
+    ↓ Clean structured data
+[Claude claude-haiku-4-5 (lightweight) for triage scoring]
+    ↓
+[Priority queue: urgent / non-urgent / telehealth referral]
+```
+
+**Works offline-first** | **LGPD/LATAM privacy compliant** | **Estimated timeline**: 8-10 weeks | **Target**: NGO-partnered hospitals in Brazil, Colombia, Peru
+
+---
+
+## Pattern 8: NemoClaw Enterprise HIPAA Deployment
+
+**Use case**: Large US health system needing enterprise AI with zero-PHI-to-cloud guarantee.
 
 **Stack**:
-- **EHR**: [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) (MPL-2.0) — community health data
-- **CHW Copilot Agent**: [LLM4IMAS/IMAS](https://github.com/LLM4IMAS/IMAS) (MIT) — low-resource multi-agent pipeline
-- **On-Device NLP**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0) — clinical NLP in Portuguese/Spanish, no cloud
-- **Messaging**: WhatsApp Business API → FastAPI bridge → IMAS agent
-- **Clinical Data**: OpenMRS FHIR module for patient record access
-- **Digital Public Good**: [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) (MIT) for facility management
-
-**Flow**:
 ```
-CHW sends symptom report via WhatsApp (PT/ES)
-       ↓
-openmed: clinical NER + PII check (on-device)
-       ↓
-IMAS: [triage-agent] → severity classification
-      [referral-agent] → nearest facility recommendation
-      [protocol-agent] → ministry-of-health protocol lookup
-       ↓
-OpenMRS: log encounter + update patient record via FHIR
-       ↓
-WhatsApp: response to CHW in local language
+[NemoClaw (NVIDIA, Apache-2.0) — PHI stays on Nemotron local]
+    ↓ de-identified clinical context
+[Claude claude-sonnet-5 (cloud) for reasoning + generation]
+    ↓
+[MedGuards safety layer]
+    ↓
+[Epic/Cerner FHIR API for structured data read-back]
 ```
 
-**Timeline**: 8–12 weeks | **Languages**: Portuguese, Spanish | **Connectivity**: Works on 2G (async queue)
+**HIPAA-by-design** | **Estimated timeline**: 10-16 weeks | **Pricing**: $400k-$1.5M | **Target**: US large hospital systems, enterprise
 
 ---
 
-## Recipe 5 — Radiology AI Second Read (Open-Source Stack)
+## Pattern 9: Clinical Research Data Extraction Agent
 
-**Goal**: AI-assisted second read for chest X-rays and CT scans, flagging critical findings for radiologist review — reducing missed findings.
+**Use case**: Extract structured data from unstructured clinical notes for research cohorts.
 
-**Stack**:
-- **Viewer**: [OHIF/Viewers](https://github.com/OHIF/Viewers) (MIT) — DICOM web viewer
-- **AI Framework**: [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI) (Apache-2.0) — medical imaging AI
-- **3D Preprocessing**: [TorchIO-project/torchio](https://github.com/TorchIO-project/torchio) (Apache-2.0) — 3D transforms + augmentation
-- **Report Agent**: [bowang-lab/MedRAX](https://github.com/bowang-lab/MedRAX) (MIT) — multimodal RAG for radiology report generation
-- **FHIR Integration**: HAPI FHIR for DiagnosticReport resource creation
+**Repos**: `medspacy/medspacy` + `apache/ctakes` + `maziyarpanahi/openmed` + Claude
 
-**Architecture**:
-```
-DICOM Study arrives
-       ↓
-torchio: preprocess 3D volume (normalization, resampling)
-       ↓
-MONAI model: auto-segmentation + finding detection
-       ↓
-OHIF Viewer: overlay findings as annotations
-       ↓
-MedRAX: generate structured radiology report draft
-       ↓
-HAPI FHIR: create DiagnosticReport resource
-       ↓
-Radiologist: review + sign in OHIF
+```python
+import anthropic
+client = anthropic.Anthropic()
+
+# 1. OpenMed de-identification (on-device)
+# 2. medspacy for entity extraction
+# 3. ctakes for UMLS/SNOMED coding
+# 4. Claude for structured output per research protocol schema
+
+response = client.messages.create(
+    model="claude-sonnet-5",
+    messages=[{"role": "user", "content": f"Extract: {entities}. Output: CRF JSON schema."}]
+)
 ```
 
-**Timeline**: 12–20 weeks (includes model training/fine-tuning) | **ROI**: 25-35% radiologist throughput increase
+**Estimated timeline**: 3-5 weeks | **Target**: Academic medical centers, CRO organizations
 
 ---
 
-## Recipe 6 — OpenEMR + AI for Small Practice (LATAM SMB)
+## Pattern 10: OpenAPS AI Glucose Management Agent
 
-**Goal**: AI-powered practice management for small clinics in Brazil/Mexico/Argentina — affordable, deployable on local server, LGPD/NOM-compliant.
+**Use case**: AI layer on top of open-source artificial pancreas for T1D diabetes management.
 
-**Stack**:
-- **EHR**: [openemr/openemr](https://github.com/openemr/openemr) (GPL-2.0) — free, self-hosted, ONC-certified
-- **AI Module**: [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) (Apache-2.0) — on-device, no cloud costs
-- **Appointment Agent**: Simple LangGraph agent on LangChain for scheduling optimization
-- **Billing Agent**: ICD-10 code suggestion agent using medspacy + clinical note parsing
-- **Deploy**: Docker Compose on local server (no cloud dependency)
+**Repos**: `openaps/openaps` (MIT) — 2,500+ patients on production
 
-**Modules Activated**:
 ```
-OpenEMR core (scheduling + billing + clinical notes)
-       ↓
-openmed module (clinical NER, auto-coding suggestions)
-       ↓
-Appointment-AI: schedule optimization + patient reminders via WhatsApp
-Billing-AI: ICD-10/procedure code validation before claim submission
-Note-AI: SOAP note auto-draft from quick symptom input
+[CGM glucose readings + pump data]
+    ↓ OpenAPS closed-loop algorithm
+[Claude claude-haiku-4-5 agent for anomaly detection + patient explanation]
+    ↓
+[Personalized dosing narrative in patient language]
+    ↓ (alert if deviation from model)
+[Clinician dashboard + FHIR export]
 ```
 
-**Timeline**: 6–8 weeks | **Cost**: $0 software + server (~$200/month)
+**Estimated timeline**: 4-6 weeks | **Target**: Diabetes care platforms, patient-facing health apps
 
 ---
 
-## Recipe 7 — Clinical AI Evaluation Harness (Enterprise)
+## Quick-Start Decision Matrix
 
-**Goal**: Before deploying any clinical AI product, run it through a standardized evaluation pipeline to meet health system procurement requirements.
-
-**Stack**:
-- **Primary Eval**: [stanfordmlgroup/MedAgentBench](https://github.com/stanfordmlgroup/MedAgentBench) (MIT) — EHR agent task completion
-- **Clinical Tasks**: [HealthRex/PhysicianBench](https://github.com/HealthRex/PhysicianBench) (MIT) — 100 tasks, 21 specialties
-- **LLM Comparison**: [nyuolab/clinical-llm-benchmarks](https://github.com/nyuolab/clinical-llm-benchmarks) (MIT) — general vs. specialized
-- **Safety Check**: HealthBench scores (via OpenAI API) for baseline safety
-- **Reporting**: Custom CI/CD pipeline generating clinical AI scorecard
-
-**Output**: Clinical AI Scorecard per model/agent version:
-- MedAgentBench task completion rate
-- PhysicianBench specialty coverage
-- Hallucination rate (HealthBench)
-- FHIR tool use accuracy
-- Safety refusal rate
-
-**Timeline**: 4–6 weeks to set up harness | **Ongoing**: Run on every model/agent update
+| Client Need | Starting Platform | Key Agent | Timeline |
+|-------------|-----------------|-----------|---------|
+| Physician documentation | Medplum + FHIR-MCP | Claude Sonnet 5 | 3-4w |
+| Revenue cycle automation | OpenEMR + CHI-Bench eval | Claude + policy RAG | 8-12w |
+| Radiology AI | MONAI + Claude Vision | Auto3DSeg + ClinSeek | 5-7w |
+| LATAM EMR + triage | OpenMRS + OpenMed | Claude Haiku | 8-10w |
+| Clinical safety layer | MedGuards + any LLM | Multi-agent guardrails | 2-3w |
+| On-device PHI de-id | OpenMed | On-device NLP | 1-2w |
+| Enterprise HIPAA | NemoClaw + Claude | Hybrid local/cloud | 10-16w |
 
 ---
-
-## Recipe 8 — Pharmacovigilance Agent (Pharma / CDISC)
-
-**Goal**: AI agent that continuously monitors post-market drug safety signals from FDA FAERS, medical literature, and clinical notes.
-
-**Stack**:
-- **Core Agent**: [ShenghaiRong/MALADE](https://github.com/ShenghaiRong/MALADE) (MIT) — AUC 0.90 on drug-AE detection (NeurIPS 2024)
-- **Evidence Retrieval**: KGARevion (Harvard) — knowledge graph over drug interaction databases
-- **NLP**: openmed (Apache-2.0) — clinical note NER for adverse event extraction
-- **Data Sources**: FDA FAERS (public), PubMed, clinical trial registries
-- **Reporting**: FHIR AdverseEvent resources
-
-**Timeline**: 8–12 weeks | **Applicability**: Pharma companies, large health systems, CROs
-
----
-*Auto-updated by the ingest pipeline.*
+*Auto-updated by ingest pipeline — v5.*
