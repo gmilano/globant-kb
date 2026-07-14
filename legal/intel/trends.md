@@ -1,113 +1,194 @@
-# Tendencias — Legal AI 2026
+# Tendencias — Legal AI
 
-> Última actualización: 2026-07-13
+> Tendencias clave en AI legal. Última actualización: 2026-07-14 (v6)
 
-## T0 — EU AI Act: Agosto 2, 2026 — Fecha de cumplimiento
+## 1. Agentic AI reemplaza herramientas standalone (H1 2026)
 
-**Impacto**: A partir del 2 de agosto de 2026, los sistemas AI de "alto riesgo" (incluidos agentes legales que toman decisiones sobre personas) deben cumplir:
-- Risk management continuo (no one-time assessment)
-- Data governance y calidad de datasets
-- Logging completo de cada decisión
-- Transparencia ante usuarios
-- Human oversight obligatorio
-- Cybersecurity resilience
-- Post-market monitoring
+El segmento "soluciones" del mercado (67% del revenue) se está consolidando en plataformas con **agentes autónomos multi-step** en vez de herramientas puntuales. Los tres líderes enterprise ya migraron:
+- **Thomson Reuters CoCounsel**: Deep Research agéntico + revisión documental autónoma (Q1 2026)
+- **LexisNexis Protégé Work**: planning multi-step + ejecución autónoma de habilidades + Shepard's Verify (mayo 2026)
+- **Harvey**: LAB benchmark para evaluar agentes en 24 áreas de práctica (mayo 2026)
 
-**Para legal AI específicamente**: Un agente que revisa contratos, evalúa riesgos legales, o asiste en decisiones que afectan a personas es clasificable como alto riesgo. Penalidades: 7% revenue global o €35M.
+Gartner: 40% de aplicaciones enterprise tendrán agentes task-specific en 2026 (vs. <5% en 2024).
 
-**Digital Omnibus (mayo 2026)**: EU posprovisionally algunos deadlines para sistemas de alto riesgo, pero los requisitos de transparencia siguen vigentes desde agosto 2.
+## 2. AI embebida en el flujo de trabajo — no como herramienta separada (2026)
 
-## T1 — MCP como App Store Legal (4x crecimiento H1 2026)
+El patrón dominante en 2026: la AI legal más efectiva no vive en un chat box separado. Vive **dentro del email, los documentos y el matter system** del abogado. 
+- Thomson Reuters CoCounsel → integrado en Westlaw
+- Clio AI → integrado en la gestión de casos
+- claude-for-legal → integrado via MCP con Ironclad, iManage, Everlaw, DocuSign
+- Tendencia: "embedded AI" supera en adopción a "standalone AI tools" 3:1 (Thomson Reuters 2026 Legal Professionals survey)
 
-Los MCP servers legales se multiplican. El registry de MCP se convierte en el "app store" para legal AI:
-- US statutes y regulaciones
-- USPTO patent decisions
-- CanLII (derecho canadiense)
-- 20M+ fallos de tribunales de India
-- CourtListener (250M páginas)
+**Implicación para Globant**: construir integración nativa con los sistemas que el cliente ya usa (iManage, Aderant, Elite 3E, sistemas judiciales locales) — no solo una app nueva.
 
-Cualquier agente AI puede conectarse a jurisdicciones específicas sin reentrenar el modelo.
+## 3. Harvey Legal Agent Benchmark (LAB) — nuevo estándar de evaluación
 
-## T2 — Alucinaciones bajo escrutinio judicial: $145K en sanciones
+Lanzado mayo 2026: primer benchmark open-source de **largo horizonte** para agentes legales.
+- 1,200+ tareas en 24 áreas de práctica legal
+- 75,000+ criterios escritos por expertos legales reales
+- Respaldado: NVIDIA, OpenAI, Anthropic, Mistral, DeepMind
+- Referencia: [harvey.ai/blog/introducing-harveys-legal-agent-benchmark](https://www.harvey.ai/blog/introducing-harveys-legal-agent-benchmark)
 
-HEC Paris documenta **486 casos** ante tribunales de todo el mundo de AI generando citas falsas y fuentes inexistentes — 324 solo en EE.UU. La corte del Southern District de Nueva York impuso **$145,000 en sanciones** a una firma por usar AI sin verificación (abr 2026).
+Impacto: las firmas y proveedores usarán LAB como benchmark de compra, similar a cómo SWE-bench evalúa agentes de código.
 
-**Consecuencia**: Human gates ya no son "buena práctica" sino necesidad legal. lavern's mandatory 10-pass verification + human gates anticipan exactamente este requisito.
+## 4. HAQQ-LAB — primer benchmark de derecho civil + MENA (junio 2026)
 
-## T3 — Hyperscale de valuaciones: Harvey $11B, Legora $5.55B, Clio $5B
+Hasta HAQQ-LAB, **todos** los benchmarks legales públicos eran common law / EE.UU. HAQQ-LAB cubre:
+- 300 tareas en 51 áreas de práctica
+- 20+ jurisdicciones: US, UK, EU, UAE, DIFC, Saudi Arabia, Lebanon, Egypt, Qatar, Singapore, Australia
+- **Claude Opus 4.8 ganó**: 30.02/35
+- **Hallazgo crítico**: 24% de todas las respuestas citaron o aplicaron ley incorrectamente
 
-En Q1 2026, el sector legal AI recaudó $2.3B. Tres empresas dominan:
-- Harvey: $200M @ $11B — valuación del tamaño del mercado total
-- Legora: $550M @ $5.55B, cruzó $100M ARR
-- Clio: $5B + adquisición de vLex ($1B)
+**Por qué importa para LATAM**: LATAM es civil law. Los benchmarks common law (Harvey LAB, LegalBench) no son representativos del desempeño en AR/BR/MX/CO/CL. HAQQ-LAB establece el patrón para evaluación civil law. Próxima frontera: benchmark español jurídico para LATAM.
 
-Esto crea una oportunidad para alternativas open source posicionadas como "sin lock-in, con control de datos".
+## 5. Crisis de alucinaciones legales — la gobernanza se vuelve obligatoria (2026)
 
-## T4 — De adopción a optimización: 2026 = "Year of Deploy"
+- **1,313 casos judiciales** documentados con alucinaciones AI a julio 2026
+- **24% de hallucination rate** en los 10 mejores modelos frontier (HAQQ-LAB)
+- Respuesta regulatoria: EU AI Act Anexo III clasifica sistemas legales como "alto riesgo"
+- La gobernanza y auditabilidad son ahora **requerimientos arquitecturales**, no add-ons
+- Human-in-the-loop para revisión de outputs legales: de "best practice" a **obligación contractual**
 
-Después de años de pilotos, 2026 es el año en que el legal AI pasa de demos a producción real:
-- GenAI en corporate legal: 23% → 52% en un año (657 equipos legales, 30 países)
-- Firms buscan ROI medible, no experimentación
-- La siguiente fase es AI embebida en las herramientas que los abogados ya usan (no chat standalones)
+**Oportunidad**: Globant puede diferenciarse construyendo pipelines legales AI con trazabilidad end-to-end, human gates, logging de decisiones y audit trails desde el inicio.
 
-## T5 — Agentic Legal Platforms: de "copiloto" a "agente"
+## 6. CourtListener MCP — acceso agéntico a jurisprudencia EE.UU. (mayo 2026)
 
-La arquitectura cambia:
-- **Antes (2024-25)**: AI como copilot — el abogado escribe, la AI sugiere
-- **Ahora (2026)**: AI como agente — la AI investiga, analiza, redacta, y presenta al abogado para aprobación
-- lavern y Nomos son los primeros exponentes open source de esta arquitectura
+Free Law Project lanzó el **MCP connector oficial** el 12 de mayo de 2026, dando acceso nativo a Claude y otros agentes a:
+- 8M+ opiniones judiciales
+- PACER federal + expedientes
+- Análisis de citas y relaciones entre casos
+- Transcripciones de argumentos orales
+- Datos de jueces + registros financieros
 
-## T6 — Open Source catching up: SaulLM + lavern + OpenContracts
+Referencia: [free.law/2026/05/12/courtlistener-is-now-available-inside-claude](https://free.law/2026/05/12/courtlistener-is-now-available-inside-claude/)
 
-Por primera vez, el stack open source puede competir en calidad con propietarios:
-- **SaulLM-141B**: supera GPT-4 en tareas legales, MIT license
-- **lavern**: 67 agentes, debate protocol, audit bundle — comparable a Harvey en arquitectura
-- **OpenContracts**: DMS con citation graph + MCP nativo — alternativa a Ironclad
+## 7. Adopción corporativa AI legal se duplicó en 1 año
 
-## T7 — Brasil: Reforma Tributária como motor de demanda
+- 23% (2025) → **52%** de legal teams corporativos usan AI (2026)
+- **64%** de in-house teams esperan depender menos de outside counsel gracias a AI interna
+- Presión sobre big law: clientes construyendo capacidad propia vs. externalizar
+- Fuente: Thomson Reuters "How AI is Transforming the Legal Profession" (2026)
 
-La Reforma Tributária brasileña (IBS + CBS reemplazando 5 impuestos) genera demanda masiva:
-- 5M+ empresas necesitan actualizar contratos, compliance y flujos tributarios
-- Transición 2026-2033 con reglas cambiantes
-- AI agents para interpretación en tiempo real de normas del CBS/IBS
-- Repo trending: Consultor-Tributario-AI analiza la reforma con datos web en tiempo real
+## 8. EU AI Act — Aplicación completa 2 agosto 2026
 
-## T8 — LLMs legales open weights democratizan fine-tuning
+Sistemas de "alto riesgo" (Anexo III) incluyen aplicaciones legales:
+- Administración de justicia y estado de derecho
+- Penalidades: hasta €35M o 7% de ingresos globales anuales
+- Requiere: registro EU, auditoría, supervisión humana, documentación técnica
 
-SaulLM (MIT) prueba que el patrón "domain-pretrain a Llama/Mistral" funciona para derecho:
-- SaulLM-7B, 54B, 141B disponibles en HuggingFace
-- Fine-tunable para jurisdicciones LATAM (español, portugués)
-- DISC-LawLLM hace lo mismo para derecho chino (Apache-2.0)
-- Cualquier firma puede tener su propio modelo legal sin pagar Harvey
+**Quedan 19 días. Toda firma que opere AI en contexto legal en la UE debe cumplir.**
 
-## T9 — MCP + Citation Graphs = Legal RAG de nueva generación
+## 9. Ola Open Source legal AI — Mayo 2026 como punto de inflexión
 
-OpenContracts combina:
-- Annotation human + AI en un corpus
-- Citation graph (cada cita legal como edge del grafo)
-- MCP server para que los agentes naveguen el grafo en tiempo real
+En la semana del 4-13 de mayo de 2026, tres proyectos open source transformaron el ecosistema:
 
-Esto supera RAG simple: el agente puede traversar el grafo de citas, encontrar precedentes, y responder con evidencia estructurada.
+| Proyecto | Licencia | Impacto |
+|----------|----------|---------|
+| **Mike** (willchen96/mike) | AGPL-3.0 | 2.2k★/614 forks en 72h; ex-Latham lawyer: "feature parity con Harvey, zero cost" |
+| **Suzie Law** (firelex/suzielaw) | Apache-2.0 | 160+ workflows, 19 jurisdicciones; diseñado para ser forkeado y extendido |
+| **claude-for-legal** (anthropics/claude-for-legal) | Apache-2.0 | 12 plugins oficiales Anthropic + Managed Agents API; 882★ en 24h |
 
-## T10 — Integración AI directa en herramientas existentes
+**Patrón emergente**: "Bring your own API key" democratiza access a AI legal. El moat competitivo se desplaza desde el software hacia la especialización jurisdiccional y la integración con sistemas locales.
 
-2026 marca el fin de las "legal AI apps" independientes. Ahora:
-- CLM vendors integran AI directamente
-- Clio integra GenAI en billing y case management
-- Los MCP servers permiten que Claude/GPT accedan a datos legales sin apps intermedias
-- El abogado trabaja en su herramienta habitual con AI disponible nativamente
+## 10. LATAM: Enter (Brasil) primer unicornio legal-AI
 
-## T11 — Legal AI benchmark gap: sin estándares claros
+Enter recaudó $100M (Founders Fund + Sequoia, mayo 2026), confirmando LATAM como mercado estratégico para AI legal. El modelo: automatización de **litigios masivos repetitivos** (consumidor + laboral) a escala, con integración nativa a sistemas judiciales brasileños.
+- LATAM LegalTech crecerá a $4.8B para 2033 (CAGR 11.12%)
+- Brasil lidera; Argentina, México y Colombia en expansión
 
-A diferencia de coding (SWE-bench) o medicina (MedQA), el benchmarking legal es fragmentado:
-- LegalBench (162 tareas), DISC-Law-Eval, bar exam benchmarks
-- Ninguno cubre litigación LATAM, derecho civil español/portugués o compliance regional
-- **Oportunidad**: construir benchmarks legales LATAM como diferenciador para el mercado hispano-hablante
+## 11. Vaquill MCP Servers — jurisdicciones múltiples (2026)
+
+Tres conectores MCP con cobertura jurisdiccional amplia:
+- **US**: 8M+ sentencias federales y estatales + US Code + CFR
+- **India**: 20M+ sentencias (Supremo Tribunal, High Courts, Tribunales)
+- **Canadá**: CanLII con búsqueda semántica + verificación de citas
+
+Patrón emergente: **multi-jurisdiction RAG agents** que responden preguntas legales usando múltiples bases de datos jurídicas en paralelo.
+
+## 12. LLMs multilingues especializados en derecho
+
+- **DISC-LawLLM** (937★) demostró que fine-tuning jurisdiccional supera GPT-4 generic en tareas legales chinas
+- **LegalAgentBench**: benchmark multi-hop para agentes legales (paper ICLR 2025) — ahora el estándar en academia
+- **LegalBench** (1.1k★): 162 tareas en inglés, base para evaluar performance en EE.UU.
+- **Gap enorme**: falta un LLM fine-tuned en **español jurídico** (LATAM/España) equivalente a DISC-LawLLM. Quién lo construya captura $4.8B de mercado LATAM.
+
+## 13. Document Review automatizado escala a enterprise
+
+La solución segment (67% del market) se consolida en:
+- **Revisión de contratos**: CUAD dataset + fine-tuning → detección de cláusulas de riesgo con >90% F1
+- **E-discovery**: Relativity + AI document review; costo por documento bajó 85% en 3 años
+- **Contract lifecycle management (CLM)**: Ironclad + AI → 60% reducción tiempo de firma
+
+## 14. Reforma tributaria Brasil 2026 — spike de demanda LegalTech
+
+La implementación de IBS (Imposto sobre Bens e Serviços) y CBS (Contribuição sobre Bens e Serviços) está generando:
+- Demanda masiva de análisis fiscal + impacto por empresa
+- Litigios previsibles: estimado 50k+ demandas tributarias en 2026-2027
+- Oportunidad: agente de análisis de impacto de reforma + automatización de demandas
+
+## 15. Legal Skills Ecosystem — Nueva capa de infraestructura (julio 2026)
+
+La proliferación de "skills" portátiles (SKILL.md para Claude Code) está creando una nueva capa de infraestructura legal AI:
+
+- **Patrón SKILL.md**: cualquier abogado puede leer, modificar y desplegar — no requiere programar
+- **GLAW** (lawve-ai/glaw): el ejemplo más ambicioso — 179 skills en 10 departamentos, pipeline completo de un despacho virtual
+- **lawve-ai/awesome-legal-skills**: curación de skills legales emergentes (contrato, compliance, M&A, laboral)
+- **skala-io/legal-skills**: skills construidas por abogados activos, no solo devs
+- **harvard-lil**: el primer centro académico con infraestructura de skills legales AI
+
+**Implicación para Globant**: el valor en 2026-2027 no es el LLM ni el RAG genérico. Es la biblioteca de skills jurisdiccionales especializadas (AR/BR/MX/CO/CL) que ningún proveedor anglosajón tiene. Opportunity: construir `latam-legal-skills` como producto IP propio.
+
+## 16. MCP por jurisdicción — El nuevo patrón de moat (2026)
+
+El Korean Law MCP (2.1k★) demostró que un MCP servidor jurisdiccional específico puede ser un hit:
+- 41 APIs del gobierno coreano, verificación anti-hallucination, grafo legal
+- 4 versiones de simplificación iterativa: 89 tools → 9 tools (encontraron lo que la gente realmente usa)
+- Replicado rápidamente por al menos 5 repos adicionales
+
+**Próxima frontera LATAM**: quién construya primero MCP servers para PJe (Brasil), CEJAT (Argentina), SCJN (México) y EJE (Colombia) tendrá ventaja de first-mover significativa. Tamaño: $4.8B de mercado LATAM LegalTech para 2033.
+
+## 17. BYOK Legal AI — fin del per-seat pricing (julio 2026)
+
+El modelo "Bring Your Own Key" (BYOK) está disrumpiendo los $1,200-3,000/seat/mes de Harvey y LexisNexis. Tres proyectos open source de mayo 2026 lo establecen como el nuevo estándar:
+
+- **Mike** (3.9k★, AGPL-3.0): self-hosted + BYOK = feature parity con Harvey sin licencia mensual
+- **Suzie Law** (800★, Apache-2.0): 160+ workflows + BYOK = automatización completa sin subscripción
+- **ai-legal-claude** (178★, MIT): 14 skills + BYOK = contract review, NDA, compliance con tokens propios
+- Economía BYOK: ~$0.05/contrato en tokens vs $60-150/contrato en plataformas propietarias
+
+**Implicación para Globant**: el revenue no es la licencia — es la implementación, customización jurisdiccional y managed services post-deploy. El cliente paga Anthropic directamente y paga a Globant por expertise. TCO del cliente baja 60-80%.
+
+## 18. Bloomberg Law — 83% adopción individual, 34% institucional (junio 2026)
+
+Bloomberg Law Legal Tech Survey (junio 2026) reveló una brecha crítica de gobernanza:
+
+- **83% de abogados individuales** usan AI legal (vs. 36% en 2024 — crecimiento 2.3x en 1 año)
+- **Solo 34% de firmas** tienen política formal de AI (vs. 17% en 2024)
+- **Brecha del 49%**: abogados usan AI informalmente sin guardrails ni supervisión institucional
+- Riesgo documentado: 1,313 casos judiciales con AI hallucinations confirman el gap de gobernanza
+
+**Oportunidad Globant**: los abogados ya adoptaron; las firmas deben alcanzarlos. Governance frameworks, policy templates y training programs son servicios de alta demanda en H2 2026. El advisory de EU AI Act + HAQQ-LAB quality gates + políticas institucionales es un bundle diferenciado.
+
+## 19. Colorado AI Act — legislación AI estatal prolifera en EE.UU. (junio 2026)
+
+Colorado promulgó SB 205 (Colorado AI Act) en junio 2026, marcando el inicio de un patchwork regulatorio estatal:
+
+- Primera ley AI estatal de EE.UU. con requisitos explícitos para sistemas de "alto riesgo"
+- Clasifica AI en decisiones **legales, empleo, vivienda y crédito** como alto riesgo
+- Requiere: disclosure al usuario, non-discrimination testing, annual risk assessment, impact report
+- Efectiva: agosto 2026 (simultánea con EU AI Act)
+- **7 estados adicionales** con legislación AI activa: Texas, Illinois, New York, Virginia, Washington, Massachusetts, Florida
+
+**Implicación para Globant**: clientes con operaciones en múltiples estados EE.UU. enfrentan un patchwork regulatorio creciente (Colorado + EU AI Act + regulaciones sectoriales). El servicio de compliance AI multi-jurisdiccional (EE.UU. + UE + LATAM) es un diferenciador de alto valor en H2 2026.
 
 ## Repos más activos esta semana
 
-- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — v0.15.0, agentic law firm OSS, viral HN
-- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — MCP server nativo, citation graph
-- [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) — curated ecosystem list
-- [mahdyet1845/Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI) — Reforma Tributária BR en tiempo real
-- [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) — patent MCP server USPTO
+- [anthropics/claude-for-legal](https://github.com/anthropics/claude-for-legal) — Suite oficial Anthropic. Apache 2.0. **8.7k★** (+9.8x en 2 meses)
+- [willchen96/mike](https://github.com/willchen96/mike) — Self-hostable Harvey alternative. AGPL-3.0. **3.9k★**
+- [chrisryugj/korean-law-mcp](https://github.com/chrisryugj/korean-law-mcp) — MCP server legal Korea (41 APIs). MIT. **2.1k★** — nuevo en v5
+- [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) — 8M+ opiniones + MCP connector. Apache 2.0. 2.1k★
+- [firelex/suzielaw](https://github.com/firelex/suzielaw) — Suzie Law 160+ workflows. Apache 2.0. 800★
+- [lawve-ai/glaw](https://github.com/lawve-ai/glaw) — Virtual law firm skill: 179 skills, 10 depts. MIT. **340★** — nuevo en v5
+- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — Agentic law firm: 67 agentes, debate multi-evidencia, human gates. Apache 2.0. 267★
+- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS agéntico open + MCP server. Apache 2.0. 390★
+- [hoorangyee/LRAGE](https://github.com/hoorangyee/LRAGE) — RAG legal evaluation framework. MIT. 180★
