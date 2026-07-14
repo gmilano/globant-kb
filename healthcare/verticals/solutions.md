@@ -1,45 +1,51 @@
-# Vertical Platforms — Healthcare
+# 🏭 Vertical Solutions — Healthcare (v6)
 
-> Existing open-source platforms to customize with AI.
-> Model: start from something working, add agentic layer on top.
-> Version: v5 — Updated: 2026-07-14
+> Existing platforms customizable with AI. Strategy: start from something functional, add agentic layer on top.
+> Last updated: 2026-07-14
 
 ## Recommended Platforms
 
-| Platform | License | URL | Stack | Use Case | AI Customization |
-|----------|---------|-----|-------|----------|-----------------|
-| **OpenMRS** | MPL-2.0 | [openmrs/openmrs-core](https://github.com/openmrs/openmrs-core) | Java / React | EMR for low-resource settings (42 countries, WHO-endorsed) | REST API + OpenMRS SDK → wrap flows with agents |
-| **OpenEMR** | GPL-3.0 | [openemr/openemr](https://github.com/openemr/openemr) | PHP / JS | Full EHR + Practice Mgmt, ONC-certified (~100k installs) | FHIR R4 API + OpenAI/Anthropic webhook integrations |
-| **Medplum** | Apache-2.0 | [medplum/medplum](https://github.com/medplum/medplum) | TypeScript / React | FHIR-native developer platform, HIPAA + SOC2 | Serverless Bots = native agent execution environment |
-| **Care (OHC Network)** | MIT | [ohcnetwork/care_fe](https://github.com/ohcnetwork/care_fe) | React / Python | ICU + hospital mgmt, Digital Public Good (WHO) | REST API; community adding AI agents for triage |
-| **HAPI FHIR** | Apache-2.0 | [hapifhir/hapi-fhir](https://github.com/hapifhir/hapi-fhir) | Java | Reference FHIR R2→R5 server | MCP-FHIR layer (xSoVx/fhir-mcp) on top |
-| **MONAI** | Apache-2.0 | [Project-MONAI/MONAI](https://github.com/Project-MONAI/MONAI) | Python / PyTorch | Medical imaging AI platform | Native — Auto3DSeg, federated learning, Triton deployment |
-| **OpenMed** | Apache-2.0 | [maziyarpanahi/openmed](https://github.com/maziyarpanahi/openmed) | Python / MLX | Local medical models (NER + de-id) | Drop-in NLP layer for any EHR pipeline |
-| **openFHIR** | Apache-2.0 | [medblocks openFHIR](https://medblocks.com/blog/announcing-medblocks-openfhir-an-open-source-engine-that-bridges-openehr-and-fhir) | Node.js | openEHR ↔ FHIR bidirectional mapping | Bridge legacy openEHR systems to FHIR-based AI |
-| **OpenAPS** | MIT | [openaps/openaps](https://github.com/openaps/openaps) | Python | Artificial pancreas (T1D), 2,500+ patients | Closed-loop agent for glucose management |
-| **GNU Health** | GPL-3.0 | [gnuhealth/gnuhealth](https://github.com/gnuhealth/gnuhealth) | Python / Tryton | Hospital IS + EHR + epidemiology (100+ countries) | REST API for AI layer; strong LATAM Spanish community |
+| Platform | License | URL | Stack | AI Use Case |
+|----------|---------|-----|-------|-------------|
+| **OpenMRS** | MPL-2.0 | [openmrs.org](https://openmrs.org) / [github](https://github.com/openmrs/openmrs-core) | Java + REST + module system | World's largest OSS EHR. Add AI agents via REST API modules: diagnosis suggestion, drug interaction alerts, predictive risk scoring. Strong LATAM (Brazil, Colombia, Peru). |
+| **Medplum** | Apache-2.0 | [medplum.com](https://medplum.com) / [github](https://github.com/medplum/medplum) | TypeScript + React + FHIR R4 | Modern FHIR-native platform. SMART on FHIR app ecosystem. Ideal for building AI-augmented clinical apps (care coordination, prior auth automation, patient engagement). |
+| **Ottehr** | MIT-style | [ottehr.com](https://ottehr.com) / [github](https://github.com/masslight/ottehr) | TypeScript + FHIR + Photon | FHIR-native open EHR — reduces custom EHR dev time by 95%. Built-in telehealth, scheduling, e-prescribing. Add AI copilots on top of existing workflows. |
+| **GNU Health** | GPL-3.0 | [gnuhealth.org](https://gnuhealth.org) | Python + Tryton ERP | Public health & hospital information system. Hospital management + epidemiology + genetics. Strong in Latin America and Africa. Add AI via Python modules. |
+| **OpenHIM** | MPL-2.0 | [openhim.org](http://openhim.org) / [github](https://github.com/jembi/openhim-core-js) | Node.js + MongoDB | Health information mediator: routes FHIR messages between systems. AI integration point: intercept transactions, run inference, route results back. |
+| **HAPI FHIR Server** | Apache-2.0 | [hapifhir.io](https://hapifhir.io) / [github](https://github.com/hapifhir/hapi-fhir) | Java + Spring Boot | Reference FHIR server. Deploy as AI data backbone. Subscriptions trigger AI agents on patient data changes (new lab result → risk agent). |
+| **openmed** | Apache-2.0 | [github](https://github.com/maziyarpanahi/openmed) | Python + Apple MLX | Local-first AI healthcare runtime. HIPAA-compliant. No cloud. 1,000+ medical models. Deploy as on-premise AI layer above any EHR via FHIR export. |
+| **Care FE (OHCNetwork)** | MIT | [github](https://github.com/ohcnetwork/care_fe) | React + REST | Digital public good for ICU + ward management. Used in India's COVID response. Add AI: triage automation, deterioration prediction, nursing copilot. |
+| **Synthea** | Apache-2.0 | [github](https://github.com/synthetichealth/synthea) | Java | Synthetic patient generator. Not an EHR — generates training data. Use for AI model development without real patient data. |
+| **DoliMed (Dolibarr fork)** | GPL-3.0 | [dolibarr.org](https://www.dolibarr.org) | PHP + MySQL | EMR built on Dolibarr ERP. Combines practice management + clinical notes. Small-clinic deployments. Add AI via Dolibarr module API. |
+
+## LATAM-Specific Deployments
+
+| Country | Platform | Notes |
+|---------|----------|-------|
+| Brazil | OpenMRS + custom | LGPD (Brazil GDPR) requires data residency; openmed on-premise fits |
+| Colombia | OpenMRS | SISPRO national health registry integration |
+| Mexico | OpenMRS / GNU Health | IMSS integration possible via FHIR gateway |
+| Argentina | GNU Health | Hospital systems, public sector deployments |
+| Peru | OpenMRS | Community health worker (CHW) mobile apps built on OpenMRS |
 
 ## How to Add AI to Any Platform
 
 ```
-1. Fork the base repo
-2. Expose FHIR R4/R5 API (or use existing FHIR endpoint)
-3. Add FHIR-MCP server (xSoVx/fhir-mcp) for LLM access
-4. Wire clinical workflow events → Claude/LLM agent via MCP
-5. Add MedGuards safety layer for error detection on outputs
-6. Evaluate with PhysicianBench or CHI-Bench harness
-7. Add OpenMed for on-device NLP/de-id (no PHI to cloud)
+Step 1: FHIR Export Layer
+  [EHR] → FHIR R4 API or export → [HAPI FHIR / Medplum] (normalized data store)
+
+Step 2: AI Agent Hook
+  [FHIR Subscription] → webhook → [AI Agent] (openmed / LangGraph / CrewAI)
+
+Step 3: Agent Capabilities
+  - Clinical NLP: medspacy (MIT) for concept extraction from notes
+  - Risk scoring: custom ML model or LLM via openmed
+  - Prior auth: openmed-agent (Apache-2.0) — 13 deterministic workflows
+  - Imaging: torchio (Apache-2.0) + MedSAM-Agent for segmentation
+
+Step 4: Structured Output → EHR Write-back
+  [Agent output (FHIR Observation/DiagnosticReport)] → FHIR PUT → EHR
 ```
 
-## LATAM Platform Notes
-
-| Region | Preferred Platform | Reason |
-|--------|------------------|--------|
-| Brazil | OpenEMR + GNU Health | Portuguese-locale modules, large community |
-| Argentina | GNU Health | Strong LATAM Spanish support, hospital IS |
-| Mexico | OpenMRS | WHO endorsement, low-resource facility fit |
-| Colombia | Medplum | FHIR-native for modern health startups |
-| General | OpenMed | On-device Spanish/Portuguese medical NLP |
-
 ---
-*Auto-updated by ingest pipeline — v5.*
+*v6 — 2026-07-14*

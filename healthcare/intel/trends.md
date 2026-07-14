@@ -1,53 +1,143 @@
-# Trends — Healthcare AI
+# 📡 Trends — Healthcare AI (v6)
 
-> Current signals and emerging patterns. Version: v5 — Updated: 2026-07-14
+> 15 key trends shaping healthcare AI in 2026. Last updated: 2026-07-14.
 
-## Key Trends (2026)
+## T1 — Agentic AI for Care Management (24/7 AI Specialists)
 
-### T1 — Agentic AI for Revenue Cycle (RCM Automation)
-The $21.49B AI-in-RCM segment is the fastest-moving. Waystar (Jan 2026) launched agentic AI targeting a fully autonomous revenue cycle. Oracle Health Clinical AI Agent delivering ~30% reduction in physician documentation time. 20.8% market share for RCM in the agentic AI healthcare segment. Globant entry: build on OpenEMR + agentic RCM layer.
+Care management and population health teams are deploying AI agent specialists working 24/7 behind the scenes. These agents distill complex patient history into short, actionable profiles and prioritize care gaps with the highest impact. Example: chronic disease patients with multiple comorbidities → AI agent continuously monitors lab trends and flags deterioration risk to human care manager.
 
-### T2 — FHIR-MCP: MCP Protocol Replacing Custom Integrations
-CMS-0057-F interoperability mandate (effective 2026-2027) requires FHIR APIs at all payers + providers. MCP servers for FHIR (xSoVx/fhir-mcp) now let any LLM query clinical records with PHI protection + audit logs. The awesome-healthcare-mcp-servers curated list is growing weekly. Standard pattern: FHIR-MCP server → Claude → clinical workflow automation.
-
-### T3 — Local-First Medical AI (HIPAA by Design)
-OpenMed (Apache-2.0, Jun 2026): 1,500+ medical models, 340M downloads, runs on-device. The "no PHI to cloud" architecture is becoming a procurement requirement. NVIDIA NemoClaw wraps enterprise models with PHI-stays-local guarantee (GTC 2026). Pattern: on-device NER/de-id → sanitized data → cloud LLM reasoning.
-
-### T4 — Benchmark Gap: Agents Still Fail 72% of Clinical Tasks
-CHI-Bench (arXiv:2605.16679, May 2026): Best frontier agent fails 7 out of 10 real healthcare workflows. PhysicianBench: best agents complete only 28% reliably on real FHIR EHRs. This 72% failure rate is a Globant opportunity: custom orchestration + domain fine-tuning + clinical safety layers overcome the gap.
-
-### T5 — Multi-Agent Safety Layers for Clinical Outputs
-MedGuards (arXiv:2606.25651, Jun 2026): Multi-agent error detection and correction without base LLM retraining. Confidence-guided arbitration between detect/localize/correct agents. ClinSeekAgent improves Claude on chest X-ray tasks by +15.1 F1. The trend: agents wrapping agents for clinical safety (detect → correct → verify pattern).
-
-### T6 — TEFCA at 1 Billion Exchanges (HHS Jul 2026)
-From 10M to 1B FHIR exchanges in <1 year. HHS $1.3M TEFCA oversight. SSA joined TEFCA → disability claim processing 50%+ faster. The interoperability plumbing is now in place; agentic workflows can leverage TEFCA-routed data nationwide (US) → opens enterprise-scale clinical data access for AI.
-
-### T7 — Drug Discovery AI: 46% Top ROI (NVIDIA Survey)
-NVIDIA 2026 survey (600+ professionals): 46% identify drug discovery as top AI ROI area. 85% report higher revenue, 80% lower costs from AI. MONAI + NVIDIA Proteina-Complexa validate 1M+ protein binders. Fiocruz LATAM context for drug discovery partnerships.
-
-### T8 — Federated Learning Across Hospital Sites
-MONAI federated learning: multiple hospital sites train shared model without sharing patient data. Critical for HIPAA compliance in multi-site deployments. NVIDIA NemoClaw integrates federated patterns at enterprise scale.
-
-### T9 — OpenMed: 12-Language Medical NLP for LATAM
-Spanish + Portuguese clinical NLP models available on-device. 1,500+ open models. LATAM clinical text processing without PHI leaving local infrastructure. Key differentiator for Brazil LGPD compliance and LATAM hospital engagements.
-
-### T10 — Agentic AI for Clinical Documentation (30% Time Savings)
-Oracle Health Clinical AI Agent: ~30% reduction in daily documentation. Nuance DAX Express, Suki, Nabla doing ambient documentation. Open-source path: Medplum + OpenMed + Claude (via FHIR-MCP) replicates commercial doc AI at fraction of cost.
-
-### T11 — MedBeads: Agent-Native Data Infrastructure (Feb 2026)
-arXiv:2602.01086. Proposes replacing FHIR-for-humans with immutable Merkle DAG "Beads" designed for AI agents. Solves context mismatch (RAG hallucinations from fragmented EMR data). Go Core + Python/LLM middleware. Early-stage research but points to long-term EHR re-architecture.
-
-### T12 — Multimodal Clinical Agents: EHR + Imaging + Voice
-ClinSeekAgent (arXiv:2605.20176): queries medical KBs + navigates EHRs + invokes imaging tools in one agent loop. Growing pattern: multimodal clinical agents vs single-modality tools. AgentClinic benchmark validates multimodal tool-use agents. MONAI provides the imaging inference layer.
-
-### T13 — 80%+ Executives Expect Agentic Value in 2026
-Deloitte: over 80% of health executives expect both agentic and gen AI to deliver moderate-to-significant value in 2026 across clinical, business, and back-office. Mount Sinai and Mayo Clinic cited as early adopters of agentic AI in clinical workflows.
-
-### T14 — HIPAA-Analog Compliance Pressure in LATAM
-Brazil LGPD (Lei Geral de Proteção de Dados) + LGPDS (health data) requirements mirror HIPAA for patient data. OpenMed on-device inference pattern addresses LGPD by design. Medplum has HIPAA compliance that maps to LGPD. Globant positioning: LGPD-by-design healthcare AI for Brazil market.
-
-### T15 — NemoClaw Enterprise HIPAA (prev v4 signal, still active)
-NVIDIA NemoClaw (GTC 2026, Apache-2.0): enterprise wrapper for OpenClaw, PHI stays on Nemotron local, reasoning to Claude. HIPAA-by-design. Unblocks US large hospital deals for enterprise AI vendors.
+**Key repos:** CHA (Institute4FutureHealth/CHA), HealthFlow (yhzhu99/HealthFlow)
+**Signal:** 68% of healthcare orgs using AI agents; $1.03B agentic healthcare market in 2026
 
 ---
-*Auto-updated by ingest pipeline — v5.*
+
+## T2 — LLMs Deeply Embedded in EHRs
+
+LLMs and agents are becoming deeply embedded in EHR workflows (Epic, Cerner, Medplum) with stronger guardrails. From ambient documentation (Nuance DAX) to AI-assisted clinical decision support within the chart workflow. The EHR is becoming the AI orchestration layer.
+
+**Key repos:** medplum/medplum (Apache-2.0), hapifhir/hapi-fhir (Apache-2.0), openmed-agent (Apache-2.0)
+**Signal:** 41% reduction in physician clerical time from documentation agents
+
+---
+
+## T3 — FHIR as the AI Interoperability Backbone
+
+FHIR R4/R4B has become the universal data exchange standard for healthcare AI. AI agents are increasingly expected to natively read and write FHIR resources (Observation, DiagnosticReport, CarePlan). FHIR subscriptions enable event-driven agent pipelines: new lab result → trigger risk agent → write back FHIR Observation.
+
+**Key repos:** medplum/medplum, hapifhir/hapi-fhir, glee4810/FHIR-AgentBench
+**Signal:** FHIR-AgentBench new benchmark evaluating agents on FHIR-native tasks
+
+---
+
+## T4 — Local-First / Privacy-Preserving AI (HIPAA + EU AI Act)
+
+HIPAA-strict US clients and EU AI Act compliance (in force Aug 2, 2026) are pushing toward on-premise, local-first AI deployment. openmed (Apache-2.0) with 1,000+ medical models running via Apple MLX — zero cloud, patient data never leaves the facility — is the breakout solution for this trend.
+
+**Key repos:** maziyarpanahi/openmed (Apache-2.0, 4k stars)
+**Signal:** EU AI Act enforcement began Aug 2, 2026; €35M penalties driving compliance urgency
+
+---
+
+## T5 — Multimodal Clinical AI (Text + Imaging + Genomics + Vitals)
+
+2026 marks the shift toward multimodal agents capable of analyzing text (clinical notes), images (MRI/CT/X-ray), genomics data, and real-time vitals simultaneously in a single agent context. Radiology + pathology + labs → unified diagnostic reasoning.
+
+**Key repos:** MedSAM-Agent (segmentation), torchio (imaging), medspacy (text), MedAgentGym (multi-modal tasks)
+**Signal:** Google DeepMind + Microsoft publishing multimodal medical foundation models
+
+---
+
+## T6 — Clinical Benchmark Proliferation
+
+2025-2026 produced a wave of rigorous healthcare AI benchmarks that revealed a stark gap between benchmark performance and real-world deployment. This is driving demand for specialized training environments (MedAgentGym) and evaluation-first development.
+
+**Key benchmarks:**
+- CHI-Bench: best agents fail 72% of real clinical workflows
+- PhysicianBench: 46% complete / 28% reliable
+- MedAgentGym: 72,413 task instances across 129 clinical categories
+- FHIR-AgentBench: EHR interoperability evaluation
+
+---
+
+## T7 — Human-AI Collaboration as Optimal Care Model
+
+The sweet spot is carefully engineered human–AI teams, not full automation. GPT-4 outperforms individual physicians on structured diagnostic tests, but real clinical workflows require contextual judgment that agents miss 72% of the time (CHI-Bench). Hybrid HITL (human-in-the-loop) architectures are the 2026 production pattern.
+
+**Key repos:** ReflecTool (ACL 2025), openmed-agent (draft/finalize review cycles)
+**Signal:** PhysicianBench — best agents 46% complete, 28% reliable
+
+---
+
+## T8 — Documentation Automation (Biggest Near-Term ROI)
+
+AI-generated clinical documentation (ambient AI, note summarization, discharge summaries) is delivering the clearest measurable ROI in 2026: 41% reduction in physician clerical time. This is the highest-confidence healthcare AI business case.
+
+**Key tools:** Nuance DAX (commercial), openmed-agent (Apache-2.0 open source)
+**Market signal:** Ambient documentation market driving Nuance >$2B revenue
+
+---
+
+## T9 — Drug Discovery AI Agents
+
+Specialized AI agents for drug discovery and biomedical research are accelerating. These agents autonomously search literature, formulate hypotheses, design experiments, and synthesize evidence. Biotech and pharma are the earliest large-scale deployers.
+
+**Key repos:** STELLA (zaixizhang/STELLA), MedResearcher-R1 (AQ-MedAI), Bio-AI assistants
+**Signal:** Drug discovery AI becoming a VC-hot segment, several $1B+ rounds in 2025-2026
+
+---
+
+## T10 — Multi-Disciplinary Agent Consultation (MDTeam Pattern)
+
+Simulating tumor board / multidisciplinary team (MDT) consultations with specialized AI agents. A cardiologist agent + oncologist agent + radiologist agent debate a case and reach consensus — mirrors real MDT dynamics without requiring 6 physicians in one room.
+
+**Key repos:** MDTeamGPT (KaiChenNJ/MDTeamGPT), MedAgents (gersteinlab/MedAgents, ACL 2024)
+**Signal:** ACL 2024 + ICLR 2026 papers validating the multi-agent approach
+
+---
+
+## T11 — Surgical AI Agents and OR Copilots
+
+Agent-driven operating room environments are emerging: AI copilots that assist with pre-op planning, intraoperative guidance, and post-op documentation. SurgBox (MIT license) provides an open sandbox for building and testing surgical AI agents.
+
+**Key repos:** SurgBox (franciszchen/SurgBox, MIT, IEEE BigData 2024)
+**Signal:** Surgical robotics companies (Intuitive/Medtronic) integrating LLM-based guidance
+
+---
+
+## T12 — Patient-Facing Conversational AI
+
+Conversational AI agents for patients — medication reminders, symptom triage, mental health support, chronic disease coaching. These are lower-risk (patient advisory, not physician-replacing) and easiest to deploy with current LLM reliability levels.
+
+**Key repos:** CHA (Institute4FutureHealth/CHA, Apache-2.0), PIORS (FudanDISC/PIORS)
+**Signal:** 47.2% CAGR for LLM agents in patient engagement through 2030
+
+---
+
+## T13 — Mental Health AI Agents
+
+Mental health-specific AI agents are a fast-growing category: CBT (cognitive behavioral therapy) delivery, mood tracking, crisis detection, peer support augmentation. IMAS targets rural healthcare delivery including mental health.
+
+**Key repos:** IMAS (uheal/imas), AnnaAgent (sci-m-wang/AnnaAgent)
+**Signal:** Mental health AI apps growing rapidly — shortage of mental health providers drives demand
+
+---
+
+## T14 — Radiology and Pathology AI (Imaging Agents)
+
+Radiology AI moving from single-model to agent-based systems: interactive segmentation (MedSAM-Agent), multi-turn refinement based on radiologist feedback, agentic RAG for pathology (Patho-AgenticRAG). Agents that learn from the radiologist's corrections are the next frontier.
+
+**Key repos:** MedSAM-Agent (CUHK, Apache-2.0), Patho-AgenticRAG (Apache-2.0), torchio (Apache-2.0)
+**Signal:** MedSAM-Agent (86 stars, rapid growth) shows market pull
+
+---
+
+## T15 — HIPAA / EU AI Act Compliance Automation
+
+Healthcare orgs are deploying AI compliance agents that automatically classify AI systems, generate risk assessments, and flag HIPAA violations in data pipelines. EU AI Act (in force Aug 2, 2026) places most clinical AI in "high-risk" category requiring transparency, accuracy, and human oversight.
+
+**Key repos:** openmed (Apache-2.0) for on-premise compliance, openmed-agent for workflow audit trails
+**Signal:** EU AI Act enforcement started; €35M maximum fines; healthcare = high-risk AI category
+
+---
+
+*v6 — 2026-07-14*

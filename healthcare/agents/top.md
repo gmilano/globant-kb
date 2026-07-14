@@ -1,34 +1,40 @@
-# Top AI Agents — Healthcare
+# 🎯 Top AI Agents — Healthcare (v6)
 
-> Open source AI agents and tools for the healthcare industry. Focus: MIT / Apache 2.0.
-> Version: v5 — Updated: 2026-07-14
+> Open-source AI agents & tools for the healthcare industry. Focus: MIT / Apache 2.0 / BSD.
+> Last updated: 2026-07-14
 
-## Top Agents & Tools
+## Featured Agents & Tools
 
-| Name | License | Stars | Description |
-|------|---------|-------|-------------|
-| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | 3.4k | Local-first healthcare AI: clinical NER + HIPAA PII de-identification. 1,500+ medical models, 12 languages, Apple MLX + Python. Runs 100% on-device — no PHI ever leaves the network. 340M model downloads. |
-| [MONAI](https://github.com/Project-MONAI/MONAI) | Apache-2.0 | 6.2k | NVIDIA's medical imaging AI toolkit (PyTorch). Auto3DSeg trains 3D segmentation in 2 days vs weeks. Federated learning across hospital sites. Powers 15,000+ clinical devices worldwide. |
-| [medspacy](https://github.com/medspacy/medspacy) | MIT | 700 | Clinical NLP with spaCy: negation detection, section tagging, temporal reasoning. Drop-in for EHR text pipelines. |
-| [PhysicianBench](https://github.com/HealthRex/PhysicianBench) | MIT | — | Stanford HealthRex benchmark: 100 long-horizon clinical tasks, 21 specialties, real FHIR EHRs. Best agents complete only 46% / 28% reliably. Use as eval harness for clinical agent development. (arXiv:2605.02240) |
-| [chi-bench](https://github.com/actava-ai/chi-bench) | MIT | — | CHI-Bench: 75 end-to-end healthcare workflow tasks across prior auth, utilization mgmt, and care mgmt. 87 MCP tools, 1,290-doc managed-care handbook. Best frontier agent fails 72%. Johns Hopkins/Yale/Stanford coalition. (arXiv:2605.16679) |
-| [fhir-mcp](https://github.com/xSoVx/fhir-mcp) | Apache-2.0 | — | MCP server enabling LLMs to securely interact with FHIR R4/R5 servers + HL7 terminology services. Built-in PHI protection, audit logging, token-efficient ops. Compliant with CMS-0057-F interop mandate. |
-| [MedGuards](https://github.com/congboma/MedGuards) | MIT | — | Multi-agent system for medical error detection and correction. Specialized detect/localize/correct agents with confidence-guided arbitration. Multilingual (4 clinical note datasets). No extra training required. (arXiv:2606.25651) |
-| [Medplum](https://github.com/medplum/medplum) | Apache-2.0 | 1.6k | TypeScript-first FHIR R4 platform — HIPAA + SOC2. Serverless Bots for workflow automation, built-in auth, React UI kit. Preferred greenfield platform for AI-enhanced clinical apps. |
-| [ClinSeekAgent](https://github.com/UCSC-VLAA/ClinSeekAgent) | Apache-2.0 | — | UC Santa Cruz multimodal evidence-seeking agent for clinical reasoning. Queries medical KBs, navigates raw EHRs, invokes imaging tools. Improves Claude on CXR tasks: 47.5 → 62.6 F1 (+15.1). (arXiv:2605.20176) |
-| [Multi-Agent-Medical-Assistant](https://github.com/souvikmajumder26/Multi-Agent-Medical-Assistant) | MIT | 280 | GenAI-powered multi-agent diagnostics + healthcare research chatbot. Designed for clinicians, researchers, and patients. LangChain + LLM orchestration. |
-| [edsnlp](https://github.com/aphp/edsnlp) | BSD-3-Clause | 170 | AP-HP (Paris) fast clinical NLP, PyTorch + spaCy compatible. Modular pipeline for French + English EHR text. Production-grade at largest European hospital group. |
-| [ctakes](https://github.com/apache/ctakes) | Apache-2.0 | 131 | Apache clinical NLP for information extraction from clinical notes. UIMA-based pipeline, NCI/NLM vocabularies, 15+ year track record. |
+| Name | License | Repo | Stars | Description |
+|------|---------|------|-------|-------------|
+| [openmed](https://github.com/maziyarpanahi/openmed) | Apache-2.0 | maziyarpanahi/openmed | 4.0k | Local-first healthcare AI: clinical NER & HIPAA PII de-identification. Runs 1,000+ local medical models in 12 languages via Apple MLX. Zero cloud — patient data never leaves the network. |
+| [MedAgents](https://github.com/gersteinlab/MedAgents) | MIT | gersteinlab/MedAgents | 359 | [ACL 2024 Findings] Multi-disciplinary collaboration framework: assembles virtual domain experts per clinical question, runs consensus discussion rounds, produces zero-shot medical reasoning. Benchmarked on MedQA, MedMCQA, PubMedQA, MMLU. |
+| [openmed-agent](https://github.com/openmed-labs/openmed-agent) | Apache-2.0 | openmed-labs/openmed-agent | 26 | AI-powered terminal for clinical workflows: 62 built-in tools, 13 deterministic workflows. Covers prior authorization, appeal analysis, coding audits, ICD-10/CPT/SNOMED/LOINC/RxNorm. FHIR export. Local operator with draft/finalize review cycles. |
+| [MedAgentGym](https://github.com/wshi83/MedAgentGym) | Research | wshi83/MedAgentGym | 121 | [ICLR 2026] First publicly available training environment for LLM agents on code-based medical reasoning. 72,413 task instances across 129 categories from 12 real biomedical scenarios. Supports SFT + DPO + RL training. Dockerized isolated execution. |
+| [HealthFlow](https://github.com/yhzhu99/HealthFlow) | Apache-2.0 | yhzhu99/HealthFlow | 48 | Self-evolving multi-agent framework for EHR analysis: Meta Agent (plans) → Executor Agent (codes) → Evaluator Agent (validates) → Reflector Agent (writes reusable experience). Five benchmark suites including MedAgentBoard + CureBench. |
+| [MedSAM-Agent](https://github.com/CUHK-AIM-Group/MedSAM-Agent) | Apache-2.0 | CUHK-AIM-Group/MedSAM-Agent | 86 | Interactive medical image segmentation via multi-turn agentic reinforcement learning. Hybrid prompting + dual-stage training (SFT + RL). Covers 6 imaging modalities, 21 datasets. Supports MedSAM2, SAM2.1, IMISNet backbones. |
+| [SurgBox](https://github.com/franciszchen/SurgBox) | MIT | franciszchen/SurgBox | 16 | [IEEE BigData 2024] Agent-driven operating room sandbox with surgery copilot. Built on MetaGPT. Simulates multi-role surgical environments and AI-assisted surgical decision support. |
+| [ReflecTool](https://github.com/BlueZeros/ReflecTool) | MIT | BlueZeros/ReflecTool | 42 | [ACL 2025] Reflection-aware tool-augmented clinical agents. Agents self-reflect on tool calls, correct reasoning chains, and improve clinical decision support accuracy iteratively. |
+| [CHA](https://github.com/Institute4FutureHealth/CHA) | Apache-2.0 | Institute4FutureHealth/CHA | 38 | Personalized LLM-powered conversational health agent framework. Modular: data sources (wearables, EHR, FHIR), reasoning engine, memory, multi-modal outputs. Designed for chronic disease management. |
+| [Chain-of-Diagnosis](https://github.com/FreedomIntelligence/Chain-of-Diagnosis) | Apache-2.0 | FreedomIntelligence/Chain-of-Diagnosis | 67 | Interpretable medical agent via chain-of-thought diagnostics. Step-by-step diagnosis pipeline with explainable reasoning trace — critical for clinical trust and auditability. |
 
-## Benchmark Summary (July 2026)
+## Secondary Agents Worth Tracking
 
-| Benchmark | Tasks | Best Agent Score | Gap vs Human |
-|-----------|-------|-----------------|--------------|
-| CHI-Bench (arXiv:2605.16679) | 75 policy-rich workflows | 28% complete | ~72% fail rate |
-| PhysicianBench (arXiv:2605.02240) | 100 long-horizon EHR | 46% complete / 28% reliable | Significant gap |
-| MedAgentBench (NEJM AI) | EHR action tasks | ~40% | Moderate gap |
+| Name | Repo | Key Signal |
+|------|------|-----------|
+| EvoClinician | yf-he/EvoClinician | Self-evolving agent for multi-turn medical diagnosis via test-time evolutionary learning |
+| MDTeamGPT | KaiChenNJ/MDTeamGPT | Multi-disciplinary team consultation simulator: specialists debate, consensus emerges |
+| IMAS | uheal/imas | Agentic approach to rural healthcare delivery — targets low-resource settings |
+| KGARevion | mims-harvard/KGARevion | Knowledge graph-augmented agent for biomedical QA (Harvard MIMS) |
+| STELLA | zaixizhang/STELLA | Self-evolving LLM agent for biomedical research; autonomously designs experiments |
+| MedResearcher-R1 | AQ-MedAI/MedResearcher-R1 | Expert-level medical deep researcher — R1-style reasoning for clinical evidence synthesis |
+| PIORS | FudanDISC/PIORS | Personalized intelligent outpatient reception — patient triage + scheduling agent |
+| Patho-AgenticRAG | Wenchuan-Zhang/Patho-AgenticRAG | Multimodal agentic RAG for pathology VLMs via reinforcement learning |
 
-> **Insight for Globant**: The 72% failure rate in CHI-Bench is a market signal — clients who deploy off-the-shelf frontier LLMs for clinical workflows will underperform. Custom fine-tuning + domain-specific orchestration is where Globant adds value.
+## License Key
+- **Apache-2.0 / MIT**: Fully permissive — Globant can build commercial products directly.
+- **Research license**: Free for non-commercial/research use; negotiate for commercial deployment.
+- **PhysioNet HL**: Data access credentialed; code itself typically MIT-compatible.
 
 ---
-*Auto-updated by ingest pipeline — v5.*
+*Auto-updated by ingest pipeline. v6 — 2026-07-14*

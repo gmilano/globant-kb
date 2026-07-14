@@ -1,74 +1,82 @@
-# Market Map — Healthcare AI
+# 🗺️ Market Map — Healthcare AI (v6)
 
-> Key players, market sizing, opportunities. Focus: LATAM + global.
-> Version: v5 — Updated: 2026-07-14
+> Key players, market data, LATAM opportunities. Last updated: 2026-07-14.
 
-## Market Sizing (2026)
+## Market Size & Growth
 
-| Segment | 2026 Size | Forecast | CAGR | Source |
-|---------|-----------|---------|------|--------|
-| AI in Healthcare (overall) | $36.67B | $194.79B (2031) | 39.7% | MarketsandMarkets |
-| Agentic AI in Healthcare | $1.83B | $19.71B (2034) | 34.61% | Fortune Business Insights |
-| AI in Revenue Cycle Mgmt | $21.49B | $71.27B (2031) | 27.1% | Mordor Intelligence |
-| Clinical Doc & Workflow Automation | — | — | 38.54% | Grand View Research |
-| Generative AI in Healthcare | $0.95B → $5.77B (prev) | — | 43.4% | GlobeNewswire (Jul 2026) |
-| Medical Imaging AI | $5.2B+ | — | 35%+ | NVIDIA/MONAI ecosystem |
+| Segment | 2026 | 2030/2031/2033 | CAGR | Source |
+|---------|------|----------------|------|--------|
+| AI in Healthcare (global) | $50.7B | $505.6B (2033) | 38.9% | Fortune Business Insights |
+| Agentic AI in Healthcare | $1.03B | $5.78B (2031) | 42.03% | Mordor Intelligence |
+| LLM in Healthcare | $1.8B | $12.5B (2033) | 32.3% | Grand View Research |
+| Clinical Decision Support AI | ~$4.5B | $15B+ (2030) | ~22% | Various |
+| Healthcare Automation (RCM + prior auth) | ~$8B | $25B (2030) | ~18% | Various |
 
-## Global Key Players
+## Key Performance Benchmarks (2026)
 
-| Company | Type | Open Source? | Strength |
-|---------|------|-------------|----------|
-| NVIDIA (MONAI, NemoClaw) | Platform + Tools | ✅ Apache-2.0 | Medical imaging, PHI-safe enterprise deployment |
-| Medplum | Platform | ✅ Apache-2.0 | FHIR-native developer platform for AI health apps |
-| Oracle Health | Enterprise | ❌ Proprietary | Clinical AI Agent: ~30% doc time reduction for physicians |
-| Microsoft (Azure Health) | Cloud | Partial | HIPAA cloud, health data services |
-| AWS HealthLake | Cloud | ❌ Proprietary | FHIR-native data lake, PHI-safe ML workflows |
-| Google Health | Cloud | ❌ Proprietary | MedPaLM 2, research-grade clinical LLMs |
-| Waystar | RCM | ❌ Proprietary | Agentic AI for autonomous revenue cycle (Jan 2026) |
-| Epic Systems | EHR | ❌ Proprietary | Dominant US EHR, adding AI features + FHIR APIs |
-| Athenahealth | EHR | ❌ Proprietary | Cloud EHR + RCM, AI documentation |
-| Mayo Clinic / Mount Sinai / Johns Hopkins | Health Systems | Collaborative | CHI-Bench coalition, benchmark leadership |
+| Benchmark | Best Result | Implication |
+|-----------|-------------|-------------|
+| CHI-Bench (arXiv:2605.16679) | Best agents fail **72%** of real clinical workflows | Agents not yet autonomous — HITL required |
+| PhysicianBench (arXiv:2605.02240) | Best agents: **46% complete / 28% reliable** | Large reliability gap vs human physicians |
+| Clinical diagnosis accuracy | GPT-4 **outperforms** many physicians in structured tests | Strong in benchmark, weak in real workflow |
+| Documentation automation | **41%** reduction in physician clerical time | Highest ROI AI application today |
+| Prior auth processing | **10x faster** with AI agents vs manual | $40B/yr waste target |
 
-## Agentic AI Platform Landscape (2026)
+## Adoption Statistics (2026)
 
-| Vendor | Product | Focus |
-|--------|---------|-------|
-| Kore.ai | Healthcare Agentic AI | Patient access, clinical ops |
-| Sutherland | Agentic AI for providers | Revenue cycle, back-office |
-| Nuance (Microsoft) | DAX Express | Ambient clinical documentation |
-| Suki | AI assistant | Physician voice documentation |
-| Nabla | Copilot for clinicians | Ambient note-taking, EU market |
+- **68%** of healthcare organizations already using AI agents
+- **41%** reduction in physician clerical time from documentation agents
+- **LLM agents on 47.2% CAGR** through 2030 in healthcare
+- Care management teams deploying AI agents 24/7 for population health
+- Big tech (Microsoft/Google/Amazon) concentrating on platform + foundation model layer
 
-## Performance Reality Check (CHI-Bench, May 2026)
+## Global Players — Market Map
 
-> Best frontier agents (GPT-4o, Claude, Gemini) fail **72%** of real end-to-end clinical workflows when tested against 87 MCP tools + 1,290-page policy handbook.
+| Company | Type | Strength | Weakness |
+|---------|------|----------|----------|
+| Epic Systems | Incumbent EHR | 35% US hospital share; AI copilot embedded | Closed ecosystem; expensive; US-centric |
+| Oracle Health (Cerner) | Incumbent EHR | VA/DoD contracts; strong government | Migration friction; slower AI iteration |
+| Microsoft (Azure AI Health) | Cloud + AI | Azure Health Data Services + OpenAI + Nuance Dragon | Licensing cost; cloud-only |
+| Google Health AI (DeepMind) | Research + Cloud | MedPaLM 2, radiology AI, Vertex AI | Limited commercial EHR traction |
+| Amazon AWS HealthLake | Cloud | FHIR-native lake; Connect for hospitals | Less clinical workflow depth |
+| Nuance (DAX Copilot) | Ambient documentation | >$2B revenue; 300M+ ambient AI notes | Microsoft-owned; expensive |
+| Waystar / Availity | RCM + prior auth | AI-driven claims automation | US-only focus |
+| OpenMRS Community | OSS EHR | 42+ countries; LATAM strength | Needs AI layer built on top |
+| Medplum | FHIR platform | Modern stack; developer-friendly; Apache-2.0 | Early-stage commercial support |
+| openmed | Local AI | Privacy-first; 1,000+ models; Apache-2.0 | Early-stage; no enterprise SLA |
 
-| Agent Tier | CHI-Bench Success Rate |
-|-----------|----------------------|
-| Best frontier model | ~28% |
-| Average frontier model | ~15% |
-| Specialized clinical agent (fine-tuned) | TBD (benchmark too new) |
+## LATAM Opportunities (Globant Focus)
 
-**Implication**: Raw LLM → clinical workflow does not work. Orchestration + domain fine-tuning + safety layers are mandatory. This is Globant's value.
-
-## LATAM Opportunities
-
-| Opportunity | Country Focus | Entry Point |
-|-------------|--------------|-------------|
-| Hospital digitalization (underpenetrated EHR) | BR, MX, CO, AR | OpenMRS / OpenEMR + AI layer |
-| Revenue cycle automation | BR (SUS), MX (IMSS) | Agentic RCM on open stack |
-| Clinical documentation (physician burden) | All LATAM | On-device NLP (OpenMed) + Claude |
-| Telemedicine AI triage | BR, CO, PE | Care.ohcnetwork + LLM agent |
-| HIPAA-analog compliance (LGPD Brazil) | Brazil | OpenMed local inference; Medplum HIPAA/LGPD |
-| Drug discovery AI | BR (Fiocruz partnerships) | MONAI + molecular models |
+| Country | Healthcare AI Maturity | Key Opportunity | Open Source Base |
+|---------|----------------------|-----------------|-----------------|
+| **Brazil** | Medium-High | AI-augmented UBS (primary care); LGPD-compliant local AI; telehealth for Amazon region | OpenMRS + openmed (on-premise) |
+| **Colombia** | Medium | SISPRO national registry AI enrichment; rural diagnostic agents | OpenMRS + Care FE |
+| **Mexico** | Medium | IMSS AI modernization; IMSS has 50M+ patient records | GNU Health + FHIR layer |
+| **Argentina** | Medium | Hospital Garrahan AI pilots; public hospital modernization | GNU Health + medspacy |
+| **Peru** | Low-Medium | CHW (community health worker) AI tools; Amazonian telemedicine | OpenMRS + CHA agent |
+| **Chile** | Medium-High | FONASA digital transformation; mining sector occupational health | Medplum + custom AI |
 
 ## Globant Positioning
 
-- **Entry**: Open-source platform (OpenMRS / Medplum / OpenEMR) as base
-- **Differentiation**: CHI-Bench-validated orchestration + MedGuards safety layer
-- **HIPAA strategy**: OpenMed for on-device PHI processing; NemoClaw for enterprise
-- **Pricing edge**: Avoid $3k/seat proprietary tools; build on Apache/MIT stack
-- **LATAM anchor**: Spanish/Portuguese OpenMed models; GNU Health LATAM community
+**Tier 1 (Build & Sell):**
+- Clinical documentation automation (biggest ROI, lowest clinical risk)
+- Prior authorization AI agents (openmed-agent base)
+- FHIR integration & interoperability layer
+
+**Tier 2 (Pilot → Scale):**
+- Population health AI (risk stratification, care gap closure)
+- Radiology AI workflow integration (torchio + MedSAM-Agent)
+- Patient-facing conversational agents (CHA framework)
+
+**Tier 3 (Research → Commercial):**
+- Multi-disciplinary diagnostic agents (MDTeamGPT pattern)
+- Surgical AI copilots (SurgBox pattern)
+- Drug discovery acceleration (STELLA)
+
+**Competitive Advantage:**
+- LATAM presence + regulatory knowledge (LGPD/HIPAA)
+- Open-source-first reduces client licensing costs
+- Privacy-preserving AI: openmed (Apache-2.0) enables on-premise deployment
 
 ---
-*Auto-updated by ingest pipeline — v5.*
+*v6 — 2026-07-14*
