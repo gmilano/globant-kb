@@ -1,70 +1,64 @@
-# 🗺️ Mapa de mercado — Legal Services
+# 🗺️ Market Map — Legal AI
 
-> Players, oportunidades, posicionamiento. Foco LATAM + global.
-> Última actualización: 2026-07-14 (v7)
+> Key players, market structure, and positioning for AI in legal services.
+> Last updated: 2026-07-15
 
-## Tamaño de mercado
+## Market Size
 
-| Segmento | 2025 | 2026 | 2030E | CAGR |
-|----------|------|------|-------|------|
-| AI in Legal (global) | $4.59B | $5.59B | $14B+ | 22.3% YoY |
-| CLM (Contract Lifecycle Mgmt) | $2.07B | $2.34B | $5.09B (2034) | 13% |
-| Legal AI LATAM | ~$180M | ~$230M | $800M+ | 26%+ |
-| Legal Research AI | $1.1B | $1.4B | $4B+ | 28% |
+| Metric | Value | Source |
+|--------|-------|--------|
+| Legal AI market 2025 | $4.59 billion | Azumo / multiple analysts |
+| Legal AI market 2026 | $5.59 billion | Azumo / multiple analysts |
+| Adoption — law firms using GenAI | 41% (2026) vs 28% (2025) | Thomson Reuters |
+| Adoption — corporate legal using GenAI | 47% (2026) vs 23% (2025) | Thomson Reuters |
+| In-house counsel actively using GenAI | 52% | Wolters Kluwer |
+| Legal professionals using AI tools | 79% | BCG Attorney Search |
+| Firms exploring agentic AI | >60% | Summize / Wordsmith AI |
+| Corporate depts using AI contract analysis | 58% | Multiple surveys |
 
-## Players globales
+## Global Players — Proprietary
 
-| Empresa | Tipo | Fortaleza | Debilidad |
-|---------|------|-----------|----------|
-| Harvey AI | Comercial (OpenAI partner) | Lider big law; GPT-4/o3 fine-tuned; $100M+ raised | Propietario; costo alto; English first |
-| Thomson Reuters CoCounsel | Comercial | Westlaw integration; 150+ años de datos | Propietario; caro; ecosistema cerrado |
-| Lexis+ AI (LexisNexis) | Comercial | Nexis data; Shepard's citations; legal precedent | Propietario; pricing opaco |
-| Bloomberg Law | Comercial | 83% adopción individual (Jun 2026); analytics | Propietario; anglosajón |
-| Ironclad | CLM Comercial | Lider CLM enterprise; $150M+ raised | Solo enterprise; caro |
-| Evisort (Workday) | CLM Comercial | AI contract analysis; Workday 2024 | Integrado Workday; pierde independencia |
-| Free Law Project | Open source nonprofit | CourtListener (250M+ docs); 100% open | Sin soporte enterprise; solo US |
-| Harvard LIL | Open source academic | OLAW, Caselaw Access (6.9M casos) | Sin soporte comercial |
-| Open-Source-Legal | Open source | OpenContracts (MIT); DMS + MCP | Comunidad chica; sin enterprise backing |
-| Vaquill AI | Open source / BYOK | Mejor ecosistema MCP legal 2026; multi-jurisdicción; MIT | Startup; revenue model en definición |
+| Company | Product | Strength | Market Position |
+|---------|---------|----------|-----------------|
+| Thomson Reuters | Westlaw AI, CoCounsel | $6B legal data moat, 150 years of case law | Dominant incumbent, now AI-native |
+| LexisNexis (RELX) | Lexis+ AI, Lexis Create | Parallel data moat to Westlaw | Tight #2, racing Thomson Reuters on AI features |
+| Harvey AI | Harvey | GPT-4-class legal reasoning, top law firm adoption | Fastest-growing legal AI startup; $300M+ raised |
+| Ironclad | Ironclad CLM | Contract lifecycle management, Fortune 500 legal ops | CLM category leader |
+| Litera (fmr. Kira) | Litera Kira | Contract review, due diligence ML | M&A due diligence workhorse |
+| Casetext (Thomson Reuters) | CoCounsel | AI legal assistant, acquired by TR 2023 | Integrated into Westlaw workflow |
+| EvenUp | EvenUp | AI demand packages for personal injury | Vertical AI; processing 100k+ cases |
+| Summize | Summize CLM | CLM + AI clause summarization | SMB CLM with strong AI UX |
 
-## Adopción actual (Jul 2026)
+## Global Players — Open Source Ecosystem
 
-- **79%** de profesionales legales usan AI diariamente (vs 19% en 2023)
-- **41%** de firmas de abogados usan GenAI (vs 28% en 2025)
-- **47%** de departamentos legales corporativos usan GenAI (vs 23% en 2025)
-- **83%** uso individual Bloomberg Law vs **34%** política institucional → **49% governance gap**
-- **57%** de organizaciones NO hace fine-tuning — usan base models + RAG
+| Organization | Contribution | Significance |
+|--------------|-------------|-------------|
+| Free Law Project | CourtListener, RECAP, eyecite, Juriscraper | The data infrastructure backbone of legal AI |
+| LexPredict | LexNLP, ContraxSuite | Foundational NLP tools in most commercial legal AI |
+| Equall.ai | SaulLM-7B/54B/141B (MIT) | Only open-weights frontier legal LLM family |
+| Maastricht Law Tech Lab | awesome-legal-nlp, ECHR research | European legal NLP research hub |
+| Harvard Library Innovation Lab | Caselaw Access Project | 6.9M cases, 360 years — the open legal corpus |
+| Suffolk University LIT Lab | Docassemble, Assembly Line Project | Open source legal document automation ecosystem |
+| FudanDISC | DISC-LawLLM | Leading Chinese legal LLM system |
+| ICLRandD | Blackstone | UK/Commonwealth legal NLP pipeline |
 
-## Regulación: señales críticas 2026
+## LATAM Opportunities
 
-| Regulación | Estado | Impacto |
-|------------|--------|---------|
-| EU AI Act | En vigor (deadline alto riesgo: **2 ago 2026**) | AI en procesos judiciales = alto riesgo; documentación + auditoría + HITL obligatorio |
-| Colorado AI Act SB205 | Firmada jun 2026 | Primer marco US estatal; "consecuencias materiales" incluye servicios legales |
-| UK AI Liability | Consulta activa | Marco responsabilidad AI en práctica legal |
-| Brasil LGPD + AI | En debate | Impacto en datos legales; BYOK obligatorio |
+| Opportunity | Justification | Open Source Starting Point |
+|-------------|--------------|----------------------------|
+| Contract automation for SMB | 90%+ of LATAM SMBs have no CLM; contracts managed in email/DOCX | Docassemble (MIT) + SaulLM (MIT) |
+| Legal aid access | 70%+ of low-income population has no access to legal representation | Docassemble guided self-help flows + local LLM |
+| Compliance monitoring (Brazil/Mexico) | Complex, changing tax and labor regulation | LexNLP + RAG over regulatory corpus |
+| Court document processing | Backlogs in LatAm civil courts; AI triage and summarization | LexNLP + Blackstone adapted for Spanish/Portuguese |
+| Spanish-language legal LLM gap | No SaulLM equivalent for Spanish law | Llama-3 + legal pretraining on LATAM corpus; clear Globant opportunity |
+| Corporate due diligence | M&A activity recovering; Kira-style tools at accessible price point | ContraxSuite + SaulLM |
 
-## Oportunidades AI en LATAM
+## Positioning for Globant AI Studios
 
-| País | Oportunidad | Señal |
-|------|-------------|-------|
-| Brasil | **Reforma Tributária** (IBS/CBS/IS): transición 2026-2033 | Consultor-Tributario-AI en GitHub; bufetes demandan herramientas |
-| México | Compliance SAT, ADR/arbitraje, contratos USMCA | Firmas top piloteando Harvey/CoCounsel |
-| Colombia | Digitalización rama judicial; Secop II open data | DANE + Secop II; oportunidad legal RAG |
-| Argentina | Inflación contractual; cláusulas estabilización; reestructuración deuda | Alta demanda contract review agentico M&A |
-| Chile | Gobierno corporativo, compliance minero, concesiones | Firmas grandes piloteando CLM + AI review |
+- **Differentiation**: The proprietary players (Harvey, Ironclad, Westlaw AI) are all US-English-centric. Globant can lead on **Spanish/Portuguese legal AI** and **LATAM jurisdiction coverage** — a white space with no incumbent.
+- **Open source leverage**: SaulLM (MIT) + Docassemble (MIT) + LexNLP (Apache-2.0) + CourtListener data = a full legal AI stack at near-zero license cost. Globant margin comes from integration, fine-tuning, and verticalization — not from buying Harvey licenses.
+- **Data moat path**: Build a high-quality corpus of LATAM legal documents (Brazilian CLT labor law, Mexican NOM standards, Argentine Civil Code) and fine-tune SaulLM-7B on it. This creates a defensible legal LLM for the region that no US vendor will prioritize.
+- **Engagement pattern**: Start with contract review (fastest ROI, clearest output) → expand to full CLM + compliance monitoring → eventually offer legal AI as a managed service.
 
-## Posicionamiento Globant AI Studios — Legal
-
-**Ventajas:**
-1. **LATAM-first**: ningún player global cubre LGPD/LFPDPPP/CO-habeas data + stack open source
-2. **Stack open source**: OpenContracts + due-diligence-agents + OLAW + MCP → sin lock-in
-3. **Combo Legal + Financial**: contratos M&A + DD financiero → propuesta integrada única
-4. **Reforma Tributária Brasil**: ventana 2026-2028 para herramientas IBS/CBS
-
-**Propuesta de valor:**
-- Deploy OpenContracts (MIT, self-hosted, datos soberanos)
-- due-diligence-agents para M&A (13 agentes, 9 dominios)
-- MCP servers para research (CourtListener-MCP + jurisdicción local)
-- Evaluación con LRAGE (benchmarks reproducibles — no caja negra)
-- HITL obligatorio en gates críticos (lavern pattern)
+---
+*Data sourced from Thomson Reuters, Azumo, BCG Attorney Search, Wolters Kluwer, Summize — July 2026.*

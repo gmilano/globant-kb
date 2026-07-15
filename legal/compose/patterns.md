@@ -1,322 +1,229 @@
-# 🧩 Patrones de composición — Legal Services
+# 🧩 Composition Patterns — Legal AI
 
-> Recetas concretas: repos reales + código de ejemplo + tiempo de entrega.
-> Última actualización: 2026-07-14 (v7)
+> Concrete recipes combining specific repos, agents, and data sources into deployable legal AI solutions.
+> Last updated: 2026-07-15
 
-## Arquitectura base
+---
 
+## Pattern 1: AI Contract Review Pipeline
+
+**Goal**: Automated first-pass review of commercial contracts with clause-level risk scoring.
+
+**Stack**:
 ```
-[Corpus legal (contratos, sentencias, normativa)]
-          ↓ ingest
-[OpenContracts DMS (MIT) — grafo de citas + MCP]
-          ↓ MCP endpoint
-[LLM Agent (Claude Sonnet 5 / claude-opus-4-8)]
-          ↓ herramientas
-[MCP Servers: courtlistener-mcp | canlii-mcp | uspto-mcp]
-          ↓ output estructurado
-[Revisión humana (HITL) en gates críticos]
+PDF/DOCX upload
+     ↓
+LexNLP (Apache-2.0) — extract parties, dates, obligations, citations
+     ↓
+CUAD clause classifier (CC-BY-4.0) — tag 41 clause types (IP, indemnity, limitation of liability, etc.)
+     ↓
+SaulLM-7B-Instruct (MIT) via Ollama — risk-rate each clause, draft redline suggestions
+     ↓
+OpenCLM (AGPL-3.0) — store contract, track obligations, route for approval
+     ↓
+Structured risk report (JSON → PDF)
+```
+
+**Repos**:
+- [LexPredict/lexpredict-lexnlp](https://github.com/LexPredict/lexpredict-lexnlp) — entity extraction
+- [HuggingFace cuad](https://huggingface.co/datasets/cuad) — CUAD clause training data
+- [Equall/Saul-7B-Instruct-v1](https://huggingface.co/Equall/Saul-7B-Instruct-v1) — legal LLM backend
+- [openclm.ai](https://openclm.ai/) — CLM platform for storage and tracking
+- Reference impl: [lowtidebuild/contract-review-agent](https://github.com/lowtidebuild/contract-review-agent)
+
+**Estimated build**: 2–3 weeks for MVP. Use contract-review-agent as skeleton, replace backend LLM with SaulLM, pipe output into OpenCLM.
+
+---
+
+## Pattern 2: Agentic Law Firm (67-Agent Orchestration)
+
+**Goal**: Full multi-agent legal workflow — intake → research → drafting → review → approval.
+
+**Stack**:
+```
+Client intake (conversational)
+     ↓
+Docassemble (MIT) — guided interview, gather facts
+     ↓
+Agent Orchestrator (Lavern pattern, Apache-2.0)
+     ├─ Research Agent: CourtListener API + RAG (Qdrant) + SaulLM-54B
+     ├─ Drafting Agent: SaulLM-7B + Docassemble templates
+     ├─ Review Agent: CUAD clause scanner + risk rater
+     ├─ Compliance Agent: EUR-Lex / CFR lookup + gap analysis
+     └─ Approval Gate: human-in-the-loop via OpenLawOffice task queue
           ↓
-[Entregable: redlines, memos, risk reports, DD summaries]
+Final document → OpenCLM storage + obligation tracking
 ```
+
+**Repos**:
+- [jhpyle/docassemble](https://github.com/jhpyle/docassemble) — intake and document generation
+- [AnttiHero/lavern](https://github.com/AnttiHero/lavern) — 67-agent orchestration reference
+- [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) — legal precedent data
+- [Equall/Saul-7B-Instruct-v1](https://huggingface.co/Equall/Saul-7B-Instruct-v1) — LLM backbone
+- [NodineLegal/OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) — task queue + matter management
+
+**Estimated build**: 6–10 weeks for production-grade. Start with lavern as orchestration skeleton, specialize 5–10 core agents before scaling to 67.
 
 ---
 
-## P1 — Contract Risk Triage con CUAD + Claude
+## Pattern 3: Legal Research Assistant (RAG + Precedent Retrieval)
 
-**Objetivo**: Detectar 41 tipos de cláusulas de riesgo en contratos comerciales.
-**Repos**: [cuad](https://github.com/TheAtticusProject/cuad) (CC-BY 4.0) + [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) (MIT) + Claude API
+**Goal**: Ask a legal question, get a cited answer with case law references.
 
-```python
-import anthropic, json
-
-client = anthropic.Anthropic()
-
-CUAD_CLAUSE_TYPES = [
-    "Change of Control", "Non-Compete", "IP Ownership", "Indemnification",
-    "Limitation of Liability", "Termination for Convenience", "Governing Law",
-    "Uncapped Liability", "Anti-Assignment", "Most Favored Nation"
-    # ... 31 más según CUAD taxonomy
-]
-
-def triage_contract(contract_text: str) -> dict:
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        messages=[{"role": "user", "content": f"""Analyze this contract and identify risk clauses from CUAD taxonomy.
-For each clause: type, exact excerpt, risk (HIGH/MEDIUM/LOW), concern.
-Clause types: {', '.join(CUAD_CLAUSE_TYPES)}
-
-Contract: {contract_text[:50000]}
-
-Return JSON: {{"clauses_found": [{{"type": "...", "excerpt": "...", "risk": "HIGH|MEDIUM|LOW", "concern": "..."}}], "overall_risk": "HIGH|MEDIUM|LOW", "summary": "..."}}"""}]
-    )
-    return json.loads(response.content[0].text)
-
-result = triage_contract(open("contract.txt").read())
-high_risk = [c for c in result["clauses_found"] if c["risk"] == "HIGH"]
-print(f"Found {len(high_risk)} HIGH risk clauses")
+**Stack**:
+```
+User question (natural language)
+     ↓
+Query expansion + jurisdiction detection (SaulLM-7B)
+     ↓
+Qdrant vector search over corpus:
+     ├─ Harvard CAP (6.9M cases, CC0) — case law
+     ├─ CourtListener opinions — US federal/state courts
+     └─ EUR-Lex (EU law text) — for European matters
+          ↓
+Reranker (BGE-reranker or Cohere Reranker)
+          ↓
+SaulLM-54B — synthesize answer + cite sources
+          ↓
+Response with: answer, cited cases (with CourtListener links), confidence rating
 ```
 
-**Tiempo**: 3-5 días | **Diferenciador**: CUAD gold standard (NeurIPS 2021), 41 clause types
+**Repos**:
+- [Equall/Saul-7B-Instruct-v1](https://huggingface.co/Equall/Saul-7B-Instruct-v1) — query expansion + answer synthesis
+- [freelawproject/eyecite](https://github.com/freelawproject/eyecite) — citation normalization
+- [case.law](https://case.law/) — bulk case law corpus
+- [kjgdgch65g/nl-rag-qdrant-legal](https://github.com/kjgdgch65g/nl-rag-qdrant-legal) — RAG reference implementation
+- Qdrant (Apache-2.0) — vector store
+
+**Key decision**: Use 512-token chunks with 128-token overlap for case law; clause-boundary chunking for contracts.
 
 ---
 
-## P2 — M&A Due Diligence Multi-Agente (13 dominios)
+## Pattern 4: Legal Document Automation (Self-Service Access to Justice)
 
-**Objetivo**: DD forense completa: Legal + Finance + Commercial + Tech + Cyber + HR + Tax + Regulatory + ESG.
-**Repos**: [due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) (Apache-2.0) + Claude API
+**Goal**: Allow non-lawyers to generate basic legal documents through a guided interface.
 
-```python
-from due_diligence import DDOrchestrator, QualityGate
-
-orchestrator = DDOrchestrator(
-    data_room_path="./data_room/",
-    domains=["legal", "finance", "commercial", "tech", "cyber", "hr", "tax", "regulatory", "esg"],
-    llm_backend="claude-opus-4-8",
-    output_dir="./dd_output/"
-)
-
-result = orchestrator.run(
-    quality_gates=[
-        QualityGate("coverage", threshold=0.85),       # Gate 1: >=85% docs procesados
-        QualityGate("cross_domain", threshold=0.75),   # Gate 2: cross-refs validadas
-        QualityGate("citation", threshold=0.95),       # Gate 3: hallazgo -> cita exacta
-        QualityGate("consistency", threshold=0.80),    # Gate 4: coherencia cross-domain
-        QualityGate("human_review", required=True),    # Gate 5: HITL obligatorio
-    ]
-)
-
-result.export_ic_memo("ic_memo_2026_07.docx")
-result.export_risk_matrix("risk_matrix.xlsx")
-
-# Cross-domain findings = el valor diferencial:
-for f in result.cross_domain_findings:
-    print(f"CROSS: {f.legal_ref} <-> {f.financial_ref} <-> {f.cyber_ref}")
-    # Ej: "Indemnification uncapped -> $50M contingent liability -> CVE-2026-1234"
+**Stack**:
+```
+User interaction (web browser, mobile)
+     ↓
+Docassemble interview (YAML + Python) — ask plain-language questions
+     ↓
+LLM (SaulLM-7B via Ollama) — interpret ambiguous answers, suggest appropriate form
+     ↓
+Template engine — fill in appropriate jurisdiction-specific document template
+     ↓
+PDF generation + delivery
+     ↓
+(Optional) OpenLawOffice — assign to supervising attorney for review gate
 ```
 
-**Tiempo**: 2 semanas | **Diferenciador**: cross-domain reasoning que ningún revisor humano conecta
+**Repos**:
+- [jhpyle/docassemble](https://github.com/jhpyle/docassemble) — the core platform (MIT)
+- [SuffolkLITLab/docassemble-ALDocument](https://github.com/SuffolkLITLab/docassemble-ALDocument) — Assembly Line toolkit (MIT)
+- [Equall/Saul-7B-Instruct-v1](https://huggingface.co/Equall/Saul-7B-Instruct-v1) — interpret user answers, recommend document type
+
+**LATAM adaptation**: Replace court form templates with LATAM jurisdiction equivalents (Brazilian CLT forms, Argentine civil code documents, Mexican NOM compliance forms). The Docassemble engine is jurisdiction-agnostic.
 
 ---
 
-## P3 — Legal Research RAG con OLAW + CourtListener-MCP
+## Pattern 5: Compliance Monitoring Agent (Regulatory Change Detection)
 
-**Objetivo**: Asistente de research con acceso a 250M+ páginas de tribunales US + corpus local.
-**Repos**: [olaw](https://github.com/harvard-lil/olaw) (MIT) + [courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) (MIT)
+**Goal**: Monitor regulatory sources, detect changes relevant to a client's industry, generate compliance gap reports.
 
-```python
-import anthropic
-client = anthropic.Anthropic()
-
-# Claude Desktop config (settings.json mcpServers):
-# { "courtlistener": { "command": "npx", "args": ["courtlistener-mcp"], "env": {"CL_API_KEY": "KEY"} } }
-
-def legal_research(question: str, jurisdiction: str = "US") -> str:
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=8192,
-        system="""Legal research assistant. Use courtlistener tool.
-        Always cite: exact case name, date, court.
-        Flag when precedent is unclear or jurisdiction-specific.""",
-        messages=[{"role": "user", "content": f"Research: {question}\nJurisdiction: {jurisdiction}"}]
-    )
-    return response.content[0].text
-
-# Para LATAM agregar MCP servers adicionales:
-# Brasil: STF/STJ API | México: SCJN | Colombia: Corte Constitucional
+**Stack**:
+```
+Scheduled agent (daily/weekly)
+     ↓
+Scrapers: EUR-Lex API + Federal Register API + Brazil DOF scraper + Mexico DOF scraper
+     ↓
+LexNLP — extract entities, dates, obligations from new documents
+     ↓
+Change detection: compare against last known state (Qdrant semantic diff)
+     ↓
+Relevance filter: SaulLM-7B — "does this regulatory change affect {client industry}?"
+     ↓
+Gap analysis: compare new requirement against client's existing policies (RAG over policy docs)
+     ↓
+Alert report → email / Slack / OpenLawOffice task creation
 ```
 
-**Tiempo**: 1 semana + 2 semanas por jurisdicción LATAM | **Diferenciador**: 250M+ docs reales, BYOK
+**Repos**:
+- [LexPredict/lexpredict-lexnlp](https://github.com/LexPredict/lexpredict-lexnlp) — regulatory text extraction
+- [Equall/Saul-7B-Instruct-v1](https://huggingface.co/Equall/Saul-7B-Instruct-v1) — relevance classification
+- [NodineLegal/OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) — task creation for attorneys
+- Qdrant (Apache-2.0) — semantic state tracking
+
+**LATAM priority**: Brazil's IBS/CBS tax reform, Mexico's labor law updates, and Argentina's frequent regulatory changes make this pattern extremely high-value in the region.
 
 ---
 
-## P4 — OpenContracts DMS + Anotación Agentica
+## Pattern 6: Patent Intelligence Agent (USPTO + MCP)
 
-**Objetivo**: DMS legal con AI que anota automáticamente y construye grafo de citas.
-**Repos**: [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) (MIT)
+**Goal**: Automated patent landscape analysis and freedom-to-operate assessment.
 
-```python
-import anthropic
-client = anthropic.Anthropic()
-
-def annotate_corpus(corpus_name: str, annotation_instructions: str):
-    response = client.beta.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        mcp_servers=[{"url": "https://your-opencontracts.company.com/mcp/", "authorization_token": "TOKEN"}],
-        messages=[{"role": "user", "content": f"""Process corpus '{corpus_name}':
-1. List all documents
-2. Extract parties, dates, clause types, key obligations per doc
-3. Identify cross-document citations -> build citation edges
-4. Flag: {annotation_instructions}
-Apply annotations, generate summary report."""}]
-    )
-    return response.content[0].text
-
-annotate_corpus(
-    corpus_name="AcquisitionTarget-2026",
-    annotation_instructions="uncapped indemnification, IP assignment without carveouts, change of control"
-)
+**Stack**:
+```
+Technology description (natural language)
+     ↓
+SaulLM-7B — extract technical claims and patent claim language
+     ↓
+USPTO MCP Server [Tam1379/uspto_fpd_mcp (MIT)] — query USPTO Final Patent Decisions
+     ↓
+Prior art search: Google Patents API + USPTO PEDS API
+     ↓
+Claim mapping agent — compare client technology against prior art claims
+     ↓
+FTO report: risk rating per claim element, recommended modifications
 ```
 
-**Tiempo**: 1 semana (Docker) + 3 días por corpus | **Diferenciador**: self-hosted BYOK + citation graph persistente
+**Repos**:
+- [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) — USPTO MCP server
+- [Equall/Saul-7B-Instruct-v1](https://huggingface.co/Equall/Saul-7B-Instruct-v1) — claim language understanding
+
+**Status**: Early-stage (MCP server at 2 stars). High potential — patent analysis is a $1B+ professional services category with very little open source tooling.
 
 ---
 
-## P5 — Lavern: Agentic Law Firm Pattern (Debate con Evidence)
-
-**Objetivo**: Revisión con 67 agentes especialistas que debaten y votan hallazgos.
-**Repos**: [lavern](https://github.com/AnttiHero/lavern) (Apache-2.0)
+## Wiring Reference
 
 ```python
-from typing import List, Dict
+# Minimal contract review pipeline sketch
+from lexnlp.extract.en import entities, dates, money
+import ollama
+import qdrant_client
 
-class AgenticLawFirm:
-    """Pattern basado en lavern (Apache-2.0)."""
+def review_contract(pdf_path: str) -> dict:
+    text = extract_text(pdf_path)  # pdfminer or pypdf2
     
-    def review_document(self, doc: str, specialists: List[str] = None) -> Dict:
-        agents = specialists or ["contract_analyst", "risk_assessor", "compliance_checker",
-                                  "negotiation_advisor", "precedent_researcher"][:10]
-        findings = {}
-        
-        for pass_num in range(1, 11):  # 10-pass loop
-            for agent in agents:
-                agent_findings = self._run_agent(agent, doc, findings, pass_num)
-                for other_agent, other_findings in findings.items():
-                    if other_agent != agent:
-                        refutation = self._refute(agent, other_findings)
-                        if refutation["confidence"] > 0.8:
-                            findings[other_agent]["challenged"] = True
-            
-            if pass_num in [3, 7, 10]:  # Human gates en passes clave
-                findings = self._human_review_gate(findings, pass_num)
-        
-        return self._synthesize_findings(findings)
+    # LexNLP structured extraction
+    parties = list(entities.get_companies(text))
+    effective_date = list(dates.get_dates(text))
+    financial_terms = list(money.get_money(text))
     
-    def _human_review_gate(self, findings: Dict, pass_num: int) -> Dict:
-        challenged = {k: v for k, v in findings.items() if v.get("challenged")}
-        if challenged:
-            approved = self._await_human_approval(challenged)  # Bloquea hasta aprobación
-            for key in approved:
-                findings[key]["human_validated"] = True
-        return findings
-```
-
-**Tiempo**: 2-3 semanas | **Diferenciador**: 10-pass debate vs single-LLM review; HITL = liability coverage
-
----
-
-## P6 — LATAM Compliance Bot: Reforma Tributária Brasil
-
-**Objetivo**: Asistente para preguntas sobre impacto IBS/CBS/IS en contratos y operaciones.
-**Stack**: OpenContracts (MIT) + Claude API + corpus LC 214/2025 + DOU API
-
-```python
-import anthropic
-client = anthropic.Anthropic()
-
-def consultor_reforma_tributaria(pergunta: str, contexto_empresa: str = "") -> str:
-    """
-    Asistente Reforma Tributária brasileña. Base: LC 214/2025 (IBS/CBS/IS), CARF.
-    """
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=4096,
-        system="""Você é especialista em direito tributário brasileiro,
-        especialmente Reforma Tributária LC 214/2025 (IBS, CBS, IS).
-        Sempre cite dispositivos legais específicos.
-        Indique dúvidas de interpretação ou normas pendentes de regulamentação.
-        Destaque impactos em contratos de serviços, locação e importação.""",
-        messages=[{"role": "user", "content": f"Empresa: {contexto_empresa}\nPergunta: {pergunta}"}]
-    )
-    return response.content[0].text
-
-r = consultor_reforma_tributaria(
-    pergunta="Como calcular CBS em contratos de TI com tomador no exterior?",
-    contexto_empresa="SaaS brasileira com 40% de receita em exportações"
-)
-```
-
-**Tiempo**: 2 semanas | **Mercado**: Todas las empresas BR deben adaptarse 2026-2033 — demanda masiva
-
----
-
-## P7 — CLM Integration: OpenCLM + AI Contract Review
-
-**Objetivo**: CLM completo con revisión AI automática en cada contrato ingresado.
-**Stack**: [OpenCLM](https://openclm.ai/) (AGPL-3.0) + due-diligence-agents legal-only + Claude API
-
-```python
-import anthropic, json
-client = anthropic.Anthropic()
-
-def on_contract_uploaded(contract_id: str, contract_text: str, contract_type: str):
-    """Auto-review triggered by OpenCLM webhook."""
-    risk_report = triage_contract(contract_text)     # P1 pattern
-    deviations = compare_to_playbook(contract_text, contract_type)
-    redlines = generate_redlines(contract_text, deviations, risk_report)
+    # SaulLM risk analysis via Ollama
+    risk_prompt = f"""You are a contract review expert. 
+    Analyze this contract for key risks in these clause categories: 
+    limitation of liability, indemnification, IP ownership, exclusivity, termination.
     
-    update_contract_in_clm(
-        contract_id=contract_id,
-        risk_level=risk_report["overall_risk"],
-        risk_tags=[c["type"] for c in risk_report["clauses_found"] if c["risk"] == "HIGH"],
-        ai_redlines_doc=redlines,
-        requires_human_review=(risk_report["overall_risk"] == "HIGH")
-    )
-    if risk_report["overall_risk"] == "HIGH":
-        notify_legal_reviewer(contract_id, risk_report)
-
-def generate_redlines(original: str, deviations: list, risks: dict) -> bytes:
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=8192,
-        messages=[{"role": "user", "content": f"""Generate redlines JSON for deviations:
-Deviations: {json.dumps(deviations)}
-Risk flags: {json.dumps(risks['clauses_found'])}
-For each: original_text, suggested_text, rationale (1 sentence), priority (HIGH/MEDIUM/LOW)
-Return: {{"redlines": [...]}}"""}]
-    )
-    return apply_redlines_to_docx(original, json.loads(response.content[0].text)["redlines"])
-```
-
-**Tiempo**: 3 semanas | **ROI**: 60-80% reducción first review; abogados solo ven HIGH risk
-
----
-
-## P8 — LRAGE Evaluation Pipeline para Legal RAG
-
-**Objetivo**: Evaluación continua de calidad del sistema RAG legal en CI/CD.
-**Repos**: [LRAGE](https://github.com/hoorangyee/LRAGE) (MIT)
-
-```python
-from lrage import LRAGEEvaluator, LegalBench, KBL, LawBench
-
-def evaluate_legal_rag(rag_pipeline):
-    evaluator = LRAGEEvaluator(
-        retriever=rag_pipeline.retriever,
-        reranker=rag_pipeline.reranker,
-        generator=rag_pipeline.llm,
-        llm_judge="claude-sonnet-5"
+    Contract text: {text[:8000]}
+    
+    Return JSON with clause_risks array, each item having: clause_type, risk_level (low/medium/high), 
+    summary, recommended_action."""
+    
+    response = ollama.chat(
+        model='saullm-7b-instruct',
+        messages=[{'role': 'user', 'content': risk_prompt}],
+        format='json'
     )
     
-    results = {
-        "legalbench": evaluator.run(LegalBench()),  # 162 legal reasoning tasks
-        "kbl": evaluator.run(KBL()),
-        "lawbench": evaluator.run(LawBench()),
+    return {
+        'parties': parties,
+        'effective_date': effective_date,
+        'financial_terms': financial_terms,
+        'clause_risks': response['message']['content']
     }
-    
-    baseline = load_baseline_scores()
-    for benchmark, score in results.items():
-        if score < baseline[benchmark] * 0.95:  # Block if >5% regression
-            raise ValueError(f"LRAGE regression: {benchmark} {score:.2%} < threshold")
-    
-    for benchmark, score in results.items():
-        print(f"  {benchmark}: {score:.2%}")
-    return results
-
-# GitHub Actions: run on every PR touching RAG pipeline
-# Block merge if score drops >5% vs baseline
-# Track in MLflow/W&B for long-term trends
 ```
 
-**Tiempo**: 2 días | **Valor**: Benchmarks reproducibles — diferenciador en RFPs vs soluciones caja negra
+---
+*Patterns validated against real repos and current open source ecosystem state — July 2026.*

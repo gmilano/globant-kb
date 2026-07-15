@@ -1,36 +1,36 @@
-# 📈 Repos trending — Legal
+# 📈 Trending Repos — Legal AI
 
-> GitHub trending en legal-ai esta semana. Actualización: 2026-07-14 (v7)
+> GitHub trending repositories for legal AI. Week of 2026-07-15.
 
-## Trending esta semana
+## Currently Trending
 
-| Nombre | Licencia | Descripción | Stars |
-|--------|----------|-------------|-------|
-| [zoharbabin/due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) | Apache-2.0 | M&A forense multi-agente: 13 agentes, 9 dominios, 38 pasos, 5 quality gates, cross-domain reasoning | ~800 |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | DMS + MCP server + grafo de citas para legal; pydantic-ai agents built-in; auto-anotación | ~400 |
-| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Curated list de legaltech 2026: MCP servers, plataformas, modelos, datasets, empresas | ~500 |
-| [Vaquill-AI/courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) | MIT | MCP para CourtListener: 250M+ páginas US courts, PACER, eCFR; BYOK auth | ~300 |
-| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | Firma agentica: 67 agentes con debate, evidence-backed review, human gates, 10-pass loop | 267 |
-| [lawglance/lawglance](https://github.com/lawglance/lawglance) | MIT | RAG legal assistant free; voice; multi-jurisdicción (India/Canada/global); open-source | ~200 |
-| [hoorangyee/LRAGE](https://github.com/hoorangyee/LRAGE) | MIT | Framework de evaluación RAG legal; KBL+LegalBench+LawBench; LLM-judge; arXiv:2504.01840 | ~180 |
-| [harvard-lil/olaw](https://github.com/harvard-lil/olaw) | MIT | Harvard LIL workbench RAG + CourtListener; referencia para legal AI UX research | ~350 |
-| [agentic-ops/legal-mcp](https://github.com/agentic-ops/legal-mcp) | MIT | MCP server con 8 workflow patterns legales (contract risk, research, brief drafting, etc.) | ~50 |
-| [mahdyet1845/Consultor-Tributario-AI](https://github.com/mahdyet1845/Consultor-Tributario-AI) | ? | Análisis Reforma Tributária Brasileira (IBS/CBS) con IA + web en tiempo real (LATAM señal) | 0 |
+| Repo | License | Stars | What Makes It Notable |
+|------|---------|-------|------------------------|
+| [AnttiHero/lavern](https://github.com/AnttiHero/lavern) | Apache-2.0 | 267 | "Agentic law firm" — 67 specialist AI agents covering full law firm workflow from document intake to risk rating. Multi-agent orchestration pattern for legal services. |
+| [evolsb/claude-legal-skill](https://github.com/evolsb/claude-legal-skill) | MIT | 355 | CUAD-powered contract review as a Claude agent skill. Clean example of attaching legal domain knowledge (CUAD 41 clause types) to an LLM skill layer. |
+| [lowtidebuild/contract-review-agent](https://github.com/lowtidebuild/contract-review-agent) | Apache-2.0 | 40 | Local-first contract review: no cloud, runs on Ollama + SaulLM. Full pipeline from PDF to structured risk report. Good reference implementation. |
+| [Tam1379/uspto_fpd_mcp](https://github.com/Tam1379/uspto_fpd_mcp) | MIT | 2 | MCP server wrapping USPTO Final Patent Decisions API. Early signal of "legal data as MCP tool" pattern that will define legal agents in 2026. |
+| [kjgdgch65g/nl-rag-qdrant-legal](https://github.com/kjgdgch65g/nl-rag-qdrant-legal) | MIT | 6 | RAG reference implementation for legal Q&A using Qdrant. Private document set querying with source citations, configurable chunk strategy for long contracts. |
+| [thm-msror/Unsupervised-CLM](https://github.com/thm-msror/Unsupervised-CLM) | MIT | — | Unsupervised AI-powered CLM: zero annotation needed, uses LLM to extract contract data and flag risks. QDB Hackathon 2025 winner. |
+| [Kalyuzhner1966/uk-legal-workflows](https://github.com/Kalyuzhner1966/uk-legal-workflows) | unknown | 2 | UK-focused AI agent templates: compliance checking, contract automation, litigation support — English law jurisdiction. |
+| [sandip-pathe/arin](https://github.com/sandip-pathe/arin) | unknown | 1 | Local-first legal document workspace for reading, summarizing, and discussing legal documents. Privacy-preserving, no cloud required. |
+| [Afifmutaz/ClauseCopilot](https://github.com/Afifmutaz/ClauseCopilot) | unknown | 0 | Vendor contract analyzer providing risk assessment and redline suggestions at clause level. Early stage but clause-copilot pattern is emerging broadly. |
+
+## Datasets Rising in Use
+
+| Dataset | Source | License | What It's Used For |
+|---------|--------|---------|---------------------|
+| CUAD | [HuggingFace cuad](https://huggingface.co/datasets/cuad) | CC-BY-4.0 | 510 contracts, 41 clause categories. Standard training + eval benchmark for contract review agents. |
+| Harvard Caselaw Access Project | [case.law](https://case.law/) | CC0 (bulk) | 6.9M US legal cases, 360 years of case law. Fully public since 2024. RAG source for precedent retrieval. |
+| CourtListener | [courtlistener.com](https://www.courtlistener.com/) | Apache-2.0 | 250M pages of US court opinions. REST API for real-time case research agents. |
+| ECtHR Dataset | [HuggingFace ecthr_cases](https://huggingface.co/datasets/ecthr_cases) | CC-BY-4.0 | European Court of Human Rights cases. Key for EU/international legal AI training. |
+
+## Patterns Emerging in New Repos
+
+1. **Offline-first legal agents**: Ollama + SaulLM + local Qdrant + Docassemble — no vendor lock-in, no data leak
+2. **MCP-gated legal APIs**: Major legal data sources (USPTO, CourtListener, PACER, EUR-Lex) getting MCP wrappers so agents query them directly
+3. **CUAD as universal contract benchmark**: New contract tools ship with CUAD baseline scores as a credibility signal
+4. **Jurisdiction-specific agents**: UK, Chinese, EU law repos proliferating — moving beyond US-centric legal AI
 
 ---
-
-## Señales de momentum (jul 2026)
-
-### Ecosistema MCP Legal: 20+ servers en H1 2026
-- CourtListener MCP (US, MIT), CanLII MCP (Canadá, MIT), Vaquill MCP (India, 20M+ sentencias)
-- USPTO FPD MCP (patentes, MIT), Open Legal Compliance MCP (APIs gov, MIT)
-- legal-mcp (8 workflow patterns, MIT)
-
-### Knowledge Compounding Architecture para M&A DD (Issue #186)
-Los agentes no solo leen — construyen base de conocimiento incremental enriquecida con cada iteración. Avance desde "análisis puntual" hacia "inteligencia acumulada".
-
-### Neurosymbolic Orchestration (Issue #189)
-Orquestador neurosimbólico en desarrollo: combina LLM reasoning con reglas simbólicas para garantizar coherencia cross-domain en DD compleja.
-
----
-*Pipeline automático — se actualiza cada hora.*
+*Auto-updated by ingest pipeline.*

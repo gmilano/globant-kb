@@ -1,34 +1,32 @@
-# 🏗️ Repos fundacionales — Legal
+# 🏗️ Foundational Repos — Legal
 
-> Bases sobre las cuales construir. Licencia abierta, comunidad activa.
-> Última actualización: 2026-07-14 (v7)
+> Battle-tested open source bases to build legal AI on top of.
+> Focus: permissive license, active community, real production use.
+> Last updated: 2026-07-15
 
-## Plataformas y frameworks base
+## Core Foundational Repos
 
-| Repo | Licencia | Descripción | Base para AI |
-|------|----------|-------------|---------------|
-| [TheAtticusProject/cuad](https://github.com/TheAtticusProject/cuad) | CC-BY 4.0 | CUAD: 510 contratos comerciales, 13k+ labels, 41 tipos de cláusulas (NeurIPS 2021); gold standard dataset para contract review AI | Sí — base de entrenamiento/eval |
-| [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | DMS agentico con grafo de citas, GraphQL+REST+MCP, búsqueda semántica, pydantic-ai agents, auto-anotación sobre corpus legales | Sí — plataforma central |
-| [ICLRandD/Blackstone](https://github.com/ICLRandD/Blackstone) | Apache-2.0 | Pipeline spaCy + modelos para NLP sobre texto legal inglés; reconocimiento de entidades (casos, legislación, citas), pipeline production-ready | Sí — 691 ★ |
-| [FudanDISC/DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | LLM legal chino de Fudan; corpus judicial masivo; fine-tuned para consulta, análisis de casos, predicción de sentencias | Sí — 937 ★ |
-| [harvard-lil/olaw](https://github.com/harvard-lil/olaw) | MIT | Harvard LIL Open Legal AI Workbench; RAG tool-based sobre CourtListener API; framework extensible para research legal AI UX | Sí — referencia académica |
-| [hoorangyee/LRAGE](https://github.com/hoorangyee/LRAGE) | MIT | Legal RAG Evaluation; KBL+LegalBench+LawBench; Retriever+Reranker+LLM-judge; Pile-of-Law BM25+FAISS precompilados; arXiv:2504.01840 | Sí — evaluación estándar |
-| [Vaquill-AI/courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) | MIT | MCP server para 250M+ páginas US courts (PACER, eCFR, federal+state); BYOK; Claude, Cursor, Windsurf, VS Code | Sí — acceso a datos legales |
-| [lawglance/lawglance](https://github.com/lawglance/lawglance) | MIT | Asistente legal RAG gratuito; voice command; multi-jurisdicción (India, Canada, expansión global) | Sí — base legal assistant |
-| [zoharbabin/due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) | Apache-2.0 | 13 agentes M&A forensicos; 9 dominios; 38 pasos, 5 quality gates; cross-referencia entre dominios | Sí — patrón DD multi-agente |
-| [CSHaitao/Awesome-LegalAI-Resources](https://github.com/CSHaitao/Awesome-LegalAI-Resources) | MIT | Repositorio exhaustivo de recursos Legal AI: datasets, modelos, papers, sistemas | Sí — directorio de recursos |
+| Repo | License | Stars | Description | AI Layer? |
+|------|---------|-------|-------------|----------|
+| [LexPredict/lexpredict-lexnlp](https://github.com/LexPredict/lexpredict-lexnlp) | Apache-2.0 | ~500 | Python library for NLP on legal text: entity extraction (parties, dates, money, citations, durations), document segmentation, unsupervised + supervised model building. Pre-LLM but embedded in most commercial legal AI platforms. | Yes — classic NLP pipeline, still valuable for structured extraction |
+| [ICLRandD/Blackstone](https://github.com/ICLRandD/Blackstone) | Apache-2.0 | 691 | spaCy pipeline trained on UK and Commonwealth legal text. NER for cases, legislation, provisions, courts. Rare non-US legal NLP coverage. | Yes — use as feature extractor feeding LLM agents |
+| [FudanDISC/DISC-LawLLM](https://github.com/FudanDISC/DISC-LawLLM) | Apache-2.0 | 937 | Full Chinese legal AI system: LLM backbone (ChatGLM), judicial reasoning, case retrieval, legal Q&A, document generation for PRC law. | Yes — end-to-end Chinese legal agent base |
+| [jhpyle/docassemble](https://github.com/jhpyle/docassemble) | MIT | 900+ | Expert system for legal document automation. YAML + Python-powered guided interview flows that produce PDFs, DOCX, and RTF. Dominant in US legal aid and court self-help. Can be wrapped with LLM backends for conversational intake. | Yes — wrap with LLM for intelligent intake + drafting |
+| [freelawproject/courtlistener](https://github.com/freelawproject/courtlistener) | Apache-2.0 | — | Full stack of Free Law Project: CourtListener (250M pages of US court opinions), RECAP (PACER public archive), eyecite (US legal citation parser), Juriscraper (Python scrapers for 100+ US courts). The data backbone of US legal AI. | Yes — data source for RAG, search, precedent agents |
+| [freelawproject/eyecite](https://github.com/freelawproject/eyecite) | BSD-2-Clause | — | Fast, accurate US legal citation parser. Handles reporter abbreviations, volume numbers, page ranges, pinpoint citations. Best-in-class for US citation normalization. | Yes — citation normalization layer in legal research pipelines |
+| [maastrichtlawtech/awesome-legal-nlp](https://github.com/maastrichtlawtech/awesome-legal-nlp) | MIT | 331 | Curated list of LegalNLP papers, datasets, models, benchmarks, tools from Maastricht University LawTech lab. Essential research map. | Yes — discovery tool for datasets and benchmarks |
+| [Jeryi-Sun/LLM-and-Law](https://github.com/Jeryi-Sun/LLM-and-Law) | MIT | — | Comprehensive survey of LLM + law papers: legal NLP tasks, benchmarks, datasets, LegalBench, evaluation frameworks. Living document tracking the research frontier. | Yes — track state-of-the-art before building |
+| [Equall/Saul-7B-Instruct-v1](https://huggingface.co/Equall/Saul-7B-Instruct-v1) | MIT | — | SaulLM-7B instruction-tuned on 30B legal tokens. Family also includes SaulLM-54B and SaulLM-141B, outperforming GPT-4 on LegalBench. Run locally with Ollama or vLLM. | Yes — drop-in LLM backend for any legal agent |
+| [contract-understanding-atticus/cuad](https://huggingface.co/datasets/cuad) | CC-BY-4.0 | — | CUAD: Contract Understanding Atticus Dataset. 510 commercial contracts, 41 legal clause types (exclusivity, IP ownership, limitation of liability, etc.), 13,000+ expert annotations. Standard benchmark and training data for contract review. | Yes — training and evaluation data for contract agents |
 
----
+## Supporting Ecosystem
 
-## Datasets legales clave
-
-| Dataset | Licencia | Descripción | Tamaño |
-|---------|----------|-------------|--------|
-| [CUAD](https://github.com/TheAtticusProject/cuad) | CC-BY 4.0 | 510 contratos, 41 tipos de cláusulas, NeurIPS 2021 | 13k+ labels |
-| [Pile-of-Law](https://huggingface.co/datasets/pile-of-law/pile-of-law) | CC-BY 4.0 | Corpus masivo de texto legal US (leyes, reglamentos, opiniones) | ~256GB |
-| [CourtListener](https://www.courtlistener.com/help/api/bulk-data/) | CC BY-SA | 250M+ páginas de tribunales federales y estatales US; PACER | 250M+ docs |
-| [Harvard Caselaw Access Project](https://case.law/) | CC BY 4.0 | 6.9M casos, 360 años de derecho US; completamente abierto desde 2024 | 6.9M casos |
-| [ContractNLI](https://stanfordnlp.github.io/contract-nli/) | CC-BY 4.0 | NLI para contratos; 607 contratos anotados; Stanford NLP | 607 contratos |
+| Repo | License | Notes |
+|------|---------|-------|
+| [NodineLegal/OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | Apache-2.0 | Law office management: case management, billing, tasking. Rails app, AI-extensible. |
+| [Liquid-Legal-Institute/Legal-LLMs-GPTs](https://github.com/Liquid-Legal-Institute/Legal-LLMs-GPTs) | MIT | Community registry tracking legal LLMs, GPTs, fine-tunes as they emerge |
+| [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) | MIT | Curated index: platforms, AI models, MCP servers, companies, datasets — global legal ecosystem |
+| [irlab-sdu/fuzi.mingcha](https://github.com/irlab-sdu/fuzi.mingcha) | Apache-2.0 | Chinese judicial LLM (Shandong Univ × Inspur × China University of Political Science) |
 
 ---
-*Ver también: `verticals/solutions.md` para plataformas verticales completas.*
+*See also: `verticals/solutions.md` for full vertical platforms.*

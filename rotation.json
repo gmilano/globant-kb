@@ -1,11 +1,11 @@
 {
-  "next": 1,
-  "last_updated": "2026-07-14",
-  "last_industry": "gaming",
-  "last_status": "v9-complete-8-files-gaming-cycle2-AlayaRenderer-ShandaAI-Apache-2.0-4M-AAA-frames-Cyberpunk2077-BlackMythWukong-5-Gbuffer-channels-inverse+forward-rendering-arXiv-2604.02329-Player2-AI-NPC-Godot-plugin-elefant-ai-MIT-OOB-long-term-memory-event-queue-function-calls-40k-Discord-Godot-Asset-Library-Godot_AI-spardanviro-MIT-native-C++-Godot4.7-multi-provider-LLM-GDScript-codegen-GRL-x-Google-Tunix-TPU-UCSD-HaoAILab-JAX-native-PPO-TPUv4-GoogleOpenSourceBlog-AlayaWorld-AlayaLab-AlayaWorld-Apache-2.0-arXiv-2607.06291-COCOS4-SUD-72M-AI-native-AI-in-Games-10.64B-163.1B-2034-CAGR-40.8pct-VerifiedMR-16trends-P12-AlayaRenderer-P13-Player2-NPC-Drop-in-8-files-pushed-globant-kb-main",
+  "next": 2,
+  "last_updated": "2026-07-15",
+  "last_industry": "legal",
+  "last_status": "v8-complete-8-files-legal-SaulLM54B-141B-MIT-Equall-outperforms-GPT4-LegalBench-Lavern-Apache2-67-specialist-agents-agentic-law-firm-OpenCLM-AGPL3-first-OS-CLM-CUAD-510contracts-41clauses-FreeLawProject-CourtListener-250Mpages-eyecite-RECAP-ContraxSuite-MIT-LexNLP-contracts-USPTO-MCP-patent-intel-6-compose-patterns-legal-AI-market-4.59B-5.59B-41pct-law-firms-GenAI-LATAM-Spanish-legal-LLM-gap-Brazil-IBSCBS-reform-8-trends-pushed-globant-kb-main",
   "previous_industries": {
     "gaming": "v9 completed 2026-07-14 (cycle-2) — 8 files updated. NEW: AlayaRenderer (ShandaAI/AlayaRenderer, Apache-2.0, arXiv:2604.02329): 4M AAA frames Cyberpunk+BlackMyth, 5 G-buffer channels, inverse+forward neural rendering; Player2 AI NPC Godot (elefant-ai, MIT): OOB long-term memory + event queue + function calls, 40k Discord; Godot_AI (spardanviro, MIT): native C++ Godot 4.7 multi-provider LLM; GRL×Google Tunix TPU (UCSD×Google TRC): JAX PPO TPU v4; AI in Games $10.64B→$163.1B(2034) CAGR 40.8%. 16 trends, P12 AlayaRenderer pipeline, P13 Player2 NPC drop-in. PUSHED.",
-    "legal": "v7 completed 2026-07-14",
+    "legal": "v8 completed 2026-07-15 — 8 files updated. SaulLM-54B/141B (MIT, Equall.ai): outperforms GPT-4 on LegalBench; Lavern (Apache-2.0): 67-agent agentic law firm; OpenCLM (AGPL-3.0): first OS CLM; CUAD (CC-BY-4.0): 510 contracts 41 clauses; Free Law Project ecosystem (CourtListener 250M pages + eyecite + RECAP); ContraxSuite (MIT): LexNLP contract analytics; USPTO MCP server; 6 compose patterns; legal AI $4.59B→$5.59B; 41% law firms GenAI; LATAM Spanish legal LLM gap + Brazil IBS/CBS reform opportunity. Pushed to globant-kb main.",
     "financial": "v6 completed 2026-07-14",
     "healthcare": "v6 completed 2026-07-14",
     "media": "v10 completed 2026-07-14",

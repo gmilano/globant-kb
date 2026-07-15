@@ -1,74 +1,67 @@
-# 📡 Tendencias — Legal AI
+# 📡 Trends — Legal AI
 
-> Señales de mercado, repos activos, cambios regulatorios.
-> Última actualización: 2026-07-14 (v7)
+> Current trends shaping AI in the legal industry. Week of 2026-07-15.
 
-## T1 — Agentic legal workflows: de asistente a ejecutor autónomo
+## Macro Numbers (2026)
 
-2026: los sistemas AI **planifican y ejecutan workflows legales multi-paso de forma autónoma**. due-diligence-agents (38 pasos, 5 quality gates) y lavern (67 agentes, debate + human gates) son los patrones de referencia. Stack: LLM razonador + MCP + orquestador (LangGraph/AutoGen/custom).
+| Metric | 2025 | 2026 | Change |
+|--------|------|------|--------|
+| Law firms using GenAI | 28% | 41% | +13pp |
+| Corporate legal using GenAI | 23% | 47% | +24pp |
+| Firms exploring agentic AI | ~30% | >60% | 2× |
+| Legal AI market size | $4.59B | $5.59B | +$1B (+22%) |
+| Corporate depts using AI contract analysis | ~40% | 58% | +18pp |
 
-## T2 — MCP como infraestructura estándar de legal research
+## Trend 1: 2026 = Year of Agentic Deployment
 
-H1 2026: MCP para derecho pasó de experimental a estándar de facto. CourtListener-MCP (250M+ docs US), CanLII-MCP (Canadá), Vaquill-MCP (20M+ sentencias India), USPTO FPD MCP (patentes). Patrón dominante: abogado + Claude Desktop + 3-4 MCP servers > solución propietaria. BYOK es el modelo de distribución.
+2025 was the year legal AI moved from "trying it" to "using it." 2026 is when teams decide whether that usage turns into sustained impact — and the defining shift is **agentic deployment**. Over 60% of firms are actively exploring multi-agent workflows for legal tasks rather than single-LLM completions.
 
-## T3 — Governance gap: 83% adopción individual vs 34% institucional
+**What this means**: Clients no longer want a chatbot over their documents. They want an agent that *does* things: finds the risk clause, drafts the redline, routes for approval, and logs the obligation. Lavern (67 specialist agents) and the agentic contract review pattern are the archetypes.
 
-Bloomberg Law (jun 2026): 49% brecha. La mayor oportunidad Globant: **governance frameworks + deployment seguro**. Clientes no necesitan más tools — necesitan saber cómo gobernar los que ya usan.
+## Trend 2: Contract Intelligence as the Entry Point
 
-## T4 — EU AI Act deadline 2 agosto 2026: legaltech en zona de alto riesgo
+Contract review and CLM remain the #1 ROI pathway into legal AI:
+- 58% of corporate legal departments rely on AI-based contract analysis
+- CLM + AI = reduced contract cycle times of 40-70% in early case studies
+- CUAD (41 clause types, 510 contracts, CC-BY-4.0) is the standard benchmark — any new tool needs CUAD scores to be credible
+- OpenCLM (AGPL-3.0) is the first real open-source alternative to Ironclad; getting traction in SMB and legal aid contexts
 
-AI en procesos judiciales = **alto riesgo**: documentación obligatoria, auditorías, HITL, registro en EU database. Providers sin compliance perderán clientes europeos.
+## Trend 3: Open-Weights Legal LLMs Arrive
 
-## T5 — Colorado AI Act SB205 (jun 2026): primer marco US estatal comprehensivo
+SaulLM family (Equall.ai, MIT):
+- SaulLM-7B: first open-weights legal LLM pretrained on 30B legal tokens
+- SaulLM-54B and SaulLM-141B released 2026: outperform GPT-4 on LegalBench across US legal analysis tasks
+- Impact: removes the "we can't send client documents to OpenAI" objection. Law firms can now run SaulLM on-premise via Ollama/vLLM with competitive accuracy.
 
-Aplica a decisiones de "consecuencias materiales" incluyendo servicios legales. Developer disclosure + deployer impact assessments. Señal: regulación subnacional US avanza antes que federal.
+## Trend 4: Legal Data Becomes Fully Open
 
-## T6 — CLM como segmento independiente de alto crecimiento
+- **Harvard Caselaw Access Project**: 6.9M US cases, 360 years of history, fully CC0 since 2024. Best open legal corpus ever assembled.
+- **CourtListener**: 250M pages of US court opinions, free REST API, Apache-2.0. The Free Law Project ecosystem (RECAP, eyecite, Juriscraper) is maturing into a complete legal data infrastructure.
+- **EU open data**: EUR-Lex APIs providing full EU law corpus for compliance agents.
 
-$2.07B (2025) → $5.09B (2034), CAGR 13%. OpenCLM (AGPL) + OpenContracts (MIT) son los equivalentes open source de Ironclad/Evisort.
+## Trend 5: Business Model Pressure
 
-## T7 — BYOK como estándar para datos legales
+Law firms face a structural tension: AI makes lawyers faster, which compresses the billable hours that fund the firm. The result:
+- Shift from hourly billing to flat-fee and outcome-based pricing is accelerating
+- AI efficiency gains are being repackaged as "faster, more consistent work" rather than disclosed as margin compression
+- Legal ops teams (in-house) are gaining power relative to outside firms as they can now do more with fewer external hours
+- **Implication for Globant**: Clients are building in-house AI legal capacity and need technology partners, not outside lawyers — which is Globant's opportunity.
 
-Privilege attorney-client + GDPR/LGPD = modelo SaaS compartido inaceptable. BYOK con self-hosted open source (OpenContracts, OpenCLM) + LLM propio se convierte en el único modelo aceptable para grandes firmas.
+## Trend 6: MCP + Legal Data Sources
 
-## T8 — RAG sobre corpus legales supera fine-tuning en adopción
+Early adopters are wrapping legal databases (USPTO, CourtListener, PACER, EUR-Lex) in MCP servers so agents can query them directly during legal reasoning tasks. The MCP server pattern removes the API glue layer that traditionally blocked legal AI demos. Expected to become the standard architecture by Q4 2026.
 
-57% de organizaciones NO hace fine-tuning (LangChain State of Agent Engineering 2026). RAG sobre corpus actualizados es más práctico — las leyes cambian, los modelos fine-tuned se desactualizan.
+## Trend 7: LATAM Brazilian Legal Reform AI Demand
 
-## T9 — Grafo de citas como infraestructura central del conocimiento legal
+Brazil's tax reform (IBS/CBS system replacing multiple taxes) creates massive compliance automation demand. Brazilian repos using AI + real-time web data to answer questions about IBS/CBS transition are proliferating. No dominant open-source solution exists yet — clear opportunity for Globant LATAM practice.
 
-OpenContracts: documentos como nodos, citas como aristas. Navega cadena de precedentes, detecta citas circulares. Equivalente legal del knowledge graph de Google — pero para corpus de una firma.
+## Trend 8: Jurisdiction Diversity
 
-## T10 — M&A DD multi-agente con cross-domain reasoning
-
-due-diligence-agents resuelve el problema fundamental: ningún revisor conecta Legal con Financial con Cyber. Los agentes cross-referencian: cláusula de indemnización + pasivo contingente + CVE crítico.
-
-## T11 — LegalBench + LRAGE como estándar de evaluación reproducible
-
-Clientes sofisticados pedirán scores LRAGE antes de comprar. Globant debe incluir evaluación LRAGE en propuestas.
-
-## T12 — De NLP clásico (Blackstone/spaCy) a MCP + LLM agents
-
-Era Blackstone+spaCy (2019-2023) da paso a Claude/GPT+MCP (2024-2026). Pipeline nuevo: MCP server → LLM razonador → output estructurado → revisión humana.
-
-## T13 — LATAM: Reforma Tributária Brasileira como caso de uso de alto valor
-
-Reforma Tributária (IBS/CBS/IS, transición 2026-2033) genera demanda masiva de herramientas para interpretar normas en evolución. Bufetes, consultoras y corporaciones necesitan AI que lea las normas del día.
-
-## T14 — Acceso a justicia: AI legal multilingüe para LATAM
-
-lawglance y similares democratizan el acceso al derecho. En LATAM, con tasas de litigiosidad altas y pocos abogados per cápita, AI multilingüe (español/portugués) es oportunidad de impacto social + negocio (B2G, ONGs).
-
-## T15 — Legal + blockchain: contratos auto-ejecutables con intentón legal interpretada por AI
-
-Smart contracts en Ethereum/Polkadot con capa de intención legal interpretada por LLMs. Mythril (MIT, 4.3k★) para seguridad EVM + AI para verificar que el código implementa la intención legal.
+Legal AI is moving beyond US-centric models:
+- UK/Commonwealth: Blackstone (spaCy pipeline), uk-legal-workflows agents
+- China: DISC-LawLLM, fuzi.mingcha (judicial LLM)
+- EU: Legal-BERT (EU legislation), EUR-Lex integration
+- LATAM: Still early — gap between need and tooling is largest here
 
 ---
-
-## Repositorios más activos esta semana
-
-- [Open-Source-Legal/OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) — DMS + MCP; citation graph
-- [zoharbabin/due-diligence-agents](https://github.com/zoharbabin/due-diligence-agents) — Knowledge Compounding Arch + Neurosymbolic Orchestrator
-- [Vaquill-AI/courtlistener-mcp](https://github.com/Vaquill-AI/courtlistener-mcp) — MCP legal research
-- [Vaquill-AI/awesome-legaltech](https://github.com/Vaquill-AI/awesome-legaltech) — MCP registry legal
-- [hoorangyee/LRAGE](https://github.com/hoorangyee/LRAGE) — Benchmark RAG legal estándar
+*Sources: Thomson Reuters 2026 State of the Legal Market, Azumo AI Statistics, Summize Legal Tech Trends 2026, Wolters Kluwer Legal Operations, Artificial Lawyer 2026 Predictions.*

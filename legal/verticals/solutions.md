@@ -1,50 +1,47 @@
-# 🏭 Verticales de partida — Legal Services
+# 🏭 Vertical Solutions — Legal Services
 
-> Plataformas verticales open source customizables con AI.
-> Modelo: partir de algo funcional, añadir capa agentica encima.
-> Última actualización: 2026-07-14 (v7)
+> Real platforms that can be customized with AI. Strategy: fork something functional, add an agentic layer on top.
+> Last updated: 2026-07-15
 
-## Plataformas recomendadas
+## Core Platforms
 
-| Plataforma | Licencia | URL | Stack | Caso de uso |
-|------------|----------|-----|-------|-------------|
-| [OpenCLM](https://openclm.ai/) | AGPL-3.0 | github.com/openclm | Python/Django | Contract Lifecycle Management: repository, clause library, approvals, e-signatures, tracking, analytics |
-| [OpenContracts](https://github.com/Open-Source-Legal/OpenContracts) | MIT | github.com/Open-Source-Legal/OpenContracts | Python/React/GraphQL | DMS agentico: citation graph, MCP server, semantic search, AI annotation |
-| [CourtListener](https://www.courtlistener.com/) | CC BY-SA + Apache-2.0 | github.com/freelawproject/courtlistener | Django/Elasticsearch | 250M+ páginas tribunales US; API pública; base para legal research AI |
-| [Odoo Legal Module](https://www.odoo.com/app/legal) | LGPL-3.0 (CE) | github.com/odoo/odoo | Python/JS | ERP con contratos, firma electrónica, honorarios; Community Edition libre |
-| [ERPNext / Frappe](https://github.com/frappe/erpnext) | GPL-3.0 | github.com/frappe/erpnext | Python/JS | ERP con contratos, billing, HR legal; marketplace AI apps |
-| [Harvard Caselaw Access](https://case.law/) | CC BY 4.0 | github.com/harvard-lil/capstone | Python | 6.9M casos, 360 años de derecho US; bulk data + API REST; abierto desde 2024 |
-| [OLAW](https://github.com/harvard-lil/olaw) | MIT | github.com/harvard-lil/olaw | Python/FastAPI | Workbench RAG legal + CourtListener; extensible a cualquier API legal |
-| [SuiteCRM](https://suitecrm.com/) | AGPL-3.0 | github.com/salesagility/SuiteCRM | PHP | CRM con contratos, casos, contactos; integrable con AI para gestión de clientes |
-| [lawglance](https://github.com/lawglance/lawglance) | MIT | github.com/lawglance/lawglance | Python | Legal assistant RAG multi-jurisdicción; voz; expandible a corpus legal local |
+| Platform | Repo / URL | License | Stack | Primary Use Case |
+|----------|-----------|---------|-------|------------------|
+| **Docassemble** | [jhpyle/docassemble](https://github.com/jhpyle/docassemble) | MIT | Python, YAML, Docker | Legal document automation. Guided interview flows → auto-generated PDFs/DOCX. Dominant in US legal aid, court self-help clinics. AI layer: add LLM backend for conversational intake. |
+| **OpenLawOffice** | [NodineLegal/OpenLawOffice](https://github.com/NodineLegal/OpenLawOffice) | Apache-2.0 | Rails, PostgreSQL | Law office management: matter/case management, billing, tasks, contacts, time tracking. AI layer: add contract analysis + scheduling agent on top. |
+| **OpenCLM** | [openclm.ai](https://openclm.ai/) | AGPL-3.0 | Docker, REST API | Contract Lifecycle Management: authoring, approval workflows, e-signatures, clause libraries, obligations, analytics. Self-hostable. Unlimited users. AI layer: pipe OpenCLM contracts through LLM clause review + risk rating. |
+| **ERPNext (Frappe)** | [frappe/erpnext](https://github.com/frappe/erpnext) | GPL-3.0 | Python, MariaDB, Vue | Full ERP including HR, billing, project management. Legal module proposed for laws, contracts, certifications. AI layer: agent-driven contract generation and compliance tracking on Frappe framework. |
+| **Twenty CRM** | [twentyhq/twenty](https://github.com/twentyhq/twenty) | AGPL-3.0 | TypeScript, PostgreSQL | Modern CRM with native MCP server — AI agents can query/update CRM directly without API glue. 45k+ stars. Good fit for law firm client relationship management with AI assistants. |
+| **ContraxSuite** | [LexPredict/lexpredict-contraxsuite](https://github.com/LexPredict/lexpredict-contraxsuite) | MIT | Python, Django, PostgreSQL | Contract analytics platform built on LexNLP. Document upload, clause extraction, obligation tracking, reporting. Stack: LexNLP + Elasticsearch + LLM = full contract intelligence layer. |
+
+## Open Data Platforms
+
+| Platform | URL | License | Notes |
+|----------|-----|---------|-------|
+| **CourtListener** | [courtlistener.com](https://www.courtlistener.com/) | Apache-2.0 | 250M pages of US court data. REST API, bulk data downloads. Free Law Project. Build legal research agents on top. |
+| **Harvard Caselaw Access Project** | [case.law](https://case.law/) | CC0 (bulk) | 6.9M US cases, 360 years of history. Fully public since 2024. Ideal RAG corpus for US legal precedent retrieval. |
+| **EUR-Lex** | [eur-lex.europa.eu](https://eur-lex.europa.eu/) | Open (reuse permitted) | Full text of EU law: regulations, directives, case law. SPARQL endpoint + bulk XML. Essential for EU compliance agents. |
+| **PACER / RECAP** | [free.law/recap](https://free.law/recap/) | Public domain | PACER federal court filings extracted by Free Law Project's RECAP browser extension. Millions of federal docket entries. |
+
+## Recommended Stack for Law Firm AI (Self-Hosted)
+
+```
+Client intake       → Docassemble (YAML interview) + LLM backend (Ollama/SaulLM)
+Matter management  → OpenLawOffice (Rails API)
+Contract review    → OpenCLM → contract-review-agent → CUAD risk scoring
+Legal research     → CourtListener API + RAG (Qdrant) + SaulLM-54B
+Client CRM         → Twenty CRM (MCP-native, agent-queryable)
+Document storage   → MinIO (S3-compatible, self-hosted)
+LLM backend        → Ollama + SaulLM-7B (local) or SaulLM-54B (high accuracy)
+```
+
+## Customization Playbook
+
+1. **Fork the base platform** (Docassemble or OpenCLM depending on use case)
+2. **Add LLM endpoint** — environment variable pointing to Ollama/vLLM running SaulLM
+3. **Wire intake → contract generation**: Docassemble interview → LLM drafts clauses → OpenCLM stores + tracks obligations
+4. **Add review agent**: On contract upload, trigger contract-review-agent for CUAD clause analysis, return structured risk report
+5. **Enable conversational UI**: Wrap existing views with a chat sidebar powered by SaulLM with RAG over the firm's document history
 
 ---
-
-## Cómo customizar con AI
-
-### Patrón 1: OpenContracts como centro de inteligencia legal
-```
-Corpus legales -> OpenContracts DMS (MIT) -> MCP endpoint -> Claude/Cursor agent
-  - list_corpora, search_documents, follow_citation_edges, propose_annotations
-  -> Output: insights, redlines, summaries, risk flags
-```
-
-### Patrón 2: OpenCLM + AI contract review
-```
-OpenCLM (AGPL-3.0) -> webhook on upload -> AI Review Agent (Claude + CUAD)
-  - Detecta 41 tipos de cláusulas CUAD
-  - Genera redlines en tracked-changes Word
-  -> Contrato con tags de riesgo -> aprobación humana en flujo CLM
-```
-
-### Patrón 3: CourtListener + OLAW para legal research
-```
-Abogado pregunta -> OLAW (Harvard LIL, MIT) -> CourtListener API (250M+ docs)
-  -> Claude genera memorandum con citas -> courtlistener-mcp verifica cada cita
-```
-
-### Para LATAM
-- Brasil: Reforma Tributária (IBS/CBS) — corpus TCF/Senado + OLAW
-- México: SAT APIs + LegalBench español
-- Colombia: rama judicial open data + lawglance base
-- Argentina: InfoLEG database + OpenContracts ingest
+*See also: `repos/foundations.md` for data and model layers.*
