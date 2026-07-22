@@ -1,0 +1,70 @@
+name: Wany
+
+options:
+  bundleIdPrefix: ai.wany
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    ENABLE_STRICT_CONCURRENCY: complete
+    SWIFT_STRICT_CONCURRENCY: complete
+
+targets:
+  Wany-iOS:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: Wany
+    settings:
+      base:
+        PRODUCT_NAME: Wany
+        PRODUCT_BUNDLE_IDENTIFIER: ai.wany.journal
+        DEVELOPMENT_TEAM: ""
+        INFOPLIST_FILE: Wany/Supporting/Info-iOS.plist
+        CODE_SIGN_ENTITLEMENTS: Wany/Supporting/Wany.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    entitlements:
+      path: Wany/Supporting/Wany.entitlements
+    dependencies:
+      - framework: Speech.framework
+      - framework: AVFoundation.framework
+      - framework: FoundationModels.framework
+        weak: true
+
+  Wany-macOS:
+    type: application
+    platform: macOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: Wany
+    settings:
+      base:
+        PRODUCT_NAME: Wany
+        PRODUCT_BUNDLE_IDENTIFIER: ai.wany.journal.mac
+        DEVELOPMENT_TEAM: ""
+        INFOPLIST_FILE: Wany/Supporting/Info-macOS.plist
+        CODE_SIGN_ENTITLEMENTS: Wany/Supporting/Wany-macOS.entitlements
+    entitlements:
+      path: Wany/Supporting/Wany-macOS.entitlements
+    dependencies:
+      - framework: Speech.framework
+      - framework: AVFoundation.framework
+      - framework: FoundationModels.framework
+        weak: true
+
+schemes:
+  Wany-iOS:
+    build:
+      targets:
+        Wany-iOS: all
+    run:
+      config: Debug
+  Wany-macOS:
+    build:
+      targets:
+        Wany-macOS: all
+    run:
+      config: Debug
